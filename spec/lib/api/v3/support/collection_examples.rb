@@ -26,36 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageFilesAPI < ::API::OpenProjectAPI
-    using Storages::Peripherals::ServiceResultRefinements
-    helpers Storages::Peripherals::StorageErrorHelper
-    helpers Storages::Peripherals::StorageInteraction::UploadLinkQueryHelpers
-    helpers Storages::Peripherals::StorageInteraction::FilesQueryHelpers
+shared_examples_for 'collection' do |name|
+  it "has the #{name} property" do
+    represented_elements = value.map { |v| element_decorator.new(v, current_user: user) }
 
-    resources :files do
-      get do
-        (files_query(@storage, current_user) >> execute_files_query(params[:parent]))
-          .match(
-            on_success: ->(files) do
-              API::V3::StorageFiles::StorageFilesRepresenter.new(
-                files,
-                current_user:
-              )
-            end,
-            on_failure: ->(error) { raise_error(error) }
-          )
-      end
-
-      post :prepare_upload do
-        raise API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
-
-        (upload_link_query(@storage, current_user) >> execute_upload_link_query(request_body))
-          .match(
-            on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
-            on_failure: ->(error) { raise_error(error) }
-          )
-      end
-    end
+    expect(subject)
+      .to be_json_eql(represented_elements.to_json)
+            .at_path(name.to_s)
   end
 end
