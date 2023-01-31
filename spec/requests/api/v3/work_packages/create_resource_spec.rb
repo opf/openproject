@@ -307,6 +307,7 @@ describe 'API v3 Work package resource',
           expect(WorkPackage.count).to eq(1)
           work_package = WorkPackage.first
           expect(work_package.file_links).to eq([file_link])
+          expect(work_package.file_links.first.container_type).to eq('WorkPackage')
           expect(last_response.body).to be_json_eql(
             api_v3_paths.file_links(work_package.id).to_json
           ).at_path('_links/fileLinks/href')
