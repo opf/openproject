@@ -79,7 +79,7 @@ hu:
     label_new_storage: "Új tárhely"
     label_storage: "Tárhely"
     label_storages: "Tárhelyek"
-    no_results: "Még nincs tárhely beállítva."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Szolgáltató típusa"
       nextcloud:

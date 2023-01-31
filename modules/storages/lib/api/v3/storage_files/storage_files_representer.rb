@@ -27,6 +27,23 @@
 #++
 
 module API::V3::StorageFiles
-  class StorageFileCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+  class StorageFilesRepresenter < ::API::Decorators::Single
+    link :self do
+      { href: "#{::API::V3::URN_PREFIX}storages:storage_files:no_link_provided" }
+    end
+
+    collection :files,
+               getter: ->(*) do
+                 represented.files.map { |file| API::V3::StorageFiles::StorageFileRepresenter.new(file, current_user:) }
+               end,
+               exec_context: :decorator
+
+    property :parent,
+             getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, current_user:) },
+             exec_context: :decorator
+
+    def _type
+      'StorageFiles'
+    end
   end
 end

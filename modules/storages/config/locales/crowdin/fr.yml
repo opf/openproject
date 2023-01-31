@@ -79,7 +79,7 @@ fr:
     label_new_storage: "Nouveau stockage"
     label_storage: "Stockage"
     label_storages: "Stockages"
-    no_results: "Aucun stockage configuré pour le moment."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Type de fournisseur"
       nextcloud:

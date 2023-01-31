@@ -117,5 +117,29 @@ module Components
       expect(page).to have_selector(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
                                     wait: 20)
     end
+
+    ##
+    # Expect the given date to be non working
+    def expect_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-non-working-day)[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_not_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
+                                    wait: 20)
+    end
   end
 end
