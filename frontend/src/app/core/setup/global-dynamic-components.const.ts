@@ -270,7 +270,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   // It is important to initialize the remoteFieldUpdaterSelector after the opSingleDatePickerSelector,
   // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
-  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
+  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent, embeddable: true },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];
