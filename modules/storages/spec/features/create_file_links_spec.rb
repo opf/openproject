@@ -80,7 +80,7 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
     wp_page.visit_tab! :files
   end
 
-  describe 'with the file picker' do
+  describe 'with the file picker', with_flag: { storage_file_picking_select_all: true, storage_file_linking: true } do
     it 'must enable the user to link existing files on the storage' do
       expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)

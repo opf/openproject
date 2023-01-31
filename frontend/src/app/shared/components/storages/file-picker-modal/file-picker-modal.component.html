@@ -4,14 +4,6 @@
 >
   <div class="spot-modal--header">
     <span class="spot-modal--header-title">{{text.header}}</span>
-    <button
-      type="button"
-      class="button button_no-margin spot-modal--header-button"
-      (click)="openStorageLocation()"
-    >
-      <span>{{text.buttons.openStorage()}}</span>
-      <span class="spot-icon spot-icon_external-link"></span>
-    </button>
   </div>
 
   <div class="spot-divider"></div>
@@ -40,7 +32,10 @@
   </div>
 
   <div class="spot-action-bar">
-    <div class="spot-action-bar--left">
+    <div
+      *ngIf="showSelectAll"
+      class="spot-action-bar--left"
+    >
       <button
         type="button"
         class="spot-link spot-action-bar--action"

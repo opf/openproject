@@ -59,7 +59,6 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
     buttons: {
-      openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: this.i18n.t('js.storages.choose_location'),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
