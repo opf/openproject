@@ -44,8 +44,10 @@ module Components
     ##
     # Select month from datepicker
     def select_month(month)
+      month_name = month.is_a?(Integer) ? I18n.t("date.month_names")[month] : month
+
       flatpickr_container
-        .first('.flatpickr-monthDropdown-months option', text: month, visible: :all)
+        .first('.flatpickr-monthDropdown-months option', text: month_name, visible: :all)
         .select_option
     end
 
