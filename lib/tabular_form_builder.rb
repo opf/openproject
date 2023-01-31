@@ -94,7 +94,13 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       input_options[:class] << ' -error'
     end
 
-    inputs = { value: @object.public_send(field), id: field_id(field), name: field_name(field) }
+    @object_name.sub!(/\[\]$/, "") || @object_name.sub!(/\[\]\]$/, "]")
+
+    inputs = {
+      value: @object.public_send(field),
+      id: field_id(field, index: options[:index]),
+      name: field_name(field, index: options[:index])
+    }
 
     if options.dig(:data, :'remote-field-key')
       inputs['remote-field-key'] = options.dig(:data, :'remote-field-key')
