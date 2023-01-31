@@ -137,28 +137,27 @@ export class SpotDropModalComponent implements OnDestroy {
      */
     setTimeout(() => {
       this.teleportationService.activate(this.body)
-    });
 
-    this.teleportationService
-      .hasRenderedFiltered$
-      .pipe(
-        filter((hasRendered) => hasRendered),
-        take(1),
-      )
-      .subscribe(() => {
-        /*
-         * We have to set these listeners next tick, because they're so far up the tree.
-         * If the open value was set because of a click listener in the trigger slot,
-         * that event would reach the event listener added here and close the modal right away.
-         */
-        setTimeout(() => {
-          document.body.addEventListener('click', this.onGlobalClick);
-          document.body.addEventListener('keydown', this.onEscape);
-          document.body.addEventListener('scroll', this.onScroll, true);
-          window.addEventListener('resize', this.onResize);
-          window.addEventListener('orientationchange', this.onResize);
+      this.teleportationService
+        .hasRenderedFiltered$
+        .pipe(
+          filter((hasRendered) => hasRendered),
+          take(1),
+        )
+        .subscribe(() => {
+          /*
+           * We have to set these listeners next tick, because they're so far up the tree.
+           * If the open value was set because of a click listener in the trigger slot,
+           * that event would reach the event listener added here and close the modal right away.
+           */
+          setTimeout(() => {
+            document.body.addEventListener('click', this.onGlobalClick);
+            document.body.addEventListener('keydown', this.onEscape);
+            document.body.addEventListener('scroll', this.onScroll, true);
+            window.addEventListener('resize', this.onResize);
+            window.addEventListener('orientationchange', this.onResize);
 
-          this.recalculateAlignment();
+            this.recalculateAlignment();
 
           const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
           if (focusCatcherContainer) {
@@ -169,36 +168,35 @@ export class SpotDropModalComponent implements OnDestroy {
           }
         });
       });
-  }
+  });
+}
 
-  close():void {
-    /*
-     * The same as with opening; if we don't deactivate the body after
-     * one tick, angular will complain because it already rendered the
-     * template, but then gets an update to render `null` in the same tick.
-     *
-     * To make it happy, we update afterwards
-     */
-    setTimeout(() => {
-      this.teleportationService.clear();
+close():void {
+  this._opened = false;
+  this.teleportationService.clear();
 
-      document.body.removeEventListener('click', this.onGlobalClick);
-      document.body.removeEventListener('keydown', this.onEscape);
-      document.body.removeEventListener('scroll', this.onScroll);
-      window.removeEventListener('resize', this.onResize);
-      window.removeEventListener('orientationchange', this.onResize);
-    });
+  /*
+   * The same as with opening; if we don't deactivate the body after
+   * one tick, angular will complain because it already rendered the
+   * template, but then gets an update to render `null` in the same tick.
+   *
+   * To make it happy, we update afterwards
+   */
+  document.body.removeEventListener('click', this.onGlobalClick);
+  document.body.removeEventListener('keydown', this.onEscape);
+  document.body.removeEventListener('scroll', this.onScroll);
+  window.removeEventListener('resize', this.onResize);
+  window.removeEventListener('orientationchange', this.onResize);
 
-    this.teleportationService
-      .hasRenderedFiltered$
-      .pipe(
+  this.teleportationService
+    .hasRenderedFiltered$
+    .pipe(
         filter((hasRendered) => !hasRendered),
         take(1),
       )
       .subscribe(() => {
-        this._opened = false;
         this.closed.emit();
-        this.cdRef.markForCheck();
+        this.cdRef.detectChanges();
       });
   }
 
