@@ -584,8 +584,6 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-    FileCollectionModel:
-      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -750,8 +748,8 @@ components:
       "$ref": "./components/schemas/statuses_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
-    StorageFileLocationModel:
-      "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageFilesModel:
+      "$ref": "./components/schemas/storage_files_model.yml"
     StorageFileUploadPreparationModel:
       "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
     StorageFileUploadLinkModel:
