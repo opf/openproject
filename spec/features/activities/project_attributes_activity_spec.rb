@@ -93,7 +93,7 @@ describe 'Project attributes activities' do
       expect(page).to have_selector('li', text: 'Project unarchived')
       expect(page).to have_selector('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
                                                 "to #{project.identifier}")
-      expect(page).to have_selector('li', text: 'Template: Project marked as template')
+      expect(page).to have_selector('li', text: 'Project marked as template')
 
       # custom fields
       expect(page).to have_selector('li', text: "#{list_project_custom_field.name} " \
