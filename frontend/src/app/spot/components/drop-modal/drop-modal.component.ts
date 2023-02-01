@@ -160,46 +160,53 @@ export class SpotDropModalComponent implements OnDestroy {
 
             this.recalculateAlignment();
 
-          const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
-          if (focusCatcherContainer) {
-            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
-          } else {
-            // Index 1 because the element at index 0 is the trigger button to open the modal
-            (findAllFocusableElementsWithin(this.elementRef.nativeElement)[1] as HTMLElement)?.focus();
-          }
+            const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
+            if (focusCatcherContainer) {
+              (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
+            } else {
+              // Index 1 because the element at index 0 is the trigger button to open the modal
+              (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1] as HTMLElement)?.focus();
+            }
+          });
         });
-      });
-  });
-}
+    });
+  }
 
-close():void {
-  this._opened = false;
-  this.closed.emit();
-  this.teleportationService.clear();
-  this.cdRef.detectChanges();
+  close():void {
+    this._opened = false;
+    this.closed.emit();
 
-  /*
-   * The same as with opening; if we don't deactivate the body after
-   * one tick, angular will complain because it already rendered the
-   * template, but then gets an update to render `null` in the same tick.
-   *
-   * To make it happy, we update afterwards
-   */
-  document.body.removeEventListener('click', this.onGlobalClick);
-  document.body.removeEventListener('keydown', this.onEscape);
-  document.body.removeEventListener('scroll', this.onScroll);
-  window.removeEventListener('resize', this.onResize);
-  window.removeEventListener('orientationchange', this.onResize);
+    /*
+     * The same as with opening; if we don't deactivate the body after
+     * one tick, angular will complain because it already rendered the
+     * template, but then gets an update to render `null` in the same tick.
+     *
+     * To make it happy, we update afterwards
+     */
+    document.body.removeEventListener('click', this.onGlobalClick);
+    document.body.removeEventListener('keydown', this.onEscape);
+    document.body.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
 
-  this.teleportationService
+    this.teleportationService
     .hasRenderedFiltered$
     .pipe(
         filter((hasRendered) => !hasRendered),
         take(1),
       )
       .subscribe(() => {
-        this.cdRef.detectChanges();
+        // TODO: Because we're using input fields with focus event listeners as openers,
+        // we cannot just go back and focus the input field; that would result in infinite loops.
+        // The issue is that for keyboard and screenreader users, you get dropped back to the start
+        // of the page, which is an a11y nightmare.
+        //
+        // (findAllFocusableElementsWithin(this.elementRef.nativeElement)[0] as HTMLElement)?.focus();
+        // this.cdRef.detectChanges();
       });
+
+    this.teleportationService.clear();
+    this.cdRef.detectChanges();
   }
 
   private onGlobalClick = this.close.bind(this);
