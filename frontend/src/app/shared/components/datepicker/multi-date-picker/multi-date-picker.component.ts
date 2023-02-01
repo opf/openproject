@@ -181,7 +181,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   open():void {
     this.isOpened = true;
-    this.initializeDatepicker();
+    setTimeout(() => this.initializeDatepicker(), 20);
   }
 
   close():void {
