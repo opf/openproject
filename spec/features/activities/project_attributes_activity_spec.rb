@@ -36,8 +36,8 @@ describe 'Project attributes activities' do
                                        edit_wiki_pages
                                        view_wiki_edits])
   end
-  let(:project) { create(:project, parent: create(:project), active: false, enabled_module_names: %w[activity]) }
-  # more factories available in spec/factories/custom_field_factory.rb
+  let(:parent_project) { create(:project, name: 'parent') }
+  let(:project) { create(:project, parent: parent_project, active: false, enabled_module_names: %w[activity]) }
   let!(:list_project_custom_field) { create(:list_project_custom_field) }
   let!(:version_project_custom_field) { create(:version_project_custom_field) }
   let!(:bool_project_custom_field) { create(:bool_project_custom_field) }
@@ -85,15 +85,17 @@ describe 'Project attributes activities' do
       expect(page)
         .to have_link("Project: #{project.name}")
 
+      # own fields
       expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
       expect(page).to have_selector('li', text: 'Description set (Details)')
       expect(page).to have_selector('li', text: 'Visibility set to public')
-      # expect(page).to have_selector('li', text: 'Project parent changed to (new parent)')
+      expect(page).to have_selector('li', text: "Subproject of deleted (#{parent_project.name})")
       expect(page).to have_selector('li', text: 'Project unarchived')
       expect(page).to have_selector('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
                                                 "to #{project.identifier}")
       expect(page).to have_selector('li', text: 'Template: Project marked as template')
 
+      # custom fields
       expect(page).to have_selector('li', text: "#{list_project_custom_field.name} " \
                                                 "set to #{project.send(list_project_custom_field.attribute_getter)}")
       expect(page).to have_selector('li', text: "#{version_project_custom_field.name} set to #{next_version.name}")
