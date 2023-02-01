@@ -139,4 +139,4 @@ frontend/package-lock.json
 
 # Testing and nextcloud infrastructure
 acme.json
-env.test
+.env.test
