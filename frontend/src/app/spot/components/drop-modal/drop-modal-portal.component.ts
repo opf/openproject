@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 
@@ -14,6 +15,7 @@ export const spotDropModalPortalComponentSelector = 'spot-drop-modal-portal';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpotDropModalPortalComponent implements AfterViewChecked {
+  @HostBinding('class.spot-drop-modal-portal') className = true; 
 
   constructor(
     readonly template$:SpotDropModalTeleportationService,
