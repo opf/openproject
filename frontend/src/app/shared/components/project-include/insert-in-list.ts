@@ -11,7 +11,7 @@ export const insertInList = (
   list:IProjectData[],
   ancestors:IHalResourceLink[],
 ):IProjectData[] => {
-  // In a set of projects, some of the ancestors may be undisclosed. The client then knows of its existence
+  // In a set of projects, some ancestors may be undisclosed. The client then knows of its existence
   // but knows nothing more than that. Those projects receive an 'undisclosed' urn for their href. For building
   // the project hierarchy, they can be ignored.
   const visibleAncestors = ancestors.filter((ancestor) => ancestor.href !== UNDISCLOSED_ANCESTOR);

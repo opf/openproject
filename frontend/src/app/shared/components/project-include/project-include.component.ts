@@ -247,7 +247,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       return projects.map((project) => setDisabledStatus(project, false));
     }),
     map((projects) => recursiveSort(projects)),
-    map((p) => (calculatePositions(p))[0]),
+    map((projects) => (calculatePositions(projects))[0]),
     shareReplay(),
   );
 
