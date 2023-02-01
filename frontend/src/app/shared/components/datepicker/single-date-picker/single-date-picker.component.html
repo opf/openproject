@@ -44,12 +44,14 @@
 
     <spot-form-field
       [label]="text.date"
+      [required]="required"
     >
       <spot-text-field
         slot="input"
         name="date"
         class="op-datepicker-modal--date-field"
         [ngModel]="workingValue"
+        [required]="required"
         (ngModelChange)="writeWorkingValue($event)"
         [showClearButton]="true"
       ></spot-text-field>
