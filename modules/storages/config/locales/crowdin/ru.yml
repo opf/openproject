@@ -79,7 +79,7 @@ ru:
     label_new_storage: "Новое хранилище"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
-    no_results: "No storages set up yet."
+    no_results: "Хранилища еще не настроены."
     provider_types:
       label: "Тип поставщика"
       nextcloud:

@@ -25,9 +25,9 @@ fr:
         not_logged_in: >
           Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
+        dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        file_not_selectable_location: "La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement."
       file_links:
         empty: >
           Il n'y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l'action ci-dessous ou à partir de %{storageType}.
@@ -48,9 +48,9 @@ fr:
         success_create:
           one: "Un lien de fichier a été créé avec succès."
           other: "%{count} liens de fichier ont été créés avec succès."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error: "Une erreur s'est produite lors du téléversement du fichier '%{fileName}'."
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
         already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."
