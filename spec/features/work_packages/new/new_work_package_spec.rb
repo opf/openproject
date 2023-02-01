@@ -291,7 +291,7 @@ describe 'new work package', js: true do
 
       date_field = wp_page.edit_field(:date)
 
-      date_field.expect_value(I18n.t('js.label_no_date'))
+      date_field.expect_value('')
 
       # Set date
       date_field.click_to_open_datepicker

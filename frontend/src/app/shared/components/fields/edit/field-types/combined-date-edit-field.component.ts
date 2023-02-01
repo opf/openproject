@@ -42,7 +42,6 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
     placeholder: {
       startDate: this.I18n.t('js.label_no_start_date'),
       dueDate: this.I18n.t('js.label_no_due_date'),
-      date: this.I18n.t('js.label_no_date'),
     },
   };
 
@@ -104,6 +103,6 @@ export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent
 
   protected current(dateAttribute:'startDate' | 'dueDate' | 'date'):string {
     const value = (this.resource && (this.resource as WorkPackageResource)[dateAttribute]) as string|null;
-    return (value || this.text.placeholder[dateAttribute]);
+    return (value || '');
   }
 }
