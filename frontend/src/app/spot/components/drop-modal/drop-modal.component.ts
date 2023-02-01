@@ -128,6 +128,7 @@ export class SpotDropModalComponent implements OnDestroy {
     this._opened = true;
     this.repositionAnchor();
     this.updateAppHeight();
+    this.cdRef.detectChanges();
 
     /*
      * If we don't activate the body after one tick, angular will complain because
@@ -173,7 +174,9 @@ export class SpotDropModalComponent implements OnDestroy {
 
 close():void {
   this._opened = false;
+  this.closed.emit();
   this.teleportationService.clear();
+  this.cdRef.detectChanges();
 
   /*
    * The same as with opening; if we don't deactivate the body after
@@ -195,7 +198,6 @@ close():void {
         take(1),
       )
       .subscribe(() => {
-        this.closed.emit();
         this.cdRef.detectChanges();
       });
   }
