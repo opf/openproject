@@ -84,7 +84,7 @@ describe OpenProject::JournalFormatter::Attachment do
       let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
-               old: "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>")
+               old: "<strike><i>#{attachment.id}</i></strike>")
       end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }

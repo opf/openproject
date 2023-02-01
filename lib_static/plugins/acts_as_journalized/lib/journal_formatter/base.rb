@@ -67,9 +67,9 @@ module JournalFormatter
 
     def format_html_details(label, old_value, value)
       label = content_tag('strong', label)
-      old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value.present?
+      old_value = content_tag('i', h(old_value)) if old_value.present?
       old_value = content_tag('strike', old_value) if old_value and value.blank?
-      value = content_tag('i', h(value), title: h(value)) if value.present?
+      value = content_tag('i', h(value)) if value.present?
       value ||= ''
 
       [label, old_value, value]

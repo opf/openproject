@@ -36,14 +36,14 @@ RSpec.describe Journal::ProjectJournal do
     it 'renders identifier field correctly' do
       html = journal.render_detail(['identifier', [nil, 'my-project']], html: true)
       expect(html).to eq('<strong>Identifier</strong> set to ' \
-                         '<i title="my-project">my-project</i>')
+                         '<i>my-project</i>')
 
       html = journal.render_detail(['identifier', [nil, 'my-project']], html: false)
       expect(html).to eq('Identifier set to my-project')
 
       html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: true)
-      expect(html).to eq('<strong>Identifier</strong> changed from <i title="my-project">my-project</i> ' \
-                         '<strong>to</strong> <i title="my-beautiful-project">my-beautiful-project</i>')
+      expect(html).to eq('<strong>Identifier</strong> changed from <i>my-project</i> ' \
+                         '<strong>to</strong> <i>my-beautiful-project</i>')
 
       html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: false)
       expect(html).to eq('Identifier changed from my-project to my-beautiful-project')
@@ -52,14 +52,14 @@ RSpec.describe Journal::ProjectJournal do
     it 'renders name field correctly' do
       html = journal.render_detail(['name', [nil, 'Test Project 123']], html: true)
       expect(html).to eq('<strong>Name</strong> set to ' \
-                         '<i title="Test Project 123">Test Project 123</i>')
+                         '<i>Test Project 123</i>')
 
       html = journal.render_detail(['name', [nil, 'Test Project 123']], html: false)
       expect(html).to eq('Name set to Test Project 123')
 
       html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: true)
-      expect(html).to eq('<strong>Name</strong> changed from <i title="Old Project Name">Old Project Name</i> ' \
-                         '<strong>to</strong> <i title="New Project Name">New Project Name</i>')
+      expect(html).to eq('<strong>Name</strong> changed from <i>Old Project Name</i> ' \
+                         '<strong>to</strong> <i>New Project Name</i>')
 
       html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: false)
       expect(html).to eq('Name changed from Old Project Name to New Project Name')
