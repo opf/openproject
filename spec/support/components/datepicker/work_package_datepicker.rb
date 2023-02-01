@@ -15,7 +15,13 @@ module Components
     def select_month(month)
       month = Date::MONTHNAMES.index(month) if month.is_a?(String)
       retry_block do
-        current_month = flatpickr_container.first('.flatpickr-monthDropdown-months').value.to_i + 1
+        # This is for a double-month datepicker
+        current_month = Date::MONTHNAMES.index(flatpickr_container.first('.cur-month').text)
+        if current_month == nil
+          # This is for a single-month datepicker
+          current_month = flatpickr_container.first('.flatpickr-monthDropdown-months').value.to_i + 1
+        end
+
 
         if current_month < month
           while current_month < month
