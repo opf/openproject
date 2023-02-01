@@ -175,6 +175,11 @@ RSpec.describe 'Work package timeline date formatting',
     let(:current_user) { create :admin }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
 
+    shared_let(:non_working_day) do
+      create(:non_working_day,
+             date: '06-01-2021')
+    end
+
     shared_examples "sets dates, duration and displays bar" do
       it 'sets dates, duration and duration bar' do
         subject
@@ -228,7 +233,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
           let(:expected_start_date) { Date.parse('2021-01-04') }
           let(:expected_due_date) { Date.parse('2021-01-08') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -241,7 +246,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-11') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -254,7 +259,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
           let(:expected_start_date) { Date.parse('2021-01-04') }
           let(:expected_due_date) { Date.parse('2021-01-08') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -267,7 +272,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-11') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -280,7 +285,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 3 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-12') }
-          let(:expected_duration) { 6 }
+          let(:expected_duration) { 5 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
