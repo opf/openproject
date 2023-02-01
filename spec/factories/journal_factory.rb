@@ -57,7 +57,7 @@ FactoryBot.define do
     end
 
     factory :project_journal, class: 'Journal' do
-      journable_type { 'Project' }
+      journable factory: :project
       data { build(:journal_project_journal) }
     end
   end

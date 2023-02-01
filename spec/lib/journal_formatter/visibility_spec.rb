@@ -29,7 +29,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
 describe OpenProject::JournalFormatter::Visibility do
-  let(:instance) { described_class.new(build(:journal)) }
+  let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when setting visibility" do
     html = instance.render("public", [nil, true], html: true)

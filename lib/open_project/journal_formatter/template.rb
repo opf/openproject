@@ -28,9 +28,16 @@
 
 class OpenProject::JournalFormatter::Template < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = options[:html] ? content_tag('strong', "Project") : "Project"
-    activated_text = values.last ? "marked as template" : "unmarked as template"
+    label_text = label('project')
+    label_text = content_tag('strong', label_text) if options[:html]
 
-    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+    value = \
+      if values.last
+        I18n.t('activerecord.attributes.project.templated_value.true')
+      else
+        I18n.t('activerecord.attributes.project.templated_value.false')
+      end
+
+    I18n.t(:text_journal_label_value, label: label_text, value:)
   end
 end

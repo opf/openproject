@@ -28,9 +28,16 @@
 
 class OpenProject::JournalFormatter::Visibility < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = options[:html] ? content_tag('strong', "Visibility") : "Visibility"
-    activated_text = "set to #{values.last ? 'public' : 'private'}"
+    label_text = I18n.t('activerecord.attributes.project.public_value.title')
+    label_text = content_tag('strong', label_text) if options[:html]
 
-    I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+    value = \
+      if values.last
+        I18n.t('activerecord.attributes.project.public_value.true')
+      else
+        I18n.t('activerecord.attributes.project.public_value.false')
+      end
+
+    I18n.t(:text_journal_set_to, label: label_text, value:)
   end
 end

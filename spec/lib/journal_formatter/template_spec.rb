@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe OpenProject::JournalFormatter::Template do
-  let(:instance) { described_class.new(build(:journal, journable: build(:project))) }
+  let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when marked as template" do
     html = instance.render("templated", [false, true], html: true)

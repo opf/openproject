@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe OpenProject::JournalFormatter::ActiveStatus do
-  let(:instance) { described_class.new(build(:journal)) }
+  let(:instance) { described_class.new(build(:project_journal)) }
 
   it "renders correctly when unarchiving" do
     html = instance.render("active", [false, true], html: true)
