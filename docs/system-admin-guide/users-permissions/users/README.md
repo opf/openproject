@@ -84,11 +84,11 @@ Enter values in all fields (they cannot be left blank). The email field must be 
 
 Open the user list. If a user has created their own account (and it has not been activated automatically) it is shown in the user list with an **Activate** link on the right. Click this link and continue to add details to this user as below. 
 
-![Activate a user](activate user from the list.png)
+![Activate a user](system_guide_activate_user_list.png)
 
 There is also an **Activate** button at the top of the user's details page.
 
-![Activate user in profile](activate user.png)
+![Activate user in profile](system_guide_activate_user_profile.png)
 
 ### Set initial details
 
@@ -116,7 +116,7 @@ You can manage individual user details if you click on the user name in the list
 
 ### General settings
 
-![administration-user-settings-manage-user](User settings general tab.png)
+![administration-user-settings-manage-user](openproject_system_guide_general_tab.png)
 
 On the **General** tab the following fields are shown:
 
@@ -134,7 +134,7 @@ On the **General** tab the following fields are shown:
 
 #### Reset a user's password
 
-To create a new password for a user (e.g. if he/she lost it) navigate to the **Authentication** section of the **General** tab. You can either **Assign a random password**(check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to **Enforce password change on next login**.
+To create a new password for a user (e.g. if he/she lost it) navigate to the **Authentication** section of the **General** tab. You can either **Assign a random password** (check the box on top) or set a new password manually and send it to them (preferably through secured communication). Consider checking the box next to **Enforce password change on next login**.
 
 ![reset-user-password](Authentication.png)
 
@@ -150,11 +150,11 @@ On the **Projects** tab, select the new project from the drop-down list, choose 
 
 On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link. 
 
-![open-projet-user-groups](user groups.png)
+![open-projet-user-groups](system_guide_user_groups.png)
 
 If no groups are shown (i.e. the user does not belong to any group, yet), click the **Manage groups** link to [edit groups](../groups).
 
-![manage-groups](Manage groups.png)
+![manage-groups](system_guide_manage_groups.png)
 
 **Please note**: The **Groups** tab is only shown if at least one user group exists in OpenProject.
 
@@ -164,7 +164,7 @@ In order to add a global role to a user, at least one global role needs to be [c
 
 On the **Global roles** tab, select or de-select the global role(s) for this user. Click the **Add** button.
 
-![Openproject-user-add-global-roles](Add global roles.png)
+![Openproject-user-add-global-roles](openproject_system_guide_add_global_roles.png)
 
 ### Notification settings
 
@@ -184,7 +184,7 @@ If you want to set a different hourly rate for the user on different projects, y
 
 To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
 
-![set-hourly-rate-administration](rate history.png) 
+![set-hourly-rate-administration](system_guide_rate_history.png) 
 
 1. Enter a date from which the rate is **Valid from**.
 2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).
@@ -192,7 +192,7 @@ To enter a new hourly rate, click on the **Update** icon next to the rate histor
 4. You can **add a rate** for a different time period.
 5. **Save** your changes.
 
-![Rate-history-change](adjust rate history.png)
+![Rate-history-change](system_guide_adjust_rate_history.png)
 
 ### Avatar
 
