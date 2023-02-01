@@ -46,19 +46,12 @@ class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
       # The after validation hook executes after the validation of the request format, but before any execution
       # inside the endpoint context. Hence, it is a good place to actually fetch the handled resource.
       after_validation do
-        @file_link = begin
-          file_link = Storages::FileLink
-                        .where(id: params[:file_link_id])
-                        .where("container_id IS NOT NULL AND container_type IS NOT NULL")
-                        .first
+        @file_link = Storages::FileLink.find(params[:file_link_id])
 
-          if file_link.present? &&
-             current_user.allowed_to?(:view_file_links, file_link.project) &&
-             file_link.project.storage_ids.include?(file_link.storage_id)
-            file_link
-          else
-            raise ::API::Errors::NotFound.new
-          end
+        unless @file_link.container.present? &&
+               current_user.allowed_to?(:view_file_links, @file_link.project) &&
+               @file_link.project.storage_ids.include?(@file_link.storage_id)
+          raise ::API::Errors::NotFound.new
         end
       end
 
