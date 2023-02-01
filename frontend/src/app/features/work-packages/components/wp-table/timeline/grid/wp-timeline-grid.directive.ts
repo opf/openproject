@@ -187,8 +187,7 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private checkForNonWorkingDayHighlight(date:Moment, cell:HTMLElement) {
     const day = date.toDate();
-
-    if (this.weekdaysService.isNonWorkingDay(day)) {
+    if (this.weekdaysService.isNonWorkingDay(day) || this.wpTimeline.isNonWorkingDay(day)) {
       cell.classList.add('wp-timeline--non-working-day');
       cell.dataset.qaSelector = `wp-timeline--non-working-day_${day.getDate()}-${day.getMonth() + 1}-${day.getFullYear()}`;
     }
