@@ -8,6 +8,8 @@ keywords: time tracking, timecamp integration
 
 # Time tracking with TimeCamp
 
+Please note that the TimeCamp integration is not officially supported by OpenProject and consequently is not actively maintained.
+
 TimeCamp allows you to track your time spent on OpenProject work packages with a start/stop button. The times will then be recorded in your [TimeCamp account](https://app.timecamp.com/auth/login).
 
 ## Installation
