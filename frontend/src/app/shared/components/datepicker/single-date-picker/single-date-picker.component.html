@@ -13,11 +13,12 @@
       [attr.data-value]="value"
       [id]="id"
       (click)="onInputClick($event)"
-      [value]="value"
+      [(ngModel)]="value"
+      (ngModelChange)="changeValueFromInputDebounced($event)"
       (focus)="opened = true"
     />
   </ng-template>
-  
+
   <ng-container slot="body">
     <form
       class="spot-container op-datepicker-modal"

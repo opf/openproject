@@ -152,7 +152,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   }
 
   ngAfterContentInit() {
-    const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
+    const trigger = (this.elementRef.nativeElement as HTMLElement).querySelector("[slot='trigger']");
     this.useDefaultTrigger = trigger === null;
   }
 
@@ -177,6 +177,25 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
 
   changeNonWorkingDays():void {
     this.initializeDatepickerDebounced();
+    this.cdRef.detectChanges();
+  }
+
+  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+
+  changeValueFromInput(value:string) {
+    this.valueChange.emit(value);
+    this.onChange(value);
+    this.writeValue(value);
+
+    const date = parseDate(value || '');
+
+    if (date !== '') {
+      const dateString = this.timezoneService.formattedISODate(date);
+      this.writeWorkingValue(dateString);
+      this.enforceManualChangesToDatepicker(date);
+      this.onTouched(dateString);
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -229,7 +248,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
           );
         },
       },
-      this.flatpickrTarget.nativeElement,
+      this.flatpickrTarget.nativeElement as HTMLElement,
     );
   }
 
