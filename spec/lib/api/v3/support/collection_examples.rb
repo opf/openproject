@@ -26,21 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Redmine::MenuManager::TopMenu::ProjectsMenu
-  def render_projects_top_menu_node
-    return '' if User.current.anonymous? and Setting.login_required?
-    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
+shared_examples_for 'collection' do |name|
+  it "has the #{name} property" do
+    represented_elements = value.map { |v| element_decorator.new(v, current_user: user) }
 
-    render_projects_dropdown
+    expect(subject)
+      .to be_json_eql(represented_elements.to_json)
+            .at_path(name.to_s)
   end
-
-  private
-
-  def render_projects_dropdown
-    content_tag(:li, class: 'op-app-menu--item') do
-      angular_component_tag('op-header-project-select')
-    end
-  end
-
-  include OpenProject::StaticRouting::UrlHelpers
 end

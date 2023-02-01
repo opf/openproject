@@ -113,9 +113,14 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       !isDirectory(file),
       index === 0,
       this.enterDirectoryCallback(file),
+      this.isConstrained(file),
       this.tooltip(file),
       undefined,
     );
+  }
+
+  private isConstrained(file:IStorageFile):boolean {
+    return !file.permissions.some((permission) => permission === 'writeable');
   }
 
   private tooltip(file:IStorageFile):string|undefined {

@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { QueryEntity } from '@datorama/akita';
-import { StoragesState } from 'core-app/core/state/storages/storages.store';
+import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
-export class StoragesQuery extends QueryEntity<StoragesState> {}
+export interface IStorageFiles {
+  files:IStorageFile[];
+  parent:IStorageFile;
+  _type:'StorageFiles';
+  _links:IHalResourceLinks;
+}

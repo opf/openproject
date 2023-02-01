@@ -204,7 +204,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result.size).to eq(5)
+              expect(result.result.files.size).to eq(4)
+              expect(result.result.parent).not_to be_nil
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -219,9 +220,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[1].name).to eq('Folder1')
-              expect(result.result[1].mime_type).to eq('application/x-op-directory')
-              expect(result.result[1].id).to eq('11')
+              expect(result.result.files[0].name).to eq('Folder1')
+              expect(result.result.files[0].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[0].id).to eq('11')
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -237,13 +238,13 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               result = query.call(nil)
               expect(result).to be_success
 
-              expect(result.result[1].mime_type).to eq('application/x-op-directory')
-              expect(result.result[1].permissions).to include(:readable)
-              expect(result.result[1].permissions).to include(:writeable)
+              expect(result.result.files[0].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[0].permissions).to include(:readable)
+              expect(result.result.files[0].permissions).to include(:writeable)
 
-              expect(result.result[2].mime_type).to eq('application/x-op-directory')
-              expect(result.result[2].permissions).to include(:readable)
-              expect(result.result[2].permissions).not_to include(:writeable)
+              expect(result.result.files[1].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[1].permissions).to include(:readable)
+              expect(result.result.files[1].permissions).not_to include(:writeable)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -259,13 +260,13 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               result = query.call(nil)
               expect(result).to be_success
 
-              expect(result.result[3].mime_type).to eq('text/markdown')
-              expect(result.result[3].permissions).to include(:readable)
-              expect(result.result[3].permissions).to include(:writeable)
+              expect(result.result.files[2].mime_type).to eq('text/markdown')
+              expect(result.result.files[2].permissions).to include(:readable)
+              expect(result.result.files[2].permissions).to include(:writeable)
 
-              expect(result.result[4].mime_type).to eq('application/pdf')
-              expect(result.result[4].permissions).to include(:readable)
-              expect(result.result[4].permissions).not_to include(:writeable)
+              expect(result.result.files[3].mime_type).to eq('application/pdf')
+              expect(result.result.files[3].permissions).to include(:readable)
+              expect(result.result.files[3].permissions).not_to include(:writeable)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -280,9 +281,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[3].name).to eq('README.md')
-              expect(result.result[3].mime_type).to eq('text/markdown')
-              expect(result.result[3].id).to eq('12')
+              expect(result.result.files[2].name).to eq('README.md')
+              expect(result.result.files[2].mime_type).to eq('text/markdown')
+              expect(result.result.files[2].id).to eq('12')
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -299,7 +300,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             .match(
               on_success: ->(query) {
                 result = query.call(parent)
-                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+                expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
@@ -317,7 +318,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             .match(
               on_success: ->(query) {
                 result = query.call(nil)
-                expect(result.result[3].location).to eq('/README.md')
+                expect(result.result.files[2].location).to eq('/README.md')
               },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
@@ -336,7 +337,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             .match(
               on_success: ->(query) {
                 result = query.call(parent)
-                expect(result.result[3].location).to eq('/Photos/Birds/README.md')
+                expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
               },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )

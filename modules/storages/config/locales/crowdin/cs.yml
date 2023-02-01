@@ -79,7 +79,7 @@ cs:
     label_new_storage: "Nové úložiště"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
-    no_results: "Zatím nejsou nastaveny žádné úložiště."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:

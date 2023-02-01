@@ -79,7 +79,7 @@ it:
     label_new_storage: "Nuovo archivio"
     label_storage: "Archivio"
     label_storages: "Archivi"
-    no_results: "Ancora nessun archivio configurato."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Tipo di fonte"
       nextcloud:

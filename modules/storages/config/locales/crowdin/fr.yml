@@ -51,7 +51,7 @@ fr:
       type_link_text: "« Intégration OpenProject »"
       name: "Donnez à votre stockage un nom pour que les utilisateurs puissent se différencier entre plusieurs stockages."
       host: "Veuillez ajouter l'adresse d'hôte de votre stockage, y compris le https://. Il ne doit pas dépasser 255 caractères."
-      no_storage_set_up: "There are no file storages set up yet."
+      no_storage_set_up: "Aucun stockage de fichiers configuré pour le moment."
       setting_up_additional_storages: "Pour configurer des stockages de fichiers supplémentaires, veuillez visiter"
       setting_up_additional_storages_non_admin: "Les administrateurs peuvent configurer des stockages de fichiers supplémentaires dans Administration / Stockages de fichiers."
       setting_up_storages: "Pour configurer des stockages de fichiers, veuillez visiter"

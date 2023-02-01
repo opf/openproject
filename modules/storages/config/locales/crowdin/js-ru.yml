@@ -27,7 +27,7 @@ ru:
       files:
         directory_not_writeable: "Вам не хватает прав для добавления файлов в эту папку."
         dragging_many_files: "Загрузка в %{storageType} поддерживает только один файл одновременно."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        file_not_selectable_location: "Выбор файла невозможен в процессе выбора местоположения."
       file_links:
         empty: >
           В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.

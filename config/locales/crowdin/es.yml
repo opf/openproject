@@ -2619,11 +2619,11 @@ es:
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de campos personalizados de tipo Lista o Usuario</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extras para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los proyectos: <br> <ul> <li><b>Añadir campos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >
@@ -2924,7 +2924,7 @@ es:
   warning_user_limit_reached: >
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan de edición Enterprise y añadir usuarios adicionales.
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -26,21 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Redmine::MenuManager::TopMenu::ProjectsMenu
-  def render_projects_top_menu_node
-    return '' if User.current.anonymous? and Setting.login_required?
-    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
+class Storages::StorageFiles
+  attr_reader :files, :parent
 
-    render_projects_dropdown
+  def initialize(files, parent = nil)
+    @files = files
+    @parent = parent
   end
-
-  private
-
-  def render_projects_dropdown
-    content_tag(:li, class: 'op-app-menu--item') do
-      angular_component_tag('op-header-project-select')
-    end
-  end
-
-  include OpenProject::StaticRouting::UrlHelpers
 end
