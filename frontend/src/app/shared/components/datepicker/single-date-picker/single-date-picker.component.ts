@@ -53,6 +53,8 @@ import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
+import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
+import { filter } from 'rxjs/operators';
 
 export const opSingleDatePickerSelector = 'op-single-date-picker';
 
@@ -106,7 +108,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
     this._opened = !!opened;
 
     if (this._opened) {
-      this.initializeDatepickerDebounced();
+      this.initializeDatepickerAfterOpen();
     } else {
       this.closed.emit();
     }
@@ -147,6 +149,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
+    readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
   ) {
     populateInputsFromDataset(this);
   }
@@ -176,26 +179,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepickerDebounced();
-    this.cdRef.detectChanges();
-  }
-
-  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
-
-  changeValueFromInput(value:string) {
-    this.valueChange.emit(value);
-    this.onChange(value);
-    this.writeValue(value);
-
-    const date = parseDate(value || '');
-
-    if (date !== '') {
-      const dateString = this.timezoneService.formattedISODate(date);
-      this.writeWorkingValue(dateString);
-      this.enforceManualChangesToDatepicker(date);
-      this.onTouched(dateString);
-    }
-
+    this.initializeDatepickerAfterOpen();
     this.cdRef.detectChanges();
   }
 
@@ -204,19 +188,16 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
     setDates(date, this.datePickerInstance, enforceDate);
   }
 
-  private initializeDatepickerDebounced = debounce(this.initializeDatepicker.bind(this), 16);
+  private initializeDatepickerAfterOpen():void {
+    this.spotDropModalTeleportationService
+      .afterRenderOnce$(true)
+      .subscribe(() => {
+        this.initializeDatepicker();
+      });
+  }
 
-  private initializeDatepicker(numberOfTries = 0) {
+  private initializeDatepicker() {
     this.datePickerInstance?.destroy();
-
-    // If we're too early somehow, try again in a bit
-    if (!this.flatpickrTarget?.nativeElement) {
-      if (numberOfTries >= 3) {
-        console.warn('Tried initializing flatpickr 3 times in a row with no success. Bailing out');
-        return;
-      }
-      this.initializeDatepickerDebounced(numberOfTries + 1);
-    }
 
     this.datePickerInstance = new DatePicker(
       this.injector,

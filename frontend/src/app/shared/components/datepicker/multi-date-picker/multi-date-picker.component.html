@@ -1,14 +1,18 @@
 <spot-drop-modal
-  [opened]="isOpened"
+  [opened]="opened"
   (closed)="close()"
+  data-qa-selector="op-multi-date-picker"
 >
-  <button
+  <input
     slot="trigger"
-    type="button"
-    class="button"
-    data-qa-selector="op-datepicker-multi-trigger"
-    (click)="open()"
-  >{{ datesString }}</button>
+    type="text"
+    class="spot-input"
+    [attr.data-value]="value"
+    [id]="id"
+    [value]="datesString"
+    (click)="onInputClick($event)"
+    (focus)="opened = true"
+  />
   
   <form
     slot="body"

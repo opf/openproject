@@ -6,7 +6,7 @@ import {
   BehaviorSubject,
   Subject,
 } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 
 export type TeleportInstance = TemplateRef<any>;
 
@@ -18,6 +18,14 @@ export class SpotDropModalTeleportationService {
   public hasRendered$ = new Subject<boolean>();
 
   public hasRenderedFiltered$ = this.hasRendered$.pipe(distinctUntilChanged());
+
+  public afterRenderOnce$(appearOrDissapear:boolean = true) {
+    return this.hasRenderedFiltered$
+      .pipe(
+        filter(f => f === appearOrDissapear),
+        take(1),
+      );
+  }
 
   public activate(instance: TeleportInstance) {
     this.templateRef$.next(instance);
