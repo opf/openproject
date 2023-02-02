@@ -404,7 +404,7 @@ RB.Model = (function ($) {
 
       // Copy the values from the fields to the proper html elements
       editors.each(function (index) {
-        const editor = $(this).find('input,select').addBack('input,select');
+        const editor = $(this).find('input,select,textarea').addBack('input,select,textarea');
         const fieldName = editor.attr('name');
         const type = editor.attr('type');
         if (type && type.match(/select/)) {
