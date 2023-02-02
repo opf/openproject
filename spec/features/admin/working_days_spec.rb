@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Working Days', type: :feature, js: true do
+describe 'Working Days', js: true do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
@@ -40,7 +40,7 @@ describe 'Working Days', type: :feature, js: true do
     follower              |          XXX   | follows earliest_work_package, follows second_work_package
   CHART
 
-  let(:dialog) { ::Components::ConfirmationDialog.new }
+  let(:dialog) { Components::ConfirmationDialog.new }
 
   current_user { admin }
 
@@ -161,7 +161,7 @@ describe 'Working Days', type: :feature, js: true do
     # delayed jobs are handled.
     ActiveJob::QueueAdapters::DelayedJobAdapter
       .new
-      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5, previous_working_days: []))
+      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
 
     uncheck 'Tuesday'
     click_on 'Save'

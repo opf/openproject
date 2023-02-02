@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module API
         end
 
         def inject_basic_schema(custom_field)
-          @class.schema property_name(custom_field.id),
+          @class.schema property_name(custom_field),
                         type: TYPE_MAP[custom_field.field_format],
                         name_source: ->(*) { custom_field.name },
                         required: false,
@@ -44,7 +44,7 @@ module API
         end
 
         def inject_property_value(custom_field)
-          @class.property property_name(custom_field.id),
+          @class.property property_name(custom_field),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
                           render_nil: true,

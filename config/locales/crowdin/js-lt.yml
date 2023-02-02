@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -475,10 +475,10 @@ lt:
     label_custom_queries: "Private"
     label_columns: "Stulpeliai"
     label_attachments: Priedai
-    label_drop_files: Numeskite failus čia
-    label_drop_files_hint: arba spustelkite, kad pridėtumėte failus
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Aplankų negalima įkelti kaip priedų. Prašome pasirinkti atskirus failus.
-    label_add_attachments: "Prisegti priedus"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Prisegti ir susieti failus užvelkant ant šio laukelio arba įklijuojant į iškarpinę."
     label_remove_file: "Naikinti %{fileName}"
     label_remove_watcher: "Pašalinti stebėtoją %{name}"
@@ -574,7 +574,7 @@ lt:
           many: 'ir dar %{count}'
           other: 'ir dar %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Šiuo metu šiame vaizde pranešimų nėra'
         mark_all_read: 'Pažymėti visus kaip perskaitytus'
         mark_as_read: 'Žymėti kaip skaitytą'
@@ -597,7 +597,7 @@ lt:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Norėdami pažiūrėti ir keisti jūsų pranešimų nustatymus, <a target="_blank" href="%{url}">spauskite čia</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Pranešimų nustatymai"
         notify_me: "Pranešti man"
         reminders:
@@ -659,6 +659,7 @@ lt:
     project:
       required_outside_context: >
         Prašau pasirinkti projektą, kuriame turi būti sukurtas darbo paketas, kad matytumėte visus atributus. Jūs galite pasirinkti tik tuos projektus, kurie turi aukščiau nurodytą tipą.
+      details_activity: 'Project details activity'
       context: 'Projekto kontekstas'
       work_package_belongs_to: 'Šis darbų paketas priklauso projektui %{projectname}.'
       click_to_switch_context: 'Atidaryti darbų paketą tame projekte.'

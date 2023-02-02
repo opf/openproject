@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,6 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   mappedDate,
   onDayCreate,
@@ -79,7 +78,6 @@ import { DeviceService } from 'core-app/core/browser/device.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
     DateModalRelationsService,
   ],
 })
@@ -89,8 +87,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
   @InjectField() timezoneService:TimezoneService;
 
   @InjectField() halEditing:HalResourceEditingService;
-
-  @InjectField() dateModalScheduling:DateModalSchedulingService;
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
@@ -196,6 +192,17 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.cdRef.detectChanges();
   }
 
+  /**
+   * Returns whether the user can alter the dates of the work package.
+   */
+  get isSchedulable():boolean {
+    return this.scheduleManually || !this.dateModalRelations.isParent;
+  }
+
+  isDayDisabled(dayElement:DayElement, minimalDate?:Date|null):boolean {
+    return !this.isSchedulable || (!this.scheduleManually && !!minimalDate && dayElement.dateObj <= minimalDate);
+  }
+
   changeNonWorkingDays():void {
     this.initializeDatepicker();
 
@@ -217,7 +224,7 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
     // Apply the dates if they could be changed
-    if (this.dateModalScheduling.isSchedulable) {
+    if (this.isSchedulable) {
       this.changeset.setValue('date', mappedDate(this.date));
     }
 
@@ -281,13 +288,14 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
           this.onDataChange();
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             minimalDate,
-            this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
+            this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },

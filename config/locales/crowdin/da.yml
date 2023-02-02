@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -335,6 +335,7 @@ da:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Add a new wiki page
   work_flows:
@@ -373,7 +374,7 @@ da:
   account:
     delete: "Slet konto"
     delete_confirmation: "Er du sikker på, du vil slette denne konto?"
-    deleted: "Kontoen er nu slettet"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "I videst muligt omfang bliver brugergenereret data (f.eks e-mails, præferencer, arbejdspakker, wiki-bidrag m.m.) slettet. Bemærk dog, at data, såsom arbejdspakker og bidrag til wiki, ikke kan slettes uden at påvirke andre brugeres arbejde. Sådanne data bliver som følge heraf hensat på en særlig konto kaldet \"Slettet bruger\". Da data fra alle slettede brugerkonti overflyttes til denne konto, vil det ikke være muligt at skelne mellem data oprettet af den ene eller den anden, slettede bruger(-konto)."
@@ -687,6 +688,11 @@ da:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +703,8 @@ da:
           archived_ancestor: 'Projektet har en arkiveret forfader.'
           foreign_wps_reference_version: 'Arbejdspakker i ikke-efterkommerprojekter refererer til versioner af projektet eller dets efterkommere.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -1322,16 +1330,19 @@ da:
   error_external_authentication_failed: "Der opstod en fejl under ekstern godkendelse. Prøv venligst igen."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekt er redigeret'
     changeset: 'Pakke af ændringer er redigeret'
     message: Meddelelse er redigeret
     news: Nyheder
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Besvaret
     time_entry: 'Tidsregistreringer ændret'
     wiki_page: 'Wiki-side redigeret'
     work_package_closed: 'Arbejdspakke lukket'
     work_package_edit: 'Arbejdspakke redigeret'
     work_package_note: 'Note tilføjet arbejdspakke'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1784,6 +1795,8 @@ da:
   label_product_version: "Product version"
   label_professional_support: "Professionel support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Samlet antal projekter"
   label_project_copy_notifications: "Adviser via e-mail under kopiering af projekt"
   label_project_latest: "Seneste projekter"
@@ -2073,8 +2086,6 @@ da:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Din %{value} adgangskode"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbejdspakke(r) har deadline i de næste %{days} dage"
-  mail_subject_group_reminder: "Gruppen \"%{group}\" har %{count} arbejdspakke(r) med deadline indenfor %{days} dage"
   mail_subject_wiki_content_added: "'%{id}' wikisider er blevet tilføjet"
   mail_subject_wiki_content_updated: "'%{id}' wikiside er blevet opdateret"
   mail_member_added_project:
@@ -2208,6 +2219,7 @@ da:
   permission_add_work_packages: "Tilføj arbejdspakker"
   permission_add_messages: "Send beskeder"
   permission_add_project: "Opret projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Opret og rediger brugere"
   permission_manage_placeholder_user: "Opret, rediger og slet brugere af pladsholdere"
   permission_add_subprojects: "Opret underprojekter"
@@ -2950,6 +2962,9 @@ da:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Intet at forhåndsvise"
   api_v3:
     attributes:

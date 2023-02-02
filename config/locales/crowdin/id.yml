@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -331,6 +331,7 @@ id:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Add a new wiki page
   work_flows:
@@ -368,7 +369,7 @@ id:
   account:
     delete: "Hapus akun"
     delete_confirmation: "Yakin Anda ingin menghapus akun?"
-    deleted: "Akun telah dihapus"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Data yang dibuat pengguna (seperti email, preferensi, Work Package, entri wiki) akan dihapus. Namun, data seperti Work Package dan entri wiki yang terhubung dengan pengguna lain tidak bisa dihapus. Data seperti ini akan dipindahkan ke sebuah akun bernama \"Pengguna Terhapus\". Karena data dari setiap akun terhapus dipindahkan ke akun tersebut, maka pembedaan antara data yang dibuat pengguna dengan data dari akun terhapus lainnya tidak akan bisa dilakukan."
@@ -682,6 +683,11 @@ id:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -692,6 +698,8 @@ id:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -1301,16 +1309,19 @@ id:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Set-Perubahan telah diedit'
     message: Pesan telah diedit
     news: News
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Telah direspon
     time_entry: 'Timelog telah diedit'
     wiki_page: 'Halaman Wiki telah diedit'
     work_package_closed: 'Paket-Penugasan telah berakhir'
     work_package_edit: 'Paket-Penugasan telah diedit'
     work_package_note: 'Catatan Paket-Penugasan telah ditambah'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1590,7 +1601,7 @@ id:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter_plural: "Penyaring"
+  label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1763,6 +1774,8 @@ id:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -2051,8 +2064,6 @@ id:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Password Anda %{value}"
   mail_subject_register: "Kode aktivasi Akun Anda %{value}"
-  mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan"
   mail_subject_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate"
   mail_member_added_project:
@@ -2185,6 +2196,7 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Buat Project"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Buat, ubah, dan hapus pengguna placeholder"
   permission_add_subprojects: "Buat Sub Project"
@@ -2925,6 +2937,9 @@ id:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Tidak ada pre-view"
   api_v3:
     attributes:

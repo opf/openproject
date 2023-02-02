@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require_relative '../spec_helper'
 
 describe 'show default model',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
@@ -50,7 +49,7 @@ describe 'show default model',
            uploader: user)
   end
   let(:model_is_default) { true }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:model_tree) { Components::XeokitModelTree.new }
 
   before do
     login_as(user)

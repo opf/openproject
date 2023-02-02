@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'robots.txt', type: :feature do
+describe 'robots.txt' do
   let!(:project) { create(:public_project) }
 
   before do
@@ -36,11 +36,15 @@ describe 'robots.txt', type: :feature do
   end
 
   it 'disallows global paths and paths from public project' do
-    expect(page).to have_content('Disallow: /calendar')
     expect(page).to have_content('Disallow: /activity')
+    expect(page).to have_content('Disallow: /activities')
+    expect(page).to have_content('Disallow: /search')
 
-    expect(page).to have_content("Disallow: /projects/#{project.identifier}/repository")
-    expect(page).to have_content("Disallow: /projects/#{project.identifier}/work_packages")
-    expect(page).to have_content("Disallow: /projects/#{project.identifier}/activity")
+    [project.identifier, project.id].each do |identifier|
+      expect(page).to have_content("Disallow: /projects/#{identifier}/repository")
+      expect(page).to have_content("Disallow: /projects/#{identifier}/work_packages")
+      expect(page).to have_content("Disallow: /projects/#{identifier}/activity")
+      expect(page).to have_content("Disallow: /projects/#{identifier}/search")
+    end
   end
 end

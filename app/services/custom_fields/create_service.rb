@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,7 +55,7 @@ module CustomFields
       cf = call.result
 
       if cf.is_a?(ProjectCustomField)
-        add_cf_to_visible_columns(cf.id)
+        add_cf_to_visible_columns(cf)
       end
 
       call
@@ -63,8 +63,8 @@ module CustomFields
 
     private
 
-    def add_cf_to_visible_columns(id)
-      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + ["cf_#{id}"]).uniq
+    def add_cf_to_visible_columns(custom_field)
+      Setting.enabled_projects_columns = (Setting.enabled_projects_columns + [custom_field.column_name]).uniq
     end
   end
 end

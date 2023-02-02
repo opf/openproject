@@ -4,10 +4,15 @@ ro:
     storages:
       link_files_in_storage: "Link-ul fişierelor în %{storageType}"
       link_existing_files: "Legaţi fişierele existente"
+      upload_files: "Încarcă fişiere"
+      drop_files: "Lăsați fișierele aici pentru a le încărca pe %{name}."
+      drop_or_click_files: "Lăsați fișierele aici sau faceți clic pentru a le încărca pe %{name}."
       login: "%{storageType} autentificare"
       login_to: "Autentificare în %{storageType}"
       no_connection: "Nu există %{storageType} conexiune"
       open_storage: "Deschide %{storageType}"
+      select_location: "Selectați locația"
+      choose_location: "Alege Locația"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -19,7 +24,13 @@ ro:
         no_file_links: "Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}."
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
+        empty: >
+          În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
         download: "Descarcă %{fileName}"
         no_permission: "Nu aveți permisiunea de a vedea acest fișier."
         open: 'Deschide fişierul pe stocare'
@@ -30,8 +41,18 @@ ro:
         remove_short: "Ștergeți linkul"
         select: "Selectați fișierele"
         select_all: "Selectați tot"
-        selection_none: "Selectaţi fişierele pentru a conecta"
-        selection_any: "Leagă %{number} fișiere"
+        selection:
+          zero: "Selectaţi fişierele pentru a conecta"
+          one: "Link 1 fișier"
+          few: "Link %{count} fișiere"
+          other: "Link %{count} de fișiere"
+        success_create:
+          one: "A creat cu succes 1 legătură de fișier."
+          few: "A creat cu succes %{count} legături de fișiere."
+          other: "A creat cu succes %{count} de legături de fișiere."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

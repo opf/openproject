@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,18 +30,19 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   queue_with_priority :above_normal
   include ::ScheduledJob
 
-  def perform(user_id:, previous_working_days:)
+  def perform(user_id:, previous_working_days:, previous_non_working_days:)
     user = User.find(user_id)
 
     User.execute_as user do
-      updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days)) do |work_package|
+      updated_work_package_ids = collect_id_for_each(applicable_work_package(previous_working_days,
+                                                                             previous_non_working_days)) do |work_package|
         apply_change_to_work_package(user, work_package)
       end
       updated_work_package_ids += collect_id_for_each(applicable_predecessor(updated_work_package_ids)) do |predecessor|
         apply_change_to_predecessor(user, predecessor)
       end
 
-      set_journal_notice(updated_work_package_ids, previous_working_days)
+      set_journal_notice(updated_work_package_ids, previous_working_days, previous_non_working_days)
     end
   end
 
@@ -68,11 +69,11 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     end
   end
 
-  def applicable_work_package(previous_working_days)
-    changed_days = changed_days(previous_working_days)
-
+  def applicable_work_package(previous_working_days, previous_non_working_days)
+    days_of_week = changed_days(previous_working_days).keys
+    dates = changed_non_working_dates(previous_non_working_days).keys
     WorkPackage
-      .covering_days_of_week(changed_days)
+      .covering_dates_and_days_of_week(days_of_week:, dates:)
       .order(WorkPackage.arel_table[:start_date].asc.nulls_first,
              WorkPackage.arel_table[:due_date].asc)
   end
@@ -83,7 +84,16 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
     # `^` is a Set method returning a new set containing elements exclusive to
     # each other
-    (previous ^ current).to_a
+    (previous ^ current).index_with { |day| current.include?(day) }
+  end
+
+  def changed_non_working_dates(previous_non_working_days)
+    previous = Set.new(previous_non_working_days)
+    current = Set.new(NonWorkingDay.pluck(:date))
+
+    # `^` is a Set method returning a new set containing elements exclusive to
+    # each other
+    (previous ^ current).index_with { |day| current.exclude?(day) }
   end
 
   def applicable_predecessor(excluded)
@@ -92,9 +102,10 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
       .where.not(id: excluded)
   end
 
-  def set_journal_notice(updated_work_package_ids, previous_working_days)
-    day_changes = changed_days(previous_working_days).index_with { |day| Setting.working_days.include?(day) }
-    journal_note = journal_notice_text(day_changes)
+  def set_journal_notice(updated_work_package_ids, previous_working_days, previous_non_working_days)
+    day_changes = changed_days(previous_working_days)
+    date_changes = changed_non_working_dates(previous_non_working_days)
+    journal_note = journal_notice_text(day_changes, date_changes)
 
     WorkPackage
       .where(id: updated_work_package_ids.uniq)
@@ -105,16 +116,22 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
     end
   end
 
-  def journal_notice_text(day_changes)
+  def journal_notice_text(day_changes, date_changes)
     I18n.with_locale(Setting.default_language) do
+      day_changes_messages = day_changes.collect { |day, working| working_day_change_message(day, working) }
+      date_changes_messages = date_changes.collect { |date, working| working_date_change_message(date, working) }
       I18n.t(:'working_days.journal_note.changed',
-             changes: day_changes.collect { |day, working| working_day_change_message(day, working) }.join(', '))
+             changes: (day_changes_messages + date_changes_messages).join(', '))
     end
   end
 
   def working_day_change_message(day, working)
     I18n.t(:"working_days.journal_note.days.#{working ? :working : :non_working}",
            day: WeekDay.find_by!(day:).name)
+  end
+
+  def working_date_change_message(date, working)
+    I18n.t(:"working_days.journal_note.dates.#{working ? :working : :non_working}", date:)
   end
 
   def collect_id_for_each(scope)

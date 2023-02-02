@@ -8,6 +8,12 @@ props:
   spot-mq-action-bar-change:
     value: "'(min-width: 768px)'"
 
+  spot-mq-mobile:
+    value: "'(max-width: 679px)'"
+
+  spot-mq-desktop:
+    value: "'(min-width: 680px)'"
+
 global:
   type: media-query
   category: media-query

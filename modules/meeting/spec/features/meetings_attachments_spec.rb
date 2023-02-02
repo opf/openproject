@@ -21,7 +21,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     )
   end
 
-  let(:attachments) { ::Components::Attachments.new }
+  let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -58,7 +58,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     it 'can upload an image via attaching and drag & drop' do
       # called the same for all Wysiwyg dditors no matter if for work packages
       # or not
-      container = page.find('.wp-attachment-upload')
+      container = page.find('[data-qa-selector="op-attachments"]')
       scroll_to_element(container)
 
       ##

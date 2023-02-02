@@ -219,7 +219,7 @@ describe 'edit work package',
       wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                            type: 'error'
 
-      cf_field = wp_page.edit_field("customField#{custom_field.id}")
+      cf_field = wp_page.edit_field(custom_field.attribute_name(:camel_case))
       cf_field.expect_active!
       cf_field.expect_value('')
     end

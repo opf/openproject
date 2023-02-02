@@ -156,8 +156,8 @@ export class TimeEntryCalendarComponent {
     eventClick: this.dispatchEventClick.bind(this),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDrop: this.moveEvent.bind(this),
-    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data),
-    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data),
+    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
+    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
   };
 
   constructor(

@@ -51,7 +51,7 @@ cs:
       type_link_text: "„Integration OpenProject“"
       name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
       host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
-      no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
       setting_up_additional_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
       setting_up_storages: "Pro nastavení úložišť souborů navštivte prosím"
@@ -79,7 +79,7 @@ cs:
     label_new_storage: "Nové úložiště"
     label_storage: "Úložiště"
     label_storages: "Úložiště"
-    no_results: "Zatím nejsou nastaveny žádné úložiště."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Typ poskytovatele"
       nextcloud:

@@ -65,13 +65,22 @@ module Components
       end
     end
 
-    ##
-    # Set a ISO8601 date through the datepicker
-    def set_date(date)
+    # Change the datepicker visible area.
+    #
+    # @param date the date to navigate to. Can be a Date or a String with
+    # ISO8601 formatted date.
+    def show_date(date)
       date = Date.parse(date) unless date.is_a?(Date)
 
       select_year date.year
       select_month date.strftime('%B')
+    end
+
+    # Set a ISO8601 date through the datepicker
+    def set_date(date)
+      date = Date.parse(date) unless date.is_a?(Date)
+
+      show_date(date)
       select_day date.day
     end
 
@@ -83,7 +92,6 @@ module Components
       # Month is 0-index in select
       field = flatpickr_container.find('.flatpickr-monthDropdown-months')
       expect(field.value.to_i).to eq(month - 1)
-
     end
 
     ##
@@ -95,9 +103,9 @@ module Components
     ##
     # Expect the selected year
     def expect_year(value)
-      expect(flatpickr_container).to have_selector('.cur-year') do |field|
+      expect(flatpickr_container).to have_selector('.cur-year') { |field|
         field.value.to_i == value.to_i
-      end
+      }
     end
 
     ##
@@ -109,6 +117,38 @@ module Components
       expect_year(date.year)
       expect_month(date.month)
       expect_day(date.day)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_non_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-non-working-day)[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_not_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
+                                    wait: 20)
     end
   end
 end

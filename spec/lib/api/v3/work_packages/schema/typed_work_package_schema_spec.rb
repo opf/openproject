@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
+describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
 
@@ -64,19 +64,19 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
 
   describe '#writable?' do
     it 'percentage done is writable' do
-      expect(subject.writable?(:percentage_done)).to be true
+      expect(subject).to be_writable(:done_ratio)
     end
 
     it 'estimated time is writable' do
-      expect(subject.writable?(:estimated_time)).to be true
+      expect(subject).to be_writable(:estimated_hours)
     end
 
     it 'start date is writable' do
-      expect(subject.writable?(:start_date)).to be true
+      expect(subject).to be_writable(:start_date)
     end
 
     it 'finish date is writable' do
-      expect(subject.writable?(:due_date)).to be true
+      expect(subject).to be_writable(:due_date)
     end
   end
 
@@ -98,7 +98,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     end
 
     it 'has a writable date' do
-      expect(subject.writable?(:date)).to be true
+      expect(subject).to be_writable(:date)
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,6 @@
 #++
 
 class Setting < ApplicationRecord
-  extend CallbacksHelper
   extend Aliases
   extend MailSettings
 
@@ -212,9 +211,6 @@ class Setting < ApplicationRecord
 
       # Delete the cache
       clear_cache(old_cache_key)
-
-      # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_value)
 
       new_value
     else

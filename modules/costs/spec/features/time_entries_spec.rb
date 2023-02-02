@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Work Package table cost entries', type: :feature, js: true do
+describe 'Work Package table cost entries', js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
 
@@ -52,7 +52,7 @@ describe 'Work Package table cost entries', type: :feature, js: true do
            hours: 2.50
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let!(:query) do
     query              = build(:query, user:, project:)
     query.column_names = %w(id subject spent_hours)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom fields reporting', type: :feature, js: true do
+describe 'Custom fields reporting', js: true do
   let(:type) { create :type }
   let(:project) { create :project, types: [type] }
 
@@ -181,7 +181,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       end
 
       it 'groups by the raw values when an invalid value exists' do
-        expect(work_package2.send("custom_field_#{custom_field_2.id}")).to eq(['invalid not found'])
+        expect(work_package2.send(custom_field_2.attribute_getter)).to eq(['invalid not found'])
 
         expect(page).to have_selector('#group-by--add-columns')
         expect(page).to have_selector('#group-by--add-rows')

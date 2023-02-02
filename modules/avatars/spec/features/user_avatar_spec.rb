@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative './shared_avatar_examples'
 
-describe 'User avatar management', type: :feature, js: true do
+describe 'User avatar management', js: true do
   include Rails.application.routes.url_helpers
 
   let(:user) { create :admin }

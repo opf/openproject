@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
 describe 'Stories in backlog',
-         type: :feature,
          js: true do
   let!(:project) do
     create(:project,
@@ -188,7 +187,11 @@ describe 'Stories in backlog',
       .edit_new_story(subject: 'New story',
                       story_points: 10)
 
-    new_story = WorkPackage.find_by(subject: 'New story')
+    new_story = nil
+    retry_block do
+      new_story = WorkPackage.find_by(subject: 'New story')
+      raise "Expected story" unless new_story
+    end
 
     backlogs_page
       .expect_story_in_sprint(new_story, sprint)
@@ -212,10 +215,10 @@ describe 'Stories in backlog',
                   subject: 'Altered story1',
                   story_points: 15)
 
-    sprint_story1.reload
-
-    expect(sprint_story1.subject)
-      .to eql 'Altered story1'
+    retry_block do
+      sprint_story1.reload
+      raise "Expected story to be renamed" unless sprint_story1.subject == 'Altered story1'
+    end
 
     backlogs_page
       .expect_for_story(sprint_story1, subject: 'Altered story1')
@@ -280,10 +283,10 @@ describe 'Stories in backlog',
     backlogs_page
       .save_story_from_edit_mode(backlog_story1)
 
-    backlog_story1.reload
-
-    expect(backlog_story1.subject)
-      .to eql 'Altered backlog story1'
+    retry_block do
+      backlog_story1.reload
+      raise "Expected story to be renamed" unless backlog_story1.subject == 'Altered backlog story1'
+    end
 
     expect(backlog_story1.status)
       .to eql other_status

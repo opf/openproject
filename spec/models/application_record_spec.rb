@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ApplicationRecord, type: :model do
+describe ApplicationRecord do
   describe '#most_recently_changed' do
     let!(:work_package) do
       create(:work_package).tap do |wp|

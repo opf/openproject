@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -474,10 +474,10 @@ el:
     label_custom_queries: "Private"
     label_columns: "Στήλες"
     label_attachments: Συνημμένα
-    label_drop_files: Σύρετε αρχεία εδώ
-    label_drop_files_hint: ή κάντε κλικ για να προσθέσετε αρχεία
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Δεν μπορείτε να μεταφορτώσετε φακέλους ως συνημμένο. Παρακαλώ επιλέξτε μεμονωμένα αρχεία.
-    label_add_attachments: "Προσθέστε συνημμένα"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Συνάψτε και συνδέστε αρχεία σέρνοντας τα σε αυτό το πεδίο, ή κάνοντας επικόλληση."
     label_remove_file: "Διαγραφή %{fileName}"
     label_remove_watcher: "Αφαίρεση παρατηρητή %{name}"
@@ -571,7 +571,7 @@ el:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -594,7 +594,7 @@ el:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
         reminders:
@@ -656,6 +656,7 @@ el:
     project:
       required_outside_context: >
         Παρακαλούμε επιλέξτε ένα έργο μέσα στο οποίο θα δημιουργήσετε το πακέτο εργασίας για να δείτε όλα τα χαρακτηριστικά. Μπορείτε να επιλέξετε μόνο έργα που έχουν τον παραπάνω τύπο ενεργό.
+      details_activity: 'Project details activity'
       context: 'Πλαίσιο έργου'
       work_package_belongs_to: 'Αυτό το πακέτο εργασίας ανήκει στο έργο %{projectname}.'
       click_to_switch_context: 'Ανοίξτε αυτό πακέτο εργασίας σε εκείνο το έργο.'

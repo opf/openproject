@@ -51,7 +51,7 @@ lt:
       type_link_text: "“Integration OpenProject”"
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "Dar nėra nustatyta nei viena failų saugykla."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Norėdami sukurti papildomas failų saugyklas, prašome aplankyti"
       setting_up_additional_storages_non_admin: "Administratoriai gali sukurti papildomas failų saugyklas: Administravimas / Failų saugyklos."
       setting_up_storages: "Norėdami nustatyti failų saugyklas aplankykite"
@@ -79,7 +79,7 @@ lt:
     label_new_storage: "Nauja saugykla"
     label_storage: "Saugykla"
     label_storages: "Saugyklos"
-    no_results: "Dar nenustatyta jokia saugykla"
+    no_results: "No storages set up yet."
     provider_types:
       label: "Tiekėjo tipas"
       nextcloud:

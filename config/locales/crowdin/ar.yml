@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ ar:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: لا يوجد حالياً صفحة ويكي.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: إضافة صفحة ويكي جديدة
   work_flows:
@@ -379,7 +380,7 @@ ar:
   account:
     delete: "حذف الحساب"
     delete_confirmation: "هل أنت متأكد من رغبتك في إلغاء الحساب؟"
-    deleted: "تم حذف الحساب بنجاح"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "من البيانات إنشاء المستخدم (مثل البريد الإلكتروني، والأفضليات، ومجموعات العمل، ومداخل ويكي) سيتم حذفها قدر الإمكان. لكن لاحظ أن البيانات مثل حزم العمل ومداخل ويكي لا يمكن حذفها دون إعاقة عمل المستخدمين الآخرين. وبالتالي تعيين هذه البيانات إلى حساب يسمى \"المستخدم المحذوف\". كما تم تعيين البيانات من كل حساب محذوف في هذا الحساب فإنه لن يكون من الممكن التمييز بين بيانات المستخدم التي تم إنشاؤها من البيانات من حساب آخرمحذوف."
@@ -693,6 +694,11 @@ ar:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -703,6 +709,8 @@ ar:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "لا يزال قيد الاستخدام من قبل مجموعات العمل: %{types}"
             enabled_modules:
@@ -1391,16 +1399,19 @@ ar:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'تم تعديل المشروع'
     changeset: 'تم تحرير مجموعة التغييرات'
     message: تم تحرير الرسالة
     news: الأخبار
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: تم الرد
     time_entry: 'تم تحرير Timelog'
     wiki_page: 'تم تحرير صفحة WiKi'
     work_package_closed: 'تم اغلاق مجموعة العمل'
     work_package_edit: 'تم تحريرمجموعة العمل'
     work_package_note: 'لم يتم اضافة مجموعة العمل'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1853,6 +1864,8 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
   label_project_latest: "أحدث المشاريع"
@@ -2142,8 +2155,6 @@ ar:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
-  mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
   mail_member_added_project:
@@ -2281,6 +2292,7 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
@@ -3031,6 +3043,9 @@ ar:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "لا شيء للمعاينة"
   api_v3:
     attributes:

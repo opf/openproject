@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -157,8 +157,7 @@ import { WorkPackageCopyFullViewComponent } from 'core-app/features/work-package
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { TimeEntryChangeset } from 'core-app/features/work-packages/helpers/time-entries/time-entry-changeset';
 
-import { AttachmentsUploadComponent } from 'core-app/shared/components/attachments/attachments-upload/attachments-upload.component';
-import { AttachmentListComponent } from 'core-app/shared/components/attachments/attachment-list/attachment-list.component';
+import { OpAttachmentsComponent } from 'core-app/shared/components/attachments/attachments.component';
 import { QueryFiltersComponent } from 'core-app/features/work-packages/components/filters/query-filters/query-filters.component';
 import { FilterDateTimesValueComponent } from 'core-app/features/work-packages/components/filters/filter-date-times-value/filter-date-times-value.component';
 import { FilterSearchableMultiselectValueComponent } from 'core-app/features/work-packages/components/filters/filter-searchable-multiselect-value/filter-searchable-multiselect-value.component';
@@ -177,7 +176,7 @@ import { WorkPackageMarkNotificationButtonComponent } from 'core-app/features/wo
 import { WorkPackageFilesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/files-tab/op-files-tab.component';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { OpenprojectFileLinksModule } from 'core-app/shared/components/file-links/openproject-file-links.module';
+import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/openproject-storages.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
@@ -210,7 +209,7 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 
     EditFieldControlsModule,
     OpenprojectTabsModule,
-    OpenprojectFileLinksModule,
+    OpenprojectStoragesModule,
   ],
   providers: [
     // Notification service
@@ -485,9 +484,7 @@ export class OpenprojectWorkPackagesModule {
       return null;
     });
 
-    hookService.register('workPackageAttachmentUploadComponent', () => AttachmentsUploadComponent);
-
-    hookService.register('workPackageAttachmentListComponent', () => AttachmentListComponent);
+    hookService.register('workPackageAttachmentListComponent', () => OpAttachmentsComponent);
 
     /** Return specialized work package changeset for editing service */
     hookService.register('halResourceChangesetClass', (resource:HalResource) => {

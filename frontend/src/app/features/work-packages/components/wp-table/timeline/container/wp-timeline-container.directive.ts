@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.s
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, take } from 'rxjs/operators';
 import { input, InputState } from 'reactivestates';
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageTimelineCellsRenderer } from 'core-app/features/work-packages/components/wp-table/timeline/cells/wp-timeline-cells-renderer';
@@ -67,6 +67,9 @@ import {
   zoomLevelOrder,
 } from '../wp-timeline';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import * as Mousetrap from 'mousetrap';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { IDay } from 'core-app/core/state/days/day.model';
 
 @Component({
   selector: 'wp-timeline-container',
@@ -136,12 +139,20 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     readonly I18n:I18nService,
     private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService,
     private weekdaysService:WeekdayService,
+    private daysService:DayResourceService,
   ) {
     super();
   }
 
   ngAfterViewInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+
+    const scrollBar = document.querySelector('.work-packages-tabletimeline--timeline-side');
+    if (scrollBar) {
+      scrollBar.addEventListener('scroll', () => {
+        this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
+      });
+    }
 
     this.text = {
       selectionMode: this.I18n.t('js.timelines.selection_mode.notification'),
@@ -174,6 +185,8 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
 
     this.setupManageCollapsedGroupHeaderCells();
   }
+
+  public nonWorkingDays:IDay[] = [];
 
   workPackageCells(wpId:string):WorkPackageTimelineCell[] {
     return this.cellsRenderer.getCellsFor(wpId);
@@ -224,11 +237,13 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
       this.wpTableTimeline.appliedZoomLevel = this.wpTableTimeline.zoomLevel;
     }
 
-    timeOutput('refreshView() in timeline container', () => {
+    timeOutput('refreshView() in timeline container', async () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
       this.calculateViewParams(this._viewParameters);
+
+      await this.requireNonWorkingDays(this.getFirstDayInViewport().format('YYYY-MM-DD'), this.getLastDayInViewport().format('YYYY-MM-DD'));
 
       // Update all cells
       this.cellsRenderer.refreshAllCells();
@@ -345,6 +360,19 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     this.$element.addClass('active-selection-mode');
 
     this.refreshView();
+  }
+
+  async requireNonWorkingDays(start:Date|string, end:Date|string) {
+    this.nonWorkingDays = await this
+      .daysService
+      .requireNonWorkingYears$(start, end)
+      .pipe(take(1))
+      .toPromise();
+  }
+
+  isNonWorkingDay(date:Date|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
   }
 
   private calculateViewParams(currentParams:TimelineViewParameters):boolean {

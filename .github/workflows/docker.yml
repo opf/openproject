@@ -19,7 +19,7 @@ jobs:
     env:
       INPUT_BUILDOPTIONS: --pull
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile

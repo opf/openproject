@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,9 @@
 require 'spec_helper'
 require_relative './show_resource_examples'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'show',
-         content_type: :json,
-         type: :request do
+         content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) do
@@ -87,7 +86,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
               .at_path('_embedded/details/0/property')
 
       expect(last_response.body)
-        .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+        .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
               .at_path('_embedded/details/0/value')
     end
   end

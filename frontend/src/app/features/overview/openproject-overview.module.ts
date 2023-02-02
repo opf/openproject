@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,13 +48,13 @@ export const OVERVIEW_ROUTES:Ng2StateDeclaration[] = [
   },
 ];
 
-export function uiRouterOverviewConfiguration(uiRouter:UIRouter) {
+export function uiRouterOverviewConfiguration(uiRouter:UIRouter):void {
   // Ensure projects/:project_id/ are being redirected correctly
   // cf., https://community.openproject.com/wp/29754
   uiRouter.urlService.rules
     .when(
-      new RegExp('^/projects(?!/new$)/([^/]+)$'),
-      (match) => `/projects/${match[1]}/`,
+      new RegExp('^/projects(?!/new$)/([^/?]+)$'),
+      (match:string[]) => `/projects/${match[1]}/${window.location.search}`,
     );
 }
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -93,7 +93,7 @@ ru:
     button_save: "Сохранить"
     button_settings: "Настройки"
     button_uncheck_all: "Снять все отметки"
-    button_update: "Обновить"
+    button_update: "Обновление"
     button_export-pdf: "Скачать PDF"
     button_export-atom: "Скачать Atom"
     button_create: "Создать"
@@ -474,10 +474,10 @@ ru:
     label_custom_queries: "Приватный"
     label_columns: "Столбцы"
     label_attachments: Вложения
-    label_drop_files: Перетащите файлы сюда
-    label_drop_files_hint: или кликните для добавления файлов
+    label_drop_files: "Перетащите файлы сюда для прикрепления файлов."
+    label_drop_or_click_files: "Перетащите файлы сюда или нажмите для прикрепления файлов."
     label_drop_folders_hint: Вы не можете загружать папки как вложение. Пожалуйста, выберите один файл.
-    label_add_attachments: "Добавить вложения"
+    label_add_attachments: "Прикрепить файлы"
     label_formattable_attachment_hint: "Прикрепить и связать файлы, перетащив их на это поле, или вставив их из буфера обмена."
     label_remove_file: "Удалить %{fileName}"
     label_remove_watcher: "Удалить наблюдателя %{name}"
@@ -573,7 +573,7 @@ ru:
           many: 'и %{count} других'
           other: 'и %{count} других'
         no_results:
-          at_all: 'Новые уведомления связанной с вами деятельности появятся здесь, уведомления и время их получения настраиваются вами.'
+          at_all: 'Новые уведомления появятся здесь, когда есть связанная с вами активность.'
           with_current_filter: 'На данный момент в этом представлении нет уведомлений'
         mark_all_read: 'Отметить всё как прочитанное'
         mark_as_read: 'Отметить как прочитанное'
@@ -596,7 +596,7 @@ ru:
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
       settings:
-        change_notification_settings: 'Чтобы просмотреть и изменить настройки уведомлений, <a target="_blank" href="%{url}">нажмите здесь</a>'
+        change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
         notify_me: "Уведомлять меня"
         reminders:
@@ -658,6 +658,7 @@ ru:
     project:
       required_outside_context: >
         Пожалуйста, выберите проект для создания пакета работ для просмотра всех атрибутов. Вы можете выбрать только проекты, которые имеют вышеуказанный тип.
+      details_activity: 'Подробная информация о деятельности проекта'
       context: 'Контекст проекта'
       work_package_belongs_to: 'Этот пакет работ принадлежит проекту %{projectname}.'
       click_to_switch_context: 'Открыть этот пакет работ в этом проекте.'
@@ -806,7 +807,7 @@ ru:
         farRight: 'Крайний справа'
         showNone: '-- Не метка --'
         description: >
-          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Обратите внимание, что при наведении указателя мыши на элемент, вместо этих атрибутов будут показаны даты.
+          Укажите атрибуты, которые вы бы хотели видеть в диаграмме Ганта всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих атрибутов будет показана их даты.
       button_activate: 'Показать диаграмму Ганта'
       button_deactivate: 'Скрыть диаграмму Ганта'
       cancel: Отмена

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ describe Storages::Storages::CreateContract do
   it_behaves_like 'storage contract' do
     let(:current_user) { create(:admin) }
     let(:storage) do
-      ::Storages::Storage.new(name: storage_name,
+      Storages::Storage.new(name: storage_name,
                               provider_type: storage_provider_type,
                               host: storage_host,
                               creator: storage_creator)

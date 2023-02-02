@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ import { Injector } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import DateOption = flatpickr.Options.DateOption;
+import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
@@ -48,6 +49,8 @@ export class DatePicker {
   @InjectField() configurationService:ConfigurationService;
 
   @InjectField() weekdaysService:WeekdayService;
+
+  @InjectField() daysService:DayResourceService;
 
   @InjectField() I18n:I18nService;
 
@@ -86,6 +89,10 @@ export class DatePicker {
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
 
     document.addEventListener('scroll', this.hideDuringScroll, true);
+  }
+
+  public async isNonWorkingDay(day:Date):Promise<boolean> {
+    return this.weekdaysService.isNonWorkingDay(day) || await this.daysService.isNonWorkingDay$(day);
   }
 
   public clear():void {

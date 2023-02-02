@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -474,10 +474,10 @@ pt:
     label_custom_queries: "Privado"
     label_columns: "Colunas"
     label_attachments: Anexos
-    label_drop_files: Solte os arquivos aqui
-    label_drop_files_hint: ou clique para adicionar arquivos
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
-    label_add_attachments: "Adicionar anexos"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Anexe e vincule arquivos soltando neste campo ou colando da área de transferência."
     label_remove_file: "Excluir %{fileName}"
     label_remove_watcher: "Remover observador %{name}"
@@ -571,7 +571,7 @@ pt:
           one: 'e 1 outro'
           other: 'e %{count} outros'
         no_results:
-          at_all: 'Novas notificações aparecerão aqui quando houver atividades que você tenha interesse, enquanto isso, você também pode visualizar e modificar suas configurações de notificação para configurar quando ser notificado. '
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'Não há notificações nesta visualização no momento'
         mark_all_read: 'Marcar tudo como lido'
         mark_as_read: 'Marcar como lido'
@@ -594,7 +594,7 @@ pt:
         watched: 'Observador'
         date_alert: 'Alerta de data'
       settings:
-        change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Configurações de notificação"
         notify_me: "Notifique-me"
         reminders:
@@ -656,6 +656,7 @@ pt:
     project:
       required_outside_context: >
         Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
+      details_activity: 'Project details activity'
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'

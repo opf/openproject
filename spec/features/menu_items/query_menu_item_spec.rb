@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,9 +35,9 @@ RSpec.describe 'Query menu items', js: true do
   let(:user) { create :admin }
   let(:project) { create :project }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
   let(:status) { create :status }
 
   def visit_index_page(query)

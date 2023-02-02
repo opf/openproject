@@ -4,10 +4,15 @@ it:
     storages:
       link_files_in_storage: "Collega file in %{storageType}"
       link_existing_files: "Collega file esistenti"
+      upload_files: "Caricare i files"
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"
       open_storage: "Apri %{storageType}"
+      select_location: "Seleziona Posizione"
+      choose_location: "Scegli posizione"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -19,7 +24,13 @@ it:
         no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Scarica %{fileName}"
         no_permission: "Non hai i permessi per accedere al file."
         open: 'Apri file su memoria'
@@ -30,8 +41,16 @@ it:
         remove_short: "Rimuovi collegamento"
         select: "Seleziona file"
         select_all: "Seleziona tutto"
-        selection_none: "Seleziona i file da collegare"
-        selection_any: "Collega %{number} file"
+        selection:
+          zero: "Seleziona i files da collegare"
+          one: "Collega %{count} files"
+          other: "Collega %{number} file"
+        success_create:
+          one: "Successfully created 1 file link."
+          other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

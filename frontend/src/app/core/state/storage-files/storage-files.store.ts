@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import {
+  EntityState, EntityStore, ID, StoreConfig,
+} from '@datorama/akita';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
+export interface IStorageFilesResponse {
+  files:ID[];
+  parent:ID;
+}
+
+export interface IStorageFilesState extends EntityState<IStorageFile> {
+  files:Record<string, IStorageFilesResponse>;
+}
 
 @StoreConfig({
   name: 'storage-files',
   resettable: true,
 })
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
+export class StorageFilesStore extends EntityStore<IStorageFilesState> {
   constructor() {
-    super(createInitialCollectionState());
+    super({ files: {} });
   }
 }

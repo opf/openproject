@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-buster
+FROM ruby:3.2.0-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -8,7 +8,7 @@ ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV NODE_VERSION="16.17.0"
-ENV BUNDLER_VERSION="2.3.12"
+ENV BUNDLER_VERSION="2.4.1"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app
 ENV APP_PATH=/app
@@ -19,14 +19,14 @@ ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV RAILS_ENV=production
-ENV RAILS_CACHE_STORE=memcache
 ENV RAILS_GROUPS=production
 ENV RAILS_LOG_TO_STDOUT=1
 ENV RAILS_SERVE_STATIC_FILES=1
-ENV OPENPROJECT_INSTALLATION__TYPE=docker
+ENV OPENPROJECT_ATTACHMENTS__STORAGE__PATH=$APP_DATA_PATH/files
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
-ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
+ENV OPENPROJECT_INSTALLATION__TYPE=docker
+ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
 

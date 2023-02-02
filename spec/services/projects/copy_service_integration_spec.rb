@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,14 +74,14 @@ describe Projects::CopyService, 'integration', type: :model do
   describe '.copyable_dependencies' do
     it 'includes dependencies for work packages as well as for their attachments' do
       expect(described_class.copyable_dependencies.pluck(:identifier))
-        .to include(::Projects::Copy::WorkPackagesDependentService.identifier,
-                    ::Projects::Copy::WorkPackageAttachmentsDependentService.identifier)
+        .to include(Projects::Copy::WorkPackagesDependentService.identifier,
+                    Projects::Copy::WorkPackageAttachmentsDependentService.identifier)
     end
 
     it 'includes dependencies for wiki as well as for their pages\'s attachments' do
       expect(described_class.copyable_dependencies.pluck(:identifier))
-        .to include(::Projects::Copy::WikiDependentService.identifier,
-                    ::Projects::Copy::WikiPageAttachmentsDependentService.identifier)
+        .to include(Projects::Copy::WikiDependentService.identifier,
+                    Projects::Copy::WikiPageAttachmentsDependentService.identifier)
     end
   end
 
@@ -448,9 +448,9 @@ describe Projects::CopyService, 'integration', type: :model do
         let(:only_args) { %w[work_packages queries] }
 
         before do
-          ::OrderedWorkPackage.create(query:, work_package:, position: 100)
-          ::OrderedWorkPackage.create(query:, work_package: work_package2, position: 0)
-          ::OrderedWorkPackage.create(query:, work_package: work_package3, position: 50)
+          OrderedWorkPackage.create(query:, work_package:, position: 100)
+          OrderedWorkPackage.create(query:, work_package: work_package2, position: 0)
+          OrderedWorkPackage.create(query:, work_package: work_package3, position: 50)
         end
 
         it 'copies the query and order' do
@@ -672,7 +672,7 @@ describe Projects::CopyService, 'integration', type: :model do
         before do
           custom_field
           work_package.reload
-          work_package.send(:"custom_field_#{custom_field.id}=", current_user.id)
+          work_package.send(custom_field.attribute_setter, current_user.id)
           work_package.save!(validate: false)
         end
 
@@ -682,7 +682,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'copies the custom_field' do
             expect(subject).to be_success
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
-            expect(wp.send(:"custom_field_#{custom_field.id}"))
+            expect(wp.send(custom_field.attribute_getter))
               .to eql current_user
           end
         end
@@ -693,7 +693,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'nils the custom_field' do
             expect(subject).to be_success
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
-            expect(wp.send(:"custom_field_#{custom_field.id}"))
+            expect(wp.send(custom_field.attribute_getter))
               .to be_nil
           end
         end

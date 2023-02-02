@@ -1,8 +1,11 @@
 import { moduleMetadata } from '@storybook/angular';
+import { FormsModule } from '@angular/forms';
 import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
 
 import { OpSpotModule } from '../../../spot.module';
 import { SpotSelectorFieldComponent } from '../selector-field.component';
+import { SbSelectorFieldExample } from './SelectorField.example';
+import { SbSelectorFieldFontWeightExample } from './SelectorFieldFontWeight.example';
 
 <Meta
   title="Patterns/Selector Field"
@@ -11,6 +14,7 @@ import { SpotSelectorFieldComponent } from '../selector-field.component';
     moduleMetadata({
       imports: [
         OpSpotModule,
+        FormsModule,
       ],
     }),
   ]}
@@ -22,19 +26,20 @@ import { SpotSelectorFieldComponent } from '../selector-field.component';
   }}
 />
 
-
 # Selector Field
 
-> Example: Checkbox with 3 items with hierarchy, showing 3 modes (mixed, checked and unchecked), and 2 states (enabled and disabled). A set of three radio buttons (unselected, selected, disabled).
+<Canvas>
+  <Story name="SelectorField example">
+    {{ component: SbSelectorFieldExample }}
+  </Story>
+</Canvas>
 
 Selector fields are used to offer the user a number of different options.
 
-The selector field consists of either a checkbox or a radio button along with a label. 
+The selector field consists of either a checkbox or a radio button along with a label.
 
-Checkboxes offer the possibility to make multiple selections. 
+Checkboxes offer the possibility to make multiple selections.
 Radio buttons require the user to choose only one from a list of options.
-
-<ArgsTable of={SpotSelectorFieldComponent} />
 
 ## Behaviour
 
@@ -48,7 +53,11 @@ If the label text is particular long, it should wrap within the container, but b
 
 Selector labels can be **bold** or regular. However, these two styles should not be mixed in a single set of selector fields.
 
-> Example: A selector field with a bold label and one that's regular
+<Canvas>
+  <Story name="SelectorField label font weight example">
+    {{ component: SbSelectorFieldFontWeightExample }}
+  </Story>
+</Canvas>
 
 ## States
 
@@ -60,4 +69,4 @@ The selector field itself only has two states, *enabled* and *disabled*.
 
 Because the selector field itself is often placed in containers that have their own margins (like the action bar), it does not inherently have any margins of its own.
 
-Note however the 2 REM space between the element and the label.
+<ArgsTable of={SpotSelectorFieldComponent} />

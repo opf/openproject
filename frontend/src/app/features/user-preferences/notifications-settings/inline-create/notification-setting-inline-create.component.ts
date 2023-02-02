@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { UntypedFormArray } from '@angular/forms';
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
@@ -25,7 +25,7 @@ export interface NotificationSettingProjectOption {
 export class NotificationSettingInlineCreateComponent {
   @Input() userId:string;
 
-  @Input() settings:FormArray;
+  @Input() settings:UntypedFormArray;
 
   @Output() selected = new EventEmitter<HalSourceLink>();
 

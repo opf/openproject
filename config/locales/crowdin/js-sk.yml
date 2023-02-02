@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -475,10 +475,10 @@ sk:
     label_custom_queries: "Private"
     label_columns: "Stĺpce"
     label_attachments: Prílohy
-    label_drop_files: Presuňte súbory sem
-    label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Nie je možné použiť priečinok ako prílohu. Prosím vyberte jednotlivé súbory.
-    label_add_attachments: "Pridať prílohy"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Na priloženie súboru ho potiahnite a pustite na toto pole alebo ho vložte zo schránky."
     label_remove_file: "Odstrániť %{fileName}"
     label_remove_watcher: "Odstrániť pozorovateľa %{name}"
@@ -574,7 +574,7 @@ sk:
           many: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -597,7 +597,7 @@ sk:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
         reminders:
@@ -659,6 +659,7 @@ sk:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovný balíček patrí k projektu %{projectname}.'
       click_to_switch_context: 'Otvoriť tento pracovný balík v danom projekte.'

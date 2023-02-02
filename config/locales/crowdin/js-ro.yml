@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -474,10 +474,10 @@ ro:
     label_custom_queries: "Privat"
     label_columns: "Coloane"
     label_attachments: Atașamente
-    label_drop_files: Trageți fișierele aici
-    label_drop_files_hint: sau dați click pentru a adăuga fişiere
+    label_drop_files: "Aruncați fișierele aici pentru a atașa fișiere."
+    label_drop_or_click_files: "Lăsați fișierele aici pentru a atașa fișiere."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
-    label_add_attachments: "Adaugă fișiere"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"
@@ -572,7 +572,7 @@ ro:
           few: 'și %{count} alții'
           other: 'și %{count} alții'
         no_results:
-          at_all: 'Noi notificări vor apărea aici atunci când există activitate care vă privește, între timp, puteți vedea și modifica setările de notificare pentru a configura când să vă notificați.'
+          at_all: 'Aici vor apărea notificări noi atunci când există o activitate care vă interesează.'
           with_current_filter: 'Nu există notificări în această vizualizare în acest moment'
         mark_all_read: 'Marchează Tot ca Citit'
         mark_as_read: 'Marchează ca Citit'
@@ -595,7 +595,7 @@ ro:
         watched: 'Observator'
         date_alert: 'Alertă de dată'
       settings:
-        change_notification_settings: 'Pentru a vizualiza și a schimba setările de notificare, <a target="_blank" href="%{url}">fă clic aici</a>'
+        change_notification_settings: 'Puteți modifica setările <a target="_blank" href="%{url}">de notificare</a> pentru a vă asigura că nu pierdeți niciodată o actualizare importantă.'
         title: "Setări de notificare"
         notify_me: "Anunta-ma"
         reminders:
@@ -657,6 +657,7 @@ ro:
     project:
       required_outside_context: >
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
+      details_activity: 'Project details activity'
       context: 'Contextul proiectului'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'

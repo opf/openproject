@@ -6,7 +6,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import {
-  FormGroup,
+  UntypedFormGroup,
   FormGroupDirective,
 } from '@angular/forms';
 
@@ -16,7 +16,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImmediateReminderSettingsComponent implements OnInit {
-  form:FormGroup;
+  form:UntypedFormGroup;
 
   text = {
     title: this.I18n.t('js.reminders.settings.immediate.title'),
@@ -32,6 +32,6 @@ export class ImmediateReminderSettingsComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.form = this.rootFormGroup.control.get('immediateReminders') as FormGroup;
+    this.form = this.rootFormGroup.control.get('immediateReminders') as UntypedFormGroup;
   }
 }

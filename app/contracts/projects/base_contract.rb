@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ module Projects
   class BaseContract < ::ModelContract
     include AssignableValuesContract
     include AssignableCustomFieldValues
-    include Projects::Archiver
 
     attribute :name
     attribute :identifier
@@ -90,9 +89,7 @@ module Projects
 
     def validate_user_allowed_to_manage
       with_unchanged_id do
-        with_active_assumed do
-          errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
-        end
+        errors.add :base, :error_unauthorized unless user.allowed_to?(manage_permission, model)
       end
     end
 
@@ -119,26 +116,14 @@ module Projects
       model.id = project_id
     end
 
-    def with_active_assumed
-      active = model.active
-      model.active = true
-
-      yield
-    ensure
-      model.active = active
-    end
-
     def validate_changing_active
       return unless model.active_changed?
 
-      RequiresAdminGuard.validate_admin_only(user, errors)
+      contract_klass = model.being_archived? ? ArchiveContract : UnarchiveContract
+      contract = contract_klass.new(model, user)
+      contract.validate
 
-      if model.active?
-        # switched to active -> unarchiving
-        validate_all_ancestors_active
-      else
-        validate_no_foreign_wp_references
-      end
+      errors.merge!(contract.errors)
     end
   end
 end

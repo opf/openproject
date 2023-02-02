@@ -1,19 +1,19 @@
 lol:
   logout_warning: >
-    crwdns547495:0crwdne547495:0
+    crwdns494661:0crwdne494661:0
   activemodel:
     attributes:
       openid_connect/provider:
-        name: crwdns547497:0crwdne547497:0
-        display_name: crwdns547499:0crwdne547499:0
-        identifier: crwdns547501:0crwdne547501:0
-        secret: crwdns547503:0crwdne547503:0
-        scope: crwdns547505:0crwdne547505:0
+        name: crwdns494663:0crwdne494663:0
+        display_name: crwdns494665:0crwdne494665:0
+        identifier: crwdns494667:0crwdne494667:0
+        secret: crwdns494669:0crwdne494669:0
+        scope: crwdns494671:0crwdne494671:0
   openid_connect:
-    menu_title: crwdns547507:0crwdne547507:0
+    menu_title: crwdns494673:0crwdne494673:0
     providers:
-      label_add_new: crwdns547509:0crwdne547509:0
-      label_edit: crwdns547511:0%{name}crwdne547511:0
-      no_results_table: crwdns547513:0crwdne547513:0
-      plural: crwdns547515:0crwdne547515:0
-      singular: crwdns547517:0crwdne547517:0
+      label_add_new: crwdns494675:0crwdne494675:0
+      label_edit: crwdns494677:0%{name}crwdne494677:0
+      no_results_table: crwdns494679:0crwdne494679:0
+      plural: crwdns494681:0crwdne494681:0
+      singular: crwdns494683:0crwdne494683:0

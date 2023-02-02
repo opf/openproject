@@ -1,11 +1,11 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-describe 'Cost report saving', type: :feature, js: true do
+describe 'Cost report saving', js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
 
-  let(:report_page) { ::Pages::CostReportPage.new project }
+  let(:report_page) { Pages::CostReportPage.new project }
 
   before do
     login_as(user)

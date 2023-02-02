@@ -1,7 +1,7 @@
 require 'spec_helper'
 require Rails.root + 'spec/models/queries/work_packages/columns/shared_query_column_specs'
 
-describe Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn, type: :model do
+describe Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn do
   let(:instance) { described_class.new(:query_column) }
 
   it_behaves_like 'query column'

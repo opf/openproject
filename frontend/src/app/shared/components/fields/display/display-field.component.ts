@@ -1,5 +1,11 @@
 import {
-  ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
@@ -31,16 +37,17 @@ export class DisplayFieldComponent implements OnInit {
     private schemaCache:SchemaCacheService) {
   }
 
-  ngOnInit() {
-    this.schemaCache
+  ngOnInit():void {
+    void this.schemaCache
       .ensureLoaded(this.resource)
       .then((schema) => {
         this.render(schema[this.fieldName]);
       });
   }
 
-  render(fieldSchema:IFieldSchema) {
+  render(fieldSchema:IFieldSchema):void {
     const field = this.getDisplayFieldInstance(fieldSchema);
+    field.apply(this.resource, fieldSchema);
 
     const container = this.container.nativeElement;
     container.hidden = false;
@@ -55,6 +62,7 @@ export class DisplayFieldComponent implements OnInit {
 
   private getDisplayFieldInstance(fieldSchema:IFieldSchema) {
     if (this.displayClass) {
+      // eslint-disable-next-line new-cap
       const instance = new this.displayClass(this.fieldName, this.displayFieldContext);
       instance.apply(this.resource, fieldSchema);
       return instance;

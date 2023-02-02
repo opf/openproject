@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
+describe API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
   shared_let(:current_user, reload: false) { build_stubbed(:user) }
   shared_let(:project, reload: false) { build_stubbed(:project) }
 
@@ -49,7 +49,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
         .to be_json_eql(true.to_json)
               .at_path("_meta/sendNotifications")
 
-      ::Projects::CopyService.copyable_dependencies.each do |dep|
+      Projects::CopyService.copyable_dependencies.each do |dep|
         expect(subject)
           .to be_json_eql(true.to_json)
                 .at_path("_meta/copy#{dep[:identifier].camelize}")
@@ -60,7 +60,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
       let(:meta) { OpenStruct.new only: %[work_packages wiki] }
 
       it 'renders only the selected dependencies as true' do
-        ::Projects::CopyService.copyable_dependencies.each do |dep|
+        Projects::CopyService.copyable_dependencies.each do |dep|
           expect(subject)
             .to be_json_eql(meta.only.include?(dep[:identifier].to_s).to_json)
                   .at_path("_meta/copy#{dep[:identifier].camelize}")
@@ -102,7 +102,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'sets all of them to true' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names)
         expect(subject.meta.send_notifications).to be false
       end
@@ -120,7 +120,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'sets all others to true' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end
@@ -138,7 +138,7 @@ describe ::API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
       it 'still sets all of them to true except work packages' do
         expect(subject.name).to eq 'The copied project'
-        expected_names = ::Projects::CopyService.copyable_dependencies.pluck(:identifier)
+        expected_names = Projects::CopyService.copyable_dependencies.pluck(:identifier)
         expect(subject.meta.only).to match_array(expected_names - %w[work_packages])
       end
     end

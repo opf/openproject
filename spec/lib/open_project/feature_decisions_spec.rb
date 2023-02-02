@@ -27,7 +27,7 @@
 # ++
 require 'spec_helper'
 
-describe OpenProject::FeatureDecisions do
+describe OpenProject::FeatureDecisions, :settings_reset do
   let(:flag_name) { :example_flag }
 
   include_context 'with clean feature decisions'
@@ -45,8 +45,6 @@ describe OpenProject::FeatureDecisions do
       described_class.add flag_name
     end
   end
-
-  include_context 'with clean setting definitions'
 
   describe '`flag_name`_active?' do
     context 'without an ENV variable' do

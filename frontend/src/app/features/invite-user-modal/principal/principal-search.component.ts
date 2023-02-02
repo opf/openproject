@@ -6,7 +6,7 @@ import {
   Output,
   ElementRef,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import {
   Observable,
   BehaviorSubject,
@@ -42,7 +42,7 @@ interface NgSelectPrincipalOption {
   templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input() spotFormBinding:FormControl;
+  @Input() spotFormBinding:UntypedFormControl;
 
   @Input() type:PrincipalType;
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Omniauth authentication', type: :feature do
+describe 'Omniauth authentication' do
   # Load ViewAccountLoginAuthProvider to have this spec passing
   OpenProject::Hooks::ViewAccountLoginAuthProvider
 
@@ -221,22 +221,16 @@ describe 'Omniauth authentication', type: :feature do
             self_registration: Setting::SelfRegistration.by_email
           } do
     shared_examples 'registration with registration by email' do
-      it 'shows a note explaining that the account has to be activated' do
+      it 'still automatically activates the omniauth account' do
         visit login_path
 
         SeleniumHubWaiter.wait
         # login form developer strategy
-        fill_in 'first_name', with: 'Ifor'
-        fill_in 'last_name',  with: 'McAlistar'
-        fill_in 'email',      with: 'i.mcalistar@example.com'
+        fill_in 'email', with: user.mail
 
         click_link_or_button 'Sign In'
 
-        expect(page).to have_content(I18n.t(:notice_account_register_done))
-
-        if defined? instructions
-          expect(page).to have_content instructions
-        end
+        expect(page).to have_current_path my_page_path
       end
     end
 
@@ -251,10 +245,7 @@ describe 'Omniauth authentication', type: :feature do
       end
 
       it_behaves_like 'registration with registration by email' do
-        # i.e. it still shows a notice
-        # instead of redirecting straight back to the omniauth login provider
-        let(:login_path) { signin_path }
-        let(:instructions) { translation_substring I18n.t(:instructions_after_registration) }
+        let(:login_path) { '/auth/developer' }
       end
     end
   end

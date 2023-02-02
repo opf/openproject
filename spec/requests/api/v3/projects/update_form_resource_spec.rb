@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
+describe API::V3::Projects::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   let(:project) do
     create(:project,
-           "custom_field_#{text_custom_field.id}": "CF text",
-           "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
+           text_custom_field.attribute_name => "CF text",
+           list_custom_field.attribute_name => list_custom_field.custom_options.first)
   end
   let(:current_user) do
     create(:user,
@@ -162,12 +162,12 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
         {
           identifier: 'new_project_identifier',
           name: 'Project name',
-          "customField#{text_custom_field.id}": {
+          text_custom_field.attribute_name(:camel_case) => {
             raw: "new CF text"
           },
           statusExplanation: { raw: 'Something goes awry.' },
           _links: {
-            "customField#{list_custom_field.id}": {
+            list_custom_field.attribute_name(:camel_case) => {
               href: api_v3_paths.custom_option(list_custom_field.custom_options.last.id)
             },
             status: {
@@ -224,10 +224,10 @@ describe ::API::V3::Projects::UpdateFormAPI, content_type: :json do
         expect(project.identifier)
           .to eql attributes_before['identifier']
 
-        expect(project.send("custom_field_#{text_custom_field.id}"))
+        expect(project.send(text_custom_field.attribute_getter))
           .to eql 'CF text'
 
-        expect(project.send("custom_field_#{list_custom_field.id}"))
+        expect(project.send(list_custom_field.attribute_getter))
           .to eql list_custom_field.custom_options.first.value
 
         expect(project.status)

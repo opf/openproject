@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -333,6 +333,7 @@ ca:
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
     no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    print_hint: Aquesta acció imprimirà el contingut de la pàgina wiki sense cap barra de navegació.
     index:
       no_results_content_text: Afegiu una nova pàgina wiki
   work_flows:
@@ -371,7 +372,7 @@ ca:
   account:
     delete: "Elimina el compte"
     delete_confirmation: "Segur que vols eliminar aquest compte?"
-    deleted: "Compte suprimit amb èxit"
+    deletion_pending: "El compte ha estat bloquejat i està programada per eliminar-se. Tingues en compte que aquesta acció es processa de fons. Pot tardar uns moments fins que l'usuari estigui eliminat completament."
     deletion_info:
       data_consequences:
         other: "De les dades de l'usuari ha creat (per exemple, correu electrònic, preferències, paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible. Fixeu-vos que dades com paquets de treball i entrades de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades es reassignaran a un compte genèric anomenat \"Usuari esborrat\". Com que les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric no serà possible distingir les dades d'aquest usuari de les dades d'un altre usuari esborrat."
@@ -685,6 +686,11 @@ ca:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un dia no laborable ja existeix el %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -695,6 +701,8 @@ ca:
           archived_ancestor: 'El projecte té un ancestre arxivat.'
           foreign_wps_reference_version: 'Els paquets de treball en projectes no descendents referencien versions del projecte o els seus descendents.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "No tens els permisos requerits per arxivar tots els subprojectes. Si us plau, contacta amb un administrador."
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
             enabled_modules:
@@ -1320,16 +1328,19 @@ ca:
   error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
-    project: 'Projecte editat'
     changeset: 'Conjunt de canvis editat'
     message: Missatge editat
     news: Notícies
+    project_attributes: 'Atributs del projecte editats'
+    projects: 'Projecte editat'
     reply: Respost
     time_entry: 'Registre horari editat'
     wiki_page: 'Pàgina wiki editada'
     work_package_closed: 'Paquet de treball tancat'
     work_package_edit: 'Paquet de treball editat'
     work_package_note: 'Afegida nota al paquet de treball'
+    title:
+      project: "Projecte: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -1782,6 +1793,8 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_activity: "Activitat del projecte"
+  label_project_attribute_plural: "Atributs de projecte"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"
@@ -2069,8 +2082,6 @@ ca:
   mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del teu compte %{value}"
-  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:
@@ -2201,6 +2212,7 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
+  permission_archive_project: "Arxiva el projecte"
   permission_manage_user: "Crear i editar usuaris"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"
@@ -2941,6 +2953,9 @@ ca:
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:
+        working: "%{day} és ara laboral"
+        non_working: "%{day} és ara no laboral"
+      dates:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"

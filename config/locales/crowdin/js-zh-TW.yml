@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -474,10 +474,10 @@ zh-TW:
     label_custom_queries: "私人"
     label_columns: "欄"
     label_attachments: 附加檔
-    label_drop_files: 將檔案拖曳至此處
-    label_drop_files_hint: 或按一下要添加的檔
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
-    label_add_attachments: "新增附件"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"
     label_remove_file: "刪除 %{fileName}"
     label_remove_watcher: "刪除關注者 %{name}"
@@ -570,7 +570,7 @@ zh-TW:
         and_more_users:
           other: '和 1 個其他'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -593,7 +593,7 @@ zh-TW:
         watched: "關注者\n"
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: '檢視或更改您的通知設定, <a target="_blank" href="%{url}">請按此處</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
         notify_me: "通知我"
         reminders:
@@ -655,6 +655,7 @@ zh-TW:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: '專案內容'
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'

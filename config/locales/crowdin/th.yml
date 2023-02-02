@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ th:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: ขณะนี้ยังไม่มีหน้าวิกิใดๆ
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: เพิ่มหน้าวิกิใหม่
   work_flows:
@@ -374,7 +375,7 @@ th:
   account:
     delete: "ลบบัญชีผู้ใช้"
     delete_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบบัญชีผู้ใช้ ?"
-    deleted: "ลบบัญชีผู้ใช้เรียบร้อยแล้ว"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
@@ -688,6 +689,11 @@ th:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,6 +704,8 @@ th:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -1307,16 +1315,19 @@ th:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'โครงการได้รับการแก้ไขแล้ว'
     changeset: 'แก้ไขชุดการเปลี่ยนแปลงแล้ว'
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: ตอบกลับ
     time_entry: 'บันทึกเวลาได้รับการแก้ไขแล้ว'
     wiki_page: 'หน้าวิกิได้รับการแก้ไขแล้ว'
     work_package_closed: 'ปิดชุดภารกิจแล้ว'
     work_package_edit: 'แก้ไขชุดภารกิจแล้ว'
     work_package_note: 'เพิ่มหมายเหตุชุดภารกิจ'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1769,6 +1780,8 @@ th:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ"
   label_project_latest: "โครงการล่าสุด"
@@ -2057,8 +2070,6 @@ th:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "รหัสผ่าน %{value} ของคุณ"
   mail_subject_register: "การเปิดใช้บัญชี %{value} ของคุณ"
-  mail_subject_reminder: "มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "มีการเพิ่มหน้าวิกิ '%{id}' แล้ว"
   mail_subject_wiki_content_updated: "มีการปรับปรุงหน้าวิกิ '%{id}' แล้ว"
   mail_member_added_project:
@@ -2191,6 +2202,7 @@ th:
   permission_add_work_packages: "เพิ่มลำดับภารกิจ"
   permission_add_messages: "โพสต์ข้อความ"
   permission_add_project: "สร้างโครงการ"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "สร้าง แก้ไข และลบตัวยึดตำแหน่งผู้ใช้"
   permission_add_subprojects: "สร้างโครงการย่อย"
@@ -2933,6 +2945,9 @@ th:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "ไม่มีอะไรให้แสดงเป็นตัวอย่าง"
   api_v3:
     attributes:

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -93,7 +93,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -475,10 +475,10 @@ ca:
     label_custom_queries: "Privat"
     label_columns: "Columnes"
     label_attachments: Fitxers adjunts
-    label_drop_files: Arrossegueu els fitxers aquí
-    label_drop_files_hint: o feu clic per afegir fitxers
+    label_drop_files: "Arrossega fitxers aquí per adjuntar-los."
+    label_drop_or_click_files: "Arrossega fitxers o fes clic aquí per adjuntar-los."
     label_drop_folders_hint: No pots carregar carpetes com a fitxers adjunts. Si us plau, selecciona fitxers únics.
-    label_add_attachments: "Afegir fitxers adjunts"
+    label_add_attachments: "Adjuntar arxius"
     label_formattable_attachment_hint: "Adjuntar i enllaça fitxers arrossegant-los en aquest camp, o enganxant-los des del porta-papers."
     label_remove_file: "Eliminar %{fileName}"
     label_remove_watcher: "Elimina l'observador %{name}"
@@ -572,7 +572,7 @@ ca:
           one: ' i 1 altre'
           other: ' i %{count} altres'
         no_results:
-          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitats que t''afectin, de mentre també pots modificar la teva configuració de notificacions per estipular quan vols ser notificat.'
+          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitat que sigui important per a tu.'
           with_current_filter: 'En aquest moment no hi han notificacions en aquesta vista'
         mark_all_read: 'Marca tot com a llegit'
         mark_as_read: 'Marca com a llegit'
@@ -595,7 +595,7 @@ ca:
         watched: 'Observador'
         date_alert: 'Alerta per dates'
       settings:
-        change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
+        change_notification_settings: 'Pots modificar la teva <a target="_blank" href="%{url}">configuració de notificacions</a> per assegurar-te que mai et perds informació important.'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reminders:
@@ -657,6 +657,7 @@ ca:
     project:
       required_outside_context: >
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
+      details_activity: 'Detalls de l''activitat del projecte'
       context: 'Context del projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obre aquest paquet de treball en aquell projecte.'
@@ -698,7 +699,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     types:
       attribute_groups:

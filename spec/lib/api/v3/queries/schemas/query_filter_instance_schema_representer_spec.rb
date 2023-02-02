@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
@@ -66,7 +66,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   context 'generation' do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,
@@ -131,7 +131,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
             let(:filter) { custom_field_filter }
 
             it_behaves_like 'links to and embeds allowed values directly' do
-              let(:hrefs) { [api_v3_paths.query_filter("customField#{custom_field.id}")] }
+              let(:hrefs) { [api_v3_paths.query_filter(custom_field.attribute_name(:camel_case))] }
             end
           end
         end
@@ -219,7 +219,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   describe 'caching' do
     before do
       filter.available_operators.each do |operator|
-        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+        allow(API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
           .to receive(:create)
           .with(filter,
                 operator,

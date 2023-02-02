@@ -34,7 +34,7 @@
           slot="input"
           name="date"
           class="op-datepicker-modal--date-field"
-          [ngClass]="{ 'op-datepicker-modal--date-field_current': this.dateModalScheduling.isSchedulable }"
+          [ngClass]="{ 'op-datepicker-modal--date-field_current': this.isSchedulable }"
           [(ngModel)]="date"
           (ngModelChange)="dateChangedManually$.next()"
           [showClearButton]="true"
@@ -43,7 +43,7 @@
           slot="action"
           type="button"
           class="spot-link"
-          [ngClass]="{ 'op-datepicker-modal--hidden-link': !dateModalScheduling.isSchedulable }"
+          [ngClass]="{ 'op-datepicker-modal--hidden-link': !isSchedulable }"
           (click)="setToday()"
           [textContent]="text.today">
         </button>

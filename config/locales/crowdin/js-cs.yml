@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -438,7 +438,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -475,10 +475,10 @@ cs:
     label_custom_queries: "Soukromé"
     label_columns: "Sloupce"
     label_attachments: Přílohy
-    label_drop_files: Sem přetáhněte soubory
-    label_drop_files_hint: nebo klikněte pro přidání souborů
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
-    label_add_attachments: "Přidat přílohy"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."
     label_remove_file: "Odstranit %{fileName}"
     label_remove_watcher: "Odstranit pozorovatele %{name}"
@@ -574,7 +574,7 @@ cs:
           many: 'a %{count} dalšich'
           other: 'a %{count} dalšich'
         no_results:
-          at_all: 'Nová oznámení se objeví zde, když se vyskytne aktivita, která se vás týká. V mezidobí si můžete také prohlédnout a změnit nastavení oznámení, abyste mohli nastavit, kdy chcete být upozorněn.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'V současné době nejsou v tomto zobrazení žádná oznámení'
         mark_all_read: 'Označit vše jako přečtené'
         mark_as_read: 'Označit jako přečteno'
@@ -597,7 +597,7 @@ cs:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'Chcete-li zobrazit a změnit nastavení oznámení, <a target="_blank" href="%{url}">klikněte zde</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
         notify_me: "Upozornit mě"
         reminders:
@@ -659,6 +659,7 @@ cs:
     project:
       required_outside_context: >
         Vyberte projekt pro vytvoření pracovního balíčku, abyste viděli všechny atributy. Můžete vybrat pouze projekty, které mají výše uvedený typ aktivován.
+      details_activity: 'Project details activity'
       context: 'Kontext projektu'
       work_package_belongs_to: 'Tento pracovní balíček náleží projektu %{projectname}.'
       click_to_switch_context: 'Otevřete tento pracovní balíček v tomto projektu.'
@@ -697,7 +698,7 @@ cs:
           membership_updated: 'Členství bylo aktualizováno'
         title: 'E-mail upozornění '
         pause:
-          label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
+          label: 'Dočasně pozastavit denní připomenutí e-mailem'
           first_day: 'První den'
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"

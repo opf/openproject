@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Group resource', type: :request, content_type: :json do
+describe 'API v3 Group resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -213,7 +213,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     before do
       # Setup the memberships the group has
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: admin)
         .call(user_ids: members.map(&:id))
 
@@ -343,7 +343,7 @@ describe 'API v3 Group resource', type: :request, content_type: :json do
 
     before do
       # Setup the memberships in the group has
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: admin)
         .call(user_ids: members.map(&:id))
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative '../../users/notifications/shared_examples'
 require 'support/pages/my/notifications'
 
-describe "My notifications settings", type: :feature, js: true do
+describe "My notifications settings", js: true do
   current_user { create :user }
 
   let(:settings_page) { Pages::My::Notifications.new(current_user) }

@@ -208,3 +208,6 @@ exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
+
+
+Note that this setting is set to true by default for new installations already.

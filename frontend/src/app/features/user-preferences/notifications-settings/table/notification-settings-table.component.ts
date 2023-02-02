@@ -6,7 +6,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
@@ -23,7 +23,7 @@ import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } 
 export class NotificationSettingsTableComponent implements OnInit {
   @Input() userId:string;
 
-  @Input() settings:FormArray;
+  @Input() settings:UntypedFormArray;
 
   public eeShowBanners = false;
 
@@ -91,18 +91,18 @@ export class NotificationSettingsTableComponent implements OnInit {
   }
 
   addProjectSettings(project:HalSourceLink):void {
-    this.settings.push(new FormGroup({
-      project: new FormControl(project),
-      assignee: new FormControl(false),
-      responsible: new FormControl(false),
-      workPackageCreated: new FormControl(false),
-      workPackageProcessed: new FormControl(false),
-      workPackageScheduled: new FormControl(false),
-      workPackagePrioritized: new FormControl(false),
-      workPackageCommented: new FormControl(false),
-      startDate: new FormControl(this.availableTimes[2].value),
-      dueDate: new FormControl(this.availableTimes[2].value),
-      overdue: new FormControl(this.availableTimesOverdue[0].value),
+    this.settings.push(new UntypedFormGroup({
+      project: new UntypedFormControl(project),
+      assignee: new UntypedFormControl(false),
+      responsible: new UntypedFormControl(false),
+      workPackageCreated: new UntypedFormControl(false),
+      workPackageProcessed: new UntypedFormControl(false),
+      workPackageScheduled: new UntypedFormControl(false),
+      workPackagePrioritized: new UntypedFormControl(false),
+      workPackageCommented: new UntypedFormControl(false),
+      startDate: new UntypedFormControl(this.availableTimes[2].value),
+      dueDate: new UntypedFormControl(this.availableTimes[2].value),
+      overdue: new UntypedFormControl(this.availableTimesOverdue[0].value),
     }));
   }
 

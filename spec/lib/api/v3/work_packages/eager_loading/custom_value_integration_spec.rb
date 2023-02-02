@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
-describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
+describe API::V3::WorkPackages::EagerLoading::CustomValue do
   let!(:work_package) { create(:work_package) }
   let!(:type) { work_package.type }
   let!(:other_type) { create(:type) }
@@ -118,11 +118,11 @@ describe ::API::V3::WorkPackages::EagerLoading::CustomValue do
                              type_project_user_cf,
                              for_all_type_cf]
 
-          expect(work_package.send(:"custom_field_#{type_project_version_cf.id}"))
+          expect(work_package.send(type_project_version_cf.attribute_getter))
             .to eql version
-          expect(work_package.send(:"custom_field_#{type_project_list_cf.id}"))
+          expect(work_package.send(type_project_list_cf.attribute_getter))
             .to eql type_project_list_cf.custom_options.last.name
-          expect(work_package.send(:"custom_field_#{type_project_user_cf.id}"))
+          expect(work_package.send(type_project_user_cf.attribute_getter))
             .to eql user
         end
       end

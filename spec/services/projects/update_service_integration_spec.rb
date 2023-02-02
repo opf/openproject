@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ describe Projects::UpdateService, 'integration', type: :model do
 
   let!(:project) do
     create(:project,
-           "custom_field_#{custom_field.id}" => 1,
+           custom_field.attribute_name => 1,
            status: project_status)
   end
   let(:instance) { described_class.new(user:, model: project) }
@@ -60,7 +60,7 @@ describe Projects::UpdateService, 'integration', type: :model do
   describe '#call' do
     context 'if only a custom field is updated' do
       let(:attributes) do
-        { "custom_field_#{custom_field.id}" => 8 }
+        { custom_field.attribute_name => 8 }
       end
 
       it 'touches the project after saving' do
@@ -79,7 +79,7 @@ describe Projects::UpdateService, 'integration', type: :model do
       let(:custom_field2) { create(:text_project_custom_field) }
 
       let(:attributes) do
-        { "custom_field_#{custom_field2.id}" => 'some text' }
+        { custom_field2.attribute_name => 'some text' }
       end
 
       it 'touches the project after saving' do

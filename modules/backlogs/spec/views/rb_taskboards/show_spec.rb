@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_taskboards/show', type: :view do
+describe 'rb_taskboards/show' do
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:role_allowed) do
@@ -108,9 +108,7 @@ describe 'rb_taskboards/show', type: :view do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector '.id', Regexp.new(story.id.to_s)
-        end
+        expect(rendered).to have_selector("#story_#{story.id} .id", text: story.id.to_s)
       end
     end
 
@@ -118,9 +116,7 @@ describe 'rb_taskboards/show', type: :view do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector '.subject', story.subject
-        end
+        expect(rendered).to have_selector("#story_#{story.id} .subject", text: story.subject)
       end
     end
 
@@ -128,19 +124,19 @@ describe 'rb_taskboards/show', type: :view do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector '.status', story.status.name
-        end
+        expect(rendered).to have_selector("#story_#{story.id} .status", text: story.status.name)
       end
     end
 
     it 'contains the user it is assigned to' do
+      story_a.update(assigned_to: user1)
+      story_c.update(assigned_to: user2)
+
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector "#story_#{story.id}" do
-          with_selector '.assigned_to_id', assignee.name
-        end
+        expected_text = story.assigned_to ? story.assigned_to.name : 'Unassigned'
+        expect(rendered).to have_selector("#story_#{story.id} .assigned_to_id", text: expected_text)
       end
     end
   end

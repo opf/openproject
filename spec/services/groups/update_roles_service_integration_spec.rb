@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
              principal: group,
              roles:)
 
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id))
     end
@@ -124,7 +124,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles:)
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id))
       end
@@ -371,7 +371,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles: [other_role])
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id))
       end

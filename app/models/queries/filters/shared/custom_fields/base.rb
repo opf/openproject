@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module Queries::Filters::Shared
       attr_reader :custom_field, :custom_field_context
 
       def initialize(custom_field:, custom_field_context:, **options)
-        name = :"cf_#{custom_field.id}"
+        name = custom_field.column_name.to_sym
 
         @custom_field = custom_field
         @custom_field_context = custom_field_context

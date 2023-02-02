@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ fil:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Sa kasalukuyan ay walang mga wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Gumawa ng bagong wiki page
   work_flows:
@@ -375,7 +376,7 @@ fil:
   account:
     delete: "Alisin ang akawnt"
     delete_confirmation: "Ikaw ba ay sigurad na gusto mong alisin ang akawnt na ito?"
-    deleted: "Ang akawnt ay matagumpay na naalis"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Sa datos na nilikha ng gumagamit (hal. email, mga kagustuhan, mga naka-package na trabaho, mga wiki entry) hangga't maari ay buburahin. Gayunpaman tandaan, na ang data tulad ng mga work package at wiki entry ay hindi pwedeng burahin na hindi nakaapekto sa mga trabaho ng ibang gumagamit. Tulad ng data ay naka-assign sa isang akwant na ang tawag ay \"Deleted user\". Bilang ang data ng bawat tinanggal na akwant ay naka-reassign sa akwant na ito ay posibleng makilala ang data na gumagamit mula sa data ng ibang naburang akwant."
@@ -689,6 +690,11 @@ fil:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +705,8 @@ fil:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ginagamit pa sa mga work packages: %{types}"
             enabled_modules:
@@ -1324,16 +1332,19 @@ fil:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Naka-edit ang proyekto'
     changeset: 'Naka-edit ang changeset'
     message: Naka-edit ang mensahe
     news: Mga balita
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Sumagot
     time_entry: 'Naka-edit ang timelog'
     wiki_page: 'Naka-edit ang wike na pahina'
     work_package_closed: 'Isinara ang work package'
     work_package_edit: 'Naka-edit ang work package'
     work_package_note: 'Nadagdag ang talaan ng work package'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1786,6 +1797,8 @@ fil:
   label_product_version: "Produktong bersyon"
   label_professional_support: "Propesyonal na suporta"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Kabuuang bilang ng mga proyekto"
   label_project_copy_notifications: "Magpadala ng mga email na abiso habang ang proyekto ay kinopya"
   label_project_latest: "Pinakamabagong proyekto"
@@ -2075,8 +2088,6 @@ fil:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ang iyong %{value} password"
   mail_subject_register: "Ang iyong %{value} akwant aktibasyon"
-  mail_subject_reminder: "%{count} work package dahil sa susunod na mga %{days} araw"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Ang '%{id}' wikin pahina ay naidagdag"
   mail_subject_wiki_content_updated: "'%{id}' wiking pahina ay naka-update na"
   mail_member_added_project:
@@ -2210,6 +2221,7 @@ fil:
   permission_add_work_packages: "Magdagdag ng mga work package"
   permission_add_messages: "Mga post na mensahe"
   permission_add_project: "Lumikha ng proyekto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Lumikha ng mga subproject"
@@ -2952,6 +2964,9 @@ fil:
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Walang mai-preview"
   api_v3:
     attributes:

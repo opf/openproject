@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ fr:
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
+    print_hint: Ceci affichera le contenu de cette page wiki sans aucune barre de navigation.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki
   work_flows:
@@ -375,7 +376,7 @@ fr:
   account:
     delete: "Supprimer le compte"
     delete_confirmation: "Êtes-vous sûr de vouloir supprimer le compte ?"
-    deleted: "Compte supprimé avec succès"
+    deletion_pending: "Le compte a été verrouillé et a été programmé pour suppression. Notez que ce processus a lieu en arrière-plan. Cela peut prendre quelques instants avant que l'utilisateur soit complètement supprimé."
     deletion_info:
       data_consequences:
         other: "Les données créées par l'utilisateur (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données créées par cet utilisateur de celles d'un autre compte supprimé."
@@ -689,6 +690,11 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un jour non ouvrable existe déjà pour %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +705,8 @@ fr:
           archived_ancestor: 'Le projet possède un ancêtre archivé.'
           foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Vous n'avez pas les permissions requises pour archiver tous les sous-projets. Veuillez contacter un administrateur."
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
             enabled_modules:
@@ -1324,16 +1332,19 @@ fr:
   error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez réessayer."
   error_attribute_not_highlightable: "Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}"
   events:
-    project: 'Projet édité'
     changeset: 'Lot de modification édité'
     message: Message édité
     news: Actualités
+    project_attributes: 'Attributs du projet modifiés'
+    projects: 'Projet édité'
     reply: Y a-t-il eu une réponse
     time_entry: 'Journal horaire édité'
     wiki_page: 'Page Wiki éditée'
     work_package_closed: 'Lot de travaux clôturé'
     work_package_edit: 'Lot de Travaux édité'
     work_package_note: 'Note de Lot de Travaux ajoutée'
+    title:
+      project: "Projet : %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1786,6 +1797,8 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
+  label_project_activity: "Activité du projet"
+  label_project_attribute_plural: "Attributs du projet"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2075,8 +2088,6 @@ fr:
   mail_subject_incoming_email_error: "Un e-mail que vous avez envoyé à OpenProject n'a pas pu être traité."
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
-  mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
-  mail_subject_group_reminder: "Pour le groupe \"%{group}\", %{count} lot(s) de travaux arrive(nt) à échéance dans %{days} jours"
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_member_added_project:
@@ -2210,6 +2221,7 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
+  permission_archive_project: "Archiver le projet"
   permission_manage_user: "Créer et éditer des utilisateurs"
   permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"
@@ -2953,6 +2965,9 @@ fr:
       days:
         working: "%{day} est maintenant un jour ouvrable"
         non_working: "%{day} est maintenant un jour non ouvrable"
+      dates:
+        working: "%{date} est maintenant un jour ouvrable"
+        non_working: "%{date} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

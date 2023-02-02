@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MyController, type: :controller do
+describe MyController do
   let(:user) { create(:user) }
 
   before do
@@ -243,7 +243,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::RSS.create user: }
+        let!(:key) { Token::RSS.create user: }
 
         it 'replaces the key' do
           expect(user.rss_token).to eq(key)
@@ -278,7 +278,7 @@ describe MyController, type: :controller do
       end
 
       context 'with existing key' do
-        let!(:key) { ::Token::API.create user: }
+        let!(:key) { Token::API.create user: }
 
         it 'replaces the key' do
           expect(user.reload.api_token).to eq(key)
