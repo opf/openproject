@@ -68,6 +68,7 @@ import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface FieldDescriptor {
   name:string;
@@ -202,7 +203,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const resource = change.projectedResource;
 
     if (!this.currentProject.inProjectContext) {
-      this.workPackage.project = resource.project;
+      this.workPackage.project = resource.project as HalResource;
     }
 
     if (!resource.project) {
