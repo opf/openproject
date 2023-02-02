@@ -59,9 +59,17 @@ RB.Sprint = (function ($) {
     },
 
     saveDirectives: function () {
-      var j = this.$,
-          data = j.find('.editor').serialize() + "&_method=put",
-          url = RB.urlFor('update_sprint', { id: this.getID() });
+      const wrapper = this.$;
+      const editor = wrapper.find('.editor');
+      const inputs = editor.map((i, el) => {
+        if (el.matches('op-single-date-picker')) {
+          return Array.from(el.querySelectorAll('input'));
+        }
+
+        return el;
+      });
+      const data = inputs.serialize() + "&_method=put";
+      const url = RB.urlFor('update_sprint', { id: this.getID() });
 
       return {
         url : url,

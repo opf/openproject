@@ -406,9 +406,9 @@ RB.Model = (function ($) {
       editors.each(function (index) {
         var editor, fieldName;
 
-        editor = $(this);
+        editor = $(this).find('input,select').addBack('input,select');
         fieldName = editor.attr('name');
-        if (this.type.match(/select/)) {
+        if (editor.attr('type').match(/select/)) {
           // if the user changes the type and that type does not offer the status
           // of the current story, the status field is set to blank
           // if the user saves this edit we will receive a validation error
