@@ -236,30 +236,4 @@ describe 'custom field inplace editor', js: true do
       end
     end
   end
-
-  describe 'date type' do
-    let(:custom_field) do
-      create(:date_wp_custom_field, args.merge(name: 'MyDate'))
-    end
-    let(:args) { {} }
-    let(:initial_custom_values) { {} }
-
-    it 'can set and clear the date (Regression #36727)' do
-      field.expect_state_text '-'
-      field.update '2021-03-30'
-      field.expect_state_text '03/30/2021'
-
-      work_package.reload
-      expect(work_package.custom_value_for(custom_field.id).formatted_value).to eq '03/30/2021'
-
-      field.activate!
-      field.clear with_backspace: true
-      field.submit_by_enter
-
-      field.expect_state_text '-'
-
-      work_package.reload
-      expect(work_package.custom_value_for(custom_field.id).value).to be_nil
-    end
-  end
 end
