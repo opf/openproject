@@ -57,6 +57,17 @@ export class DayResourceService extends ResourceCollectionService<IDay> {
     return this.require({ filters });
   }
 
+  requireNonWorkingYears$(start:Date|string, end:Date|string):Observable<IDay[]> {
+    const from = moment(start).startOf('year').format('YYYY-MM-DD');
+    const to = moment(end).endOf('year').format('YYYY-MM-DD');
+
+    const filters:ApiV3ListFilter[] = [
+      ['date', '<>d', [from, to]],
+    ];
+
+    return this.require({ filters });
+  }
+
   fetchCollection(params:ApiV3ListParameters):Observable<IHALCollection<IDay>> {
     const collectionURL = collectionKey(params);
 
