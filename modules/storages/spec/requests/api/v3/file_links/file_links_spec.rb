@@ -479,6 +479,12 @@ describe 'API v3 file links resource' do
 
       it_behaves_like 'not found'
     end
+
+    context 'if file link does not have a container.' do
+      let(:file_link) { create(:file_link) }
+
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do

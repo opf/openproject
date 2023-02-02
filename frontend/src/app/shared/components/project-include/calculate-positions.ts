@@ -26,7 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { QueryEntity } from '@datorama/akita';
-import { StoragesState } from 'core-app/core/state/storages/storages.store';
+import { IProjectData } from 'core-app/shared/components/searchable-project-list/project-data';
 
-export class StoragesQuery extends QueryEntity<StoragesState> {}
+export const calculatePositions = (data:IProjectData[], start = 0):[IProjectData[], number] => {
+  let current = start;
+
+  return [data.map((value) => {
+    value.position = current;
+    current += 1;
+    [value.children, current] = calculatePositions(value.children, current);
+    return value;
+  }), current];
+};

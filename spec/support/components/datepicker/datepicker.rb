@@ -86,13 +86,22 @@ module Components
       end
     end
 
-    ##
-    # Set a ISO8601 date through the datepicker
-    def set_date(date)
+    # Change the datepicker visible area.
+    #
+    # @param date the date to navigate to. Can be a Date or a String with
+    # ISO8601 formatted date.
+    def show_date(date)
       date = Date.parse(date) unless date.is_a?(Date)
 
       select_year date.year
       select_month date.strftime('%B')
+    end
+
+    # Set a ISO8601 date through the datepicker
+    def set_date(date)
+      date = Date.parse(date) unless date.is_a?(Date)
+
+      show_date(date)
       select_day date.day
     end
 

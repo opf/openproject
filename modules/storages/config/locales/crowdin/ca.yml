@@ -79,7 +79,7 @@ ca:
     label_new_storage: "Nou emmagatzematge"
     label_storage: "Emmagatzematge"
     label_storages: "Emmagatzematges"
-    no_results: "No storages set up yet."
+    no_results: "No s'han configurat emmagatzematges encara."
     provider_types:
       label: "Tipus de proveïdor"
       nextcloud:

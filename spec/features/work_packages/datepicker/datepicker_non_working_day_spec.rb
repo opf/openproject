@@ -68,10 +68,10 @@ describe 'Datepicker modal individual non working days (WP #44453)',
       # Wait for the datepicker to be initialized
       datepicker.expect_visible
 
+      datepicker.show_date non_working_day_this_week.date
       datepicker.expect_non_working non_working_day_this_week.date
 
-      datepicker.select_year non_working_day_next_year.date.year
-      datepicker.select_month non_working_day_next_year.date.month
+      datepicker.show_date non_working_day_next_year.date
 
       datepicker.expect_non_working non_working_day_next_year.date
     end

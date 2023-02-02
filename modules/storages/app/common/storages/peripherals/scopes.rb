@@ -31,9 +31,5 @@ module Storages::Peripherals
     def visible_storages
       ::Storages::Storage.visible(current_user)
     end
-
-    def visible_file_links
-      ::Storages::FileLink.visible(current_user)
-    end
   end
 end

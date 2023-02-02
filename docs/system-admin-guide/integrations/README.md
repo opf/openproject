@@ -54,6 +54,10 @@ To activate it in the Enterprise cloud please [get in touch](https://www.openpro
 
 There is an OpenProject integration with Thunderbird from the Community. Please note that this add-on is not officially supported and that we do not take any liability when you use it. You can find it [here](https://addons.thunderbird.net/en-GB/thunderbird/addon/thunderbird-openproject/).
 
+## TimeCamp
+
+There is an integration between OpenProject and TimeCamp. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/timecamp-integration/) how to set it up and use it. However, please note that this add-on is not officially supported and we do not take any liability when you use it. 
+
 ## Timesheet
 
 Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../../user-guide/time-and-costs/time-tracking/toggl-integration/).

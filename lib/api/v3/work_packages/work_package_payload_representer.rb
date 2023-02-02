@@ -35,6 +35,25 @@ module API
 
         cached_representer disabled: true
 
+        property :file_links,
+                 exec_context: :decorator,
+                 getter: ->(*) {},
+                 setter: ->(fragment:, **) do
+                   next unless fragment.is_a?(Array)
+
+                   ids = fragment.map do |link|
+                     ::API::Utilities::ResourceLinkParser.parse_id link['href'],
+                                                                   property: :file_link,
+                                                                   expected_version: '3',
+                                                                   expected_namespace: :file_links
+                   end
+
+                   represented.file_links_ids = ids
+                 end,
+                 skip_render: ->(*) { true },
+                 linked_resource: true,
+                 uncacheable: true
+
         def writable_attributes
           super + %w[date]
         end
