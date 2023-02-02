@@ -67,7 +67,7 @@ Navigate to -> *Administration* -> *Work packages* -> *Attribute help texts* in 
 
 ## Work packages
 
-The Attribute help texts for work packages will be displayed in the [details view](../../user-guide/work-packages/work-package-views/#work-package-split-screen-view) (as in the screenshot below) and in the [full screen view](../../user-guide/work-packages/work-package-views/#work-package-full-screen-view). They will help the users (e.g. the project managers) understand what kind of information to put in which fields.
+The Attribute help texts for work packages will be displayed in the [details view](../../user-guide/work-packages/work-package-views/#split-screen-view) (as in the screenshot below) and in the [full screen view](../../user-guide/work-packages/work-package-views/#full-screen-view). They will help the users (e.g. the project managers) understand what kind of information to put in which fields.
 
 ![Sys-admin-attribute-help-texts-open](Sys-admin-attribute-help-texts-open.png)
 

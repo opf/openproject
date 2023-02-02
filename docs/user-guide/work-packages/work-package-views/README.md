@@ -27,9 +27,9 @@ You can also create, save and modify your own work package views. Read about [wo
 
 The containing work packages in any view can be displayed a number of different ways. Each of these view modes display the same set of work packages but display them differently:
 
-* [List view](#work-package-list-view)
-* [Split screen view](#work-package-split-screen-view)
-* [Details view](#work-package-full-screen-view)
+* [List view](#list-view)
+* [Split screen view](#split-screen-view)
+* [Details view](#full-screen-view)
 * [Card view](#card-view)
 * [Gantt view](../../gantt-chart)
 * [Board view](../../../getting-started/boards-introduction/)
