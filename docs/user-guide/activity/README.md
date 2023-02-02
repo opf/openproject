@@ -58,7 +58,7 @@ To filter the project activity list, use the filters on the sidebar. You may fil
 - Work packages
 - Project attributes
 
-Additionally, you can choose to included or exclude updates concerning sub-projects. 
+Additionally, you can choose to include or exclude updates concerning sub-projects. 
 
 > IMG: Filters
 
