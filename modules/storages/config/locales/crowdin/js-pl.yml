@@ -26,6 +26,8 @@ pl:
           Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
       files:
         directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
         empty: >
           Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.

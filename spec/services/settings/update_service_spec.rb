@@ -39,8 +39,7 @@ describe Settings::UpdateService do
   end
   let(:contract_success) { true }
   let(:setting_definition) do
-    instance_double(Settings::Definition,
-                    on_change: definition_on_change)
+    instance_double(Settings::Definition)
   end
   let(:definition_on_change) do
     instance_double(Proc,
@@ -80,24 +79,10 @@ describe Settings::UpdateService do
 
     include_examples 'successful call'
 
-    it 'calls the on_change handler' do
-      subject
-
-      expect(definition_on_change)
-        .to have_received(:call).with(previous_setting_value)
-    end
-
     context 'when the contract is not successfully validated' do
       let(:contract_success) { false }
 
       include_examples 'unsuccessful call'
-
-      it 'does not call the on_change handler' do
-        subject
-
-        expect(definition_on_change)
-          .not_to have_received(:call)
-      end
     end
   end
 end

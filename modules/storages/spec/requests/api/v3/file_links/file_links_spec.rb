@@ -91,6 +91,76 @@ describe 'API v3 file links resource' do
     login_as current_user
   end
 
+  describe 'POST /api/v3/file_links' do
+    let(:path) { '/api/v3/file_links' }
+    let(:permissions) { %i(manage_file_links) }
+    let(:storage_url) { storage.host }
+    let(:params) do
+      {
+        _type: "Collection",
+        _embedded: {
+          elements: embedded_elements
+        }
+      }
+    end
+    let(:embedded_elements) do
+      [
+        {
+          originData: {
+            id: 5503,
+            name: "logo.png",
+            mimeType: "image/png",
+            createdAt: "2021-12-19T09:42:10.170Z",
+            lastModifiedAt: "2021-12-20T14:00:13.987Z",
+            createdByName: "Luke Skywalker",
+            lastModifiedByName: "Anakin Skywalker"
+          },
+          _links: {
+            storageUrl: {
+              href: storage_url
+            }
+          }
+        },
+        build(:file_link_element, storage_url:)
+      ]
+    end
+
+    before do
+      header 'Content-Type', 'application/json'
+      post path, params.to_json
+    end
+
+    context 'when all embedded file link elements are valid' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'creates corresponding FileLink records', :aggregate_failures do
+        expect(Storages::FileLink.count).to eq 2
+        Storages::FileLink.find_each.with_index do |file_link, i|
+          unset_keys = %w[container_id container_type]
+          set_keys = (file_link.attributes.keys - unset_keys)
+          set_keys.each do |key|
+            expect(file_link.attributes[key]).not_to(
+              be_nil,
+              "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+            )
+          end
+          unset_keys.each do |key|
+            expect(file_link.attributes[key]).to be_nil
+          end
+        end
+      end
+
+      it 'does not provide a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(
+          'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
+        ).at_path('_links/self/href')
+      end
+    end
+  end
+
   describe 'GET /api/v3/work_packages/:work_package_id/file_links' do
     let(:path) { api_v3_paths.file_links(work_package.id) }
 
@@ -213,6 +283,10 @@ describe 'API v3 file links resource' do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
+      end
+
+      it 'provides a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
     end
 
@@ -402,6 +476,12 @@ describe 'API v3 file links resource' do
 
     context 'if file link is in a work package, while the storages module is deactivated in its project.' do
       let(:project) { create(:project, disable_modules: :storages) }
+
+      it_behaves_like 'not found'
+    end
+
+    context 'if file link does not have a container.' do
+      let(:file_link) { create(:file_link) }
 
       it_behaves_like 'not found'
     end

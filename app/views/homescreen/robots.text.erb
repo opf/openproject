@@ -28,11 +28,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 User-agent: *
 <% cache @projects.cache_key(:updated_at) do %>
-  <% @projects.each do |p| -%>
-Disallow: <%= project_repository_path(p) %>
-Disallow: <%= project_work_packages_path(p) %>
-Disallow: <%= project_activity_index_path(p) %>
+  <% @projects.flat_map { |p| [p.id, p.identifier] }.each do |identifier| -%>
+Disallow: <%= project_repository_path(identifier) %>
+Disallow: <%= project_work_packages_path(identifier) %>
+Disallow: <%= project_activity_index_path(identifier) %>
+Disallow: <%= search_path(identifier) %>
   <% end -%>
 <% end %>
-Disallow: /calendar
+Disallow: <%= activities_path %>
 Disallow: /activity
+Disallow: <%= search_path %>
