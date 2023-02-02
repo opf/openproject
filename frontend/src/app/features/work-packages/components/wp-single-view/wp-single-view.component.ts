@@ -40,7 +40,6 @@ import {
   BehaviorSubject,
   combineLatest,
   of,
-  Subject,
 } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
@@ -111,10 +110,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
 
-  // State updated when structural changes to the single view may occur.
-  // (e.g., when changing the type or project context).
-  public resourceContextChange = new Subject<ResourceContextChange>();
-
   // Project context as an indicator
   // when editing the work package in a different project
   public projectContext:{
@@ -182,6 +177,9 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.isNewResource = isNewResource(this.workPackage);
 
     this.uiSelfRef = this.$state.$current.name;
+
+    const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
+    this.refresh(change);
 
     // Whenever the temporary resource changes in any way,
     // update the visible fields.
