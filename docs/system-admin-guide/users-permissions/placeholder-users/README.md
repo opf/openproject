@@ -26,7 +26,7 @@ Placeholder users can be managed by system admins and by users with the [role](.
 
 ## Placeholder user list
 
-To manage placeholder users navigate to *Administration -> Users and permissions -> Placeholder users*. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
+To manage placeholder users navigate to **Administration -> Users and permissions -> Placeholder users**. The placeholder user list gives you an overview of all placeholder users with their names and creation dates. From here you can also [add](#create-placeholder-users) placeholder users, [edit](#manage-placeholder-user-settings) them and [delete](#delete-placeholder-users) them.
 
 The column headers can be clicked to toggle sort direction. Arrows indicate sort order, up for ascending (a-z/0-9) and down for descending (z-a/9-0).
 
@@ -48,7 +48,7 @@ You will then be asked to type in the placeholder user name to confirm the delet
 
 ![delete-placeholder-users](image-20210305163225643.png)
 
-> **Note**: Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to "Deleted user".
+> **Note**: Deleting a placeholder user account is an irreversible action and cannot be revoked. The previous activities from this user will still be displayed in the system but reassigned to **Deleted user**.
 
 ## Create placeholder users
 To add a new placeholder, user click on **+ Placeholder user** in the upper right corner of the [placeholder user list](#placeholder-user-list).
@@ -70,7 +70,7 @@ On the **Projects** tab, select a project from the drop-down list, choose the [*
 
 ![add-placeholder-user-to-project](openproject-system-guide-ph-user-new-project.png)
 
-To change a placeholder user's role in a project or to remove it from the project use the edit button (pen) or delete button (X), respectively.
+To change a placeholder user's role in a project or to remove it from the project use the **edit button (pen)** or **delete button (X)**, respectively.
 
 ![openproject edit projects for placeholder user](system-guide-ph-user-edit-project-role.png)
 
