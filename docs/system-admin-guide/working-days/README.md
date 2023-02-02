@@ -19,7 +19,7 @@ To change this setting, unselect days that you would like to define as non-worki
 
 ### Specific non-working days
 
-You can also designate specific dates (such as national or local holidays) as non-working days. Work packages in regular scheduling mode will skip these days at they will not be included when calculating duration.
+You can also designate specific dates (such as national or local holidays) as non-working days. Work packages in regular scheduling mode will skip these days and they will not be included when calculating duration.
 
 Click on **+ Add non working day** to add a new date to the list. In the date picker modal that appears, give this new non-working day a name and select the specific date you would like to add. Click on **Add**. This day is now a non-working day for all users.
 
