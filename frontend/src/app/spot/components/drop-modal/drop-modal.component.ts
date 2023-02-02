@@ -136,40 +136,38 @@ export class SpotDropModalComponent implements OnDestroy {
      * template in the same tick.
      * To make it happy, we update afterwards
      */
-    setTimeout(() => {
-      this.teleportationService.activate(this.body)
+    this.teleportationService.activate(this.body)
 
-      this.teleportationService
-        .hasRenderedFiltered$
-        .pipe(
-          filter((hasRendered) => hasRendered),
-          take(1),
-        )
-        .subscribe(() => {
-          /*
-           * We have to set these listeners next tick, because they're so far up the tree.
-           * If the open value was set because of a click listener in the trigger slot,
-           * that event would reach the event listener added here and close the modal right away.
-           */
-          setTimeout(() => {
-            document.body.addEventListener('click', this.onGlobalClick);
-            document.body.addEventListener('keydown', this.onEscape);
-            document.body.addEventListener('scroll', this.onScroll, true);
-            window.addEventListener('resize', this.onResize);
-            window.addEventListener('orientationchange', this.onResize);
+    this.teleportationService
+      .hasRenderedFiltered$
+      .pipe(
+        filter((hasRendered) => hasRendered),
+        take(1),
+      )
+      .subscribe(() => {
+        /*
+         * We have to set these listeners next tick, because they're so far up the tree.
+         * If the open value was set because of a click listener in the trigger slot,
+         * that event would reach the event listener added here and close the modal right away.
+         */
+        setTimeout(() => {
+          document.body.addEventListener('click', this.onGlobalClick);
+          document.body.addEventListener('keydown', this.onEscape);
+          document.body.addEventListener('scroll', this.onScroll, true);
+          window.addEventListener('resize', this.onResize);
+          window.addEventListener('orientationchange', this.onResize);
 
-            this.recalculateAlignment();
+          this.recalculateAlignment();
 
-            const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
-            if (focusCatcherContainer) {
-              (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
-            } else {
-              // Index 1 because the element at index 0 is the trigger button to open the modal
-              (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1] as HTMLElement)?.focus();
-            }
-          });
+          const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
+          if (focusCatcherContainer) {
+            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
+          } else {
+            // Index 1 because the element at index 0 is the trigger button to open the modal
+            (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1] as HTMLElement)?.focus();
+          }
         });
-    });
+      });
   }
 
   close():void {
