@@ -231,6 +231,27 @@ describe 'Working Days', js: true do
 
       nwd2 = NonWorkingDay.find_by(name: 'Another important day')
       expect(nwd2.date).to eq date2
+
+      # Check if date and name are entered then close the datepicker
+      click_on 'Add non-working day'
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+      expect(page).to have_selector('.flatpickr-calendar')
+      datepicker.expect_visible
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'Instance-wide NWD'
+      end
+
+      date2 = Time.zone.today.next_occurring(:tuesday)
+      datepicker.set_date date2
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+      expect(page).not_to have_selector('.flatpickr-calendar')
     end
 
     it 'deletes a non-working day' do
