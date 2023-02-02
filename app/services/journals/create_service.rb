@@ -308,6 +308,10 @@ module Journals
                journable_id: journable.id)
     end
 
+    def journable_class_name
+      journable.class.base_class.name
+    end
+
     def insert_attachable_sql
       attachable_sql = <<~SQL
         INSERT INTO
@@ -329,7 +333,7 @@ module Journals
 
       sanitize(attachable_sql,
                journable_id: journable.id,
-               journable_class_name: journable.class.name)
+               journable_class_name:)
     end
 
     def insert_customizable_sql
@@ -355,7 +359,7 @@ module Journals
 
       sanitize(customizable_sql,
                journable_id: journable.id,
-               journable_class_name: journable.class.name)
+               journable_class_name:)
     end
 
     def select_max_journal_sql(predecessor)
@@ -421,7 +425,7 @@ module Journals
 
       sanitize(attachable_changes_sql,
                journable_id: journable.id,
-               container_type: journable.class.name)
+               container_type: journable_class_name)
     end
 
     def customizable_changes_sql
@@ -448,7 +452,7 @@ module Journals
       SQL
 
       sanitize(customizable_changes_sql,
-               customized_type: journable.class.name,
+               customized_type: journable_class_name,
                journable_id: journable.id)
     end
 
