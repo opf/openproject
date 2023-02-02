@@ -77,14 +77,6 @@ module WorkPackage::Journalized
                   name: JournalizedProcs.event_name,
                   url: JournalizedProcs.event_url
 
-    register_journal_formatter(:cost_association) do |value, journable, field|
-      association = journable.class.reflect_on_association(field.to_sym)
-      if association
-        record = association.class_name.constantize.find_by(id: value.to_i)
-        record&.subject
-      end
-    end
-
     register_journal_formatted_fields(:id, 'parent_id')
     register_journal_formatted_fields(:fraction, 'estimated_hours', 'derived_estimated_hours')
     register_journal_formatted_fields(:decimal, 'done_ratio')
@@ -92,11 +84,11 @@ module WorkPackage::Journalized
     register_journal_formatted_fields(:schedule_manually, 'schedule_manually')
     register_journal_formatted_fields(:attachment, /attachments_?\d+/)
     register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
-    register_journal_formatted_fields(:cost_association, 'budget_id')
     register_journal_formatted_fields(:ignore_non_working_days, 'ignore_non_working_days')
 
     # Joined
     register_journal_formatted_fields :named_association, :parent_id, :project_id,
+                                      :budget_id,
                                       :status_id, :type_id,
                                       :assigned_to_id, :priority_id,
                                       :category_id, :version_id,

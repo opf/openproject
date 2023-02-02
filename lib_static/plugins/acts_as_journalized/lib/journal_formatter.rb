@@ -59,7 +59,6 @@ require_relative './journal_formatter/fraction'
 require_relative './journal_formatter/id'
 require_relative './journal_formatter/named_association'
 require_relative './journal_formatter/plaintext'
-require_relative './journal_formatter/proc'
 
 module JournalFormatter
   mattr_accessor :formatters, :registered_fields
@@ -68,10 +67,10 @@ module JournalFormatter
     formatters.merge!(hash)
   end
 
-  def self.register_formatted_field(journal_data_type, field, formatter)
+  def self.register_formatted_field(journal_data_type, field, formatter_key)
     field_key = field.is_a?(Regexp) ? field : Regexp.new("^#{field}$")
 
-    registered_fields[journal_data_type].merge!(field_key => formatter.to_sym)
+    registered_fields[journal_data_type].merge!(field_key => formatter_key.to_sym)
   end
 
   def self.default_formatters
