@@ -442,6 +442,7 @@ en:
     label_no_data: "No data to display"
     label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
+    label_no_date: "no date"
     label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
