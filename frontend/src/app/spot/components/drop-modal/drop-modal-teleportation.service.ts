@@ -11,21 +11,19 @@ import { distinctUntilChanged } from 'rxjs/operators';
 export type TeleportInstance = TemplateRef<any>;
 
 @Injectable({ providedIn: 'root' })
-export class SpotDropModalTeleportationService extends BehaviorSubject<TeleportInstance|null> {
+export class SpotDropModalTeleportationService {
+
+  public templateRef$ = new BehaviorSubject<TeleportInstance|null>(null);
 
   public hasRendered$ = new Subject<boolean>();
 
   public hasRenderedFiltered$ = this.hasRendered$.pipe(distinctUntilChanged());
 
-  constructor() {
-    super(null);
-  }
-
   public activate(instance: TeleportInstance) {
-    this.next(instance);
+    this.templateRef$.next(instance);
   }
 
   public clear() { 
-    this.next(null);
+    this.templateRef$.next(null);
   }
 }
