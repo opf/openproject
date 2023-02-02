@@ -28,8 +28,8 @@
 
 module ::Calendar
   class CalendarsController < ApplicationController
-    before_action :find_optional_project
-    before_action :authorize
+    before_action :find_optional_project, except: %i[ical]
+    before_action :authorize, except: %i[ical]
 
     before_action :find_calendar, only: %i[destroy]
     menu_item :calendar_view
@@ -40,6 +40,25 @@ module ::Calendar
 
     def show
       render layout: 'angular/angular'
+    end
+
+    def ical
+      begin
+        call = ::Calendar::IcalResponseService.new().call(
+          ical_token: params[:ical_token],
+          query_id: params[:id]
+        )
+      rescue ActiveRecord::RecordNotFound
+        render_404
+        return
+      end
+
+      if call.present? && call.success?
+        render plain: call.result
+      else
+        render_404
+      end
+      
     end
 
     def destroy
