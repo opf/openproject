@@ -1,4 +1,9 @@
 <ng-content select="[slot=trigger]"></ng-content>
+<span
+  tabindex="0"
+  #focusGrabber
+  [attr.aria-label]="text.focus_grab"
+></span>
 
 <ng-template #body>
   <div
@@ -9,9 +14,7 @@
   >
     <div
       [ngClass]="['spot-drop-modal--body', 'spot-container', alignmentClass]"
-
       (click)="onBodyClick($event)"
-
       cdkTrapFocus
       tabindex="0"
     >

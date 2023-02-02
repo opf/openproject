@@ -113,9 +113,12 @@ export class SpotDropModalComponent implements OnDestroy {
 
   public text = {
     close: this.i18n.t('js.spot.drop_modal.close'),
+    focus_grab: this.i18n.t('js.spot.drop_modal.focus_grab'),
   };
 
   @ViewChild('body') body:TemplateRef<any>;
+
+  @ViewChild('focusGrabber') focusGrabber:ElementRef;
 
   constructor(
     readonly i18n:I18nService,
@@ -187,24 +190,9 @@ export class SpotDropModalComponent implements OnDestroy {
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('orientationchange', this.onResize);
 
-    this.teleportationService
-    .hasRenderedFiltered$
-    .pipe(
-        filter((hasRendered) => !hasRendered),
-        take(1),
-      )
-      .subscribe(() => {
-        // TODO: Because we're using input fields with focus event listeners as openers,
-        // we cannot just go back and focus the input field; that would result in infinite loops.
-        // The issue is that for keyboard and screenreader users, you get dropped back to the start
-        // of the page, which is an a11y nightmare.
-        //
-        // (findAllFocusableElementsWithin(this.elementRef.nativeElement)[0] as HTMLElement)?.focus();
-        // this.cdRef.detectChanges();
-      });
-
     this.teleportationService.clear();
     this.cdRef.detectChanges();
+    this.focusGrabber.nativeElement.focus();
   }
 
   private onGlobalClick = this.close.bind(this);

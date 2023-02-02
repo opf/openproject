@@ -38,7 +38,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
       [(ngModel)]="value"
       [id]="handler.htmlId"
       class="inline-edit--field"
-      [opAutofocus]
     ></op-single-date-picker>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
