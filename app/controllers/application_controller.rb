@@ -232,9 +232,8 @@ class ApplicationController < ActionController::Base
 
   # Authorize the user for the requested controller action.
   # To be used in before_action hooks
-  def authorize
-    action = { controller: params[:controller], action: params[:action] }
-    do_authorize(action, global: false)
+  def authorize(ctrl = params[:controller], action = params[:action])
+    do_authorize({ controller: ctrl, action: }, global: false)
   end
 
   # Authorize the user for the requested controller action outside a project
@@ -260,6 +259,7 @@ class ApplicationController < ActionController::Base
         deny_access
       end
     end
+    is_authorized
   end
 
   # Find project of id params[:id]
