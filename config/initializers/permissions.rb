@@ -140,7 +140,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :view_work_packages,
                      {
                        versions: %i[index show status_by],
-                       journals: %i[index diff],
+                       journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        'work_packages/reports': %i[report report_details]

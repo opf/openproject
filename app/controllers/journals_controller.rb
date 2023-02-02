@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -27,9 +29,9 @@
 #++
 
 class JournalsController < ApplicationController
-  before_action :find_journal, except: [:index]
   before_action :find_optional_project, only: [:index]
-  before_action :authorize, only: [:diff]
+  before_action :find_journal, only: [:diff]
+  before_action :ensure_permitted, only: [:diff]
   accept_key_auth :index
   menu_item :issues
 
@@ -89,6 +91,15 @@ class JournalsController < ApplicationController
     @project = @journal.journable.project
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def ensure_permitted
+    permission =
+      case @journal.journable_type
+      when 'WorkPackage' then :view_work_packages
+      when 'Project' then :view_project
+      end
+    do_authorize(permission)
   end
 
   # Is this a valid field for diff'ing?
