@@ -44,7 +44,7 @@ module Components
       end
 
       def expect_current_project(name)
-        page.find('[data-qa-selector="op-header-project-select--list"]', text: name)
+        page.find('#projects-menu', text: name)
       end
 
       def expect_open
