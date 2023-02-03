@@ -865,7 +865,7 @@ de:
       category: "Kategorie"
       status: "Arbeitspaket-Status"
       member: "Mitglied"
-      news: "Nachrichten"
+      news: "Neuigkeiten"
       notification:
         one: "Benachrichtigung"
         other: "Benachrichtigungen"
@@ -1719,7 +1719,7 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news_singular: "Nachricht"
+  label_news_singular: "Neuigkeit"
   label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
   label_news_latest: "Aktuellste Nachrichten"
