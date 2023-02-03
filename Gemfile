@@ -204,6 +204,8 @@ gem 'validate_url'
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'view_component'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.0.0'
