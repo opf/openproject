@@ -54,7 +54,6 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
-import { filter } from 'rxjs/operators';
 
 export const opSingleDatePickerSelector = 'op-single-date-picker';
 
@@ -180,6 +179,24 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
 
   changeNonWorkingDays():void {
     this.initializeDatepickerAfterOpen();
+    this.cdRef.detectChanges();
+  }
+
+  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+
+  changeValueFromInput(value:string) {
+    this.valueChange.emit(value);
+    this.onChange(value);
+    this.writeValue(value);
+
+    const date = parseDate(value || '');
+
+    if (date !== '') {
+      const dateString = this.timezoneService.formattedISODate(date);
+      this.writeWorkingValue(dateString);
+      this.enforceManualChangesToDatepicker(date);
+      this.onTouched(dateString);
+    }
     this.cdRef.detectChanges();
   }
 
