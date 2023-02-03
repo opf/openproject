@@ -116,17 +116,16 @@ module Pages
         end
 
         if first && last
-          expect(page).to have_selector('[data-qa-selector="op-datepicker-multi-trigger"]',
-                                        text: "#{first.iso8601} - #{last.iso8601}")
+          expect(page).to have_selector('[data-qa-selector="op-multi-date-picker"] input',
+                                        value: "#{first.iso8601} - #{last.iso8601}")
         end
       end
 
       def set_paused(paused, first: nil, last: nil)
         if paused
           check 'Temporarily pause daily email reminders'
-          page.within('op-multi-date-picker') do
-            click_button '-'
-          end
+
+          page.find('op-multi-date-picker input').click
           fill_in 'startDate', with: first.iso8601
           fill_in 'endDate', with: last.iso8601
           sleep 1
