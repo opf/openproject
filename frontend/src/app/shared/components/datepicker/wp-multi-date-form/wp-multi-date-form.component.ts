@@ -195,6 +195,10 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
         this.clearWithDuration(field);
       }
 
+      if (field === 'start') {
+        this.setCurrentActivatedField('end');
+      }
+
       this.cdRef.detectChanges();
     });
 
