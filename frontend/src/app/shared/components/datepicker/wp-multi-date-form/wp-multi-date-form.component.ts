@@ -195,8 +195,10 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
         this.clearWithDuration(field);
       }
 
-      if (field === 'start') {
-        this.setCurrentActivatedField('end');
+      // The duration field is special in how it handles focus transitions
+      // For start/due we just toggle here
+      if (field !== 'duration') {
+        this.toggleCurrentActivatedField();
       }
 
       this.cdRef.detectChanges();
@@ -383,9 +385,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
   setToday(key:DateKeys):void {
     this.datepickerChanged$.next([key, new Date()]);
-
-    const nextActive = key === 'start' ? 'end' : 'start';
-    this.setCurrentActivatedField(nextActive);
   }
 
   showTodayLink():boolean {
@@ -493,12 +492,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
           // Update with the same flow as entering a value
           const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
-
-          // The duration field is special in how it handles focus transitions
-          // For start/due we just toggle here
-          if (activeField !== 'duration') {
-            this.toggleCurrentActivatedField();
-          }
         },
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
