@@ -633,7 +633,7 @@ it:
             title: 'Avvisi data'
             description: 'Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)'
             teaser_text: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
-          overdue: When overdue
+          overdue: Alla scadenza
         project_specific:
           title: 'Impostazioni di notifica specifiche del progetto'
           description: 'Queste impostazioni specifiche del progetto sostituiscono le impostazioni predefinite sopra.'
@@ -855,7 +855,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Addon dell''edizione per Imprese'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"
