@@ -118,7 +118,7 @@ describe 'form configuration', js: true do
         wp_page.expect_hidden_field(:done_ratio)
 
         groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq ['FILES']
+        expect(groups).to eq []
         expect(page)
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end

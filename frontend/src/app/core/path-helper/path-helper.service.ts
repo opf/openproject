@@ -54,6 +54,10 @@ export class PathHelperService {
     return `${this.staticBase}/attachments/${attachmentIdentifier}/content`;
   }
 
+  public fileLinksPath():string {
+    return `${this.api.v3.apiV3Base}/file_links`;
+  }
+
   public ifcModelsPath(projectIdentifier:string) {
     return `${this.staticBase}/projects/${projectIdentifier}/ifc_models`;
   }

@@ -204,7 +204,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         .subscribe(
           (project) => {
             if (project._links.storages) {
-              this.storages.updateCollection(project._links.self.href, project._links.storages);
+              this.storages.updateCollection(project._links.self.href, project._links.storages).subscribe();
             }
           },
           (error) => {
