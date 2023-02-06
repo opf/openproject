@@ -228,7 +228,7 @@ tr:
           quick_overview: "OpenProject Enterprise sürümü ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış elde edin."
         upsale:
           become_hero: "Kahraman olun!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title}, bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "Enterprise şirket içi sürümünün avantajları nelerdir?"
@@ -518,24 +518,24 @@ tr:
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_kanban: 'Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır.'
+          lists_basic: 'Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz.'
           add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          drag: 'Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz.'
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
           list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          back_button: 'Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın.'
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline_button: 'Projeniz için bir zaman çizelgesi oluşturmak üzere <b>Gantt şeması</b> görünümünü etkinleştirebilirsiniz.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
         team_planner:
           overview: 'Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          calendar: 'Haftalık veya iki haftalık planlama panosu, ekip üyelerinize atanan tüm iş paketlerini görüntüler.'
+          add_assignee: 'Başlamak için ekip planlayıcıya atanan kişileri ekleyin.'
+          add_existing: 'Mevcut iş paketlerini arayın ve anında bir ekip üyesine atamak ve başlangıç ve bitiş tarihlerini tanımlamak için bunları ekip planlayıcıya sürükleyin.'
+          card: 'İş paketlerini zamanda geriye veya ileriye taşımak için yatay olarak sürükleyin, başlangıç ve bitiş tarihlerini değiştirmek için kenarları sürükleyin ve hatta başka bir üyeye atamak için farklı bir satıra dikey olarak sürükleyin.'
     notifications:
       title: "Bildirimler"
       no_unread: "Okunmamış bildirim yok"
@@ -552,7 +552,7 @@ tr:
         dateAlert: 'Tarih uyarısı'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: 'Süresi geçmiş'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'bugün'
         property_is: 'is in %{difference_in_days}'
@@ -593,13 +593,13 @@ tr:
         inbox: 'Gelen Kutusu'
         mentioned: 'Bahsedilen'
         watched: 'İzleyici'
-        date_alert: 'Date alert'
+        date_alert: 'Tarih uyarısı'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Bildirim ayarları"
         notify_me: "Beni dürt"
         reminders:
-          no_notification: No notification
+          no_notification: Bildirim yok
           timeframes:
             normal:
               PT0S: aynı gün
@@ -613,7 +613,7 @@ tr:
         reasons:
           mentioned:
             title: 'Bahsedilen'
-            description: 'Receive a notification every time someone mentions me anywhere'
+            description: 'Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın'
           assignee: 'Atanan'
           responsible: 'Sorumlu'
           watched: 'İzleyici'
@@ -627,13 +627,13 @@ tr:
             title: 'Katılım'
             description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) iş paketlerindeki tüm faaliyetler için bildirimler.'
           delayed:
-            title: 'Non-participating'
+            title: 'Katılmayan'
             description: 'Tüm projelerdeki faaliyetler için ek bildirimler.'
           date_alerts:
             title: 'Tarih uyarısı'
             description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) açık iş paketleri için önemli tarihler yaklaştığında otomatik bildirimler.'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          overdue: When overdue
+            teaser_text: 'Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.'
+          overdue: Süresi geçtiğinde
         project_specific:
           title: 'Projeye özel bildirim ayarları'
           description: 'Bu projeye özgü ayarlar, yukarıdaki varsayılan ayarları geçersiz kılar.'
@@ -681,7 +681,7 @@ tr:
           title: 'Bu günlerde e-posta hatırlatıcıları alın'
         immediate:
           title: 'Bana email hatırlatıcısı gönder'
-          mentioned: 'Immediately when someone @mentions me'
+          mentioned: 'Birisi benden @bahsettiğinde hemen'
         alerts:
           title: 'Diğer öğeler için e-posta uyarıları (iş paketleri olmayanlar)'
           explanation: >
@@ -1212,7 +1212,7 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:

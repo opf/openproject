@@ -27,7 +27,7 @@ tr:
       files:
         directory_not_writeable: "Bu klasöre dosya eklemek için izin almanız gerekmez."
         dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
       file_links:
         empty: >
           Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
