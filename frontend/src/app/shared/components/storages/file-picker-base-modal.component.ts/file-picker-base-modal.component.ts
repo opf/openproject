@@ -123,10 +123,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     this.storageFilesResourceService.reset();
   }
 
-  public openStorageLocation():void {
-    window.open(this.locals.storageLocation as string, '_blank');
-  }
-
   protected abstract storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem;
 
   protected enterDirectoryCallback(directory:IStorageFile):() => void {

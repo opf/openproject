@@ -243,9 +243,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe((fileLinks) => {
         const locals = {
           storageType: this.storage._links.type.href,
-          storageTypeName: this.storageType,
           storageName: this.storage.name,
-          storageLocation: this.storageFilesLocation,
           storageLink: this.storage._links.self,
           addFileLinksHref: this.addFileLinksHref,
           collectionKey: this.collectionKey,
@@ -269,9 +267,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   private openSelectLocationDialog(files:FileList|null):void {
     const locals = {
       storageType: this.storage._links.type.href,
-      storageTypeName: this.storageType,
       storageName: this.storage.name,
-      storageLocation: this.storageFilesLocation,
       storageLink: this.storage._links.self,
     };
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
