@@ -31,6 +31,8 @@ en:
       files:
         directory_not_writeable: "You do not have to permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
 
       file_links:

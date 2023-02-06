@@ -48,6 +48,7 @@ import { isDirectory } from 'core-app/shared/components/storages/functions/stora
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -56,6 +57,9 @@ import {
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
+    content: {
+      empty: this.i18n.t('js.storages.files.empty_folder'),
+    },
     buttons: {
       openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
@@ -108,7 +112,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       files,
     ).subscribe(
       (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
-      (error) => { this.toastService.addError(error); },
+      (error:HttpErrorResponse) => { this.toastService.addError(error); },
     );
 
     this.service.close();
