@@ -49,6 +49,7 @@ import {
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -113,7 +114,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       files,
     ).subscribe(
       (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
-      (error) => { this.toastService.addError(JSON.stringify(error)); },
+      (error:HttpErrorResponse) => { this.toastService.addError(error); },
     );
 
     this.service.close();
