@@ -103,6 +103,7 @@
     "@fullcalendar/core": "^6.0.2",
     "@fullcalendar/daygrid": "^6.0.2",
     "@fullcalendar/interaction": "^6.0.2",
+    "@fullcalendar/list": "^6.0.2",
     "@fullcalendar/resource": "^6.0.2",
     "@fullcalendar/resource-common": "^6.0.0-beta.1",
     "@fullcalendar/resource-timeline": "^6.0.2",

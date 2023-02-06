@@ -32,7 +32,15 @@ describe 'Working Days', js: true do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:non_working_days) do
+    [
+      create(:non_working_day),
+      create(:non_working_day),
+      create(:non_working_day)
+    ]
+  end
+
   let_schedule(<<~CHART)
     days                  | MTWTFSSmtwtfss |
     earliest_work_package | XXXXX          |
@@ -41,6 +49,7 @@ describe 'Working Days', js: true do
   CHART
 
   let(:dialog) { Components::ConfirmationDialog.new }
+  let(:datepicker) { Components::Datepicker.new }
 
   current_user { admin }
 
@@ -48,128 +57,242 @@ describe 'Working Days', js: true do
     visit admin_settings_working_days_path
   end
 
-  # Using this way instead of Setting.working_days as that is cached.
-  def working_days_setting
-    Setting.find_by(name: :working_days).value
-  end
+  describe 'week days' do
+    # Using this way instead of Setting.working_days as that is cached.
+    def working_days_setting
+      Setting.find_by(name: :working_days).value
+    end
 
-  it 'contains all defined days from the settings' do
-    WeekDay.all.each do |day|
-      expect(page).to have_selector('label', text: day.name)
-      if day.working
-        expect(page).to have_checked_field day.name
+    it 'contains all defined days from the settings' do
+      WeekDay.all.each do |day|
+        expect(page).to have_selector('label', text: day.name)
+        if day.working
+          expect(page).to have_checked_field day.name
+        end
       end
     end
-  end
 
-  it 'rejects the updates when cancelling the dialog' do
-    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+    it 'rejects the updates when cancelling the dialog' do
+      expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    uncheck 'Monday'
-    uncheck 'Friday'
+      uncheck 'Monday'
+      uncheck 'Friday'
 
-    click_on 'Save'
+      click_on 'Save'
 
-    perform_enqueued_jobs do
-      dialog.cancel
+      perform_enqueued_jobs do
+        dialog.cancel
+      end
+
+      expect(page).not_to have_selector('.flash.notice')
+
+      expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
+      expect_schedule(WorkPackage.all, <<~CHART)
+        days                  | MTWTFSSmtwtfss |
+        earliest_work_package | XXXXX          |
+        second_work_package   |    XX..XX      |
+        follower              |          XXX   |
+      CHART
     end
 
-    expect(page).to have_no_selector('.flash.notice')
+    it 'updates the values and saves the settings' do
+      expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
-    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+      uncheck 'Monday'
+      uncheck 'Friday'
 
-    expect_schedule(WorkPackage.all, <<~CHART)
-      days                  | MTWTFSSmtwtfss |
-      earliest_work_package | XXXXX          |
-      second_work_package   |    XX..XX      |
-      follower              |          XXX   |
-    CHART
-  end
+      click_on 'Save'
 
-  it 'updates the values and saves the settings' do
-    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+      perform_enqueued_jobs do
+        dialog.confirm
+      end
 
-    uncheck 'Monday'
-    uncheck 'Friday'
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+      expect(page).to have_unchecked_field 'Monday'
+      expect(page).to have_unchecked_field 'Friday'
+      expect(page).to have_unchecked_field 'Saturday'
+      expect(page).to have_unchecked_field 'Sunday'
+      expect(page).to have_checked_field 'Tuesday'
+      expect(page).to have_checked_field 'Wednesday'
+      expect(page).to have_checked_field 'Thursday'
 
-    click_on 'Save'
+      expect(working_days_setting).to eq([2, 3, 4])
 
-    perform_enqueued_jobs do
+      expect_schedule(WorkPackage.all, <<~CHART)
+        days                  | MTWTFSSmtwtfssmtwt  |
+        earliest_work_package |  XXX....XX          |
+        second_work_package   |    X....XXX         |
+        follower              |                XXX  |
+      CHART
+
+      # The updated work packages will have a journal entry informing about the change
+      wp_page = Pages::FullWorkPackage.new(earliest_work_package)
+      wp_page.visit!
+
+      wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
+    end
+
+    it 'shows error when non working days are all unset' do
+      uncheck 'Monday'
+      uncheck 'Tuesday'
+      uncheck 'Wednesday'
+      uncheck 'Thursday'
+      uncheck 'Friday'
+
+      click_on 'Save'
+
+      perform_enqueued_jobs do
+        dialog.confirm
+      end
+
+      expect(page).to have_selector('.flash.error', text: 'At least one day of the week must be defined as a working day.')
+      # Restore the checkboxes to their valid state
+      expect(page).to have_checked_field 'Monday'
+      expect(page).to have_checked_field 'Tuesday'
+      expect(page).to have_checked_field 'Wednesday'
+      expect(page).to have_checked_field 'Thursday'
+      expect(page).to have_checked_field 'Friday'
+      expect(page).to have_unchecked_field 'Saturday'
+      expect(page).to have_unchecked_field 'Sunday'
+      expect(working_days_setting).to eq([1, 2, 3, 4, 5])
+
+      expect_schedule(WorkPackage.all, <<~CHART)
+        days                  | MTWTFSSmtwtfss |
+        earliest_work_package | XXXXX          |
+        second_work_package   |    XX..XX      |
+        follower              |          XXX   |
+      CHART
+    end
+
+    it 'shows an error when a previous change to the working days configuration isn\'t processed yet' do
+      # Have a job already scheduled
+      # Attempting to set the job via simply using the UI would require to change the test setup of how
+      # delayed jobs are handled.
+      ActiveJob::QueueAdapters::DelayedJobAdapter
+        .new
+        .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
+
+      uncheck 'Tuesday'
+      click_on 'Save'
+
+      # Not executing the background jobs
       dialog.confirm
+
+      expect(page).to have_selector('.flash.error',
+                                    text: 'The previous changes to the working days configuration have not been applied yet.')
     end
-
-    expect(page).to have_selector('.flash.notice', text: 'Successful update.')
-    expect(page).to have_unchecked_field 'Monday'
-    expect(page).to have_unchecked_field 'Friday'
-    expect(page).to have_unchecked_field 'Saturday'
-    expect(page).to have_unchecked_field 'Sunday'
-    expect(page).to have_checked_field 'Tuesday'
-    expect(page).to have_checked_field 'Wednesday'
-    expect(page).to have_checked_field 'Thursday'
-
-    expect(working_days_setting).to eq([2, 3, 4])
-
-    expect_schedule(WorkPackage.all, <<~CHART)
-      days                  | MTWTFSSmtwtfssmtwt  |
-      earliest_work_package |  XXX....XX          |
-      second_work_package   |    X....XXX         |
-      follower              |                XXX  |
-    CHART
-
-    # The updated work packages will have a journal entry informing about the change
-    wp_page = Pages::FullWorkPackage.new(earliest_work_package)
-    wp_page.visit!
-
-    wp_page.expect_comment(text: "Working days changed (Monday is now non-working, Friday is now non-working).")
   end
 
-  it 'shows error when non working days are all unset' do
-    uncheck 'Monday'
-    uncheck 'Tuesday'
-    uncheck 'Wednesday'
-    uncheck 'Thursday'
-    uncheck 'Friday'
+  describe 'non-working days' do
+    it 'can add non-working days' do
+      click_on 'Add non-working day'
 
-    click_on 'Save'
+      # It can cancel and reopen
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Cancel'
+      end
+      click_on 'Add non-working day'
 
-    perform_enqueued_jobs do
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'My holiday'
+      end
+
+      date1 = Time.zone.today.next_week.next_occurring(:monday)
+      datepicker.set_date date1
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+
+      expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
+
+      # Add a second day
+      click_on 'Add non-working day'
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'Another important day'
+      end
+
+      date2 = Time.zone.today.next_week.next_occurring(:tuesday)
+      datepicker.set_date date2
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+
+      click_on 'Save'
+      click_on 'Save and reschedule'
+
+      expect(page).to have_selector('.flash.notice', text: 'Successful update.')
+
+      nwd1 = NonWorkingDay.find_by(name: 'My holiday')
+      expect(nwd1.date).to eq date1
+
+      nwd2 = NonWorkingDay.find_by(name: 'Another important day')
+      expect(nwd2.date).to eq date2
+
+      # Check if date and name are entered then close the datepicker
+      click_on 'Add non-working day'
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+      expect(page).to have_selector('.flatpickr-calendar')
+      datepicker.expect_visible
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        fill_in 'name', with: 'Instance-wide NWD'
+      end
+
+      datepicker.set_date date2
+
+      page.within('[data-qa-selector="op-datepicker-modal"]') do
+        click_on 'Save'
+      end
+      expect(page).not_to have_selector('.flatpickr-calendar')
+
+      expect(page).to have_selector('.op-toast', text: /A non-working day for this date exists already/)
+    end
+
+    it 'deletes a non-working day' do
+      non_working_days.each do |nwd|
+        expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
+      end
+
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
+      delete_button.hover
+      delete_button.click
+
+      click_on 'Save'
+
       dialog.confirm
+
+      # Remove the first date
+      expect(page).not_to have_selector('tr', text: non_working_days.first.date.strftime("%B %-d, %Y"))
+      expect(page).to have_selector('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
+
+      # Show an error when the changes cannot be saved and preserves the modifications upon submit
+      errors = ActiveModel::Errors.new(NonWorkingDay.new)
+      errors.add(:id, :invalid)
+
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(NonWorkingDay)
+        .to receive(:errors)
+        .and_return(errors)
+      # rubocop:enable RSpec/AnyInstance
+
+      delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
+      delete_button.hover
+      delete_button.click
+
+      click_on 'Save'
+
+      dialog.confirm
+
+      # Keep the second date hidden
+      expect(page).not_to have_selector('tr', text: non_working_days.second.date.strftime("%B %-d, %Y"))
+      expect(page).to have_selector('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
     end
-
-    expect(page).to have_selector('.flash.error', text: 'At least one day of the week must be defined as a working day.')
-    # Restore the checkboxes to their valid state
-    expect(page).to have_checked_field 'Monday'
-    expect(page).to have_checked_field 'Tuesday'
-    expect(page).to have_checked_field 'Wednesday'
-    expect(page).to have_checked_field 'Thursday'
-    expect(page).to have_checked_field 'Friday'
-    expect(page).to have_unchecked_field 'Saturday'
-    expect(page).to have_unchecked_field 'Sunday'
-    expect(working_days_setting).to eq([1, 2, 3, 4, 5])
-
-    expect_schedule(WorkPackage.all, <<~CHART)
-      days                  | MTWTFSSmtwtfss |
-      earliest_work_package | XXXXX          |
-      second_work_package   |    XX..XX      |
-      follower              |          XXX   |
-    CHART
-  end
-
-  it 'shows an error when a previous change to the working days configuration isn\'t processed yet' do
-    # Have a job already scheduled
-    # Attempting to set the job via simply using the UI would require to change the test setup of how
-    # delayed jobs are handled.
-    ActiveJob::QueueAdapters::DelayedJobAdapter
-      .new
-      .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
-
-    uncheck 'Tuesday'
-    click_on 'Save'
-
-    # Not executing the background jobs
-    dialog.confirm
-
-    expect(page).to have_selector('.flash.error',
-                                  text: 'The previous changes to the working days configuration have not been applied yet.')
   end
 end

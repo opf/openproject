@@ -41,7 +41,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import {
   onDayCreate,
   parseDate,
@@ -163,12 +166,16 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   }
 
   save($event:Event) {
-    $event.preventDefault();
-    this.valueChange.emit(this.workingValue);
-    this.onChange(this.workingValue);
-    this.writeValue(this.workingValue);
-    this.opened = false;
-    this.cdRef.detectChanges();
+    const form = $event.target as HTMLFormElement;
+
+    if (form.reportValidity()) {
+      $event.preventDefault();
+      this.valueChange.emit(this.workingValue);
+      this.onChange(this.workingValue);
+      this.writeValue(this.workingValue);
+      this.opened = false;
+      this.cdRef.detectChanges();
+    }
   }
 
   setToday():void {

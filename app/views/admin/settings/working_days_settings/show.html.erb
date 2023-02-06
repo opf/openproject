@@ -42,13 +42,6 @@ See COPYRIGHT and LICENSE files for more details.
 <%= styled_form_tag(
       admin_settings_working_days_path,
       method: :patch,
-      data: augmented_confirmation_dialog(
-        title: t('working_days.change_button'),
-        button_continue: t('working_days.change_button'),
-        text: "#{t('working_days.warning')}\n#{t(:text_are_you_sure_continue)}",
-        danger_zone: true,
-        divider: true
-      ),
       class: 'op-working-days-admin-settings'
     ) do %>
   <section class="form--section">
@@ -62,5 +55,9 @@ See COPYRIGHT and LICENSE files for more details.
             label: false %>
     </div>
   </section>
+
+  <%= angular_component_tag 'op-non-working-days-list',
+                            data: { modified_non_working_days: @modified_non_working_days } %>
+
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
