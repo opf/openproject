@@ -33,29 +33,23 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
+  OnInit,
   Injector,
+  Input,
+  Output,
   ViewChild,
   ViewEncapsulation,
+  HostBinding,
 } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { DatePicker } from 'core-app/shared/components/datepicker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
-import {
-  debounce,
-  switchMap,
-} from 'rxjs/operators';
-import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
+import { debounce } from 'rxjs/operators';
 import {
   Subject,
   timer,
@@ -70,27 +64,37 @@ import {
   setDates,
   validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import { DeviceService } from 'core-app/core/browser/device.service';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
 
 @Component({
-  templateUrl: './single-date.modal.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  selector: 'op-wp-single-date-form',
+  templateUrl: './wp-single-date-form.component.html',
+  styleUrls: [
+    '../styles/datepicker.modal.sass',
+    '../styles/datepicker_mobile.modal.sass',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     DateModalRelationsService,
+    DateModalSchedulingService,
   ],
 })
-export class SingleDateModalComponent extends OpModalComponent implements AfterViewInit {
-  @InjectField() I18n!:I18nService;
+export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+  @HostBinding('class.op-datepicker-modal') className = true;
 
-  @InjectField() timezoneService:TimezoneService;
+  @Input('value') value = '';
 
-  @InjectField() halEditing:HalResourceEditingService;
+  @Input() changeset:ResourceChangeset;
 
-  @InjectField() dateModalRelations:DateModalRelationsService;
+  @Output() cancel = new EventEmitter();
 
-  @InjectField() deviceService:DeviceService;
+  @Output() save = new EventEmitter();
+
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
@@ -101,8 +105,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     placeholder: this.I18n.t('js.placeholders.default'),
     today: this.I18n.t('js.label_today'),
   };
-
-  onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
@@ -116,54 +118,44 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   private debounceDelay = 0; // will change after initial render
 
-  private changeset:ResourceChangeset;
-
   private datePickerInstance:DatePicker;
 
-  private dateUpdates$ = new Subject<string>();
-
-  private dateUpdateRequests$ = this
-    .dateUpdates$
-    .pipe(
-      this.untilDestroyed(),
-      switchMap((date:string) => this
-        .apiV3Service
-        .work_packages
-        .id(this.changeset.id)
-        .form
-        .forPayload({
-          date,
-          lockVersion: this.changeset.value<string>('lockVersion'),
-          ignoreNonWorkingDays: this.ignoreNonWorkingDays,
-        })),
-    )
-    .subscribe((form) => this.updateDatesFromForm(form));
-
   constructor(
-    readonly injector:Injector,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
     readonly configurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
+    readonly cdRef:ChangeDetectorRef,
+    readonly injector:Injector,
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService,
+    readonly halEditing:HalResourceEditingService,
+    readonly dateModalScheduling:DateModalSchedulingService,
+    readonly dateModalRelations:DateModalRelationsService,
   ) {
-    super(locals, cdRef, elementRef);
-    this.changeset = locals.changeset as ResourceChangeset;
-    this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
-
-    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
-
-    this.date = this.changeset.value('date');
+    super();
+  }
+  
+  ngOnInit():void {
+    this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
+    this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    if (!moment(this.value).isValid()) {
+      this.value = '';
+      this.date = '';
+      return;
+    }
+    this.date = this.timezoneService.formattedISODate(this.value);
   }
 
   ngAfterViewInit():void {
-    this
-      .dateModalRelations
-      .getMinimalDateFromPreceeding()
-      .subscribe((date) => {
-        this.initializeDatepicker(date);
-        this.onDataChange();
-      });
+    if (isNewResource(this.changeset.pristineResource)) {
+      this.initializeDatepicker(null);
+    } else {
+      this
+        .dateModalRelations
+        .getMinimalDateFromPreceeding()
+        .subscribe((date) => {
+          this.initializeDatepicker(date);
+        });
+    }
 
     this
       .dateChangedManually$
@@ -205,21 +197,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
 
   changeNonWorkingDays():void {
     this.initializeDatepicker();
-
-    // If we're single date, update the date
-    if (!this.ignoreNonWorkingDays && this.date) {
-      // Resent the current start and end dates so duration can be calculated again.
-      this.dateUpdates$.next(this.date);
-    }
-
     this.cdRef.detectChanges();
   }
 
-  save($event:Event):void {
+  doSave($event:Event):void {
     $event.preventDefault();
-    // Apply the changed scheduling mode if any
-    this.changeset.setValue('scheduleManually', this.scheduleManually);
-
     // Apply include NWD
     this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
@@ -228,11 +210,11 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       this.changeset.setValue('date', mappedDate(this.date));
     }
 
-    this.closeMe();
+    this.save.emit();
   }
 
-  cancel():void {
-    this.closeMe();
+  doCancel():void {
+    this.cancel.emit();
   }
 
   updateDate(val:string|null):void {
@@ -251,20 +233,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
     this.enforceManualChangesToDatepicker(today);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
-    if (this.deviceService.isMobile) {
-      return;
-    }
-
-    element.position({
-      my: 'left top',
-      at: 'left bottom',
-      of: target,
-      collision: 'flipfit',
-    });
-  }
-
   private initializeDatepicker(minimalDate?:Date|null) {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
@@ -273,11 +241,10 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
       this.date || '',
       {
         mode: 'single',
-        showMonths: this.deviceService.isMobile ? 1 : 2,
+        showMonths: 1,
         inline: true,
-        onReady: (_date, _datestr, instance) => {
+        onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
-          this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
         },
         onChange: (dates:Date[]) => {
           if (dates.length > 0) {
@@ -285,7 +252,6 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
             this.enforceManualChangesToDatepicker(dates[0]);
           }
 
-          this.onDataChange();
           this.cdRef.detectChanges();
         },
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -294,22 +260,21 @@ export class SingleDateModalComponent extends OpModalComponent implements AfterV
             dayElem,
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            minimalDate,
             this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
   private enforceManualChangesToDatepicker(enforceDate?:Date) {
     const date = parseDate(this.date || '');
     setDates(date, this.datePickerInstance, enforceDate);
-  }
 
-  private onDataChange() {
-    this.onDataUpdated.emit(this.date || '');
+    if (date) {
+      this.date = this.timezoneService.formattedISODate(date);
+    }
   }
 
   /**

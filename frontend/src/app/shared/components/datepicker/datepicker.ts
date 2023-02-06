@@ -30,21 +30,18 @@ import flatpickr from 'flatpickr';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { rangeSeparator } from 'core-app/shared/components/op-date-picker/op-range-date-picker/op-range-date-picker.component';
 import { Injector } from '@angular/core';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { rangeSeparator } from './constants';
+
 import DateOption = flatpickr.Options.DateOption;
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 
 export class DatePicker {
   private datepickerFormat = 'Y-m-d';
 
-  private datepickerCont:HTMLElement = document.querySelector(this.datepickerElemIdentifier) as HTMLElement;
-
   public datepickerInstance:Instance;
-
-  private reshowTimeout:ReturnType<typeof setTimeout>;
 
   @InjectField() configurationService:ConfigurationService;
 
@@ -87,8 +84,6 @@ export class DatePicker {
     }
 
     this.datepickerInstance = Array.isArray(datePickerInstances) ? datePickerInstances[0] : datePickerInstances;
-
-    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public async isNonWorkingDay(day:Date):Promise<boolean> {
@@ -101,20 +96,17 @@ export class DatePicker {
 
   public destroy():void {
     this.hide();
-    this.datepickerInstance.destroy();
+    this.datepickerInstance?.destroy();
   }
 
   public hide():void {
     if (this.isOpen) {
       this.datepickerInstance.close();
     }
-
-    document.removeEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public show():void {
     this.datepickerInstance.open();
-    document.addEventListener('scroll', this.hideDuringScroll, true);
   }
 
   public setDates(dates:DateOption|DateOption[]):void {
@@ -123,50 +115,6 @@ export class DatePicker {
 
   public get isOpen():boolean {
     return this.datepickerInstance.isOpen;
-  }
-
-  private hideDuringScroll = (event:Event) => {
-    // Prevent Firefox quirk: flatPicker emits
-    // multiple scrolls event when it is open
-    const target = event.target as HTMLInputElement;
-
-    if (target?.classList?.contains('flatpickr-monthDropdown-months') || target?.classList?.contains('flatpickr-input')) {
-      return;
-    }
-
-    this.datepickerInstance.close();
-
-    if (this.reshowTimeout) {
-      clearTimeout(this.reshowTimeout);
-    }
-
-    this.reshowTimeout = setTimeout(() => {
-      if (this.visibleAndActive()) {
-        this.datepickerInstance.open();
-      }
-    }, 50);
-  };
-
-  private visibleAndActive() {
-    try {
-      return this.isInViewport(this.datepickerCont)
-        && document.activeElement === this.datepickerCont;
-    } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.error(`Failed to test visibleAndActive ${e}`);
-      return false;
-    }
-  }
-
-  private isInViewport(element:HTMLElement):boolean {
-    const rect = element.getBoundingClientRect();
-
-    return (
-      rect.top >= 0
-      && rect.left >= 0
-      && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-      && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
   }
 
   private get defaultOptions() {

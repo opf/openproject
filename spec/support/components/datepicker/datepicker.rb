@@ -5,12 +5,31 @@ module Components
     include RSpec::Matchers
     attr_reader :context_selector
 
+    ##
+    # Open a datepicker drop field with the trigger,
+    # and set the date to the given date.
+    # @param trigger [String] Selector to click the trigger at
+    # @param date [Date | String] Date or ISO8601 date string to set to
+    def self.update_field(trigger, date)
+      datepicker = Components::Datepicker.new
+
+      datepicker.instance_eval do
+        input = page.find(trigger)
+        input.click
+      end
+
+      date = Date.parse(date) unless date.is_a?(Date)
+      datepicker.set_date(date.strftime('%Y-%m-%d'))
+      datepicker.expect_current_date(date)
+      datepicker.save!
+    end
+
     def initialize(context = 'body')
       @context_selector = context
     end
 
     def container
-      page.find(context_selector)
+      page.document.find(context_selector)
     end
 
     def flatpickr_container
@@ -44,8 +63,10 @@ module Components
     ##
     # Select month from datepicker
     def select_month(month)
+      month_name = month.is_a?(Integer) ? I18n.t("date.month_names")[month] : month
+
       flatpickr_container
-        .first('.flatpickr-monthDropdown-months option', text: month, visible: :all)
+        .first('.flatpickr-monthDropdown-months option', text: month_name, visible: :all)
         .select_option
     end
 
@@ -82,6 +103,10 @@ module Components
 
       show_date(date)
       select_day date.day
+    end
+
+    def save!
+      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: "Save").click
     end
 
     ##

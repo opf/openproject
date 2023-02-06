@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { InAppNotificationBellComponent } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
@@ -41,7 +41,7 @@ import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/i
     InAppNotificationsDateAlertsUpsaleComponent,
   ],
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     // Routes for /backlogs
     UIRouterModule.forChild({
       states: IAN_ROUTES,

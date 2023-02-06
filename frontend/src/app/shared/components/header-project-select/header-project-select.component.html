@@ -1,9 +1,9 @@
 <spot-drop-modal
-  [open]="dropModalOpen"
+  [opened]="dropModalOpen"
+  [allowRepositioning]="false"
   (closed)="close()"
   alignment="bottom-left"
   class="op-project-list-modal"
-  data-searchable-list-parent="true"
 >
   <button
     id="projects-menu"
@@ -30,6 +30,7 @@
     </div>
     <div
       class="op-project-list-modal--body spot-container"
+      data-searchable-list-parent="true"
       *ngIf="projects$ | async as projects"
     >
       <spot-text-field

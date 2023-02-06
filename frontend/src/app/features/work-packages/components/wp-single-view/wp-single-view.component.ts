@@ -97,7 +97,7 @@ export interface ResourceContextChange {
 export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
-  templateUrl: './wp-single-view.html',
+  templateUrl: './wp-single-view.component.html',
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

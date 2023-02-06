@@ -93,17 +93,14 @@ describe CustomFieldFormBuilder do
         custom_field.field_format = 'date'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container' do
+      it_behaves_like 'wrapped in container', 'field-container' do
         let(:container_count) { 2 }
       end
 
       it 'outputs element' do
         expect(output).to be_html_eql(%{
-          <input class="custom-class -augmented-datepicker form--text-field"
-                 id="user#{custom_field.id}"
-                 name="user[#{custom_field.id}]"
-                 type="text" />
-        }).at_path('input')
+<op-single-date-picker class="custom-class" data-value="null" data-id='"user_custom_field_#{custom_field.id}"' data-name='"user[custom_field_#{custom_field.id}]"'></op-single-date-picker>
+        }).at_path('op-single-date-picker')
       end
     end
 

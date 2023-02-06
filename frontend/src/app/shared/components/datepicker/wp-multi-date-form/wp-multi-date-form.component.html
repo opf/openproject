@@ -1,18 +1,18 @@
 <form
-  class="spot-modal op-datepicker-modal loading-indicator--location"
   data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
+  class="op-datepicker-modal op-datepicker-modal_wide"
   #modalContainer
   data-indicator-name="modal"
   tabindex="0"
-  cdkFocusInitial
-  cdkTrapFocus
-  [cdkTrapFocusAutoCapture]="true"
-  (submit)="save($event)"
+  (submit)="doSave($event)"
 >
-  <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
+  <op-datepicker-banner
+    [scheduleManually]="scheduleManually"
+    class="op-datepicker-modal--banner"
+  ></op-datepicker-banner>
 
-  <div class="spot-modal--body spot-container form -vertical">
+  <div class="spot-container">
     <div class="op-datepicker-modal--toggle-actions-container">
       <op-datepicker-scheduling-toggle
         name="scheduleManually"
@@ -104,15 +104,18 @@
       </spot-form-field>
     </div>
 
-    <input id="flatpickr-input"
-           hidden>
+    <input
+      #flatpickrTarget
+      id="flatpickr-input"
+      hidden
+    />
   </div>
 
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         type="button"
-        (click)="cancel()"
+        (click)="doCancel()"
         class="op-datepicker-modal--action spot-modal--cancel-button button button_no-margin spot-action-bar--action"
         data-qa-selector="op-datepicker-modal--action"
         [textContent]="text.cancel"

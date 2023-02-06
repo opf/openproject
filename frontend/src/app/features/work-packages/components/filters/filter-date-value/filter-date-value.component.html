@@ -1,11 +1,9 @@
-<div id="div-values-{{filter.id}}">
-  <op-single-date-picker (changed)="value = parser($event)"
-                  [initialDate]="formatter(value)"
-                  [opAutofocus]="shouldFocus"
-                  required="true"
-                  [id]="'values-' + filter.id"
-                  [name]="'v[' + filter.id + ']'"
-                  classes="advanced-filters--date-field"
-                  size="10">
-  </op-single-date-picker>
-</div>
+<op-single-date-picker
+  [id]="'values-' + filter.id"
+  [name]="'v[' + filter.id + ']'"
+  class="advanced-filters--date-field"
+  [opAutofocus]="shouldFocus"
+  (changed)="value = parser($event)"
+  [value]="formatter(value)"
+  [required]="true"
+></op-single-date-picker>

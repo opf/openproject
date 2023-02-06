@@ -33,20 +33,17 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  Inject,
+  Input,
   Injector,
   ViewChild,
   ViewEncapsulation,
+  OnInit,
+  Output,
+  HostBinding,
 } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import flatpickr from 'flatpickr';
@@ -56,7 +53,6 @@ import {
   map,
   switchMap,
 } from 'rxjs/operators';
-import { activeFieldContainerClassName } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import {
   fromEvent,
   merge,
@@ -77,16 +73,22 @@ import {
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import { DatePicker } from '../datepicker';
+
 import DateOption = flatpickr.Options.DateOption;
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
 
-type StartUpdate = { startDate:string };
-type EndUpdate = { dueDate:string };
-type DurationUpdate = { duration:string|number|null };
-type DateUpdate = { date:string };
-type ActiveDateChange = [DateFields, null|Date|Date];
+export type StartUpdate = { startDate:string };
+export type EndUpdate = { dueDate:string };
+export type DurationUpdate = { duration:string|number|null };
+export type DateUpdate = { date:string };
+export type ActiveDateChange = [DateFields, null|Date|Date];
 
 export type FieldUpdates =
   StartUpdate
@@ -97,32 +99,37 @@ export type FieldUpdates =
   |DateUpdate;
 
 @Component({
-  templateUrl: './multi-date.modal.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  selector: 'op-wp-multi-date-form',
+  templateUrl: './wp-multi-date-form.component.html',
+  styleUrls: [
+    '../styles/datepicker.modal.sass',
+    '../styles/datepicker_mobile.modal.sass',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     DateModalRelationsService,
+    DateModalSchedulingService,
   ],
 })
-export class MultiDateModalComponent extends OpModalComponent implements AfterViewInit {
-  @InjectField() I18n!:I18nService;
+export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
+  @HostBinding('class.op-datepicker-modal') className = true;
 
-  @InjectField() timezoneService:TimezoneService;
-
-  @InjectField() halEditing:HalResourceEditingService;
-
-  @InjectField() dateModalRelations:DateModalRelationsService;
-
-  @InjectField() deviceService:DeviceService;
-
-  @InjectField() weekdayService:WeekdayService;
-
-  @InjectField() focusHelper:FocusHelperService;
+  @HostBinding('class.op-datepicker-modal_wide') classNameWide = true;
 
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   @ViewChild('durationField', { read: ElementRef }) durationField:ElementRef<HTMLElement>;
+
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+
+  @Input() changeset:ResourceChangeset;
+
+  @Input() fieldName:string = '';
+
+  @Output() cancel = new EventEmitter();
+
+  @Output() save = new EventEmitter();
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -134,8 +141,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     today: this.I18n.t('js.label_today'),
     days: (count:number):string => this.I18n.t('js.units.day', { count }),
   };
-
-  onDataUpdated = new EventEmitter<string>();
 
   scheduleManually = false;
 
@@ -190,7 +195,12 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
         this.clearWithDuration(field);
       }
 
-      this.onDataChange();
+      // The duration field is special in how it handles focus transitions
+      // For start/due we just toggle here
+      if (field !== 'duration') {
+        this.toggleCurrentActivatedField();
+      }
+
       this.cdRef.detectChanges();
     });
 
@@ -212,43 +222,51 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   // which is different from the highlight state...
   durationFocused = false;
 
-  private changeset:ResourceChangeset;
-
   ignoreNonWorkingDaysWritable = true;
 
   private datePickerInstance:DatePicker;
 
   private formUpdates$ = new Subject<FieldUpdates>();
 
-  private dateUpdateRequests$ = this
-    .formUpdates$
-    .pipe(
-      this.untilDestroyed(),
-      switchMap((fieldsToUpdate:FieldUpdates) => this
-        .apiV3Service
-        .work_packages
-        .withOptionalId(this.changeset.id === 'new' ? null : this.changeset.id)
-        .form
-        .forPayload({
-          ...fieldsToUpdate,
-          lockVersion: this.changeset.value<string>('lockVersion'),
-          ignoreNonWorkingDays: this.ignoreNonWorkingDays,
-          scheduleManually: this.scheduleManually,
-        })),
-    )
-    .subscribe((form) => this.updateDatesFromForm(form));
-
   constructor(
     readonly injector:Injector,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    readonly configurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
+    readonly I18n:I18nService,
+    readonly timezoneService:TimezoneService,
+    readonly halEditing:HalResourceEditingService,
+    readonly dateModalScheduling:DateModalSchedulingService,
+    readonly dateModalRelations:DateModalRelationsService,
+    readonly deviceService:DeviceService,
+    readonly weekdayService:WeekdayService,
+    readonly focusHelper:FocusHelperService,
   ) {
-    super(locals, cdRef, elementRef);
-    this.changeset = locals.changeset as ResourceChangeset;
-    this.htmlId = `wp-datepicker-${locals.fieldName as string}`;
+    super();
+
+    this
+      .formUpdates$
+      .pipe(
+        this.untilDestroyed(),
+        switchMap((fieldsToUpdate:FieldUpdates) => this
+          .apiV3Service
+          .work_packages
+          .withOptionalId(this.changeset.id === 'new' ? null : this.changeset.id)
+          .form
+          .forPayload({
+            ...fieldsToUpdate,
+            lockVersion: this.changeset.value<string>('lockVersion'),
+            ignoreNonWorkingDays: this.ignoreNonWorkingDays,
+            scheduleManually: this.scheduleManually,
+          })),
+      )
+      .subscribe((form) => this.updateDatesFromForm(form));
+  }
+
+  ngOnInit(): void {
+    this.htmlId = `wp-datepicker-${this.fieldName as string}`;
+
+    this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
 
     this.scheduleManually = !!this.changeset.value('scheduleManually');
     this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
@@ -271,28 +289,33 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   }
 
   ngAfterViewInit():void {
+    const init = (date:Date|null) => {
+      this.initializeDatepicker(date);
+
+      // Autofocus duration if that's what activated us
+      if (this.initialActivatedField === 'duration') {
+        this.focusHelper.focus(this.durationField.nativeElement);
+      }
+    };
+
+    if (isNewResource(this.changeset.pristineResource)) {
+      init(null);
+      return;
+    }
+
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
-      .subscribe((date) => {
-        this.initializeDatepicker(date);
-        this.onDataChange();
-      });
-
-    // Autofocus duration if that's what activated us
-    if (this.initialActivatedField === 'duration') {
-      this.focusHelper.focus(this.durationField.nativeElement);
-    }
+      .subscribe((date) => init(date));
   }
 
   changeSchedulingMode():void {
-    this.initializeDatepicker();
-
     // If removing manual scheduling on parent, reset ignoreNWD to original value
     if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
       this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
     }
 
+    this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
 
@@ -317,7 +340,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     this.cdRef.detectChanges();
   }
 
-  save($event:Event):void {
+  doSave($event:Event):void {
     $event.preventDefault();
     // Apply the changed scheduling mode if any
     this.changeset.setValue('scheduleManually', this.scheduleManually);
@@ -332,11 +355,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
       this.changeset.setValue('duration', this.durationAsIso8601);
     }
 
-    this.closeMe();
+    this.save.emit();
   }
 
-  cancel():void {
-    this.closeMe();
+  doCancel():void {
+    this.cancel.emit();
   }
 
   updateDate(key:DateKeys, val:string|null):void {
@@ -362,23 +385,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
   setToday(key:DateKeys):void {
     this.datepickerChanged$.next([key, new Date()]);
-
-    const nextActive = key === 'start' ? 'end' : 'start';
-    this.setCurrentActivatedField(nextActive);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  reposition(element:JQuery<HTMLElement>, target:JQuery<HTMLElement>):void {
-    if (this.deviceService.isMobile) {
-      return;
-    }
-
-    element.position({
-      my: 'left top',
-      at: 'left bottom',
-      of: target,
-      collision: 'flipfit',
-    });
   }
 
   showTodayLink():boolean {
@@ -467,7 +473,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
 
           if (!this.modalPositioned) {
-            this.reposition(jQuery(this.modalContainer.nativeElement), jQuery(`.${activeFieldContainerClassName}`));
             this.modalPositioned = true;
           }
 
@@ -487,12 +492,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
           // Update with the same flow as entering a value
           const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
-
-          // The duration field is special in how it handles focus transitions
-          // For start/due we just toggle here
-          if (activeField !== 'duration') {
-            this.toggleCurrentActivatedField();
-          }
         },
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
@@ -500,12 +499,11 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
             dayElem,
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            minimalDate,
             this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },
-      null,
+      this.flatpickrTarget.nativeElement,
     );
   }
 
@@ -528,7 +526,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
 
     const dates = [startDate, endDate];
     setDates(dates, this.datePickerInstance, enforceDate);
-    this.onDataChange();
   }
 
   private setDatesAndDeriveDuration(newStart:Date, newEnd:Date) {
@@ -731,16 +728,8 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
     }
   }
 
-  private onDataChange() {
-    const start = this.dates.start || '';
-    const end = this.dates.end || '';
-
-    const output = `${start} - ${end}`;
-    this.onDataUpdated.emit(output);
-  }
-
   private get initialActivatedField():DateFields {
-    switch (this.locals.fieldName) {
+    switch (this.fieldName) {
       case 'startDate':
         return 'start';
       case 'dueDate':

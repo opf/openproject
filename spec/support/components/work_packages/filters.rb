@@ -193,7 +193,16 @@ module Components
 
       def set_value(id, value)
         retry_block do
-          if page.has_selector?("#filter_#{id} .ng-select-container")
+          if page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']")
+            datepicker = Components::WorkPackageDatepicker.new
+            datepicker.set_start_date(value[0])
+            datepicker.set_due_date(value[1])
+            datepicker.save!
+          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-single-date-picker']")
+            datepicker = Components::Datepicker.new
+            datepicker.set_date(value[0])
+            datepicker.save!
+          elsif page.has_selector?("#filter_#{id} .ng-select-container")
             Array(value).each do |val|
               select_autocomplete page.find("#filter_#{id}"),
                                   query: val,
@@ -234,6 +243,15 @@ module Components
           if is_select
             value.each do |v|
               expect(page).to have_selector("#values-#{id} .ng-value-label", text: v)
+            end
+          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']")
+            input = page.find("#filter_#{id} [data-qa-selector='op-multi-date-picker'] input")
+            if value[1]
+              expect(input.value).to eql("#{value[0]} - #{value[1]}")
+            elsif value[0]
+              expect(input.value).to eql("#{value[0]}")
+            else
+              expect(input.value).to eql("-")
             end
           else
             page.all('input').each_with_index do |input, index|

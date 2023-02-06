@@ -14,8 +14,8 @@
     <op-single-date-picker
       [id]="fieldId + '_visible'"
       [name]="fieldId + '_input'"
-      [initialDate]="fieldValue"
-      (changed)="updateField($event)"
+      [value]="fieldValue"
+      (valueChange)="updateField($event)"
       classes="form--text-field">
     </op-single-date-picker>
   </span>
