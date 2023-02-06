@@ -31,8 +31,6 @@
 require "rails_helper"
 
 RSpec.describe ActivityItemComponent, type: :component do
-  pending "add some examples to (or delete) #{__FILE__}"
-
   let(:event) do
     Activities::Event.new(
       event_title: "Event Title",
@@ -46,9 +44,10 @@ RSpec.describe ActivityItemComponent, type: :component do
   let(:project) { build_stubbed(:project) }
   let(:journal) { build_stubbed(:project_journal, journable: project) }
 
-  it "renders the title" do
+  it 'renders the title escaped' do
+    event.event_title = 'Hello <b>World</b>!'
     render_inline(described_class.new(event:, journal:))
 
-    expect(page).to have_css('.op-project-activity-list--item-title', text: 'Event Title')
+    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
   end
 end

@@ -81,7 +81,7 @@ describe 'Project attributes activities' do
 
     click_button 'Apply'
 
-    within("li.op-project-activity-list--item", match: :first) do
+    within("li.op-activity-list--item", match: :first) do
       expect(page)
         .to have_link("Project: #{project.name}")
 

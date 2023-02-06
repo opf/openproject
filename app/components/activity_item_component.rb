@@ -30,7 +30,6 @@
 
 class ActivityItemComponent < ViewComponent::Base
   delegate :avatar,
-           :format_activity_title,
            :format_time,
            :link_to_user,
            :truncate_formatted_text,
@@ -56,5 +55,9 @@ class ActivityItemComponent < ViewComponent::Base
     @journal.details
       .map { |detail| @journal.render_detail(detail) }
       .compact
+  end
+
+  def format_activity_title(text)
+    helpers.truncate_single_line(text, length: 100)
   end
 end

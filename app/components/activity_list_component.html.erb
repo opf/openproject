@@ -1,4 +1,4 @@
-<ul class="op-project-activity-list">
+<ul class="op-activity-list">
   <% @events.each do |event| -%>
     <% journal = @journals_by_id[event.event_id] -%>
     <%= render(ActivityItemComponent.new(event:, journal:)) %>

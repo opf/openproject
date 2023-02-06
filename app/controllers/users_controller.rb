@@ -76,7 +76,6 @@ class UsersController < ApplicationController
                         .visible(current_user)
 
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
-    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     if !current_user.allowed_to_globally?(:manage_user) &&
        (!(@user.active? ||
@@ -85,9 +84,22 @@ class UsersController < ApplicationController
       render_404
     else
       respond_to do |format|
-        format.html { render layout: 'no_menu' }
+        format.html do
+          show_respond_html(events)
+        end
       end
     end
+  end
+
+  def show_respond_html(events)
+    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
+    @journals_by_id = Journal
+      .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
+      .find(events.pluck(:event_id))
+      .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
+      .index_by(&:id)
+
+    render layout: 'no_menu'
   end
 
   def new
