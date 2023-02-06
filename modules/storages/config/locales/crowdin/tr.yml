@@ -51,7 +51,7 @@ tr:
       type_link_text: "“Entegrasyon OpenProject”"
       name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
       host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
-      no_storage_set_up: "There are no file storages set up yet."
+      no_storage_set_up: "Henüz ayarlanmış dosya deposu yok."
       setting_up_additional_storages: "Ek dosya depoları ayarlamak için lütfen adresi ziyaret edin."
       setting_up_additional_storages_non_admin: "Yöneticiler, Yönetim'de ek dosya depoları kurabilir"
       setting_up_storages: "Dosya depolarını ayarlamak için lütfen adresi ziyaret edin."
@@ -79,7 +79,7 @@ tr:
     label_new_storage: "Yeni depolama"
     label_storage: "Depolama"
     label_storages: "Depolamalar"
-    no_results: "No storages set up yet."
+    no_results: "Henüz ayarlanmış depolama alanı yok."
     provider_types:
       label: "Sağlayıcı türü"
       nextcloud:

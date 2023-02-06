@@ -25,9 +25,9 @@ pl:
         not_logged_in: >
           Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
+        dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
+        file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
       file_links:
         empty: >
           Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.
@@ -52,9 +52,9 @@ pl:
           few: "Pomyślnie utworzono %{count} połączenia plików."
           many: "Pomyślnie utworzono %{count} połączeń plików."
           other: "Pomyślnie utworzono %{count} połączeń plików."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error: "Wystąpił błąd podczas przesyłania pliku '%{fileName}'."
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         not_allowed_tooltip: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"
         already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
         already_linked_directory: "Ten katalog jest już powiązany z tym pakietem roboczym."

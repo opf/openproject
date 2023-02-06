@@ -478,7 +478,7 @@ pl:
     label_drop_files: "Upuść pliki tutaj, aby je załączyć."
     label_drop_or_click_files: "Upuść pliki tutaj lub kliknij, aby je załączyć."
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Załącz pliki"
     label_formattable_attachment_hint: "Aby załączyć pliki, przeciągnij je tutaj lub wklej ze schowka."
     label_remove_file: "Usuń %{fileName}"
     label_remove_watcher: "Usuń obserwującego %{name}"
@@ -659,7 +659,7 @@ pl:
     project:
       required_outside_context: >
         Wybierz projekt, w którym chcesz utworzyć pakiet roboczy, aby zobaczyć wszystkie atrybuty. Możesz wybrać tylko projekty, które mają aktywowany powyższy typ.
-      details_activity: 'Project details activity'
+      details_activity: 'Szczegóły projektu'
       context: 'Kontekst projektu'
       work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
@@ -1199,7 +1199,7 @@ pl:
           title: 'Użytkownik zastępczy'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Nie ma dostępu do projektu i żadne wiadomości e-mail nie są wysyłane. <br>Sprawdź <a href="%{eeHref}" target="_blank">wersję Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nazwa lub adres e-mail'

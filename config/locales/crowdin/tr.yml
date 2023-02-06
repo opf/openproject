@@ -65,13 +65,13 @@ tr:
       theme_warning: Temayı değiştirmek size özel stilin üzerine yazacaktır. Tasarım daha sonra kaybolacak. Devam etmek istediğine emin misin?
     enterprise:
       upgrade_to_ee: "Enterprise Edition sürümüne yükseltin"
-      add_token: "Upload an Enterprise edition support token"
+      add_token: "Bir Enterprise sürümü destek belirteci yükleyin"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Kullanılan geçerli Enterprise sürümü belirtecini kaldırmak istediğinizden emin misiniz?"
         title: "Delete token"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises edition sipariş edin"
-      paste: "Paste your Enterprise edition support token"
+      paste: "Enterprise sürümü destek belirtecinizi yapıştırın"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Daha fazla bilgi için burayı tıklatın."
       start_trial: 'Deneme sürümüne başla'
@@ -80,7 +80,7 @@ tr:
       buttons:
         upgrade: "Hemen Yükselt"
         contact: "Demo için bizimle iletişime geçin"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
@@ -329,15 +329,14 @@ tr:
       query_group_placeholder: "Tabloya bir ad verin"
       reset: "Varsayılanlara geri yükle"
       type_color_text: |
-        The selected color distinguishes different types
-        in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        Seçilen renk, Gantt şemalarında veya iş paketleri tablolarında farklı türleri ayırt eder. Bu nedenle güçlü bir renk kullanılması önerilir.
   versions:
     overview:
       no_results_title_text: Bu sürüme atadığım iş paketi bulunmuyor.
   wiki:
     page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Bu, bu wiki sayfasının içeriğini herhangi bir gezinme çubuğu olmadan yazdıracaktır.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle
   work_flows:
@@ -349,8 +348,8 @@ tr:
       other: '%{count} Bir soydan iş paketi'
     bulk:
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
+      none_could_be_saved: "%{total} iş paketlerinin hiçbiri güncellenemedi."
+      x_out_of_y_could_be_saved: "%{total} iş paketinden %{failing} tanesi güncellenemezken %{success} güncellenebildi."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
     move:
@@ -376,7 +375,7 @@ tr:
   account:
     delete: "Hesabı sil"
     delete_confirmation: "Hesabını silmek istediğinden emin misin?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Hesap kilitlendi ve silinmek üzere planlandı. Bu işlemin arka planda gerçekleştiğini unutmayın. Kullanıcının tamamen silinmesi birkaç dakika sürebilir."
     deletion_info:
       data_consequences:
         other: "Kullanıcının oluşturduğu (ör. E-posta, tercihler, iş paketleri, wiki girdileri) mümkün olduğunca silinen verilerden. Bununla birlikte, iş paketleri ve wiki girdileri gibi veriler, diğer kullanıcıların çalışmalarını engellemeden silinemez. Bu tür veriler, \"Silinmiş kullanıcı\" adı verilen bir hesaba yeniden atanır. Her silinen hesabın verileri bu hesaba yeniden atandığından, kullanıcının oluşturduğu verileri başka bir silinen hesabın verilerinden ayırt etmek mümkün olmayacaktır."
@@ -582,13 +581,13 @@ tr:
         before: "%{date}'dan daha önce olması gerekir."
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: "boş bırakılamaz."
-        blank_nested: "needs to have the property '%{property}' set."
+        blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cant_link_a_work_package_with_a_descendant: "İş paketi alt görevlerinden birine bağlanamaz."
         circular_dependency: "Bu ilişki döngüsel bağımlılık oluşturacak."
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
         does_not_exist: "mevcut değil."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} yalnızca OpenProject Enterprise sürümünde mevcuttur"
         error_unauthorized: "erişilemez."
         error_readonly: "yazılmaya çalışıldı fakat yazılabilir değil."
         email: "Geçerli bir e-posta adresi değil.\n"
@@ -598,13 +597,13 @@ tr:
         file_too_large: "çok büyük (en büyük boyut %{count} bayt)."
         filter_does_not_exist: "Filtre mevcut değil"
         format: "Beklenen biçim '%{expected}' ile eşleşmiyor."
-        format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
+        format_nested: "'%{path}' yolundaki '%{expected}' beklenen biçimiyle eşleşmiyor."
         greater_than: "%{count}'ten büyük olması gerekir."
         greater_than_or_equal_to: "%{count} ya da daha büyük olması gerekir."
         greater_than_or_equal_to_start_date: "başlangıç tarihi ile aynı ya da daha büyük olması gerekir."
         greater_than_start_date: "başlangıç tarihinden daha büyük olması gerekir."
         inclusion: "izin verilen değerlerden birine ayarlanmamış."
-        inclusion_nested: "is not set to one of the allowed values at path '%{path}'."
+        inclusion_nested: "'%{path}' yolunda izin verilen değerlerden birine ayarlanmamış."
         invalid: "geçersizdir."
         invalid_url: 'geçerli bir adres değil.'
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
@@ -625,11 +624,11 @@ tr:
         taken: "zaten alınmıştır."
         too_long: "çok uzun (en fazla %{count} karakterdir)."
         too_short: "çok kısa (en az %{count} karakterdir)."
-        type_mismatch: "is not of type '%{type}'"
-        type_mismatch_nested: "is not of type '%{type}' at path '%{path}'"
+        type_mismatch: "'%{type}' türünde değil"
+        type_mismatch_nested: "'%{path}' yolunda '%{type}' türünde değil"
         unchangeable: "değiştirilemez."
-        unknown_property: "is not a known property."
-        unknown_property_nested: "has the unknown path '%{path}'."
+        unknown_property: "bilinen bir özellik değildir."
+        unknown_property_nested: "'%{path}' bilinmeyen yolu var."
         unremovable: "kaldırılamadı."
         url_not_secure_context: >
           bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
@@ -644,7 +643,7 @@ tr:
           attributes:
             content_type:
               blank: "Dosyanın içerik türü boş olamaz."
-              not_whitelisted: "The file was rejected by an automatic filter. '%{value}' is not whitelisted for upload."
+              not_whitelisted: "Dosya, otomatik bir filtre tarafından reddedildi. '%{value}' yükleme için beyaz listeye alınmadı."
               format: "%{message}"
         capability:
           context:
@@ -1297,7 +1296,7 @@ tr:
   error_cookie_missing: 'OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi için, tarayıcınızda çerezlere izin verildiğine emin olun.'
   error_custom_option_not_found: "Seçenek yok."
   error_enterprise_activation_user_limit: "Hesabınız etkinleştirilemedi (kullanıcı limitine ulaşıldı). Erişim sağlamak için lütfen yöneticinize başvurun."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "Enterprise sürümü etkin değil. Enterprise belirtecinizin alanı (%{actual}), sistemin ana bilgisayar adıyla (%{expected}) eşleşmiyor."
   error_failed_to_delete_entry: 'Girdi silinemedi.'
   error_in_dependent: "Bağımlı nesneyi değiştirmeye çalışırken hata: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1335,8 +1334,8 @@ tr:
     changeset: 'Değişiklikler düzenlendi'
     message: Mesaj düzenlendi
     news: Haberler
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Proje öznitelikleri düzenlendi'
+    projects: 'Proje düzenlendi'
     reply: Yanıtlandı
     time_entry: 'Timelog düzenlendi'
     wiki_page: 'Viki sayfası düzenlendi'
@@ -2623,11 +2622,11 @@ tr:
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Enterprise sürümü, iş paketlerinin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Liste veya Kullanıcı türündeki özel alanlar için çoklu seçime izin verin</b></li> < /ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Enterprise sürümü, iş paketlerinin durum alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>İş paketlerini belirli durumlar için salt okunur olarak işaretlemeye izin verin</b></li> < /ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Enterprise sürümü, projelerin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Bir proje portföy görünümü oluşturmak için Projeler için özel alanları Proje listenize ekleyin</b></li > </ul>
   text_custom_logo_instructions: >
     Saydam arka plan üzerinde beyaz bir logo önerilir. Hem geleneksel en iyi sonuçları almak ve retina görüntüler için resm boyutlarının 60px ye 460px olduğundan emin olun.
   text_custom_favicon_instructions: >
@@ -3122,15 +3121,15 @@ tr:
     labels:
       label_oauth_integration: "OAuth2 integration"
       label_redirect_uri: "Redirect URI"
-      label_request_token: "Request token"
-      label_refresh_token: "Refresh token"
+      label_request_token: "Belirteç iste"
+      label_refresh_token: "Belirteci yenile"
     errors:
-      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_authorization_code_grant_had_errors: "OAuth2 bir hata döndürdü"
       oauth_reported: "OAuth2 provider reported"
-      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_error: "OAuth2 bir hata döndürdü"
       oauth_returned_json_error: "OAuth2 returned a JSON error"
-      oauth_returned_http_error: "OAuth2 returned a network error"
-      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      oauth_returned_http_error: "OAuth2 bir ağ hatası döndürdü"
+      oauth_returned_standard_error: "OAuth2 bir dahili hata döndürdü"
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
