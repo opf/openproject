@@ -458,7 +458,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.98.0)
+    excon (0.99.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -499,7 +499,7 @@ GEM
     fuubar (2.5.1)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
-    git (1.13.1)
+    git (1.13.2)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     globalid (1.1.0)
