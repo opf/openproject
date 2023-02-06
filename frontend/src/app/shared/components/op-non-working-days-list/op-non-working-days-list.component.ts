@@ -27,6 +27,7 @@ import { CalendarViewEvent } from 'core-app/features/calendar/op-work-packages-c
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
@@ -54,6 +55,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   text = {
     empty_state_header: this.I18n.t('js.admin.working_days.calendar.empty_state_header'),
     empty_state_description: this.I18n.t('js.admin.working_days.calendar.empty_state_description'),
+    already_added_error: this.I18n.t('js.admin.working_days.already_added_error'),
     new_date: this.I18n.t('js.admin.working_days.calendar.new_date'),
     add_non_working_day: this.I18n.t('js.admin.working_days.add_non_working_day'),
     change_description: this.I18n.t('js.admin.working_days.change_description'),
@@ -111,19 +113,25 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   };
 
   constructor(
-    readonly elementRef:ElementRef,
+    readonly elementRef:ElementRef<HTMLElement>,
     protected I18n:I18nService,
-    protected bannersService:BannersService,
-    protected opModalService:OpModalService,
+    readonly bannersService:BannersService,
+    readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly pathHelper:PathHelperService,
     readonly apiV3Service:ApiV3Service,
     readonly dayService:DayResourceService,
     readonly confirmDialogService:ConfirmDialogService,
+    readonly toast:ToastService,
   ) {
     populateInputsFromDataset(this);
-    document.addEventListener('submit', (evt:Event) => {
-      if (this.form_submitted === false) {
+    this.listenToFormSubmit();
+  }
+
+  private listenToFormSubmit() {
+    const form = this.elementRef.nativeElement.closest('form') as HTMLFormElement;
+    form.addEventListener('submit', (evt:Event) => {
+      if (!this.form_submitted) {
         this.form_submitted = true;
         const target = evt.target as HTMLFormElement;
         const options:ConfirmDialogOptions = {
@@ -264,6 +272,12 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     } as INonWorkingDay;
 
     const api = this.ucCalendar.getApi();
+
+    if (api.getEvents().find((evt) => evt.startStr === date)) {
+      this.toast.addError(this.text.already_added_error);
+      return;
+    }
+
     this.nonWorkingDays.push(day as unknown as IDay);
     api.addEvent({ ...day });
     this.addNonWorkingdayInputs(day);

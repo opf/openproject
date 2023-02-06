@@ -198,7 +198,7 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'My holiday'
       end
 
-      date1 = Time.zone.today.next_occurring(:monday)
+      date1 = Time.zone.today.next_week.next_occurring(:monday)
       datepicker.set_date date1
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
@@ -214,7 +214,7 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'Another important day'
       end
 
-      date2 = Time.zone.today.next_occurring(:tuesday)
+      date2 = Time.zone.today.next_week.next_occurring(:tuesday)
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
@@ -245,13 +245,14 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'Instance-wide NWD'
       end
 
-      date2 = Time.zone.today.next_occurring(:tuesday)
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Save'
       end
       expect(page).not_to have_selector('.flatpickr-calendar')
+
+      expect(page).to have_selector('.op-toast', text: /A non-working day for this date exists already/)
     end
 
     it 'deletes a non-working day' do
