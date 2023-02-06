@@ -58,6 +58,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
+    content: {
+      empty: this.i18n.t('js.storages.files.empty_folder'),
+    },
     buttons: {
       submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
       cancel: this.i18n.t('js.button_cancel'),
