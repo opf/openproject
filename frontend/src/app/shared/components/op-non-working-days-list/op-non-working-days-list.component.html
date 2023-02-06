@@ -5,8 +5,19 @@
   class="op-non-working-days-list--calendar"
 ></full-calendar>
 
+<ng-container *ngFor="let date of nonWorkingDays;">
+  <ng-container *ngIf="!date.id">
+    <input type="hidden" name="settings[non_working_days_attributes][{{ date.date }}][date]" [value]="date.date"/>
+    <input type="hidden" name="settings[non_working_days_attributes][{{ date.date }}][name]" [value]="date.name"/>
+  </ng-container>
+  <ng-container *ngIf="date.id && date._destroy">
+    <input type="hidden" name="settings[non_working_days_attributes][{{ date.id }}][id]" [value]="date.id"/>
+    <input type="hidden" name="settings[non_working_days_attributes][{{ date.id }}][_destroy]" value="true" />
+  </ng-container>
+</ng-container>
+
 <div
-class="op-non-working-days-list--add-button"
+  class="op-non-working-days-list--add-button"
 >
   <op-single-date-picker
     id="test"

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
@@ -32,10 +33,10 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
 export interface INonWorkingDay {
-  id:string;
+  id:string|null;
   name:string;
   date:string;
-  _destroy:boolean|null;
+  _destroy?:boolean;
 }
 
 @Component({
@@ -68,9 +69,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
   form_submitted = false;
 
-  nonWorkingDays:IDay[] = [];
-
-  removedNonWorkingDays:string[] = [];
+  nonWorkingDays:INonWorkingDay[] = [];
 
   datepickerOpened = false;
 
@@ -98,12 +97,15 @@ export class OpNonWorkingDaysListComponent implements OnInit {
 
       anchor.addEventListener('click', () => {
         // Create 4 hidden inputs(id, name, date, _destroy) for the deleted NWD
-        this.addRemovedNonWorkingdayInputs({
-          id: event.id,
-          name: event.title,
-          date: event.startStr,
-        } as unknown as INonWorkingDay);
+        this.nonWorkingDays = this.nonWorkingDays.map((item) => {
+          if (item.date === event.id) {
+            return { ...item, _destroy: true };
+          }
+
+          return item;
+        });
         event.remove();
+        this.cdRef.detectChanges();
       });
       td.appendChild(anchor);
       el.appendChild(td);
@@ -123,6 +125,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     readonly dayService:DayResourceService,
     readonly confirmDialogService:ConfirmDialogService,
     readonly toast:ToastService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     populateInputsFromDataset(this);
     this.listenToFormSubmit();
@@ -157,28 +160,18 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   }
 
   ngOnInit():void {
-    if (this.modifiedNonWorkingDays.length > 0) {
-      const removedNWD = this.modifiedNonWorkingDays.filter((event) => event._destroy === true);
-      const addedNWD = this.modifiedNonWorkingDays.filter((event) => event.id === null);
+    this
+      .modifiedNonWorkingDays
+      .forEach((el) => {
+        this.nonWorkingDays.push({ ...el });
+      });
+  }
 
-      if (addedNWD.length > 0) {
-        addedNWD.forEach((NWD, index) => {
-          const id = `new${(Date.now()).toString()}${index}`;
-          NWD.id = id;
-          this.nonWorkingDays.push({
-            name: NWD.name,
-            date: NWD.date,
-            id: NWD.id,
-          } as IDay);
-          this.addNonWorkingdayInputs(NWD);
-        });
-      }
-      if (removedNWD.length > 0) {
-        removedNWD.forEach((NWD) => {
-          this.addRemovedNonWorkingdayInputs(NWD);
-        });
-      }
-    }
+  public get removedNonWorkingDays():string[] {
+    return this
+      .nonWorkingDays
+      .filter((el) => el._destroy)
+      .map((el) => el.date);
   }
 
   public calendarEventsFunction(
@@ -189,67 +182,26 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     this.dayService.requireNonWorkingYear$(fetchInfo.start)
       .subscribe(
         (days:IDay[]) => {
-          if (this.modifiedNonWorkingDays.length > 0) {
-            this.nonWorkingDays = [...this.nonWorkingDays, ...days];
-            const removedNWD = this.modifiedNonWorkingDays.filter((event) => event._destroy === true);
-            this.nonWorkingDays = this.nonWorkingDays.filter((ar) => !removedNWD.find((rm) => (rm._destroy === true && rm.id === ar.id)));
-          } else {
-            this.nonWorkingDays = days;
-          }
+          this.nonWorkingDays = _
+            .uniqBy([...this.nonWorkingDays, ...days], (el) => el.date)
+            .filter((el:INonWorkingDay) => !this.nonWorkingDays.find((existing) => existing.id === el.id && existing._destroy));
 
           const events = this.mapToCalendarEvents(this.nonWorkingDays);
           successCallback(events);
+          this.cdRef.detectChanges();
         },
         failureCallback,
       );
   }
 
-  private mapToCalendarEvents(nonWorkingDays:IDay[]) {
-    return nonWorkingDays.map((NWD:IDay) => ({
-      title: NWD.name,
-      start: NWD.date,
-      id: NWD.id,
-    })).filter((event) => !!event) as EventInput[];
-  }
-
-  private addNonWorkingdayInputs(event:INonWorkingDay):void {
-    const element = jQuery(this.elementRef.nativeElement);
-    const eventID = event.id !== null ? event.id : `new${(Math.floor(Date.now() / 1000)).toString()}`;
-    element
-      .parent()
-      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${eventID}'][date]" value="${event.date}" id="${eventID}"/>`);
-
-    element
-      .parent()
-      .append(`<input type="hidden" name="settings[non_working_days_attributes]['${eventID}'][name]" value="${event.name}" id="${eventID}"/>`);
-  }
-
-  private addRemovedNonWorkingdayInputs(event:INonWorkingDay):void {
-    const element = jQuery(this.elementRef.nativeElement);
-    if (event.id !== null) {
-      this.removedNonWorkingDays.push(moment(event.date).format('MMMM DD, YYYY'));
-      const id = (event.id.toString()).substring(0, 3);
-      if (id !== 'new') {
-        element
-          .parent()
-          .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][id]" value="${event.id}"/>`);
-
-        element
-          .parent()
-          .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][date]" value="${event.date}"/>`);
-
-        element
-          .parent()
-          .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][name]" value="${event.name}"/>`);
-
-        element
-          .parent()
-          .append(`<input type="hidden" name="settings[non_working_days_attributes]['${event.id}'][_destroy]" value="true"/>`);
-      } else {
-        const newHiddenInputs = document.querySelectorAll(`#${event.id}`);
-        newHiddenInputs.forEach((input) => input.remove());
-      }
-    }
+  private mapToCalendarEvents(nonWorkingDays:INonWorkingDay[]) {
+    return nonWorkingDays
+      .filter((nwd) => nwd._destroy !== true)
+      .map((nwd:IDay) => ({
+        title: nwd.name,
+        start: nwd.date,
+        id: nwd.date,
+      }));
   }
 
   public addNonWorkingDay(date:string):void {
@@ -260,26 +212,22 @@ export class OpNonWorkingDaysListComponent implements OnInit {
       return;
     }
 
-    // opens date picker modal
-    // now I am just testing adding new event to the calendar, will be removed
     const day = {
       start: date,
+      id: null,
       name,
       date,
       title: name,
-      id: name,
-      _destroy: null,
     } as INonWorkingDay;
 
     const api = this.ucCalendar.getApi();
 
-    if (api.getEvents().find((evt) => evt.startStr === date)) {
+    if (api.getEventById(date)) {
       this.toast.addError(this.text.already_added_error);
       return;
     }
 
-    this.nonWorkingDays.push(day as unknown as IDay);
-    api.addEvent({ ...day });
-    this.addNonWorkingdayInputs(day);
+    this.nonWorkingDays = [...this.nonWorkingDays, day];
+    api.addEvent({ ...day, id: date });
   }
 }
