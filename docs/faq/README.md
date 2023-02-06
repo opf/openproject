@@ -191,10 +191,9 @@ More infomation regarding resource management in OpenProject can be found in the
 
 ### Does OpenProject offer portfolio management?
 
-For portfolio management or custom reporting, you can use either the project list, or the global work package table.
-Both views can be used to create optimal reports via filtering, sorting and other configuration options. 
+For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options. 
 
-More information regarding work arounds for portfolio management can be found [here](../use-cases/resource-management).
+For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/resource-management).
 
 
 ### Is there an organizational chart in OpenProject?
