@@ -26,16 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :changeset do
-    sequence(:revision) { |n| n.to_s }
-    committed_on { Time.current }
-    commit_date { Date.current }
+require 'spec_helper'
 
-    after(:build, :create) do |changeset, evaluator|
-      next if evaluator.overrides?(:project)
+describe OpenProject::JournalFormatter::Template do
+  let(:instance) { described_class.new(build(:project_journal)) }
 
-      changeset.project ||= changeset.repository&.project
-    end
+  it "renders correctly when marked as template" do
+    html = instance.render("templated", [false, true], html: true)
+    expect(html).to eq("<strong>Project</strong> marked as template")
+
+    html = instance.render("templated", [false, true], html: false)
+    expect(html).to eq("Project marked as template")
+    html = instance.render("templated", [nil, true], html: false)
+    expect(html).to eq("Project marked as template")
+  end
+
+  it "renders correctly when unmarked as template" do
+    html = instance.render("templated", [true, false], html: true)
+    expect(html).to eq("<strong>Project</strong> unmarked as template")
+
+    html = instance.render("templated", [true, false], html: false)
+    expect(html).to eq("Project unmarked as template")
+    html = instance.render("templated", [nil, false], html: false)
+    expect(html).to eq("Project unmarked as template")
   end
 end

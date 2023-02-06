@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -121,6 +122,14 @@ class Activities::BaseActivityProvider
     activity_journals_table
   end
 
+  #############################################################################
+  # Override this method if the project reference field in the projects       #
+  # reference table is different from 'project_id'                            #
+  #############################################################################
+  def project_id_reference_field
+    'project_id'
+  end
+
   def activitied_type
     class_name = self.class.name.demodulize
     class_name.gsub('ActivityProvider', '').constantize
@@ -164,6 +173,7 @@ class Activities::BaseActivityProvider
 
   def event_params(event_data)
     params = { provider: self,
+               event_id: event_data['event_id'],
                event_description: event_data['event_description'],
                author_id: event_data['event_author'].to_i,
                journable_id: event_data['journable_id'],
@@ -189,20 +199,21 @@ class Activities::BaseActivityProvider
     end
   end
 
-  def join_with_projects_table(query)
-    query.join(projects_table).on(projects_table[:id].eq(projects_reference_table['project_id']))
-  end
-
   def restrict_user(query, options)
     query = query.where(journals_table[:user_id].eq(options[:author].id)) if options[:author]
     query
   end
 
   def restrict_projects(query, user, options)
-    query = join_with_projects_table(query)
-    query = restrict_projects_by_selection(options, query)
-    query = restrict_projects_by_activity_module(query)
-    restrict_projects_by_permission(query, user)
+    query.join(restrict_projects_query(user, options).as(projects_table.name))
+         .on(projects_table[:id].eq(projects_reference_table[project_id_reference_field]))
+  end
+
+  def restrict_projects_query(user, options)
+    projects_table.project(Arel.star)
+      .then { |query| restrict_projects_by_selection(options, query) }
+      .then { |query| restrict_projects_by_activity_module(query) }
+      .then { |query| restrict_projects_by_permission(query, user) }
   end
 
   def restrict_projects_by_selection(options, query)
@@ -268,7 +279,8 @@ class Activities::BaseActivityProvider
   end
 
   def event_name(event)
-    I18n.t(event_type(event).underscore, scope: 'events')
+    @event_names ||= {}
+    @event_names[event_type(event)] ||= I18n.t(event_type(event).underscore, scope: 'events')
   end
 
   def url_helpers

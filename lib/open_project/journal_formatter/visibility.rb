@@ -26,28 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module JournalFormatter
-  class Proc < Attribute
-    class << self
-      attr_accessor :proc
-    end
+class OpenProject::JournalFormatter::Visibility < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = I18n.t('activerecord.attributes.project.public_value.title')
+    label_text = content_tag('strong', label_text) if options[:html]
 
-    private
-
-    def format_details(key, values)
-      label = label(key)
-
-      old_value, value = *format_values(values, key)
-
-      [label, old_value, value]
-    end
-
-    def format_values(values, key)
-      field = key.to_s.gsub(/_id\z/, '')
-
-      values.map do |value|
-        self.class.proc.call value, @journal.journable, field
+    value = \
+      if values.last
+        I18n.t('activerecord.attributes.project.public_value.true')
+      else
+        I18n.t('activerecord.attributes.project.public_value.false')
       end
-    end
+
+    I18n.t(:text_journal_set_to, label: label_text, value:)
   end
 end

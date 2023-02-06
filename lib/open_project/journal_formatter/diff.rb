@@ -31,27 +31,27 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
 
   def render(key, values, options = {})
     merge_options = { only_path: true,
-                      no_html: false }.merge(options)
+                      html: true }.merge(options)
 
     render_ternary_detail_text(key, values.last, values.first, merge_options)
   end
 
   private
 
-  def label(key, no_html = false)
-    label = super key
+  def label(key, html: true)
+    label = super(key)
 
-    if no_html
-      label
-    else
+    if html
       content_tag('strong', label)
+    else
+      label
     end
   end
 
   def render_ternary_detail_text(key, value, old_value, options)
     link = link(key, options)
 
-    label = label(key, options[:no_html])
+    label = label(key, html: options[:html])
 
     if value.blank?
       I18n.t(:text_journal_deleted_with_diff, label:, link:)
@@ -74,12 +74,12 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
                                                  id: @journal.id,
                                                  field: key.downcase)
 
-    if options[:no_html]
-      url_for url_attr
-    else
+    if options[:html]
       link_to(I18n.t(:label_details),
               url_attr,
               class: 'description-details')
+    else
+      url_for url_attr
     end
   end
 

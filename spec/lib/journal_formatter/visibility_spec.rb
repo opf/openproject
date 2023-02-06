@@ -28,46 +28,34 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe JournalFormatter::DayCount do
-  let(:klass) { described_class }
-  let(:id) { 1 }
-  let(:journal) do
-    instance_double(Journal, journable: WorkPackage.new)
+describe OpenProject::JournalFormatter::Visibility do
+  let(:instance) { described_class.new(build(:project_journal)) }
+
+  it "renders correctly when setting visibility" do
+    html = instance.render("public", [nil, true], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to public")
+
+    html = instance.render("public", [nil, true], html: false)
+    expect(html).to eq("Visibility set to public")
+
+    html = instance.render("public", [nil, false], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to private")
+
+    html = instance.render("public", [nil, false], html: false)
+    expect(html).to eq("Visibility set to private")
   end
-  let(:instance) { klass.new(journal) }
-  let(:key) { :duration }
 
-  describe '#render' do
-    describe 'when setting the old value to 1 day, and the new value to 3 days' do
-      let(:expected) do
-        I18n.t(:text_journal_changed_html,
-               label: "<strong>Duration</strong>",
-               old: '<i>1 day</i>',
-               new: '<i>3 days</i>',
-               linebreak: '')
-      end
+  it "renders correctly when changing visibility" do
+    html = instance.render("public", [false, true], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to public")
 
-      it { expect(instance.render(key, [1, 3])).to eq(expected) }
-    end
+    html = instance.render("public", [false, true], html: false)
+    expect(html).to eq("Visibility set to public")
 
-    describe 'when setting the initial value to 3 days' do
-      let(:expected) do
-        I18n.t(:text_journal_set_to,
-               label: "<strong>Duration</strong>",
-               value: '<i>3 days</i>')
-      end
+    html = instance.render("public", [true, false], html: true)
+    expect(html).to eq("<strong>Visibility</strong> set to private")
 
-      it { expect(instance.render(key, [nil, 3])).to eq(expected) }
-    end
-
-    describe 'when deleting the initial value of 3 days' do
-      let(:expected) do
-        I18n.t(:text_journal_deleted,
-               label: "<strong>Duration</strong>",
-               old: '<strike><i>3 days</i></strike>')
-      end
-
-      it { expect(instance.render(key, [3, nil])).to eq(expected) }
-    end
+    html = instance.render("public", [true, false], html: false)
+    expect(html).to eq("Visibility set to private")
   end
 end

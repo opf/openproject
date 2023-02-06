@@ -1,5 +1,6 @@
 module Activities
   Event = Struct.new(:provider,
+                     :event_id,
                      :event_name,
                      :event_title,
                      :event_description,

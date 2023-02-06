@@ -26,16 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :changeset do
-    sequence(:revision) { |n| n.to_s }
-    committed_on { Time.current }
-    commit_date { Date.current }
+class OpenProject::JournalFormatter::Template < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = label('project')
+    label_text = content_tag('strong', label_text) if options[:html]
 
-    after(:build, :create) do |changeset, evaluator|
-      next if evaluator.overrides?(:project)
+    value = \
+      if values.last
+        I18n.t('activerecord.attributes.project.templated_value.true')
+      else
+        I18n.t('activerecord.attributes.project.templated_value.false')
+      end
 
-      changeset.project ||= changeset.repository&.project
-    end
+    I18n.t(:text_journal_label_value, label: label_text, value:)
   end
 end

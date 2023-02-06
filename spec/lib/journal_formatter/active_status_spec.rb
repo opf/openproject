@@ -26,12 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class JournalDetail
-  attr_reader :prop_key, :value, :old_value
+require 'spec_helper'
 
-  def initialize(prop_key, old_value, value)
-    @prop_key = prop_key
-    @old_value = old_value
-    @value = value
+describe OpenProject::JournalFormatter::ActiveStatus do
+  let(:instance) { described_class.new(build(:project_journal)) }
+
+  it "renders correctly when unarchiving" do
+    html = instance.render("active", [false, true], html: true)
+    expect(html).to eq("<strong>Project</strong> unarchived")
+
+    html = instance.render("active", [false, true], html: false)
+    expect(html).to eq("Project unarchived")
+  end
+
+  it "renders correctly when archiving" do
+    html = instance.render("active", [true, false], html: true)
+    expect(html).to eq("<strong>Project</strong> archived")
+
+    html = instance.render("active", [true, false], html: false)
+    expect(html).to eq("Project archived")
   end
 end

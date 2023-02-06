@@ -27,15 +27,5 @@
 #++
 
 FactoryBot.define do
-  factory :changeset do
-    sequence(:revision) { |n| n.to_s }
-    committed_on { Time.current }
-    commit_date { Date.current }
-
-    after(:build, :create) do |changeset, evaluator|
-      next if evaluator.overrides?(:project)
-
-      changeset.project ||= changeset.repository&.project
-    end
-  end
+  factory :journal_project_journal, class: 'Journal::ProjectJournal'
 end

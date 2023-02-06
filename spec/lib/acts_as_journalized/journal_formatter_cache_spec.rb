@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Acts
-  module Journalized
-    class JournalObjectCache
-      def fetch(klass, id, &)
-        @cache ||= Hash.new do |klass_hash, klass_key|
-          klass_hash[klass_key] = Hash.new do |id_hash, id_key|
-            id_hash[id_key] = yield klass_key, id_key
-          end
-        end
+require 'spec_helper'
 
-        @cache[klass][id]
-      end
+RSpec.describe JournalFormatterCache do
+  subject(:cache) { described_class.new }
+
+  describe '#fetch' do
+    it 'caches and returns the value returned by the block on cache miss' do
+      expect(cache.fetch(User, 3) { 'user_3' }).to eq('user_3')
+      expect(cache.fetch('Answer', 42) { 'Life Universe Everything' }).to eq('Life Universe Everything')
+    end
+
+    it 'returns nil on cache miss if no block is given' do
+      expect(cache.fetch(User, 3)).to be_nil
+      expect(cache.fetch(User, 17)).to be_nil
+    end
+
+    it 'returns the cached value on cache hit' do
+      cache.fetch(User, 3) { 'user_3' }
+
+      expect(cache.fetch(User, 3)).to eq('user_3')
+      expect(cache.fetch(User, 3) { 'another value' }).to eq('user_3')
+
+      expect(cache.fetch(Project, 62)).to be_nil
+      cache.fetch(Project, 62) { 'project_62' }
+      expect(cache.fetch(Project, 62)).to eq('project_62')
+      cache.fetch(Project, 62) { 'another value' }
+      expect(cache.fetch(Project, 62)).to eq('project_62')
     end
   end
 end

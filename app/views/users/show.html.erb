@@ -87,9 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
               <li class="<%= e.event_type %>">
                 <div class="title">
-                  <% event_type = e.event_type == 'meeting' ? 'meetings' : e.event_type %>
-                  <% event_type = e.event_type == 'budget' ? 'budget' : event_type %>
-                  <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
+                  <%= icon_wrapper("icon-context icon-#{event_icon(e)}", e.event_name) %>
                   <span class="time"><%= format_time(e.event_datetime, false) %></span>
                   <%= content_tag('span', h(e.project), class: 'project') %>
                   <%= link_to format_activity_title(e.event_title), e.event_url %>

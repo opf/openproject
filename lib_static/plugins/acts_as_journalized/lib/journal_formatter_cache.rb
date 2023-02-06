@@ -26,16 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :changeset do
-    sequence(:revision) { |n| n.to_s }
-    committed_on { Time.current }
-    commit_date { Date.current }
+class JournalFormatterCache
+  def self.request_instance
+    RequestStore.store[:journal_formatter_cache] ||= new
+  end
 
-    after(:build, :create) do |changeset, evaluator|
-      next if evaluator.overrides?(:project)
+  def initialize
+    @cache = Hash.new
+  end
 
-      changeset.project ||= changeset.repository&.project
+  def fetch(klass, id, &)
+    key = [klass, id]
+    if @cache.key?(key)
+      @cache[key]
+    elsif block_given?
+      @cache[key] = yield
     end
   end
 end
