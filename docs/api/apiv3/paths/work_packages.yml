@@ -108,8 +108,7 @@ get:
       required: false
       schema:
         type: string
-    - description: Indicates whether properties should be summed up if they support
-        it.
+    - description: Indicates whether properties should be summed up if they support it.
       example: true
       in: query
       name: showSums
@@ -150,7 +149,7 @@ get:
 
 post:
   summary: Create Work Package
-  operationId: Create_Work_Package
+  operationId: create_work_package
   tags:
     - Work Packages
   description: |-

@@ -75,7 +75,7 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   }
 
   public set value(val:(HalResource[]|string[])) {
-    this.filter.values = val;
+    this.filter.values = val.map(d => this.isoDateParser(d));
     this.filterChanged.emit(this.filter);
   }
 

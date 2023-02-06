@@ -5,12 +5,31 @@ module Components
     include RSpec::Matchers
     attr_reader :context_selector
 
+    ##
+    # Open a datepicker drop field with the trigger,
+    # and set the date to the given date.
+    # @param trigger [String] Selector to click the trigger at
+    # @param date [Date | String] Date or ISO8601 date string to set to
+    def self.update_field(trigger, date)
+      datepicker = Components::Datepicker.new
+
+      datepicker.instance_eval do
+        input = page.find(trigger)
+        input.click
+      end
+
+      date = Date.parse(date) unless date.is_a?(Date)
+      datepicker.set_date(date.strftime('%Y-%m-%d'))
+      datepicker.expect_current_date(date)
+      datepicker.save!
+    end
+
     def initialize(context = 'body')
       @context_selector = context
     end
 
     def container
-      page.find(context_selector)
+      page.document.find(context_selector)
     end
 
     def flatpickr_container
@@ -44,8 +63,10 @@ module Components
     ##
     # Select month from datepicker
     def select_month(month)
+      month_name = month.is_a?(Integer) ? I18n.t("date.month_names")[month] : month
+
       flatpickr_container
-        .first('.flatpickr-monthDropdown-months option', text: month, visible: :all)
+        .first('.flatpickr-monthDropdown-months option', text: month_name, visible: :all)
         .select_option
     end
 
@@ -65,14 +86,27 @@ module Components
       end
     end
 
-    ##
-    # Set a ISO8601 date through the datepicker
-    def set_date(date)
+    # Change the datepicker visible area.
+    #
+    # @param date the date to navigate to. Can be a Date or a String with
+    # ISO8601 formatted date.
+    def show_date(date)
       date = Date.parse(date) unless date.is_a?(Date)
 
       select_year date.year
       select_month date.strftime('%B')
+    end
+
+    # Set a ISO8601 date through the datepicker
+    def set_date(date)
+      date = Date.parse(date) unless date.is_a?(Date)
+
+      show_date(date)
       select_day date.day
+    end
+
+    def save!
+      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: "Save").click
     end
 
     ##
@@ -115,6 +149,30 @@ module Components
     def expect_non_working(date)
       label = date.strftime('%B %-d, %Y')
       expect(page).to have_selector(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-non-working-day)[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_not_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
                                     wait: 20)
     end
   end

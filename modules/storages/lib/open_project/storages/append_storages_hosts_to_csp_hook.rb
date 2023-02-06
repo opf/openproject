@@ -48,11 +48,19 @@ class ::OpenProject::Storages::AppendStoragesHostsToCspHook < OpenProject::Hook:
                                                          .select(:storage_id)
     hosts = ::Storages::Storage.where(id: projects_with_permission)
                                .pluck(:host)
+                               .map(&method(:remove_uri_path))
 
     return if hosts.empty?
 
     # secure_headers gem provides this helper method to append to the current content security policy
     controller = context[:controller]
     controller.append_content_security_policy_directives({ connect_src: hosts })
+  end
+
+  private
+
+  def remove_uri_path(url)
+    uri = URI.parse(url)
+    "#{uri.scheme}://#{uri.host}"
   end
 end

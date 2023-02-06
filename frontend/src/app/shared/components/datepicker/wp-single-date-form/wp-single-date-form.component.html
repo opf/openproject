@@ -1,25 +1,31 @@
 <form
-  class="spot-container"
+  class="op-datepicker-modal"
   data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
   #modalContainer
   data-indicator-name="modal"
   (submit)="doSave($event)"
   tabindex="0"
-  cdkFocusInitial
-  cdkTrapFocus
-  [cdkTrapFocusAutoCapture]="true"
 >
-  <op-datepicker-banner></op-datepicker-banner>
+  <op-datepicker-banner
+    [scheduleManually]="scheduleManually"
+    class="op-datepicker-modal--banner"
+  ></op-datepicker-banner>
 
   <div class="spot-container">
-    <div class="op-datepicker-modal--toggle-actions-container">
-      <op-datepicker-working-days-toggle
-        name="ignoreNonWorkingDays"
-        [(ngModel)]="ignoreNonWorkingDays"
-        (ngModelChange)="changeNonWorkingDays()"
-      ></op-datepicker-working-days-toggle>
-    </div>
+    <op-datepicker-scheduling-toggle
+      class="spot-form-field"
+      name="scheduleManually"
+      [(ngModel)]="scheduleManually"
+      (ngModelChange)="changeSchedulingMode()"
+    ></op-datepicker-scheduling-toggle>
+
+    <op-datepicker-working-days-toggle
+      class="spot-form-field"
+      name="ignoreNonWorkingDays"
+      [(ngModel)]="ignoreNonWorkingDays"
+      (ngModelChange)="changeNonWorkingDays()"
+    ></op-datepicker-working-days-toggle>
 
     <spot-form-field
       [label]="text.date"
@@ -28,7 +34,7 @@
         slot="input"
         name="date"
         class="op-datepicker-modal--date-field"
-        [ngClass]="{ 'op-datepicker-modal--date-field_current': this.dateModalScheduling.isSchedulable }"
+        [ngClass]="{ 'op-datepicker-modal--date-field_current': isSchedulable }"
         [(ngModel)]="date"
         (ngModelChange)="dateChangedManually$.next()"
         [showClearButton]="true"
@@ -37,7 +43,7 @@
         slot="action"
         type="button"
         class="spot-link"
-        [ngClass]="{ 'op-datepicker-modal--hidden-link': !dateModalScheduling.isSchedulable }"
+        [ngClass]="{ 'op-datepicker-modal--hidden-link': !isSchedulable }"
         (click)="setToday()"
         [textContent]="text.today">
       </button>

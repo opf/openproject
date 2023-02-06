@@ -42,7 +42,7 @@ describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",
-               value: "<i title=\"include non-working days\">include non-working days</i>")
+               value: "<i>include non-working days</i>")
       end
 
       it { expect(instance.render(key, [false, true])).to eq(expected) }
@@ -52,7 +52,7 @@ describe OpenProject::JournalFormatter::IgnoreNonWorkingDays do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Working days</strong>",
-               value: "<i title=\"working days only\">working days only</i>")
+               value: "<i>working days only</i>")
       end
 
       it { expect(instance.render(key, [true, false])).to eq(expected) }

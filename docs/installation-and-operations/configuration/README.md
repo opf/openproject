@@ -616,7 +616,7 @@ To disable 2FA altogether and remove all menus from the system, so that users ca
 
 ```yaml
 OPENPROJECT_2FA_DISABLED="true"
-OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]"
 ```
 
 ### statsd

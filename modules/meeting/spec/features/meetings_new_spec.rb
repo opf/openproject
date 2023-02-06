@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-describe 'Meetings new' do
+describe 'Meetings new', js: true do
   let(:project) { create :project, enabled_module_names: %w[meetings] }
   let(:index_page) { Pages::Meetings::Index.new(project) }
   let(:time_zone) { 'utc' }
@@ -72,11 +72,6 @@ describe 'Meetings new' do
         index_page.visit!
 
         new_page = index_page.click_create_new
-
-        # Error when no title is provided. Only works without js as otherwise html5 would already catch this
-        new_page.click_create
-
-        new_page.expect_toast(type: :error, message: "Title can't be blank")
 
         new_page.set_title 'Some title'
         new_page.set_start_date '2013-03-28'

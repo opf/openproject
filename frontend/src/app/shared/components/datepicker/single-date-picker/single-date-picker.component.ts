@@ -27,7 +27,7 @@
 //++
 
 import {
-    AfterContentInit,
+  AfterContentInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -36,13 +36,15 @@ import {
   forwardRef,
   Injector,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import {
   onDayCreate,
   parseDate,
@@ -53,6 +55,8 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
+import { debounce } from 'lodash';
+import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
 export const opSingleDatePickerSelector = 'op-single-date-picker';
 
@@ -70,7 +74,7 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterContentInit {
   @Output('closed') closed = new EventEmitter();
 
   @Output('valueChange') valueChange = new EventEmitter();
@@ -90,6 +94,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() name = '';
 
+  @Input() remoteFieldKey = '';
+
   @Input() required = false;
 
   @Input() minimalDate:Date|null = null;
@@ -104,7 +110,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     this._opened = !!opened;
 
     if (this._opened) {
-      this.initializeDatepicker();
+      this.initializeDatepickerAfterOpen();
     } else {
       this.closed.emit();
     }
@@ -114,7 +120,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     return this._opened;
   }
 
-  @Input() showIgnoreNonWorkingDays = true;
+  @Input() showIgnoreNonWorkingDays = false;
 
   @Input() ignoreNonWorkingDays = false;
 
@@ -122,7 +128,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   public workingValue = '';
 
-  public workingDate:Date = new Date();
+  public workingDate:Date|null = null;
 
   public datePickerInstance:DatePicker;
 
@@ -145,27 +151,21 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
+    readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
   ) {
     populateInputsFromDataset(this);
   }
 
-  ngOnInit(): void {
-    if (!this.value) {
-      const today = parseDate(new Date()) as Date;
-      this.writeValue(this.timezoneService.formattedISODate(today));
-    }
+  ngAfterContentInit() {
+    const trigger = (this.elementRef.nativeElement as HTMLElement).querySelector("[slot='trigger']");
+    this.useDefaultTrigger = trigger === null;
   }
-
-	ngAfterContentInit() {
-		const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
-		this.useDefaultTrigger = trigger === null;
-	}
 
   onInputClick(event:MouseEvent) {
     event.stopPropagation();
   }
 
-  save($event:SubmitEvent) {
+  save($event:Event) {
     const form = $event.target as HTMLFormElement;
 
     if (form.reportValidity()) {
@@ -174,6 +174,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
       this.onChange(this.workingValue);
       this.writeValue(this.workingValue);
       this.opened = false;
+      this.cdRef.detectChanges();
     }
   }
 
@@ -184,7 +185,25 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepicker();
+    this.initializeDatepickerAfterOpen();
+    this.cdRef.detectChanges();
+  }
+
+  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+
+  changeValueFromInput(value:string) {
+    this.valueChange.emit(value);
+    this.onChange(value);
+    this.writeValue(value);
+
+    const date = parseDate(value || '');
+
+    if (date !== '') {
+      const dateString = this.timezoneService.formattedISODate(date);
+      this.writeWorkingValue(dateString);
+      this.enforceManualChangesToDatepicker(date);
+      this.onTouched(dateString);
+    }
     this.cdRef.detectChanges();
   }
 
@@ -193,8 +212,17 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     setDates(date, this.datePickerInstance, enforceDate);
   }
 
+  private initializeDatepickerAfterOpen():void {
+    this.spotDropModalTeleportationService
+      .afterRenderOnce$(true)
+      .subscribe(() => {
+        this.initializeDatepicker();
+      });
+  }
+
   private initializeDatepicker() {
     this.datePickerInstance?.destroy();
+
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
@@ -225,7 +253,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
           );
         },
       },
-      this.flatpickrTarget.nativeElement,
+      this.flatpickrTarget.nativeElement as HTMLElement,
     );
   }
 

@@ -215,6 +215,7 @@ import {
   OpSingleDatePickerComponent,
   opSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -257,7 +258,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
-  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
@@ -273,5 +273,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
-  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent },
+  // It is important to initialize the remoteFieldUpdaterSelector after the opSingleDatePickerSelector,
+  // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
+  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent, embeddable: true },
+  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
+  { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];

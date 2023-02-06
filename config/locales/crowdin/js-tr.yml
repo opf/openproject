@@ -224,19 +224,19 @@ tr:
           status_label: "Durum:"
           status_confirmed: "onaylanmış"
           status_waiting: "e-posta gönderildi - onay bekleniyor"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Enterprise Edition ürününü 14 gün ücretsiz test edin"
+          quick_overview: "OpenProject Enterprise sürümü ile proje yönetimi ve ekip işbirliğine hızlı bir genel bakış elde edin."
         upsale:
           become_hero: "Kahraman olun!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title}, bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Enterprise şirket içi sürümünün avantajları nelerdir?"
             high_security: "Güvenlik özellikleri"
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Kurulum desteği"
             installation_text: "Deneyimli yazılım mühendisleri, kendi altyapınızdaki eksiksiz kurulum ve kurulum sürecinde size rehberlik eder."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Enterprise eklentiler"
             premium_features_text: "Çevik tahtalar, özel tema ve logo, grafikler, özel eylemlerle akıllı iş akışları, iş paketi ekleri için tam metin araması ve çoklu seçim özel alanları."
             professional_support: "Profesyonel destek"
             professional_support_text: "İş açısından kritik ortamlarda OpenProject çalıştırma konusunda uzman bilgiye sahip kıdemli destek mühendislerinden güvenilir, yüksek dokunuşlu destek alın."
@@ -249,9 +249,9 @@ tr:
           link_quote: "Fiyat teklifi alın"
           more_info: "Daha fazla bilgi"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise sürümü, Community sürümünün üzerine kuruludur. OpenProject ile iş açısından kritik projeleri yöneten 10'dan fazla kullanıcısı olan kuruluşlara yönelik Kurumsal eklentiler ve profesyonel destek içerir.
           unlimited: "Sınırsız"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Geliştiricilerin de faturalarını ödemeleri gerekiyor. Enterprise sürümüne yükselterek, bu açık kaynak topluluk çabasını destekleyecek ve geliştirilmesine, sürdürülmesine ve sürekli iyileştirilmesine katkıda bulunacaksınız."
     custom_actions:
       date:
         specific: 'açık'
@@ -280,7 +280,7 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_for_more: "Gelişmiş filtreler, iş paketi eklerinin dosya adları ve içeriği için de filtre uygulamanıza olanak tanır. Bu eklentiyi kullanmak için lütfen ücretli bir plana yükseltin."
       upsale_link: 'Enterprise sürümü'
     general_text_no: "hayır"
     general_text_yes: "evet"
@@ -400,7 +400,7 @@ tr:
     label_no_data: "Görüntülenecek veri yok"
     label_no_due_date: "bitiş tarihi yok"
     label_no_start_date: "başlangıç tarihi yok"
-    label_no_date: "no date"
+    label_no_date: "tarih yok"
     label_no_value: "Değer yok"
     label_none: "hiçbiri"
     label_not_contains: "içermiyor"
@@ -476,7 +476,7 @@ tr:
     label_columns: "Sütunlar"
     label_attachments: Ekler
     label_drop_files: "Dosya eklemek için dosyaları buraya bırakın."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_or_click_files: "Dosyaları buraya bırakın veya eklemek için tıklayın"
     label_drop_folders_hint: Klasörleri ek olarak karşıya yükleyemezsiniz. Lütfen tekil dosyalar seçiniz.
     label_add_attachments: "Dosyaları ekle"
     label_formattable_attachment_hint: "Dosyaları bu alana sürükleyerek ekleyebilir veya panodan yapıştırabilirsiniz."
@@ -518,24 +518,24 @@ tr:
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
-          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
+          lists_kanban: 'Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır.'
+          lists_basic: 'Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz.'
           add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
-          drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
+          drag: 'Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz.'
         wp:
           toggler: "Now let's have a look at the <b>work package</b> section, which gives you a more detailed view of your work."
           list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
-          back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
+          back_button: 'Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın.'
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          timeline_button: 'Projeniz için bir zaman çizelgesi oluşturmak üzere <b>Gantt şeması</b> görünümünü etkinleştirebilirsiniz.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
         team_planner:
           overview: 'Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır.'
-          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
-          add_assignee: 'To get started, add assignees to the team planner.'
-          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
-          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
+          calendar: 'Haftalık veya iki haftalık planlama panosu, ekip üyelerinize atanan tüm iş paketlerini görüntüler.'
+          add_assignee: 'Başlamak için ekip planlayıcıya atanan kişileri ekleyin.'
+          add_existing: 'Mevcut iş paketlerini arayın ve anında bir ekip üyesine atamak ve başlangıç ve bitiş tarihlerini tanımlamak için bunları ekip planlayıcıya sürükleyin.'
+          card: 'İş paketlerini zamanda geriye veya ileriye taşımak için yatay olarak sürükleyin, başlangıç ve bitiş tarihlerini değiştirmek için kenarları sürükleyin ve hatta başka bir üyeye atamak için farklı bir satıra dikey olarak sürükleyin.'
     notifications:
       title: "Bildirimler"
       no_unread: "Okunmamış bildirim yok"
@@ -549,31 +549,31 @@ tr:
         commented: 'yorumlandı'
         processed: 'işlem uygulandı'
         prioritized: 'öncelik verildi'
-        dateAlert: 'Date alert'
+        dateAlert: 'Tarih uyarısı'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: 'Süresi geçmiş'
         overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
+        property_today: 'bugün'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
         property_is_deleted: 'silindi'
         upsale:
-          title: 'Date alerts'
+          title: 'Tarih uyarısı'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'okunmamış'
-        unread_title: 'Show unread'
+        unread_title: 'Okunmayanları göster'
         all: 'Hepsi'
         all_title: 'Tümünü göster'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 've'
         and_more_users:
           one: 've 1 diğer'
           other: 've 1 diğer'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
-          with_current_filter: 'There are no notifications in this view at the moment'
+          at_all: 'Sizi ilgilendiren bir etkinlik olduğunda yeni bildirimler burada görünecektir.'
+          with_current_filter: 'Şu anda bu görünümde bildirim yok'
         mark_all_read: 'Tümünü okundu olarak işaretle'
         mark_as_read: 'Okundu olarak işaretle'
         text_update_date: "%{date} by"
@@ -593,13 +593,13 @@ tr:
         inbox: 'Gelen Kutusu'
         mentioned: 'Bahsedilen'
         watched: 'İzleyici'
-        date_alert: 'Date alert'
+        date_alert: 'Tarih uyarısı'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Bildirim ayarları"
         notify_me: "Beni dürt"
         reminders:
-          no_notification: No notification
+          no_notification: Bildirim yok
           timeframes:
             normal:
               PT0S: aynı gün
@@ -608,13 +608,13 @@ tr:
               P7D: 1 hafta önce
             overdue:
               P1D: her gün
-              P3D: every 3 days
+              P3D: Her 3 günde bir
               P7D: her hafta
         reasons:
           mentioned:
             title: 'Bahsedilen'
-            description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+            description: 'Birisi herhangi bir yerde benden her bahsettiğinde bir bildirim alın'
+          assignee: 'Atanan'
           responsible: 'Sorumlu'
           watched: 'İzleyici'
           work_package_commented: 'Tüm yeni yorumlar'
@@ -624,19 +624,19 @@ tr:
           work_package_scheduled: 'Tüm tarih değişiklikleri'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            title: 'Katılım'
+            description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) iş paketlerindeki tüm faaliyetler için bildirimler.'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects.'
+            title: 'Katılmayan'
+            description: 'Tüm projelerdeki faaliyetler için ek bildirimler.'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
-            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
-          overdue: When overdue
+            title: 'Tarih uyarısı'
+            description: 'Dahil olduğunuz (vekil, sorumlu veya gözlemci) açık iş paketleri için önemli tarihler yaklaştığında otomatik bildirimler.'
+            teaser_text: 'Tarih uyarıları ile yaklaşan başlangıç veya bitiş tarihleri hakkında bilgilendirileceksiniz, böylece önemli bir teslim tarihini asla kaçırmaz veya unutmazsınız.'
+          overdue: Süresi geçtiğinde
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above.'
+          title: 'Projeye özel bildirim ayarları'
+          description: 'Bu projeye özgü ayarlar, yukarıdaki varsayılan ayarları geçersiz kılar.'
           add: 'Proje için ayar ekle'
           already_selected: 'Bu proje zaten seçildi'
           remove: 'Proje ayarlarını sil'
@@ -657,7 +657,7 @@ tr:
     project:
       required_outside_context: >
         Lütfen tüm özellikleri görmek için çalışma paketini oluşturacak bir proje seçin. Yalnızca yukarıdaki türden etkin olan projeleri seçebilirsiniz.
-      details_activity: 'Project details activity'
+      details_activity: 'Proje ayrıntıları etkinliği'
       context: 'Proje içeriği'
       work_package_belongs_to: 'Bu iş paketi %{projectname} projesine ait.'
       click_to_switch_context: 'Bu iş paketini o projede aç.'
@@ -673,21 +673,21 @@ tr:
         daily:
           add_time: 'Süre ekle'
           enable: 'Günlük email hatırlatıcılarını etkinleştir'
-          explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
-          no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
+          explanation: 'Bu hatırlatıcıları yalnızca okunmamış bildirimler için ve yalnızca sizin belirlediğiniz saatlerde alacaksınız. %{no_time_zone}'
+          no_time_zone: 'Hesabınız için bir saat dilimi yapılandırana kadar, saatler UTC olarak yorumlanacaktır.'
           time_label: 'Zaman %{counter}:'
           title: 'Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder'
         workdays:
           title: 'Bu günlerde e-posta hatırlatıcıları alın'
         immediate:
           title: 'Bana email hatırlatıcısı gönder'
-          mentioned: 'Immediately when someone @mentions me'
+          mentioned: 'Birisi benden @bahsettiğinde hemen'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: 'Diğer öğeler için e-posta uyarıları (iş paketleri olmayanlar)'
           explanation: >
-            Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
+            Bildirimler bugün iş paketleri ile sınırlıdır. Bildirimlere eklenene kadar bu etkinlikler için e-posta uyarıları almaya devam etmeyi seçebilirsiniz:
           news_added: 'Haberler eklendi'
-          news_commented: 'Comment on a news item'
+          news_commented: 'Bir habere yorum yapın'
           document_added: 'Belgeler eklendi'
           forum_messages: 'Yeni forum mesajları'
           wiki_page_added: 'Viki sayfası eklendi'
@@ -708,8 +708,8 @@ tr:
         reset_title: "Form ayarlarlarını sıfırlayın"
         confirm_reset: >
           Uyarı: Form yapılandırmasını sıfırlamak istediğinizden emin misiniz? Bu, nitelikleri varsayılan gruplarına sıfırlar ve TÜM özel alanları devre dışı bırakır.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Enterprise on-premises edition'a yükseltin"
+        upgrade_to_ee_text: "Vay! Bu eklentiye ihtiyacınız varsa, siz bir süper profesyonelsiniz! Enterprise sürümü müşterisi olarak biz OpenSource geliştiricilerini destekler misiniz?"
         more_information: "Daha fazla bilgi"
         nevermind: "Boşver"
       edit:
@@ -885,11 +885,11 @@ tr:
       comment_updated: "Yorum başarıyla güncelleştirildi."
       confirm_edit_cancel: "İş paketini düzenlemeyi iptal etmek istediğinizden emin misiniz?"
       datepicker_modal:
-        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
-        manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        automatically_scheduled_parent: "Otomatik olarak planlandı. Tarihler ilişkilerden türetilir."
+        manually_scheduled: "Manuel planlama etkinleştirildi, tüm ilişkiler göz ardı edildi."
+        start_date_limited_by_relations: "Kullanılabilir başlangıç ve bitiş tarihleri ilişkilerle sınırlıdır."
+        changing_dates_affects_follow_relations: "Bu tarihlerin değiştirilmesi, ilgili iş paketlerinin tarihlerini etkileyecektir."
+        click_on_show_relations_to_open_gantt: 'GANTT''ye genel bakış için "%{button_name}" üzerine tıklayın.'
         show_relations: 'İlişkileri göster'
         ignore_non_working_days:
           title: 'Sadece iş günleri'
@@ -913,7 +913,7 @@ tr:
       message_work_package_status_blocked: "İş paketi durumu, kapalı durum ve kapalı sürüm tahsis edildiğinden dolayı yazılamaz."
       placeholder_filter_by_text: "Konu, açıklama, yorumlar, ..."
       filters:
-        title: 'Filter work packages'
+        title: 'İş paketlerini filtrele'
       inline_create:
         title: 'Listeden yeni bir iş paketi eklemek için buraya tıklayınız'
       create:
@@ -937,7 +937,7 @@ tr:
       no_results:
         title: Görüntülecek bir iş paketi bulunmuyor.
         description: Ya hiç iş paketi oluşturulmamış, ya da tüm iş paketeri filtrelenmiş.
-      limited_results: Only %{count} work packages can be shown in manual sorting mode. Please reduce the results by filtering, or switch to automatic sorting.
+      limited_results: Manuel sıralama modunda yalnızca %{count} iş paketi gösterilebilir. Lütfen filtreleyerek sonuçları azaltın veya otomatik sıralamaya geçin.
       property_groups:
         details: "Detaylar"
         people: "Kişiler"
@@ -1047,7 +1047,7 @@ tr:
         upsale:
           attribute_highlighting: 'Kitleden sıyrılmak için bazı iş paketlerine mi ihtiyacınız var?'
           relation_columns: 'İş paketleri listesindeki ilişkileri görmek ister misiniz?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Enterprise sürümünü inceleyin.'
         relation_filters:
           filter_work_packages_by_relation_type: 'İş paketlerini ilişki türüne göre filtreleme'
       tabs:
@@ -1056,7 +1056,7 @@ tr:
         relations: İlişkiler
         watchers: Takip Edenler
         files: Dosyalar
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
+        files_tab_migration_help: 'Artık yeni sekme aracılığıyla iş paketlerine dosya ekleyebilirsiniz:'
       time_relative:
         days: "gün"
         weeks: "hafta"
@@ -1093,8 +1093,8 @@ tr:
         text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
       destroy_work_package:
         title: "%{label} için silme işlimini onaylayın"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
+        single_text: "Bu iş paketini silmek istediğinize emin misiniz?"
+        bulk_text: "Aşağıdaki %{label}'i silmek istediğinizden emin misiniz?"
         has_children: "İş paketi %{childUnits} alt paketlerine sahip:"
         confirm_deletion_children: "Listelenen iş paketlerinin TÜM soylarının tekrar tekrar kaldırılacağını kabul ediyorum."
         deletes_children: "Tüm çocuk iş paketleri ve torunları da tekrar tekrar silinir."
@@ -1191,9 +1191,9 @@ tr:
           description: 'Seçilen projede atanan role dayalı izinler'
         placeholder:
           title: 'Yer tutucu kullanıcı'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Yer tutucu kullanıcı (yalnızca Enterprise sürümü eklentisi)'
           description: 'Projeye erişimi yoktur ve e-posta gönderilmez.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Projeye erişimi yoktur ve e-posta gönderilmez. <br><a href="%{eeHref}" target="_blank">Enterprise sürümünü</a> inceleyin'
       principal:
         label:
           name_or_email: 'İsim veya e-posta adresi'
@@ -1212,12 +1212,12 @@ tr:
       role:
         label: 'rol %{project}'
         no_roles_found: 'Hiç rol bulunamadı.'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'Bu, kullanıcının projenize katıldığında alacağı roldür. Rol, hangi eylemleri yapmalarına ve hangi bilgileri görmelerine izin verildiğini tanımlar.<ahref="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/# roller-and-permissions" target="_blank"> Roller ve izinler hakkında daha fazla bilgi edinin. </a>'
         required: 'Lütfen bir rol seçin.'
         next_button: 'Sonraki'
       message:
         label: 'Davet Mesajı'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        description: 'Kullanıcıya, buradan kişisel bir mesaj ekleyebileceğiniz bir e-posta göndereceğiz. Davet için bir açıklama yararlı olabilir veya belki de başlamalarına yardımcı olacak projeyle ilgili bir parça bilgi olabilir.'
         next_button: 'Sonraki'
       summary:
         next_button: 'Davet gönder'
@@ -1237,9 +1237,9 @@ tr:
         all: 'Tüm projeler'
         selected: 'Sadece seçilen'
       search_placeholder: 'Proje ara...'
-      include_subprojects: 'Include all sub-projects'
+      include_subprojects: 'Tüm alt projeleri dahil et'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        include_all_selected: 'Tüm alt projeleri dahil et etkinleştirildiğinden, proje zaten dahil edilmiştir.'
         current_project: 'Bu, içinde bulunduğunuz mevcut projedir.'
         does_not_match_search: 'Proje arama kriterleriyle eşleşmiyor.'
       no_results: 'Arama kriterleriniz ile eşleşen proje yok'

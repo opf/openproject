@@ -1,6 +1,6 @@
 <spot-drop-modal
-  [open]="opened"
-  (closed)="cancel()"
+  [opened]="opened"
+  (closed)="onModalClosed()"
   alignment="bottom-center"
 >
   <input
@@ -12,21 +12,21 @@
     (focus)="showDatePickerModal()"
   />
 
-  <op-wp-single-date-form
-    *ngIf="opened && !isMultiDate"
-    [value]="dates"
-    [changeset]="change"
-    (save)="save()"
-    (cancel)="cancel()"
-    slot="body"
-  ></op-wp-single-date-form>
-  <op-wp-multi-date-form
-    *ngIf="opened && isMultiDate"
-    [value]="dates"
-    [changeset]="change"
-    [fieldName]="name"
-    (save)="save()"
-    (cancel)="cancel()"
-    slot="body"
-  ></op-wp-multi-date-form>
+  <ng-container slot="body">
+    <op-wp-single-date-form
+      *ngIf="opened && !isMultiDate"
+      [value]="dates"
+      [changeset]="change"
+      (save)="save()"
+      (cancel)="cancel()"
+    ></op-wp-single-date-form>
+    <op-wp-multi-date-form
+      *ngIf="opened && isMultiDate"
+      [value]="dates"
+      [changeset]="change"
+      [fieldName]="name"
+      (save)="save()"
+      (cancel)="cancel()"
+    ></op-wp-multi-date-form>
+  </ng-container>
 </spot-drop-modal>

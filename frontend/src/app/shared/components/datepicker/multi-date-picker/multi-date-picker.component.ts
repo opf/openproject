@@ -63,6 +63,7 @@ import { DeviceService } from 'core-app/core/browser/device.service';
 import { DateOption } from 'flatpickr/dist/types/options';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
+import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
 @Component({
   selector: 'op-multi-date-picker',
@@ -91,7 +92,30 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   @Input() value:string[] = [];
 
+  private _opened = false;
+
+  @Input() set opened(opened:boolean) {
+    if (this._opened === !!opened) {
+      return;
+    }
+
+    this._opened = !!opened;
+
+    if (this._opened) {
+      this.initializeDatepickerAfterOpen();
+    } else {
+      this.datePickerInstance?.destroy();
+      this.closed.emit();
+    }
+  }
+
+  get opened() {
+    return this._opened;
+  }
+
   @Output() valueChange = new EventEmitter();
+
+  @Output('closed') closed = new EventEmitter();
 
   text = {
     save: this.I18n.t('js.button_save'),
@@ -115,8 +139,6 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   }
 
   ignoreNonWorkingDays = false;
-
-  isOpened = false;
 
   currentlyActivatedDateField:DateFields;
 
@@ -151,6 +173,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     readonly deviceService:DeviceService,
     readonly weekdayService:WeekdayService,
     readonly focusHelper:FocusHelperService,
+    readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
   ) {
     super();
 
@@ -179,14 +202,12 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     this.setCurrentActivatedField(this.initialActivatedField);
   }
 
-  open():void {
-    this.isOpened = true;
-    this.initializeDatepicker();
+  onInputClick(event:MouseEvent) {
+    event.stopPropagation();
   }
 
   close():void {
-    this.isOpened = false;
-    this.datePickerInstance?.destroy();
+    this.opened = false;
   }
 
   changeNonWorkingDays():void {
@@ -200,6 +221,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
       this.dates.start || '',
       this.dates.end || '',
     ];
+    this.value = value;
     this.valueChange.emit(value);
     this.onChange(value);
     this.close();
@@ -235,6 +257,14 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   showFieldAsActive(field:DateFields):boolean {
     return this.isStateOfCurrentActivatedField(field);
+  }
+
+  private initializeDatepickerAfterOpen():void {
+    this.spotDropModalTeleportationService
+      .afterRenderOnce$(true)
+      .subscribe(() => {
+        this.initializeDatepicker();
+      });
   }
 
   private initializeDatepicker(minimalDate?:Date|null) {
@@ -427,8 +457,12 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
       .subscribe(() => calendarContainer.classList.add('flatpickr-container-suppress-hover'));
   }
 
-  writeValue(value:string[]|null):void {
-    this.value = value || [];
+  writeValue(newValue:string[]|null):void {
+    const value = (newValue || []).map(d => this.timezoneService.formattedISODate(d));
+    if (value[0] === this.dates.start && value[1] === this.dates.end) {
+      return;
+    }
+    this.value = value;
     this.dates.start = this.value[0];
     this.dates.end = this.value[1];
   }

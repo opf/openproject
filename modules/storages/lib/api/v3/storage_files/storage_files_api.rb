@@ -38,9 +38,8 @@ module API::V3::StorageFiles
         (files_query(@storage, current_user) >> execute_files_query(params[:parent]))
           .match(
             on_success: ->(files) do
-              API::V3::StorageFiles::StorageFileCollectionRepresenter.new(
+              API::V3::StorageFiles::StorageFilesRepresenter.new(
                 files,
-                self_link: api_v3_paths.storage_files(@storage.id),
                 current_user:
               )
             end,
@@ -48,12 +47,6 @@ module API::V3::StorageFiles
           )
       end
 
-      # RequestBody:
-      # {
-      #   "projectId": 42
-      #   "fileName": "ape.png",
-      #   "parent": "/Pictures"
-      # }
       post :prepare_upload do
         raise API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
 

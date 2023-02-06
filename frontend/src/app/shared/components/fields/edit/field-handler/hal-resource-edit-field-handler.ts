@@ -177,7 +177,9 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    */
   public reset() {
     this.form.change.reset(this.fieldName);
-    this.deactivate(true);
+    if (!this.inEditMode) {
+      this.deactivate(true);
+    }
   }
 
   /**

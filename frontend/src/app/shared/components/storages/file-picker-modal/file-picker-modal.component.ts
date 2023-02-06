@@ -149,6 +149,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       this.isAlreadyLinked(file),
       index === 0,
       this.enterDirectoryCallback(file),
+      false,
       this.tooltip(file),
       {
         selected: this.selection.has(file.id as string),

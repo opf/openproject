@@ -537,14 +537,24 @@ en:
       member:
         roles: "Roles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Queries"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'

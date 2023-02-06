@@ -63,20 +63,13 @@ export class StorageFileListItem {
     return isDirectory(this.storageFile);
   }
 
-  get isWriteable():boolean {
-    return this.storageFile.permissions.some((permission) => permission === 'writeable');
-  }
-
-  get isReadable():boolean {
-    return this.storageFile.permissions.some((permission) => permission === 'readable');
-  }
-
   constructor(
     private readonly timezoneService:TimezoneService,
     private readonly storageFile:IStorageFile,
     public readonly disabled:boolean,
     public readonly isFirst:boolean,
     public readonly enterDirectory:() => void,
+    public readonly isConstrained:boolean,
     public readonly tooltip?:string,
     public readonly checkbox?:StorageFileListItemCheckbox,
   ) {}

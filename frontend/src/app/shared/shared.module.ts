@@ -97,6 +97,7 @@ import { OpLoadingProjectListComponent } from './components/searchable-project-l
 import { OpNonWorkingDaysListComponent } from './components/op-non-working-days-list/op-non-working-days-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpenprojectModalModule } from './components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 
 export function bootstrapModule(injector:Injector):void {
@@ -140,6 +141,7 @@ export function bootstrapModule(injector:Injector):void {
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
     OpenprojectAutocompleterModule,
+    OpenprojectModalModule,
 
     FocusModule,
     IconModule,

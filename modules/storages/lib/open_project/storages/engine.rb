@@ -162,5 +162,7 @@ module OpenProject::Storages
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
+
+    add_cron_jobs { CleanupUncontaineredFileLinksJob }
   end
 end

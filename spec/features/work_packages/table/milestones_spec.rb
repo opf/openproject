@@ -39,7 +39,7 @@ describe 'Inline editing milestones', js: true do
     start_date.expect_active!
 
     # Open second date, closes first
-    due_date.activate!
+    scroll_to_and_click(due_date.display_element)
     due_date.expect_active!
 
     # Close with escape

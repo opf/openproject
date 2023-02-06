@@ -96,8 +96,8 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
     this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storageLink, '/'))
-      .subscribe((files) => {
-        const root = files.find((file) => file.name === '/');
+      .subscribe((storageFiles) => {
+        const root = storageFiles.parent;
         if (root === undefined) {
           throw new Error('Collection does not contain a root directory!');
         }
@@ -112,7 +112,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           }],
         );
 
-        this.storageFiles$.next(files.filter((file) => file.name !== '/'));
+        this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
   }
@@ -157,7 +157,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storageLink, directory.location))
-      .pipe(map((files) => files.filter((file) => file.name !== this.currentDirectory.name)))
+      .pipe(map((storageFiles) => storageFiles.files.filter((file) => file.name !== this.currentDirectory.name)))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);

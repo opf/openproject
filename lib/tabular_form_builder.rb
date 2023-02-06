@@ -86,7 +86,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   def date_picker(field, options = {})
     options[:class] = Array(options[:class])
     merge_required_attributes(options[:required], options)
-    options[:visible_overflow] = true;
+    options[:visible_overflow] = true
 
     input_options, label_options = extract_from options
 
@@ -94,15 +94,22 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       input_options[:class] << ' -error'
     end
 
-    label = label_for_field(field, label_options)
-    input = angular_component_tag 'op-single-date-picker',
-                          class: options[:class],
-                          inputs: {
-                            value: @object.public_send(field),
-                            id: field_id(field),
-                            name: field_name(field)
-                          }
+    @object_name.to_s.sub!(/\[\]$/, "") || @object_name.to_s.sub!(/\[\]\]$/, "]")
 
+    inputs = {
+      value: @object.public_send(field),
+      id: field_id(field, index: options[:index]),
+      name: field_name(field, index: options[:index])
+    }
+
+    if options.dig(:data, :'remote-field-key')
+      inputs['remote-field-key'] = options.dig(:data, :'remote-field-key')
+    end
+
+    label = label_for_field(field, label_options)
+    input = angular_component_tag('op-single-date-picker',
+                                  class: options[:class],
+                                  inputs:)
     (label + container_wrap_field(input, :date_picker, options))
   end
 
@@ -179,7 +186,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ).freeze
 
   def container_wrap_field(field_html, selector, options = {})
-    ret = content_tag(:span, field_html, class: field_container_css_class(selector, options))
+    ret = if options.delete(:no_field_container)
+            field_html
+          else
+            content_tag(:span, field_html, class: field_container_css_class(selector, options))
+          end
 
     prefix, suffix = options.values_at(:prefix, :suffix)
 
@@ -213,7 +224,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       field_html
     else
       classes = options[:visible_overflow] ? '-visible-overflow' : ''
-      content_tag(:span, field_html, class: options[:no_class] ? classes : classes + ' form--field-container')
+      content_tag(:span, field_html, class: options[:no_class] ? classes : "#{classes} form--field-container")
     end
   end
 
@@ -224,7 +235,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                 "form--#{selector.to_s.tr('_', '-')}-container"
               end
 
-    classes << (' ' + options.fetch(:container_class, ''))
+    classes << (" #{options.fetch(:container_class, '')}")
 
     classes.strip
   end
@@ -232,7 +243,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   ##
   # Create a wrapper for the text formatting toolbar for this field
   def text_formatting_wrapper(target_id, options)
-    return ''.html_safe unless target_id.present?
+    return ''.html_safe if target_id.blank?
 
     ::OpenProject::TextFormatting::Formats
       .rich_helper
@@ -268,9 +279,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v|
-      v.nil?
-    end
+    label_options.compact!
 
     @template.label(@object_name, field, content, label_options)
   end

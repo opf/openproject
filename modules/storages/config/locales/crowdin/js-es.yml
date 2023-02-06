@@ -25,8 +25,9 @@ es:
         not_logged_in: >
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
+        dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
+        file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
       file_links:
         empty: >
           Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
@@ -47,9 +48,9 @@ es:
         success_create:
           one: "Se ha creado correctamente 1 enlace de fichero."
           other: "Se han creado correctamente %{count} enlaces de fichero."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error: "Se ha producido un error al cargar el archivo '%{fileName}'."
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

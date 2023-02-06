@@ -138,15 +138,18 @@ body.router--work-packages-partitioned-split-view-new
 .work-packages--type-selector
   flex-shrink: 0
 
-.work-packages--details
-  .work-packages--attachments
-    margin-bottom: 25px
-
 .work-package--new-state
   margin-bottom: 55px
 
   .title-container
     overflow: visible
 
-  .work-packages--attachments
-    margin-bottom: 25px
+.work-packages--storages
+  margin-top: $spot-spacing-2
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-row-gap: $spot-spacing-1
+  grid-column-gap: $spot-spacing-1
+
+  .work-packages-partitioned-page--content-right &
+    grid-template-columns: 1fr

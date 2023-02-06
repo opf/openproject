@@ -62,7 +62,6 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   areDatesEqual,
   mappedDate,
@@ -80,6 +79,7 @@ import DateOption = flatpickr.Options.DateOption;
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { DateModalSchedulingService } from '../services/date-modal-scheduling.service';
 
 export type DateKeys = 'start'|'end';
 export type DateFields = DateKeys|'duration';
@@ -108,8 +108,8 @@ export type FieldUpdates =
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
     DateModalRelationsService,
+    DateModalSchedulingService,
   ],
 })
 export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
@@ -193,6 +193,12 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
       // when the active field was cleared
       if (update === null && field !== 'duration') {
         this.clearWithDuration(field);
+      }
+
+      // The duration field is special in how it handles focus transitions
+      // For start/due we just toggle here
+      if (field !== 'duration') {
+        this.toggleCurrentActivatedField();
       }
 
       this.cdRef.detectChanges();
@@ -304,13 +310,12 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   changeSchedulingMode():void {
-    this.initializeDatepicker();
-
     // If removing manual scheduling on parent, reset ignoreNWD to original value
     if (this.scheduleManually === false && !this.ignoreNonWorkingDaysWritable) {
       this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
     }
 
+    this.initializeDatepicker();
     this.cdRef.detectChanges();
   }
 
@@ -380,9 +385,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
   setToday(key:DateKeys):void {
     this.datepickerChanged$.next([key, new Date()]);
-
-    const nextActive = key === 'start' ? 'end' : 'start';
-    this.setCurrentActivatedField(nextActive);
   }
 
   showTodayLink():boolean {
@@ -490,12 +492,6 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
           // Update with the same flow as entering a value
           const { latestSelectedDateObj } = instance as { latestSelectedDateObj:Date };
           this.datepickerChanged$.next([activeField, latestSelectedDateObj]);
-
-          // The duration field is special in how it handles focus transitions
-          // For start/due we just toggle here
-          if (activeField !== 'duration') {
-            this.toggleCurrentActivatedField();
-          }
         },
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {

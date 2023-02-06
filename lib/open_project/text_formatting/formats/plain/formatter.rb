@@ -38,7 +38,11 @@ module OpenProject::TextFormatting::Formats
       end
 
       def filters
-        %i(plain setting_macros pattern_matcher)
+        [
+          OpenProject::TextFormatting::Filters::PlainFilter,
+          OpenProject::TextFormatting::Filters::SettingMacrosFilter,
+          OpenProject::TextFormatting::Filters::PatternMatcherFilter
+        ]
       end
 
       def self.format

@@ -147,7 +147,7 @@ describe 'date inplace editor',
 
       # Focus the end date field
       start_date.activate_due_date_within_modal
-      start_date.datepicker.set_date '2016-03-01'
+      start_date.datepicker.set_due_date '2016-03-01'
 
       # Since the end date is focused, the date will become the new end date
       start_date.save!
@@ -160,7 +160,7 @@ describe 'date inplace editor',
 
       start_date.datepicker.expect_year '2016'
       start_date.datepicker.expect_month 'January'
-      start_date.datepicker.set_date '2016-04-01'
+      start_date.datepicker.set_start_date '2016-04-01'
 
       # This will set the new start and unset the end date
       start_date.save!
@@ -201,7 +201,7 @@ describe 'date inplace editor',
 
     # Expect due date to be focused as it is empty
     start_date.expect_due_highlighted
-    start_date.set_active_date Time.zone.today
+    start_date.set_due_date Time.zone.today
 
     # Wait for duration to be derived
     start_date.expect_duration /\d+ days/
@@ -209,7 +209,7 @@ describe 'date inplace editor',
     # As the to be selected date is automatically toggled,
     # we can directly set the start date afterwards to the same day
     start_date.expect_start_highlighted
-    start_date.set_active_date Time.zone.today
+    start_date.set_start_date Time.zone.today
     start_date.expect_duration 1
 
     start_date.save!
@@ -299,6 +299,7 @@ describe 'date inplace editor',
       # Open date picker
       cf_field.input_element.click
       datepicker.set_date Time.zone.today
+      datepicker.save!
 
       create_page.edit_field(:subject).set_value 'My subject!'
       create_page.save!

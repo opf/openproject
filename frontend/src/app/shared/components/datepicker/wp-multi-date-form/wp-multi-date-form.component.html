@@ -1,18 +1,18 @@
 <form
-  class="spot-modal"
   data-qa-selector="op-datepicker-modal"
   [attr.id]="htmlId"
+  class="op-datepicker-modal op-datepicker-modal_wide"
   #modalContainer
   data-indicator-name="modal"
   tabindex="0"
-  cdkFocusInitial
-  cdkTrapFocus
-  [cdkTrapFocusAutoCapture]="true"
   (submit)="doSave($event)"
 >
-  <op-datepicker-banner [scheduleManually]="scheduleManually"></op-datepicker-banner>
+  <op-datepicker-banner
+    [scheduleManually]="scheduleManually"
+    class="op-datepicker-modal--banner"
+  ></op-datepicker-banner>
 
-  <div class="spot-modal--body spot-container op-datepicker-modal op-datepicker-modal_wide">
+  <div class="spot-container">
     <div class="op-datepicker-modal--toggle-actions-container">
       <op-datepicker-scheduling-toggle
         name="scheduleManually"

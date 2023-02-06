@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
           </tr>
         </thead>
         <tbody id="rates_body" class="subform-container">
-          <%= render partial: "hourly_rates/rate", object: HourlyRate.new, locals: { templated: true } %>
+          <%= render partial: "hourly_rates/rate", object: HourlyRate.new(valid_from: Date.current), locals: { templated: true } %>
           <%- @rates.each_with_index do |rate, index| -%>
             <%= render partial: 'rate', object: rate, locals: {index: index} %>
           <%- end -%>

@@ -39,6 +39,9 @@ class Journal < ApplicationRecord
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :template, OpenProject::JournalFormatter::Template
+  register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

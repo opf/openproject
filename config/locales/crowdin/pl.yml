@@ -319,7 +319,7 @@ pl:
       settings: "Ustawienia"
       form_configuration: "Konfiguracja formularza"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Wersja Enterprise pozwala dostosować konfigurację formularza za pomocą tych dodatków: <br> <ul class="%{list_styling_class}"> <li><b>Dodaj nowe grupy atrybutów</b></li> <li><b>Zmień nazwę grup atrybutów</b></li> <li><b>Dodaj tabelę powiązanych pakietów roboczych</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Aktywne projekty"
       edit_query: "Edytuj tabelę"
@@ -334,7 +334,7 @@ pl:
   wiki:
     page_not_editable_index: Żądana strona nie istnieje (jeszcze). Nastąpiło przekierowanie do indeksu wszystkich stron wiki.
     no_results_title_text: Nie ma jeszcze żadnych stron Wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Spowoduje to wydrukowanie zawartości tej strony wiki bez pasków nawigacyjnych.
     index:
       no_results_content_text: Dodaj nową stronę Wiki
   work_flows:
@@ -375,7 +375,7 @@ pl:
   account:
     delete: "Usuń konto"
     delete_confirmation: "Czy na pewno chcesz usunąć to konto?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Konto zostało zablokowane i zaplanowane do usunięcia. Pamiętaj, że ten proces odbywa się w tle. Może upłynąć trochę czasu, zanim użytkownik zostanie w pełni usunięty."
     deletion_info:
       data_consequences:
         other: "Dane użytkownika (np. e-mail, preferencje, pakiety pracy, wpisy wiki) będą usunięte w miarę możliwości. Jednakże, takie dane jak Zadania i wpisy wiki nie mogą być usunięte bez wpływu na pracę pozostałych użytkowników i mogą ją utrudnić. Te dane zostaną przypisane do konta \"Użytkownik usunięty\". Wszystkie dane z usuwanego konta zostaną przypisane do tego ww. konta uniemożliwiając ich późniejszą identyfikację."
@@ -692,7 +692,7 @@ pl:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Dzień wolny od pracy już istnieje dla %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -705,7 +705,7 @@ pl:
           foreign_wps_reference_version: 'Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Nie masz uprawnień wymaganych do archiwizowania wszystkich podprojektów. Skontaktuj się z administratorem."
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
             enabled_modules:
@@ -1828,7 +1828,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
-  label_project_activity: "Project activity"
+  label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
@@ -2255,7 +2255,7 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Archiwizuj projekt"
   permission_manage_user: "Tworzenie i edycja użytkowników"
   permission_manage_placeholder_user: "Twórz, edytuj i usuwaj użytkowników zastępczych"
   permission_add_subprojects: "Tworzenie podprojektów"
@@ -2655,9 +2655,9 @@ pl:
   text_custom_field_hint_activate_per_project_and_type: >
     Pola niestandardowe wymagają aktywacji w każdym poszczególnym typie zadań i projekcie.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Wersja Enterprise doda te dodatki do pól niestandardowych pakietów roboczych: <br> <ul> <li><b>Zezwól na wybór pól niestandardowych typu Lista lub Użytkownik</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Edycja Enterprise doda te dodatkowe funkcje dla pól statusów pakietów roboczych: <br> <ul> <li><b>Zezwól na oznaczanie pakietów roboczych jako tylko do odczytu w przypadku określonych statusów</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
@@ -3003,8 +3003,8 @@ pl:
         working: "%{day} jest teraz dniem roboczym"
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{day} jest teraz roboczym"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
