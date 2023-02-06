@@ -328,6 +328,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
     const formData = new FormData();
     formData.append('file', file, file.name);
+    formData.append('overwrite', 'false');
     const observable = this.http.request<FileUploadResponse>(
       method,
       href,
