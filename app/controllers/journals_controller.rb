@@ -61,21 +61,14 @@ class JournalsController < ApplicationController
   end
 
   def diff
-    field = params[:field].parameterize.underscore.to_sym
+    return render_404 unless valid_field?
 
-    unless valid_diff?
-      return render_404
+    unless @journal.details[field_param] in [from, to]
+      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field_param)
     end
-
-    unless @journal.details[field].is_a?(Array)
-      return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field)
-    end
-
-    from = @journal.details[field][0]
-    to = @journal.details[field][1]
 
     @diff = Redmine::Helpers::Diff.new(to, from)
-    @journable = @journal.journable
+
     respond_to do |format|
       format.html
       format.js do
@@ -88,7 +81,8 @@ class JournalsController < ApplicationController
 
   def find_journal
     @journal = Journal.find(params[:id])
-    @project = @journal.journable.project
+    @journable = @journal.journable
+    @project = @journable.project
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -102,17 +96,18 @@ class JournalsController < ApplicationController
     do_authorize(permission)
   end
 
-  # Is this a valid field for diff'ing?
-  def valid_field?(field)
-    field.to_s.strip == 'description'
+  def field_param
+    @field_param ||= params[:field].parameterize.underscore
   end
 
-  def valid_diff?
-    valid_field?(params[:field]) &&
-      (@journal.journable.instance_of?(WorkPackage) || @journal.journable.instance_of?(Project))
+  # Is this a valid field for diff'ing?
+  def valid_field?
+    field_param == 'description'
   end
 
   def journals_index_title
-    (@project ? @project.name : Setting.app_title) + ': ' + (@query.new_record? ? I18n.t(:label_changes_details) : @query.name)
+    subject = @project ? @project.name : Setting.app_title
+    query_name = @query.new_record? ? I18n.t(:label_changes_details) : @query.name
+    "#{subject}: #{query_name}"
   end
 end

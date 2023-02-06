@@ -126,6 +126,17 @@ describe JournalsController do
       end
     end
 
+    context 'for another field than description' do
+      shared_let(:work_package) do
+        create(:work_package, type: project.types.first,
+                              author: user,
+                              project:)
+      end
+      let(:params) { { id: work_package.last_journal.id.to_s, field: :another_field, format: 'js' } }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+
     context 'for other types, like forum message' do
       shared_let(:forum) { create(:forum, project:) }
       shared_let(:message) { create(:message, forum:, content: 'initial content') }
