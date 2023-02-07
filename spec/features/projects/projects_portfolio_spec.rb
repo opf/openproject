@@ -114,9 +114,9 @@ describe 'Projects index page',
 
       model_filters.expect_filter_count 2
       # Add a project filter that gets overridden
-      model_filters.add_filter_by('Project', 'is', project_a.name)
+      model_filters.add_filter_by('Project', 'is (OR)', project_a.name)
 
-      model_filters.expect_filter_by('Type', 'is', type_milestone.name)
+      model_filters.expect_filter_by('Type', 'is (OR)', type_milestone.name)
       model_filters.save
 
       # Save the page
@@ -146,7 +146,7 @@ describe 'Projects index page',
       filters.expect_filter_count 1
       filters.open
 
-      filters.expect_filter_by('Type', 'is', [type_milestone.name])
+      filters.expect_filter_by('Type', 'is (OR)', [type_milestone.name])
 
       # Expect columns
       columns.open_modal

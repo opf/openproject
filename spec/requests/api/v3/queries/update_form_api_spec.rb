@@ -393,7 +393,7 @@ describe "POST /api/v3/queries/form" do
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
-              "title" => 'is'
+              "title" => 'is (OR)'
             },
             "values" => [
               {

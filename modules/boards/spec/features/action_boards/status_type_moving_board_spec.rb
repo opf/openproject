@@ -123,8 +123,8 @@ describe 'Status action board', js: true do
     filters.expect_filter_count 0
     filters.open
 
-    filters.add_filter_by('Type', 'is', [type_task.name, type_bug.name])
-    filters.expect_filter_by('Type', 'is', [type_task.name, type_bug.name])
+    filters.add_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
+    filters.expect_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
 
     # Wait a bit before saving the page to ensure both values are processed
     sleep 2

@@ -83,7 +83,7 @@ describe 'Query selection' do
 
     it 'shows the saved filters', js: true do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is', ['me']
+      filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
 
       expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')

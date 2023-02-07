@@ -103,7 +103,7 @@ describe 'Custom field filter in boards', js: true do
     filters.open
 
     filters.add_filter_by(custom_field.name,
-                          'is',
+                          'is (OR)',
                           ['A', 'B'],
                           custom_field.attribute_name(:camel_case))
 

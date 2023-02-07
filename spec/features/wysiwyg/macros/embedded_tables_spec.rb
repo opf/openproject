@@ -62,7 +62,7 @@ describe 'Wysiwyg embedded work package tables',
           modal.expect_open
           modal.switch_to 'Filters'
           filters.expect_filter_count 2
-          filters.add_filter_by('Type', 'is', type_task.name)
+          filters.add_filter_by('Type', 'is (OR)', type_task.name)
 
           modal.switch_to 'Columns'
           columns.assume_opened

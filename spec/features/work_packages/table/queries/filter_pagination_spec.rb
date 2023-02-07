@@ -75,7 +75,7 @@ describe 'Filter updates pagination', js: true do
     # Change filter to assigned to
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by 'Assignee', 'is', user.name
+    filters.add_filter_by 'Assignee', 'is (OR)', user.name
     filters.expect_filter_count 2
 
     wp_table.expect_work_package_listed work_package_1
