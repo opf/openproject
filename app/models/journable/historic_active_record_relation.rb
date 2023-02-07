@@ -113,7 +113,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Based on the previous modifications, build the algebra object.
     @arel = relation.call_original_build_arel(aliases)
     @arel = modify_order_clauses(@arel)
-    @arel = move_journals_join_up(@arel)
     @arel = modify_joins(@arel)
 
     @arel
@@ -204,10 +203,13 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # current ones at the given timestamp.
   #
   def add_timestamp_condition(relation)
-    relation \
-        .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}'
-            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"".gsub("\n", "")) \
-        .merge(Journal.at_timestamp(timestamp))
+    relation.joins_values = [journals_join_statement] + relation.joins_values
+    relation.merge(Journal.at_timestamp(timestamp))
+  end
+
+  def journals_join_statement
+    "INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}' " \
+      "AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\""
   end
 
   # Join the journables table itself because we need to take the `created_at` attribute from that.
@@ -268,24 +270,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
         else
           order_clause.expr.relation = model.journal_class.arel_table
         end
-      end
-    end
-    arel
-  end
-
-  # Move the journals join to the beginning because other joins depend on it.
-  #
-  def move_journals_join_up(arel)
-    arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
-      array_of_joins = core.instance_variable_get(:@source).right
-      journals_join_index = array_of_joins.find_index do |join|
-        join.kind_of?(Arel::Nodes::StringJoin) and
-        join.left.include?("INNER JOIN \"journals\" ON \"journals\".\"data_type\"")
-      end
-      if journals_join_index
-        journals_join = array_of_joins[journals_join_index]
-        array_of_joins.delete_at(journals_join_index)
-        array_of_joins.insert(0, journals_join)
       end
     end
     arel
