@@ -127,9 +127,9 @@ describe Journable::HistoricActiveRecordRelation do
       end
 
       it "prints a warning" do
-        expect(Rails.logger).to receive(:warn).with(/position/)
-
+        allow(Rails.logger).to receive(:warn)
         subject
+        expect(Rails.logger).to have_received(:warn).with(/position/)
       end
     end
   end
