@@ -71,13 +71,15 @@ module Journable::Timestamps
   end
 
   prepended do
-    column_names_missing_in_journal.each do |missing_column_name|
-      define_method missing_column_name do
-        if historic?
-          Rails.logger.warn "Accessing missing column '#{missing_column_name}' on historic data. " \
-                            "The column is not present in the '#{self.class.journal_class.table_name}' table."
+    if ActiveRecord::Base.connected? and not ActiveRecord::Base.connection.migration_context.needs_migration?
+      column_names_missing_in_journal.each do |missing_column_name|
+        define_method missing_column_name do
+          if historic?
+            Rails.logger.warn "Accessing missing column '#{missing_column_name}' on historic data. " \
+                              "The column is not present in the '#{self.class.journal_class.table_name}' table."
+          end
+          super()
         end
-        super()
       end
     end
   end
