@@ -74,7 +74,24 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #     WorkPackage.where(assigned_to_id: 123).at_timestamp(1.year.ago).pluck(:id)
   #
   def pluck(*column_names)
-    column_names.map! { |column_name| column_name == :id ? 'journals.journable_id' : column_name }
+    column_names.map! do |column_name|
+      case column_name
+      when :id, 'id'
+        'journals.journable_id'
+      when :created_at, 'created_at'
+        'journables.created_at'
+      when :updated_at, 'updated_at'
+        'journals.updated_at'
+      else
+        if model.column_names_missing_in_journal.include?(column_name.to_s)
+          Rails.logger.warn "Cannot pluck column `#{column_name}` because this attribute is not journalized," \
+              "i.e. it is missing in the #{journal_class.table_name} table."
+          "null as #{column_name}"
+        else
+          column_name
+        end
+      end
+    end
     arel
     super
   end

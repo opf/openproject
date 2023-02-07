@@ -82,6 +82,58 @@ describe Journable::HistoricActiveRecordRelation do
 
   subject { historic_relation }
 
+  describe "#pluck" do
+    describe "id" do
+      subject { historic_relation.pluck(:id) }
+
+      it "returns the id of the work package" do
+        expect(subject).to eq [work_package.id]
+      end
+    end
+
+    describe "description" do
+      subject { historic_relation.pluck(:description) }
+
+      it "returns the description of the work package" do
+        expect(subject).to eq ["The work package as it has been on Wednesday"]
+      end
+    end
+
+    describe "created_at" do
+      subject { historic_relation.pluck(:created_at) }
+
+      it "returns the created_at of the work package" do
+        expect(subject).to eq [monday]
+      end
+    end
+
+    describe "updated_at" do
+      subject { historic_relation.pluck(:updated_at) }
+
+      it "returns the updated_at of the work package" do
+        expect(subject).to eq [wednesday]
+      end
+    end
+
+    describe "position" do
+      subject { historic_relation.pluck(:position) }
+
+      it "returns null because the column is not journalized" do
+        expect(subject).to eq [nil]
+      end
+
+      it "does not raise an error" do
+        expect { subject }.not_to raise_error
+      end
+
+      it "prints a warning" do
+        expect(Rails.logger).to receive(:warn).with(/position/)
+
+        subject
+      end
+    end
+  end
+
   describe "#where" do
     describe "project_id in array (Arel::Nodes::HomogeneousIn)" do
       let(:relation) { WorkPackage.where(project_id: [project.id, 1, 2, 3]) }
