@@ -26,15 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class IntegerList < ::Queries::Filters::Strategies::Integer
-    self.supported_operators = ['!', '=']
-
-    def operator_map
-      super_value = super.dup
-      super_value['='] = ::Queries::Operators::EqualsOr
-
-      super_value
-    end
+module Queries::Operators
+  class EqualsOr < Equals
+    label 'operator_equals_or'
   end
 end

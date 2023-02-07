@@ -29,7 +29,7 @@
 module Queries::Operators
   module CustomFields
     class EqualsAll < ::Queries::Operators::Base
-      label 'equals_all'
+      label 'operator_equals_all'
       set_symbol '&='
 
       def self.sql_for_customized(values, customized_type, customized_id_join_field)
