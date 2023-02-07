@@ -217,8 +217,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
-        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables
-            ON \"journables\".\"id\" = \"journals\".\"journable_id\"".gsub("\n", ""))
+        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables " \
+               "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
   end
 
   # Gather the columns we need in our model from the different tables in the sql query:
