@@ -46,7 +46,7 @@ module Queries::WorkPackages::Filter::FilterOnUndirectedRelationsMixin
   private
 
   def operator_and_junction
-    if operator_class == Queries::Operators::Equals
+    if operator_class <= Queries::Operators::Equals
       %w[IN OR]
     else
       ['NOT IN', 'AND']
