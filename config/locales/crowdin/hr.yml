@@ -472,14 +472,24 @@ hr:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikator"
         latest_activity_at: "Latest activity at"
         parent: "Potprojekt od"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Upiti"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -2981,7 +2991,7 @@ hr:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

@@ -27,6 +27,8 @@ ca:
       files:
         directory_not_writeable: "No tens permís per afegir arxius dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
       file_links:
         empty: >

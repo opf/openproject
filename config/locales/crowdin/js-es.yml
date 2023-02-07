@@ -252,6 +252,19 @@ es:
             La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
           you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Add non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to to continue?
     custom_actions:
       date:
         specific: 'en'
@@ -1252,4 +1265,5 @@ es:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Cerrar'

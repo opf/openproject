@@ -468,14 +468,24 @@ es:
       member:
         roles: "Perfiles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Última actividad en"
         parent: "Subproyecto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultas"
+        templated: "Plantilla del proyecto"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
-        templated: 'Plantilla del proyecto'
       projects/status:
         code: 'Estado'
         explanation: 'Descripción del estado'
@@ -2955,7 +2965,7 @@ es:
       <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:

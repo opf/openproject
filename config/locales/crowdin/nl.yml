@@ -468,14 +468,24 @@ nl:
       member:
         roles: "Rollen"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Query 's"
+        templated: "Projectsjabloon"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
-        templated: 'Projectsjabloon'
       projects/status:
         code: 'Status'
         explanation: 'Status beschrijving'
@@ -2955,7 +2965,7 @@ nl:
       <b>Definieer de werkdagen van de week</b><br/> Niet-werkdagen worden overgeslagen bij het plannen van werkpakketten en worden uitgesloten bij het berekenen van de duur. Dit kan op werkpakketniveau worden overschreven.
     change_button: "Wijzig werkdagen"
     warning: >
-      Veranderen van welke dagen van de week als werkdagen worden beschouwd, kan van invloed zijn op de begin- en einddagen van alle werkpakketten in deze instantie.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Werkdagen** veranderd (%{changes})._
       days:

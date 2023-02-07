@@ -471,14 +471,24 @@ fr:
       member:
         roles: "Rôles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifiant"
         latest_activity_at: "Dernière activité à"
         parent: "Sous-projet de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Requêtes"
+        templated: "Modèle de projet"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Modèle de projet'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -2959,7 +2969,7 @@ fr:
       <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:

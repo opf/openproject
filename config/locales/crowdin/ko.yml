@@ -469,14 +469,24 @@ ko:
       member:
         roles: "역할"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "식별자"
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "쿼리"
+        templated: "템플릿 프로젝트"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
-        templated: '템플릿 프로젝트'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -2935,7 +2945,7 @@ ko:
       <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
     change_button: "근무일 변경"
     warning: >
-      근무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:

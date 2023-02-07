@@ -473,14 +473,24 @@ cs:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
         parent: "Podprojekt"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Dotazy"
+        templated: "Projektová šablona"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
-        templated: 'Projektová šablona'
       projects/status:
         code: 'Stav'
         explanation: 'Popis stavu'
@@ -3000,7 +3010,7 @@ cs:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

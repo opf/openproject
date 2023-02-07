@@ -470,14 +470,24 @@ pl:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identyfikator"
         latest_activity_at: "Ostatnia aktywność o"
         parent: "Projekt nadrzędny"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Kwerendy"
+        templated: "Projekt wzorcowy"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
-        templated: 'Projekt wzorcowy'
       projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
@@ -2996,7 +3006,7 @@ pl:
       <b>Zdefiniuj dni robocze tygodnia</b><br/> Dni nierobocze są pomijane podczas planowania pakietów roboczych i są wyłączone z obliczania czasu trwania. Może to zostać zastąpione na poziomie pakietu roboczego.
     change_button: "Zmień dni robocze"
     warning: >
-      Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _Zmieniono **Dni robocze** (%{changes})._
       days:

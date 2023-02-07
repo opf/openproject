@@ -470,14 +470,24 @@ zh-TW:
       member:
         roles: "角色"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別碼"
         latest_activity_at: "最新活動"
         parent: "上層專案"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "查詢"
+        templated: "範本專案"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
-        templated: '範本專案'
       projects/status:
         code: '狀態'
         explanation: '狀態描述'
@@ -2938,7 +2948,7 @@ zh-TW:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

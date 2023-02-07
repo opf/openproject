@@ -468,14 +468,24 @@ it:
       member:
         roles: "Ruoli"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificatore"
         latest_activity_at: "Ultima attività alle"
         parent: "Sotto-progetto di"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Interrogazioni"
+        templated: "Progetto modello"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -2957,7 +2967,7 @@ it:
       <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:

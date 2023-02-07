@@ -253,6 +253,19 @@ ja:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "無制限"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Add non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to to continue?
     custom_actions:
       date:
         specific: 'オン'
@@ -1250,4 +1263,5 @@ ja:
       filter_chip:
         remove: '削除'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: '閉じる'

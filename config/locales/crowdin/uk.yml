@@ -468,14 +468,24 @@ uk:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Ідентифікатор"
         latest_activity_at: "Остання активність на"
         parent: "Підпроект"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Запити"
+        templated: "Проєкт шаблона"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
-        templated: 'Проєкт шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Опис стану'
@@ -2993,7 +3003,7 @@ uk:
       <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
     change_button: "Змінити робочі дні"
     warning: >
-      Змінення робочих днів тижня може вплинути на дні початку й закінчення для всіх пакетів робіт в усіх проєктах цього екземпляра.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:

@@ -467,14 +467,24 @@ ca:
       member:
         roles: "Rol"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Última activitat al"
         parent: "Subprojecte de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultes"
+        templated: "Plantilla de projecte"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-        templated: 'Plantilla de projecte'
       projects/status:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
@@ -2949,7 +2959,7 @@ ca:
       <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

@@ -251,6 +251,19 @@ ro:
             Ediția OpenProject Enterprise se bazează pe ediția Community. Aceasta include add-on-uri Enterprise și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte esențiale pentru afaceri cu OpenProject.
           unlimited: "Nelimitat"
           you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Add non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to to continue?
     custom_actions:
       date:
         specific: 'pe'
@@ -1254,4 +1267,5 @@ ro:
       filter_chip:
         remove: 'Eliminare'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Închide'

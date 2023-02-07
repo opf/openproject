@@ -470,14 +470,24 @@ pt:
       member:
         roles: "Papéis"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultas"
+        templated: "Projeto modelo"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Projeto modelo'
       projects/status:
         code: 'Situação'
         explanation: 'Descrição da situação'
@@ -2956,7 +2966,7 @@ pt:
       <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar que dias da semana são considerados dias úteis pode afetar os dias de início e conclusão de todos os pacotes de trabalho em todos os projetos nesta instância.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:

@@ -466,14 +466,24 @@ de:
       member:
         roles: "Rollen"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Kennung"
         latest_activity_at: "Letzte Aktivität am"
         parent: "Unterprojekt von"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Abfragen"
+        templated: "Projektvorlage"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-        templated: 'Projektvorlage'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
@@ -2954,7 +2964,7 @@ de:
       <b>Definieren Sie die Arbeitstage der Woche</b><br/> Arbeitsfreie Tage werden bei der Planung der Arbeitspakete übersprungen und bei Berechnung der Dauer ausgenommen. Diese Einstellung kann pro Arbeitspaket überschrieben werden.
     change_button: "Arbeitstage ändern"
     warning: >
-      Änderungen an Arbeitstagen können den Start und das Ende aller Arbeitspakete in allen Projekten in dieser Instanz beeinflussen.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Arbeitstage ** geändert (%{changes})._
       days:

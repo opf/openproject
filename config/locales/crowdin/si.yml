@@ -471,14 +471,24 @@ si:
       member:
         roles: "භූමිකාවන්"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "හඳුනාගැනීමේ"
         latest_activity_at: "නවතම ක්රියාකාරකම්"
         parent: "උප ව්යාපෘතිය"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "විමසුම්"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "වර්ග"
         versions: "අනුවාද"
         work_packages: "වැඩ පැකේජ"
-        templated: 'Template project'
       projects/status:
         code: 'තත්වය'
         explanation: 'තත්ව විස්තරය'
@@ -2960,7 +2970,7 @@ si:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
