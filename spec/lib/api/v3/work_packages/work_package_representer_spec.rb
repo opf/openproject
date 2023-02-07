@@ -1306,19 +1306,28 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         let(:baseline_time) { Time.zone.parse("2022-01-01") }
         let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
         let(:work_package) do
-          new_work_package = create(:work_package, subject: "The current work package", project:)
+          new_work_package = create(:work_package,
+                                    subject: "The current work package",
+                                    assigned_to: current_user,
+                                    project:)
           new_work_package.update_columns created_at: baseline_time - 1.day
           new_work_package
         end
         let(:original_journal) do
           create_journal(journable: work_package, timestamp: baseline_time - 1.day,
                          version: 1,
-                         attributes: { subject: "The original work package" })
+                         attributes: {
+                           subject: "The original work package",
+                           assigned_to: current_user
+                         })
         end
         let(:current_journal) do
           create_journal(journable: work_package, timestamp: 1.day.ago,
                          version: 2,
-                         attributes: { subject: "The current work package" })
+                         attributes: {
+                           subject: "The current work package",
+                           assigned_to: current_user
+                         })
         end
         let(:project) { create(:project) }
 
