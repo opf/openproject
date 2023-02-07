@@ -640,5 +640,50 @@ describe Journable::Timestamps do
         end
       end
     end
+
+    describe "#position (unjournalized column)" do
+      let(:timestamp) { monday }
+      let(:position) { 42 }
+
+      before do
+        work_package.update_attribute :position, position
+      end
+
+      describe "when retrieving the position of the current (nin-historic) record" do
+        subject { work_package.position }
+
+        it "returns the value of the work_packages table" do
+          expect(subject).to eq position
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "does not print a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).not_to have_received(:warn).with(/position/)
+        end
+      end
+
+      describe "when retrieving the position of a historic record" do
+        subject { work_package.at_timestamp(timestamp).position }
+
+        it "returns nil" do
+          expect(subject).to be_nil
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "prints a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).to have_received(:warn).with(/position/)
+        end
+      end
+    end
   end
 end
