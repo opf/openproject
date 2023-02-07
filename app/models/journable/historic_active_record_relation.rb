@@ -132,7 +132,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation
   end
 
-  # Modify there where clauses such that e.g. the work-packages table is substituted
+  # Modify the where clauses such that e.g. the work-packages table is substituted
   # with the work-package-journals table.
   #
   # When the where clause contains the `id` column, use `journals.journable_id` instead.
@@ -144,6 +144,28 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation
   end
 
+  # In sql, a *predicate* is an expression that evaluates to `true`, `false` or "unknown". [1]
+  # In active-record relations, predicates are components of where clauses.
+  #
+  # We need to substitute the table name ("work_packages") with the journalized table name
+  # ("work_package_journals") in order to retrieve historic data from the journalized table.
+  #
+  # However, there are columns where we need to retrieve the data from another table,
+  # in particular:
+  #
+  # - `id`
+  # - `created_at`
+  # - `updated_at`
+  #
+  # When asking for `WorkPackage.at_timestamp(...).where(id: 123)`, we are expecting `id` to refer
+  # to the id of the work pacakge, not of the journalized table entry.
+  #
+  # Also, the `created_at` and `updated_at` columns are not included in the journalized table.
+  # We gather the `updated_at` from the `journals` mapping table, and the `created_at` from the
+  # model's table (`work_packages`) itself.
+  #
+  # [1] https://learn.microsoft.com/en-us/sql/t-sql/queries/predicates
+  #
   def substitute_database_table_in_predicate(predicate)
     case predicate
     when String
