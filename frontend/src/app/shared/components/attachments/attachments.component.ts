@@ -198,6 +198,8 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     const files:UploadFile[] = Array.from(fileList);
     this.uploadFiles(files);
+    // reset file input, so that selecting the same file again triggers a change
+    this.filePicker.nativeElement.value = '';
   }
 
   public onDropFiles(event:DragEvent):void {
