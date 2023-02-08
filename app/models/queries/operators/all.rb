@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class All < Base
-    label 'all'
+    label 'operator_all'
     set_symbol '*'
     require_value false
 

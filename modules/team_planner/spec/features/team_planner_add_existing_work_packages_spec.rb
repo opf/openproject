@@ -185,7 +185,7 @@ describe 'Team planner add existing work packages', js: true do
 
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by 'Status', 'all', nil
+      filters.expect_filter_by 'Status', 'is not empty', nil
 
       # Change the filter for the whole page
       filters.set_filter 'Status', 'open', nil

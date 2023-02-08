@@ -60,7 +60,7 @@ describe 'filter work packages', js: true do
       filters.open
       loading_indicator_saveguard
 
-      filters.add_filter_by 'Watcher', 'is', watcher.name
+      filters.add_filter_by 'Watcher', 'is (OR)', watcher.name
       loading_indicator_saveguard
 
       wp_table.expect_work_package_listed work_package_with_watcher
@@ -85,7 +85,7 @@ describe 'filter work packages', js: true do
     it 'allows filtering, saving, retrieving and altering the saved filter' do
       filters.open
 
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_version
@@ -108,7 +108,7 @@ describe 'filter work packages', js: true do
 
       filters.open
 
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
 
       filters.set_operator 'Version', 'is not'
 
@@ -138,7 +138,7 @@ describe 'filter work packages', js: true do
 
       filters.remove_filter :status
       filters.expect_no_filter_by :status
-      filters.add_filter_by('Status', 'is', status.name)
+      filters.add_filter_by('Status', 'is (OR)', status.name)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_status
@@ -527,13 +527,13 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
 
       filters.open
-      filters.add_filter_by 'Version', 'is', [version2.name, version1.name]
+      filters.add_filter_by 'Version', 'is (OR)', [version2.name, version1.name]
       loading_indicator_saveguard
 
       sleep(3)
 
-      filters.expect_filter_by 'Version', 'is', [version1.name]
-      filters.expect_filter_by 'Version', 'is', [version2.name]
+      filters.expect_filter_by 'Version', 'is (OR)', [version1.name]
+      filters.expect_filter_by 'Version', 'is (OR)', [version2.name]
 
       # Order should stay unchanged
       filters.expect_filter_order('Version', [version2.name, version1.name])
@@ -555,7 +555,7 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
       filters.expect_loaded
       filters.open
-      filters.add_filter_by 'Parent', 'is', [wp_parent.subject]
+      filters.add_filter_by 'Parent', 'is (OR)', [wp_parent.subject]
       loading_indicator_saveguard
 
       # It should show the children of the selected parent

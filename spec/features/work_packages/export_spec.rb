@@ -147,7 +147,7 @@ describe 'work package export' do
       end
 
       it 'shows only work packages of the filtered type', js: true do
-        filters.add_filter_by 'Type', 'is', wp_3.type.name
+        filters.add_filter_by 'Type', 'is (OR)', wp_3.type.name
 
         expect(page).to have_no_content(wp_2.description) # safeguard
 

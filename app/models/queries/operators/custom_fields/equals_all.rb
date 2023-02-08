@@ -26,19 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class CfListOptional < ListOptional
-    self.supported_operators = %w[= &= ! * !*]
+module Queries::Operators
+  module CustomFields
+    class EqualsAll < ::Queries::Operators::Base
+      label 'operator_equals_all'
+      set_symbol '&='
 
-    private
+      def self.sql_for_customized(values, customized_type, customized_id_join_field)
+        # code expects strings (e.g. for quoting), but ints would work as well: unify them here
+        values = values.map(&:to_s)
+        cv_table = CustomValue.table_name
 
-    def operator_map
-      super_value = super.dup
-      super_value['&='] = ::Queries::Operators::CustomFields::EqualsAll
-      super_value['!*'] = ::Queries::Operators::NoneOrBlank
-      super_value['*'] = ::Queries::Operators::AllAndNonBlank
+        if values.present?
+          sql = values.map do |val|
+            "EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = '#{connection.quote_string(customized_type)}' " \
+              "AND customized_id = #{customized_id_join_field} " \
+              "AND value ='#{connection.quote_string(val)}')"
+          end
 
-      super_value
+          sql.join(' AND ')
+        else
+          # empty set of allowed values produces no result
+          '0=1'
+        end
+      end
     end
   end
 end

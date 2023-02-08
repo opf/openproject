@@ -152,7 +152,7 @@ describe 'form query configuration', js: true do
         # Select the soon archived project
         modal.switch_to 'Filters'
         filters.expect_filter_count 1
-        filters.add_filter_by('Project', 'is', archived.name)
+        filters.add_filter_by('Project', 'is (OR)', archived.name)
         filters.expect_filter_count 2
         filters.save
 
@@ -250,7 +250,7 @@ describe 'form query configuration', js: true do
         modal.switch_to 'Filters'
         # the templated filter should be hidden in the Filters tab
         filters.expect_filter_count 1
-        filters.add_filter_by('Type', 'is', type_task.name)
+        filters.add_filter_by('Type', 'is (OR)', type_task.name)
         filters.save
 
         form.save_changes
@@ -292,7 +292,7 @@ describe 'form query configuration', js: true do
         modal.expect_open
         modal.switch_to 'Filters'
         filters.expect_filter_count 2
-        filters.expect_filter_by 'Type', 'is', type_task.name
+        filters.expect_filter_by 'Type', 'is (OR)', type_task.name
 
         # Remove the filter again
         filters.remove_filter 'type'

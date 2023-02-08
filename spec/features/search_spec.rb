@@ -256,7 +256,7 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
         page.find('.advanced-filters--toggle').click
         filters.expect_open
         # As the project has a subproject, the filter for subprojectId is expected to be active.
-        filters.expect_filter_by 'subprojectId', 'none', nil, 'subprojectId'
+        filters.expect_filter_by 'subprojectId', 'is empty', nil, 'subprojectId'
         filters.add_filter_by('Subject',
                               'contains',
                               [work_packages.last.subject],

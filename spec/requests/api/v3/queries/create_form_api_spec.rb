@@ -32,8 +32,8 @@ describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  let(:user) { create(:admin) }
-  let!(:project) { create(:project_with_types) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   let(:parameters) { {} }
   let(:override_params) { {} }
@@ -416,7 +416,7 @@ describe "POST /api/v3/queries/form" do
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
-              "title" => 'is'
+              "title" => 'is (OR)'
             },
             "values" => [
               {

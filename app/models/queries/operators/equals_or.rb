@@ -26,19 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Filters::Strategies
-  class CfListOptional < ListOptional
-    self.supported_operators = %w[= &= ! * !*]
-
-    private
-
-    def operator_map
-      super_value = super.dup
-      super_value['&='] = ::Queries::Operators::CustomFields::EqualsAll
-      super_value['!*'] = ::Queries::Operators::NoneOrBlank
-      super_value['*'] = ::Queries::Operators::AllAndNonBlank
-
-      super_value
-    end
+module Queries::Operators
+  class EqualsOr < Equals
+    label 'operator_equals_or'
   end
 end
