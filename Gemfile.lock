@@ -857,7 +857,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.12.2)
-    ruby-prof (1.4.5)
+    ruby-prof (1.5.0)
     ruby-progressbar (1.11.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.15.0)
