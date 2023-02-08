@@ -261,10 +261,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     const fileList = this.filePicker.nativeElement.files;
     if (fileList === null) return;
 
-    this.openSelectLocationDialog(fileList);
+    this.openSelectLocationDialog(fileList[0]);
+    // reset file input, so that selecting the same file again triggers a change
+    this.filePicker.nativeElement.value = '';
   }
 
-  private openSelectLocationDialog(files:FileList|null):void {
+  private openSelectLocationDialog(file:File):void {
     const locals = {
       storageType: this.storage._links.type.href,
       storageName: this.storage.name,
@@ -273,8 +275,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
       .subscribe((m) => {
         m.closingEvent.subscribe((modal) => {
-          if (modal.submitted && files !== null) {
-            this.uploadFile(files[0], modal.location);
+          if (modal.submitted) {
+            this.uploadFile(file, modal.location);
           }
         });
       });
@@ -483,7 +485,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return;
     }
 
-    this.openSelectLocationDialog(files);
+    this.openSelectLocationDialog(files[0]);
   }
 
   public onDragOver(event:DragEvent):void {
