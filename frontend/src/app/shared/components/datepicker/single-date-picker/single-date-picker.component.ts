@@ -174,6 +174,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
       this.onChange(this.workingValue);
       this.writeValue(this.workingValue);
       this.opened = false;
+      this.workingValue = '';
       this.cdRef.detectChanges();
     }
   }
