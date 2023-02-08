@@ -68,7 +68,7 @@ tr:
       add_token: "Bir Enterprise sürümü destek belirteci yükleyin"
       delete_token_modal:
         text: "Kullanılan geçerli Enterprise sürümü belirtecini kaldırmak istediğinizden emin misiniz?"
-        title: "Delete token"
+        title: "Belirteci sil"
       replace_token: "Geçerli destek anahtarını değiştirin"
       order: "Enterprise on-premises edition sipariş edin"
       paste: "Enterprise sürümü destek belirtecinizi yapıştırın"
@@ -471,19 +471,19 @@ tr:
         roles: "Yetkiler"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "arşivden çıkartıldı"
+          false: "arşivlendi"
         identifier: "Tanımlayıcı"
         latest_activity_at: "Son etkinlik zamanı"
         parent: "Alt Proje"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Görünürlük"
+          true: "genel"
+          false: "özel"
         queries: "Sorgular"
         templated: "Şablon projesi"
         templated_value:
-          true: "marked as template"
+          true: "şablon olarak kaydedildi"
           false: "unmarked as template"
         types: "Türler"
         versions: "Sürümler"
@@ -1432,7 +1432,7 @@ tr:
       no_results:
         title: "Görüntülenecek hiçbir erişim izni yok"
         description: "Hepsi de engellendi. Yönetim menüsünden yeniden etkinleştirilebilirler."
-      access_tokens: "Access tokens"
+      access_tokens: "Erişim belirteçleri"
       headers:
         action: "Eylem"
         expiration: "Bitiş tarihi"
@@ -2060,8 +2060,8 @@ tr:
         mentioned: 'Bahsedilen'
         subscribed: 'tüm'
         prefix: 'Received because of the notification setting: %{reason}'
-        date_alert_start_date: 'Date alert'
-        date_alert_due_date: 'Date alert'
+        date_alert_start_date: 'Tarih uyarısı'
+        date_alert_due_date: 'Tarih uyarısı'
       see_all: 'Tümünü gör'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Yeni bir kullanıcı ( %{value}) kaydoldu. Hesap onayınızı bekliyor:"
@@ -2454,7 +2454,7 @@ tr:
   setting_apiv3_cors_origins: "API V3 Kaynaklar Arası Kaynak Paylaşımı (CORS) izin verilen kaynaklar"
   setting_apiv3_cors_origins_text_html: >
     CORS etkinleştirilirse, bunlar OpenProject API'ye erişmesine izin verilen kaynaklardır. <br/> Beklenen değerlerin nasıl belirtileceğini öğrenmek için lütfen  <a href="%{origin_link}" target="_blank">Kaynak başlığındaki Belgeleri </a> kontrol edin.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "En büyük API sayfası boyutu"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
   setting_apiv3_docs: "Belgeleme"
@@ -3166,7 +3166,7 @@ tr:
         invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
   http:
     request:
-      failed_authorization: "The server side request failed authorizing itself."
+      failed_authorization: "Sunucu tarafı isteğ kendi kendini yetkilendirmede başarısız oldu."
       missing_authorization: "Yetkilendirme bilgileri eksik olduğundan sunucu tarafı isteği başarısız oldu."
     response:
       unexpected: "Beklenilmeyen bir yanıt alındı."

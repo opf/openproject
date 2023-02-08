@@ -473,20 +473,20 @@ ru:
         roles: "Роль"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "разархивировано"
+          false: "архивировано"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Видимость"
+          true: "публичный"
+          false: "приватный"
         queries: "Запросы"
         templated: "Проект шаблона"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "помечено как шаблон"
+          false: "снято с отметки как шаблон"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
@@ -3007,7 +3007,7 @@ ru:
       <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
     change_button: "Изменить рабочие дни"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

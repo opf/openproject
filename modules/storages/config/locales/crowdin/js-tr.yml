@@ -27,8 +27,8 @@ tr:
       files:
         directory_not_writeable: "Bu klasöre dosya eklemek için izin almanız gerekmez."
         dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Bu klasör boş.\n"
+        empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
         file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
       file_links:
         empty: >
