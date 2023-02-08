@@ -50,6 +50,10 @@ module Components
       expect(container).to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
     end
 
+    def expect_not_visible
+      expect(container).not_to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
+    end
+
     ##
     # Select year from input
     def select_year(value)

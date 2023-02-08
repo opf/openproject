@@ -38,6 +38,8 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
       [(ngModel)]="value"
       [id]="handler.htmlId"
       class="inline-edit--field"
+      [opened]="opened"
+      (closed)="onModalClosed()"
     ></op-single-date-picker>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,8 +47,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
 
+  opened = false;
+
   ngOnInit():void {
     super.ngOnInit();
+    // Open the datepicker when the field is not part of an editing form.
+    this.opened = !this.handler.inEditMode;
   }
 
   public get value() {
@@ -60,6 +66,7 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
 
   public onCancel():void {
     this.handler.handleUserCancel();
+    this.onModalClosed();
   }
 
   public formatter(data:string):string|null {
@@ -68,5 +75,13 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
       return this.timezoneService.formattedISODate(d);
     }
     return null;
+  }
+
+  public onModalClosed():void {
+    this.opened = false;
+
+    if (!this.handler.inEditMode) {
+      this.handler.deactivate(false);
+    }
   }
 }
