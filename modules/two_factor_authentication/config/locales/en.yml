@@ -118,7 +118,7 @@ en:
         secret_key: 'Secret key'
         time_based: 'Time based'
         account: 'Account name / Issuer'
-        otp_invalid_drift_notice: "Invalid one-time password. If this happens repeatedly, please make sure your device clock is in sync. Current server time in your zone is %{time}"
+        otp_invalid_drift_notice: "Invalid one-time password. If this happens repeatedly, please make sure your device clock is in sync. Current server time in your zone is %{time}."
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
           After opening the app, you can scan the following QR code to register the device.
