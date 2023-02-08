@@ -28,33 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
-
-RSpec.describe ActivityItemComponent, type: :component do
-  let(:event) do
-    Activities::Event.new(
-      event_title: "Event Title",
-      event_description: "something",
-      event_datetime: journal.created_at,
-      project_id: project.id,
-      project:,
-      event_path: "/project/123"
-    )
-  end
-  let(:project) { build_stubbed(:project) }
-  let(:journal) { build_stubbed(:work_package_journal) }
-
-  it 'renders the title escaped' do
-    event.event_title = 'Hello <b>World</b>!'
-    render_inline(described_class.new(event:, journal:))
-
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
+class ActivityItemSubtitleComponent < ViewComponent::Base
+  def initialize(user:, datetime:, is_creation:)
+    super()
+    @user = user
+    @datetime = datetime
+    @is_creation = is_creation
   end
 
-  it 'renders the project name to which the event belongs, escaped' do
-    event.project.name = 'Project <b>name</b> with HTML'
-    render_inline(described_class.new(event:, journal:))
+  def user_html
+    return unless @user
 
-    expect(page).to have_css('.op-activity-list--item-title', text: '(Project: Project <b>name</b> with HTML)')
+    [
+      helpers.avatar(@user, size: 'mini'),
+      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
+    ].join(' ')
+  end
+
+  def datetime_html
+    helpers.format_time(@datetime)
+  end
+
+  def i18n_key
+    i18n_key = 'activity.item.'.dup
+    i18n_key << (@is_creation ? 'created_' : 'updated_')
+    i18n_key << 'by_' if @user
+    i18n_key << 'on'
+    i18n_key
   end
 end

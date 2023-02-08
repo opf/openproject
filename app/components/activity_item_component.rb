@@ -35,10 +35,11 @@ class ActivityItemComponent < ViewComponent::Base
            :truncate_formatted_text,
            to: :helpers
 
-  def initialize(event:, journal:)
+  def initialize(event:, journal:, display_user: true)
     super()
     @event = event
     @journal = journal
+    @display_user = display_user
   end
 
   def display_belonging_project?
@@ -48,11 +49,12 @@ class ActivityItemComponent < ViewComponent::Base
   def show_details?
     return false if @journal.initial?
 
-    @journal.details.present?
+    rendered_details.present?
   end
 
   def rendered_details
-    @journal.details
+    @rendered_details ||=
+      @journal.details
       .map { |detail| @journal.render_detail(detail) }
       .compact
   end

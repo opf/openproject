@@ -30,31 +30,38 @@
 
 require "rails_helper"
 
-RSpec.describe ActivityItemComponent, type: :component do
-  let(:event) do
-    Activities::Event.new(
-      event_title: "Event Title",
-      event_description: "something",
-      event_datetime: journal.created_at,
-      project_id: project.id,
-      project:,
-      event_path: "/project/123"
-    )
-  end
-  let(:project) { build_stubbed(:project) }
-  let(:journal) { build_stubbed(:work_package_journal) }
+RSpec.describe ActivityItemSubtitleComponent, type: :component do
+  include Redmine::I18n
 
-  it 'renders the title escaped' do
-    event.event_title = 'Hello <b>World</b>!'
-    render_inline(described_class.new(event:, journal:))
+  let(:datetime) { Time.current }
 
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
+  subject { render_inline(described_class.new(user:, datetime:, is_creation:)) }
+
+  context 'on creation with a user' do
+    let(:is_creation) { true }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
   end
 
-  it 'renders the project name to which the event belongs, escaped' do
-    event.project.name = 'Project <b>name</b> with HTML'
-    render_inline(described_class.new(event:, journal:))
+  context 'on creation without a user' do
+    let(:is_creation) { true }
+    let(:user) { nil }
 
-    expect(page).to have_css('.op-activity-list--item-title', text: '(Project: Project <b>name</b> with HTML)')
+    it { is_expected.to have_text("created on #{format_time(datetime)}") }
+  end
+
+  context 'on update with a user' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on update without a user' do
+    let(:is_creation) { false }
+    let(:user) { nil }
+
+    it { is_expected.to have_text("updated on #{format_time(datetime)}") }
   end
 end

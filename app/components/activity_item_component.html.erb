@@ -2,14 +2,14 @@
   <div class="op-activity-list--item-title">
     <%= link_to format_activity_title(@event.event_title), @event.event_path %>
     <% if display_belonging_project? -%>
-      (Project: <%= content_tag('span', link_to(@event.project.name, @event.project), class: 'project') %>)
+      (<%= I18n.t('events.title.project', name: content_tag('span', link_to(@event.project.name, @event.project), class: 'project')).html_safe %>)
     <% end -%>
   </div>
-  <div class="op-activity-list--item-subtitle">
-    <%= @journal.initial? ? "created by" : "updated by" %>
-    <%= avatar(@event.event_author, size: 'mini') %> <span class="spot-caption spot-caption_bold"><%= link_to_user(@event.event_author) %></span>
-    on <%= format_time(@event.event_datetime.to_time, true) %>
-  </div>
+  <%=
+    render(ActivityItemSubtitleComponent.new(user: @display_user && @event.event_author,
+                                             datetime: @event.event_datetime,
+                                             is_creation: @journal.initial?))
+  %>
   <% if @event.event_description.present? -%>
     <div class="op-activity-list--item-description">
       <%= truncate_formatted_text(@event.event_description) %>
