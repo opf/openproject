@@ -54,7 +54,9 @@ module Calendar
         query.results.nil? || 
         query.results.work_packages.nil?
       )
-        work_packages = query.results.work_packages
+        work_packages = query.results.work_packages.includes(
+          :project, :assigned_to, :author, :priority, :status
+        )
       end
     end
 

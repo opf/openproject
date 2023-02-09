@@ -44,19 +44,12 @@ module Calendar
       calendar = Icalendar::Calendar.new
 
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
-      calendar.ip_method = "PUBLISH"
       calendar.x_wr_calname = "OpenProject Calendar"
 
       work_packages&.each do |work_package| 
         next if work_package.due_date.nil?
 
-        event = Icalendar::Event.new
-        event.uid = "#{work_package.id}@#{host}"
-        event.summary = work_package.name
-        event.dtstart = Icalendar::Values::Date.new(work_package.start_date)
-        event.dtend = Icalendar::Values::Date.new(work_package.due_date + 1.day)
-        event.location = work_package_url(work_package)
-        event.description = description_value(work_package)
+        event = create_event(work_package)
 
         calendar.add_event(event)
       end
@@ -64,7 +57,21 @@ module Calendar
       calendar.to_ical
     end
 
-    def work_package_url work_package
+    def create_event(work_package)
+      event = Icalendar::Event.new
+      event.uid = "#{work_package.id}@#{host}"
+      event.attendee = [work_package.assigned_to&.name]
+      event.organizer = work_package.author&.name
+      event.summary = work_package.name
+      event.dtstart = Icalendar::Values::Date.new(work_package.start_date)
+      event.dtend = Icalendar::Values::Date.new(work_package.due_date + 1.day)
+      event.location = work_package_url(work_package)
+      event.description = description_value(work_package)
+
+      event
+    end
+
+    def work_package_url(work_package)
       url_for(
         controller: :work_packages,
         action: :show,
@@ -95,18 +102,29 @@ module Calendar
     #   nil
     # end
 
-    def description_value work_package
-      # TODO: Check if n+1 queries are caused by following code
-      project = work_package.project.name
-      type = "🟩 #{work_package.type.name}"
-      status = work_package.status.name
-      assignee = work_package.assigned_to
-      priority = "🟢 #{work_package.priority.name}"
-      description = "Work package description available at: #{work_package_url(work_package)}"
+    def description_value(work_package)
+      project = "Project: #{work_package.project.name}"
+      type = "Type: #{type_emoji(work_package)} #{work_package.type&.name}"
+      status = "Status: #{work_package.status&.name}"
+      assignee = "Assignee: #{work_package.assigned_to&.name}"
+      priority = "Priority: #{priority_emoji(work_package)} #{work_package.priority&.name}"
+      unless work_package.description.blank?
+        description = "Work package description: #{work_package.description&.truncate(250)}"
+      end
 
       [
         project, type, status, assignee, priority, description
       ].join("\n")
+    end
+
+    def type_emoji(work_package)
+      # TODO: Differentiate emoji based on type
+      "🟩"
+    end
+    
+    def priority_emoji(work_package)
+      # TODO: Differentiate emoji based on priority
+      "🟢"
     end
 
   end

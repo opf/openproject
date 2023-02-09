@@ -30,6 +30,10 @@ module Calendar
   class ResolveIcalUserService < ::BaseServices::BaseCallable
     
     def perform(ical_token:)
+      if ical_token.blank?
+        raise ActiveRecord::RecordNotFound
+      end
+      
       # TODO: do it properly with new ICAL token
       token = Token::API.find_by_plaintext_value(ical_token)
       if token.present?
