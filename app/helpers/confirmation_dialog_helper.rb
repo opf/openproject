@@ -35,6 +35,7 @@ module ConfirmationDialogHelper
     text: nil,
     danger_zone: false,
     show_list_data: false,
+    refresh_on_close: false,
     list_title: nil,
     warning_text: nil,
     button_continue: nil,
@@ -57,6 +58,7 @@ module ConfirmationDialogHelper
         warningText: warning_text,
         passedData: passed_data,
         showListData: show_list_data,
+        refreshOnClose: refresh_on_close,
         icon: {
           continue: icon_continue
         }.compact

@@ -54,6 +54,7 @@ export interface ConfirmDialogOptions {
   showClose?:boolean;
   closeByDocument?:boolean;
   showListData?:boolean;
+  refreshOnClose?:boolean;
   listTitle?:string;
   warningText?:string;
   passedData?:string[];
@@ -98,6 +99,8 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
   public dangerHighlighting:boolean;
 
+  public refreshOnClose:boolean;
+
   constructor(readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
@@ -107,6 +110,7 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
     this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
     this.showListData = _.defaultTo(this.options.showListData, false);
+    this.refreshOnClose = _.defaultTo(this.options.refreshOnClose, false);
     this.listTitle = _.defaultTo(this.options.listTitle, '');
     this.warningText = _.defaultTo(this.options.warningText, '');
     this.passedData = _.defaultTo(this.options.passedData, []);
@@ -119,6 +123,13 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
 
   public confirmAndClose(evt:Event):void {
     this.confirmed = true;
+    this.closeMe(evt);
+  }
+
+  public close(evt:Event):void {
+    if (this.refreshOnClose) {
+      location.reload();
+    }
     this.closeMe(evt);
   }
 }
