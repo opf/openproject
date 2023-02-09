@@ -66,7 +66,6 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
-import { DateModalSchedulingService } from 'core-app/shared/components/datepicker/services/date-modal-scheduling.service';
 import {
   areDatesEqual,
   mappedDate,
@@ -103,7 +102,6 @@ export type FieldUpdates =
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
-    DateModalSchedulingService,
     DateModalRelationsService,
   ],
 })
@@ -113,8 +111,6 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
   @InjectField() timezoneService:TimezoneService;
 
   @InjectField() halEditing:HalResourceEditingService;
-
-  @InjectField() dateModalScheduling:DateModalSchedulingService;
 
   @InjectField() dateModalRelations:DateModalRelationsService;
 
@@ -505,7 +501,7 @@ export class MultiDateModalComponent extends OpModalComponent implements AfterVi
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             minimalDate,
-            this.dateModalScheduling.isDayDisabled(dayElem, minimalDate),
+            this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },

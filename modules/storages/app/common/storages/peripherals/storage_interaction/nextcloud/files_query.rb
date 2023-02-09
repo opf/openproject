@@ -106,9 +106,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
               .xpath('//d:response')
               .to_a
 
-        a.map do |file_element|
-          storage_file(file_element)
-        end
+        parent, *files =
+          a.map do |file_element|
+            storage_file(file_element)
+          end
+
+        ::Storages::StorageFiles.new(files, parent)
       end
     end
 

@@ -51,7 +51,7 @@ nl:
       type_link_text: "Integratie met OpenProject\""
       name: "Geef uw opslag een naam zodat gebruikers onderscheid kunnen maken tussen meerdere opslagplaatsen."
       host: "Voeg het hostadres van je opslag toe, inclusief de https://. Het mag niet langer dan 255 tekens zijn."
-      no_storage_set_up: "Er zijn nog geen bestandsopslag ingesteld."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
       setting_up_additional_storages_non_admin: "Beheerders kunnen extra bestandsopslag instellen in Administratie / Bestandsopslag."
       setting_up_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
@@ -79,7 +79,7 @@ nl:
     label_new_storage: "Nieuwe opslag"
     label_storage: "Opslag"
     label_storages: "Opslagplaatsen"
-    no_results: "No storages set up, yet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Type provider"
       nextcloud:

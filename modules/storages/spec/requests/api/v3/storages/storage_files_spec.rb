@@ -62,20 +62,24 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
   describe 'GET /api/v3/storages/:storage_id/files' do
     let(:path) { api_v3_paths.storage_files(storage.id) }
 
-    let(:files) do
-      [
-        Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
-        Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+    let(:response) do
+      Storages::StorageFiles.new(
+        [
+          Storages::StorageFile.new(1, 'new_younglings.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                    'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable]),
+          Storages::StorageFile.new(2, 'holocron_inventory.md', 4096, 'text/markdown', DateTime.now, DateTime.now,
+                                    'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
+        ],
+        Storages::StorageFile.new(32, '/', 4096 * 2, 'application/x-op-directory', DateTime.now, DateTime.now,
                                   'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
-      ]
+      )
     end
 
     describe 'with successful response' do
       before do
         storage_requests = instance_double(Storages::Peripherals::StorageRequests)
         files_query = Proc.new do
-          ServiceResult.success(result: files)
+          ServiceResult.success(result: response)
         end
         allow(storage_requests).to receive(:files_query).and_return(ServiceResult.success(result: files_query))
         allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
@@ -83,14 +87,16 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       subject { last_response.body }
 
-      it { is_expected.to be_json_eql(files.length.to_json).at_path('count') }
-      it { is_expected.to be_json_eql(files[0].id.to_json).at_path('_embedded/elements/0/id') }
-      it { is_expected.to be_json_eql(files[0].name.to_json).at_path('_embedded/elements/0/name') }
-      it { is_expected.to be_json_eql(files[1].id.to_json).at_path('_embedded/elements/1/id') }
-      it { is_expected.to be_json_eql(files[1].name.to_json).at_path('_embedded/elements/1/name') }
+      it { is_expected.to be_json_eql(response.files[0].id.to_json).at_path('files/0/id') }
+      it { is_expected.to be_json_eql(response.files[0].name.to_json).at_path('files/0/name') }
+      it { is_expected.to be_json_eql(response.files[1].id.to_json).at_path('files/1/id') }
+      it { is_expected.to be_json_eql(response.files[1].name.to_json).at_path('files/1/name') }
 
-      it { is_expected.to be_json_eql(files[0].permissions.to_json).at_path('_embedded/elements/0/permissions') }
-      it { is_expected.to be_json_eql(files[1].permissions.to_json).at_path('_embedded/elements/1/permissions') }
+      it { is_expected.to be_json_eql(response.files[0].permissions.to_json).at_path('files/0/permissions') }
+      it { is_expected.to be_json_eql(response.files[1].permissions.to_json).at_path('files/1/permissions') }
+
+      it { is_expected.to be_json_eql(response.parent.id.to_json).at_path('parent/id') }
+      it { is_expected.to be_json_eql(response.parent.name.to_json).at_path('parent/name') }
     end
 
     describe 'with files query creation failed' do
@@ -207,7 +213,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       end
 
       it { is_expected.to be_json_eql(upload_link.destination.to_json).at_path('_links/destination/href') }
-      it { is_expected.to be_json_eql("put".to_json).at_path('_links/destination/method') }
+      it { is_expected.to be_json_eql("post".to_json).at_path('_links/destination/method') }
       it { is_expected.to be_json_eql("Upload File".to_json).at_path('_links/destination/title') }
     end
 

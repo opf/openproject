@@ -972,13 +972,6 @@ describe WorkPackages::SetScheduleService, 'working days' do
       end
     end
 
-    def set_non_working_week_days(*days)
-      non_working_days = days.map do |day|
-        %w[xxx monday tuesday wednesday thursday friday saturday sunday].index(day.downcase)
-      end
-      Setting.working_days -= non_working_days
-    end
-
     context 'when moving forward due to days and predecessor due date now being non-working days' do
       let_schedule(<<~CHART)
         days         | MTWTFSS |

@@ -25,7 +25,9 @@ tr:
         not_logged_in: >
           Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        directory_not_writeable: "Bu klasöre dosya eklemek için izin almanız gerekmez."
+        dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
         empty: >
           Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.

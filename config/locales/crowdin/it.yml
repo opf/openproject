@@ -2963,6 +2963,9 @@ it:
       days:
         working: "%{day} ora è lavorativo"
         non_working: "%{day} ora non è lavorativo"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:

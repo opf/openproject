@@ -65,13 +65,22 @@ module Components
       end
     end
 
-    ##
-    # Set a ISO8601 date through the datepicker
-    def set_date(date)
+    # Change the datepicker visible area.
+    #
+    # @param date the date to navigate to. Can be a Date or a String with
+    # ISO8601 formatted date.
+    def show_date(date)
       date = Date.parse(date) unless date.is_a?(Date)
 
       select_year date.year
       select_month date.strftime('%B')
+    end
+
+    # Set a ISO8601 date through the datepicker
+    def set_date(date)
+      date = Date.parse(date) unless date.is_a?(Date)
+
+      show_date(date)
       select_day date.day
     end
 
@@ -115,6 +124,30 @@ module Components
     def expect_non_working(date)
       label = date.strftime('%B %-d, %Y')
       expect(page).to have_selector(".flatpickr-day.flatpickr-non-working-day[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_working(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-non-working-day)[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day.flatpickr-disabled[aria-label='#{label}']",
+                                    wait: 20)
+    end
+
+    ##
+    # Expect the given date to be non working
+    def expect_not_disabled(date)
+      label = date.strftime('%B %-d, %Y')
+      expect(page).to have_selector(".flatpickr-day:not(.flatpickr-disabled)[aria-label='#{label}']",
                                     wait: 20)
     end
   end

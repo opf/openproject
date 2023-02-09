@@ -32,8 +32,8 @@ sv:
         project_status:
           title: 'Projektstatus'
           not_started: 'Inte påbörjad'
-          on_track: 'På banan'
-          off_track: 'Utanför banan'
+          on_track: 'På rätt spår'
+          off_track: 'Urspårat'
           at_risk: 'I riskzonen'
           not_set: 'Ej inställd'
           finished: 'Slutförd'

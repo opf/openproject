@@ -27,10 +27,10 @@
 #++
 
 class Storages::UploadLink
-  attr_reader :destination, :finalize
+  attr_reader :destination, :method
 
-  def initialize(destination = '', finalize = nil)
+  def initialize(destination = '', method = :post)
     @destination = destination
-    @finalize = finalize
+    @method = method
   end
 end

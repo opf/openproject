@@ -35,19 +35,8 @@ module API::V3::StorageFiles
     link :destination do
       {
         href: represented.destination,
-        method: :put,
+        method: represented.method,
         title: 'Upload File'
-      }
-    end
-
-    link :finalize do
-      next if represented.finalize.nil?
-
-      {
-        href: represented.finalize.destination,
-        method: :post,
-        title: 'Conclude file upload',
-        payload: represented.finalize.payload
       }
     end
 

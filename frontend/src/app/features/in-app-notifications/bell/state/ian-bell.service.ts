@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { IanBellStore } from './ian-bell.store';
-import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
+import {
+  InAppNotificationsResourceService,
+} from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { IAN_FACET_FILTERS } from 'core-app/features/in-app-notifications/center/state/ian-center.store';
 import {
   map,
@@ -17,7 +19,10 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { notificationsMarkedRead, notificationCountIncreased } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
+import {
+  notificationsMarkedRead,
+  notificationCountIncreased,
+} from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 
 /**
@@ -48,7 +53,10 @@ export class IanBellService {
   fetchUnread():Observable<number> {
     return this
       .resourceService
-      .fetchCollection({ filters: IAN_FACET_FILTERS.unread, pageSize: 0 })
+      .fetchCollection(
+        { filters: IAN_FACET_FILTERS.unread, pageSize: 0 },
+        { handleErrors: false },
+      )
       .pipe(
         map((result) => result.total),
         tap(

@@ -7,7 +7,7 @@ es:
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: '¿Quieres automatizar tus flujos de trabajo con Paneles? Los paneles avanzados son un add-on de la edición Enterprise. Por favor, actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
       lists:
         delete: 'Eliminar lista'

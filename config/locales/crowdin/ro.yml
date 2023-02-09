@@ -2986,6 +2986,9 @@ ro:
       days:
         working: "%{day} funcționează acum"
         non_working: "%{day} este acum nefuncțională"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

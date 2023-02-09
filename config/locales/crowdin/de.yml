@@ -2960,6 +2960,9 @@ de:
       days:
         working: "%{day} ist jetzt ein Arbeitstag"
         non_working: "%{day} ist jetzt kein Arbeitstag"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Keine Vorschau verfügbar"
   api_v3:
     attributes:

@@ -26,12 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
+class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   include Attachments::SetReplacements
 
   private
 
   def set_attributes(attributes)
+    file_links_ids = attributes.delete(:file_links_ids)
+    model.file_links = Storages::FileLink.where(id: file_links_ids) if file_links_ids
+
     set_attachments_attributes(attributes)
     set_static_attributes(attributes)
 
@@ -382,6 +385,7 @@ class WorkPackages::SetAttributesService < ::BaseServices::SetAttributes
     max = max_child_date
 
     return unless max
+
     days.duration(min_child_date, max_child_date)
   end
 
