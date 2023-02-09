@@ -313,15 +313,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"

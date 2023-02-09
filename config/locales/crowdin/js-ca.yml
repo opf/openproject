@@ -313,15 +313,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"

@@ -313,15 +313,11 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
