@@ -55,7 +55,7 @@ module Components
             .to have_text(I18n.t('js.button_log_time'))
         end
       else
-        expect(page).to have_no_selector '.spot-modal'
+        expect(page).not_to have_selector '.spot-modal'
       end
     end
 
@@ -76,7 +76,7 @@ module Components
         if visible
           expect(page).to have_selector "##{field_identifier(field)}"
         else
-          expect(page).to have_no_selector "##{field_identifier(field)}"
+          expect(page).not_to have_selector "##{field_identifier(field)}"
         end
       end
     end
@@ -120,8 +120,6 @@ module Components
       end
     end
 
-    private
-
     def field_identifier(field_name)
       case field_name
       when 'spent_on'
@@ -132,6 +130,8 @@ module Components
         'wp-new-inline-edit--field-user'
       end
     end
+
+    private
 
     def field_object(field_name)
       send("#{field_name}_field")

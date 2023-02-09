@@ -50,6 +50,10 @@ module Components
       expect(container).to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
     end
 
+    def expect_not_visible
+      expect(container).not_to have_selector('.flatpickr-calendar .flatpickr-current-month', wait: 10)
+    end
+
     ##
     # Select year from input
     def select_year(value)
@@ -94,7 +98,7 @@ module Components
       date = Date.parse(date) unless date.is_a?(Date)
 
       select_year date.year
-      select_month date.strftime('%B')
+      select_month date.month
     end
 
     # Set a ISO8601 date through the datepicker
@@ -106,7 +110,7 @@ module Components
     end
 
     def save!
-      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: "Save").click
+      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: I18n.t(:button_save)).click
     end
 
     ##
