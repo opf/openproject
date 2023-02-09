@@ -78,7 +78,7 @@ describe 'Working Days', js: true do
       uncheck 'Monday'
       uncheck 'Friday'
 
-      click_on 'Save'
+      click_on 'Apply changes'
 
       perform_enqueued_jobs do
         dialog.cancel
@@ -102,7 +102,7 @@ describe 'Working Days', js: true do
       uncheck 'Monday'
       uncheck 'Friday'
 
-      click_on 'Save'
+      click_on 'Apply changes'
 
       perform_enqueued_jobs do
         dialog.confirm
@@ -140,7 +140,7 @@ describe 'Working Days', js: true do
       uncheck 'Thursday'
       uncheck 'Friday'
 
-      click_on 'Save'
+      click_on 'Apply changes'
 
       perform_enqueued_jobs do
         dialog.confirm
@@ -174,7 +174,7 @@ describe 'Working Days', js: true do
         .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
 
       uncheck 'Tuesday'
-      click_on 'Save'
+      click_on 'Apply changes'
 
       # Not executing the background jobs
       dialog.confirm
@@ -186,13 +186,13 @@ describe 'Working Days', js: true do
 
   describe 'non-working days' do
     it 'can add non-working days' do
-      click_on 'Add non-working day'
+      click_on 'Non-working day'
 
       # It can cancel and reopen
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Cancel'
       end
-      click_on 'Add non-working day'
+      click_on 'Non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         fill_in 'name', with: 'My holiday'
@@ -208,7 +208,7 @@ describe 'Working Days', js: true do
       expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
 
       # Add a second day
-      click_on 'Add non-working day'
+      click_on 'Non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         fill_in 'name', with: 'Another important day'
@@ -221,7 +221,7 @@ describe 'Working Days', js: true do
         click_on 'Save'
       end
 
-      click_on 'Save'
+      click_on 'Apply changes'
       click_on 'Save and reschedule'
 
       expect(page).to have_selector('.flash.notice', text: 'Successful update.')
@@ -233,7 +233,7 @@ describe 'Working Days', js: true do
       expect(nwd2.date).to eq date2
 
       # Check if date and name are entered then close the datepicker
-      click_on 'Add non-working day'
+      click_on 'Non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Save'
@@ -264,7 +264,7 @@ describe 'Working Days', js: true do
       delete_button.hover
       delete_button.click
 
-      click_on 'Save'
+      click_on 'Apply changes'
 
       dialog.confirm
 
@@ -286,7 +286,7 @@ describe 'Working Days', js: true do
       delete_button.hover
       delete_button.click
 
-      click_on 'Save'
+      click_on 'Apply changes'
 
       dialog.confirm
 
