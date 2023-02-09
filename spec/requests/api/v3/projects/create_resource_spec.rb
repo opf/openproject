@@ -121,7 +121,7 @@ describe 'API v3 Project resource create', content_type: :json do
       {
         identifier: 'new_project_identifier',
         name: 'Project name',
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         }
       }.to_json

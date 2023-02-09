@@ -1,11 +1,14 @@
 .spot-drop-modal
-  position: relative
   display: inline-flex
+
+  &--anchor
+    position: absolute
+    @include spot-z-index("drop-modal", 1)
+    pointer-events: none
 
   &--body
     $border-radius: 5px
 
-    @include spot-z-index("drop-modal", 1)
     pointer-events: all
     opacity: 1
 

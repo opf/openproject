@@ -64,6 +64,14 @@ module OpenProject
     # files. See https://community.openproject.org/wp/45463 for details.
     # config.load_defaults 5.0
 
+    # Use new connection handling API. For most applications this won't have any
+    # effect. For applications using multiple databases, this new API provides
+    # support for granular connection swapping.
+    # It has to be done here to prevent having the deprecation warning
+    # displayed. This line and its comment can safely be removed
+    # once `config.load_defaults 6.1` is used.
+    config.active_record.legacy_connection_handling = false
+
     # Sets up logging for STDOUT and configures the default logger formatter
     # so that all environments receive level and timestamp information
     #

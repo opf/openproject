@@ -251,6 +251,19 @@ lol:
             crwdns839571:0crwdne839571:0
           unlimited: "crwdns787192:0crwdne787192:0"
           you_contribute: "crwdns839467:0crwdne839467:0"
+      working_days:
+        calendar:
+          empty_state_header: "crwdns845451:0crwdne845451:0"
+          empty_state_description: 'crwdns845453:0crwdne845453:0'
+          new_date: 'crwdns845455:0crwdne845455:0'
+        add_non_working_day: "crwdns845457:0crwdne845457:0"
+        already_added_error: "crwdns845459:0crwdne845459:0"
+        change_button: "crwdns845461:0crwdne845461:0"
+        change_title: "crwdns845463:0crwdne845463:0"
+        removed_title: "crwdns845465:0crwdne845465:0"
+        change_description: "crwdns845467:0crwdne845467:0"
+        warning: >
+          crwdns845469:0crwdne845469:0
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'
@@ -299,15 +312,11 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: crwdns838609:0crwdne838609:0
+              learn_about_link: crwdns845735:0crwdne845735:0
               new_features_html: >
-                crwdns838887:0%{list_styling_class}crwdne838887:0
-            bim:
-              learn_about_link: crwdns838613:0crwdne838613:0
-              new_features_html: >
-                crwdns838889:0%{list_styling_class}crwdne838889:0
+                crwdns845737:0%{list_styling_class}crwdne845737:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -656,6 +665,7 @@ lol:
     project:
       required_outside_context: >
         crwdns787798:0crwdne787798:0
+      details_activity: 'crwdns844367:0crwdne844367:0'
       context: 'crwdns787800:0crwdne787800:0'
       work_package_belongs_to: 'crwdns787802:0%{projectname}crwdne787802:0'
       click_to_switch_context: 'crwdns787804:0crwdne787804:0'
@@ -1250,4 +1260,5 @@ lol:
       filter_chip:
         remove: 'crwdns788758:0crwdne788758:0'
       drop_modal:
+        focus_grab: 'crwdns845471:0crwdne845471:0'
         Close: 'crwdns788760:0crwdne788760:0'

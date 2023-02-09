@@ -1,14 +1,14 @@
 <li
   class="spot-list--item op-project-include-list--item"
-  *ngFor="let project of projects; index as i; first as isFirst"
+  *ngFor="let project of projects"
   data-qa-selector="op-project-include-list--item"
   [attr.data-list-selector]="projectListItemIdentifier"
 >
   <spot-tooltip
     class="op-project-include-list--tooltip"
-    [alignment]="getTooltipAlignment(isFirst)"
+    [alignment]="getTooltipAlignment(project)"
     [disabled]="!project.disabled"
-    [dark]="true"
+    [light]="true"
   >
     <ng-container slot="trigger">
       <label
@@ -34,7 +34,6 @@
           class="spot-list--item-title spot-list--item-title_ellipse-text"
           data-qa-selector="op-project-include-list--item-title"
           [opSearchHighlight]="searchText"
-          [title]="project.name"
         >{{ project.name }}</div>
       </label>
     </ng-container>

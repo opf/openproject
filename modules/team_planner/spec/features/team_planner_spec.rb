@@ -220,8 +220,8 @@ describe 'Team planner', js: true do
       filters.expect_filter_count("1")
       filters.open
 
-      filters.add_filter_by('Type', 'is', [type_task.name])
-      filters.expect_filter_by('Type', 'is', [type_task.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_task.name])
+      filters.expect_filter_by('Type', 'is (OR)', [type_task.name])
       filters.expect_filter_count("2")
 
       team_planner.expect_assignee(user, present: true)

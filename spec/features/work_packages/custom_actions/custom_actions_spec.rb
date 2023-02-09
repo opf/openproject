@@ -241,7 +241,7 @@ describe 'Custom actions', js: true do
 
       # This custom field is not applicable
       new_ca_page.add_action(int_custom_field.name, '1')
-      new_ca_page.expect_action("custom_field_#{int_custom_field.id}", '1')
+      new_ca_page.expect_action(int_custom_field.attribute_name, '1')
 
       new_ca_page.set_condition('Status', closed_status.name)
       new_ca_page.expect_selected_option closed_status.name
@@ -293,6 +293,7 @@ describe 'Custom actions', js: true do
       find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
       datepicker = Components::Datepicker.new 'body'
       datepicker.set_date date
+      datepicker.save!
 
       new_ca_page.add_action('Type', other_type.name)
       new_ca_page.expect_action('type', other_type.id)

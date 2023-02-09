@@ -118,11 +118,11 @@ describe API::V3::WorkPackages::EagerLoading::CustomValue do
                              type_project_user_cf,
                              for_all_type_cf]
 
-          expect(work_package.send(:"custom_field_#{type_project_version_cf.id}"))
+          expect(work_package.send(type_project_version_cf.attribute_getter))
             .to eql version
-          expect(work_package.send(:"custom_field_#{type_project_list_cf.id}"))
+          expect(work_package.send(type_project_list_cf.attribute_getter))
             .to eql type_project_list_cf.custom_options.last.name
-          expect(work_package.send(:"custom_field_#{type_project_user_cf.id}"))
+          expect(work_package.send(type_project_user_cf.attribute_getter))
             .to eql user
         end
       end

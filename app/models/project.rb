@@ -104,6 +104,15 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:named_association, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
+
   has_paper_trail
 
   validates :name,
@@ -210,8 +219,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages

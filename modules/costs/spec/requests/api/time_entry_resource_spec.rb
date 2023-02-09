@@ -392,7 +392,7 @@ describe 'API v3 time_entry resource' do
           raw: "some comment"
         },
         spentOn: "2017-07-28",
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: 'some cf text'
         }
       }
@@ -438,7 +438,7 @@ describe 'API v3 time_entry resource' do
       expect(new_entry.spent_on)
         .to eql Date.parse("2017-07-28")
 
-      expect(new_entry.send(:"custom_field_#{custom_field.id}"))
+      expect(new_entry.send(custom_field.attribute_getter))
         .to eql 'some cf text'
     end
 
@@ -485,7 +485,7 @@ describe 'API v3 time_entry resource' do
           hours: 'PT5H',
           comment: "some comment",
           spentOn: "2017-07-28",
-          "customField#{custom_field.id}": {
+          custom_field.attribute_name(:camel_case) => {
             raw: 'some cf text'
           }
         }

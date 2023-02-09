@@ -419,7 +419,7 @@ describe WorkPackages::UpdateContract do
 
         shared_examples_for 'custom_field readonly errors' do
           it 'adds an error to the written custom field attribute' do
-            expect(contract.errors.symbols_for(:"custom_field_#{cf1.id}"))
+            expect(contract.errors.symbols_for(cf1.attribute_name.to_sym))
               .to include(:error_readonly)
           end
 

@@ -472,14 +472,24 @@ ro:
       member:
         roles: "Roluri"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificator"
         latest_activity_at: "Ultima activitate la"
         parent: "Subproiect în"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Interogări"
+        templated: "Proiect șablon"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
-        templated: 'Proiect șablon'
       projects/status:
         code: 'Stare'
         explanation: 'Descrierea stării'
@@ -1773,6 +1783,10 @@ ro:
   label_not_contains: "nu conține"
   label_not_equals: "nu este"
   label_on: "pe"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -1814,6 +1828,7 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Atributele proiectului"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
@@ -2979,12 +2994,15 @@ ro:
       <b>Definirea zilelor lucrătoare ale săptămânii</b><br/> Zilele nelucrătoare sunt omise la programarea pachetelor de lucru și sunt excluse la calcularea duratei. Acest lucru poate fi anulat la nivelul pachetului de lucru.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:
         working: "%{day} funcționează acum"
         non_working: "%{day} este acum nefuncțională"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

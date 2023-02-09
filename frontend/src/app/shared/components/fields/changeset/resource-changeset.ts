@@ -1,13 +1,43 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2023 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { input, InputState } from 'reactivestates';
+import { take } from 'rxjs/operators';
+
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ChangeItem, ChangeMap, Changeset } from 'core-app/shared/components/fields/changeset/changeset';
-import { input, InputState } from 'reactivestates';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { take } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { IHalOptionalTitledLink } from 'core-app/core/state/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
@@ -367,7 +397,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * -- This is the place to add additional logic when the lockVersion changed in between --
    */
   protected buildPayloadFromChanges() {
-    let payload;
+    let payload:unknown&{ _links:{ attachments?:IHalOptionalTitledLink[], fileLinks?:IHalOptionalTitledLink[] } };
 
     if (isNewResource(this.pristineResource)) {
       // If the resource is new, we need to pass the entire form payload
@@ -380,13 +410,19 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       }
 
       // Add attachments to be assigned.
-      // They will already be created on the server but now
+      // They will already be created on the server, but now
       // we need to claim them for the newly created work package.
       if (this.pristineResource.attachments) {
-        payload._links.attachments = this.pristineResource
-          .attachments
+        payload._links.attachments = (this.pristineResource.attachments as unknown&{ elements:IHalOptionalTitledLink[] })
           .elements
-          .map((a:HalResource) => ({ href: a.href }));
+          .map((a) => ({ href: a.href }));
+      }
+
+      // Add file links to be assigned.
+      if (this.pristineResource.fileLinks) {
+        payload._links.fileLinks = (this.pristineResource.fileLinks as unknown&{ elements:IHalOptionalTitledLink[] })
+          .elements
+          .map((fl) => ({ href: fl.href }));
       }
     } else {
       // Otherwise, simply use the bare minimum

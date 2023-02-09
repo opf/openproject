@@ -469,14 +469,24 @@ ko:
       member:
         roles: "역할"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "식별자"
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "쿼리"
+        templated: "템플릿 프로젝트"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
-        templated: '템플릿 프로젝트'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -1738,6 +1748,10 @@ ko:
   label_not_contains: "포함하지 않음"
   label_not_equals: "일치하지 않음"
   label_on: "에"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
   label_open_work_packages_plural: "열기"
@@ -1779,6 +1793,7 @@ ko:
   label_product_version: "제품 버전"
   label_professional_support: "전문적 지원"
   label_profile: "프로필"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
@@ -2934,12 +2949,15 @@ ko:
       <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
     change_button: "근무일 변경"
     warning: >
-      근무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:
         working: "%{day}은(는) 이제 근무일입니다."
         non_working: "%{day}은(는) 이제 휴무일입니다."
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:

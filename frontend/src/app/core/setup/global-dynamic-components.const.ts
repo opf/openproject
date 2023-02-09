@@ -163,6 +163,10 @@ import {
   enterprisePageSelector,
 } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
 import {
+  OpNonWorkingDaysListComponent,
+  nonWorkingDaysListSelector,
+} from 'core-app/shared/components/op-non-working-days-list/op-non-working-days-list.component';
+import {
   EEActiveSavedTrialComponent,
   enterpriseActiveSavedTrialSelector,
 } from 'core-app/features/enterprise/enterprise-active-trial/ee-active-saved-trial.component';
@@ -203,7 +207,15 @@ import {
   CalendarSidemenuComponent,
   opCalendarSidemenuSelector,
 } from 'core-app/features/calendar/sidemenu/calendar-sidemenu.component';
-import { OpModalOverlayComponent, opModalOverlaySelector } from 'core-app/shared/components/modal/modal-overlay.component';
+import {
+  OpModalOverlayComponent,
+  opModalOverlaySelector,
+} from 'core-app/shared/components/modal/modal-overlay.component';
+import {
+  OpSingleDatePickerComponent,
+  opSingleDatePickerSelector,
+} from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -238,6 +250,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: globalSearchSelector, cls: GlobalSearchInputComponent },
   { selector: collapsibleSectionAugmentSelector, cls: CollapsibleSectionComponent },
   { selector: enterpriseBannerSelector, cls: EnterpriseBannerComponent },
+  { selector: nonWorkingDaysListSelector, cls: OpNonWorkingDaysListComponent },
   { selector: enterprisePageSelector, cls: EnterprisePageComponent },
   { selector: noResultsSelector, cls: NoResultsComponent },
   { selector: enterpriseBaseSelector, cls: EnterpriseBaseComponent },
@@ -245,7 +258,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: enterpriseActiveSavedTrialSelector, cls: EEActiveSavedTrialComponent },
   { selector: headerProjectSelectSelector, cls: OpHeaderProjectSelectComponent },
   { selector: projectsAutocompleterSelector, cls: ProjectAutocompleterComponent },
-  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: wpOverviewGraphSelector, cls: WorkPackageOverviewGraphComponent },
   { selector: opViewSelectSelector, cls: ViewSelectComponent },
   { selector: opTeamPlannerSidemenuSelector, cls: TeamPlannerSidemenuComponent },
@@ -261,4 +273,9 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
+  // It is important to initialize the remoteFieldUpdaterSelector after the opSingleDatePickerSelector,
+  // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
+  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent, embeddable: true },
+  { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
+  { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];

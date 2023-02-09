@@ -68,7 +68,7 @@ describe 'Work package filtering by responsible', js: true do
     wp_table.expect_work_package_listed(work_package_user_responsible, work_package_placeholder_user_responsible)
 
     filters.open
-    filters.add_filter_by('Accountable', 'is', [other_user.name], 'responsible')
+    filters.add_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_responsible)
     wp_table.expect_work_package_listed(work_package_user_responsible)
@@ -83,9 +83,9 @@ describe 'Work package filtering by responsible', js: true do
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
     filters.open
-    filters.expect_filter_by('Accountable', 'is', [other_user.name], 'responsible')
+    filters.expect_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
     filters.remove_filter 'responsible'
-    filters.add_filter_by('Accountable', 'is', [placeholder_user.name], 'responsible')
+    filters.add_filter_by('Accountable', 'is (OR)', [placeholder_user.name], 'responsible')
 
     wp_table.ensure_work_package_not_listed!(work_package_user_responsible)
     wp_table.expect_work_package_listed(work_package_placeholder_user_responsible)

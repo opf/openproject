@@ -672,7 +672,7 @@ describe Projects::CopyService, 'integration', type: :model do
         before do
           custom_field
           work_package.reload
-          work_package.send(:"custom_field_#{custom_field.id}=", current_user.id)
+          work_package.send(custom_field.attribute_setter, current_user.id)
           work_package.save!(validate: false)
         end
 
@@ -682,7 +682,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'copies the custom_field' do
             expect(subject).to be_success
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
-            expect(wp.send(:"custom_field_#{custom_field.id}"))
+            expect(wp.send(custom_field.attribute_getter))
               .to eql current_user
           end
         end
@@ -693,7 +693,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'nils the custom_field' do
             expect(subject).to be_success
             wp = project_copy.work_packages.find_by(subject: work_package.subject)
-            expect(wp.send(:"custom_field_#{custom_field.id}"))
+            expect(wp.send(custom_field.attribute_getter))
               .to be_nil
           end
         end

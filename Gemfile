@@ -56,7 +56,7 @@ gem 'will_paginate', '~> 3.3.0'
 
 gem 'friendly_id', '~> 5.5.0'
 
-gem 'acts_as_list', '~> 1.0.1'
+gem 'acts_as_list', '~> 1.1.0'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.5.0'
 gem 'closure_tree', '~> 7.4.0'
@@ -80,7 +80,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.6'
+gem 'commonmarker', '~> 0.23.7'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -92,7 +92,7 @@ gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
 gem 'rouge', '~> 4.0.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.0'
+gem 'sanitize', '~> 6.0.1'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -116,7 +116,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.13.0'
+gem 'oj', '~> 3.14.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
@@ -300,12 +300,12 @@ group :development, :test do
   gem 'danger-brakeman'
 end
 
-gem 'bootsnap', '~> 1.15.0', require: false
+gem 'bootsnap', '~> 1.16.0', require: false
 
 # API gems
 gem 'grape', '~> 1.7.0'
 gem 'grape_logging', '~> 1.8.4'
-gem 'roar', '~> 1.1.0'
+gem 'roar', '~> 1.2.0'
 
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'

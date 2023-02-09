@@ -36,19 +36,25 @@ import {
   OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
+import {
+  BehaviorSubject,
+  combineLatest,
+  of,
+} from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { distinctUntilChanged, map } from 'rxjs/operators';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { Subject } from 'rxjs';
 import { randomString } from 'core-app/shared/helpers/random-string';
-import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -57,6 +63,11 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { States } from 'core-app/core/states/states.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
+import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export interface FieldDescriptor {
   name:string;
@@ -86,7 +97,7 @@ export interface ResourceContextChange {
 export const overflowingContainerAttribute = 'overflowingIdentifier';
 
 @Component({
-  templateUrl: './wp-single-view.html',
+  templateUrl: './wp-single-view.component.html',
   selector: 'wp-single-view',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -99,14 +110,11 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
 
-  // State updated when structural changes to the single view may occur.
-  // (e.g., when changing the type or project context).
-  public resourceContextChange = new Subject<ResourceContextChange>();
-
   // Project context as an indicator
   // when editing the work package in a different project
   public projectContext:{
     matches:boolean,
+    id:string|null,
     href:string|null,
     field?:FieldDescriptor[]
   };
@@ -138,24 +146,28 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   public uiSelfRef:string;
 
-  protected firstTimeFocused = false;
-
   $element:JQuery;
 
-  constructor(readonly I18n:I18nService,
-    protected currentProject:CurrentProjectService,
-    protected PathHelper:PathHelperService,
-    protected $state:StateService,
-    protected states:States,
-    protected halEditing:HalResourceEditingService,
-    protected halResourceService:HalResourceService,
-    protected displayFieldService:DisplayFieldService,
-    protected schemaCache:SchemaCacheService,
-    protected hook:HookService,
-    protected injector:Injector,
-    protected cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    readonly browserDetector:BrowserDetector) {
+  storages$ = new BehaviorSubject<IStorage[]>([]);
+
+  constructor(
+    protected readonly injector:Injector,
+    private readonly states:States,
+    private readonly I18n:I18nService,
+    private readonly hook:HookService,
+    private readonly $state:StateService,
+    private readonly elementRef:ElementRef,
+    private readonly cdRef:ChangeDetectorRef,
+    private readonly PathHelper:PathHelperService,
+    private readonly schemaCache:SchemaCacheService,
+    private readonly currentProject:CurrentProjectService,
+    private readonly halEditing:HalResourceEditingService,
+    private readonly halResourceService:HalResourceService,
+    private readonly currentUserService:CurrentUserService,
+    private readonly storagesService:StoragesResourceService,
+    private readonly displayFieldService:DisplayFieldService,
+    private readonly projectsResourceService:ProjectsResourceService,
+  ) {
     super();
   }
 
@@ -167,30 +179,20 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
-    this.resourceContextChange.next(this.contextFrom(change.projectedResource));
     this.refresh(change);
 
-    // Whenever the resource context changes in any way,
+    // Whenever the temporary resource changes in any way,
     // update the visible fields.
-    this.resourceContextChange
-      .pipe(
-        this.untilDestroyed(),
-        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
-        map(() => this.halEditing.changeFor(this.workPackage)),
-      )
-      .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
-
-    // Update the resource context on every update to the temporary resource.
-    // This allows detecting a changed type value in a new work package.
     this.halEditing
       .temporaryEditResource(this.workPackage)
       .values$()
       .pipe(
         this.untilDestroyed(),
+        map((resource) => this.contextFrom(resource)),
+        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
+        map(() => this.halEditing.changeFor(this.workPackage)),
       )
-      .subscribe((resource) => {
-        this.resourceContextChange.next(this.contextFrom(resource));
-      });
+      .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
   }
 
   private refresh(change:WorkPackageChangeset) {
@@ -198,13 +200,42 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     const isNew = isNewResource(this.workPackage);
     const resource = change.projectedResource;
 
+    if (!this.currentProject.inProjectContext) {
+      this.workPackage.project = resource.project as HalResource;
+    }
+
     if (!resource.project) {
-      this.projectContext = { matches: false, href: null };
+      this.projectContext = { matches: false, href: null, id: null };
+      this.storages$.next([]);
     } else {
+      const project = resource.project as unknown&{ href:string, id:string };
+      const workPackageId = this.workPackage.id;
+      if (!workPackageId) {
+        throw new Error('work package id is invalid');
+      }
+
       this.projectContext = {
-        href: this.PathHelper.projectWorkPackagePath(idFromLink(resource.project.href), this.workPackage.id!),
-        matches: resource.project.href === this.currentProject.apiv3Path,
+        id: project.id,
+        href: this.PathHelper.projectWorkPackagePath(project.id, workPackageId),
+        matches: project.href === this.currentProject.apiv3Path,
       };
+
+      combineLatest([
+        this.projectsResourceService.update(project.href),
+        this.currentUserService.hasCapabilities$('file_links/manage', project.id),
+      ])
+        .pipe(
+          switchMap(([p, manageFileLinks]) => {
+            if (!p._links.storages || !manageFileLinks) {
+              return of([] as IStorage[]);
+            }
+
+            return this.storagesService.updateCollection(p._links.self.href, p._links.storages);
+          }),
+        )
+        .subscribe((storages) => {
+          this.storages$.next(storages);
+        });
     }
 
     if (isNew && !this.currentProject.inProjectContext) {

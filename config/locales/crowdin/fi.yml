@@ -471,14 +471,24 @@ fi:
       member:
         roles: "Roolit"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Tunniste"
         latest_activity_at: "Viimeisin tapahtuma"
         parent: "Aliprojekti"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Kyselyt"
+        templated: "Malliprojekti"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tehtävätyypit"
         versions: "Versiot"
         work_packages: "Tehtävät"
-        templated: 'Malliprojekti'
       projects/status:
         code: 'Tila'
         explanation: 'Tilan kuvaus'
@@ -1756,6 +1766,10 @@ fi:
   label_not_contains: "ei sisällä"
   label_not_equals: "ei ole"
   label_on: "päälle"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Avaa valikko"
   label_open_work_packages: "avoin"
   label_open_work_packages_plural: "avoin"
@@ -1797,6 +1811,7 @@ fi:
   label_product_version: "Tuotteen versio"
   label_professional_support: "Ammatillinen apu"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "Lähetä sähköposti-ilmoituksia projektin kopioinnin aikana"
@@ -2959,12 +2974,15 @@ fi:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ei esikatseltavaa"
   api_v3:
     attributes:

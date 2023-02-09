@@ -251,6 +251,20 @@ ru:
             Корпоративная версия OpenProject построена поверх версии Сообщества. В него входят дополнения к предприятиям и профессиональная поддержка, ориентированная главным образом на организации с более чем 10 пользователями, которые управляют критически важными для бизнеса проектами с помощью OpenProject.
           unlimited: "Без ограничений"
           you_contribute: "Разработчикам тоже нужно оплачивать счета. Обновившись до корпоративной версии вы поддержите это сообщество с открытым исходным кодом и внесете свой вклад в его разработку, обслуживание и постоянное совершенствование."
+      working_days:
+        calendar:
+          empty_state_header: "Нерабочие дни"
+          empty_state_description: 'В этом году никаких конкретных нерабочих дней не определено. Нажмите на кнопку "Добавить нерабочий день" ниже, чтобы добавить дату.'
+          new_date: '(новый)'
+        add_non_working_day: "Добавить нерабочий день"
+        already_added_error: "Нерабочий день для этой даты уже существует. Может быть только один нерабочий день для каждой уникальной даты."
+        change_button: "Сохранить и перенести"
+        change_title: "Изменить рабочие дни"
+        removed_title: "Следующие дни будут удалены из списка нерабочих дней:"
+        change_description: "Изменение дней, считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае."
+        warning: >
+          Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие рабочие пакеты будут обновлены.
+          Хотите продолжить?
     custom_actions:
       date:
         specific: 'вкл'
@@ -299,15 +313,11 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li>Список до 3 человек в карточке уведомлений, когда несколько человек участвовали в изменениях.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Активация оповещений о дате уведомления для предстоящих дат и просроченных задач.</li> <li>Мы выпускаем двухфакторную аутентификацию (2FA) для редакции Сообщества.</li> <li>Опция отображения рабочей недели теперь также добавлена в командный планировщик.</li> <li>Список до 3 человек в карточке уведомлений, когда несколько человек участвовали в изменениях.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
@@ -492,7 +502,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурацию..."
     label_upload_counter: "%{done} из %{count} файлов завершено"
     label_validation_error: "Пакет работ не может быть сохранен из-за следующих ошибок:"
-    label_version_plural: "Версии"
+    label_version_plural: "Этапы"
     label_view_has_changed: "Это представление имеет несохраненные изменения. Кликните, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -542,7 +552,7 @@ ru:
         mentioned: 'упомянутый'
         watched: 'наблюдатель'
         assigned: 'назначенный'
-        responsible: 'проверяющий'
+        responsible: 'подотчетный'
         created: 'создано'
         scheduled: 'запланировано'
         commented: 'прокомментировано'
@@ -588,7 +598,7 @@ ru:
           message: 'Есть новые уведомления.'
           link_text: 'Нажмите здесь для их загрузки'
       menu:
-        accountable: 'Проверяющий'
+        accountable: 'Подотчетный'
         by_project: 'Непрочитано по проекту'
         by_reason: 'Причина'
         inbox: 'Входящие'
@@ -616,7 +626,7 @@ ru:
             title: 'Упомянутые'
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
           assignee: 'Назначенный'
-          responsible: 'Проверяющий'
+          responsible: 'Подотчетный'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -658,6 +668,7 @@ ru:
     project:
       required_outside_context: >
         Пожалуйста, выберите проект для создания пакета работ для просмотра всех атрибутов. Вы можете выбрать только проекты, которые имеют вышеуказанный тип.
+      details_activity: 'Подробная информация о деятельности проекта'
       context: 'Контекст проекта'
       work_package_belongs_to: 'Этот пакет работ принадлежит проекту %{projectname}.'
       click_to_switch_context: 'Открыть этот пакет работ в этом проекте.'
@@ -965,8 +976,8 @@ ru:
         title: "Заголовок"
         type: "Тип"
         updatedAt: "Обновлено"
-        versionName: "Этапы"
-        version: "Этапы"
+        versionName: "Этап"
+        version: "Этап"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
@@ -1256,4 +1267,5 @@ ru:
       filter_chip:
         remove: 'Удалить'
       drop_modal:
+        focus_grab: 'Это якорь фокусировки для модальностей. Нажмите shift+ tab, чтобы вернуться к элементу модального триггера.'
         Close: 'Закрыть'

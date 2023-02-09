@@ -51,7 +51,7 @@ ro:
       type_link_text: "Integrare OpenProject”"
       name: "Dați un nume stocării pentru ca utilizatorii să poată diferenția între mai multe spațiul de stocare."
       host: "Vă rugăm să adăugați adresa de găzduire a spațiului de stocare, inclusiv https://. Nu trebuie să fie mai lungă de 255 de caractere."
-      no_storage_set_up: "Nu sunt încă setate stocări de fișiere."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Pentru a configura fişiere de stocare suplimentare, vă rugăm să vizitaţi"
       setting_up_additional_storages_non_admin: "Administratorii pot configura fişiere de stocare suplimentare în Administrare / Stocare fişiere."
       setting_up_storages: "Pentru configurarea fișierelor, vă rugăm să vizitați"
@@ -79,7 +79,7 @@ ro:
     label_new_storage: "Stocare nouă"
     label_storage: "Depozitare"
     label_storages: "Depozite"
-    no_results: "Nici o stocare setată, încă."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Tip furnizor"
       nextcloud:

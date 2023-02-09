@@ -26,18 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { EntityStore, StoreConfig } from '@datorama/akita';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import {
+  EntityState, EntityStore, ID, StoreConfig,
+} from '@datorama/akita';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
-export interface StorageFilesState extends CollectionState<IStorageFile> {}
+export interface IStorageFilesResponse {
+  files:ID[];
+  parent:ID;
+}
+
+export interface IStorageFilesState extends EntityState<IStorageFile> {
+  files:Record<string, IStorageFilesResponse>;
+}
 
 @StoreConfig({
   name: 'storage-files',
   resettable: true,
 })
-export class StorageFilesStore extends EntityStore<StorageFilesState> {
+export class StorageFilesStore extends EntityStore<IStorageFilesState> {
   constructor() {
-    super(createInitialCollectionState());
+    super({ files: {} });
   }
 }

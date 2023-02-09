@@ -51,7 +51,7 @@ de:
       type_link_text: "„OpenProject Integration“"
       name: "Geben Sie Ihrem Speicher einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können."
       host: "Bitte ergänzen Sie die Host-Adresse Ihres Speichers (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein."
-      no_storage_set_up: "Es wurden noch keine Datei-Speicher eingerichtet."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Um zusätzliche Datei-Speicher einzurichten, besuchen Sie bitte"
       setting_up_additional_storages_non_admin: "Administratoren können zusätzliche Datei-Speicher in Administration / Datei-Speicher einrichten."
       setting_up_storages: "Zum Einrichten von Dateispeichern besuchen Sie bitte"
@@ -79,7 +79,7 @@ de:
     label_new_storage: "Neuer Speicher"
     label_storage: "Speicher"
     label_storages: "Speicher"
-    no_results: "Noch kein Speicher eingerichtet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Anbieter-Typ"
       nextcloud:

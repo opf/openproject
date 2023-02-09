@@ -45,10 +45,8 @@ module Pages::Meetings
     end
 
     def expect_no_create_new_button
-      within '.toolbar-items' do
-        expect(page)
-          .to have_no_link 'Meeting'
-      end
+      expect(page)
+        .not_to have_selector '.toolbar-items'
     end
 
     def expect_no_meetings_listed
@@ -70,7 +68,7 @@ module Pages::Meetings
     def expect_meetings_not_listed(*meetings)
       within '#content-wrapper' do
         meetings.each do |meeting|
-          expect(page).to have_no_selector(".meeting",
+          expect(page).not_to have_selector(".meeting",
                                            text: meeting.title)
         end
       end

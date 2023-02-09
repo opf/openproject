@@ -453,14 +453,24 @@ lol:
       member:
         roles: "crwdns495219:0crwdne495219:0"
       project:
+        active_value:
+          true: "crwdns845435:0crwdne845435:0"
+          false: "crwdns845437:0crwdne845437:0"
         identifier: "crwdns495221:0crwdne495221:0"
         latest_activity_at: "crwdns495223:0crwdne495223:0"
         parent: "crwdns495225:0crwdne495225:0"
+        public_value:
+          title: "crwdns845439:0crwdne845439:0"
+          true: "crwdns845441:0crwdne845441:0"
+          false: "crwdns845443:0crwdne845443:0"
         queries: "crwdns495227:0crwdne495227:0"
+        templated: "crwdns495235:0crwdne495235:0"
+        templated_value:
+          true: "crwdns845445:0crwdne845445:0"
+          false: "crwdns845447:0crwdne845447:0"
         types: "crwdns495229:0crwdne495229:0"
         versions: "crwdns495231:0crwdne495231:0"
         work_packages: "crwdns495233:0crwdne495233:0"
-        templated: 'crwdns495235:0crwdne495235:0'
       projects/status:
         code: 'crwdns495237:0crwdne495237:0'
         explanation: 'crwdns495239:0crwdne495239:0'
@@ -1733,6 +1743,10 @@ lol:
   label_not_contains: "crwdns497453:0crwdne497453:0"
   label_not_equals: "crwdns497455:0crwdne497455:0"
   label_on: "crwdns497457:0crwdne497457:0"
+  label_operator_all: "crwdns845727:0crwdne845727:0"
+  label_operator_none: "crwdns845729:0crwdne845729:0"
+  label_operator_equals_or: "crwdns845731:0crwdne845731:0"
+  label_operator_equals_all: "crwdns845733:0crwdne845733:0"
   label_open_menu: "crwdns497459:0crwdne497459:0"
   label_open_work_packages: "crwdns497461:0crwdne497461:0"
   label_open_work_packages_plural: "crwdns497463:0crwdne497463:0"
@@ -1774,6 +1788,7 @@ lol:
   label_product_version: "crwdns497535:0crwdne497535:0"
   label_professional_support: "crwdns497537:0crwdne497537:0"
   label_profile: "crwdns497539:0crwdne497539:0"
+  label_project_activity: "crwdns844365:0crwdne844365:0"
   label_project_attribute_plural: "crwdns842633:0crwdne842633:0"
   label_project_count: "crwdns497543:0crwdne497543:0"
   label_project_copy_notifications: "crwdns497545:0crwdne497545:0"
@@ -2927,12 +2942,15 @@ lol:
       crwdns834284:0crwdne834284:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
-      crwdns833300:0crwdne833300:0
+      crwdns845449:0crwdne845449:0
     journal_note:
       changed: crwdns834172:0%{changes}crwdne834172:0
       days:
         working: "crwdns834174:0%{day}crwdne834174:0"
         non_working: "crwdns834176:0%{day}crwdne834176:0"
+      dates:
+        working: "crwdns844503:0%{date}crwdne844503:0"
+        non_working: "crwdns844505:0%{date}crwdne844505:0"
   nothing_to_preview: "crwdns499773:0crwdne499773:0"
   api_v3:
     attributes:

@@ -143,6 +143,7 @@ module.exports = {
               "_embedded",
               "_meta",
               "_type",
+              "_destroy",
             ],
             allowAfterThis: true,
             allowAfterSuper: false,

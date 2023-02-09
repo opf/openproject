@@ -42,7 +42,8 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
       last_modified_at,
       'admin',
       'admin',
-      '/readme.md'
+      '/readme.md',
+      %i[readable writeable]
     )
   end
   let(:representer) { described_class.new(file, current_user: user) }
@@ -88,6 +89,10 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
 
     it_behaves_like 'property', :location do
       let(:value) { file.location }
+    end
+
+    it_behaves_like 'property', :permissions do
+      let(:value) { file.permissions }
     end
   end
 end

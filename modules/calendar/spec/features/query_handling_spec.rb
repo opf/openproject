@@ -114,7 +114,7 @@ describe 'Calendar query handling', js: true do
       filters.expect_filter_count("1")
       filters.open
 
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
 
       filters.expect_filter_count("2")
 
@@ -133,7 +133,7 @@ describe 'Calendar query handling', js: true do
 
       # Change filter
       filters.open
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
       filters.expect_filter_count("2")
 
       # Save current filters

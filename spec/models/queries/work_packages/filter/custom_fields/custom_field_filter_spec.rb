@@ -51,7 +51,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
      string_wp_custom_field]
   end
   let(:query) { build_stubbed(:query, project:) }
-  let(:cf_accessor) { "cf_#{custom_field.id}" }
+  let(:cf_accessor) { custom_field.column_name }
   let(:instance) do
     described_class.create!(name: cf_accessor, operator: '=', context: query)
   end
@@ -127,16 +127,15 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
   describe 'instance attributes' do
     it 'are valid' do
       all_custom_fields.each do |cf|
-        name = "cf_#{cf.id}"
-        filter = described_class.create!(name:)
-        expect(filter.name).to eql(:"cf_#{cf.id}")
+        filter = described_class.create!(name: cf.column_name)
+        expect(filter.name).to eql(cf.column_name.to_sym)
       end
     end
   end
 
   describe '#type' do
     context 'integer' do
-      let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
+      let(:cf_accessor) { int_wp_custom_field.column_name }
 
       it 'is integer for an integer' do
         expect(instance.type)
@@ -145,7 +144,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'float' do
-      let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
+      let(:cf_accessor) { float_wp_custom_field.column_name }
 
       it 'is integer for a float' do
         expect(instance.type)
@@ -154,7 +153,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'text' do
-      let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
+      let(:cf_accessor) { text_wp_custom_field.column_name }
 
       it 'is text for a text' do
         expect(instance.type)
@@ -163,7 +162,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'list optional' do
-      let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
+      let(:cf_accessor) { list_wp_custom_field.column_name }
 
       it 'is list_optional for a list' do
         expect(instance.type)
@@ -172,7 +171,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'user' do
-      let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
+      let(:cf_accessor) { user_wp_custom_field.column_name }
 
       it 'is list_optional for a user' do
         expect(instance.type)
@@ -181,7 +180,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'version' do
-      let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
+      let(:cf_accessor) { version_wp_custom_field.column_name }
 
       it 'is list_optional for a version' do
         expect(instance.type)
@@ -190,7 +189,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'version' do
-      let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
+      let(:cf_accessor) { date_wp_custom_field.column_name }
 
       it 'is date for a date' do
         expect(instance.type)
@@ -199,7 +198,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'bool' do
-      let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
+      let(:cf_accessor) { bool_wp_custom_field.column_name }
 
       it 'is list for a bool' do
         expect(instance.type)
@@ -208,7 +207,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'string' do
-      let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
+      let(:cf_accessor) { string_wp_custom_field.column_name }
 
       it 'is string for a string' do
         expect(instance.type)
@@ -226,7 +225,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
 
   describe '#allowed_values' do
     context 'integer' do
-      let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
+      let(:cf_accessor) { int_wp_custom_field.column_name }
 
       it 'is nil for an integer' do
         expect(instance.allowed_values)
@@ -235,7 +234,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'float' do
-      let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
+      let(:cf_accessor) { float_wp_custom_field.column_name }
 
       it 'is integer for a float' do
         expect(instance.allowed_values)
@@ -244,7 +243,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'text' do
-      let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
+      let(:cf_accessor) { text_wp_custom_field.column_name }
 
       it 'is text for a text' do
         expect(instance.allowed_values)
@@ -253,7 +252,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'list' do
-      let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
+      let(:cf_accessor) { list_wp_custom_field.column_name }
 
       it 'is list_optional for a list' do
         expect(instance.allowed_values)
@@ -262,7 +261,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'user' do
-      let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
+      let(:cf_accessor) { user_wp_custom_field.column_name }
 
       it 'is list_optional for a user' do
         bogus_return_value = ['user1', 'user2']
@@ -278,7 +277,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'version' do
-      let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
+      let(:cf_accessor) { version_wp_custom_field.column_name }
 
       it 'is list_optional for a version' do
         bogus_return_value = ['version1', 'version2']
@@ -294,7 +293,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'date' do
-      let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
+      let(:cf_accessor) { date_wp_custom_field.column_name }
 
       it 'is nil for a date' do
         expect(instance.allowed_values)
@@ -303,7 +302,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'bool' do
-      let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
+      let(:cf_accessor) { bool_wp_custom_field.column_name }
 
       it 'is list for a bool' do
         expect(instance.allowed_values)
@@ -313,7 +312,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
     end
 
     context 'string' do
-      let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
+      let(:cf_accessor) { string_wp_custom_field.column_name }
 
       it 'is nil for a string' do
         expect(instance.allowed_values)
@@ -347,7 +346,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).not_to be_nil
+          expect(filters.detect { |filter| filter.name == cf.column_name.to_sym }).not_to be_nil
         end
       end
 
@@ -355,7 +354,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
         filters = described_class.all_for(query)
 
         all_custom_fields.each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }.context.project)
+          expect(filters.detect { |filter| filter.name == cf.column_name.to_sym }.context.project)
             .to eq project
         end
       end
@@ -386,12 +385,12 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter do
          text_wp_custom_field,
          date_wp_custom_field,
          string_wp_custom_field].each do |cf|
-          expect(filters.detect { |filter| filter.name == :"cf_#{cf.id}" }).not_to be_nil
+          expect(filters.detect { |filter| filter.name == cf.column_name.to_sym }).not_to be_nil
         end
 
-        expect(filters.detect { |filter| filter.name == :"cf_#{version_wp_custom_field.id}" })
+        expect(filters.detect { |filter| filter.name == version_wp_custom_field.column_name.to_sym })
           .to be_nil
-        expect(filters.detect { |filter| filter.name == :"cf_#{user_wp_custom_field.id}" })
+        expect(filters.detect { |filter| filter.name == user_wp_custom_field.column_name.to_sym })
           .to be_nil
       end
     end

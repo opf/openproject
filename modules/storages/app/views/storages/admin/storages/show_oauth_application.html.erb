@@ -11,7 +11,7 @@
     <p>
       <%= t('repositories.storage.oauth_application_details') %>
       <a
-        href="<%= URI::join(@oauth_application.integration.host, 'settings/admin/openproject').to_s %>"
+        href="<%= File.join(@oauth_application.integration.host, 'settings/admin/openproject') %>"
         target="_blank"
         class="spot-link"
       >

@@ -94,7 +94,7 @@ describe 'API v3 Project resource update', content_type: :json do
   context 'with a custom field' do
     let(:body) do
       {
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         }
       }
@@ -105,7 +105,7 @@ describe 'API v3 Project resource update', content_type: :json do
     end
 
     it 'sets the cf value' do
-      expect(project.reload.send("custom_field_#{custom_field.id}"))
+      expect(project.reload.send(custom_field.attribute_getter))
         .to eql("CF text")
     end
   end
@@ -352,7 +352,7 @@ describe 'API v3 Project resource update', content_type: :json do
     let(:body) do
       {
         active: false,
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         }
       }
@@ -377,7 +377,7 @@ describe 'API v3 Project resource update', content_type: :json do
       end
 
       it 'sets the cf value' do
-        expect(project.reload.send("custom_field_#{custom_field.id}"))
+        expect(project.reload.send(custom_field.attribute_getter))
           .to eql("CF text")
       end
 

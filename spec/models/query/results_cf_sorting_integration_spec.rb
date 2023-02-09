@@ -80,7 +80,7 @@ describe Query::Results, 'Sorting of custom field floats', with_mail: false do
   end
 
   describe 'sorting ASC by float cf' do
-    let(:sort_criteria) { [["cf_#{custom_field.id}", 'asc']] }
+    let(:sort_criteria) { [[custom_field.column_name, 'asc']] }
 
     it 'returns the correctly sorted result' do
       expect(query_results.work_packages.pluck(:id))
@@ -89,7 +89,7 @@ describe Query::Results, 'Sorting of custom field floats', with_mail: false do
   end
 
   describe 'sorting DESC by float cf' do
-    let(:sort_criteria) { [["cf_#{custom_field.id}", 'desc']] }
+    let(:sort_criteria) { [[custom_field.column_name, 'desc']] }
 
     it 'returns the correctly sorted result' do
       expect(query_results.work_packages.pluck(:id))

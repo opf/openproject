@@ -329,6 +329,12 @@ $block-grid-max-size: 6 !default;
     @extend %block-core;
     @extend %child-core;
     @include grid-block;
+
+    &_visible-overflow {
+      &, .grid-content {
+        overflow: visible;
+      }
+    }
   }
   .grid-content {
     @extend %child-core;

@@ -38,9 +38,10 @@ export interface IHalErrorBase {
   errorIdentifier:string;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types,@typescript-eslint/no-explicit-any
-export function isHalError(err:any):err is IHalErrorBase {
-  return '_type' in err && 'message' in err && 'errorIdentifier' in err;
+export function isHalError(err:unknown):err is IHalErrorBase {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  const hasOwn = (key:string):boolean => Object.prototype.hasOwnProperty.call(err, key);
+  return !!err && hasOwn('_type') && hasOwn('message') && hasOwn('errorIdentifier');
 }
 
 export interface IHalSingleError extends IHalErrorBase {

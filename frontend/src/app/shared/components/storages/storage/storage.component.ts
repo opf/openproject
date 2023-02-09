@@ -36,13 +36,22 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
-import { catchError, switchMap, take } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  share,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
+import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
@@ -61,7 +70,6 @@ import {
   StorageInformationBox,
 } from 'core-app/shared/components/storages/storage-information/storage-information-box';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
@@ -69,10 +77,12 @@ import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
-import { UploadStorageFilesService } from 'core-app/shared/components/storages/services/upload-storage-files.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'op-storage',
@@ -127,6 +137,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error', { fileName }),
       linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
         this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
+      draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.file.dragging_many_files', { storageType }),
+      uploadingLabel: this.i18n.t('js.label_upload_notification'),
     },
     dropBox: {
       uploadLabel: this.i18n.t('js.storages.upload_files'),
@@ -135,13 +147,18 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     },
     emptyList: ():string => this.i18n.t('js.storages.file_links.empty', { storageType: this.storageType }),
     openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.storageType }),
+    nextcloud: this.i18n.t('js.storages.types.nextcloud'),
   };
 
   public get storageFilesLocation():string {
     return this.storage._links.open.href;
   }
 
-  private get addFileLinksHref() {
+  private get addFileLinksHref():string {
+    if (isNewResource(this.resource)) {
+      return this.pathHelperService.fileLinksPath();
+    }
+
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
@@ -163,13 +180,14 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   constructor(
     private readonly i18n:I18nService,
     private readonly cdRef:ChangeDetectorRef,
+    private readonly http:HttpClient,
     private readonly toastService:ToastService,
     private readonly cookieService:CookieService,
     private readonly opModalService:OpModalService,
+    private readonly timezoneService:TimezoneService,
+    private readonly pathHelperService:PathHelperService,
     private readonly currentUserService:CurrentUserService,
-    private readonly configurationService:ConfigurationService,
     private readonly fileLinkResourceService:FileLinksResourceService,
-    private readonly uploadStorageFilesService:UploadStorageFilesService,
     private readonly storageFilesResourceService:StorageFilesResourceService,
   ) {
     super();
@@ -225,9 +243,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       .subscribe((fileLinks) => {
         const locals = {
           storageType: this.storage._links.type.href,
-          storageTypeName: this.storageType,
           storageName: this.storage.name,
-          storageLocation: this.storageFilesLocation,
           storageLink: this.storage._links.self,
           addFileLinksHref: this.addFileLinksHref,
           collectionKey: this.collectionKey,
@@ -245,34 +261,34 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     const fileList = this.filePicker.nativeElement.files;
     if (fileList === null) return;
 
-    this.openSelectLocationDialog(fileList);
+    this.openSelectLocationDialog(fileList[0]);
+    // reset file input, so that selecting the same file again triggers a change
+    this.filePicker.nativeElement.value = '';
   }
 
-  private openSelectLocationDialog(files:FileList|null):void {
+  private openSelectLocationDialog(file:File):void {
     const locals = {
       storageType: this.storage._links.type.href,
-      storageTypeName: this.storageType,
       storageName: this.storage.name,
-      storageLocation: this.storageFilesLocation,
       storageLink: this.storage._links.self,
     };
     this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
       .subscribe((m) => {
         m.closingEvent.subscribe((modal) => {
-          if (modal.submitted && files !== null) {
-            this.uploadFile(files[0], modal.location);
+          if (modal.submitted) {
+            this.uploadFile(file, modal.location);
           }
         });
       });
   }
 
-  private uploadFile(file:UploadFile, location:string):void {
+  private uploadFile(file:UploadFile, locationId:string):void {
     let isUploadError = false;
 
     this.storageFilesResourceService
-      .uploadLink(this.uploadResourceLink(file.name, location))
+      .uploadLink(this.uploadResourceLink(file.name, locationId))
       .pipe(
-        switchMap((link) => this.uploadStorageFilesService.uploadFile(link, file)),
+        switchMap((link) => this.uploadAndNotify(link, file)),
         catchError((error) => {
           isUploadError = true;
           return throwError(error);
@@ -297,6 +313,59 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
           console.error(error);
         },
+      );
+  }
+
+  private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IFileLinkOriginData> {
+    const { method, href } = link._links.destination;
+
+    interface FileUploadResponse {
+      file_name:string;
+      file_id:string;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    formData.append('overwrite', 'false');
+    const observable = this.http.request<FileUploadResponse>(
+      method,
+      href,
+      {
+        body: formData,
+        headers: { 'X-External-Request': 'true' },
+        observe: 'events',
+        reportProgress: true,
+        responseType: 'json',
+      },
+    ).pipe(share());
+    const notification = this.toastService.add({
+      data: [[file, observable]],
+      type: 'upload',
+      message: this.text.toast.uploadingLabel,
+    });
+
+    return observable
+      .pipe(
+        tap(() => {
+          setTimeout(() => this.toastService.remove(notification), 700);
+        }),
+        filter((ev) => ev.type === HttpEventType.Response),
+        map((ev:HttpResponse<FileUploadResponse>) => ev.body),
+        map((data) => {
+          if (data === null) {
+            throw new Error('Upload data is null.');
+          }
+
+          const now = this.timezoneService.parseDate(new Date()).toISOString();
+          return ({
+            id: data.file_id,
+            name: data.file_name,
+            mimeType: file.type,
+            size: file.size,
+            createdAt: now,
+            lastModifiedAt: now,
+          });
+        }),
       );
   }
 
@@ -401,7 +470,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private initializeStorageTypes() {
-    this.storageTypeMap[nextcloud] = this.i18n.t('js.storages.types.nextcloud');
+    this.storageTypeMap[nextcloud] = this.text.nextcloud;
   }
 
   public onDropFiles(event:DragEvent):void {
@@ -409,6 +478,14 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
     this.draggingOverDropZone = false;
     this.dragging = 0;
+
+    const files = event.dataTransfer.files;
+    if (files.length !== 1) {
+      this.toastService.addError(this.text.toast.draggingManyFiles(this.storageType));
+      return;
+    }
+
+    this.openSelectLocationDialog(files[0]);
   }
 
   public onDragOver(event:DragEvent):void {

@@ -51,7 +51,7 @@ describe 'API v3 Help texts resource' do
     [
       create(:work_package_help_text, attribute_name: 'assignee'),
       create(:work_package_help_text, attribute_name: 'status'),
-      create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+      create(:work_package_help_text, attribute_name: custom_field.attribute_name)
     ]
   end
 

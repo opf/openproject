@@ -30,7 +30,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -179,17 +179,12 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/openproject-storages.module';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { DatepickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
-import { SingleDateModalComponent } from 'core-app/shared/components/datepicker/single-date-modal/single-date.modal';
-import { MultiDateModalComponent } from 'core-app/shared/components/datepicker/multi-date-modal/multi-date.modal';
-import { DatepickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
-import { DatepickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 
 @NgModule({
   imports: [
     // Commons
-    OPSharedModule,
+    OpSharedModule,
     // Display + Edit field functionality
     OpenprojectFieldsModule,
     // CKEditor
@@ -394,11 +389,6 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     QuerySharingModalComponent,
     SaveQueryModalComponent,
     WpDestroyModalComponent,
-    MultiDateModalComponent,
-    SingleDateModalComponent,
-    DatepickerBannerComponent,
-    DatepickerWorkingDaysToggleComponent,
-    DatepickerSchedulingToggleComponent,
 
     // CustomActions
     WpCustomActionComponent,

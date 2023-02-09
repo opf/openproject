@@ -470,14 +470,24 @@ pt:
       member:
         roles: "Papéis"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultas"
+        templated: "Projeto modelo"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Projeto modelo'
       projects/status:
         code: 'Situação'
         explanation: 'Descrição da situação'
@@ -1755,6 +1765,10 @@ pt:
   label_not_contains: "não contém"
   label_not_equals: "não é"
   label_on: "ligado"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -1796,6 +1810,7 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
@@ -2955,12 +2970,15 @@ pt:
       <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar que dias da semana são considerados dias úteis pode afetar os dias de início e conclusão de todos os pacotes de trabalho em todos os projetos nesta instância.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:
         working: "%{day} agora é um dia útil"
         non_working: "%{day} agora é um dia não-útil"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:

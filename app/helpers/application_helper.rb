@@ -385,7 +385,7 @@ module ApplicationHelper
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-single-date-picker angular component instead", caller
   end
 
   def locale_first_day_of_week

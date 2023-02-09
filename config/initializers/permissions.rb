@@ -71,8 +71,7 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { placeholder_users: %i[create read update] }
 
       map.permission :view_project,
-                     { projects: [:show],
-                       activities: [:index] },
+                     { projects: [:show] },
                      public: true
 
       map.permission :search_project,
@@ -140,7 +139,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :view_work_packages,
                      {
                        versions: %i[index show status_by],
-                       journals: %i[index diff],
+                       journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        'work_packages/reports': %i[report report_details]
@@ -362,6 +361,11 @@ Rails.application.reloader.to_prepare do
                        require: :loggedin
     end
 
-    map.project_module :activity
+    map.project_module :activity do
+      map.permission :view_project_activity,
+                     { activities: [:index] },
+                     public: true,
+                     contract_actions: { activities: %i[read] }
+    end
   end
 end

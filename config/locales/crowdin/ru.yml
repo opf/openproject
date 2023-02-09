@@ -472,14 +472,24 @@ ru:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "разархивировано"
+          false: "архивировано"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
+        public_value:
+          title: "Видимость"
+          true: "публичный"
+          false: "приватный"
         queries: "Запросы"
+        templated: "Проект шаблона"
+        templated_value:
+          true: "помечено как шаблон"
+          false: "снято с отметки как шаблон"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Проект шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Описание статуса'
@@ -1588,7 +1598,7 @@ ru:
   label_copy_target: "Цель"
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
-  label_core_version: "Основной этап"
+  label_core_version: "Текущая версия"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -1789,6 +1799,10 @@ ru:
   label_not_contains: "не содержит"
   label_not_equals: "не"
   label_on: "на"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыто"
@@ -1830,6 +1844,7 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_activity: "Активность проекта"
   label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
@@ -2081,7 +2096,7 @@ ru:
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
-        responsible: 'Проверяющий'
+        responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
@@ -2953,7 +2968,7 @@ ru:
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
   version_status_locked: "заблокировано"
-  version_status_open: "открыто"
+  version_status_open: "открыт"
   note: Заметка
   note_password_login_disabled: "Вход по паролю был отключен через параметры %{configuration}."
   warning: Предупреждение
@@ -2996,12 +3011,15 @@ ru:
       <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
+      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:
         working: "%{day} сейчас работает"
         non_working: "%{day} теперь не работает"
+      dates:
+        working: "%{date} сейчас работает"
+        non_working: "%{date} теперь не работает"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

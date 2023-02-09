@@ -28,10 +28,13 @@
 
 module Queries::Filters::Strategies
   class CfListOptional < ListOptional
+    self.supported_operators = %w[= &= ! * !*]
+
     private
 
     def operator_map
       super_value = super.dup
+      super_value['&='] = ::Queries::Operators::CustomFields::EqualsAll
       super_value['!*'] = ::Queries::Operators::NoneOrBlank
       super_value['*'] = ::Queries::Operators::AllAndNonBlank
 

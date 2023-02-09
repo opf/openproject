@@ -51,7 +51,7 @@ ca:
       type_link_text: "\"Integració d'OpenProject\""
       name: "Dona un nom al teu emmagatzematge per tal que els usuaris el puguin diferenciar d'altres."
       host: "Si us plau, afegeix l'adreça d'allotjament del teu emmagatzematge incloent el https://. No pot més llarg de 255 caràcters."
-      no_storage_set_up: "No hi han emmagatzematges de fitxers configurats encara."
+      no_storage_set_up: "No hi ha emmagatzematges de fitxers configurats encara."
       setting_up_additional_storages: "Per configurar emmagatzematges de fitxers addicionals, si us plau, visita"
       setting_up_additional_storages_non_admin: "Els administradors poden configurar emmagatzematges de fitxers addicionals a través d'Administració / Emmagatzematges de fitxers."
       setting_up_storages: "Per configurar emmagatzematges de fitxers, si us plau, visita"

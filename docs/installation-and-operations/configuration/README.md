@@ -18,16 +18,16 @@ OpenProject can be configured either via environment variables. These are often 
 
 # Packaged installation
 
-The file `/opt/openproject/.env.example` contains some information to learn more. The file `/opt/openproject/conf.d/env` is used for parsing the variables and your custom values to your configuration.
+The file `/opt/openproject/.env.example` contains some information to learn more. Files stored within `/etc/openproject/conf.d/` are used for parsing the variables and your custom values to your configuration. Whenever you call `openproject config:set VARIABLE=value`, it will end up in this folder.
 
-To configure the environment variables such as the number of web server threads OPENPROJECT_HTTPS, copy the `.env.example` to `/etc/openproject/conf.d/env` and add the environment variables you want to configure. The variables will be automatically loaded to the application’s environment.
+To configure the environment variables such as the number of web server threads, copy the `.env.example` to `/etc/openproject/conf.d/env` and add the environment variables you want to configure. The variables will be automatically loaded to the application’s environment.
 
 After changing the file `/etc/openproject/conf.d/env`  the command `sudo openproject configure` must be issued
 
 If you would like to change only one variable you are able to configure the environment variable by using the following command:
 
 ```bash
-sudo openproject config:set OPENPROJECT_HTTPS="false"
+sudo openproject config:set VARIABLE=value
 ```
 
 This will write the value of the variable to the file `/etc/openproject/conf.d/other`.
@@ -616,7 +616,7 @@ To disable 2FA altogether and remove all menus from the system, so that users ca
 
 ```yaml
 OPENPROJECT_2FA_DISABLED="true"
-OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]
+OPENPROJECT_2FA_ACTIVE__STRATEGIES="[]"
 ```
 
 ### statsd

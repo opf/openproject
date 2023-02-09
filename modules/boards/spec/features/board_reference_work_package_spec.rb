@@ -76,7 +76,7 @@ describe 'Board reference work package spec', js: true do
 
     # Filter for Version
     filters.open
-    filters.add_filter_by('Version', 'is', version.name)
+    filters.add_filter_by('Version', 'is (OR)', version.name)
     sleep 2
 
     # Reference an existing work package
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'is not empty', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

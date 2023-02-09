@@ -470,14 +470,24 @@ th:
       member:
         roles: "บทบาท"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "รหัส"
         latest_activity_at: "Latest activity at"
         parent: "โครงการย่อยของ"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "การสอบถาม"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "ประเภท"
         versions: "เวอร์ชั่น"
         work_packages: "ชุดภารกิจ"
-        templated: 'Template project'
       projects/status:
         code: 'สถานะ'
         explanation: 'Status description'
@@ -1739,6 +1749,10 @@ th:
   label_not_contains: "ไม่ประกอบด้วยการ"
   label_not_equals: "ไม่"
   label_on: "on"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "เปิดเมนู"
   label_open_work_packages: "เปิด"
   label_open_work_packages_plural: "เปิด"
@@ -1780,6 +1794,7 @@ th:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ"
@@ -2938,12 +2953,15 @@ th:
       <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "ไม่มีอะไรให้แสดงเป็นตัวอย่าง"
   api_v3:
     attributes:

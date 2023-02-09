@@ -60,7 +60,7 @@ describe 'filter work packages', js: true do
       filters.open
       loading_indicator_saveguard
 
-      filters.add_filter_by 'Watcher', 'is', watcher.name
+      filters.add_filter_by 'Watcher', 'is (OR)', watcher.name
       loading_indicator_saveguard
 
       wp_table.expect_work_package_listed work_package_with_watcher
@@ -85,7 +85,7 @@ describe 'filter work packages', js: true do
     it 'allows filtering, saving, retrieving and altering the saved filter' do
       filters.open
 
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_version
@@ -108,7 +108,7 @@ describe 'filter work packages', js: true do
 
       filters.open
 
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
 
       filters.set_operator 'Version', 'is not'
 
@@ -138,7 +138,7 @@ describe 'filter work packages', js: true do
 
       filters.remove_filter :status
       filters.expect_no_filter_by :status
-      filters.add_filter_by('Status', 'is', status.name)
+      filters.add_filter_by('Status', 'is (OR)', status.name)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_status
@@ -216,14 +216,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_with_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.first.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{list_cf.accessor_name}=", list_cf.custom_options.last.id)
+      wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
       wp.save!
       wp
     end
@@ -253,7 +253,7 @@ describe 'filter work packages', js: true do
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,
-                            "customField#{list_cf.id}")
+                            list_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value
@@ -261,7 +261,7 @@ describe 'filter work packages', js: true do
 
       wp_table.save_as('Some query name')
 
-      filters.remove_filter "customField#{list_cf.id}"
+      filters.remove_filter list_cf.attribute_name(:camel_case)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_with_list_value, work_package_with_anti_list_value
@@ -294,14 +294,14 @@ describe 'filter work packages', js: true do
 
     let(:work_package_plus) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'G+H')
+      wp.send(string_cf.attribute_setter, 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
       wp = create :work_package, project: project, type: type
-      wp.send("#{string_cf.accessor_name}=", 'A&B')
+      wp.send(string_cf.attribute_setter, 'A&B')
       wp.save!
       wp
     end
@@ -331,7 +331,7 @@ describe 'filter work packages', js: true do
       filters.add_filter_by(string_cf.name,
                             'is',
                             ['G+H'],
-                            "customField#{string_cf.id}")
+                            string_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_plus
@@ -339,7 +339,7 @@ describe 'filter work packages', js: true do
 
       wp_table.save_as('Some query name')
 
-      filters.remove_filter "customField#{string_cf.id}"
+      filters.remove_filter string_cf.attribute_name(:camel_case)
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_plus, work_package_and
@@ -362,7 +362,7 @@ describe 'filter work packages', js: true do
       filters.set_filter(string_cf,
                          'is',
                          ['A&B'],
-                         "customField#{string_cf.id}")
+                         string_cf.attribute_name(:camel_case))
 
       loading_indicator_saveguard
       wp_table.expect_work_package_listed work_package_and
@@ -527,13 +527,13 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
 
       filters.open
-      filters.add_filter_by 'Version', 'is', [version2.name, version1.name]
+      filters.add_filter_by 'Version', 'is (OR)', [version2.name, version1.name]
       loading_indicator_saveguard
 
       sleep(3)
 
-      filters.expect_filter_by 'Version', 'is', [version1.name]
-      filters.expect_filter_by 'Version', 'is', [version2.name]
+      filters.expect_filter_by 'Version', 'is (OR)', [version1.name]
+      filters.expect_filter_by 'Version', 'is (OR)', [version2.name]
 
       # Order should stay unchanged
       filters.expect_filter_order('Version', [version2.name, version1.name])
@@ -555,7 +555,7 @@ describe 'filter work packages', js: true do
       loading_indicator_saveguard
       filters.expect_loaded
       filters.open
-      filters.add_filter_by 'Parent', 'is', [wp_parent.subject]
+      filters.add_filter_by 'Parent', 'is (OR)', [wp_parent.subject]
       loading_indicator_saveguard
 
       # It should show the children of the selected parent

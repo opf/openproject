@@ -42,15 +42,15 @@ describe 'Switching types in work package table', js: true do
 
     let(:query) do
       query = build(:query, user:, project:)
-      query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
+      query.column_names = ['id', 'subject', 'type', cf_text.column_name]
 
       query.save!
       query
     end
 
     let(:type_field) { wp_table.edit_field(work_package, :type) }
-    let(:text_field) { wp_table.edit_field(work_package, :"customField#{cf_text.id}") }
-    let(:req_text_field) { wp_table.edit_field(work_package, :"customField#{cf_req_text.id}") }
+    let(:text_field) { wp_table.edit_field(work_package, cf_text.attribute_name(:camel_case)) }
+    let(:req_text_field) { wp_table.edit_field(work_package, cf_req_text.attribute_name(:camel_case)) }
 
     before do
       login_as(user)
@@ -163,8 +163,8 @@ describe 'Switching types in work package table', js: true do
     context 'switching to single view' do
       let(:wp_split) { wp_table.open_split_view(work_package) }
       let(:type_field) { wp_split.edit_field(:type) }
-      let(:text_field) { wp_split.edit_field(:"customField#{cf_text.id}") }
-      let(:req_text_field) { wp_split.edit_field(:"customField#{cf_req_text.id}") }
+      let(:text_field) { wp_split.edit_field(cf_text.attribute_name(:camel_case)) }
+      let(:req_text_field) { wp_split.edit_field(cf_req_text.attribute_name(:camel_case)) }
 
       it 'allows editing and cancelling the new required fields' do
         wp_split
@@ -257,7 +257,7 @@ describe 'Switching types in work package table', js: true do
 
       work_package.reload
       expect(work_package.type_id).to eq(type_bug.id)
-      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to be(false)
+      expect(work_package.send(cf_req_bool.attribute_getter)).to be(false)
     end
   end
 
@@ -301,7 +301,7 @@ describe 'Switching types in work package table', js: true do
     let!(:priority) { create :priority, is_default: true }
 
     let(:cf_edit_field) do
-      field = wp_page.edit_field "customField#{custom_field.id}"
+      field = wp_page.edit_field custom_field.attribute_name(:camel_case)
       field.field_type = 'create-autocompleter'
       field
     end

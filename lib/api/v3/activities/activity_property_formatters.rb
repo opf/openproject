@@ -37,7 +37,7 @@ module API
         end
 
         def formatted_details(journal)
-          details = render_details(journal, no_html: true)
+          details = render_details(journal, html: false)
           html_details = render_details(journal)
 
           details
@@ -47,10 +47,10 @@ module API
 
         private
 
-        def render_details(journal, no_html: false)
+        def render_details(journal, html: true)
           journal
             .details
-            .map { |d| journal.render_detail(d, no_html:) }
+            .map { |d| journal.render_detail(d, html:) }
             .compact
         end
 

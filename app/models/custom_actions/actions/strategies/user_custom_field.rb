@@ -31,8 +31,8 @@ module CustomActions::Actions::Strategies::UserCustomField
   include ::CustomActions::Actions::Strategies::MeAssociated
 
   def apply(work_package)
-    if work_package.respond_to?(:"#{custom_field.accessor_name}=")
-      work_package.send(:"#{custom_field.accessor_name}=", transformed_value(values.first))
+    if work_package.respond_to?(custom_field.attribute_setter)
+      work_package.send(custom_field.attribute_setter, transformed_value(values.first))
     end
   end
 

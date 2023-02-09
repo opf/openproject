@@ -24,6 +24,12 @@ lol:
         no_file_links: "crwdns823106:0%{storageType}crwdne823106:0"
         not_logged_in: >
           crwdns823108:0%{storageType}crwdne823108:0
+      files:
+        directory_not_writeable: "crwdns844171:0crwdne844171:0"
+        dragging_many_files: "crwdns844507:0%{storageType}crwdne844507:0"
+        empty_folder: "crwdns845473:0crwdne845473:0"
+        empty_folder_location_hint: "crwdns845475:0crwdne845475:0"
+        file_not_selectable_location: "crwdns844779:0crwdne844779:0"
       file_links:
         empty: >
           crwdns842641:0%{storageType}crwdne842641:0

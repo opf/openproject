@@ -306,7 +306,7 @@ describe CostQuery, reporting_query_helper: true do
 
         check_cache
 
-        query.group_by "custom_field_#{custom_field2.id}".to_sym
+        query.group_by custom_field2.attribute_name
         footprint = query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end

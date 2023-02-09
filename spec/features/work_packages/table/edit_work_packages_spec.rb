@@ -177,10 +177,10 @@ describe 'Inline editing work packages', js: true do
       expect(page).to have_selector('th a', text: cf_text_name.upcase)
       expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-container.-error', count: 2)
 
-      cf_text = wp_table.edit_field(work_package, "customField#{custom_fields.last.id}")
+      cf_text = wp_table.edit_field(work_package, custom_fields.last.attribute_name(:camel_case))
       cf_text.update('my custom text', expect_failure: true)
 
-      cf_list = wp_table.edit_field(work_package, "customField#{custom_fields.first.id}")
+      cf_list = wp_table.edit_field(work_package, custom_fields.first.attribute_name(:camel_case))
       cf_list.field_type = 'create-autocompleter'
       cf_list.openSelectField
       cf_list.set_value('bar')
@@ -193,8 +193,8 @@ describe 'Inline editing work packages', js: true do
       )
 
       work_package.reload
-      expect(work_package.send(custom_fields.first.accessor_name)).to eq('bar')
-      expect(work_package.send(custom_fields.last.accessor_name)).to eq('my custom text')
+      expect(work_package.send(custom_fields.first.attribute_getter)).to eq('bar')
+      expect(work_package.send(custom_fields.last.attribute_getter)).to eq('my custom text')
 
       # Saveguard to let the background update complete
       wp_table.visit!

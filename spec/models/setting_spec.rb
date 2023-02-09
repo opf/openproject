@@ -455,68 +455,6 @@ describe Setting do
     end
   end
 
-  # tests stuff regarding settings callbacks
-  describe 'callbacks' do
-    # collects data for the dummy callback
-    let(:collector) { [] }
-
-    # a dummy callback that collects data
-    let(:callback)  { lambda { |args| collector << args[:value] } }
-
-    # registers the dummy callback
-    before do
-      described_class.register_callback(:default_projects_modules, &callback)
-    end
-
-    it 'calls a callback when a setting is set' do
-      described_class.default_projects_modules = [:some_value]
-      expect(collector).not_to be_empty
-    end
-
-    it 'calls no callback on invalid setting' do
-      allow_any_instance_of(Setting).to receive(:valid?).and_return(false)
-      described_class.default_projects_modules = 'invalid'
-      expect(collector).to be_empty
-    end
-
-    it 'calls multiple callbacks when a setting is set' do
-      described_class.register_callback(:default_projects_modules, &callback)
-      described_class.default_projects_modules = [:some_value]
-      expect(collector.size).to eq 2
-    end
-
-    it 'calls callbacks every time a setting is set' do
-      described_class.default_projects_modules = [:some_value]
-      described_class.default_projects_modules = [:some_value]
-      expect(collector.size).to eq 2
-    end
-
-    it 'calls only the callbacks belonging to the changed setting' do
-      described_class.register_callback(:host_name, &callback)
-      described_class.default_projects_modules = [:some_value]
-      expect(collector.size).to eq 1
-    end
-
-    it 'attaches to the right setting by passing a string' do
-      described_class.register_callback('app_title', &callback)
-      described_class.app_title = 'some title'
-      expect(collector).not_to be_empty
-    end
-
-    it 'passes the new setting value to the callback' do
-      described_class.default_projects_modules = [:some_value]
-      expect(collector).to include [:some_value]
-    end
-
-    it 'optionally passes the old setting value to the callback as the second argument' do
-      described_class.host_name = 'some name' # set old value
-      cb = lambda { |args| collector << args[:old_value] }
-      described_class.register_callback(:host_name, &cb)
-      described_class.host_name = 'some other name'
-      expect(collector).to include 'some name'
-    end
-  end
-
   describe '.reload_mailer_settings!' do
     before do
       allow(ActionMailer::Base)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir["#{File.dirname(__FILE__)}/*.rb"].each { |file| require file }
+Dir["#{File.dirname(__FILE__)}/*.rb"].without(__FILE__).each { |file| require file }
 
 module API
   module V3

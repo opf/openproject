@@ -103,11 +103,11 @@ module Components
     end
 
     def body_element
-      page.find(selector + ' .spot-drop-modal--body')
+      page.find(body_selector)
     end
 
     def body_selector
-      selector + ' .spot-drop-modal--body'
+      '.spot-drop-modal-portal .spot-drop-modal--body'
     end
 
     def selector

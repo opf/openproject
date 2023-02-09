@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
+import { DatePicker } from 'core-app/shared/components/datepicker/datepicker';
 import { DateOption } from 'flatpickr/dist/types/options';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
@@ -102,7 +102,6 @@ export function onDayCreate(
   dayElem:DayElement,
   ignoreNonWorkingDays:boolean,
   isNonWorkingDay:boolean,
-  minimalDate:Date|null|undefined,
   isDayDisabled:boolean,
 ):void {
   if (!ignoreNonWorkingDays && isNonWorkingDay) {
