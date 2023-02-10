@@ -19,13 +19,20 @@
   &:not(.subject) input:not([type='checkbox']):not(.spot-text-field--input):not(.spot-input)
     // Full width to inline-edit inputs
     width: 100%
+    line-height: 24px
+    font-size: 14px
+    border-radius: 2px
+
+  input:not([type='checkbox'])
     // Same height as the row - padding
     height: 24px
-    line-height: 24px
     padding: 2px
-    font-size: 14px
     color: var(--body-font-color)
-    border-radius: 2px
+
+  input.spot-input
+    // The other inputs are getting a min-height from the .op-input class,
+    // for the spot input we have to define it in order to achieve the same height.
+    min-height: 2rem
 
   &.-tiny
     input:not([type='checkbox']):not(.spot-text-field--input)
