@@ -71,7 +71,9 @@
 #
 class Journable::WithHistoricAttributes < SimpleDelegator
   attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_by_timestamp,
-                :matches_query_filters_at_timestamps, :exists_at_timestamps
+                :matches_query_filters_at_timestamps, :exists_at_timestamps,
+                :journables_by_timestamp
+
 
   def initialize(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
     super(journable)
@@ -89,6 +91,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     self.attributes_by_timestamp = {}
     self.matches_query_filters_at_timestamps = []
     self.exists_at_timestamps = []
+    self.journables_by_timestamp = {}
   end
 
   def self.wrap(journable_or_journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
@@ -134,6 +137,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
   def assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
     attributes_by_timestamp[timestamp.to_s] = extract_historic_attributes_from(historic_journable:) if historic_journable
+    journables_by_timestamp[timestamp.to_s] = historic_journable
     matches_query_filters_at_timestamps << timestamp if matching_journable
     exists_at_timestamps << timestamp if historic_journable
   end

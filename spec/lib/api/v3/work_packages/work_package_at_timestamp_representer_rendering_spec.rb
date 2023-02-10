@@ -85,50 +85,34 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   end
   let(:timestamp) { Timestamp.new }
 
-  let(:attributes_by_timestamp) do
-    {
-      timestamp.to_s => OpenStruct.new(work_package.attributes)
-    }
-  end
-  let(:journables_by_timestamp) do
-    {
-      timestamp.to_s => work_package
-    }
-  end
-  let(:exists_at_timestamps) { [timestamp.to_s] }
-  let(:matches_query_filters_at_timestamps) { { timestamp.to_s => true } }
+  let(:attributes_changed_to_baseline) { work_package.attributes.keys }
+  let(:exists_at_timestamp) { true }
+  let(:with_query) { true }
+  let(:matches_filters_at_timestamp) { true }
 
   let(:model) do
-    # Mimicking the eager loading wrapper
     work_package.tap do |model|
+      # Mimicking the eager loading wrapper
       allow(model)
-        .to receive(:journables_by_timestamp)
-              .and_return(journables_by_timestamp)
+        .to receive(:timestamp)
+              .and_return(timestamp)
       allow(model)
-        .to receive(:attributes_by_timestamp)
-              .and_return(attributes_by_timestamp)
+        .to receive(:attributes_changed_to_baseline)
+              .and_return(attributes_changed_to_baseline)
       allow(model)
-        .to receive(:exists_at_timestamps)
-              .and_return(exists_at_timestamps)
+        .to receive(:exists_at_timestamp?)
+              .and_return(exists_at_timestamp)
       allow(model)
-        .to receive(:matches_query_filters_at_timestamps)
-              .and_return(matches_query_filters_at_timestamps)
+        .to receive(:with_query?)
+              .and_return(with_query)
       allow(model)
-        .to receive(:matches_query_filters_at_timestamp?)
-              .with(timestamp)
-              .and_return(matches_query_filters_at_timestamps[timestamp.to_s])
-              #allow(model)
-      #  .to receive(:respond_to?)
-      #        .and_call_original
-      allow(model)
-        .to receive(:respond_to?)
-              .with(:matches_query_filters_at_timestamps)
-              .and_return(true)
+        .to receive(:matches_filters_at_timestamp?)
+              .and_return(matches_filters_at_timestamp)
     end
   end
 
   let(:representer) do
-    described_class.create(model, current_user:, timestamp:)
+    described_class.create(model, current_user:)
   end
 
   subject(:generated) { representer.to_json }
@@ -188,11 +172,7 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   end
 
   context 'with a subset of supported properties' do
-    let(:attributes_by_timestamp) do
-      {
-        timestamp.to_s => OpenStruct.new(work_package.attributes.slice('start_date', 'assigned_to_id', 'version_id'))
-      }
-    end
+    let(:attributes_changed_to_baseline) { %w[start_date assigned_to_id version_id] }
 
     let(:expected_json) do
       {
@@ -226,11 +206,7 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   end
 
   context 'without a linked property' do
-    let(:attributes_by_timestamp) do
-      {
-        timestamp.to_s => OpenStruct.new(work_package.attributes.slice('subject', 'start_date'))
-      }
-    end
+    let(:attributes_changed_to_baseline) { %w[subject start_date] }
 
     let(:expected_json) do
       {
@@ -259,11 +235,7 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   context 'with a nil value for a linked property' do
     let(:assigned_to) { nil }
 
-    let(:attributes_by_timestamp) do
-      {
-        timestamp.to_s => OpenStruct.new(work_package.attributes.slice('assigned_to_id'))
-      }
-    end
+    let(:attributes_changed_to_baseline) { %w[assigned_to_id] }
 
     let(:expected_json) do
       {
@@ -291,13 +263,11 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   end
 
   context 'without the timestamp being in the attributes_by_timestamp collection' do
-    let(:attributes_by_timestamp) do
-      {}
-    end
+    let(:attributes_changed_to_baseline) { %w[] }
 
-    let(:exists_at_timestamps) { [] }
+    let(:exists_at_timestamp) { false }
 
-    let(:matches_query_filters_at_timestamps) { { timestamp.to_s => false } }
+    let(:matches_filters_at_timestamp) { false }
 
     let(:expected_json) do
       {

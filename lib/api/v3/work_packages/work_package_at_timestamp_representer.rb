@@ -54,20 +54,14 @@ module API
 
         SUPPORTED_PROPERTIES = (SUPPORTED_NON_LINK_PROPERTIES + SUPPORTED_LINK_PROPERTIES).freeze
 
-        def initialize(model, current_user:, timestamp:)
-          super(model.journables_by_timestamp[timestamp.to_s], current_user:, embed_links:, timestamps: [timestamp])
-
-          self.model_with_history = model
-          self.timestamp = timestamp
+        def initialize(model, current_user:)
+          super(model, current_user:, embed_links:, timestamps: [model.timestamp])
         end
 
         private
 
-        attr_accessor :timestamp,
-                      :model_with_history
-
         def representable_map(*)
-          Representable::Binding::Map.new(super.select { |binding| rendered_properties.include?(binding.name) })
+          Representable::Binding::Map.new(super.select { |bind| rendered_properties.include?(bind.name) })
         end
 
         def compile_links_for(configs, *args)
@@ -77,26 +71,27 @@ module API
 
         def rendered_properties
           @rendered_properties ||= begin
-            # This conversion is good enough for the set of supported properties as it
-            # * Converts assigned_to_id to assignee
-            # * does not mess with `start_date` and `due_date`
-            changed_properties = (model_with_history.attributes_by_timestamp[timestamp.to_s]&.to_h || {})
-                                   .keys
-                                   .map(&:to_s)
-                                   .map do |property|
-              if property.ends_with?('_id')
-                API::Utilities::PropertyNameConverter.from_ar_name(property)
-              else
-                property
-              end
-            end
+            properties = (changed_properties_as_api_name & SUPPORTED_PROPERTIES) + ['_meta']
 
-            properties = (changed_properties & SUPPORTED_PROPERTIES) + ['_meta']
-
-            if model_with_history.exists_at_timestamps.include?(timestamp.to_s)
+            if represented.exists_at_timestamp?
               properties + ["links", :self]
             else
               properties
+            end
+          end
+        end
+
+        def changed_properties_as_api_name
+          # This conversion is good enough for the set of supported properties as it
+          # * Converts assigned_to_id to assignee
+          # * does not mess with `start_date` and `due_date`
+          represented
+            .attributes_changed_to_baseline
+            .map do |property|
+            if property.ends_with?('_id')
+              API::Utilities::PropertyNameConverter.from_ar_name(property)
+            else
+              property
             end
           end
         end

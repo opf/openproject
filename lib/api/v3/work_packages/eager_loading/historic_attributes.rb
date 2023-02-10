@@ -26,22 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Metrics/AbcSize
 module API::V3::WorkPackages::EagerLoading
   class HistoricAttributes < Base
     attr_accessor :timestamps, :query
 
     def apply(work_package)
-      work_package_with_historic_attributes = work_packages_with_historic_attributes.detect { |wp| wp.id == work_package.id }
-      work_package.attributes = work_package_with_historic_attributes.attributes.except('timestamp')
-      work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
-      work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
-      work_package.timestamps = work_package_with_historic_attributes.timestamps
-      work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
-      work_package.matches_query_filters_at_baseline_timestamp = \
-        work_package_with_historic_attributes.matches_query_filters_at_baseline_timestamp?
-      work_package.matches_query_filters_at_timestamps = work_package_with_historic_attributes.matches_query_filters_at_timestamps
-      work_package.exists_at_timestamps = work_package_with_historic_attributes.exists_at_timestamps
+      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
+
+      set_non_delegated_properties(work_package,
+                                   work_package_with_historic_attributes,
+                                   work_package_with_historic_attributes.timestamps.last.to_s)
+
+      work_package.at_timestamps = work_package_with_historic_attributes
+                                     .journables_by_timestamp
+                                     .values
+                                     .map do |wp|
+        HistoricAttributesDelegator.new(wp).tap do |wrapped_wp|
+          # TODO: Don't know why that needs to be casted
+          wrapped_wp.timestamp = Timestamp.new(wp.timestamp)
+
+          set_non_delegated_properties(wrapped_wp,
+                                       work_package_with_historic_attributes,
+                                       wrapped_wp.timestamp)
+        end
+      end
     end
 
     def self.module
@@ -50,11 +58,20 @@ module API::V3::WorkPackages::EagerLoading
 
     private
 
+    def set_non_delegated_properties(work_package, source, timestamp)
+      work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
+      work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
+      work_package.attributes_changed_to_baseline = (source.attributes_by_timestamp[timestamp.to_s]&.to_h || {}).keys.map(&:to_s)
+      work_package.with_query = source.query.present?
+    end
+
+    # TODO: prepare by indexing by id
     def work_packages_with_historic_attributes
       @work_packages_with_historic_attributes ||= begin
         @timestamps ||= @query.try(:timestamps) || []
         Journable::WithHistoricAttributes \
           .wrap_multiple(work_packages, timestamps: @timestamps, query: @query, include_only_changed_attributes: true)
+          .index_by(&:id)
       end
     end
   end
@@ -63,25 +80,27 @@ module API::V3::WorkPackages::EagerLoading
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :baseline_attributes, :attributes_by_timestamp, :timestamps, :baseline_timestamp,
-                    :matches_query_filters_at_baseline_timestamp,
-                    :matches_query_filters_at_timestamps,
-                    :exists_at_timestamps
+      attr_accessor :at_timestamps,
+                    :attributes_changed_to_baseline,
+                    # TODO: should be possible to get rid of. Added to cast it to a Timestamp again
+                    :timestamp
+
+      attr_writer :with_query,
+                  :exists_at_timestamp,
+                  :matches_filters_at_timestamp
+
+      def with_query?; @with_query; end
+      def exists_at_timestamp?; @exists_at_timestamp; end
+      def matches_filters_at_timestamp?; @matches_filters_at_timestamp; end
     end
 
-    # Does the work package match the query filter at the baseline timestamp?
-    # Returns `nil` if no query is given.
-    #
-    def matches_query_filters_at_baseline_timestamp?
-      matches_query_filters_at_timestamps.any? ? matches_query_filters_at_baseline_timestamp : nil
-    end
-
-    # Does the work package match the query filter at the given timestamp?
-    # Returns `nil` if no query is given.
-    #
-    def matches_query_filters_at_timestamp?(timestamp)
-      matches_query_filters_at_timestamps.any? ? matches_query_filters_at_timestamps.include?(timestamp) : nil
+    def wrapped?
+      true
     end
   end
+
+  # TODO: Get this in line with the rest of the eager loading
+  class HistoricAttributesDelegator < SimpleDelegator
+    include HistoricAttributesAccessors
+  end
 end
-# rubocop:enable Metrics/AbcSize
