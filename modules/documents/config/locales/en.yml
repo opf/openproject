@@ -47,6 +47,7 @@ en:
   label_document_added: "Document added"
   label_document_new: "New document"
   label_document_plural: "Documents"
+  label_document_activity_filter: "Documents"
   label_documents: "Documents"
 
   permission_manage_documents: "Manage documents"

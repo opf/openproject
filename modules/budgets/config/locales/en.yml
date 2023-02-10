@@ -71,6 +71,7 @@ en:
   label_budget: "Budget"
   label_budget_new: "New budget"
   label_budget_plural: "Budgets"
+  label_budget_activity_filter: "Budgets"
   label_budget_id: "Budget #%{id}"
   label_deliverable: "Budget"
   label_example_placeholder: 'e.g., %{decimal}'
