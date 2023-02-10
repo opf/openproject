@@ -33,7 +33,6 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  HostBinding,
   Injector,
   Input,
   OnInit,
@@ -104,7 +103,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   @Input() name = '';
 
-  @Input() fieldName:string = '';
+  @Input() fieldName = '';
 
   @Input() value:string[] = [];
 
@@ -216,7 +215,9 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   ngOnInit():void {
     this.applyLabel = this.applyLabel || this.text.apply;
-    this.htmlId = `wp-datepicker-${this.fieldName as string}`;
+    this.htmlId = `wp-datepicker-${this.fieldName}`;
+    this.dates.start = this.value?.[0];
+    this.dates.end = this.value?.[1];
 
     this.setCurrentActivatedField(this.initialActivatedField);
   }
@@ -326,7 +327,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           );
         },
       },
-      this.flatpickrTarget.nativeElement,
+      this.flatpickrTarget.nativeElement as HTMLElement,
     );
   }
 
@@ -477,7 +478,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   }
 
   writeValue(newValue:string[]|null):void {
-    const value = (newValue || []).map(d => this.timezoneService.formattedISODate(d));
+    const value = (newValue || []).map((d) => this.timezoneService.formattedISODate(d));
     if (value[0] === this.dates.start && value[1] === this.dates.end) {
       return;
     }
