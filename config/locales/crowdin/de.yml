@@ -2944,7 +2944,7 @@ de:
     warning: >
       Änderungen an Arbeitstagen können den Start und das Ende aller Arbeitspakete in allen Projekten in dieser Instanz beeinflussen.
     journal_note:
-      changed: _**Arbeitstage ** geändert (%{changes})._
+      changed: _**Arbeitstage** geändert (%{changes})._
       days:
         working: "%{day} ist jetzt ein Arbeitstag"
         non_working: "%{day} ist jetzt kein Arbeitstag"
