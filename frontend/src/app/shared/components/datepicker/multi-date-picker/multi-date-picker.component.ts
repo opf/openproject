@@ -155,7 +155,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     return this.text.placeholder;
   }
 
-  ignoreNonWorkingDays = false;
+  ignoreNonWorkingDays = true;
 
   currentlyActivatedDateField:DateFields;
 
