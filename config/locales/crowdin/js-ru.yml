@@ -256,15 +256,14 @@ ru:
           empty_state_header: "Нерабочие дни"
           empty_state_description: 'В этом году никаких конкретных нерабочих дней не определено. Нажмите на кнопку "Добавить нерабочий день" ниже, чтобы добавить дату.'
           new_date: '(новый)'
-        add_non_working_day: "Добавить нерабочий день"
+        add_non_working_day: "Non-working day"
         already_added_error: "Нерабочий день для этой даты уже существует. Может быть только один нерабочий день для каждой уникальной даты."
         change_button: "Сохранить и перенести"
         change_title: "Изменить рабочие дни"
         removed_title: "Следующие дни будут удалены из списка нерабочих дней:"
         change_description: "Изменение дней, считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае."
         warning: >
-          Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие рабочие пакеты будут обновлены.
-          Хотите продолжить?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'вкл'

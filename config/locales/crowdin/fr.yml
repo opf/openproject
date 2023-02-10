@@ -1047,6 +1047,7 @@ fr:
   button_reset: "Réinitialiser"
   button_rollback: "Revenir à cette version"
   button_save: "Enregistrer"
+  button_apply_changes: "Apply changes"
   button_save_back: "Enregistrer et revenir"
   button_show: "Afficher"
   button_sort: "Trier"
@@ -2970,10 +2971,12 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Changer les jours ouvrables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:

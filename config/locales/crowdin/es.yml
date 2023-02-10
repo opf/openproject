@@ -1044,6 +1044,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
+  button_apply_changes: "Apply changes"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -2966,10 +2967,12 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambiar los días laborables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:

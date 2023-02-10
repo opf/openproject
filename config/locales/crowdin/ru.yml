@@ -1056,6 +1056,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
+  button_apply_changes: "Apply changes"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
   button_sort: "Сортировать"
@@ -3008,10 +3009,12 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

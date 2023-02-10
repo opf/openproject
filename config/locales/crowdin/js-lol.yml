@@ -256,14 +256,14 @@ lol:
           empty_state_header: "crwdns845451:0crwdne845451:0"
           empty_state_description: 'crwdns845453:0crwdne845453:0'
           new_date: 'crwdns845455:0crwdne845455:0'
-        add_non_working_day: "crwdns845457:0crwdne845457:0"
+        add_non_working_day: "crwdns845747:0crwdne845747:0"
         already_added_error: "crwdns845459:0crwdne845459:0"
         change_button: "crwdns845461:0crwdne845461:0"
         change_title: "crwdns845463:0crwdne845463:0"
         removed_title: "crwdns845465:0crwdne845465:0"
         change_description: "crwdns845467:0crwdne845467:0"
         warning: >
-          crwdns845469:0crwdne845469:0
+          crwdns845749:0crwdne845749:0
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'

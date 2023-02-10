@@ -1044,6 +1044,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
   button_sort: "Ordina"
@@ -2968,10 +2969,12 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:

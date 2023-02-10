@@ -332,7 +332,7 @@ de:
   wiki:
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
     no_results_title_text: Derzeit gibt es keine Wikiseiten.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Damit wird der Inhalt dieser Wiki-Seite ohne Navigationsleisten gedruckt.
     index:
       no_results_content_text: Neue Wikiseite hinzufügen
   work_flows:
@@ -371,7 +371,7 @@ de:
   account:
     delete: "Konto löschen"
     delete_confirmation: "Sind Sie sicher, dass Sie das Konto löschen wollen?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Das Konto wurde gesperrt und zur Löschung vorgesehen. Beachten Sie, dass dieser Vorgang im Hintergrund abläuft. Es kann ein paar Momente dauern, bis der Benutzer vollständig gelöscht ist."
     deletion_info:
       data_consequences:
         other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspakete, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschten Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
@@ -467,20 +467,20 @@ de:
         roles: "Rollen"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "nicht archiviert"
+          false: "archiviert"
         identifier: "Kennung"
         latest_activity_at: "Letzte Aktivität am"
         parent: "Unterprojekt von"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Sichtbarkeit"
+          true: "öffentlich"
+          false: "privat"
         queries: "Abfragen"
         templated: "Projektvorlage"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "als Vorlage markiert"
+          false: "als Vorlage nicht markiert"
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
@@ -698,7 +698,7 @@ de:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Für %{value} existiert bereits ein arbeitsfreier Tag."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -1042,6 +1042,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
+  button_apply_changes: "Apply changes"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
   button_sort: "Sortierung"
@@ -1340,8 +1341,8 @@ de:
     changeset: 'Projektarchiv-Änderung bearbeitet'
     message: Nachricht bearbeitet
     news: Neuigkeiten
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Projekt-Attribute bearbeitet'
+    projects: 'Projekt bearbeitet'
     reply: Antwort erstellt
     time_entry: 'Zeiterfassungseintrag bearbeitet'
     wiki_page: 'Wiki-Seite bearbeitet'
@@ -1349,7 +1350,7 @@ de:
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
     title:
-      project: "Project: %{name}"
+      project: "Projekt: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
@@ -1761,10 +1762,10 @@ de:
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
   label_on: "am"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "ist nicht leer"
+  label_operator_none: "ist leer"
+  label_operator_equals_or: "ist (ODER)"
+  label_operator_equals_all: "ist (UND)"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
   label_open_work_packages_plural: "offen"
@@ -1806,8 +1807,8 @@ de:
   label_product_version: "Produktversion"
   label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
-  label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_activity: "Projektaktivität"
+  label_project_attribute_plural: "Projekt-Attribute"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
@@ -2230,7 +2231,7 @@ de:
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Projekt archivieren"
   permission_manage_user: "Benutzer erstellen und bearbeiten"
   permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
@@ -2965,18 +2966,20 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      <b>Definieren Sie die Arbeitstage der Woche</b><br/> Arbeitsfreie Tage werden bei der Planung der Arbeitspakete übersprungen und bei Berechnung der Dauer ausgenommen. Diese Einstellung kann pro Arbeitspaket überschrieben werden.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Arbeitstage ändern"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
-      changed: _**Arbeitstage ** geändert (%{changes})._
+      changed: _**Arbeitstage** geändert (%{changes})._
       days:
         working: "%{day} ist jetzt ein Arbeitstag"
         non_working: "%{day} ist jetzt kein Arbeitstag"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} ist jetzt ein Arbeitstag"
+        non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
   nothing_to_preview: "Keine Vorschau verfügbar"
   api_v3:
     attributes:

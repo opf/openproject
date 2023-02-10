@@ -1029,6 +1029,7 @@ lol:
   button_reset: "crwdns495997:0crwdne495997:0"
   button_rollback: "crwdns495999:0crwdne495999:0"
   button_save: "crwdns496001:0crwdne496001:0"
+  button_apply_changes: "crwdns845739:0crwdne845739:0"
   button_save_back: "crwdns496003:0crwdne496003:0"
   button_show: "crwdns496005:0crwdne496005:0"
   button_sort: "crwdns496007:0crwdne496007:0"
@@ -2939,10 +2940,12 @@ lol:
       title: "crwdns499771:0crwdne499771:0"
   working_days:
     info: >
-      crwdns834284:0crwdne834284:0
+      crwdns845741:0crwdne845741:0
+    instance_wide_info: >
+      crwdns845743:0crwdne845743:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
-      crwdns845449:0crwdne845449:0
+      crwdns845745:0crwdne845745:0
     journal_note:
       changed: crwdns834172:0%{changes}crwdne834172:0
       days:

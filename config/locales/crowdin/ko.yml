@@ -1041,6 +1041,7 @@ ko:
   button_reset: "재설정"
   button_rollback: "이 버전으로 롤백"
   button_save: "저장"
+  button_apply_changes: "Apply changes"
   button_save_back: "저장하고 돌아가기"
   button_show: "표시"
   button_sort: "분류"
@@ -2946,10 +2947,12 @@ ko:
       title: "작업 패키지 삭제"
   working_days:
     info: >
-      <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "근무일 변경"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:

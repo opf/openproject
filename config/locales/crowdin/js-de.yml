@@ -253,17 +253,17 @@ de:
           you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "Arbeitsfreie Tage"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Add non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
+          new_date: '(neu)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "Für dieses Datum existiert bereits ein arbeitsfreier Tag. Für jedes einzelne Datum kann nur ein arbeitsfreier Tag erstellt werden."
+        change_button: "Speichern und neu planen"
+        change_title: "Arbeitstage ändern"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'am'
@@ -483,10 +483,10 @@ de:
     label_custom_queries: "Privat"
     label_columns: "Spalten"
     label_attachments: Anhänge
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Dateien hier ablegen, um Dateien anzuhängen."
+    label_drop_or_click_files: "Dateien hier ablegen oder anklicken, um Dateien anzuhängen."
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Dateien anhängen"
     label_formattable_attachment_hint: "Ziehen Sie Dateien in dieses Feld hinein oder fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken."
     label_remove_file: "%{fileName} löschen"
     label_remove_watcher: "Beobachter %{name} entfernen"
