@@ -33,13 +33,6 @@ describe 'Working Days', js: true do
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   shared_let(:admin) { create(:admin) }
-  shared_let(:non_working_days) do
-    [
-      create(:non_working_day),
-      create(:non_working_day),
-      create(:non_working_day)
-    ]
-  end
 
   let_schedule(<<~CHART)
     days                  | MTWTFSSmtwtfss |
@@ -185,6 +178,14 @@ describe 'Working Days', js: true do
   end
 
   describe 'non-working days' do
+    shared_let(:non_working_days) do
+      [
+        create(:non_working_day),
+        create(:non_working_day),
+        create(:non_working_day)
+      ]
+    end
+
     it 'can add non-working days' do
       click_on 'Non-working day'
 
