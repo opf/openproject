@@ -23,11 +23,9 @@ ARCHITECTURE=$(get_architecture)
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+echo "deb http://apt.postgresql.org/pub/repos/apt bullseye-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
-# https://learn.microsoft.com/fr-fr/dotnet/core/install/linux-debian#debian-10-
-wget --quiet https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb && \
-	dpkg -i /tmp/packages-microsoft-prod.deb && rm /tmp/packages-microsoft-prod.deb
+./docker/prod/setup/dotnet-install.sh -c 6.0
 
 apt-get update -qq
 apt-get install -y \
@@ -41,8 +39,7 @@ apt-get install -y \
 	postgresql-client-9.6 \
 	postgresql-13 \
 	postgresql-client-13 \
-	imagemagick \
-	dotnet-runtime-6.0 # required for BIM edition
+	imagemagick
 
 # remove any existing cluster
 service postgresql stop
