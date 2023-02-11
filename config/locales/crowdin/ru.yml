@@ -1056,7 +1056,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Применить изменения"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
   button_sort: "Сортировать"
@@ -1800,10 +1800,10 @@ ru:
   label_not_contains: "не содержит"
   label_not_equals: "не"
   label_on: "на"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "не пусто"
+  label_operator_none: "пустой"
+  label_operator_equals_or: "является (или)"
+  label_operator_equals_all: "является (AND)"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыто"
@@ -3009,12 +3009,12 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

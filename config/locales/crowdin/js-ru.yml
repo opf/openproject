@@ -256,14 +256,15 @@ ru:
           empty_state_header: "Нерабочие дни"
           empty_state_description: 'В этом году никаких конкретных нерабочих дней не определено. Нажмите на кнопку "Добавить нерабочий день" ниже, чтобы добавить дату.'
           new_date: '(новый)'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "Нерабочий день"
         already_added_error: "Нерабочий день для этой даты уже существует. Может быть только один нерабочий день для каждой уникальной даты."
         change_button: "Сохранить и перенести"
         change_title: "Изменить рабочие дни"
         removed_title: "Следующие дни будут удалены из списка нерабочих дней:"
         change_description: "Изменение дней, считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие рабочие пакеты будут обновлены.
+          Хотите продолжить?
     custom_actions:
       date:
         specific: 'вкл'
@@ -316,7 +317,7 @@ ru:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li>Загрузить и связать файлы с рабочими пакетами до вашего хранилища файлов Nextcloud.</li> <li>Последующая деятельность по изменениям проекта при отслеживании активности проекта.</li> <li>Добавляет публичные праздники в один экземпляр (нерабочие дни).</li> <li>Архивные проекты неадминов.</li> <li>Новый фильтр по умолчанию для просроченных пакетов работ.</li> </ul>
     label_activate: "Активировать"
     label_assignee: 'Ответственный'
     label_add_column_after: "Добавить столбец после"
