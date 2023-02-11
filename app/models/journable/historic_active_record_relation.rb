@@ -204,7 +204,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_timestamp_condition(relation)
     relation.joins_values = [journals_join_statement] + relation.joins_values
-    relation.merge(Journal.at_timestamp(timestamp))
+    relation.merge(Journal.where(journable_type: model.name).at_timestamp(timestamp))
   end
 
   def journals_join_statement
