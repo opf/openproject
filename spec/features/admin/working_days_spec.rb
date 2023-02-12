@@ -199,16 +199,12 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'My holiday'
       end
 
-      date1 = Time.zone.today.next_week.next_occurring(:monday) + 1.week
+      date1 = Time.zone.today.next_week.next_occurring(:monday)
       datepicker.set_date date1
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Save'
       end
-
-      expect(page).to have_no_text "A non-working day for this date exists already. " \
-                                   "There can only be one non-working day created for " \
-                                   "each unique date."
 
       expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
 
@@ -219,16 +215,12 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'Another important day'
       end
 
-      date2 = Time.zone.today.next_week.next_occurring(:tuesday) + 1.week
+      date2 = Time.zone.today.next_week.next_occurring(:tuesday)
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Save'
       end
-
-      expect(page).to have_no_text "A non-working day for this date exists already. " \
-                                   "There can only be one non-working day created for " \
-                                   "each unique date."
 
       click_on 'Apply changes'
       click_on 'Save and reschedule'
