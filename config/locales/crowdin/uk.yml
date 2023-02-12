@@ -1052,6 +1052,7 @@ uk:
   button_reset: "Скинути"
   button_rollback: "Відкотити до даної версії"
   button_save: "Зберегти"
+  button_apply_changes: "Apply changes"
   button_save_back: "Зберегти та повернутися назад"
   button_show: "Показати"
   button_sort: "Сортувати"
@@ -3004,10 +3005,12 @@ uk:
       title: "Видаліть робочий пакет"
   working_days:
     info: >
-      <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Змінити робочі дні"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:

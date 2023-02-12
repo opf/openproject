@@ -25,11 +25,11 @@ ro:
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        directory_not_writeable: "Nu trebuie să aveţi permisiunea de a adăuga fişiere în acest folder."
+        dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
+        empty_folder: "Acest director este gol."
+        empty_folder_location_hint: "Faceţi clic pe butonul de mai jos pentru a încărca fişierul în această locaţie."
+        file_not_selectable_location: "Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații."
       file_links:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
@@ -52,9 +52,9 @@ ro:
           one: "A creat cu succes 1 legătură de fișier."
           few: "A creat cu succes %{count} legături de fișiere."
           other: "A creat cu succes %{count} de legături de fișiere."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error: "A apărut o eroare la încărcarea fișierului '%{fileName}'."
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          A apărut o eroare la conectarea fișierului încărcat recent '%{fileName}' la pachetul de lucru %{workPackageId}.
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

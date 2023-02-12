@@ -20,7 +20,7 @@
       [textContent]="listTitle"
     ></span>
       <ul class="op-confirm-dialog--list">
-        <li *ngFor="let data of passedData">
+        <li *ngFor="let data of passedData" class="spot-body-small">
           <span>{{data}}</span>
         </li>
       </ul>
@@ -37,7 +37,7 @@
     </ng-template>
 
     <span class="op-confirm-dialog--text spot-body-small"
-          [textContent]="warningText"
+          [innerHtml]="warningText"
     ></span>
     
   </div>

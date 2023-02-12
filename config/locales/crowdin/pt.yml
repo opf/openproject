@@ -1046,6 +1046,7 @@ pt:
   button_reset: "Reiniciar"
   button_rollback: "Retornar para esta versão"
   button_save: "Salvar"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salvar e voltar"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -2967,10 +2968,12 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Alterar dias úteis"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:

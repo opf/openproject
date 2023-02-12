@@ -1043,6 +1043,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
+  button_apply_changes: "Apply changes"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
   button_sort: "Ordena"
@@ -2960,10 +2961,12 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Canvia els dies laborals"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

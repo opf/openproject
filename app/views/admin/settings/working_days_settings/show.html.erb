@@ -35,7 +35,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="op-toast -warning">
   <div class="op-toast--content">
-    <p><%= t("working_days.warning") %></p>
+    <p>
+    <%= t("working_days.warning").html_safe %>
+  </p>
   </div>
 </div>
 
@@ -56,8 +58,16 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </section>
 
-  <%= angular_component_tag 'op-non-working-days-list',
-                            data: { modified_non_working_days: @modified_non_working_days } %>
+  <div class="spot-divider"></div>
 
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <section class="form--section">
+    <p>
+      <%= t("working_days.instance_wide_info").html_safe %>
+    </p>
+    <%= angular_component_tag 'op-non-working-days-list',
+                              data: { modified_non_working_days: @modified_non_working_days } %>
+
+  </section>
+
+  <%= styled_button_tag t(:button_apply_changes), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

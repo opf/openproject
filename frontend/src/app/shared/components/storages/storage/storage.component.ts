@@ -137,7 +137,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error', { fileName }),
       linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
         this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
-      draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.file.dragging_many_files', { storageType }),
+      draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.files.dragging_many_files', { storageType }),
       uploadingLabel: this.i18n.t('js.label_upload_notification'),
     },
     dropBox: {

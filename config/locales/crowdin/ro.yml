@@ -337,7 +337,7 @@ ro:
   wiki:
     page_not_editable_index: Pagina solicitată nu există (încă). Ați fost redirecționat către indexul tuturor paginilor wiki.
     no_results_title_text: În acest moment nu există pagini wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Aceasta va afișa conținutul acestei pagini wiki fără bare de navigare.
     index:
       no_results_content_text: Adăugare pagină wiki nouă
   work_flows:
@@ -377,7 +377,7 @@ ro:
   account:
     delete: "Ştergere cont"
     delete_confirmation: "Sunteţi sigur că doriţi să ştergeţi contul?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Contul a fost blocat și a fost programat pentru ștergere. Rețineți că acest proces are loc în fundal. Poate dura câteva momente până când utilizatorul este complet șters."
     deletion_info:
       data_consequences:
         other: "Vor fi șterse cât mai multe din datele create de utilizator (e.g. email, preferințe, pachete de lucru, contribuții wiki). De reținut, totuși, că date precum pachete de lucru și contribuții wiki nu pot fi șterse fără a afecta activitatea altor utilizatori. Prin urmare, astfel de date sunt realocate la un cont numit \"Utilizator șters\". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va mai fi posibil să se facă distincția între datele create de utilizator și datele altui cont șters."
@@ -473,20 +473,20 @@ ro:
         roles: "Roluri"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "nearhivat"
+          false: "arhivată"
         identifier: "Identificator"
         latest_activity_at: "Ultima activitate la"
         parent: "Subproiect în"
         public_value:
-          title: "Visibility"
+          title: "Vizibilitate"
           true: "public"
-          false: "private"
+          false: "privat"
         queries: "Interogări"
         templated: "Proiect șablon"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marcat ca șablon"
+          false: "nemarcat ca șablon"
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
@@ -704,7 +704,7 @@ ro:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "O zi nelucrătoare există deja pentru %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -717,7 +717,7 @@ ro:
           foreign_wps_reference_version: 'Pachetele de lucru din proiectele care nu sunt descendente fac trimitere la versiuni ale proiectului sau la descendenți ai acestuia.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Nu aveţi permisiunile necesare pentru a arhiva toate sub-proiectele. Vă rugăm să contactaţi un administrator."
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
@@ -1052,6 +1052,7 @@ ro:
   button_reset: "Resetare"
   button_rollback: "Revenire la această versiune"
   button_save: "Salvare"
+  button_apply_changes: "Aplica modificariile"
   button_save_back: "Salvare și înapoi"
   button_show: "Afişare"
   button_sort: "Sortare"
@@ -1783,10 +1784,10 @@ ro:
   label_not_contains: "nu conține"
   label_not_equals: "nu este"
   label_on: "pe"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "nu este gol"
+  label_operator_none: "este gol"
+  label_operator_equals_or: "este (SAU)"
+  label_operator_equals_all: "este (ȘI)"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -1828,7 +1829,7 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
-  label_project_activity: "Project activity"
+  label_project_activity: "Activitate proiect"
   label_project_attribute_plural: "Atributele proiectului"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
@@ -2253,7 +2254,7 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Creare proiect"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Proiect de arhivă"
   permission_manage_user: "Crearea și editarea utilizatorilor"
   permission_manage_placeholder_user: "Creați, editați și ștergeți utilizatori de tip placeholder"
   permission_add_subprojects: "Creare subproiecte"
@@ -2991,18 +2992,20 @@ ro:
       title: "Ştergere a pachetului de lucru"
   working_days:
     info: >
-      <b>Definirea zilelor lucrătoare ale săptămânii</b><br/> Zilele nelucrătoare sunt omise la programarea pachetelor de lucru și sunt excluse la calcularea duratei. Acest lucru poate fi anulat la nivelul pachetului de lucru.
+      <b>Definire zile considerate parte a săptămânii de lucru</b><br/> Zile care nu sunt selectate sunt omise la programarea pachetelor de lucru (și nu sunt incluse în numărul de zile). Acestea pot fi depăşite la nivelul pachetelor de lucru.
+    instance_wide_info: >
+      <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. Please not that changes are only applied after you click on the save changes button.
+      Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de salvare modificări.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:
         working: "%{day} funcționează acum"
         non_working: "%{day} este acum nefuncțională"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} este acum în funcțiune"
+        non_working: "%{date} este acum nefuncțională"
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

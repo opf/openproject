@@ -171,7 +171,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     return this
       .nonWorkingDays
       .filter((el) => el._destroy)
-      .map((el) => el.date);
+      .map((el) => moment(el.date).format('MMMM DD, YYYY'));
   }
 
   public calendarEventsFunction(
