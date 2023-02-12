@@ -37,11 +37,6 @@ class ::Query::Results
     self.query = query
   end
 
-  # Returns the work package count
-  def work_package_count
-    work_packages.count
-  end
-
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
     if query.historic?
