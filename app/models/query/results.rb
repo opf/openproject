@@ -77,7 +77,7 @@ class ::Query::Results
   #
   def work_packages_matching_the_filters_at_any_of_the_given_timestamps
     query.timestamps.collect do |timestamp|
-      WorkPackage.where(id: work_packages_relation.at_timestamp(timestamp))
+      WorkPackage.where(id: filtered_work_packages.at_timestamp(timestamp))
     end.reduce(:or)
   end
 
@@ -89,7 +89,7 @@ class ::Query::Results
   #
   # https://community.openproject.org/projects/openproject/work_packages/26448
   #
-  def work_packages_relation
+  def filtered_work_packages
     work_package_scope.where(query.statement)
   end
 
