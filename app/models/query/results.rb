@@ -47,17 +47,12 @@ class ::Query::Results
   end
 
   def sorted_work_packages_matching_the_filters_today
-    work_package_scope
-      .where(query.statement)
-      .order(order_option)
-      .order(sort_criteria_array)
+    sorted_work_packages.merge(filtered_work_packages)
   end
 
   def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
-    work_package_scope
+    sorted_work_packages
       .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
-      .order(order_option)
-      .order(sort_criteria_array)
   end
 
   def order_option
@@ -90,7 +85,16 @@ class ::Query::Results
   # https://community.openproject.org/projects/openproject/work_packages/26448
   #
   def filtered_work_packages
-    work_package_scope.where(query.statement)
+    work_package_scope
+      .joins(all_filter_joins)
+      .where(query.statement)
+  end
+
+  def sorted_work_packages
+    work_package_scope
+      .joins(sort_criteria_joins)
+      .order(order_option)
+      .order(sort_criteria_array)
   end
 
   def work_package_scope
@@ -98,17 +102,12 @@ class ::Query::Results
       .visible
       .merge(filter_merges)
       .includes(all_includes)
-      .joins(all_joins)
       .references(:projects)
   end
 
   def all_includes
     (%i(project) +
       includes_for_columns(include_columns)).uniq
-  end
-
-  def all_joins
-    sort_criteria_joins + all_filter_joins
   end
 
   def includes_for_columns(column_names)
