@@ -116,6 +116,15 @@ describe Timestamp do
       it "raises an error" do
         expect { subject }.to raise_error ArgumentError
       end
+
+      describe "when providing something invalid starting with P (for duration)" do
+        subject { described_class.parse("Pfoo") }
+
+        it "raises an error" do
+          expect { subject }.to raise_error ArgumentError
+          expect { subject }.to raise_error ActiveSupport::Duration::ISO8601Parser::ParsingError
+        end
+      end
     end
   end
 
