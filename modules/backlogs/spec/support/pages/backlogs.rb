@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,18 +75,18 @@ module Pages
     end
 
     def alter_attributes_in_edit_backlog_mode(backlog, attributes)
-      within_backlog(backlog) do
-        attributes.each do |key, value|
-          case key
-          when :name
+      attributes.each do |key, value|
+        case key
+        when :name
+          within_backlog(backlog) do
             find('input[name=name]').set value
-          when :start_date
-            find('input[name=start_date]').set value
-          when :effective_date
-            find('input[name=effective_date]').set value
-          else
-            raise NotImplementedError
           end
+        when :start_date
+          ::Components::Datepicker.update_field("#start_date_#{backlog.id}", value)
+        when :effective_date
+          ::Components::Datepicker.update_field("#effective_date_#{backlog.id}", value)
+        else
+          raise NotImplementedError
         end
       end
     end

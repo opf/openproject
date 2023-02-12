@@ -60,6 +60,28 @@ module Journable::Timestamps
     def at_timestamp(timestamp)
       Journable::HistoricActiveRecordRelation.new(all, timestamp:)
     end
+
+    # There may be database column for the journable class that are not
+    # present in the journal-data table, e.g. the 'lock_version' column
+    # of the work_packages table.
+    #
+    def column_names_missing_in_journal
+      column_names - journal_class.column_names - ["created_at", "updated_at"]
+    end
+  end
+
+  prepended do
+    if ActiveRecord::Base.connected? and not ActiveRecord::Base.connection.migration_context.needs_migration?
+      column_names_missing_in_journal.each do |missing_column_name|
+        define_method missing_column_name do
+          if historic?
+            Rails.logger.warn "Accessing missing column '#{missing_column_name}' on historic data. " \
+                              "The column is not present in the '#{self.class.journal_class.table_name}' table."
+          end
+          super()
+        end
+      end
+    end
   end
 
   # Instantiates a journable with historic data from the given timestap.
@@ -73,10 +95,12 @@ module Journable::Timestamps
           "id" => id,
           "created_at" => created_at,
           "updated_at" => journal.updated_at,
-          "timestamp" => timestamp,
-          "position" => (position if respond_to? :position)
+          "timestamp" => timestamp
         }
       )
+      self.class.column_names_missing_in_journal.each do |missing_column_name|
+        attributes[missing_column_name] = nil
+      end
       journable = self.class.instantiate(attributes)
       journable.readonly!
       journable

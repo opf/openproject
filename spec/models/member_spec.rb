@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Member, type: :model do
+describe Member do
   let(:user) { create(:user) }
   let(:role) { create(:role) }
   let(:project) { create(:project) }
@@ -72,9 +72,9 @@ describe Member, type: :model do
       member
       group = create(:group, members: [user])
       create(:member, project:, principal: group, roles: [role])
-      ::Groups::AddUsersService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
-        .call(ids: [user.id])
+        .call(user_ids: [user.id])
 
       expect(user.reload.memberships.map { _1.deletable_role?(role) }).to match_array([true, false])
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Filters::QueryFilterRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create! }
   let(:representer) { described_class.new(filter) }
@@ -93,7 +93,7 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
       describe '_links' do
         it_behaves_like 'has a titled link' do
           let(:link) { 'self' }
-          let(:href) { api_v3_paths.query_filter "customField#{custom_field.id}" }
+          let(:href) { api_v3_paths.query_filter custom_field.attribute_name(:camel_case) }
           let(:title) { custom_field.name }
         end
       end

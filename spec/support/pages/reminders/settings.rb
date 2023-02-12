@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,22 +116,20 @@ module Pages
         end
 
         if first && last
-          expect(page).to have_selector('.flatpickr-input') { |node|
-            expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          }
+          expect(page).to have_selector('[data-qa-selector="op-multi-date-picker"] input',
+                                        value: "#{first.iso8601} - #{last.iso8601}")
         end
       end
 
       def set_paused(paused, first: nil, last: nil)
         if paused
           check 'Temporarily pause daily email reminders'
-          page.find('.flatpickr-input').click
-          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: first.day, exact_text: true).click
-          page.find('.flatpickr-days .flatpickr-day:not(.nextMonthDay)', text: last.day, exact_text: true).click
 
-          expect(page).to have_selector('.flatpickr-input') { |node|
-            expect(node.value).to eq "#{first.iso8601} - #{last.iso8601}"
-          }
+          page.find('op-multi-date-picker input').click
+          fill_in 'startDate', with: first.iso8601
+          fill_in 'endDate', with: last.iso8601
+          sleep 1
+          page.find('[data-qa-selector="op-datepicker-modal--action"]', text: 'Save').click
         else
           uncheck 'Temporarily pause daily email reminders'
         end

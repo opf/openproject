@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require_relative './shared_contract_examples'
 describe Bim::IfcModels::CreateContract do
   it_behaves_like 'ifc model contract' do
     let(:ifc_model) do
-      ::Bim::IfcModels::IfcModel.new(project: model_project,
+      Bim::IfcModels::IfcModel.new(project: model_project,
                                      title: model_title,
                                      uploader: model_user).tap do |m|
         m.extend(OpenProject::ChangedBySystem)

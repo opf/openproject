@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ require 'webmock/rspec'
 # We want to test that permissions are processed correctoy and also
 # test the reaction to various types of network issues.
 # This spec bears some similarities to the connection_manager_spec.rb.
-describe ::Storages::FileLinkSyncService, type: :model do
+describe Storages::FileLinkSyncService, type: :model do
   let(:user) { create :user }
   let(:role) { create(:existing_role, permissions: [:manage_file_links]) }
   let(:project) { create(:project, members: { user => role }) }
@@ -68,7 +68,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
   end
 
   # We're going to mock OAuth2 authentication failures below
-  let(:connection_manager) { ::OAuthClients::ConnectionManager.new(user:, oauth_client: oauth_client1) }
+  let(:connection_manager) { OAuthClients::ConnectionManager.new(user:, oauth_client: oauth_client1) }
   let(:authorize_url) { 'https://example.com/authorize' }
   let(:instance) { described_class.new(user:) }
 
@@ -130,7 +130,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         it 'updates all origin_* fields' do
           expect(subject.success).to be_truthy
           expect(subject.result.count).to be 1
-          expect(subject.result[0]).to be_a ::Storages::FileLink
+          expect(subject.result[0]).to be_a Storages::FileLink
 
           # Check the detailed update result
           expect(subject.result[0].origin_id).to eql '24'
@@ -194,7 +194,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
         it 'deletes the FileLink' do
           expect(subject.success).to be_truthy
           expect(subject.result.count).to be 0
-          expect(::Storages::FileLink.all.count).to be 0
+          expect(Storages::FileLink.all.count).to be 0
         end
       end
 
@@ -235,7 +235,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
       context 'with expired OAuth2 token, successful refresh and updated information from Nextcloud' do
         before do
           # Mock the OAuth2 connection manager to return a valid token
-          allow(::OAuthClients::ConnectionManager)
+          allow(OAuthClients::ConnectionManager)
             .to receive(:new)
             .and_return(connection_manager)
           allow(connection_manager)
@@ -281,7 +281,7 @@ describe ::Storages::FileLinkSyncService, type: :model do
           # Mock the OAuth2 connection manager to return some token on :get_access_token
           # (that is considered 401-not authorized in the WebMock above) and then
           # to return a failed ServiceResult on :refresh_token.
-          allow(::OAuthClients::ConnectionManager)
+          allow(OAuthClients::ConnectionManager)
             .to receive(:new).and_return(connection_manager)
           allow(connection_manager)
             .to receive(:refresh_token)

@@ -12,6 +12,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'messagebird-rest', '~> 1.4.2'
   s.add_dependency 'rotp', '~> 6.1'
 
-  s.add_dependency 'aws-sdk-sns', '~> 1.56.0'
+  s.add_dependency 'aws-sdk-sns', '~> 1.58.0'
   s.metadata['rubygems_mfa_required'] = 'true'
 end

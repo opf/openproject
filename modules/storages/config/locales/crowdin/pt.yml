@@ -51,7 +51,7 @@ pt:
       type_link_text: "“Integração OpenProject”"
       name: "Dê um nome a seu armazenamento para que os usuários possam diferenciar vários armazenamentos."
       host: "Adicione o endereço do host de seu armazenamento incluindo o  https://. Ele não deve ter mais de 255 caracteres."
-      no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
       setting_up_additional_storages_non_admin: "Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamento de arquivos."
       setting_up_storages: "Para configurar armazenamentos de arquivos, visite"
@@ -79,7 +79,7 @@ pt:
     label_new_storage: "Novo armazenamento"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
-    no_results: "Ainda não há armazenamento configurado."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Tipo de provedor"
       nextcloud:

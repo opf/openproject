@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,9 @@ describe 'Work package navigation', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }
-  let(:global_html_title) { ::Components::HtmlTitle.new }
-  let(:project_html_title) { ::Components::HtmlTitle.new project }
-  let(:wp_display) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:global_html_title) { Components::HtmlTitle.new }
+  let(:project_html_title) { Components::HtmlTitle.new project }
+  let(:wp_display) { Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_title_segment) do
     "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
   end
@@ -149,7 +149,7 @@ describe 'Work package navigation', js: true, selenium: true do
   it 'loading an unknown work package ID' do
     visit '/work_packages/999999999'
 
-    page404 = ::Pages::Page.new
+    page404 = Pages::Page.new
     page404.expect_toast type: :error, message: I18n.t(:notice_file_not_found)
 
     visit "/projects/#{project.identifier}/work_packages/999999999"
@@ -173,7 +173,7 @@ describe 'Work package navigation', js: true, selenium: true do
     work_package.save!
     visit search_path(q: 'Foo', work_packages: 1, scope: :all)
 
-    table = ::Pages::EmbeddedWorkPackagesTable.new page.find('#content')
+    table = Pages::EmbeddedWorkPackagesTable.new page.find('#content')
     table.expect_work_package_listed work_package
     full_page = table.open_full_screen_by_doubleclick work_package
 
@@ -189,7 +189,7 @@ describe 'Work package navigation', js: true, selenium: true do
 
     page.find('.wp-table--cell-td.id a', text: work_package.id).click
 
-    full_page = ::Pages::FullWorkPackage.new work_package, work_package.project
+    full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded
   end
 
@@ -267,9 +267,9 @@ describe 'Work package navigation', js: true, selenium: true do
   context 'with two work packages with card view' do
     let!(:work_package) { create :work_package, project: }
     let!(:work_package2) { create :work_package, project: }
-    let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-    let(:cards) { ::Pages::WorkPackageCards.new(project) }
+    let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+    let(:cards) { Pages::WorkPackageCards.new(project) }
 
     it 'can move between card details using info icon (Regression #33451)' do
       wp_table.visit!
@@ -288,7 +288,7 @@ describe 'Work package navigation', js: true, selenium: true do
   end
 
   context 'when visiting a query that will lead to a query validation error' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     it 'will output a correct error message (Regression #39880)' do
       url_query =

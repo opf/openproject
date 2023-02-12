@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -334,6 +334,7 @@ hu:
   wiki:
     page_not_editable_index: "A kért oldal (még) nem létezik. Átirányítottuk az összes wiki -oldal indexébe.\n"
     no_results_title_text: Jelenleg nincsenek wiki oldalak.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Új wiki oldal hozzáadása
   work_flows:
@@ -372,7 +373,7 @@ hu:
   account:
     delete: "Felhasználói hozzáférés törölése"
     delete_confirmation: "Biztosan törölni akarja ezt a felhasználói hozzáférést?"
-    deleted: "A felhasználóiiók sikeresen törölve"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "A létrehozott adatok (pl. e-mail, beállítások, munkacsomag, wiki bejegyzés) lehetőség szerint törlődnek. Azonban máshol használt adatokat, mint pl. a munkacsomagok és wiki bejegyzések, nem lehet törölni a többi felhasználó munkájának akadályozása nélkül. Az ilyen adatokat ezért áthelyezzük egy \"törölt felhasználó\" nevű fiókba. Mivel minden törölt hozzáférésnél ez a fiók tartalmazza az adatokat, nem lehet megkülönböztetni a törölt felhasználók adatainak szerzőjét egymástól."
@@ -467,14 +468,24 @@ hu:
       member:
         roles: "Szerepkörök"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Azonosító"
         latest_activity_at: "Legújabb tevékenység ekkor"
         parent: "Alprojekt"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Lekérdezések"
+        templated: "Példa projekt"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -634,7 +645,7 @@ hu:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -686,6 +697,11 @@ hu:
               no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +712,8 @@ hu:
           archived_ancestor: 'A projektnek archívált őse van.'
           foreign_wps_reference_version: 'Munkacsomagok nem leszármazottak a projektekben, a projekt vagy annak leszármazottainak referenciaverziói.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
             enabled_modules:
@@ -1026,6 +1044,7 @@ hu:
   button_reset: "Visszaállít, reset"
   button_rollback: "Visszaállitás erre a verzióra"
   button_save: "Mentés"
+  button_apply_changes: "Apply changes"
   button_save_back: "Mentés és vissza"
   button_show: "Mutat"
   button_sort: "Rendez"
@@ -1321,16 +1340,19 @@ hu:
   error_external_authentication_failed: "Hiba történt a külső hitelesítés során. Kérjük, próbálja meg újra."
   error_attribute_not_highlightable: "Tulajdonság(ok) nem kiemelhetők: %{attributes}"
   events:
-    project: 'Projekt szerkesztve'
     changeset: 'Commit szerkesztve'
     message: Üzenet szerkesztve
     news: Hírek
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Válaszolt
     time_entry: 'Az időnapló szerkesztve'
     wiki_page: 'A Wiki oldal szerkesztve'
     work_package_closed: 'A feladatcsoport lezárva'
     work_package_edit: 'A feladatcsoport szerkesztve'
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."
@@ -1742,6 +1764,10 @@ hu:
   label_not_contains: "nem tartalmaz"
   label_not_equals: "nem"
   label_on: "be"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -1783,6 +1809,8 @@ hu:
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
   label_project_latest: "Legújabb projektek"
@@ -2072,8 +2100,6 @@ hu:
   mail_subject_incoming_email_error: "Az OpenProjectnek küldött e-mailt nem sikerült feldolgozni."
   mail_subject_lost_password: "A jelszavad %{value}"
   mail_subject_register: "A %{value} fiókód aktiválása"
-  mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
-  mail_subject_group_reminder: "A \"%{group}\" csoporthoz rendelt %{count} feladat határidős az elkövetkező %{days} napban"
   mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
   mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
   mail_member_added_project:
@@ -2206,6 +2232,7 @@ hu:
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Felhasználó létrehozása és szerkesztése"
   permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
@@ -2941,15 +2968,20 @@ hu:
       title: "Munkacsomag törlése"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nincs előnézet"
   api_v3:
     attributes:

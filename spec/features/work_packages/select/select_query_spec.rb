@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Query selection', type: :feature do
+describe 'Query selection' do
   let(:project) { create :project, identifier: 'test_project', public: false }
   let(:role) { create :role, permissions: [:view_work_packages] }
   let(:current_user) do
@@ -38,8 +38,8 @@ describe 'Query selection', type: :feature do
   end
 
   let(:default_status) { create(:default_status) }
-  let(:wp_page) { ::Pages::WorkPackagesTable.new project }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_page) { Pages::WorkPackagesTable.new project }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:query) do
     build(:query, project:, public: true).tap do |query|
@@ -83,7 +83,7 @@ describe 'Query selection', type: :feature do
 
     it 'shows the saved filters', js: true do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is', ['me']
+      filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
 
       expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')

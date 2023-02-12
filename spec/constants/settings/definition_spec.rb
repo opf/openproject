@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -909,8 +909,8 @@ describe Settings::Definition do
       end
 
       it 'returns the procs return value for writable' do
-        expect(instance.writable?)
-          .to be false
+        expect(instance)
+          .not_to be_writable
       end
 
       it 'returns the procs return value for allowed' do
@@ -965,34 +965,6 @@ describe Settings::Definition do
       it 'calls the proc as a default' do
         expect(instance.default)
           .to be false
-      end
-    end
-  end
-
-  describe '#on_change', :settings_reset do
-    context 'for a definition with a callback' do
-      let(:callback) { -> { 'foobar ' } }
-
-      it 'includes the callback' do
-        described_class.add 'bogus',
-                            default: 1,
-                            format: :integer,
-                            on_change: callback
-
-        expect(described_class['bogus'].on_change)
-          .to eq callback
-      end
-    end
-
-    context 'for a definition without a callback' do
-      it 'includes the callback' do
-        described_class.add 'bogus',
-                            default: 1,
-                            format: :integer,
-                            on_change: nil
-
-        expect(described_class['bogus'].on_change)
-          .to be_nil
       end
     end
   end

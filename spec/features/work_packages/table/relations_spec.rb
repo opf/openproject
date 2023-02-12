@@ -8,8 +8,8 @@ describe 'Work Package table relations', js: true do
   let(:project) { create(:project, types: [type, type2]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(relations) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:relations) { Components::WorkPackages::Relations.new(relations) }
+  let(:columns) { Components::WorkPackages::Columns.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let!(:wp_from) { create(:work_package, project:, type: type2) }

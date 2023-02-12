@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,22 @@
 //++
 
 import {
-  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
   ICKEditorContext,
-  ICKEditorInstance, ICKEditorWatchdog,
+  ICKEditorInstance,
+  ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 
@@ -208,6 +216,19 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
         // Switch mode
         watchdog.editor.on('op:source-code-enabled', () => this.enableManualMode());
         watchdog.editor.on('op:source-code-disabled', () => this.disableManualMode());
+
+        // Emit global dragend events for other drop zones to react.
+        // This is needed, as CKEditor does not bubble any drag events
+        const model = watchdog.editor.model as unknown&{ on:(ev:string, callback:() => unknown) => void };
+        model.on('op:attachment-added', () => document.body.dispatchEvent(new DragEvent('dragend')));
+        model.on('op:attachment-removed', () => document.body.dispatchEvent(new DragEvent('dragend')));
+
+        // Emitting a global dragleave on every dragleave of the ckeditor element
+        // IMPORTANT: This emits much more dragleave events then dragenter events.
+        // In the end, this leads to a break in every drop zone that listens to those two global events
+        // to determine its state. Without it, if no dragleave is fired, the drop zones enter a failed state,
+        // not vanishing after ending the drag.
+        this.$element.on('dragleave', () => document.body.dispatchEvent(new DragEvent('dragleave')));
 
         this.onInitialized.emit(watchdog.editor);
         return watchdog.editor;

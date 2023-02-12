@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'user deletion:', type: :feature, js: true do
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+describe 'user deletion:', js: true do
+  let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
     page.set_rack_session(user_id: current_user.id, updated_at: Time.now)
@@ -52,7 +52,7 @@ describe 'user deletion:', type: :feature, js: true do
 
       dialog.confirm_flow_with user_password
 
-      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
       expect(page).to have_current_path '/login'
     end
 
@@ -111,7 +111,25 @@ describe 'user deletion:', type: :feature, js: true do
 
       dialog.confirm_flow_with user_password, should_fail: false
 
-      expect(page).to have_content 'Account successfully deleted'
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
+      expect(page).to have_current_path '/users'
+    end
+
+    it 'can delete and confirm with keyboard (Regression #44499)', selenium: true do
+      Setting.users_deletable_by_admins = 1
+      visit edit_user_path(user)
+
+      expect(page).to have_content "#{user.firstname} #{user.lastname}"
+
+      click_on 'Delete'
+
+      SeleniumHubWaiter.wait
+      fill_in 'login_verification', with: user.login
+      click_on 'Delete'
+
+      dialog.confirm_flow_with user_password, with_keyboard: true, should_fail: false
+
+      expect(page).to have_content 'Account has been locked and was scheduled for deletion'
       expect(page).to have_current_path '/users'
     end
 

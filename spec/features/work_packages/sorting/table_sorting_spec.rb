@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Select work package row', type: :feature, js: true do
+describe 'Select work package row', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -51,8 +51,8 @@ describe 'Select work package row', type: :feature, js: true do
       create(:version, project:,
                        name: 'zzz_version')
     end
-    let(:columns) { ::Components::WorkPackages::Columns.new }
-    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+    let(:columns) { Components::WorkPackages::Columns.new }
+    let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     before do
       login_as(user)
@@ -80,7 +80,7 @@ describe 'Select work package row', type: :feature, js: true do
   end
 
   describe 'sorting modal' do
-    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+    let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     before do
       login_as user
@@ -103,7 +103,7 @@ describe 'Select work package row', type: :feature, js: true do
   end
 
   describe 'parent sorting' do
-    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+    let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     let(:parent) do
       create :work_package,

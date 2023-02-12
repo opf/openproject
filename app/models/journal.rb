@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 class Journal < ApplicationRecord
   self.table_name = 'journals'
+  self.ignored_columns += ['activity_type']
 
   include ::JournalChanges
   include ::JournalFormatter
@@ -39,6 +40,9 @@ class Journal < ApplicationRecord
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :template, OpenProject::JournalFormatter::Template
+  register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }
@@ -55,6 +59,9 @@ class Journal < ApplicationRecord
   # Scopes to all journals excluding the initial journal - useful for change
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
+
+  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_work_package, -> { where(journable_type: "WorkPackage") }
 
   # In conjunction with the included Comparable module, allows comparison of journal records
   # based on their corresponding version numbers, creation timestamps and IDs.
@@ -92,11 +99,11 @@ class Journal < ApplicationRecord
   end
 
   def new_value_for(prop)
-    details[prop].last if details.keys.include? prop
+    details[prop].last if details.key? prop
   end
 
   def old_value_for(prop)
-    details[prop].first if details.keys.include? prop
+    details[prop].first if details.key? prop
   end
 
   def previous

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Notifications::Scopes::MailReminderUnsent, type: :model do
+describe Notifications::Scopes::MailReminderUnsent do
   describe '.unread_digest_mail' do
-    subject(:scope) { ::Notification.mail_reminder_unsent }
+    subject(:scope) { Notification.mail_reminder_unsent }
 
     let(:no_mail_notification) { create(:notification, mail_reminder_sent: nil) }
     let(:unread_mail_notification) { create(:notification, mail_reminder_sent: false) }

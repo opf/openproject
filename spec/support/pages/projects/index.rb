@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ module Pages
             set_created_at_filter(human_operator, values)
           elsif name =~ /cf_\d+/
             select(human_operator, from: 'operator')
-            set_custom_field_filter(selected_filter, human_operator, values)
+            set_custom_field_filter(selected_filter, human_operator, name, values)
           end
         end
       end
@@ -102,15 +102,24 @@ module Pages
 
       def set_created_at_filter(human_operator, values)
         case human_operator
-        when 'on', 'less than days ago', 'more than days ago', 'days ago'
+        when 'on'
+          set_date 'on-date-value-created_at', values.first
+        when 'less than days ago', 'more than days ago', 'days ago'
           fill_in 'value', with: values.first
         when 'between'
-          fill_in 'from_value', with: values.first
-          fill_in 'to_value', with: values.second
+          set_date 'between-dates-from-value-created_at', values.first
+          set_date 'between-dates-to-value-created_at', values.second
         end
       end
 
-      def set_custom_field_filter(selected_filter, human_operator, values)
+      def set_date(id, date_string)
+        datepicker = Components::Datepicker.new
+        find_by_id(id).click
+        datepicker.set_date(date_string)
+        datepicker.save!
+      end
+
+      def set_custom_field_filter(selected_filter, human_operator, name, values)
         if selected_filter[:'filter-type'] == 'list_optional'
           if values.size == 1
             value_select = find('.single-select select[name="value"]')
@@ -118,7 +127,7 @@ module Pages
           end
         elsif selected_filter[:'filter-type'] == 'date'
           if human_operator == 'on'
-            fill_in 'value', with: values.first
+            set_date "on-date-value-#{name}", values.first
           end
         end
       end

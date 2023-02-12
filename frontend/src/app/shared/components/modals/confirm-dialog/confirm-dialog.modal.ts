@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -53,6 +53,9 @@ export interface ConfirmDialogOptions {
   closeByEscape?:boolean;
   showClose?:boolean;
   closeByDocument?:boolean;
+  showListData?:boolean;
+  listTitle?:string;
+  warningText?:string;
   passedData?:string[];
   dangerHighlighting?:boolean;
   divideContent?:boolean;
@@ -65,6 +68,12 @@ export interface ConfirmDialogOptions {
 })
 export class ConfirmDialogModalComponent extends OpModalComponent {
   public showClose:boolean;
+
+  public showListData:boolean;
+
+  public listTitle:string;
+
+  public warningText:string;
 
   public divideContent:boolean;
 
@@ -97,6 +106,9 @@ export class ConfirmDialogModalComponent extends OpModalComponent {
     this.options = (locals.options || {}) as ConfirmDialogOptions;
 
     this.dangerHighlighting = _.defaultTo(this.options.dangerHighlighting, false);
+    this.showListData = _.defaultTo(this.options.showListData, false);
+    this.listTitle = _.defaultTo(this.options.listTitle, '');
+    this.warningText = _.defaultTo(this.options.warningText, '');
     this.passedData = _.defaultTo(this.options.passedData, []);
     this.showClose = _.defaultTo(this.options.showClose, true);
     this.divideContent = _.defaultTo(this.options.divideContent, false);

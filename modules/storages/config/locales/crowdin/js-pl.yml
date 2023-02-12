@@ -4,13 +4,15 @@ pl:
     storages:
       link_files_in_storage: "Połącz pliki w %{storageType}"
       link_existing_files: "Połącz istniejące pliki"
-      upload_files: "Upload files"
+      upload_files: "Wczytaj plik"
+      drop_files: "Upuść pliki tutaj, aby je przesłać do %{name}."
+      drop_or_click_files: "Upuść pliki tutaj lub kliknij, aby je przesłać do %{name}."
       login: "%{storageType} logowanie"
       login_to: "Zaloguj się do %{storageType}"
       no_connection: "Brak połączenia %{storageType}"
       open_storage: "Otwórz %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Zaznacz lokalizację"
+      choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -22,7 +24,15 @@ pl:
         no_file_links: "Aby połączyć pliki z tym pakietem roboczym, zrób to za pośrednictwem %{storageType}."
         not_logged_in: >
           Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
+      files:
+        directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
+        dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
       file_links:
+        empty: >
+          Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.
         download: "Pobierz %{fileName}"
         no_permission: "Nie masz uprawnień, aby zobaczyć ten plik."
         open: 'Otwórz plik w pamięci'
@@ -34,11 +44,19 @@ pl:
         select: "Wybierz pliki"
         select_all: "Zaznacz wszystkie"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          zero: "Wybierz pliki do połączenia"
+          one: "Połącz %{count} plik"
+          few: "Połącz %{count} pliki"
+          many: "Połącz %{count} plików"
+          other: "Połącz %{count} plików"
+        success_create:
+          one: "Pomyślnie utworzono %{count} połączenie plików."
+          few: "Pomyślnie utworzono %{count} połączenia plików."
+          many: "Pomyślnie utworzono %{count} połączeń plików."
+          other: "Pomyślnie utworzono %{count} połączeń plików."
+        upload_error: "Wystąpił błąd podczas przesyłania pliku '%{fileName}'."
+        link_uploaded_file_error: >
+          Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         not_allowed_tooltip: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"
         already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
         already_linked_directory: "Ten katalog jest już powiązany z tym pakietem roboczym."

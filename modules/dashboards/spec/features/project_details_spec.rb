@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project details widget on dashboard', type: :feature, js: true do
+describe 'Project details widget on dashboard', js: true do
   let!(:version_cf) { create(:version_project_custom_field) }
   let!(:bool_cf) { create(:bool_project_custom_field) }
   let!(:user_cf) { create(:user_project_custom_field) }
@@ -44,14 +44,14 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
 
   let!(:project) do
     create(:project, members: { other_user => role }).tap do |p|
-      p.send(:"custom_field_#{int_cf.id}=", 5)
-      p.send(:"custom_field_#{bool_cf.id}=", true)
-      p.send(:"custom_field_#{version_cf.id}=", system_version)
-      p.send(:"custom_field_#{float_cf.id}=", 4.5)
-      p.send(:"custom_field_#{text_cf.id}=", 'Some **long** text')
-      p.send(:"custom_field_#{string_cf.id}=", 'Some small text')
-      p.send(:"custom_field_#{date_cf.id}=", Date.today)
-      p.send(:"custom_field_#{user_cf.id}=", other_user)
+      p.send(int_cf.attribute_setter, 5)
+      p.send(bool_cf.attribute_setter, true)
+      p.send(version_cf.attribute_setter, system_version)
+      p.send(float_cf.attribute_setter, 4.5)
+      p.send(text_cf.attribute_setter, 'Some **long** text')
+      p.send(string_cf.attribute_setter, 'Some small text')
+      p.send(date_cf.attribute_setter, Date.current)
+      p.send(user_cf.attribute_setter, other_user)
 
       p.save!(validate: false)
     end
@@ -87,6 +87,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
            firstname: 'Other',
            lastname: 'User')
   end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
@@ -146,7 +147,7 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
            .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}\n#{other_user.name}")
 
         # The fields are not editable
-        field = EditField.new dashboard_page, "customField#{bool_cf.id}"
+        field = EditField.new dashboard_page, bool_cf.attribute_name(:camel_case)
         field.expect_read_only
         field.activate! expect_open: false
       end
@@ -157,17 +158,31 @@ describe 'Project details widget on dashboard', type: :feature, js: true do
     let(:current_user) { editing_user }
 
     it 'can edit the custom fields' do
-      int_field = EditField.new dashboard_page, "customField#{int_cf.id}"
+      int_field = EditField.new dashboard_page, int_cf.attribute_name(:camel_case)
       change_cf_value int_field, "5", "3"
 
-      string_field = EditField.new dashboard_page, "customField#{string_cf.id}"
+      string_field = EditField.new dashboard_page, string_cf.attribute_name(:camel_case)
       change_cf_value string_field, 'Some small text', 'Some new text'
 
-      text_field = TextEditorField.new dashboard_page, "customField#{text_cf.id}"
+      text_field = TextEditorField.new dashboard_page, text_cf.attribute_name(:camel_case)
       change_cf_value text_field, 'Some long text', 'Some very long text'
 
-      user_field = SelectField.new dashboard_page, "customField#{user_cf.id}"
+      user_field = SelectField.new dashboard_page, user_cf.attribute_name(:camel_case)
       change_cf_value user_field, other_user.name, editing_user.name
+    end
+  end
+
+  context 'when project has Activity module enabled' do
+    let(:current_user) { read_only_user }
+
+    it 'has a "Project activity" entry in More menu linking to the project activity page' do
+      details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+
+      details_widget.expect_menu_item('Project details activity')
+
+      details_widget.click_menu_item('Project details activity')
+      expect(page).to have_current_path(project_activity_index_path(project), ignore_query: true)
+      expect(page).to have_checked_field(id: 'event_types_project_attributes')
     end
   end
 end

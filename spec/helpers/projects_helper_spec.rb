@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ProjectsHelper, type: :helper do
+describe ProjectsHelper do
   include ApplicationHelper
   include ProjectsHelper
 
@@ -108,6 +108,66 @@ describe ProjectsHelper, type: :helper do
     it 'returns shortened description' do
       expect(helper.short_project_description(project))
         .to eql(((('Abcd ' * 5) + "\n") * 10)[0..-2] + '...')
+    end
+  end
+
+  describe '#project_more_menu_items' do
+    # need to use refind: true because @allowed_permissions is cached in the instance
+    shared_let(:project, refind: true) { create(:project) }
+    shared_let(:current_user) { create(:user, member_in_project: project) }
+
+    subject(:menu) do
+      items = project_more_menu_items(project)
+      # each item is a [label, href, **link_to_options]
+      items.pluck(0)
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(current_user)
+    end
+
+    # "Archive project" menu entry
+
+    context 'when current user is admin' do
+      before do
+        current_user.update(admin: true)
+      end
+
+      it { is_expected.to include(t(:button_archive)) }
+    end
+
+    context 'when current user has archive_project permission' do
+      before do
+        current_user.roles(project).first.add_permission!(:archive_project)
+      end
+
+      it { is_expected.to include(t(:button_archive)) }
+    end
+
+    context 'when current user does not have archive_project permission' do
+      it { is_expected.not_to include(t(:button_archive)) }
+    end
+
+    context 'when project is archived' do
+      before do
+        project.update(active: false)
+      end
+
+      it { is_expected.not_to include(t(:button_archive)) }
+    end
+
+    # "Project activity" menu entry
+
+    context 'when project does not have activity module enabled' do
+      before do
+        project.enabled_module_names -= ['activity']
+      end
+
+      it { is_expected.not_to include(t(:label_project_activity)) }
+    end
+
+    context 'when project has activity module enabled' do
+      it { is_expected.to include(t(:label_project_activity)) }
     end
   end
 end

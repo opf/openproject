@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe LdapGroups::SynchronizedFilter, type: :model do
+describe LdapGroups::SynchronizedFilter do
   describe '#used_base_dn' do
     let(:auth_source) { build :ldap_auth_source, base_dn: 'dc=example,dc=com' }
     let(:filter) { build :ldap_synchronized_filter, auth_source: }

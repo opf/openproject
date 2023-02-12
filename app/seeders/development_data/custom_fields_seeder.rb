@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,14 +44,14 @@ module DevelopmentData
 
     def create_types!(cfs)
       # Create ALL CFs types
-      non_req_cfs = cfs.reject(&:is_required).map { |cf| "custom_field_#{cf.id}" }
+      non_req_cfs = cfs.reject(&:is_required).map(&:attribute_name)
       type = FactoryBot.build :type, name: 'All CFS'
       extend_group(type, ['Custom fields', non_req_cfs])
       type.save!
       print_status '.'
 
       # Create type
-      req_cfs = cfs.select(&:is_required).map { |cf| "custom_field_#{cf.id}" }
+      req_cfs = cfs.select(&:is_required).map(&:attribute_name)
       type_req = FactoryBot.build :type, name: 'Required CF'
       extend_group(type_req, ['Custom fields', req_cfs])
       type_req.save!

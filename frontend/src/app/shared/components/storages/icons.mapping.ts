@@ -1,6 +1,6 @@
 // --copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ import { nextcloud } from 'core-app/shared/components/storages/storages-constant
 
 export interface IFileIcon {
   icon:'image1'|'movie'|'file-text'|'export-pdf-descr'|'file-doc'|'file-sheet'|'file-presentation'|'folder'|'ticket'
-  clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'dir'|'mov'|'default'
+  clazz:'pdf'|'img'|'txt'|'doc'|'sheet'|'presentation'|'form'|'primary'|'mov'|'default'
 }
 
 export const fileIconMappings:Record<string, IFileIcon> = {
@@ -99,7 +99,7 @@ export const fileIconMappings:Record<string, IFileIcon> = {
   'video/3gpp-tt': { icon: 'movie', clazz: 'mov' },
   'video/3gpp-2': { icon: 'movie', clazz: 'mov' },
 
-  'application/x-op-directory': { icon: 'folder', clazz: 'dir' },
+  'application/x-op-directory': { icon: 'folder', clazz: 'primary' },
 
   default: { icon: 'ticket', clazz: 'default' },
 };

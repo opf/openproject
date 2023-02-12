@@ -1,0 +1,37 @@
+# Schema: StorageWriteModel
+---
+type: object
+properties:
+  name:
+    type: string
+    description: Storage name, if not provided, falls back to a default.
+  _links:
+    type: object
+    required:
+      - origin
+      - type
+    properties:
+      origin:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The storage's host URL.
+
+              **Resource**: N/A
+      type:
+        allOf:
+          - $ref: './link.yml'
+          - description: |-
+              The urn of the storage type. Currently only nextcloud storages are supported.
+              
+              - urn:openproject-org:api:v3:storages:Nextcloud
+
+              **Resource**: N/A
+
+example:
+  name: Coruscant
+  _links:
+    origin:
+      href: https://nextcloud.deathstar.rocks
+    type:
+      href: urn:openproject-org:api:v3:storages:Nextcloud

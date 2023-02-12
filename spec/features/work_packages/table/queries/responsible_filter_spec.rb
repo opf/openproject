@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe 'Work package filtering by responsible', js: true do
   let(:project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let(:role) { create(:role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
     create :user,
@@ -68,7 +68,7 @@ describe 'Work package filtering by responsible', js: true do
     wp_table.expect_work_package_listed(work_package_user_responsible, work_package_placeholder_user_responsible)
 
     filters.open
-    filters.add_filter_by('Accountable', 'is', [other_user.name], 'responsible')
+    filters.add_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_responsible)
     wp_table.expect_work_package_listed(work_package_user_responsible)
@@ -83,9 +83,9 @@ describe 'Work package filtering by responsible', js: true do
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
     filters.open
-    filters.expect_filter_by('Accountable', 'is', [other_user.name], 'responsible')
+    filters.expect_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
     filters.remove_filter 'responsible'
-    filters.add_filter_by('Accountable', 'is', [placeholder_user.name], 'responsible')
+    filters.add_filter_by('Accountable', 'is (OR)', [placeholder_user.name], 'responsible')
 
     wp_table.ensure_work_package_not_listed!(work_package_user_responsible)
     wp_table.expect_work_package_listed(work_package_placeholder_user_responsible)

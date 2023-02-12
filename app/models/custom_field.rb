@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ class CustomField < ApplicationRecord
            inverse_of: 'custom_field'
   accepts_nested_attributes_for :custom_options
 
-  acts_as_list scope: "type = '#{self.class}'"
+  acts_as_list scope: [:type]
 
   validates :field_format, presence: true
   validates :custom_options,
@@ -232,8 +232,22 @@ class CustomField < ApplicationRecord
     where(is_filter: true)
   end
 
-  def accessor_name
+  def attribute_name(format = nil)
+    return "customField#{id}" if format == :camel_case
+
     "custom_field_#{id}"
+  end
+
+  def attribute_getter
+    attribute_name.to_sym
+  end
+
+  def attribute_setter
+    :"#{attribute_name}="
+  end
+
+  def column_name
+    "cf_#{id}"
   end
 
   def type_name
@@ -325,7 +339,7 @@ class CustomField < ApplicationRecord
 
   def destroy_help_text
     AttributeHelpText
-      .where(attribute_name: "custom_field_#{id}")
+      .where(attribute_name:)
       .destroy_all
   end
 end

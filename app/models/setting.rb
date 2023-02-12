@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,6 @@
 #++
 
 class Setting < ApplicationRecord
-  extend CallbacksHelper
   extend Aliases
   extend MailSettings
 
@@ -213,9 +212,6 @@ class Setting < ApplicationRecord
       # Delete the cache
       clear_cache(old_cache_key)
 
-      # fire callbacks for name and pass as much information as possible
-      fire_callbacks(name, new_value, old_value)
-
       new_value
     else
       old_value
@@ -346,7 +342,7 @@ class Setting < ApplicationRecord
     if definition.serialized? && value.is_a?(String)
       YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
         .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
-    elsif value != '' && !value.nil?
+    elsif value != ''.freeze && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil

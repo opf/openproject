@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Immediate reminder settings", type: :feature, js: true do
+describe "Immediate reminder settings", js: true do
   shared_examples 'immediate reminder settings' do
     it 'allows to configure the reminder settings' do
       # Save prefs so we can reload them later
@@ -9,11 +9,11 @@ describe "Immediate reminder settings", type: :feature, js: true do
       # Configure the reminders
       reminders_settings_page.visit!
 
-      # By default the immediate reminder is unchecked
-      expect(pref.immediate_reminders[:mentioned]).to be false
-      reminders_settings_page.expect_immediate_reminder :mentioned, false
+      # By default the immediate reminder is checked
+      expect(pref.immediate_reminders[:mentioned]).to be true
+      reminders_settings_page.expect_immediate_reminder :mentioned, true
 
-      reminders_settings_page.set_immediate_reminder :mentioned, true
+      reminders_settings_page.set_immediate_reminder :mentioned, false
 
       reminders_settings_page.save
 
@@ -21,9 +21,9 @@ describe "Immediate reminder settings", type: :feature, js: true do
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_immediate_reminder :mentioned, true
+      reminders_settings_page.expect_immediate_reminder :mentioned, false
 
-      expect(pref.reload.immediate_reminders[:mentioned]).to be true
+      expect(pref.reload.immediate_reminders[:mentioned]).to be false
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ ro:
         main-menu-border-color: "Frontieră meniu principal"
       custom_colors: "Culori personalizate"
       customize: "Personalizează-ți instalația OpenProject cu propriul logo și culori."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Ca un 'Mulțumesc!' special pentru contribuția lor financiară la dezvoltarea OpenProject, acest mic add-on este disponibil doar pentru abonații la ediția Enterprise."
       enterprise_more_info: "Notă: logo-ul utilizat va fi accesibil publicului."
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
@@ -72,7 +72,7 @@ ro:
       replace_token: "Înlocuiți tokenul de suport actual"
       order: "Comandați ediția Enterprise on-premise"
       paste: "Lipiți token-ul de suport pentru ediția Enterprise"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      required_for_feature: "Acest add-on este disponibil numai cu un token de asistență pentru ediția Enterprise activ."
       enterprise_link: "Pentru mai multe informații, faceți click aici."
       start_trial: 'Începeți o încercare gratuită'
       book_now: 'Rezervă acum'
@@ -80,7 +80,7 @@ ro:
       buttons:
         upgrade: "Actualizează acum"
         contact: "Contactați-ne pentru o demonstrație"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "este un Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Vă rugăm să treceți la un plan plătit pentru a-l activa și a începe să îl utilizați în echipa dumneavoastră."
     journal_aggregation:
       explanation:
@@ -322,7 +322,7 @@ ro:
       settings: "Setări"
       form_configuration: "Configurarea formularului"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Ediția Enterprise vă permite să personalizați configurația formularului cu aceste suplimente suplimentare: <br> <ul class="%{list_styling_class}"> <li><b>Adăugarea de noi grupuri de atribute</b></li> <li><b>Redenumirea grupurilor de atribute</b></li> <li><b>Adăugați un tabel cu pachetele de lucru aferente</b></li> </ul>
       projects: "Proiecte"
       enabled_projects: "Proiecte activate"
       edit_query: "Editează tabelul"
@@ -337,6 +337,7 @@ ro:
   wiki:
     page_not_editable_index: Pagina solicitată nu există (încă). Ați fost redirecționat către indexul tuturor paginilor wiki.
     no_results_title_text: În acest moment nu există pagini wiki.
+    print_hint: Aceasta va afișa conținutul acestei pagini wiki fără bare de navigare.
     index:
       no_results_content_text: Adăugare pagină wiki nouă
   work_flows:
@@ -376,7 +377,7 @@ ro:
   account:
     delete: "Ştergere cont"
     delete_confirmation: "Sunteţi sigur că doriţi să ştergeţi contul?"
-    deleted: "Contul a fost șters cu succes"
+    deletion_pending: "Contul a fost blocat și a fost programat pentru ștergere. Rețineți că acest proces are loc în fundal. Poate dura câteva momente până când utilizatorul este complet șters."
     deletion_info:
       data_consequences:
         other: "Vor fi șterse cât mai multe din datele create de utilizator (e.g. email, preferințe, pachete de lucru, contribuții wiki). De reținut, totuși, că date precum pachete de lucru și contribuții wiki nu pot fi șterse fără a afecta activitatea altor utilizatori. Prin urmare, astfel de date sunt realocate la un cont numit \"Utilizator șters\". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va mai fi posibil să se facă distincția între datele create de utilizator și datele altui cont șters."
@@ -471,14 +472,24 @@ ro:
       member:
         roles: "Roluri"
       project:
+        active_value:
+          true: "nearhivat"
+          false: "arhivată"
         identifier: "Identificator"
         latest_activity_at: "Ultima activitate la"
         parent: "Subproiect în"
+        public_value:
+          title: "Vizibilitate"
+          true: "public"
+          false: "privat"
         queries: "Interogări"
+        templated: "Proiect șablon"
+        templated_value:
+          true: "marcat ca șablon"
+          false: "nemarcat ca șablon"
         types: "Tipuri"
         versions: "Versiuni"
         work_packages: "Pachete de lucru"
-        templated: 'Proiect șablon'
       projects/status:
         code: 'Stare'
         explanation: 'Descrierea stării'
@@ -638,7 +649,7 @@ ro:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Certificatul SSL furnizat nu este valabil: %{additional_message}"
+              invalid_certificate: "Certificatul SSL furnizat nu este valid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -690,6 +701,11 @@ ro:
               no_notification_reason: 'nu poate fi gol deoarece IAN este ales ca un canal.'
             reason_mail_digest:
               no_notification_reason: 'nu poate fi gol ca digest e-mail este ales ca un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "O zi nelucrătoare există deja pentru %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,6 +716,8 @@ ro:
           archived_ancestor: 'Proiectul are un strămoș arhivat.'
           foreign_wps_reference_version: 'Pachetele de lucru din proiectele care nu sunt descendente fac trimitere la versiuni ale proiectului sau la descendenți ai acestuia.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Nu aveţi permisiunile necesare pentru a arhiva toate sub-proiectele. Vă rugăm să contactaţi un administrator."
             types:
               in_use_by_work_packages: "încă în uz în pachetele de lucru: %{types}"
             enabled_modules:
@@ -1034,6 +1052,7 @@ ro:
   button_reset: "Resetare"
   button_rollback: "Revenire la această versiune"
   button_save: "Salvare"
+  button_apply_changes: "Aplica modificariile"
   button_save_back: "Salvare și înapoi"
   button_show: "Afişare"
   button_sort: "Sortare"
@@ -1280,11 +1299,11 @@ ro:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalizați configurația formularului cu aceste add-on-uri suplimentare:"
         add_groups: "Adăugarea de noi grupuri de atribute"
         rename_groups: "Redenumirea grupurilor de atribute"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtrarea și sortarea pe câmpuri personalizate este un supliment al ediției Enterprise."
   enumeration_activities: "Activități de urmărire timp activate"
   enumeration_work_package_priorities: "Priorități pentru pachetele de lucru"
   enumeration_reported_project_statuses: "Stările proiectului raportat"
@@ -1341,16 +1360,19 @@ ro:
   error_external_authentication_failed: "A apărut o eroare în timpul autentificării externe. Vă rugăm să încercați din nou."
   error_attribute_not_highlightable: "Atributul (atributele) nu poate (pot) fi evidențiat(e): %{attributes}"
   events:
-    project: 'Proiect editat'
     changeset: 'Set de schimbări editat'
     message: Mesaj editat
     news: Noutăţi
+    project_attributes: 'Atributele proiectului editate'
+    projects: 'Proiect editat'
     reply: Răspuns
     time_entry: 'Jurnal editat'
     wiki_page: 'Pagină wiki editată'
     work_package_closed: 'Pachet de lucru închis'
     work_package_edit: 'Pachet de lucru editat'
     work_package_note: 'Notă adăugată la pachetul de lucru'
+    title:
+      project: "Proiect: %{name}"
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
@@ -1762,6 +1784,10 @@ ro:
   label_not_contains: "nu conține"
   label_not_equals: "nu este"
   label_on: "pe"
+  label_operator_all: "nu este gol"
+  label_operator_none: "este gol"
+  label_operator_equals_or: "este (SAU)"
+  label_operator_equals_all: "este (ȘI)"
   label_open_menu: "Deschidere meniu"
   label_open_work_packages: "deschise"
   label_open_work_packages_plural: "deschise"
@@ -1803,6 +1829,8 @@ ro:
   label_product_version: "Versiune produs"
   label_professional_support: "Suport profesional"
   label_profile: "Profil"
+  label_project_activity: "Activitate proiect"
+  label_project_attribute_plural: "Atributele proiectului"
   label_project_count: "Număr total de proiecte"
   label_project_copy_notifications: "Trimitere notificări e-mail în timpul copierii proiectului"
   label_project_latest: "Ultimele proiecte"
@@ -2093,8 +2121,6 @@ ro:
   mail_subject_incoming_email_error: "Un e-mail pe care l-ați trimis la OpenProject nu a putut fi procesat"
   mail_subject_lost_password: "Parola dumneavoastră pentru %{value}"
   mail_subject_register: "Activarea contului dumneavoastră %{value}"
-  mail_subject_reminder: "%{count} pachete de lucru trebuie rezolvate în următoarele %{days} zile"
-  mail_subject_group_reminder: "Pentru grupul \"%{group}\" %{count} pachet(e) de lucru care trebuie să fie depus(e) în următoarele %{days} zile"
   mail_subject_wiki_content_added: "Pagina de wiki '%{id}' a fost adăugată"
   mail_subject_wiki_content_updated: "Pagina wiki '%{id}' a fost actualizată"
   mail_member_added_project:
@@ -2228,6 +2254,7 @@ ro:
   permission_add_work_packages: "Adăugare pachete de lucru"
   permission_add_messages: "Publicare mesaje"
   permission_add_project: "Creare proiect"
+  permission_archive_project: "Proiect de arhivă"
   permission_manage_user: "Crearea și editarea utilizatorilor"
   permission_manage_placeholder_user: "Creați, editați și ștergeți utilizatori de tip placeholder"
   permission_add_subprojects: "Creare subproiecte"
@@ -2629,11 +2656,11 @@ ro:
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale pachetelor de lucru: <br> <ul> <li><b>Permiteți selecția multiplă pentru câmpurile personalizate de tip Listă sau Utilizator</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile de statusuri ale pachetelor de lucru: <br> <ul> <li><b>Permiteți să marcați pachetele de lucru ca fiind numai pentru citire pentru anumite stări</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale proiectelor: <br> <ul> <li><b>Adăugați câmpuri personalizate pentru proiecte la lista de proiecte pentru a crea o vizualizare a portofoliului de proiecte</b></li> </ul>
   text_custom_logo_instructions: >
     Este recomandată utilizarea unui logo cu fundal transparent. Pentru a obține rezultate satisfăcătoare pe afișajele convenționale dar și pe cele de tipe retina, asigurați-vă că dimensiunea imaginii este de 460px pe 110px.
   text_custom_favicon_instructions: >
@@ -2965,15 +2992,20 @@ ro:
       title: "Ştergere a pachetului de lucru"
   working_days:
     info: >
-      <b>Definirea zilelor lucrătoare ale săptămânii</b><br/> Zilele nelucrătoare sunt omise la programarea pachetelor de lucru și sunt excluse la calcularea duratei. Acest lucru poate fi anulat la nivelul pachetului de lucru.
+      <b>Definire zile considerate parte a săptămânii de lucru</b><br/> Zile care nu sunt selectate sunt omise la programarea pachetelor de lucru (și nu sunt incluse în numărul de zile). Acestea pot fi depăşite la nivelul pachetelor de lucru.
+    instance_wide_info: >
+      <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      În acest caz, modificarea zilelor săptămânii care sunt considerate zile lucrătoare poate afecta zilele de început și de sfârșit ale tuturor pachetelor de lucru din toate proiectele.
+      Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de salvare modificări.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:
         working: "%{day} funcționează acum"
         non_working: "%{day} este acum nefuncțională"
+      dates:
+        working: "%{date} este acum în funcțiune"
+        non_working: "%{date} este acum nefuncțională"
   nothing_to_preview: "Nimic de previzualizat"
   api_v3:
     attributes:

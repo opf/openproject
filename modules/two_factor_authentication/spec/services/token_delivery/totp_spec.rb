@@ -1,12 +1,12 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
+describe OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
   describe 'sending messages' do
     let!(:user) { create :user }
     let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
 
     describe '#verify' do
-      subject { ::TwoFactorAuthentication::TokenService.new user: }
+      subject { TwoFactorAuthentication::TokenService.new user: }
 
       let(:result) { subject.verify token }
 
@@ -38,7 +38,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp do
         let(:token) { 1234 }
 
         before do
-          allow_any_instance_of(::TwoFactorAuthentication::Device::Totp)
+          allow_any_instance_of(TwoFactorAuthentication::Device::Totp)
             .to receive(:verify_token).and_raise 'Some internal error!'
         end
 

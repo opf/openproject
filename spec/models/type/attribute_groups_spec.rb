@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Type, type: :model do
+describe Type do
   let(:type) { build(:type) }
 
   shared_let(:admin) { create :admin }
@@ -163,7 +163,7 @@ describe ::Type, type: :model do
       )
     end
     let(:cf_identifier) do
-      :"custom_field_#{custom_field.id}"
+      custom_field.attribute_name
     end
 
     it 'can be put into attribute groups' do
@@ -171,7 +171,7 @@ describe ::Type, type: :model do
       OpenProject::Cache.clear
 
       # Can be enabled
-      type.attribute_groups = [['foo', [cf_identifier.to_s]]]
+      type.attribute_groups = [['foo', [cf_identifier]]]
       expect(type.save).to be_truthy
       expect(type.read_attribute(:attribute_groups)).not_to be_empty
     end
@@ -184,7 +184,7 @@ describe ::Type, type: :model do
         )
       end
       let(:cf_identifier2) do
-        :"custom_field_#{custom_field2.id}"
+        custom_field2.attribute_name
       end
 
       it 'they are kept in their respective positions in the group (Regression test #27940)' do
@@ -192,12 +192,12 @@ describe ::Type, type: :model do
         OpenProject::Cache.clear
 
         # Can be enabled
-        type.attribute_groups = [['foo', [cf_identifier2.to_s, cf_identifier.to_s]]]
+        type.attribute_groups = [['foo', [cf_identifier2, cf_identifier]]]
         expect(type.save).to be_truthy
         expect(type.read_attribute(:attribute_groups)).not_to be_empty
 
         cf_group = type.attribute_groups[0]
-        expect(cf_group.members).to eq([cf_identifier2.to_s, cf_identifier.to_s])
+        expect(cf_group.members).to eq([cf_identifier2, cf_identifier])
       end
     end
   end
@@ -220,7 +220,7 @@ describe ::Type, type: :model do
 
       other_group = type.attribute_groups.detect { |g| g.key == :other }
       expect(other_group).to be_present
-      expect(other_group.attributes).to eq([custom_field.accessor_name])
+      expect(other_group.attributes).to eq([custom_field.attribute_name])
 
       # It is removed again when resetting it
       type.reset_attribute_groups

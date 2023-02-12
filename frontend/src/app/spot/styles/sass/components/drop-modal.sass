@@ -1,11 +1,14 @@
 .spot-drop-modal
-  position: relative
   display: inline-flex
+
+  &--anchor
+    position: absolute
+    @include spot-z-index("drop-modal", 1)
+    pointer-events: none
 
   &--body
     $border-radius: 5px
 
-    @include spot-z-index("drop-modal", 1)
     pointer-events: all
     opacity: 1
 
@@ -15,8 +18,7 @@
     left: $spot-spacing-1
     right: $spot-spacing-1
     width: calc(100vw - (2 * #{$spot-spacing-1}))
-    max-height: calc(100vh - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
-
+    height: calc(#{var(--app-height)} - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
     box-shadow: $spot-shadow-light-mid
     background: $spot-color-basic-white
     border-radius: $border-radius
@@ -27,7 +29,7 @@
     @media #{$spot-mq-landscape}
       bottom: $spot-spacing-1
       right: $spot-spacing-3_5
-      max-height: calc(100vh - (2 * #{$spot-spacing-1}))
+      max-height: calc(#{var(--app-height)} - (2 * #{$spot-spacing-1}))
       width: calc(100vw - (#{$spot-spacing-3_5} + #{$spot-spacing-1}))
 
     @media #{$spot-mq-drop-modal-in-context}
@@ -38,7 +40,7 @@
       width: auto
       height: auto
       max-width: calc(100vw - (2 * #{$spot-spacing-1}))
-      max-height: calc(100vh - (2 * #{$spot-spacing-1}))
+      max-height: calc(#{var(--app-height)} - (2 * #{$spot-spacing-1}))
 
       &_left-top
         right: 100%

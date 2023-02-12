@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -61,11 +61,11 @@ ru:
   label_budget_id: "Бюджет #%{id}"
   label_deliverable: "Бюджет"
   label_example_placeholder: 'например, %{decimal}'
-  label_view_all_budgets: "Отобразить все бюджеты"
+  label_view_all_budgets: "Просмотр всех бюджетов"
   label_yes: "Да"
   notice_budget_conflict: "Пакеты работ должны быть из того же проекта."
   notice_no_budgets_available: "Нет доступных бюджетов."
-  permission_edit_budgets: "Править бюджеты"
+  permission_edit_budgets: "Редактировать бюджеты"
   permission_view_budgets: "Просмотр бюджетов"
   project_module_budgets: "Бюджеты"
   text_budget_reassign_to: "Переназначить их для этого бюджета:"

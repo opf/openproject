@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,24 +28,25 @@
 
 require_relative '../spec_helper'
 
-describe 'Showing of file links in work package', type: :feature, js: true do
+describe 'Showing of file links in work package', js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
-  let(:storage) { create(:storage) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
   let(:file_link) { create(:file_link, container: work_package, storage:) }
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   before do
-    allow(::OAuthClients::ConnectionManager)
+    allow(OAuthClients::ConnectionManager)
       .to receive(:new)
             .and_return(connection_manager)
     allow(connection_manager)
@@ -56,10 +57,10 @@ describe 'Showing of file links in work package', type: :feature, js: true do
             .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state)
-           .and_return(:connected)
+            .and_return(:connected)
 
     # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
-    allow(::Storages::FileLinkSyncService)
+    allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
       ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
@@ -103,7 +104,7 @@ describe 'Showing of file links in work package', type: :feature, js: true do
     end
 
     it 'must show storage information box with login button' do
-      expect(page.find('[data-qa-selector="op-files-tab--storage-information"]')).to have_selector('button', count: 1)
+      expect(page.find('[data-qa-selector="op-storage--information"]')).to have_button(count: 1)
     end
   end
 
@@ -113,7 +114,7 @@ describe 'Showing of file links in work package', type: :feature, js: true do
     end
 
     it 'must show storage information box' do
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--storage-information"]', count: 1)
+      expect(page).to have_selector('[data-qa-selector="op-storage--information"]', count: 1)
     end
   end
 end

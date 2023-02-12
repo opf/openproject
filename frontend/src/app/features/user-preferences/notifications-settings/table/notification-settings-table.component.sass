@@ -1,18 +1,21 @@
+@import "helpers"
+
 :host
   max-width: 100%
   width: 100%
 
 .op-table
-  margin-bottom: 1rem
+  margin-bottom: $spot-spacing-1
 
 .op-reminder-settings-table-date-alerts
   &--time
-    height: 32px
-    width: 137px
-    padding: 4px 8px 4px 12px
+    height: $spot-spacing-2
+    width: auto
+    min-width: $spot-spacing-8
+    padding: $spot-spacing-0_25 $spot-spacing-1_5 $spot-spacing-0_25 $spot-spacing-0_75
     margin: auto
 
 .op-table--cell--date-alerts
   border: 1px solid #cccccc
   text-align: center
-  padding: 12px 16px
+  padding: $spot-spacing-0_75 $spot-spacing-1

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,8 @@ describe 'work package hierarchies for milestones', js: true, selenium: true do
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let(:work_package) { create(:work_package, project:, type:) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }

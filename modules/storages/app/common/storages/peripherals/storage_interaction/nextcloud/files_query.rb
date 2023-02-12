@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
+      @base_path = File.join(@uri.path, "remote.php/dav/files", token.origin_user_id)
     end
 
     def query(parent)
@@ -75,6 +75,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             xml['oc'].size
             xml['d'].getcontenttype
             xml['d'].getlastmodified
+            xml['oc'].permissions
             xml['oc'].send('owner-display-name')
           end
         end
@@ -101,16 +102,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def storage_files(response)
       response.map do |xml|
-        Nokogiri::XML(xml)
-          .xpath('//d:response')
-          .drop(1) # drop current directory
-          .map { |file_element| storage_file(file_element) }
+        a = Nokogiri::XML(xml)
+              .xpath('//d:response')
+              .to_a
+
+        parent, *files =
+          a.map do |file_element|
+            storage_file(file_element)
+          end
+
+        ::Storages::StorageFiles.new(files, parent)
       end
     end
 
     def storage_file(file_element)
       location = name(file_element)
-      name = CGI.unescape(location.split('/').last)
+      name = location == '/' ? location : CGI.unescape(location.split('/').last)
 
       ::Storages::StorageFile.new(
         id(file_element),
@@ -121,7 +128,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         last_modified_at(file_element),
         created_by(file_element),
         nil,
-        location
+        location,
+        permissions(file_element)
       )
     end
 
@@ -140,10 +148,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       return nil if texts.empty?
 
-      texts
-        .first
-        .delete_prefix(@base_path)
-        .delete_suffix('/')
+      element_name = texts.first.delete_prefix(@base_path)
+
+      return element_name if element_name == '/'
+
+      element_name.delete_suffix('/')
     end
 
     def size(element)
@@ -175,6 +184,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .map(&:inner_text)
         .reject(&:empty?)
         .first
+    end
+
+    def permissions(element)
+      permissions_string =
+        element
+          .xpath('.//oc:permissions')
+          .map(&:inner_text)
+          .reject(&:empty?)
+          .first
+
+      # Nextcloud Dav permissions:
+      # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php
+      result = []
+      result << :readable if permissions_string.include?('G')
+      result << :writeable if %w[CK W].reduce(false) { |s, v| s || permissions_string.include?(v) }
+      result
     end
   end
 end

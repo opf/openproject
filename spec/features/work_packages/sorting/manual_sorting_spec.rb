@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Manual sorting of WP table', type: :feature, js: true do
+describe 'Manual sorting of WP table', js: true do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -64,11 +64,11 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
            created_at: 3.minutes.ago)
   end
 
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
-  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
-  let(:dialog) { ::Components::ConfirmationDialog.new }
-  let(:pagination) { ::Components::TablePagination.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
+  let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
+  let(:dialog) { Components::ConfirmationDialog.new }
+  let(:pagination) { Components::TablePagination.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   def expect_query_order(query, expected)
     retry_block do
@@ -198,7 +198,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
   describe 'group mode' do
     describe 'group by type' do
-      let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+      let(:group_by) { Components::WorkPackages::GroupBy.new }
 
       before do
         wp_table.visit!
@@ -243,10 +243,10 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
     let!(:priority) { create :default_priority }
 
     before do
-      ::OrderedWorkPackage.create(query: query, work_package: work_package1, position: 0)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package2, position: 1)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package3, position: 2)
-      ::OrderedWorkPackage.create(query: query, work_package: work_package4, position: 3)
+      OrderedWorkPackage.create(query: query, work_package: work_package1, position: 0)
+      OrderedWorkPackage.create(query: query, work_package: work_package2, position: 1)
+      OrderedWorkPackage.create(query: query, work_package: work_package3, position: 2)
+      OrderedWorkPackage.create(query: query, work_package: work_package4, position: 3)
     end
 
     it 'can inline create a work package and it is positioned to the bottom (Regression #31078)' do
@@ -272,7 +272,7 @@ describe 'Manual sorting of WP table', type: :feature, js: true do
 
       # Wait until the order was saved, this might take a few moments
       retry_block do
-        order = ::OrderedWorkPackage.find_by(query: query, work_package: inline_created)
+        order = OrderedWorkPackage.find_by(query: query, work_package: inline_created)
 
         unless order&.position == 8195
           raise "Expected order of #{inline_created.id} to be 8195. Was: #{order&.position}. Retrying"

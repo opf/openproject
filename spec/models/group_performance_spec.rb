@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/shared/become_member'
 
-describe Group, type: :model do
+describe Group do
   include BecomeMember
 
   let(:user) { build(:user) }
@@ -72,7 +72,7 @@ describe Group, type: :model do
       let(:deleted_user) { DeletedUser.first }
 
       before do
-        allow(::OpenProject::Notifications)
+        allow(OpenProject::Notifications)
           .to receive(:send)
 
         start = Time.now.to_i
@@ -89,7 +89,7 @@ describe Group, type: :model do
       end
 
       it 'reassigns the work package to nobody and cleans up the journals' do
-        expect(::OpenProject::Notifications)
+        expect(OpenProject::Notifications)
           .to have_received(:send)
           .with(OpenProject::Events::MEMBER_DESTROYED, any_args)
           .exactly(projects.size).times

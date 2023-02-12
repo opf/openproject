@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -55,13 +55,15 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Current errors of the field
   public errors:string[];
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     public form:EditForm,
     public fieldName:string,
     public schema:IFieldSchema,
     public element:HTMLElement,
     protected pathHelper:PathHelperService,
-    protected withErrors?:string[]) {
+    protected withErrors?:string[],
+  ) {
     super();
 
     if (withErrors !== undefined) {
@@ -105,11 +107,11 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     }
   }
 
-  public onFocusOut() {
+  public async onFocusOut() {
     // In case of inline create or erroneous forms: do not save on focus loss
     // const specialField = this.resource.shouldCloseOnFocusOut(this.fieldName);
     if (this.resource.subject && this.withErrors && this.withErrors.length === 0) {
-      this.handleUserSubmit();
+      await this.handleUserSubmit();
     }
   }
 
@@ -121,7 +123,7 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  public handleUserSubmit():Promise<any> {
+  public handleUserSubmit():Promise<unknown> {
     this.onBeforeSubmit();
 
     if (this.inFlight || this.form.editMode) {
@@ -130,7 +132,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     return this
       .onSubmit()
-      .then(() => this.form.submit());
+      .then(() => {
+        void this.form.submit();
+        this.blurActiveField();
+      });
   }
 
   /**
@@ -139,11 +144,11 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    * In an edit mode, we can't derive from a submit event whether the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
+  public async handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel = false) {
     // Only handle submission in edit mode
     if (this.inEditMode && !onlyCancel) {
       if (event.which === KeyCodes.ENTER) {
-        this.form.submit();
+        await this.form.submit();
         return false;
       }
       return true;
@@ -172,17 +177,31 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
    */
   public reset() {
     this.form.change.reset(this.fieldName);
-    this.deactivate(true);
+    if (!this.inEditMode) {
+      this.deactivate(true);
+    }
   }
 
   /**
    * Close the field, resetting it with its display value.
    */
   public deactivate(focus = false) {
+    this.blurActiveField();
     delete this.form.activeFields[this.fieldName];
     this.onDestroy.next();
     this.onDestroy.complete();
     this.form.reset(this.fieldName, focus);
+  }
+
+  /**
+   * Safari scrolls around like crazy if you have a focused
+   * field that is about to be destroyed. So we blur it beforehand.
+   * @private
+   */
+  public blurActiveField() {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   }
 
   /**
@@ -217,8 +236,10 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
     if (!this.isErrorenous) {
       return '';
     }
-    return this.I18n.t('js.inplace.errors.messages_on_field',
-      { messages: this.errors.join(' ') });
+    return this.I18n.t(
+      'js.inplace.errors.messages_on_field',
+      { messages: this.errors.join(' ') },
+    );
   }
 
   public previewContext(resource:HalResource) {

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,29 +33,41 @@ See COPYRIGHT and LICENSE files for more details.
             subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
 %>
 
-<div id="activity">
+<div class="op-project-activity-days">
   <% @events_by_day.keys.sort.reverse.each do |day| %>
-    <h3><%= format_activity_day(day) %></h3>
-    <ul class="generic-list">
+    <h3 class="op-project-activity-days--header"><%= format_activity_day(day) %></h3>
+    <ul class="op-project-activity-list">
       <% @events_by_day[day].sort { |x, y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-        <li class="<%= e.event_type %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-          <div class="title">
-            <% event_type = e.event_type.start_with?('meeting') ? 'meetings' : e.event_type %>
-            <% event_type = e.event_type == 'budget' ? 'budget' : event_type %>
-            <%= icon_wrapper("icon-context icon-#{event_type}", e.event_name) %>
-            <span class="time"><%= format_time(e.event_datetime.to_time, false) %></span>
-            <% if (@project.nil? || @project != e.project) && e.project %>
-              <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>
-              <span> - </span>
-            <% end %>
-            <%= link_to format_activity_title(e.event_title), e.event_path%>
+        <% journal = @journals_by_id[e.event_id] %>
+
+        <li class="op-project-activity-list--item">
+          <div class="op-project-activity-list--item-title">
+            <%= link_to format_activity_title(e.event_title), e.event_path %>
+            <% if journal.journable_type != 'Project' -%>
+              (Project: <%= content_tag('span', link_to(e.project.name, e.project), class: 'project') %>)
+            <% end -%>
           </div>
-          <div class="description"><%= truncate_formatted_text(e.event_description) %></div>
-          <div class="author">
-            <%= avatar(e.event_author, {class: 'avatar-mini'}) if e.respond_to?(:event_author) %>
-            <%= link_to_user(e.event_author) if e.respond_to?(:event_author) %>
+          <div class="op-project-activity-list--item-subtitle">
+            <%= journal.initial? ? "created by" : "updated by" %>
+            <%= avatar(e.event_author, size: 'mini') %> <span class="spot-caption spot-caption_bold"><%= link_to_user(e.event_author) %></span>
+            on <%= format_time(e.event_datetime.to_time, true) %>
           </div>
+          <% if e.event_description.present? -%>
+            <div class="op-project-activity-list--item-description">
+              <%= truncate_formatted_text(e.event_description) %>
+            </div>
+          <% end -%>
+          <% unless journal.initial? %>
+            <% if journal.details.any? -%>
+              <ul class="op-project-activity-list--item-details">
+                <% journal_rendered_details(journal).each do |detail| -%>
+                  <li class="op-project-activity-list--item-detail"><%= detail %></li>
+                <% end -%>
+              </ul>
+            <% end -%>
+          <% end -%>
         </li>
+
       <% end -%>
     </ul>
   <% end -%>
@@ -68,13 +80,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div style="float:left;">
   <%= link_to_content_update(t(:label_previous),
-                             { from: (@date_to - @days - 1) },
+                             { from: (@date_to - @days - 1), with_subprojects: @with_subprojects ? '1' : '0' },
                              {title: t(:label_date_from_to, start: format_date(@date_to - 2*@days), end: format_date(@date_to - @days - 1)),
                              class: 'navigate-left'}) %>
 </div>
 <div style="float:right;">
   <%= link_to_content_update(t(:label_next),
-                             { from: (@date_to + @days - 1) },
+                             { from: (@date_to + @days - 1), with_subprojects: @with_subprojects ? '1' : '0' },
                              {title: t(:label_date_from_to, start: format_date(@date_to), end: format_date(@date_to + @days - 1)),
                              class: 'navigate-right'}) unless @date_to >= Date.today %>
 </div>
@@ -104,8 +116,8 @@ See COPYRIGHT and LICENSE files for more details.
       <%= hidden_field_tag 'with_subprojects', 0 %>
       <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=t(:label_subproject_plural)%></label></p>
     <% end %>
-    <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-    <%= hidden_field_tag('apply', true) %>
+    <%= hidden_field_tag('user_id', params[:user_id]) if params[:user_id].present? %>
+    <%= hidden_field_tag('from', params[:from]) if params[:from].present? %>
     <p><%= submit_tag t(:button_apply), class: 'button -small -highlight', name: nil %></p>
     </fieldset>
   <% end %>

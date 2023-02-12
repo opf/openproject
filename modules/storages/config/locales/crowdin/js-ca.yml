@@ -5,6 +5,8 @@ ca:
       link_files_in_storage: "Fitxers enllaçats a %{storageType}"
       link_existing_files: "Enllaça fitxers existents"
       upload_files: "Carregar fitxers"
+      drop_files: "Arrossega els fitxers aquí per carregar-los a %{name}."
+      drop_or_click_files: "Arrossega els fitxers o fes clic aquí per carregar-los a %{name}."
       login: "%{storageType} inici de sessió"
       login_to: "Inicia sessió a %{storageType}"
       no_connection: "%{storageType} sense connexió"
@@ -22,7 +24,15 @@ ca:
         no_file_links: "Per tal d'enllaçar arxius a aquest paquet de treball si us plau fes-ho a través de %{storageType}."
         not_logged_in: >
           Per afegir un enllaç, veure o pujar fitxers relacionats amb aquest paquet de treball si us plau inicia sessió a %{storageType}.
+      files:
+        directory_not_writeable: "No tens permís per afegir arxius dins d'aquesta carpeta."
+        dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
       file_links:
+        empty: >
+          Actualment no hi ha cap fitxer enllaçat a aquest paquet de treball. Comença a enllaçar fitxers amb l'acció de sota o dins de %{storageType}.
         download: "Descarrega %{fileName}"
         no_permission: "No tens permisos per veure aquest fitxer."
         open: 'Obre el fitxer a l''emmagatzematge'
@@ -37,6 +47,12 @@ ca:
           zero: "Selecciona fitxers a enllaçar"
           one: "Enllaça 1 fitxer"
           other: "Enllaça %{count} fitxers"
+        success_create:
+          one: "1 enllaç de fitxer creat correctament."
+          other: "%{count} enllaços de fitxer creat correctament."
+        upload_error: "S'ha produït un error al carregar el fitxer \"%{fileName}\"."
+        link_uploaded_file_error: >
+          S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

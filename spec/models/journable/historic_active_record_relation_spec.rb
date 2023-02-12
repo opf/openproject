@@ -82,6 +82,58 @@ describe Journable::HistoricActiveRecordRelation do
 
   subject { historic_relation }
 
+  describe "#pluck" do
+    describe "id" do
+      subject { historic_relation.pluck(:id) }
+
+      it "returns the id of the work package" do
+        expect(subject).to eq [work_package.id]
+      end
+    end
+
+    describe "description" do
+      subject { historic_relation.pluck(:description) }
+
+      it "returns the description of the work package" do
+        expect(subject).to eq ["The work package as it has been on Wednesday"]
+      end
+    end
+
+    describe "created_at" do
+      subject { historic_relation.pluck(:created_at) }
+
+      it "returns the created_at of the work package" do
+        expect(subject).to eq [monday]
+      end
+    end
+
+    describe "updated_at" do
+      subject { historic_relation.pluck(:updated_at) }
+
+      it "returns the updated_at of the work package" do
+        expect(subject).to eq [wednesday]
+      end
+    end
+
+    describe "position" do
+      subject { historic_relation.pluck(:position) }
+
+      it "returns null because the column is not journalized" do
+        expect(subject).to eq [nil]
+      end
+
+      it "does not raise an error" do
+        expect { subject }.not_to raise_error
+      end
+
+      it "prints a warning" do
+        allow(Rails.logger).to receive(:warn)
+        subject
+        expect(Rails.logger).to have_received(:warn).with(/position/)
+      end
+    end
+  end
+
   describe "#where" do
     describe "project_id in array (Arel::Nodes::HomogeneousIn)" do
       let(:relation) { WorkPackage.where(project_id: [project.id, 1, 2, 3]) }
@@ -210,7 +262,7 @@ describe Journable::HistoricActiveRecordRelation do
 
       it "transforms the expression to query the correct table" do
         expect(subject.to_sql).to include \
-          "journals.created_at > '2022-01-01'"
+          "journals.updated_at > '2022-01-01'"
       end
 
       it "returns the requested work package" do
@@ -222,7 +274,7 @@ describe Journable::HistoricActiveRecordRelation do
 
         it "transforms the expression to query the correct table" do
           expect(subject.to_sql).to include \
-            "\"journals\".\"created_at\" > '2022-01-01'"
+            "\"journals\".\"updated_at\" > '2022-01-01'"
         end
 
         it "returns the requested work package" do
@@ -235,7 +287,7 @@ describe Journable::HistoricActiveRecordRelation do
 
         it "transforms the expression to query the correct table" do
           expect(subject.to_sql).to include \
-            "\"journals\".\"created_at\" >= '2022-01-01"
+            "\"journals\".\"updated_at\" >= '2022-01-01"
         end
 
         it "returns the requested work package" do
@@ -377,6 +429,30 @@ describe Journable::HistoricActiveRecordRelation do
 
       it "returns the requested work package" do
         expect(subject).to include work_package
+      end
+    end
+  end
+
+  describe "#first" do
+    describe "for columns that don't exist in the journal-data table" do
+      let(:column_name) { :lock_version }
+
+      subject { historic_relation.first.send(column_name) }
+
+      specify "the column name does exist in the journable table" do
+        expect(WorkPackage.column_names).to include column_name.to_s
+      end
+
+      specify "the column name does not exist in the journal-data table" do
+        expect(Journal::WorkPackageJournal.column_names).not_to include column_name.to_s
+      end
+
+      it "has the attribute with null value" do
+        expect(historic_relation.first.attributes_before_type_cast[column_name]).to be_nil
+      end
+
+      it "has the typecasted value matching the journable class's data type" do
+        expect(subject).to eq 0
       end
     end
   end

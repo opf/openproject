@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -107,7 +107,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject)
+            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 1)
           end
         end
       end

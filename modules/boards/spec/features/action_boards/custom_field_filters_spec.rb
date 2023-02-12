@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Custom field filter in boards', type: :feature, js: true do
+describe 'Custom field filter in boards', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -47,16 +47,16 @@ describe 'Custom field filter in boards', type: :feature, js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
 
   let!(:work_package) do
-    wp = build :work_package,
-               project: project,
-               type: type,
+    wp = build(:work_package,
+               project:,
+               type:,
                subject: 'Foo',
-               status: open_status
+               status: open_status)
 
     wp.custom_field_values = {
       custom_field.id => %w[B].map { |s| custom_value_for(s) }
@@ -66,7 +66,7 @@ describe 'Custom field filter in boards', type: :feature, js: true do
     wp
   end
 
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:custom_field) do
     create(
@@ -103,9 +103,9 @@ describe 'Custom field filter in boards', type: :feature, js: true do
     filters.open
 
     filters.add_filter_by(custom_field.name,
-                          'is',
+                          'is (OR)',
                           ['A', 'B'],
-                          "customField#{custom_field.id}")
+                          custom_field.attribute_name(:camel_case))
 
     board_page.expect_changed
 

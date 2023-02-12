@@ -22,7 +22,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
+You can either try the OUTDATED and OLD manual installation guide, or add a Feature request whether your operating system could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
@@ -86,7 +86,7 @@ Please follow these steps:
 
 The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
-If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €300 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
 ### How do I get SSL certificates (in case of installation support by OpenProject employee)? Do we have to purchase them?
 

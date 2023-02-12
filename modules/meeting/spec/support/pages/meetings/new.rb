@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,10 @@ module Pages::Meetings
     end
 
     def set_start_date(date)
-      fill_in 'Start date', with: date
+      find_by_id('meeting_start_date').click
+      datepicker = Components::Datepicker.new
+      datepicker.set_date(date)
+      datepicker.save!
     end
 
     def set_start_time(time)

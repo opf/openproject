@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Workday notification settings", type: :feature, js: true do
+describe "Workday notification settings", js: true do
   shared_examples 'workday settings' do
     before do
       current_user.language = locale

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,9 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_linking
+      OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :storage_file_upload
+      OpenProject::FeatureDecisions.add :legacy_upload_preparation
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -92,6 +94,9 @@ module OpenProject::Storages
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
+      # Allow the browser to connect to external servers for direct file uploads.
+      AppendStoragesHostsToCspHook
+
       # We have a bunch of filters defined within the module. Here we register the filters.
       ::Queries::Register.register(::Query) do
         [
@@ -113,16 +118,24 @@ module OpenProject::Storages
 
     # This helper methods adds a method on the `api_v3_paths` helper. It is created with one parameter (storage_id)
     # and the return value is a string.
+    add_api_path :storages do
+      "#{root}/storages"
+    end
+
     add_api_path :storage do |storage_id|
-      "#{root}/storages/#{storage_id}"
+      "#{storages}/#{storage_id}"
     end
 
     add_api_path :storage_files do |storage_id|
-      "#{root}/storages/#{storage_id}/files"
+      "#{storage(storage_id)}/files"
     end
 
     add_api_path :prepare_upload do |storage_id|
-      "#{root}/storages/#{storage_id}/files/prepare_upload"
+      "#{storage(storage_id)}/files/prepare_upload"
+    end
+
+    add_api_path :storage_oauth_client_credentials do |storage_id|
+      "#{storage(storage_id)}/oauth_client_credentials"
     end
 
     add_api_path :file_links do |work_package_id|
@@ -134,11 +147,11 @@ module OpenProject::Storages
     end
 
     add_api_path :file_link_download do |file_link_id|
-      "#{root}/file_links/#{file_link_id}/download"
+      "#{file_link(file_link_id)}/download"
     end
 
     add_api_path :file_link_open do |file_link_id, location = false|
-      "#{root}/file_links/#{file_link_id}/open#{location ? '?location=true' : ''}"
+      "#{file_link(file_link_id)}/open#{location ? '?location=true' : ''}"
     end
 
     # Add api endpoints specific to this module
@@ -150,5 +163,7 @@ module OpenProject::Storages
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
+
+    add_cron_jobs { CleanupUncontaineredFileLinksJob }
   end
 end

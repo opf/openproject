@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,8 @@ describe 'Filter by backlog type', js: true do
   let(:user) { create :admin }
   let(:project) { create :project }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:member) do
     create(:member,
@@ -83,7 +83,7 @@ describe 'Filter by backlog type', js: true do
   it 'allows filtering, saving and retaining the filter' do
     filters.open
 
-    filters.add_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.add_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
 
     wp_table.expect_work_package_listed work_package_with_story_type
     wp_table.ensure_work_package_not_listed! work_package_with_task_type
@@ -103,6 +103,6 @@ describe 'Filter by backlog type', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.expect_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
   end
 end

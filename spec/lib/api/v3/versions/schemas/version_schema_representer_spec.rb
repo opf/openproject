@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
+describe API::V3::Versions::Schemas::VersionSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
@@ -41,10 +41,12 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
   let(:custom_field) do
     build_stubbed(:int_version_custom_field)
   end
+  let(:version) { build_stubbed(:version) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record)
+    contract = instance_double(new_record ? Versions::CreateContract : Versions::UpdateContract,
+                               new_record?: new_record,
+                               model: version)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
@@ -150,7 +152,7 @@ describe ::API::V3::Versions::Schemas::VersionSchemaRepresenter do
     end
 
     describe 'int custom field' do
-      let(:path) { "customField#{custom_field.id}" }
+      let(:path) { custom_field.attribute_name(:camel_case) }
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Integer' }

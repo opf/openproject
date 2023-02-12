@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-shared_examples_for 'query column' do
+shared_examples_for 'query column' do |sortable_by_default: false|
   describe '#groupable' do
     it 'is the name if true is provided' do
       instance.groupable = true
@@ -34,7 +34,7 @@ shared_examples_for 'query column' do
       expect(instance.groupable).to eql(instance.name.to_s)
     end
 
-    it 'is the value if something trueish is provided' do
+    it 'is the value if something truthy is provided' do
       instance.groupable = 'lorem ipsum'
 
       expect(instance.groupable).to eql('lorem ipsum')
@@ -60,7 +60,7 @@ shared_examples_for 'query column' do
       expect(instance.sortable).to eql(instance.name.to_s)
     end
 
-    it 'is the value if something trueish is provided' do
+    it 'is the value if something truthy is provided' do
       instance.sortable = 'lorem ipsum'
 
       expect(instance.sortable).to eql('lorem ipsum')
@@ -81,37 +81,41 @@ shared_examples_for 'query column' do
 
   describe '#groupable?' do
     it 'is false by default' do
-      expect(instance.groupable?).to be_falsey
+      expect(instance).not_to be_groupable
     end
 
     it 'is true if told so' do
       instance.groupable = true
 
-      expect(instance.groupable?).to be_truthy
+      expect(instance).to be_groupable
     end
 
     it 'is true if a value is provided (e.g. for specifying sql code)' do
       instance.groupable = 'COALESCE(null, 1)'
 
-      expect(instance.groupable?).to be_truthy
+      expect(instance).to be_groupable
     end
   end
 
   describe '#sortable?' do
-    it 'is false by default' do
-      expect(instance.sortable?).to be_falsey
+    it "is #{sortable_by_default} by default" do
+      if sortable_by_default
+        expect(instance).to be_sortable
+      else
+        expect(instance).not_to be_sortable
+      end
     end
 
     it 'is true if told so' do
       instance.sortable = true
 
-      expect(instance.sortable?).to be_truthy
+      expect(instance).to be_sortable
     end
 
     it 'is true if a value is provided (e.g. for specifying sql code)' do
       instance.sortable = 'COALESCE(null, 1)'
 
-      expect(instance.sortable?).to be_truthy
+      expect(instance).to be_sortable
     end
   end
 end

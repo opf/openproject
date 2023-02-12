@@ -109,28 +109,6 @@ export class DisplayFieldRenderer<T extends HalResource = HalResource> {
 
   private getFieldForCurrentContext(resource:T, attributeName:string, fieldSchema:IFieldSchema):DisplayField {
     const context:DisplayFieldContext = { container: this.container, injector: this.injector, options: this.options };
-
-    // We handle multi value fields differently in the single view context
-    const isCustomMultiLinesField = ['[]CustomOption'].indexOf(fieldSchema.type) >= 0;
-    if (this.container === 'single-view' && isCustomMultiLinesField) {
-      return new MultipleLinesCustomOptionsDisplayField(attributeName, context) as DisplayField;
-    }
-    const isUserMultiLinesField = ['[]User'].indexOf(fieldSchema.type) >= 0;
-    if (this.container === 'single-view' && isUserMultiLinesField) {
-      return new MultipleLinesUserFieldModule(attributeName, context) as DisplayField;
-    }
-
-    // We handle progress differently in the timeline
-    if (this.container === 'timeline' && attributeName === 'percentageDone') {
-      return new ProgressTextDisplayField(attributeName, context);
-    }
-
-    // We want to render an combined edit field but the display field must
-    // show the original attribute
-    if (this.container === 'table' && ['startDate', 'dueDate', 'date'].includes(attributeName)) {
-      return new DateDisplayField(attributeName, context);
-    }
-
     return this.displayFieldService.getField(resource, attributeName, fieldSchema, context);
   }
 

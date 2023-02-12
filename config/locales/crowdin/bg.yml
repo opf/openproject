@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ bg:
   wiki:
     page_not_editable_index: Исканата страница (все още) не съществува. Пренасочени сте към индекса на всички wiki страници.
     no_results_title_text: Няма в момента wiki страници.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Добавяне на нова wiki страница
   work_flows:
@@ -375,7 +376,7 @@ bg:
   account:
     delete: "Изтриване на профил"
     delete_confirmation: "Наистина ли искате да изтриете акаунта?"
-    deleted: "Профилът е успешно изтрит"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "От данните, създадени от потребителя (например, електронна поща, предпочитания, работни пакети, уики страници), колкото е възможно, ще бъдат изтрити. Имайте предвид обаче, че данните като работни пакети и уики страници не могат да бъдат изтрити без възпрепятстване на работата на другите потребители. Такива данни се преразпределят към профил, наречен \"Изтрит потребител\". Тъй като данните от всеки изтрит профил се записват в този профил, то няма да бъде възможно да се разграничат данните създадени от потребителя от данни от друг изтрит профил."
@@ -470,14 +471,24 @@ bg:
       member:
         roles: "Роли"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Идентификатор"
         latest_activity_at: "Последна активност на"
         parent: "Подпроект на"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Търсения"
+        templated: "Шаблонен проект"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Видове"
         versions: "Версии"
         work_packages: "Работен пакет"
-        templated: 'Шаблонен проект'
       projects/status:
         code: 'Състояние'
         explanation: 'Status description'
@@ -637,7 +648,7 @@ bg:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -689,6 +700,11 @@ bg:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +715,8 @@ bg:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "все още се използва от работни пакети: %{types}"
             enabled_modules:
@@ -1029,6 +1047,7 @@ bg:
   button_reset: "Нулиране"
   button_rollback: "Връщане към тази версия"
   button_save: "Запази"
+  button_apply_changes: "Apply changes"
   button_save_back: "Записване и обратно"
   button_show: "Покажи"
   button_sort: "Сортиране"
@@ -1324,16 +1343,19 @@ bg:
   error_external_authentication_failed: "Възникна грешка по време на външно удостоверяване. Моля, опитайте отново."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Проекта е редактиран'
     changeset: 'Редактиран пакет промени'
     message: Съобщението е редактирано
     news: Новини
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Отговорено
     time_entry: 'Редактирани записи по време'
     wiki_page: 'Wiki страница редактирана'
     work_package_closed: 'Работният пакет е затворен'
     work_package_edit: 'Работният пакет е редактиран'
     work_package_note: 'Добавена бележка за работен пакет'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Експорт на вашите работни пакети"
     succeeded: "Експортирането завърши успешно"
@@ -1745,6 +1767,10 @@ bg:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_on: "на"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Open menu"
   label_open_work_packages: "open"
   label_open_work_packages_plural: "open"
@@ -1786,6 +1812,8 @@ bg:
   label_product_version: "Версия на продукта"
   label_professional_support: "Професионална поддръжка"
   label_profile: "Профил"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Общ брой на проектите"
   label_project_copy_notifications: "Изпраща имейл известия по време на копиране на проект"
   label_project_latest: "Последни проекти"
@@ -2075,8 +2103,6 @@ bg:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Вашата парола %{value}"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:
@@ -2210,6 +2236,7 @@ bg:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Създаване на проект"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Създавайте и редактирайте потребители"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Създаване на подпроекти"
@@ -2945,15 +2972,20 @@ bg:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:

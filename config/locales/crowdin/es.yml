@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ es:
         main-menu-border-color: "Borde del menú principal"
       custom_colors: "Colores personalizados"
       customize: "Personalice su instalación de OpenProject con su logotipo y colores."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Como un agradecimiento especial por su contribución financiera para desarrollar OpenProject, este pequeño complemento solo está disponible para suscriptores de la edición Enterprise."
       enterprise_more_info: "Nota: el logotipo utilizado será de acceso público."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
@@ -64,15 +64,15 @@ es:
         main-menu-bg-color: "Color de fondo del menú lateral izquierdo."
       theme_warning: Al cambiar el tema, se sobrescribirá su estilo personalizado y, como consecuencia, se perderá el diseño. ¿Seguro que quiere continuar?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Actualizar a la edición Enterprise"
+      add_token: "Cargue el token de soporte de la edición Enterprise"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "¿Está seguro que desea eliminar el token actual de la edición Enterpise usado?"
         title: "Eliminar token"
       replace_token: "Reemplace su token de apoyo actual"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Solicitar la edición Enterprise on-premises"
+      paste: "Pegue su token de soporte de la edición Enterprise"
+      required_for_feature: "Este add-on solo está disponible con un token de soporte activo de la edición Enterprise."
       enterprise_link: "Para obtener más información, haga clic aquí."
       start_trial: 'Iniciar prueba gratuita'
       book_now: 'Reservar ahora'
@@ -80,7 +80,7 @@ es:
       buttons:
         upgrade: "Actualizar ahora"
         contact: "Contáctenos para una demostración"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "es un add-on de la edición Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Actualice a un plan de pago para activarlo y empezar a usarlo en su equipo."
     journal_aggregation:
       explanation:
@@ -319,7 +319,7 @@ es:
       settings: "Configuración"
       form_configuration: "Configuración del formulario"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        La edición Enterprise te permite personalizar el formulario de configuración con estos add-ons adicionales: <br><ul class="%{list_styling_class}"><li><b>Añade nuevos grupos de atributo</b></li> <li><b>Renombra grupos de atributo</b></li> <li><b>Añada tablas de paquetes de trabajo relacionados</b></li> </ul>
       projects: "Proyectos"
       enabled_projects: "Proyectos habilitados"
       edit_query: "Editar tabla"
@@ -334,6 +334,7 @@ es:
   wiki:
     page_not_editable_index: La página solicitada no existe (todavía). Has sido redirigido al inicio las páginas de la wiki.
     no_results_title_text: Actualmente no hay paginas de wiki.
+    print_hint: Esto imprimirá el contenido de esta página wiki sin ninguna barra de navegación.
     index:
       no_results_content_text: Añadir una nueva página wiki
   work_flows:
@@ -372,7 +373,7 @@ es:
   account:
     delete: "Borrar cuenta"
     delete_confirmation: "¿Está seguro que desea eliminar la cuenta?"
-    deleted: "Cuenta eliminada con éxito"
+    deletion_pending: "La cuenta ha sido bloqueada y está programada para su eliminación. Tenga en cuenta que este proceso tiene lugar en segundo plano. Puede tardar un tiempo hasta que el usuario se borre por completo."
     deletion_info:
       data_consequences:
         other: "De los datos del usuario creado (por ejemplo correo electrónico, preferencias, paquetes de trabajo, entradas wiki) serán eliminados, en la medida de lo posible. Sin embargo, tenga en cuenta que no se pueden eliminar datos como entradas wiki y paquetes de trabajo sin obstaculizar el trabajo de los demás usuarios. Dichos datos, por lo tanto, serán reasignados a una cuenta denominada \"Usuarios Eliminados\". Como los datos de cada cuenta borrada son reasignados al eliminarla, no será posible distinguir los datos del usuario creado a partir de los datos de otra cuenta eliminada."
@@ -467,14 +468,24 @@ es:
       member:
         roles: "Perfiles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Última actividad en"
         parent: "Subproyecto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultas"
+        templated: "Plantilla del proyecto"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
-        templated: 'Plantilla del proyecto'
       projects/status:
         code: 'Estado'
         explanation: 'Descripción del estado'
@@ -584,7 +595,7 @@ es:
         confirmation: "no coincide con %{attribute}."
         could_not_be_copied: "%{dependency} no se pudo copiar (en su totalidad)."
         does_not_exist: "no existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} solo está disponible en OpenProject edición Enterprise"
         error_unauthorized: "no se puede acceder."
         error_readonly: "se intentó escribir pero no se puede escribir."
         email: "no es una dirección de correo válida."
@@ -686,6 +697,11 @@ es:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
               no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Ya existe un día no laboral para %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +712,8 @@ es:
           archived_ancestor: 'El proyecto tiene un antecesor archivado.'
           foreign_wps_reference_version: 'Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "No tiene los permisos necesarios para archivar todos los subproyectos. Por favor, póngase en contacto con un administrador."
             types:
               in_use_by_work_packages: "todavia en uso por los paquetes de trabajo: %{types}"
             enabled_modules:
@@ -1026,6 +1044,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
+  button_apply_changes: "Apply changes"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1260,11 +1279,11 @@ es:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalice la configuración del formulario con estos add-ons extra:"
         add_groups: "Añadir nuevos grupos de atributos"
         rename_groups: "Cambiar nombre de grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtrar y ordenar en campos personalizados es un add-on de la edición Enterprise."
   enumeration_activities: "Actividades de seguimiento del tiempo"
   enumeration_work_package_priorities: "Prioridades del paquete de trabajo"
   enumeration_reported_project_statuses: "Estatus del proyecto reportado"
@@ -1286,7 +1305,7 @@ es:
   error_cookie_missing: 'No se encuentra la cookie de OpenProject. Por favor asegúrese de que las cookies están habilitadas, ya que sin ellas esta aplicación no funcionará correctamente.'
   error_custom_option_not_found: "Esta opción no existe."
   error_enterprise_activation_user_limit: "Su cuenta no puede ser activada (se alcanzó el límite del usuario). Por favor, contacte su administrador para obtener acceso."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "La edición Enterprise no está activa. Su dominio del token de Enterprise (%{actual}) no coincide con el nombre de host del sistema (%{expected})."
   error_failed_to_delete_entry: 'No se puede eliminar esta entrada.'
   error_in_dependent: "Error al intentar alterar el objeto dependiente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error al crear el objeto dependiente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1321,16 +1340,19 @@ es:
   error_external_authentication_failed: "Se produjo un error durante la autenticación externa. Vuelva a intentarlo."
   error_attribute_not_highlightable: "Atributos que no pueden resaltarse: %{attributes}"
   events:
-    project: 'Proyecto editado'
     changeset: 'Set de cambios editado'
     message: Mensaje editado
     news: Noticias
+    project_attributes: 'Atributos del proyecto editados'
+    projects: 'Proyecto editado'
     reply: Respondió
     time_entry: 'Tiempo de ingreso editado'
     wiki_page: 'Página wiki editada'
     work_package_closed: 'Paquete de trabajo cerrada'
     work_package_edit: 'Paquete de trabajo editado'
     work_package_note: 'Nota de paquete de trabajo añadido'
+    title:
+      project: "Proyecto: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
@@ -1374,10 +1396,10 @@ es:
     blocks:
       community: "Comunidad de OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Actualizar a la edición Enterprise"
         more_info: "Más información"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Actualizar a la edición Enterprise"
       postgres_migration: "Migrando su instalación a PostgreSQL"
       user_guides: "Guia de usuario"
       faq: "Preguntas Frecuentes"
@@ -1593,7 +1615,7 @@ es:
   label_enumerations: "Enumeraciones"
   label_enterprise: "Empresa"
   label_enterprise_active_users: "%{current}/%{limit} usuarios activos que han reservado"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Edición Enterprise"
   label_environment: "Entorno"
   label_estimates_and_time: "Valores estimados y tiempo"
   label_equals: "es"
@@ -1742,6 +1764,10 @@ es:
   label_not_contains: "no contiene"
   label_not_equals: "no es"
   label_on: "en"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
   label_open_work_packages_plural: "abierto"
@@ -1783,6 +1809,8 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
+  label_project_activity: "Actividad del proyecto"
+  label_project_attribute_plural: "Atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -2072,8 +2100,6 @@ es:
   mail_subject_incoming_email_error: "Un correo electrónico que enviaste a OpenProject no pudo ser procesado."
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
-  mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
-  mail_subject_group_reminder: "Para el grupo “%{group}”, hay %{count} paquete(s) de trabajo que vencerá(n) en los próximos %{days} días"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_member_added_project:
@@ -2206,6 +2232,7 @@ es:
   permission_add_work_packages: "Añadir paquetes de trabajo"
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
+  permission_archive_project: "Archivar proyecto"
   permission_manage_user: "Crear y editar usuarios"
   permission_manage_placeholder_user: "Crear, editar y eliminar usuarios de marcador de posición"
   permission_add_subprojects: "Crear subproyectos"
@@ -2607,11 +2634,11 @@ es:
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de campos personalizados de tipo Lista o Usuario</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extras para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los proyectos: <br> <ul> <li><b>Añadir campos personalizados para proyectos a tu lista de proyectos para crear una vista porfolio de proyectos</b></li> </ul>
   text_custom_logo_instructions: >
     Se recomienda usar un logotipo blanco sobre un fondo transparente. Para obtener los mejores resultados, tanto en pantallas convencionales como en las del tipo Retina, asegúrese de que las dimensiones de la imagen sean de 460 × 60 px.
   text_custom_favicon_instructions: >
@@ -2912,7 +2939,7 @@ es:
   warning_user_limit_reached: >
     Alcanzado el límite de usuarios. No se puede activar ningún usuario más. <a href="%{upgrade_url}">actualice su plan</a> o bloquee miembros para permitir usuarios adicionales.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Has alcanzado el límite de usuarios (%{current}/%{max} usuarios activos). Por favor, contacta con sales@openproject.com para mejorar tu plan de edición Enterprise y añadir usuarios adicionales.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2940,13 +2967,18 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
+      dates:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"

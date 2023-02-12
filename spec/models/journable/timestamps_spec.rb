@@ -26,10 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable RSpec/ClassCheck
-#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
-#   E.g.: `relation.kind_of? ActiveRecord::Relation`
-
 require 'spec_helper'
 
 describe Journable::Timestamps do
@@ -87,16 +83,16 @@ describe Journable::Timestamps do
       subject { WorkPackage.at_timestamp(timestamp) }
 
       it "returns a historic active-record relation" do
-        expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-        expect(subject).to be_kind_of ActiveRecord::Relation
+        expect(subject).to be_a Journable::HistoricActiveRecordRelation
+        expect(subject).to be_an ActiveRecord::Relation
       end
 
       describe "chaining a where clause" do
         subject { WorkPackage.at_timestamp(timestamp).where(assigned_to_id: 1) }
 
         it "still returns a historic active-record relation" do
-          expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-          expect(subject).to be_kind_of ActiveRecord::Relation
+          expect(subject).to be_a Journable::HistoricActiveRecordRelation
+          expect(subject).to be_an ActiveRecord::Relation
         end
       end
 
@@ -356,7 +352,7 @@ describe Journable::Timestamps do
 
           it "returns an error because maximum returns a float rather than a relation" do
             expect { subject }.to raise_error NoMethodError
-            expect(WorkPackage.maximum(:estimated_hours)).to be_kind_of Float
+            expect(WorkPackage.maximum(:estimated_hours)).to be_a Float
           end
         end
       end
@@ -547,6 +543,26 @@ describe Journable::Timestamps do
           expect(subject.description).to eq "The work package as it has been on Monday"
           expect(journable.description).to eq "The work package as it is since Friday"
         end
+
+        describe "for columns that don't exist in the journal-data table" do
+          let(:column_name) { :lock_version }
+
+          specify "the column name does exist in the journable table" do
+            expect(WorkPackage.column_names).to include column_name.to_s
+          end
+
+          specify "the column name does not exist in the journal-data table" do
+            expect(Journal::WorkPackageJournal.column_names).not_to include column_name.to_s
+          end
+
+          it "has the attribute with null value" do
+            expect(subject.attributes_before_type_cast[column_name]).to be_nil
+          end
+
+          it "has the typecasted value matching the journable class's data type" do
+            expect(subject.send(column_name)).to eq 0
+          end
+        end
       end
     end
 
@@ -624,7 +640,50 @@ describe Journable::Timestamps do
         end
       end
     end
+
+    describe "#position (unjournalized column)" do
+      let(:timestamp) { monday }
+      let(:position) { 42 }
+
+      before do
+        work_package.update_attribute :position, position
+      end
+
+      describe "when retrieving the position of the current (nin-historic) record" do
+        subject { work_package.position }
+
+        it "returns the value of the work_packages table" do
+          expect(subject).to eq position
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "does not print a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).not_to have_received(:warn).with(/position/)
+        end
+      end
+
+      describe "when retrieving the position of a historic record" do
+        subject { work_package.at_timestamp(timestamp).position }
+
+        it "returns nil" do
+          expect(subject).to be_nil
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "prints a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).to have_received(:warn).with(/position/)
+        end
+      end
+    end
   end
 end
-
-# rubocop:enable RSpec/ClassCheck

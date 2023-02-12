@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe 'Query menu item', js: true do
   let(:project) { create :project }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   current_user { create :admin }
 
   context 'when visiting the global work packages page' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
     let(:project) { nil }
 
     let!(:global_public_view) do
@@ -122,7 +122,7 @@ describe 'Query menu item', js: true do
 
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do
       filters.open
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
@@ -167,7 +167,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
 
       # Removing the filter and returning to query restores it
       filters.remove_filter 'version'
@@ -184,7 +184,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,8 +57,8 @@ class WorkPackage < ApplicationRecord
 
   has_many :time_entries, dependent: :delete_all
 
-  has_many :file_links,
-           dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
+  has_many :file_links, dependent: :delete_all, class_name: 'Storages::FileLink', as: :container
+
   has_many :storages, through: :project
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
@@ -120,7 +120,7 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scopes :covering_days_of_week,
+  scopes :covering_dates_and_days_of_week,
          :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
@@ -206,11 +206,6 @@ class WorkPackage < ApplicationRecord
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = nil)
     (usr || User.current).allowed_to?(:view_work_packages, project)
-  end
-
-  # ACTS AS JOURNALIZED
-  def activity_type
-    'work_packages'
   end
 
   # RELATIONS
@@ -316,8 +311,7 @@ class WorkPackage < ApplicationRecord
 
   def type_id=(tid)
     self.type = nil
-    result = write_attribute(:type_id, tid)
-    result
+    write_attribute(:type_id, tid)
   end
 
   # Overrides attributes= so that type_id gets assigned first
@@ -484,7 +478,7 @@ class WorkPackage < ApplicationRecord
     key = 'activity_id'
     id = attributes[key]
     default_id = if id&.present?
-                   Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
+                   Enumeration.exists? id:, is_default: true, type: 'TimeEntryActivity'
                  else
                    true
                  end

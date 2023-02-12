@@ -27,7 +27,14 @@
           <span [textContent]="noNotificationText(hasNotifications, (totalCount$ | async))"></span>
          
         </p>
-        <span [textContent]="noResultText$ | async"></span>
+          <span
+            *ngIf="(totalCount$ | async) > 0"
+            [textContent]="text.no_results.with_current_filter"
+          ></span>
+          <ng-container *ngIf="(totalCount$ | async) === 0">
+            <p [textContent]="text.no_results.at_all"></p>
+            <p [innerHTML]="text.change_notification_settings"></p>
+          </ng-container>
       </div>
       </ng-template>
     </ng-container>

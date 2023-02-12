@@ -5,6 +5,8 @@ cs:
       link_files_in_storage: "Prolinkovat soubory v"
       link_existing_files: "Link existing files"
       upload_files: "Upload files"
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
@@ -22,7 +24,15 @@ cs:
         no_file_links: "Chcete-li propojit soubory s tímto pracovním balíčkem, proveďte to prostřednictvím %{storageType}."
         not_logged_in: >
           Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Stáhnout %{fileName}"
         no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
         open: 'Otevřít soubor v úložišti'
@@ -39,6 +49,14 @@ cs:
           few: "Link %{count} files"
           many: "Link %{count} files"
           other: "Link %{count} files"
+        success_create:
+          one: "Successfully created 1 file link."
+          few: "Successfully created %{count} file links."
+          many: "Successfully created %{count} file links."
+          other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

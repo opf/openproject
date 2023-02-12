@@ -1,9 +1,8 @@
 <spot-drop-modal
-  [open]="dropModalOpen"
+  [opened]="dropModalOpen"
   (closed)="close()"
   [alignment]="alignment"
   class="op-project-list-modal"
-  data-searchable-list-parent="true"
 >
   <button
     aria-haspopup="true"
@@ -15,7 +14,8 @@
   </button>
 
   <ng-container slot="body">
-    <div class="spot-container">
+    <div class="spot-container"
+         data-searchable-list-parent="true">
       <ul class="spot-list">
         <li class="spot-list--item">
           <button type="button" class="spot-list--item-action">Random Option 1</button>

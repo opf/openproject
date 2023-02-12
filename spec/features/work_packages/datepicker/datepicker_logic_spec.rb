@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -314,9 +314,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 4
 
-      # With start date focused, change date in datepicker
-      datepicker.focus_start_date
-      datepicker.set_date '2021-02-09'
+      datepicker.set_start_date '2021-02-09'
 
       datepicker.expect_start_date '2021-02-09'
       datepicker.expect_due_date '2021-02-11'
@@ -430,7 +428,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 3
 
-      datepicker.set_date '2021-03-03'
+      datepicker.set_start_date '2021-03-03'
 
       datepicker.expect_start_date '2021-03-03'
       datepicker.expect_due_date ''
@@ -517,7 +515,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_due_date '2021-02-11'
       datepicker.expect_duration 3
 
-      datepicker.set_date '2021-02-03'
+      datepicker.set_start_date '2021-02-03'
 
       datepicker.expect_start_date '2021-02-03'
       datepicker.expect_due_date '2021-02-05'
@@ -935,7 +933,7 @@ describe 'Datepicker modal logic test cases (WP #43539)',
       datepicker.expect_duration_highlighted
 
       # Select date in datepicker
-      datepicker.set_date Date.parse('2021-02-05')
+      datepicker.set_start_date Date.parse('2021-02-05')
 
       datepicker.expect_start_date '2021-02-05'
       datepicker.expect_due_highlighted

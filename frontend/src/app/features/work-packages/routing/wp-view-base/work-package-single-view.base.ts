@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,9 @@ import {
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  switchMap,
+} from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -191,20 +194,25 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     const attachments = this.workPackage.attachments as unknown&{ href:string };
     this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
 
-    // Fetch file link collections for work package (only if storages module is enabled)
     if (this.workPackage.$links.fileLinks) {
-      this.fileLinkResourceService.updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string);
+      this.fileLinkResourceService
+        .updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string)
+        .pipe(
+          this.untilDestroyed(),
+          switchMap(() => this.projectsResourceService.lookup((this.workPackage.project as unknown&{ id:string }).id)),
+        )
+        .subscribe(
+          (project) => {
+            if (project._links.storages) {
+              this.storages.updateCollection(project._links.self.href, project._links.storages).subscribe();
+            }
+          },
+          (error) => {
+            this.toastService.addError(error);
+            throw error;
+          },
+        );
     }
-
-    // Fetch storages for work package's project (only if storages module is enabled)
-    this.projectsResourceService
-      .lookup((this.workPackage.project as unknown&{ id:string }).id)
-      .pipe(this.untilDestroyed())
-      .subscribe((project) => {
-        if (project._links.storages) {
-          this.storages.updateCollection(project._links.self.href, project._links.storages);
-        }
-      });
 
     // Listen to tab changes to update the tab label
     this.keepTab.observable

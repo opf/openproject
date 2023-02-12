@@ -158,10 +158,10 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
            project:)
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:side_menu) { Components::Notifications::Sidemenu.new }
   let(:toaster) { PageObjects::Notifications.new(page) }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(notification_wp_due_today) }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(notification_wp_due_today) }
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
@@ -173,13 +173,15 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
   end
 
   def run_create_date_alerts_notifications_job
-    create_date_alerts_service = Notifications::CreateDateAlertsNotificationsJob::Service.new([timezone_time('1:00', time_zone)])
+    create_date_alerts_service = Notifications::ScheduleDateAlertsNotificationsJob::Service
+                                   .new([timezone_time('1:00', time_zone)])
     travel_to(timezone_time('1:04', time_zone))
     create_date_alerts_service.call
   end
 
   before do
     run_create_date_alerts_notifications_job
+    perform_enqueued_jobs
     login_as user
     visit notifications_center_path
   end
@@ -233,7 +235,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
       # Opening a date alert opens in overview
       center.click_item notification_wp_start_past
-      split_screen = ::Pages::SplitWorkPackage.new wp_start_past
+      split_screen = Pages::SplitWorkPackage.new wp_start_past
       split_screen.expect_tab :overview
 
       # We expect no badge count
@@ -241,7 +243,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
       # The same is true for the mention item that is opened in date alerts filter
       center.click_item notification_wp_double_date_alert
-      split_screen = ::Pages::SplitWorkPackage.new wp_double_notification
+      split_screen = Pages::SplitWorkPackage.new wp_double_notification
       split_screen.expect_tab :overview
 
       # We expect one badge

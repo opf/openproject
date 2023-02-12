@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ hr:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Trentuno nema wiki stranica.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Nova wiki stranici
   work_flows:
@@ -376,7 +377,7 @@ hr:
   account:
     delete: "Izbriši korisnički račun"
     delete_confirmation: "Jeste li sigurni da želite izbrisati korisnički račun?"
-    deleted: "Korisnički račun uspješno izbrisan"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Od podataka unesenih od strana korisnika (npr. e-mail, postavke, radni paketi, wiki unosi) većina će biti izbrisana. Uzmite u obzir da podaci, kao što su radni zadaci i wiki unosi ne mogu biti izrisani bez utjecaja na radne zadatke ostalih korisnika. Takvi podaci biti će dodjeljeni korisničkom računu naziva \"Izbrisan korisnik\". Kako su podaci svih izbrisanih korisnika dodjeljeni ovom korisničkom računu, zbog toga neće biti moguće razlučiti podatke koje je korisnik unio od podataka iz izbrisanog korisničkog računa."
@@ -471,14 +472,24 @@ hr:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikator"
         latest_activity_at: "Latest activity at"
         parent: "Potprojekt od"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Upiti"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipovi"
         versions: "Verzije"
         work_packages: "Radni paketi"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -638,7 +649,7 @@ hr:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -690,6 +701,11 @@ hr:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,6 +716,8 @@ hr:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "još uvijek u uporabi od strane radnih paketa: %{types}"
             enabled_modules:
@@ -1034,6 +1052,7 @@ hr:
   button_reset: "Resetiraj"
   button_rollback: "Vrati na ovu verziju"
   button_save: "Spremi"
+  button_apply_changes: "Apply changes"
   button_save_back: "Snimi i vratiti"
   button_show: "Prikaži"
   button_sort: "Sortiraj"
@@ -1341,16 +1360,19 @@ hr:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekt je uređivan'
     changeset: 'Changeset uređen'
     message: Poruka uređena
     news: Vijesti
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Je odgovorio
     time_entry: 'Timelog uređen'
     wiki_page: 'Wiki stranica je uređena'
     work_package_closed: 'Radni paket zatvoren'
     work_package_edit: 'Radni paket je uređen'
     work_package_note: 'Bilješka za Radni paket je dodana'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1762,6 +1784,10 @@ hr:
   label_not_contains: "ne sadrži"
   label_not_equals: "nije"
   label_on: "na"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otvori izbornik"
   label_open_work_packages: "otvori"
   label_open_work_packages_plural: "otvori"
@@ -1803,6 +1829,8 @@ hr:
   label_product_version: "Verzija proizvoda"
   label_professional_support: "Profesionalna Podrška"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Ukupan broj projekata"
   label_project_copy_notifications: "Slanje obavijesti e-mailom tijekom kopiranja projekta"
   label_project_latest: "Najnoviji projekti"
@@ -2093,8 +2121,6 @@ hr:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_subject_register: "Vaša %{value} aktivacija korisničkog računa"
-  mail_subject_reminder: "%{count} radni paket(i) koji ima krajnji rok u sljedećih %{days} dana"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki stranica je dodana"
   mail_subject_wiki_content_updated: "'%{id}' wiki stranica je ažurirana"
   mail_member_added_project:
@@ -2229,6 +2255,7 @@ hr:
   permission_add_work_packages: "Dodaj radne pakete"
   permission_add_messages: "Pošalji poruke"
   permission_add_project: "Stvori projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Kreiraj potprojekte"
@@ -2966,15 +2993,20 @@ hr:
       title: "Izbriši radni paket"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ne postoji zapis za pregled"
   api_v3:
     attributes:

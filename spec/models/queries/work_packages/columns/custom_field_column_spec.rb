@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,17 +29,12 @@
 require 'spec_helper'
 require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
+describe Queries::WorkPackages::Columns::CustomFieldColumn do
   let(:project) { build_stubbed(:project) }
-  let(:custom_field) do
-    double('CustomField',
-           field_format: 'string',
-           id: 5,
-           order_statements: nil)
-  end
+  let(:custom_field) { build_stubbed(:string_wp_custom_field) }
   let(:instance) { described_class.new(custom_field) }
 
-  it_behaves_like 'query column'
+  it_behaves_like 'query column', sortable_by_default: true
 
   describe 'instances' do
     let(:text_custom_field) do
@@ -86,7 +81,7 @@ describe Queries::WorkPackages::Columns::CustomFieldColumn, type: :model do
   end
 
   describe '#value' do
-    let(:mock) { double(WorkPackage) }
+    let(:mock) { instance_double(WorkPackage) }
 
     it 'delegates to formatted_custom_value_for' do
       expect(mock).to receive(:formatted_custom_value_for).with(custom_field.id)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom actions', type: :feature, js: true do
+describe 'Custom actions', js: true do
   shared_let(:admin) { create :admin }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
@@ -241,7 +241,7 @@ describe 'Custom actions', type: :feature, js: true do
 
       # This custom field is not applicable
       new_ca_page.add_action(int_custom_field.name, '1')
-      new_ca_page.expect_action("custom_field_#{int_custom_field.id}", '1')
+      new_ca_page.expect_action(int_custom_field.attribute_name, '1')
 
       new_ca_page.set_condition('Status', closed_status.name)
       new_ca_page.expect_selected_option closed_status.name
@@ -293,6 +293,7 @@ describe 'Custom actions', type: :feature, js: true do
       find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
       datepicker = Components::Datepicker.new 'body'
       datepicker.set_date date
+      datepicker.save!
 
       new_ca_page.add_action('Type', other_type.name)
       new_ca_page.expect_action('type', other_type.id)

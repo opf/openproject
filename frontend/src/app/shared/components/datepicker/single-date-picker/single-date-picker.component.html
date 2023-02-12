@@ -1,0 +1,100 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="opened = false"
+  data-qa-selector="op-single-date-picker"
+>
+  <ng-content
+    slot="trigger"
+    select="[slot=trigger]"
+  ></ng-content>
+  <ng-template [ngIf]="useDefaultTrigger" slot="trigger">
+    <input
+      type="text"
+      class="spot-input"
+      [attr.data-value]="value"
+      [id]="id"
+      [(ngModel)]="value"
+      (ngModelChange)="changeValueFromInputDebounced($event)"
+      (click)="onInputClick($event)"
+      (focus)="opened = true"
+    />
+  </ng-template>
+
+  <ng-container slot="body">
+    <form
+      class="spot-container op-datepicker-modal"
+      data-qa-selector="op-datepicker-modal"
+      tabindex="0"
+      cdkFocusInitial
+      cdkTrapFocus
+      [cdkTrapFocusAutoCapture]="true"
+      (submit)="save($event)"
+    >
+      <spot-selector-field
+        *ngIf="showIgnoreNonWorkingDays"
+        [reverseLabel]="true"
+        [label]="text.ignoreNonWorkingDays.title"
+      >
+        <spot-switch
+          slot="input"
+          name="ignoreNonWorkingDays"
+          [(ngModel)]="ignoreNonWorkingDays"
+          (ngModelChange)="changeNonWorkingDays()"
+          data-qa-selector="op-datepicker-modal--include-non-working-days"
+        ></spot-switch>
+      </spot-selector-field>
+
+      <ng-content select="[slot=extra-fields]"></ng-content>
+
+    <spot-form-field
+      [label]="text.date"
+      [required]="required"
+    >
+      <spot-text-field
+        slot="input"
+        name="date"
+        class="op-datepicker-modal--date-field"
+        [ngModel]="workingValue"
+        [required]="required"
+          (ngModelChange)="writeWorkingValue($event)"
+          [showClearButton]="true"
+        ></spot-text-field>
+        <button
+          slot="action"
+          type="button"
+          class="spot-link"
+          (click)="setToday()"
+          [textContent]="text.today">
+        </button>
+      </spot-form-field>
+
+      <div #flatpickrTarget></div>
+
+      <div class="spot-action-bar">
+        <div class="spot-action-bar--right">
+          <button
+            type="button"
+            (click)="opened = false"
+            class="button spot-action-bar--action"
+            data-qa-selector="op-datepicker-modal--action"
+            [textContent]="text.cancel"
+          ></button>
+          <button
+            type="submit"
+            class="button -highlight spot-action-bar--action"
+            data-qa-selector="op-datepicker-modal--action"
+            [textContent]="text.save"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+</spot-drop-modal>
+
+<input
+  [name]="name"
+  [value]="value"
+  [ngClass]="{ 'remote-field--input': !!remoteFieldKey }"
+  [attr.data-remote-field-key]="remoteFieldKey"
+  hidden
+>

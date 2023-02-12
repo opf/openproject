@@ -74,7 +74,24 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #     WorkPackage.where(assigned_to_id: 123).at_timestamp(1.year.ago).pluck(:id)
   #
   def pluck(*column_names)
-    column_names.map! { |column_name| column_name == :id ? 'journals.journable_id' : column_name }
+    column_names.map! do |column_name|
+      case column_name
+      when :id, 'id'
+        'journals.journable_id'
+      when :created_at, 'created_at'
+        'journables.created_at'
+      when :updated_at, 'updated_at'
+        'journals.updated_at'
+      else
+        if model.column_names_missing_in_journal.include?(column_name.to_s)
+          Rails.logger.warn "Cannot pluck column `#{column_name}` because this attribute is not journalized," \
+                            "i.e. it is missing in the #{journal_class.table_name} table."
+          "null as #{column_name}"
+        else
+          column_name
+        end
+      end
+    end
     arel
     super
   end
@@ -96,7 +113,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     # Based on the previous modifications, build the algebra object.
     @arel = relation.call_original_build_arel(aliases)
     @arel = modify_order_clauses(@arel)
-    @arel = move_journals_join_up(@arel)
     @arel = modify_joins(@arel)
 
     @arel
@@ -119,7 +135,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation
   end
 
-  # Modify there where clauses such that e.g. the work-packages table is substituted
+  # Modify the where clauses such that e.g. the work-packages table is substituted
   # with the work-package-journals table.
   #
   # When the where clause contains the `id` column, use `journals.journable_id` instead.
@@ -131,6 +147,28 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation
   end
 
+  # In sql, a *predicate* is an expression that evaluates to `true`, `false` or "unknown". [1]
+  # In active-record relations, predicates are components of where clauses.
+  #
+  # We need to substitute the table name ("work_packages") with the journalized table name
+  # ("work_package_journals") in order to retrieve historic data from the journalized table.
+  #
+  # However, there are columns where we need to retrieve the data from another table,
+  # in particular:
+  #
+  # - `id`
+  # - `created_at`
+  # - `updated_at`
+  #
+  # When asking for `WorkPackage.at_timestamp(...).where(id: 123)`, we are expecting `id` to refer
+  # to the id of the work pacakge, not of the journalized table entry.
+  #
+  # Also, the `created_at` and `updated_at` columns are not included in the journalized table.
+  # We gather the `updated_at` from the `journals` mapping table, and the `created_at` from the
+  # model's table (`work_packages`) itself.
+  #
+  # [1] https://learn.microsoft.com/en-us/sql/t-sql/queries/predicates
+  #
   def substitute_database_table_in_predicate(predicate)
     case predicate
     when String
@@ -150,7 +188,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
           predicate.left.name = "journable_id"
           predicate.left.relation = Journal.arel_table
         when "updated_at"
-          predicate.left.name = "created_at"
           predicate.left.relation = Journal.arel_table
         when "created_at"
           predicate.left = Arel::Nodes::SqlLiteral.new("\"journables\".\"created_at\"")
@@ -170,10 +207,13 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # current ones at the given timestamp.
   #
   def add_timestamp_condition(relation)
-    relation \
-        .joins("INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}'
-            AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\"".gsub("\n", "")) \
-        .merge(Journal.at_timestamp(timestamp))
+    relation.joins_values = [journals_join_statement] + relation.joins_values
+    relation.merge(Journal.where(journable_type: model.name).at_timestamp(timestamp))
+  end
+
+  def journals_join_statement
+    "INNER JOIN \"journals\" ON \"journals\".\"data_type\" = '#{model.journal_class.name}' " \
+      "AND \"journals\".\"data_id\" = \"#{model.journal_class.table_name}\".\"id\""
   end
 
   # Join the journables table itself because we need to take the `created_at` attribute from that.
@@ -181,8 +221,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
-        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables
-            ON \"journables\".\"id\" = \"journals\".\"journable_id\"".gsub("\n", ""))
+        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables " \
+               "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
   end
 
   # Gather the columns we need in our model from the different tables in the sql query:
@@ -195,11 +235,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def select_columns_from_the_appropriate_tables(relation)
     if relation.select_values.count == 0
-      relation = relation.select("'#{timestamp}' as timestamp,
-          #{model.journal_class.table_name}.*,
-          journals.journable_id as id,
-          journables.created_at as created_at,
-          journals.created_at as updated_at".gsub("\n", ""))
+      relation = relation.select(column_select_definitions.join(", "))
     elsif relation.select_values.count == 1 and
         relation.select_values.first.respond_to? :relation and
         relation.select_values.first.relation.name == model.journal_class.table_name and
@@ -210,6 +246,19 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       relation = relation.select("journals.journable_id as id")
     end
     relation
+  end
+
+  def column_select_definitions
+    [
+      "#{model.journal_class.table_name}.*",
+      "journals.journable_id as id",
+      "journables.created_at as created_at",
+      "journals.updated_at as updated_at",
+      "'#{timestamp}' as timestamp"
+    ] + \
+    model.column_names_missing_in_journal.collect do |missing_column_name|
+      "null as #{missing_column_name}"
+    end
   end
 
   # Modify order clauses to use the work-pacakge-journals table.
@@ -225,24 +274,6 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
         else
           order_clause.expr.relation = model.journal_class.arel_table
         end
-      end
-    end
-    arel
-  end
-
-  # Move the journals join to the beginning because other joins depend on it.
-  #
-  def move_journals_join_up(arel)
-    arel.instance_variable_get(:@ast).instance_variable_get(:@cores).each do |core|
-      array_of_joins = core.instance_variable_get(:@source).right
-      journals_join_index = array_of_joins.find_index do |join|
-        join.kind_of?(Arel::Nodes::StringJoin) and
-        join.left.include?("INNER JOIN \"journals\" ON \"journals\".\"data_type\"")
-      end
-      if journals_join_index
-        journals_join = array_of_joins[journals_join_index]
-        array_of_joins.delete_at(journals_join_index)
-        array_of_joins.insert(0, journals_join)
       end
     end
     arel
@@ -276,8 +307,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #     "work_package.subject" => "work_package_journals.subject"
   #
   def gsub_table_names_in_sql_string!(sql_string)
-    sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.created_at"
-    sql_string.gsub! "\"#{model.table_name}\".\"updated_at\"", "\"journals\".\"created_at\""
+    sql_string.gsub! /(?<!_)#{model.table_name}\.updated_at/, "journals.updated_at"
+    sql_string.gsub! "\"#{model.table_name}\".\"updated_at\"", "\"journals\".\"updated_at\""
     sql_string.gsub! /(?<!_)#{model.table_name}\.created_at/, "journables.created_at"
     sql_string.gsub! "\"#{model.table_name}\".\"created_at\"", "\"journables\".\"created_at\""
     sql_string.gsub! /(?<!_)#{model.table_name}\.id/, "journals.journable_id"

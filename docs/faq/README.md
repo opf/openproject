@@ -123,7 +123,7 @@ If you are using the Enterprise cloud, you can easily upgrade or downgrade the n
 
 ### How can I change the day my week starts with, etc.?
 
-You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
+You can do this as a system administrator in the [System settings](../system-admin-guide/system-settings/display-settings/#time-and-date-formatting).
 
 ### How can I add a RACI matrix in OpenProject?
 
