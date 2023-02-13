@@ -29,7 +29,7 @@
 class OpenProject::JournalFormatter::Template < JournalFormatter::Base
   def render(_key, values, options = { html: true })
     label_text = label('project')
-    label_text = content_tag('strong', label_text) if options[:html]
+    label_text = content_tag(:strong, label_text) if options[:html]
 
     value = \
       if values.last
