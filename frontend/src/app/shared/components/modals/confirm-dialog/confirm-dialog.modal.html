@@ -48,7 +48,7 @@
         type="button"
         class="button spot-modal--cancel-button spot-action-bar--action"
         data-qa-selector="confirmation-modal--cancel"
-        (click)="closeMe($event)"
+        (click)="close($event)"
       >
         <span *ngIf="icon.cancel as clazz" class="spot-icon spot-icon_{{clazz}}"></span>
         <span>{{text.button_cancel}}</span>
