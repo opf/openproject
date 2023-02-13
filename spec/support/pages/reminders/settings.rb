@@ -129,7 +129,7 @@ module Pages
           fill_in 'startDate', with: first.iso8601
           fill_in 'endDate', with: last.iso8601
           sleep 1
-          page.find('[data-qa-selector="op-datepicker-modal--action"]', text: 'Save').click
+          page.find('[data-qa-selector="op-datepicker-modal--action"]', text: 'Apply').click
         else
           uncheck 'Temporarily pause daily email reminders'
         end

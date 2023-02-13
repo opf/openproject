@@ -203,7 +203,7 @@ describe 'Working Days', js: true do
       datepicker.set_date date1
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
-        click_on 'Save'
+        click_on 'Add'
       end
 
       expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
@@ -219,7 +219,7 @@ describe 'Working Days', js: true do
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
-        click_on 'Save'
+        click_on 'Add'
       end
 
       click_on 'Apply changes'
@@ -237,7 +237,7 @@ describe 'Working Days', js: true do
       click_on 'Non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
-        click_on 'Save'
+        click_on 'Add'
       end
       expect(page).to have_selector('.flatpickr-calendar')
       datepicker.expect_visible
@@ -249,7 +249,7 @@ describe 'Working Days', js: true do
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
-        click_on 'Save'
+        click_on 'Add'
       end
       expect(page).not_to have_selector('.flatpickr-calendar')
 

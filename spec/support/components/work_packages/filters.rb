@@ -197,7 +197,7 @@ module Components
             datepicker = Components::WorkPackageDatepicker.new
             datepicker.set_start_date(value[0])
             datepicker.set_due_date(value[1])
-            datepicker.save!
+            datepicker.save!(text: I18n.t(:button_apply))
           elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-single-date-picker']")
             datepicker = Components::Datepicker.new
             datepicker.set_date(value[0])
