@@ -37,6 +37,7 @@ class OpenProject::JournalFormatter::Visibility < JournalFormatter::Base
       else
         I18n.t('activerecord.attributes.project.public_value.false')
       end
+    value = content_tag(:i, value) if options[:html]
 
     I18n.t(:text_journal_set_to, label: label_text, value:)
   end
