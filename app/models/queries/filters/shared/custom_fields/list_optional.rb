@@ -65,7 +65,8 @@ module Queries::Filters::Shared
       end
 
       def customized_strategy?
-        operator_strategy == Queries::Operators::CustomFields::EqualsAll
+        operator_strategy == Queries::Operators::CustomFields::EqualsAll ||
+          operator_strategy == Queries::Operators::CustomFields::NotEqualsAll
       end
 
       def type_strategy_class
