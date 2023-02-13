@@ -58,23 +58,11 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <div class="form--field">
-  <label
-    class="form--label"
-    for="version_start_date"
-  ><%= t(:start_date) %></label>
-  <div class="form--field-container -visible-overflow">
-    <%= f.date_picker :start_date %>
-  </div>
+  <%= f.date_picker :start_date, container_class: '-xslim' %>
 </div>
 
 <div class="form--field">
-  <label
-    class="form--label"
-    for="version_effective_date"
-  ><%= t(:effective_date) %></label>
-  <div class="form--field-container -visible-overflow">
-    <%= f.date_picker :effective_date %>
-  </div>
+  <%= f.date_picker :effective_date, container_class: '-xslim' %>
 </div>
 
 <div class="form--field">
