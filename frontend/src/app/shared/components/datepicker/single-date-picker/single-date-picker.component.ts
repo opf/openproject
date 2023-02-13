@@ -224,11 +224,9 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   private initializeDatepicker() {
     this.datePickerInstance?.destroy();
 
-    if (!this.value) {
-      // Set the initial date to today, if no value is provided.
-      const today = parseDate(new Date()) as Date;
-      this.writeWorkingValue(this.timezoneService.formattedISODate(today));
-    }
+    // Initialize the working values.
+    const initialDate = parseDate(this.value || new Date()) as Date;
+    this.writeWorkingValue(this.timezoneService.formattedISODate(initialDate));
 
     this.datePickerInstance = new DatePicker(
       this.injector,
