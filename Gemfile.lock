@@ -169,7 +169,7 @@ PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
-      aws-sdk-sns (~> 1.58.0)
+      aws-sdk-sns (~> 1.60.0)
       messagebird-rest (~> 1.4.2)
       rotp (~> 6.1)
 
@@ -304,7 +304,7 @@ GEM
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
-    aws-sdk-sns (1.58.0)
+    aws-sdk-sns (1.60.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.2)
