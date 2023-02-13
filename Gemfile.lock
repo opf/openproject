@@ -699,7 +699,7 @@ GEM
     pry-rescue (1.5.2)
       interception (>= 0.5)
       pry (>= 0.12.0)
-    psych (5.0.2)
+    psych (5.1.0)
       stringio
     public_suffix (5.0.1)
     puffing-billy (3.0.4)
