@@ -145,6 +145,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
           },
           dangerHighlighting: true,
           divideContent: true,
+          refreshOnCancel: true,
           showListData: this.removedNonWorkingDays.length > 0,
           warningText: this.text.warning,
           passedData: this.removedNonWorkingDays,
