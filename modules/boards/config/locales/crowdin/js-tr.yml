@@ -62,7 +62,7 @@ tr:
           status: Durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: Parent-child
+          subtasks: Ana-Yavru
           basic: Temel
         select_attribute: "Eylem özelliği"
       add_list_modal:
