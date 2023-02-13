@@ -220,8 +220,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       this.updateWorkPackageCreationState(change);
     }
 
-    const attributeGroups = this.schema(resource)._attributeGroups;
-    this.groupedFields = this.rebuildGroupedFields(change, attributeGroups);
+    // eslint-disable-next-line no-underscore-dangle
+    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
     this.cdRef.detectChanges();
   }
 
