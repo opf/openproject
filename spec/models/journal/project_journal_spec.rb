@@ -70,18 +70,18 @@ RSpec.describe Journal::ProjectJournal do
 
       # Set
       expect(journal.render_detail(['parent_id', [nil, parent.id]], html: true))
-        .to eq("<strong>Subproject of</strong> set to <i>#{parent.name}</i>")
+        .to eq("<strong>Subproject of</strong> <i>#{parent.name}</i>")
       expect(journal.render_detail(['parent_id', [nil, parent.id]], html: false))
-        .to eq("Subproject of set to #{parent.name}")
+        .to eq("Subproject of #{parent.name}")
 
       previous_parent = create(:project)
 
       # Change
       expect(journal.render_detail(['parent_id', [previous_parent.id, parent.id]], html: true))
-        .to eq('<strong>Subproject of</strong> changed ' \
+        .to eq('<strong>Subproject</strong> changed ' \
                "from <i>#{previous_parent.name}</i> <strong>to</strong> <i>#{parent.name}</i>")
       expect(journal.render_detail(['parent_id', [previous_parent.id, parent.id]], html: false))
-        .to eq("Subproject of changed from #{previous_parent.name} to #{parent.name}")
+        .to eq("Subproject changed from #{previous_parent.name} to #{parent.name}")
 
       # Delete
       expect(journal.render_detail(['parent_id', [parent.id, nil]], html: true))
