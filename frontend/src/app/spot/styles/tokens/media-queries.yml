@@ -2,6 +2,9 @@ props:
   spot-mq-landscape:
     value: "'(orientation: landscape)'"
 
+  spot-mq-drop-modal-full-screen:
+    value: "'(max-width: 999px), (max-height: 499px)'"
+
   spot-mq-drop-modal-in-context:
     value: "'(min-width: 1000px) and (min-height: 500px)'"
 
