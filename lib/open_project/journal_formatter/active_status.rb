@@ -37,6 +37,7 @@ class OpenProject::JournalFormatter::ActiveStatus < JournalFormatter::Base
       else
         I18n.t('activerecord.attributes.project.active_value.false')
       end
+    value = content_tag('strong', value) if options[:html]
 
     I18n.t(:text_journal_label_value, label: label_text, value:)
   end
