@@ -184,7 +184,7 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
     end
   end
 
-  describe 'POST /api/v3/storages/:storage_id/files/prepare_upload', with_flag: { storage_file_upload: true } do
+  describe 'POST /api/v3/storages/:storage_id/files/prepare_upload' do
     let(:permissions) { %i(view_work_packages view_file_links manage_file_links) }
     let(:path) { api_v3_paths.prepare_upload(storage.id) }
     let(:upload_link) { Storages::UploadLink.new('https://example.com/upload/xyz123') }

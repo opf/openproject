@@ -102,8 +102,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   fileLinks$:Observable<IFileLink[]>;
 
-  allowEditing$:Observable<boolean>;
-
   disabled = false;
 
   storageType:string;
@@ -215,10 +213,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
         this.storageErrors.next(this.getStorageErrors(fileLinks));
       });
-
-    this.allowEditing$ = this
-      .currentUserService
-      .hasCapabilities$('file_links/manage', (this.resource.project as unknown&{ id:string }).id);
 
     document.body.addEventListener('dragenter', this.onGlobalDragEnter);
     document.body.addEventListener('dragleave', this.onGlobalDragLeave);

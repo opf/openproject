@@ -95,7 +95,7 @@
     </button>
 
     <div
-      *ngIf="(allowEditing$ | async) && (storageErrors | async).length === 0"
+      *ngIf="(storageErrors | async).length === 0"
       class="op-file-section--actions"
     >
       <button
