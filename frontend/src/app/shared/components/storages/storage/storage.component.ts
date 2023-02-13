@@ -346,10 +346,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
     return observable
       .pipe(
+        filter((ev) => ev.type === HttpEventType.Response),
         tap(() => {
           setTimeout(() => this.toastService.remove(notification), 700);
         }),
-        filter((ev) => ev.type === HttpEventType.Response),
         map((ev:HttpResponse<FileUploadResponse>) => ev.body),
         map((data) => {
           if (data === null) {
