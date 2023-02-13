@@ -26,33 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageFilesAPI < ::API::OpenProjectAPI
-    using Storages::Peripherals::ServiceResultRefinements
-    helpers Storages::Peripherals::StorageErrorHelper
-    helpers Storages::Peripherals::StorageInteraction::UploadLinkQueryHelpers
-    helpers Storages::Peripherals::StorageInteraction::FilesQueryHelpers
+module Queries::Operators
+  module CustomFields
+    class NotEqualsAll < ::Queries::Operators::NotEquals
+      def self.sql_for_customized(values, customized_type, customized_id_join_field)
+        # code expects strings (e.g. for quoting), but ints would work as well: unify them here
+        values = values.map(&:to_s)
+        cv_table = CustomValue.table_name
 
-    resources :files do
-      get do
-        (files_query(@storage, current_user) >> execute_files_query(params[:parent]))
-          .match(
-            on_success: ->(files) do
-              API::V3::StorageFiles::StorageFilesRepresenter.new(
-                files,
-                current_user:
-              )
-            end,
-            on_failure: ->(error) { raise_error(error) }
-          )
-      end
+        if values.present?
+          sql = values.map do |val|
+            "NOT EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = '#{connection.quote_string(customized_type)}' " \
+              "AND customized_id = #{customized_id_join_field} " \
+              "AND value ='#{connection.quote_string(val)}')"
+          end
 
-      post :prepare_upload do
-        (upload_link_query(@storage, current_user) >> execute_upload_link_query(request_body))
-          .match(
-            on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },
-            on_failure: ->(error) { raise_error(error) }
-          )
+          sql.join(' AND ')
+        else
+          # empty set of allowed values produces no result
+          '0=1'
+        end
       end
     end
   end
