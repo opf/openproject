@@ -64,6 +64,10 @@ describe Query::Results, 'Filtering custom fields', with_mail: false do
     create(:work_package, subject: 'B', type:, project:, custom_values: custom_values_for('B'))
   end
 
+  shared_let(:wp_c) do
+    create(:work_package, subject: 'C', type:, project:, custom_values: custom_values_for('C'))
+  end
+
   shared_let(:wp_a_b) do
     create(:work_package, subject: 'A and B', type:, project:, custom_values: custom_values_for('A', 'B'))
   end
@@ -115,10 +119,18 @@ describe Query::Results, 'Filtering custom fields', with_mail: false do
     end
 
     context 'when filtering for A OR B' do
-      let(:values) { ['A', 'B'] }
+      let(:values) { %w[A B] }
 
       it_behaves_like 'filtered work packages' do
         let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c] }
+      end
+    end
+
+    context 'when filtering for A OR B OR C' do
+      let(:values) { %w[A B C] }
+
+      it_behaves_like 'filtered work packages' do
+        let(:expected) { [wp_a, wp_a_b, wp_a_b_c, wp_b, wp_b_c, wp_c] }
       end
     end
   end
@@ -147,6 +159,34 @@ describe Query::Results, 'Filtering custom fields', with_mail: false do
 
       it_behaves_like 'filtered work packages' do
         let(:expected) { [wp_a_b_c] }
+      end
+    end
+  end
+
+  describe 'filter for is not' do
+    let(:operator) { '!' }
+
+    context 'when filtering for A' do
+      let(:values) { ['A'] }
+
+      it_behaves_like 'filtered work packages' do
+        let(:expected) { [wp_b, wp_b_c, wp_c] }
+      end
+    end
+
+    context 'when filtering for A AND B' do
+      let(:values) { %w[A B] }
+
+      it_behaves_like 'filtered work packages' do
+        let(:expected) { [wp_c] }
+      end
+    end
+
+    context 'when filtering for A AND B AND C' do
+      let(:values) { %w[A B C] }
+
+      it_behaves_like 'filtered work packages' do
+        let(:expected) { [] }
       end
     end
   end

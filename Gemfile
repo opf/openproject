@@ -88,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 4.0.0'
+gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -211,7 +211,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.1.0'
+  gem 'test-prof', '~> 1.2.0'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
