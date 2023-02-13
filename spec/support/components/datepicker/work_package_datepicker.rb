@@ -156,6 +156,10 @@ module Components
       end
     end
 
+    def save!(text: I18n.t(:button_save))
+      super
+    end
+
     def set_duration(value)
       focus_duration
       fill_in 'duration', with: value, fill_options: { clear: :backspace }

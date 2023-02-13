@@ -36,6 +36,7 @@ import {
   forwardRef,
   Injector,
   Input,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -74,7 +75,7 @@ export const opSingleDatePickerSelector = 'op-single-date-picker';
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterContentInit {
+export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
   @Output('closed') closed = new EventEmitter();
 
   @Output('valueChange') valueChange = new EventEmitter();
@@ -99,6 +100,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   @Input() required = false;
 
   @Input() minimalDate:Date|null = null;
+
+  @Input() applyLabel:string;
 
   private _opened = false;
 
@@ -135,7 +138,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
   public useDefaultTrigger = false;
 
   text = {
-    save: this.I18n.t('js.button_save'),
+    apply: this.I18n.t('js.modals.button_apply'),
     cancel: this.I18n.t('js.button_cancel'),
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
@@ -154,6 +157,10 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, AfterC
     readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
   ) {
     populateInputsFromDataset(this);
+  }
+
+  ngOnInit() {
+    this.applyLabel = this.applyLabel || this.text.apply;
   }
 
   ngAfterContentInit() {

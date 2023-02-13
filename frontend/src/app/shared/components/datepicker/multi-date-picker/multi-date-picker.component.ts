@@ -42,10 +42,13 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
-    areDatesEqual,
-    mappedDate,
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import {
+  areDatesEqual,
+  mappedDate,
   onDayCreate,
   parseDate,
   setDates,
@@ -55,10 +58,23 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
-import { ActiveDateChange, DateFields, DateKeys } from '../wp-multi-date-form/wp-multi-date-form.component';
-import { fromEvent, merge, Observable, Subject } from 'rxjs';
+import {
+  ActiveDateChange,
+  DateFields,
+  DateKeys,
+} from '../wp-multi-date-form/wp-multi-date-form.component';
+import {
+  fromEvent,
+  merge,
+  Observable,
+  Subject,
+} from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { debounceTime, filter, map } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+} from 'rxjs/operators';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { DateOption } from 'flatpickr/dist/types/options';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -92,6 +108,8 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   @Input() value:string[] = [];
 
+  @Input() applyLabel:string;
+
   private _opened = false;
 
   @Input() set opened(opened:boolean) {
@@ -118,7 +136,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   @Output('closed') closed = new EventEmitter();
 
   text = {
-    save: this.I18n.t('js.button_save'),
+    apply: this.I18n.t('js.modals.button_apply'),
     cancel: this.I18n.t('js.button_cancel'),
     startDate: this.I18n.t('js.work_packages.properties.startDate'),
     endDate: this.I18n.t('js.work_packages.properties.dueDate'),
@@ -196,7 +214,8 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
       });
   }
 
-  ngOnInit(): void {
+  ngOnInit():void {
+    this.applyLabel = this.applyLabel || this.text.apply;
     this.htmlId = `wp-datepicker-${this.fieldName as string}`;
 
     this.setCurrentActivatedField(this.initialActivatedField);
