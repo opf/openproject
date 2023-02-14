@@ -66,6 +66,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   @Input() public hasUnreadNotification:boolean;
 
+  private additionalScrollMargin = 200;
+
   public userCanEdit = false;
 
   public userCanQuote = false;
@@ -146,9 +148,12 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       });
 
     if (window.location.hash === `#activity-${this.activityNo}`) {
+      const activityElement = document.querySelectorAll(`[data-qa-activity-number='${this.activityNo}']`)[0] as HTMLElement;
+      const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
+      const scrollOffset = activityElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
-          this.elementRef.nativeElement.scrollIntoView(true);
+          scrollContainer.scrollTop = scrollOffset;
         });
       });
     }
