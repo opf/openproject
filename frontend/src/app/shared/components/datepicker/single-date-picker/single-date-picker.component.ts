@@ -279,7 +279,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   writeValue(value:string):void {
     this.writeWorkingValue(value);
     this.value = value;
-    this.syncedInput?.nativeElement.dispatchEvent(new Event('change'));
+    setTimeout(() => this.syncedInput?.nativeElement.dispatchEvent(new Event('change')));
   }
 
   onChange = (_:string):void => {};
