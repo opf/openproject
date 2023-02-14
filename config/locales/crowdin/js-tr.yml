@@ -505,29 +505,29 @@ tr:
       steps:
         help_menu: 'Yardım (?) menüsü <b>ek yardım kaynakları</b> sağlar. Burada bir kullanım kılavuzu, yararlı nasıl yapılır videoları ve daha fazlasını bulabilirsiniz. <br> OpenProject ile işinizin tadını çıkarın!'
         members: 'Projenize katılmak için yeni <b>üyeler</b> davet edin.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
+        project_selection: 'Lütfen hazırladığımız demo projelerden birine tıklayınız. Demo verileri şu anda yalnızca İngilizce olarak mevcuttur. <br> Genel <b>demo proje</b> klasik proje yönetimi için en uygunudur, <b>Scrum projesi</b> ise çevik proje yönetimi için daha iyidir.'
         quick_add_button: '<b>Yeni bir proje oluşturmak</b> veya <b>iş arkadaşlarınızı davet etmek</b> için başlık bölümündeki artı (+) simgesini tıklayın.'
         sidebar_arrow: "Projenin <b>ana menüsüne</b> dönmek için sol üst köşedeki dönüş okunu kullanın."
         welcome: 'En <b>önemli özellikleri</b> öğrenmek için üç dakikalık bir tanıtım gezintisine çıkın. <br> Tüm adımları tamamlamanızı öneririz. Turu istediğiniz zaman yeniden başlatabilirsiniz.'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: '<b>wiki</b> içinde belgeleyebilir ve ekibinizle birlikte bilgi paylaşabilirsiniz.'
         backlogs:
           overview: "İşinizi <b>birikimler</b> görünümünde yönetin."
           sprints: "Sağ tarafta ürün biriktirme listesi ve hata biriktirme listesi var, solda da ilgili sprintler var. Burada <b>epikler, kullanıcı hikayeleri ve buglar</b> oluşturabilir, sürükleyip bırakarak öncelik sırasına koyabilir ve bunları bir sprint'e ekleyebilirsiniz."
           task_board_arrow: '<b>Görev pano</b>nuzu görmek için Sprint açılır menüsünde açın...'
           task_board_select: '... ve <b>görev panosu</b> kaydını seçin.'
-          task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
+          task_board: "Görev panosu, <b>bu sprint için ilerlemeyi</b> görselleştirir. Yeni görevler veya engeller eklemek için bir kullanıcı hikayesinin yanındaki artı (+) simgesine tıklayın. <br> Sürükle bırak ile durum güncellenebilir."
         boards:
-          overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
+          overview: 'Görünümü değiştirmek ve çevik panolar görünümünü kullanarak projenizi yönetmek için <b>panolar</b>''ı seçin.'
           lists_kanban: 'Burada panonuzda birden çok liste (sütun) oluşturabilirsiniz. Bu özellik, örneğin bir <b>Kanban panosu</b> oluşturmanıza olanak tanır.'
           lists_basic: 'Burada, hızlı panonuz içinde birden fazla liste (sütun) oluşturabilirsiniz.'
           add: 'Panodaki listeye <b>yeni bir kart oluşturmak</b> veya <b>mevcut bir kartı eklemek</b> için artı (+) simgesini tıklayın.'
           drag: 'Yeniden sıralamak veya başka bir listeye taşımak için kartlarınızı belirli bir listeye sürükleyip bırakın. <br> Sağ üst köşedeki bilgi (i) simgesine tıklayabilir veya bir kartı çift tıklayarak ayrıntılarını açabilirsiniz.'
         wp:
           toggler: "Şimdi, size çalışmanız hakkında daha ayrıntılı bir görünüm sağlayan <b> İş paketi </b> bölümüne göz atalım."
-          list: 'This <b>work</b> package overview provides a list of all the work in your project, such as tasks, milestones, phases, and more. <br> Work packages can be created and edited directly from this view. To access the details of a particular work package, simply double-click its row.'
-          full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
+          list: 'Bu <b>iş</b> paketine genel bakış, projenizdeki görevler, kilometre taşları, aşamalar ve daha fazlası gibi tüm işlerin bir listesini sağlar. <br> İş paketleri doğrudan bu görünümden oluşturulabilir ve düzenlenebilir. Belirli bir iş paketinin ayrıntılarına erişmek için satırına çift tıklamanız yeterlidir.'
+          full_view: '<b>İş paketi ayrıntıları</b> görünümü, tanımı, durumu, önceliği, etkinlikleri, bağımlılıkları ve yorumları gibi belirli bir iş paketiyle ilgili tüm ilgili bilgileri sağlar.'
           back_button: 'Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın.'
-          create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
+          create_button: '<b>+ Oluştur</b> düğmesi, projenize yeni bir çalışma paketi ekleyecektir.'
           timeline_button: 'Projeniz için bir zaman çizelgesi oluşturmak üzere <b>Gantt şeması</b> görünümünü etkinleştirebilirsiniz.'
           timeline: 'Burada <b>proje planınızı düzenleyebilir</b>, görevler, kilometre taşları, aşamalar ve daha fazlası gibi yeni iş paketleri oluşturabilir ve <b>bağımlılıklar ekleyebilirsiniz</b>. Tüm ekip üyeleri istedikleri zaman en son planı görebilir ve güncelleyebilir.'
         team_planner:
@@ -553,10 +553,10 @@ tr:
       date_alerts:
         milestone_date: 'Kilometre taşı tarihi'
         overdue: 'Süresi geçmiş'
-        overdue_since: 'since %{difference_in_days}'
+        overdue_since: '%{difference_in_days} beri'
         property_today: 'bugün'
-        property_is: 'is in %{difference_in_days}'
-        property_was: 'was %{difference_in_days} ago'
+        property_is: '%{difference_in_days} içinde'
+        property_was: '%{difference_in_days} önceydi'
         property_is_deleted: 'silindi'
         upsale:
           title: 'Tarih uyarısı'
@@ -579,9 +579,9 @@ tr:
         text_update_date: "%{date} tarafından"
         total_count_warning: "En yeni %{newest_count} bildirim gösteriliyor. %{more_count} tane daha görüntülenmiyor."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Görünüşe göre yapacağınız bir şey kalmadı."
+          no_notification_with_current_project_filter: "Görünüşe göre seçili proje için yapacağınız bir şey kalmadı."
+          no_notification_with_current_filter: "Görünüşe göre %{filter} filtresi için yapacağınız bir şey kalmadı. "
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
           message: 'Yeni bildirimler var'
