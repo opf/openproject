@@ -17,7 +17,14 @@ import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-he
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
 import { filter, take } from 'rxjs/operators';
 import { debounce } from 'lodash';
-import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from '@floating-ui/dom';
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  limitShift,
+  Placement,
+  shift,
+} from '@floating-ui/dom';
 
 @Component({
   selector: 'spot-drop-modal',
@@ -124,8 +131,8 @@ export class SpotDropModalComponent implements OnDestroy {
         take(1),
       )
       .subscribe(() => {
-        const referenceEl = this.elementRef.nativeElement;
-        const floatingEl = this.anchor.nativeElement;
+        const referenceEl = this.elementRef.nativeElement as HTMLElement;
+        const floatingEl = this.anchor.nativeElement as HTMLElement;
         this.cleanupFloatingUI = autoUpdate(
           referenceEl,
           floatingEl,
@@ -136,7 +143,10 @@ export class SpotDropModalComponent implements OnDestroy {
               {
                 placement: this.alignment,
                 middleware: this.allowRepositioning
-                  ? [ flip(), shift({ limiter: limitShift() }) ]
+                  ? [
+                      flip(),
+                      shift({ limiter: limitShift() }),
+                    ]
                   : [],
               },
             );
@@ -145,7 +155,7 @@ export class SpotDropModalComponent implements OnDestroy {
               left: `${x}px`,
               top: `${y}px`,
             });
-          }
+          },
         );
         /*
          * We have to set these listeners next tick, because they're so far up the tree.
@@ -198,7 +208,7 @@ export class SpotDropModalComponent implements OnDestroy {
     document.body.removeEventListener('keydown', this.onEscape);
     window.removeEventListener('resize', this.onResize);
     window.removeEventListener('orientationchange', this.onResize);
-    this.cleanupFloatingUI?.()
+    this.cleanupFloatingUI?.();
   }
 
   onBodyClick(e:MouseEvent):void {
