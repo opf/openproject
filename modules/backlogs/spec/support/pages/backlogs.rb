@@ -45,6 +45,8 @@ module Pages
 
     def enter_edit_backlog_mode(backlog)
       within_backlog(backlog) do
+        return if has_selector?('.editing')
+
         find('.start_date.editable').click
       end
     end
@@ -82,8 +84,10 @@ module Pages
             find('input[name=name]').set value
           end
         when :start_date
+          enter_edit_backlog_mode(backlog)
           ::Components::Datepicker.update_field("#start_date_#{backlog.id}", value)
         when :effective_date
+          enter_edit_backlog_mode(backlog)
           ::Components::Datepicker.update_field("#effective_date_#{backlog.id}", value)
         else
           raise NotImplementedError
@@ -108,6 +112,8 @@ module Pages
 
     def save_backlog_from_edit_mode(backlog)
       within_backlog(backlog) do
+        return unless has_selector?('.editing')
+
         find('input[name=name]').native.send_key :return
 
         expect(page)
