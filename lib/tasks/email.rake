@@ -187,7 +187,7 @@ namespace :redmine do
               username=EMAIL			          Email Address
               query=QUERY			              Gmail Query String
               read_on_failure=1             Mark email as read on failure
-              max_emails=50                 Max num of emails to process
+              max_emails=1000               Max num of emails to process
       #{'      '}
             See redmine:email:receive_gmail for more options and examples.
     END_DESC
