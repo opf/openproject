@@ -46,7 +46,7 @@ module Calendar
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
       calendar.x_wr_calname = "OpenProject Calendar"
 
-      work_packages&.each do |work_package| 
+      work_packages&.each do |work_package|
         next if work_package.due_date.nil?
 
         event = create_event(work_package)
@@ -63,12 +63,28 @@ module Calendar
       event.attendee = [work_package.assigned_to&.name]
       event.organizer = work_package.author&.name
       event.summary = work_package.name
-      event.dtstart = Icalendar::Values::Date.new(work_package.start_date)
-      event.dtend = Icalendar::Values::Date.new(work_package.due_date + 1.day)
+      event.dtstart = Icalendar::Values::Date.new(start_date(work_package))
+      event.dtend = Icalendar::Values::Date.new(due_date(work_package))
       event.location = work_package_url(work_package)
       event.description = description_value(work_package)
 
       event
+    end
+    
+    def start_date(work_package)
+      if work_package.start_date.present?
+        work_package.start_date
+      else
+        work_package.due_date
+      end
+    end
+    
+    def due_date(work_package)
+      if work_package.start_date.present?
+        work_package.due_date
+      else
+        work_package.due_date + 1.day
+      end
     end
 
     def work_package_url(work_package)
