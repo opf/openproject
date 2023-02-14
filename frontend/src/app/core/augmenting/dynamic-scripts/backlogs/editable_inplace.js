@@ -31,7 +31,8 @@ RB.EditableInplace = (function ($) {
 
     displayEditor: function (editor) {
       this.$.addClass("editing");
-      editor.find(".editor").bind('keydown', this.handleKeydown);
+      editor.find(".editor:not(op-single-date-picker)").bind('keydown', this.handleKeydown);
+      editor.find("op-single-date-picker input[type=hidden]").on('change', this.saveEdits.bind(this));
     },
 
     getEditor: function () {

@@ -129,6 +129,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
+  @ViewChild('syncedInput') syncedInput:ElementRef<HTMLInputElement>;
+
   public workingValue = '';
 
   public workingDate:Date|null = null;
@@ -277,6 +279,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   writeValue(value:string):void {
     this.writeWorkingValue(value);
     this.value = value;
+    this.syncedInput?.nativeElement.dispatchEvent(new Event('change'));
   }
 
   onChange = (_:string):void => {};

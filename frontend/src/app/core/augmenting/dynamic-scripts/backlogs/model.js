@@ -385,6 +385,10 @@ RB.Model = (function ($) {
       } else {
         this.open();
       }
+      window.OpenProject.getPluginContext().then((pluginContext) => {
+        pluginContext.bootstrap(this.$[0]);
+      });
+
       this.refreshed();
     },
 
