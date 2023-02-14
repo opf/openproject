@@ -23,12 +23,24 @@
       @include spot-body-small
       color: $spot-color-basic-gray-2
 
+      &-comment
+        @include spot-body-small
+        list-style-type: disc
+        padding: $spot-spacing-0_5
+        padding-left: $spot-spacing-2
+        margin: 0
+
+      &-detail
+        &:not(:last-child)
+          margin-bottom: $spot-spacing-0_25
+
     &-details
       @include spot-body-small
       list-style-type: disc
       padding: $spot-spacing-0_5
       padding-left: $spot-spacing-2
       margin: 0
+      color: $spot-color-basic-gray-2
 
     &-detail
       &:not(:last-child)

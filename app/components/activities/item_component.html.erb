@@ -12,7 +12,14 @@
   %>
   <% if @event.event_description.present? -%>
     <div class="op-activity-list--item-description">
-      <%= helpers.truncate_formatted_text(@event.event_description) %>
+      <% if @event.journal.journable_type == "WorkPackage" -%>
+        <ul class="op-activity-list--item-description-comment">
+          <li class="op-activity-list--item-description-detail"><strong>Comment added</strong></li>
+          <%= helpers.truncate_formatted_text(@event.event_description) %>
+        </ul>
+      <% else -%>
+        <%= helpers.truncate_formatted_text(@event.event_description) %>
+      <% end -%>
     </div>
   <% end -%>
   <% if display_details? -%>
