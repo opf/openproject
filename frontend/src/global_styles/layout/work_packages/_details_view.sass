@@ -151,5 +151,8 @@ body.router--work-packages-partitioned-split-view-new
   grid-row-gap: $spot-spacing-1
   grid-column-gap: $spot-spacing-1
 
+  @media #{$spot-mq-mobile}
+    grid-template-columns: 1fr
+
   .work-packages-partitioned-page--content-right &
     grid-template-columns: 1fr

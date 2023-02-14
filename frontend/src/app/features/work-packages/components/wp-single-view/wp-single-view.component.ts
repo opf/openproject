@@ -36,12 +36,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import {
-  BehaviorSubject,
-  combineLatest,
-  of,
-} from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -56,8 +57,6 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { randomString } from 'core-app/shared/helpers/random-string';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { States } from 'core-app/core/states/states.service';
@@ -68,6 +67,8 @@ import { StoragesResourceService } from 'core-app/core/state/storages/storages.s
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface FieldDescriptor {
   name:string;
@@ -197,16 +198,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   private refresh(change:WorkPackageChangeset) {
     // Prepare the fields that are required always
-    const isNew = isNewResource(this.workPackage);
     const resource = change.projectedResource;
-
-    if (!this.currentProject.inProjectContext) {
-      this.workPackage.project = resource.project as HalResource;
-    }
 
     if (!resource.project) {
       this.projectContext = { matches: false, href: null, id: null };
-      this.storages$.next([]);
     } else {
       const project = resource.project as unknown&{ href:string, id:string };
       const workPackageId = this.workPackage.id;
@@ -219,7 +214,28 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         href: this.PathHelper.projectWorkPackagePath(project.id, workPackageId),
         matches: project.href === this.currentProject.apiv3Path,
       };
+    }
 
+    if (isNewResource(resource)) {
+      this.updateWorkPackageCreationState(change);
+    }
+
+    // eslint-disable-next-line no-underscore-dangle
+    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    this.cdRef.detectChanges();
+  }
+
+  private updateWorkPackageCreationState(change:WorkPackageChangeset) {
+    const resource = change.projectedResource;
+    if (!this.currentProject.inProjectContext) {
+      this.projectContext.field = this.getFields(change, ['project']);
+      this.workPackage.project = resource.project as HalResource;
+    }
+
+    if (resource.project === null) {
+      this.storages$.next([]);
+    } else {
+      const project = resource.project as unknown&{ href:string, id:string };
       combineLatest([
         this.projectsResourceService.update(project.href),
         this.currentUserService.hasCapabilities$('file_links/manage', project.id),
@@ -232,19 +248,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
             return this.storagesService.updateCollection(p._links.self.href, p._links.storages);
           }),
+          take(1),
         )
         .subscribe((storages) => {
           this.storages$.next(storages);
         });
     }
-
-    if (isNew && !this.currentProject.inProjectContext) {
-      this.projectContext.field = this.getFields(change, ['project']);
-    }
-
-    const attributeGroups = this.schema(resource)._attributeGroups;
-    this.groupedFields = this.rebuildGroupedFields(change, attributeGroups);
-    this.cdRef.detectChanges();
   }
 
   /**
