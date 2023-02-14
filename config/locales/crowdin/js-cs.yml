@@ -258,7 +258,7 @@ cs:
           empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
           new_date: '(new)'
         add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        already_added_error: "Nepracovní den pro toto datum již existuje. Pro každý jedinečný datum může být vytvořen pouze jeden nepracovní den."
         change_button: "Save and reschedule"
         change_title: "Change working days"
         removed_title: "You will remove the following days from the non-working days list:"
@@ -903,7 +903,7 @@ cs:
         click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
         show_relations: 'Zobrazit vztahy'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'pouze pracovní dny'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"
