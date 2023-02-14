@@ -153,7 +153,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
           if (this.deviceService.isMobile) {
-            this.elementRef.nativeElement.scrollIntoView(true);
+            (this.elementRef.nativeElement as HTMLElement).scrollIntoView(true);
             return;
           }
           const activityElement = document.querySelectorAll(`[data-qa-activity-number='${this.activityNo}']`)[0] as HTMLElement;
