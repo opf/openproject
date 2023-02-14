@@ -48,6 +48,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Component({
   selector: 'user-activity',
@@ -110,6 +111,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly ngZone:NgZone,
+    readonly deviceService:DeviceService,
     protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
@@ -148,11 +150,15 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
       });
 
     if (window.location.hash === `#activity-${this.activityNo}`) {
-      const activityElement = document.querySelectorAll(`[data-qa-activity-number='${this.activityNo}']`)[0] as HTMLElement;
-      const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
-      const scrollOffset = activityElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
       this.ngZone.runOutsideAngular(() => {
         setTimeout(() => {
+          if (this.deviceService.isMobile) {
+            this.elementRef.nativeElement.scrollIntoView(true);
+            return;
+          }
+          const activityElement = document.querySelectorAll(`[data-qa-activity-number='${this.activityNo}']`)[0] as HTMLElement;
+          const scrollContainer = document.querySelectorAll("[data-notification-selector='notification-scroll-container']")[0];
+          const scrollOffset = activityElement.offsetTop - (scrollContainer as HTMLElement).offsetTop - this.additionalScrollMargin;
           scrollContainer.scrollTop = scrollOffset;
         });
       });
