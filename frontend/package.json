@@ -98,6 +98,7 @@
     "@appsignal/plugin-breadcrumbs-console": "^1.1.24",
     "@appsignal/plugin-breadcrumbs-network": "^1.1.21",
     "@datorama/akita": "^6.2.0",
+    "@floating-ui/dom": "^1.2.1",
     "@fullcalendar/angular": "^6.0.2",
     "@fullcalendar/common": "^6.0.0-beta.1",
     "@fullcalendar/core": "^6.0.2",
