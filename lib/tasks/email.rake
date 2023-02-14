@@ -179,6 +179,31 @@ namespace :redmine do
       Redmine::POP3.check(pop_options, options_from_env)
     end
 
+    desc <<~END_DESC
+            Read emails from the Gmail API
+      #{'      '}
+            Available Gmail options:
+              credentials=CREDENTIALS_FILE	Gmail Service Account Credentials File (JSON)
+              username=EMAIL			          Email Address
+              query=QUERY			              Gmail Query String
+              read_on_failure=1             Mark email as read on failure
+              max_emails=50                 Max num of emails to process
+      #{'      '}
+            See redmine:email:receive_gmail for more options and examples.
+    END_DESC
+
+    task receive_gmail: :environment do
+      gmail_options = {
+        credentials: ENV.fetch('credentials', nil),
+        user_id: ENV.fetch('user_id', nil),
+        query: ENV.fetch('query', nil),
+        read_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('read_on_failure', 1)),
+        max_emails: ENV.fetch('max_emails', 1000)
+      }
+
+      Redmine::Gmail.check(gmail_options, options_from_env)
+    end
+
     desc 'Send a test email to the user with the provided login name'
     task :test, [:login] => :environment do |_task, args|
       login = args[:login]
