@@ -54,11 +54,11 @@ export class SpotDropModalComponent implements OnDestroy {
   @Input('opened')
   @HostBinding('class.spot-drop-modal_opened')
   set opened(value:boolean) {
-    if (this._opened === !!value) {
+    if (this._opened === value) {
       return;
     }
 
-    if (!!value) {
+    if (value) {
       this.open();
     } else {
       this.close();
@@ -122,7 +122,7 @@ export class SpotDropModalComponent implements OnDestroy {
      * template in the same tick.
      * To make it happy, we update afterwards
      */
-    this.teleportationService.activate(this.body)
+    this.teleportationService.activate(this.body);
 
     this.teleportationService
       .hasRenderedFiltered$
@@ -136,18 +136,17 @@ export class SpotDropModalComponent implements OnDestroy {
         this.cleanupFloatingUI = autoUpdate(
           referenceEl,
           floatingEl,
+          /* eslint-disable-next-line @typescript-eslint/no-misused-promises */
           async () => {
             const { x, y } = await computePosition(
               referenceEl,
               floatingEl,
               {
                 placement: this.alignment,
-                middleware: this.allowRepositioning
-                  ? [
-                      flip(),
-                      shift({ limiter: limitShift() }),
-                    ]
-                  : [],
+                middleware: this.allowRepositioning ? [
+                  flip(),
+                  shift({ limiter: limitShift() }),
+                ] : [],
               },
             );
 
@@ -170,10 +169,10 @@ export class SpotDropModalComponent implements OnDestroy {
 
           const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
           if (focusCatcherContainer) {
-            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0] as HTMLElement)?.focus();
+            (findAllFocusableElementsWithin(focusCatcherContainer as HTMLElement)[0])?.focus();
           } else {
             // Index 1 because the element at index 0 is the trigger button to open the modal
-            (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1] as HTMLElement)?.focus();
+            (findAllFocusableElementsWithin(document.querySelector('.spot-drop-modal-portal')!)[1])?.focus();
           }
         });
       });
@@ -197,10 +196,10 @@ export class SpotDropModalComponent implements OnDestroy {
 
     this.teleportationService.clear();
     this.cdRef.detectChanges();
-    this.focusGrabber.nativeElement.focus();
+    (this.focusGrabber.nativeElement as HTMLElement).focus();
   }
 
-  private onGlobalClick = this.close.bind(this);
+  private onGlobalClick = this.close.bind(this) as () => void;
 
   ngOnDestroy():void {
     this.teleportationService.clear();
