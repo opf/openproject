@@ -37,6 +37,7 @@ class OpenProject::JournalFormatter::Template < JournalFormatter::Base
       else
         I18n.t('activerecord.attributes.project.templated_value.false')
       end
+    value = content_tag(:strong, value) if options[:html]
 
     I18n.t(:text_journal_label_value, label: label_text, value:)
   end
