@@ -29,12 +29,6 @@
 #++
 
 class ActivityItemComponent < ViewComponent::Base
-  delegate :avatar,
-           :format_time,
-           :link_to_user,
-           :truncate_formatted_text,
-           to: :helpers
-
   def initialize(event:, journal:, display_user: true)
     super()
     @event = event
@@ -46,7 +40,11 @@ class ActivityItemComponent < ViewComponent::Base
     @journal.journable_type != 'Project'
   end
 
-  def show_details?
+  def display_user?
+    @display_user
+  end
+
+  def display_details?
     return false if @journal.initial?
 
     rendered_details.present?

@@ -33,7 +33,7 @@ describe 'index users', js: true do
 
   let(:index_page) { Pages::Admin::Users::Index.new }
 
-  it 'works almost correctly', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it 'displays the user activity list', with_settings: { journal_aggregation_time_minutes: 0 } do
     # create some activities
     project = create(:project_with_types)
     project.update(name: 'new name', description: 'new project description')

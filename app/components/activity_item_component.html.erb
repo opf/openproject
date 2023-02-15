@@ -6,16 +6,16 @@
     <% end -%>
   </div>
   <%=
-    render(ActivityItemSubtitleComponent.new(user: @display_user && @event.event_author,
+    render(ActivityItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
                                              is_creation: @journal.initial?))
   %>
   <% if @event.event_description.present? -%>
     <div class="op-activity-list--item-description">
-      <%= truncate_formatted_text(@event.event_description) %>
+      <%= helpers.truncate_formatted_text(@event.event_description) %>
     </div>
   <% end -%>
-  <% if show_details? -%>
+  <% if display_details? -%>
     <ul class="op-activity-list--item-details">
       <% rendered_details.each do |detail| -%>
         <li class="op-activity-list--item-detail"><%= detail %></li>
