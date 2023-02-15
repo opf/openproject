@@ -32,6 +32,8 @@ class CustomStyle < ApplicationRecord
     define_method "remove_#{name}" do
       image = send(name)
       image&.remove!
+
+      update_column name, nil
     end
   end
 end
