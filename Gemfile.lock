@@ -131,6 +131,11 @@ PATH
       openproject-auth_plugins
 
 PATH
+  remote: modules/openproject-deutsche_bahn
+  specs:
+    openproject-deutsche_bahn (0.0.1)
+
+PATH
   remote: modules/overviews
   specs:
     overviews (1.0.0)
@@ -391,10 +396,6 @@ GEM
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
       danger (> 2.0)
-    database_cleaner-active_record (2.0.1)
-      activerecord (>= 5.a)
-      database_cleaner-core (~> 2.0.0)
-    database_cleaner-core (2.0.1)
     date (3.3.3)
     date_validator (0.12.0)
       activemodel (>= 3)
@@ -1037,7 +1038,6 @@ DEPENDENCIES
   dalli (~> 3.2.0)
   danger-brakeman
   dashboards!
-  database_cleaner-active_record
   date_validator (~> 0.12.0)
   deckar01-task_list (~> 2.3.1)
   delayed_cron_job (~> 0.9.0)
@@ -1093,6 +1093,7 @@ DEPENDENCIES
   openproject-bim!
   openproject-boards!
   openproject-calendar!
+  openproject-deutsche_bahn!
   openproject-documents!
   openproject-github_integration!
   openproject-job_status!
