@@ -473,14 +473,24 @@ sk:
       member:
         roles: "Roly"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikátor"
         latest_activity_at: "Posledná aktivita v"
         parent: "podprojekt projektu"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Požiadavky"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
-        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -676,7 +686,7 @@ sk:
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."
         enterprise_token:
-          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise Edition?"
+          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise edition?"
         grids/grid:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'
@@ -692,6 +702,11 @@ sk:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -702,6 +717,8 @@ sk:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "stále používané týmito pracovnými balíkmi: %{types}"
             enabled_modules:
@@ -1040,6 +1057,7 @@ sk:
   button_reset: "Vynulovať"
   button_rollback: "Vrátenie k tejto verzii"
   button_save: "Uložiť"
+  button_apply_changes: "Apply changes"
   button_save_back: "Uloženie a návrat"
   button_show: "Ukázať"
   button_sort: "Zoradiť"
@@ -1783,6 +1801,10 @@ sk:
   label_not_contains: "neobsahuje"
   label_not_equals: "nie je"
   label_on: "dňa"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otvorte menu"
   label_open_work_packages: "otvorené"
   label_open_work_packages_plural: "otvorené"
@@ -1824,6 +1846,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
@@ -2250,6 +2273,7 @@ sk:
   permission_add_work_packages: "Pridať pracovné balíky"
   permission_add_messages: "Publikovať správy"
   permission_add_project: "Vytvoriť projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Vytvoriť podprojekty"
@@ -2989,15 +3013,20 @@ sk:
       title: "Odstrániť pracovný balík"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:

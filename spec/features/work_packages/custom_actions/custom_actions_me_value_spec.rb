@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom actions me value', type: :feature, js: true do
+describe 'Custom actions me value', js: true do
   shared_let(:admin) { create :admin }
 
   let(:permissions) { %i(view_work_packages edit_work_packages) }

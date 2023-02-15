@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/team_planner'
 
-describe 'Team planner project include', type: :feature, js: true do
+describe 'Team planner project include', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
@@ -44,7 +44,7 @@ describe 'Team planner project include', type: :feature, js: true do
 
   it_behaves_like 'has a project include dropdown' do
     let(:work_package_view) { Pages::TeamPlanner.new(project) }
-    let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+    let(:dropdown) { Components::ProjectIncludeComponent.new }
 
     it 'correctly filters work packages by project' do
       dropdown.expect_count 1

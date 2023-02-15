@@ -29,26 +29,24 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 capabilities resource', type: :request, content_type: :json do
+describe 'API v3 capabilities resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
   subject(:response) { last_response }
 
-  current_user do
+  shared_let(:project) { create(:project) }
+  shared_current_user do
     create(:user,
            member_in_project: project,
-           member_with_permissions: current_user_permissions)
+           member_with_permissions: %i[manage_members])
   end
-  let(:current_user_permissions) { [] }
-  let(:other_user_permissions) { %i[manage_members] }
-  let(:other_user_global_permissions) { %i[manage_user] }
-  let(:project) { create(:project) }
+
   let(:role) do
-    create(:role, permissions: other_user_permissions)
+    create(:role, permissions: %i[manage_members])
   end
   let(:global_role) do
-    create(:global_role, permissions: other_user_global_permissions)
+    create(:global_role, permissions: %i[manage_user])
   end
   let(:other_user) { create(:user) }
   let(:other_user_global_member) do
@@ -94,7 +92,6 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     end
 
     context 'when filtering by principal id (with a user)' do
-      let(:current_user_permissions) { %i[manage_members] }
       let(:filters) do
         [{ 'principalId' => {
           'operator' => '=',
@@ -104,7 +101,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
       it 'contains only the filtered capabilities in the response' do
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('4')
           .at_path('total')
 
         expect(subject.body)
@@ -137,7 +134,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
                               sort_by: [%i(id asc)],
                               select: '*,elements/*',
                               page_size: 2,
-                              offset: 2)
+                              offset: 3)
       end
 
       it 'returns a slice of the visible memberships' do
@@ -146,7 +143,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('6')
+          .to be_json_eql('7')
           .at_path('total')
 
         expect(subject.body)
@@ -155,15 +152,15 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
         expect(subject.body)
           .to be_json_eql("users/create/g-#{other_user.id}".to_json)
-          .at_path('_embedded/elements/1/id')
+          .at_path('_embedded/elements/0/id')
       end
 
       it 'includes links for self and jumping' do
         expect_self_link('self')
         expect_self_link('jumpTo', 'offset' => '{offset}')
         expect_self_link('changeSize', 'pageSize' => '{size}')
-        expect_self_link('previousByOffset', 'offset' => '1')
-        expect_self_link('nextByOffset', 'offset' => '3')
+        expect_self_link('previousByOffset', 'offset' => '2')
+        expect_self_link('nextByOffset', 'offset' => '4')
       end
     end
 
@@ -187,11 +184,11 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('4')
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+          .to be_json_eql("activities/read/p#{project.id}-#{other_user.id}".to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
@@ -218,17 +215,16 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
           .at_path('_type')
 
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('4')
           .at_path('total')
 
         expect(subject.body)
-          .to be_json_eql("memberships/create/p#{project.id}-#{other_user.id}".to_json)
+          .to be_json_eql("activities/read/p#{project.id}-#{other_user.id}".to_json)
           .at_path('_embedded/elements/0/id')
       end
     end
 
     context 'when filtering by principal id (with a user) but with the not operator' do
-      let(:current_user_permissions) { %i[manage_members] }
       let(:filters) do
         [{ 'principalId' => {
           'operator' => '!',
@@ -299,7 +295,7 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
 
       it 'contains only the filtered capabilities in the response' do
         expect(subject.body)
-          .to be_json_eql('3')
+          .to be_json_eql('4')
           .at_path('total')
 
         expect(subject.body)
@@ -328,7 +324,6 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
     end
 
     context 'when signaling to only include a subset of properties' do
-      let(:current_user_permissions) { %i[manage_members] }
       let(:path) { api_v3_paths.path_for(:capabilities, filters:, sort_by: [%i(id asc)], select: 'elements/id') }
 
       let(:filters) do
@@ -342,6 +337,9 @@ describe 'API v3 capabilities resource', type: :request, content_type: :json do
         expected = {
           _embedded: {
             elements: [
+              {
+                id: "activities/read/p#{project.id}-#{current_user.id}"
+              },
               {
                 id: "memberships/create/p#{project.id}-#{current_user.id}"
               },

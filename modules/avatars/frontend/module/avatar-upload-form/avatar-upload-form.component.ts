@@ -116,7 +116,7 @@ export class AvatarUploadFormComponent implements OnInit {
         }
       },
       (error:any) => {
-        this.toastService.addError(error.error);
+        this.toastService.addError(error);
         this.busy = false;
       }
     );

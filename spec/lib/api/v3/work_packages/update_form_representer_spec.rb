@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::UpdateFormRepresenter do
+describe API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
@@ -79,7 +79,7 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
         end
 
         context 'invalid work package' do
-          let(:errors) { [::API::Errors::Validation.new(:subject, 'it is broken')] }
+          let(:errors) { [API::Errors::Validation.new(:subject, 'it is broken')] }
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

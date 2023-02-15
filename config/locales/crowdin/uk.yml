@@ -468,14 +468,24 @@ uk:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Ідентифікатор"
         latest_activity_at: "Остання активність на"
         parent: "Підпроект"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Запити"
+        templated: "Проєкт шаблона"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
-        templated: 'Проєкт шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Опис стану'
@@ -687,6 +697,11 @@ uk:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано сповіщення в додатку.'
             reason_mail_digest:
               no_notification_reason: '– потрібно вказати, оскільки як канал вибрано поштову розсилку.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +712,8 @@ uk:
           archived_ancestor: 'У проєкту є архівований предок.'
           foreign_wps_reference_version: 'Пакети робіт у ненащадкових проєктах посилаються на версії цього проєкту або його нащадків.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "як і раніше використовуються робочі пакети: %{types}"
             enabled_modules:
@@ -1035,6 +1052,7 @@ uk:
   button_reset: "Скинути"
   button_rollback: "Відкотити до даної версії"
   button_save: "Зберегти"
+  button_apply_changes: "Apply changes"
   button_save_back: "Зберегти та повернутися назад"
   button_show: "Показати"
   button_sort: "Сортувати"
@@ -1778,6 +1796,10 @@ uk:
   label_not_contains: "не містить"
   label_not_equals: "немає"
   label_on: "на"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
   label_open_work_packages_plural: "відкрити"
@@ -1819,6 +1841,7 @@ uk:
   label_product_version: "Версія продукту"
   label_professional_support: "Професійна підтримка"
   label_profile: "Профіль"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Загальна кількість проектів"
   label_project_copy_notifications: "Відправлення повідомлень по електронній пошті в ході реалізації проекту копія"
@@ -2243,6 +2266,7 @@ uk:
   permission_add_work_packages: "Додати робочі пакети"
   permission_add_messages: "Відправка повідомлень"
   permission_add_project: "Створити проект"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Створювати й редагувати користувачів"
   permission_manage_placeholder_user: "Створення, редагування та видалення прототипів користувачів"
   permission_add_subprojects: "Створення підпроектів"
@@ -2981,15 +3005,20 @@ uk:
       title: "Видаліть робочий пакет"
   working_days:
     info: >
-      <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Змінити робочі дні"
     warning: >
-      Змінення робочих днів тижня може вплинути на дні початку й закінчення для всіх пакетів робіт в усіх проєктах цього екземпляра.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:
         working: "%{day} зараз робочий"
         non_working: "%{day} зараз неробочий"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Нічого для перегляду"
   api_v3:
     attributes:

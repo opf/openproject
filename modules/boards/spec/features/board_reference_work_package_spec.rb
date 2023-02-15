@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board reference work package spec', type: :feature, js: true do
+describe 'Board reference work package spec', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -41,7 +41,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
   let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:permissions) do
     %i[
@@ -76,7 +76,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     # Filter for Version
     filters.open
-    filters.add_filter_by('Version', 'is', version.name)
+    filters.add_filter_by('Version', 'is (OR)', version.name)
     sleep 2
 
     # Reference an existing work package
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'is not empty', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

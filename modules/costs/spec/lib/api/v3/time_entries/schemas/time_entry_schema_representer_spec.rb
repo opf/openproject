@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
+describe API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
@@ -273,7 +273,7 @@ describe ::API::V3::TimeEntries::Schemas::TimeEntrySchemaRepresenter do
     context 'for a custom value' do
       let(:custom_field) { build_stubbed(:text_time_entry_custom_field) }
       let(:path) { "customField#{custom_field.id}" }
-      let(:writable_attributes) { ["custom_field_#{custom_field.id}"] }
+      let(:writable_attributes) { [custom_field.attribute_name] }
 
       before do
         allow(contract)

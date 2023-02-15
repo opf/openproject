@@ -1,0 +1,92 @@
+#English strings go here
+eu:
+  permission_view_file_links: "View file links"
+  permission_manage_file_links: "Manage file links"
+  permission_manage_storages_in_project: "Manage file storages in project"
+  project_module_storages: "File storages"
+  activerecord:
+    models:
+      storages/storage: "Storage"
+    attributes:
+      storages/storage:
+        name: "Name"
+        creator: "Creator"
+        provider_type: "Provider type"
+      storages/file_link:
+        origin_id: "Origin Id"
+    errors:
+      messages:
+        not_linked_to_project: "is not linked to project."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "can not be connected to."
+              minimal_nextcloud_version_unmet: "does not meet minimal version requirements (must be Nextcloud 23 or higher)"
+              not_nextcloud_server: "is not a Nextcloud server"
+              op_application_not_installed: >
+                appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
+              authorization_header_missing: >
+                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "can only be numeric or uuid."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Done. Continue setup"
+      replace_openproject_oauth: "Replace OpenProject OAuth"
+      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      save_and_continue_setup: "Save and continue setup"
+      save_and_complete_setup: "Save and complete setup"
+    page_titles:
+      project_settings:
+        index: "File storages available in this project"
+        new: "Add a file storage to this project"
+    instructions:
+      type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
+      type_link_text: "“Integration OpenProject”"
+      name: "Give your storage a name so that users can differentiate between multiple storages."
+      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
+      no_storage_set_up: "There are no file storages set up yet."
+      setting_up_additional_storages: "For setting up additional file storages, please visit"
+      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
+      setting_up_storages: "For setting up file storages, please visit"
+      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
+      all_available_storages_already_added: "All available storages are already added to the project."
+      copy_from: "Copy this value from"
+      nextcloud:
+        integration: "Nextcloud Administration / OpenProject"
+    delete_warning:
+      storage: >
+        Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used. Further, it will also delete all links from work packages to files that are stored in that storage.
+      project_storage: >
+        Are you sure you want to remove this file storage from this project? This will also remove all links to files stored in this storage for this project.
+    label_creator: "Creator"
+    label_file_link: "File link"
+    label_file_links: "File links"
+    label_name: "Name"
+    label_host: "Host URL"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth application details"
+    label_oauth_client_details: "OAuth client details"
+    label_provider_type: "Provider type"
+    label_new_storage: "New storage"
+    label_storage: "Storage"
+    label_storages: "Storages"
+    no_results: "No storages set up yet."
+    provider_types:
+      label: "Provider type"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "My Nextcloud"
+    confirm_replace_oauth_application: "Are you sure? All users will have to authorize again against OpenProject."
+    confirm_replace_oauth_client: "Are you sure? All users will have to authorize again against the storage."
+    oauth_client_details_missing: "To complete the setup, please add OAuth client credentials from your storage."
+    notice_oauth_application_replaced: "The OpenProject OAuth application was successfully replaced."

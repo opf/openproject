@@ -26,56 +26,47 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
     <op-single-date-picker
-        tabindex="-1"
-        (changed)="onValueSelected($event)"
-        (canceled)="onCancel()"
-        (blurred)="submit($event)"
-        (enterPressed)="submit($event)"
-        [initialDate]="formatter(value)"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        classes="inline-edit--field">
-    </op-single-date-picker>
+      [(ngModel)]="value"
+      [id]="handler.htmlId"
+      class="inline-edit--field"
+      [opened]="opened"
+      (closed)="onModalClosed()"
+    ></op-single-date-picker>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
 
-  @InjectField() opModalService:OpModalService;
+  opened = false;
 
   ngOnInit():void {
     super.ngOnInit();
+    // Open the datepicker when the field is not part of an editing form.
+    this.opened = !this.handler.inEditMode;
   }
 
-  public onValueSelected(data:string):void {
-    this.value = this.parser(data);
+  public get value() {
+    return this.formatter(this.resource[this.name]) || '';
   }
 
-  public submit(data:string):void {
-    this.onValueSelected(data);
+  public set value(value:any) {
+    this.resource[this.name] = this.parseValue(value);
     void this.handler.handleUserSubmit();
   }
 
   public onCancel():void {
     this.handler.handleUserCancel();
-  }
-
-  public parser(data:string):string|null {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      return data;
-    }
-    return null;
+    this.onModalClosed();
   }
 
   public formatter(data:string):string|null {
@@ -84,5 +75,13 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
       return this.timezoneService.formattedISODate(d);
     }
     return null;
+  }
+
+  public onModalClosed():void {
+    this.opened = false;
+
+    if (!this.handler.inEditMode) {
+      this.handler.deactivate(false);
+    }
   }
 }

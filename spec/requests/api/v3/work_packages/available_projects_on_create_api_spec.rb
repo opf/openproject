@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
+describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
   include API::V3::Utilities::PathHelper
 
   let(:add_role) do
@@ -58,7 +58,7 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
       member
 
       params = [type_id: { operator: '=', values: [type_id] }]
-      escaped = CGI.escape(::JSON.dump(params))
+      escaped = CGI.escape(JSON.dump(params))
 
       get "#{api_v3_paths.available_projects_on_create}?filters=#{escaped}"
     end

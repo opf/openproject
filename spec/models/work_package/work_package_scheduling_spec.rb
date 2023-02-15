@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#overdue' do
     let(:work_package) do
       create(:work_package,

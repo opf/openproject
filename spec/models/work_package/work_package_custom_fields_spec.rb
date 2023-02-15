@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#custom_fields' do
     let(:type) { create(:type_standard) }
     let(:project) { create(:project, types: [type]) }
@@ -145,7 +145,7 @@ describe WorkPackage, type: :model do
       describe 'invalid custom field values' do
         context 'short error message' do
           shared_examples_for 'custom field with invalid value' do
-            let(:custom_field_key) { "custom_field_#{custom_field.id}".to_sym }
+            let(:custom_field_key) { custom_field.attribute_name.to_sym }
 
             before do
               change_custom_field_value(work_package, custom_field_value)

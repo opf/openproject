@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'export_card_configurations/new', type: :view do
+describe 'export_card_configurations/new' do
   let(:config) { build(:export_card_configuration) }
 
   before do

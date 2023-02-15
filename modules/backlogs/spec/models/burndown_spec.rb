@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../spec_helper")
 
-describe Burndown, type: :model do
+describe Burndown do
   def set_attribute_journalized(story, attribute, value, day)
     story.reload
     story.send(attribute, value)

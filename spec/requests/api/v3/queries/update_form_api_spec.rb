@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form", type: :request do
+describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.query_form(query.id) }
@@ -393,7 +393,7 @@ describe "POST /api/v3/queries/form", type: :request do
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
-              "title" => 'is'
+              "title" => 'is (OR)'
             },
             "values" => [
               {

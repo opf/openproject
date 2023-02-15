@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
+describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do

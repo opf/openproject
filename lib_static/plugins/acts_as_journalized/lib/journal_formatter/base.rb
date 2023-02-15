@@ -44,10 +44,10 @@ module JournalFormatter
       @journal = journal
     end
 
-    def render(key, values, options = { no_html: false })
+    def render(key, values, options = { html: true })
       label, old_value, value = format_details(key, values)
 
-      unless options[:no_html]
+      if options[:html]
         label, old_value, value = *format_html_details(label, old_value, value)
       end
 
@@ -67,9 +67,9 @@ module JournalFormatter
 
     def format_html_details(label, old_value, value)
       label = content_tag('strong', label)
-      old_value = content_tag('i', h(old_value), title: h(old_value)) if old_value.present?
+      old_value = content_tag('i', h(old_value)) if old_value.present?
       old_value = content_tag('strike', old_value) if old_value and value.blank?
-      value = content_tag('i', h(value), title: h(value)) if value.present?
+      value = content_tag('i', h(value)) if value.present?
       value ||= ''
 
       [label, old_value, value]
@@ -85,16 +85,16 @@ module JournalFormatter
 
       linebreak = should_linebreak?(old_value.to_s, value.to_s)
 
-      if options[:no_html]
-        I18n.t(:text_journal_changed_plain,
-               label:,
-               linebreak: linebreak ? "\n" : '',
-               old: old_value,
-               new: value)
-      else
+      if options[:html]
         I18n.t(:text_journal_changed_html,
                label:,
                linebreak: linebreak ? "<br/>".html_safe : '',
+               old: old_value,
+               new: value)
+      else
+        I18n.t(:text_journal_changed_plain,
+               label:,
+               linebreak: linebreak ? "\n" : '',
                old: old_value,
                new: value)
       end

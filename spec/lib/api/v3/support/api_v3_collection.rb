@@ -65,8 +65,8 @@ end
 
 shared_examples_for 'offset-paginated APIv3 collection' do
   def make_link_for(page:, page_size:)
-    page = ::ERB::Util::url_encode(page)
-    page_size = ::ERB::Util::url_encode(page_size)
+    page = ERB::Util::url_encode(page)
+    page_size = ERB::Util::url_encode(page_size)
     "#{self_base_link}?offset=#{page}&pageSize=#{page_size}"
   end
 

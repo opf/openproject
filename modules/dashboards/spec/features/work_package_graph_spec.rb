@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true, with_mail: false do
+describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:other_type) { create :type }
   let!(:priority) { create :default_priority }
@@ -87,9 +87,9 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   end
   let(:enterprise_edition) { true }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:general) { ::Components::WorkPackages::TableConfiguration::GraphGeneral.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:general) { Components::WorkPackages::TableConfiguration::GraphGeneral.new }
 
   before do
     with_enterprise_token(enterprise_edition ? :grid_widget_wp_graph : nil)
@@ -119,7 +119,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
       filter_area.configure_wp_table
       modal.switch_to('Filters')
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by('Type', 'is (OR)', type.name)
       modal.save
 
       filter_area.configure_wp_table

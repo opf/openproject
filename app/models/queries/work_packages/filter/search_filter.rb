@@ -91,7 +91,7 @@ class Queries::WorkPackages::Filter::SearchFilter <
     custom_fields.map do |custom_field|
       Queries::WorkPackages::Filter::FilterConfiguration.new(
         Queries::WorkPackages::Filter::CustomFieldFilter,
-        "cf_#{custom_field.id}",
+        custom_field.column_name,
         CONTAINS_OPERATOR
       )
     end

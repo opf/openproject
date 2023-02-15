@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <h3><%= t :caption_rate_history %></h3>
-  <div class="generic-table--container">
+  <div class="generic-table--container generic-table--container_visible-overflow">
     <div class="generic-table--results-container">
       <table class="generic-table">
         <colgroup>
@@ -89,7 +89,7 @@ See COPYRIGHT and LICENSE files for more details.
           </tr>
         </thead>
         <tbody id="rates_body" class="subform-container">
-          <%= render partial: "rate", object: CostRate.new, locals: { templated: true } %>
+          <%= render partial: "rate", object: CostRate.new(valid_from: Date.current), locals: { templated: true } %>
           <% @cost_type.rates.sort do |a,b|
             case
             when !a.valid? && !b.valid?

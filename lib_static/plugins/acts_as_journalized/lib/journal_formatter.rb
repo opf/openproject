@@ -49,6 +49,7 @@
 # It provides the hooks to apply different formatting to the details
 # of a specific journal.
 
+require_relative './journal_formatter_cache'
 require_relative './journal_formatter/base'
 require_relative './journal_formatter/attribute'
 require_relative './journal_formatter/datetime'
@@ -58,25 +59,18 @@ require_relative './journal_formatter/fraction'
 require_relative './journal_formatter/id'
 require_relative './journal_formatter/named_association'
 require_relative './journal_formatter/plaintext'
-require_relative './journal_formatter/proc'
 
 module JournalFormatter
   mattr_accessor :formatters, :registered_fields
 
   def self.register(hash)
-    if hash[:class]
-      klazz = hash.delete(:class)
-
-      register_formatted_field(klazz, hash.keys.first, hash.values.first)
-    else
-      formatters.merge!(hash)
-    end
+    formatters.merge!(hash)
   end
 
-  def self.register_formatted_field(klass, field, formatter)
+  def self.register_formatted_field(journal_data_type, field, formatter_key)
     field_key = field.is_a?(Regexp) ? field : Regexp.new("^#{field}$")
 
-    registered_fields[klass].merge!(field_key => formatter)
+    registered_fields[journal_data_type].merge!(field_key => formatter_key.to_sym)
   end
 
   def self.default_formatters
@@ -90,50 +84,54 @@ module JournalFormatter
   end
 
   self.formatters = default_formatters
-  self.registered_fields = Hash.new do |hash, klass|
-    hash[klass] = {}
+  self.registered_fields = Hash.new do |hash, journal_data_type|
+    hash[journal_data_type] = {}
   end
 
   def render_detail(detail, options = {})
-    merge_options = { no_html: false, only_path: true }.merge(options)
+    options = options.reverse_merge(html: true, only_path: true, cache: JournalFormatterCache.request_instance)
 
     if detail.respond_to? :to_ary
-      key = detail.first
+      field = detail.first
       values = detail.last
     else
-      key = detail
-      values = details[key.to_s]
+      field = detail
+      values = details[field.to_s]
     end
 
-    formatter = formatter_instance(key.to_s)
+    formatter = formatter_instance(field)
 
-    return nil if formatter.nil?
+    return if formatter.nil?
 
-    formatter.render(key, values, merge_options).html_safe
+    formatter.render(field, values, options).html_safe # rubocop:disable Rails/OutputSafety
   end
 
-  def formatter_instance(formatter_key)
+  def formatter_instance(field)
     # Some attributes on a model are named dynamically.
     # This is especially true for associations created by plugins.
     # Those are sometimes named according to the schema "association_name[n]" or
     # "association_name_[n]" where n is an integer representing an id.
     # Using regexp we are able to handle those fields with the rest.
-    formatter_type = data.class.to_s.to_sym
-    formatter = lookup_formatter formatter_key, formatter_type
+    formatter_key = lookup_formatter_key(field)
 
-    formatter_instances(formatter_type)[formatter] unless formatter.nil?
+    formatter_instances[formatter_key] if formatter_key
   end
 
-  def lookup_formatter(formatter_key, formatter_type)
+  def journal_data_type
+    data_type
+  end
+
+  def lookup_formatter_key(field)
     JournalFormatter
-      .registered_fields[formatter_type].keys
-      .detect { |k| formatter_key.match(k) }
+      .registered_fields[journal_data_type]
+      .find { |regexp, _formatter_key| field.match(regexp) }
+      .then { |_regexp, formatter_key| formatter_key }
   end
 
-  def formatter_instances(formatter_type)
-    @formatter_instances ||= Hash.new do |hash, key|
-      f = JournalFormatter.formatters[JournalFormatter.registered_fields[formatter_type][key]]
-      hash[key] = f.new(self)
+  def formatter_instances
+    @formatter_instances ||= Hash.new do |hash, formatter_key|
+      formatter_class = JournalFormatter.formatters[formatter_key]
+      hash[formatter_key] = formatter_class.new(self)
     end
   end
 end

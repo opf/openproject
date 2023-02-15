@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
+describe Queries::WorkPackages::Filter::SubprojectFilter do
   it_behaves_like 'basic query filter' do
     let(:type) { :list_optional }
     let(:class_key) { :subproject_id }
@@ -129,7 +129,7 @@ describe Queries::WorkPackages::Filter::SubprojectFilter, type: :model do
     describe '#default_operator' do
       it 'is the `all` operator' do
         expect(instance.default_operator)
-          .to eql(::Queries::Operators::All)
+          .to eql(Queries::Operators::All)
       end
     end
 

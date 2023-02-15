@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
+  include API::V3::Utilities::PathHelper
 
   let(:file_link) { build_stubbed(:file_link) }
   let(:storage) { build_stubbed(:storage) }
@@ -37,7 +37,7 @@ describe ::API::V3::FileLinks::FileLinkRepresenter, 'parsing' do
   let(:current_user) { build_stubbed(:user) }
 
   before do
-    allow(::Storages::Storage).to receive(:find_by)
+    allow(Storages::Storage).to receive(:find_by)
                                     .with(host: storage.host)
                                     .and_return storage
   end

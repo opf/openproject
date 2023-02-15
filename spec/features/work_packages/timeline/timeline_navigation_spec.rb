@@ -194,7 +194,7 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
              start_date: Date.today,
              due_date: (Date.today + 5.days)
     end
-    let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+    let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
     it 'toggles the hierarchy in both views' do
       wp_timeline.visit!
@@ -227,7 +227,7 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
     let(:category) { create :category, project:, name: 'Foo' }
     let(:category2) { create :category, project:, name: 'Bar' }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-    let(:relations) { ::Components::WorkPackages::Relations.new(wp_cat1) }
+    let(:relations) { Components::WorkPackages::Relations.new(wp_cat1) }
 
     let!(:wp_cat1) do
       create :work_package,

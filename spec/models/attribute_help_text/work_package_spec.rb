@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe AttributeHelpText::WorkPackage, type: :model do
+describe AttributeHelpText::WorkPackage do
   def create_cf_help_text(custom_field)
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!
     # need to clear the cache to free the memoized
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
-    create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+    create(:work_package_help_text, attribute_name: custom_field.attribute_name)
   end
 
   let(:wp_custom_field) { create :text_wp_custom_field }

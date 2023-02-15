@@ -29,7 +29,8 @@ options = {
   "secret"=>"<secret>",
   "authorization_endpoint" => "/oauth2/v1/authorize",
   "token_endpoint" => "/oauth2/v1/token",
-  "userinfo_endpoint" => "/oauth2/v1/userinfo"
+  "userinfo_endpoint" => "/oauth2/v1/userinfo",
+  "end_session_endpoint" => "https://mypersonal.okta.com/oauth2/{authorizationServerId}/v1/logout"
 }
 ```
 
@@ -258,9 +259,11 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME="Keycloak"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST="<Hostname of the keycloak server>"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_IDENTIFIER="https://<Your OpenProject hostname>"
 OPENPROJECT_OPENID__CONNECT_KEYCLOAK_SECRET="<The client secret you copied from keycloak>"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT="/realms/REALM/protocol/openid-connect/auth"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT="/realms/REALM/protocol/openid-connect/token"
-OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT="/realms/REALM/protocol/openid-connect/userinfo"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ISSUER="https://<Hostname of the keycloak server>/realms/<REALM>"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_AUTHORIZATION__ENDPOINT="/realms/<REALM>/protocol/openid-connect/auth"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_TOKEN__ENDPOINT="/realms/<REALM>/protocol/openid-connect/token"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_USERINFO__ENDPOINT="/realms/<REALM>/protocol/openid-connect/userinfo"
+OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of the keycloak server>/realms/<REALM>/protocol/openid-connect/logout"
 # Optional, if you have created the client scope mapper as shown above
 # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_ATTRIBUTE__MAP_LOGIN="preferred_username"
 ```
@@ -283,3 +286,5 @@ sudo openproject run console
 ```
 
 Then, existing users should be able to log in using their OIDC identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or identity provider.
+
+Note that this setting is set to true by default for new installations already.

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe PlaceholderUsers::Scopes::Visible, type: :model do
+describe PlaceholderUsers::Scopes::Visible do
   describe '.visible' do
     shared_let(:project) { create :project }
     shared_let(:other_project) { create :project }
@@ -39,7 +39,7 @@ describe PlaceholderUsers::Scopes::Visible, type: :model do
     end
     shared_let(:global_placeholder) { create :placeholder_user }
 
-    subject { ::PlaceholderUser.visible.to_a }
+    subject { PlaceholderUser.visible.to_a }
 
     context 'when user has manage_members permission' do
       current_user { create :user, member_in_project: project, member_through_role: role }

@@ -1,6 +1,7 @@
 <spot-tooltip
   [disabled]="!disabled"
   [alignment]="tooltipAllignment"
+  [light]="true"
   class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper"
   [ngClass]="{ 'spot-list--item-floating-wrapper_disabled op-file-list--item-floating-wrapper__disabled': disabled }"
 >
@@ -20,12 +21,10 @@
         'op-file-list--item-action_view-not-allowed': !viewAllowed
       }"
       [href]="fileLink._links.staticOriginOpen.href"
-      [title]="fileLink.originData.name"
       target="_blank"
     >
       <div
         class="spot-list--item-title op-file-list--item-title"
-        [title]="fileLink.originData.name"
       >
         <span
           class="spot-icon spot-icon_{{fileLinkIcon.icon}} op-files-tab--icon op-files-tab--icon_{{fileLinkIcon.clazz}}"

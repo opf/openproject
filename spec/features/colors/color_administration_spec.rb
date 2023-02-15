@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'color administration', type: :feature do
+describe 'color administration' do
   shared_let(:admin) { create :admin }
 
   before do

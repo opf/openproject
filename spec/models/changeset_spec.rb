@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Changeset, type: :model do
+describe Changeset do
   let(:email) { 'bob@bobbit.org' }
 
   with_virtual_subversion_repository do

@@ -42,7 +42,7 @@ def retry_block(args: {}, screenshot: false, &block)
   end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
-    max_tries = RSpec.current_example.metadata[:retry] + 1
+    max_tries = args[:tries] || (RSpec.current_example.metadata[:retry].to_i + 1)
     exception_source_line = exception.backtrace.find { |line| line.start_with?(Rails.root.to_s) }
     next_try_message = next_interval ? "#{next_interval} seconds until the next try" : "last try"
     # use stderr directly to prevent having StructuredWarnings::StandardWarning

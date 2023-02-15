@@ -1,8 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Generate 2FA backup codes', type: :feature,
-                                      with_config: { '2fa': { active_strategies: [:developer] } },
+describe 'Generate 2FA backup codes', with_config: { '2fa': { active_strategies: [:developer] } },
                                       js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
@@ -11,7 +10,7 @@ describe 'Generate 2FA backup codes', type: :feature,
            password: user_password,
            password_confirmation: user_password)
   end
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+  let(:dialog) { Components::PasswordConfirmationDialog.new }
 
   before do
     login_as user
@@ -22,7 +21,7 @@ describe 'Generate 2FA backup codes', type: :feature,
 
     # Log token for next access
     backup_codes = nil
-    allow(::TwoFactorAuthentication::BackupCode)
+    allow(TwoFactorAuthentication::BackupCode)
         .to receive(:regenerate!)
         .and_wrap_original do |m, user|
       backup_codes = m.call(user)

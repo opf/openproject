@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe AnnouncementMailer, type: :mailer do
+describe AnnouncementMailer do
   let(:announcement_subject) { 'Some subject' }
   let(:recipient) { build_stubbed(:user) }
   let(:announcement_body) { 'Some body text' }

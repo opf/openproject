@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Relations::RelationQuery, type: :model do
+describe Queries::Relations::RelationQuery do
   let(:instance) { described_class.new }
   let(:base_scope) { Relation.order(id: :desc) }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
+describe API::V3::Versions::VersionRepresenter, 'rendering' do
   let(:version) { build_stubbed(:version) }
   let(:permissions) { [:manage_versions] }
   let(:permissions) { [:manage_versions] }
@@ -211,7 +211,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(version)
-          .to receive(:"custom_field_#{custom_field.id}")
+          .to receive(custom_field.attribute_getter)
           .and_return(custom_value.value)
       end
 
@@ -283,7 +283,7 @@ describe ::API::V3::Versions::VersionRepresenter, 'rendering' do
             .and_return([custom_field])
 
           allow(version)
-            .to receive(:"custom_field_#{custom_field.id}")
+            .to receive(custom_field.attribute_getter)
             .and_return('123')
         end
 

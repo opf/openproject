@@ -28,7 +28,7 @@
 
 require File.dirname(__FILE__) + '/../../spec_helper'
 
-describe 'rb_master_backlogs/index', type: :view do
+describe 'rb_master_backlogs/index' do
   let(:user) { create(:user) }
   let(:role_allowed) do
     create(:role,

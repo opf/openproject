@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative '../support/pages/calendar'
 require_relative '../../../../spec/features/views/shared_examples'
 
-describe 'Calendar query handling', type: :feature, js: true do
+describe 'Calendar query handling', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -76,10 +76,10 @@ describe 'Calendar query handling', type: :feature, js: true do
            public: true)
   end
 
-  let(:calendar_page) { ::Pages::Calendar.new project }
-  let(:work_package_page) { ::Pages::WorkPackagesTable.new project }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
+  let(:calendar_page) { Pages::Calendar.new project }
+  let(:work_package_page) { Pages::WorkPackagesTable.new project }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:filters) { calendar_page.filters }
 
   current_user { user }
@@ -114,7 +114,7 @@ describe 'Calendar query handling', type: :feature, js: true do
       filters.expect_filter_count("1")
       filters.open
 
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
 
       filters.expect_filter_count("2")
 
@@ -133,7 +133,7 @@ describe 'Calendar query handling', type: :feature, js: true do
 
       # Change filter
       filters.open
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
       filters.expect_filter_count("2")
 
       # Save current filters

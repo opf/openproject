@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects status administration', type: :feature, js: true do
+describe 'Projects status administration', js: true do
   include_context 'ng-select-autocomplete helpers'
 
   let(:current_user) do
@@ -49,8 +49,8 @@ describe 'Projects status administration', type: :feature, js: true do
   end
   let(:status_description) { Components::WysiwygEditor.new('[data-qa-field-name="statusExplanation"]') }
 
-  let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:status_field) { ::FormFields::SelectFormField.new :status }
+  let(:name_field) { FormFields::InputFormField.new :name }
+  let(:status_field) { FormFields::SelectFormField.new :status }
 
   before do
     login_as current_user

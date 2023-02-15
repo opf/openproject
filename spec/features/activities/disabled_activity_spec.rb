@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Disabled activity', type: :feature do
+describe 'Disabled activity' do
   shared_let(:admin) { create :admin }
 
   let(:project1) do
@@ -68,7 +68,7 @@ describe 'Disabled activity', type: :feature do
   it 'does not display activities on projects disabling it' do
     visit activity_index_path
 
-    check "Wiki edits"
+    check "Wiki"
     click_on "Apply"
 
     expect(page)

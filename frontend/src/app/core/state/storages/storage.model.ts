@@ -27,14 +27,24 @@
 //++
 
 import { ID } from '@datorama/akita';
-import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import { IHalMethodResourceLink, IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
+
+export interface IPrepareUploadBody {
+  projectId:ID;
+  fileName:string;
+  parent:string;
+}
+
+export interface IPrepareUploadLink extends IHalMethodResourceLink {
+  payload:IPrepareUploadBody;
+}
 
 export interface IStorageHalResourceLinks extends IHalResourceLinks {
-  self:IHalResourceLink;
   type:IHalResourceLink;
   origin:IHalResourceLink;
   open:IHalResourceLink;
   authorizationState:IHalResourceLink;
+  prepareUpload:IPrepareUploadLink[];
   authorize?:IHalResourceLink;
 }
 

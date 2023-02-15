@@ -99,8 +99,8 @@ describe Projects::CopyService, 'integration', type: :model do
     let!(:wp_2) { create(:work_package, project: source, subject: 'First') }
 
     before do
-      ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
-      ::OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
+      OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
+      OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
     end
 
     describe 'call' do

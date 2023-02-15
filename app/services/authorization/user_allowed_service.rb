@@ -36,7 +36,7 @@ class Authorization::UserAllowedService
 
   # Return true if the user is allowed to do the specified action on a specific context
   # Action can be:
-  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project
@@ -79,7 +79,7 @@ class Authorization::UserAllowedService
     end
 
     # No action allowed on archived projects
-    return false unless project.active?
+    return false unless project.active? || project.being_archived?
     # No action allowed on disabled modules
     return false unless project.allows_to?(action)
     # Inactive users are never authorized

@@ -47,7 +47,7 @@ describe API::V3::StorageFiles::StorageUploadLinkRepresenter, 'rendering' do
     describe 'to self' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'self' }
-        let(:href) { "#{::API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
+        let(:href) { "#{API::V3::URN_PREFIX}storages:upload_link:no_link_provided" }
       end
     end
 

@@ -33,7 +33,7 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
 
   def available_operators
     [Queries::Operators::OpenWorkPackages,
-     Queries::Operators::Equals,
+     Queries::Operators::EqualsOr,
      Queries::Operators::ClosedWorkPackages,
      Queries::Operators::NotEquals,
      Queries::Operators::All]

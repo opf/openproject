@@ -1,0 +1,8 @@
+#English strings go here
+eu:
+  js:
+    calendar:
+      create_new: 'Sortu egutegi berria'
+      title: 'Egutegia'
+      too_many: ' %{count} lan-pakete daude denera, baina %{max} bakarrik ikus daitezke. '
+      unsaved_title: 'Izenik gabeko egutegia'

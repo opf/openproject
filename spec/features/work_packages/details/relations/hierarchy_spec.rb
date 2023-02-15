@@ -35,8 +35,8 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 
@@ -96,7 +96,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         )
       end
       let(:type2) { create(:type, custom_fields: [custom_field]) }
-      let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+      let(:relations) { Components::WorkPackages::Relations.new(parent) }
       let!(:status) { create(:status, is_default: true) }
       let!(:priority) { create(:priority, is_default: true) }
 
@@ -120,7 +120,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                              type: 'error'
 
-        cf_field = wp_page.edit_field("customField#{custom_field.id}")
+        cf_field = wp_page.edit_field(custom_field.attribute_name(:camel_case))
         cf_field.expect_active!
         cf_field.expect_value('')
 

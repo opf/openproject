@@ -8,7 +8,7 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import { InviteUserButtonModule } from 'core-app/features/invite-user-modal/button/invite-user-button.module';
 import { DynamicFormsModule } from 'core-app/shared/components/dynamic-forms/dynamic-forms.module';
 import { OpInviteUserModalAugmentService } from 'core-app/features/invite-user-modal/invite-user-modal-augment.service';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { InviteUserModalComponent } from './invite-user.component';
 import { ProjectSelectionComponent } from './project-selection/project-selection.component';
@@ -28,7 +28,7 @@ export function initializeServices(injector:Injector) {
 @NgModule({
   imports: [
     CommonModule,
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectModalModule,
     NgSelectModule,
     ReactiveFormsModule,

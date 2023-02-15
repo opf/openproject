@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TypesHelper, type: :helper do
+describe TypesHelper do
   let(:type) { build_stubbed(:type) }
 
   describe "#form_configuration_groups" do
@@ -43,7 +43,7 @@ describe TypesHelper, type: :helper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [::Type::AttributeGroup.new(type, 'group one', ["assignee"])]
+          .and_return [Type::AttributeGroup.new(type, 'group one', ["assignee"])]
       end
 
       it 'contains Hashes ordered by key :translation' do
@@ -64,7 +64,7 @@ describe TypesHelper, type: :helper do
       before do
         allow(type)
           .to receive(:attribute_groups)
-          .and_return [::Type::AttributeGroup.new(type, 'group one', ["date"])]
+          .and_return [Type::AttributeGroup.new(type, 'group one', ["date"])]
       end
 
       it 'has a proper structure' do

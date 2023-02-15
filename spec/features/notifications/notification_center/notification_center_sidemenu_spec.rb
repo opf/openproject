@@ -64,8 +64,8 @@ describe "Notification center sidemenu",
     [notification, notification2, notification3, notification4, notification5]
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:side_menu) { Components::Notifications::Sidemenu.new }
 
   before do
     notifications

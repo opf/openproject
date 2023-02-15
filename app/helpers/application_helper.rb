@@ -385,7 +385,7 @@ module ApplicationHelper
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-single-date-picker angular component instead", caller
   end
 
   def locale_first_day_of_week
@@ -436,25 +436,6 @@ module ApplicationHelper
   #   defaults to no index, follow, and no archive
   def robot_exclusion_tag(content = 'NOINDEX,FOLLOW,NOARCHIVE')
     "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
-  end
-
-  #
-  # Returns the footer text displayed in the layout file.
-  #
-  def footer_content
-    elements = []
-    elements << I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name,
-                                                       OpenProject::Info.url))
-    unless OpenProject::Footer.content.nil?
-      OpenProject::Footer.content.each do |name, value|
-        content = value.respond_to?(:call) ? value.call : value
-        if content
-          elements << content_tag(:span, content, class: "footer_#{name}")
-        end
-      end
-    end
-    elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
-    elements.join(', ').html_safe
   end
 
   def permitted_params

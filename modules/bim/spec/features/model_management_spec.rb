@@ -32,7 +32,6 @@ require_relative '../support/pages/ifc_models/index'
 
 describe 'model management',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   let(:index_page) { Pages::IfcModels::Index.new(project) }

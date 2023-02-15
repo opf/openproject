@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
   let(:work_package) { build_stubbed(:work_package) }
   let(:current_user) do
@@ -43,7 +43,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
+    API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
   let(:embedded) { false }
   let(:representer) do

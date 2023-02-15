@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::ParseQueryParamsService,
+describe API::V3::ParseQueryParamsService,
          type: :model do
   let(:instance) { described_class.new }
   let(:params) { {} }

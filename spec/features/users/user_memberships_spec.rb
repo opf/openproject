@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../principals/shared_memberships_examples'
 
-describe 'user memberships through user page', type: :feature, js: true do
+describe 'user memberships through user page', js: true do
   include_context 'principal membership management context'
 
   shared_let(:principal) { create :user, firstname: 'Foobar', lastname: 'Blabla' }

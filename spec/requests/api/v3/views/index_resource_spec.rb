@@ -28,9 +28,8 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Views::ViewsAPI,
+describe API::V3::Views::ViewsAPI,
          'index',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 

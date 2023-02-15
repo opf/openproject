@@ -468,14 +468,24 @@ hu:
       member:
         roles: "Szerepkörök"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Azonosító"
         latest_activity_at: "Legújabb tevékenység ekkor"
         parent: "Alprojekt"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Lekérdezések"
+        templated: "Példa projekt"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -687,6 +697,11 @@ hu:
               no_notification_reason: "nem lehet üres, mivel az IAN-t választották csatornának.\n"
             reason_mail_digest:
               no_notification_reason: "nem lehet üres, mivel a mail digest csatornaként van kiválasztva.\n"
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +712,8 @@ hu:
           archived_ancestor: 'A projektnek archívált őse van.'
           foreign_wps_reference_version: 'Munkacsomagok nem leszármazottak a projektekben, a projekt vagy annak leszármazottainak referenciaverziói.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "munkacsomagok használatban vannak: %{types}"
             enabled_modules:
@@ -1027,6 +1044,7 @@ hu:
   button_reset: "Visszaállít, reset"
   button_rollback: "Visszaállitás erre a verzióra"
   button_save: "Mentés"
+  button_apply_changes: "Apply changes"
   button_save_back: "Mentés és vissza"
   button_show: "Mutat"
   button_sort: "Rendez"
@@ -1746,6 +1764,10 @@ hu:
   label_not_contains: "nem tartalmaz"
   label_not_equals: "nem"
   label_on: "be"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -1787,6 +1809,7 @@ hu:
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
@@ -2209,6 +2232,7 @@ hu:
   permission_add_work_packages: "feladatcsoport hozzáadása"
   permission_add_messages: "Elküldött üzenetek"
   permission_add_project: "Projekt létrehozása"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Felhasználó létrehozása és szerkesztése"
   permission_manage_placeholder_user: "Teszt felhasználók létrehozása, módosítása, törlése"
   permission_add_subprojects: "Alprojektek létrehozása"
@@ -2944,15 +2968,20 @@ hu:
       title: "Munkacsomag törlése"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nincs előnézet"
   api_v3:
     attributes:

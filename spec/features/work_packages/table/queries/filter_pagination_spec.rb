@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'Filter updates pagination', type: :feature, js: true do
+describe 'Filter updates pagination', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -75,7 +75,7 @@ describe 'Filter updates pagination', type: :feature, js: true do
     # Change filter to assigned to
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by 'Assignee', 'is', user.name
+    filters.add_filter_by 'Assignee', 'is (OR)', user.name
     filters.expect_filter_count 2
 
     wp_table.expect_work_package_listed work_package_1

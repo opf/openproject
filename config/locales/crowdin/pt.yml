@@ -470,14 +470,24 @@ pt:
       member:
         roles: "Papéis"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultas"
+        templated: "Projeto modelo"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Projeto modelo'
       projects/status:
         code: 'Situação'
         explanation: 'Descrição da situação'
@@ -689,6 +699,11 @@ pt:
               no_notification_reason: 'não pode ficar em branco porque o IAN foi escolhido como um canal.'
             reason_mail_digest:
               no_notification_reason: 'não pode ficar em branco porque o resumo do e-mail foi escolhido como um canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +714,8 @@ pt:
           archived_ancestor: 'O projeto tem um ancestral arquivado.'
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -1029,6 +1046,7 @@ pt:
   button_reset: "Reiniciar"
   button_rollback: "Retornar para esta versão"
   button_save: "Salvar"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salvar e voltar"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1748,6 +1766,10 @@ pt:
   label_not_contains: "não contém"
   label_not_equals: "não é"
   label_on: "ligado"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -1789,6 +1811,7 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
@@ -2210,6 +2233,7 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Criar e editar usuários"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
@@ -2944,15 +2968,20 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar que dias da semana são considerados dias úteis pode afetar os dias de início e conclusão de todos os pacotes de trabalho em todos os projetos nesta instância.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:
         working: "%{day} agora é um dia útil"
         non_working: "%{day} agora é um dia não-útil"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:

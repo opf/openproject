@@ -32,8 +32,8 @@ describe 'Selecting cards in the card view (regression #31962)', js: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:cards) { ::Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:cards) { Pages::WorkPackageCards.new(project) }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let!(:work_package1) { create(:work_package, project:) }
   let!(:work_package2) { create(:work_package, project:) }
   let!(:work_package3) { create(:work_package, project:) }

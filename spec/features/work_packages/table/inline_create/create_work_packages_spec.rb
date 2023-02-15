@@ -23,7 +23,7 @@ describe 'inline create work package', js: true do
   let!(:project) { create(:project, public: true, types:) }
   let!(:existing_wp) { create(:work_package, project:) }
   let!(:priority) { create :priority, is_default: true }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     workflow
@@ -94,16 +94,16 @@ describe 'inline create work package', js: true do
       let(:cf_list) do
         create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
-      let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
+      let(:cf_accessor_frontend) { cf_list.attribute_name(:camel_case) }
       let(:types) { [type, cf_type] }
       let(:type) { create(:type_standard) }
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
-      let(:columns) { ::Components::WorkPackages::Columns.new }
+      let(:columns) { Components::WorkPackages::Columns.new }
 
       it 'applies the filter value for the custom field' do
         wp_table.visit!
         filters.open
-        filters.add_filter_by cf_list.name, 'is', cf_list.custom_options.second.name, cf_accessor_frontend
+        filters.add_filter_by cf_list.name, 'is (OR)', cf_list.custom_options.second.name, cf_accessor_frontend
 
         sleep(0.3)
 
@@ -136,14 +136,14 @@ describe 'inline create work package', js: true do
 
         created_wp = WorkPackage.last
 
-        cf_field = wp_table.edit_field(created_wp, :"customField#{cf_list.id}")
+        cf_field = wp_table.edit_field(created_wp, cf_list.attribute_name(:camel_case))
         cf_field.expect_text(cf_list.custom_options.second.name)
       end
     end
   end
 
   describe 'global create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       wp_table.visit!
@@ -164,7 +164,7 @@ describe 'inline create work package', js: true do
   end
 
   describe 'project context create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
       wp_table.visit!

@@ -76,7 +76,7 @@ describe AttachmentWebhookJob, type: :job, webmock: true do
   end
 
   before do
-    allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
+    allow(Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
     login_as user
     stub
   end

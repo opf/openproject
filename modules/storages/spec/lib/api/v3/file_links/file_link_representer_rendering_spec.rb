@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:storage) { build_stubbed(:storage) }
   let(:container) { build_stubbed(:work_package) }

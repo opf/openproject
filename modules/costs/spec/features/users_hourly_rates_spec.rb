@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'hourly rates on user edit', type: :feature, js: true do
+describe 'hourly rates on user edit', js: true do
   let(:user) { create :admin }
 
   def view_rates
@@ -91,6 +91,7 @@ describe 'hourly rates on user edit', type: :feature, js: true do
       click_link 'Satz hinzufügen'
 
       fill_in "user_new_rate_attributes_1_valid_from", with: (Time.zone.today + 1.day).iso8601
+      find("input#user_new_rate_attributes_1_valid_from").send_keys :escape
       fill_in "user_new_rate_attributes_1_rate", with: '5,12'
 
       click_button 'Speichern'

@@ -43,7 +43,7 @@ import {
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import {
   StorageFileListItemComponent,
@@ -60,7 +60,7 @@ import {
     CommonModule,
     IconModule,
     OpSpotModule,
-    OPSharedModule,
+    OpSharedModule,
   ],
   declarations: [
     StorageComponent,

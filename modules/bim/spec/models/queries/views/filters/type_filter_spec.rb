@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Views::Filters::TypeFilter, type: :model do
+describe Queries::Views::Filters::TypeFilter do
   let(:current_user) { create(:user) }
 
   before do

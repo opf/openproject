@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   let(:type) { create :type }
   let(:project) { create :project, types: [type] }
 
@@ -97,7 +97,7 @@ describe WorkPackage, type: :model do
         work_package.custom_field_values = { custom_field.id => ids }
         work_package.save
 
-        expect(work_package.send("custom_field_#{custom_field.id}"))
+        expect(work_package.send(custom_field.attribute_getter))
           .to eql values
       end
     end

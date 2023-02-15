@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'user self registration', type: :feature, js: true do
+describe 'user self registration', js: true do
   let(:admin_password) { 'Test123Test123' }
   let(:admin) { create :admin, password: admin_password, password_confirmation: admin_password }
   let(:home_page) { Pages::Home.new }

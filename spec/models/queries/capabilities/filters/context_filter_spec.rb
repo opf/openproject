@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::Capabilities::Filters::ContextFilter, type: :model do
+describe Queries::Capabilities::Filters::ContextFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :context }
     let(:type) { :string }

@@ -206,7 +206,8 @@ end
 def display_pull_request_info(workflow_run)
   return unless workflow_run['event'] == 'pull_request'
 
-  pr = workflow_run['pull_requests'].first
+  pr = workflow_run['pull_requests'].first or
+    raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
   pr_number = "##{pr['number']}"
   pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
   pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
@@ -236,6 +237,7 @@ get_jobs(workflow_run)
   .sort_by { _1['name'] }
   .each { |job| warn "    #{status_line(job)}" }
   .select { _1['conclusion'] == 'failure' }
+  .reject { _1['name'] == 'rubocop' }
   .each do |job|
     is_successful = false
     get_log(job)

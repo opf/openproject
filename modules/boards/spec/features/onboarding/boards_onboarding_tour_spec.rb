@@ -72,7 +72,7 @@ describe 'boards onboarding tour', js: true do
   let(:query) { create :query, user:, project: demo_project }
 
   before do
-    ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
+    OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
     allow(Setting).to receive(:demo_projects_available).and_return(true)
     allow(Setting).to receive(:boards_demo_data_available).and_return(true)
   end

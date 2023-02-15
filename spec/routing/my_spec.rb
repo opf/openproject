@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my routes', type: :routing do
+describe 'my routes' do
   it '/my/account GET routes to my#account' do
     expect(get('/my/account')).to route_to('my#account')
   end

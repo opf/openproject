@@ -28,9 +28,8 @@
 require 'spec_helper'
 require_relative './update_resource_examples'
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'update',
-         type: :request do
+describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'update' do
   include API::V3::Utilities::PathHelper
 
   shared_let(:placeholder) { create :placeholder_user, name: 'foo' }

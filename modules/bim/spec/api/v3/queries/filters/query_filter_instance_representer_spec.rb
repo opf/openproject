@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
+describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:operator) { '=' }
   let(:filter) do
-    ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
+    Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
       .create!(name: "bcf_issue_associated", operator:, values:)
   end
 

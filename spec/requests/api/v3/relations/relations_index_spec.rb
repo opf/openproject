@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'GET /api/v3/relations', type: :request do
+describe 'GET /api/v3/relations' do
   let(:user) { create :admin }
 
   let(:work_package) { create :work_package }

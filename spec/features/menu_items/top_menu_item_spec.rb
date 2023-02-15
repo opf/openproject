@@ -114,13 +114,14 @@ describe 'Top menu items', js: true, selenium: true do
     let(:top_menu) { find(:css, '#projects-menu') }
 
     let(:all_projects) { I18n.t('js.label_project_list') }
-    let(:all_items) { [all_projects] }
+    let(:add_project) { I18n.t('js.label_project') }
 
     context 'as an admin' do
       let(:user) { create :admin }
 
       it 'displays all items' do
-        has_menu_items?(all_projects)
+        expect(page).to have_selector('a.button', exact_text: all_projects)
+        expect(page).to have_selector('a.button', exact_text: add_project)
       end
 
       it 'visits the projects page' do
@@ -136,7 +137,8 @@ describe 'Top menu items', js: true, selenium: true do
       end
 
       it 'does not display new_project' do
-        has_menu_items? all_projects
+        expect(page).to have_selector('a.button', exact_text: all_projects)
+        expect(page).to have_no_selector('a.button', exact_text: add_project)
       end
     end
 

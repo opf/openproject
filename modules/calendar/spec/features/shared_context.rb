@@ -43,7 +43,7 @@ shared_context 'with calendar full access' do
            ]
   end
 
-  let(:calendar) { ::Pages::Calendar.new project }
+  let(:calendar) { Pages::Calendar.new project }
   let(:filters) { calendar.filters }
 
   let(:current_user) { user }

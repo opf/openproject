@@ -224,7 +224,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -252,6 +252,19 @@ it:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Illimitato"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'il'
@@ -281,7 +294,7 @@ it:
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
       upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise Edition.'
+      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -300,15 +313,11 @@ it:
           learn_about: "Scopri di più sulle nuove funzionalità"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Attiva le notifiche sulle date per non dimenticare gli impegni imminenti e le attività scadute.</li> <li>L'autenticazione a due fattori (2FA) è attiva anche per la Community Edition.</li> <li>L'opzione di visualizzazione della settimana lavorativa è ora aggiunta anche al pianificatore del team.</li> <li> Elenca fino a 3 persone nelle schede di notifica quando più persone sono coinvolte nelle modifiche.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -475,10 +484,10 @@ it:
     label_custom_queries: "Privato"
     label_columns: "Colonne"
     label_attachments: Allegati
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Rilascia qui i file per allegarli."
+    label_drop_or_click_files: "Rilascia qui i file o clicca per allegarli."
     label_drop_folders_hint: Non è possibile caricare cartelle come allegati. Si prega di selezionare singoli file.
-    label_add_attachments: "Aggiungi allegati"
+    label_add_attachments: "Allega file"
     label_formattable_attachment_hint: "Allega e collega i file trascinandoli in questo campo, o incollandoli dagli appunti."
     label_remove_file: "Cancella %{fileName}"
     label_remove_watcher: "Rimuovi watcher %{name}"
@@ -572,7 +581,7 @@ it:
           one: 'e 1 altro'
           other: 'e altri %{count}'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Le nuove notifiche appariranno qui quando si verificherà dell''attività che ti riguardi.'
           with_current_filter: 'Non ci sono notifiche in questa vista al momento'
         mark_all_read: 'Segna tutti come letti'
         mark_as_read: 'Segna come letto'
@@ -595,7 +604,7 @@ it:
         watched: 'Osservatore'
         date_alert: 'Avviso data'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
         notify_me: "Avvisami"
         reminders:
@@ -633,7 +642,7 @@ it:
             title: 'Avvisi data'
             description: 'Notifiche automatiche quando si avvicinano date importanti per le macro-attività aperte in cui sei coinvolto (assegnatario, responsabile od osservatore)'
             teaser_text: 'Con gli avvisi sulle date, sarai avvisato delle prossime date di inizio o di fine in modo da non perdere mai o dimenticare una scadenza importante.'
-          overdue: When overdue
+          overdue: Alla scadenza
         project_specific:
           title: 'Impostazioni di notifica specifiche del progetto'
           description: 'Queste impostazioni specifiche del progetto sostituiscono le impostazioni predefinite sopra.'
@@ -657,6 +666,7 @@ it:
     project:
       required_outside_context: >
         Scegli un progetto per creare una macro-attività e vederne tutti gli attributi. Puoi selezionare solo progetti che hanno il tipo sopra indicato attivato.
+      details_activity: 'Attività dei dettagli del progetto'
       context: 'Contesto del progetto'
       work_package_belongs_to: 'Questa macro-attività appartiene al progetto %{projectname}.'
       click_to_switch_context: 'Apri questa macro-attività nel progetto.'
@@ -855,7 +865,7 @@ it:
       zooms: "Livello di zoom"
       outlines: "Livello della gerarchia"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Addon dell''edizione per Imprese'
     wiki_formatting:
       strong: "Grassetto"
       italic: "Corsivo"
@@ -1251,4 +1261,5 @@ it:
       filter_chip:
         remove: 'Rimuovi'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Chiuso'

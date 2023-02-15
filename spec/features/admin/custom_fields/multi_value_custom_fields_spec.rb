@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Multi-value custom fields creation', type: :feature, js: true do
+describe 'Multi-value custom fields creation', js: true do
   shared_let(:admin) { create :admin }
 
   before do

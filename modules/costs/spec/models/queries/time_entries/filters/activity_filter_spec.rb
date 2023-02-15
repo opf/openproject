@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
+describe Queries::TimeEntries::Filters::ActivityFilter do
   let(:time_entry_activity1) { build_stubbed(:time_entry_activity) }
   let(:time_entry_activity2) { build_stubbed(:time_entry_activity) }
   let(:activities) { [time_entry_activity1, time_entry_activity2] }
@@ -37,11 +37,11 @@ describe Queries::TimeEntries::Filters::ActivityFilter, type: :model do
   end
 
   before do
-    allow(::TimeEntryActivity)
+    allow(TimeEntryActivity)
       .to receive(:shared)
       .and_return(activities)
 
-    allow(::TimeEntryActivity)
+    allow(TimeEntryActivity)
       .to receive_message_chain(:where, :or)
       .and_return(activities)
 

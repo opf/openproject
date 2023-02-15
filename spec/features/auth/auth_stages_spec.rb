@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'Authentication Stages',
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :feature do
+         skip_2fa_stage: true do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true

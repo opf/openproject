@@ -7,8 +7,8 @@ describe 'Work Package table configuration modal filters spec', js: true do
   let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
 
   let!(:query) do
     query = build(:query, user:, project:)
@@ -39,7 +39,7 @@ describe 'Work Package table configuration modal filters spec', js: true do
       filters.open
 
       filters.expect_filter_count 2
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
       filters.save
 
       wp_table.expect_work_package_listed work_package_with_version

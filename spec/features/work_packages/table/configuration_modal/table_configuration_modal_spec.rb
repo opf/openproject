@@ -7,7 +7,7 @@ describe 'Work Package table configuration modal', js: true do
   let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
 
   let!(:query) do
     query              = build(:query, user:, project:)

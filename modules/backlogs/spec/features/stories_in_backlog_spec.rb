@@ -30,7 +30,6 @@ require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
 describe 'Stories in backlog',
-         type: :feature,
          js: true do
   let!(:project) do
     create(:project,

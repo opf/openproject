@@ -129,7 +129,7 @@ describe 'activity comments', js: true, with_mail: false do
             comment_field.submit_by_click
             page.find('#activity-2 a.issue', text: wp2.id).click
 
-            other_wp_page = ::Pages::FullWorkPackage.new wp2
+            other_wp_page = Pages::FullWorkPackage.new wp2
             other_wp_page.ensure_page_loaded
             other_wp_page.edit_field(:subject).expect_text 'AutoFoo'
           end

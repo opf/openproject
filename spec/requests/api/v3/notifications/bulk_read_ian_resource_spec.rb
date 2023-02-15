@@ -27,9 +27,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'bulk set read status',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -68,10 +67,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     it 'sets all the current users`s notifications to read' do
-      expect(::Notification.where(id: [notification1.id, notification2.id, notification3.id]).pluck(:read_ian))
+      expect(Notification.where(id: [notification1.id, notification2.id, notification3.id]).pluck(:read_ian))
         .to all(be_truthy)
 
-      expect(::Notification.where(id: [other_user_notification]).pluck(:read_ian))
+      expect(Notification.where(id: [other_user_notification]).pluck(:read_ian))
         .to all(be_falsey)
     end
 
@@ -89,10 +88,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
 
       it 'sets the current users`s notifications matching the filter to read' do
-        expect(::Notification.where(id: [notification1.id, notification2.id]).pluck(:read_ian))
+        expect(Notification.where(id: [notification1.id, notification2.id]).pluck(:read_ian))
           .to all(be_truthy)
 
-        expect(::Notification.where(id: [other_user_notification, notification3.id]).pluck(:read_ian))
+        expect(Notification.where(id: [other_user_notification, notification3.id]).pluck(:read_ian))
           .to all(be_falsey)
       end
     end

@@ -34,7 +34,8 @@ module.exports = {
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
         "plugin:@angular-eslint/template/process-inline-templates",
-        "airbnb-typescript",
+        "airbnb-base",
+        "airbnb-typescript/base",
       ],
       rules: {
         /**
@@ -124,6 +125,9 @@ module.exports = {
           },
         ],
 
+        // Allow writing type union and type intersections without space
+        "@typescript-eslint/space-infix-ops": "off",
+
         // Allow empty interfaces for naming purposes (HAL resources)
         "@typescript-eslint/no-empty-interface": "off",
 
@@ -139,6 +143,7 @@ module.exports = {
               "_embedded",
               "_meta",
               "_type",
+              "_destroy",
             ],
             allowAfterThis: true,
             allowAfterSuper: false,

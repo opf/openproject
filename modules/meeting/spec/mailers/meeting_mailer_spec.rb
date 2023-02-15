@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe MeetingMailer, type: :mailer do
+describe MeetingMailer do
   shared_let(:role) { create(:role, permissions: [:view_meetings]) }
   shared_let(:project) { create(:project, name: 'My project') }
   shared_let(:author) do

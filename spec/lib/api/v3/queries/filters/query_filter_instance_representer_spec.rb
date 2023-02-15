@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:operator) { '=' }
   let(:values) { [status.id.to_s] }
@@ -65,7 +65,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it_behaves_like 'has a titled link' do
         let(:link) { 'operator' }
         let(:href) { api_v3_paths.query_operator(CGI.escape('=')) }
-        let(:title) { 'is' }
+        let(:title) { 'is (OR)' }
       end
 
       it_behaves_like 'has an untitled link' do
@@ -87,7 +87,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it "renders templated values as part of the 'values' collection" do
         allow(filter)
           .to receive(:value_objects)
-          .and_return([::Queries::Filters::TemplatedValue.new(Status)])
+          .and_return([Queries::Filters::TemplatedValue.new(Status)])
 
         expected = {
           href: api_v3_paths.status('{id}'),
@@ -207,7 +207,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     context 'with a bool custom field filter' do
       let(:bool_cf) { create(:bool_wp_custom_field) }
       let(:filter) do
-        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator:, values:)
+        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: bool_cf.column_name, operator:, values:)
       end
 
       context "with 't' as filter value" do

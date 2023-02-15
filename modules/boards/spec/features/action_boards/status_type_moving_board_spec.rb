@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Status action board', type: :feature, js: true do
+describe 'Status action board', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -99,7 +99,7 @@ describe 'Status action board', type: :feature, js: true do
            new_status_id: open_status.id)
   end
 
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     with_enterprise_token :board_view
@@ -123,8 +123,8 @@ describe 'Status action board', type: :feature, js: true do
     filters.expect_filter_count 0
     filters.open
 
-    filters.add_filter_by('Type', 'is', [type_task.name, type_bug.name])
-    filters.expect_filter_by('Type', 'is', [type_task.name, type_bug.name])
+    filters.add_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
+    filters.expect_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
 
     # Wait a bit before saving the page to ensure both values are processed
     sleep 2

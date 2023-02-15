@@ -10,7 +10,7 @@ describe 'Milestones full screen v iew', js: true do
            subject: 'Foobar')
   end
 
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:button) { find('.add-work-package', wait: 5) }
 
   before do

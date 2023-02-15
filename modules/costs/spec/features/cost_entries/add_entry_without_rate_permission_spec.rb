@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-describe 'Create cost entry without rate permissions', type: :feature, js: true do
+describe 'Create cost entry without rate permissions', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -55,7 +55,7 @@ describe 'Create cost entry without rate permissions', type: :feature, js: true 
   end
 
   shared_let(:work_package) { create :work_package, project:, status:, type: type_task }
-  shared_let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }
+  shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
   before do
     login_as user

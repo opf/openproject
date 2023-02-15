@@ -37,7 +37,6 @@ import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listene
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
-import { augmentedDatePicker } from './global-listeners/augmented-date-picker';
 import { performAnchorHijacking } from './global-listeners/link-hijacking';
 
 /**
@@ -47,9 +46,6 @@ export function initializeGlobalListeners():void {
   jQuery(document.documentElement)
     .on('click', (evt:any) => {
       const target = jQuery(evt.target) as JQuery;
-
-      // Create datepickers dynamically for Rails-based views
-      augmentedDatePicker(evt, target);
 
       // Prevent angular handling clicks on href="#..." links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#

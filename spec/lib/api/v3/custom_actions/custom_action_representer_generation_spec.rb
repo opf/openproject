@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::CustomActions::CustomActionRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::CustomActions::CustomActionRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:custom_action) { build_stubbed(:custom_action) }
   let(:user) { build_stubbed(:user) }

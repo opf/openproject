@@ -51,7 +51,7 @@ uk:
       type_link_text: "«Інтеграція OpenProject»"
       name: "Назвіть своє сховище, щоб користувачі могли відрізняти його від інших сховищ."
       host: "Додайте адресу хосту для свого сховища, включно з https://. Її довжина не може перевищувати 255 символів."
-      no_storage_set_up: "Файлові сховища поки не створено."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "Щоб створити додаткові файлові сховища, перейдіть у"
       setting_up_additional_storages_non_admin: "Адміністратори можуть створювати додаткові файлові сховища в розділі «Адміністрування» / «Файлові сховища»."
       setting_up_storages: "Щоб створити файлові сховища, перейдіть у"
@@ -79,7 +79,7 @@ uk:
     label_new_storage: "Нове сховище"
     label_storage: "Сховище"
     label_storages: "Сховища"
-    no_results: "Сховища поки не створено."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Тип постачальника"
       nextcloud:

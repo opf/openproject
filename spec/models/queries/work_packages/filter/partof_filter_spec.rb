@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::PartofFilter, type: :model do
+describe Queries::WorkPackages::Filter::PartofFilter do
   it_behaves_like 'filter by work package id' do
     let(:class_key) { :partof }
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Going back and forth through the browser history', type: :feature, js: true do
+describe 'Going back and forth through the browser history', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -86,7 +86,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     query
   end
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     login_as(user)
@@ -112,7 +112,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_3
 
     filters.open
-    filters.add_filter_by('Assignee', 'is', user.name)
+    filters.add_filter_by('Assignee', 'is (OR)', user.name)
     filters.expect_filter_count 3
     wp_table.expect_no_work_package_listed
 
@@ -122,7 +122,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_3
     filters.expect_filter_count 2
     filters.expect_filter_by('Status', 'open', nil)
-    filters.expect_filter_by('Version', 'is', version.name)
+    filters.expect_filter_by('Version', 'is (OR)', version.name)
 
     page.execute_script('window.history.back()')
 
@@ -130,7 +130,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_2
     filters.open
     filters.expect_filter_by('Status', 'open', nil)
-    filters.expect_filter_by('Assignee', 'is', user.name)
+    filters.expect_filter_by('Assignee', 'is (OR)', user.name)
 
     page.execute_script('window.history.back()')
 
@@ -147,7 +147,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_2
     filters.open
     filters.expect_filter_by('Status', 'open', nil)
-    filters.expect_filter_by('Assignee', 'is', user.name)
+    filters.expect_filter_by('Assignee', 'is (OR)', user.name)
 
     page.execute_script('window.history.forward()')
 
@@ -155,7 +155,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_work_package_listed work_package_3
     filters.open
     filters.expect_filter_by('Status', 'open', nil)
-    filters.expect_filter_by('Version', 'is', version.name)
+    filters.expect_filter_by('Version', 'is (OR)', version.name)
 
     page.execute_script('window.history.forward()')
 
@@ -163,7 +163,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     wp_table.expect_no_work_package_listed
     filters.open
     filters.expect_filter_by('Status', 'open', nil)
-    filters.expect_filter_by('Version', 'is', version.name)
-    filters.expect_filter_by('Assignee', 'is', user.name)
+    filters.expect_filter_by('Version', 'is (OR)', version.name)
+    filters.expect_filter_by('Assignee', 'is (OR)', user.name)
   end
 end

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query, "manual sorting ", type: :model do
+describe Query, "manual sorting " do
   shared_let(:user) { create :admin }
   shared_let(:project) { create :project }
   shared_let(:query) { create :query, user:, project: }
@@ -51,14 +51,14 @@ describe Query, "manual sorting ", type: :model do
     it 'keeps the current set of ordered work packages' do
       expect(query.ordered_work_packages).to eq []
 
-      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
+      expect(OrderedWorkPackage.where(query_id: query.id).count).to eq 0
 
       query.ordered_work_packages.build(work_package_id: wp_1.id, position: 0)
       query.ordered_work_packages.build(work_package_id: wp_2.id, position: 1)
 
-      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 0
+      expect(OrderedWorkPackage.where(query_id: query.id).count).to eq 0
       expect(query.save).to be true
-      expect(::OrderedWorkPackage.where(query_id: query.id).count).to eq 2
+      expect(OrderedWorkPackage.where(query_id: query.id).count).to eq 2
 
       query.reload
       expect(query.ordered_work_packages.pluck(:work_package_id)).to eq [wp_1.id, wp_2.id]
@@ -69,11 +69,11 @@ describe Query, "manual sorting ", type: :model do
     let(:query2) { create :query, user:, project: }
 
     before do
-      ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
-      ::OrderedWorkPackage.create(query:, work_package: wp_2, position: 1)
+      OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
+      OrderedWorkPackage.create(query:, work_package: wp_2, position: 1)
 
-      ::OrderedWorkPackage.create(query: query2, work_package: wp_1, position: 4)
-      ::OrderedWorkPackage.create(query: query2, work_package: wp_2, position: 3)
+      OrderedWorkPackage.create(query: query2, work_package: wp_1, position: 4)
+      OrderedWorkPackage.create(query: query2, work_package: wp_2, position: 3)
     end
 
     it 'returns the correct number of work packages' do

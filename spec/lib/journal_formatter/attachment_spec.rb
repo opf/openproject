@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
+require 'spec_helper'
 
 describe OpenProject::JournalFormatter::Attachment do
   include ApplicationHelper
@@ -84,7 +84,7 @@ describe OpenProject::JournalFormatter::Attachment do
       let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
-               old: "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>")
+               old: "<strike><i>#{attachment.id}</i></strike>")
       end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
@@ -98,7 +98,7 @@ describe OpenProject::JournalFormatter::Attachment do
                value: attachment.id)
       end
 
-      it { expect(instance.render(key, [nil, attachment.id.to_s], no_html: true)).to eq(expected) }
+      it { expect(instance.render(key, [nil, attachment.id.to_s], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being an id as string, and the second nil,
@@ -109,7 +109,7 @@ describe OpenProject::JournalFormatter::Attachment do
                old: attachment.id)
       end
 
-      it { expect(instance.render(key, [attachment.id.to_s, nil], no_html: true)).to eq(expected) }
+      it { expect(instance.render(key, [attachment.id.to_s, nil], html: false)).to eq(expected) }
     end
   end
 end

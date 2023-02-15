@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Cost report calculations', type: :feature, js: true do
+describe 'Cost report calculations', js: true do
   let(:project) { create :project }
   let(:user) { create :admin }
 

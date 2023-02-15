@@ -7,7 +7,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
   let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
   let!(:work_package) { create :work_package, project: }
 
   let!(:query) do

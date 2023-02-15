@@ -21,7 +21,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     )
   end
 
-  let(:attachments) { ::Components::Attachments.new }
+  let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
 

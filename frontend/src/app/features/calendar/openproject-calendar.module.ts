@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { WorkPackagesCalendarComponent } from 'core-app/features/calendar/wp-calendar/wp-calendar.component';
@@ -42,7 +42,7 @@ import { CalendarSidemenuComponent } from './sidemenu/calendar-sidemenu.componen
 @NgModule({
   imports: [
     // Commons
-    OPSharedModule,
+    OpSharedModule,
 
     // Routes for /calendar
     UIRouterModule.forChild({ states: CALENDAR_ROUTES }),

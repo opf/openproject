@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'Subject filter integration', type: :model, with_mail: false do
+describe Query::Results, 'Subject filter integration', with_mail: false do
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
   let(:project_1) { create :project }
   let(:user_1) do

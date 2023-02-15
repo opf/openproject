@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Meetings', type: :feature, js: true do
+describe 'Meetings', js: true do
   let(:project) { create :project, enabled_module_names: %w[meetings activity] }
   let(:user) { create(:admin) }
 
@@ -47,8 +47,9 @@ describe 'Meetings', type: :feature, js: true do
       check 'Meetings'
       click_on 'Apply'
 
-      expect(page).to have_selector('li.meeting', text: 'Awesome meeting!')
-      expect(page).to have_selector('.meeting-agenda', text: 'Agenda: Awesome meeting!')
+      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Minutes: Awesome meeting!')
+      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Agenda: Awesome meeting!')
+      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Meeting: Awesome meeting!')
     end
   end
 end

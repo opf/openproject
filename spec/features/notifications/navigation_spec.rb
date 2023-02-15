@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Notification center navigation", type: :feature, js: true do
+describe "Notification center navigation", js: true do
   shared_association_default(:project) { create(:project) }
 
   shared_let(:work_package) { create :work_package, project: }
@@ -26,9 +26,9 @@ describe "Notification center navigation", type: :feature, js: true do
            journal: second_work_package.journals.last
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+  let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
 
   current_user { recipient }
 

@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::QueryRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::QueryRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:query) { build_stubbed(:query, project:, views:) }
   let(:unpersisted_query) { build(:query, project:, user: other_user, views:) }
@@ -733,7 +733,7 @@ describe ::API::V3::Queries::QueryRepresenter do
             },
             operator: {
               href: api_v3_paths.query_operator(CGI.escape('=')),
-              title: "is"
+              title: "is (OR)"
             },
             values: [
               {

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package user mentions',
-         type: :feature,
          js: true do
   let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
@@ -48,8 +47,8 @@ describe 'Wysiwyg work package user mentions',
     end
   end
 
-  let(:wp_page) { ::Pages::FullWorkPackage.new work_package, project }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:wp_page) { Pages::FullWorkPackage.new work_package, project }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:comment_field) do

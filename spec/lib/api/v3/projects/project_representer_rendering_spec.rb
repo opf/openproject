@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Projects::ProjectRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
 
@@ -43,7 +43,7 @@ describe ::API::V3::Projects::ProjectRepresenter, 'rendering' do
               .and_return([int_custom_field, version_custom_field])
 
       allow(p)
-        .to receive(:"custom_field_#{int_custom_field.id}")
+        .to receive(int_custom_field.attribute_getter)
               .and_return(int_custom_value.value)
 
       allow(p)

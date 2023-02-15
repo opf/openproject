@@ -31,7 +31,6 @@ require_relative './../support/board_index_page'
 require_relative './../support/board_page'
 
 describe 'Assignee action board',
-         type: :feature,
          js: true do
   let(:bobself_user) do
     create(:user,

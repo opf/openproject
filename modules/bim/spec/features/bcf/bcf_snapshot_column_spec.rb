@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'BCF snapshot column',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' },
          with_mail: false do

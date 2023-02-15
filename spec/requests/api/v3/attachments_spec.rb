@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'attachments/attachment_resource_shared_examples'
 
-describe API::V3::Attachments::AttachmentsAPI, type: :request do
+describe API::V3::Attachments::AttachmentsAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers
@@ -87,7 +87,7 @@ describe API::V3::Attachments::AttachmentsAPI, type: :request do
 
       context 'with a pending attachment' do
         it 'enqueues a FinishDirectUpload job' do
-          expect(::Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
+          expect(Attachments::FinishDirectUploadJob).to have_been_enqueued.at_least(1)
         end
 
         it 'responds with HTTP OK' do

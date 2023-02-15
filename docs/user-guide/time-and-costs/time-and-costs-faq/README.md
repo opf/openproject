@@ -37,5 +37,8 @@ Unfortunately this is not possible at the moment. There's already a feature requ
 
 Yes, you can use the "My spent time" widget on My Page and use the filters there.
 
+## Does OpenProject offer resource management?
 
-
+You can [set up budgets](../../budgets), [set an Estimated time](../../work-packages/edit-work-package/) for a work package and use the [Assignee board](../../agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
+Additional resource management features will be added within the next years. You can find the road-map for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
+More infomation regarding resource management in OpenProject can be found in the [Use Cases](../../../use-cases/resource-management) section.

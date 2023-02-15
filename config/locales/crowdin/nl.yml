@@ -468,14 +468,24 @@ nl:
       member:
         roles: "Rollen"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Query 's"
+        templated: "Projectsjabloon"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
-        templated: 'Projectsjabloon'
       projects/status:
         code: 'Status'
         explanation: 'Status beschrijving'
@@ -687,6 +697,11 @@ nl:
               no_notification_reason: 'mag niet leeg zijn omdat IAN is gekozen als een kanaal.'
             reason_mail_digest:
               no_notification_reason: 'mag niet leeg zijn omdat mail digest is gekozen als een kanaal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +712,8 @@ nl:
           archived_ancestor: 'Het project heeft een gearchiveerde voorouder.'
           foreign_wps_reference_version: 'Werkpakketten in niet-onderliggende projecten verwijzen naar versies van het project of zijn afstammelingen.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
             enabled_modules:
@@ -1027,6 +1044,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
+  button_apply_changes: "Apply changes"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
   button_sort: "Sorteren"
@@ -1746,6 +1764,10 @@ nl:
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
   label_on: "op"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"
   label_open_work_packages_plural: "Open"
@@ -1787,6 +1809,7 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
@@ -2209,6 +2232,7 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Gebruikers aanmaken en bewerken"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"
@@ -2943,15 +2967,20 @@ nl:
       title: "Werkpakket verwijderen"
   working_days:
     info: >
-      <b>Definieer de werkdagen van de week</b><br/> Niet-werkdagen worden overgeslagen bij het plannen van werkpakketten en worden uitgesloten bij het berekenen van de duur. Dit kan op werkpakketniveau worden overschreven.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Wijzig werkdagen"
     warning: >
-      Veranderen van welke dagen van de week als werkdagen worden beschouwd, kan van invloed zijn op de begin- en einddagen van alle werkpakketten in deze instantie.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Werkdagen** veranderd (%{changes})._
       days:
         working: "%{day} werkt nu"
         non_working: "%{day} is nu niet actief"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

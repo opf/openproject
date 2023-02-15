@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WikiContent, type: :model do
+describe WikiContent do
   let(:content) { create(:wiki_content, page:, author:) }
 
   shared_let(:wiki) { create(:wiki) }

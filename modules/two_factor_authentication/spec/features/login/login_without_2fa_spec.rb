@@ -1,8 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with no required OTP', type: :feature,
-                                       with_config: { '2fa': { active_strategies: [:developer] } },
+describe 'Login with no required OTP', with_config: { '2fa': { active_strategies: [:developer] } },
                                        js: true do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
