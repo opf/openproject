@@ -34,8 +34,7 @@ module Calendar
         raise ActiveRecord::RecordNotFound
       end
       
-      # TODO: do it properly with new ICAL token
-      token = Token::API.find_by_plaintext_value(ical_token)
+      token = Token::Ical.find_by_plaintext_value(ical_token)
       if token.present?
         user = token.user
         ServiceResult.success(result: user)

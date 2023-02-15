@@ -6,7 +6,9 @@ OpenProject::Application.routes.draw do
               as: :calendars do
       get '/new' => 'calendar/calendars#show', on: :collection, as: 'new'
       # TODO: discuss if other controller should be used
-      get '/ics' => 'calendar/calendars#ical', on: :member, as: 'ical'
+      post '/generate_ical_url' => 'calendar/calendars#generate_ical_url', on: :member, as: 'generate_ical_url'
+      # TODO: discuss if other controller should be used
+      get '/ical' => 'calendar/calendars#ical', on: :member, as: 'ical'
       get '(/*state)' => 'calendar/calendars#show', on: :member, as: ''
     end
   end

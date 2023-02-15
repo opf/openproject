@@ -46,7 +46,19 @@ module Calendar
     end
 
     def button_links
-      [delete_link].compact
+      [share_link, delete_link].compact
+    end
+
+    def share_link
+      if table.current_user.allowed_to?(:share_calendars, project)
+        link_to(
+          '',
+          generate_ical_url_project_calendar_path(project, query.id),
+          method: :post,
+          class: 'icon icon-link', # TODO: use proper share icon
+          title: "Share via iCal" # TODO: use translations
+        )
+      end
     end
 
     def delete_link

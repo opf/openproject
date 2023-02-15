@@ -50,7 +50,6 @@ describe Calendar::CreateIcalService, type: :model do
       work_package_with_start_and_due_date
     ]
   end 
-
   
   let(:instance) do
     described_class.new()
