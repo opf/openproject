@@ -61,12 +61,6 @@ class UsersController < ApplicationController
     @groups = Group.all.sort
     @status = Users::UserFilterCell.status_param params
     @users = Users::UserFilterCell.filter params
-
-    respond_to do |format|
-      format.html do
-        render layout: !request.xhr?
-      end
-    end
   end
 
   def show
@@ -77,21 +71,14 @@ class UsersController < ApplicationController
 
     events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
 
-    if !current_user.allowed_to_globally?(:manage_user) &&
-       (!(@user.active? ||
-       @user.registered?) ||
-       (@user != User.current && @memberships.empty? && events.empty?))
-      render_404
+    if can_show_user?(events)
+      render_show_user(events)
     else
-      respond_to do |format|
-        format.html do
-          show_respond_html(events)
-        end
-      end
+      render_404
     end
   end
 
-  def show_respond_html(events)
+  def render_show_user(events)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
     @journals_by_id = Journal
       .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
@@ -254,6 +241,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def can_show_user?(events)
+    return true if current_user.allowed_to_globally?(:manage_user)
+    return true if @user == User.current
+
+    (@user.active? || @user.registered?) \
+    && (@memberships.present? || events.present?)
+  end
 
   def find_user
     if params[:id] == 'current' || params['id'].nil?
