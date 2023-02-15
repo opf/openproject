@@ -131,11 +131,6 @@ PATH
       openproject-auth_plugins
 
 PATH
-  remote: modules/openproject-deutsche_bahn
-  specs:
-    openproject-deutsche_bahn (0.0.1)
-
-PATH
   remote: modules/overviews
   specs:
     overviews (1.0.0)
@@ -1093,7 +1088,6 @@ DEPENDENCIES
   openproject-bim!
   openproject-boards!
   openproject-calendar!
-  openproject-deutsche_bahn!
   openproject-documents!
   openproject-github_integration!
   openproject-job_status!
