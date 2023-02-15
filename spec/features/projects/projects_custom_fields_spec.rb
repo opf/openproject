@@ -190,6 +190,43 @@ describe 'Projects custom fields', js: true do
     end
   end
 
+  describe 'with date CF' do
+    let!(:date_cf) do
+      create(:date_project_custom_field, name: 'MyDate')
+    end
+    let(:date_field) { FormFields::InputFormField.new date_cf }
+    let(:datepicker) { Components::Datepicker.new }
+
+    it 'displays the date with the datepicker' do
+      visit new_project_path
+
+      name_field.set_value 'My project name'
+      find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
+
+      # Set the date
+      date_field.click
+      datepicker.expect_working_days_only_enabled
+      datepicker.set_date Time.zone.tomorrow
+
+      # Switching the working days toggle on-off-on should keep the current date selection
+      datepicker.working_days_label.click.click
+      datepicker.expect_current_date Time.zone.tomorrow
+
+      datepicker.save!
+
+      # Save project settings
+      click_on 'Save'
+
+      expect(page).to have_current_path /\/projects\/my-project-name\/?/
+      project = Project.find_by(name: 'My project name')
+      cv = project.custom_values.find_by(custom_field_id: date_cf.id).typed_value
+      expect(cv).to eq Time.zone.tomorrow
+
+      visit project_settings_general_path(project)
+      date_field.expect_value Time.zone.tomorrow.iso8601
+    end
+  end
+
   describe 'with boolean CF' do
     let!(:custom_field) do
       create(:bool_project_custom_field)
