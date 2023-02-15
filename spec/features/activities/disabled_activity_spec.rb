@@ -68,7 +68,7 @@ describe 'Disabled activity' do
   it 'does not display activities on projects disabling it' do
     visit activity_index_path
 
-    check "Wiki edits"
+    check "Wiki"
     click_on "Apply"
 
     expect(page)
