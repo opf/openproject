@@ -106,10 +106,10 @@ See COPYRIGHT and LICENSE files for more details.
       <legend class="form--fieldset-legend"><%= t(:description_filter) %></legend>
     <p>
       <%= hidden_field_tag "event_types[]" %>
-      <% @activity.event_types.sort_by { |type| t("label_#{type.singularize}_activity_filter") }.each do |t| %>
+      <% @activity.event_types.sort_by { |type| t("activity.filter.#{type.singularize}") }.each do |t| %>
         <% unless t == "project_attributes" %>
           <%= check_box_tag "event_types[]", t, @activity.scope.include?(t), id: "event_types_#{t}" %>
-          <label for="event_types_<%=t%>"><%=t("label_#{t.singularize}_activity_filter")%></label>
+          <label for="event_types_<%=t%>"><%=t("activity.filter.#{t.singularize}")%></label>
           <br />
         <% end -%>
       <% end %>
@@ -118,13 +118,13 @@ See COPYRIGHT and LICENSE files for more details.
       <% if @activity.event_types.include?("project_attributes") %>
         <%= hidden_field_tag "event_types[]" %>
         <%= check_box_tag "event_types[]", "project_attributes", @activity.scope.include?("project_attributes"), id: "event_types_project_attributes" %>
-        <label for="event_types_project_attributes"><%=t("label_project_attribute_activity_filter")%></label>
+        <label for="event_types_project_attributes"><%=t("activity.filter.project_attribute")%></label>
         <br />
       <% end -%>
       <% if @project && @project.descendants.active.any? %>
         <%= hidden_field_tag 'with_subprojects', 0 %>
         <%= check_box_tag 'with_subprojects', 1, @with_subprojects, id: "with_subprojects" %>
-        <label for="with_subprojects"><%=t("label_subproject_activity_filter")%></label>
+        <label for="with_subprojects"><%=t("activity.filter.subproject")%></label>
       <% end %>
     </p>
     <%= hidden_field_tag('user_id', params[:user_id]) if params[:user_id].present? %>

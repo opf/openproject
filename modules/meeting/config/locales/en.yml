@@ -45,6 +45,10 @@ en:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
 
+  activity:
+    filter:
+      meeting: "Meetings"
+
   description_attended: "attended"
   description_invite: "invited"
 
@@ -60,7 +64,6 @@ en:
 
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"
-  label_meeting_activity_filter: "Meetings"
   label_meeting_new: "New Meeting"
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
