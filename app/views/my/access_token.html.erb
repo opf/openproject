@@ -109,6 +109,23 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             <% end %>
           <% end %>
+          <% if Token::Ical.where(user: current_user).any? %>
+            <tr>
+              <td>iCal</td>
+              <td>
+                <span title="<%= format_time(Token::Ical.where(user: current_user).last.created_at) %>">
+                  <%= format_time(Token::Ical.where(user: current_user).last.created_at.to_s) %> (latest)
+                </span>
+              </td>
+              <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
+              <td>
+                <%= link_to 'Revoke all',
+                            { action: 'revoke_all_ical_tokens' },
+                            method: :delete,
+                            class: 'icon icon-delete' %>
+              </td>
+            </tr>
+          <% end %>
           <% if Setting.rest_api_enabled? %>
             <% if @user.api_token %>
               <tr>

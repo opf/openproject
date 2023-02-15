@@ -129,6 +129,15 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
+  def revoke_all_ical_tokens
+    Token::Ical.where(user: current_user).destroy_all
+  rescue StandardError => e
+    Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
+    redirect_to action: 'access_token'
+  end
+
   def default_breadcrumb
     I18n.t(:label_my_account)
   end
@@ -169,7 +178,7 @@ class MyController < ApplicationController
   helper_method :has_tokens?
 
   def has_tokens?
-    Setting.feeds_enabled? || Setting.rest_api_enabled?
+    Setting.feeds_enabled? || Setting.rest_api_enabled? || Token::Ical.where(user: current_user).any?
   end
 
   def set_current_user
