@@ -29,7 +29,7 @@ require 'rake'
 
 ##
 # Invoke a rake task while safely loading the tasks only once
-# to ensure they are neither loaded nor executed twice.
+# to ensure they are only loaded once.
 module RakeJob
   attr_reader :task_name, :args
 
@@ -46,6 +46,8 @@ module RakeJob
   def invoke
     load_tasks!
     task.invoke *args
+  ensure
+    task&.reenable
   end
 
   ##

@@ -1198,7 +1198,7 @@ pl:
           title: 'Użytkownik zastępczy'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Nie ma dostępu do projektu i żadne wiadomości e-mail nie są wysyłane. <br>Sprawdź <a href="%{eeHref}" target="_blank">wersję Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nazwa lub adres e-mail'

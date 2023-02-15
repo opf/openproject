@@ -37,15 +37,15 @@ be:
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
             parent_id:
               parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
+              type_must_be_one_of_the_following: "Тып мусіць быць адным з наступных: %{type_names}."
             version_id:
               task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
         sprint:
           cannot_end_before_it_starts: "Sprint cannot end before it starts."
   backlogs:
-    add_new_story: "New Story"
-    any: "any"
-    backlog_settings: "Backlogs settings"
+    add_new_story: "Новая Гісторыя"
+    any: "любы"
+    backlog_settings: "Налады бэклогу"
     burndown_graph: "Burndown Graph"
     card_paper_size: "Paper size for card printing"
     chart_options: "Chart options"
