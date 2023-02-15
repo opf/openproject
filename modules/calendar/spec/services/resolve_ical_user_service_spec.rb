@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe Calendar::ResolveIcalUserService, type: :model do
   let(:user) { create(:user) }
-  let(:valid_api_token_value) { Token::API.create_and_return_value user }
-  let(:invalid_api_token_value) { valid_api_token_value[0..-2] }
+  let(:valid_ical_token_value) { Token::Ical.create_and_return_value user }
+  let(:invalid_ical_token_value) { valid_ical_token_value[0..-2] }
   
   let(:instance) do
     described_class.new()
@@ -39,7 +39,7 @@ describe Calendar::ResolveIcalUserService, type: :model do
 
   context 'resolves a user by a given valid ical token value' do
 
-    subject { instance.call(ical_token: valid_api_token_value) }
+    subject { instance.call(ical_token: valid_ical_token_value) }
 
     it 'resolves the user as result' do
       expect(subject.result)
@@ -55,7 +55,7 @@ describe Calendar::ResolveIcalUserService, type: :model do
 
   context 'handles error when given ical token value is invalid' do
 
-    subject { instance.call(ical_token: invalid_api_token_value) }
+    subject { instance.call(ical_token: invalid_ical_token_value) }
 
     it 'raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
