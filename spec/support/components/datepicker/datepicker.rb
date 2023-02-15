@@ -160,6 +160,20 @@ module Components
     end
 
     ##
+    # Expect the "Working days only" switch to be enabled
+
+    def expect_working_days_only_enabled
+      expect(container).to have_field("Working days only", checked: true)
+    end
+
+    ##
+    # Expect the "Working days only" switch to be disabled
+
+    def expect_working_days_only_disabled
+      expect(container).to have_field("Working days only", checked: false)
+    end
+
+    ##
     # Expect the given date to be non working
     def expect_non_working(date)
       label = date.strftime('%B %-d, %Y')

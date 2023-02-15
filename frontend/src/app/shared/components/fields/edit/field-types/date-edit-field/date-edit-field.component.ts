@@ -39,6 +39,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
       [id]="handler.htmlId"
       class="inline-edit--field"
       [opened]="opened"
+      [showIgnoreNonWorkingDays]="showIgnoreNonWorkingDays"
       (closed)="onModalClosed()"
     ></op-single-date-picker>
   `,
@@ -47,12 +48,18 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
 
+  showIgnoreNonWorkingDays = false;
+
   opened = false;
 
   ngOnInit():void {
     super.ngOnInit();
     // Open the datepicker when the field is not part of an editing form.
     this.opened = !this.handler.inEditMode;
+
+    if (this.name.startsWith('customField')) {
+      this.showIgnoreNonWorkingDays = true;
+    }
   }
 
   public get value() {
