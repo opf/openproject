@@ -28,9 +28,6 @@
 
 require 'spec_helper'
 require 'webmock/rspec'
-require 'database_cleaner/active_record'
-
-DatabaseCleaner.strategy = :truncation
 
 describe OAuthClients::ConnectionManager, type: :model do
   let(:user) { create(:user) }
@@ -381,7 +378,10 @@ describe OAuthClients::ConnectionManager, type: :model do
                 use_transactional_fixtures: false,
                 webmock: true do
           after do
-            DatabaseCleaner.clean
+            Storages::Storage.destroy_all
+            User.destroy_all
+            OAuthClientToken.destroy_all
+            OAuthClient.destroy_all
           end
 
           it 'requests token only once and other thread uses new token' do
