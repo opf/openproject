@@ -57,7 +57,13 @@ en:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error:
+          default: "An error occurred uploading the file '%{fileName}'."
+          403: "Uploading '%{fileName}' is forbidden."
+          413: >
+            '%{fileName}' exceeds storage upload file size limits. To upload large files use the UI of the storage
+            itself and create the file link afterwards.
+          507: "Uploading '%{fileName}' would exceed storage quota."
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

@@ -36,7 +36,12 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { HttpClient, HttpEventType, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEventType,
+  HttpResponse,
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import {
   catchError,
@@ -132,7 +137,10 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     },
     toast: {
       successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
-      uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error', { fileName }),
+      uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.default', { fileName }),
+      uploadFailedForbidden: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.403', { fileName }),
+      uploadFailedSizeLimit: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.413', { fileName }),
+      uploadFailedQuota: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.507', { fileName }),
       linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
         this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
       draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.files.dragging_many_files', { storageType }),
@@ -300,7 +308,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         },
         (error) => {
           if (isUploadError) {
-            this.toastService.addError(this.text.toast.uploadFailed(file.name));
+            this.handleUploadError(error as HttpErrorResponse, file.name);
           } else {
             this.toastService.addError(this.text.toast.linkingAfterUploadFailed(file.name, this.resource.id as string));
           }
@@ -308,6 +316,22 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           console.error(error);
         },
       );
+  }
+
+  private handleUploadError(error:HttpErrorResponse, fileName:string):void {
+    switch (error.status) {
+      case 403:
+        this.toastService.addError(this.text.toast.uploadFailedForbidden(fileName));
+        break;
+      case 413:
+        this.toastService.addError(this.text.toast.uploadFailedSizeLimit(fileName));
+        break;
+      case 507:
+        this.toastService.addError(this.text.toast.uploadFailedQuota(fileName));
+        break;
+      default:
+        this.toastService.addError(this.text.toast.uploadFailed(fileName));
+    }
   }
 
   private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IFileLinkOriginData> {
