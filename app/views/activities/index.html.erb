@@ -116,7 +116,6 @@ See COPYRIGHT and LICENSE files for more details.
     </p>
     <p>
       <% if @activity.event_types.include?("project_attributes") %>
-        <%= hidden_field_tag "event_types[]" %>
         <%= check_box_tag "event_types[]", "project_attributes", @activity.scope.include?("project_attributes"), id: "event_types_project_attributes" %>
         <label for="event_types_project_attributes"><%=t("activity.filter.project_attribute")%></label>
         <br />
