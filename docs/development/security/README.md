@@ -6,17 +6,15 @@ Automated tests and manual code reviews ensure that these contributions are safe
 
 For more information on security and data privacy for OpenProject, please visit: [www.openproject.org/security-and-privacy](https://www.openproject.org/security-and-privacy/).
 
-
-
 ## Security announcements mailing list
 
-We provide a mailing list for security advisories on OpenProject at [groups.google.com/g/openproject-security](https://groups.google.com/g/openproject-security). Please register there to get immediate notifications as we publish them. No messages except for security advisories or security related announcements will be sent there.
+If you want to receive immediate security notifications via email as we publish them, please sign up to our security mailing list: https://www.openproject.org/security-and-privacy/#mailing-list.
 
-Any security related information will also be published on our [blog and website](https://www.openproject.org)
+No messages except for security advisories or security related announcements will be sent there.
 
-To join this mailing list, please use the UI if you have a google account. If you don't, you can send an empty email to [openproject-security+subscribe@googlegroups.com](mailto:openproject-security+subscribe@googlegroups.com). You will get a join request, which you again have to reply with any content.
+To unsubscribe, you will find a link at the end of every email.
 
-To unsubscribe, you will find a link at the end of every submission.
+Any security related information will also be published on our [blog and website](https://www.openproject.org).
 
 ## Reporting a vulnerability
 
@@ -29,8 +27,6 @@ If you can, please send us a PGP-encrypted email using the following key:
 - You may also find the key [attached in our OpenProject repository.](https://github.com/opf/openproject/blob/dev/docs/development/security/security-at-openproject.com.asc)
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
-
-
 
 ## OpenProject security features
 
