@@ -12,7 +12,7 @@
 # https://guides.rubyonrails.org/configuring.html#config-action-controller-per-form-csrf-tokens
 # Enable per-form CSRF tokens. Previous versions had false. Rails 5.0+ default
 # is true.
-# Rails.application.config.action_controller.per_form_csrf_tokens = true
+Rails.application.config.action_controller.per_form_csrf_tokens = true
 
 # https://guides.rubyonrails.org/configuring.html#config-action-controller-forgery-protection-origin-check
 # Enable origin-checking CSRF mitigation. Previous versions had false. Rails
