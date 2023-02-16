@@ -1,5 +1,3 @@
 <ul class="op-activity-list">
-  <% @events.each do |event| -%>
-    <%= render(Activities::ItemComponent.new(event:, display_user: @display_user)) %>
-  <% end -%>
+  <%= render(Activities::ItemComponent.with_collection(@events, display_user: @display_user)) %>
 </ul>

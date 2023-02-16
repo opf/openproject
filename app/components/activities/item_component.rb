@@ -29,6 +29,8 @@
 #++
 
 class Activities::ItemComponent < ViewComponent::Base
+  with_collection_parameter :event
+
   def initialize(event:, display_user: true)
     super()
     @event = event
