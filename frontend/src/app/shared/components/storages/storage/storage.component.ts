@@ -139,10 +139,23 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.default', { fileName }),
       uploadFailedForbidden: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.403', { fileName }),
-      uploadFailedSizeLimit: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.413', { fileName }),
+      uploadFailedSizeLimit:
+        (fileName:string, storageType:string):string => this.i18n.t(
+          'js.storages.file_links.upload_error.413',
+          {
+            fileName,
+            storageType,
+          },
+        ),
       uploadFailedQuota: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.507', { fileName }),
-      linkingAfterUploadFailed: (fileName:string, workPackageId:string):string =>
-        this.i18n.t('js.storages.file_links.link_uploaded_file_error', { fileName, workPackageId }),
+      linkingAfterUploadFailed:
+        (fileName:string, workPackageId:string):string => this.i18n.t(
+          'js.storages.file_links.link_uploaded_file_error',
+          {
+            fileName,
+            workPackageId,
+          },
+        ),
       draggingManyFiles: (storageType:string):string => this.i18n.t('js.storages.files.dragging_many_files', { storageType }),
       uploadingLabel: this.i18n.t('js.label_upload_notification'),
     },
@@ -324,7 +337,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         this.toastService.addError(this.text.toast.uploadFailedForbidden(fileName));
         break;
       case 413:
-        this.toastService.addError(this.text.toast.uploadFailedSizeLimit(fileName));
+        this.toastService.addError(this.text.toast.uploadFailedSizeLimit(fileName, this.storageType));
         break;
       case 507:
         this.toastService.addError(this.text.toast.uploadFailedQuota(fileName));

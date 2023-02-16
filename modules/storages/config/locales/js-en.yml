@@ -58,12 +58,16 @@ en:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
         upload_error:
-          default: "An error occurred uploading the file '%{fileName}'."
-          403: "Uploading '%{fileName}' is forbidden."
+          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions.
+            Please contact your administrator for more information.
           413: >
-            '%{fileName}' exceeds storage upload file size limits. To upload large files use the UI of the storage
-            itself and create the file link afterwards.
-          507: "Uploading '%{fileName}' would exceed storage quota."
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}.
+            You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows.
+            Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"
