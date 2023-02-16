@@ -1,0 +1,7 @@
+<div class="op-activity-days">
+  <% events_by_day.each do |day, events| %>
+    <%= content_tag(@header_tag, helpers.format_activity_day(day), class: 'op-activity-days--header') %>
+
+    <%= render(Activities::ListComponent.new(events:, display_user: @display_user)) %>
+  <% end -%>
+</div>

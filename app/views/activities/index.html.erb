@@ -33,15 +33,9 @@ See COPYRIGHT and LICENSE files for more details.
             subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
 %>
 
-<div class="op-activity-days">
-  <% @events_by_day.sort_by { |day, _events| day }.reverse_each do |day, events| %>
-    <h3 class="op-activity-days--header"><%= format_activity_day(day) %></h3>
+<%= render(Activities::DaysComponent.new(events: @events))  %>
 
-    <%= render(Activities::ListComponent.new(events:, journals_by_id: @journals_by_id)) %>
-  <% end -%>
-</div>
-
-<% if @events_by_day.empty? %>
+<% if @events.empty? %>
   <%= no_results_box %>
   <br>
 <% end %>

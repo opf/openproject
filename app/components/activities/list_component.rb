@@ -29,10 +29,9 @@
 #++
 
 class Activities::ListComponent < ViewComponent::Base
-  def initialize(events:, journals_by_id:, display_user: true)
+  def initialize(events:, display_user: true)
     super()
     @events = events.sort { |x, y| y.event_datetime <=> x.event_datetime }
-    @journals_by_id = journals_by_id
     @display_user = display_user
   end
 end

@@ -29,15 +29,14 @@
 #++
 
 class Activities::ItemComponent < ViewComponent::Base
-  def initialize(event:, journal:, display_user: true)
+  def initialize(event:, display_user: true)
     super()
     @event = event
-    @journal = journal
     @display_user = display_user
   end
 
   def display_belonging_project?
-    @journal.journable_type != 'Project'
+    @event.journal.journable_type != 'Project'
   end
 
   def display_user?
@@ -45,16 +44,16 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if @journal.initial?
+    return false if @event.journal.initial?
 
     rendered_details.present?
   end
 
   def rendered_details
     @rendered_details ||=
-      @journal.details
-      .map { |detail| @journal.render_detail(detail) }
-      .compact
+      @event.journal
+        .details
+        .flat_map { |detail| @event.journal.render_detail(detail) }
   end
 
   def format_activity_title(text)

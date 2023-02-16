@@ -28,34 +28,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
-
-RSpec.describe Activities::ItemComponent, type: :component do
-  let(:event) do
-    Activities::Event.new(
-      event_title: "Event Title",
-      event_description: "something",
-      event_datetime: journal.created_at,
-      event_path: "/project/123",
-      project_id: project.id,
-      project:,
-      journal:
-    )
-  end
-  let(:project) { build_stubbed(:project) }
-  let(:journal) { build_stubbed(:work_package_journal) }
-
-  it 'renders the title escaped' do
-    event.event_title = 'Hello <b>World</b>!'
-    render_inline(described_class.new(event:))
-
-    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
+class Activities::DaysComponent < ViewComponent::Base
+  def initialize(events:, display_user: true, header_tag: 'h3')
+    super()
+    @events = events
+    @display_user = display_user
+    @header_tag = header_tag
   end
 
-  it 'renders the project name to which the event belongs, escaped' do
-    event.project.name = 'Project <b>name</b> with HTML'
-    render_inline(described_class.new(event:))
-
-    expect(page).to have_css('.op-activity-list--item-title', text: '(Project: Project <b>name</b> with HTML)')
+  def events_by_day
+    @events_by_day ||= @events
+      .group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+      .sort_by { |day, _events| day }
+      .reverse
   end
 end

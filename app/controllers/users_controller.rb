@@ -69,24 +69,12 @@ class UsersController < ApplicationController
                         .where.not(project_id: nil)
                         .visible(current_user)
 
-    events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
-
-    if can_show_user?(events)
-      render_show_user(events)
+    if can_show_user?
+      @events = events
+      render layout: 'no_menu'
     else
       render_404
     end
-  end
-
-  def render_show_user(events)
-    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
-    @journals_by_id = Journal
-      .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
-      .find(events.pluck(:event_id))
-      .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
-      .index_by(&:id)
-
-    render layout: 'no_menu'
   end
 
   def new
@@ -242,12 +230,16 @@ class UsersController < ApplicationController
 
   private
 
-  def can_show_user?(events)
+  def can_show_user?
     return true if current_user.allowed_to_globally?(:manage_user)
     return true if @user == User.current
 
     (@user.active? || @user.registered?) \
     && (@memberships.present? || events.present?)
+  end
+
+  def events
+    @events ||= Activities::Fetcher.new(User.current, author: @user).events(limit: 10)
   end
 
   def find_user

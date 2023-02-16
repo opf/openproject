@@ -73,20 +73,14 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="grid-content">
-    <% unless @events_by_day.empty? %>
+    <% unless @events.empty? %>
       <h3>
-        <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events_by_day.keys.first %>
+        <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events.first.event_datetime %>
       </h3>
       <p>
         <%=t(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
       </p>
-      <div id="activity" class="op-activity-days">
-        <% @events_by_day.sort_by { |day, _events| day }.reverse_each do |day, events| -%>
-          <h4 class="op-activity-days--header"><%= format_activity_day(day) %></h3>
-
-          <%= render(Activities::ListComponent.new(events:, journals_by_id: @journals_by_id, display_user: false)) %>
-        <% end -%>
-      </div>
+      <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4'))  %>
 
       <%= other_formats_links do |f| %>
         <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key} %>

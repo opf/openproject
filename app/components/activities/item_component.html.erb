@@ -8,7 +8,7 @@
   <%=
     render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
-                                             is_creation: @journal.initial?))
+                                             is_creation: @event.journal.initial?))
   %>
   <% if @event.event_description.present? -%>
     <div class="op-activity-list--item-description">

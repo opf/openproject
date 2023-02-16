@@ -1,6 +1,5 @@
 <ul class="op-activity-list">
   <% @events.each do |event| -%>
-    <% journal = @journals_by_id[event.event_id] -%>
-    <%= render(Activities::ItemComponent.new(event:, journal:, display_user: @display_user)) %>
+    <%= render(Activities::ItemComponent.new(event:, display_user: @display_user)) %>
   <% end -%>
 </ul>
