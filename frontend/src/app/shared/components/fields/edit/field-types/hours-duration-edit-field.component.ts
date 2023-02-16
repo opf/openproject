@@ -63,10 +63,13 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     // context, we check the validity of the input and, if it's not valid, we
     // default to the previous value, emulating the way the browsers work with
     // valid separators (e.g: introducing 1. would set 1 as a value).
-    if (value == null && !input.validity.valid) {
-      value = this.value || 0;
+    if (!(input.validity.valid as boolean)) {
+      if (value == null) {
+        value = 0;
+      } else {
+        value = this.value;
+      }
     }
-
     return moment.duration(value, 'hours');
   }
 
