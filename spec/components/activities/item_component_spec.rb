@@ -28,36 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ActivityItemComponent < ViewComponent::Base
-  def initialize(event:, journal:, display_user: true)
-    super()
-    @event = event
-    @journal = journal
-    @display_user = display_user
+require "rails_helper"
+
+RSpec.describe Activities::ItemComponent, type: :component do
+  let(:event) do
+    Activities::Event.new(
+      event_title: "Event Title",
+      event_description: "something",
+      event_datetime: journal.created_at,
+      project_id: project.id,
+      project:,
+      event_path: "/project/123"
+    )
+  end
+  let(:project) { build_stubbed(:project) }
+  let(:journal) { build_stubbed(:work_package_journal) }
+
+  it 'renders the title escaped' do
+    event.event_title = 'Hello <b>World</b>!'
+    render_inline(described_class.new(event:, journal:))
+
+    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
   end
 
-  def display_belonging_project?
-    @journal.journable_type != 'Project'
-  end
+  it 'renders the project name to which the event belongs, escaped' do
+    event.project.name = 'Project <b>name</b> with HTML'
+    render_inline(described_class.new(event:, journal:))
 
-  def display_user?
-    @display_user
-  end
-
-  def display_details?
-    return false if @journal.initial?
-
-    rendered_details.present?
-  end
-
-  def rendered_details
-    @rendered_details ||=
-      @journal.details
-      .map { |detail| @journal.render_detail(detail) }
-      .compact
-  end
-
-  def format_activity_title(text)
-    helpers.truncate_single_line(text, length: 100)
+    expect(page).to have_css('.op-activity-list--item-title', text: '(Project: Project <b>name</b> with HTML)')
   end
 end

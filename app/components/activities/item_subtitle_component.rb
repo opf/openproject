@@ -28,40 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "rails_helper"
-
-RSpec.describe ActivityItemSubtitleComponent, type: :component do
-  include Redmine::I18n
-
-  let(:datetime) { Time.current }
-
-  subject { render_inline(described_class.new(user:, datetime:, is_creation:)) }
-
-  context 'on creation with a user' do
-    let(:is_creation) { true }
-    let(:user) { build_stubbed(:user) }
-
-    it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
+class Activities::ItemSubtitleComponent < ViewComponent::Base
+  def initialize(user:, datetime:, is_creation:)
+    super()
+    @user = user
+    @datetime = datetime
+    @is_creation = is_creation
   end
 
-  context 'on creation without a user' do
-    let(:is_creation) { true }
-    let(:user) { nil }
+  def user_html
+    return unless @user
 
-    it { is_expected.to have_text("created on #{format_time(datetime)}") }
+    [
+      helpers.avatar(@user, size: 'mini'),
+      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
+    ].join(' ')
   end
 
-  context 'on update with a user' do
-    let(:is_creation) { false }
-    let(:user) { build_stubbed(:user) }
-
-    it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
+  def datetime_html
+    helpers.format_time(@datetime)
   end
 
-  context 'on update without a user' do
-    let(:is_creation) { false }
-    let(:user) { nil }
-
-    it { is_expected.to have_text("updated on #{format_time(datetime)}") }
+  def i18n_key
+    i18n_key = 'activity.item.'.dup
+    i18n_key << (@is_creation ? 'created_' : 'updated_')
+    i18n_key << 'by_' if @user
+    i18n_key << 'on'
+    i18n_key
   end
 end

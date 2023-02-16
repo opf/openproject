@@ -28,11 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ActivityListComponent < ViewComponent::Base
-  def initialize(events:, journals_by_id:, display_user: true)
-    super()
-    @events = events.sort { |x, y| y.event_datetime <=> x.event_datetime }
-    @journals_by_id = journals_by_id
-    @display_user = display_user
+require "rails_helper"
+
+RSpec.describe Activities::ItemSubtitleComponent, type: :component do
+  include Redmine::I18n
+
+  let(:datetime) { Time.current }
+
+  subject { render_inline(described_class.new(user:, datetime:, is_creation:)) }
+
+  context 'on creation with a user' do
+    let(:is_creation) { true }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on creation without a user' do
+    let(:is_creation) { true }
+    let(:user) { nil }
+
+    it { is_expected.to have_text("created on #{format_time(datetime)}") }
+  end
+
+  context 'on update with a user' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on update without a user' do
+    let(:is_creation) { false }
+    let(:user) { nil }
+
+    it { is_expected.to have_text("updated on #{format_time(datetime)}") }
   end
 end

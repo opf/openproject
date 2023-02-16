@@ -28,32 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ActivityItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:)
+class Activities::ItemComponent < ViewComponent::Base
+  def initialize(event:, journal:, display_user: true)
     super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
+    @event = event
+    @journal = journal
+    @display_user = display_user
   end
 
-  def user_html
-    return unless @user
-
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
+  def display_belonging_project?
+    @journal.journable_type != 'Project'
   end
 
-  def datetime_html
-    helpers.format_time(@datetime)
+  def display_user?
+    @display_user
   end
 
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (@is_creation ? 'created_' : 'updated_')
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key
+  def display_details?
+    return false if @journal.initial?
+
+    rendered_details.present?
+  end
+
+  def rendered_details
+    @rendered_details ||=
+      @journal.details
+      .map { |detail| @journal.render_detail(detail) }
+      .compact
+  end
+
+  def format_activity_title(text)
+    helpers.truncate_single_line(text, length: 100)
   end
 end

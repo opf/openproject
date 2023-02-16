@@ -6,7 +6,7 @@
     <% end -%>
   </div>
   <%=
-    render(ActivityItemSubtitleComponent.new(user: display_user? && @event.event_author,
+    render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
                                              is_creation: @journal.initial?))
   %>

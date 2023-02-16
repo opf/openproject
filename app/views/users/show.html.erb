@@ -84,7 +84,7 @@ See COPYRIGHT and LICENSE files for more details.
         <% @events_by_day.sort_by { |day, _events| day }.reverse_each do |day, events| -%>
           <h4 class="op-activity-days--header"><%= format_activity_day(day) %></h3>
 
-          <%= render(ActivityListComponent.new(events:, journals_by_id: @journals_by_id, display_user: false)) %>
+          <%= render(Activities::ListComponent.new(events:, journals_by_id: @journals_by_id, display_user: false)) %>
         <% end -%>
       </div>
 
