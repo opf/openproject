@@ -39,6 +39,9 @@ fi:
     models:
       budget: "Budjetti"
       material_budget_item: "Yksikkö"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Budjetti"
   button_add_budget_item: "Lisää suunniteltuja kustannuksia"

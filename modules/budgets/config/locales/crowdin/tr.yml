@@ -39,6 +39,9 @@ tr:
     models:
       budget: "Bütçe"
       material_budget_item: "Birim"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Bütçe"
   button_add_budget_item: "Planlanan maliyetlere ekle"

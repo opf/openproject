@@ -37,6 +37,9 @@ da:
     models:
       meeting_agenda: "Dagsorden"
       meeting_minutes: "Referat"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "tilsluttede"
   description_invite: "inviteret"
   events:

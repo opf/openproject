@@ -37,6 +37,9 @@ eu:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Aktak"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "Egon da"
   description_invite: "Gonbidatua izan da"
   events:

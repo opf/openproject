@@ -39,6 +39,9 @@ id:
     models:
       budget: "Bugdet"
       material_budget_item: "Unit"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Bugdet"
   button_add_budget_item: "Tambahkan biaya terencana"

@@ -39,6 +39,9 @@ lol:
     models:
       budget: "crwdns494009:0crwdne494009:0"
       material_budget_item: "crwdns494011:0crwdne494011:0"
+  activity:
+    filter:
+      budget: "crwdns845793:0crwdne845793:0"
   attributes:
     budget: "crwdns494013:0crwdne494013:0"
   button_add_budget_item: "crwdns494015:0crwdne494015:0"

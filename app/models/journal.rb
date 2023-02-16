@@ -33,6 +33,7 @@ class Journal < ApplicationRecord
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
+  include Journal::Timestamps
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment

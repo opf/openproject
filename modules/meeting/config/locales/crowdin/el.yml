@@ -37,6 +37,9 @@ el:
     models:
       meeting_agenda: "Ατζέντα"
       meeting_minutes: "Πρακτικά"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "παρευρέθηκε"
   description_invite: "προσκεκλημένος"
   events:

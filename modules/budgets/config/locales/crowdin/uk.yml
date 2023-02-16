@@ -39,6 +39,9 @@ uk:
     models:
       budget: "Бюджет"
       material_budget_item: "Одиниця"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Бюджет"
   button_add_budget_item: "Додайте планові витрати"

@@ -39,6 +39,9 @@ cs:
     models:
       budget: "Rozpočet"
       material_budget_item: "Jednotka"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Rozpočet"
   button_add_budget_item: "Přidat plánované náklady"

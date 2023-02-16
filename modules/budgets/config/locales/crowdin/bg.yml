@@ -39,6 +39,9 @@ bg:
     models:
       budget: "Бюджет"
       material_budget_item: "Мерна единица"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Бюджет"
   button_add_budget_item: "Добавете планираните разходи"
