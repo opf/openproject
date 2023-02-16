@@ -39,16 +39,15 @@ module API::V3::WorkPackages::EagerLoading
 
       work_package.at_timestamps = work_package_with_historic_attributes
                                      .journables_by_timestamp
-                                     .values
-                                     .map do |wp|
-        HistoricAttributesDelegator.new(wp).tap do |wrapped_wp|
-          # TODO: Don't know why that needs to be casted
-          wrapped_wp.timestamp = Timestamp.new(wp.timestamp)
+                                     .map do |timestamp, wp|
+        wrapped_wp = HistoricAttributesDelegator.new(wp)
+        wrapped_wp.timestamp = timestamp.dup
 
-          set_non_delegated_properties(wrapped_wp,
-                                       work_package_with_historic_attributes,
-                                       wrapped_wp.timestamp)
-        end
+        set_non_delegated_properties(wrapped_wp,
+                                     work_package_with_historic_attributes,
+                                     wrapped_wp.timestamp)
+
+        wrapped_wp
       end
     end
 
@@ -81,9 +80,7 @@ module API::V3::WorkPackages::EagerLoading
 
     included do
       attr_accessor :at_timestamps,
-                    :attributes_changed_to_baseline,
-                    # TODO: should be possible to get rid of. Added to cast it to a Timestamp again
-                    :timestamp
+                    :attributes_changed_to_baseline
 
       attr_writer :with_query,
                   :exists_at_timestamp,
@@ -102,5 +99,15 @@ module API::V3::WorkPackages::EagerLoading
   # TODO: Get this in line with the rest of the eager loading
   class HistoricAttributesDelegator < SimpleDelegator
     include HistoricAttributesAccessors
+
+    def initialize(work_package)
+      super(work_package || WorkPackage.new)
+    end
+
+    attr_writer :timestamp
+
+    def timestamp
+      new_record? ? @timestamp : __getobj__.timestamp
+    end
   end
 end
