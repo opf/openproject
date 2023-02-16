@@ -40,6 +40,8 @@ class Timestamp
   end
 
   def self.parse(iso8601_string)
+    return iso8601_string if iso8601_string.is_a?(Timestamp)
+
     iso8601_string.strip!
     iso8601_string = substitute_special_shortcut_values(iso8601_string)
     if iso8601_string.start_with? "P" # ISO8601 "Period"

@@ -642,4 +642,50 @@ describe API::V3::Utilities::PathHelper do
       end
     end
   end
+
+  describe '.timestamps_to_param_value' do
+    subject { helper.timestamps_to_param_value(timestamps) }
+
+    context 'for a single relative iso8601 string' do
+      let(:timestamps) { 'PT0S' }
+
+      it 'returns the value as an absolute value in ISO8601 format' do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql Time.current.iso8601
+        end
+      end
+    end
+
+    context 'for a single absolute iso8601 string' do
+      let(:timestamps) { '2023-01-31T21:34:11Z' }
+
+      it 'returns the value unchanged' do
+        expect(subject)
+          .to eql timestamps
+      end
+    end
+
+    context 'for a single timestamp (NOW)' do
+      let(:timestamps) { Timestamp.now }
+
+      it 'returns the value unchanged' do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql Time.current.iso8601
+        end
+      end
+    end
+
+    context 'for an array in different formats' do
+      let(:timestamps) { ['2023-01-31T21:34:11Z', Timestamp.new('2022-04-30T21:34:11Z'), 'PT0S'] }
+
+      it 'returns the value unchanged' do
+        Timecop.freeze(Time.current) do
+          expect(subject)
+            .to eql "2023-01-31T21:34:11Z,2022-04-30T21:34:11Z,#{Time.current.iso8601}"
+        end
+      end
+    end
+  end
 end
