@@ -39,6 +39,9 @@ fa:
     models:
       budget: "بودجه"
       material_budget_item: "Unit"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "بودجه"
   button_add_budget_item: "Add planned costs"

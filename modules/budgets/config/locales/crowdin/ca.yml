@@ -39,6 +39,9 @@ ca:
     models:
       budget: "Pressupost"
       material_budget_item: "Unitat"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Pressupost"
   button_add_budget_item: "Afegeix costs planejats"

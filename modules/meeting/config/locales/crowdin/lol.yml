@@ -37,6 +37,9 @@ lol:
     models:
       meeting_agenda: "crwdns494339:0crwdne494339:0"
       meeting_minutes: "crwdns494341:0crwdne494341:0"
+  activity:
+    filter:
+      meeting: "crwdns845797:0crwdne845797:0"
   description_attended: "crwdns494343:0crwdne494343:0"
   description_invite: "crwdns494345:0crwdne494345:0"
   events:

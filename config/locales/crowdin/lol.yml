@@ -894,6 +894,15 @@ lol:
   activity:
     created: "crwdns495753:0%{title}crwdne495753:0"
     updated: "crwdns495755:0%{title}crwdne495755:0"
+    filter:
+      changeset: "crwdns845777:0crwdne845777:0"
+      message: "crwdns845779:0crwdne845779:0"
+      news: "crwdns845781:0crwdne845781:0"
+      project_attribute: "crwdns845783:0crwdne845783:0"
+      subproject: "crwdns845785:0crwdne845785:0"
+      time_entry: "crwdns845787:0crwdne845787:0"
+      wiki_edit: "crwdns845789:0crwdne845789:0"
+      work_package: "crwdns845791:0crwdne845791:0"
   #common attributes of all models
   attributes:
     active: "crwdns495757:0crwdne495757:0"

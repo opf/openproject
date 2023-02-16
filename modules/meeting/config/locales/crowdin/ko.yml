@@ -37,6 +37,9 @@ ko:
     models:
       meeting_agenda: "의제"
       meeting_minutes: "의사록"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "참석함"
   description_invite: "초대됨"
   events:

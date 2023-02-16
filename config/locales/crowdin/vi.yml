@@ -909,6 +909,15 @@ vi:
   activity:
     created: "Đã tạo: %{title}"
     updated: "Đã cập nhật: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forum"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Đang hoạt động"

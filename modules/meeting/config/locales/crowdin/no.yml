@@ -37,6 +37,9 @@
     models:
       meeting_agenda: "Saksliste"
       meeting_minutes: "Referat"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "deltok"
   description_invite: "invitert"
   events:

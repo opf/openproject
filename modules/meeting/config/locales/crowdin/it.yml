@@ -37,6 +37,9 @@ it:
     models:
       meeting_agenda: "Ordine del giorno"
       meeting_minutes: "Verbali"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "ha partecipato"
   description_invite: "invitato"
   events:

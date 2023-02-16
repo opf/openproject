@@ -37,6 +37,9 @@ ro:
     models:
       meeting_agenda: "Agendă"
       meeting_minutes: "Concluzii"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "a participat"
   description_invite: "a fost invitat"
   events:

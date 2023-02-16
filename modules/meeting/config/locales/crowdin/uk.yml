@@ -37,6 +37,9 @@ uk:
     models:
       meeting_agenda: "Порядок денний"
       meeting_minutes: "Хвилини"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "Участь"
   description_invite: "Запрошені"
   events:

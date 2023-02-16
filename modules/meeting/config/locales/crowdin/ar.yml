@@ -37,6 +37,9 @@ ar:
     models:
       meeting_agenda: "جدول الأعمال"
       meeting_minutes: "محضر الجلسة"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "حَضَر"
   description_invite: "دعا"
   events:

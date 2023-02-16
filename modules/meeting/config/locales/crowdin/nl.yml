@@ -37,6 +37,9 @@ nl:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minuten"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "bijgewoond"
   description_invite: "uitgenodigd"
   events:

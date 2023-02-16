@@ -37,6 +37,9 @@ hu:
     models:
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "részt vett"
   description_invite: "meghívott"
   events:

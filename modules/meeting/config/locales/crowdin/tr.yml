@@ -37,6 +37,9 @@ tr:
     models:
       meeting_agenda: "Ajanda"
       meeting_minutes: "Dakika"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "katıldı"
   description_invite: "davet et"
   events:
