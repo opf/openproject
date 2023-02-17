@@ -27,5 +27,5 @@ Watch this short video to get a first overview about time and cost reporting in 
 
 ### Does OpenProject provide resource management?
 
-Please note that OpenProject currently does not yet support resource management. However, this is scheduled as one of our main topics. You can check out our roadmap [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
+Please note that OpenProject currently does not yet support resource management. However, this is scheduled as one of our main topics. You can check out our roadmap [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993). Our [use cases](../../use-cases/resource-management/) provide examples for workarounds to support resource management within OpenProject.
 

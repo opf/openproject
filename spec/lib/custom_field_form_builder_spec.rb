@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,7 @@ describe CustomFieldFormBuilder do
 
     before do
       allow(resource)
-        .to receive(custom_field.accessor_name)
+        .to receive(custom_field.attribute_getter)
               .and_return(typed_value)
     end
 
@@ -93,17 +93,14 @@ describe CustomFieldFormBuilder do
         custom_field.field_format = 'date'
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container' do
+      it_behaves_like 'wrapped in container', 'field-container' do
         let(:container_count) { 2 }
       end
 
       it 'outputs element' do
         expect(output).to be_html_eql(%{
-          <input class="custom-class -augmented-datepicker form--text-field"
-                 id="user#{custom_field.id}"
-                 name="user[#{custom_field.id}]"
-                 type="text" />
-        }).at_path('input')
+<op-single-date-picker class="custom-class" data-value="null" data-id='"user_custom_field_#{custom_field.id}"' data-name='"user[custom_field_#{custom_field.id}]"'></op-single-date-picker>
+        }).at_path('op-single-date-picker')
       end
     end
 
@@ -256,7 +253,7 @@ describe CustomFieldFormBuilder do
         custom_field.field_format = 'user'
 
         allow(project)
-          .to receive(custom_field.accessor_name)
+          .to receive(custom_field.attribute_getter)
           .and_return typed_value
 
         allow(project)
@@ -311,7 +308,7 @@ describe CustomFieldFormBuilder do
       before do
         custom_field.field_format = 'version'
         allow(project)
-          .to receive(custom_field.accessor_name)
+          .to receive(custom_field.attribute_getter)
                 .and_return typed_value
 
         allow(project)

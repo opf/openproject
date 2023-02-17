@@ -5,8 +5,8 @@ de:
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
       upload_files: "Dateien hochladen"
-      drop_files: >
-        Drop files here to upload them to %{storageType}.
+      drop_files: "Dateien hier ablegen, um sie auf %{name} hochzuladen."
+      drop_or_click_files: "Dateien hier ablegen oder anklicken, um sie auf %{name} hochzuladen."
       login: "%{storageType} Login"
       login_to: "Bei %{storageType} anmelden"
       no_connection: "Keine %{storageType} Verbindung"
@@ -24,6 +24,12 @@ de:
         no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
+      files:
+        directory_not_writeable: "Sie haben keine Berechtigung, Dateien zu diesem Ordner hinzuzufügen."
+        dragging_many_files: "Das Hochladen auf %{storageType} unterstützt nur eine Datei auf einmal."
+        empty_folder: "Dieser Ordner ist leer."
+        empty_folder_location_hint: "Klicken Sie auf die Schaltfläche unten, um die Datei an diesen Ort hochzuladen."
+        file_not_selectable_location: "Die Auswahl einer Datei ist nicht möglich, wenn Sie einen Speicherort auswählen."
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -44,6 +50,9 @@ de:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
+        upload_error: "Beim Hochladen der Datei '%{fileName}' ist ein Fehler aufgetreten."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

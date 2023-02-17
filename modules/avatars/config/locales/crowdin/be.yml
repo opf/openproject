@@ -1,0 +1,40 @@
+#English strings go here
+be:
+  label_avatar: "Аватар"
+  label_avatar_plural: "Аватары"
+  label_current_avatar: "Бягучы аватар"
+  label_choose_avatar: "Выбраць аватар з файла"
+  message_avatar_uploaded: "Аватар зменены паспяхова."
+  error_image_upload: "Памылка пры захаванні відарысу."
+  error_image_size: "Відарыс занадта вялікі."
+  button_change_avatar: "Змяніць аватар."
+  are_you_sure_delete_avatar: "Вы ўпэўнены што хочаце выдаліць аватар?"
+  avatar_deleted: "Аватар выдалены паспяхова."
+  unable_to_delete_avatar: "Немагчыма выдаліць аватар."
+  wrong_file_format: "Дазволеныя фарматы: jpg, png, gif"
+  empty_file_error: "Калі ласка запампуйце сапраўдны відарыс (jpg, png, gif)"
+  avatars:
+    label_avatar: "Аватар"
+    label_gravatar: 'Gravatar'
+    label_current_avatar: 'Бягучы аватар'
+    label_local_avatar: 'Карыстальніцкі аватар'
+    text_current_avatar: |
+      Наступны відарыс паказвае бягучы аватар.
+    text_upload_instructions: |
+      Запампуйце ваш уласны аватар памерам 128 на 128 пікселяў. Файлы большага памеру будуць адпаведна зменены.
+      Папярэдні прагляд будзе даступны перад запампоўкай, пасля вылучэння відарыса.
+    text_change_gravatar_html: 'Каб змяніць альбо дадаць Gravatar да вашага адраса пошты, перайдзіце на %{gravatar_url}.'
+    text_your_local_avatar: |
+      OpenProject дазваляе вам загрузіць ваш уласны аватар.
+    text_local_avatar_over_gravatar: |
+      Гэты аватар будзе выкарыстоўвацца замест Gravatar вышэй.
+    text_your_current_gravatar: |
+      OpenProject выкарыстоўвае зарэгістраваны вамі Gravatar, альбо відарыс/значок, калі яны існуюць.
+      Бягучы Gravatar выглядае наступным чынам:
+    settings:
+      enable_gravatars: 'Выкарыстоўваць Gravatar'
+      gravatar_default: "Стандартны Gravatar"
+      enable_local_avatars: 'Уключыць карыстальніцкія аватары'
+
+
+

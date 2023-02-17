@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,13 @@ module API::V3::Days
     helpers ::API::Utilities::UrlPropsParsingHelper
 
     resources :non_working do
+      get &::API::V3::Utilities::Endpoints::Index.new(
+        api_name: "Day",
+        model: NonWorkingDay,
+        render_representer: NonWorkingDayCollectionRepresenter,
+        self_path: -> { api_v3_paths.days_non_working }
+      ).mount
+
       route_param :date, type: Date, desc: 'NonWorkingDay DATE' do
         after_validation do
           @non_working_day = NonWorkingDay.find_by!(date: declared_params[:date])

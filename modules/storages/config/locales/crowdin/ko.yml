@@ -51,7 +51,7 @@ ko:
       type_link_text: "“Integration OpenProject”"
       name: "사용자가 여러 저장소 간에 구별할 수 있도록 저장소에 이름을 지정하세요."
       host: "https://를 포함하여 저장소의 호스트 주소를 추가하세요. 255자 이하여야 합니다."
-      no_storage_set_up: "아직 파일 저장소가 설정되지 않았습니다."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "추가 파일 저장소를 설정하려면 다음을 방문하세요:"
       setting_up_additional_storages_non_admin: "관리자는 관리/파일 저장소에서 추가 파일 저장소를 설정할 수 있습니다."
       setting_up_storages: "파일 저장소를 설정하려면 다음을 방문하세요:"
@@ -79,7 +79,7 @@ ko:
     label_new_storage: "새로운 저장소"
     label_storage: "저장소"
     label_storages: "저장소"
-    no_results: "아직 저장소가 설정되지 않았습니다."
+    no_results: "No storages set up yet."
     provider_types:
       label: "공급자 유형"
       nextcloud:

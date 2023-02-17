@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page time entries current user widget spec', type: :feature, js: true, with_mail: false do
+describe 'My page time entries current user widget spec', js: true, with_mail: false do
   let!(:type) { create :type }
   let!(:project) { create :project, types: [type] }
   let!(:activity) { create :time_entry_activity }
@@ -111,8 +111,8 @@ describe 'My page time entries current user widget spec', type: :feature, js: tr
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:cf_field) { ::TextEditorField.new(page, "customField#{custom_field.id}") }
-  let(:time_logging_modal) { ::Components::TimeLoggingModal.new }
+  let(:cf_field) { TextEditorField.new(page, custom_field.attribute_name(:camel_case)) }
+  let(:time_logging_modal) { Components::TimeLoggingModal.new }
 
   before do
     login_as user

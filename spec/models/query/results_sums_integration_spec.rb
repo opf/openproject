@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'sums', type: :model do
+describe Query::Results, 'sums' do
   let(:project) do
     create(:project).tap do |p|
       p.work_package_custom_fields << int_cf
@@ -36,8 +36,8 @@ describe ::Query::Results, 'sums', type: :model do
     end
   end
   let(:estimated_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
-  let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{int_cf.id}" } }
-  let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == "cf_#{float_cf.id}" } }
+  let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == int_cf.column_name } }
+  let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == float_cf.column_name } }
   let(:material_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "material_costs" } }
   let(:labor_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "labor_costs" } }
   let(:overall_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "overall_costs" } }
@@ -55,8 +55,8 @@ describe ::Query::Results, 'sums', type: :model do
            project:,
            estimated_hours: 5,
            done_ratio: 10,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -67,8 +67,8 @@ describe ::Query::Results, 'sums', type: :model do
            assigned_to: current_user,
            done_ratio: 50,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -80,8 +80,8 @@ describe ::Query::Results, 'sums', type: :model do
            responsible: current_user,
            done_ratio: 50,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -90,8 +90,8 @@ describe ::Query::Results, 'sums', type: :model do
            type:,
            project: other_project,
            estimated_hours: 5,
-           "custom_field_#{int_cf.id}" => 10,
-           "custom_field_#{float_cf.id}" => 3.414,
+           int_cf.attribute_name => 10,
+           float_cf.attribute_name => 3.414,
            remaining_hours: 3,
            story_points: 7)
   end
@@ -150,7 +150,7 @@ describe ::Query::Results, 'sums', type: :model do
           group_by:
   end
   let(:query_results) do
-    ::Query::Results.new query
+    Query::Results.new query
   end
 
   before do

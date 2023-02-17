@@ -15,7 +15,6 @@ if [ -f /run/.containerenv -o -f /.dockerenv ]; then
 fi
 
 apt-get install -y  \
-	memcached \
 	postfix \
 	apache2 \
 	supervisor

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -96,8 +96,9 @@ describe 'onboarding tour for new users', js: true do
         visit home_path first_time_user: true
         expect(page).to have_text 'Please select your language'
 
-        # Cancel language selection
-        page.find('.spot-modal-overlay').click(x: -400, y: 1)
+        # Selenium's click doesn't properly fire a mousedown event, so we trigger both explicitly
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('mousedown'));")
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('click'));")
 
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true

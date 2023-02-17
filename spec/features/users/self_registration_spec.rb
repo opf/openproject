@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'user self registration', type: :feature, js: true do
+describe 'user self registration', js: true do
   let(:admin_password) { 'Test123Test123' }
   let(:admin) { create :admin, password: admin_password, password_confirmation: admin_password }
   let(:home_page) { Pages::Home.new }

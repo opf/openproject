@@ -1,7 +1,7 @@
 <op-attachment-list
   [ngClass]="{
     'op-file-section--list': true,
-    'op-file-section--list_dragging': dragging
+    'op-file-section--list_dragging': dragging > 0
   }"
   *ngIf="(attachments$ | async).length"
   [attachments]="attachments$ | async"
@@ -26,7 +26,7 @@
   [ngClass]="{
     'hide-when-print': true,
     'op-file-section--drop-box': true,
-    'op-file-section--drop-box_dragging': dragging,
+    'op-file-section--drop-box_dragging': dragging > 0,
     'op-file-section--drop-box_dragging-over': draggingOverDropZone,
     'op-file-section--drop-box_float': (attachments$ | async).length
   }"
@@ -37,14 +37,18 @@
   (drop)="onDropFiles($event)"
 >
   <span
-    class="spot-icon spot-icon_attachment op-file-section--drop-box-icon"
+    class="spot-icon spot-icon_add-attachment op-file-section--drop-box-icon"
   ></span>
   <span
+    *ngIf="(attachments$ | async).length > 0"
     class="op-file-section--drop-box-text"
-  >
-    {{ text.dropFiles }}<br>
-    {{ text.dropFilesHint }}
-  </span>
+    [textContent]="text.dropFiles"
+  ></span>
+  <span
+    *ngIf="(attachments$ | async).length === 0"
+    class="op-file-section--drop-box-text"
+    [textContent]="text.dropClickFiles"
+  ></span>
 </button>
 
 <div
@@ -57,8 +61,7 @@
     (click)="triggerFileInput()"
     data-qa-selector="op-attachments--upload-button"
   >
-    <span class="spot-icon spot-icon_attachment"></span>
-
-    Add attachment
+    <span class="spot-icon spot-icon_add-attachment"></span>
+    {{text.uploadLabel}}
   </button>
 </div>

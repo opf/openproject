@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackages::BulkController, type: :controller do
+describe WorkPackages::BulkController do
   let(:project) { create(:project_with_types) }
   let(:controller_role) { build(:role, permissions: %i[view_work_packages edit_work_packages]) }
   let(:user) { create :user, member_in_project: project, member_through_role: controller_role }

@@ -1,6 +1,6 @@
 shared_examples_for 'repository can be relocated' do |vendor|
   let(:job_call) do
-    ::SCM::RelocateRepositoryJob.perform_now repository
+    SCM::RelocateRepositoryJob.perform_now repository
   end
   let(:project) { build :project }
   let(:repository) do
@@ -26,7 +26,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     it 'relocates when project identifier is updated' do
       current_path = repository.root_url
       expect(repository.root_url).to eq(repository.managed_repository_path)
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
 
       # Rename the project
       project.update!(identifier: 'somenewidentifier')
@@ -39,7 +39,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       expect(current_path).not_to eq(repository.root_url)
       expect(repository.url).to eq(repository.managed_repository_url)
 
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
     end
   end
 

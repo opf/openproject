@@ -33,7 +33,7 @@ get:
       content:
         application/hal+json:
           schema:
-            $ref: '../components/schemas/file_collection_model.yml'
+            $ref: '../components/schemas/storage_files_model.yml'
     '400':
       description: Returned if the given parent parameter value does not refer to a directory.
       content:

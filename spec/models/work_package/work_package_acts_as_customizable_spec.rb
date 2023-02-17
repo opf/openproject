@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ describe WorkPackage, 'acts_as_customizable' do
       end
 
       it 'sets the value' do
-        expect(wp_with_assignee_cf.send(version_cf.accessor_name))
+        expect(wp_with_assignee_cf.send(version_cf.attribute_getter))
           .to eql version
       end
     end
@@ -85,19 +85,19 @@ describe WorkPackage, 'acts_as_customizable' do
     end
 
     it 'says to respond to valid custom field accessors' do
-      expect(work_package).to respond_to(included_cf.accessor_name)
+      expect(work_package).to respond_to(included_cf.attribute_getter)
     end
 
     it 'really responds to valid custom field accessors' do
-      expect(work_package.send(included_cf.accessor_name)).to be_nil
+      expect(work_package.send(included_cf.attribute_getter)).to be_nil
     end
 
     it 'says to not respond to foreign custom field accessors' do
-      expect(work_package).not_to respond_to(other_cf.accessor_name)
+      expect(work_package).not_to respond_to(other_cf.attribute_getter)
     end
 
     it 'does really not respond to foreign custom field accessors' do
-      expect { work_package.send(other_cf.accessor_name) }.to raise_error(NoMethodError)
+      expect { work_package.send(other_cf.attribute_getter) }.to raise_error(NoMethodError)
     end
   end
 
@@ -125,7 +125,7 @@ describe WorkPackage, 'acts_as_customizable' do
 
       # assert that there is only one error
       expect(work_package.errors.size).to eq 1
-      expect(work_package.errors["custom_field_#{cf2.id}"].size).to eq 1
+      expect(work_package.errors[cf2.attribute_name].size).to eq 1
     end
   end
 
@@ -134,6 +134,17 @@ describe WorkPackage, 'acts_as_customizable' do
     let(:custom_field) { create(:string_wp_custom_field) }
     before do
       setup_custom_field(custom_field)
+    end
+
+    context 'with a default value' do
+      before do
+        custom_field.update! default_value: 'foobar'
+        model_instance.custom_values.destroy_all
+      end
+
+      it 'returns no changes' do
+        expect(model_instance.custom_field_changes).to be_empty
+      end
     end
   end
 end

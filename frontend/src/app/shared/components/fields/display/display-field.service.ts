@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,10 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { AbstractFieldService, IFieldType } from 'core-app/shared/components/fields/field.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { MultipleLinesCustomOptionsDisplayField } from 'core-app/shared/components/fields/display/field-types/multiple-lines-custom-options-display-field.module';
+import { MultipleLinesUserFieldModule } from 'core-app/shared/components/fields/display/field-types/multiple-lines-user-display-field.module';
+import { ProgressTextDisplayField } from 'core-app/shared/components/fields/display/field-types/progress-text-display-field.module';
+import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 
 export interface IDisplayFieldType extends IFieldType<DisplayField> {
   new(resource:HalResource, attributeType:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField;
@@ -64,9 +68,37 @@ export class DisplayFieldService extends AbstractFieldService<DisplayField, IDis
    * @returns {T}
    */
   public getField(resource:HalResource, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
-    const fieldClass = this.getSpecificClassFor(resource._type, fieldName, schema.type);
-    const instance = new fieldClass(fieldName, context);
+    // We handle multi value fields differently in the single view context
+    const instance = this.getFieldForContext(resource, fieldName, schema, context);
     instance.apply(resource, schema);
     return instance;
+  }
+
+  private getFieldForContext(resource:HalResource, fieldName:string, schema:IFieldSchema, context:DisplayFieldContext):DisplayField {
+    // We handle multi value fields differently in the single view context
+    const isCustomMultiLinesField = ['[]CustomOption'].indexOf(schema.type) >= 0;
+    if (context.container === 'single-view' && isCustomMultiLinesField) {
+      return new MultipleLinesCustomOptionsDisplayField(fieldName, context) as DisplayField;
+    }
+    const isUserMultiLinesField = ['[]User'].indexOf(schema.type) >= 0;
+    if (context.container === 'single-view' && isUserMultiLinesField) {
+      return new MultipleLinesUserFieldModule(fieldName, context) as DisplayField;
+    }
+
+    // We handle progress differently in the timeline
+    if (context.container === 'timeline' && fieldName === 'percentageDone') {
+      return new ProgressTextDisplayField(fieldName, context);
+    }
+
+    // We want to render an combined edit field but the display field must
+    // show the original attribute
+    if (context.container === 'table' && ['startDate', 'dueDate', 'date'].includes(fieldName)) {
+      return new DateDisplayField(fieldName, context);
+    }
+
+    const cls = this.getSpecificClassFor(resource._type, fieldName, schema.type);
+
+    // eslint-disable-next-line new-cap
+    return new cls(fieldName, context) as DisplayField;
   }
 }

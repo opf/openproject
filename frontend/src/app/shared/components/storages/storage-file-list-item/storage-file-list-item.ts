@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ export class StorageFileListItem {
   }
 
   get isDirectory():boolean {
-    return isDirectory(this.storageFile.mimeType);
+    return isDirectory(this.storageFile);
   }
 
   constructor(
@@ -68,8 +68,9 @@ export class StorageFileListItem {
     private readonly storageFile:IStorageFile,
     public readonly disabled:boolean,
     public readonly isFirst:boolean,
+    public readonly enterDirectory:() => void,
+    public readonly isConstrained:boolean,
     public readonly tooltip?:string,
     public readonly checkbox?:StorageFileListItemCheckbox,
-    public readonly enterDirectory?:() => void,
   ) {}
 }

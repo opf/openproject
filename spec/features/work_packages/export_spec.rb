@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'work package export', type: :feature do
+describe 'work package export' do
   let(:project) { create :project_with_types, types: [type_a, type_b] }
   let(:export_type) { 'CSV' }
   let(:current_user) { create :admin }
@@ -44,11 +44,11 @@ describe 'work package export', type: :feature do
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
-  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
-  let(:settings_menu) { ::Components::WorkPackages::SettingsMenu.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
+  let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
+  let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
 
   before do
     @download_list = DownloadList.new
@@ -147,7 +147,7 @@ describe 'work package export', type: :feature do
       end
 
       it 'shows only work packages of the filtered type', js: true do
-        filters.add_filter_by 'Type', 'is', wp_3.type.name
+        filters.add_filter_by 'Type', 'is (OR)', wp_3.type.name
 
         expect(page).to have_no_content(wp_2.description) # safeguard
 
@@ -178,10 +178,10 @@ describe 'work package export', type: :feature do
       end
 
       before do
-        ::OrderedWorkPackage.create(query:, work_package: wp_4, position: 0)
-        ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 1)
-        ::OrderedWorkPackage.create(query:, work_package: wp_2, position: 2)
-        ::OrderedWorkPackage.create(query:, work_package: wp_3, position: 3)
+        OrderedWorkPackage.create(query:, work_package: wp_4, position: 0)
+        OrderedWorkPackage.create(query:, work_package: wp_1, position: 1)
+        OrderedWorkPackage.create(query:, work_package: wp_2, position: 2)
+        OrderedWorkPackage.create(query:, work_package: wp_3, position: 3)
 
         query.add_filter('manual_sort', 'ow', [])
         query.sort_criteria = [[:manual_sorting, 'asc']]

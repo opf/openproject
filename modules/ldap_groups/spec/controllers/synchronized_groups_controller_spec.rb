@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], type: :controller do
+describe LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups] do
   let(:user) { create :user }
   let(:admin) { create :admin }
 
@@ -59,7 +59,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
         let(:id) { 'foo' }
 
         it 'renders the page' do
-          expect(::LdapGroups::SynchronizedGroup)
+          expect(LdapGroups::SynchronizedGroup)
               .to receive(:find)
               .with('foo')
               .and_return(group)
@@ -97,7 +97,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
     let(:save_result) { false }
 
     before do
-      allow_any_instance_of(::LdapGroups::SynchronizedGroup).to receive(:save).and_return(save_result)
+      allow_any_instance_of(LdapGroups::SynchronizedGroup).to receive(:save).and_return(save_result)
       post :create, params: { synchronized_group: params }
     end
 
@@ -171,7 +171,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
         let(:id) { 'foo' }
 
         it 'renders the page' do
-          expect(::LdapGroups::SynchronizedGroup)
+          expect(LdapGroups::SynchronizedGroup)
               .to receive(:find)
               .with('foo')
               .and_return(group)
@@ -212,7 +212,7 @@ describe ::LdapGroups::SynchronizedGroupsController, with_ee: %i[ldap_groups], t
         let(:id) { 'foo' }
 
         before do
-          expect(::LdapGroups::SynchronizedGroup)
+          expect(LdapGroups::SynchronizedGroup)
               .to receive(:find)
               .with('foo')
               .and_return(group)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,19 +33,19 @@ module Settings
 
     attr_accessor :name,
                   :format,
-                  :env_alias,
-                  :on_change
+                  :env_alias
 
     attr_writer :value,
+                :description,
                 :allowed
 
     def initialize(name,
                    default:,
+                   description: nil,
                    format: nil,
                    writable: true,
                    allowed: nil,
-                   env_alias: nil,
-                   on_change: nil)
+                   env_alias: nil)
       self.name = name.to_s
       @default = default.is_a?(Hash) ? default.deep_stringify_keys : default
       @default.freeze
@@ -54,7 +54,7 @@ module Settings
       self.writable = writable
       self.allowed = allowed
       self.env_alias = env_alias
-      self.on_change = on_change
+      self.description = description.presence || :"setting_#{name}"
     end
 
     def default
@@ -63,6 +63,14 @@ module Settings
 
     def value
       cast(@value)
+    end
+
+    def description
+      if @description.is_a?(Symbol)
+        I18n.t(@description, default: nil)
+      else
+        @description
+      end
     end
 
     def serialized?
@@ -127,6 +135,7 @@ module Settings
       # @param [Object] default The default value the setting has if not overridden.
       # @param [nil] format The format the value is in e.g. symbol, array, hash, string. If a value is present,
       #  the format is deferred.
+      # @param [nil] description A human-readable description of this setting.
       # @param [TrueClass] writable Whether the value can be set in the UI. In case the value is set via file or ENV var,
       #  this will be set to false later on and UI elements that refer to the definition will be disabled.
       # @param [nil] allowed The array of allowed values that can be assigned to the definition.
@@ -136,25 +145,24 @@ module Settings
       # @param [nil] env_alias Alternative for the default env name to also look up. E.g. with the alias set to
       #  `OPENPROJECT_2FA` for a definition with the name `two_factor_authentication`, the value is fetched
       #  from the ENV OPENPROJECT_2FA as well.
-      # @param [nil] on_change A callback lambda to be triggered whenever the setting is stored to the database.
       def add(name,
               default:,
               format: nil,
+              description: nil,
               writable: true,
               allowed: nil,
-              env_alias: nil,
-              on_change: nil)
+              env_alias: nil)
         return if @by_name.present? && @by_name[name.to_s].present?
 
         @by_name = nil
 
         definition = new(name,
                          format:,
+                         description:,
                          default:,
                          writable:,
                          allowed:,
-                         env_alias:,
-                         on_change:)
+                         env_alias:)
 
         override_value(definition)
 
@@ -280,8 +288,8 @@ module Settings
         env_var_hash_part
           .scan(/(?:[a-zA-Z0-9]|__)+/)
           .map do |seg|
-            unescape_underscores(seg.downcase)
-          end
+          unescape_underscores(seg.downcase)
+        end
       end
 
       # takes the path provided and transforms it into a deeply nested hash
@@ -335,6 +343,7 @@ module Settings
           env_name_alias(definition)
         ].compact
       end
+
       public :possible_env_names
 
       def env_name_nested(definition)

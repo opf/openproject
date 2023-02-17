@@ -10,4 +10,10 @@ module ActivityHelper
       event.event_type
     end
   end
+
+  def journal_rendered_details(journal)
+    journal.details
+      .map { |detail| journal.render_detail(detail) }
+      .compact
+  end
 end

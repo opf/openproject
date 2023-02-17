@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/work_package_github_tab'
 
-describe 'Open the GitHub tab', type: :feature, js: true do
+describe 'Open the GitHub tab', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -46,6 +46,9 @@ describe 'Open the GitHub tab', type: :feature, js: true do
   let(:github_tab) { Pages::GitHubTab.new(work_package.id) }
   let(:pull_request) { create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
   let(:check_run) { create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
+
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
+  let(:github_tab_element) { find('.op-tab-row--link_selected', text: 'GITHUB') }
 
   shared_examples_for "a github tab" do
     before do
@@ -70,6 +73,8 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       work_package_page.visit!
       work_package_page.switch_to_tab(tab: 'github')
 
+      tabs.expect_counter(github_tab_element, 1)
+
       github_tab.git_actions_menu_button.click
       github_tab.git_actions_copy_branch_name_button.click
       expect(page).to have_text('Copied!')
@@ -86,6 +91,7 @@ describe 'Open the GitHub tab', type: :feature, js: true do
       it 'shows the github tab with an empty-pull-requests message' do
         work_package_page.visit!
         work_package_page.switch_to_tab(tab: 'github')
+        tabs.expect_no_counter(github_tab_element)
         expect(page).to have_content('There are no pull requests')
         expect(page).to have_content("Link an existing PR by using the code OP##{work_package.id}")
       end

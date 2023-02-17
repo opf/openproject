@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,17 +30,11 @@
 class Storages::FileLinkSyncService
   FILESINFO_URL_PATH = "/ocs/v1.php/apps/integration_openproject/filesinfo".freeze
 
-  # @param user Current user
-  # @param file_links An array of FileLink objects
   def initialize(user:)
     @user = user
     @service_result = ServiceResult.success(result: [])
   end
 
-  # Synchronize the "cached" FileLinks in the database with a Nextcloud response.
-  # We assume a OAuthClientToken is present, because this service is called after
-  # the storage endpoint.
-  # @return ServiceResult with FileLinks in the result
   def call(file_links)
     @file_links = file_links
     storage_file_link_hash = @file_links.group_by(&:storage_id)
@@ -215,7 +209,7 @@ class Storages::FileLinkSyncService
   def parse_files_info_response(response)
     return ServiceResult.failure(result: :error) if files_info_response_error?(response)
     return ServiceResult.failure(result: :not_authorized) if ["401", "403"].include?(response.code)
-    return ServiceResult.failure(result: :error) unless response.code == "200" # Interpret any other response as an error
+    return ServiceResult.failure(result: :error) unless response.code == "200"
 
     begin
       response_hash = JSON.parse(response.body).dig('ocs', 'data')

@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require 'messagebird'
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
+describe OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
   describe 'sending messages' do
     let!(:user) { create :user, language: locale }
     let!(:locale) { 'en' }
@@ -17,7 +17,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
 
     let(:result) { subject.request }
 
-    subject { ::TwoFactorAuthentication::TokenService.new user: }
+    subject { TwoFactorAuthentication::TokenService.new user: }
 
     include_context 'with settings' do
       let(:settings) do
@@ -31,7 +31,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
     end
 
     before do
-      allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird)
+      allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird)
         .to receive(:create_mobile_otp)
         .and_return('1234')
     end
@@ -50,12 +50,12 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
       let(:channel) { :sms }
 
       before do
-        allow(::MessageBird::Client).to receive(:new)
+        allow(MessageBird::Client).to receive(:new)
       end
 
       it 'uses the api key defined in the settings' do
         result
-        expect(::MessageBird::Client).to have_received(:new).with(apikey)
+        expect(MessageBird::Client).to have_received(:new).with(apikey)
       end
     end
 
@@ -84,14 +84,14 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
     end
 
     describe 'calling a mocked API Client' do
-      let(:messagebird) { instance_double(::MessageBird::Client) }
+      let(:messagebird) { instance_double(MessageBird::Client) }
 
       let(:failed_count) { 0 }
-      let(:response) { instance_double(::MessageBird::Message, recipients: { 'totalDeliveryFailedCount' => failed_count }) }
+      let(:response) { instance_double(MessageBird::Message, recipients: { 'totalDeliveryFailedCount' => failed_count }) }
       let(:channel) { :sms }
 
       before do
-        allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird)
+        allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird)
           .to receive(:message_bird_client)
           .and_return(messagebird)
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
       xml.content "type" => "html" do
         xml.text! '<ul>'
         change.details.each do |detail|
-          change_content = change.render_detail(detail, no_html: false)
+          change_content = change.render_detail(detail, html: true)
           xml.text!(content_tag(:li, change_content)) if change_content.present?
         end
         xml.text! '</ul>'

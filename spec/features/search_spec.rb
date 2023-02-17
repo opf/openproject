@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Search', type: :feature, js: true, with_settings: { per_page_options: '5' }, with_mail: false do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail: false do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create :admin }
   let(:user) { admin }
@@ -77,7 +77,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
     end
   end
 
-  let(:global_search) { ::Components::GlobalSearch.new }
+  let(:global_search) { Components::GlobalSearch.new }
 
   let(:query) { 'Subject' }
 
@@ -221,9 +221,9 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         create(:work_package, subject: 'Other work package', project: subproject)
       end
 
-      let(:filters) { ::Components::WorkPackages::Filters.new }
-      let(:columns) { ::Components::WorkPackages::Columns.new }
-      let(:top_menu) { ::Components::Projects::TopMenu.new }
+      let(:filters) { Components::WorkPackages::Filters.new }
+      let(:columns) { Components::WorkPackages::Columns.new }
+      let(:top_menu) { Components::Projects::TopMenu.new }
 
       it 'shows a work package table with correct results' do
         # Search without subprojects
@@ -256,7 +256,7 @@ describe 'Search', type: :feature, js: true, with_settings: { per_page_options: 
         page.find('.advanced-filters--toggle').click
         filters.expect_open
         # As the project has a subproject, the filter for subprojectId is expected to be active.
-        filters.expect_filter_by 'subprojectId', 'none', nil, 'subprojectId'
+        filters.expect_filter_by 'subprojectId', 'is empty', nil, 'subprojectId'
         filters.add_filter_by('Subject',
                               'contains',
                               [work_packages.last.subject],

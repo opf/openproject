@@ -51,7 +51,7 @@ es:
       type_link_text: "“Integración OpenProject”"
       name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
       host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
-      no_storage_set_up: "Aún no se han configurado almacenes de archivos."
+      no_storage_set_up: "Aún no se han configurado los almacenamientos de archivos."
       setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
       setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
       setting_up_storages: "Para configurar almacenes de archivos, visite"
@@ -79,7 +79,7 @@ es:
     label_new_storage: "Nuevo almacén"
     label_storage: "Almacén"
     label_storages: "Almacenes"
-    no_results: "Aún no se han configurado almacenes."
+    no_results: "Aún no se han configurado almacenes de archivos."
     provider_types:
       label: "Tipo de proveedor"
       nextcloud:

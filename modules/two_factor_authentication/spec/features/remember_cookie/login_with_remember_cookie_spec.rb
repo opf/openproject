@@ -2,7 +2,6 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA remember cookie',
-         type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: {
              active_strategies: [:developer],
@@ -22,7 +21,7 @@ describe 'Login with 2FA remember cookie',
     page.driver.browser.manage.delete_all_cookies
 
     sms_token = nil
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
         .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
@@ -82,7 +81,7 @@ describe 'Login with 2FA remember cookie',
       expect_logged_in
 
       # Expire token
-      token = ::TwoFactorAuthentication::RememberedAuthToken.find_by!(user:)
+      token = TwoFactorAuthentication::RememberedAuthToken.find_by!(user:)
       expect(token).not_to be_expired
       token.update_columns(expires_on: 1.day.ago, created_at: 31.days.ago)
 
@@ -94,7 +93,7 @@ describe 'Login with 2FA remember cookie',
       login_with_cookie
 
       # Disable functionality
-      allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+      allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
         .to receive(:allow_remember_for_days)
         .and_return(0)
 
@@ -103,7 +102,7 @@ describe 'Login with 2FA remember cookie',
       expect_no_autologin
 
       # Enable functionality
-      allow(::OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+      allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
           .to receive(:allow_remember_for_days)
           .and_return(1)
 

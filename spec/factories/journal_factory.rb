@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,6 +54,11 @@ FactoryBot.define do
     factory :news_journal, class: 'Journal' do
       journable_type { 'News' }
       data { build(:journal_message_journal) }
+    end
+
+    factory :project_journal, class: 'Journal' do
+      journable factory: :project
+      data { build(:journal_project_journal) }
     end
   end
 end

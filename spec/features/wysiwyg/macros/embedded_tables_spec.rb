@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
-         type: :feature, js: true do
+         js: true do
   shared_let(:admin) { create :admin }
   let(:user) { admin }
   let(:type_task) { create :type_task }
@@ -37,13 +37,13 @@ describe 'Wysiwyg embedded work package tables',
   let(:project) do
     create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
   let!(:wp_task) { create(:work_package, project:, type: type_task) }
   let!(:wp_bug) { create(:work_package, project:, type: type_bug) }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   before do
     login_as(user)
@@ -62,7 +62,7 @@ describe 'Wysiwyg embedded work package tables',
           modal.expect_open
           modal.switch_to 'Filters'
           filters.expect_filter_count 2
-          filters.add_filter_by('Type', 'is', type_task.name)
+          filters.add_filter_by('Type', 'is (OR)', type_task.name)
 
           modal.switch_to 'Columns'
           columns.assume_opened
@@ -96,7 +96,7 @@ describe 'Wysiwyg embedded work package tables',
 
           # Expect we can preview the table within ckeditor-augmented-textarea
           editor.within_enabled_preview do |preview_container|
-            embedded_table = ::Pages::EmbeddedWorkPackagesTable.new preview_container
+            embedded_table = Pages::EmbeddedWorkPackagesTable.new preview_container
             embedded_table.expect_work_package_listed wp_task
             embedded_table.ensure_work_package_not_listed! wp_bug
           end
@@ -107,7 +107,7 @@ describe 'Wysiwyg embedded work package tables',
 
         expect(page).to have_selector('.flash.notice')
 
-        embedded_table = ::Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
+        embedded_table = Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
         embedded_table.expect_work_package_listed wp_task
         embedded_table.ensure_work_package_not_listed! wp_bug
 

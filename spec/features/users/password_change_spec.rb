@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require 'spec_helper'
 
 describe 'random password generation',
          with_config: { session_store: :active_record_store },
-         type: :feature,
          js: true do
   shared_let(:admin) { create :admin }
 
@@ -38,7 +37,7 @@ describe 'random password generation',
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
   let(:user) { create :user, password: old_password, password_confirmation: old_password }
-  let(:user_page) { ::Pages::Admin::Users::Edit.new(user.id) }
+  let(:user_page) { Pages::Admin::Users::Edit.new(user.id) }
 
   describe 'as admin user' do
     before do
@@ -88,16 +87,16 @@ describe 'random password generation',
       fill_in 'new_password_confirmation', with: new_password
 
       # Expect other sessions to be deleted
-      session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
+      session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
       session.save
 
-      expect(::Sessions::UserSession.for_user(user.id).count).to be >= 1
+      expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
       expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
-      expect(::Sessions::UserSession.find_by(session_id: 'other')).to be_nil
+      expect(Sessions::UserSession.find_by(session_id: 'other')).to be_nil
 
       # Logout and sign in with outdated password
       visit signout_path
@@ -173,7 +172,7 @@ describe 'random password generation',
   end
 
   context 'as a user on his my page' do
-    let(:user_page) { ::Pages::My::PasswordPage.new }
+    let(:user_page) { Pages::My::PasswordPage.new }
     let(:third_password) { 'third_Password!123' }
 
     before do

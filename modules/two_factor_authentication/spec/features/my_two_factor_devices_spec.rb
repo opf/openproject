@@ -1,12 +1,11 @@
 require_relative '../spec_helper'
 
 describe 'My Account 2FA configuration',
-         type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
          },
          js: true do
-  let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+  let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'boB!4' * 4 }
   let(:user) do
     create(:user,
@@ -48,7 +47,7 @@ describe 'My Account 2FA configuration',
     # Log token for next access
     sms_token = nil
     # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
       .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end

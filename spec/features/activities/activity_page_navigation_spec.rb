@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe 'Activity page navigation' do
     expect(page)
       .to have_link(text: /#{subproject_older_work_package.subject}/)
 
-    uncheck 'Subprojects'
+    uncheck 'Include subprojects'
     click_button 'Apply'
 
     # Still on the same page. Filters applied. subproject work package created
@@ -80,9 +80,9 @@ describe 'Activity page navigation' do
       aggregate_failures do
         # Subprojects is initially checked or not depending on a setting
         if Setting.display_subprojects_work_packages?
-          expect(page).to have_checked_field('Subprojects')
+          expect(page).to have_checked_field('Include subprojects')
         else
-          expect(page).to have_unchecked_field('Subprojects')
+          expect(page).to have_unchecked_field('Include subprojects')
         end
 
         # work packages for both projects are visible
@@ -92,11 +92,11 @@ describe 'Activity page navigation' do
           .to have_link(text: /#{subproject_work_package.subject}/)
       end
 
-      uncheck 'Subprojects'
+      uncheck 'Include subprojects'
       click_button 'Apply'
 
       aggregate_failures do
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
         # work packages for subproject is not visible anymore
@@ -108,7 +108,7 @@ describe 'Activity page navigation' do
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_older_work_package.subject}/)
 
@@ -121,7 +121,7 @@ describe 'Activity page navigation' do
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
 

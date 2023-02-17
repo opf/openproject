@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,85 +30,59 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
-    URI_BASE_PATH = '/ocs/v2.php/apps/files_sharing/api/v1/shares'.freeze
-    UPLOAD_LINK_BASE = '/public.php/webdav'.freeze
+    URI_TOKEN_REQUEST = 'apps/integration_openproject/direct-upload-token'.freeze
+    URI_UPLOAD_BASE_PATH = 'apps/integration_openproject/direct-upload'.freeze
 
-    def initialize(base_uri:, token:, retry_proc:, finalize_url:)
+    def initialize(base_uri:, token:, retry_proc:)
       super()
 
       @base_uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @finalize_url = finalize_url
     end
 
     def query(data)
       validated(data) >>
-        method(:create_file_share) >>
-        method(:apply_drop_permission) >>
+        method(:request_direct_upload_token) >>
         method(:build_upload_link)
     end
 
     private
 
     def validated(data)
-      if data.nil? || data['fileName'].nil? || data['parent'].nil?
-        error(:error, 'Data is not valid', data)
+      if data.nil? || data['parent'].nil?
+        error(:error, 'Data is invalid', data)
       else
         ServiceResult.success(
-          result: Struct.new(:file_name, :parent)
-                        .new(data['fileName'], data['parent'])
+          result: Struct.new(:parent).new(data['parent'])
         )
       end
     end
 
-    def create_file_share(data)
-      password = SecureRandom.uuid
-
+    def request_direct_upload_token(data)
       outbound_response(
         method: :post,
-        relative_path: URI_BASE_PATH,
-        payload: {
-          shareType: 3,
-          password:,
-          path: data.parent,
-          expireDate: Date.tomorrow
-        }
-      ).map do |response|
-        Struct.new(:id, :token, :password, :file_name)
-              .new(response.ocs.data.id, response.ocs.data.token, password, data.file_name)
-      end
+        relative_path: URI_TOKEN_REQUEST,
+        payload: { folder_id: data.parent }
+      )
     end
 
-    def apply_drop_permission(share)
-      outbound_response(
-        method: :put,
-        relative_path: "#{URI_BASE_PATH}/#{share.id}",
-        payload: {
-          permissions: 4
-        }
-      ).map { share }
-    end
-
-    def build_upload_link(share)
-      destination = @base_uri.merge("#{UPLOAD_LINK_BASE}/#{share.file_name}")
-      destination.user = share.token
-      destination.password = share.password
-
+    def build_upload_link(response)
+      destination = URI.parse(File.join(@base_uri.to_s, URI_UPLOAD_BASE_PATH, response.token))
       ServiceResult.success(result: Storages::UploadLink.new(destination))
     end
 
-    def outbound_response(method:, relative_path:, payload:) # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/AbcSize
+    def outbound_response(method:, relative_path:, payload:)
       @retry_proc.call(@token) do |token|
         begin
           response = ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
-              url: @base_uri.merge(relative_path).to_s,
+              url: File.join(@base_uri.to_s, relative_path),
               payload: payload.to_json,
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
-                'OCS-APIRequest' => 'true',
                 'Accept' => 'application/json',
                 'Content-Type' => 'application/json'
               }
@@ -128,18 +102,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:disable Style/MultilineBlockChain
         response
           .bind do |r|
-            # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-            if r.body.blank?
-              error(:not_authorized, 'Outbound request not authorized!')
-            else
-              ServiceResult.success(result: r)
-            end
+          # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+          if r.body.blank?
+            error(:not_authorized, 'Outbound request not authorized!')
+          else
+            ServiceResult.success(result: r)
           end
+        end
           .map { |r| JSON.parse(r.body, object_class: OpenStruct) }
         # rubocop:enable Style/MultilineBlockChain
         # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def error(code, log_message = nil, data = nil)
       ServiceResult.failure(

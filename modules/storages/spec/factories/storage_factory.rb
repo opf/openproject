@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :storage, class: '::Storages::Storage' do
-    provider_type { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
     sequence(:name) { |n| "Storage #{n}" }
     sequence(:host) { |n| "https://host#{n}.example.com" }
     creator factory: :user

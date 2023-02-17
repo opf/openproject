@@ -6,6 +6,7 @@
   position: relative
   display: flex
   flex-direction: column
+  overflow: hidden
   align-items: stretch
   background: white
   pointer-events: all
@@ -16,11 +17,10 @@
   max-width: calc(100vw - 2rem)
   max-height: calc(100vh - 2rem)
 
-  overflow-y: auto
-
   @media #{$spot-mq-mobile}
     width: calc(100vw - 2rem)
     max-height: calc(100vh - 5rem)
+    overflow-y: auto
 
     @media (max-height: 480px)
       max-height: calc(100vh - 2rem)
@@ -69,6 +69,9 @@
     flex-grow: 1
     flex-shrink: 1
     overflow-y: auto
+
+    &_no-scroll
+      overflow: visible
 
     &:focus
       outline-style: none

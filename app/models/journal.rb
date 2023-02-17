@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,16 @@ class Journal < ApplicationRecord
   include ::JournalChanges
   include ::JournalFormatter
   include ::Acts::Journalized::FormatHooks
+  include Journal::Timestamps
 
   register_journal_formatter :diff, OpenProject::JournalFormatter::Diff
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
   register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
+  register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
+  register_journal_formatter :template, OpenProject::JournalFormatter::Template
+  register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

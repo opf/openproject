@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 require_relative '../../spec_helper'
 
 describe 'BIM Revit Add-in navigation spec',
-         type: :feature,
          with_config: { edition: 'bim' },
          js: true,
          driver: :chrome_revit_add_in do
@@ -39,7 +38,7 @@ describe 'BIM Revit Add-in navigation spec',
     create(:role,
            permissions: %i[view_ifc_models manage_ifc_models add_work_packages edit_work_packages view_work_packages])
   end
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new(project) }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new(project) }
 
   let(:user) do
     create :user,
@@ -58,7 +57,7 @@ describe 'BIM Revit Add-in navigation spec',
       model_page.find('#work-packages-filter-toggle-button .badge', text: '1')
     end
 
-    let(:full_create) { ::Pages::FullWorkPackageCreate.new }
+    let(:full_create) { Pages::FullWorkPackageCreate.new }
 
     it 'show the right elements on the page' do
       # shows "Cards" view by default
@@ -96,7 +95,7 @@ describe 'BIM Revit Add-in navigation spec',
     end
 
     context 'with the table display mode' do
-      let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+      let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
       it 'shows work package details page in full view on Table display mode' do
         model_page.switch_view 'Table'

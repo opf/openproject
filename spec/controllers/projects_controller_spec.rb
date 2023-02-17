@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,21 +28,19 @@
 
 require 'spec_helper'
 
-describe ProjectsController, type: :controller do
+describe ProjectsController do
   shared_let(:admin) { create :admin }
   let(:non_member) { create :non_member }
 
   before do
-    allow(@controller).to receive(:set_localization)
+    allow(controller).to receive(:set_localization)
 
     login_as admin
-
-    @params = {}
   end
 
   describe '#new' do
     it "renders 'new'" do
-      get 'new', params: @params
+      get 'new'
       expect(response).to be_successful
       expect(response).to render_template 'new'
     end
@@ -64,18 +62,15 @@ describe ProjectsController, type: :controller do
   end
 
   describe 'index.html' do
-    let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
-    let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
-    let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
-    let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
-
-    let(:projects) { [project_a, project_b, project_c, project_d] }
+    shared_let(:project_a) { create(:project, name: 'Project A', public: false, active: true) }
+    shared_let(:project_b) { create(:project, name: 'Project B', public: false, active: true) }
+    shared_let(:project_c) { create(:project, name: 'Project C', public: true, active: true) }
+    shared_let(:project_d) { create(:project, name: 'Project D', public: true, active: false) }
 
     before do
       Role.anonymous
       Role.non_member
 
-      projects
       login_as(user)
       get 'index'
     end
@@ -130,14 +125,14 @@ describe ProjectsController, type: :controller do
     let(:project) { build_stubbed(:project) }
     let(:request) { delete :destroy, params: { id: project.id } }
 
-    let(:service_result) { ::ServiceResult.new(success:) }
+    let(:service_result) { ServiceResult.new(success:) }
 
     before do
       allow(Project).to receive(:find).and_return(project)
-      deletion_service = instance_double(::Projects::ScheduleDeletionService,
+      deletion_service = instance_double(Projects::ScheduleDeletionService,
                                          call: service_result)
 
-      allow(::Projects::ScheduleDeletionService)
+      allow(Projects::ScheduleDeletionService)
         .to receive(:new)
               .with(user: admin, model: project)
               .and_return(deletion_service)

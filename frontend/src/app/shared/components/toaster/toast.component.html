@@ -18,7 +18,7 @@
       <span [textContent]="' '"></span>
       <a class="op-toast--target-link"
          *ngIf="toast.link"
-         (click)="executeTarget($event)"
+         (click)="executeTarget()"
          [textContent]="toast.link!.text">
       </a>
     </p>
@@ -26,10 +26,10 @@
       <div *ngSwitchCase="'upload'">
         <div *ngIf="canBeHidden">
           <a (click)="show = true" [hidden]="show">
-            <op-icon icon-classes="icon-arrow-right2"></op-icon>
+            <span class="spot-icon spot-icon_arrow-right2"></span>
           </a>
           <a (click)="show = false" [hidden]="!show">
-            <op-icon icon-classes="icon-arrow-down1"></op-icon>
+            <span class="spot-icon spot-icon_arrow-down1"></span>
           </a>
           <span [textContent]="uploadText"></span>
         </div>
@@ -37,9 +37,10 @@
           <ul class="op-toast--uploads" *ngIf="data && data.length > 0">
             <op-toasters-upload-progress
               *ngFor="let upload of data"
-              [upload]="upload"
-              (onSuccess)="onUploadSuccess()"
-              (onError)="remove()">
+              [file]="upload[0]"
+              [upload]="upload[1]"
+              (uploadSuccess)="onUploadSuccess()"
+              (uploadError)="remove()">
             </op-toasters-upload-progress>
           </ul>
         </div>
@@ -58,6 +59,6 @@
       [title]="text.close_popup"
       (click)="remove()"
     >
-      <op-icon icon-classes="icon-context icon-close icon-no-color"></op-icon>
+      <span class="spot-icon spot-icon_close"></span>
     </button>
   </div>

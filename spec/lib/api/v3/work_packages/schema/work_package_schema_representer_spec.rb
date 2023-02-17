@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project_with_types) }
@@ -62,7 +62,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
      Type::QueryGroup.new(wp_type, "Children", attribute_query)]
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:).tap do |schema|
+    API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:).tap do |schema|
       allow(wp_type)
         .to receive(:attribute_groups)
         .and_return(attribute_groups)
@@ -1056,11 +1056,11 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:available_custom_fields) { [build_stubbed(:int_wp_custom_field)] }
 
       it 'uses a CustomFieldInjector' do
-        allow(::API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
+        allow(API::V3::Utilities::CustomFieldInjector).to receive(:create_schema_representer)
           .and_return(described_class)
         representer.to_json
 
-        expect(::API::V3::Utilities::CustomFieldInjector).to have_received(:create_schema_representer)
+        expect(API::V3::Utilities::CustomFieldInjector).to have_received(:create_schema_representer)
       end
     end
   end
@@ -1087,7 +1087,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:embedded) { false }
 
       let(:schema) do
-        ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema
+        API::V3::WorkPackages::Schema::TypedWorkPackageSchema
           .new(type: work_package.type, project:).tap do |schema|
           allow(wp_type)
             .to receive(:attribute_groups)

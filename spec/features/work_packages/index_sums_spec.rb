@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,9 +97,9 @@ RSpec.describe 'Work package index sums', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
 
   before do
     login_as(user)

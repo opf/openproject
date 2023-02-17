@@ -150,7 +150,7 @@ A pull request is a workflow to ask for a review from the OpenProject team. With
 
 Your Draft Pull Request will be created in the browser **on github.com** (the "draft" status of the pull request signals that you are still working on it and it is not yet ready for a review.) Here select the latest release branch e.g. `release/12.4` in the **"base:"** dropdown on the left side. In the **"compare:"** dropdown select the branch you have changed.
 
-![create draft pull request](create-draft-pull-request.png)
+![create draft pull request](Create-draft-pull-request.png)
 
 In the description field of the pull request enter a summary for the changes you made. If there is already a work package on https://community.openproject.org you can also add this to the description with its complete URL. This adds a relation between your pull request and the work package.
 
@@ -168,7 +168,7 @@ In the field "Reviewers" select "opf/doc-writers".
 
 Now you can press "Ready for review" button. 
 
-![ready for review](ready-for-review.png)
+![ready for review](Ready-for-review.png)
 
 ## Step 17: Wait for feedback from the reviewers
 

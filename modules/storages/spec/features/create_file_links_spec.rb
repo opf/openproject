@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Creating file links in work package', js: true, webmock: true, with_flag: { storage_file_linking: true } do
+describe 'Creating file links in work package', js: true, webmock: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
@@ -80,7 +80,7 @@ describe 'Creating file links in work package', js: true, webmock: true, with_fl
     wp_page.visit_tab! :files
   end
 
-  describe 'with the file picker' do
+  describe 'with the file picker', with_flag: { storage_file_picking_select_all: true } do
     it 'must enable the user to link existing files on the storage' do
       expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)

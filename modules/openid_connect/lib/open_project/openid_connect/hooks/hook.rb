@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2023 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module OpenProject::OpenIDConnect
       # we want to map that to the internal session
       def user_logged_in(context)
         session = context[:session]
-        oidc_sid = session['omniauth.openid_sid']
+        oidc_sid = session['omniauth.oidc_sid']
         return if oidc_sid.nil?
 
         ::OpenProject::OpenIDConnect::SessionMapper.handle_login(oidc_sid, session)

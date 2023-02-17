@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe Forum, type: :model do
+describe Forum do
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { create(:forum) }
     let(:watch_permission) { :view_messages } # view_messages is a public permission

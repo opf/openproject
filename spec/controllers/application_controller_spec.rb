@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ApplicationController, type: :controller do
+describe ApplicationController do
   let(:user) { create(:user, lastname: "Crazy! Name with \r\n Newline") }
 
   # Fake controller to test calling an action
@@ -161,13 +161,13 @@ describe ApplicationController, type: :controller do
     end
 
     before do
-      allow(::OpenProject.logger).to receive(:error)
+      allow(OpenProject.logger).to receive(:error)
     end
 
     it "doesn't suppress errors when there is no timeout" do
       get :index
 
-      expect(::OpenProject.logger).to have_received(:error) do |msg, _|
+      expect(OpenProject.logger).to have_received(:error) do |msg, _|
         expect(msg).to eq "fail"
       end
     end
@@ -195,7 +195,7 @@ describe ApplicationController, type: :controller do
       it "suppresses the (duplicate) error report" do
         get :index
 
-        expect(::OpenProject.logger).not_to have_received(:error)
+        expect(OpenProject.logger).not_to have_received(:error)
       end
     end
 
@@ -212,7 +212,7 @@ describe ApplicationController, type: :controller do
       it "does nothing as there is no duplicate to suppress" do
         expect { object.op_handle_error "fail" }.not_to raise_error
 
-        expect(::OpenProject.logger).to have_received(:error)
+        expect(OpenProject.logger).to have_received(:error)
       end
     end
   end

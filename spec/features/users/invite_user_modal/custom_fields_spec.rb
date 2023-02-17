@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe 'Invite user modal custom fields', type: :feature, js: true do
+describe 'Invite user modal custom fields', js: true do
   shared_let(:project) { create :project }
 
   let(:permissions) { %i[view_project manage_members] }
   let(:global_permissions) { %i[manage_user] }
   let(:principal) { build :invited_user }
   let(:modal) do
-    ::Components::Users::InviteUserModal.new project:,
+    Components::Users::InviteUserModal.new project:,
                                              principal:,
                                              role:
   end
@@ -56,16 +56,16 @@ describe 'Invite user modal custom fields', type: :feature, js: true do
 
   let!(:non_req_cf) { create :string_user_custom_field, name: 'non req', is_required: false }
 
-  let(:boolean_field) { ::FormFields::InputFormField.new boolean_cf }
-  let(:integer_field) { ::FormFields::InputFormField.new integer_cf }
-  let(:text_field) { ::FormFields::EditorFormField.new text_cf }
-  let(:string_field) { ::FormFields::InputFormField.new string_cf }
+  let(:boolean_field) { FormFields::InputFormField.new boolean_cf }
+  let(:integer_field) { FormFields::InputFormField.new integer_cf }
+  let(:text_field) { FormFields::EditorFormField.new text_cf }
+  let(:string_field) { FormFields::InputFormField.new string_cf }
   # TODO float not supported yet
   # let(:float_field) { ::FormFields::InputFormField.new float_cf }
-  let(:list_field) { ::FormFields::SelectFormField.new list_cf }
-  let(:list_multi_field) { ::FormFields::SelectFormField.new list_multi_cf }
+  let(:list_field) { FormFields::SelectFormField.new list_cf }
+  let(:list_multi_field) { FormFields::SelectFormField.new list_multi_cf }
 
-  let(:quick_add) { ::Components::QuickAddMenu.new }
+  let(:quick_add) { Components::QuickAddMenu.new }
 
   current_user do
     create :user,

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomStylesController, type: :controller do
+describe CustomStylesController do
   before do
     login_as user
   end
@@ -211,7 +211,7 @@ describe CustomStylesController, type: :controller do
     end
 
     describe "#logo_delete" do
-      let(:custom_style) { build(:custom_style_with_logo) }
+      let(:custom_style) { create(:custom_style_with_logo) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -220,7 +220,7 @@ describe CustomStylesController, type: :controller do
       context 'if it exists' do
         before do
           expect(CustomStyle).to receive(:current).and_return(custom_style)
-          expect(custom_style).to receive(:remove_logo!).and_return(custom_style)
+          expect(custom_style).to receive(:remove_logo).and_call_original
           delete :logo_delete
         end
 
@@ -278,7 +278,7 @@ describe CustomStylesController, type: :controller do
     end
 
     describe "#favicon_delete" do
-      let(:custom_style) { build(:custom_style_with_favicon) }
+      let(:custom_style) { create(:custom_style_with_favicon) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -287,7 +287,7 @@ describe CustomStylesController, type: :controller do
       context 'if it exists' do
         before do
           expect(CustomStyle).to receive(:current).and_return(custom_style)
-          expect(custom_style).to receive(:remove_favicon!).and_return(custom_style)
+          expect(custom_style).to receive(:remove_favicon).and_call_original
           delete :favicon_delete
         end
 
@@ -345,7 +345,7 @@ describe CustomStylesController, type: :controller do
     end
 
     describe "#touch_icon_delete" do
-      let(:custom_style) { build(:custom_style_with_touch_icon) }
+      let(:custom_style) { create(:custom_style_with_touch_icon) }
 
       before do
         with_enterprise_token(:define_custom_style)
@@ -354,7 +354,7 @@ describe CustomStylesController, type: :controller do
       context 'if it exists' do
         before do
           expect(CustomStyle).to receive(:current).and_return(custom_style)
-          expect(custom_style).to receive(:remove_touch_icon!).and_return(custom_style)
+          expect(custom_style).to receive(:remove_touch_icon).and_call_original
           delete :touch_icon_delete
         end
 

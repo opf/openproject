@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,8 +65,8 @@ end
 
 shared_examples_for 'offset-paginated APIv3 collection' do
   def make_link_for(page:, page_size:)
-    page = ::ERB::Util::url_encode(page)
-    page_size = ::ERB::Util::url_encode(page_size)
+    page = ERB::Util::url_encode(page)
+    page_size = ERB::Util::url_encode(page_size)
     "#{self_base_link}?offset=#{page}&pageSize=#{page_size}"
   end
 

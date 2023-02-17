@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,8 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   let!(:status) { create(:default_status) }
   let!(:priority) { create :priority, is_default: true }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project:) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:split_view_create) { Pages::SplitWorkPackageCreate.new(project:) }
 
   let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
 
@@ -88,7 +88,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
 
     let(:filters) do
       [['type_id', '=', [type_task.id]],
-       ["cf_#{custom_field.id}", '=', [custom_field.custom_options.detect { |o| o.value == 'A' }.id]]]
+       [custom_field.column_name, '=', [custom_field.custom_options.detect { |o| o.value == 'A' }.id]]]
     end
 
     it 'allows to save with a single value (Regression test #27833)' do
@@ -104,7 +104,7 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
       )
       wp = WorkPackage.last
       expect(wp.subject).to eq 'Foobar!'
-      expect(wp.send("custom_field_#{custom_field.id}")).to eq %w(A)
+      expect(wp.send(custom_field.attribute_getter)).to eq %w(A)
       expect(wp.type_id).to eq type_task.id
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -91,6 +91,12 @@ class ActivitiesController < ApplicationController
 
   def respond_html(events)
     @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+    @journals_by_id = Journal
+      .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
+      .find(events.pluck(:event_id))
+      .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
+      .index_by(&:id)
+
     render layout: !request.xhr?
   end
 

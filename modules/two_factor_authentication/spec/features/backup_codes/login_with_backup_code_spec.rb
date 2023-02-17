@@ -1,8 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with 2FA backup code', type: :feature,
-                                       with_settings: {
+describe 'Login with 2FA backup code', with_settings: {
                                          plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
                                        },
                                        js: true do
@@ -26,7 +25,7 @@ describe 'Login with 2FA backup code', type: :feature,
   end
 
   context 'when user has backup codes' do
-    let!(:valid_backup_codes) { ::TwoFactorAuthentication::BackupCode.regenerate! user }
+    let!(:valid_backup_codes) { TwoFactorAuthentication::BackupCode.regenerate! user }
 
     it 'allows entering a backup code' do
       expect(valid_backup_codes.length).to eq(10)

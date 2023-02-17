@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form", type: :request do
+describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  let(:user) { create(:admin) }
-  let!(:project) { create(:project_with_types) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   let(:parameters) { {} }
   let(:override_params) { {} }
@@ -416,7 +416,7 @@ describe "POST /api/v3/queries/form", type: :request do
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
-              "title" => 'is'
+              "title" => 'is (OR)'
             },
             "values" => [
               {
@@ -580,7 +580,7 @@ describe "POST /api/v3/queries/form", type: :request do
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)
       uri.query = {
-        filters: [{ "customField#{custom_field.id}": { operator: "=", values: ["ABC"] } }]
+        filters: [{ custom_field.attribute_name(:camel_case) => { operator: "=", values: ["ABC"] } }]
       }.to_query
 
       uri.to_s

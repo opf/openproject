@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query, type: :model do
+describe Query do
   let(:query) { build(:query) }
   let(:project) { build_stubbed(:project) }
   let(:relation_columns_allowed) { true }
@@ -403,7 +403,7 @@ describe Query, type: :model do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"] +
+                           [custom_field.column_name.to_sym] +
                            [:"relations_to_type_#{type.id}"] +
                            %i(relations_of_type_relation1 relations_of_type_relation2)
 
@@ -420,7 +420,7 @@ describe Query, type: :model do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"]
+                           [custom_field.column_name.to_sym]
 
         unexpected_columns = [:"relations_to_type_#{type.id}"] +
                              %i(relations_of_type_relation1 relations_of_type_relation2)
@@ -465,7 +465,7 @@ describe Query, type: :model do
       end
 
       before do
-        query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
+        query.add_filter(custom_field.column_name, '=', [''])
       end
 
       it 'has the name of the custom field in the error message' do

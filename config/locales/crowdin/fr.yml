@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ fr:
         main-menu-border-color: "Bordure du menu principal"
       custom_colors: "Couleurs personnalisées"
       customize: "Personnalisez votre installation OpenProject avec votre propre logo et couleurs."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Comme remerciement spécial pour leur contribution financière au développement d'OpenProject, cet add-on n’est disponible que pour les titulaires d'une version Entreprise."
       enterprise_more_info: "Remarque : le logo utilisé sera accessible publiquement."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
@@ -64,15 +64,15 @@ fr:
         main-menu-bg-color: "Couleur d’arrière-plan du menu de gauche."
       theme_warning: Le changement de thème écrasera votre style personnalisé. Le design sera alors perdu. Êtes-vous sûr de vouloir continuer ?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Passer à la version Entreprise"
+      add_token: "Charger un jeton de support pour la version Entreprise"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Voulez-vous vraiment supprimer le jeton actuellement utilisé pour l'édition Entreprise ?"
         title: "Supprimer le jeton"
       replace_token: "Remplacer votre licence actuelle"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Commander l'édition Entreprise autohebergée"
+      paste: "Coller votre jeton de support pour la version Entreprise"
+      required_for_feature: "Cet add-on n'est disponible qu'avec un jeton de support actif pour la version Entreprise."
       enterprise_link: "Pour plus d'informations, cliquez ici."
       start_trial: 'Commencer l''essai gratuit'
       book_now: 'Réserver maintenant'
@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "est un <span class='spot-icon spot-icon_enterprise-addons'></span> add-on Entreprise."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -138,7 +138,7 @@ fr:
         lorsqu'ils s'authentifieront pour la première fois avec OpenProject.
         Laissez ceci non coché pour permettre uniquement aux comptes existants dans OpenProject de s'authentifier via LDAP!
     connection_encryption: 'Cryptage de la connexion'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'Options LDAPS / STARTTLS'
     system_account: 'Compte système'
     system_account_legend: |
       OpenProject nécessite un accès en lecture seule via un compte système pour rechercher des utilisateurs et des groupes dans votre arborescence LDAP.
@@ -152,16 +152,16 @@ fr:
       plain: 'aucune'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Ouvre une connexion non chiffrée au serveur LDAP. Déconseillé en production."
+      simple_tls_description: "Utiliser LDAPS. Nécessite un port séparé sur le serveur LDAP. Ce mode est souvent obsolète, nous vous recommandons d'utiliser STARTTLS dès que possible."
+      start_tls_description: "Envoie une commande STARTTLS après la connexion au port LDAP standard. Recommandé pour les connexions chiffrées."
       section_more_info_link_html: >
         Cette section concerne la sécurité de connexion de cette source d'authentification LDAP. Pour plus d'informations, visitez <a href="%{link}">the Net::LDAP documentation</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Vérifier le certificat SSL"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Active la vérification SSL stricte de la chaîne de confiance du certificat. <br/> <strong> Avertissement :</strong> décocher cette option désactive la vérification SSL du certificat de serveur LDAP. Cela expose votre connexion aux attaques de type "Man In The Middle".
+      tls_certificate_description: "Si le certificat du serveur LDAP n'appartient pas aux sources de confiance de ce système, vous pouvez manuellement l'ajouter ici. Entrez une chaîne de certificat PEM X509."
   forums:
     show:
       no_results_title_text: Il n'y a actuellement aucun message pour le forum.
@@ -322,7 +322,7 @@ fr:
       settings: "Paramètres"
       form_configuration: "Configuration du formulaire"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        L'édition Entreprise vous permet de personnaliser la configuration du formulaire avec ces add-ons supplémentaires : <br> <ul class="%{list_styling_class}"> <li><b>Ajouter de nouveaux groupes d'attributs</b></li> <li><b>Renommer les groupes d'attributs</b></li> <li><b>Ajouter une table des lots de travaux connexes</b></li> </ul>
       projects: "Projets"
       enabled_projects: "Projets activés"
       edit_query: "Modifier le tableau"
@@ -337,6 +337,7 @@ fr:
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
+    print_hint: Ceci affichera le contenu de cette page wiki sans aucune barre de navigation.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki
   work_flows:
@@ -375,7 +376,7 @@ fr:
   account:
     delete: "Supprimer le compte"
     delete_confirmation: "Êtes-vous sûr de vouloir supprimer le compte ?"
-    deleted: "Compte supprimé avec succès"
+    deletion_pending: "Le compte a été verrouillé et a été programmé pour suppression. Notez que ce processus a lieu en arrière-plan. Cela peut prendre quelques instants avant que l'utilisateur soit complètement supprimé."
     deletion_info:
       data_consequences:
         other: "Les données créées par l'utilisateur (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données créées par cet utilisateur de celles d'un autre compte supprimé."
@@ -425,7 +426,7 @@ fr:
         host: "Hôte"
         onthefly: "Création automatique d'un utilisateur"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificat SSL du serveur LDAP"
       changeset:
         repository: "Référentiel"
       comment:
@@ -470,14 +471,24 @@ fr:
       member:
         roles: "Rôles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifiant"
         latest_activity_at: "Dernière activité à"
         parent: "Sous-projet de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Requêtes"
+        templated: "Modèle de projet"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Modèle de projet'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -587,7 +598,7 @@ fr:
         confirmation: "ne correspond pas à %{attribute}."
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         does_not_exist: "n'existe pas."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} n'est disponible que dans la version Entreprise d'OpenProject."
         error_unauthorized: "est interdit d'accès."
         error_readonly: "a tenté d'être écrit mais n'est pas accessible en écriture."
         email: "n'est pas une adresse e-mail valide."
@@ -637,7 +648,7 @@ fr:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Le certificat SSL fourni est invalide : %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -689,6 +700,11 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un jour non ouvrable existe déjà pour %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +715,8 @@ fr:
           archived_ancestor: 'Le projet possède un ancêtre archivé.'
           foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Vous n'avez pas les permissions requises pour archiver tous les sous-projets. Veuillez contacter un administrateur."
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
             enabled_modules:
@@ -894,6 +912,15 @@ fr:
   activity:
     created: "Créé : %{title}"
     updated: "Mis à jour : %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Actif"
@@ -1029,6 +1056,7 @@ fr:
   button_reset: "Réinitialiser"
   button_rollback: "Revenir à cette version"
   button_save: "Enregistrer"
+  button_apply_changes: "Appliquer les modifications"
   button_save_back: "Enregistrer et revenir"
   button_show: "Afficher"
   button_sort: "Trier"
@@ -1263,11 +1291,11 @@ fr:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personnaliser la configuration du formulaire avec ces add-ons supplémentaires :"
         add_groups: "Ajouter de nouveaux groupes d’attributs"
         rename_groups: "Renommer les groupes d’attributs"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Le filtrage et le tri sur les champs personnalisés sont un add-on de l'édition Entreprise."
   enumeration_activities: "Activités de suivi du temps"
   enumeration_work_package_priorities: "Priorités du Lot de Travaux"
   enumeration_reported_project_statuses: "Statuts de projet signalés"
@@ -1289,7 +1317,7 @@ fr:
   error_cookie_missing: 'Le cookie OpenProject est manquant. Assurez-vous que les cookies sont activés, sans quoi cette application ne fonctionnera pas correctement.'
   error_custom_option_not_found: "L'option n'existe pas."
   error_enterprise_activation_user_limit: "Votre compte n'a pas pu être activé (limite d'utilisateurs atteinte). Veuillez contacter votre administrateur pour obtenir l'accès."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "La version Entreprise n'est pas active. Le domaine de votre jeton Entreprise (%{actual}) ne correspond pas au nom d'hôte du système (%{expected})."
   error_failed_to_delete_entry: 'Échec lors de la suppression de cette entrée.'
   error_in_dependent: "Erreur lors de la tentative de modification de l'objet dépendant : %{dependent_class} #%{related_id} - %{related_subject} : %{error}" #%{related_id} - %{related_subject} : %{error}"
   error_in_new_dependent: "Erreur lors de la tentative de création d'un objet dépendant : %{dependent_class} - %{related_subject} : %{error}"
@@ -1327,8 +1355,8 @@ fr:
     changeset: 'Lot de modification édité'
     message: Message édité
     news: Actualités
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Attributs du projet modifiés'
+    projects: 'Projet édité'
     reply: Y a-t-il eu une réponse
     time_entry: 'Journal horaire édité'
     wiki_page: 'Page Wiki éditée'
@@ -1336,7 +1364,7 @@ fr:
     work_package_edit: 'Lot de Travaux édité'
     work_package_note: 'Note de Lot de Travaux ajoutée'
     title:
-      project: "Project: %{name}"
+      project: "Projet : %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1380,10 +1408,10 @@ fr:
     blocks:
       community: "Communauté OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Passer à la version Entreprise"
         more_info: "Plus d'informations"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Passer à la version Entreprise"
       postgres_migration: "Migration de votre installation vers PostgreSQL"
       user_guides: "Guides d'utilisation"
       faq: "FAQ"
@@ -1599,7 +1627,7 @@ fr:
   label_enumerations: "Énumérations"
   label_enterprise: "Entreprise"
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Version Entreprise"
   label_environment: "Environement"
   label_estimates_and_time: "Estimations et temps"
   label_equals: "est"
@@ -1748,6 +1776,10 @@ fr:
   label_not_contains: "ne contient pas"
   label_not_equals: "n'est pas"
   label_on: "le"
+  label_operator_all: "n'est pas vide"
+  label_operator_none: "est vide"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -1789,7 +1821,8 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
-  label_project_attribute_plural: "Project attributes"
+  label_project_activity: "Activité du projet"
+  label_project_attribute_plural: "Attributs du projet"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2079,8 +2112,6 @@ fr:
   mail_subject_incoming_email_error: "Un e-mail que vous avez envoyé à OpenProject n'a pas pu être traité."
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
-  mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
-  mail_subject_group_reminder: "Pour le groupe \"%{group}\", %{count} lot(s) de travaux arrive(nt) à échéance dans %{days} jours"
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_member_added_project:
@@ -2214,6 +2245,7 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
+  permission_archive_project: "Archiver le projet"
   permission_manage_user: "Créer et éditer des utilisateurs"
   permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"
@@ -2615,11 +2647,11 @@ fr:
   text_custom_field_hint_activate_per_project_and_type: >
     Les champs personnalisés doivent être activés par type de lot de travaux et par projet.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des lots de travaux : <br> <ul> <li><b>Autoriser la sélection multiple pour les champs personnalisés de type Liste ou Utilisateur</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs de statut des lots de travaux : <br> <ul> <li><b>Permet de marquer les lots de travaux en lecture seule pour des statuts spécifiques</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
   text_custom_logo_instructions: >
     Un logo blanc sur fond transparent est recommandé. Pour obtenir les meilleurs résultats sur les deux, affichage classique et retina, assurez-vous que les dimensions de votre image soient de 460px par 60px.
   text_custom_favicon_instructions: >
@@ -2920,7 +2952,7 @@ fr:
   warning_user_limit_reached: >
     Limite d'utilisateur atteinte. Vous ne pouvez plus activer d'autres utilisateurs. Veuillez <a href="%{upgrade_url}">mettre à jour votre plan</a> ou bloquez des membres pour permettre d'autres utilisateurs.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Vous avez atteint le nombre limite d'utilisateurs (%{current}/%{max} utilisateurs actifs). Veuillez contacter sales@openproject.com pour mettre à jour votre abonnement Entreprise et ajouter des utilisateurs supplémentaires.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2948,15 +2980,20 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Changer les jours ouvrables"
     warning: >
-      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:
         working: "%{day} est maintenant un jour ouvrable"
         non_working: "%{day} est maintenant un jour non ouvrable"
+      dates:
+        working: "%{date} est maintenant un jour ouvrable"
+        non_working: "%{date} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Manage webhooks through UI', type: :feature, js: true do
+describe 'Manage webhooks through UI', js: true do
   before do
     login_as user
   end
@@ -42,7 +42,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
 
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_create))
       expect(page).to have_selector('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
-      webhook = ::Webhooks::Webhook.last
+      webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:created)
       expect(webhook.all_projects).to be_truthy
 
@@ -67,7 +67,7 @@ describe 'Manage webhooks through UI', type: :feature, js: true do
       click_on 'Save'
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
       expect(page).to have_selector('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
-      webhook = ::Webhooks::Webhook.last
+      webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:updated)
       expect(webhook.projects.all).to eq [project]
       expect(webhook.all_projects).to be_falsey

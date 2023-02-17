@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,13 +108,28 @@ module API::V3::Storages
                             represented.host = fragment['href'].gsub(/\/+$/, '')
                           }
 
+    links :prepareUpload do
+      storage_projects_ids(represented).map do |project_id|
+        {
+          href: api_v3_paths.prepare_upload(represented.id),
+          method: :post,
+          title: "Upload file",
+          payload: {
+            projectId: project_id,
+            fileName: '{fileName}',
+            parent: '{parent}'
+          },
+          templated: true
+        }
+      end
+    end
+
     link :open do
       { href: storage_url_open(represented) }
     end
 
     link :authorizationState do
-      state = @connection_manager.authorization_state
-      urn = case state
+      urn = case authorization_state
             when :connected
               URN_CONNECTION_CONNECTED
             when :failed_authorization
@@ -122,13 +137,13 @@ module API::V3::Storages
             else
               URN_CONNECTION_ERROR
             end
-      title = I18n.t(:"oauth_client.urn_connection_status.#{state}")
+      title = I18n.t(:"oauth_client.urn_connection_status.#{authorization_state}")
 
       { href: urn, title: }
     end
 
     link :authorize do
-      next unless @connection_manager.authorization_state == :failed_authorization
+      next unless authorization_state == :failed_authorization
 
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
@@ -161,6 +176,20 @@ module API::V3::Storages
 
     def _type
       'Storage'
+    end
+
+    private
+
+    def storage_projects_ids(model)
+      model.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
+    end
+
+    def user_allowed_to_manage?(model)
+      current_user.allowed_to?(:manage_file_links, model.project)
+    end
+
+    def authorization_state
+      @authorization_state ||= @connection_manager.authorization_state
     end
   end
 end

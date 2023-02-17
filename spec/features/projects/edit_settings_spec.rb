@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'editing settings', type: :feature, js: true do
-  let(:name_field) { ::FormFields::InputFormField.new :name }
-  let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+describe 'Projects', 'editing settings', js: true do
+  let(:name_field) { FormFields::InputFormField.new :name }
+  let(:parent_field) { FormFields::SelectFormField.new :parent }
   let(:permissions) { %i(edit_project) }
 
   current_user do
@@ -115,7 +115,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
              max_length: 2,
              is_for_all: true)
     end
-    let(:foo_field) { ::FormFields::InputFormField.new required_custom_field }
+    let(:foo_field) { FormFields::InputFormField.new required_custom_field }
 
     it 'shows the errors of that field when saving (Regression #33766)' do
       visit project_settings_general_path(project.id)
@@ -138,7 +138,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     include_context 'ng-select-autocomplete helpers'
 
     let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
-    let(:form_field) { ::FormFields::SelectFormField.new list_custom_field }
+    let(:form_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can select multiple values' do
       visit project_settings_general_path(project.id)
@@ -159,7 +159,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
 
   context 'with a date custom field' do
     let!(:date_custom_field) { create(:date_project_custom_field, name: 'Date') }
-    let(:form_field) { ::FormFields::InputFormField.new date_custom_field }
+    let(:form_field) { FormFields::InputFormField.new date_custom_field }
 
     it 'can save and remove the date (Regression #37459)' do
       visit project_settings_general_path(project.id)
@@ -182,7 +182,7 @@ describe 'Projects', 'editing settings', type: :feature, js: true do
     include_context 'ng-select-autocomplete helpers'
 
     let(:parent_project) { create(:project) }
-    let(:parent_field) { ::FormFields::SelectFormField.new 'parent' }
+    let(:parent_field) { FormFields::SelectFormField.new 'parent' }
 
     before do
       project.update_attribute(:parent, parent_project)

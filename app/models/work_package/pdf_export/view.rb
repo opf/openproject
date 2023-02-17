@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,27 +55,25 @@ class WorkPackage::PDFExport::View
   end
 
   def fallback_fonts
-    []
+    [noto_font_base_path.join('NotoSansSymbols2-Regular.ttf')]
   end
 
   def register_fonts!(document)
-    font_path = Rails.public_path.join('fonts')
-
     document.font_families['NotoSans'] = {
       normal: {
-        file: font_path.join('noto/NotoSans-Regular.ttf'),
+        file: noto_font_base_path.join('NotoSans-Regular.ttf'),
         font: 'NotoSans-Regular'
       },
       italic: {
-        file: font_path.join('noto/NotoSans-Italic.ttf'),
+        file: noto_font_base_path.join('NotoSans-Italic.ttf'),
         font: 'NotoSans-Italic'
       },
       bold: {
-        file: font_path.join('noto/NotoSans-Bold.ttf'),
+        file: noto_font_base_path.join('NotoSans-Bold.ttf'),
         font: 'NotoSans-Bold'
       },
       bold_italic: {
-        file: font_path.join('noto/NotoSans-BoldItalic.ttf'),
+        file: noto_font_base_path.join('NotoSans-BoldItalic.ttf'),
         font: 'NotoSans-BoldItalic'
       }
     }
@@ -98,5 +96,11 @@ class WorkPackage::PDFExport::View
     document.font_size size if size
 
     document.font
+  end
+
+  private
+
+  def noto_font_base_path
+    Rails.public_path.join('fonts/noto')
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ::Webhooks::Webhook, type: :model do
+describe Webhooks::Webhook do
   subject { build :webhook }
 
   describe 'attributes' do

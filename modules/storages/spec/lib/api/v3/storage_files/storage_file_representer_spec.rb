@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,8 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
       last_modified_at,
       'admin',
       'admin',
-      '/readme.md'
+      '/readme.md',
+      %i[readable writeable]
     )
   end
   let(:representer) { described_class.new(file, current_user: user) }
@@ -88,6 +89,10 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
 
     it_behaves_like 'property', :location do
       let(:value) { file.location }
+    end
+
+    it_behaves_like 'property', :permissions do
+      let(:value) { file.permissions }
     end
   end
 end

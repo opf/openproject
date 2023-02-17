@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -113,7 +113,7 @@ namespace :copyright do
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
-    raise 'Path not found' unless Dir.exists?(path)
+    raise 'Path not found' unless Dir.exist?(path)
 
     file_list.each do |file_name|
       # Skip 3rd party code

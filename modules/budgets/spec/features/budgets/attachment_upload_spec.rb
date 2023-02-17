@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,15 +31,12 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to budget', js: true do
   let(:user) do
-    create :user,
-           member_in_project: project,
-           member_with_permissions: %i[view_budgets
-                                       edit_budgets]
+    create(:user, member_in_project: project, member_with_permissions: %i[view_budgets edit_budgets])
   end
   let(:project) { create(:project) }
-  let(:attachments) { ::Components::Attachments.new }
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:attachments) { Components::Attachments.new }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
@@ -105,7 +102,7 @@ describe 'Upload attachment to budget', js: true do
     end
 
     script = <<~JS
-      const event = new DragEvent('dragover');
+      const event = new DragEvent('dragenter');
       document.body.dispatchEvent(event);
     JS
     page.execute_script(script)

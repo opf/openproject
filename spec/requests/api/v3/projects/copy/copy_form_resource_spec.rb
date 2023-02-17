@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
+describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -89,7 +89,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   end
 
   it 'contains a meta property with copy properties for every module' do
-    ::Projects::CopyService.copyable_dependencies.each do |dep|
+    Projects::CopyService.copyable_dependencies.each do |dep|
       identifier = dep[:identifier].to_s.camelize
       expect(response.body)
         .to be_json_eql(true.to_json)
@@ -112,12 +112,12 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       {
         name: 'My copied project',
         identifier: 'foobar',
-        "customField#{text_custom_field.id}": {
+        text_custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
         _links: {
-          "customField#{list_custom_field.id}": {
+          list_custom_field.attribute_name(:camel_case) => {
             href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
           status: {
@@ -180,7 +180,7 @@ describe ::API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
     end
 
     it 'sets all values to true' do
-      ::Projects::CopyService.copyable_dependencies.each do |dep|
+      Projects::CopyService.copyable_dependencies.each do |dep|
         identifier = dep[:identifier].to_s.camelize
         expect(response.body)
           .to be_json_eql(true.to_json)

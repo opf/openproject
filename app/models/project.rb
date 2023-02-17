@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -104,6 +104,15 @@ class Project < ApplicationRecord
                 author: nil,
                 datetime: :created_at
 
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:named_association, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
+
   has_paper_trail
 
   validates :name,
@@ -162,6 +171,10 @@ class Project < ApplicationRecord
     !active?
   end
 
+  def being_archived?
+    (active == false) && (active_was == true)
+  end
+
   def copy_allowed?
     User.current.allowed_to?(:copy_projects, self)
   end
@@ -206,8 +219,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages
@@ -403,9 +422,9 @@ class Project < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions
-                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                           .flatten
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+      OpenProject::AccessControl.allowed_actions(permission)
+    end
   end
 
   def remove_white_spaces_from_project_name

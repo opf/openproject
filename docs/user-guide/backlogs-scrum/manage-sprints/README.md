@@ -20,7 +20,8 @@ Click on the green **+ Version** button to add a new sprint. Click on the arrow 
 
 ![User-guide-backlogs-manage-sprints](User-guide-backlogs-manage-sprints.png)
 
-
+> **Note**: The columns of the version are actually sorted differently. The left column for sprints is sorted chronologically, i.e. according to the time of creation, since sprints usually also run chronologically in project management planning.
+> The right column (for backlogs) is sorted alphabetically, so that you can determine the sequence of the backlogs yourself.
 
 On the new page, you can specify details of the version such as description, status, (sprint) wiki page, start and end date, as well as  sharing options across projects. Moreover, you can create a custom field and decide where the version is to be displayed in the backlog. 
 

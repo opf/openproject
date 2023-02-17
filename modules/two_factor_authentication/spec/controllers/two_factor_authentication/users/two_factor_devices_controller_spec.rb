@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
+describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
   let(:admin) { create :admin }
   let(:user) { create(:user, login: 'foobar') }
   let(:other_user) { create(:user) }

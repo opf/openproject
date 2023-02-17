@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,10 @@ shared_context 'with custom field params' do
       attribute_groups: [
         { 'type' => 'attribute',
           'name' => 'group1',
-          'attributes' => [{ 'key' => "custom_field_#{cf1.id}" }, { 'key' => "custom_field_#{cf2.id}" }] },
+          'attributes' => [{ 'key' => cf1.attribute_name }, { 'key' => cf2.attribute_name }] },
         { 'type' => 'attribute',
           'name' => 'groups',
-          'attributes' => [{ 'key' => "custom_field_#{cf2.id}" }] }
+          'attributes' => [{ 'key' => cf2.attribute_name }] }
       ]
     }
   end
@@ -51,7 +51,7 @@ shared_examples_for 'type service' do
   let(:success) { true }
   let(:params) { {} }
   let!(:contract) do
-    instance_double(::Types::BaseContract).tap do |contract|
+    instance_double(Types::BaseContract).tap do |contract|
       allow(contract)
         .to receive(:validate)
               .and_return(contract_valid)
@@ -138,7 +138,7 @@ shared_examples_for 'type service' do
       it 'enables the custom fields that are passed via attribute_groups' do
         allow(type)
           .to receive(:work_package_attributes)
-          .and_return("custom_field_#{cf1.id}" => {}, "custom_field_#{cf2.id}" => {})
+          .and_return(cf1.attribute_name => {}, cf2.attribute_name => {})
 
         allow(type)
           .to receive(:custom_field_ids=)

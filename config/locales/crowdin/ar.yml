@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ ar:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: لا يوجد حالياً صفحة ويكي.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: إضافة صفحة ويكي جديدة
   work_flows:
@@ -379,7 +380,7 @@ ar:
   account:
     delete: "حذف الحساب"
     delete_confirmation: "هل أنت متأكد من رغبتك في إلغاء الحساب؟"
-    deleted: "تم حذف الحساب بنجاح"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "من البيانات إنشاء المستخدم (مثل البريد الإلكتروني، والأفضليات، ومجموعات العمل، ومداخل ويكي) سيتم حذفها قدر الإمكان. لكن لاحظ أن البيانات مثل حزم العمل ومداخل ويكي لا يمكن حذفها دون إعاقة عمل المستخدمين الآخرين. وبالتالي تعيين هذه البيانات إلى حساب يسمى \"المستخدم المحذوف\". كما تم تعيين البيانات من كل حساب محذوف في هذا الحساب فإنه لن يكون من الممكن التمييز بين بيانات المستخدم التي تم إنشاؤها من البيانات من حساب آخرمحذوف."
@@ -474,14 +475,24 @@ ar:
       member:
         roles: "دور"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "المعرّف"
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "الاستفسارات"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
-        templated: 'Template project'
       projects/status:
         code: 'الحالة'
         explanation: 'Status description'
@@ -693,6 +704,11 @@ ar:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -703,6 +719,8 @@ ar:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "لا يزال قيد الاستخدام من قبل مجموعات العمل: %{types}"
             enabled_modules:
@@ -914,6 +932,15 @@ ar:
   activity:
     created: "الإنشاء: %{title}"
     updated: "التحديث: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1049,6 +1076,7 @@ ar:
   button_reset: "إعادة تعيين"
   button_rollback: "العودة إلى هذا الإصدار"
   button_save: "حفظ"
+  button_apply_changes: "Apply changes"
   button_save_back: "حفظ والعودة"
   button_show: "إظهار"
   button_sort: "فرز"
@@ -1815,6 +1843,10 @@ ar:
   label_not_contains: "لا يحتوي على"
   label_not_equals: "ليس"
   label_on: "في"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -1856,6 +1888,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
@@ -2146,8 +2179,6 @@ ar:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "كلمة المرور %{value}"
   mail_subject_register: "تنشيط الحساب الخاص بك %{value}"
-  mail_subject_reminder: "الحزمة (الحزم) %{count} العمل الواجب في الأيام القادمة %{days}"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "تم إضافة صفحة wiki '%{id}'"
   mail_subject_wiki_content_updated: "تم تحديث صفحة wiki '%{id}'"
   mail_member_added_project:
@@ -2285,6 +2316,7 @@ ar:
   permission_add_work_packages: "إضافة مجموعات عمل"
   permission_add_messages: "نشر الرسائل"
   permission_add_project: "إنشاء مشروع"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "إنشاء مشاريع فرعية"
@@ -3026,15 +3058,20 @@ ar:
       title: "حذف حزمة العمل"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "لا شيء للمعاينة"
   api_v3:
     attributes:
