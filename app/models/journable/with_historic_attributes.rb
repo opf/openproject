@@ -211,6 +211,14 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     query && matches_query_filters_at_timestamps.include?(timestamp)
   end
 
+  def changed_at_timestamp(timestamp)
+    return [] unless journables_by_timestamp[timestamp.to_s]
+
+    ::Acts::Journalized::JournableDiffer
+    .changes(__getobj__, journables_by_timestamp[timestamp.to_s])
+    .keys
+  end
+
   def self.query_work_packages(query:, timestamp: nil)
     query = query.dup
     query.timestamps = [timestamp] if timestamp

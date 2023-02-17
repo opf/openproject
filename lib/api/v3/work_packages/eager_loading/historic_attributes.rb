@@ -60,11 +60,10 @@ module API::V3::WorkPackages::EagerLoading
     def set_non_delegated_properties(work_package, source, timestamp)
       work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
       work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
-      work_package.attributes_changed_to_baseline = (source.attributes_by_timestamp[timestamp.to_s]&.to_h || {}).keys.map(&:to_s)
+      work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)
       work_package.with_query = source.query.present?
     end
 
-    # TODO: prepare by indexing by id
     def work_packages_with_historic_attributes
       @work_packages_with_historic_attributes ||= begin
         @timestamps ||= @query.try(:timestamps) || []

@@ -511,4 +511,24 @@ describe Journable::WithHistoricAttributes do
       end
     end
   end
+
+  describe '.changed_at_timestamp' do
+    let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+
+    subject { described_class.wrap(work_package1, timestamps:) }
+
+    context 'for a timestamp where the work package did exist' do
+      it 'returns the changed attributes at the timestamp compared to the current attribute values' do
+        expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
+          .to match_array ['subject']
+      end
+    end
+
+    context 'for a timestamp where the work package did not exist' do
+      it 'returns the changed attributes at the timestamp compared to the current attribute values' do
+        expect(subject.changed_at_timestamp(Timestamp.parse("2021-01-01T00:00:00Z")))
+          .to be_empty
+      end
+    end
+  end
 end

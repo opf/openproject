@@ -54,13 +54,7 @@ module JournalChanges
   end
 
   def subsequent_journal_data_changes
-    normalized_new_data = normalize_newlines(data.journaled_attributes)
-    normalized_old_data = normalize_newlines(predecessor.data.journaled_attributes)
-
-    normalized_new_data
-      .select { |attribute, new_value| no_nil_to_empty_strings?(normalized_old_data, attribute, new_value) }
-      .to_h { |attribute, new_value| [attribute, [normalized_old_data[attribute], new_value]] }
-      .with_indifferent_access
+    ::Acts::Journalized::JournableDiffer.changes(predecessor.data, data)
   end
 
   def get_association_changes(predecessor, journal_association, association, key, value)
@@ -128,16 +122,5 @@ module JournalChanges
     else
       selected_journals.sort.join(',')
     end
-  end
-
-  def normalize_newlines(data)
-    data.each_with_object({}) do |e, h|
-      h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
-    end
-  end
-
-  def no_nil_to_empty_strings?(normalized_old_data, attribute, new_value)
-    old_value = normalized_old_data[attribute]
-    new_value != old_value && (new_value.present? || old_value.present?)
   end
 end
