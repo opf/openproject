@@ -181,11 +181,9 @@ module API::V3::Storages
     private
 
     def storage_projects_ids(storage)
-      storage.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
-    end
-
-    def user_allowed_to_manage?(project)
-      current_user.allowed_to?(:manage_file_links, project)
+      storage.projects
+        .merge(Project.allowed_to(current_user, :manage_file_links))
+        .pluck(:id)
     end
 
     def authorization_state

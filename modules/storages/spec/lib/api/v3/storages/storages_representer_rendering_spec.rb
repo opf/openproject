@@ -91,33 +91,33 @@ describe API::V3::Storages::StorageRepresenter, 'rendering' do
         # rubocop:disable RSpec/ExampleLength
         it 'contains upload information for each of these projects' do
           project_linked_with_upload_permission =
-            create(:project).tap do |project|
+            create(:project, name: 'project linked, user member with upload permission').tap do |project|
               create(:project_storage, project:, storage:, creator: user)
               create(:member, user:, project:, roles: [uploader_role])
             end
           another_project_linked_with_upload_permission =
-            create(:project).tap do |project|
+            create(:project, name: 'another project linked, user member with upload permission').tap do |project|
               create(:project_storage, project:, storage:, creator: user)
               create(:member, user:, project:, roles: [uploader_role])
             end
-          _project_linked_without_any_permissions =
-            create(:project).tap do |project|
-              create(:project_storage, project:, storage:, creator: user)
-              create(:member, user:, project:, roles: [no_permissions_role])
-            end
-          _project_linked_not_member =
-            create(:project).tap do |project|
-              create(:project_storage, project:, storage:, creator: user)
-            end
-          _project_linked_another_user_member =
-            create(:project).tap do |project|
-              create(:project_storage, project:, storage:, creator: user)
-              create(:member, user: another_user, project:, roles: [uploader_role])
-            end
-          _project_not_linked_with_upload_permission =
-            create(:project).tap do |project|
-              create(:member, user:, project:, roles: [uploader_role])
-            end
+          create(:project, name: 'project linked, no permissions').tap do |project|
+            create(:project_storage, project:, storage:, creator: user)
+            create(:member, user:, project:, roles: [no_permissions_role])
+          end
+          create(:project, name: 'project linked, user not member').tap do |project|
+            create(:project_storage, project:, storage:, creator: user)
+          end
+          create(:project, active: false, name: 'archived project linked, user member with upload permission').tap do |project|
+            create(:project_storage, project:, storage:, creator: user)
+            create(:member, user:, project:, roles: [uploader_role])
+          end
+          create(:project, name: 'project linked, another user is member with upload permission').tap do |project|
+            create(:project_storage, project:, storage:, creator: user)
+            create(:member, user: another_user, project:, roles: [uploader_role])
+          end
+          create(:project, name: 'project not linked, with upload permission').tap do |project|
+            create(:member, user:, project:, roles: [uploader_role])
+          end
 
           expect(generated).to have_json_size(2).at_path('_links/prepareUpload')
 
