@@ -912,7 +912,7 @@ hi:
     updated: "अद्यततन: %{title}"
     filter:
       changeset: "Changesets"
-      message: "Forum"
+      message: "Forums"
       news: "News"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"

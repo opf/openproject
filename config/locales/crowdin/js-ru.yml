@@ -263,8 +263,8 @@ ru:
         removed_title: "Следующие дни будут удалены из списка нерабочих дней:"
         change_description: "Изменение дней, считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае."
         warning: >
-          Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие рабочие пакеты будут обновлены.
-          Хотите продолжить?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'вкл'
@@ -1067,7 +1067,6 @@ ru:
         relations: Связи
         watchers: Наблюдатель
         files: Файлы
-        files_tab_migration_help: 'Теперь вы можете прикрепить файл к пакетам работ через новую вкладку:'
       time_relative:
         days: "дней"
         weeks: "недели"

@@ -908,7 +908,7 @@ ko:
     updated: "업데이트: %{title}"
     filter:
       changeset: "Changesets"
-      message: "Forum"
+      message: "Forums"
       news: "News"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"

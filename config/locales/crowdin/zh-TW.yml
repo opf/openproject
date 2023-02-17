@@ -909,7 +909,7 @@ zh-TW:
     updated: "更新：%{title}"
     filter:
       changeset: "Changesets"
-      message: "Forum"
+      message: "Forums"
       news: "News"
       project_attribute: "Project attributes"
       subproject: "Include subprojects"
