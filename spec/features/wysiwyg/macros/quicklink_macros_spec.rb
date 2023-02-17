@@ -31,16 +31,17 @@ require 'spec_helper'
 describe 'Wysiwyg work package quicklink macros', js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project_with_types) }
-  let!(:work_package) do
+  let(:work_package) do
     create(:work_package,
            subject: "My subject",
-           project:,
            start_date: Date.parse('2020-01-01'),
            due_date: Date.parse('2020-02-01'))
   end
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
+    set_factory_default(:user, user)
+    set_factory_default(:project_with_types, project)
     login_as(user)
     visit project_wiki_path(project, :wiki)
   end
@@ -114,39 +115,33 @@ describe 'Wysiwyg work package quicklink macros', js: true do
     wp_no_dates =
       create(:work_package,
              subject: "No dates",
-             project:,
              start_date: nil,
              due_date: nil)
     wp_start_date_only =
       create(:work_package,
              subject: "Start date only",
-             project:,
              start_date: Date.parse('2020-01-01'),
              due_date: nil)
     wp_end_date_only =
       create(:work_package,
              subject: "End date only",
-             project:,
              start_date: nil,
              due_date: Date.parse('2020-12-31'))
     wp_both_dates =
       create(:work_package,
              subject: "Both dates",
-             project:,
              start_date: Date.parse('2020-01-01'),
              due_date: Date.parse('2020-12-31'))
     wp_milestone_with_date =
       create(:work_package,
              :is_milestone,
              subject: "Milestone with date",
-             project:,
              start_date: Date.parse('2020-01-01'),
              due_date: Date.parse('2020-01-01'))
     wp_milestone_without_date =
       create(:work_package,
              :is_milestone,
              subject: "Milestone without date",
-             project:,
              start_date: nil,
              due_date: nil)
 
