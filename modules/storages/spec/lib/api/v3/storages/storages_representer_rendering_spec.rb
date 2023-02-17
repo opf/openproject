@@ -71,6 +71,65 @@ describe API::V3::Storages::StorageRepresenter, 'rendering' do
       end
     end
 
+    describe 'prepareUpload' do
+      context 'when user has no :manage_file_links permission on any projects linked to the storage' do
+        it 'is empty' do
+          expect(generated).to have_json_path('_links/prepareUpload')
+          expect(generated).to have_json_size(0).at_path('_links/prepareUpload')
+        end
+      end
+
+      context 'when user has :manage_file_links permission on some projects linked to the storage' do
+        let(:oauth_application) { create(:oauth_application) }
+        let(:oauth_client_credentials) { create(:oauth_client) }
+        let(:storage) { create(:storage, oauth_application:, oauth_client: oauth_client_credentials) }
+        let(:user) { create(:user) }
+        let(:another_user) { create(:user) }
+        let(:no_permissions_role) { create(:role, permissions: []) }
+        let(:uploader_role) { create(:role, permissions: [:manage_file_links]) }
+
+        # rubocop:disable RSpec/ExampleLength
+        it 'contains upload information for each of these projects' do
+          project_linked_with_upload_permission =
+            create(:project).tap do |project|
+              create(:project_storage, project:, storage:, creator: user)
+              create(:member, user:, project:, roles: [uploader_role])
+            end
+          another_project_linked_with_upload_permission =
+            create(:project).tap do |project|
+              create(:project_storage, project:, storage:, creator: user)
+              create(:member, user:, project:, roles: [uploader_role])
+            end
+          _project_linked_without_any_permissions =
+            create(:project).tap do |project|
+              create(:project_storage, project:, storage:, creator: user)
+              create(:member, user:, project:, roles: [no_permissions_role])
+            end
+          _project_linked_not_member =
+            create(:project).tap do |project|
+              create(:project_storage, project:, storage:, creator: user)
+            end
+          _project_linked_another_user_member =
+            create(:project).tap do |project|
+              create(:project_storage, project:, storage:, creator: user)
+              create(:member, user: another_user, project:, roles: [uploader_role])
+            end
+          _project_not_linked_with_upload_permission =
+            create(:project).tap do |project|
+              create(:member, user:, project:, roles: [uploader_role])
+            end
+
+          expect(generated).to have_json_size(2).at_path('_links/prepareUpload')
+
+          project_ids = JSON.parse(generated).dig('_links', 'prepareUpload').map { _1.dig('payload', 'projectId') }
+          expect(project_ids)
+            .to match_array([project_linked_with_upload_permission.id,
+                             another_project_linked_with_upload_permission.id])
+        end
+        # rubocop:enable RSpec/ExampleLength
+      end
+    end
+
     describe 'oauthApplication' do
       it_behaves_like 'has no link' do
         let(:link) { 'oauthApplication' }

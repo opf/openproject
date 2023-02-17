@@ -180,12 +180,12 @@ module API::V3::Storages
 
     private
 
-    def storage_projects_ids(model)
-      model.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
+    def storage_projects_ids(storage)
+      storage.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
     end
 
-    def user_allowed_to_manage?(model)
-      current_user.allowed_to?(:manage_file_links, model.project)
+    def user_allowed_to_manage?(project)
+      current_user.allowed_to?(:manage_file_links, project)
     end
 
     def authorization_state
