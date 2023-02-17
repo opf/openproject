@@ -53,11 +53,6 @@ FactoryBot.define do
                                                             ["query_#{query.id}".to_sym]]]
       end
     end
-
-    factory :type_milestone, class: 'Type' do
-      name { 'Milestone' }
-      is_milestone { true }
-    end
   end
 
   factory :type_standard, class: '::Type' do
@@ -92,6 +87,12 @@ FactoryBot.define do
     factory :type_task do
       name { 'Task' }
       position { 4 }
+    end
+
+    factory :type_milestone do
+      name { 'Milestone' }
+      position { 5 }
+      is_milestone { true }
     end
   end
 end

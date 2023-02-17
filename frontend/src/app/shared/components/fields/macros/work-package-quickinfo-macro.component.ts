@@ -70,7 +70,7 @@ export class WorkPackageQuickinfoMacroComponent {
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
 
-  dateDisplayField = CombinedDateDisplayField;
+  combinedDateDisplayField = CombinedDateDisplayField;
 
   workPackageLink:string;
 
@@ -99,7 +99,7 @@ export class WorkPackageQuickinfoMacroComponent {
       .id(id)
       .get()
       .pipe(
-        tap({ error: (e) => this.markError(this.text.not_found) }),
+        tap({ error: (_e) => this.markError(this.text.not_found) }),
       );
   }
 
