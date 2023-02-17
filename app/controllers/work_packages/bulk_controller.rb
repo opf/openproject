@@ -86,7 +86,7 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
-    @assignables = @responsibles = possible_assignees
+    @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map(&:types).inject(&:&)
   end
 
@@ -99,12 +99,6 @@ class WorkPackages::BulkController < ApplicationController
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
-    end
-  end
-
-  def possible_assignees
-    @projects.inject(Principal.all) do |scope, project|
-      scope.where(id: Principal.possible_assignee(project))
     end
   end
 
