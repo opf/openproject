@@ -39,7 +39,7 @@ ru:
       meeting_minutes: "Протокол(-ы)"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Совещания"
   description_attended: "участие"
   description_invite: "приглашено"
   events:

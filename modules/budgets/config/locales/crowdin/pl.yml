@@ -41,7 +41,7 @@ pl:
       material_budget_item: "Jednostka"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budżety"
   attributes:
     budget: "Budżet"
   button_add_budget_item: "Dodaj planowane koszty"

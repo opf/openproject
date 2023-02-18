@@ -922,14 +922,14 @@ ru:
     created: "Создано: %{title}"
     updated: "Обновлено: %{title}"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Потраченное время"
+      wiki_edit: "Вики"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"

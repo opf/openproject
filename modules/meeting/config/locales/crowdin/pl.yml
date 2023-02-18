@@ -39,7 +39,7 @@ pl:
       meeting_minutes: "Protokół ze spotkania"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Spotkania"
   description_attended: "Obecny"
   description_invite: "Zaproszony"
   events:
