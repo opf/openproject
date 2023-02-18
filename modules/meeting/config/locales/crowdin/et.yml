@@ -37,6 +37,9 @@ et:
     models:
       meeting_agenda: "Päevakava"
       meeting_minutes: "Minutit"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "osales"
   description_invite: "ktsutud"
   events:

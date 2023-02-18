@@ -921,6 +921,15 @@ ru:
   activity:
     created: "Создано: %{title}"
     updated: "Обновлено: %{title}"
+    filter:
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Потраченное время"
+      wiki_edit: "Вики"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"

@@ -37,6 +37,9 @@ sl:
     models:
       meeting_agenda: "Dnevni red"
       meeting_minutes: "Zapisnik"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "se je udeležil/a"
   description_invite: "Povabljen"
   events:

@@ -37,6 +37,9 @@ hr:
     models:
       meeting_agenda: "Dnevni red"
       meeting_minutes: "Minute"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "prisustvovali su"
   description_invite: "pozvani"
   events:

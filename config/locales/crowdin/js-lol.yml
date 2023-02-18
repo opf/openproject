@@ -263,7 +263,7 @@ lol:
         removed_title: "crwdns845465:0crwdne845465:0"
         change_description: "crwdns845467:0crwdne845467:0"
         warning: >
-          crwdns845749:0crwdne845749:0
+          crwdns845813:0crwdne845813:0
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'
@@ -1064,7 +1064,6 @@ lol:
         relations: crwdns788464:0crwdne788464:0
         watchers: crwdns788466:0crwdne788466:0
         files: crwdns807702:0crwdne807702:0
-        files_tab_migration_help: 'crwdns808154:0crwdne808154:0'
       time_relative:
         days: "crwdns788470:0crwdne788470:0"
         weeks: "crwdns788472:0crwdne788472:0"

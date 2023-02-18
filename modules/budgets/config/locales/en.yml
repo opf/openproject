@@ -47,6 +47,11 @@ en:
     models:
       budget: "Budget"
       material_budget_item: "Unit"
+
+  activity:
+    filter:
+      budget: "Budgets"
+
   attributes:
     budget: "Budget"
 

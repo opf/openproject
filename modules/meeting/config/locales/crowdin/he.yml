@@ -37,6 +37,9 @@ he:
     models:
       meeting_agenda: "סדר היום"
       meeting_minutes: "דקות"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "נכחו"
   description_invite: "הוזמנו"
   events:

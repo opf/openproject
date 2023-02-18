@@ -41,9 +41,7 @@ module OpenProject::Storages
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer 'openproject_storages.feature_decisions' do
-      OpenProject::FeatureDecisions.add :storage_file_linking
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-      OpenProject::FeatureDecisions.add :storage_file_upload
       OpenProject::FeatureDecisions.add :legacy_upload_preparation
     end
 

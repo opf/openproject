@@ -65,6 +65,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     change_title: this.I18n.t('js.admin.working_days.change_title'),
     removed_title: this.I18n.t('js.admin.working_days.removed_title'),
     non_working_day_name: this.I18n.t('js.modals.label_name'),
+    add: this.I18n.t('js.button_add'),
   };
 
   form_submitted = false;

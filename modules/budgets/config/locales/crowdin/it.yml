@@ -39,6 +39,9 @@ it:
     models:
       budget: "Bilancio"
       material_budget_item: "Unità"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Bilancio"
   button_add_budget_item: "Aggiungi costi pianificati"

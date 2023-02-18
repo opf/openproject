@@ -109,8 +109,8 @@ module Components
       select_day date.day
     end
 
-    def save!
-      container.find('[data-qa-selector="op-datepicker-modal"] .button', text: I18n.t(:button_save)).click
+    def save!(text: I18n.t(:button_apply))
+      container.find('[data-qa-selector="op-datepicker-modal"] .button', text:).click
     end
 
     ##

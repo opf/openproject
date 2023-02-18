@@ -292,6 +292,7 @@ en:
         warning: >
           The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
 
+
           Are you sure you want to continue?
     custom_actions:
       date:
@@ -1137,7 +1138,6 @@ en:
         relations: Relations
         watchers: Watchers
         files: Files
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "days"
         weeks: "weeks"

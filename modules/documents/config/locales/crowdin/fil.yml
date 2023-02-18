@@ -23,6 +23,9 @@ fil:
   activerecord:
     models:
       document: "Dokumento"
+  activity:
+    filter:
+      document: "Documents"
   default_doc_category_tech: "Teknikal na dokumentasyon"
   default_doc_category_user: "Dokumento para sa mga gagamit"
   enumeration_doc_categories: "Mga kategorya ng dokumento"

@@ -37,6 +37,9 @@ fa:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "دقیقه ها"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "attended"
   description_invite: "invited"
   events:

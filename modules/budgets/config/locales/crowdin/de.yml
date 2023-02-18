@@ -39,6 +39,9 @@ de:
     models:
       budget: "Budget"
       material_budget_item: "Stück"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Budget"
   button_add_budget_item: "Budgetposition hinzufügen"

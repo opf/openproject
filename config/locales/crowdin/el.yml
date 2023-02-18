@@ -908,6 +908,15 @@ el:
   activity:
     created: "Δημιουργήθηκε: %{title}"
     updated: "Ενημερώθηκε: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Ενεργό"

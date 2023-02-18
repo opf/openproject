@@ -1,4 +1,5 @@
 <form
+  class="spot-modal"
   [formGroup]="projectAndTypeForm"
   (ngSubmit)="onSubmit($event)"
 >
@@ -67,10 +68,14 @@
       <button
         type="button"
         class="button spot-action-bar--action spot-modal--cancel-button"
-        (click)="close.emit()"> {{ text.cancelButton }}
-      </button>
-      <button class="button -highlight spot-action-bar--action">{{ text.nextButton }}</button>
-
+        (click)="close.emit()"
+        [textContent]="text.cancelButton"
+      ></button>
+      <button
+        type="submit"
+        class="button -highlight spot-action-bar--action"
+        [textContent]="text.nextButton"
+      ></button>
     </div>
   </div>
 </form>

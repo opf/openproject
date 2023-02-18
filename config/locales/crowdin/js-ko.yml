@@ -264,7 +264,8 @@ ko:
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: '에'
@@ -1064,7 +1065,6 @@ ko:
         relations: 관계
         watchers: 주시자
         files: 파일
-        files_tab_migration_help: '이제 새로운 탭을 통해 작업 패키지에 파일을 첨부할 수 있습니다.'
       time_relative:
         days: "일"
         weeks: "주"

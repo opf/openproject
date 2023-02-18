@@ -37,6 +37,9 @@ sv:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "deltog"
   description_invite: "inbjudna"
   events:

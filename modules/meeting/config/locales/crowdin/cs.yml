@@ -37,6 +37,9 @@ cs:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápis"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "zúčastněn"
   description_invite: "pozván"
   events:
