@@ -50,7 +50,7 @@ COPY lib ./lib
 #   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
 #   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 
-RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
+RUN bundle install --deployment --path vendor/bundle --no-cache \
   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 
