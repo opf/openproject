@@ -175,6 +175,20 @@ RSpec.describe 'Work package timeline date formatting',
     let(:current_user) { create :admin }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
 
+    it 'today_line is in view' do
+      row.wait_until_hoverable
+      today_line_offsetLeft = page.evaluate_script <<~JS
+        document.getElementById('wp-timeline-static-element-today-line').offsetLeft
+      JS
+      timeline_side_scrollLeft = page.evaluate_script <<~JS
+        document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].scrollLeft
+      JS
+      timeline_side_clientWidth = page.evaluate_script <<~JS
+        document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].clientWidth
+      JS
+      expect(today_line_offsetLeft).to be_between(timeline_side_scrollLeft, timeline_side_scrollLeft + timeline_side_clientWidth)
+    end
+
     shared_let(:non_working_day) do
       create(:non_working_day,
              date: '06-01-2021')
