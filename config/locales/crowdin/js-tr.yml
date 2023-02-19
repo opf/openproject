@@ -674,7 +674,7 @@ tr:
           enable: 'Günlük email hatırlatıcılarını etkinleştir'
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
-          time_label: 'Time %{counter}:'
+          time_label: 'Zaman %{counter}:'
           title: 'Okunmamış bildirimler için bana günlük e-posta hatırlatıcıları gönder'
         workdays:
           title: 'Bu günlerde e-posta hatırlatıcıları alın'
@@ -891,7 +891,7 @@ tr:
         click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
         show_relations: 'İlişkileri göster'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'Sadece iş günleri'
       description_filter: "Filtre"
       description_enter_text: "Metin girin"
       description_options_hide: "Seçenekleri gizle"
@@ -1086,7 +1086,7 @@ tr:
       button_save: "Kaydet"
       button_submit: "Gönder"
       button_cancel: "İptal etmek"
-      button_delete: "Delete"
+      button_delete: "Sil"
       form_submit:
         title: 'Devam etmek için onaylayın'
         text: 'Bu işlemi gerçekleştirmek istediğinizden emin misiniz?'
@@ -1143,7 +1143,7 @@ tr:
         zero: "0 s"
       day:
         one: "1 gün"
-        other: "%{count} days"
+        other: "%{count} gün"
         zero: "0 gün"
     zen_mode:
       button_activate: 'Zen modunu etkinleştir'
@@ -1217,7 +1217,7 @@ tr:
       message:
         label: 'Davet Mesajı'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Sonraki'
       summary:
         next_button: 'Davet gönder'
       success:
@@ -1235,7 +1235,7 @@ tr:
       selected_filter:
         all: 'Tüm projeler'
         selected: 'Sadece seçilen'
-      search_placeholder: 'Search project...'
+      search_placeholder: 'Proje ara...'
       include_subprojects: 'Include all sub-projects'
       tooltip:
         include_all_selected: 'Project already included since Include all sub-projects is enabled.'

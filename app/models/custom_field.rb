@@ -41,7 +41,7 @@ class CustomField < ApplicationRecord
            inverse_of: 'custom_field'
   accepts_nested_attributes_for :custom_options
 
-  acts_as_list scope: "type = '#{self.class}'"
+  acts_as_list scope: [:type]
 
   validates :field_format, presence: true
   validates :custom_options,

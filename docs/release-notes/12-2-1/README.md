@@ -42,7 +42,7 @@ For cloud customers of OpenProject: The records affected by this bug were restor
 
 ## Changes to the HTTPS settings
 
-If you are running OpenProject in a docker-based or manual installation, or if you manually integrate the packaged installation into your existing web server, you might need to set a new configuration value if you're not running under HTTPS.
+If you are running OpenProject in a docker-based or if you manually integrate the packaged installation into your existing web server, you might need to set a new configuration value if you're not running under HTTPS.
 
 For these installations, you will need to set the environment variable `OPENPROJECT_HTTPS=false` if you actively want to disable HTTPS mode.
 

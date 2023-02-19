@@ -12,7 +12,7 @@ Welcome to the OpenProject **Enterprise guide**.
 > **Note**: This guide only describes the management and administration of your Enterprise cloud and Enterprise on-premises subscription. 
 > The Enterprise add-on descriptions are included in the respective parts of the OpenProject [user guide](../user-guide) and [System admin guide](../system-admin-guide).
 
-The OpenProject Enterprise editions (cloud and on-premises) contain all OpenProject Community features plus the additional OpenProject [Enterprise add-ons](https://www.openproject.org/de/enterprise-edition/#enterprise-add-ons), as well as professional [support](https://www.openproject.org/pricing/#support).
+The OpenProject Enterprise editions (cloud and on-premises) contain all OpenProject Community features plus the additional OpenProject [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons), as well as professional [support](https://www.openproject.org/pricing/#support).
 
 Find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
 

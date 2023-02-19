@@ -50,6 +50,14 @@ module VersionsHelper
                html_options
   end
 
+  def version_dates(version)
+    formatted_dates =
+      %i[start_date due_date]
+        .filter { |attr| version.send(attr) }
+        .map { |attr| "#{Version.human_attribute_name(attr)} #{format_date(version.send(attr))}" }
+    safe_join(formatted_dates, "<br>".html_safe)
+  end
+
   def link_to_version_id(version)
     ERB::Util.url_encode("version-#{version.name}")
   end

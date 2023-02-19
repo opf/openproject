@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -36,6 +36,7 @@ export class SpotDropModalComponent implements OnDestroy {
   /**
    * Boolean indicating whether the modal should be opened
    */
+  /* eslint-disable-next-line @angular-eslint/no-input-rename */
   @Input('open')
   @HostBinding('class.spot-drop-modal_opened')
   set open(value:boolean) {
@@ -49,6 +50,9 @@ export class SpotDropModalComponent implements OnDestroy {
       setTimeout(() => {
         document.body.addEventListener('click', this.closeEventListener);
         document.body.addEventListener('keydown', this.escapeListener);
+        window.addEventListener('resize', this.appHeightListener);
+        window.addEventListener('orientationchange', this.appHeightListener);
+        this.appHeightListener();
 
         const focusCatcherContainer = document.querySelectorAll("[data-modal-focus-catcher-container='true']")[0];
         if (focusCatcherContainer) {
@@ -60,7 +64,10 @@ export class SpotDropModalComponent implements OnDestroy {
       });
     } else {
       document.body.removeEventListener('click', this.closeEventListener);
-      document.body.removeEventListener('click', this.escapeListener);
+      document.body.removeEventListener('keydown', this.escapeListener);
+      window.removeEventListener('resize', this.appHeightListener);
+      window.removeEventListener('orientationchange', this.appHeightListener);
+
       this.closed.emit();
     }
   }
@@ -110,7 +117,9 @@ export class SpotDropModalComponent implements OnDestroy {
 
   ngOnDestroy():void {
     document.body.removeEventListener('click', this.closeEventListener);
-    document.body.removeEventListener('click', this.escapeListener);
+    document.body.removeEventListener('keydown', this.escapeListener);
+    window.removeEventListener('resize', this.appHeightListener);
+    window.removeEventListener('orientationchange', this.appHeightListener);
   }
 
   private closeEventListener = this.close.bind(this) as () => void;
@@ -122,4 +131,9 @@ export class SpotDropModalComponent implements OnDestroy {
   };
 
   private escapeListener = this.onEscape.bind(this) as () => void;
+
+  private appHeightListener = () => {
+    const doc = document.documentElement;
+    doc.style.setProperty('--app-height', `${window.innerHeight}px`);
+  };
 }

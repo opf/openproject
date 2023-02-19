@@ -633,7 +633,7 @@ ca:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "El certificat SSL proporcionat és invàlid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:

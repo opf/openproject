@@ -11,7 +11,9 @@ if OpenProject::Appsignal.enabled?
       revision: OpenProject::VERSION.to_s,
       ignore_actions: [
         'OkComputer::OkComputerController#show',
-        'OkComputer::OkComputerController#index'
+        'OkComputer::OkComputerController#index',
+        'GET::API::V3::Notifications::NotificationsAPI',
+        'GET::API::V3::Notifications::NotificationsAPI#/notifications/'
       ],
       ignore_errors: [
         'Grape::Exceptions::MethodNotAllowed',

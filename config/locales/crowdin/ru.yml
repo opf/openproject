@@ -638,7 +638,7 @@ ru:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Предоставленный сертификат SSL недействителен: %{additional_message}"
+              invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:

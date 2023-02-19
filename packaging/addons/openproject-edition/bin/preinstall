@@ -4,6 +4,8 @@ set -e
 . ${INSTALLER_DIR}/wizard
 
 CLI="${APP_NAME}"
+OSFAMILY="$(wiz_fact osfamily)"
+OSVERSION="$(wiz_fact osversion)"
 edition="$(wiz_get "openproject/edition")"
 
 tmpdir="$(mktemp -d)"
@@ -16,9 +18,9 @@ trap cleanup INT TERM EXIT
 if [ "$edition" = "bim" ]; then
 	${CLI} config:set OPENPROJECT_EDITION="$edition"
 
-	case "$(wiz_fact "osfamily")" in
+	case "$OSFAMILY" in
 		"debian")
-			case "$(wiz_fact "osversion")" in
+			case "$OSVERSION" in
 				"20.04")
 					wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
 					wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/ubuntu/20.04/prod.list
@@ -50,6 +52,10 @@ if [ "$edition" = "bim" ]; then
 			esac
 			;;
 	esac
+
+  if [ "$OSFAMILY" = "debian" ] && [ "$OSVERSION" = "22.04" ]; then
+    ${CLI} config:set DOTNET_ROOT=$(dirname $(realpath $(which dotnet)))
+  fi
 
 	cd $tmpdir
 

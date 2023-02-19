@@ -26,15 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::MemberFilter
-  include Queries::Filters::Shared::GroupFilter
+# This patch adds our job status extension to background jobs carried out when mailing with
+# perform_later.
 
-  def joins
-    nil
-  end
-
-  def scope
-    scope = model.joins(:principal)
-    scope.where(where)
+module OpenProject
+  module Patches
+    module DelayedJobAdapter
+      module AllowNonExistingJobClass
+        def log_arguments?
+          super
+        rescue NameError
+          false
+        end
+      end
+    end
   end
 end
+
+ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper.prepend(
+  OpenProject::Patches::DelayedJobAdapter::AllowNonExistingJobClass
+)
