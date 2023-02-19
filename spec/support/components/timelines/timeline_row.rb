@@ -120,6 +120,10 @@ module Components
         # be hidden if no dates are set. Finding it waits until the lazy loading
         # has completed.
         container.find('.timeline-element', visible: :all)
+
+        # timeline being scrolled to today is potentially moving elements of the tests out of sight
+        # thus, let's scroll back timeline to the far left in order to restore ability to use e.g. "driver.move_to"
+        page.driver.execute_script("document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].scrollLeft=0")
       end
     end
   end
