@@ -144,7 +144,12 @@ export class TimelineCellRenderer {
     if (direction === 'left') {
       dates.startDate = moment(initialStartDate || initialDueDate).add(delta, 'days');
     } else if (direction === 'right') {
-      dates.dueDate = moment(initialDueDate || now).add(delta, 'days');
+      // When no due date is present and the start date is in the past,
+      // we assume the task hasn't finished yet, meaning the end date is not in the past.
+      // To cover this case we have to choose the start date, only when it's in the future,
+      // and choose now if the start date is in the past.
+      const calculatedDueDate = initialDueDate || (now > initialStartDate ? now : initialStartDate);
+      dates.dueDate = moment(calculatedDueDate).add(delta, 'days');
     } else if (direction === 'both') {
       if (initialStartDate) {
         dates.startDate = moment(initialStartDate).add(delta, 'days');

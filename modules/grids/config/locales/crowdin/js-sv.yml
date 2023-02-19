@@ -3,7 +3,7 @@ sv:
     grid:
       add_widget: 'Lägg till widget'
       remove: 'Ta bort widget'
-      configure: 'Configure widget'
+      configure: 'Konfigurera widget'
       upsale:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
@@ -31,19 +31,19 @@ sv:
           no_results: 'Inga anpassade fält har definierats för projekt.'
         project_status:
           title: 'Projektstatus'
-          not_started: 'Not started'
-          on_track: 'På banan'
-          off_track: 'Utanför banan'
+          not_started: 'Inte påbörjad'
+          on_track: 'På rätt spår'
+          off_track: 'Urspårat'
           at_risk: 'I riskzonen'
           not_set: 'Ej inställd'
-          finished: 'Finished'
+          finished: 'Slutförd'
           discontinued: 'Discontinued'
         subprojects:
           title: 'Delprojekt'
           no_results: 'Inga delprojekt.'
         time_entries_current_user:
           title: 'My spent time'
-          displayed_days: 'Days displayed in the widget:'
+          displayed_days: 'Dagar som visas i widgeten:'
         time_entries_list:
           title: 'Spenderad tid (senaste 7 dagarna)'
           no_results: 'Inga tidsinlägg för de senaste 7 dagarna.'

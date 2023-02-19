@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Announcement
-  priority: 740
+  priority: 880
 description: Announcements in OpenProject.
 keywords: announcement
 ---

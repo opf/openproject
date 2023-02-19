@@ -26,35 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Storages
-      class StorageRequestFactory
-        def initialize(oauth_client:)
-          @oauth_client = oauth_client
-        end
+module Components
+  class PasswordConfirmationDialog
+    include Capybara::DSL
+    include Capybara::RSpecMatchers
+    include RSpec::Matchers
 
-        def download_command
-          ->(access_token:, file_id:) do
-            request_url = File.join(@oauth_client.integration.host, '/ocs/v2.php/apps/dav/api/v1/direct')
-            body = { fileId: file_id }
-            header = {
-              'Authorization' => "Bearer #{access_token}",
-              'OCS-APIRequest' => 'true',
-              'Accept' => 'application/json'
-            }
+    def confirm_flow_with(password, with_keyboard: false, should_fail: false)
+      expect_open
 
-            begin
-              response = RestClient.post request_url, body, header
-            rescue RestClient::Unauthorized
-              return ServiceResult.failure(result: I18n.t('http.request.failed_authorization'))
-            rescue StandardError => e
-              return ServiceResult.failure(result: e.message)
-            end
+      expect(submit_button).to be_disabled
+      fill_in 'request_for_confirmation_password', with: password
 
-            ServiceResult.success(result: response)
-          end
-        end
+      expect(submit_button).not_to be_disabled
+      submit(should_fail:, with_keyboard:)
+    end
+
+    def expect_open
+      expect(page).to have_selector(selector)
+    end
+
+    def expect_closed
+      expect(page).to have_no_selector(selector)
+    end
+
+    def submit_button
+      page.find('[data-qa-selector="confirmation-modal--confirmed"]')
+    end
+
+    private
+
+    def selector
+      '.password-confirm-dialog--modal'
+    end
+
+    def submit(should_fail:, with_keyboard:)
+      if with_keyboard
+        find_field('request_for_confirmation_password').send_keys :enter
+      else
+        submit_button.click
+      end
+
+      if should_fail
+        expect(page).to have_selector('.flash.error',
+                                      text: I18n.t(:notice_password_confirmation_failed))
+      else
+        expect(page).to have_no_selector('.flash.error')
       end
     end
   end

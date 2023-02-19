@@ -5,8 +5,8 @@ pl:
       remove: 'Usuń widżet'
       configure: 'Konfiguruj widżet'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
-        link: 'Enterprise edition.'
+        text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji Enterprise."
+        link: 'Wersja Enterprise.'
       widgets:
         custom_text:
           title: 'Tekst niestandardowy/użytkownika'

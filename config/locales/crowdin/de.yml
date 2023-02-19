@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -69,7 +69,7 @@ de:
       delete_token_modal:
         text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
         title: "Token löschen"
-      replace_token: "Aktuellen Enterprise-Edition Support Token ersetzen"
+      replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
       paste: "Enterprise-Edition Support Token hier einfügen"
       required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
@@ -446,7 +446,7 @@ de:
         starts_at: "Aktiv seit"
         expires_at: "Endet am"
         subscriber: "Abonnent"
-        encoded_token: "Enterprise-Edition Support Token"
+        encoded_token: "Enterprise edition Support Token"
         active_user_count_restriction: "Maximale aktive Nutzer"
       grids/grid:
         page: "Seite"
@@ -668,7 +668,7 @@ de:
             scopes:
               not_match_configured: "stimmt nicht mit verfügbaren Geltungsbereichen überein."
         enterprise_token:
-          unreadable: "kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support Token?"
+          unreadable: "kann nicht gelesen werden. Ist dies ein Enterprise edition Support Token?"
         grids/grid:
           overlaps: 'überlappen.'
           outside: 'ist außerhalb des Rasters.'
@@ -865,7 +865,7 @@ de:
       category: "Kategorie"
       status: "Arbeitspaket-Status"
       member: "Mitglied"
-      news: "Nachrichten"
+      news: "Neuigkeiten"
       notification:
         one: "Benachrichtigung"
         other: "Benachrichtigungen"
@@ -1719,7 +1719,7 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news_singular: "Nachricht"
+  label_news_singular: "Neuigkeit"
   label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
   label_news_latest: "Aktuellste Nachrichten"
@@ -2944,7 +2944,7 @@ de:
     warning: >
       Änderungen an Arbeitstagen können den Start und das Ende aller Arbeitspakete in allen Projekten in dieser Instanz beeinflussen.
     journal_note:
-      changed: _**Arbeitstage ** geändert (%{changes})._
+      changed: _**Arbeitstage** geändert (%{changes})._
       days:
         working: "%{day} ist jetzt ein Arbeitstag"
         non_working: "%{day} ist jetzt kein Arbeitstag"
