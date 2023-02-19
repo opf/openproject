@@ -64,8 +64,8 @@ it:
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
       theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
-      upgrade_to_ee: "Aggiorna a Enterprise Edition"
-      add_token: "Carica un token di assistenza per Enterprise Edition"
+      upgrade_to_ee: "Aggiorna a Enterprise edition"
+      add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
         text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
         title: "Elimina token"

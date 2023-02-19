@@ -675,7 +675,7 @@ sk:
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."
         enterprise_token:
-          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise Edition?"
+          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise edition?"
         grids/grid:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'

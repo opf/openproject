@@ -64,7 +64,7 @@ el:
   label_time_zone: "Ζώνη Ώρας"
   label_start_date: "Ημερομηνία έναρξης"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Αντιγράφηκε από τη Συνάντηση #%{id}"
   notice_successful_notification: "Η ειδοποίηση απεστάλη επιτυχώς"
   notice_timezone_missing: Δεν έχει οριστεί ζώνη ώρας και θεωρήθηκε η %{zone}. Για να επιλέξετε την ζώνη ώρας σας, παρακαλούμε κάντε κλικ εδώ.
   permission_create_meetings: "Δημιουργία συναντήσεων"

@@ -1,6 +1,6 @@
 #English strings go here
 el:
-  label_calendar_plural: "Calendars"
-  permission_view_calendar: "View calendars"
-  permission_manage_calendars: "Manage calendars"
-  project_module_calendar_view: "Calendar"
+  label_calendar_plural: "Ημερολόγια"
+  permission_view_calendar: "Προβολή ημερολογίων"
+  permission_manage_calendars: "Διαχείριση ημερολογίων"
+  project_module_calendar_view: "Ημερολόγιο"

@@ -6,6 +6,10 @@
   @media screen and (max-width: 679px)
     display: none
 
+  &--input[type="text"]
+    // Uppercase letters with accents like Ü and Â would get cut off
+    line-height: 20px
+
   &--option,
   &--option:hover
     padding: 5px 5px
@@ -70,3 +74,4 @@
     overflow: hidden
     white-space: nowrap
     text-overflow: ellipsis
+    line-height: 1.5
