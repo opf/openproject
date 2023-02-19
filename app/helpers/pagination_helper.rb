@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,7 +106,7 @@ module PaginationHelper
   #  * limit
   #  * page
   #  parameters.
-  #  Preferes page over the other two and
+  #  Prefers page over the other two and
   #  calculates page in it's absence based on limit and offset.
   #  Return 1 if all else fails.
 
@@ -121,7 +119,7 @@ module PaginationHelper
 
              begin
                # + 1 as page is not 0 but 1 based
-               options[:offset].to_i / per_page_param(options) + 1
+               (options[:offset].to_i / per_page_param(options)) + 1
              rescue ZeroDivisionError
                1
              end
@@ -181,12 +179,12 @@ module PaginationHelper
     end
 
     def previous_page
-      num = @collection.current_page > 1 && @collection.current_page - 1
+      num = @collection.current_page > 1 && (@collection.current_page - 1)
       previous_or_next_page(num, I18n.t(:label_previous), 'prev')
     end
 
     def next_page
-      num = @collection.current_page < total_pages && @collection.current_page + 1
+      num = @collection.current_page < total_pages && (@collection.current_page + 1)
       previous_or_next_page(num, I18n.t(:label_next), 'next')
     end
 

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Backlogs settings
   priority: 200
 description: Backlogs settings.
-robots: index, follow
 keywords: backlogs settings
 ---
 # Backlogs settings

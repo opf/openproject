@@ -8,12 +8,20 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {
-  Observable, BehaviorSubject, combineLatest, forkJoin,
+  Observable,
+  BehaviorSubject,
+  combineLatest,
+  forkJoin,
 } from 'rxjs';
 import {
-  debounceTime, distinctUntilChanged, share, map, shareReplay, switchMap,
+  debounceTime,
+  distinctUntilChanged,
+  share,
+  map,
+  shareReplay,
+  switchMap,
 } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -22,6 +30,7 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PrincipalType } from '../invite-user.component';
+import { CapabilitiesResourceService } from 'core-app/core/state/capabilities/capabilities.service';
 
 interface NgSelectPrincipalOption {
   principal:PrincipalLike,
@@ -33,7 +42,7 @@ interface NgSelectPrincipalOption {
   templateUrl: './principal-search.component.html',
 })
 export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnInit {
-  @Input('opFormBinding') principalControl:FormControl;
+  @Input() spotFormBinding:FormControl;
 
   @Input() type:PrincipalType;
 
@@ -58,32 +67,34 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   public canInviteByEmail$ = combineLatest(
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$('users/create'),
+    this.currentUserService.hasCapabilities$('users/create', 'global'),
   ).pipe(
     map(([elements, input, canCreateUsers]) => canCreateUsers
-        && this.type === PrincipalType.User
-        && !!input
-        && this.emailRegExp.test(input)
-        && !elements.find((el) => (el.principal as UserResource).email === input)),
+      && this.type === PrincipalType.User
+      && !!input
+      && this.emailRegExp.test(input)
+      && !elements.find((el) => (el.principal as UserResource).email === input)),
   );
 
-  public canCreateNewPlaceholder$ = combineLatest(
+  public canCreateNewPlaceholder$ = combineLatest([
     this.items$,
     this.input$,
-    this.currentUserService.hasCapabilities$('placeholder_users/create'),
-  ).pipe(
-    map(([elements, input, hasCapability]) => {
-      if (!hasCapability) {
-        return false;
-      }
+    this.currentUserService.hasCapabilities$('placeholder_users/create', 'global'),
+  ])
+    .pipe(
+      map(([elements, input, hasCapability]) => {
+        if (!hasCapability) {
+          return false;
+        }
 
-      if (this.type !== PrincipalType.Placeholder) {
-        return false;
-      }
+        if (this.type !== PrincipalType.Placeholder) {
+          return false;
+        }
 
-      return !!input && !elements.find((el:any) => el.name === input);
-    }),
-  );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-explicit-any
+        return !!input && !elements.find((el:any) => el.name === input);
+      }),
+    );
 
   public showAddTag = false;
 
@@ -103,8 +114,9 @@ export class PrincipalSearchComponent extends UntilDestroyedMixin implements OnI
   constructor(
     public I18n:I18nService,
     readonly elementRef:ElementRef,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentUserService:CurrentUserService,
+    readonly capabilitiesService:CapabilitiesResourceService,
   ) {
     super();
 

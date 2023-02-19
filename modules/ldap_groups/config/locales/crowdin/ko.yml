@@ -42,8 +42,7 @@ ko:
         group_name_attribute_text: 'OpenProject 그룹 이름 설정에 사용된 LDAP 그룹의 특성을 입력하세요.'
         filter_string_text: 'OpenProject와 동기화하려면 해당 LDAP에서 그룹을 반환하는 RFC4515 LDAP 필터를 입력하세요.'
         base_dn_text: >
-          이 필터에 사용할 검색 기본 DN을 입력하세요. 이 DN은 선택한 LDAP 연결의 기본 DN 아래에 있어야 합니다.
-          연결의 기본 DN을 재사용하려면 이 옵션을 비워두세요.
+          이 필터에 사용할 검색 기본 DN을 입력하세요. 이 DN은 선택한 LDAP 연결의 기본 DN 아래에 있어야 합니다. 연결의 기본 DN을 재사용하려면 이 옵션을 비워두세요.
     synchronized_groups:
       add_new: '동기화된 LDAP 그룹 추가'
       destroy:
@@ -67,4 +66,6 @@ ko:
           이 옵션을 활성화하는 경우, 발견된 사용자는 OpenProject에서 자동으로 생성됩니다. 활성화하지 않으면, OpenProject의 기존 계정만 그룹에 추가됩니다.
         dn_text: 'LDAP에서 그룹의 전체 DN 입력'
         group_text: 'LDAP 그룹의 멤버가 동기화되는 기존 OpenProject 그룹 선택'
+      upsale:
+        description: '동기화된 LDAP 그룹을 활용하여 사용자를 관리하고 사용자의 권한을 변경하고 그룹 전체에서 사용자 관리를 용이하게 하세요.'
 

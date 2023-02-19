@@ -13,7 +13,7 @@ $button-sizes: (
   medium: 1,
   large: 1.3,
 ) !default;
-$button-font-size: 0.9rem !default;
+$button-font-size: 0.875rem !default;
 $button-opacity-disabled: 0.5 !default;
 $button-tag-selector: false !default;
 ///
@@ -22,7 +22,7 @@ $button-tag-selector: false !default;
   display: inline-block;
   border: 0;
   text-align: center;
-  line-height: 1;
+  line-height: 1.25rem;
   cursor: pointer;
   -webkit-appearance: none;
   -webkit-font-smoothing: antialiased;

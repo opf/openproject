@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -47,10 +47,10 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:label_example) %>: <%= @guessed_host %>
       </span>
     </div>
-    <div class="form--field"><%= setting_select :protocol, [['HTTP', 'http'], ['HTTPS', 'https']], container_class: '-xslim' %></div>
     <div class="form--field"><%= setting_check_box :cache_formatted_text %></div>
     <div class="form--field"><%= setting_check_box :feeds_enabled, size: 6 %></div>
     <div class="form--field"><%= setting_text_field :feeds_limit, size: 6, container_class: '-xslim' %></div>
+    <div class="form--field"><%= setting_text_field :work_packages_projects_export_limit, size: 6, container_class: '-xslim' %></div>
     <div class="form--field">
       <%= setting_text_field :file_max_size_displayed, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: '-xslim' %>
     </div>

@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Queries
 description: An introduction to queries in OpenProject and their use in the frontend
-robots: index, follow
 keywords: queries, query space, work package views
 ---
 
@@ -50,7 +49,7 @@ A query is an object that revolves about two types of information:
 1. The configuration needed to fetch data from the database (filters, sort criteria, grouping criterion etc.)
 2. The way the results retrieved from the database with the above filters are displayed (set of visible columns, highlighting, display mode of the work package table, etc.)
 
-Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queriable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
+Currently, the Queries endpoint and object is highly specific to work packages, but this is bound to change with more resources becoming queryable. For some other resources such as projects, queries already exists in the backend, but not yet in the frontend application.
 
 
 
@@ -91,7 +90,7 @@ When accessing a singular query resource, the response will always contain the s
   - `_links.project` to the project it is saved in (if project-scoped)
   - `_links.user` reference to the user that saved or requested the query
 - Properties regarding the **displaying of the query** results such as `timelineVisible` (show the gantt chart), `highlightingMode` and `showHierarchies`
-- **Embedded HAL links**  und `_embedded` related to how the results are to be fetched
+- **Embedded HAL links**  and `_embedded` related to how the results are to be fetched
   - `filters` selected filters array
   - `columns` embedded array of selected `columns`
   - `sortBy` array of one or multiple sort criteria.
@@ -112,7 +111,7 @@ These filters are also saved within the queries. If you would like to read more 
 
 ### Exemplary query response
 
-Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: http://community.openproject.com/api/v3/queries/2453
+Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.com/api/v3/queries/2453](https://community.openproject.com/api/v3/queries/2453)
 
 It returns a saved query for the OpenProject 11.0 release, with a type filter `type is not [Idea, Phase, Release]` , a version filter `version = 11.0.0` and a "show all subprojects" filter with `subProject = all` . It is sorted by `type ascending`.
 
@@ -140,13 +139,13 @@ This can happen several times on other pages too. For example, the board page wi
 
 Each of these queries need their own set of services for handling selected filters, sort criterion and other view related data.
 
-To properly isolate this data, the application has the concept of an [`IsolatedQuerySpace`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/work_packages/query-space/isolated-query-space.ts) and associated `IsolatedQuerySpaceDirective`, which is an Angular directive that provides a query space (a store object) to its DOM children. This uses the Angular hierarchical injectors functionality, [which you can read up on here](https://angular.io/guide/hierarchical-dependency-injection).
+To properly isolate this data, the application has the concept of an [`IsolatedQuerySpace`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/directives/query-space/isolated-query-space.ts) and associated `IsolatedQuerySpaceDirective`, which is an Angular directive that provides a query space (a store object) to its DOM children. This uses the Angular hierarchical injectors functionality, [which you can read up on here](https://angular.io/guide/hierarchical-dependency-injection).
 
 The `IsolatedQuerySpace` has individually accessible states for every part of the query resource, such as `filters` , `columns`, `groups`, and so on.
 
 Additionally, the logical parts of the query are encapsulated into view services that components of the table can use to modify and update data in the frontend, before saving the query back to the API.
 
-These states are being initialized in the [`WorkPackagesInitializationService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/components/wp-list/wp-states-initialization.service.ts) for the current isolated query space whenever a query is loaded through the designated services. The important services are:
+These states are being initialized in the [`WorkPackagesInitializationService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/components/wp-list/wp-states-initialization.service.ts) for the current isolated query space whenever a query is loaded through the designated services. The important services are:
 
 - `WorkPackageViewFiltersService` for manipulating, adding, and removing filters of the query
 - `WorkPackageViewColumnsService` for adding, moving, or removing columns and getting available columns for selection
@@ -157,11 +156,11 @@ These states are being initialized in the [`WorkPackagesInitializationService`](
 
 There are additional services for handling pagination and other parts of the query that can be controlled individually.
 
-Whenever the frontend updates a state of these services, the original query _may_ be updated due to change observers in the [`WorkPackagesViewBase`](https://github.com/opf/openproject/blob/dfa6bdb4561488012020ef1e8638c92e2c0fd9f1/frontend/src/app/modules/work_packages/routing/wp-view-base/work-packages-view.base.ts) component. They will end up updating the query resource, and in turn updating the view services again. However the frontend will never directly modify the query resource itself to preserve one way data flow.
+Whenever the frontend updates a state of these services, the original query _may_ be updated due to change observers in the [`WorkPackagesViewBase`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-view-base/work-packages-view.base.ts) component. They will end up updating the query resource, and in turn updating the view services again. However the frontend will never directly modify the query resource itself to preserve one way data flow.
 
 ### Loading queries with WorkPackagesListService
 
-First, you'll need to get hold of a query resource by loading it from the API. This is done through the [`WorkPackagesListService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/components/wp-list/wp-list.service.ts). It handles streaming of requests through RXJS observables and initializing all the necessary services of the query space.
+First, you'll need to get hold of a query resource by loading it from the API. This is done through the [`WorkPackagesListService`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/components/wp-list/wp-list.service.ts). It handles streaming of requests through RXJS observables and initializing all the necessary services of the query space.
 
 The easiest use case is loading a query from its saved `id` property. This would work as follows:
 
@@ -174,9 +173,9 @@ wpList
 
 In practice, you will likely not only access the query resource itself, but rather one of the many `WorkPackageView*Service` view services to control `filters` and other properties.
 
-The `WorkPackagesListService` can also update and save existing queries passed to it. This flow will often happen in the [`PartitionedQuerySpaceComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/work_packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.ts), which is the basis for the modules showing work packages as a table or grid such as the [`WorkPackageViewPageComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/work_packages/routing/wp-view-page/wp-view-page.component.ts) or the [`IfcViewerPageComponent`](https://github.com/opf/openproject/tree/dev/frontend/src/app/modules/bim/ifc_models/pages/viewer/ifc-viewer-page.component.ts).
+The `WorkPackagesListService` can also update and save existing queries passed to it. This flow will often happen in the [`PartitionedQuerySpaceComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.ts), which is the basis for the modules showing work packages as a table or grid such as the [`WorkPackageViewPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-view-page/wp-view-page.component.ts) or the [`IfcViewerPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/bim/ifc_models/pages/viewer/ifc-viewer-page.component.ts).
 
-`PartionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as https://community.openproject.com/work_packages.
+`PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.com/work_packages](https://community.openproject.com/work_packages).
 
 The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.
 

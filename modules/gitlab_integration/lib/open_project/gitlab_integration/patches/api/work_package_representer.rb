@@ -36,6 +36,8 @@ module OpenProject::GitlabIntegration
           ->(*) do
             link :gitlab,
                  cache_if: -> { current_user.allowed_to?(:show_gitlab_content, represented.project) } do
+              next if represented.new_record?
+
               {
                 href: "#{work_package_path(id: represented.id)}/tabs/gitlab",
                 title: "gitlab"
@@ -43,6 +45,8 @@ module OpenProject::GitlabIntegration
             end
 
             link :gitlab_merge_requests do
+              next if represented.new_record?
+
               {
                 href: api_v3_paths.gitlab_merge_requests_by_work_package(represented.id),
                 title: "Gitlab merge requests"

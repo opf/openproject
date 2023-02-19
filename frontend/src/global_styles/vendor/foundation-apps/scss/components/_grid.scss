@@ -216,7 +216,7 @@ $block-grid-max-size: 6 !default;
 }
 
 /*
-  Frames are containers that stretch to the full dimmensions of the browser window.
+  Frames are containers that stretch to the full dimensions of the browser window.
 */
 @mixin grid-frame($size: expand, $orientation: horizontal, $wrap: false, $align: left, $order: 0) {
   display: flex;

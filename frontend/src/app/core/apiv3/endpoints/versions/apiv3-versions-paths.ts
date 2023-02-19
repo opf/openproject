@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,26 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { Observable } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
-import { Apiv3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
-import { APIv3VersionPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-version-paths';
+import { ApiV3AvailableProjectsPaths } from 'core-app/core/apiv3/endpoints/projects/apiv3-available-projects-paths';
+import { ApiV3VersionPaths } from 'core-app/core/apiv3/endpoints/versions/apiv3-version-paths';
 
-export class APIv3VersionsPaths extends APIv3ResourceCollection<VersionResource, APIv3VersionPaths> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3VersionsPaths extends ApiV3ResourceCollection<VersionResource, ApiV3VersionPaths> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'versions', APIv3VersionPaths);
+    super(apiRoot, basePath, 'versions', ApiV3VersionPaths);
   }
 
   // /api/v3/versions/form
-  public readonly form = this.subResource('form', APIv3FormResource);
+  public readonly form = this.subResource('form', ApiV3FormResource);
 
-  public readonly available_projects = this.subResource('available_projects', Apiv3AvailableProjectsPaths);
+  public readonly available_projects = this.subResource('available_projects', ApiV3AvailableProjectsPaths);
 
   /**
    * Get all versions

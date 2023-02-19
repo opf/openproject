@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Apiv3Paths } from './apiv3-paths';
+import { ApiV3Paths } from './apiv3-paths';
 
 @Injectable({ providedIn: 'root' })
 export class PathHelperService {
   public readonly appBasePath = window.appBasePath || '';
 
   public readonly api = {
-    v3: new Apiv3Paths(this.appBasePath),
+    v3: new ApiV3Paths(this.appBasePath),
   };
 
   public get staticBase() {
@@ -71,10 +71,10 @@ export class PathHelperService {
   }
 
   public bimDetailsPath(projectIdentifier:string, workPackageId:string, viewpoint:number|string|null = null) {
-    let path = `${this.projectPath(projectIdentifier)}/bcf/split/details/${workPackageId}`;
+    let path = `${this.projectPath(projectIdentifier)}/bcf/details/${workPackageId}`;
 
     if (viewpoint !== null) {
-      path += `?query_props=%7B"t"%3A"id%3Adesc"%7D&viewpoint=${viewpoint}`;
+      path += `?query_props=%7B"t"%3A"id%3Adesc"%2C"dr"%3A"splitCards"%7D&viewpoint=${viewpoint}`;
     }
 
     return path;
@@ -120,6 +120,10 @@ export class PathHelperService {
     return `${this.staticBase}/projects`;
   }
 
+  public projectsNewPath():string {
+    return `${this.staticBase}/projects/new`;
+  }
+
   public projectPath(projectIdentifier:string) {
     return `${this.projectsPath()}/${projectIdentifier}`;
   }
@@ -133,7 +137,7 @@ export class PathHelperService {
   }
 
   public projectCalendarPath(projectId:string) {
-    return `${this.projectPath(projectId)}/work_packages/calendar`;
+    return `${this.projectPath(projectId)}/calendar`;
   }
 
   public projectMembershipsPath(projectId:string) {
@@ -246,10 +250,6 @@ export class PathHelperService {
 
   public workPackagesBulkDeletePath() {
     return `${this.workPackagesPath()}/bulk`;
-  }
-
-  public projectLevelListPath() {
-    return `${this.projectsPath()}/level_list.json`;
   }
 
   public textFormattingHelp() {

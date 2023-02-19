@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -35,5 +33,9 @@ class Queries::Notifications::NotificationQuery < Queries::BaseQuery
 
   def default_scope
     Notification.visible(User.current).recipient(user)
+  end
+
+  def group_values
+    ::API::V3::Notifications::PropertyFactory.groups_for(super)
   end
 end

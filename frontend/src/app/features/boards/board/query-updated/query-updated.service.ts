@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { interval } from 'rxjs';
 import { filter, startWith, switchMap } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 const POLLING_INTERVAL = 2000;
 
 @Injectable()
 export class QueryUpdatedService {
   constructor(readonly activeWindow:ActiveWindowService,
-    readonly apiV3Service:APIV3Service) {
+    readonly apiV3Service:ApiV3Service) {
   }
 
   public monitor(ids:string[]) {

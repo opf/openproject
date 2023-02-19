@@ -1,22 +1,42 @@
-<ng-select [items]="requests.output$ | async"
-           bindLabel="name"
-           bindValue="id"
-           [ngModel]="initialSelection"
-           [virtualScroll]="true"
-           [trackByFn]="userTracker"
-           [typeahead]="requests.input$"
-           [loading]="requests.loading$ | async"
-           (focus)="onFocus()"
-           (change)="onModelChange($event)"
-           [appendTo]="appendTo"
-           [multiple]="multiple" >
-  <ng-template ng-option-tmp let-item="item" let-index="index">
+<op-autocompleter
+  [model]="value"
+  [openDirectly]="true"
+  [getOptionsFn]="getAvailableUsers.bind(this)"
+  [trackByFn]="userTracker"
+  [multiple]="multiple"
+  [labelForId]="labelForId"
+  [appendTo]="appendTo"
+  [openDirectly]="openDirectly"
+  [focusDirectly]="focusDirectly"
+  (change)="writeValue($event)"
+  (keydown.escape)="cancel.emit()"
+>
+  <ng-template
+    op-autocompleter-option-tmp
+    let-item
+    let-search="search"
+  >
     <op-principal
       *ngIf="item && item.href"
       [principal]="item"
-      [hide-name]="true"
+      [hideName]="true"
       size="mini"
     ></op-principal>
-    {{ item.name }}
+    <span [opSearchHighlight]="search">
+      {{ item.name }}
+    </span>
   </ng-template>
-</ng-select>
+  <ng-template op-autocompleter-footer-tmp *ngIf="inviteUserToProject">
+    <op-invite-user-button
+      [projectId]="inviteUserToProject"
+      class="op-select-footer"
+    ></op-invite-user-button>
+  </ng-template>
+</op-autocompleter>
+
+<input
+  #hiddenInput
+  [name]="name"
+  type="hidden"
+  [value]="plainValue"
+/>

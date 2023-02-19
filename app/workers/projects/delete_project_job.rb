@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +28,7 @@
 
 module Projects
   class DeleteProjectJob < UserJob
-    queue_with_priority :low
+    queue_with_priority :below_normal
     include OpenProject::LocaleHelper
 
     attr_reader :project
@@ -51,12 +49,12 @@ module Projects
 
     def delete_project
       ::Projects::DeleteService
-        .new(user: user, model: project)
+        .new(user:, model: project)
         .call
     end
 
     def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project '\
+      logger.error('Encountered an error when trying to delete project ' \
                    "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
     end
 

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,6 +47,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
+import { UIRouterGlobals } from '@uirouter/core';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -80,6 +81,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   @InjectField() opModalService:OpModalService;
 
+  @InjectField() uiRouterGlobals:UIRouterGlobals;
+
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
     text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -100,9 +103,6 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   showToolbarSaveButton:boolean;
 
   /** Listener callbacks */
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  unRegisterTitleListener:Function;
-
   // eslint-disable-next-line @typescript-eslint/ban-types
   removeTransitionSubscription:Function;
 
@@ -126,7 +126,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     component: WorkPackageFilterContainerComponent,
   };
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
 
     this.showToolbarSaveButton = !!this.$state.params.query_props;
@@ -136,12 +136,18 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       const toState = transition.to();
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
+
+      const query = this.querySpace.query.value;
+      if (query && this.shouldUpdateHtmlTitle()) {
+        // Update the title if we're in the list state alone
+        this.titleService.setFirstPart(this.queryTitle(query));
+      }
+
       this.cdRef.detectChanges();
     });
 
     // Load the query. If it hasn't been loaded before, do that visibly.
-    const isFirstLoad = !this.querySpace.initialized.hasValue();
-    this.loadingIndicator = this.loadQuery(isFirstLoad);
+    this.loadInitialQuery();
 
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
@@ -149,24 +155,20 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     // Load query on URL transitions
     this.queryParamListener
       .observe$
-      .pipe(
-        this.untilDestroyed(),
-      ).subscribe(() => {
-      /** Ensure we reload the query from the changed props */
+      .pipe(this.untilDestroyed())
+      .subscribe(() => {
+        /** Ensure we reload the query from the changed props */
         this.currentQuery = undefined;
-        this.refresh(true, true);
+        void this.refresh(true, true);
       });
 
-    // Update title on entering this state
-    this.unRegisterTitleListener = this.$transitions.onSuccess({}, () => {
-      this.updateTitle(this.querySpace.query.value);
-    });
-
-    this.querySpace.query.values$().pipe(
-      this.untilDestroyed(),
-    ).subscribe((query) => {
-      this.onQueryUpdated(query);
-    });
+    this.querySpace.query.values$()
+      .pipe(this.untilDestroyed())
+      .subscribe((query) => {
+        // Update the title whenever the query changes
+        this.updateTitle(query);
+        this.currentQuery = query;
+      });
   }
 
   /**
@@ -175,11 +177,11 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
    *
    * @param state The current or entering state
    */
-  protected setPartition(state:Ng2StateDeclaration) {
+  protected setPartition(state:Ng2StateDeclaration):void {
     this.currentPartition = (state.data && state.data.partition) ? state.data.partition : '-split';
   }
 
-  protected setupInformationLoadedListener() {
+  protected setupInformationLoadedListener():void {
     this
       .querySpace
       .initialized
@@ -191,51 +193,37 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
       });
   }
 
-  protected onQueryUpdated(query:QueryResource) {
-    // Update the title whenever the query changes
-    this.updateTitle(query);
-    this.currentQuery = query;
-
-    this.cdRef.detectChanges();
-  }
-
   ngOnDestroy():void {
     super.ngOnDestroy();
-    this.unRegisterTitleListener();
     this.removeTransitionSubscription();
     this.queryParamListener.removeQueryChangeListener();
   }
 
-  public changeChangesFromTitle(val:string) {
+  public changeChangesFromTitle(val:string):void {
     if (this.currentQuery && isPersistedResource(this.currentQuery)) {
       this.updateTitleName(val);
     } else {
       this.wpListService
         .create(this.currentQuery!, val)
-        .then(() => this.toolbarDisabled = false)
-        .catch(() => this.toolbarDisabled = false);
+        .finally(() => { this.toolbarDisabled = false; });
     }
   }
 
-  updateTitleName(val:string) {
+  updateTitleName(val:string):void {
     this.toolbarDisabled = true;
     this.currentQuery!.name = val;
-    this.wpListService.save(this.currentQuery)
-      .then(() => this.toolbarDisabled = false)
-      .catch(() => this.toolbarDisabled = false);
+    this.wpListService
+      .save(this.currentQuery)
+      .finally(() => { this.toolbarDisabled = false; });
   }
 
-  updateTitle(query?:QueryResource) {
+  updateTitle(query?:QueryResource):void {
     // Too early for loaded query
     if (!query) {
       return;
     }
 
-    if (isPersistedResource(query)) {
-      this.selectedTitle = query.name;
-    } else {
-      this.selectedTitle = this.wpStaticQueries.getStaticName(query);
-    }
+    this.selectedTitle = this.queryTitle(query);
 
     this.titleEditingEnabled = this.authorisationService.can('query', 'updateImmediately');
 
@@ -245,19 +233,21 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     }
   }
 
-  refresh(visibly = false, firstPage = false):Promise<unknown> {
-    let promise = this.loadQuery(firstPage) as Promise<unknown>;
+  refresh(visibly = false, firstPage = false):Promise<QueryResource> {
+    let promise = this.loadQuery(firstPage);
 
     if (visibly) {
       promise = promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
-        return this.additionalLoadingTime();
+        return this.additionalLoadingTime()
+          .then(() => loadedQuery);
       });
 
       this.loadingIndicator = promise;
     } else {
       promise = promise.then((loadedQuery:QueryResource) => {
         this.wpStatesInitialization.initialize(loadedQuery, loadedQuery.results);
+        return loadedQuery;
       });
     }
 
@@ -266,11 +256,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected inviteModal = InviteUserModalComponent;
 
-  openInviteUserModal() {
-    const inviteModal = this.opModalService.show(this.inviteModal, 'global');
-    inviteModal.closingEvent.subscribe((modal:any) => {
-      console.log('Modal closed!', modal);
-    });
+  openInviteUserModal():void {
+    this.opModalService.show(this.inviteModal, 'global');
   }
 
   protected loadQuery(firstPage = false):Promise<QueryResource> {
@@ -306,5 +293,18 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
 
   protected shouldUpdateHtmlTitle():boolean {
     return true;
+  }
+
+  protected staticQueryName(query:QueryResource):string {
+    return this.opStaticQueries.getStaticName(query);
+  }
+
+  protected loadInitialQuery():void {
+    const isFirstLoad = !this.querySpace.initialized.hasValue();
+    this.loadingIndicator = this.loadQuery(isFirstLoad);
+  }
+
+  private queryTitle(query:QueryResource):string {
+    return isPersistedResource(query) ? query.name : this.staticQueryName(query);
   }
 }

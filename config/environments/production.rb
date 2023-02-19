@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,19 +74,30 @@ OpenProject::Application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   # config.active_storage.service = :local
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = ActiveModel::Type::Boolean.new.cast(OpenProject::Configuration['rails_force_ssl'])
+  # When https is configured, Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
+  # Allow disabling HSTS redirect by using OPENPROJECT_HSTS=false
+  config.force_ssl = OpenProject::Configuration.https?
   config.ssl_options = {
     # Disable redirect on the internal SYS API
     redirect: {
+      hsts: OpenProject::Configuration.hsts_enabled?,
       exclude: ->(request) do
+        # Disable redirects when hsts is disabled
+        return true unless OpenProject::Configuration.hsts_enabled?
+
         # Respect the relative URL
         relative_url = Regexp.escape(OpenProject::Configuration['rails_relative_url_root'])
+
         # When we match SYS controller API, allow non-https access
-        request.path =~ /#{relative_url}\/sys\// || request.path =~ /#{relative_url}\/health_checks/
+        return true if request.path =~ /#{relative_url}\/sys\//
+
+        # When we match health checks
+        return true if request.path =~ /#{relative_url}\/health_checks/
+
+        false
       end
     },
-    secure_cookies: true
+    secure_cookies: OpenProject::Configuration.https?
   }
 
   # Set to :debug to see everything in the log.
@@ -127,7 +136,7 @@ OpenProject::Application.configure do
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Allow-Methods' => 'GET, OPTIONS, HEAD',
       'Cache-Control' => 'public, s-maxage=31536000, max-age=15552000',
-      'Expires' => 1.year.from_now.to_formatted_s(:rfc822).to_s
+      'Expires' => 1.year.from_now.to_fs(:rfc822).to_s
     }
   end
 end

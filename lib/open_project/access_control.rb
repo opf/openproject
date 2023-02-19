@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,18 +34,20 @@ module OpenProject
       def map
         mapper = OpenProject::AccessControl::Mapper.new
         yield mapper
-        @permissions ||= []
-        @permissions += mapper.mapped_permissions
+        @mapped_permissions ||= []
+        @mapped_permissions += mapper.mapped_permissions
         @modules ||= []
         @modules += mapper.mapped_modules
         @project_modules_without_permissions ||= []
         @project_modules_without_permissions += mapper.project_modules_without_permissions
+
+        clear_caches
       end
 
       # Get a sorted array of module names
       #
       # @param include_disabled [boolean] Whether to return all modules or only those that are active (not disabled by config)
-      def sorted_module_names(include_disabled = true)
+      def sorted_module_names(include_disabled: true)
         modules
           .reject { |mod| !include_disabled && disabled_project_modules.include?(mod[:name]) }
           .sort_by { |a| [-a[:order], l_or_humanize(a[:name], prefix: 'project_module_')] }
@@ -55,7 +55,7 @@ module OpenProject
       end
 
       def permissions
-        @permissions.select(&:enabled?)
+        @permissions ||= @mapped_permissions.select(&:enabled?)
       end
 
       def modules
@@ -64,8 +64,12 @@ module OpenProject
 
       # Returns the permission of given name or nil if it wasn't found
       # Argument should be a symbol
-      def permission(name)
-        permissions.detect { |p| p.name == name }
+      def permission(action)
+        if action.is_a?(Hash)
+          permissions.detect { |p| p.controller_actions.include?("#{action[:controller]}/#{action[:action]}") }
+        else
+          permissions.detect { |p| p.name == action }
+        end
       end
 
       # Returns the actions that are allowed by the permission of given name
@@ -81,64 +85,82 @@ module OpenProject
       end
 
       def public_permissions
-        @public_permissions ||= @permissions.select(&:public?)
+        @public_permissions ||= @mapped_permissions.select(&:public?)
       end
 
       def members_only_permissions
-        @members_only_permissions ||= @permissions.select(&:require_member?)
+        @members_only_permissions ||= @mapped_permissions.select(&:require_member?)
       end
 
       def loggedin_only_permissions
-        @loggedin_only_permissions ||= @permissions.select(&:require_loggedin?)
+        @loggedin_only_permissions ||= @mapped_permissions.select(&:require_loggedin?)
       end
 
       def global_permissions
-        @permissions.select(&:global?)
+        @global_permissions ||= @mapped_permissions.select(&:global?)
       end
 
       def available_project_modules
-        @available_project_modules ||= begin
-          (@permissions.reject(&:global?).map(&:project_module) + @project_modules_without_permissions)
-            .uniq
-            .compact
-            .reject { |name| disabled_project_modules.include? name }
-        end
+        project_modules
+          .reject { |name| disabled_project_modules.include? name }
       end
 
       def disabled_project_modules
-        @disabled_project_modules ||= modules
+        modules
           .select { |entry| entry[:if].respond_to?(:call) && !entry[:if].call }
           .map { |entry| entry[:name].to_sym }
       end
 
+      def project_modules
+        @project_modules ||=
+          @mapped_permissions
+            .reject(&:global?)
+            .map(&:project_module)
+            .including(@project_modules_without_permissions)
+            .uniq
+            .compact
+      end
+
       def modules_permissions(modules)
-        @permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
+        @mapped_permissions.select { |p| p.project_module.nil? || modules.include?(p.project_module.to_s) }
       end
 
       def contract_actions_map
         @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
           next unless p.contract_actions.any?
 
-          hash[p.name] = { actions: p.contract_actions, global: p.global?, module: p.project_module }
+          hash[p.name] = { actions: p.contract_actions,
+                           global: p.global?,
+                           module_name: p.project_module,
+                           grant_to_admin: p.grant_to_admin? }
         end
       end
 
+      def grant_to_admin?(permission_name)
+        # Parts of the application currently rely on granting not defined permissions,
+        # e.g. :edit_attribute_help_texts to administrators.
+        permission(permission_name).nil? || permission(permission_name).grant_to_admin?
+      end
+
       def remove_modules_permissions(module_name)
-        permissions = @permissions
+        permissions = @mapped_permissions
 
         module_permissions = permissions.select { |p| p.project_module.to_s == module_name.to_s }
 
         clear_caches
 
-        @permissions = permissions - module_permissions
+        @mapped_permissions = permissions - module_permissions
       end
 
       def clear_caches
-        @available_project_modules = nil
-        @public_permissions = nil
-        @members_only_permissions = nil
-        @loggedin_only_permissions = nil
         @contract_actions_map = nil
+        @loggedin_only_permissions = nil
+        @members_only_permissions = nil
+        @project_modules = nil
+        @public_permissions = nil
+        @global_permissions = nil
+        @public_permissions = nil
+        @permissions = nil
       end
     end
   end

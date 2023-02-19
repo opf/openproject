@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Initial setup
   priority: 999
 description: Getting started as an system administrator in OpenProject
-robots: index, follow
 keywords: initial setup, initial configuration in frontend
 ---
 

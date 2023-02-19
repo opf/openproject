@@ -9,6 +9,8 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
@@ -137,20 +139,26 @@ export class CustomTextEditFieldService extends EditFieldHandler {
    */
   private initializeChangeset(value:GridWidgetResource) {
     const schemaHref = 'customtext-schema';
-    const resourceSource = {
+    const grid:GridResource = value.grid;
+    const resourceSource:HalSource = {
       text: value.options.text,
       getEditorContext: () => ({
         type: 'full',
         macros: 'resource',
       } as ICKEditorContext),
-      canAddAttachments: value.grid.canAddAttachments,
-      uploadAttachments: (files:UploadFile[]) => value.grid.uploadAttachments(files),
+      canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
+        attachments: grid.attachments as { href?:string },
         schema: {
           href: schemaHref,
         },
       },
     };
+
+    if (grid.prepareAttachment as { href?:string }) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+      resourceSource._links.prepareAttachment = grid.prepareAttachment;
+    }
 
     const resource = this.halResource.createHalResource(resourceSource, true);
 

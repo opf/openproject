@@ -7,13 +7,15 @@
   height: var(--header-height)
   padding: 0
   position: relative
-  z-index: 22
+  @include spot-z-index("header")
   border-bottom-style: solid
   border-bottom-width: var(--header-border-bottom-width)
   border-bottom-color: var(--header-border-bottom-color)
   width: 100vw
+  padding: 0 $spot-spacing-0_25
 
   @media screen and (max-width: 679px)
+    grid-template-columns: minmax(0, auto) auto 1fr
     position: fixed
     top: 0
     left: 0

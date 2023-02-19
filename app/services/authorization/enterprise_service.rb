@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +39,12 @@ class Authorization::EnterpriseService
 
   # Return a true ServiceResult if the token contains this particular action.
   def call(action)
-    allowed = process(action)
+    allowed =
+      if token.nil? || token.token_object.nil? || token.expired?
+        false
+      else
+        process(action)
+      end
 
     result(allowed)
   end
@@ -50,7 +53,7 @@ class Authorization::EnterpriseService
 
   def process(action)
     # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
+    GUARDED_ACTIONS.include?(action.to_sym)
   end
 
   def result(bool)

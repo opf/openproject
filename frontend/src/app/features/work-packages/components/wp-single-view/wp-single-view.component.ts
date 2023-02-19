@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
+import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { distinctUntilChanged, map } from 'rxjs/operators';
@@ -114,6 +115,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     attachments: {
       label: this.I18n.t('js.label_attachments'),
     },
+    files: {
+      label: this.I18n.t('js.work_packages.tabs.files'),
+      migration_help: this.I18n.t('js.work_packages.tabs.files_tab_migration_help'),
+    },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),
       context: this.I18n.t('js.project.context'),
@@ -129,15 +134,18 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
   };
 
+  public isNewResource:boolean;
+
+  public uiSelfRef:string;
+
   protected firstTimeFocused = false;
 
   $element:JQuery;
 
-  isNewResource = isNewResource;
-
   constructor(readonly I18n:I18nService,
     protected currentProject:CurrentProjectService,
     protected PathHelper:PathHelperService,
+    protected $state:StateService,
     protected states:States,
     protected halEditing:HalResourceEditingService,
     protected halResourceService:HalResourceService,
@@ -151,8 +159,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     super();
   }
 
-  public ngOnInit() {
-    this.$element = jQuery(this.elementRef.nativeElement);
+  public ngOnInit():void {
+    this.$element = jQuery(this.elementRef.nativeElement as HTMLElement);
+
+    this.isNewResource = isNewResource(this.workPackage);
+
+    this.uiSelfRef = this.$state.$current.name;
 
     const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
     this.resourceContextChange.next(this.contextFrom(change.projectedResource));
@@ -166,7 +178,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
         distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage)),
       )
-      .subscribe((change:WorkPackageChangeset) => this.refresh(change));
+      .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
 
     // Update the resource context on every update to the temporary resource.
     // This allows detecting a changed type value in a new work package.
@@ -208,7 +220,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * Returns whether a group should be hidden due to being empty
    * (e.g., consists only of CFs and none of them are active in this project.
    */
-  public shouldHideGroup(group:GroupDescriptor) {
+  public shouldHideGroup(group:GroupDescriptor):boolean {
     // Hide if the group is empty
     const isEmpty = group.members.length === 0;
 
@@ -221,10 +233,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   /**
    * angular 2 doesn't support track by property any more but requires a custom function
    * https://github.com/angular/angular/issues/12969
-   * @param index
+   * @param _index
    * @param elem
    */
-  public trackByName(_index:number, elem:{ name:string }) {
+  public trackByName(_index:number, elem:{ name:string }):string {
     return elem.name;
   }
 
@@ -256,8 +268,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   /*
    * Returns the work package label
    */
-  public get idLabel() {
-    return `#${this.workPackage.id}`;
+  public get idLabel():string {
+    return `#${this.workPackage.id || ''}`;
   }
 
   public get projectContextText():string {
@@ -337,8 +349,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * combined 'start' and 'due' date field.
    */
   private getDateField(change:WorkPackageChangeset):FieldDescriptor {
-    const object:any = {
+    const object:FieldDescriptor = {
+      name: '',
       label: this.I18n.t('js.work_packages.properties.date'),
+      spanAll: false,
       multiple: false,
     };
 
@@ -359,12 +373,12 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    * to the single view.
    *
    * @param {WorkPackage} workPackage
-   * @returns {SchemaContext}
+   * @returns {ResourceContextChange}
    */
   private contextFrom(workPackage:WorkPackageResource):ResourceContextChange {
     const schema = this.schema(workPackage);
 
-    let schemaHref:string|null = null;
+    let schemaHref:string|null;
     const projectHref:string|null = workPackage.project && workPackage.project.href;
 
     if (schema.baseSchema) {

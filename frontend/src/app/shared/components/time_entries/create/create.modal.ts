@@ -22,8 +22,4 @@ export class TimeEntryCreateModalComponent extends TimeEntryBaseModal {
     this.createdEntry = $event.savedResource as TimeEntryResource;
     this.reloadWorkPackageAndClose();
   }
-
-  public get saveText() {
-    return this.i18n.t('js.label_create');
-  }
 }

@@ -32,24 +32,32 @@
       </div>
     </div>
   </div>
-  <div class="form--field -wide-label -required">
+  <div
+    *ngIf="{ emailError: (eeTrialService.emailError$ | async) } as field"
+    class="form--field -wide-label -required">
     <label class="form--label" for="trial-email">{{ text.label_email }}</label>
     <div class="form--field-container">
       <div class="form--text-field-container"
-           [ngClass]="{ '-required-highlighting' : eeTrialService.emailError }">
+           [ngClass]="{ '-required-highlighting' : field.emailError }">
         <input type="email"
                class="form--text-field"
                id="trial-email"
                formControlName="email" (blur)="checkMailField()">
       </div>
     </div>
-    <div *ngIf="eeTrialService.emailError" class="form--field-instructions op-ee-trial-email-error">{{ eeTrialService.errorMsg }}</div>
+    <div
+      *ngIf="field.emailError"
+      [textContent]="field.emailError"
+      class="form--field-instructions op-ee-trial-email-error"
+    ></div>
   </div>
-  <div class="form--field -wide-label -required">
+  <div
+    *ngIf="{ domainError: (eeTrialService.domainTaken$ | async) } as field"
+    class="form--field -wide-label -required">
     <label class="form--label" for="trial-domain-name">{{ text.label_domain }}</label>
     <div class="form--field-container">
       <div class="form--text-field-container"
-           [ngClass]="{ '-required-highlighting' : eeTrialService.domainTaken }">
+           [ngClass]="{ '-required-highlighting' : field.domainError }">
         <input type="text"
                id="trial-domain-name"
                class="form--text-field"
@@ -57,7 +65,10 @@
                disabled>
       </div>
     </div>
-    <div *ngIf="eeTrialService.domainTaken" class="form--field-instructions">{{ eeTrialService.errorMsg }}</div>
+    <div class="form--field-instructions">
+      <p *ngIf="requestHost !== configuredHost" [textContent]="text.domain_mismatch"></p>
+      <p *ngIf="field.domainError" [textContent]="field.domainError"></p>
+    </div>
   </div>
   <div class="form--field -required">
     <div class="form--field-container">

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ class CostEntry < ApplicationRecord
   belongs_to :project
   belongs_to :work_package
   belongs_to :user
+  belongs_to :logged_by, class_name: 'User'
   include ::Costs::DeletedUserFallback
   belongs_to :cost_type
   belongs_to :budget
@@ -37,7 +38,7 @@ class CostEntry < ApplicationRecord
 
   include ActiveModel::ForbiddenAttributesProtection
 
-  validates_presence_of :work_package_id, :project_id, :user_id, :cost_type_id, :units, :spent_on
+  validates_presence_of :work_package_id, :project_id, :user_id, :logged_by_id, :cost_type_id, :units, :spent_on
   validates_numericality_of :units, allow_nil: false, message: :invalid
   validates_length_of :comments, maximum: 255, allow_nil: true
 
@@ -53,7 +54,12 @@ class CostEntry < ApplicationRecord
   include Entry::SplashedDates
 
   def after_initialize
-    if new_record? && cost_type.nil? && default_cost_type = CostType.default
+    return unless new_record?
+
+    # This belongs in a SetAttributesService, but cost_entries are not yet created as such
+    self.logged_by = User.current
+
+    if cost_type.nil? && default_cost_type = CostType.default
       self.cost_type_id = default_cost_type.id
     end
   end

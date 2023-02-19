@@ -21,7 +21,7 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
 
   public zoomLevel:TimelineZoomLevel;
 
-  // Manualy build available zoom levels with zoom
+  // Manually build available zoom levels with zoom
   // because it is not part of the order.
   public availableZoomLevels:TimelineZoomLevel[] = ['auto', ...zoomLevelOrder];
 

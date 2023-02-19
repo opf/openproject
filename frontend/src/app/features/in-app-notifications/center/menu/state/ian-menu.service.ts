@@ -3,25 +3,31 @@ import {
   Injector,
 } from '@angular/core';
 import {
-  notificationsMarkedRead,
   notificationCountIncreased,
+  notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { IanMenuQuery } from './ian-menu.query';
 import {
-  IanMenuStore,
   IAN_MENU_PROJECT_FILTERS,
   IAN_MENU_REASON_FILTERS,
+  IanMenuStore,
 } from './ian-menu.store';
+import { Query } from '@datorama/akita';
+import {
+  map,
+  switchMap,
+} from 'rxjs/operators';
+import { collectionKey } from 'core-app/core/state/collection-store';
+import { combineLatest } from 'rxjs';
 
 @Injectable()
 @EffectHandler
@@ -30,14 +36,40 @@ export class IanMenuService {
 
   readonly store = new IanMenuStore();
 
-  readonly query = new IanMenuQuery(this.store, this.ianResourceService, this.projectsResourceService);
+  readonly query = new Query(this.store);
+
+  projectsFilter$ = this.query.select('projectsFilter');
+
+  projectsForNotifications$ = this
+    .projectsFilter$
+    .pipe(
+      switchMap((filterParams) => {
+        const key = collectionKey(filterParams);
+        return this.projectsResourceService.collection(key);
+      }),
+    );
+
+  notificationsByProject$ = combineLatest([
+    this.query.select('notificationsByProject'),
+    this.projectsForNotifications$,
+  ]).pipe(
+    map(([notifications, projects]) => notifications.map((notification) => {
+      const project = projects.find((p) => p.id.toString() === idFromLink(notification._links.valueLink[0].href));
+      return {
+        ...notification,
+        projectHasParent: !!project?._links.parent.href,
+      };
+    })),
+  );
+
+  notificationsByReason$ = this.query.select('notificationsByReason');
 
   constructor(
     readonly injector:Injector,
     readonly ianResourceService:InAppNotificationsResourceService,
     readonly projectsResourceService:ProjectsResourceService,
     readonly actions$:ActionsService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
   ) {
   }
 
@@ -58,9 +90,9 @@ export class IanMenuService {
   }
 
   public reload():void {
-    this.ianResourceService.fetchNotifications(IAN_MENU_PROJECT_FILTERS)
+    this.ianResourceService.fetchCollection(IAN_MENU_PROJECT_FILTERS)
       .subscribe((data) => {
-        const projectsFilter:Apiv3ListParameters = {
+        const projectsFilter:ApiV3ListParameters = {
           pageSize: 100,
           filters: [],
         };
@@ -76,10 +108,10 @@ export class IanMenuService {
 
         // Only request if there are any groups
         if (data.groups && data.groups.length > 0) {
-          this.projectsResourceService.fetchProjects(projectsFilter).subscribe();
+          this.projectsResourceService.fetchCollection(projectsFilter).subscribe();
         }
       });
-    this.ianResourceService.fetchNotifications(IAN_MENU_REASON_FILTERS)
+    this.ianResourceService.fetchCollection(IAN_MENU_REASON_FILTERS)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       .subscribe((data) => this.store.update({ notificationsByReason: data.groups }));
   }

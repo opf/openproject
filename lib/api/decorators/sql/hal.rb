@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -34,6 +32,8 @@ module API
       module Hal
         extend ActiveSupport::Concern
 
+        TO_BE_REMOVED = '_to_be_removed_'.freeze
+
         included do
           extend ::API::V3::Utilities::PathHelper
 
@@ -52,76 +52,79 @@ module API
             selected_properties(select)
               .map do |name, options|
               representation = if options[:representation]
-                                 options[:representation].call(walker_results)
+                                 instance_exec(walker_results, &options[:representation])
                                else
                                  options[:column]
                                end
 
-              "'#{name}', #{representation}"
+              if options[:render_if]
+                render_if_condition(name,
+                                    options[:render_if].call(walker_results),
+                                    representation)
+              else
+                <<-SQL.squish
+                 '#{name}', #{representation}
+                SQL
+              end
             end.join(', ')
           end
 
           def property(name,
                        column: name,
                        representation: nil,
-                       render_if: nil)
-            properties[name] = { column: column, render_if: render_if, representation: representation }
+                       render_if: nil,
+                       join: nil)
+            properties[name] = { column:, render_if:, representation:, join: }
           end
 
           def joins(select, scope)
-            selected_links(select)
-              .select { |_, link| link[:join] }
-              .map do |name, link|
-              join = "LEFT OUTER JOIN #{link[:join][:table]} #{name.to_s.pluralize} ON #{link[:join][:condition]}"
-
-              scope = scope.joins(join).select(link[:join][:select])
+            selected_joins(select).each do |name, column|
+              options = column[:join]
+              condition = <<~SQL.squish
+                LEFT OUTER JOIN
+                  #{options[:table]} #{options[:alias] || name.to_s.pluralize}
+                ON #{options[:condition]}
+              SQL
+              scope = scope.joins(condition).select(options[:select])
             end
 
             scope
           end
 
-          def link(name, column: nil, path: nil, title: nil, href: nil, join: nil, render_if: nil, **additional_properties)
-            links[name] = { column: column,
-                            path: path,
-                            title: title,
-                            join: join,
-                            href: href,
-                            render_if: render_if,
-                            additional_properties: additional_properties }
+          def link(name,
+                   column: nil,
+                   path: nil,
+                   title: nil,
+                   href: nil,
+                   join: nil,
+                   render_if: nil,
+                   sql: nil,
+                   **additional_properties)
+            links[name] = { column:,
+                            path:,
+                            title:,
+                            join:,
+                            href:,
+                            render_if:,
+                            sql:,
+                            additional_properties: }
           end
 
           def links_selects(select, walker_result)
             selected_links(select)
               .map do |name, link|
-              path_name = link[:path] ? link[:path][:api] : name
-              title = link[:title] ? link[:title].call : "#{name}.name"
-              column = link[:column] ? link[:column].call : name
-
-              href = link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
-
-              link_attributes = ["'href'", href]
-
-              if title
-                link_attributes += ["'title'", title]
-              end
-
-              (link[:additional_properties] || {}).each do |key, value|
-                link_attributes += ["'#{key}'", value]
-              end
-
-              if link[:render_if]
-                <<-SQL
-                 '#{name}',
-                 CASE WHEN #{link[:render_if].call(walker_result)} THEN
-                   json_build_object(#{link_attributes.join(', ')})
-                 ELSE
-                   NULL
-                 END
-                SQL
+              if link[:sql]
+                link_from_sql(name, link)
               else
-                <<-SQL
-                 '#{name}', json_build_object(#{link_attributes.join(', ')})
-                SQL
+                attributes = link_attributes(name, link, walker_result)
+
+                if link[:render_if]
+                  render_if_condition(name,
+                                      link[:render_if].call(walker_result),
+                                      "json_build_object(#{attributes.join(', ')})")
+                else
+                  link_with_default(name, attributes)
+                end
               end
             end
               .join(', ')
@@ -129,34 +132,34 @@ module API
 
           def embedded(name,
                        representation: nil)
-            embeddeds[name] = { representation: representation }
+            embeddeds[name] = { representation: }
           end
 
           def embedded_selects(_selects, walker_results)
             # TODO: This does not yet support signaling
             embeddeds
               .map do |name, link|
-
               representation = if link[:representation]
                                  link[:representation].call(walker_results)
                                else
                                  link[:column]
                                end
 
-              <<-SQL
+              next unless representation
+
+              <<-SQL.squish
                '#{name}', #{representation}
               SQL
             end
+              .flatten
               .join(', ')
           end
 
           def select_sql(select, walker_result)
             <<~SELECT
-              json_strip_nulls(json_build_object(
-                #{[properties_sql(select, walker_result),
-                   select_links(select, walker_result),
-                   select_embedded(select, walker_result)].compact.join(', ')}
-              ))
+              json_build_object(
+                #{json_object_string(select, walker_result)}
+              )::jsonb - '#{TO_BE_REMOVED}'
             SELECT
           end
 
@@ -166,7 +169,7 @@ module API
 
           def to_sql(walker_result)
             ctes = walker_result.ctes.map do |key, sql|
-              <<~SQL
+              <<~SQL.squish
                 #{key} AS (
                   #{sql}
                 )
@@ -175,7 +178,7 @@ module API
 
             ctes_sql = ctes.any? ? "WITH #{ctes.join(', ')}" : ""
 
-            <<~SQL
+            <<~SQL.squish
               #{ctes_sql}
 
               SELECT
@@ -185,30 +188,41 @@ module API
             SQL
           end
 
+          protected
+
+          def json_object_string(select, walker_result)
+            [properties_sql(select, walker_result),
+             select_links(select, walker_result),
+             select_embedded(select, walker_result)]
+              .compact_blank
+              .join(', ')
+          end
+
+          # All properties and links that the client can correctly signal to have selected.
+          def valid_selects
+            links.keys + properties.keys + [:*]
+          end
+
           private
 
           def select_embedded(select, walker_result)
-            embedded = embedded_selects(select, walker_result)
-
-            if embedded.present?
-              <<~SQL
-                '_embedded', json_strip_nulls(json_build_object(
-                  #{embedded_selects(select, walker_result)}
-                ))
-              SQL
+            namespaced_json_object('_embedded') do
+              embedded_selects(select, walker_result)
             end
           end
 
           def select_links(select, walker_result)
-            <<~SELECT
-              '_links', json_strip_nulls(json_build_object(
-                #{links_selects(select, walker_result)}
-              ))
-            SELECT
+            links_section = namespaced_json_object('_links') do
+              links_selects(select, walker_result)
+            end
+
+            # If links come with a condition, they receive the key TO_BE_REMOVED if that condition fails
+            # and we remove it here.
+            "#{links_section}::jsonb - '#{TO_BE_REMOVED}'" if links_section
           end
 
           def select_from(walker_result)
-            "(#{walker_result.scope.to_sql}) element"
+            "(#{walker_result.projection_scope.to_sql}) element"
           end
 
           def selected_links(select)
@@ -217,6 +231,12 @@ module API
 
           def selected_properties(select)
             selected(select, properties)
+          end
+
+          def selected_joins(select)
+            selected_links(select)
+            .merge(selected_properties(select))
+            .select { |_, column| column[:join] }
           end
 
           def selected(select, list)
@@ -239,10 +259,83 @@ module API
           end
 
           def ensure_valid_selects(requested)
-            supported = links.keys + properties.keys + [:*]
-            invalid = requested - supported
+            invalid = requested - valid_selects
 
-            raise API::Errors::InvalidSignal.new(invalid, supported, :select) if invalid.any?
+            raise API::Errors::InvalidSignal.new(invalid, valid_selects, :select) if invalid.any?
+          end
+
+          def namespaced_json_object(namespace)
+            json_object = yield
+
+            return if json_object.blank?
+
+            <<~SELECT
+              '#{namespace}', json_build_object(
+                #{json_object}
+              )
+            SELECT
+          end
+
+          def link_attributes(name, link, walker_result)
+            title = link[:title] ? link[:title].call : "#{name}.name"
+
+            attributes = ["'href'", link_href(link, name, walker_result)]
+
+            if title
+              attributes += ["'title'", title]
+            end
+
+            (link[:additional_properties] || {}).each do |key, value|
+              attributes += ["'#{key}'", value]
+            end
+
+            attributes
+          end
+
+          def link_href(link, name, walker_result)
+            path_name = link[:path] ? link[:path][:api] : name
+            column = link[:column] ? link[:column].call : name
+
+            link[:href] ? link[:href].call(walker_result) : "format('#{api_v3_paths.send(path_name, '%s')}', #{column})"
+          end
+
+          def link_from_sql(name, link)
+            <<-SQL.squish
+              '#{name}', #{link[:sql].call}
+            SQL
+          end
+
+          def link_with_default(name, attributes)
+            <<-SQL.squish
+              '#{name}', '{ "href": null }'::jsonb || json_strip_nulls(json_build_object(#{attributes.join(', ')}))::jsonb
+            SQL
+          end
+
+          def render_if_condition(name, condition, value)
+            <<-SQL.squish
+              CASE WHEN #{condition} THEN
+                '#{name}'
+              ELSE
+                '#{TO_BE_REMOVED}'
+              END,
+              #{value}
+            SQL
+          end
+
+          def sql_offset(walker_result)
+            (walker_result.offset - 1) * walker_result.page_size
+          end
+
+          def sql_limit(walker_result)
+            walker_result.page_size
+          end
+
+          def join_condition(name, options)
+            <<~SQL.squish
+              LEFT OUTER JOIN
+                #{options[:table]} #{options[:alias] || name.to_s.pluralize}
+              ON #{options[:condition]}
+            SQL
           end
         end
       end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ si:
         main-menu-hover-font-color: "හැවර් මත ප්රධාන මෙනු අකුරු"
         main-menu-border-color: "ප්රධාන මෙනු දේශ"
       custom_colors: "අභිරුචි වර්ණ"
-      customize: "ඔබේ OpenProject ස්ථාපනය ඔබේම ලාංඡනය සමඟ අභිරුචිකරණය කරන්න. සටහන: මෙම ලාංඡනය ප්රසිද්ධියේ ප්රවේශ විය හැකිය."
-      enterprise_notice: "විශේෂ 'ස්තූතියි! ' OpenProject සංවර්ධනය කිරීම සඳහා ඔවුන්ගේ මූල්ය දායකත්වය සඳහා, මෙම කුඩා විශේෂාංගය ලබා ගත හැක්කේ Enterprise Edition සහාය ග්රාහකයින් සඳහා පමණි."
+      customize: "Customize your OpenProject installation with your own logo and colors."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "වර්ණ තෝරා ගැනීමේ විකල්ප සංස්කරණය කරන්න"
       instructions:
         alternative-color: "Strong අවධාරණය වර්ණ, සාමාන්යයෙන් තිරය මත වඩාත් වැදගත් බොත්තම සඳහා භාවිතා."
@@ -63,16 +64,28 @@ si:
         main-menu-bg-color: "වම් පැත්තේ මෙනුවේ පසුබිම් වර්ණය."
       theme_warning: තේමාව වෙනස් කිරීම ඔබට අභිරුචි විලාසිතාව උඩින් ලියනු ඇත. එවිට සැලසුම අහිමි වනු ඇත. ඔබට දිගටම කරගෙන යාමට අවශ්ය බව ඔබට විශ්වාසද?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "ව්යවසාය සංස්කරණය සහාය ටෝකනය උඩුගත කරන්න"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        title: "Delete token"
       replace_token: "ඔබගේ වර්තමාන ආධාරක ටෝකනය ප්රතිස්ථාපනය කරන්න"
-      order: "Order Enterprise on-premises Edition"
-      paste: "ඔබගේ ව්යවසාය සංස්කරණය සහාය ටෝකනය අලවන්න"
-      required_for_feature: "මෙම අංගය ලබා ගත හැක්කේ සක්රීය ව්යවසාය සංස්කරණ ආධාරක ටෝකනයක් සමඟ පමණි."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "වැඩි විස්තර සඳහා මෙහි ක්ලික් කරන්න."
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: තෙක් පෙන්වන්න
     is_active: දැනට ප්රදර්ශනය කර ඇත
@@ -84,6 +97,8 @@ si:
     show_preview: 'පෙරදසුන පෙළ'
     add_new: 'උපකාරක පෙළ එකතු කරන්න'
     edit: "%{attribute_caption}සඳහා උපකාරක පෙළ සංස්කරණය කරන්න"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: දැනට සත්යාපන මාතයන් නොමැත.
@@ -123,6 +138,7 @@ si:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'සම්බන්ධතාවය ගුප්ත කේතනය'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'පද්ධති ගිණුම'
     system_account_legend: |
       OpenProject ඔබේ LDAP ගසෙහි පරිශීලකයින් සහ කණ්ඩායම් බලා ගැනීම සඳහා පද්ධති ගිණුමක් හරහා කියවිය හැකි ප්රවේශයක් අවශ්ය වේ.
@@ -134,13 +150,18 @@ si:
       OpenProject පරිශීලකයෙකුගේ ගුණාංග නිර්වචනය කිරීමට භාවිතා කරන LDAP ගුණාංග මොනවාද යන්න සම්බන්ධ වේ (ගුණාංග සිතියම්කරණය).
     tls_mode:
       plain: 'කිසිවක් නැත'
-      simple_tls: 'සරල_tls'
-      start_tls: 'ආරම්භය_tls'
-      plain_description: "සරල සංකේතාත්මක සම්බන්ධයක්, කිසිදු TLS සාකච්ඡා."
-      simple_tls_description: "ව්යංගාර්ථයෙන් TLS ගුප්තකේතනය, නමුත් සහතික වලංගු කිරීමක් නොමැත. LDAP සම්බන්ධතාවයේ ප්රවේශම් සහගත සහ ව්යංග විශ්වාසයකින් යුතුව භාවිතා කරන්න."
-      start_tls_description: "සම්පූර්ණ වලංගුකරණය සහිත පැහැදිලි TLS සංකේතාංකනය. TLS/SSL හරහා LDAP සඳහා භාවිතා කරන්න."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         මෙම කොටස මෙම LDAP සත්යාපන ප්රභවයේ සම්බන්ධතා ආරක්ෂාව ගැන සැලකිලිමත් වේ. වැඩි විස්තර සඳහා පිවිසෙන්න <a href="%{link}">Net። LDAP ලියකියවිලි</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: සංසදය සඳහා දැනට තනතුරු නොමැත.
@@ -161,8 +182,8 @@ si:
     edit: 'අභිරුචි පියවර සංස්කරණය කරන්න %{name}'
     execute: 'ක්රියාත්මක %{name}'
     upsale:
-      title: 'අභිරුචි ක්රියා යනු ව්යවසාය සංස්කරණය අංගයකි'
-      description: 'අභිරුචි ක්රියාවන් එක් බොත්තමක් බවට තනි පියවර මාලාවක් ඒකාබද්ධ කිරීම මගින් එදිනෙදා වැඩ කටයුතු විධිමත් කරයි.'
+      title: 'Custom actions'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       ව්යාපෘතියකට නව අභිරුචි ක්ෂේත්ර එකතු කිරීම සඳහා ඔබ මුලින්ම මෙම ව්යාපෘතියට එකතු කිරීමට පෙර ඒවා නිර්මාණය කළ යුතුය.
@@ -195,6 +216,15 @@ si:
     ignore_filenames: >
       ලැබෙන මේල් සඳහා ඇමුණුම් සැකසීමේදී නොසලකා හැරීමට නම් ලැයිස්තුවක් සඳහන් කරන්න (උදා: අත්සන් හෝ අයිකන). එක් පේළියකට එක් ගොනු නාමයක් ඇතුළත් කරන්න.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "ව්යාපෘතිය මකා දැමිය නොහැක: %{errors}"
@@ -255,14 +285,13 @@ si:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -292,6 +321,8 @@ si:
     edit:
       settings: "සැකසුම්"
       form_configuration: "ආකෘති වින්යාසය"
+      more_info_text_html: >
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "ව්‍යාපෘති"
       enabled_projects: "සබල කළ ව්‍යාපෘති"
       edit_query: "වගුව සංස්කරණය"
@@ -394,6 +425,7 @@ si:
         host: "සත්කාරක"
         onthefly: "Automatic user creation"
         port: "කෙවෙනිය"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ගබඩාව"
       comment:
@@ -450,9 +482,12 @@ si:
         code: 'තත්වය'
         explanation: 'තත්ව විස්තරය'
         codes:
+          not_started: 'Not started'
           on_track: 'ධාවන පථයේ'
           at_risk: 'අවදානමට'
           off_track: 'ධාවන පථය'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "තීරු"
         relations_to_type_column: "සබඳතා %{type}"
@@ -463,7 +498,6 @@ si:
       repository:
         url: "සැ. නි."
       role:
-        assignable: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
         permissions: "අවසර"
       time_entry:
         activity: "ක්‍රියාකාරකම"
@@ -509,20 +543,27 @@ si:
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
         done_ratio: "ප්රගතිය (%)"
+        duration: "Duration"
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
-        version: "අනුවාදය"
+        ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "මාපිය"
         parent_issue: "මාපිය"
         parent_work_package: "මාපිය"
         priority: "ප්රමුඛතාව"
         progress: "ප්රගතිය (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"
         subproject: "උප ව්යාපෘතිය"
         time_entries: "ලොග් වේලාව"
         type: "වර්ගය"
+        version: "අනුවාදය"
         watcher: "මුරකරු"
       'doorkeeper/application':
         uid: "සේවාලාභියා හැඳුනුම්පත"
@@ -546,7 +587,7 @@ si:
         confirmation: "%{attribute}නොගැලපේ."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "නොපවතී."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "ප්රවේශ විය නොහැක."
         error_readonly: "ලිවීමට උත්සාහ කළ නමුත් එය ලිවිය නොහැක."
         email: "is not a valid email address."
@@ -554,6 +595,7 @@ si:
         even: "පවා විය යුතුය."
         exclusion: "වෙන් කර ඇත."
         file_too_large: "ඉතා විශාලයි (උපරිම ප්රමාණය බයිට් %{count} කි)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "%{count}ට වඩා වැඩි විය යුතුය."
@@ -588,8 +630,15 @@ si:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "ඉවත් කළ නොහැක."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "වැරදි දිග (අක්ෂර %{count} විය යුතුය)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -619,7 +668,7 @@ si:
               fragment_present: 'කැබැල්ලක් අඩංගු විය නොහැක.'
               invalid_uri: 'වලංගු URI එකක් විය යුතුය.'
               relative_uri: 'පරම URI විය යුතුය.'
-              secured_uri: 'HTTPS/SSL URI විය යුතුය.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'සේවාදායකය විසින් තහනම් කර ඇත.'
             scopes:
               not_match_configured: "ලබා ගත හැකි විෂය පථයන්ට ගැලපෙන්නේ නැත."
@@ -640,10 +689,6 @@ si:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -703,6 +748,11 @@ si:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -713,6 +763,16 @@ si:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -720,8 +780,16 @@ si:
         work_package:
           is_not_a_valid_target_for_time_entries: "වැඩ පැකේජය #%{id} යනු කාල සටහන් නැවත පැවරීම සඳහා වලංගු ඉලක්කයක් නොවේ."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "සන්ධිස්ථාන සඳහා මෙය අවශ්ය වුවද ආරම්භක දිනයේ නොවේ."
+              cannot_be_null: "can not be set to null as start date and duration are known."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "සන්ධිස්ථානයක් විය නොහැක."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -729,6 +797,7 @@ si:
               not_a_valid_parent: "අවලංගුයි."
             start_date:
               violates_relationships: "වැඩ පැකේජයේ සබඳතා උල්ලංඝනය නොකිරීමට %{soonest_start} හෝ පසුව පමණක් සැකසිය හැකිය."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "වර්තමාන පරිශීලකයාගේ භූමිකාවන් සඳහා පැරණි සිට නව තත්ත්වය දක්වා වලංගු සංක්රාන්තියක් නොපවතින බැවින් වලංගු නොවේ."
               status_invalid_in_type: "මෙම වර්ගයේ වර්තමාන තත්ත්වය නොපවතින බැවින් එය වලංගු නොවේ."
@@ -764,7 +833,7 @@ si:
               numeric: "සංඛ්යාත්මක (උදා: '1')"
               special: "විශේෂ (උදා: '%')"
               reused:
-                one: "has been used before. Please choose one that is different from your last one."
+                one: "මීට පෙර භාවිතා කර ඇත. කරුණාකර ඔබේ අන්තිම එකට වඩා වෙනස් එකක් තෝරන්න."
                 other: "has been used before. Please choose one that is different from your last %{count}."
               match:
                 confirm: "නව මුරපදය තහවුරු කරන්න."
@@ -858,7 +927,7 @@ si:
     id: "හැඳු."
     is_default: "පෙරනිමි අගය"
     is_for_all: "සියලුම ව්යාපෘති සඳහා"
-    is_public: "පොදු"
+    public: "පොදු"
     #kept for backwards compatibility
     issue: "වැඩ පැකේජය"
     lastname: "අවසාන නම"
@@ -868,7 +937,6 @@ si:
     password: "මුරපදය"
     priority: "ප්රමුඛතාව"
     project: "ව්යාපෘති"
-    public: "පොදු"
     responsible: "වගවීම"
     role: "කාර්යභාරය"
     roles: "භූමිකාවන්"
@@ -882,9 +950,11 @@ si:
     updated_on: "යාවත්කාලීන කරන ලදි"
     uploader: "උඩුගත කරන්නා"
     user: "පරිශීලක"
+    value: "Value"
     version: "අනුවාදය"
     work_package: "වැඩ පැකේජය"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1193,11 +1263,11 @@ si:
   ee:
     upsale:
       form_configuration:
-        description: "මෙම අතිරේක ලක්ෂණ සමඟ ආකෘති වින්යාසය අභිරුචිකරණය කරන්න:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "නව ගුණාංග කණ්ඩායම් එකතු කරන්න"
         rename_groups: "ගුණාංග කණ්ඩායම් නැවත නම් කරන්න"
       project_filters:
-        description_html: "අභිරුචි ක්ෂේත්ර මත පෙරීම සහ වර්ග කිරීම ව්යවසාය සංස්කරණ අංගයකි."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "කාලය සොයා ගැනීමේ ක්රියාකාරකම්"
   enumeration_work_package_priorities: "වැඩ පැකේජ ප්රමුඛතා"
   enumeration_reported_project_statuses: "වාර්තා කරන ලද ව්යාපෘති තත්ත්වය"
@@ -1219,9 +1289,10 @@ si:
   error_cookie_missing: 'OpenProject කුකිය අස්ථානගත වී ඇත. මෙම යෙදුම නොමැතිව නිසි ලෙස ක්රියා නොකරන බැවින් කුකීස් සක්රීය කර ඇති බවට සහතික වන්න.'
   error_custom_option_not_found: "විකල්පය නොපවතී."
   error_enterprise_activation_user_limit: "ඔබගේ ගිණුම සක්රිය කළ නොහැක (පරිශීලක සීමාව කරා ළඟා විය). ප්රවේශය ලබා ගැනීම සඳහා කරුණාකර ඔබේ පරිපාලක අමතන්න."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'මෙම ප්රවේශය මකා දැමීමට අසමත් විය.'
-  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "යැපෙන වස්තුව වෙනස් කිරීමට උත්සාහ කිරීමේ දෝෂය: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "වලංගු නොවන තෝරාගත් අගය."
   error_journal_attribute_not_present: "ජර්නලය %{attribute}ගුණාංගය අඩංගු නොවේ."
   error_pdf_export_too_many_columns: "PDF අපනයනය සඳහා තෝරාගෙන ඇති තීරු බොහොමයක්. කරුණාකර තීරු ගණන අඩු කරන්න."
@@ -1306,10 +1377,10 @@ si:
     blocks:
       community: "විවෘත ව්යාපෘති ප්රජාව"
       upsale:
-        title: "ව්යවසාය සංස්කරණයට උත්ශ්රේණි කිරීම"
+        title: "Upgrade to Enterprise edition"
         more_info: "වැඩි විස්තර"
     links:
-      upgrade_enterprise_edition: "ව්යවසාය සංස්කරණයට උත්ශ්රේණි කිරීම"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "ඔබගේ ස්ථාපනය PostgreSQL වෙත සංක්රමණය කිරීම"
       user_guides: "පරිශීලක මාර්ගෝපදේශ"
       faq: "නිතර අසන ප්රශ්න"
@@ -1331,7 +1402,9 @@ si:
   menus:
     admin:
       mail_notification: "වි-ල් ස්කිනිම්"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation: 'Aggregation'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1339,7 +1412,7 @@ si:
       no_results:
         title: "ප්රදර්ශනය කිරීමට ප්රවේශ ටෝකන නොමැත"
         description: "ඔවුන් සියලු අක්රීය කර ඇත. පරිපාලන මෙනුවේ ඒවා නැවත සක්රීය කළ හැකිය."
-      access_token: "ටෝකනය ප්රවේශ"
+      access_tokens: "Access tokens"
       headers:
         action: "ක්රියාව"
         expiration: "කල් ඉකුත්"
@@ -1357,17 +1430,11 @@ si:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'පුවත්'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1440,7 +1507,6 @@ si:
   label_consent_settings: "පරිශීලක කැමැත්ත"
   label_wiki_menu_item: විකි මෙනු අයිතමය
   label_select_main_menu_item: නව ප්රධාන මෙනු අයිතමය තෝරන්න
-  label_select_project: "ව්යාපෘතියක් තෝරන්න"
   label_required_disk_storage: "අවශ්ය තැටි ගබඩා"
   label_send_invitation: ආරාධනය යවන්න
   label_change_plural: "වෙනස්කම්"
@@ -1506,6 +1572,7 @@ si:
   label_diff: "ඩිෆ්"
   label_diff_inline: "පේළිගත"
   label_diff_side_by_side: "පැත්තේ පැත්තේ"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "ආබාධිත"
   label_display: "සංදර්ශකය"
   label_display_per_page: "එක් පිටුවක්: %{value}"
@@ -1529,7 +1596,7 @@ si:
   label_enumerations: "enumerations"
   label_enterprise: "ව්යවසාය"
   label_enterprise_active_users: "%{current}/%{limit} වෙන් කර ඇති සක්රීය පරිශීලකයින්"
-  label_enterprise_edition: "ව්යවසාය සංස්කරණය"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "පරිසරය"
   label_estimates_and_time: "ඇස්තමේන්තු සහ වේලාව"
   label_equals: "වේ"
@@ -1582,6 +1649,7 @@ si:
   label_index_by_title: "මාතෘකාව අනුව දර්ශකය"
   label_information: "තොරතුරු"
   label_information_plural: "තොරතුරු"
+  label_installation_guides: 'Installation guides'
   label_integer: "නිඛිල"
   label_internal: "අභ්යන්තර"
   label_introduction_video: "හැඳින්වීම වීඩියෝ"
@@ -1625,6 +1693,10 @@ si:
   label_member_plural: "සාමාජිකයන්"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "මෙනු අයිතමයේ නම"
   label_message: "පණිවුඩය"
   label_message_last: "අවසාන පණිවිඩය"
@@ -1714,7 +1786,6 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
-  label_project_all: "සියලුම ව්යාපෘති"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
   label_project_latest: "නවතම ව්යාපෘති"
@@ -1723,6 +1794,7 @@ si:
   label_project_new: "නව ව්යාපෘතිය"
   label_project_plural: "ව්‍යාපෘති"
   label_project_settings: "ව්යාපෘති සැකසුම්"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{storage} තැටි ගබඩාව භාවිතා කරමින් ව්යාපෘති%{count} ක්"
   label_project_view_all: "සියලුම ව්යාපෘති බලන්න"
   label_project_show_details: "ව්යාපෘති විස්තර පෙන්වන්න"
@@ -1730,7 +1802,6 @@ si:
   label_public_projects: "පොදු ව්යාපෘති"
   label_query_new: "නව විමසුම"
   label_query_plural: "අභිරුචි විමසුම්"
-  label_query_menu_item: "විමසුම් මෙනු අයිතමය"
   label_read: "කියවන්න..."
   label_register: "නව ගිණුමක් සාදන්න"
   label_register_with_developer: "සංවර්ධක ලෙස ලියාපදිංචි වන්න"
@@ -1828,7 +1899,7 @@ si:
   label_used_by_types: "වර්ග විසින් භාවිතා"
   label_used_in_projects: "ව්යාපෘති සඳහා භාවිතා"
   label_user: "පරිශීලක"
-  label_user_and_permission: "පරිශීලකයන් සහ අවසර"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "පරිශීලක %{name}"
   label_user_activity: "%{value}ගේ ක්රියාකාරකම්"
   label_user_anonymous: "නිර්නාමික"
@@ -1890,6 +1961,7 @@ si:
   label_workflow: "කාර්ය ප්රවාහ"
   label_workflow_plural: "වැඩ ප්රවාහ"
   label_workflow_summary: "සාරාංශය"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 වසා"
     other: "%{count} වසා"
@@ -1950,7 +2022,7 @@ si:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1966,6 +2038,8 @@ si:
         mentioned: 'Mentioned'
         subscribed: 'සියලු'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "නව පරිශීලකයෙකු (%{value}) ලියාපදිංචි වී ඇත. ගිණුම ඔබගේ අනුමැතිය ලබා ගනී:"
@@ -1977,8 +2051,11 @@ si:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "ඔබගේ මුරපදය වෙනස් කිරීම සඳහා, පහත සබැඳිය ක්ලික් කරන්න:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -1995,6 +2072,7 @@ si:
   mail_subject_account_activation_request: "%{value} ගිණුම සක්රිය කිරීමේ ඉල්ලීම"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "ඔබගේ %{value} මුරපදය"
   mail_subject_register: "ඔබගේ %{value} ගිණුම සක්රිය කිරීම"
   mail_subject_reminder: "%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ නියමිත"
@@ -2087,6 +2165,12 @@ si:
   notice_successful_create: "සාර්ථක නිර්මාණය."
   notice_successful_delete: "සාර්ථක මකාදැමීම."
   notice_successful_update: "සාර්ථක යාවත්කාලීන කිරීම."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "බොහෝ ප්රතිඵල ඇත.\nනව සාමාජිකයාගේ (හෝ කණ්ඩායමේ) නමින් ටයිප් කිරීමෙන් සෙවුම අඩු කරන්න."
   notice_user_missing_authentication_method: පරිශීලකයාට මුරපදයක් හෝ පුරනය වීමට වෙනත් ක්රමයක් තෝරා ගැනීමට තවමත් නොමැත.
   notice_user_invitation_resent: '%{email}වෙත ආරාධනයක් යවා ඇත.'
@@ -2119,9 +2203,8 @@ si:
           tb: "ටෙ.බ."
   onboarding:
     heading_getting_started: "දළ විශ්ලේෂණයක් ලබා ගන්න"
-    text_getting_started_description: "OpenProject සමඟ ව්යාපෘති කළමනාකරණය සහ කණ්ඩායම් සහයෝගීතාව පිළිබඳ ඉක්මන් දළ විශ්ලේෂණයක් ලබා ගන්න."
-    text_show_again: "ඔබට උදව් මෙනුවෙන් මෙම වීඩියෝව නැවත ආරම්භ කළ හැකිය"
-    welcome: "විවෘත ව්යාපෘති වෙත සාදරයෙන් පිළිගනිමු"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    welcome: "Welcome to %{app_title}"
     select_language: "කරුණාකර ඔබේ භාෂාව තෝරන්න"
   permission_add_work_package_notes: "සටහන් එකතු කරන්න"
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
@@ -2137,6 +2220,7 @@ si:
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "මුරකරුවන් මකන්න"
   permission_delete_work_packages: "වැඩ පැකේජ මකන්න"
   permission_delete_messages: "පණිවිඩ මකන්න"
@@ -2153,13 +2237,14 @@ si:
   permission_edit_own_time_entries: "ම කාලය ලඝු-සටහන් සංස්කරණය"
   permission_edit_project: "ව්යාපෘතිය සංස්කරණය කරන්න"
   permission_edit_reportings: "වාර්තා සංස්කරණය කරන්න"
-  permission_edit_time_entries: "කාල ලඝු-සටහන්"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "කාලනියමයන් සංස්කරණය කරන්න"
   permission_edit_wiki_pages: "විකි පිටු සංස්කරණය කරන්න"
   permission_export_work_packages: "අපනයන වැඩ පැකේජ"
   permission_export_wiki_pages: "විකි පිටු අපනයනය කරන්න"
   permission_list_attachments: "ලැයිස්තු ඇමුණුම්"
-  permission_log_time: "ලොග් ගත කළ කාලය"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "සංසද කළමනාකරණය කරන්න"
   permission_manage_categories: "වැඩ පැකේජ කාණ්ඩ කළමනාකරණය කරන්න"
   permission_manage_work_package_relations: "වැඩ පැකේජ සබඳතා කළමනාකරණය කරන්න"
@@ -2179,7 +2264,6 @@ si:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "ව්යාපෘති මොඩියුල තෝරන්න"
   permission_manage_types: "වර්ග තෝරන්න"
-  permission_view_calendar: "දින දර්ශනය"
   permission_view_changesets: "OpenProject හි නිධි සංශෝධන බලන්න"
   permission_view_commit_author_statistics: "කතෘ සංඛ්යා ලේඛන බලන්න"
   permission_view_work_package_watchers: "මුරකරුවන් ලැයිස්තුව බලන්න"
@@ -2191,6 +2275,8 @@ si:
   permission_view_timelines: "කාල නියමයන් බලන්න"
   permission_view_wiki_edits: "විකි ඉතිහාසය බලන්න"
   permission_view_wiki_pages: "විකි දැක්ම"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "අදාළ ව්යාපෘතියේ මෙම කාර්යභාරය සතුව ඇති පරිශීලකයින්ට සහ කණ්ඩායම්වලට වැඩ පැකේජ පැවරිය හැකිය"
   placeholders:
     default: "-"
   project:
@@ -2215,7 +2301,6 @@ si:
       archived: "සංරක්ෂිත"
   project_module_activity: "ක්‍රියාකාරකම"
   project_module_forums: "සංසද"
-  project_module_calendar: "දින දර්ශනය"
   project_module_work_package_tracking: "වැඩ පැකේජය ලුහුබැඳීම"
   project_module_news: "පුවත්"
   project_module_repository: "ගබඩාව"
@@ -2229,7 +2314,7 @@ si:
     assigned_to_role: "ඇසිග්නීගේ භූමිකාව"
     member_of_group: "අස්සිග්නි කණ්ඩායම"
     assignee_or_group: "Assignee හෝ අයත් පිරිසක්"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
   repositories:
@@ -2317,6 +2402,11 @@ si:
     storage:
       not_available: "තැටි ගබඩා පරිභෝජනය මෙම ගබඩාව සඳහා ලබා ගත නොහැක."
       update_timeout: "එන් විනාඩි සඳහා ගබඩාවක් සඳහා අවසන් අවශ්ය තැටි ඉඩ තොරතුරු තබා ගන්න.\nගබඩාවේ අවශ්ය තැටි අවකාශය ගණන් කිරීම මිල අධික විය හැකි බැවින්, කාර්ය සාධන බලපෑම අඩු කිරීම සඳහා මෙම අගය වැඩි කරන්න."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "දැනට පවතින අනුකරණ ගබඩාව"
       existing_introduction: "ඔබට දැනට පවතින අනුකරණ ගබඩාවක් තිබේ නම්, යෙදුම තුළ සිට එය ප්රවේශ වීමට OpenProject සමඟ සම්බන්ධ කළ හැකිය."
@@ -2360,7 +2450,7 @@ si:
   setting_smtp_authentication: "SMTP සත්යාපන"
   setting_smtp_user_name: "SMTP පරිශීලක නාමය"
   setting_smtp_password: "SMTP මුරපදය"
-  setting_smtp_domain: "ප්රශ්නය විසඳිලා හෙලෝ වසම"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "ව්යාපෘති ක්රියාකාරකම් මත ප්රදර්ශනය කරන දින"
   setting_app_subtitle: "අයදුම් උප සිරැසි"
   setting_app_title: "අයදුම් මාතෘකාව"
@@ -2396,7 +2486,6 @@ si:
   setting_email_login: "පිවිසුම් ලෙස විද්යුත් තැපෑල භාවිතා කරන්න"
   setting_enabled_scm: "සක්රීය SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
   setting_file_max_size_displayed: "පේළිගත ප්රදර්ශනය පෙළ ගොනු උපරිම ප්රමාණය"
@@ -2409,7 +2498,7 @@ si:
   setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
-  setting_work_packages_export_limit: "වැඩ පැකේජ අපනයන සීමාව"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "සියලුම ඉල්ලීම් සඳහා පරිශීලක පිවිසුම, නම සහ තැපැල් ලිපිනය ලොග් වන්න"
   setting_login_required: "සත්යාපන අවශ්ය"
@@ -2469,8 +2558,6 @@ si:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2508,6 +2595,7 @@ si:
   text_access_token_hint: "ප්රවේශ ටෝකන ඔබට OpenProject හි සම්පත් සඳහා බාහිර යෙදුම් ප්රවේශය ලබා දීමට ඉඩ සලසයි."
   text_analyze: "තවදුරටත් විශ්ලේෂණය: %{subject}"
   text_are_you_sure: "ඔබට විශ්වාසද?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "වැඩ පැකේජය සහ සියලුම ළමා වැඩ පැකේජ මකන්න?"
   text_assign_to_project: "ව්යාපෘතියට පැවරීම"
   text_form_configuration: >
@@ -2522,6 +2610,12 @@ si:
     අභිරුචි ක්ෂේත්ර භාවිතා කරන විට: ව්යාපෘතියකට අනුව අභිරුචි ක්ෂේත්ර සක්රිය කළ යුතු බව මතක තබා ගන්න.
   text_custom_field_hint_activate_per_project_and_type: >
     වැඩ පැකේජ වර්ගය අනුව සහ ව්යාපෘතිය අනුව අභිරුචි ක්ෂේත්ර සක්රිය කළ යුතුය.
+  text_wp_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     විනිවිද පෙනෙන පසුබිම මත සුදු ලාංඡනය නිර්දේශ කරනු ලැබේ. දෙකම මත හොඳම ප්රතිඵල සඳහා, සාම්ප්රදායික හා දෘෂ්ටි විතානයේ ප්රදර්ශනය, ඔබගේ රූපයේ මානයන් 60px විසින් 460px බවට වග බලා ගන්න.
   text_custom_favicon_instructions: >
@@ -2553,7 +2647,6 @@ si:
   text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
   text_work_packages_ref_in_commit_messages: "කැපවීමේ පණිවුඩවල වැඩ පැකේජ යොමු කිරීම සහ සවි කිරීම"
   text_journal_added: "%{label} %{value} එකතු"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} යාවත්කාලීන"
@@ -2696,7 +2789,6 @@ si:
       noneSelection: "(කිසිවක් නැත)"
       outline: "මූලික ලුහුඬු සටහන් පුළුල් කිරීම"
       parent: "උප ව්යාපෘති පෙන්වන්න"
-      work_package_filters: "පෙරහන් වැඩ පැකේජ"
       work_package_responsible: "වගවීම සහිත වැඩ පැකේජ පෙන්වන්න"
       work_package_assignee: "ඇසිග්නි සමඟ වැඩ පැකේජ පෙන්වන්න"
       types: "වර්ග පෙන්වන්න"
@@ -2825,14 +2917,14 @@ si:
   warning_user_limit_reached: >
     පරිශීලක සීමාව ළඟා විය. ඔබට තවත් පරිශීලකයින් සක්රිය කළ නොහැක. කරුණාකර <a href="%{upgrade_url}">ඔබගේ සැලැස්ම උත්ශ්රේණි කිරීම</a> හෝ අතිරේක පරිශීලකයින් සඳහා ඉඩ ලබා දීම සඳහා සාමාජිකයින් අවහිර කරන්න.
   warning_user_limit_reached_instructions: >
-    ඔබ ඔබේ පරිශීලක සීමාවට ළඟා විය (%{current}/%{max} ක්රියාකාරී පරිශීලකයින්). කරුණාකර සම්බන්ධ වන්න sales@openproject.com ඔබගේ ව්යවසාය සංස්කරණය සැලැස්ම වැඩිදියුණු කිරීමට සහ අතිරේක පරිශීලකයින් එකතු කිරීමට.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'ප්රොටොකෝලය සැකසුම'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        ඔබගේ යෙදුම <code>%{set_protocol}</code>දක්වා සකසා ඇති එහි ප්රොටෝකෝලය සැකසුම සමඟ ක්රියාත්මක වේ, නමුත් ඉල්ලීම <code>%{actual_protocol}</code> ඉල්ලීමකි. මෙය දෝෂ වලට හේතු වනු ඇත! <a href="%{setting_path}">පද්ධති සැකසුම්</a> වෙත ගොස් මෙය නිවැරදි කිරීම සඳහා “ප්රොටෝකෝලය” සැකසුම වෙනස් කරන්න.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'නොගැලපීම් සැකසීම සත්කාරක නාමය'
       text_html: >
@@ -2844,7 +2936,6 @@ si:
   wiki_menu_item_new_main_item_explanation: >
     ඔබ එකම ප්රධාන විකි මෙනු අයිතමය මකා දමනවා. දැන් ඔබට නව ප්රධාන අයිතමයක් ජනනය කරනු ලබන විකි පිටුවක් තෝරා ගත යුතුය. විකි මකා දැමීම සඳහා විකි මොඩියුලය ව්යාපෘති පරිපාලකයින් විසින් අක්රිය කළ හැකිය.
   wiki_menu_item_delete_not_permitted: එකම විකි පිටුවේ විකි මෙනු අයිතමය මකා දැමිය නොහැක.
-  query_menu_item_for: "විමසුම සඳහා මෙනු අයිතමය \"%{title}”"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2852,10 +2943,22 @@ si:
     destroy:
       info: "වැඩ පැකේජය මකා දැමීම ආපසු හැරවිය නොහැකි ක්රියාවකි."
       title: "වැඩ පැකේජය මකන්න"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "පෙරදසුන් කිරීමට කිසිවක් නැත"
   api_v3:
     attributes:
       lock_version: "අගුලු අනුවාදය"
+      property: 'Property'
     errors:
       code_400: "නරක ඉල්ලීම: %{message}"
       code_401: "මෙම සම්පතට ප්රවේශ වීමට ඔබ සත්යාපනය කළ යුතුය."
@@ -2869,6 +2972,7 @@ si:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYY-MM-DD (ISO 8601 දිනය පමණි)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 කාල සීමාව"
       invalid_content_type: "අන්තර්ගතය-TYPE '%{content_type}' වනු ඇතැයි අපේක්ෂා කළ නමුත් '%{actual}' ලැබුණි."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2880,6 +2984,7 @@ si:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "වත්මන් පරිශීලක ගිණුමේ තත්ත්වය මෙම මෙහෙයුමට ඉඩ නොදේ."
       missing_content_type: "නිශ්චිතව දක්වා නැත"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "ඉල්ලීම් ආයතනයක් නොතිබුණි."
       missing_or_malformed_parameter: "විමසුම් පරාමිතිය '%{parameter}' අතුරුදහන් හෝ අකර්මණ්ය වී ඇත."
       multipart_body_error: "ඉල්ලීමේ ශරීරයේ අපේක්ෂිත බහු කොටස් කොටස් අඩංගු නොවීය."
@@ -2903,6 +3008,7 @@ si:
       schema: 'යෝජනා ක්රමය'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'පූර්ව අවසරය'
@@ -2911,8 +3017,11 @@ si:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'ඉල්ලීම අවශ්ය පරාමිතියක් අතුරුදහන්, සහාය නොදක්වන පරාමිති අගය ඇතුළත්, හෝ වෙනත් ආකාරයකින් විකෘති කර ඇත.'
-        invalid_redirect_uri: "ඉල්ලූ නැවත හරවා යැවීමේ URI අක්රිය වී හෝ සේවාදායකයා නැවත හරවා URI සමඟ ගැලපෙන්නේ නැත."
+        invalid_request:
+          unknown: 'ඉල්ලීම අවශ්ය පරාමිතියක් අතුරුදහන්, සහාය නොදක්වන පරාමිති අගය ඇතුළත්, හෝ වෙනත් ආකාරයකින් විකෘති කර ඇත.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'මෙම ක්රමය භාවිතා කරමින් මෙම ඉල්ලීම ඉටු කිරීමට සේවාදායකයාට බලය නැත.'
         access_denied: 'සම්පත් හිමිකරු හෝ බලය පැවරීමේ සේවාදායකය ඉල්ලීම ප්රතික්ෂේප කළේය.'
         invalid_scope: 'ඉල්ලූ විෂය පථය වලංගු නොවන, නොදන්නා හෝ අකර්මණ්ය වේ.'
@@ -2925,6 +3034,7 @@ si:
         admin_authenticator_not_configured: 'doorkeeper.configure.admin_authenticator වින්යාසගත නොකිරීම හේතුවෙන් පරිපාලක පැනලය වෙත ප්රවේශ වීම තහනම් කර ඇත.'
         #Access grant errors
         unsupported_response_type: 'බලය පැවරීමේ සේවාදායකය මෙම ප්රතිචාර වර්ගයට සහය නොදක්වයි.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'නොදන්නා සේවාදායකයා, සේවාදායක සත්යාපන ඇතුළත් කර නොමැති හෝ සහාය නොදක්වන සත්යාපන ක්රමයක් නිසා සේවාදායක සත්යාපන සත්යාපන අසාර්ථක විය.'
         invalid_grant: 'සපයන ලද අවසර ප්රදාන අවලංගු, කල් ඉකුත් වූ, අවලංගු කරන ලද, බලය පැවරීමේ ඉල්ලීමෙහි භාවිතා කරන ලද ප්රතිවර්තනය URI සමඟ නොගැලපේ, නැතහොත් වෙනත් සේවාදායකයෙකුට නිකුත් කරන ලදී.'
@@ -2933,6 +3043,10 @@ si:
           revoked: "ප්රවේශ ටෝකනය අවලංගු කරන ලදී"
           expired: "ප්රවේශ ටෝකනය කල් ඉකුත් විය"
           unknown: "ප්රවේශ ටෝකනය වලංගු නොවේ"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "ඔබගේ බ්රව්සරය යල් පැන ගිය සහ සහාය නොදක්වයි."
     message: "ඔබ මෙම පිටුවේ වැරදි හා පිරිහුණු අත්දැකීම් බවට පත් විය හැක."
@@ -2986,4 +3100,51 @@ si:
     authorization_error: "බලය පැවරීමේ දෝෂයක් සිදුවී ඇත."
     revoke_my_application_confirmation: "ඔබට ඇත්තටම මෙම යෙදුම ඉවත් කිරීමට අවශ්යද? මෙය %{token_count} ක් අවලංගු කරනු ඇත."
     my_registered_applications: "ලියාපදිංචි OAUTH අයදුම්පත්"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,61 +27,62 @@
 #++
 
 module Queries::WorkPackages
-  filters_module = Queries::WorkPackages::Filter
-  register = Queries::Register
+  ::Queries::Register.register(Query) do
+    filter Filter::AssignedToFilter
+    filter Filter::AssigneeOrGroupFilter
+    filter Filter::AttachmentContentFilter
+    filter Filter::AttachmentFileNameFilter
+    filter Filter::AuthorFilter
+    filter Filter::CategoryFilter
+    filter Filter::CreatedAtFilter
+    filter Filter::CustomFieldFilter
+    filter Filter::DoneRatioFilter
+    filter Filter::DueDateFilter
+    filter Filter::EstimatedHoursFilter
+    filter Filter::GroupFilter
+    filter Filter::IdFilter
+    filter Filter::PriorityFilter
+    filter Filter::ProjectFilter
+    filter Filter::ResponsibleFilter
+    filter Filter::RoleFilter
+    filter Filter::StartDateFilter
+    filter Filter::StatusFilter
+    filter Filter::SubjectFilter
+    filter Filter::SubprojectFilter
+    filter Filter::OnlySubprojectFilter
+    filter Filter::TypeFilter
+    filter Filter::UpdatedAtFilter
+    filter Filter::VersionFilter
+    filter Filter::WatcherFilter
+    filter Filter::DatesIntervalFilter
+    filter Filter::ParentFilter
+    filter Filter::PrecedesFilter
+    filter Filter::FollowsFilter
+    filter Filter::RelatesFilter
+    filter Filter::DuplicatesFilter
+    filter Filter::DuplicatedFilter
+    filter Filter::BlocksFilter
+    filter Filter::BlockedFilter
+    filter Filter::PartofFilter
+    filter Filter::IncludesFilter
+    filter Filter::RequiresFilter
+    filter Filter::RequiredFilter
+    filter Filter::DescriptionFilter
+    filter Filter::SearchFilter
+    filter Filter::CommentFilter
+    filter Filter::SubjectOrIdFilter
+    filter Filter::ManualSortFilter
+    filter Filter::RelatableFilter
+    filter Filter::MilestoneFilter
+    filter Filter::TypeaheadFilter
+    filter Filter::DurationFilter
+    exclude Filter::RelatableFilter
 
-  register.filter Query, filters_module::AssignedToFilter
-  register.filter Query, filters_module::AssigneeOrGroupFilter
-  register.filter Query, filters_module::AttachmentContentFilter
-  register.filter Query, filters_module::AttachmentFileNameFilter
-  register.filter Query, filters_module::AuthorFilter
-  register.filter Query, filters_module::CategoryFilter
-  register.filter Query, filters_module::CreatedAtFilter
-  register.filter Query, filters_module::CustomFieldFilter
-  register.filter Query, filters_module::DoneRatioFilter
-  register.filter Query, filters_module::DueDateFilter
-  register.filter Query, filters_module::EstimatedHoursFilter
-  register.filter Query, filters_module::GroupFilter
-  register.filter Query, filters_module::IdFilter
-  register.filter Query, filters_module::PriorityFilter
-  register.filter Query, filters_module::ProjectFilter
-  register.filter Query, filters_module::ResponsibleFilter
-  register.filter Query, filters_module::RoleFilter
-  register.filter Query, filters_module::StartDateFilter
-  register.filter Query, filters_module::StatusFilter
-  register.filter Query, filters_module::SubjectFilter
-  register.filter Query, filters_module::SubprojectFilter
-  register.filter Query, filters_module::OnlySubprojectFilter
-  register.filter Query, filters_module::TypeFilter
-  register.filter Query, filters_module::UpdatedAtFilter
-  register.filter Query, filters_module::VersionFilter
-  register.filter Query, filters_module::WatcherFilter
-  register.filter Query, filters_module::DatesIntervalFilter
-  register.filter Query, filters_module::ParentFilter
-  register.filter Query, filters_module::PrecedesFilter
-  register.filter Query, filters_module::FollowsFilter
-  register.filter Query, filters_module::RelatesFilter
-  register.filter Query, filters_module::DuplicatesFilter
-  register.filter Query, filters_module::DuplicatedFilter
-  register.filter Query, filters_module::BlocksFilter
-  register.filter Query, filters_module::BlockedFilter
-  register.filter Query, filters_module::PartofFilter
-  register.filter Query, filters_module::IncludesFilter
-  register.filter Query, filters_module::RequiresFilter
-  register.filter Query, filters_module::RequiredFilter
-  register.filter Query, filters_module::DescriptionFilter
-  register.filter Query, filters_module::SearchFilter
-  register.filter Query, filters_module::CommentFilter
-  register.filter Query, filters_module::SubjectOrIdFilter
-  register.filter Query, filters_module::ManualSortFilter
-  register.filter Query, filters_module::RelatableFilter
-  register.filter Query, filters_module::MilestoneFilter
-  register.filter Query, filters_module::TypeaheadFilter
-
-  columns_module = Queries::WorkPackages::Columns
-
-  register.column Query, columns_module::PropertyColumn
-  register.column Query, columns_module::CustomFieldColumn
-  register.column Query, columns_module::RelationToTypeColumn
-  register.column Query, columns_module::RelationOfTypeColumn
+    column Columns::PropertyColumn
+    column Columns::CustomFieldColumn
+    column Columns::RelationToTypeColumn
+    column Columns::RelationOfTypeColumn
+    column Columns::ManualSortingColumn
+    column Columns::TypeaheadColumn
+  end
 end

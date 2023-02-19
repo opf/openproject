@@ -1,0 +1,30 @@
+.spot-container
+  display: flex
+  flex-direction: column
+
+  > .spot-header-big,
+  > .spot-header-small,
+  > .spot-subheader-big,
+  > .spot-subheader-small,
+  > .spot-subheader-extra-small,
+  > .spot-body-big,
+  > .spot-body-small,
+  > .spot-caption,
+  > .spot-divider,
+  > .spot-text-field
+    margin: $spot-spacing-1 $spot-spacing-1 0
+
+    &:first-child
+      margin-top: $spot-spacing-0_5
+
+    &:last-child
+      margin-bottom: $spot-spacing-1
+
+  > .spot-list
+    margin: $spot-spacing-1 0
+
+  > .spot-breadcrumbs
+    margin: $spot-spacing-0_5 $spot-spacing-1 0
+
+    + .spot-list
+      margin-top: $spot-spacing-0_5

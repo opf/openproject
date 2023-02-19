@@ -9,7 +9,9 @@
           <span class="button--text" [textContent]="text.reset"></span>
         </button>
       </li>
-      <li class="toolbar-item drop-down">
+      <li
+        *ngIf="!typeBanner.eeShowBanners"
+        class="toolbar-item drop-down">
         <a class="form-configuration--add-group button -alt-highlight" aria-haspopup="true">
           <op-icon icon-classes="button--icon icon-add"></op-icon>
           <span class="button--text" [textContent]="text.label_group"></span>

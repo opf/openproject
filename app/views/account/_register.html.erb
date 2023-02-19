@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,22 +33,11 @@ See COPYRIGHT and LICENSE files for more details.
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
 
-    <div class="op-modal--header">
-      <%= op_icon 'icon-context icon-user' %>
-      <h1 class="op-modal--title">
-        <%= I18n.t('onboarding.welcome') %>
-      </h1>
-      <button
-        type="button"
-        class="op-modal--close-button"
-        title="<%= t('js.close_popup_title') %>"
-        aria-label="<%= t('js.close_popup_title') %>"
-      >
-        <%= op_icon('icon-close') %>
-      </button>
+    <div class="spot-modal--header">
+      <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>
     </div>
-
-    <div class="op-modal--body">
+    <div class="spot-divider"></div>
+    <div class="spot-modal--body spot-container">
       <h2><%= t(:label_register) %></h2>
       <section class="form--section">
         <% if @user.auth_source_id.nil? %>
@@ -65,7 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
 
         <div class="form--field -required -wide-label">
-          <%= f.text_field :lastname,  required: true %>
+          <%= f.text_field :lastname, required: true %>
         </div>
 
         <% if registration_show_email? %>
@@ -94,7 +83,7 @@ See COPYRIGHT and LICENSE files for more details.
             <%= f.password_field :password_confirmation,
                                  required: true,
                                  size: 25,
-                                 autocomplete: 'off'  %>
+                                 autocomplete: 'off' %>
           </div>
         <% end %>
       </section>
@@ -103,8 +92,6 @@ See COPYRIGHT and LICENSE files for more details.
         <hr/>
         <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
       <% end %>
-
-      <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
     </div>

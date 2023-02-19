@@ -1,0 +1,37 @@
+#English strings go here
+lol:
+  js:
+    storages:
+      link_files_in_storage: "crwdns824102:0%{storageType}crwdne824102:0"
+      link_existing_files: "crwdns838593:0crwdne838593:0"
+      login: "crwdns824104:0%{storageType}crwdne824104:0"
+      login_to: "crwdns824106:0%{storageType}crwdne824106:0"
+      no_connection: "crwdns824108:0%{storageType}crwdne824108:0"
+      open_storage: "crwdns824110:0%{storageType}crwdne824110:0"
+      types:
+        nextcloud: "crwdns824112:0crwdne824112:0"
+      information:
+        connection_error: >
+          crwdns824880:0%{storageType}crwdnd824880:0%{storageType}crwdne824880:0
+        live_data_error: "crwdns824116:0crwdne824116:0"
+        live_data_error_description: >
+          crwdns824118:0%{storageType}crwdnd824118:0%{storageType}crwdne824118:0
+        no_file_links: "crwdns824120:0%{storageType}crwdne824120:0"
+        not_logged_in: >
+          crwdns824122:0%{storageType}crwdne824122:0
+      file_links:
+        download: "crwdns824124:0%{fileName}crwdne824124:0"
+        no_permission: "crwdns824126:0crwdne824126:0"
+        open: 'crwdns824128:0crwdne824128:0'
+        open_location: 'crwdns824130:0crwdne824130:0'
+        remove: "crwdns824132:0crwdne824132:0"
+        remove_confirmation: >
+          crwdns834602:0crwdne834602:0
+        remove_short: "crwdns834604:0crwdne834604:0"
+        select: "crwdns838595:0crwdne838595:0"
+        select_all: "crwdns838597:0crwdne838597:0"
+        selection_none: "crwdns838599:0crwdne838599:0"
+        selection_any: "crwdns838601:0%{number}crwdne838601:0"
+        not_allowed_tooltip: "crwdns834606:0crwdne834606:0"
+        already_linked_file: "crwdns838603:0crwdne838603:0"
+        already_linked_directory: "crwdns838605:0crwdne838605:0"

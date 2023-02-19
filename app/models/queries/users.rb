@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +27,16 @@
 #++
 
 module Queries::Users
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::NameFilter
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::AnyNameAttributeFilter
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::GroupFilter
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::StatusFilter
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::LoginFilter
-  Queries::Register.filter Queries::Users::UserQuery, Queries::Users::Filters::BlockedFilter
+  ::Queries::Register.register(UserQuery) do
+    filter Filters::NameFilter
+    filter Filters::AnyNameAttributeFilter
+    filter Filters::GroupFilter
+    filter Filters::StatusFilter
+    filter Filters::LoginFilter
+    filter Filters::BlockedFilter
 
-  Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::DefaultOrder
-  Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::NameOrder
-  Queries::Register.order Queries::Users::UserQuery, Queries::Users::Orders::GroupOrder
+    order Orders::DefaultOrder
+    order Orders::NameOrder
+    order Orders::GroupOrder
+  end
 end

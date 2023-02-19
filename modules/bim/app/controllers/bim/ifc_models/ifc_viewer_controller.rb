@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,6 @@
 module Bim
   module IfcModels
     class IfcViewerController < BaseController
-      helper_method :gon
-
       before_action :find_project_by_project_id
       before_action :authorize
       before_action :find_all_ifc_models

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
 @Component({
   selector: 'enterprise-trial-waiting',
@@ -66,34 +72,49 @@ export class EETrialWaitingComponent implements OnInit {
     readonly timezoneService:TimezoneService) {
   }
 
-  ngOnInit() {
-    const eeTrialKey = (window as any).gon.ee_trial_key;
+  ngOnInit():void {
+    const eeTrialKey = window.gon.ee_trial_key as { created:string }|undefined;
     if (eeTrialKey) {
       const savedDateStr = eeTrialKey.created.split(' ')[0];
       this.created = this.timezoneService.formattedDate(savedDateStr);
     }
 
-    this.eeTrialService.userData$
-      .values$()
+    this.eeTrialService
+      .userData$
       .pipe(
         distinctUntilChanged(),
       )
-      .subscribe((userForm) => {
-        this.email = userForm.email;
+      .subscribe((data:IEnterpriseData) => {
+        this.email = data.email;
       });
   }
 
   // resend mail if resend link has been clicked
-  public resendMail() {
-    this.eeTrialService.cancelled = false;
-    this.http.post(this.eeTrialService.resendLink, {})
+  public resendMail():void {
+    const { resendLink } = this.eeTrialService.store.getValue();
+
+    if (!resendLink) {
+      return;
+    }
+
+    this.eeTrialService.store.update({ cancelled: false });
+    this.http.post(
+      resendLink,
+      {},
+      {
+        headers: {
+          [EXTERNAL_REQUEST_HEADER]: 'true',
+        },
+      },
+    )
       .toPromise()
       .then(() => {
         this.toastService.addSuccess(this.text.resend_success);
         this.eeTrialService.retryConfirmation();
       })
       .catch(() => {
-        if (this.eeTrialService.trialLink) {
+        const { trialLink } = this.eeTrialService.store.getValue();
+        if (trialLink) {
           // Check whether the mail has been confirmed by now
           this.eeTrialService.getToken();
         } else {

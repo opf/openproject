@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +35,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
   include ERB::Util
   include TextFormattingHelper
 
-  def self.tag_with_label_method(selector, &block)
+  def self.tag_with_label_method(selector, &)
     ->(field, options = {}, *args) do
       options[:class] = Array(options[:class]) + [field_css_class(selector)]
       merge_required_attributes(options[:required], options)
@@ -51,7 +49,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       label = label_for_field(field, label_options)
       input = super(field, input_options, *args)
 
-      input = instance_exec(input, options, &block) if block_given?
+      input = instance_exec(input, options, &) if block_given?
 
       (label + container_wrap_field(input, selector, options))
     end
@@ -78,7 +76,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   define_method(:text_area, &tag_with_label_method(:text_area, &with_text_formatting))
 
-  def label(method, text = nil, options = {}, &block)
+  def label(method, text = nil, options = {}, &)
     options[:class] = Array(options[:class]) + %w(form--label)
     options[:title] = options[:title] || title_from_context(method)
     super
@@ -130,7 +128,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     unchecked_value = options.delete(:unchecked_value) { '' }
 
     input_options = options.reverse_merge(multiple: true,
-                                          checked: checked,
+                                          checked:,
                                           for: label_for,
                                           label: text)
 
@@ -142,10 +140,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     check_box(field, input_options, checked_value, unchecked_value)
   end
 
-  def fields_for_custom_fields(record_name, record_object = nil, options = {}, &block)
+  def fields_for_custom_fields(record_name, record_object = nil, options = {}, &)
     options_with_defaults = options.merge(builder: CustomFieldFormBuilder)
 
-    fields_for(record_name, record_object, options_with_defaults, &block)
+    fields_for(record_name, record_object, options_with_defaults, &)
   end
 
   private
@@ -201,7 +199,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                 "form--#{selector.to_s.tr('_', '-')}-container"
               end
 
-    classes << ' ' + options.fetch(:container_class, '')
+    classes << (' ' + options.fetch(:container_class, ''))
 
     classes.strip
   end

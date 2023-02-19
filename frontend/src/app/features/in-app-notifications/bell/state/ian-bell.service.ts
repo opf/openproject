@@ -6,8 +6,12 @@ import {
   map,
   tap,
   skip,
+  catchError,
 } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+} from 'rxjs';
 import { IanBellQuery } from 'core-app/features/in-app-notifications/bell/state/ian-bell.query';
 import {
   EffectCallback,
@@ -42,13 +46,21 @@ export class IanBellService {
   }
 
   fetchUnread():Observable<number> {
-    return this.resourceService
-      .fetchNotifications({ filters: IAN_FACET_FILTERS.unread, pageSize: 0 })
+    return this
+      .resourceService
+      .fetchCollection({ filters: IAN_FACET_FILTERS.unread, pageSize: 0 })
       .pipe(
         map((result) => result.total),
-        tap((count) => {
-          this.store.update({ totalUnread: count });
-        }),
+        tap(
+          (count) => {
+            this.store.update({ totalUnread: count });
+          },
+          (error) => {
+            console.error('Failed to load notifications: %O', error);
+            this.store.update({ totalUnread: -1 });
+          },
+        ),
+        catchError(() => EMPTY),
       );
   }
 

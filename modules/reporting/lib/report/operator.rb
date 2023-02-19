@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -91,7 +91,7 @@ class Report::Operator
     new '!', label: :label_not_equals do
       def modify(query, field, *values)
         where_clause = "(#{field} IS NULL"
-        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.compact.empty?
+        where_clause += " OR #{field} NOT IN #{collection(*values)}" unless values.all?(&:blank?)
         where_clause += ')'
         query.where where_clause
         query
@@ -117,7 +117,7 @@ class Report::Operator
       def modify(query, field, *values)
         if values.size == 1 && values.first.nil?
           query.where "#{field} IS NULL"
-        elsif values.compact.empty?
+        elsif values.all?(&:blank?)
           query.where '1=0'
         else
           query.where "#{field} IN #{collection(*values)}"
@@ -268,7 +268,7 @@ class Report::Operator
     @force
   end
 
-  def self.new(name, values = {}, &block)
+  def self.new(name, values = {}, &)
     all[name.to_s] ||= super
   end
 
@@ -292,8 +292,8 @@ class Report::Operator
     all.has_key?(name.to_s)
   end
 
-  def self.defaults(&block)
-    class_eval &block
+  def self.defaults(&)
+    class_eval(&)
   end
 
   def self.default_operator

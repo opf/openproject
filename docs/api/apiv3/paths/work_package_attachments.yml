@@ -14,12 +14,14 @@ get:
       content:
         application/hal+json:
           schema:
-            "$ref": "../components/schemas/attachments_by_work_package_model.yml"
+            "$ref": "../components/schemas/attachments_model.yml"
       description: OK
       headers: {}
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -87,6 +89,8 @@ post:
     '400':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -103,6 +107,8 @@ post:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -119,6 +125,8 @@ post:
     '404':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -134,9 +142,15 @@ post:
         *Note: A client without sufficient permissions shall not be able to test for the existence of a work package.
         That's why a 404 is returned here, even if a 403 might be more appropriate.*
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

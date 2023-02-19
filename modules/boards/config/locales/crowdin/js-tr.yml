@@ -2,14 +2,13 @@
 tr:
   js:
     boards:
+      create_new: 'Yeni pano oluştur'
       label_unnamed_board: 'Adsız tahta'
       label_unnamed_list: 'Adsız liste'
       label_board_type: 'Yazı tahtası tipi'
       upsale:
-        teaser_text: 'Çevik proje yönetiminizi bu esnek Panolar görünümü ile geliştirin. İzlemek istediğiniz herhangi bir şey için istediğiniz kadar pano oluşturun.'
-        upgrade_to_ee_text: 'Kurulları bir Enterprise özelliğidir. Lütfen ücretli bir plana geçin.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Şimdi Yükselt'
-        personal_demo: 'Demo için bizimle iletişime geçin'
       lists:
         delete: 'Listeyi silin'
       version:
@@ -63,7 +62,7 @@ tr:
           status: Durum
           version: Sürüm
           subproject: Alt proje
-          subtasks: Ebeveyn-Çocuk
+          subtasks: Parent-child
           basic: Temel
         select_attribute: "Eylem özelliği"
       add_list_modal:

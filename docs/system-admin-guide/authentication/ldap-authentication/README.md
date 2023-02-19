@@ -3,15 +3,12 @@ sidebar_navigation:
   title: LDAP authentication
   priority: 500
 description: Manage LDAP Authentication in OpenProject.
-robots: index, follow
 keywords: ldap authentication
 ---
 
 # Manage LDAP Authentication
 
-<div class="alert alert-info" role="alert">
-**Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
-</div>
+> **Note**: In order to be able to access the administration panel and manage LDAP authentication you need to be a system admin.
 
 To see the list of all available LDAP (Lightweight Directory Access  Protocol) authentications navigate to - > *Administration* and select *-> Authentication* -> *LDAP Authentication* from the menu on the left. You will see the list of all available authentications already created.
 
@@ -41,39 +38,16 @@ In the upper section, you have to specify the connection details of your LDAP se
 - **Host:** Full hostname to the LDAP server
 - **Port :** LDAP port. Will usually be 389 for LDAP and StartTLS and 636 for LDAP over SSL connections.
 - **Connection encryption**: Select the appropriate connection encryption.
-  - For unencrypted connections, select `none`  . No TLS/SSL connection will be established, your connection will be unsecure
-  - For LDAPS connections (LDAP over SSL), use `simple_tls` , this is an older SSL encryption pattern that uses SSL certificates, but **DOES NOT VERIFY THEM**. Implicit trust in the connection will be placed, but the connection will be encrypted. Some older LDAP servers only support this option
-  - **Recommended option**: `start_tls` will use TLS to encrypt the connection after connecting to the LDAP server on the unencrypted PORT (`389` by default).
+  - **Recommended option**: `STARTTLS` will issue an TLS connection upgrade to encrypt the connection after connecting to the LDAP server on the unencrypted PORT (`389` by default).
+  - For LDAPS connections (LDAP over SSL), use `LDAPS` , this is an SSL encryption pattern that uses SSL certificates and connects to a separate port on the LDAP server. Some older LDAP servers only support this option, but this option is deprecated in most ldap servers favoring the STARTTLS method of operation.
+  - For unencrypted connections, select `none`  . No TLS/SSL connection will be established, your connection will be insecure and no verification will be made.
   -  [Click here to read more details into what these options mean for connection security.](https://www.rubydoc.info/gems/ruby-net-ldap/Net/LDAP)
 
+- **SSL encryption options**: Provides additional options for LDAPS and STARTTLS connections. Be aware that these options do not apply for the connection encryption `none` option.
 
+  - **Verify SSL certificate**: By default, for STARTTLS and LDAPS, SSL certificate trust chains will be verified during connection. As many LDAP servers in our experience use self-signed certificates, checking this option without providing the SSL certificate will fail. However, we recommend you enable this checkbox for any LDAP connections used in production.
 
-**Allowing untrusted certificates for LDAP connections**
-
-If you use `start_tls` , certificate details and host names will be verified on connections as recommended for security. In case you use a custom untrusted certificate authority (CA) that your LDAP is connecting to, you can place this CA in your system's trusted CA store if possible. For some distributions, you will need to specify this CA manually to OpenProject.
-
-You can do this by using the [advanced configuration](../../../installation-and-operations/configuration/) function of OpenProject. You can define the CA path by setting the following ENV variable:
-
-```bash
-OPENPROJECT_LDAP__TLS__OPTIONS_CA__FILE="/path/to/the/root-ca.crt"
-```
-
-or by extending your production configuration of `config/configuration.yml` with the following segment:
-
-```
-production:
-  # .. other settings ..
-  
-  # ldap_tls_options:
-  #   ca_file: "/path/to/the/root-ca.crt"
-```
-
-You can set other TLS options for the LDAP auth source connection. They are passed as the `tls_options` to the Net::LDAP gem and ultimately end up in the `SSLContext` setting of Ruby. You can define the TLS version and other advanced options in case your connections needs it. Most users will not need to change this however.
-
-See the following resources for more information:
-
-- https://github.com/ruby-ldap/ruby-net-ldap/blob/master/lib/net/ldap.rb
-- https://ruby.github.io/openssl/OpenSSL/SSL/SSLContext.html
+  - **LDAP server SSL certificate**: If the LDAP server's certificate is not trusted on the system that the OpenProject server runs on, you have the option to specifiy one or multiple PEM-encoded X509 certificates. This certificate might be the LDAP server's own certificate, or an intermediate or root CA that you trust for the sake of this connection.
 
 
 #### LDAP system user credentials
@@ -129,7 +103,7 @@ Lastly, click on *Create* to save the LDAP authentication  mode. You will be red
 
 
 
-With the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
+With the [OpenProject Enterprise edition](https://www.openproject.org/enterprise-edition/) it is possible to [synchronize LDAP and OpenProject groups](./ldap-group-synchronization).
 
 
 ## Multiple LDAP connections
@@ -137,3 +111,25 @@ With the [OpenProject Enterprise Edition](https://www.openproject.org/enterprise
 OpenProject supports multiple LDAP connections to source users from. The user's authentication source is remembered the first time it is created (but can be switched in the administration backend). This ensures that the correct connection / LDAP source will be used for the user.
 
 Duplicates in the unique attributes (login, email) are not allowed and a second user with the same attributes will not be able to login. Please ensure that amongst all LDAP connections, a unique attribute is used that does not result in conflicting logins.
+
+
+
+## LDAP user synchronization
+
+By default, OpenProject will synchronize user account details (name, e-mail, login) and their account status from the LDAP through a background worker job every 24 hours. 
+
+### **Enabling status synchronization**
+
+If you wish to synchronize the account status from the LDAP, you can enable status synchronization using the following configuration:
+
+- `ldap_users_sync_status: true`
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__SYNC__STATUS=true`)
+
+The user will be ensured to be active if it can be found in LDAP. Likewise, if the user cannot be found in the LDAP, its associated OpenProject account will be locked.
+
+### Disabling the synchronization job
+
+If for any reason, you do not wish to perform the synchronization at all, you can also remove the synchronization job from being run at all with the following variable:
+
+- `ldap_users_disable_sync_job: true` 
+- (or the ENV variable `OPENPROJECT_LDAP__USERS__DISABLE__SYNC__JOB=true`) 

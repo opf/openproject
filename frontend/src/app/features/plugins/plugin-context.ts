@@ -13,7 +13,7 @@ import { States } from 'core-app/core/states/states.service';
 import { CKEditorPreviewService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-preview.service';
 import { ExternalRelationQueryConfigurationService } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
@@ -25,6 +25,7 @@ import { HTMLSanitizeService } from '../../core/html-sanitize/html-sanitize.serv
 import { DynamicContentModalComponent } from '../../shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from '../../shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -32,12 +33,13 @@ import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-
  */
 export class OpenProjectPluginContext {
   private _knownHookNames = [
+    'workPackageBulkContextMenu',
     'workPackageTableContextMenu',
     'workPackageSingleContextMenu',
     'workPackageNewInitialization',
   ];
 
-  // Common services referencable by index
+  // Common services referenceable by index
   public readonly services = {
     confirmDialog: this.injector.get<ConfirmDialogService>(ConfirmDialogService),
     externalQueryConfiguration: this.injector.get<ExternalQueryConfigurationService>(ExternalQueryConfigurationService),
@@ -55,8 +57,9 @@ export class OpenProjectPluginContext {
     ckEditorPreview: this.injector.get<CKEditorPreviewService>(CKEditorPreviewService),
     pathHelperService: this.injector.get<PathHelperService>(PathHelperService),
     states: this.injector.get<States>(States),
-    apiV3Service: this.injector.get<APIV3Service>(APIV3Service),
+    apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
+    attachmentsResourceService: this.injector.get(AttachmentsResourceService),
   };
 
   public readonly helpers = {

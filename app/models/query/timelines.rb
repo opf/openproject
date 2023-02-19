@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +30,16 @@ module Query::Timelines
   extend ActiveSupport::Concern
 
   included do
-    enum timeline_zoom_level: %i(days weeks months quarters years auto)
+    enum timeline_zoom_level: { days: 0, weeks: 1, months: 2, quarters: 3, years: 4, auto: 5 }
     validates :timeline_zoom_level, inclusion: { in: timeline_zoom_levels.keys }
 
     serialize :timeline_labels, Hash
     validate :valid_timeline_labels
 
     def valid_timeline_labels
-      return unless timeline_labels.present?
+      return if timeline_labels.blank?
 
-      valid_keys = %w(farRight left right) == timeline_labels.keys.map(&:to_s).sort
+      valid_keys = timeline_labels.keys.map(&:to_s).sort == %w(farRight left right)
       errors.add :timeline_labels, :invalid unless valid_keys
     end
   end

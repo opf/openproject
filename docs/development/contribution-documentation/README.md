@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Contribute to documentation
   priority: 999
 description: Overview of the OpenProject documentation
-robots: index, follow
 keywords: contribution, documentation, documentation process
 ---
 

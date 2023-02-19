@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,7 +102,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_time_entries(query)
-    query.select :activity_id, units: :hours, cost_type_id: -1
+    query.select :activity_id, :logged_by_id, units: :hours, cost_type_id: -1
     query.select cost_type: quoted_label(:caption_labor)
   end
 
@@ -111,7 +111,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
   #
   # @param [CostQuery::SqlStatement] query The statement to adjust
   def self.unify_cost_entries(query)
-    query.select :units, :cost_type_id, activity_id: -1
+    query.select :units, :cost_type_id, :logged_by_id, activity_id: -1
     query.select cost_type: "cost_types.name"
     query.join CostType
   end

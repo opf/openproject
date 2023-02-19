@@ -3,10 +3,17 @@ sidebar_navigation:
   title: OpenID providers
   priority: 800
 description: OpenID providers for OpenProject.
-robots: index, follow
 keywords: OpenID providers
 ---
 # OpenID providers
+
+
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Google Workspace](#google-workspace)                        | How to use Google Workspace as an SSO provider for OpenProject? |
+| [Azure Active Directory](#azure-active-directory)            | How to use Microsoft Azure Active Directory as an SSO provider for OpenProject? |
+| [Custom OpenID Connect Providers](#custom-openid-connect-providers) | Configuration of additional OpenID Connect providers.        |
+| [Troubleshooting](#troubleshooting)                          | Common complications when using OpenID as SSO.               |
 
 To activate and configure OpenID providers in OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
 
@@ -24,7 +31,84 @@ You can configure the following options.
 4. Enter the **Secret**.
 5. Press the blue **create** button.
 
-![Sys-admin-authentication-add-openid-provider](Sys-admin-authentication-add-openid-provider.png)
+
+
+
+
+## Google Workspace
+
+
+
+### Step 1: Create the OAuth consent screen
+
+1. Navigate to your GCP console.  (https://console.cloud.google.com/)
+2. Go to **APIs & Services** > OAuth consent screen.
+
+![g1-apis-and-services-oauth-consent-screen](g1-apis-and-services-oauth-consent-screen.png)
+
+
+
+3. Create a new project and a new app or edit an existing project and an existing app, setting the following fields (shall be Internal):
+   1. **App name** (e.g. EXAMPLE.COM SSO)
+   2. **User support email** (e.g. user-support@example.com)
+   3. **App domains** (at minimum, you must provide the Application home page - e.g. `https://example.openproject.com`)
+   4. **Authorized domains** (e.g. openproject.com)
+   5. **Developer Contact information** (e.g.  developer@example.com)
+   6. Click **SAVE AND CONTINUE** to proceed.
+
+![g2-edit-app-registration](g2-edit-app-registration.png)
+
+4. **Scopes** - Press **SAVE AND CONTINUE**
+5. **Summary** - Press **SAVE AND CONTINUE**
+
+
+
+### Step 2: Create the OAuth Client
+
+1. Under **APIs & Services**, go to **Credentials**.
+
+![g3-apis-and-services-credentials](g3-apis-and-services-credentials.png)
+
+2. Click **Create Credentials** and select **OAuth Client ID**.
+
+   1. When prompted for your **Application type**, choose **Web Application**.
+
+   2. Provide a **Name** for your application. (e.g. example-openproject-com)
+
+   3. Under Authorized redirect URIs, click **Add URI**, and provide your URI (e.g. [example.openproject.com]/auth/google/callback).
+
+   4. Click **CREATE** or **SAVE** .
+
+![g4-create-credentials-oauth-client-id](g4-create-credentials-oauth-client-id.png)
+
+After pressing **CREATE** you will get a pop-up window like the following
+
+- Note **Client ID**
+- Note **Client Secret**
+
+![g5-oauth-client-created](g5-oauth-client-created.png)
+
+
+
+### Step 3: Add Google as an OpenID Provider to OpenProject
+
+1. Login as Open Project Administrator
+2. navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
+   1. **Name** Choose Google
+   2. **Display Name** (e.g. **EXAMPLE.COM SSO**)
+   3. **Identifier** (**Client ID** from step 2)
+   4. **Secret** (**Client Secret** from step 2)
+3. Press **Create**
+
+![g6-add-new-openid-provider-google](g6-add-new-openid-provider-google.png)
+
+4. The following green notification **Successful creation** should appear
+
+![g7-successful-creation-google](g7-successful-creation-google.png)
+
+
+
+
 
 ## Azure Active Directory
 
@@ -94,6 +178,12 @@ Sometimes you may need to configure the `tenant` option for the AzureAD connecti
 Currently this is not possible through the user interface.
 
 But you can do it via the console as described [here](../../../installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
+
+## Custom OpenID Connect Providers
+
+You  can still use an arbitrary provider. But for the time being there is no user interface yet for this. That means you will have to do it directly using the console on the server or via environment variables.
+
+Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/).
 
 ## Troubleshooting
 

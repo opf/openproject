@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -148,6 +146,22 @@ module SearchHelper
   end
 
   def abbreviated_text(words)
-    h(words.length > 100 ? "#{words.slice(0..44)} ... #{words.slice(-45..-1)}" : words)
+    formatted_words = truncate_formatted_text(words, length: nil)
+
+    abbreviated_words = if formatted_words.length > 100
+                          "#{formatted_words.slice(0..44)} ... #{formatted_words.slice(-44..-1)}"
+                        else
+                          formatted_words
+                        end
+
+    if words[0] == ' '
+      abbreviated_words = " #{abbreviated_words}"
+    end
+
+    if words[-1] == ' ' && words.length > 1
+      abbreviated_words = "#{abbreviated_words} "
+    end
+
+    abbreviated_words
   end
 end

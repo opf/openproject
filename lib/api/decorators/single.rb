@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +30,12 @@ require 'roar/decorator'
 require 'roar/hypermedia'
 require 'roar/json/hal'
 
-require 'api/v3/utilities/path_helper'
-
 module API
   module Decorators
     class Single < ::Roar::Decorator
       include ::Roar::JSON::HAL
       include ::Roar::Hypermedia
+      include ::API::Decorators::SelfLink
       include ::API::V3::Utilities::PathHelper
 
       attr_reader :current_user, :embed_links
@@ -48,8 +45,10 @@ module API
 
       # Use this to create our own representers, giving them a chance to override the instantiation
       # if desired.
-      def self.create(model, current_user:, embed_links: false)
-        new(model, current_user: current_user, embed_links: embed_links)
+      # Explicitly forwards all arguments to new, to avoid having to override #create on subclasses
+      # such as collection
+      def self.create(...)
+        new(...)
       end
 
       def initialize(model, current_user:, embed_links: false)
@@ -64,19 +63,8 @@ module API
       property :_type,
                exec_context: :decorator,
                render_nil: false,
-               writeable: false
+               writable: false
 
-      def self.self_link(path: nil, id_attribute: :id, title_getter: ->(*) { represented.name })
-        link :self do
-          self_path = self_v3_path(path, id_attribute)
-
-          link_object = { href: self_path }
-          title = instance_eval(&title_getter)
-          link_object[:title] = title if title
-
-          link_object
-        end
-      end
 
       class_attribute :to_eager_load
       class_attribute :checked_permissions
@@ -104,29 +92,11 @@ module API
         end
       end
 
-      def datetime_formatter
-        ::API::V3::Utilities::DateTimeFormatter
-      end
-
       # If a subclass does not depend on a model being passed to this class, it can override
       # this method and return false. Otherwise it will be enforced that the model of each
       # representer is non-nil.
       def model_required?
         true
-      end
-
-      def self_v3_path(path, id_attribute)
-        path ||= _type.underscore
-
-        id = if id_attribute.respond_to?(:call)
-               instance_eval(&id_attribute)
-             else
-               represented.send(id_attribute)
-             end
-
-        id = [nil] if id.nil?
-
-        api_v3_paths.send(path, *Array(id))
       end
     end
   end

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project system settings
   priority: 950
 description: Project system settings in OpenProject.
-robots: index, follow
 keywords: project system settings
 ---
 # Project system settings
@@ -18,6 +17,6 @@ To adapt the system project settings, navigate to *Administration -> System sett
 
 ## Settings for the Projects Overview List
 1. Choose **which columns should be visible** in the Projects Overview List by default.
-2. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the [Projects Overview List](../../../user-guide/projects/#global-projects-overview---view-all-projects). You can choose filters, columns, sorting and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/) in the User guide (as the basic principles are the same).
+2. Define the **settings for the Gantt chart view** displayed when clicking on "Open as Gantt view" in the [Projects Overview List](../../../user-guide/projects/#projects-list). You can choose filters, columns, sorting and more to configure the view. For more information on how the configuration works please refer to the instructions for the [work package table configuration](../../../user-guide/work-packages/work-package-table-configuration/) in the User guide (as the basic principles are the same).
 3. Do not forget to **save** your changes.
    ![image-20211209170238546](image-20211209170238546.png)

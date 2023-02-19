@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,12 +63,12 @@ module VirtualAttribute
       end
     end
 
-    def _define_virtual_attribute_getter(attribute, &block)
+    def _define_virtual_attribute_getter(attribute, &)
       define_method attribute do
         if instance_variable_get(:"@#{attribute}_set")
           instance_variable_get(:"@#{attribute}")
         else
-          value = instance_eval(&block)
+          value = instance_eval(&)
 
           set_virtual_attribute_was(attribute, value)
 

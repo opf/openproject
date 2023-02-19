@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +28,8 @@
 
 class Queries::Columns::Base
   attr_reader :groupable,
-              :sortable
+              :sortable,
+              :displayable
 
   attr_accessor :name,
                 :sortable_join,
@@ -47,6 +46,7 @@ class Queries::Columns::Base
 
     %i(sortable
        sortable_join
+       displayable
        groupable
        summable
        summable_select
@@ -75,7 +75,15 @@ class Queries::Columns::Base
   end
 
   def sortable=(value)
-    @sortable =  name_or_value_or_false(value)
+    @sortable = name_or_value_or_false(value)
+  end
+
+  def displayable=(value)
+    @displayable = value.nil? ? true : value
+  end
+
+  def displayable?
+    displayable
   end
 
   # Returns true if the column is sortable, otherwise false

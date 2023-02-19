@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,44 +26,51 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import {
-  Component, ElementRef, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
+
+import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 
 @Component({
   templateUrl: './password-confirmation.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PasswordConfirmationModalComponent extends ConfirmDialogModalComponent implements OnInit {
   public password_confirmation:string|null = null;
 
   @ViewChild('passwordConfirmationField', { static: true }) passwordConfirmationField:ElementRef;
 
-  public ngOnInit() {
+  public additionalText = {
+    field_description: I18n.t('js.password_confirmation.field_description'),
+    confirm_button: I18n.t('js.button_confirm'),
+    password: I18n.t('js.label_password'),
+    cancel_button: I18n.t('js.button_cancel'),
+  };
+
+  public ngOnInit():void {
     super.ngOnInit();
 
     this.text.title = I18n.t('js.password_confirmation.title');
-    this.text.field_description = I18n.t('js.password_confirmation.field_description');
-    this.text.confirm_button = I18n.t('js.button_confirm');
-    this.text.password = I18n.t('js.label_password');
-
-    this.closeOnEscape = false;
-    this.closeOnOutsideClick = false;
     this.showClose = false;
   }
 
-  public confirmAndClose(evt:JQuery.TriggeredEvent) {
+  public confirmAndClose(evt:Event):void {
     if (this.passwordValuePresent()) {
       super.confirmAndClose(evt);
     }
   }
 
-  public onOpen(modalElement:JQuery) {
-    super.onOpen(modalElement);
+  public onOpen():void {
+    super.onOpen();
     this.passwordConfirmationField.nativeElement.focus();
   }
 
-  public passwordValuePresent() {
+  public passwordValuePresent():boolean {
     return this.password_confirmation !== null && this.password_confirmation.length > 0;
   }
 }

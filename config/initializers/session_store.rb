@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +54,7 @@ module OpenProject
     rescue StandardError => e
       Rails.logger.error(
         "Failed to determine new `after_expire` value. " +
-        "Falling back to original value. (#{e.message} at #{caller.first})"
+          "Falling back to original value. (#{e.message} at #{caller.first})"
       )
 
       options[:expire_after]
@@ -75,13 +73,13 @@ if Rails.env.test?
   config['session_store'] = :active_record_store
 end
 
-session_store     = config['session_store'].to_sym
+session_store = config['session_store'].to_sym
 relative_url_root = config['rails_relative_url_root'].presence
 
 session_options = {
   key: config['session_cookie_name'],
   httponly: true,
-  secure: Setting.https?,
+  secure: config.https?,
   path: relative_url_root
 }
 
@@ -99,25 +97,26 @@ if session_store == :cache_store
       expire_after # anonymous user
     end
   end
-
-  method = ActionDispatch::Session::CacheStore.instance_method(:write_session)
-  unless method.to_s.include?("write_session(env, sid, session, options)")
-    raise(
-      "The signature for `ActionDispatch::Session::CacheStore.write_session` " +
-      "seems to have changed. Please update the " +
-      "`ExpireStoreAfterOption` module (and this check) in #{__FILE__}"
-    )
-  end
-
-  ActionDispatch::Session::CacheStore.prepend OpenProject::ExpireStoreAfterOption
 end
 
 OpenProject::Application.config.session_store session_store, **session_options
 
-##
-# We use our own decorated session model to note the user_id
-# for each session.
-ActionDispatch::Session::ActiveRecordStore.session_class = ::Sessions::SqlBypass
-# Continue to use marshal serialization to retain symbols and whatnot
-ActiveRecord::SessionStore::Session.serializer = :marshal
+Rails.application.reloader.to_prepare do
+  method = ActionDispatch::Session::CacheStore.instance_method(:write_session)
+  unless method.to_s.include?("write_session(env, sid, session, options)")
+    raise(
+      "The signature for `ActionDispatch::Session::CacheStore.write_session` " +
+        "seems to have changed. Please update the " +
+        "`ExpireStoreAfterOption` module (and this check) in #{__FILE__}"
+    )
+  end
 
+  ActionDispatch::Session::CacheStore.prepend OpenProject::ExpireStoreAfterOption
+
+  ##
+  # We use our own decorated session model to note the user_id
+  # for each session.
+  ActionDispatch::Session::ActiveRecordStore.session_class = ::Sessions::SqlBypass
+  # Continue to use marshal serialization to retain symbols and whatnot
+  ActiveRecord::SessionStore::Session.serializer = :marshal
+end

@@ -1,0 +1,92 @@
+#English strings go here
+es:
+  permission_view_file_links: "Ver enlaces de archivos"
+  permission_manage_file_links: "Administrar enlaces de archivos"
+  permission_manage_storages_in_project: "Administrar almacenes de archivos en el proyecto"
+  project_module_storages: "Almacenes de archivos"
+  activerecord:
+    models:
+      storages/storage: "Almacén"
+    attributes:
+      storages/storage:
+        name: "Nombre"
+        creator: "Autor"
+        provider_type: "Tipo de proveedor"
+      storages/file_link:
+        origin_id: "Id. de origen"
+    errors:
+      messages:
+        not_linked_to_project: "no está vinculado al proyecto."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "no admite conexiones."
+              minimal_nextcloud_version_unmet: "no cumple los requisitos mínimos de versión (debe ser Nextcloud 23 o posteriores)"
+              not_nextcloud_server: "no es un servidor de Nextcloud"
+              op_application_not_installed: >
+                parece que no tienes la aplicación "Integración OpenProject" instalada. Por favor, instálala primero y vuelve a intentarlo.
+              authorization_header_missing: >
+                no está completamente configurado. La instancia de Nextcloud no recibe la cabecera "Autorización", que es necesaria para la autorización basada en token Bearer de solicitudes API. Por favor, compruebe la configuración de tu servidor HTTP.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "solo puede ser numérico o un UUID."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Se intentaron crear demasiados elementos a la vez. Se esperaban como máximo %{max}, pero se recibieron %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Hecho. Continuar configuración"
+      replace_openproject_oauth: "Reemplazar OpenProject OAuth"
+      replace_provider_type_oauth: "Reemplazar %{provider_type} OAuth"
+      save_and_continue_setup: "Guardar y continuar configuración"
+      save_and_complete_setup: "Guardar y completar configuración"
+    page_titles:
+      project_settings:
+        index: "Hay almacenes de archivos disponibles en este proyecto"
+        new: "Añadir un almacenamiento de archivos a este proyecto"
+    instructions:
+      type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
+      type_link_text: "“Integración OpenProject”"
+      name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
+      host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
+      no_storage_set_up: "Aún no se han configurado almacenes de archivos."
+      setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
+      setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
+      setting_up_storages: "Para configurar almacenes de archivos, visite"
+      setting_up_storages_non_admin: "Los administradores pueden configurar almacenes de archivos en Administración > Almacenes de archivos."
+      all_available_storages_already_added: "Ya se añadieron todos los almacenes disponibles al proyecto."
+      copy_from: "Copiar este valor de"
+      nextcloud:
+        integration: "Administración de Nextcloud / OpenProject"
+    delete_warning:
+      storage: >
+        ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
+      project_storage: >
+        ¿Seguro que quiere quitar este almacén de archivos del proyecto? También se quitarán todos los enlaces a los archivos guardados en este almacén para el proyecto.
+    label_creator: "Autor"
+    label_file_link: "Enlace de archivo"
+    label_file_links: "Enlaces de archivos"
+    label_name: "Nombre"
+    label_host: "URL del host"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "Detalles de aplicación OAuth"
+    label_oauth_client_details: "Detalles del cliente OAuth"
+    label_provider_type: "Tipo de proveedor"
+    label_new_storage: "Nuevo almacén"
+    label_storage: "Almacén"
+    label_storages: "Almacenes"
+    no_results: "Aún no se han configurado almacenes."
+    provider_types:
+      label: "Tipo de proveedor"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "Mi Nextcloud"
+    confirm_replace_oauth_application: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject."
+    confirm_replace_oauth_client: "¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento."
+    oauth_client_details_missing: "Para completar la configuración, por favor agregue las credenciales del cliente OAuth desde su almacenamiento."
+    notice_oauth_application_replaced: "La aplicación OpenProject OAuth fue reemplazada con éxito."

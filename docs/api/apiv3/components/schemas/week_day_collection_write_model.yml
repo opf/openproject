@@ -1,0 +1,62 @@
+# Schema: WeekDayCollectionWriteModel
+---
+type: object
+required:
+  - _type
+  - _embedded
+properties:
+  _type:
+    type: string
+    enum:
+      - Collection
+  _embedded:
+    type: object
+    required:
+      - elements
+    properties:
+      elements:
+        type: array
+        description: |-
+          The array of week days.
+        minItems: 1
+        maxItems: 7
+        items:
+          allOf:
+            - $ref: './week_day_write_model.yml'
+            - type: object
+              required:
+                - _links
+              properties:
+                _links:
+                  allOf:
+                    - $ref: './week_day_self_link_model.yml'
+
+example:
+  _type: Collection
+  _embedded:
+    elements:
+      - _type: WeekDay
+        working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/1'
+      - _type: WeekDay
+        working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/2'
+      - _type: WeekDay
+        working: true
+        _links:
+          self:
+            href: '/api/v3/days/week/4'
+      - _type: WeekDay
+        working: false
+        _links:
+          self:
+            href: '/api/v3/days/week/6'
+      - _type: WeekDay
+        working: false
+        _links:
+          self:
+            href: '/api/v3/days/week/7'

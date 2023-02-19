@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { WpSingleViewStore } from './wp-single-view.store';
-import { WpSingleViewQuery } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.query';
 import {
   filter,
+  map,
   switchMap,
   take,
 } from 'rxjs/operators';
-import { selectCollectionAsHrefs$ } from 'core-app/core/state/collection-store';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  centerUpdatedInPlace,
   markNotificationsAsRead,
   notificationsMarkedRead,
-  centerUpdatedInPlace,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
@@ -20,6 +22,8 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
+import { collectionKey } from 'core-app/core/state/collection-store';
+import { Query } from '@datorama/akita';
 
 @EffectHandler
 @Injectable()
@@ -28,7 +32,38 @@ export class WpSingleViewService {
 
   protected store = new WpSingleViewStore();
 
-  readonly query = new WpSingleViewQuery(this.store, this.resourceService);
+  protected query = new Query(this.store);
+
+  selectNotifications$ = this
+    .query
+    .select((state) => state.notifications.filters)
+    .pipe(
+      filter((filters) => filters.length > 0),
+      switchMap((filters) => this.resourceService.collection(collectionKey({ filters }))),
+    );
+
+  selectNotificationsCount$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => notifications.length),
+    );
+
+  nonDateAlertNotificationsCount$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => notifications.filter((notification) => notification.reason !== 'dateAlert')),
+      map((notifications) => notifications.length),
+    );
+
+  hasNotifications$ = this
+    .selectNotificationsCount$
+    .pipe(
+      map((count) => count > 0),
+    );
+
+  get params():ApiV3ListParameters {
+    return { filters: this.query.getValue().notifications.filters };
+  }
 
   constructor(
     readonly actions$:ActionsService,
@@ -57,13 +92,16 @@ export class WpSingleViewService {
   }
 
   markAllAsRead():void {
-    selectCollectionAsHrefs$(this.resourceService, { filters: this.store.getValue().notifications.filters })
+    const key = collectionKey({ filters: this.store.getValue().notifications.filters });
+    this
+      .resourceService
+      .collection(key)
       .pipe(
         take(1),
       )
       .subscribe((collection) => {
         this.actions$.dispatch(
-          markNotificationsAsRead({ origin: this.id, notifications: collection.ids }),
+          markNotificationsAsRead({ origin: this.id, notifications: collection.map((el) => el.id) }),
         );
       });
   }
@@ -75,7 +113,7 @@ export class WpSingleViewService {
       .pipe(
         take(1),
         filter((loggedIn) => loggedIn),
-        switchMap(() => this.resourceService.fetchNotifications(this.query.params)),
+        switchMap(() => this.resourceService.fetchCollection(this.params)),
       )
       .subscribe();
   }

@@ -12,7 +12,7 @@
         <label class="form--label" for='recaptcha_type'><%= t('recaptcha.settings.type') %></label>
         <div class="form--field-container">
           <%= styled_select_tag 'recaptcha_type',
-                                options_for_select(recaptcha_available_options, Setting.plugin_openproject_recaptcha[:recaptcha_type]),
+                                options_for_select(recaptcha_available_options, Setting.plugin_openproject_recaptcha['recaptcha_type']),
                                 container_class: '-middle' %>
         </div>
         <div class="form--field-instructions">
@@ -24,7 +24,7 @@
         <label class="form--label" for='website_key'><%= t('recaptcha.settings.website_key') %></label>
         <div class="form--field-container">
           <%= styled_text_field_tag 'website_key',
-                                    Setting.plugin_openproject_recaptcha[:website_key] %>
+                                    Setting.plugin_openproject_recaptcha['website_key'] %>
         </div>
         <div class="form--field-instructions">
           <%= I18n.t('recaptcha.settings.website_key_text') %>
@@ -34,7 +34,7 @@
         <label class="form--label" for='secret_key'><%= t('recaptcha.settings.secret_key') %></label>
         <div class="form--field-container">
           <%= styled_text_field_tag 'secret_key',
-                                    Setting.plugin_openproject_recaptcha[:secret_key] %>
+                                    Setting.plugin_openproject_recaptcha['secret_key'] %>
         </div>
         <div class="form--field-instructions">
           <%= I18n.t('recaptcha.settings.secret_key_text') %>

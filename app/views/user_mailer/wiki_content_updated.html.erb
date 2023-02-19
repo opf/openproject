@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <p>
   <%=raw t(:mail_body_wiki_content_updated,
                id: link_to(@wiki_content.page.title, project_wiki_url(@wiki_content.page.project, @wiki_content.page)),
-               author: @wiki_content.author) %><br />
+               author: @wiki_content.journals.last.user) %><br />
   <em><%= @wiki_content.journals.last.notes %></em>
 </p>
 

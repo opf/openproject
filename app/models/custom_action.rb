@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -125,22 +123,3 @@ class CustomAction < ApplicationRecord
     end
   end
 end
-
-CustomActions::Register.action(CustomActions::Actions::AssignedTo)
-CustomActions::Register.action(CustomActions::Actions::Responsible)
-CustomActions::Register.action(CustomActions::Actions::Status)
-CustomActions::Register.action(CustomActions::Actions::Priority)
-CustomActions::Register.action(CustomActions::Actions::CustomField)
-CustomActions::Register.action(CustomActions::Actions::Type)
-CustomActions::Register.action(CustomActions::Actions::Project)
-CustomActions::Register.action(CustomActions::Actions::Notify)
-CustomActions::Register.action(CustomActions::Actions::DoneRatio)
-CustomActions::Register.action(CustomActions::Actions::EstimatedHours)
-CustomActions::Register.action(CustomActions::Actions::StartDate)
-CustomActions::Register.action(CustomActions::Actions::DueDate)
-CustomActions::Register.action(CustomActions::Actions::Date)
-
-CustomActions::Register.condition(CustomActions::Conditions::Status)
-CustomActions::Register.condition(CustomActions::Conditions::Role)
-CustomActions::Register.condition(CustomActions::Conditions::Type)
-CustomActions::Register.condition(CustomActions::Conditions::Project)

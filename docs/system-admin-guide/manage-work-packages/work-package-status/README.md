@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Status
   priority: 970
 description: Manage Work package status.
-robots: index, follow
 keywords: work package status
 ---
 
@@ -49,6 +48,4 @@ When you decide to set the new status as default status please note the followin
 
 ![Sys-admin-edit-work-package-status](Sys-admin-edit-work-package-status.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.
-</div>
+> **Note**: A new status needs to be activated in the [work package workflows](../work-package-workflows) in order to appear in the status drop down of a work package.

@@ -3,68 +3,69 @@ cs:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
-        sync_users: 'Sync users'
+        auth_source: 'Připojení LDAP'
+        sync_users: 'Synchronizovat uživatele'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
+        filter_string: 'LDAP filtr'
+        auth_source: 'Připojení LDAP'
+        group_name_attribute: "Atribut názvu skupiny"
+        sync_users: 'Synchronizovat uživatele'
         base_dn: "Search base DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_group: 'Synchronizovaná LDAP skupina'
+      ldap_groups/synchronized_filter: 'LDAP skupina synchronizační filtr'
     errors:
       models:
         ldap_groups/synchronized_filter:
           must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
-    label_group_key: 'LDAP group filter key'
-    label_synchronize: 'Synchronize'
+    label_menu_item: 'Synchronizace skupiny LDAP'
+    label_group_key: 'LDAP skupinový klíč filtru'
+    label_synchronize: 'Synchronizovat'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute: 'Atribut názvu LDAP skupin'
+      name_attribute_text: 'LDAP atribut používaný pro pojmenování skupiny OpenProject při vytváření filtrem'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: 'Přidat synchronizovaný LDAP filtr'
+      singular: ' synchronizační filtr LDAP skupiny'
+      plural: 'LDAP skupina synchronizační filtry'
       label_n_groups_found:
-        one: "1 group found by the filter"
-        other: "%{count} groups found by the filter"
-        zero: "No groups were found by the filter"
+        one: "1 skupina nalezena ve filtru"
+        other: "%{count} skupin nalezeno pomocí filtru"
+        zero: "Ve filtru nebyly nalezeny žádné skupiny"
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
+        title: 'Odstranit synchronizovaný filtr %{name}'
+        confirmation: "Pokud budete pokračovat, synchronizovaný filtr %{name} a všechny skupiny %{groups_count} vytvořené prostřednictvím tohoto filtru budou odstraněny."
+        removed_groups: "Varování: Toto odstraní následující skupiny z OpenProject a odstraní je ze všech projektů!"
+        verification: "Zadejte název projektu %{name} pro potvrzení odstranění."
       form:
         group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
         filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection.
-          Leave this option empty to reuse the base DN of the connection
+          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Přidat synchronizovanou LDAP skupinu'
       destroy:
-        title: 'Remove synchronized group %{name}'
+        title: 'Odstranit synchronizovanou skupinu %{name}'
         confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
+        info: "Poznámka: Samotná OpenProject skupina a členové přidaní mimo tuto LDAP synchronizaci nebudou odstraněni."
+        verification: "Zadejte název skupiny %{name} pro ověření odstranění."
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
         It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
         <br/>
         Groups are synchronized hourly through a cron job.
         <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please see our documentation on this topic</a>.
-      no_results: 'No synchronized groups found.'
-      no_members: 'This group has no synchronized members yet.'
-      plural: 'Synchronized LDAP groups'
-      singular: 'Synchronized LDAP group'
+      no_results: 'Nebyly nalezeny žádné synchronizované skupiny.'
+      no_members: 'Tato skupina zatím nemá žádné synchronizované členy.'
+      plural: 'Synchronizované LDAP skupiny'
+      singular: 'Synchronizovaná LDAP skupina'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: 'Vyberte, které připojení k LDAP má být použito.'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
-        dn_text: 'Enter the full DN of the group in LDAP'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+          Pokud povolíte tuto možnost, nalezení uživatelé budou také automaticky vytvořena v OpenProject. Bez něho, pouze existující účty budou v OpenProject přidány do skupin.
+        dn_text: 'Zadejte celé DN skupiny v LDAP'
+        group_text: 'Vyberte existující OpenProject skupinu, se kterou budou členové LDAP synchronizovat'
+      upsale:
+        description: 'Využijte synchronizované skupiny LDAP pro správu uživatelů, změnu jejich oprávnění a usnadnění správy uživatelů napříč skupinami.'
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -141,7 +139,6 @@ module API
                                                   represented
                                                     .assignable_custom_field_values(custom_field)
                                                 },
-                                                writable: true,
                                                 value_representer: Versions::VersionRepresenter,
                                                 link_factory: ->(version) {
                                                   {
@@ -155,7 +152,6 @@ module API
         def inject_user_schema(custom_field)
           @class.schema_with_allowed_link property_name(custom_field.id),
                                           type: resource_type(custom_field),
-                                          writable: true,
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
                                           href_callback: allowed_users_href_callback
@@ -168,19 +164,17 @@ module API
             name_source: ->(*) { custom_field.name },
             values_callback: list_schemas_values_callback(custom_field),
             value_representer: CustomOptions::CustomOptionRepresenter,
-            writable: true,
             link_factory: list_schemas_link_callback,
             required: custom_field.is_required
           )
         end
 
-        def inject_basic_schema(custom_field, writable: true)
+        def inject_basic_schema(custom_field)
           @class.schema property_name(custom_field.id),
                         type: resource_type(custom_field),
                         name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
                         has_default: custom_field.default_value.present?,
-                        writable: writable,
                         min_length: cf_min_length(custom_field),
                         max_length: cf_max_length(custom_field),
                         regular_expression: cf_regexp(custom_field),
@@ -203,9 +197,9 @@ module API
 
           @class.send(method,
                       property_name(custom_field.id),
-                      link: link,
-                      setter: setter,
-                      getter: getter)
+                      link:,
+                      setter:,
+                      getter:)
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
@@ -216,9 +210,9 @@ module API
                 if href
                   ::API::Utilities::ResourceLinkParser.parse_id(
                     href,
-                    property: property,
+                    property:,
                     expected_version: '3',
-                    expected_namespace: expected_namespace
+                    expected_namespace:
                   )
                 end
 
@@ -235,7 +229,7 @@ module API
           proc do
             # Do not embed list or multi values as their links contain all the
             # information needed (title and href) already.
-            next if !represented.available_custom_fields.include?(custom_field) ||
+            next if represented.available_custom_fields.exclude?(custom_field) ||
                     custom_field.list? ||
                     custom_field.multi_value?
 
@@ -244,7 +238,7 @@ module API
             next unless value
 
             representer_class
-              .create(value, current_user: current_user)
+              .create(value, current_user:)
           end
         end
 
@@ -291,7 +285,7 @@ module API
             # keep the appended filters between requests.
             filters = static_filters + instance_filters.call(represented)
 
-            api_v3_paths.path_for(:principals, filters: filters, page_size: -1)
+            api_v3_paths.path_for(:principals, filters:, page_size: -1)
           }
         end
 
@@ -304,7 +298,7 @@ module API
         end
 
         def cf_regexp(custom_field)
-          custom_field.regexp unless custom_field.regexp.blank?
+          custom_field.regexp.presence
         end
 
         def cf_options(custom_field)
@@ -366,6 +360,14 @@ module API
         end
 
         module RepresenterClass
+          def self.extended(base)
+            class << base
+              # In order to ensure the custom fields to be loaded correctly, consumers need to call the
+              # .create method.
+              protected :new
+            end
+          end
+
           def custom_field_injector(config)
             @custom_field_injector_config = config.reverse_merge custom_field_injector_config
           end

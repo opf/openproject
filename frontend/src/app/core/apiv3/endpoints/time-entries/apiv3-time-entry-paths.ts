@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,19 +27,19 @@
 //++
 
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { APIv3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
+import { ApiV3FormResource } from 'core-app/core/apiv3/forms/apiv3-form-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Apiv3TimeEntriesPaths } from 'core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths';
+import { ApiV3TimeEntriesPaths } from 'core-app/core/apiv3/endpoints/time-entries/apiv3-time-entries-paths';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource> {
+export class ApiV3TimeEntryPaths extends ApiV3Resource<TimeEntryResource> {
   // Static paths
-  readonly form = this.subResource('form', APIv3FormResource);
+  readonly form = this.subResource('form', ApiV3FormResource);
 
   /**
    * Update the time entry with the given payload.
@@ -71,7 +71,7 @@ export class Apiv3TimeEntryPaths extends CachableAPIV3Resource<TimeEntryResource
   }
 
   protected createCache():StateCacheService<TimeEntryResource> {
-    return (this.parent as Apiv3TimeEntriesPaths).cache;
+    return (this.parent as ApiV3TimeEntriesPaths).cache;
   }
 
   /**

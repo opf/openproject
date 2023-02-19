@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -33,14 +31,16 @@ module API
     module Utilities
       class SqlWalkerResults
         def initialize(scope, url_query:, self_path: nil, replace_map: {})
-          self.scope = scope
+          self.filter_scope = scope.dup
+          self.projection_scope = scope.dup.distinct(false).reselect("#{scope.model.table_name}.*")
           self.ctes = {}
           self.self_path = self_path
           self.url_query = url_query
           self.replace_map = replace_map
         end
 
-        attr_accessor :scope,
+        attr_accessor :filter_scope,
+                      :projection_scope,
                       :sql,
                       :selects,
                       :ctes,

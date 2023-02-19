@@ -2,14 +2,13 @@
 ro:
   js:
     boards:
+      create_new: 'Creează un nou panou'
       label_unnamed_board: 'Consiliul de administrație fără nume'
       label_unnamed_list: 'Listă fără nume'
       label_board_type: 'Tipul de placă'
       upsale:
-        teaser_text: 'Îmbunătățiți gestionarea agilă a proiectelor cu această vizualizare flexibilă a planșelor. Creați oricâte panouri doriți pentru orice lucru pe care doriți să îl urmăriți.'
-        upgrade_to_ee_text: 'Boards este o caracteristică Enterprise. Vă rugăm să treceți la un plan cu plată.'
+        teaser_text: 'Doriți să vă automatizați fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Vă rugăm să treceți la un plan plătit.'
         upgrade: 'Actualizează acum'
-        personal_demo: 'Contactați-ne pentru o demonstrație'
       lists:
         delete: 'Ștergeți lista'
       version:

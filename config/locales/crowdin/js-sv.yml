@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,8 +23,12 @@ sv:
   js:
     ajax:
       hide: "Dölj"
-      loading: "Laddar ..."
+      loading: "Loading…"
+      updating: "Updating…"
     attachments:
+      delete: "Delete attachment"
+      delete_confirmation: |
+        Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Dra på editorfältet för att infoga bild eller referensbilaga. Stängda editorfält kommer att öppnas medan du fortsätter att dra.
     autocomplete_select:
@@ -61,6 +65,7 @@ sv:
     button_confirm: "Bekräfta"
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
+    button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Ta bort"
     button_delete_watcher: "Ta bort bevakare"
@@ -80,6 +85,10 @@ sv:
     button_open_fullscreen: "Öppna fullskärmsläge"
     button_show_cards: "Visa kortvy"
     button_show_list: "Visa listvy"
+    button_show_table: "Show table view"
+    button_show_gantt: "Show Gantt view"
+    button_show_fullscreen: "Show fullscreen view"
+    button_more_actions: "More actions"
     button_quote: "Citat"
     button_save: "Spara"
     button_settings: "Inställningar"
@@ -88,9 +97,6 @@ sv:
     button_export-pdf: "Ladda ner PDF"
     button_export-atom: "Ladda ner Atom"
     button_create: "Skapa"
-    calendar:
-      title: 'Kalender'
-      too_many: 'Det finns totalt %{count} arbetspaket, men bara %{max} kan visas.'
     card:
       add_new: 'Lägg till kort'
       highlighting:
@@ -152,7 +158,7 @@ sv:
           language_hint: 'Ange det formateringsspråk som används för att belysa (om det stöds).'
         dropdown:
           macros: 'Makron'
-          chose_macro: 'Välj makro'
+          chose_macro: 'Choose macro'
         toc: 'Innehållsförteckning'
         toolbar_help: 'Klicka på välj widget och visa verktygsfältet. Dubbelklicka om du vill redigera widget'
         wiki_page_include:
@@ -205,6 +211,7 @@ sv:
             label_expires_at: "Förfaller den"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
+            domain_mismatch: The current request host name does not match the configured host name. Please double check your system settings.
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "Or try it with another email address."
@@ -216,29 +223,34 @@ sv:
           status_label: "Status:"
           status_confirmed: "bekräftade"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Bli en hjälte!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professionell hjälp"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Starta fri provperiod"
+          button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Boka nu"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Få en offert"
+          more_info: "More information"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. With the Enterprise Edition, you substantially contribute to this Open Source community effort."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
     custom_actions:
       date:
         specific: 'på'
@@ -252,6 +264,7 @@ sv:
     enumeration_doc_categories: "Dokumentkategorier"
     enumeration_work_package_priorities: "Arbetspaketsprioritering"
     filter:
+      more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
         text_open_filter: "Öppna det här filtret med 'ALT' och piltangenterna."
         text_close_filter: "Välj en post genom att ändra fokus (ex. med 'ENTER'). Välj den första (tomma) posten för att lämna utan filter."
@@ -266,8 +279,8 @@ sv:
           one: "Första sorteringskriteriet"
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
-      upsale_for_more: "För mer avancerade filter, kolla in"
-      upsale_link: 'Enterprise Edition.'
+      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_link: 'Enterprise edition.'
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -286,16 +299,17 @@ sv:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_0':
+          '12_4':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>With the new <b>in-app notifications</b> you receive all important updates directly in the application and don't get a flood of emails anymore.</li> <li>The new <b>notification center</b> shows all the changes, including intuitive filter options, e.g. by reason for notification or projects. It even allows editing directly in a split view.</li> <li>Improved <b>notification settings</b> allow to fine-tune for which actions and in which projects you want to receive a notification.</li> <li><b>Email reminders</b> can be configured to receive important updates via a daily email summary.</li> <li>The work package auto-completer for relations now also shows additional information (project name, status, ...) to easily identify the respective work package.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
             bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-0-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Notification center: Reduce the number of mails you receive. Instead find and act upon all relevant notifications in one central place.</li> <li>All uploaded IFC files can now also be downloaded.</li> <li>The uploading and processing of IFC got faster and received better error messages.</li> <li>The <a href="https://github.com/opf/openproject-revit-add-in">OpenProject Revit Add-in</a> received many bug fixes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
     label_activate: "Aktivera"
+    label_assignee: 'Assignee'
     label_add_column_after: "Lägg till kolumn efter"
     label_add_column_before: "Lägg till kolumn före"
     label_add_columns: "Lägg till kolumn"
@@ -365,6 +379,7 @@ sv:
     label_in_more_than: "i mer än"
     label_incoming_emails: "Inkommande E-post"
     label_information_plural: "Information"
+    label_invalid: "Invalid"
     label_import: "Importera"
     label_latest_activity: "Senaste aktivitet"
     label_last_updated_on: "Senast uppdaterad den"
@@ -384,6 +399,7 @@ sv:
     label_no_data: "Ingen data att visa"
     label_no_due_date: "no finish date"
     label_no_start_date: "inget startdatum"
+    label_no_date: "no date"
     label_no_value: "Inget värde"
     label_none: "inga"
     label_not_contains: "innehåller inte"
@@ -396,6 +412,8 @@ sv:
     label_previous: "Föregående"
     label_per_page: "Per sida:"
     label_please_wait: "Vänligen vänta"
+    label_project: "Project"
+    label_project_list: "Projects list"
     label_project_plural: "Projekt"
     label_visibility_settings: "Synlighet inställningar"
     label_quote_comment: "Citera denna kommentar"
@@ -408,6 +426,7 @@ sv:
     label_report: "Rapport"
     label_repository_plural: "Versionsarkiv"
     label_save_as: "Spara som"
+    label_select_project: "Select a project"
     label_select_watcher: "Välj en bevakare..."
     label_selected_filter_list: "Valda filter"
     label_show_attributes: "Visa alla attribut"
@@ -449,12 +468,12 @@ sv:
     label_unwatch: "Sluta bevaka"
     label_unwatch_work_package: "Sluta bevaka arbetspaket"
     label_uploaded_by: "Uppladdad av"
-    label_default_queries: "Standardvyer"
-    label_starred_queries: "Favoritvyer"
-    label_global_queries: "Offentliga vyer"
-    label_custom_queries: "Privata vyer"
+    label_default_queries: "Default"
+    label_starred_queries: "Favorite"
+    label_global_queries: "Public"
+    label_custom_queries: "Private"
     label_columns: "Kolumner"
-    label_attachments: Filer
+    label_attachments: Bilagor
     label_drop_files: Släpp filer här
     label_drop_files_hint: eller klicka för att lägga till filer
     label_drop_folders_hint: Du kan inte ladda upp mappar som bilaga. Välj enstaka filer.
@@ -465,7 +484,7 @@ sv:
     label_remove_all_files: Ta bort alla filer
     label_add_description: "Lägga till en beskrivning för %{file}"
     label_upload_notification: "Laddar upp fil(er)..."
-    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}"
+    label_work_package_upload_notification: "Ladda upp filer för arbetspaket #%{id}: %{subject}" #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} tillagd av %{author}"
     label_files_to_upload: "Dessa filer kommer att laddas upp:"
     label_rejected_files: "Dessa filer går inte att ladda upp:"
@@ -483,7 +502,7 @@ sv:
         next: 'Nästa'
         got_it: 'Jag fattar'
       steps:
-        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide and helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
+        help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
         members: 'Invite new <b>members</b> to join your project.'
         project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
         quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
@@ -498,7 +517,8 @@ sv:
           task_board: "The task board visualizes the <b>progress for this sprint</b>. Click on the plus (+) icon next to a user story to add new tasks or impediments. <br> The status can be updated by drag and drop."
         boards:
           overview: 'Select <b>boards</b> to shift the view and manage your project using the agile boards view.'
-          lists: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          lists_kanban: 'Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.'
+          lists_basic: 'Here you can create multiple lists (columns) within your agile board.'
           add: 'Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.'
           drag: 'Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.'
         wp:
@@ -509,23 +529,49 @@ sv:
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
           timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
+        team_planner:
+          overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
+          calendar: 'The weekly or biweekly planning board displays all work packages assigned to your team members.'
+          add_assignee: 'To get started, add assignees to the team planner.'
+          add_existing: 'Search for existing work packages and drag them to the team planner to instantly assign them to a team member and define start and end dates.'
+          card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "Notifications"
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
+        created: 'created'
+        scheduled: 'scheduled'
+        commented: 'commented'
+        processed: 'processed'
+        prioritized: 'prioritized'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Unread'
+        unread_title: 'Show unread'
         all: 'Alla'
+        all_title: 'Show all'
       center:
+        label_actor_and: 'and'
         and_more_users:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you'
+          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
@@ -533,31 +579,43 @@ sv:
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
           no_notification: "Looks like you're all caught up."
-          no_notification_with_current_filter: "Change of involvement or go back to the Inbox to view notifications"
+          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
         accountable: 'Huvudansvarig'
-        assigned: 'Assigned'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Inbox'
-        mentioned: '@mentioned'
-        watching: 'Watching'
+        mentioned: 'Mentioned'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
         change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
         title: "Notification settings"
         notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
-            title: 'I am @mentioned'
+            title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          involved:
-            title: 'Assigned to me or accountable'
-            description: 'Receive notifications for all activities on work packages for which I am assignee or accountable'
-          watched: 'Updates on watched items'
+          assignee: 'Assignee'
+          responsible: 'Accountable'
+          watched: 'Watcher'
           work_package_commented: 'All new comments'
           work_package_created: 'New work packages'
           work_package_processed: 'All status changes'
@@ -565,14 +623,19 @@ sv:
           work_package_scheduled: 'All date changes'
         global:
           immediately:
-            title: 'Notify me immediately'
-            description: 'These settings apply to all projects. You can create project-specific exceptions below.'
+            title: 'Participating'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Also notify me for'
-            description: 'Receive notifications for these activities on work packages in all projects:'
+            title: 'Non-participating'
+            description: 'Additional notifications for activities in all projects.'
+          date_alerts:
+            title: 'Date alerts'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          description: 'These project-specific settings override default settings above.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
@@ -588,6 +651,7 @@ sv:
       default: '-'
       subject: 'Ange ämne här'
       selection: 'Välj'
+      description: 'Description: Click to edit...'
       relation_description: 'Klicka för att ange beskrivning för denna relation'
     project:
       required_outside_context: >
@@ -642,8 +706,8 @@ sv:
         reset_title: "Återställ formulärinställningarna"
         confirm_reset: >
           Varning: Är du säker på att du vill återställa formulärinställningarna? Detta kommer att återställa attributen till deras standardgrupper, avmarkera kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
-        upgrade_to_ee_text: "Wow! Om du behöver denna funktion så är du ett superproffs! Skulle du vilja stötta oss OpenSource-utvecklare genom att bli en Enterprise Edition-kund?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Mer information"
         nevermind: "Det var inget"
       edit:
@@ -651,14 +715,7 @@ sv:
         projects: "Projekt"
         settings: "Inställningar"
     time_entry:
-      project: 'Projekt'
-      work_package: 'Arbetspaket'
       work_package_required: 'Requires selecting a work package first.'
-      activity: 'Aktivitet'
-      comment: 'Kommentar'
-      duration: 'Varaktighet'
-      spent_on: 'Datum'
-      hours: 'Timmar'
       title: 'Logga tid'
     two_factor_authentication:
       label_two_factor_authentication: 'Tvåfaktorsautentisering'
@@ -726,7 +783,6 @@ sv:
     project_menu_details: "Detaljer"
     scheduling:
       manual: 'Manual scheduling'
-      automatic: 'Automatic scheduling'
     sort:
       sorted_asc: 'Stigande sortering används, '
       sorted_dsc: 'Fallande sortering används, '
@@ -737,7 +793,6 @@ sv:
       activate_no: 'aktivera för att ta bort sortering'
     text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
     text_query_destroy_confirmation: "Är du säker på att du vill ta bort den markerade vyn?"
-    text_attachment_destroy_confirmation: "Är du säker på att du vill ta bort denna bilaga?"
     timelines:
       quarter_label: 'Q%{quarter_number}'
       gantt_chart: 'Gantt-schema'
@@ -749,7 +804,7 @@ sv:
         farRight: 'Längst till höger'
         showNone: '-- Ingen etikett --'
         description: >
-          Välj de attribut som alltid ska visas i respektive position i Gantts-schemat. Observera att när du hovrar över ett element kommer dess datumetiketter att visas istället för dessa attribut.
+          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
       button_activate: 'Visa Gantt-schema'
       button_deactivate: 'Dölj Gantt-schema'
       cancel: Avbryt
@@ -799,7 +854,7 @@ sv:
       zooms: "Zoomnivå"
       outlines: "Hierarkinivå"
     upsale:
-      ee_only: 'Funktionen finns endast i Enterprise Edition'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Fetstil"
       italic: "Kursiv"
@@ -827,6 +882,15 @@ sv:
       comment_send_failed: "Ett fel har inträffat. Kommentaren kunde inte läggas till."
       comment_updated: "Kommentaren har uppdaterats."
       confirm_edit_cancel: "Är du säker på att du vill avbryta redigeringen av arbetspaketet?"
+      datepicker_modal:
+        automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
+        manually_scheduled: "Manual scheduling enabled, all relations ignored."
+        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
+        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
+        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
+        show_relations: 'Show relations'
+        ignore_non_working_days:
+          title: 'Working days only'
       description_filter: "Filter"
       description_enter_text: "Ange text"
       description_options_hide: "Dölj alternativ"
@@ -846,6 +910,8 @@ sv:
       message_work_package_read_only: "Arbetspaketet är låst i denna status. Inget annat attribut än status kan ändras."
       message_work_package_status_blocked: "Status för arbetspaketet är inte skrivbar på grund av stängd status och stängd version tilldelas."
       placeholder_filter_by_text: "Ämne, beskrivning, kommentarer, ..."
+      filters:
+        title: 'Filter work packages'
       inline_create:
         title: 'Klicka här för att lägga till ett nytt arbetspaket till listan'
       create:
@@ -882,6 +948,7 @@ sv:
         description: "Beskrivning"
         date: "Datum"
         dueDate: "Slutdatum"
+        duration: "Duration"
         estimatedTime: "Beräknad tid"
         spentTime: "Förbrukad tid"
         category: "Kategori"
@@ -913,7 +980,6 @@ sv:
       placeholders:
         default: "-"
         date: "Select date"
-        formattable: "%{name}: Klicka för att redigera..."
       query:
         column_names: "Kolumner"
         group_by: "Gruppera resultat efter"
@@ -979,7 +1045,7 @@ sv:
         upsale:
           attribute_highlighting: 'Behöver vissa arbetspaket sticka ut från massan?'
           relation_columns: 'Behöver du se relationer i listan på arbetspaket?'
-          check_out_link: 'Kolla in Enterprise Edition.'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -987,7 +1053,8 @@ sv:
         activity: Aktivitet
         relations: Relationer
         watchers: Bevakare
-        attachments: Bilagor
+        files: Filer
+        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "dagar"
         weeks: "veckor"
@@ -1011,22 +1078,21 @@ sv:
       filter: "Filter"
       unselected_title: "Arbetspaket"
       search_query_label: "Sök sparade vyer"
-      search_query_title: "Klicka för att söka sparade vyer"
-      placeholder_query_title: "Ange en titel för den här vyn"
     modals:
-      label_settings: "Byt namn på vyn"
       label_name: "Namn"
       label_delete_page: "Ta bort aktuell sida"
       button_apply: "Tilldela"
       button_save: "Spara"
       button_submit: "Skicka"
       button_cancel: "Avbryt"
+      button_delete: "Delete"
       form_submit:
         title: 'Bekräfta för att fortsätta'
         text: 'Är du säker på att du vill utföra den här åtgärden?'
       destroy_work_package:
         title: "Bekräfta radering av %{label}"
-        text: "Är du säker på att du vill ta bort följande %{label}?"
+        single_text: "Are you sure you want to delete the work package"
+        bulk_text: "Are you sure you want to delete the following %{label}?"
         has_children: "Arbetspaketet har %{childUnits}:"
         confirm_deletion_children: "Jag bekräftar att allt underliggande till de listade arbetspaketen kommer att tas bort rekursivt."
         deletes_children: "Alla barnarbetspaket och deras underliggande kommer också att raderas rekursivt."
@@ -1074,6 +1140,10 @@ sv:
         one: "1 tim"
         other: "%{count} timmar"
         zero: "0 h"
+      day:
+        one: "1 day"
+        other: "%{count} days"
+        zero: "0 days"
     zen_mode:
       button_activate: 'Aktivera zen-läge'
       button_deactivate: 'Inaktivera avskalat läge'
@@ -1119,9 +1189,9 @@ sv:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Name or email address'
@@ -1140,13 +1210,13 @@ sv:
       role:
         label: 'Role in %{project}'
         no_roles_found: 'No roles were found'
-        description: 'This is the role that %{principal} will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://docs.openproject.org/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
+        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
         required: 'Please select a role'
         next_button: 'Nästa'
       message:
         label: 'Invitation message'
-        description: 'We will send an email to %{principal}, to which you can add a personal message here. An explanation for the invitation could be useful, or perhaps a bit of information regarding the project to help them get started.'
-        next_button: 'Review invitation'
+        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        next_button: 'Next'
       summary:
         next_button: 'Skicka inbjudan'
       success:
@@ -1156,8 +1226,28 @@ sv:
           placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: 'Fortsätt'
+    include_projects:
+      toggle_title: 'Include projects'
+      title: 'Projekt'
+      clear_selection: 'Clear selection'
+      apply: 'Tilldela'
+      selected_filter:
+        all: 'Alla projekt'
+        selected: 'Only selected'
+      search_placeholder: 'Search project...'
+      include_subprojects: 'Include all sub-projects'
+      tooltip:
+        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
+        current_project: 'This is the current project you are in.'
+        does_not_match_search: 'Project does not match the search criteria.'
+      no_results: 'No project matches your search criteria.'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'
       validation_error_message: 'Please fix the errors present in the form'
       advanced_settings: 'Avancerade inställningar'
+    spot:
+      filter_chip:
+        remove: 'Ta bort'
+      drop_modal:
+        Close: 'Stäng'

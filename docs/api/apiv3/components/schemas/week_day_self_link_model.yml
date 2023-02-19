@@ -1,0 +1,18 @@
+# WeekDaySelfLinkModel
+---
+type: object
+description: |-
+  Identify a particular week day by its href.
+properties:
+  self:
+    allOf:
+      - $ref: './link.yml'
+      - description: |-
+          This week day resource link.
+
+          **Resource**: WeekDay
+        readOnly: true
+example:
+  self:
+    href: /api/v3/days/week/3
+    title: Wednesday

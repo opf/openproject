@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Introduction to OpenProject
   priority: 999
 description: Get an introduction to OpenProject.
-robots: index, follow
 keywords: OpenProject introduction
 ---
 # Introduction to OpenProject
@@ -12,12 +11,12 @@ Welcome to OpenProject! We are glad to have you here. In this section we will co
 
 ## Overview
 
-| Popular Topics                                               | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [About OpenProject](#about-openproject)                      | What is OpenProject?                                         |
-| [First steps to get started](#first-steps-to-get-started)    | The first steps to get started with OpenProject.             |
-| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases. |
-| [OpenProject products](#openproject-products)                | What is the difference between the Community, Cloud and Enterprise Edition? |
+| Popular Topics                                                                        | Description                                                                                |
+|---------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| [About OpenProject](#about-openproject)                                               | What is OpenProject?                                                                       |
+| [First steps to get started](#first-steps-to-get-started)                             | The first steps to get started with OpenProject.                                           |
+| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases.                       |
+| [OpenProject products](#openproject-products)                                         | What is the difference between the Community, Enterprise cloud and Enterprise on-premises? |
 
 ## About OpenProject
 
@@ -61,11 +60,10 @@ OpenProject supports the initial set-up and configuration of a project structure
 
 | Features                   | Documentation for                                            |
 | -------------------------- | ------------------------------------------------------------ |
-| Create a new project       | Create and set up a new project in OpenProject.              |
-| Set up a project structure | Create a project hierarchy to structure your work in OpenProject. |
-| Document ideas             | Create first ideas, tasks, rough milestones.                 |
-| Project description        | Describe the goal and the way to reach them for your project. |
-| Invite members             | Invite your team to collaborate in OpenProject.              |
+| [Create a new project](../projects/#create-a-new-project)       | Create and set up a new project in OpenProject              |
+| [Set up a project structure](../../user-guide/projects/#project-structure) | Create a project hierarchy to structure your work in OpenProject |
+| [Project settings](../../user-guide/projects/#project-settings)            | Create first ideas, tasks, rough milestones.                 |
+| [Add members](../invite-members/)            | Invite your team to collaborate in OpenProject.              |
 
 ### Project definition and planning
 
@@ -73,10 +71,9 @@ Create a project overview with more detailed information, set up your project pl
 
 | Features            | Documentation for                                            |
 | ------------------- | ------------------------------------------------------------ |
-| Project overview    | Create a project overview with important project information. |
-| Project plan        | Set up a project timeline.                                   |
-| Structure your work | Create work packages and structure your work                 |
-| Roadmap planning    | Create a roadmap for your project.                           |
+| [Global projects overview](../../user-guide/)    | Create a project overview with important project information. |
+| [Structure your work](../work-packages-introduction/) | Create work packages and structure your work                 |
+| [Roadmap planning](../gantt-chart-introduction/)    | Create a roadmap for your project.                           |
 
 ### Project launch or execution
 
@@ -84,11 +81,11 @@ Manage all project activities, such as tasks, deliverables, risks, features, bug
 
 | Features      | Documentation for                                            |
 | ------------- | ------------------------------------------------------------ |
-| Work packages | Create and manage all project deliverables, tasks, features, risks, and more. |
-| Boards        | Manage your work with an Agile approach in the flexible boards view. |
-| Meetings      | Plan and document your project meetings and share minutes with all your team. |
-| News          | Share project news with your team.                           |
-| Wiki          | Document all important project information and keep it up to date with your team. |
+| [Work packages](../../user-guide/work-packages/create-work-package/)             | Create and manage all project deliverables, tasks, features, risks, and more. |
+| [Boards](../../user-guide/agile-boards/)        | Manage your work with an Agile approach in the flexible boards view. |
+| [Meetings](../../user-guide/meetings/)      | Plan and document your project meetings and share minutes with all your team. |
+| [News](../../user-guide/news/)          | Share project news with your team.                           |
+| [Wiki](../../user-guide/wiki/)          | Document all important project information and keep it up to date with your team. |
 
 ### Project performance and control
 
@@ -96,11 +93,11 @@ Create and manage project budgets, track and evaluate time and costs. Have custo
 
 | Features                | Documentation for                                            |
 | ----------------------- | ------------------------------------------------------------ |
-| Dashboard               | Visualize your progress within a project or project overarching (coming soon). |
-| Budgets                 | Create and manage budgets in your project.                   |
-| Time tracking           | Track time for any work within your project.                 |
-| Track unit costs        | Track unit costs for your project.                           |
-| Time and cost reporting | Have accurate detailed reports of current spent time and costs within your project. |
+| [Dashboard](../../user-guide/start-page/)               | Visualize your progress within a project or project overarching. |
+| [Budgets](../../user-guide/budgets/)                 | Create and manage budgets in your project.                   |
+| [Time tracking](../../user-guide/time-and-costs/time-tracking/)           | Track time for any work within your project.                 |
+| [Track unit costs](../../user-guide/time-and-costs/cost-tracking/)        | Track unit costs for your project.                           |
+| [Time and cost reporting](../../user-guide/time-and-costs/reporting/) | Have accurate detailed reports of current spent time and costs within your project. |
 
 ### Project close
 
@@ -108,8 +105,8 @@ Document project achievements, lessons learned, best practices and easily summar
 
 | Features        | Documentation for                                            |
 | --------------- | ------------------------------------------------------------ |
-| Wiki            | Document all relevant project information, lessons learned, best practices, results, and more. |
-| Project archive | Archive your project for further reference and documentation. |
+| [Wiki](../../user-guide/wiki/create-edit-wiki/)            | Document all relevant project information, lessons learned, best practices, results, and more. |
+| [Project archive](../../user-guide/projects/#archive-a-project) | Archive your project for further reference and documentation. |
 
 ## OpenProject products
 
@@ -120,7 +117,7 @@ OpenProject can be used in three different editions, either on-premises or as so
 ![openproject versions](1569586019132.png)
 
 * [Community edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
-* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. premium features and support.
-* [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. premium features and support.
+* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. Enterprise add-ons and support.
+* [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. Enterprise add-ons and support.
 
 To compare the features side by side, please visit our [Feature Comparison](https://www.openproject.org/pricing/#features) page.

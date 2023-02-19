@@ -46,11 +46,9 @@ module Bim
       end
 
       def self.available_commands
-        @available_commands ||= begin
-          PIPELINE_COMMANDS.select do |command|
-            _, status = Open3.capture2e('which', command)
-            status.exitstatus.zero?
-          end
+        @available_commands ||= PIPELINE_COMMANDS.select do |command|
+          _, status = Open3.capture2e('which', command)
+          status.exitstatus.zero?
         end
       end
 
@@ -76,7 +74,7 @@ module Bim
         ifc_model.conversion_error_message = e.message
         ifc_model.save
 
-        ServiceResult.new(success: false).tap { |r| r.errors.add(:base, e.message) }
+        ServiceResult.failure.tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil
       end
@@ -129,7 +127,7 @@ module Bim
 
         convert!(ifc_filepath, 'dae') do |target_file|
           # To include IfcSpace entities, which by default are excluded by
-          # IfcConvert, together with IfcOpeningElement, we need ot over-
+          # IfcConvert, together with IfcOpeningElement, we need to over-
           # write the default exclude parameter to only exclude
           # IfcOpeningElements.
           # https://github.com/IfcOpenShell/IfcOpenShell/wiki#ifconvert

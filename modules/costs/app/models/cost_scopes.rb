@@ -5,12 +5,12 @@ module CostScopes
         base_class.class_eval do
           def self.visible(*args)
             user = args.first || User.current
-            with_visible_entries_on self, user: user, project: args[1]
+            with_visible_entries_on self, user:, project: args[1]
           end
 
           def self.visible_costs(*args)
             user = args.first || User.current
-            with_visible_costs_on self, user: user, project: args[1]
+            with_visible_costs_on self, user:, project: args[1]
           end
         end
       end
@@ -30,8 +30,8 @@ module CostScopes
   end
 
   def with_visible_costs_on(scope, user: User.current, project: nil)
-    with_visible_entries = with_visible_entries_on(scope, user: user, project: project)
-    with_visible_rates_on with_visible_entries, user: user
+    with_visible_entries = with_visible_entries_on(scope, user:, project:)
+    with_visible_rates_on with_visible_entries, user:
   end
 
   def with_visible_entries_on(scope, user: User.current, project: nil)

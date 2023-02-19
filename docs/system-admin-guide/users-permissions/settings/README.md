@@ -3,7 +3,6 @@ sidebar_navigation:
   title: User settings
   priority: 999
 description: Configure user settings in OpenProject.
-robots: index, follow
 keywords: user settings
 ---
 

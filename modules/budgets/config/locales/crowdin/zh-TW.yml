@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -25,25 +25,25 @@ zh-TW:
       budget:
         author: "作者"
         available: "Available"
-        budget: "Planned"
-        budget_ratio: "Spent (ratio)"
+        budget: "已計畫"
+        budget_ratio: "已支出（比例）"
         description: "說明"
         spent: "花費"
         status: "狀態"
         subject: "主題"
-        type: "Cost type"
+        type: "費用類別"
         labor_budget: "Planned labor costs"
         material_budget: "Planned unit costs"
       work_package:
         budget_subject: "Budget title"
     models:
-      budget: "Budget"
-      material_budget_item: "Unit"
+      budget: "預算"
+      material_budget_item: "單位"
   attributes:
-    budget: "Budget"
-  button_add_budget_item: "Add planned costs"
+    budget: "預算"
+  button_add_budget_item: "新增計畫費用"
   button_add_budget: "新增預算"
-  button_add_cost_type: "Add cost type"
+  button_add_cost_type: "新增費用類別"
   button_cancel_edit_budget: "取消編輯預算"
   button_cancel_edit_costs: "取消編輯花費"
   caption_labor: "Labor"
@@ -55,19 +55,19 @@ zh-TW:
   help_click_to_edit: "點擊這裡編輯"
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
-  label_budget: "Budget"
+  label_budget: "預算"
   label_budget_new: "新增預算"
   label_budget_plural: "預算"
   label_budget_id: "預算 #%{id}"
-  label_deliverable: "Budget"
+  label_deliverable: "預算"
   label_example_placeholder: 'e.g., %{decimal}'
-  label_view_all_budgets: "View all budgets"
+  label_view_all_budgets: "檢視所有預算"
   label_yes: "是"
-  notice_budget_conflict: "WorkPackages must be of the same project."
-  notice_no_budgets_available: "No budgets available."
-  permission_edit_budgets: "Edit budgets"
+  notice_budget_conflict: "工作包必須是同一個專案"
+  notice_no_budgets_available: "無可用預算"
+  permission_edit_budgets: "編輯預算"
   permission_view_budgets: "檢視預算"
   project_module_budgets: "預算"
-  text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
+  text_budget_reassign_to: "重新指定至這筆預算"
+  text_budget_delete: "從所有項目中刪除這筆預算"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

@@ -15,6 +15,7 @@
           [attr.href]="item.href"
           [attr.aria-disabled]="item.disabled"
           [attr.aria-label]="item.ariaLabel || item.linkText"
+          [attr.title]="item.title || undefined"
           (click)="handleClick(item, $event)"
         >
           <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>
@@ -30,6 +31,7 @@
           [class.inactive]="item.disabled"
           [attr.aria-disabled]="item.disabled"
           [attr.aria-label]="item.ariaLabel || item.linkText"
+          [attr.title]="item.title || undefined"
           (click)="handleClick(item, $event)"
         >
           <op-icon *ngIf="item.icon" icon-classes="icon-action-menu {{ item.icon }}"></op-icon>

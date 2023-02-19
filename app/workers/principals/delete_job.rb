@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +27,13 @@
 #++
 
 class Principals::DeleteJob < ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :below_normal
 
   def perform(principal)
     Principal.transaction do
       delete_associated(principal)
       replace_references(principal)
+      replace_mentions(principal)
       update_cost_queries(principal)
       remove_members(principal)
 
@@ -48,14 +47,25 @@ class Principals::DeleteJob < ApplicationJob
     Principals::ReplaceReferencesService
       .new
       .call(from: principal, to: DeletedUser.first)
-      .tap do |call|
-      raise ActiveRecord::Rollback if call.failure?
-    end
+      .on_failure { raise ActiveRecord::Rollback }
+  end
+
+  def replace_mentions(principal)
+    # Breaking abstraction here.
+    # Doing the replacement is a very costly operation while at the same time,
+    # placeholder users can't be mentioned.
+    return unless principal.is_a?(User) || principal.is_a?(Group)
+
+    Users::ReplaceMentionsService
+      .new
+      .call(from: principal, to: DeletedUser.first)
+      .on_failure { raise ActiveRecord::Rollback }
   end
 
   def delete_associated(principal)
     delete_notifications(principal)
     delete_private_queries(principal)
+    delete_tokens(principal)
   end
 
   def delete_notifications(principal)
@@ -63,8 +73,12 @@ class Principals::DeleteJob < ApplicationJob
   end
 
   def delete_private_queries(principal)
-    ::Query.where(user_id: principal.id, is_public: false).delete_all
+    ::Query.where(user_id: principal.id, public: false).destroy_all
     CostQuery.where(user_id: principal.id, is_public: false).delete_all
+  end
+
+  def delete_tokens(principal)
+    ::Token::Base.where(user_id: principal.id).destroy_all
   end
 
   def update_cost_queries(principal)
@@ -75,7 +89,7 @@ class Principals::DeleteJob < ApplicationJob
         remove_cost_query_values(name, options, principal)
       end.compact
 
-      CostQuery.where(id: query.id).update_all(serialized: serialized)
+      CostQuery.where(id: query.id).update_all(serialized:)
     end
   end
 

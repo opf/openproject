@@ -2,14 +2,13 @@
 sl:
   js:
     boards:
+      create_new: 'Create new board'
       label_unnamed_board: 'Neimenovana tabla'
       label_unnamed_list: 'Neimenovani seznam'
       label_board_type: 'Vrsta table'
       upsale:
-        teaser_text: 'Izboljšaj svoje agilne metode projektnega vodenja s temi fleksibilnimi pogledi. Ustvariš lahko kolikor tabel želiš za pregled nad vsem kar želiš.'
-        upgrade_to_ee_text: 'Table so funkcija za podjetja. Nadgradite na plačljivi načrt.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Nadgradi zdaj'
-        personal_demo: 'Kontaktirajte nas za poskusno različico'
       lists:
         delete: 'Izbriši seznam'
       version:
@@ -50,7 +49,6 @@ sl:
           Osnoven kanban stil odložišča s stolpci za stanja: Za narediti, V delu, Narejeno.
         action_text_assignee: >
           Tabla s samodejnimi stolpci glede na dodeljene člane. Popoln za odpošiljanje delovnih paketov
-
         action_text_version: >
           Tabla s samodejnimi stolpci glede na verzijo lastnosti. Popoln za načrtovanje razvoja projekta.
         action_type:
@@ -64,7 +62,7 @@ sl:
           status: Stanje
           version: Različica
           subproject: Podprojekt
-          subtasks: Starš-Otrok
+          subtasks: Parent-child
           basic: Osnoven
         select_attribute: "Atributi opravil"
       add_list_modal:

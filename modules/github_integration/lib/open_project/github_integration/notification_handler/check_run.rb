@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module OpenProject::GithubIntegration
 
         OpenProject::GithubIntegration::Services::UpsertCheckRun.new.call(
           payload.check_run.to_h,
-          pull_request: pull_request
+          pull_request:
         )
       end
 
@@ -59,7 +59,7 @@ module OpenProject::GithubIntegration
                            .pull_requests
                            .first
                            .fetch('id')
-        GithubPullRequest.find_by(github_id: github_id)
+        GithubPullRequest.find_by(github_id:)
       end
     end
   end

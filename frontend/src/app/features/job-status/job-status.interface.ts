@@ -23,5 +23,6 @@ export interface JobStatusInterface {
     title?:string;
     download?:string;
     redirect?:string;
+    errors?:string;
   };
 }

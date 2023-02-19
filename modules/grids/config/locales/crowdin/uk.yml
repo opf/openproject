@@ -1,6 +1,6 @@
 uk:
   grids:
-    label_widget_in_grid: "Widget contained in Grid %{grid_name}"
+    label_widget_in_grid: "Віджет, що міститься в сітці %{grid_name}"
   activerecord:
     attributes:
       grids/grid:

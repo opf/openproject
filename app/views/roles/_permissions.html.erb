@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,20 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% permissions.each do |mod, mod_permissions| %>
-  <% global_prefix = showGlobalRole ? 'fieldset--global--' : 'fieldset--' %>
+  <% global_prefix = show_global_role ? 'fieldset--global--' : 'fieldset--' %>
   <% module_name = mod.blank? ? 'fieldset--global--' + Project.model_name.human.downcase.gsub(' ', '_') : global_prefix + l_or_humanize(mod, prefix: 'project_module_').downcase.gsub(' ', '_') %>
-  <fieldset class="form--fieldset -collapsible" id="<%= module_name %>">
+  <% module_id = module_name.parameterize  %>
+  <fieldset class="form--fieldset -collapsible" id="<%= module_id %>">
     <legend class="form--fieldset-legend">
       <% if mod.blank? %>
-        <%= showGlobalRole ? t(:label_global) : Project.model_name.human %>
+        <%= show_global_role ? t(:label_global) : Project.model_name.human %>
       <% else %>
         <%= l_or_humanize(mod, prefix: 'project_module_') %>
       <% end %>
     </legend>
     <div class="form--toolbar">
       <span class="form--toolbar-item">
-        (<%= check_all_links module_name %>)
+        (<%= check_all_links module_id %>)
       </span>
     </div>
     <div class="-columns-2">
@@ -48,9 +49,14 @@ See COPYRIGHT and LICENSE files for more details.
         <div class="form--field">
           <div class="form--field-container">
             <label class="form--label-with-check-box">
-              <%= styled_check_box_tag 'role[permissions][]', permission.name, (role.permissions && role.permissions.include?(permission.name)) %>
-              <%= l_or_humanize(permission.name, prefix: 'permission_') %>
+              <%= styled_check_box_tag 'role[permissions][]',
+                                       permission.name,
+                                       (role.permissions && role.permissions.include?(permission.name)) %>
+              <%= t(:"permission_#{permission.name}") %>
             </label>
+          </div>
+          <div class="form--field-instructions -labeled-checkbox">
+            <%= t(:"permission_#{permission.name}_explanation", default: nil) %>
           </div>
         </div>
       <% end %>

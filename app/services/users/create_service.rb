@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +46,7 @@ module Users
     end
 
     def fail_with_missing_email(new_user)
-      ServiceResult.new(success: false, result: new_user).tap do |result|
+      ServiceResult.failure(result: new_user).tap do |result|
         result.errors.add :mail, :blank
       end
     end

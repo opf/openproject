@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,23 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <div class="modal-delivery-element">
-  <div class="op-modal--header op-modal--header_highlight">
-    <%= op_icon 'icon-context icon-user' %>
-    <h1 class="op-modal--title">
-      <%= I18n.t('onboarding.welcome') %>
-    </h1>
-    <button
-      type="button"
-      class="op-modal--close-button"
-      title="<%= t('js.close_popup_title') %>"
-      aria-label="<%= t('js.close_popup_title') %>"
-    >
-      <%= op_icon('icon-close') %>
-    </button>
+  <div class="spot-modal--header">
+    <span class="spot-icon spot-icon_user"></span>
+    <span><%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %></span>
   </div>
-
-  <div class="onboarding--main op-modal--body">
-    <h2><%= I18n.t('onboarding.heading_getting_started') %></h2>
+  <div class="spot-divider"></div>
+  <div class="onboarding--main spot-modal--body spot-container">
     <div class="onboarding--video-block">
       <div class="onboarding--video-text">
         <span><%= I18n.t('onboarding.text_getting_started_description') %></span>
@@ -54,12 +43,13 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
 
-  <div class="onboarding--footer op-modal--footer">
-    <span><em><%= I18n.t('onboarding.text_show_again') %></em></span>
-    <button
-      class="button -highlight"
-      dynamic-content-modal-close-button
-      title=<%= t(:button_close)%>
-    ><%= t(:button_close)%></button>
+  <div class="onboarding--footer spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button
+        class="button button_no-margin spot-action-bar--action"
+        dynamic-content-modal-close-button
+        title=<%= t(:button_close) %>
+      ><%= t(:button_close) %></button>
+    </div>
   </div>
 </div>

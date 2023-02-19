@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -87,7 +87,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
     protected wpLinkedActivities:WorkPackagesActivityService,
     protected ConfigurationService:ConfigurationService,
     protected loadingIndicator:LoadingIndicatorService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected workPackageNotificationService:WorkPackageNotificationService,
     protected toastService:ToastService,
     protected cdRef:ChangeDetectorRef,

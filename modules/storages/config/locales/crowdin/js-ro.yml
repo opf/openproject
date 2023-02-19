@@ -1,0 +1,37 @@
+#English strings go here
+ro:
+  js:
+    storages:
+      link_files_in_storage: "Link-ul fişierelor în %{storageType}"
+      link_existing_files: "Legaţi fişierele existente"
+      login: "%{storageType} autentificare"
+      login_to: "Autentificare în %{storageType}"
+      no_connection: "Nu există %{storageType} conexiune"
+      open_storage: "Deschide %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Unele setări %{storageType} nu funcționează. Vă rugăm să contactați administratorul %{storageType}.
+        live_data_error: "Eroare la preluarea detaliilor fișierului"
+        live_data_error_description: >
+          Unele date %{storageType} nu au putut fi preluate. Încercați să reîncărcați această pagină sau contactați administratorul %{storageType}.
+        no_file_links: "Pentru a conecta fișierele la acest pachet de lucru, vă rugăm să le faceți prin intermediul %{storageType}."
+        not_logged_in: >
+          Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
+      file_links:
+        download: "Descarcă %{fileName}"
+        no_permission: "Nu aveți permisiunea de a vedea acest fișier."
+        open: 'Deschide fişierul pe stocare'
+        open_location: 'Deschide fișierul în locație'
+        remove: "Elimină link-ul fișierului"
+        remove_confirmation: >
+          Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.
+        remove_short: "Ștergeți linkul"
+        select: "Selectați fișierele"
+        select_all: "Selectați tot"
+        selection_none: "Selectaţi fişierele pentru a conecta"
+        selection_any: "Leagă %{number} fișiere"
+        not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
+        already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
+        already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

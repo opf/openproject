@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,12 @@ See COPYRIGHT and LICENSE files for more details.
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
 </head>
-<body class="<%= body_css_classes %> __overflowing_element_container __overflowing_body" data-relative_url_root="<%= root_path %>" data-overflowing-identifier=".__overflowing_body">
+<body
+  class="<%= body_css_classes %> __overflowing_element_container __overflowing_body"
+  data-relative_url_root="<%= root_path %>"
+  data-overflowing-identifier=".__overflowing_body"
+  data-rendered-at="<%= Time.zone.now.iso8601 %>"
+>
 <%= render partial: 'warning_bar/warning_bar' %>
 <noscript>
   <div class="top-shelf">
@@ -54,10 +59,11 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </noscript>
 <op-toasts-container></op-toasts-container>
+<op-modal-overlay></op-modal-overlay>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
-<div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
+<div id="wrapper" style="<%= initial_menu_styles(side_displayed) %>" class="<%= initial_classes %>">
   <% if show_decoration %>
     <header class="op-app-header">
       <div class="op-app-header--start">
@@ -66,17 +72,17 @@ See COPYRIGHT and LICENSE files for more details.
         </h1>
         <main-menu-toggle></main-menu-toggle>
         <a href="" class="hidden-for-sighted skip-navigation-link"
+           id="skip-navigation--content"
            aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
           <%= I18n.t('js.work_packages.jump_marks.content') %>
         </a>
         <%= render_top_menu_left %>
       </div>
-      <div class="op-app-header--center op-logo">
-        <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link') %>
+      <div class="op-app-header--center">
+        <%= render_top_menu_center %>
       </div>
       <%= call_hook :view_layouts_base_top_menu %>
       <div class="op-app-header--end">
-        <%= render partial: 'search/mini_form' %>
         <%= render_top_menu_right %>
       </div>
     </header>
@@ -112,7 +118,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% if show_onboarding_modal? %>
         <section data-augmented-model-wrapper
                  data-modal-initialize-now="true"
-                 data-modal-class-name="onboarding-modal op-modal_autoheight -highlight">
+                 data-modal-class-name="onboarding-modal">
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
@@ -158,6 +164,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= content_for :additional_js_dom_ready %>
   }(jQuery));
 <% end %>
+<div class="op-wide-autocomplete-wrapper"></div>
 <%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>

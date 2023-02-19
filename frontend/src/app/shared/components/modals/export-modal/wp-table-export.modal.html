@@ -1,7 +1,14 @@
-<div class="op-modal op-modal_wide wp-table--configuration-modal op-wp-table-export">
-  <op-modal-header (close)="closeMe($event)">{{text.title}}</op-modal-header>
+<div class="spot-modal spot-modal_wide op-wp-table-export"
+    tabindex="0"
+    cdkFocusInitial
+    cdkTrapFocus
+    [cdkTrapFocusAutoCapture]="true">
 
-  <div class="op-modal--body">
+  <div class="spot-modal--header">{{text.title}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
     <ul *ngIf="exportOptions" class="op-export-options" [ngClass]="{'-hidden': isLoading}">
       <li
         *ngFor="let option of exportOptions"
@@ -18,5 +25,16 @@
         </a>
       </li>
     </ul>
+  </div>
+  <div class="spot-action-bar hidden-for-mobile">
+    <div class="spot-action-bar--right">
+      <button
+        type="button"
+        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+        (click)="closeMe()"
+        >
+        {{ text.cancelButton }}
+     </button>
+    </div>
   </div>
 </div>

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,6 @@ import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-fi
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { initializeCoreEditFields } from 'core-app/shared/components/fields/edit/edit-field.initializer';
 import { initializeCoreDisplayFields } from 'core-app/shared/components/fields/display/display-field.initializer';
-import { DurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/duration-edit-field.component';
 import { FloatEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/float-edit-field.component';
 import { MultiSelectEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/multi-select-edit-field.component';
 import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
@@ -60,6 +59,10 @@ import { DateEditFieldModule } from 'core-app/shared/components/fields/edit/fiel
 import { SelectEditFieldModule } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.module';
 import { FormattableEditFieldModule } from 'core-app/shared/components/fields/edit/field-types/formattable-edit-field/formattable-edit-field.module';
 import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/field-controls/edit-field-controls.module';
+import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field.component';
+import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
+import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
 
 @NgModule({
   imports: [
@@ -100,10 +103,13 @@ import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/
   ],
   declarations: [
     EditFormPortalComponent,
-    DurationEditFieldComponent,
+    HoursDurationEditFieldComponent,
+    DaysDurationEditFieldComponent,
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
+    ProjectEditFieldComponent,
+    UserEditFieldComponent,
     WorkPackageEditFieldComponent,
     TimeEntryWorkPackageEditFieldComponent,
     EditFormComponent,

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -60,14 +60,14 @@ uk:
   label_budget_plural: "Бюджети"
   label_budget_id: "Бюджет  #%{id}"
   label_deliverable: "Бюджет"
-  label_example_placeholder: 'e.g., %{decimal}'
+  label_example_placeholder: 'наприклад, %{decimal}'
   label_view_all_budgets: "Переглянути всі бюджети"
   label_yes: "Так"
-  notice_budget_conflict: "Робочі пакети повинні бути одного проекту."
+  notice_budget_conflict: "Робочі пакети повинні бути з одного проекту."
   notice_no_budgets_available: "Немає доступних бюджетів."
   permission_edit_budgets: "Редагувати бюджети"
   permission_view_budgets: "Переглянути бюджети"
   project_module_budgets: "Бюджети"
-  text_budget_reassign_to: "Reassign them to this budget:"
-  text_budget_delete: "Delete the budget from all work packages"
-  text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_reassign_to: "Перепризначити їх для цього бюджету:"
+  text_budget_delete: "Видалити цей бюджет з усіх пакетів робіт"
+  text_budget_destroy_assigned_wp: "Цьому бюджету призначено кілька (%{count}) пакетів робіт. Що потрібно зробити?"

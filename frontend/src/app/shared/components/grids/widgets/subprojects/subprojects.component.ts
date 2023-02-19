@@ -7,9 +7,10 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 @Component({
   templateUrl: './subprojects.component.html',
@@ -27,7 +28,7 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly timezone:TimezoneService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentProject:CurrentProjectService,
     readonly cdr:ChangeDetectorRef) {
     super(i18n, injector);
@@ -61,10 +62,11 @@ export class WidgetSubprojectsComponent extends AbstractWidgetComponent implemen
     return this.projects && !this.projects.length;
   }
 
-  private get projectListParams():Apiv3ListParameters {
+  private get projectListParams():ApiV3ListParameters {
     return {
       sortBy: [['name', 'asc']],
       filters: [['parent_id', '=', [this.currentProject.id!]]],
+      pageSize: MAGIC_PAGE_NUMBER,
     };
   }
 }

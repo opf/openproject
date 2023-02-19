@@ -3,13 +3,13 @@
 <div id="login-form" class="form -bordered">
   <%= styled_form_tag({ action: :verify }, { :autocomplete => "off", :id => 'submit_captcha' }) do %>
     <h2><%= t 'recaptcha.verify_account' %></h2>
-    <% if recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_V2 %>
+    <% if recaptcha_settings['recaptcha_type'] == ::OpenProject::Recaptcha::TYPE_V2 %>
       <% input_name = "g-recaptcha-response" %>
       <input type="hidden" name="<%= input_name %>" />
       <%= recaptcha_tags(
         nonce: content_security_policy_script_nonce,
         callback: 'submitRecaptchaForm',
-        site_key: recaptcha_settings[:website_key]
+        site_key: recaptcha_settings['website_key']
       ) %>
 
       <%= nonced_javascript_tag do %>
@@ -28,11 +28,11 @@
           document.getElementById('submit_captcha').submit();
         }
       <% end %>
-    <% elsif recaptcha_settings[:recaptcha_type] == ::OpenProject::Recaptcha::TYPE_V3 %>
+    <% elsif recaptcha_settings['recaptcha_type'] == ::OpenProject::Recaptcha::TYPE_V3 %>
       <%= recaptcha_v3 action: 'login',
                        nonce: content_security_policy_script_nonce,
                        callback: 'submitRecaptchaForm',
-                       site_key: recaptcha_settings[:website_key] %>
+                       site_key: recaptcha_settings['website_key'] %>
 
       <p><%= t('recaptcha.button_please_wait') %></p>
       <%= nonced_javascript_tag do %>

@@ -1,5 +1,10 @@
 import {
-  ChangeDetectorRef, Directive, ElementRef, Inject, Injector, ViewChild,
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  Inject,
+  Injector,
+  ViewChild,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -8,7 +13,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimeEntryFormComponent } from 'core-app/shared/components/time_entries/form/form.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 
 @Directive()
 export abstract class TimeEntryBaseModal extends OpModalComponent {
@@ -18,17 +25,14 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
     title: this.i18n.t('js.time_entry.title'),
     cancel: this.i18n.t('js.button_cancel'),
     close: this.i18n.t('js.button_close'),
+    save: this.i18n.t('js.button_save'),
     delete: this.i18n.t('js.button_delete'),
     areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
 
-  public closeOnEscape = false;
-
-  public closeOnOutsideClick = false;
-
   public formInFlight:boolean;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   constructor(readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
@@ -40,19 +44,23 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
 
   public abstract setModifiedEntry($event:{ savedResource:HalResource, isInital:boolean }):void;
 
-  public get changeset() {
+  public get changeset():ResourceChangeset<TimeEntryResource> {
     return this.locals.changeset;
   }
 
-  public get entry() {
+  public get entry():TimeEntryResource {
     return this.changeset.projectedResource;
   }
 
-  public get showWorkPackageField() {
-    return this.locals.showWorkPackageField !== undefined ? this.locals.showWorkPackageField : true;
+  public get showWorkPackageField():boolean {
+    return this.locals.showWorkPackageField !== false;
   }
 
-  public saveEntry() {
+  public get showUserField():boolean {
+    return this.locals.showUserField !== false;
+  }
+
+  public saveEntry():void {
     this.formInFlight = true;
 
     this.editForm.save()
@@ -63,22 +71,18 @@ export abstract class TimeEntryBaseModal extends OpModalComponent {
       });
   }
 
-  public get saveText() {
-    return this.i18n.t('js.button_save');
-  }
-
-  public get saveAllowed() {
+  public get saveAllowed():boolean {
     return true;
   }
 
-  public get deleteAllowed() {
+  public get deleteAllowed():boolean {
     return true;
   }
 
-  protected reloadWorkPackageAndClose() {
+  protected reloadWorkPackageAndClose():void {
     // reload workPackage
     if (this.entry.workPackage) {
-      this
+      void this
         .apiV3Service
         .work_packages
         .id(this.entry.workPackage)

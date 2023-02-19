@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +51,7 @@ module Authentication
       inspect_response(Logger::DEBUG)
 
       unless contract.validate
-        result = ServiceResult.new(success: false, errors: contract.errors)
+        result = ServiceResult.failure(errors: contract.errors)
         Rails.logger.error do
           "[OmniAuth strategy #{strategy.name}] Failed to process omniauth response for #{auth_uid}: #{result.message}"
         end
@@ -91,13 +89,15 @@ module Authentication
         end
       end
     rescue StandardError => e
-      OpenProject.logger.error "[OmniAuth strategy #{strategy.name}] Failed to inspect OmniAuth response: #{e.message}"
+      OpenProject.logger.error "[OmniAuth strategy #{strategy&.name}] Failed to inspect OmniAuth response: #{e.message}"
     end
 
     ##
     # After login flow
     def tap_service_result(call)
       if call.success? && user.active?
+        OpenProject::Hook.call_hook :omniauth_user_authorized, { auth_hash:, controller: }
+        # Call deprecated login hook
         OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
       end
 
@@ -152,7 +152,7 @@ module Authentication
     ##
     # Find an existing user by the identity url
     def find_existing_user
-      User.find_by(identity_url: identity_url)
+      User.find_by(identity_url:)
     end
 
     ##
@@ -196,7 +196,7 @@ module Authentication
           .new(user)
           .call
       else
-        ServiceResult.new(success: true, result: user)
+        ServiceResult.success(result: user)
       end
     end
 

@@ -1,9 +1,8 @@
 ---
 sidebar_navigation:
   title: Documentation style guide
-  priority: 998
+  priority: 700
 description: What styles and formats to follow when contributing to the OpenProject documentation
-robots: index, follow
 keywords: documentation style guide, style guide, format, style
 ---
 
@@ -37,21 +36,21 @@ Within each folder there is a sub-hierarchy of topics. E.g. in the Getting start
 
 ### Folder content
 
-We aim to have a clear hierarchical structure with meaningful URLs like https://www.openproject.org/docs/getting-started/sign-in-registration/. With this structure you can identify straight away that this part of the documentation is about the sign in and registration process. At the same time, the website path matches our repository, making it easy to update the documentation.
+We aim to have a clear hierarchical structure with meaningful URLs like `https://www.openproject.org/docs/getting-started/sign-in-registration/`. With this structure you can identify straight away that this part of the documentation is about the sign in and registration process. At the same time, the website path matches our repository, making it easy to update the documentation.
 
 Find an overview of content per folder here:
 
-| **Directory**                                                | **Contents**                                                 |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Getting started guide](https://www.openproject.org/docs/getting-started/) | Here you will learn about the first steps with OpenProject. It is a short introduction on registration,  sign up, inviting members, starting to set up a project and the most important  features work packages, Gantt charts and agile boards. |
-| [User guide](https://www.openproject.org/docs/user-guide/)   | This guide covers the details of all features and  functionalities found in OpenProject. |
-| [System admin guide](https://www.openproject.org/docs/system-admin-guide/) | Documentation on how to  make changes to settings affecting your entire OpenProject environment. This  is relevant for users with administrator rights for the configuration of all  modules but also overall, e.g. regarding system settings, authentication or user  permissions. |
-| [Enterprise guide](https://www.openproject.org/docs/enterprise-guide/) | Here you will find all about the management and  administration of your Enterprise cloud and Enterprise on-premises  subscription. |
-| [FAQs](https://www.openproject.org/docs/faq/)                | This is  the central overview of frequently asked questions for OpenProject. |
-| [Installation and operations guide](https://www.openproject.org/docs/installation-and-operations/) | This guide summarizes the options for getting  OpenProject, either hosted or on-premises and what to do if you want to  include BIM features in your application. For the on-premises versions you  will find all operation and installation instructions. |
-| [Release notes](https://www.openproject.org/docs/release-notes/) | OpenProject is regularly upgraded with new features, security updates  and more. The release notes inform you about the news in each release. |
-| [Development](https://www.openproject.org/docs/development/) | This guide details how to contribute to the code of  the OpenProject application. |
-| [API](https://www.openproject.org/docs/api/)                 | This part of the documentation deals with the API specification, what endpoints  and functionality are available. |
+| **Directory**                                                              | **Contents**                                                                                                                                                                                                                                                                        |
+|----------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Getting started guide](../../../getting-started/)                         | Here you will learn about the first steps with OpenProject. It is a short introduction on registration,  sign up, inviting members, starting to set up a project and the most important  features work packages, Gantt charts and agile boards.                                     |
+| [User guide](../../../user-guide/)                                         | This guide covers the details of all features and  functionalities found in OpenProject.                                                                                                                                                                                            |
+| [System admin guide](../../../system-admin-guide/)                         | Documentation on how to  make changes to settings affecting your entire OpenProject environment. This  is relevant for users with administrator rights for the configuration of all  modules but also overall, e.g. regarding system settings, authentication or user  permissions. |
+| [Enterprise guide](../../../enterprise-guide/)                             | Here you will find all about the management and  administration of your Enterprise cloud and Enterprise on-premises  subscription.                                                                                                                                                  |
+| [FAQs](../../../faq/)                                                      | This is  the central overview of frequently asked questions for OpenProject.                                                                                                                                                                                                        |
+| [Installation and operations guide](../../../installation-and-operations/) | This guide summarizes the options for getting  OpenProject, either hosted or on-premises and what to do if you want to  include BIM features in your application. For the on-premises versions you  will find all operation and installation instructions.                          |
+| [Release notes](../../../release-notes/)                                   | OpenProject is regularly upgraded with new features, security updates  and more. The release notes inform you about the news in each release.                                                                                                                                       |
+| [Development](../../../development/)                                       | This guide details how to contribute to the code of  the OpenProject application.                                                                                                                                                                                                   |
+| [API](../../../api/)                                                       | This part of the documentation deals with the API specification, what endpoints  and functionality are available.                                                                                                                                                                   |
 
  
 
@@ -59,16 +58,28 @@ Find an overview of content per folder here:
 
 Please respect the following when working with directories and files:
 
-1. When you create a new topic, i.e. a new documentation page, always create a new folder and a new README.md file in that folder.
-2. Do not use special characters and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+1. When you create a new topic, i.e. a new documentation page, always create a new folder with a **lowercase name** and a new **README.md** file in that folder.
 
-3. When creating a file or directory and it has more than one word in its name, use underscores (`_`) instead of spaces or dashes. For example use open_details-view_work_packages.png. This applies to both image files and Markdown files.
+   Example: `new-feature/README.md`
 
-4. For image files, do not exceed 200KB.
+2. Use **lowercase latin characters and numbers**.
+
+   Do not use special characters, umlauts and spaces, or capital letters in file names, directory names, branch names and anything that generates a path.
+
+3. Use **no spaces**
+
+   When creating a directory and it has more than one word in its name, use dashes (`-`) instead of spaces.
+
+   Example: `new-feature`
+
+   When creating a file and it has more than one word in its name, use dashes (`-`) or underscores (`_`) instead of spaces.
+
+   Example: `open_details-view_work_packages.png`
+
+   Only exception is the markdown file which always needs to be named **README.md**
 
 If you are unsure where to place a document or a content addition, this should not stop you from authoring and contributing. Use your best judgment, and then add a comment to your pull request.
 
- 
 
 ## No duplication of information
 
@@ -273,10 +284,22 @@ To keep tables accessible and scannable, tables should not have any empty cells.
 
 To help tables be easier to maintain, consider adding additional spaces to the column widths to make them consistent. For example:
 
-| **Feature**                                                | **Description**                                              |
-| ---------------------------------------------------------- | ------------------------------------------------------------ |
-| Great feature                                              |  Enhances collaboration between marketing and sales  |
-| Best feature                                               | Use it to synchronize your example table with OpenProject  |
+```markdown
+| **Feature**   | **Description**                                           |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales        |
+| Best feature  | Use it to synchronize your example table with OpenProject |
+```
+
+instead of:
+
+```markdown
+| **Feature** | **Description** |
+| ------------- | --------------------------------------------------------- |
+| Great feature | Enhances collaboration between marketing and sales |
+| Best feature | Use it to synchronize your example table with OpenProject |
+```
+
 
 
 ## Headings
@@ -391,7 +414,7 @@ When you take screenshots:
 
 ### Save images
 
-- Save the image with a file name that describes the image. Use lower cases. 
+- Save the image with a file name that describes the image. Use lower cases and no spaces (see [file names requirements](#directory-and-file-names)).
 
 - Make sure to not exceed the maximum image size of 200KB.
 
@@ -403,7 +426,7 @@ When you take screenshots:
 
 ### Add the image link to content
 
-The Markdown code for including an image in a document is: `![Image description which will be the alt tag](img/document_image_title_vX_Y.png)`
+The Markdown code for including an image in a document is: `![Image description which will be the alt tag](document_image_title_v_x_y.png)`
 
 The image description is the alt text for the rendered image on the documentation page. For accessibility and SEO, use descriptions that are short and precise.
 
@@ -420,8 +443,6 @@ At the moment it is not possible for external contributors to upload videos to t
 Use alert boxes to call attention to information. The alert boxes in the OpenProject documentation have a specific format. Please use the following to be consistent:
 
 ```
-<div class="alert alert-info" role="alert">
-**Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
-</div>
+> **Note**: If you do not have an OpenProject installation yet, please visit our site on [how to create an OpenProject trial installation](../../enterprise-guide/enterprise-cloud-guide/#create-a-new-account).
 ```
 

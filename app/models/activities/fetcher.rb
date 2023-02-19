@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +46,7 @@ module Activities
 
     # Returns an array of available event types
     def event_types
-      @event_types ||= begin
+      @event_types ||=
         if @project
           OpenProject::Activity.available_event_types.select do |o|
             @project.self_and_descendants.detect do |_p|
@@ -60,9 +58,8 @@ module Activities
             end
           end
         else
-          OpenProject::Activity.available_event_types
+          OpenProject::Activity.available_event_types.to_a
         end
-      end
     end
 
     # Returns an array of events for the given date range
@@ -92,7 +89,7 @@ module Activities
 
     # Resets the scope to the default scope
     def default_scope!
-      @scope = OpenProject::Activity.default_event_types
+      @scope = OpenProject::Activity.default_event_types.to_a
     end
 
     def events_from_providers(from, to, limit)
@@ -100,7 +97,7 @@ module Activities
 
       @scope.each do |event_type|
         constantized_providers(event_type).each do |provider|
-          events += provider.find_events(event_type, @user, from, to, @options.merge(limit: limit))
+          events += provider.find_events(event_type, @user, from, to, @options.merge(limit:))
         end
       end
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +62,7 @@ module OpenProject::TextFormatting::Filters::Macros
         end
 
         ApplicationController.helpers.link_to(
-          I18n.t('macros.create_work_package_link.link_name_type', type_name: type_name),
+          I18n.t('macros.create_work_package_link.link_name_type', type_name:),
           new_project_work_packages_path(project_id: project.identifier, type: type.id),
           class: class_name
         )

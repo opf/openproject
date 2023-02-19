@@ -2,6 +2,7 @@
   <button
     type="button"
     class="button form--field-inline-button"
+    [title]="text.facet_titles[facet]"
     [class.-active]="facet === (activeFacet$ | async)"
     (click)="activateFacet(facet)"
   >

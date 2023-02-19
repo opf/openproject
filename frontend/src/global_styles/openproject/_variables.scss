@@ -32,6 +32,16 @@
   --primary-color: #1A67A3;
   --primary-color-dark: #175A8E;
   --alternative-color: #35C53F;
+
+  /**
+   * The 100vh bug on iOS is a well known issue that will not be addressed.
+   * Using 100vh will not work correctly whenever the bottom toolbar of ios safari is open.
+   * To address the issue, we need to watch the screen height change events and rely on the
+   * window.innerHeight, instead of using 100vh.
+   * See more: https://medium.com/quick-code/100vh-problem-with-ios-safari-92ab23c852a8
+   */
+
+  --app-height: 100vh;
   --body-font-family: 'Lato', 'Lucida Grande', Helvetica, Arial, sans-serif;
   --gray: #EAEAEA;
   --gray-dark: #878787;
@@ -206,6 +216,9 @@
   --project-status-red: #E73E3D;
   --project-status-orange: #FFB030;
   --project-status-green: #00D12D;
+  --project-status-deep-blue: #006E8F;
+  --project-status-light-blue: #84D6E5;
+  --project-status-deep-green: #007528;
   --grid-background-color: #F3F6F8;
   --work-package-details--tab-height: 40px;
   --warn:#C92A2A;

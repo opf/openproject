@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,11 +44,10 @@ module Groups::Concerns
 
     def with_error_handled
       yield
-      ServiceResult.new success: true, result: model
+      ServiceResult.success result: model
     rescue StandardError => e
       Rails.logger.error { "Failed to modify members and associated roles of group #{model.id}: #{e} #{e.message}" }
-      ServiceResult.new(success: false,
-                        message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
+      ServiceResult.failure(message: I18n.t(:notice_internal_server_error, app_title: Setting.app_title))
     end
 
     def exec_query!(params, send_notifications, message)
@@ -78,7 +77,12 @@ module Groups::Concerns
     end
 
     def send_notifications(member_ids, message, send_notifications)
-      Notifications::GroupMemberAlteredJob.perform_later(member_ids, message, send_notifications)
+      Notifications::GroupMemberAlteredJob.perform_later(
+        User.current,
+        member_ids,
+        message,
+        send_notifications
+      )
     end
   end
 end

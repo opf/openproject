@@ -27,13 +27,17 @@ hu:
       events:
         created: "Létrehoz"
         updated: "Frissítve"
+      explanation:
+        text: >
+          Olyan események előfordulása esetén, mint például munkacsomag létrehozása vagy projekt frissítése, az OpenProject egy POST kérést küld a bekonfigurált webes végpontoknak. Az esemény gyakran %{link} elteltével érkezik.
+        link: beállított összesítési időszak
       status:
         enabled: 'Webhook engedélyezve'
         disabled: 'Webhook tiltva'
         enabled_text: 'A webhook hasznos terheket bocsát ki az alább meghatározott eseményekhez.'
         disabled_text: 'Kattintson a szerkesztés gombra a webhook aktiválásához.'
       deliveries:
-        no_results_table: Ehhez a webhookhoz nem történt kézbesítés.
+        no_results_table: Az elmúlt napokban nem történt kézbesítés ehhez a webhookhoz.
         title: 'Utóbbi kézbesítések'
         time: 'Kézbesítési idő'
       form:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,34 +57,21 @@ module API
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if api_errors.all? { |error| error.code == 422 }
             status 200
-            form_representer.new query, current_user: current_user, errors: api_errors
+            form_representer.new query, current_user:, errors: api_errors
           else
             fail ::API::Errors::MultipleErrors.create_if_many(api_errors)
-          end
-        end
-
-        def create_query(request_body, current_user)
-          rep = representer.new Query.new, current_user: current_user
-          query = rep.from_hash request_body
-          call = ::Queries::CreateService.new(user: current_user).call query
-
-          if call.success?
-            representer.new call.result, current_user: current_user, embed_links: true
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
           end
         end
 
         def update_query(query, request_body, current_user)
           rep = representer.new query, current_user: current_user
           query = rep.from_hash request_body
-          call = ::Queries::UpdateService.new(user: current_user).call query
 
-          if call.success?
-            representer.new call.result, current_user: current_user, embed_links: true
-          else
-            fail ::API::Errors::ErrorBase.create_and_merge_errors(call.errors)
+          call = raise_invalid_query_on_service_failure do
+            ::Queries::UpdateService.new(model: query, user: current_user).call query
           end
+
+          representer.new call.result, current_user:, embed_links: true
         end
 
         def representer

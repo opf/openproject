@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ module UserPreferences
     attr_accessor :notifications
 
     def validate_params(params)
-      contract = ParamsContract.new(model, user, params: params)
+      contract = ParamsContract.new(model, user, params:)
 
       ServiceResult.new success: contract.valid?,
                         errors: contract.errors,
@@ -89,11 +87,15 @@ module UserPreferences
         .import(
           notifications,
           on_duplicate_key_update: {
-            conflict_target: conflict_target,
-            index_predicate: index_predicate,
+            conflict_target:,
+            index_predicate:,
             columns: %i[watched
-                        involved
+                        assignee
+                        responsible
                         mentioned
+                        start_date
+                        due_date
+                        overdue
                         work_package_commented
                         work_package_created
                         work_package_processed

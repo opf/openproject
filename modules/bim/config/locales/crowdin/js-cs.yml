@@ -3,27 +3,27 @@ cs:
   js:
     bcf:
       label_bcf: 'BCF'
-      import: 'Importovat'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import: 'Import'
+      import_bcf_xml_file: 'Importovat soubor BCF XML (BCF verze 2.1)'
       export: 'Export'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
-      refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      export_bcf_xml_file: 'Exportovat soubor BCF XML (BCF verze 2.1)'
+      viewpoint: 'Bod pohledu'
+      add_viewpoint: 'Přidat pohled'
+      show_viewpoint: 'Zobrazit pohled'
+      delete_viewpoint: 'Odstranit pohled'
+      management: 'Řízení BCF'
+      refresh: "Aktualizovat\n"
+      refresh_work_package: 'Aktualizovat pracovní balíček'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Tento projekt ještě nemá žádné modely IFC."
+      use_this_link_to_manage: "Pomocí tohoto odkazu můžete nahrát a spravovat vaše IFC modely"
+      keyboard_input_disabled: "Divák nemá ovládání klávesnice. Klikněte na prohlížeč pro ovládání klávesnice."
       models:
-        ifc_models: 'IFC models'
+        ifc_models: 'IFC modely'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Prohlížeč'
+        split: 'Prohlížeč a tabulka'
+        split_cards: 'Prohlížeč a karty'
     revit:
-      revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in: "Revit doplněk"
+      revit_add_in_settings: "Nastavení Revit doplňků "

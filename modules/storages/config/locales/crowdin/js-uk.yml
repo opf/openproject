@@ -1,0 +1,37 @@
+#English strings go here
+uk:
+  js:
+    storages:
+      link_files_in_storage: "Додати посилання на файли в сховищі %{storageType}"
+      link_existing_files: "Прив’язати наявні файли"
+      login: "Облікові дані %{storageType}"
+      login_to: "Увійти в %{storageType}"
+      no_connection: "Немає підключення до сховища %{storageType}"
+      open_storage: "Відкрити сховище %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Деякі налаштування сховища %{storageType} не працюють. Зверніться до адміністратора %{storageType}.
+        live_data_error: "Не вдалось отримати докладні відомості про файл"
+        live_data_error_description: >
+          Не вдалось отримати деякі дані сховища %{storageType}. Перезавантажте цю сторінку або зверніться до адміністратора %{storageType}.
+        no_file_links: "Додати посилання на файли в цей пакет робіт можна за допомогою сховища %{storageType}."
+        not_logged_in: >
+          Щоб додати посилання, переглянути або завантажити файли, пов’язані з цим пакетом робіт, увійдіть у %{storageType}.
+      file_links:
+        download: "Завантажити %{fileName}"
+        no_permission: "У вас немає дозволу на перегляд цього файлу."
+        open: 'Відкрити файл у сховищі'
+        open_location: 'Відкрити файл у папці'
+        remove: "Видалити посилання на файл"
+        remove_confirmation: >
+          Справді відв’язати файл від цього пакету робіт? Це не вплине не вихідний файл. Буде вилучено тільки зв’язок із цим пакетом робіт.
+        remove_short: "Вилучити зв’язок"
+        select: "Виберіть файли"
+        select_all: "Вибрати всі"
+        selection_none: "Виберіть файли, які потрібно прив’язати"
+        selection_any: "Прив’язати файли (%{number})"
+        not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"
+        already_linked_file: "Цей файл уже прив’язано до цього пакету робіт."
+        already_linked_directory: "Цей каталог уже прив’язано до цього пакету робіт."

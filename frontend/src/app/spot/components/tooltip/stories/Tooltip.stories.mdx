@@ -1,0 +1,67 @@
+import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { OpSpotModule } from '../../../spot.module';
+import { SpotTooltipComponent } from '../tooltip.component';
+import { SbTooltipComponent } from './Tooltip.component';
+
+<Meta 
+  title="Components/Tooltip"
+  component={SpotTooltipComponent}
+  decorators={[
+    moduleMetadata({
+      imports: [
+        OpSpotModule,
+      ],
+    }),
+  ]}
+  parameters={{
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=1202%3A6802',
+    },
+  }}
+/>
+
+# Tooltip
+
+> Example of a tooltip
+
+Tooltips are used to provide additional information about an interactive element on mouse hover. 
+
+By default, they take 100% of the width of the containing element. However, max-width should be specified manually for each tooltip, depending on the circumstances and placement of the element. 
+
+Tooltips have a min-width of X rem.
+
+Tooltips automatically align themselves to the top or the bottom of the element it is attached to, depending on the positioning of the element in the viewport.
+
+## Options
+
+Tooltips by default have a dark gray background (_Gray 1: #333_), but a lighter version is also available with a sky blue background in the default theme (_Feedback/Info/Light_).
+
+> Example of a tooltip with a light background
+
+export const Template = (args) => ({
+  parameters: {
+    component: SbTooltipComponent,
+  },
+  props: {
+    disabled: args.disabled,
+    dark: args.dark,
+    alignment: args.alignment,
+    body: args.body,
+  },
+})
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      body: 'This is a tooltip',
+      dark: false,
+      disabled: false,
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>

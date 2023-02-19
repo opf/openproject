@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,13 +33,12 @@ class WorkPackage < ApplicationRecord
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntriesCleaner
   include WorkPackage::Ancestors
-  prepend WorkPackage::Parent
-  include WorkPackage::TypedDagDefaults
   include WorkPackage::CustomActioned
   include WorkPackage::Hooks
   include WorkPackages::DerivedDates
   include WorkPackages::SpentTime
   include WorkPackages::Costs
+  include WorkPackages::Relations
   include ::Scopes::Scoped
 
   include OpenProject::Journal::AttachmentHelper
@@ -50,22 +47,25 @@ class WorkPackage < ApplicationRecord
 
   belongs_to :project
   belongs_to :type
-  belongs_to :status, class_name: 'Status', foreign_key: 'status_id'
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
-  belongs_to :assigned_to, class_name: 'Principal', foreign_key: 'assigned_to_id'
-  belongs_to :responsible, class_name: 'Principal', foreign_key: 'responsible_id'
+  belongs_to :status, class_name: 'Status'
+  belongs_to :author, class_name: 'User'
+  belongs_to :assigned_to, class_name: 'Principal'
+  belongs_to :responsible, class_name: 'Principal'
   belongs_to :version
-  belongs_to :priority, class_name: 'IssuePriority', foreign_key: 'priority_id'
-  belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
+  belongs_to :priority, class_name: 'IssuePriority'
+  belongs_to :category, class_name: 'Category'
 
   has_many :time_entries, dependent: :delete_all
 
-  has_and_belongs_to_many :changesets, -> {
+  has_many :file_links,
+           dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
+  has_many :storages, through: :project
+
+  has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
 
-  has_and_belongs_to_many :github_pull_requests
-  has_and_belongs_to_many :gitlab_merge_requests
+  has_and_belongs_to_many :github_pull_requests # rubocop:disable Rails/HasAndBelongsToMany
 
   scope :recently_updated, -> {
     order(updated_at: :desc)
@@ -120,15 +120,21 @@ class WorkPackage < ApplicationRecord
     where(author_id: author.id)
   }
 
-  scopes :for_scheduling,
+  scopes :covering_days_of_week,
+         :for_scheduling,
          :include_derived_dates,
          :include_spent_time,
-         :left_join_self_and_descendants
+         :involving_user,
+         :left_join_self_and_descendants,
+         :relatable,
+         :directly_related
 
   acts_as_watchable
 
-  before_create :default_assign
+  after_validation :set_attachments_error_details,
+                   if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
   before_save :close_duplicates, :update_done_ratio_from_status
+  before_create :default_assign
 
   acts_as_customizable
 
@@ -153,6 +159,12 @@ class WorkPackage < ApplicationRecord
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
 
+  # makes virtual modal WorkPackageHierarchy available
+  has_closure_tree
+
+  # Add on_destroy paper trail
+  has_paper_trail
+
   ##################### WARNING #####################
   # Do not change the order of acts_as_attachable   #
   # and acts_as_journalized!                        #
@@ -169,9 +181,6 @@ class WorkPackage < ApplicationRecord
                      add_on_persisted_permission: :edit_work_packages,
                      modification_blocked: ->(*) { readonly_status? },
                      extract_tsv: true
-
-  after_validation :set_attachments_error_details,
-                   if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
 
   associated_to_ask_before_destruction TimeEntry,
                                        ->(work_packages) {
@@ -204,53 +213,31 @@ class WorkPackage < ApplicationRecord
   end
 
   # RELATIONS
+  def blockers
+    # return work_packages that block me
+    return WorkPackage.none if closed?
+
+    blocking_relations = Relation.blocks.where(to_id: self)
+
+    WorkPackage
+      .where(id: blocking_relations.select(:from_id))
+      .with_status_open
+  end
+
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    blocked_by
-      .with_status_open
+    blockers
       .exists?
   end
 
-  def relations
-    Relation.of_work_package(self)
-  end
-
   def visible_relations(user)
-    # This duplicates chaining
-    #  .relations.visible
-    # The duplication is made necessary to achieve a performant sql query on MySQL.
-    # Chaining would result in
-    #   WHERE (relations.from_id = [ID] OR relations.to_id = [ID])
-    #   AND relations.from_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES])
-    #   AND relations.to_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES])
-    # This performs OK on postgresql but is very slow on MySQL
-    # The SQL generated by this method:
-    #   WHERE (relations.from_id = [ID] AND relations.to_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES])
-    #   OR (relations.to_id = [ID] AND relations.from_id IN (SELECT [IDs OF VISIBLE WORK_PACKAGES]))
-    # is arguably easier to read and performs equally good on both DBs.
-    relations_from = Relation
-                     .where(from: self)
-                     .where(to: WorkPackage.visible(user))
-
-    relations_to = Relation
-                   .where(to: self)
-                   .where(from: WorkPackage.visible(user))
-
-    relations_from
-      .or(relations_to)
-  end
-
-  def relation(id)
-    Relation.of_work_package(self).find(id)
-  end
-
-  def new_relation
-    relations_to.build
+    relations
+      .visible(user)
   end
 
   def add_time_entry(attributes = {})
     attributes.reverse_merge!(
-      project: project,
+      project:,
       work_package: self
     )
     time_entries.build(attributes)
@@ -285,7 +272,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if the work_package is overdue
   def overdue?
-    !due_date.nil? && (due_date < Date.today) && !closed?
+    !due_date.nil? && (due_date < Time.zone.today) && !closed?
   end
 
   def milestone?
@@ -301,9 +288,13 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  def estimated_hours=(h)
-    converted_hours = (h.is_a?(String) ? h.to_hours : h)
-    write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
+  def estimated_hours=(hours)
+    converted_hours = (hours.is_a?(String) ? hours.to_hours : hours)
+    write_attribute :estimated_hours, !!converted_hours ? converted_hours : hours
+  end
+
+  def duration_in_hours
+    duration ? duration * 24 : nil
   end
 
   # aliasing subject to name
@@ -325,7 +316,6 @@ class WorkPackage < ApplicationRecord
   def type_id=(tid)
     self.type = nil
     result = write_attribute(:type_id, tid)
-    @custom_field_values = nil
     result
   end
 
@@ -349,19 +339,11 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  # Is the amount of work done less than it should for the finish date
-  def behind_schedule?
-    return false if start_date.nil? || due_date.nil?
-
-    done_date = start_date + (duration * done_ratio / 100).floor
-    done_date <= Date.today
-  end
-
   # check if user is allowed to edit WorkPackage Journals.
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
-      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id
+      (user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects
@@ -396,43 +378,43 @@ class WorkPackage < ApplicationRecord
 
   # Extracted from the ReportsController.
   def self.by_type(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'type_id',
                        joins: ::Type.table_name
   end
 
   def self.by_version(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'version_id',
                        joins: Version.table_name
   end
 
   def self.by_priority(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'priority_id',
                        joins: IssuePriority.table_name
   end
 
   def self.by_category(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'category_id',
                        joins: Category.table_name
   end
 
   def self.by_assigned_to(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'assigned_to_id',
                        joins: User.table_name
   end
 
   def self.by_responsible(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'responsible_id',
                        joins: User.table_name
   end
 
   def self.by_author(project)
-    count_and_group_by project: project,
+    count_and_group_by project:,
                        field: 'author_id',
                        joins: User.table_name
   end
@@ -454,68 +436,13 @@ class WorkPackage < ApplicationRecord
     ).to_a
   end
 
-  def self.relateable_to(wp)
-    # can't relate to itself and not to a descendant (see relations)
-    relateable_shared(wp)
-      .not_having_relations_from(wp) # can't relate to wp that relates to us (direct or transitively)
-      .not_having_direct_relation_to(wp) # can't relate to wp we relate to directly
-  end
-
-  def self.relateable_from(wp)
-    # can't relate to itself and not to a descendant (see relations)
-    relateable_shared(wp)
-      .not_having_relations_to(wp) # can't relate to wp that relates to us (direct or transitively)
-      .not_having_direct_relation_from(wp) # can't relate to wp we relate to directly
-  end
-
-  def self.relateable_shared(wp)
-    visible
-      .not_self(wp) # can't relate to itself
-      .not_being_descendant_of(wp) # can't relate to a descendant (see relations)
-      .satisfying_cross_project_setting(wp)
-  end
-  private_class_method :relateable_shared
-
-  def self.satisfying_cross_project_setting(wp)
-    if Setting.cross_project_work_package_relations?
-      all
-    else
-      where(project_id: wp.project_id)
-    end
-  end
-
-  def self.not_self(wp)
-    where.not(id: wp.id)
-  end
-
-  def self.not_having_direct_relation_to(wp)
-    where.not(id: wp.relations_to.direct.select(:to_id))
-  end
-
-  def self.not_having_direct_relation_from(wp)
-    where.not(id: wp.relations_from.direct.select(:from_id))
-  end
-
-  def self.not_having_relations_from(wp)
-    where.not(id: wp.relations_from.select(:from_id))
-  end
-
-  def self.not_having_relations_to(wp)
-    where.not(id: wp.relations_to.select(:to_id))
-  end
-
-  def self.not_being_descendant_of(wp)
-    where.not(id: wp.descendants.select(:to_id))
-  end
-
   def self.order_by_ancestors(direction)
-    max_relation_depth = Relation
-                         .hierarchy
-                         .group(:to_id)
-                         .select(:to_id,
-                                 "MAX(hierarchy) AS depth")
+    max_relation_depth = WorkPackageHierarchy
+                         .group(:descendant_id)
+                         .select(:descendant_id,
+                                 "MAX(generations) AS depth")
 
-    joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
+    joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.descendant_id = work_packages.id")
       .reorder(Arel.sql("COALESCE(max_depth.depth, 0) #{direction}"))
       .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
@@ -523,6 +450,10 @@ class WorkPackage < ApplicationRecord
   # Overrides Redmine::Acts::Customizable::ClassMethods#available_custom_fields
   def self.available_custom_fields(work_package)
     WorkPackage::AvailableCustomFields.for(work_package.project, work_package.type)
+  end
+
+  def custom_field_cache_key
+    [project_id, type_id]
   end
 
   protected
@@ -536,8 +467,8 @@ class WorkPackage < ApplicationRecord
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)
 
-    attributes.reverse_merge!(user: user,
-                              spent_on: Date.today)
+    attributes.reverse_merge!(user:,
+                              spent_on: Time.zone.today)
 
     time_entries.build(attributes)
   end
@@ -551,7 +482,7 @@ class WorkPackage < ApplicationRecord
 
     key = 'activity_id'
     id = attributes[key]
-    default_id = if id && !id.blank?
+    default_id = if id&.present?
                    Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
                  else
                    true
@@ -577,7 +508,7 @@ class WorkPackage < ApplicationRecord
     having_version_from_other_project
       .where(conditions)
       .includes(:project, :version)
-      .references(:versions).each do |issue|
+      .references(:versions).find_each do |issue|
       next if issue.project.nil? || issue.version.nil?
 
       unless issue.project.shared_versions.include?(issue.version)
@@ -595,11 +526,11 @@ class WorkPackage < ApplicationRecord
     end
   end
 
-  # Closes duplicates if the issue is being closed
+  # Closes duplicates if the work_package is being closed
   def close_duplicates
     return unless closing?
 
-    duplicates.each do |duplicate|
+    duplicated_relations.includes(:from).map(&:from).each do |duplicate|
       # Reload is needed in case the duplicate was updated by a previous duplicate
       duplicate.reload
       # Don't re-close it if it's already closed

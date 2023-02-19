@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +51,7 @@ class Members::UpdateService < ::BaseServices::Update
   def update_group_roles(member)
     Groups::UpdateRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(member: member, send_notifications: send_notifications?, message: notification_message)
+      .call(member:, send_notifications: send_notifications?, message: notification_message)
   end
 
   def event_type

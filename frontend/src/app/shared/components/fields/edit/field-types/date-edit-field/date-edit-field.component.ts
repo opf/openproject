@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,8 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
         tabindex="-1"
         (changed)="onValueSelected($event)"
         (canceled)="onCancel()"
+        (blurred)="submit($event)"
+        (enterPressed)="submit($event)"
         [initialDate]="formatter(value)"
         [required]="required"
         [disabled]="inFlight"
@@ -52,27 +54,31 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
 
   @InjectField() opModalService:OpModalService;
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
   }
 
-  public onValueSelected(data:string) {
+  public onValueSelected(data:string):void {
     this.value = this.parser(data);
-    this.handler.handleUserSubmit();
   }
 
-  public onCancel() {
+  public submit(data:string):void {
+    this.onValueSelected(data);
+    void this.handler.handleUserSubmit();
+  }
+
+  public onCancel():void {
     this.handler.handleUserCancel();
   }
 
-  public parser(data:any) {
+  public parser(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
-  public formatter(data:any) {
+  public formatter(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);

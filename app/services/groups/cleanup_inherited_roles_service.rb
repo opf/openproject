@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module Groups
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private
@@ -65,7 +65,7 @@ module Groups
 
         ::OpenProject::SqlSanitization
           .sanitize sql_query,
-                    member_role_ids: member_role_ids
+                    member_role_ids:
       else
         <<~SQL
           DELETE FROM #{MemberRole.table_name}
@@ -89,7 +89,7 @@ module Groups
     def remove_members(members)
       members.each do |member|
         Members::DeleteService
-          .new(model: member, user: user, contract_class: EmptyContract)
+          .new(model: member, user:, contract_class: EmptyContract)
           .call
       end
     end

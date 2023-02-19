@@ -1,19 +1,19 @@
 ca:
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    S'ha tancat la teva sessió. Es poden haver perdut els continguts de qualsevol formulari sotmès. Si us plau, [inicia sessió].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Nom
-        display_name: Display name
+        display_name: Nom mostrat
         identifier: Identificador
         secret: Secret
-        scope: Scope
+        scope: Abast
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: Proveïdor d’OpenID
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Afegeix un proveïdor d'OpenID
+      label_edit: Edita el proveïdor d'OpenID %{name}
+      no_results_table: Encara no s'han definit cap proveïdor.
+      plural: Proveïdors d’OpenID
+      singular: Proveïdor d’OpenID

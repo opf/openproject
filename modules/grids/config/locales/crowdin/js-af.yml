@@ -5,8 +5,8 @@ af:
       remove: 'Verwyder legstuk'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Custom text'
@@ -31,10 +31,13 @@ af:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Projek status'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Subprojekte'
           no_results: 'No subprojects.'

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Invoices and billing history
   priority: 980
 description: View the invoices and payment history.
-robots: index, follow
 keywords: invoices, payment history
 ---
 
@@ -16,9 +15,7 @@ The invoice lists the subscription (billing) period as well as the next billing 
 You will also see the payment status. 
 For invoices via bank transfer, the money needs to be paid via bank transfer to the bank account listed at the bottom of the invoice. 
 
-<div class="alert alert-info" role="alert">
-**Note**: For the correct assignment of payments, please enter the  invoice number on your bank transfer.
-</div>
+> **Note**: For the correct assignment of payments, please enter the  invoice number on your bank transfer.
 
 ![invoice](invoice.png)
 

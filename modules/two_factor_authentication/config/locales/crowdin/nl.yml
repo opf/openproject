@@ -72,8 +72,8 @@ nl:
       text_2fa_enabled: 'Bij elke aanmelding wordt deze gebruiker gevraagd om een OTP-token in te voeren vanaf zijn standaard 2FA-apparaat.'
       text_2fa_disabled: "De gebruiker heeft geen 2FA-apparaat ingesteld via zijn 'Mijn accountpagina'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Twee-staps authenticatie'
+      description: 'Versterk de beveiliging van uw OpenProject door tweestapsauthentificatie aan alle projectdeelnemers aan te bieden (of af te dwingen)'
     backup_codes:
       none_found: Geen 2FA back-upcodes gevonden voor dit account.
       singular: Back-up code
@@ -134,8 +134,6 @@ nl:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS versturen mislukt.'
       voice_delivery_failed: 'MessageBird spraakoproep mislukt.'
-    restdt:
-      delivery_failed_with_code: 'Token levering mislukt. (Error code %{code})'
     strategies:
       totp: 'Verificator toepassing'
       sns: 'Amazon SNS'
@@ -146,12 +144,12 @@ nl:
       required_to_add_device: 'Voor een actief beveiligingsbeleid moet u authenticatie met twee factoren inschakelen. Gebruik het volgende formulier om een apparaat te registreren.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+        Uw account heeft een actieve onthoud cookie geldig tot %{expires_on}. Met dit cookie kun je tot die tijd zonder tweede factor inloggen op je account.
+      other_active_session_notice: Je account heeft een actieve cookie onthouden tijdens een andere sessie.
+      label: 'Onthoud'
+      clear_cookie: 'Klik hier om alle onthouden 2FA-sessies te verwijderen.'
+      cookie_removed: 'Alle onthouden 2FA sessies zijn verwijderd.'
+      dont_ask_again: "Maak een cookie aan om de 2FA-authenticatie op deze client te onthouden gedurende %{days} dagen."
   field_phone: "Mobiele telefoon"
   field_otp: "Eenmalig wachtwoord"
   notice_account_otp_invalid: "Ongeldig éénmalig wachtwoord."
@@ -164,7 +162,7 @@ nl:
   label_confirmed: 'Bevestigd'
   button_continue: 'Verdergaan'
   button_make_default: 'Markeren als standaard'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "GSM nog niet geverifieerd"
   notice_phone_number_format: "Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX."
   text_otp_not_receive: "Andere verificatiemethoden"
   text_send_otp_again: "Eenmalig wachtwoord opnieuw verzenden door:"

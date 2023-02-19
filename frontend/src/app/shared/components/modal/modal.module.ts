@@ -1,22 +1,32 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { PortalModule } from '@angular/cdk/portal';
+import { A11yModule } from '@angular/cdk/a11y';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { OpModalService } from './modal.service';
 import { OpModalWrapperAugmentService } from './modal-wrapper-augment.service';
-import { OpModalHeaderComponent } from './modal-header.component';
+import { OpModalBannerComponent } from 'core-app/shared/components/modal/modal-banner/modal-banner.component';
+import { OpModalOverlayComponent } from 'core-app/shared/components/modal/modal-overlay.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FocusModule,
     IconModule,
+    PortalModule,
+    A11yModule,
   ],
-  exports: [OpModalHeaderComponent],
+  exports: [
+    OpModalOverlayComponent,
+    OpModalBannerComponent,
+  ],
   providers: [
-    OpModalService,
     OpModalWrapperAugmentService,
   ],
-  declarations: [OpModalHeaderComponent],
+  declarations: [
+    OpModalBannerComponent,
+    OpModalOverlayComponent,
+  ],
 })
 export class OpenprojectModalModule { }

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
-#-- copyright
+#--copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2010-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,25 +28,14 @@
 
 module Projects::Copy
   class WorkPackageAttachmentsDependentService < Dependency
-    include ::Copy::Concerns::CopyAttachments
+    include ::Projects::Copy::NoCopier
 
     def self.human_name
-      I18n.t(:label_work_package_attachments)
+      I18n.t(:'projects.copy.work_package_attachments')
     end
 
     def source_count
       source.work_packages.joins(:attachments).count('attachments.id')
-    end
-
-    protected
-
-    def copy_dependency(params:)
-      # If no work packages were copied, we cannot copy their attachments
-      return unless state.work_package_id_lookup
-
-      state.work_package_id_lookup.each do |old_wp_id, new_wp_id|
-        copy_attachments('WorkPackage', from_id: old_wp_id, to_id: new_wp_id)
-      end
     end
   end
 end

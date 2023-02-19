@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ module API
 
         result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
 
-        ServiceResult.new(success: true, result: result)
+        ServiceResult.success(result:)
       end
 
       private
@@ -52,9 +52,9 @@ module API
           timeline_labels: timeline_labels_from_params(params)
         }
 
-        ServiceResult.new success: true, result: parsed
+        ServiceResult.success result: parsed
       rescue ::JSON::ParserError => e
-        result = ServiceResult.new success: false
+        result = ServiceResult.failure
         result.errors.add(:base, e.message)
         result
       end
@@ -69,7 +69,8 @@ module API
           highlighting_mode: params[:highlightingMode],
           highlighted_attributes: highlighted_attributes_from_params(params),
           display_representation: params[:displayRepresentation],
-          show_hierarchies: boolearize(params[:showHierarchies])
+          show_hierarchies: boolearize(params[:showHierarchies]),
+          include_subprojects: boolearize(params[:includeSubprojects])
         }
       end
 
@@ -130,8 +131,8 @@ module API
         ar_attribute = convert_filter_attribute attribute, append_id: true
 
         { field: ar_attribute,
-          operator: operator,
-          values: values }
+          operator:,
+          values: }
       end
 
       def columns_from_params(params)

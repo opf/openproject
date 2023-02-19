@@ -16,7 +16,8 @@ properties:
     format: date
     description: The date the expenditure is booked for
   hours:
-    type: time
+    type: string
+    format: date
     description: The time quantifying the expenditure
   createdAt:
     type: string

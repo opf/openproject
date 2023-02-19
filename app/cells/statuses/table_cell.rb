@@ -1,5 +1,3 @@
-require_dependency 'statuses/row_cell'
-
 module Statuses
   class TableCell < ::TableCell
     def initial_sort

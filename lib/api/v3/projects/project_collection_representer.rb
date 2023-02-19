@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +49,7 @@ module API
 
         def representation_format(format, mime_type:)
           {
-            href: url_for(controller: :projects, action: :index, format: format, **query_params),
+            href: url_for(controller: :projects, action: :index, format:, **query_params),
             identifier: format,
             type: mime_type,
             title: I18n.t("export.format.#{format}")

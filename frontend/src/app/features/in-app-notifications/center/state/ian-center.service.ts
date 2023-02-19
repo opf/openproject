@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {
   debounceTime,
+  defaultIfEmpty,
   distinctUntilChanged,
   map,
   mapTo,
@@ -14,38 +15,42 @@ import {
   tap,
 } from 'rxjs/operators';
 import {
+  forkJoin,
   from,
+  Observable,
   Subject,
 } from 'rxjs';
 import {
   ID,
-  setLoading,
+  Query,
 } from '@datorama/akita';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import {
+  IToast,
+  ToastService,
+} from 'core-app/shared/components/toaster/toast.service';
 import {
   centerUpdatedInPlace,
   markNotificationsAsRead,
   notificationCountIncreased,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
-import { InAppNotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { IanCenterQuery } from 'core-app/features/in-app-notifications/center/state/ian-center.query';
+import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { InAppNotificationsResourceService } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
 import {
+  collectionKey,
   mapHALCollectionToIDCollection,
-  selectCollectionAsEntities$,
-  selectCollectionAsHrefs$,
 } from 'core-app/core/state/collection-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
+  IAN_FACET_FILTERS,
   IanCenterStore,
   InAppNotificationFacet,
 } from './ian-center.store';
@@ -54,6 +59,10 @@ import { UIRouterGlobals } from '@uirouter/core';
 import { StateService } from '@uirouter/angular';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { DeviceService } from 'core-app/core/browser/device.service';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 
 @Injectable()
 @EffectHandler
@@ -62,7 +71,90 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   readonly store = new IanCenterStore();
 
-  readonly query = new IanCenterQuery(this.store, this.resourceService);
+  readonly query = new Query(this.store);
+
+  activeFacet$ = this.query.select('activeFacet');
+
+  notLoaded$ = this.query.select('notLoaded');
+
+  paramsChanges$ = this.query.select(['params', 'activeFacet']);
+
+  activeCollection$ = this.query.select('activeCollection');
+
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  activeReason$:Observable<string|null> = this.uiRouterGlobals.params$!.pipe(
+    this.untilDestroyed(),
+    distinctUntilChanged(),
+    map((params) => {
+      if (params.filter === 'reason') {
+        return params.name as string;
+      }
+
+      return null;
+    }),
+    shareReplay(1),
+  );
+
+  loading$:Observable<boolean> = this.query.selectLoading();
+
+  selectNotifications$:Observable<INotification[]> = this
+    .activeCollection$
+    .pipe(
+      switchMap((collection) => {
+        const lookupId = (id:ID) => this.resourceService.lookup(id).pipe(take(1));
+        return forkJoin(collection.ids.map(lookupId))
+          .pipe(defaultIfEmpty([]));
+      }),
+    );
+
+  aggregatedCenterNotifications$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => (
+        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
+      )),
+      distinctUntilChanged(),
+    );
+
+  notifications$ = this
+    .aggregatedCenterNotifications$
+    .pipe(
+      map((items) => Object.values(items)),
+      distinctUntilChanged(),
+    );
+
+  hasNotifications$ = this
+    .notifications$
+    .pipe(
+      distinctUntilChanged(),
+      map((items) => items.length > 0),
+      distinctUntilChanged(),
+    );
+
+  hasMoreThanPageSize$ = this
+    .notLoaded$
+    .pipe(
+      map((notLoaded) => notLoaded > 0),
+      distinctUntilChanged(),
+    );
+
+  get params():ApiV3ListParameters {
+    const state = this.store.getValue();
+    const hasFilters = state.filters.name && state.filters.filter;
+    return {
+      ...state.params,
+      filters: [
+        ...IAN_FACET_FILTERS[state.activeFacet],
+        ...(
+          hasFilters
+            ? ([[state.filters.filter, '=', [state.filters.name]]] as ApiV3ListFilter[])
+            : []
+        ),
+      ],
+    };
+  }
+
+  private activeReloadToast:IToast|null = null;
 
   private reload = new Subject();
 
@@ -73,8 +165,9 @@ export class IanCenterService extends UntilDestroyedMixin {
         this.store.setLoading(true);
       }
     }),
-    switchMap(() => this.resourceService
-      .fetchNotifications(this.query.params)
+    switchMap(() => this
+      .resourceService
+      .fetchCollection(this.params)
       .pipe(
         switchMap(
           (results) => from(this.sideLoadInvolvedWorkPackages(results._embedded.elements))
@@ -95,6 +188,8 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotificationIndex = 0;
 
+  public selectedNotification:INotification;
+
   stateChanged$ = this.uiRouterGlobals.params$?.pipe(
     this.untilDestroyed(),
     pluck('workPackageId'),
@@ -108,7 +203,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     readonly injector:Injector,
     readonly resourceService:InAppNotificationsResourceService,
     readonly actions$:ActionsService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly toastService:ToastService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
@@ -119,7 +214,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
     if (this.stateChanged$) {
       this.stateChanged$.subscribe(() => {
-        this.updateSelectedNotificationIndex();
+        this.updateSelectedNotification();
       });
     }
   }
@@ -137,6 +232,12 @@ export class IanCenterService extends UntilDestroyedMixin {
     this.onReload.pipe(take(1)).subscribe((collection) => {
       this.store.update({ activeCollection: collection });
     });
+
+    if (facet === 'unread') {
+      if (this.selectedNotification?.readIAN) {
+        this.goToCenter();
+      }
+    }
     this.reload.next(true);
   }
 
@@ -147,30 +248,43 @@ export class IanCenterService extends UntilDestroyedMixin {
   }
 
   markAllAsRead():void {
-    const ids:ID[] = selectCollectionAsEntities$(this.resourceService, this.resourceService.query.getValue(), this.query.params)
-      .filter((notification) => notification.readIAN === false)
-      .map((notification) => notification.id);
+    const key = collectionKey(this.params);
+    this
+      .resourceService
+      .collection(key)
+      .pipe(
+        take(1),
+      )
+      .subscribe((elements) => {
+        const ids:ID[] = elements
+          .filter((notification) => notification.readIAN === false)
+          .map((notification) => notification.id);
 
-    if (ids.length > 0) {
-      this.markAsRead(ids);
-    }
+        if (ids.length > 0) {
+          this.markAsRead(ids);
+        }
+      });
   }
 
-  openSplitScreen(wpId:string|null):void {
+  openSplitScreen(wpId:string|null, tabIdentifier:string = 'activity'):void {
     void this.state.go(
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
       `${this.state.current.data.baseRoute}.details.tabs`,
-      { workPackageId: wpId, tabIdentifier: 'activity' },
+      { workPackageId: wpId, tabIdentifier },
     );
+  }
+
+  goToCenter():void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
+    void this.state.go(this.state.current.data.baseRoute);
   }
 
   showNextNotification():void {
     void this
-      .query
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications:InAppNotification[][]) => {
+      ).subscribe((notifications:INotification[][]) => {
         if (notifications.length <= 0) {
           void this.state.go(
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/restrict-template-expressions
@@ -201,7 +315,12 @@ export class IanCenterService extends UntilDestroyedMixin {
         return;
       }
 
-      this.toastService.add({
+      if (this.activeReloadToast) {
+        this.toastService.remove(this.activeReloadToast);
+        this.activeReloadToast = null;
+      }
+
+      this.activeReloadToast = this.toastService.add({
         type: 'info',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
@@ -209,6 +328,7 @@ export class IanCenterService extends UntilDestroyedMixin {
           target: () => {
             this.store.update({ activeCollection: collection });
             this.actions$.dispatch(centerUpdatedInPlace({ origin: this.id }));
+            this.activeReloadToast = null;
           },
         },
       });
@@ -233,7 +353,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     }
   }
 
-  private sideLoadInvolvedWorkPackages(elements:InAppNotification[]):Promise<unknown> {
+  private sideLoadInvolvedWorkPackages(elements:INotification[]):Promise<unknown> {
     const { cache } = this.apiV3Service.work_packages;
     const wpIds = elements
       .map((element) => {
@@ -258,20 +378,23 @@ export class IanCenterService extends UntilDestroyedMixin {
     return promise;
   }
 
-  private updateSelectedNotificationIndex() {
+  private updateSelectedNotification() {
     this
-      .query
       .notifications$
       .pipe(
         take(1),
-      ).subscribe((notifications:InAppNotification[][]) => {
-        for (let i = 0; i < notifications.length; ++i) {
-          if (notifications[i][0]._links.resource
-            && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
-            this.selectedNotificationIndex = i;
-            return;
+      )
+      .subscribe(
+        (notifications:INotification[][]) => {
+          for (let i = 0; i < notifications.length; ++i) {
+            if (notifications[i][0]._links.resource
+              && idFromLink(notifications[i][0]._links.resource.href) === this.uiRouterGlobals.params.workPackageId) {
+              this.selectedNotificationIndex = i;
+              [this.selectedNotification] = notifications[i];
+              return;
+            }
           }
-        }
-      });
+        },
+      );
   }
 }

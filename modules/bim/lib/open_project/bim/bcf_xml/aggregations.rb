@@ -10,11 +10,11 @@ module OpenProject::Bim::BcfXml
     end
 
     def all_people
-      @instance_cache[:all_people] ||= listings.map { |entry| entry[:people] }.flatten.uniq
+      @instance_cache[:all_people] ||= listings.pluck(:people).flatten.uniq
     end
 
     def all_mails
-      @instance_cache[:all_mails] ||= listings.map { |entry| entry[:mail_addresses] }.flatten.uniq
+      @instance_cache[:all_mails] ||= listings.pluck(:mail_addresses).flatten.uniq
     end
 
     def known_users
@@ -38,7 +38,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def all_statuses
-      @instance_cache[:all_statuses] ||= listings.map { |entry| entry[:status] }.flatten.uniq
+      @instance_cache[:all_statuses] ||= listings.pluck(:status).flatten.uniq
     end
 
     def unknown_statuses
@@ -46,7 +46,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def all_types
-      @instance_cache[:all_types] ||= listings.map { |entry| entry[:type] }.flatten.uniq
+      @instance_cache[:all_types] ||= listings.pluck(:type).flatten.uniq
     end
 
     def unknown_types
@@ -54,7 +54,7 @@ module OpenProject::Bim::BcfXml
     end
 
     def all_priorities
-      @instance_cache[:all_priorities] ||= listings.map { |entry| entry[:priority] }.flatten.uniq
+      @instance_cache[:all_priorities] ||= listings.pluck(:priority).flatten.uniq
     end
 
     def unknown_priorities

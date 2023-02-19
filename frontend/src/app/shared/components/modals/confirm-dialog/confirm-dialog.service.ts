@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,29 @@ import {
   ConfirmDialogOptions,
 } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 
 @Injectable()
 export class ConfirmDialogService {
-  constructor(readonly opModalService:OpModalService,
-    readonly injector:Injector) {
+  constructor(
+    readonly opModalService:OpModalService,
+    readonly injector:Injector,
+  ) {
+    document.addEventListener('submit', (evt:Event) => {
+      const target = evt.target as HTMLFormElement;
+      const options = target.dataset.augmentedConfirmDialog;
+      if (options) {
+        this.augmentFormSubmit(target, JSON.parse(options));
+
+        evt.preventDefault();
+        return false;
+      }
+
+      return true;
+    });
   }
 
   /**
@@ -44,14 +61,34 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):Promise<void> {
     return new Promise<void>((resolve, reject) => {
-      const confirmModal = this.opModalService.show(ConfirmDialogModalComponent, this.injector, { options });
-      confirmModal.closingEvent.subscribe((modal:ConfirmDialogModalComponent) => {
+      this.opModalService.show(
+        ConfirmDialogModalComponent,
+        this.injector,
+        { options },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.confirmed) {
           resolve();
         } else {
           reject();
         }
-      });
+      }));
     });
+  }
+
+  /**
+   * Augment a Rails form submit with a confirmation dialog
+   *
+   * @param target
+   * @param options
+   * @private
+   */
+  private augmentFormSubmit(target:HTMLFormElement, options:ConfirmDialogOptions) {
+    void this
+      .confirm(options)
+      .then(() => {
+        target.removeAttribute('data-augmented-confirm-dialog');
+        target.submit();
+      })
+      .catch(() => undefined /* Dialog cancelled, nothing to do */);
   }
 }

@@ -3,12 +3,13 @@
 
   <% if setting_protocol_mismatched? %>
     <p>
-      <strong><%= t 'warning_bar.protocol_mismatch.title' %></strong>
+      <strong><%= t 'warning_bar.https_mismatch.title' %></strong>
       <br/>
-      <%= t 'warning_bar.protocol_mismatch.text_html',
+      <%= t 'warning_bar.https_mismatch.text_html',
             set_protocol: Setting.protocol,
             actual_protocol: request.ssl? ? 'https' : 'http',
-            setting_path: admin_settings_general_path
+            setting_value: request.ssl? ? 'OPENPROJECT_HTTPS=true' : 'OPENPROJECT_HTTPS=false',
+            more_info_path: installation_guide_link
       %>
     </p>
   <% end %>

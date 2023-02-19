@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin impl
 
   public count = 0;
 
-  constructor(protected apiV3Service:APIV3Service,
+  constructor(protected apiV3Service:ApiV3Service,
     protected wpRelations:WorkPackageRelationsService) {
     super();
   }

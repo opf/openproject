@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,20 +33,20 @@ class Report::Walker
     @query = query
   end
 
-  def for_row(&block)
-    access_block(:row, &block)
+  def for_row(&)
+    access_block(:row, &)
   end
 
-  def for_final_row(&block)
-    access_block(:final_row, &block) || access_block(:row)
+  def for_final_row(&)
+    access_block(:final_row, &) || access_block(:row)
   end
 
-  def for_cell(&block)
-    access_block(:cell, &block)
+  def for_cell(&)
+    access_block(:cell, &)
   end
 
-  def for_empty_cell(&block)
-    access_block(:empty_cell, &block) || access_block(:cell)
+  def for_empty_cell(&)
+    access_block(:empty_cell, &) || access_block(:cell)
   end
 
   def access_block(name, &block)
@@ -59,7 +59,7 @@ class Report::Walker
     cell ? for_cell[cell] : for_empty_cell[nil]
   end
 
-  def headers(result = nil, &_block)
+  def headers(result = nil, &)
     @header_stack = []
     result ||= query.column_first
     sort result
@@ -113,8 +113,8 @@ class Report::Walker
     result.sort!
   end
 
-  def body(result = nil, &block)
-    return [*body(result)].each(&block) if block_given?
+  def body(result = nil, &)
+    return [*body(result)].each(&) if block_given?
 
     result ||= query.result.tap { |r| sort(r) }
     if result.row?

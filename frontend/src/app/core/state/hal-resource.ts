@@ -1,18 +1,20 @@
-export interface HalResourceLink {
+export interface IHalOptionalTitledLink {
+  href:string;
+  title?:string;
+}
+
+export interface IHalResourceLink {
   href:string;
   title:string;
 }
 
-/*
- * TODO: This typing is not perfect, since overriding with more specific keys that are optional
- * e.g. `project?:HalResourceLink;` is not possible. This would result in a possible undefined type.
- * I'm not sure how to fix this, but it works for now.
- */
-export type HalResourceLinks = Record<string, HalResourceLink|HalResourceLink[]>;
+export interface IHalResourceLinks {
+  self:IHalResourceLink;
+}
 
 export type FormattableFormat = 'markdown'|'custom';
 
-export interface Formattable {
+export interface IFormattable {
   format:FormattableFormat;
   raw:string;
   html:string;

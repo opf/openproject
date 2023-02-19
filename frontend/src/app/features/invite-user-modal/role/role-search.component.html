@@ -1,6 +1,6 @@
 <ng-select
-  appendTo=".op-modal-overlay"
-  [formControl]="roleControl"
+  appendTo=".spot-modal-overlay"
+  [formControl]="spotFormBinding"
   [typeahead]="input$"
   [items]="items$ | async"
   [virtualScroll]="true"
@@ -8,7 +8,6 @@
   [clearOnBackspace]="false"
   [clearSearchOnAdd]="false"
   bindLabel="name"
-  autofocus
   #ngselect
 >
   <!--Selectable option-->

@@ -1,0 +1,90 @@
+# /api/v3/memberships/schema
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/memberships/schema"
+                _type: Schema
+                createdAt:
+                  hasDefault: false
+                  name: Created on
+                  required: true
+                  type: DateTime
+                  writable: false
+                id:
+                  hasDefault: false
+                  name: ID
+                  required: true
+                  type: Integer
+                  writable: false
+                notificationMessage:
+                  hasDefault: false
+                  location: _meta
+                  name: Message
+                  options: {}
+                  required: false
+                  type: Formattable
+                  writable: true
+                principal:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Principal
+                  required: true
+                  type: Principal
+                  writable: true
+                project:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Project
+                  required: false
+                  type: Project
+                  writable: true
+                roles:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: Role
+                  required: true
+                  type: "[]Role"
+                  writable: true
+                updatedAt:
+                  hasDefault: false
+                  name: Updated on
+                  required: true
+                  type: DateTime
+                  writable: false
+          schema:
+            "$ref": "../components/schemas/view_membership_schema_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the schema.
+
+        **Required permission:** manage members or view memberships on any project
+      headers: {}
+  tags:
+  - Memberships
+  description: ''
+  operationId: View_membership_schema
+  summary: View membership schema

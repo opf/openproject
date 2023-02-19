@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +36,6 @@ class Authorization::AbstractQuery
     model.unscoped
          .joins(joins(arel))
          .where(wheres(arel))
-         .distinct
   end
 
   def self.base_query
@@ -62,8 +59,8 @@ class Authorization::AbstractQuery
   def self.run_transformations(*args)
     query = base_query
 
-    transformator = Authorization::QueryTransformationVisitor.new(transformations: transformations,
-                                                                  args: args)
+    transformator = Authorization::QueryTransformationVisitor.new(transformations:,
+                                                                  args:)
 
     transformator.accept(query)
 

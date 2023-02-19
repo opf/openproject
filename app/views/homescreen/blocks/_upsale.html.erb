@@ -1,31 +1,47 @@
-<%= render 'homescreen/blocks/header', title: t('homescreen.blocks.upsale.title') %>
-
 <div class="widget-box--description">
-  <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image" %>
-  <p>
-    <%= t('js.admin.enterprise.upsale.text') %>
-  </p>
+  <%= image_tag "enterprise-add-on.svg", class: "widget-box--blocks--upsale-image" %>
+  <div class="widget-box--blocks--upsale-description">
+    <div class="widget-box--blocks--upsale-title">
+
+      <%= spot_icon('enterprise-addons') %>
+      <span><%= t('homescreen.blocks.upsale.title') %></span>
+
+      <p class="widget-box--blocks--upsale-description">
+        <%= t('js.admin.enterprise.upsale.text') %>
+      </p>
+    
+      <p>
+        <b><%= t('js.admin.enterprise.upsale.become_hero') %></b> <%= t('js.admin.enterprise.upsale.you_contribute') %>
+      </p>
+
+      <p>
+        <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
+      </p>
+    
+    </div>
+  </div>
 </div>
 
-<div class="widget-box--blocks--buttons">
+<div class="widget-box--blocks--upsale-buttons">
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
+    { class: 'button--link widget-box--blocks--upsale-info-button',
+      aria: {label: t('homescreen.blocks.upsale.more_info')},
+      target: '_blank',
+      title: t('homescreen.blocks.upsale.more_info')} do %>
+    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
+    <%= spot_icon('button--icon icon-external-link') %>
+  <% end %>
+
+  <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
+    { class: 'button -highlight',
+      aria: {label: t('admin.enterprise.buttons.upgrade')},
+      target: '_blank',
+      title: t('admin.enterprise.buttons.upgrade')}) do %>
+    <%= spot_icon('enterprise-addons enterprise-addons--button-icon') %>
+    <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
+  <% end %>
+
   <% if current_user.admin? %>
     <%= link_to t('js.admin.enterprise.upsale.button_start_trial'), enterprise_path, class: 'button -alt-highlight' %>
   <% end  %>
-
-  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=home-screen",
-        { class: 'button -highlight-inverted',
-          aria: {label: t('homescreen.blocks.upsale.more_info')},
-          target: '_blank',
-          title: t('homescreen.blocks.upsale.more_info')} do %>
-    <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
-    <%= op_icon('button--icon icon-external-link') %>
-  <% end %>
 </div>
-
-<span><b><%= t('js.admin.enterprise.upsale.become_hero') %></b></span>
-
-<p><%= t('js.admin.enterprise.upsale.you_contribute') %></p>
-
-<p>
-  <b><%= t('js.admin.enterprise.upsale.confidence') %></b>
-</p>

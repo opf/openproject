@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +33,13 @@ class User < Principal
     firstname_lastname: %i[firstname lastname],
     firstname: [:firstname],
     lastname_firstname: %i[lastname firstname],
+    lastname_n_firstname: %i[lastname firstname],
     lastname_coma_firstname: %i[lastname firstname],
     username: [:login]
   }.freeze
 
   include ::Associations::Groupable
+  include ::Users::Avatars
   extend DeprecatedAlias
 
   has_many :categories, foreign_key: 'assigned_to_id',
@@ -83,6 +83,7 @@ class User < Principal
          :newest,
          :notified_globally,
          :watcher_recipients,
+         :with_time_zone,
          :having_reminder_mail_to_send
 
   def self.create_blocked_scope(scope, blocked)
@@ -104,12 +105,12 @@ class User < Principal
   attr_accessor :password, :password_confirmation, :last_before_login_on
 
   validates :login,
-                        :firstname,
-                        :lastname,
-                        :mail,
-                        presence: { unless: Proc.new { |user| user.builtin? } }
+            :firstname,
+            :lastname,
+            :mail,
+            presence: { unless: Proc.new { |user| user.builtin? } }
 
-  validates :login, uniqueness: { if: Proc.new { |user| !user.login.blank? }, case_sensitive: false }
+  validates :login, uniqueness: { if: Proc.new { |user| user.login.present? }, case_sensitive: false }
   validates :mail, uniqueness: { allow_blank: true, case_sensitive: false }
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
@@ -164,9 +165,8 @@ class User < Principal
 
   def reload(*args)
     @name = nil
-    @projects_by_role = nil
-    @authorization_service = ::Authorization::UserAllowedService.new(self)
-    @project_role_cache = ::Users::ProjectRoleCache.new(self)
+    @user_allowed_service = nil
+    @project_role_cache = nil
 
     super
   end
@@ -268,6 +268,7 @@ class User < Principal
 
     when :firstname_lastname      then "#{firstname} #{lastname}"
     when :lastname_firstname      then "#{lastname} #{firstname}"
+    when :lastname_n_firstname    then "#{lastname}#{firstname}"
     when :lastname_coma_firstname then "#{lastname}, #{firstname}"
     when :firstname               then firstname
     when :username                then login
@@ -323,7 +324,7 @@ class User < Principal
     else
       return false if current_password.nil?
 
-      current_password.matches_plaintext?(clear_password, update_legacy: update_legacy)
+      current_password.matches_plaintext?(clear_password, update_legacy:)
     end
   end
 
@@ -479,34 +480,6 @@ class User < Principal
     roles_for_project(project).any?(&:member?)
   end
 
-  # Returns a hash of user's projects grouped by roles
-  def projects_by_role
-    return @projects_by_role if @projects_by_role
-
-    @projects_by_role = Hash.new { |h, k| h[k] = [] }
-    memberships.each do |membership|
-      membership.roles.each do |role|
-        @projects_by_role[role] << membership.project if membership.project
-      end
-    end
-    @projects_by_role.each do |_role, projects|
-      projects.uniq!
-    end
-
-    @projects_by_role
-  end
-
-  # Returns true if user is arg or belongs to arg
-  def is_or_belongs_to?(arg)
-    if arg.is_a?(User)
-      self == arg
-    elsif arg.is_a?(Group)
-      arg.users.include?(self)
-    else
-      false
-    end
-  end
-
   def self.allowed(action, project)
     Authorization.users(action, project)
   end
@@ -515,21 +488,19 @@ class User < Principal
     Authorization.users(action, project).where.not(members: { id: nil })
   end
 
-  def allowed_to?(action, context, options = {})
-    authorization_service.call(action, context, options).result
+  def allowed_to?(action, context, global: false)
+    user_allowed_service.call(action, context, global:)
   end
 
-  def allowed_to_in_project?(action, project, options = {})
-    authorization_service.call(action, project, options).result
+  def allowed_to_in_project?(action, project)
+    allowed_to?(action, project)
   end
 
-  def allowed_to_globally?(action, options = {})
-    authorization_service.call(action, nil, options.merge(global: true)).result
+  def allowed_to_globally?(action)
+    allowed_to?(action, nil, global: true)
   end
 
-  def preload_projects_allowed_to(action)
-    authorization_service.preload_projects_allowed_to(action)
-  end
+  delegate :preload_projects_allowed_to, to: :user_allowed_service
 
   def reported_work_package_count
     WorkPackage.on_active_project.with_author(self).visible.count
@@ -543,10 +514,10 @@ class User < Principal
     RequestStore[:current_user] || User.anonymous
   end
 
-  def self.execute_as(user, &block)
+  def self.execute_as(user, &)
     previous_user = User.current
     User.current = user
-    OpenProject::LocaleHelper.with_locale_for(user, &block)
+    OpenProject::LocaleHelper.with_locale_for(user, &)
   ensure
     User.current = previous_user
   end
@@ -624,14 +595,8 @@ class User < Principal
 
       if former_passwords_include?(password)
         errors.add(:password,
-                   I18n.t(:reused,
-                          count: Setting[:password_count_former_banned].to_i,
-                          scope: %i[activerecord
-                                    errors
-                                    models
-                                    user
-                                    attributes
-                                    password]))
+                   I18n.t('activerecord.errors.models.user.attributes.password.reused',
+                          count: Setting[:password_count_former_banned].to_i))
       end
     end
   end
@@ -642,13 +607,13 @@ class User < Principal
     separators = Regexp.escape(Setting.mail_suffix_separators)
     recipient, domain = mail.split('@').map { |part| Regexp.escape(part) }
     skip_suffix_check = recipient.nil? || Setting.mail_suffix_separators.empty? || recipient.match?(/.+[#{separators}].+/)
-    regexp = "#{recipient}([#{separators}][^@]+)*@#{domain}"
+    regexp = "^#{recipient}([#{separators}][^@]+)*@#{domain}$"
 
     [skip_suffix_check, regexp]
   end
 
-  def authorization_service
-    @authorization_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
+  def user_allowed_service
+    @user_allowed_service ||= ::Authorization::UserAllowedService.new(self, role_cache: project_role_cache)
   end
 
   def project_role_cache

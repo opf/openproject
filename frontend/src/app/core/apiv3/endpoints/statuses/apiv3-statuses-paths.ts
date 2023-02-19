@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,18 +26,18 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { APIv3StatusPaths } from 'core-app/core/apiv3/endpoints/statuses/apiv3-status-paths';
+import { ApiV3StatusPaths } from 'core-app/core/apiv3/endpoints/statuses/apiv3-status-paths';
 import { Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { tap } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
-export class APIv3StatusesPaths extends APIv3ResourceCollection<StatusResource, APIv3StatusPaths> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3StatusesPaths extends ApiV3ResourceCollection<StatusResource, ApiV3StatusPaths> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'statuses', APIv3StatusPaths);
+    super(apiRoot, basePath, 'statuses', ApiV3StatusPaths);
   }
 
   /**

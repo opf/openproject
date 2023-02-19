@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,33 +48,31 @@ module Users
 
     def set_default_attributes(params)
       # Assign values other than mail to new_user when invited
-      if model.invited? && model.valid_attribute?(:mail)
-        assign_invited_attributes!(params)
-      end
+      assign_name_attributes_from_mail(params) if model.invited? && model.valid_attribute?(:mail)
+      assign_default_language
 
-      initialize_notification_settings unless model.notification_settings.any?
+      model.notification_settings.build unless model.notification_settings.any?
     end
 
     def set_preferences
       ::UserPreferences::SetAttributesService
-        .new(user: user, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
+        .new(user:, model: model.pref, contract_class: ::UserPreferences::UpdateContract)
         .call(pref)
     end
 
-    def initialize_notification_settings
-      model.notification_settings.build(involved: true, mentioned: true, watched: true)
-    end
-
     # rubocop:disable Metrics/AbcSize
-    def assign_invited_attributes!(params)
+    def assign_name_attributes_from_mail(params)
       placeholder = placeholder_name(params[:mail])
 
       model.login = model.login.presence || params[:mail]
       model.firstname = model.firstname.presence || placeholder.first
       model.lastname = model.lastname.presence || placeholder.last
-      model.language = model.language.presence || Setting.default_language
     end
     # rubocop:enable Metrics/AbcSize
+
+    def assign_default_language
+      model.language = model.language.presence || Setting.default_language
+    end
 
     ##
     # Creates a placeholder name for the user based on their email address.

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +46,7 @@ class MessagesController < ApplicationController
     # Find the page of the requested reply
     if params[:r] && page.nil?
       offset = @topic.children.where(["#{Message.table_name}.id < ?", params[:r].to_i]).count
-      page = 1 + offset / REPLIES_PER_PAGE
+      page = 1 + (offset / REPLIES_PER_PAGE)
     end
 
     @replies = @topic
@@ -78,7 +76,7 @@ class MessagesController < ApplicationController
     @message = call.result
 
     if call.success?
-      call_hook(:controller_messages_new_after_save, params: params, message: @message)
+      call_hook(:controller_messages_new_after_save, params:, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -94,7 +92,7 @@ class MessagesController < ApplicationController
     @reply = call.result
 
     if call.success?
-      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
+      call_hook(:controller_messages_reply_after_save, params:, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
   end
@@ -144,10 +142,10 @@ class MessagesController < ApplicationController
     subject = @message.subject.gsub('"', '\"')
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
     content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
-    content << text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n"
+    content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
 
     respond_to do |format|
-      format.json { render json: { subject: subject, content: content } }
+      format.json { render json: { subject:, content: } }
       format.any { head :not_acceptable }
     end
   end
@@ -164,7 +162,7 @@ class MessagesController < ApplicationController
 
   def create_message(forum, message_params = permitted_params.message(forum.project))
     params = message_params
-               .merge(forum: forum)
+               .merge(forum:)
                .merge(attachment_params)
 
     Messages::CreateService
@@ -173,7 +171,7 @@ class MessagesController < ApplicationController
   end
 
   def create_reply(forum, parent)
-    create_message(forum, permitted_params.reply.merge(parent: parent))
+    create_message(forum, permitted_params.reply.merge(parent:))
   end
 
   def attachment_params

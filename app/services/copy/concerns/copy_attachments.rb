@@ -5,21 +5,28 @@ module Copy
       # Tries to copy the given attachment between containers
       def copy_attachments(container_type, from_id:, to_id:)
         Attachment
-          .where(container_type: container_type, container_id: from_id)
-          .find_each do |old_attachment|
-          copied = old_attachment.dup
-          old_attachment.file.copy_to(copied)
+          .where(container_type:, container_id: from_id)
+          .find_each do |source|
 
-          copied.author = user
-          copied.container_type = old_attachment.container_type
-          copied.container_id = to_id
+          copy = Attachment
+                   .new(attachment_copy_attributes(source, to_id))
+          source.file.copy_to(copy)
 
-          unless copied.save
-            Rails.logger.error { "Attachments ##{old_attachment.id} could not be copied: #{copied.errors.full_messages} " }
+          unless copy.save
+            Rails.logger.error { "Attachments ##{source.id} could not be copy: #{copy.errors.full_messages} " }
           end
         rescue StandardError => e
-          Rails.logger.error { "Failed to copy attachments from ##{from_container_id} to ##{to_container_id}: #{e}" }
+          Rails.logger.error { "Failed to copy attachments from ##{from_id} to ##{to_id}: #{e}" }
         end
+      end
+
+      def attachment_copy_attributes(source, to_id)
+        source
+          .dup
+          .attributes
+          .except('file')
+          .merge('author_id' => user.id,
+                 'container_id' => to_id)
       end
     end
   end

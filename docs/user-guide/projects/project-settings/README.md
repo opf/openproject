@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project settings
   priority: 500
 description: Configure your project in OpenProject.
-robots: index, follow
 keywords: project settings
 ---
 # Project settings
@@ -14,9 +13,7 @@ Open a project via the Select a project drop-down menu and navigate to -> *Proje
 
 ![User-guide-open-project-settings](User-guide-open-project-settings.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: You have to be a project admin in order to see and access the project settings.
-</div>
+> **Note**: You have to be a project admin in order to see and access the project settings.
 
 
 ## Overview

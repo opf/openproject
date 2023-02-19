@@ -1,15 +1,22 @@
 .upsale-notification
-  max-width: 560px
-  margin-bottom: 20px
-  padding-bottom: 20px
+  max-width: 50vw
+  margin: auto
+  padding-top: 20px
+  text-align: center
 
-  .widget-box--teaser-image
+  .widget-box--teaser-image,
+  .widget-box--teaser-video
+    width: 100%
+    height: auto
+    margin-bottom: 20px
+    box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
+    border-radius: 25px
+
+  .widget-box--teaser-image_default
     width: 30%
-    float: right
-    margin-top: -20px
-
-  .upsale--feature-reference
-    padding-bottom: 2rem
+    margin-bottom: 20px
+    box-shadow: 4px 4px 10px rgb(0 0 0 / 15%)
+    border-radius: 25px
 
 .upsale-actions
   display: flex
@@ -25,3 +32,47 @@
 .token-form textarea
   font-family: "Lucida Console", Monaco, monospace
   max-width: 560px
+
+.widget-box--blocks--upsale-buttons
+  display: flex
+  justify-content: end
+
+.widget-box--blocks--upsale-info-button
+  margin: 0.5rem 1rem 0 0
+
+.widget-box--blocks--upsale-title
+  font-weight: 400
+  font-size: 20px
+  line-height: 24px
+  margin-top: 10px
+
+.widget-box--blocks--upsale-description
+  margin: 10px 0 10px 0
+  display: flex
+
+.widget-box--blocks--upsale-image
+  width: 200px
+  margin: auto
+
+.enterprise-addons--button-icon
+  font-size: 1rem !important
+
+// There is a breadcrumb at the top of some of the Enterprise pages showing some spacing,
+// but for some other pages without a breadcrumb, there is no space at the top of of the page.
+// Therefore, we are just hiding the breadcrumb on top of these pages.
+:has(.upsale-notification_hide-breadcrumb)
+  #breadcrumb:has(:not(.-show))
+    display: block
+    visibility: hidden
+
+.spot-icon_enterprise-addons
+  color: $spot-color-feedback-warning-dark
+
+@media screen and (max-width: 679px)
+  .upsale-notification
+    max-width: none
+
+    .widget-box--teaser-image,
+    .widget-box--teaser-video
+      width: 90%
+      border-radius: 15px

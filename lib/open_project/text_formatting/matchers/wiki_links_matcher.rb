@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,12 +55,12 @@ module OpenProject::TextFormatting
       def self.process_match(m, matched_string, context)
         # Leading string before match
         instance = new(
-          matched_string: matched_string,
+          matched_string:,
           escaped: m[1],
           all: m[2],
           page: m[3],
           title: m[5],
-          context: context
+          context:
         )
 
         instance.process

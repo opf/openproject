@@ -2,14 +2,13 @@
 it:
   js:
     boards:
+      create_new: 'Crea una nuova scheda'
       label_unnamed_board: 'Scheda senza nome'
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'
       upsale:
-        teaser_text: 'Migliora la gestione agile del progetto con questa vista flessibile delle schede. Crea quante schede desideri per tutto ciò di cui vuoi tenere traccia.'
-        upgrade_to_ee_text: 'Le schede sono una funzione Enterprise. Aggiorna ad un piano a pagamento.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Aggiorna ora'
-        personal_demo: 'Contattaci per una demo'
       lists:
         delete: 'Elimina elenco'
       version:
@@ -63,7 +62,7 @@ it:
           status: Stato
           version: Versione
           subproject: Sottoprogetto
-          subtasks: Genitore-Figlio
+          subtasks: genitore-figlio
           basic: Base
         select_attribute: "Attributo azione"
       add_list_modal:

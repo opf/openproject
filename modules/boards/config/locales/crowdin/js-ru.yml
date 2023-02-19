@@ -2,14 +2,13 @@
 ru:
   js:
     boards:
+      create_new: 'Создать новую доску'
       label_unnamed_board: 'Безымянная доска'
       label_unnamed_list: 'Список досок без имени'
       label_board_type: 'Тип доски'
       upsale:
-        teaser_text: 'Улучшите управляемость agile-проекта гибким просмотром досок. Создайте сколько захотите досок для отслеживания.'
-        upgrade_to_ee_text: 'Boards это функционал предприятия. Пожалуйста, обновитесь до платного плана.'
+        teaser_text: 'Вы хотите автоматизировать свои рабочие процессы с досками? Расширенные доски являются дополнением предприятия. Пожалуйста, обновите платный план.'
         upgrade: 'Обновить сейчас'
-        personal_demo: 'Свяжитесь с нами для демо'
       lists:
         delete: 'Удалить список'
       version:
@@ -21,7 +20,7 @@ ru:
         unlock_version: 'Разблокировать спринт'
         edit_version: 'Изменить версию'
         show_version: 'Показать спринт'
-        locked: 'Заперто'
+        locked: 'Заблокировано'
         closed: 'закрыто'
       new_board: 'Новая доска'
       add_list: 'Добавить список в форум'
@@ -59,11 +58,11 @@ ru:
           subproject: подпроект
           subtasks: родитель-потомок
         board_type_title:
-          assignee: Назначенный
-          status: Состояние
-          version: Спринт
+          assignee: Исполнитель
+          status: Статус
+          version: Версия
           subproject: Подпроект
-          subtasks: Родитель-Потомок
+          subtasks: Родитель-ребенок
           basic: Базовый
         select_attribute: "Атрибут действия"
       add_list_modal:

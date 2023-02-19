@@ -80,7 +80,22 @@ After changing these values, simply restart the web process:
 sudo openproject restart web
 ```
 
+#### Scaling the number of background workers
 
+Note: Depending on your free RAM on your system, we recommend you raise the default number of background processes. By default, one background worker is spawned. Background workers are responsible for delivering mails, copying projects, performing backups and deleting resources.
+
+We recommend to have two background worker processes. Please check your current web processes count with:
+
+
+To set the desired process count, call
+
+```bash
+sudo openproject scale worker=number
+```
+
+Where `number` is a positive number between 1 and `round(AVAILABLE_RAM * 1.5)`.
+
+The respective systemd services are automatically created or removed. If you were already at the entered value, it will output `Nothing to do.`
 
 ## All-in-one Docker-based installation
 
@@ -94,7 +109,7 @@ First, find out the container ID of your web process with:
 
 ```bash
 # Ensure the containers are running with the following output
-docker ps | gre web_1
+docker ps | grep web_1
 
 # save the container ID as a env variable $CID
 export CID=$(docker ps | grep web_1 | cut -d' ' -f 1)
@@ -107,13 +122,13 @@ We can now run commands against that container
 Run a bash shell in the container
 
 ```bash
-docker exec -it $CIT bash
+docker exec -it $CID bash
 ```
 
 Get the current version of OpenProject
 
 ```bash
-docker exec -it $CIT bash -c "RAILS_ENV=production rails version"
+docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails version"
 ```
 
 In case of using kubernetes, the command is a bit different
@@ -127,7 +142,7 @@ kubectl exec -it {POD_ID} -- bash -c "RAILS_ENV=production bundle exec rails con
 Launch an interactive console to directly interact with the underlying Ruby on Rails application:
 
 ```bash
-docker exec -it $CIT bash -c "RAILS_ENV=production rails console"
+docker exec -it $CID bash -c "RAILS_ENV=production bundle exec rails console"
 ```
 
 ## docker-compose based installation

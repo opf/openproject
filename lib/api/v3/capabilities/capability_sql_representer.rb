@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -33,13 +31,14 @@ module API
     module Capabilities
       class CapabilitySqlRepresenter
         include API::Decorators::Sql::Hal
+        include API::Decorators::Sql::HalAssociatedResource
 
         property :_type,
                  representation: ->(*) { "'Capability'" }
 
         property :id,
                  representation: ->(*) {
-                   <<~SQL
+                   <<~SQL.squish
                      CASE
                      WHEN context_id IS NULL THEN action || '/g-' || principal_id
                      ELSE action || '/p' || context_id || '-' || principal_id
@@ -50,22 +49,22 @@ module API
         link :self,
              path: { api: :capability, params: %w(action) },
              column: -> {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN action || '/g-' || principal_id
                  ELSE action || '/p' || context_id || '-' || principal_id
                  END
                SQL
              },
-             title: -> { nil }
+             title: -> {}
 
         link :action,
              path: { api: :action, params: %w(action) },
-             title: -> { nil }
+             title: -> {}
 
         link :context,
              href: ->(*) {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN '#{api_v3_paths.capabilities_contexts_global}'
                  ELSE format('#{api_v3_paths.project('%s')}', context_id)
@@ -73,7 +72,7 @@ module API
                SQL
              },
              title: ->(*) {
-               <<~SQL
+               <<~SQL.squish
                  CASE
                  WHEN context_id IS NULL THEN '#{I18n.t('activerecord.errors.models.capability.context.global')}'
                  ELSE context_name
@@ -84,38 +83,7 @@ module API
                      condition: "contexts.id = capabilities.context_id",
                      select: ['contexts.name context_name'] }
 
-        link :principal,
-             href: ->(*) {
-               <<~SQL
-                 CASE principal_type
-                 WHEN 'Group' THEN format('#{api_v3_paths.group('%s')}', principal_id)
-                 WHEN 'PlaceholderUser' THEN format('#{api_v3_paths.placeholder_user('%s')}', principal_id)
-                 ELSE format('#{api_v3_paths.user('%s')}', principal_id)
-                 END
-               SQL
-             },
-             title: -> {
-               join_string = if Setting.user_format == :lastname_coma_firstname
-                               " || ', ' || "
-                             else
-                               " || ' ' || "
-                             end
-
-               <<~SQL
-                 CASE principal_type
-                 WHEN 'Group' THEN lastname
-                 WHEN 'PlaceholderUser' THEN lastname
-                 ELSE #{User::USER_FORMATS_STRUCTURE[Setting.user_format].map { |p| p }.join(join_string)}
-                 END
-               SQL
-             },
-             join: { table: :users,
-                     condition: "principals.id = capabilities.principal_id",
-                     select: ['principals.firstname',
-                              'principals.lastname',
-                              'principals.login',
-                              'principals.mail',
-                              'principals.type principal_type'] }
+        associated_user_link :principal
       end
     end
   end

@@ -1,0 +1,92 @@
+#English strings go here
+cs:
+  permission_view_file_links: "Zobrazit odkazy na soubor"
+  permission_manage_file_links: "Správa odkazů souborů"
+  permission_manage_storages_in_project: "Spravovat úložiště souborů v projektu"
+  project_module_storages: "Úložiště souborů"
+  activerecord:
+    models:
+      storages/storage: "Úložiště"
+    attributes:
+      storages/storage:
+        name: "Název"
+        creator: "Autor"
+        provider_type: "Typ poskytovatele"
+      storages/file_link:
+        origin_id: "Origin ID"
+    errors:
+      messages:
+        not_linked_to_project: "není propojen s projektem."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "nelze se připojit."
+              minimal_nextcloud_version_unmet: "nesplňuje minimální požadavky na verzi (musí být Nextcloud 23 nebo vyšší)"
+              not_nextcloud_server: "není Nextcloud server"
+              op_application_not_installed: >
+                Zdá se, že aplikace "OpenProject integration" není nainstalována. Prosím nainstalujte ji a zkuste to znovu.
+              authorization_header_missing: >
+                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "může být pouze numerické nebo uuid"
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Příliš mnoho prvků vytvořených najednou. Očekáváno nanejvýš %{max} , získáno %{actual}."
+  storages:
+    buttons:
+      done_continue_setup: "Hotovo. Pokračovat v nastavení"
+      replace_openproject_oauth: "Nahradit OpenProject OAuth"
+      replace_provider_type_oauth: "Nahradit %{provider_type} OAuth"
+      save_and_continue_setup: "Uložit a pokračovat v nastavení"
+      save_and_complete_setup: "Uložit a dokončit nastavení"
+    page_titles:
+      project_settings:
+        index: "Úložiště souborů v tomto projektu"
+        new: "Přidat úložiště souborů k tomuto projektu"
+    instructions:
+      type: "Ujistěte se prosím, že máte oprávnění administrace v Nextcloud instanci a máte nainstalovanou následující aplikaci:"
+      type_link_text: "„Integration OpenProject“"
+      name: "Dejte svému úložišti jméno, aby uživatelé mohli rozlišovat mezi více úložišti."
+      host: "Přidejte prosím adresu hostitele vašeho úložiště obsahující https://. Nemělo by být delší než 255 znaků."
+      no_storage_set_up: "Dosud nejsou nastaveny žádné úložiště souborů."
+      setting_up_additional_storages: "Pro nastavení dalších úložišť souborů navštivte prosím"
+      setting_up_additional_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
+      setting_up_storages: "Pro nastavení úložišť souborů navštivte prosím"
+      setting_up_storages_non_admin: "Administrátoři mohou nastavit další úložiště souborů v administraci / Úložiště souborů."
+      all_available_storages_already_added: "Do projektu jsou již přidány všechny dostupné úložiště."
+      copy_from: "Zkopírovat tuto hodnotu z"
+      nextcloud:
+        integration: "Nextcloud Administrace / OpenProject"
+    delete_warning:
+      storage: >
+        Jste si jisti, že chcete smazat toto úložiště? Toto také odstraní úložiště ze všech projektů, kde je použito. Dále také smaže všechny odkazy z pracovních balíčků do souborů, které jsou uloženy v úložišti.
+      project_storage: >
+        Jste si jisti, že chcete odstranit úložiště souborů z tohoto projektu? Tímto také odstraníte všechny odkazy na soubory uložené v tomto úložišti pro tento projekt.
+    label_creator: "Vytvořil"
+    label_file_link: "Odkaz na soubor"
+    label_file_links: "Odkazy na soubor"
+    label_name: "Název:"
+    label_host: "URL adresa hostitele"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "Podrobnosti OAuth aplikace"
+    label_oauth_client_details: "Podrobnosti OAuth klienta"
+    label_provider_type: "Typ poskytovatele"
+    label_new_storage: "Nové úložiště"
+    label_storage: "Úložiště"
+    label_storages: "Úložiště"
+    no_results: "Zatím nejsou nastaveny žádné úložiště."
+    provider_types:
+      label: "Typ poskytovatele"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "e.g. Nextcloud"
+        default_name: "Můj Nextcloud"
+    confirm_replace_oauth_application: "Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject."
+    confirm_replace_oauth_client: "Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti."
+    oauth_client_details_missing: "Chcete-li dokončit nastavení, přidejte prosím přihlašovací údaje OAuth klienta z vašeho úložiště."
+    notice_oauth_application_replaced: "OpenProject OAuth aplikace byla úspěšně nahrazena."

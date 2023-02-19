@@ -135,52 +135,58 @@ description: |-
 
   ### List of Error Identifiers
 
-  * `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**)  
+  * `urn:openproject-org:api:v3:errors:InvalidQuery` (**HTTP 400**)
   The query contained a value that did not match the servers expectation
 
-  * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**)  
-  The format of the request body did not match the servers expectation
-
-  * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**)  
+  * `urn:openproject-org:api:v3:errors:InvalidRenderContext` (**HTTP 400**)
   The client specified a rendering context that does not exist
 
-  * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**)  
+  * `urn:openproject-org:api:v3:errors:InvalidRequestBody` (**HTTP 400**)
+  The format of the request body did not match the servers expectation
+
+  * `urn:openproject-org:api:v3:errors:InvalidSignal` (**HTTP 400**)
+  The client specified a select not available on the resource, e.g because the property/link does not exist on it.
+
+  * `urn:openproject-org:api:v3:errors:InvalidUserStatusTransition` (**HTTP 400**)
   The client used an invalid transition in the attempt to change the status of a user account.
 
-  * `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**)  
+  * `urn:openproject-org:api:v3:errors:Unauthenticated` (**HTTP 401**)
   The client has to authenticate to access the requested resource.
 
-  * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**)  
+  * `urn:openproject-org:api:v3:errors:MissingPermission` (**HTTP 403**)
   The client does not have the needed permissions to perform the requested action
 
-  * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**)  
+  * `urn:openproject-org:api:v3:errors:NotFound` (**HTTP 404**)
   Default for HTTP 404 when no further information is available
 
-  * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**)  
+  * `urn:openproject-org:api:v3:errors:UpdateConflict` (**HTTP 409**)
   The resource changed between GET-ing it and performing an update on it
 
-  * `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**)  
+  * `urn:openproject-org:api:v3:errors:TypeNotSupported` (**HTTP 415**)
   The request contained data in an unsupported media type (Content-Type)
 
-  * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**)  
-  The client tried to set or change a property that is not writable
-
-  * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**)  
+  * `urn:openproject-org:api:v3:errors:PropertyConstraintViolation` (**HTTP 422**)
   The client tried to set a property to an invalid value
 
-  * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**)  
-  An unchanged property needs to be changed, because other changes to the resource make it unavailable
+  * `urn:openproject-org:api:v3:errors:PropertyIsReadOnly` (**HTTP 422**)
+  The client tried to set or change a property that is not writable
 
-  * `urn:openproject-org:api:v3:errors:ResourceTypeMismatch` (**HTTP 422**)  
-  A link to a resource of a specific type was expected, but the link to another type of resource was provided
-
-  * `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**)  
+  * `urn:openproject-org:api:v3:errors:PropertyFormatError` (**HTTP 422**)
   A property value was provided in a format that the server does not understand or accept
 
-  * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**)  
+  * `urn:openproject-org:api:v3:errors:PropertyMissingError` (**HTTP 422**)
+  The request is syntactically correct, but is missing a property to perform the requested action
+
+  * `urn:openproject-org:api:v3:errors:PropertyValueNotAvailableAnymore` (**HTTP 422**)
+  An unchanged property needs to be changed, because other changes to the resource make it unavailable
+
+  * `urn:openproject-org:api:v3:errors:ResourceTypeMismatch` (**HTTP 422**)
+  A link to a resource of a specific type was expected, but the link to another type of resource was provided
+
+  * `urn:openproject-org:api:v3:errors:InternalServerError` (**HTTP 500**)
   Default for HTTP 500 when no further information is available
 
-  * `urn:openproject-org:api:v3:errors:MultipleErrors`  
+  * `urn:openproject-org:api:v3:errors:MultipleErrors`
   Multiple errors occurred. See the embedded `errors` array for more details.
 
   ## Formattable Text

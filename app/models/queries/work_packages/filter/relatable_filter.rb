@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +30,7 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   include Queries::WorkPackages::Filter::FilterForWpMixin
 
   def available?
-    User.current.allowed_to?(:manage_work_package_relations, nil, global: true)
+    User.current.allowed_to_globally?(:manage_work_package_relations)
   end
 
   def type
@@ -49,34 +47,17 @@ class Queries::WorkPackages::Filter::RelatableFilter < Queries::WorkPackages::Fi
   end
 
   def scope
-    if operator == Relation::TYPE_RELATES
-      relateable_from_or_to
-    elsif operator != 'parent' && canonical_operator == operator
-      relateable_to
-    else
-      relateable_from
-    end
+    WorkPackage.relatable(WorkPackage.find_by(id: values.first), scope_operator)
   end
 
   private
 
-  def relateable_from_or_to
-    relateable_to.or(relateable_from)
-  end
-
-  def relateable_from
-    WorkPackage.relateable_from(from)
-  end
-
-  def relateable_to
-    WorkPackage.relateable_to(from)
-  end
-
-  def from
-    WorkPackage.find(values.first)
-  end
-
-  def canonical_operator
-    Relation.canonical_type(operator)
+  # 'children' used to be supported by the API although 'child' would be more fitting.
+  def scope_operator
+    if operator == 'children'
+      Relation::TYPE_CHILD
+    else
+      operator
+    end
   end
 end

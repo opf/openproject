@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -96,7 +96,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:string|null, checksum:string|null) {
+  public set(id:string|null, checksum:string|null) {
     this.id = id;
     this.checksum = checksum;
   }
@@ -142,7 +142,13 @@ export class WorkPackagesListChecksumService {
   }
 
   private getNewChecksum(query:QueryResource, pagination:WorkPackageViewPagination) {
-    return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
+    return this.UrlParamsHelper.encodeQueryJsonParams(
+      query,
+      {
+        pp: pagination.perPage,
+        pa: pagination.page,
+      },
+    );
   }
 
   private maintainUrlQueryState(id:string|null, checksum:string|null):TransitionPromise {

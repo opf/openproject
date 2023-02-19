@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,17 +54,15 @@ module API
           private
 
           def contract
-            @contract ||= begin
-              ::API::V3::WorkPackages::Schema::TypedSchemaContract
+            @contract ||= ::API::V3::WorkPackages::Schema::TypedSchemaContract
                 .new(work_package,
                      User.current)
-            end
           end
 
           def work_package
             @work_package ||= WorkPackage
-                              .new(project: project,
-                                   type: type)
+                              .new(project:,
+                                   type:)
           end
         end
       end

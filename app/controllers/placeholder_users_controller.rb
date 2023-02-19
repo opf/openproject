@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -30,9 +28,6 @@
 
 class PlaceholderUsersController < ApplicationController
   layout 'admin'
-
-  helper_method :gon
-
   before_action :authorize_global, except: %i[show]
 
   before_action :find_placeholder_user, only: %i[show
@@ -42,7 +37,6 @@ class PlaceholderUsersController < ApplicationController
                                                  destroy]
 
   before_action :authorize_deletion, only: %i[deletion_info destroy]
-
 
   def index
     @placeholder_users = PlaceholderUsers::PlaceholderUserFilterCell.query params

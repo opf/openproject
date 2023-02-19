@@ -2,14 +2,13 @@
 uk:
   js:
     boards:
+      create_new: 'Створити нову дошку'
       label_unnamed_board: 'Дошка без назви'
       label_unnamed_list: 'Список без назви'
       label_board_type: 'Тип дошки'
       upsale:
-        teaser_text: 'Покращуйте ваш agile проект менеджмент з допомогою гнучких дощок. Створюйте стільки дошок, скільки потрібно для зручного відстеження виконання проекту'
-        upgrade_to_ee_text: 'Дошки є корпоративною функцією. Будь ласка, оновіть свій пакет до платного.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Купити зараз'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Вилучити список'
       version:
@@ -24,62 +23,62 @@ uk:
         locked: 'Заблоковано'
         closed: 'Зачинено'
       new_board: 'Нова дошка'
-      add_list: 'Add list to board'
+      add_list: 'Додати список на дошку'
       add_card: 'Додати картку'
       error_attribute_not_writable: "Неможливо перемістити робочий пакет, %{attribute} недоступний для запису."
       error_loading_the_list: "Помилка завантаження списку: %{error_message}"
       error_permission_missing: "Немає дозволу на створення загальнодоступних запитів"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
+      error_cannot_move_into_self: "Ви не можете перемістити пакет робіт у його власний стовпець."
       text_hidden_list_warning: "Відображаються не усі списки, тому що у вас недостатню прав. Зверніться до свого адміністратора за більш детальною інформацією. "
       click_to_remove_list: "Натисніть, щоб видалити список"
       board_type:
         text: 'Тип дошки'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'базовий'
+        select_board_type: 'Виберіть необхідний тип дошки.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Почніть із нуля на пустій дошці. Додавайте вручну картки й стовпці на цю дошку.
         action: 'Дошка дій'
         action_by_attribute: 'Дошка дій (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Дошка з фільтрованими списками за атрибутом %{attribute}. Переміщення пакетів робіт в інші списки оновить відповідні атрибути.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Дошка з автоматизованими стовпцями для підпроєктів. Перетягування пакетів робіт в інші списки відповідно оновлює (під-)проєкти.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Дошка з автоматизованими стовпцями для піделементів. Перетягування пакетів робіт в інші списки відповідно оновлює батьківський проєкт.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Базова дошка в стилі «Канбан» зі стовпцями для статусу, наприклад «Виконати», «Виконується», «Завершено».
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Дошка з автоматизованими стовпцями, створеними на основі призначених користувачів. Ідеальне рішення для перетягування пакетів робіт.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Дошка з автоматизованими стовпцями, створеними на основі атрибутів версії. Ідеальне рішення для планування розробки продукту.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: виконавець
+          status: статус
+          version: версія
+          subproject: підпроєкт
+          subtasks: батьківський-дочірній
         board_type_title:
           assignee: Призначений
           status: Статус
           version: Версія
           subproject: Підпроект
-          subtasks: Parent-Child
-          basic: Basic
+          subtasks: Parent-child
+          basic: Базовий
         select_attribute: "Атрибут дії"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Виберіть користувача, якого потрібно додати як новий список виконавців
+          status: Виберіть статус, який потрібно додати як новий список
+          version: Виберіть версію, яку потрібно додати як новий список
+          subproject: Виберіть підпроєкт, який потрібно додати як новий список
+          subtasks: Виберіть пакет робіт, який потрібно додати як новий список
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Зараз немає жодного доступного статусу. <br>
+            Або їх не існує, або всі вже додано на дошку.
+          assignee: З вашим значенням фільтра не можна зіставити жодного учасника. <br>
+          no_member: Цей проєкт зараз не містить жодних учасників, яких можна додати. <br>
+          add_members: <a href="%{link}">Додайте нового учасника до цього проєкту</a>, щоб знову вибрати користувачів.
       configuration_modal:
         title: 'Налаштувати цю дошку'
         display_settings:

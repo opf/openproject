@@ -1,4 +1,4 @@
-FROM node:14.17
+FROM node:16.15
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -7,6 +7,8 @@ ARG DEV_GID=1001
 ENV USER=node
 
 RUN apt-get update && apt-get install -y chromium
+
+ENV CHROME_BIN=/usr/bin/chromium
 
 RUN npm i -g npm
 

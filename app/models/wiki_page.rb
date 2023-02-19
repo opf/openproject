@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,14 +69,8 @@ class WikiPage < ApplicationRecord
   before_save :update_redirects
   before_destroy :remove_redirects
 
-  # eager load information about last updates, without loading text
-  scope :with_updated_at, -> {
-    select("#{WikiPage.table_name}.*, #{WikiContent.table_name}.updated_at")
-      .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
-  }
-
   scope :main_pages, ->(wiki_id) {
-    where(wiki_id: wiki_id, parent_id: nil)
+    where(wiki_id:, parent_id: nil)
   }
 
   scope :visible, ->(user = User.current) {
@@ -108,21 +100,21 @@ class WikiPage < ApplicationRecord
   end
 
   def title=(value)
-    @previous_title = read_attribute(:title) if @previous_title.blank?
+    @previous_title = self[:title] if @previous_title.blank?
     write_attribute(:title, value)
   end
 
   def update_redirects
     # Manage redirects if the title has changed
-    if !@previous_title.blank? && (@previous_title != title) && !new_record?
+    if @previous_title.present? && (@previous_title != title) && !new_record?
       # Update redirects that point to the old title
       previous_slug = WikiPage.slug(@previous_title)
-      wiki.redirects.where(redirects_to: previous_slug).each do |r|
+      wiki.redirects.where(redirects_to: previous_slug).find_each do |r|
         r.redirects_to = title
         r.title == r.redirects_to ? r.destroy : r.save
       end
       # Remove redirects for the new title
-      wiki.redirects.where(title: slug).each(&:destroy)
+      wiki.redirects.where(title: slug).find_each(&:destroy)
       # Create a redirect to the new title
       wiki.redirects << WikiRedirect.new(title: previous_slug, redirects_to: slug) unless redirect_existing_links == '0'
 
@@ -140,7 +132,7 @@ class WikiPage < ApplicationRecord
 
   # Remove redirects to this page
   def remove_redirects
-    wiki.redirects.where(redirects_to: slug).each(&:destroy)
+    wiki.redirects.where(redirects_to: slug).find_each(&:destroy)
   end
 
   def content_for_version(version = nil)
@@ -170,7 +162,7 @@ class WikiPage < ApplicationRecord
 
   def annotate(version = nil)
     version = version ? version.to_i : content.version
-    c = content.journals.find_by(version: version)
+    c = content.journals.find_by(version:)
     c ? Wikis::Annotate.new(c) : nil
   end
 

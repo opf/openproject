@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,12 +45,15 @@ export class EditorMacrosService {
    */
   public configureWorkPackageButton(typeName?:string, classes?:string):Promise<{ type:string, classes:string }> {
     return new Promise<{ type:string, classes:string }>((resolve, reject) => {
-      const modal = this.opModalService.show(WpButtonMacroModalComponent, this.injector, { type: typeName, classes });
-      modal.closingEvent.subscribe((modal:WpButtonMacroModalComponent) => {
+      this.opModalService.show(
+        WpButtonMacroModalComponent,
+        this.injector,
+        { type: typeName, classes },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({ type: modal.type, classes: modal.classes });
         }
-      });
+      }));
     });
   }
 
@@ -61,12 +64,15 @@ export class EditorMacrosService {
   public configureWikiPageInclude(page:string):Promise<string> {
     return new Promise<string>((resolve, _) => {
       const pageValue = page || '';
-      const modal = this.opModalService.show(WikiIncludePageMacroModalComponent, this.injector, { page: pageValue });
-      modal.closingEvent.subscribe((modal:WikiIncludePageMacroModalComponent) => {
+      this.opModalService.show(
+        WikiIncludePageMacroModalComponent,
+        this.injector,
+        { page: pageValue },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve(modal.page);
         }
-      });
+      }));
     });
   }
 
@@ -76,12 +82,15 @@ export class EditorMacrosService {
    */
   public editCodeBlock(content:string, languageClass:string):Promise<{ content:string, languageClass:string }> {
     return new Promise<{ content:string, languageClass:string }>((resolve, _) => {
-      const modal = this.opModalService.show(CodeBlockMacroModalComponent, this.injector, { content, languageClass });
-      modal.closingEvent.subscribe((modal:CodeBlockMacroModalComponent) => {
+      this.opModalService.show(
+        CodeBlockMacroModalComponent,
+        this.injector,
+        { content, languageClass },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({ languageClass: modal.languageClass, content: modal.content });
         }
-      });
+      }));
     });
   }
 
@@ -91,15 +100,18 @@ export class EditorMacrosService {
    */
   public configureChildPages(page:string, includeParent:string):Promise<object> {
     return new Promise<object>((resolve, _) => {
-      const modal = this.opModalService.show(ChildPagesMacroModalComponent, this.injector, { page, includeParent });
-      modal.closingEvent.subscribe((modal:ChildPagesMacroModalComponent) => {
+      this.opModalService.show(
+        ChildPagesMacroModalComponent,
+        this.injector,
+        { page, includeParent },
+      ).subscribe((modal) => modal.closingEvent.subscribe(() => {
         if (modal.changed) {
           resolve({
             page: modal.page,
             includeParent: modal.includeParent,
           });
         }
-      });
+      }));
     });
   }
 }

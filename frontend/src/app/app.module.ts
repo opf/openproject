@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,16 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClientModule,
+} from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -46,7 +51,7 @@ import { OpenprojectGridsModule } from 'core-app/shared/components/grids/openpro
 import { OpenprojectRouterModule } from 'core-app/core/routing/openproject-router.module';
 import { OpenprojectWorkPackageRoutesModule } from 'core-app/features/work-packages/openproject-work-package-routes.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { OpenprojectCalendarModule } from 'core-app/shared/components/calendar/openproject-calendar.module';
+import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { OpenprojectGlobalSearchModule } from 'core-app/core/global_search/openproject-global-search.module';
 import { OpenprojectDashboardsModule } from 'core-app/features/dashboards/openproject-dashboards.module';
 import { OpenprojectWorkPackageGraphsModule } from 'core-app/shared/components/work-package-graphs/openproject-work-package-graphs.module';
@@ -60,7 +65,6 @@ import { OpenprojectAugmentingModule } from 'core-app/core/augmenting/openprojec
 import { OpenprojectInviteUserModalModule } from 'core-app/features/invite-user-modal/invite-user-modal.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { RevitAddInSettingsButtonService } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
-import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
@@ -70,8 +74,9 @@ import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/c
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
 import { PasswordConfirmationModalComponent } from 'core-app/shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
-import { ConfirmFormSubmitController } from 'core-app/shared/components/modals/confirm-form-submit/confirm-form-submit.directive';
-import { ProjectMenuAutocompleteComponent } from 'core-app/shared/components/autocompleter/project-menu-autocomplete/project-menu-autocomplete.component';
+import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
+import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
+
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
@@ -86,16 +91,23 @@ import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-no
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
 import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
+import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function initializeServices(injector:Injector) {
   return () => {
     const PreviewTrigger = injector.get(PreviewTriggerService);
     const mainMenuNavigationService = injector.get(MainMenuNavigationService);
+    const topMenuService = injector.get(TopMenuService);
     const keyboardShortcuts = injector.get(KeyboardShortcutService);
     // Conditionally add the Revit Add-In settings button
     injector.get(RevitAddInSettingsButtonService);
 
     mainMenuNavigationService.register();
+
+    topMenuService.register();
 
     PreviewTrigger.setupListener();
 
@@ -107,8 +119,12 @@ export function initializeServices(injector:Injector) {
   imports: [
     // The BrowserModule must only be loaded here!
     BrowserModule,
+    A11yModule,
+
     // Commons
     OPSharedModule,
+    // Design System
+    OpSpotModule,
     // State module
     OpenProjectStateModule,
     // Router module
@@ -163,6 +179,9 @@ export function initializeServices(injector:Injector) {
     // Angular Forms
     ReactiveFormsModule,
 
+    // Angular Http Client
+    HttpClientModule,
+
     // Augmenting Module
     OpenprojectAugmentingModule,
 
@@ -172,17 +191,18 @@ export function initializeServices(injector:Injector) {
     // Invite user modal
     OpenprojectInviteUserModalModule,
 
-    // Autocompleters
-    OpenprojectAutocompleterModule,
-
     // Tabs
     OpenprojectTabsModule,
 
     // Notifications
     OpenProjectInAppNotificationsModule,
+
+    // Loading
+    OpenprojectContentLoaderModule,
   ],
   providers: [
     { provide: States, useValue: new States() },
+    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     {
       provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true,
     },
@@ -208,12 +228,12 @@ export function initializeServices(injector:Injector) {
     MainMenuResizerComponent,
     MainMenuToggleComponent,
 
-    // Project autocompleter
-    ProjectMenuAutocompleteComponent,
+    // Project selector
+    OpHeaderProjectSelectComponent,
+    OpHeaderProjectSelectListComponent,
 
     // Form configuration
     OpDragScrollDirective,
-    ConfirmFormSubmitController,
   ],
 })
 export class OpenProjectModule {

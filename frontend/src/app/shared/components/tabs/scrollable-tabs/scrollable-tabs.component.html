@@ -3,10 +3,16 @@
     #scrollContainer
     class="op-scrollable-tabs--tab-container"
   >
-    <ul #scrollPane class="op-tab-row" (scroll)="onScroll($event)">
+    <ul
+      #scrollPane
+      class="op-tab-row"
+      (scroll)="onScroll()"
+    >
       <li
         *ngFor="let tab of tabs; trackBy:trackById"
         class="op-tab-row--tab"
+        (dragenter)="startDebouncedTabActivation(tab)"
+        (dragleave)="cancelDebouncedTabActivation()"
         [attr.data-tab-id]="tab.id"
         [attr.data-qa-tab-id]="tab.id"
         [attr.data-qa-tab-selected]="tab.id === currentTabId || undefined"

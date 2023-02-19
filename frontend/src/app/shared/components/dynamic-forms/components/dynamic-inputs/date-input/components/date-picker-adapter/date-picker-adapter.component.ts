@@ -23,15 +23,6 @@ export class DatePickerAdapterComponent extends OpSingleDatePickerComponent impl
 
   onControlTouch = () => { };
 
-  constructor(
-    timezoneService:TimezoneService,
-    configurationService:ConfigurationService,
-    private ngZone:NgZone,
-    private changeDetectorRef:ChangeDetectorRef,
-  ) {
-    super(timezoneService, configurationService);
-  }
-
   writeValue(date:string):void {
     this.initialDate = this.formatter(date);
   }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,9 +42,9 @@ module API
         api.send(:execute_patches_for, nil)
       end
 
-      def namespace(name, *args, &block)
+      def namespace(name, *args, &)
         super(name, *args) do
-          instance_eval(&block)
+          instance_eval(&)
           execute_patches_for(name)
         end
       end

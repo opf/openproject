@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,13 +51,13 @@ module ProjectsHelper
       Queries::Projects::Filters::NameAndIdentifierFilter,
       Queries::Projects::Filters::TypeFilter
     ]
-    whitelist << Queries::Filters::Shared::CustomFields::Base 
+    whitelist << Queries::Filters::Shared::CustomFields::Base
 
     whitelist.detect { |clazz| filter.is_a? clazz }
   end
 
   def no_projects_result_box_params
-    if User.current.allowed_to?(:add_project, nil, global: true)
+    if User.current.allowed_to_globally?(:add_project)
       { action_url: new_project_path, display_action: true }
     else
       {}
@@ -171,27 +169,11 @@ module ProjectsHelper
     end
   end
 
-  def projects_level_list_json(projects)
-    projects_list = projects.map do |item|
-      project = item[:project]
-
-      {
-        "id": project.id,
-        "name": project.name,
-        "identifier": project.identifier,
-        "has_children": !project.leaf?,
-        "level": item[:level]
-      }
-    end
-
-    { projects: projects_list }
-  end
-
-  def projects_with_levels_order_sensitive(projects, &block)
+  def projects_with_levels_order_sensitive(projects, &)
     if sorted_by_lft?
-      project_tree(projects, &block)
+      project_tree(projects, &)
     else
-      projects_with_level(projects, &block)
+      projects_with_level(projects, &)
     end
   end
 

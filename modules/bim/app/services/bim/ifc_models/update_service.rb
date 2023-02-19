@@ -46,7 +46,7 @@ module Bim
           if @ifc_attachment_updated
             model.update(conversion_status: ::Bim::IfcModels::IfcModel.conversion_statuses[:pending],
                          conversion_error_message: nil)
-            
+
             IfcConversionJob.perform_later(service_result.result)
           end
         end

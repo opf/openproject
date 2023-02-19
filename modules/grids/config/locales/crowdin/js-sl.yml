@@ -5,8 +5,8 @@ sl:
       remove: 'Odstrani gradnik'
       configure: 'Oblikuj gradnik'
       upsale:
-        text: "Nekateri gradniki, kot delovni paket graf Gradnik, so dostopni samo v"
-        link: 'enterprise edition. '
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Besedilo po meri'
@@ -31,10 +31,13 @@ sl:
           no_results: 'Za projekte niso bila definirana nobena polja po meri. '
         project_status:
           title: 'Status projekta'
+          not_started: 'Not started'
           on_track: 'Na poti'
           off_track: 'Izven poti'
           at_risk: 'Ogroženo'
           not_set: 'Ni nastavljeno'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Podprojekti'
           no_results: 'Ni podprojektov. '

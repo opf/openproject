@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,16 +37,17 @@ class Journal < ApplicationRecord
   register_journal_formatter :attachment, OpenProject::JournalFormatter::Attachment
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
   register_journal_formatter :schedule_manually, OpenProject::JournalFormatter::ScheduleManually
+  register_journal_formatter :ignore_non_working_days, OpenProject::JournalFormatter::IgnoreNonWorkingDays
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: %i[journable_id journable_type]
+  validates :version, uniqueness: { scope: %i[journable_id journable_type] }
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
   belongs_to :data, polymorphic: true, dependent: :destroy
 
-  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :destroy
-  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :destroy
+  has_many :attachable_journals, class_name: 'Journal::AttachableJournal', dependent: :delete_all
+  has_many :customizable_journals, class_name: 'Journal::CustomizableJournal', dependent: :delete_all
 
   has_many :notifications, dependent: :destroy
 
@@ -103,6 +102,14 @@ class Journal < ApplicationRecord
     predecessor
   end
 
+  def successor
+    @successor ||= self.class
+                       .where(journable_type:, journable_id:)
+                       .where("#{self.class.table_name}.version > ?", version)
+                       .order(version: :asc)
+                       .first
+  end
+
   def noop?
     (!notes || notes&.empty?) && get_changes.empty?
   end
@@ -114,7 +121,7 @@ class Journal < ApplicationRecord
                        nil
                      else
                        self.class
-                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where(journable_type:, journable_id:)
                          .where("#{self.class.table_name}.version < ?", version)
                          .order(version: :desc)
                          .first

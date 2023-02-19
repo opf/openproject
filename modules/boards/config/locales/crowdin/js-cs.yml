@@ -2,14 +2,13 @@
 cs:
   js:
     boards:
+      create_new: 'Vytvořit tabuli'
       label_unnamed_board: 'Nepojmenovaná tabule'
       label_unnamed_list: 'Nepojmenovaný seznam'
       label_board_type: 'Typ tabule'
       upsale:
-        teaser_text: 'Zlepšete své agilní řízení projektů s tímto flexibilním zobrazením Boardů. Vytvořte tolik desek, kolik chcete pro cokoliv, co chcete sledovat.'
-        upgrade_to_ee_text: 'Board je funkce Enterprise. Proveďte upgrade na placený plán.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Upgradovat nyní'
-        personal_demo: 'Contact us for a demo'
       lists:
         delete: 'Odstranit seznam'
       version:
@@ -22,64 +21,64 @@ cs:
         edit_version: 'Upravit verzi'
         show_version: 'Zobrazit verzi'
         locked: 'Uzamčeno'
-        closed: 'Uzavřený'
+        closed: 'Uzavřeno'
       new_board: 'Nová tabule'
-      add_list: 'Add list to board'
+      add_list: 'Přidat list na tabuli'
       add_card: 'Přidat kartu'
       error_attribute_not_writable: "Pracovní balíček nelze přesunout, do %{attribute} nelze zapisovat."
       error_loading_the_list: "Chyba při načítání seznamu: %{error_message}"
       error_permission_missing: "Chybí oprávnění k vytvoření veřejných dotazů"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      error_cannot_move_into_self: "Pracovní balíček nelze přesunout do vlastního sloupce."
+      text_hidden_list_warning: "Ne všechny seznamy se zobrazují, protože vám chybí oprávnění. Pro více informací kontaktujte svého administrátora."
       click_to_remove_list: "Kliknutím odstraníte tento seznam"
       board_type:
         text: 'Typ tabule'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'základní'
+        select_board_type: 'Vyberte prosím typ tabule, kterou potřebujete.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
+          Začněte od začátku prázdnou tabulí ručním přidáváním karet a sloupců do této tabule.
         action: 'Akční tabule'
         action_by_attribute: 'Akční tabule (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Tabule s filtrovanými seznamy v atributu %{attribute} . Přesunutí pracovních balíčků do jiných seznamů aktualizuje jejich atribut.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Boj s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem aktualizuje podprojekt.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Tabule s automatickými sloupce pro podprojekty. Přesunutí pracovních balíčků do jiných seznamů odpovídajícím způsobem
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Základní tabule ve stylu kanbanu se sloupci pro status jako je do Do, Probíhá, Done.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Tabule s automatickými sloupcemi založenými na přiřazených uživatelích. Ideal pro odesílání pracovních balíčků.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Tabule s automatickými sloupci na základě atributu verze. Ideal pro plánování vývoje produktů.
         action_type:
-          assignee: assignee
-          status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          assignee: Řešitel
+          status: Stav
+          version: verze
+          subproject: Podprojekt
+          subtasks: nadřazený-podřazený
         board_type_title:
           assignee: Řešitel
           status: Stav
           version: Verze
-          subproject: Dílčí projekt
-          subtasks: Parent-Child
-          basic: Basic
+          subproject: Podprojekt
+          subtasks: Parent-child
+          basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Vyberte uživatele, který chcete přidat jako nový seznam řešitelů
+          status: Vyberte stav pro přidání jako nový seznam
+          version: Vyberte verzi pro přidání jako nový seznam
+          subproject: Vyberte podprojekt pro přidání jako nový seznam
+          subtasks: Vyberte pracovní balíček, který chcete přidat jako nový seznam
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            V současné době není k dispozici žádný stav. <br>
+            Buď nejsou k dispozici žádné nebo již všechny byly přidány do tabule.
+          assignee: Žádný člen neodpovídá hodnotě vašeho filtru.  <br>
+          no_member: Tento projekt v současné době nemá žádné členy, kteří by mohli být přidáni.  <br>
+          add_members: <a href="%{link}">Přidejte nového člena do tohoto projektu</a> a znovu vyberte uživatele.
       configuration_modal:
         title: 'Konfigurovat tuto tabuli'
         display_settings:

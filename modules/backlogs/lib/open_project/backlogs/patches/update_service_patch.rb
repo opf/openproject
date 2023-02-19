@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,36 +32,44 @@ module OpenProject::Backlogs::Patches::UpdateServicePatch
   end
 
   module InstanceMethods
-    def update_descendants
+    def update_descendants(work_package)
       super_result = super
 
-      if work_package.in_backlogs_type? && work_package.version_id_changed?
-        inherit_version_to_descendants(super_result)
+      if work_package.in_backlogs_type? && work_package.saved_change_to_version_id?
+        super_result += inherit_version_to_descendants(work_package)
       end
 
       super_result
     end
 
-    def inherit_version_to_descendants(result)
-      all_descendants = work_package
-                          .descendants
-                          .includes(:parent_relation, project: :enabled_modules)
-                          .order(Arel.sql('relations.hierarchy asc'))
-                          .select('work_packages.*, relations.hierarchy')
-      stop_descendants_ids = []
-
-      descendant_tasks = all_descendants.reject do |t|
-        if stop_descendants_ids.include?(t.parent_relation.from_id) || !t.is_task?
-          stop_descendants_ids << t.id
-        end
-      end
+    def inherit_version_to_descendants(work_package)
+      all_descendants = sorted_descendants(work_package)
+      descendant_tasks = descendant_tasks_of(all_descendants)
 
       attributes = { version_id: work_package.version_id }
 
-      descendant_tasks.each do |task|
+      descendant_tasks.map do |task|
         # Ensure the parent is already moved to new version so that validation errors are avoided.
         task.parent = ([work_package] + all_descendants).detect { |d| d.id == task.parent_id }
-        result.add_dependent!(set_attributes(attributes, task))
+        set_descendant_attributes(attributes, task)
+      end
+    end
+
+    def sorted_descendants(work_package)
+      work_package
+        .descendants
+        .includes(project: :enabled_modules)
+        .order_by_ancestors('asc')
+        .select('work_packages.*')
+    end
+
+    def descendant_tasks_of(descendants)
+      stop_descendants_ids = []
+
+      descendants.reject do |t|
+        if stop_descendants_ids.include?(t.parent_id) || !t.is_task?
+          stop_descendants_ids << t.id
+        end
       end
     end
   end

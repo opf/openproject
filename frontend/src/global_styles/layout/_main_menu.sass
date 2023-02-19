@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,6 +27,7 @@
 //++
 
 $menu-item-line-height: 30px
+$arrow-left-width: 40px
 
 @mixin main-menu-hover
   background: var(--main-menu-bg-hover-background)
@@ -55,13 +56,10 @@ $menu-item-line-height: 30px
     .menu_root.closed,
     .menu_root > li.open,
     wp-query-select,
-    .collapsible-menu--container,
-    .collapsible-menu--search-container,
+    .searchable-menu,
+    .searchable-menu--search-container,
     .main-menu--children > li.partial:only-child
       height: 100%
-
-    .main-menu--children > li.partial
-      height: initial
 
     .main-menu--children
       height: calc(100% - (var(--main-menu-item-height) + 10px)) // 10px spacing
@@ -70,7 +68,7 @@ $menu-item-line-height: 30px
 
   a:focus
     color: var(--main-menu-font-color)
-      
+
   ul
     margin: 0
     padding: 0
@@ -124,14 +122,9 @@ $menu-item-line-height: 30px
     text-align: center
     overflow: hidden
 
-  .toggle-follow
-    position: absolute
-    width: 140px
   .icon-time
     background: none
     padding: 0
-
-$arrow-left-width: 40px
 
 .main-item-wrapper
   display: flex
@@ -163,25 +156,11 @@ $arrow-left-width: 40px
 // -------------------- CHILD menu items ---------------------------
 .main-menu--children
   display: none
-  padding-top: 10px
-  padding-bottom: 10px
-  padding: 0
+  padding: 10px 0
   width: 100%
   &.unattached
     border-top: 1px solid #ddd
   li
-    &.partial
-      padding-bottom: 10px
-
-      // resetting styles in partials.
-      background: initial
-      &:hover,
-      li,
-      li:hover
-        background: initial
-        a:not(.main-menu--children-sub-item)
-          padding: initial
-
     &:hover
       // simultaneously hover all menu item anchor tags
       > a
@@ -204,13 +183,12 @@ $arrow-left-width: 40px
   border-radius: 3px
   padding-left: 14px
   padding-right: 14px
-  width: 40px
   &:hover, &:focus, &:active
     @include main-menu-hover
 
 a.main-menu--parent-node
   display: inline-block
-  padding: 0px 11px 0 11px
+  padding: 0 11px 0 11px
   font-size: var(--main-menu-font-size)
   font-weight: 700
   width: calc(100% - #{$arrow-left-width})
@@ -248,7 +226,11 @@ a.main-menu--parent-node
         display: list-item
         .main-menu--children-menu-header
           display: none
-
+    .spot-icon_enterprise-addons
+      margin-left: 0.25rem
+      color: $spot-color-feedback-warning-dark
+      font-size: 1rem
+      margin-right: 1px
 .hidden-navigation
   .main-menu
     width: var(--main-menu-folded-width)
@@ -294,7 +276,7 @@ a.main-menu--parent-node
     margin-top: 0
 
   a, a:link
-    &:not(.collapsible-menu--item-link):not(.collapsible-menu--category-icon)
+    &:not(.searchable-menu--item-link):not(.searchable-menu--category-icon)
       color: var(--main-menu-sidebar-link-color)
       display: inline
       position: static
@@ -339,6 +321,8 @@ a.main-menu--parent-node
 #main-menu ul ul.main-menu--children ul.pages-hierarchy
   .tree-menu--hierarchy-indicator
     color: var(--main-menu-font-color)
+  .tree-menu--hierarchy-span + a, a
+    padding-left: 0
   .tree-menu--item
     &.-selected
       background: var(--main-menu-bg-selected-background)
@@ -356,7 +340,7 @@ a.main-menu--parent-node
   height: 100vh
   width: 18px
   position: fixed
-  top: 0px
+  top: 0
   border-left-width: 2px
   border-left-style: solid
   border-left-color: transparent
@@ -374,7 +358,7 @@ a.main-menu--parent-node
 .resizer-toggle-container
   margin-top: 50vh
   margin-left: -12px
-  display: inline-block  
+  display: inline-block
   .main-menu--navigation-toggler
     cursor: pointer
     &:before
@@ -410,6 +394,6 @@ $badge_offset: 4px
   font-weight: bold
   font-style: italic
 
-#main-menu-toggle 
+#main-menu-toggle
   .icon-close
     display: none

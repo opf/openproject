@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,13 +45,9 @@ module Queries
         end
 
         def where
-          Array(values).map do |value|
-            column = Relation.relation_column(value)
-
-            operator_strategy.sql_for_field(['1'],
-                                            self.class.model.table_name,
-                                            column)
-          end.join(' OR ')
+          operator_strategy.sql_for_field(values.map { |value| Relation.canonical_type(value) },
+                                          self.class.model.table_name,
+                                          :relation_type)
         end
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ module API
       class GridsAPI < ::API::OpenProjectAPI
         resources :grids do
           helpers do
-            include API::Utilities::PageSizeHelper
+            include API::Utilities::UrlPropsParsingHelper
           end
 
           get do
@@ -46,9 +46,9 @@ module API
                                             grid_scope: query.filter_scope,
                                             page: to_i_or_nil(params[:offset]),
                                             per_page: resolve_page_size(params[:pageSize]),
-                                            current_user: current_user)
+                                            current_user:)
             else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+              raise_query_errors query
             end
           end
 
@@ -67,7 +67,7 @@ module API
 
             get do
               GridRepresenter.new(@grid,
-                                  current_user: current_user)
+                                  current_user:)
             end
 
             mount ::API::V3::Attachments::AttachmentsByGridAPI
@@ -94,7 +94,7 @@ module API
                                                                      representer = strategy.options_representer.constantize
 
                                                                      widget.options = representer
-                                                                                      .new(OpenStruct.new, current_user: current_user)
+                                                                                      .new(OpenStruct.new, current_user:)
                                                                                       .from_hash(widget.options)
                                                                                       .to_h
                                                                                       .with_indifferent_access

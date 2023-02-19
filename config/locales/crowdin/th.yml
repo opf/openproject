@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ th:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "กำหนดสีเอง"
-      customize: "กำหนดโลโก้ของคุณสำหรับการติดตั้งโอเพ่นโปรเจค โลโก้นี้จะถูกแสดงอย่างสาธารณะ"
-      enterprise_notice: "Σαν ένα ειδικό \"Σας ευχαριστώ!\" για την οικονομική τους συμβολή στην ανάπτυξη του OpenProject, αυτό το μικροσκοπικό χαρακτηριστικό είναι διαθέσιμο μόνο για τους συνδρομητές υποστήριξης Enterprise εκδοχής."
+      customize: "Customize your OpenProject installation with your own logo and colors."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redigér egenskaber for farvevalg"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -63,16 +64,28 @@ th:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "Upload an Enterprise Edition support token"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        title: "Delete token"
       replace_token: "Replace your current support token"
-      order: "สั่งซื้อ รุ่น Enterprise on-premises Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: แสดงจนถึง
     is_active: ที่แสดงอยู่
@@ -84,6 +97,8 @@ th:
     show_preview: 'แสดงตัวอย่าง'
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: There are currently no authentication modes.
@@ -123,6 +138,7 @@ th:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'การเข้ารหัสการเชื่อมต่อ'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'บัญชีระบบ'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -134,13 +150,18 @@ th:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'ไม่มี'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: ขณะนี้ยังไม่มีกระทู้ใดๆ
@@ -161,8 +182,8 @@ th:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Custom actions'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
@@ -195,6 +216,15 @@ th:
     ignore_filenames: >
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -226,7 +256,7 @@ th:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: สร้างรุ่นใหม่
       storage:
-        no_results_title_text: ไม่มีการระบุ พื้นที่ดิสก์ ไว้ในโปรเจ็กต์นี้ 
+        no_results_title_text: ไม่มีการระบุ พื้นที่ดิสก์ ไว้ในโปรเจ็กต์นี้
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -255,14 +285,13 @@ th:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: กำหนดงานบุคคลที่ไม่ได้เป็นสามชิกในโครงการ
+      title: Placeholder users
       description: >
-        มีหลายสถานการณ์ที่คุณต้องการมอบหมายงานให้กับบุคคลที่ไม่ใช่สมาชิกของโครงการของคุณ อาจเป็นได้ว่าคุณยังต้องจ้างคนที่เหมาะสมสำหรับงานนี้ หรือคุณเพียงแค่ไม่ต้องการให้บุคคลนั้นเข้าถึงข้อมูลของโครงการ แต่ยังต้องการติดตามงานที่มอบหมายให้กับบุคคลนั้น 
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -292,6 +321,8 @@ th:
     edit:
       settings: "การตั้งค่า"
       form_configuration: "Form configuration"
+      more_info_text_html: >
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "โครงการ"
       enabled_projects: "Enabled projects"
       edit_query: "แก้ไขตาราง"
@@ -393,6 +424,7 @@ th:
         host: "โฮสต์"
         onthefly: "Automatic user creation"
         port: "พอร์ต"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "ที่เก็บข้อมูล"
       comment:
@@ -449,9 +481,12 @@ th:
         code: 'สถานะ'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "คอลัมน์"
         relations_to_type_column: "Relations to %{type}"
@@ -462,7 +497,6 @@ th:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "สิทธิ์"
       time_entry:
         activity: "กิจกรรม"
@@ -508,20 +542,27 @@ th:
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
         done_ratio: "Progress (%)"
+        duration: "Duration"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
-        version: "เวอร์ชัน"
+        ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "หัวข้อหลัก"
         parent_issue: "หัวข้อหลัก"
         parent_work_package: "หัวข้อหลัก"
         priority: "ระดับความสำคัญ"
         progress: "Progress (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"
         subproject: "โครงการย่อย"
         time_entries: "เวลาที่ถูกบันทึก"
         type: "ประเภท"
+        version: "เวอร์ชัน"
         watcher: "ผู้ดูข้อมูล"
       'doorkeeper/application':
         uid: "Client ID"
@@ -545,7 +586,7 @@ th:
         confirmation: "doesn't match %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -553,6 +594,7 @@ th:
         even: "must be even."
         exclusion: "is reserved."
         file_too_large: "ใหญ่เกินไป (ขนาดสูงสุดคือ %{count} ไบต์)"
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "must be greater than %{count}."
@@ -587,8 +629,15 @@ th:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "is the wrong length (should be %{count} characters)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -618,7 +667,7 @@ th:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -639,10 +688,6 @@ th:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -702,6 +747,11 @@ th:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -712,6 +762,16 @@ th:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -719,8 +779,16 @@ th:
         work_package:
           is_not_a_valid_target_for_time_entries: "ชุดภารกิจ #%{id} ไม่ใช่เป้าหมายที่ถูกต้องสำหรับการกำหนดรายการเวลา"
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
+              cannot_be_null: "can not be set to null as start date and duration are known."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -728,6 +796,7 @@ th:
               not_a_valid_parent: "is invalid."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -853,7 +922,7 @@ th:
     id: "ID"
     is_default: "ค่าเริ่มต้น"
     is_for_all: "สำหรับทุกโครงการ"
-    is_public: "สาธารณะ"
+    public: "สาธารณะ"
     #kept for backwards compatibility
     issue: "ชุดภารกิจ"
     lastname: "นามสกุล"
@@ -863,7 +932,6 @@ th:
     password: "รหัสผ่าน"
     priority: "ระดับความสำคัญ"
     project: "โครงการ"
-    public: "สาธารณะ"
     responsible: "Accountable"
     role: "บทบาท"
     roles: "บทบาท"
@@ -877,9 +945,11 @@ th:
     updated_on: "แก้ไขเมื่อ"
     uploader: "Uploader"
     user: "ผู้ใช้"
+    value: "Value"
     version: "เวอร์ชัน"
     work_package: "ชุดภารกิจ"
   backup:
+    failed: "Backup failed"
     label_backup_token: "โทเค็น (token) สำรอง"
     label_create_token: "สร้าง โทเค็น (token) สำรอง"
     label_delete_token: "ลบ โทเค็น (token) สำรอง"
@@ -892,19 +962,18 @@ th:
       heading_create: "สร้าง โทเค็น (token) สำรอง"
       implications: >
         การเปิดใช้งานการสำรองข้อมูลจะอนุญาตให้ผู้ใช้ที่มีสิทธิ์ที่จำเป็นและโทเค็นสำรองนี้สามารถดาวน์โหลดข้อมูลสำรองที่มีข้อมูลทั้งหมดของการติดตั้ง OpenProject นี้ได้ ซึ่งรวมถึงข้อมูลของผู้ใช้รายอื่นทั้งหมด
-
       info: >
-        คุณจะต้องสร้างโทเค็นสำรอง จึงจะสามารถสร้างข้อมูลสำรองได้ แต่ละครั้งที่คุณต้องการขอข้อมูลสำรอง คุณจะต้องจัดเตรียมโทเค็นนี้ คุณสามารถลบโทเค็นสำรองเพื่อปิดใช้งานการสำรองข้อมูลสำหรับผู้ใช้รายนี้ 
+        คุณจะต้องสร้างโทเค็นสำรอง จึงจะสามารถสร้างข้อมูลสำรองได้ แต่ละครั้งที่คุณต้องการขอข้อมูลสำรอง คุณจะต้องจัดเตรียมโทเค็นนี้ คุณสามารถลบโทเค็นสำรองเพื่อปิดใช้งานการสำรองข้อมูลสำหรับผู้ใช้รายนี้
       verification: >
         ป้อน %{word} เพื่อยืนยัน การดำเนินการ %{action} โทเค็น (token) สำรอง.
       verification_word_reset: รีเซ็ต
       verification_word_create: สร้าง
       warning: >
-        เมื่อคุณสร้างโทเค็นใหม่ คุณจะได้รับอนุญาตให้ขอสำรองข้อมูลหลังจาก 24 ชั่วโมงเท่านั้น นี่คือมาตรการด้านความปลอดภัย หลังจากนั้น คุณสามารถขอสำรองข้อมูลได้ตลอดเวลาโดยใช้โทเค็นนั้น 
+        เมื่อคุณสร้างโทเค็นใหม่ คุณจะได้รับอนุญาตให้ขอสำรองข้อมูลหลังจาก 24 ชั่วโมงเท่านั้น นี่คือมาตรการด้านความปลอดภัย หลังจากนั้น คุณสามารถขอสำรองข้อมูลได้ตลอดเวลาโดยใช้โทเค็นนั้น
     text_token_deleted: โทเค็นสำรองถูกลบ การสำรองข้อมูลถูกปิดใช้งานในขณะนี้
     error:
-      invalid_token: โทเค็นสำรองไม่ถูกต้อง หรือขาดหายไป 
-      token_cooldown: โทเค็นสำรองจะใช้งานได้ใน %{hours} ชั่วโมง 
+      invalid_token: โทเค็นสำรองไม่ถูกต้อง หรือขาดหายไป
+      token_cooldown: โทเค็นสำรองจะใช้งานได้ใน %{hours} ชั่วโมง
       backup_pending: มีการสำรองข้อมูลที่รอดำเนินการอยู่แล้ว
       limit_reached: คุณสามารถสำรองข้อมูลได้เพียง %{limit} รายการต่อวัน
   button_add: "เพิ่ม"
@@ -1177,11 +1246,11 @@ th:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional features:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "ระดับความสำคัญของชุดภารกิจ"
   enumeration_reported_project_statuses: "สถานะโครงการที่รายงานแล้ว"
@@ -1203,9 +1272,10 @@ th:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Option does not exist."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1290,10 +1360,10 @@ th:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Upgrade to Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "More information"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
@@ -1315,7 +1385,9 @@ th:
   menus:
     admin:
       mail_notification: "อีเมล์แจ้งเตือน"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation: 'Aggregation'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "เปิดเมนูเพิ่มด่วน"
   my_account:
@@ -1323,7 +1395,7 @@ th:
       no_results:
         title: "No access tokens to display"
         description: "All of them have been disabled. They can be re-enabled in the administration menu."
-      access_token: "Access token"
+      access_tokens: "Access tokens"
       headers:
         action: "Action"
         expiration: "Expires"
@@ -1341,17 +1413,11 @@ th:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'ข่าวสาร'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1424,7 +1490,6 @@ th:
   label_consent_settings: "User Consent"
   label_wiki_menu_item: รายการเมนูวิกิ
   label_select_main_menu_item: เลือกรายการเมนูหลักใหม่
-  label_select_project: "Select a project"
   label_required_disk_storage: "Required disk storage"
   label_send_invitation: Send invitation
   label_change_plural: "การเปลี่ยนแปลง"
@@ -1490,6 +1555,7 @@ th:
   label_diff: "ผลต่าง"
   label_diff_inline: "แบบอินไลน์"
   label_diff_side_by_side: "แสดงคู่กัน"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "ปิดการใช้งาน"
   label_display: "การแสดงผล"
   label_display_per_page: "ต่อหน้า: %{value}"
@@ -1513,7 +1579,7 @@ th:
   label_enumerations: "การระบุหมายเลข"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "สภาพแวดล้อม"
   label_estimates_and_time: "Estimates and time"
   label_equals: "เป็น"
@@ -1566,6 +1632,7 @@ th:
   label_index_by_title: "จัดเรียงตามชื่อเรื่อง"
   label_information: "ข้อมูล"
   label_information_plural: "ข้อมูล"
+  label_installation_guides: 'Installation guides'
   label_integer: "จำนวนเต็ม"
   label_internal: "ภายใน"
   label_introduction_video: "Introduction video"
@@ -1609,6 +1676,10 @@ th:
   label_member_plural: "สมาชิก"
   lable_membership_added: 'เพิ่มสมาชิกแล้ว'
   lable_membership_updated: 'ปรับปรุงข้อมูลสมาชิกแล้ว'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "ชื่อของรายการเมนู"
   label_message: "ข้อความ"
   label_message_last: "ข้อความล่าสุด"
@@ -1698,7 +1769,6 @@ th:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "ข้อมูลส่วนตัว"
-  label_project_all: "โครงการทั้งหมด"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ"
   label_project_latest: "โครงการล่าสุด"
@@ -1707,6 +1777,7 @@ th:
   label_project_new: "โครงการใหม่"
   label_project_plural: "โครงการ"
   label_project_settings: "การตั้งค่าโครงการ"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "ดูโครงการทั้งหมด"
   label_project_show_details: "Show project details"
@@ -1714,7 +1785,6 @@ th:
   label_public_projects: "โครงการสาธารณะ"
   label_query_new: "แบบสอบถามใหม่"
   label_query_plural: "แบบสอบถามแบบกำหนดเอง"
-  label_query_menu_item: "เมนูแบบสอบถาม"
   label_read: "อ่าน..."
   label_register: "Create a new account"
   label_register_with_developer: "ลงทะเบียนในฐานะผู้พัฒนา"
@@ -1812,7 +1882,7 @@ th:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "ผู้ใช้"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "กิจกรรมของ %{value}"
   label_user_anonymous: "ไม่ระบุชื่อ"
@@ -1874,6 +1944,7 @@ th:
   label_workflow: "กระบวนการทำงาน"
   label_workflow_plural: "กระบวนการทำงาน"
   label_workflow_summary: "สรุป"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 closed"
     other: "ปิดแล้ว %{count}"
@@ -1934,7 +2005,7 @@ th:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1949,6 +2020,8 @@ th:
         mentioned: 'Mentioned'
         subscribed: 'ทั้งหมด'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "มีผู้ใช้ใหม่ (%{value}) ได้ลงทะเบียนเข้ามา ขณะนี้บัญชีอยู่ระหว่างการพิจารณาอนุมัติของคุณ:"
@@ -1960,8 +2033,11 @@ th:
   mail_body_backup_token_info: โทเค็นก่อนหน้าใช้ไม่ได้อีกต่อไป
   mail_body_backup_waiting_period: โทเค็นใหม่จะเปิดใช้งานใน %{hours} ชั่วโมง
   mail_body_backup_token_warning: หากไม่ใช่คุณ ให้เข้าสู่ระบบ OpenProject ทันทีและรีเซ็ตใหม่อีกครั้ง
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "คลิกที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณ :"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -1978,6 +2054,7 @@ th:
   mail_subject_account_activation_request: "มี %{value} คำขอเปิดใช้บัญชี"
   mail_subject_backup_ready: "ข้อมูลสำรองของคุณพร้อมแล้ว"
   mail_subject_backup_token_reset: "รีเซ็ตโทเค็นสำรอง"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "รหัสผ่าน %{value} ของคุณ"
   mail_subject_register: "การเปิดใช้บัญชี %{value} ของคุณ"
   mail_subject_reminder: "มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน"
@@ -2070,6 +2147,12 @@ th:
   notice_successful_create: "สร้างเรียบร้อยแล้ว"
   notice_successful_delete: "ลบเรียบร้อยแล้ว"
   notice_successful_update: "ปรับปรุงข้อมูลเรียบร้อยแล้ว"
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "There are too many results.\nNarrow down the search by typing in the name of the new member (or group)."
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2101,9 +2184,8 @@ th:
           tb: "เทราไบต์"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้"
-    welcome: "Welcome to OpenProject"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "เพิ่มหมายเหตุ"
   permission_add_work_packages: "เพิ่มลำดับภารกิจ"
@@ -2119,6 +2201,7 @@ th:
   permission_comment_news: "แสดงความคิดเห็นเกี่ยวกับข่าว"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "คัดลอกโครงการ"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "ลบผู้เฝ้าดู"
   permission_delete_work_packages: "ลบชุดภารกิจ"
   permission_delete_messages: "ลบข้อความ"
@@ -2135,13 +2218,14 @@ th:
   permission_edit_own_time_entries: "แก้ไขบันทึกเวลาของตนเอง"
   permission_edit_project: "แก้ไขโครงการ"
   permission_edit_reportings: "แก้ไขรายงาน"
-  permission_edit_time_entries: "แก้ไขบันทึกเวลา"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "แก้ไขแผนภูมิเวลา"
   permission_edit_wiki_pages: "แก้ไขหน้าวิกิ"
   permission_export_work_packages: "Export work packages"
   permission_export_wiki_pages: "เอกซ์ปอร์ตหน้าวิกิ"
   permission_list_attachments: "รายการสิ่งที่แนบมา"
-  permission_log_time: "บันทึกเวลาที่ใช้"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "จัดการกระทู้"
   permission_manage_categories: "จัดการประเภทของชุดภารกิจ"
   permission_manage_work_package_relations: "จัดการความสัมพันธ์ของชุดภารกิจ"
@@ -2161,7 +2245,6 @@ th:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "เลือกโมดูลของโครงการ"
   permission_manage_types: "เลือกชนิด"
-  permission_view_calendar: "ดูปฏิทิน"
   permission_view_changesets: "View repository revisions in OpenProject"
   permission_view_commit_author_statistics: "ดูการส่งมอบสถิติผู้เขียน"
   permission_view_work_package_watchers: "ดูรายชื่อผู้เฝ้าดู"
@@ -2173,6 +2256,8 @@ th:
   permission_view_timelines: "ดูแผนภูมิเวลา"
   permission_view_wiki_edits: "ดูประวัติวิกิ"
   permission_view_wiki_pages: "ดูวิกิ"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2197,7 +2282,6 @@ th:
       archived: "Archived"
   project_module_activity: "กิจกรรม"
   project_module_forums: "กระทู้"
-  project_module_calendar: "ปฏิทิน"
   project_module_work_package_tracking: "ติดตามผลชุดภารกิจ"
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
@@ -2211,7 +2295,7 @@ th:
     assigned_to_role: "บทบาทของผู้รับผิดชอบ"
     member_of_group: "กลุ่มของผู้รับผิดชอบ"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Name or identifier"
   repositories:
@@ -2299,6 +2383,11 @@ th:
     storage:
       not_available: "Disk storage consumption is not available for this repository."
       update_timeout: "Keep the last required disk space information for a repository for N minutes.\nAs counting the required disk space of a repository may be costly, increase this value to reduce performance impact."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Existing Subversion repository"
       existing_introduction: "If you have an existing Subversion repository, you can link it with OpenProject to access it from within the application."
@@ -2342,7 +2431,7 @@ th:
   setting_smtp_authentication: "SMTP authentication"
   setting_smtp_user_name: "SMTP username"
   setting_smtp_password: "SMTP password"
-  setting_smtp_domain: "SMTP HELLO domain"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "จำนวนวันที่แสดงในกิจกรรมของโครงการ"
   setting_app_subtitle: "หัวข้อย่อยของแอบพลิเคชั่น"
   setting_app_title: "หัวข้อแอบพลิเคชั่น"
@@ -2378,7 +2467,6 @@ th:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "เปิดใช้ SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "เปิดใช้ Feeds"
   setting_feeds_limit: "จำกัดเนื้อหาของ Feed"
   setting_file_max_size_displayed: "ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด"
@@ -2391,7 +2479,7 @@ th:
   setting_work_package_list_default_columns: "แสดงเป็นค่าเริ่มต้น"
   setting_work_package_properties: "คุณสมบัติของชุดภารกิจ"
   setting_work_package_startdate_is_adddate: "ใช้วันปัจจุบันเป็นวันเริ่มต้นสำหรับชุดภารกิจใหม่"
-  setting_work_packages_export_limit: "การจำกัดการเอกซ์ปอร์ตชุดภารกิจ"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "เก็บข้อมูลการล็อกอิน ชื่อ และอีเมล์ของผู้ใช้สำหรับทุกคำขอ"
   setting_login_required: "จำเป็นต้องระบุตัวตนผู้ใช้"
@@ -2451,8 +2539,6 @@ th:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2490,6 +2576,7 @@ th:
   text_access_token_hint: "Access tokens allow you to grant external applications access to resources in OpenProject."
   text_analyze: "การวิเคราะห์เพิ่มเติม: %{subject}"
   text_are_you_sure: "คุณแน่ใจหรือไม่ ?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "ลบชุดภารกิจและ ชุดภารกิจย่อยที่เกี่ยวข้องทั้งหมดหรือไม่?"
   text_assign_to_project: "กำหนดไปยังโครงการ"
   text_form_configuration: >
@@ -2504,6 +2591,12 @@ th:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >
@@ -2535,7 +2628,6 @@ th:
   text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
   text_work_packages_ref_in_commit_messages: "อ้างอิงและแก้ไขชุดภารกิจในข้อความยืนยัน"
   text_journal_added: "%{label} %{value} ถูกเพิ่มแล้ว"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "มีการแก้ไข %{label} แล้ว"
@@ -2677,7 +2769,6 @@ th:
       noneSelection: "(ไม่มี)"
       outline: "การขยายโครงร่างขั้นต้น"
       parent: "แสดงโครงการย่อยของ"
-      work_package_filters: "กรองชุดภารกิจ"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "แสดงชุดภารกิจตามผู้ได้รับมอบหมาย"
       types: "แสดงชนิด"
@@ -2805,14 +2896,14 @@ th:
   warning_user_limit_reached: >
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >
@@ -2824,7 +2915,6 @@ th:
   wiki_menu_item_new_main_item_explanation: >
     คุณกำลังลบเฉพาะเมนูของวิกิหลัก ตอนนี้คุณต้องเลือกหน้าวิกิที่ไอเทมหลักจะถูกสร้าง ในการลบวิกิ ผู้ดูแลโครงการสามารถระงับการใช้งานโมดูลวิกิได้
   wiki_menu_item_delete_not_permitted: ไม่สามารถลบแค่เมนูของวิกิในหน้าวิกิเท่านั้น
-  query_menu_item_for: "เมนูของแบบสอบถาม \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2832,10 +2922,22 @@ th:
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "ไม่มีอะไรให้แสดงเป็นตัวอย่าง"
   api_v3:
     attributes:
       lock_version: "Lock Version"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."
@@ -2849,6 +2951,7 @@ th:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Expected CONTENT-TYPE to be '%{content_type}' but got '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2860,6 +2963,7 @@ th:
         select: "ไม่รองรับการเลือกที่ขอ %{invalid} การเลือกที่รองรับคือ %{supported} "
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "not specified"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
@@ -2883,6 +2987,7 @@ th:
       schema: 'Schema'
     undisclosed:
       parent: ไม่เปิดเผย - พาเรนต์ที่เลือกจะมองไม่เห็นเนื่องจากไม่มีสิทธิ์
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
@@ -2891,8 +2996,11 @@ th:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -2905,6 +3013,7 @@ th:
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
@@ -2913,6 +3022,10 @@ th:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
@@ -2965,4 +3078,51 @@ th:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: คุณ

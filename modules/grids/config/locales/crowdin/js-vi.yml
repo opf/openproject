@@ -5,8 +5,8 @@ vi:
       remove: 'Xóa widget'
       configure: 'Configure widget'
       upsale:
-        text: "Một số widget, như widget biểu đồ gói công việc, chỉ có sẵn trong"
-        link: 'Phiên bản doanh nghiệp.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Custom text'
@@ -31,10 +31,13 @@ vi:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Tình trạng dự án'
+          not_started: 'Not started'
           on_track: 'Theo dõi'
           off_track: 'Không theo dõi'
           at_risk: 'Có rủi ro'
           not_set: 'Không được thiết lập'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Dự án con'
           no_results: 'No subprojects.'

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,14 +53,14 @@ module Members
             member.validate
           end
 
-        make_result(success: success)
+        make_result(success:)
       end
     end
 
     private
 
     def make_result(success:)
-      ServiceResult.new(success: success, errors: member.errors, result: member)
+      ServiceResult.new(success:, errors: member.errors, result: member)
     end
 
     def process_attributes!(attributes)

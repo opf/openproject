@@ -6,6 +6,7 @@ module API
       class WorkPackageSumsRepresenter < ::API::Decorators::Single
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include ActionView::Helpers::NumberHelper
+        include ::API::Decorators::DateProperty
 
         custom_field_injector(injector_class: ::API::V3::Utilities::CustomFieldSumInjector)
 

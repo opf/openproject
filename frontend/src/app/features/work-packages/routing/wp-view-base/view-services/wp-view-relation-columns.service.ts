@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +38,7 @@ import {
   RelationQueryColumn,
   TypeRelationQueryColumn,
 } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewBaseService } from './wp-view-base.service';
@@ -51,7 +51,7 @@ export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseSe
   constructor(public querySpace:IsolatedQuerySpace,
     public wpTableColumns:WorkPackageViewColumnsService,
     public halResourceService:HalResourceService,
-    public apiV3Service:APIV3Service,
+    public apiV3Service:ApiV3Service,
     public wpRelations:WorkPackageRelationsService) {
     super(querySpace);
   }

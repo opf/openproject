@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,16 +45,21 @@ class Principal < ApplicationRecord
           class_name: 'UserPreference',
           foreign_key: 'user_id'
   has_many :members, foreign_key: 'user_id', dependent: :destroy
-  has_many :memberships, -> {
-    includes(:project, :roles)
-      .where(["projects.active = ? OR project_id IS NULL", true])
-      .order(Arel.sql('projects.name ASC'))
-    # haven't been able to produce the order using hashes
-  },
+  has_many :memberships,
+           -> {
+             includes(:project, :roles)
+               .where(["projects.active = ? OR project_id IS NULL", true])
+               .order(Arel.sql('projects.name ASC'))
+             # haven't been able to produce the order using hashes
+           },
+           inverse_of: :principal,
+           dependent: :nullify,
            class_name: 'Member',
            foreign_key: 'user_id'
   has_many :projects, through: :memberships
   has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify
+
+  has_paper_trail
 
   scopes :like,
          :human,
@@ -111,7 +114,6 @@ class Principal < ApplicationRecord
     not_locked.like(query).not_in_project(project)
   end
 
-
   def self.me
     where(id: User.current.id)
   end
@@ -162,7 +164,7 @@ class Principal < ApplicationRecord
     # by the #compact call.
     def type_condition(table = arel_table)
       sti_column = table[inheritance_column]
-      sti_names  = ([self] + descendants).map(&:sti_name).compact
+      sti_names = ([self] + descendants).map(&:sti_name).compact
 
       predicate_builder.build(sti_column, sti_names)
     end

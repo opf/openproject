@@ -1,0 +1,37 @@
+#English strings go here
+tr:
+  js:
+    storages:
+      link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
+      link_existing_files: "Mevcut dosyaları bağla"
+      login: "%{storageType} oturum açma"
+      login_to: "%{storageType}'da oturum açın"
+      no_connection: "%{storageType} bağlantısı yok"
+      open_storage: "%{storageType}'ı açın"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
+        live_data_error: "Dosya ayrıntıları getirilirken hata oluştu"
+        live_data_error_description: >
+          Bazı %{storageType} verileri getirilemedi. Lütfen bu sayfayı yeniden yüklemeyi deneyin veya %{storageType} yöneticinizle iletişime geçin.
+        no_file_links: "Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın."
+        not_logged_in: >
+          Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
+      file_links:
+        download: "%{fileName} dosyasını indir"
+        no_permission: "Bu dosyayı görme izniniz yok."
+        open: 'Dosyayı depoda aç'
+        open_location: 'Dosyayı konumda aç'
+        remove: "Dosya bağlantısını kaldır"
+        remove_confirmation: >
+          Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
+        remove_short: "Bağlantıyı kaldır"
+        select: "Dosyaları seç"
+        select_all: "Tümünü seç"
+        selection_none: "Bağlanacak dosyaları seçin"
+        selection_any: "%{number} dosyayı bağla"
+        not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
+        already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
+        already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

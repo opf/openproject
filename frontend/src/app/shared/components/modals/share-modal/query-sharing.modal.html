@@ -1,26 +1,30 @@
 <div
-  class="op-modal wp-table--configuration-modal loading-indicator--location"
+  class="spot-modal loading-indicator--location"
   data-indicator-name="modal"
 >
-  <op-modal-header (close)="closeMe($event)">{{text.label_visibility_settings}}</op-modal-header>
+  <div class="spot-modal--header">{{text.label_visibility_settings}}</div>
+
+  <div class="spot-divider"></div>
 
   <query-sharing-form
-      class="op-modal--body"
-      [isSave]="false"
-      (onChange)="setValues($event)"
-      [isStarred]="isStarred"
-      [isPublic]="isPublic">
+    class="spot-modal--body spot-container"
+    [isSave]="false"
+    (onChange)="setValues($event)"
+    [isStarred]="isStarred"
+    [isPublic]="isPublic">
   </query-sharing-form>
 
-  <div class="op-modal--footer">
-    <button class="button -highlight -with-icon icon-checkmark"
-            (click)="saveQuery($event)"
-            [textContent]="text.button_save">
-    </button>
-    <button class="button -with-icon icon-cancel"
-            [textContent]="text.button_cancel"
-            [disabled]="isBusy"
-            (click)="closeMe($event)">
-    </button>
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+              [textContent]="text.button_cancel"
+              [disabled]="isBusy"
+              (click)="closeMe($event)">
+      </button>
+      <button class="button button_no-margin -highlight -with-icon icon-save spot-action-bar--action"
+              (click)="saveQuery($event)"
+              [textContent]="text.button_save">
+      </button>
+    </div>
   </div>
 </div>

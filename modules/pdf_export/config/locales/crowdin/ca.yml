@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -20,32 +20,32 @@
 #See COPYRIGHT and LICENSE files for more details.
 #++
 ca:
-  error_can_not_delete_export_card_configuration: "This config cannot be deleted."
-  error_can_not_change_name_of_default_configuration: "The name of the default config cannot be changed."
-  label_backlogs_export_card_config_select: "Select export card configuration"
+  error_can_not_delete_export_card_configuration: "Aquesta configuració no pot ser eliminada."
+  error_can_not_change_name_of_default_configuration: "El nom de la configuració per defecte no es pot modificar."
+  label_backlogs_export_card_config_select: "Selecciona l'exportació de la targeta de configuració "
   label_backlogs_export_card_export: "Exportar"
-  label_export_card_configuration_new: "New Export Card Config"
-  label_export_card_configuration: "Export Card Config"
-  label_export_card_configuration_plural: "Export Card Configs"
+  label_export_card_configuration_new: "Nova exportació de la targeta de configuració"
+  label_export_card_configuration: "Exporta la targeta de configuració"
+  label_export_card_configuration_plural: "Exporta la targeta de configuracions"
   label_export_card_activate: "Activar"
-  label_export_card_deactivate: "De-activate"
-  notice_export_card_configuration_activated: "Config successfully activated"
-  notice_export_card_configuration_deactivated: "Config successfully de-activated"
-  error_can_not_activate_export_card_configuration: "This config cannot be activated"
-  error_can_not_deactivate_export_card_configuration: "This config cannot be de-activated"
-  validation_error_required_keys_not_present: "Required key(s) not present:"
-  validation_error_yaml_is_badly_formed: "has no valid YAML format."
-  validation_error_uknown_key: "Unknown key:"
-  yaml_error: "YAML error:"
-  help_link_rows_format: "Rows Formatting"
+  label_export_card_deactivate: "Desactivat"
+  notice_export_card_configuration_activated: "Configuració activada correctament"
+  notice_export_card_configuration_deactivated: "Configuració desactivada correctament"
+  error_can_not_activate_export_card_configuration: "Aquesta configuració no pot ser activada"
+  error_can_not_deactivate_export_card_configuration: "Aquesta configuració no pot ser desactivada"
+  validation_error_required_keys_not_present: "No hi ha la clau(s) necessàries:"
+  validation_error_yaml_is_badly_formed: "té un format YAML invàlid."
+  validation_error_uknown_key: "Clau desconeguda:"
+  yaml_error: "Error YAML:"
+  help_link_rows_format: "Format de files"
   export_config_per_page: "Per pàgina"
-  export_config_page_size: "Page size"
-  export_config_orientation: "Orientation"
+  export_config_page_size: "Mida de pàgina"
+  export_config_orientation: "Orientació"
   export_config_rows: "Files"
   activerecord:
     attributes:
       export_card_configuration:
         rows: "Files"
         per_page: "Per pàgina"
-        page_size: "Page size"
-        orientation: "Orientation"
+        page_size: "Mida de pàgina"
+        orientation: "Orientació"

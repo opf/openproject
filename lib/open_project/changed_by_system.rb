@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 
 # OpenProject in its contracts has checks to govern which attributes are writable. Only attributes marked to be
 # writable, can be set by a user.
@@ -98,17 +95,29 @@ module OpenProject
     # currently changed. But it will only include those attributes, that have not
     # been changed within a #change_by_system block and as such are caused by user input.
     def changed_by_user
-      (changes.reject { |key, change| changed_by_system[key] == change }).keys
+      (model_changes.reject { |key, change| changed_by_system[key] == change }).keys
     end
 
     private
 
     def non_no_op_changes
-      changes.reject { |_, (old, new)| old == 0 && new.nil? }
+      model_changes.reject { |_, (old, new)| old == 0 && new.nil? }
     end
 
     def changes_compared_to(prior_changes)
-      changes.select { |c| !prior_changes[c] || prior_changes[c].last != changes[c].last }
+      model_changes.select { |c| !prior_changes[c] || prior_changes[c].last != model_changes[c].last }
+    end
+
+    # Construct the custom model changes method, which is based on the `ActiveRecord::Base#changes`.
+    # Includes the changes of the custom fields, if the object extends the acts_as_customizable
+    # (Redmine::Acts::Customizable::InstanceMethods) plugin.
+    # Ideally we would override the `ActiveRecord::Base#changes`, but adding the custom field attributes
+    # to the `ActiveRecord::Base#changes` may produce some unwanted side effects.
+    def model_changes
+      changes.tap do |c|
+        c.merge!(custom_field_changes) if respond_to?(:custom_field_changes)
+        c
+      end
     end
   end
 end

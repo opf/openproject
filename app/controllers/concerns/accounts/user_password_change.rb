@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,13 +41,13 @@ module Accounts::UserPasswordChange
     return if redirect_if_password_change_not_allowed(user)
 
     # Ensure the current password is validated
-    unless user.check_password?(params[:password], update_legacy: update_legacy)
+    unless user.check_password?(params[:password], update_legacy:)
       flash_and_log_invalid_credentials(is_logged_in: !show_user_name)
-      return render_password_change(user, nil, show_user_name: show_user_name)
+      return render_password_change(user, nil, show_user_name:)
     end
 
     # Call the service to set the new password
-    call = ::Users::ChangePasswordService.new(current_user: @user, session: session).call(params)
+    call = ::Users::ChangePasswordService.new(current_user: @user, session:).call(params)
 
     # Yield the success to the caller
     if call.success?
@@ -58,7 +58,7 @@ module Accounts::UserPasswordChange
     end
 
     # Render the username to hint to a user in case of a forced password change
-    render_password_change user, call.message, show_user_name: show_user_name
+    render_password_change user, call.message, show_user_name:
   end
 
   ##
@@ -70,8 +70,8 @@ module Accounts::UserPasswordChange
       return
     end
 
-    flash_error_message(log_reason: 'invalid credentials', flash_now: flash_now) do
-      if Setting.brute_force_block_after_failed_logins?
+    flash_error_message(log_reason: 'invalid credentials', flash_now:) do
+      if Setting.brute_force_block_after_failed_logins.to_i > 0
         :notice_account_invalid_credentials_or_blocked
       else
         :notice_account_invalid_credentials
@@ -83,7 +83,7 @@ module Accounts::UserPasswordChange
     flash[:error] = message unless message.nil?
     @user = user
     @username = user.login
-    render 'my/password', locals: { show_user_name: show_user_name }
+    render 'my/password', locals: { show_user_name: }
   end
 
   ##

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -192,7 +190,7 @@ module Bim
       end
 
       def build_importer
-        @importer = ::OpenProject::Bim::BcfXml::Importer.new(@bcf_xml_file, @project, current_user: current_user)
+        @importer = ::OpenProject::Bim::BcfXml::Importer.new(@bcf_xml_file, @project, current_user:)
       end
 
       def get_persisted_file
@@ -217,7 +215,7 @@ module Bim
         call = Attachments::CreateService
           .bypass_whitelist(user: current_user, whitelist: %w[application/zip])
           .call(file: params[:bcf_file],
-                filename: filename,
+                filename:,
                 description: filename)
 
         call.on_failure { raise e.message }

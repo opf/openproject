@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_dependency 'open_project/ui/extensible_tabs'
-require_dependency 'config/constants/api_patch_registry'
-require_dependency 'config/constants/open_project/activity'
+require 'open_project/ui/extensible_tabs'
+require_relative '../../../config/constants/api_patch_registry'
+require_relative '../../../config/constants/open_project/activity'
+require_relative '../../../config/constants/views'
+require_relative '../../../config/constants/settings/definition'
 
 module OpenProject::Plugins
   module ActsAsOpEngine
@@ -60,15 +62,16 @@ module OpenProject::Plugins
           app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
         end
 
-        initializer "#{engine_name}.register_cell_view_paths" do |_app|
-          pathname = config.root.join("app/cells/views")
+        current_engine = self
+        config.to_prepare do
+          pathname = current_engine.root.join("app/cells/views")
 
           ::RailsCell.view_paths << pathname.to_path if pathname.exist?
         end
 
         # adds our factories to factory girl's load path
         initializer "#{engine_name}.register_factories", after: 'factory_bot.set_factory_paths' do |_app|
-          FactoryBot.definition_file_paths << File.expand_path(root.to_s + '/spec/factories') if defined?(FactoryBot)
+          FactoryBot.definition_file_paths << File.expand_path("#{root}/spec/factories") if defined?(FactoryBot)
         end
 
         initializer "#{engine_name}.append_migrations" do |app|
@@ -125,6 +128,7 @@ module OpenProject::Plugins
           rescue NameError
             "#{plugin_module}::Patches::#{klass_name}Patch".constantize
           end
+
           qualified_class_name = args.map(&:to_s).join('::')
           klass = qualified_class_name.to_s.constantize
           klass.send(:include, patch) unless klass.included_modules.include?(patch)
@@ -143,7 +147,7 @@ module OpenProject::Plugins
       def override_core_views!
         config.after_initialize do
           paths = ActionController::Base.view_paths.map(&:to_s)
-          my_view_path = config.root.to_s + '/app/views'
+          my_view_path = "#{config.root}/app/views"
 
           # Move item to the front
           paths.delete(my_view_path)
@@ -195,55 +199,48 @@ module OpenProject::Plugins
           end
           p.instance_eval(&block) if p && block
         end
-
-        # Workaround to ensure settings are available after unloading in development mode
-        plugin_name = engine_name
-        if options.include? :settings
-          self.class.class_eval do
-            config.to_prepare do
-              Setting.create_setting("plugin_#{plugin_name}",
-                                     'default' => options[:settings][:default], 'serialized' => true)
-              Setting.create_setting_accessors("plugin_#{plugin_name}")
-            end
-          end
-        end
       end
 
       ##
       # Add a tab entry to an extensible tab
       def add_tab_entry(key, name:, partial:, path:, label:, only_if: nil)
-        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, path: path, label: label, only_if: only_if)
+        ::OpenProject::Ui::ExtensibleTabs.add(key, name:, partial:, path:, label:, only_if:)
       end
 
-      def add_api_path(path_name, &block)
+      def add_view(type, contract_strategy: nil)
+        Constants::Views.add(type, contract_strategy:)
+      end
+
+      def add_api_path(path_name, &)
         config.to_prepare do
           ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
             singleton_class.instance_eval do
-              define_method path_name, &block
+              define_method(path_name, &)
             end
           end
         end
       end
 
-      def add_api_endpoint(base_endpoint, path = nil, &block)
+      def add_api_endpoint(base_endpoint, path = nil, &)
         # we are expecting the base_endpoint as string for two reasons:
         # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
         # 2. we can't constantize it here, because that would evaluate
         #    the API before it can be patched
-        ::Constants::APIPatchRegistry.add_patch base_endpoint, path, &block
+        ::Constants::APIPatchRegistry.add_patch(base_endpoint, path, &)
       end
 
-      def extend_api_response(*args, &block)
+      def extend_api_response(*args, &)
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
-          representer_class.instance_eval(&block)
+          representer_class.instance_eval(&)
         end
       end
 
       def add_api_attribute(on:,
-                            ar_name:, writable_for: %i[create update],
-                            writeable: true,
+                            ar_name:,
+                            writable_for: %i[create update],
+                            writable: true,
                             &block)
         config.to_prepare do
           model_name = on.to_s.camelize
@@ -252,7 +249,7 @@ module OpenProject::Plugins
             # attribute is generally writable
             # overrides might be defined in the more specific contract implementations
             contract_class = "::#{namespace}::#{action.to_s.camelize}Contract".constantize
-            contract_class.attribute ar_name, { writeable: writeable }, &block
+            contract_class.attribute ar_name, { writable: }, &block
           end
         end
       end
@@ -269,15 +266,15 @@ module OpenProject::Plugins
       #                defined. If no cache key was defined before, the block's result makes up
       #                the whole cache key.
       def add_api_representer_cache_key(*path,
-                                        &keys)
+                                        &)
         mod = Module.new
         mod.send :define_method, :json_cache_key do
           if defined?(super)
             existing = super()
 
-            existing + instance_eval(&keys)
+            existing + instance_eval(&)
           else
-            instance_eval(&keys)
+            instance_eval(&)
           end
         end
 
@@ -293,7 +290,8 @@ module OpenProject::Plugins
       # @param event_type [Symbol]
       #
       # Options:
-      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit from Activities::BaseActivityProvider
+      # * <tt>:class_name</tt> - one or more model(s) that provide these events, those need to inherit
+      #                          from Activities::BaseActivityProvider
       # * <tt>:default</tt> - setting this option to false will make the events not displayed by default
       #
       # Example

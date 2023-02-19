@@ -50,6 +50,7 @@ description: |-
   | writable          | If false it is not allowed to **change** the properties value                      | Boolean      | true    |
   | location          | If present, contains a reference to the location of the property in the JSON       | String       |         |
   | description       | If present, contains a formattable, human readable description                     | Formattable  |         |
+  | deprecated        | If present, the client should consider the existence of the property depreacated   | Boolean      | false   |
 
   All of the above properties that do not have a default value *must* be present in the schema.
   For properties that have a default value, the client can assume the default value, if the property is missing.
@@ -101,7 +102,7 @@ description: |-
           "description": {
               "format": "markdown",
               "raw": "A description for field Lorem ipsum. This may contain [links](https://example.com).",
-              "html": "<p>A description for field Lorem ipsum. This may contain <a href=\"https://exampel.com\">links</a>.</p>"
+              "html": "<p>A description for field Lorem ipsum. This may contain <a href=\"https://example.com\">links</a>.</p>"
           };
           "_links": {
             "allowedValues": {

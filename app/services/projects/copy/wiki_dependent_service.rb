@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +28,9 @@
 
 module Projects::Copy
   class WikiDependentService < Dependency
+    include AttachmentCopier
+
+    attachment_dependent_service ::Projects::Copy::WikiPageAttachmentsDependentService
 
     def self.human_name
       I18n.t(:label_wiki_page_plural)
@@ -53,7 +54,7 @@ module Projects::Copy
     end
 
     # Copies wiki pages from +project+, requires a wiki to be already set
-    def copy_wiki_pages(params)
+    def copy_wiki_pages(_params)
       wiki_pages_map = {}
 
       # Copying top down so that the hierarchy (parent attribute)
@@ -74,10 +75,11 @@ module Projects::Copy
       # Relying on ActionMailer::Base.perform_deliveries is violating cohesion
       # but the value is currently not otherwise provided
       service_call = WikiPages::CopyService
-                     .new(user: user, model: source_page, contract_class: WikiPages::CopyContract)
+                     .new(user:, model: source_page, contract_class: WikiPages::CopyContract)
                      .call(wiki: target.wiki,
                            parent_id: new_parent_id,
-                           send_notifications: ActionMailer::Base.perform_deliveries)
+                           send_notifications: ActionMailer::Base.perform_deliveries,
+                           copy_attachments: copy_attachments?)
 
       if service_call.success?
         service_call.result
@@ -91,19 +93,22 @@ module Projects::Copy
       end
     end
 
-    def pages_top_down(&block)
-      id_by_parent = source.wiki.pages.pluck(:parent_id, :id).inject(Hash.new { [] }) { |h, (k, v)| h[k] += [v]; h }
+    def pages_top_down(&)
+      id_by_parent = source.wiki.pages.pluck(:parent_id, :id).inject(Hash.new { [] }) do |h, (k, v)|
+        h[k] += [v]
+        h
+      end
 
-      yield_downwards(id_by_parent, nil, &block)
+      yield_downwards(id_by_parent, nil, &)
     end
 
-    def yield_downwards(map, current, &block)
+    def yield_downwards(map, current, &)
       map[current].each do |child_id|
         child = source.wiki.pages.find(child_id)
 
         yield child
 
-        yield_downwards(map, child_id, &block)
+        yield_downwards(map, child_id, &)
       end
     end
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +47,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
     title = "#{is_standard ? '' : type_name.to_s} ##{id}: #{subject}"
-    title << " (#{status_name})" unless status_name.blank?
+    title << " (#{status_name})" if status_name.present?
   end
 
   protected

@@ -1,35 +1,47 @@
+/* We just forward the ng-select outputs without renaming */
+/* eslint-disable @angular-eslint/no-output-native */
 import {
   AfterViewInit,
-  OnChanges,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ContentChild,
   EventEmitter,
+  HostBinding,
   Input,
   NgZone,
+  OnChanges,
+  OnInit,
   Output,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
-  SimpleChanges,
-  HostBinding,
 } from '@angular/core';
-import { DropdownPosition, NgSelectComponent } from '@ng-select/ng-select';
 import {
-  Observable,
+  DropdownPosition,
+  NgSelectComponent,
+} from '@ng-select/ng-select';
+import {
+  BehaviorSubject,
+  merge,
   NEVER,
+  Observable,
   of,
   Subject,
-  merge,
 } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { GroupValueFn } from '@ng-select/ng-select/lib/ng-select.component';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { OpAutocompleterFooterTemplateDirective } from 'core-app/shared/components/autocompleter/autocompleter-footer-template/op-autocompleter-footer-template.directive';
 
 import { OpAutocompleterService } from './services/op-autocompleter.service';
@@ -48,7 +60,7 @@ import { OpAutocompleterOptionTemplateDirective } from './directives/op-autocomp
 // it has all inputs and outputs of ng-select
 // in order to use it, you only need to pass the data type and its filters
 // you also can change the value of ng-select default options by changing @inputs and @outputs
-export class OpAutocompleterComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+export class OpAutocompleterComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnChanges {
   @HostBinding('class.op-autocompleter') className = true;
 
   @Input() public filters?:IAPIFilter[] = [];
@@ -79,13 +91,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public addTag?:boolean = false;
 
-  @Input() public id?:string;
+  @Input() public id = '';
 
   @Input() public accesskey?:number;
 
   @Input() public items?:IOPAutocompleterOption[]|HalResource[];
 
-  private items$ = new Subject();
+  private items$ = new BehaviorSubject(null);
 
   @Input() public clearSearchOnAdd?:boolean = true;
 
@@ -101,15 +113,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public markFirst ? = true;
 
-  @Input() public placeholder?:string = this.I18n.t('js.autocompleter.placeholder');
+  @Input() public placeholder:string = this.I18n.t('js.autocompleter.placeholder');
 
-  @Input() public notFoundText?:string = this.I18n.t('js.autocompleter.notFoundText');
+  @Input() public notFoundText:string = this.I18n.t('js.autocompleter.notFoundText');
 
-  @Input() public typeToSearchText?:string = this.I18n.t('js.autocompleter.typeToSearchText');
+  @Input() public typeToSearchText:string = this.I18n.t('js.autocompleter.typeToSearchText');
 
   @Input() public addTagText?:string;
 
-  @Input() public loadingText?:string;
+  @Input() public loadingText:string = this.I18n.t('js.ajax.loading');
 
   @Input() public clearAllText?:string;
 
@@ -119,19 +131,17 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public appendTo?:string;
 
-  @Input() public loading?:boolean = false;
-
   @Input() public closeOnSelect?:boolean = true;
 
   @Input() public hideSelected?:boolean = false;
 
   @Input() public selectOnTab?:boolean = false;
 
-  @Input() public openOnEnter?:boolean;
+  @Input() public openOnEnter?:boolean = true;
 
   @Input() public maxSelectedItems?:number;
 
-  @Input() public groupBy?:string | Function;
+  @Input() public groupBy?:string|(() => string);
 
   @Input() public groupValue?:GroupValueFn;
 
@@ -143,9 +153,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public selectableGroupAsModel?:boolean = true;
 
-  @Input() public searchFn ? = null;
+  @Input() public searchFn:(term:string, item:any) => boolean;
 
   @Input() public trackByFn ? = null;
+
+  @Input() public compareWith ? = (a:unknown, b:unknown):boolean => a === b;
 
   @Input() public clearOnBackspace?:boolean = true;
 
@@ -163,28 +175,28 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Input() public editableSearchTerm?:boolean = false;
 
-  @Input() public keyDownFn ? = (_:KeyboardEvent) => true;
+  @Input() public keyDownFn ? = ():boolean => true;
 
-  @Input() public typeahead:Subject<string> = new Subject();
+  @Input() public typeahead:BehaviorSubject<string>|null = null;
 
   // a function for setting the options of ng-select
-  @Input() public getOptionsFn:(searchTerm:string) => any;
+  @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
-  @Output() public open = new EventEmitter<any>();
+  @Output() public open = new EventEmitter<unknown>();
 
-  @Output() public close = new EventEmitter<any>();
+  @Output() public close = new EventEmitter<unknown>();
 
-  @Output() public change = new EventEmitter<any>();
+  @Output() public change = new EventEmitter<unknown>();
 
-  @Output() public focus = new EventEmitter<any>();
+  @Output() public focus = new EventEmitter<unknown>();
 
-  @Output() public blur = new EventEmitter<any>();
+  @Output() public blur = new EventEmitter<unknown>();
 
-  @Output() public search = new EventEmitter<{ term:string, items:any[] }>();
+  @Output() public search = new EventEmitter<{ term:string, items:unknown[] }>();
 
-  @Output() public keydown = new EventEmitter<any>();
+  @Output() public keydown = new EventEmitter<unknown>();
 
-  @Output() public clear = new EventEmitter<any>();
+  @Output() public clear = new EventEmitter<unknown>();
 
   @Output() public add = new EventEmitter();
 
@@ -194,13 +206,11 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
 
   @Output() public scrollToEnd = new EventEmitter();
 
-  public compareByHrefOrString = compareByHrefOrString;
-
   public active:Set<string>;
 
-  public results$:any;
+  public results$:Observable<unknown>;
 
-  public isLoading = false;
+  public loading$ = new Subject<boolean>();
 
   @ViewChild('ngSelectInstance') ngSelectInstance:NgSelectComponent;
 
@@ -225,7 +235,13 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     super();
   }
 
-  ngOnChanges(changes:SimpleChanges) {
+  ngOnInit() {
+    if (!!this.getOptionsFn || this.defaultData) {
+      this.typeahead = new BehaviorSubject<string>('');
+    }
+  }
+
+  ngOnChanges(changes:SimpleChanges):void {
     if (changes.items) {
       this.items$.next(changes.items.currentValue);
     }
@@ -239,24 +255,14 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.results$ = merge(
-          (this.items$ || new Subject()),
-          this.typeahead.pipe(
-            distinctUntilChanged(),
-            debounceTime(250),
-            (this.defaultData
-              ? switchMap((queryString) => this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey))
-              : this.getOptionsFn
-                ? switchMap((queryString) => this.getOptionsFn(queryString))
-                : switchMap(() => NEVER)
-            ),
-          ),
+          this.items$,
+          this.autocompleteInputStream(),
         );
 
         if (this.fetchDataDirectly) {
-          this.results$ = this.defaultData
-            ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
-            : (this.getOptionsFn(''));
+          this.typeahead?.next('');
         }
+
         if (this.openDirectly) {
           this.ngSelectInstance.open();
           this.ngSelectInstance.focus();
@@ -271,20 +277,18 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     if (this.ngSelectInstance) {
       setTimeout(() => {
         this.cdRef.detectChanges();
-        const component = (this.ngSelectInstance) as any;
-        if (component && component.dropdownPanel) {
-          component.dropdownPanel._updatePosition();
+        const component = this.ngSelectInstance;
+        if (this.appendTo && component && component.dropdownPanel) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-member-access,no-underscore-dangle
+          (component.dropdownPanel as any)._updatePosition();
         }
       }, 25);
     }
   }
 
-  public opened(_:unknown) { // eslint-disable-line no-unused-vars
-    if (this.openDirectly) {
-      this.results$ = this.defaultData
-        ? (this.opAutocompleterService.loadData('', this.resource, this.filters, this.searchKey))
-        : (this.getOptionsFn(''));
-    }
+  public opened():void { // eslint-disable-line no-unused-vars
+    // Re-search for empty value as search value gets removed
+    this.typeahead?.next('');
     this.repositionDropdown();
     this.open.emit();
   }
@@ -293,15 +297,15 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     return of((this.items as IOPAutocompleterOption[])?.filter((element) => element.name.includes(searchKey)));
   }
 
-  public closeSelect() {
-    this.ngSelectInstance && this.ngSelectInstance.close();
+  public closeSelect():void {
+    this.ngSelectInstance?.close();
   }
 
-  public openSelect() {
-    this.ngSelectInstance && this.ngSelectInstance.open();
+  public openSelect():void {
+    this.ngSelectInstance?.open();
   }
 
-  public focusSelect() {
+  public focusSelect():void {
     this.ngZone.runOutsideAngular(() => {
       setTimeout(() => {
         this.ngSelectInstance.focus();
@@ -309,51 +313,79 @@ export class OpAutocompleterComponent extends UntilDestroyedMixin implements Aft
     });
   }
 
-  public closed(_:unknown) { // eslint-disable-line no-unused-vars
+  public closed():void {
     this.close.emit();
   }
 
-  public changed(val:any) {
+  public changed(val:unknown):void {
     this.change.emit(val);
   }
 
-  public searched(val:any) {
+  public searched(val:{ term:string, items:unknown[] }):void {
     this.search.emit(val);
   }
 
-  public blured(val:any) {
+  public blured(val:unknown):void {
     this.blur.emit(val);
   }
 
-  public focused(val:any) {
+  public focused(val:unknown):void {
     this.focus.emit(val);
   }
 
-  public cleared(val:any) {
+  public cleared(val:unknown):void {
     this.clear.emit(val);
   }
 
-  public keydowned(val:any) {
+  public keydowned(val:unknown):void {
     this.keydown.emit(val);
   }
 
-  public added(val:any) {
+  public added(val:unknown):void {
     this.add.emit(val);
   }
 
-  public removed(val:any) {
+  public removed(val:unknown):void {
     this.remove.emit(val);
   }
 
-  public scrolled(val:any) {
+  public scrolled(val:{ start:number; end:number }):void {
     this.scroll.emit(val);
   }
 
-  public scrolledToEnd(val:any) {
+  public scrolledToEnd(val:unknown):void {
     this.scrollToEnd.emit(val);
   }
 
-  public highlighting(property:string, id:string) {
+  public highlighting(property:string, id:string):string {
     return Highlighting.inlineClass(property, id);
+  }
+
+  private autocompleteInputStream():Observable<unknown> {
+    if (!this.typeahead) {
+      return NEVER;
+    }
+
+    return this.typeahead.pipe(
+      filter(() => !!(this.defaultData || this.getOptionsFn)),
+      distinctUntilChanged(),
+      debounceTime(250),
+      tap(() => this.loading$.next(true)),
+      switchMap((queryString:string) => {
+        if (this.defaultData) {
+          return this.opAutocompleterService.loadData(queryString, this.resource, this.filters, this.searchKey);
+        }
+
+        if (this.getOptionsFn) {
+          return this.getOptionsFn(queryString);
+        }
+
+        return NEVER;
+      }),
+      tap(
+        () => this.loading$.next(false),
+        () => this.loading$.next(false),
+      ),
+    );
   }
 }

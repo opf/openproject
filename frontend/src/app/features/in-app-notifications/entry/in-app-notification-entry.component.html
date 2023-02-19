@@ -11,8 +11,8 @@
       </div>
 
       <a
-        class="op-ian-item--work-package-id-link op-link"
-        [class.op-link_inactive]="isMobile()"
+        class="op-ian-item--work-package-id-link spot-link"
+        [class.spot-link_inactive]="isMobile()"
         [attr.title]="workPackage.subject"
         uiSref="work-packages.show"
         [uiParams]="{workPackageId: workPackage.id}"
@@ -25,7 +25,7 @@
       >
         - <a
         class="op-ian-item--project-link"
-        [class.op-link_inactive]="isMobile()"
+        [class.spot-link_inactive]="isMobile()"
         [href]="project.showUrl"
         [textContent]="project.title"
         (click)="projectClicked($event)"
@@ -40,7 +40,7 @@
         class="op-ian-item--reason"
         *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
       >
-        {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
+        {{ item.key }}<ng-container *ngIf="!last">, </ng-container>
       </span>
       </div>
 
@@ -55,6 +55,7 @@
           *ngIf="!notification.readIAN"
           data-qa-selector="mark-as-read-button"
           class="op-ian-item--button icon-mark-read"
+          [title]="text.mark_as_read"
           (click)="markAsRead($event, aggregatedNotifications)"
           tabindex="0"
         >
@@ -86,25 +87,18 @@
     <div
       class="op-ian-item--bottom-line"
     >
-      <div
-        class="op-ian-item--date"
-        [title]="fixedTime"
-        [textContent]="relativeTime$ | async"
-      ></div>
-      <div>
-        <op-principal
-          class="op-ian-item--actors"
-          [principal]="actors[0]"
-          [hide-name]="false"
-          [hide-avatar]="true"
-          [link]="!isMobile()"
-        ></op-principal>
-        <span
-          *ngIf="actors.length > 1"
-        >
-          {{ text_for_additional_authors(actors.length - 1) }}
-        </span>
-      </div>
+      <ng-container *ngIf="{ showDateAlert: (showDateAlert$ | async) } as context">
+        <op-in-app-notification-date-alert
+          *ngIf="context.showDateAlert"
+          [workPackage]="workPackage"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-date-alert>
+        <op-in-app-notification-actors-line
+          *ngIf="!context.showDateAlert"
+          [notification]="notification"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-actors-line>
+      </ng-container>
     </div>
   </ng-container>
   <ng-template #workPackageLoading>

@@ -9,7 +9,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { StateService } from '@uirouter/core';
 import { skip } from 'rxjs/operators';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'widget-wp-table',
@@ -38,7 +38,7 @@ export class WidgetWpTableComponent extends AbstractWidgetComponent {
     protected urlParamsHelper:UrlParamsHelperService,
     protected readonly state:StateService,
     protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly apiV3Service:APIV3Service) {
+    protected readonly apiV3Service:ApiV3Service) {
     super(i18n, injector);
   }
 

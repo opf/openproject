@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +37,15 @@ module Members::Scopes
         not_locked
           .includes(:roles)
           .references(:roles)
-          .where(roles: { assignable: true })
+          .where(assignable_permission_exists)
+      end
+
+      def assignable_permission_exists
+        RolePermission
+          .where('role_permissions.role_id = roles.id')
+          .where(permission: 'work_package_assigned')
+          .arel
+          .exists
       end
     end
   end

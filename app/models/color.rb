@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +30,14 @@ class Color < ApplicationRecord
   self.table_name = 'colors'
 
   has_many :planning_element_types, class_name: 'Type',
-                                    foreign_key: 'color_id',
                                     dependent: :nullify
 
   before_validation :normalize_hexcode
 
-  validates_presence_of :name, :hexcode
+  validates :name, :hexcode, presence: true
 
-  validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
-  validates_format_of :hexcode, with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? }
+  validates :name, length: { maximum: 255, unless: lambda { |e| e.name.blank? } }
+  validates :hexcode, format: { with: /\A#[0-9A-F]{6}\z/, unless: lambda { |e| e.hexcode.blank? } }
 
   ##
   # Returns the best contrasting color, either white or black

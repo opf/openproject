@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +28,15 @@
 
 module API
   module Utilities
+    # PayloadRepresenter responsibility is to parse user params input and render
+    # only the writable attributes.
+    #
+    # The `UpdateContract` or the `CreateContract` is used to filter out read
+    # only attributes from the input parameters. Guessing is done by checking if
+    # the record is a new record.
+    #
+    # This module is intended to be included in a dedicated PayloadRepresenter
+    # class inheriting from the non-payload representer.
     module PayloadRepresenter
       def self.included(base)
         base.extend(ClassMethods)
@@ -42,24 +49,27 @@ module API
             next
           end
 
-          writeable = property[:writeable]
-          if writeable == false
+          # Note: `:writeable` is not a typo, it's used by declarative gem
+          writable = property[:writeable]
+          if writable == false
             property.merge!(readable: false)
           end
 
           # Only filter unwritable if not a lambda
-          unless writeable&.respond_to?(:call)
-            add_filter(property, UnwriteablePropertyFilter)
+          unless writable.respond_to?(:call)
+            add_filter(property, UnwritablePropertyFilter)
           end
         end
       end
 
-      class UnwriteablePropertyFilter
-        def self.call(input, options)
-          writeable_attr = options[:decorator].writeable_attributes
+      module UnwritablePropertyFilter
+        module_function
+
+        def call(input, options)
+          writable_attr = options[:decorator].writable_attributes
 
           as = options[:binding][:as].()
-          if writeable_attr.include?(as)
+          if writable_attr.include?(as)
             input
           else
             ::Representable::Pipeline::Stop
@@ -67,12 +77,14 @@ module API
         end
       end
 
-      class LinkRenderBlock
-        def self.call(input, options)
-          writeable_attr = options[:decorator].writeable_attributes
+      module LinkRenderBlock
+        module_function
+
+        def call(input, options)
+          writable_attr = options[:decorator].writable_attributes
 
           input.reject do |link|
-            link.rel && !writeable_attr.include?(link.rel.to_s)
+            link.rel && writable_attr.exclude?(link.rel.to_s)
           end
         end
       end
@@ -96,8 +108,8 @@ module API
         contract_class(represented).present?
       end
 
-      def writeable_attributes
-        @writeable_attributes ||= begin
+      def writable_attributes
+        @writable_attributes ||= begin
           contract = contract_class(represented)
 
           if contract
@@ -126,7 +138,7 @@ module API
       private
 
       def contract_class(represented)
-        return nil unless represented&.respond_to?(:new_record?)
+        return nil unless represented.respond_to?(:new_record?)
 
         contract_namespace = represented.class.name.pluralize
 

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,6 +35,7 @@ import {
 import { take } from 'rxjs/operators';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { SelectEditFieldComponent } from './select-edit-field/select-edit-field.component';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Component({
   templateUrl: './work-package-edit-field.component.html',
@@ -62,6 +63,15 @@ export class WorkPackageEditFieldComponent extends SelectEditFieldComponent {
 
   public get typeahead() {
     return this.requests.input$;
+  }
+
+  protected fetchAllowedValueQuery(query?:string):Promise<CollectionResource> {
+    if (this.name === 'parent') {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      return this.schema.allowedValues.$link.$fetch({ query }) as Promise<CollectionResource>;
+    }
+
+    return super.fetchAllowedValueQuery(query);
   }
 
   protected allowedValuesFilter(query?:string):{} {

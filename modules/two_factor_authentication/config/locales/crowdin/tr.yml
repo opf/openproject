@@ -72,8 +72,8 @@ tr:
       text_2fa_enabled: 'Her oturum açıldığında, bu kullanıcıdan varsayılan 2FA cihazından bir OTP belirteci girmesi istenir.'
       text_2fa_disabled: "Kullanıcı, 'Hesabım sayfam' üzerinden bir 2FA cihazı kurmadı"
     upsale:
-      title: 'İki faktörlü kimlik doğrulama kurumsal bir özelliktir'
-      description: 'Dahili veya harici doğrulama mekanizmalarınızı ikinci bir faktörle güçlendirin.'
+      title: 'İki faktörlü kimlik doğrulama'
+      description: 'Tüm proje üyelerine iki faktörlü kimlik doğrulama sunarak (veya zorunlu kılarak) OpenProject bulut sunucunuzun güvenliğini güçlendirin.'
     backup_codes:
       none_found: Bu hesap için yedek kod yok.
       singular: Yedek kod
@@ -136,8 +136,6 @@ tr:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS gönderimi başarısız oldu.'
       voice_delivery_failed: 'MessageBird sesli arama başarısız oldu.'
-    restdt:
-      delivery_failed_with_code: 'Jeton gönderimi başarısız. (Hata kodu %{code})'
     strategies:
       totp: 'Kimlik doğrulayıcı uygulama'
       sns: 'Amazon SNS'

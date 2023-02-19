@@ -10,6 +10,6 @@ es:
         Cargue su propio avatar personalizado de 128 × 128 píxeles. Si se agregan archivos más grandes, se cambiará el tamaño y se recortará para que coincida.
         Después de seleccionar una imagen, se mostrará una vista previa del avatar antes de cargarlo.
       error_image_too_large: "La imagen es demasiado grande."
-      wrong_file_format: "Los formatos permitidos son JPG, PNG y GIF"
-      empty_file_error: "Cargue un archivo de imagen válido (JPG, PNG o GIF)"
+      wrong_file_format: "Los formatos permitidos son jpg, png y gif"
+      empty_file_error: "Cargue un formato de imagen válido (jpg, png o gif)"
 

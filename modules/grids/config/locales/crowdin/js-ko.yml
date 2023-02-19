@@ -5,8 +5,8 @@ ko:
       remove: '위젯 제거'
       configure: '위젯 구성'
       upsale:
-        text: "작업 패키지 그래프 위젯 같은 일부 위젯은 다음에서만 사용 가능합니다: "
-        link: 'Enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: '사용자 지정 텍스트'
@@ -31,10 +31,13 @@ ko:
           no_results: '프로젝트에 대한 사용자 지정 필드가 정의되지 않았습니다.'
         project_status:
           title: '프로젝트 상태'
+          not_started: '시작되지 않음'
           on_track: '정상 상태'
           off_track: '비정상 상태'
           at_risk: '위험 상태'
           not_set: '설정되지 않음'
+          finished: '마침'
+          discontinued: '중단됨'
         subprojects:
           title: '하위 프로젝트'
           no_results: '하위 프로젝트가 없습니다.'

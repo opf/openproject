@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,36 +37,9 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   private
 
   def render_projects_dropdown
-    label = !!(@project && !@project.name.empty?) ? @project.name : t(:label_select_project)
-    render_menu_dropdown_with_items(
-      label: label,
-      label_options: {
-        id: 'projects-menu',
-        accesskey: OpenProject::AccessKeys.key_for(:project_search),
-        span_class: 'ellipsis'
-      },
-      items: project_items,
-      options: {
-        drop_down_class: 'drop-down--projects'
-      }
-    ) do
-      content_tag(:li, id: 'project-search-container') do
-        angular_component_tag('project-menu-autocomplete')
-      end
+    content_tag(:li, class: 'op-app-menu--item', title: I18n.t(:label_project_view_all)) do
+      angular_component_tag('op-header-project-select')
     end
-  end
-
-  def project_items
-    [project_index_item]
-  end
-
-  def project_index_item
-    Redmine::MenuManager::MenuItem.new(
-      :list_projects,
-      main_app.projects_path,
-      caption: t(:label_project_view_all),
-      icon: "icon-show-all-projects icon4"
-    )
   end
 
   include OpenProject::StaticRouting::UrlHelpers

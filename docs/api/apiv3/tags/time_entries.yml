@@ -10,13 +10,13 @@ description: |-
 
   ## Linked Properties
 
-  | Link          | Description                                                                                                                             | Type                | Constraints           | Supported operations | Condition                                 |
-  | :-----------: | --------------------------------------------------------------                                                                          | -------------       | --------------------- | -------------------- | ----------------------------------------- |
-  | self          | This time entry                                                                                                                         | TimeEntry           | not null              | READ                 |                                           |
-  | project       | The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved. | Project             | not null              | READ / WRITE         |                                           |
-  | workPackage   | The work package the time entry is created on                                                                                           | WorkPackage         |                       | READ / WRITE         |                                           |
-  | user          | The user the time entry tracks expenditures for                                                                                         | User                | not null              | READ                 |                                           |
-  | activity      | The time entry activity the time entry is categorized as                                                                                | TimeEntriesActivity | not null              | READ / WRITE         |                                           |
+  | Link          | Description                                                                                                                             | Type                | Constraints           | Supported operations | Condition                                                 |
+  | :-----------: | --------------------------------------------------------------                                                                          | -------------       | --------------------- | -------------------- | --------------------------------------------------------- |
+  | self          | This time entry                                                                                                                         | TimeEntry           | not null              | READ                 |                                                           |
+  | project       | The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved. | Project             | not null              | READ / WRITE         |                                                           |
+  | workPackage   | The work package the time entry is created on                                                                                           | WorkPackage         |                       | READ / WRITE         |                                                           |
+  | user          | The user the time entry tracks expenditures for                                                                                         | User                | not null              | READ / WRITE          | **Permission**: Log time for other users permission      |
+  | activity      | The time entry activity the time entry is categorized as                                                                                | TimeEntriesActivity | not null              | READ / WRITE         |                                                           |
 
   Depending on custom fields defined for time entries, additional links might exist.
 
@@ -28,10 +28,10 @@ description: |-
   | :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
   | id           | Time entries' id                                          | Integer  | x > 0                                                | READ                 |                                                             |
   | comment      | A text provided by the user detailing the time entry      | String   | max 255 characters                                   | READ / WRITE         |                                                             |
-  | spentOn      | The date the expenditure is booked for                    | Date     |                                                      | READ / WRITE         |                                                             |
+  | spentOn      | The date the expenditure is booked for                    | Date     |                                                      | READ / WRITE         |                                                             |
   | hours        | The time quantifying the expenditure                      | Time     |                                                      | READ / WRITE         |                                                             |
-  | createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
-  | updatedAt    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
+  | createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
+  | updatedAt    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
 
   Depending on custom fields defined for time entries, additional properties might exist.
 name: Time Entries

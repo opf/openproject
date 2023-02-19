@@ -1,12 +1,14 @@
 class FixAvailableLanguages < ActiveRecord::Migration[5.2]
   def up
-    Setting.reset_column_information
+    if Setting.exists?(name: 'available_languages')
+      Setting.reset_column_information
 
-    Setting.available_languages = Setting.available_languages.map do |lang|
-      if lang == 'zh'
-        'zh-CN'
-      else
-        lang
+      Setting.available_languages = Setting.available_languages.map do |lang|
+        if lang == 'zh'
+          'zh-CN'
+        else
+          lang
+        end
       end
     end
 
@@ -14,13 +16,15 @@ class FixAvailableLanguages < ActiveRecord::Migration[5.2]
   end
 
   def down
-    Setting.reset_column_information
+    if Setting.exists?(name: 'available_languages')
+      Setting.reset_column_information
 
-    Setting.available_languages = Setting.available_languages.map do |lang|
-      if lang == 'zh-CN'
-        'zh'
-      else
-        lang
+      Setting.available_languages = Setting.available_languages.map do |lang|
+        if lang == 'zh-CN'
+          'zh'
+        else
+          lang
+        end
       end
     end
 

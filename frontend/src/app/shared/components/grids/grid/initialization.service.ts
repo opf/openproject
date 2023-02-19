@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class GridInitializationService {
-  constructor(readonly apiV3Service:APIV3Service,
+  constructor(readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService) {
   }
 

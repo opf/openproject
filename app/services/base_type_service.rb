@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,10 +38,10 @@ class BaseTypeService
     self.contract_class = ::Types::BaseContract
   end
 
-  def call(params, options, &block)
+  def call(params, options, &)
     result = update(params, options)
 
-    block_with_result(result, &block)
+    block_with_result(result, &)
   end
 
   private
@@ -53,17 +51,7 @@ class BaseTypeService
     errors = type.errors
 
     Type.transaction do
-      set_scalar_params(params)
-
-      # Only set attribute groups when it exists
-      # (Regression #28400)
-      unless params[:attribute_groups].nil?
-        set_attribute_groups(params)
-      end
-
-      set_active_custom_fields
-
-      success, errors = validate_and_save(type, user)
+      success, errors = set_params_and_validate(params)
       if success
         after_type_save(params, options)
       else
@@ -71,13 +59,33 @@ class BaseTypeService
       end
     end
 
-    ServiceResult.new(success: success,
-                      errors: errors,
+    ServiceResult.new(success:,
+                      errors:,
                       result: type)
   rescue StandardError => e
-    ServiceResult.new(success: false).tap do |result|
+    ServiceResult.failure.tap do |result|
       result.errors.add(:base, e.message)
     end
+  end
+
+  def set_params_and_validate(params)
+    # Only set attribute groups when it exists
+    # (Regression #28400)
+    unless params[:attribute_groups].nil?
+      set_attribute_groups(params)
+    end
+
+    # This should go before `set_scalar_params` call to get the
+    # project_ids, custom_field_ids diffs from the type and the params
+    set_active_custom_fields
+
+    if params[:project_ids].present?
+      set_active_custom_fields_for_project_ids(params[:project_ids])
+    end
+
+    set_scalar_params(params)
+
+    validate_and_save(type, user)
   end
 
   def set_scalar_params(params)
@@ -122,7 +130,7 @@ class BaseTypeService
 
     [
       name,
-      group['attributes'].map { |attr| attr['key'] }
+      group['attributes'].pluck('key')
     ]
   end
 
@@ -132,12 +140,16 @@ class BaseTypeService
 
     query = Query.new_default(name: "Embedded table: #{name}")
 
+    query.extend(OpenProject::ChangedBySystem)
+    query.change_by_system do
+      query.user = User.system
+    end
+
     ::API::V3::UpdateQueryFromV3ParamsService
       .new(query, user)
       .call(props.with_indifferent_access)
 
     query.show_hierarchies = false
-    query.hidden = true
 
     [
       name,
@@ -150,16 +162,35 @@ class BaseTypeService
   # for this type. If a custom field is not in a group, it is removed from the
   # custom_field_ids list.
   def set_active_custom_fields
-    active_cf_ids = []
+    new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
+    type.custom_field_ids = active_custom_field_ids
+    set_active_custom_fields_for_projects(type.projects, new_cf_ids_to_add)
+  end
 
-    type.attribute_groups.each do |group|
-      group.members.each do |attribute|
-        if CustomField.custom_field_attribute? attribute
-          active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+  def active_custom_field_ids
+    @active_custom_field_ids ||= begin
+      active_cf_ids = []
+
+      type.attribute_groups.each do |group|
+        group.members.each do |attribute|
+          if CustomField.custom_field_attribute? attribute
+            active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+          end
         end
       end
+      active_cf_ids.uniq
     end
+  end
 
-    type.custom_field_ids = active_cf_ids.uniq
+  def set_active_custom_fields_for_projects(projects, custom_field_ids)
+    projects.each { |p| p.work_package_custom_field_ids |= custom_field_ids }
+  end
+
+  def set_active_custom_fields_for_project_ids(project_ids)
+    new_project_ids_to_activate_cfs = project_ids.reject(&:empty?).map(&:to_i) - type.project_ids
+    set_active_custom_fields_for_projects(
+      Project.where(id: new_project_ids_to_activate_cfs),
+      type.custom_field_ids
+    )
   end
 end

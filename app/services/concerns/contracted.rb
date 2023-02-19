@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,11 +44,11 @@ module Contracted
     private
 
     def instantiate_contract(object, user, options: {})
-      contract_class.new(object, user, options: options)
+      contract_class.new(object, user, options:)
     end
 
     def validate_and_save(object, user, options: {})
-      validate_and_yield(object, user, options: options) do
+      validate_and_yield(object, user, options:) do
         object.save
       end
     end
@@ -59,18 +57,18 @@ module Contracted
     # Call the given block and assume object is erroneous if
     # it does not return truthy
     def validate_and_yield(object, user, options: {})
-      contract = instantiate_contract(object, user, options: options)
+      contract = instantiate_contract(object, user, options:)
 
-      if !contract.validate
-        [false, contract.errors]
-      else
+      if contract.validate
         success = !!yield
         [success, object&.errors]
+      else
+        [false, contract.errors]
       end
     end
 
     def validate(object, user, options: {})
-      validate_and_yield(object, user, options: options) do
+      validate_and_yield(object, user, options:) do
         # No object validation is necessary at this point
         # as object.valid? is already called in the contract
         true

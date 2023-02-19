@@ -2,14 +2,13 @@
 fr:
   js:
     boards:
+      create_new: 'Créer un nouveau tableau'
       label_unnamed_board: 'Tableau sans nom'
       label_unnamed_list: 'Liste sans nom'
       label_board_type: 'Type de tableau'
       upsale:
-        teaser_text: 'Améliorez votre gestion de projet agile avec cette vue des tableaux flexible. Créez autant de tableaux que vous voulez pour tout ce que vous souhaitez conserver.'
-        upgrade_to_ee_text: 'Les tableaux sont une fonctionnalité du plan Enterprise. Veuillez passer à un forfait payant.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Passer au plan supérieur'
-        personal_demo: 'Contactez-nous pour une démo'
       lists:
         delete: 'Supprimer la liste'
       version:
@@ -63,7 +62,7 @@ fr:
           status: Statut
           version: Version
           subproject: Sous-projet
-          subtasks: Parent-Enfant
+          subtasks: Parent-child
           basic: Basique
         select_attribute: "Attribut d'action"
       add_list_modal:

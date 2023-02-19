@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +55,7 @@ class Document < ApplicationRecord
 
   scope :with_attachments, lambda {
     includes(:attachments)
-      .where('attachments.container_id is not NULL')
+      .where.not(attachments: { container_id: nil })
       .references(:attachments)
   }
 

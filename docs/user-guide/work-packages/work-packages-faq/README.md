@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages FAQ
   priority: 001
 description: Frequently asked questions regarding work packages
-robots: index, follow
 keywords: work packages FAQ, tickets, how to, task
 ---
 
@@ -41,7 +40,22 @@ You can set the assignee filter in the work package list to "Assignee and belong
 
 ### How can I track the progress of my work package?
 
-You can track the progress either manually by changing the progress bar in the work package details yourself. Or you can track it automatically by assigning the progress in % to the status of a work package. Please find the guide on how to do the automatic tracking (in bullet point 5) [here](../../../system-admin-guide/manage-work-packages/work-package-settings).
+You can track the progress either manually by changing the progress 
+bar in the work package details yourself. Or you can track it 
+automatically by assigning the progress in % to each status of 
+a work package. Please find the guide on how to do the automatic 
+tracking (in bullet point 5) 
+[here](../../../system-admin-guide/manage-work-packages/work-package-settings).
+
+### How can I track the progress of work packages with children?
+
+OpenProject automatically calculates the progress of work packages with children. 
+It sums up the progress of the children weighted by the Estimated time 
+of each child. OpenProject uses 1 hour as the default value if Estimated time 
+is empty. When adding the progress bar to a work package hierarchy view, 
+please always add the Estimated time column as well so that you can track 
+the calculation.
+Estimated time manually added to work packages with children is ignored.
 
 ### Can I set multiple parents for one work package?
 
@@ -59,23 +73,24 @@ One possible solution: If you receive this error message when trying to create a
 
 You can change this in your account settings. Please find out more [here](../../../getting-started/my-account/#change-the-order-to-display-comments).
 
-### Why are changes on parent work packages which are triggered by changes to child work packages not aggregated?
+### Why are changes on parent work packages which are triggered by making changes to a child work package not aggregated? 
 
 OpenProject aggregates work package activities only if:
 
 - They are within the defined time frame
-
 - Are made by the same user
 - If at most one comment is part of the aggregate (because it is hard to merge two bodies of text)
 
-As an inherited change is always commented ("Updated automatically by...") they can basically never be aggregated.
+As an inherited change is always commented ("Updated automatically by...") they can not be aggregated.
 
 ### How can I fill/populate the position field/column for work packages?
 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package list.
 
+### Can I restore a deleted workpackage?
 
+There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
 
 ## Filters and queries
 
@@ -107,8 +122,6 @@ There are two reasons for this: 1. Potentially, a lot of values are displayed in
 
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
 This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/projects/openproject/work_packages/34925/activity).
-
-
 
 
 
@@ -177,7 +190,9 @@ In the work package list: Right-click on the work package and choose **Change pr
 
 In the details view of the work package: Click on **More** (button with three dots in the upper right hand corner) and the on **Change project**.
 
+### Can I group tasks into folders?
 
+There are no folders for work packages. To group work packages, such as tasks, you can use the [filter and grouping options](../work-package-table-configuration/#work-package-table-configuration) and [save the filters](../work-package-table-configuration/#save-work-package-views). You can also define all related work packages as children of the same parent work package (e.g. a phase). You can indent the hierarchy for work packages in the work packages list (with a right mouse click -> *Indent hierarchy*) to add them as children to another work package, for example a phase. This will then also be displayed in the Gantt chart. Alternatively, you can use the [work package categories](../../projects/project-settings/work-package-categories/#manage-work-package-categories) or a custom field to filter and group work packages. Also, you can create multiple projects to group different topics.
 
 ## Custom fields
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,67 +24,67 @@ ca:
   activerecord:
     attributes:
       meeting:
-        location: "Location"
+        location: "Ubicació"
         duration: "Durada"
         participants: "Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        participants_attended: "Assistents"
+        participants_invited: "Convidats"
+        start_time: "Hora"
+        start_time_hour: "Hora d'inici"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "no és una hora vàlida. El format requerit és: HH:MM"
     models:
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
-  description_attended: "attended"
+      meeting_minutes: "Acta"
+  description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
-  error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
-  label_meeting_plural: "Meetings"
-  label_meeting_new: "New Meeting"
-  label_meeting_edit: "Edit Meeting"
+    meeting: Reunió editada
+    meeting_agenda: Agenda de la reunió editada
+    meeting_agenda_closed: Agenda de la reunió tancada
+    meeting_agenda_opened: Agenda de la reunió oberta
+    meeting_minutes: Acta de la reunió editada
+    meeting_minutes_created: Acta de la reunió creada
+  error_notification_with_errors: "Error en enviar la notificació. Els següents recipients no han pogut ser notificats: %{recipients}"
+  label_meeting: "Reunió"
+  label_meeting_plural: "Reunions"
+  label_meeting_new: "Nova reunió"
+  label_meeting_edit: "Editar reunió"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutes"
+  label_meeting_minutes: "Acta"
   label_meeting_close: "Tanca"
   label_meeting_open: "Obre"
-  label_meeting_agenda_close: "Close the agenda to begin the Minutes"
-  label_meeting_date_time: "Date/Time"
-  label_meeting_diff: "Diff"
-  label_notify: "Send for review"
-  label_icalendar: "Send iCalendar"
+  label_meeting_agenda_close: "Tanca l'agenda per començar l'acta"
+  label_meeting_date_time: "Data/Hora"
+  label_meeting_diff: "Diferència"
+  label_notify: "Envia per revisar"
+  label_icalendar: "Envia iCalendar"
   label_version: "Versió"
   label_time_zone: "Zona horària"
   label_start_date: "Data d'inici"
   meeting:
-    copied: "Copied from Meeting #%{id}"
-  notice_successful_notification: "Notification sent successfully"
-  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
-  permission_create_meetings: "Create meetings"
-  permission_edit_meetings: "Edit meetings"
-  permission_delete_meetings: "Delete meetings"
-  permission_view_meetings: "View meetings"
-  permission_create_meeting_agendas: "Manage agendas"
-  permission_close_meeting_agendas: "Close agendas"
-  permission_send_meeting_agendas_notification: "Send review notification for agendas"
-  permission_create_meeting_minutes: "Manage minutes"
-  permission_send_meeting_minutes_notification: "Send review notification for minutes"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
-  project_module_meetings: "Meetings"
-  text_duration_in_hours: "Duration in hours"
-  text_in_hours: "in hours"
-  text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
+    copied: "Copiat de la reunió #%{id}"
+  notice_successful_notification: "Notificació enviada correctament"
+  notice_timezone_missing: No s'ha configurat la zona horària i la %{zone} és assumida. Per seleccionar la teva zona horària, si us plau, fes clic aquí.
+  permission_create_meetings: "Crea reunions"
+  permission_edit_meetings: "Edita reunions"
+  permission_delete_meetings: "Elimina reunions"
+  permission_view_meetings: "Veure reunions"
+  permission_create_meeting_agendas: "Administrar agendes"
+  permission_close_meeting_agendas: "Tancar agendes"
+  permission_send_meeting_agendas_notification: "Enviar una notificació de revisió per agendes"
+  permission_create_meeting_minutes: "Administra actes"
+  permission_send_meeting_minutes_notification: "Enviar una notificació de revisió per actes"
+  permission_meetings_send_invite: "Convida usuaris a reunions"
+  permission_send_meeting_agendas_icalendar: "Envia una agenda de reunió com a entrada de calendari"
+  project_module_meetings: "Reunions"
+  text_duration_in_hours: "Duració en hores"
+  text_in_hours: "en hores"
+  text_meeting_agenda_for_meeting: 'agenda per la reunió "%{meeting}"'
+  text_meeting_closing_are_you_sure: "Segur que vols tancar aquesta reunió?"
   text_meeting_agenda_open_are_you_sure: "Això sobreescriurà tots els canvis a l'acte! Vols continuar?"
-  text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
-  text_review_meeting_agenda: "%{author} has put the %{link} up for review."
-  text_review_meeting_minutes: "%{author} has put the %{link} up for review."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_meeting_minutes_for_meeting: 'actes per la reunió "%{meeting}"'
+  text_review_meeting_agenda: "%{author} ha afegit el %{link} per a revisió."
+  text_review_meeting_minutes: "%{author} ha afegit el %{link} per a revisió."
+  text_notificiation_invited: "Aquest correu compte una entrada ICS per a reunió següent:"

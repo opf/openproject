@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -73,7 +71,7 @@ module DevelopmentData
         user = User.find_by!(login: id)
         role = Role.find_by!(name: I18n.t("default_role_#{id}"))
 
-        projects.each { |p| Member.create! project: p, user: user, roles: [role] }
+        projects.each { |p| Member.create! project: p, user:, roles: [role] }
       end
     end
 
@@ -82,7 +80,7 @@ module DevelopmentData
         version_data = project_data_for('scrum-project', 'versions')
         if version_data.is_a? Array
           version_data.each do |attributes|
-            p.versions << Version.create!(
+            p.versions.create!(
               name: attributes[:name],
               status: attributes[:status],
               sharing: attributes[:sharing]
@@ -99,11 +97,16 @@ module DevelopmentData
 
     def project_data(identifier)
       {
-        name: identifier.humanize,
-        identifier: identifier,
+        name: project_name(identifier),
+        identifier:,
         enabled_module_names: project_modules,
         types: Type.all
       }
+    end
+
+    def project_name(identifier)
+      _dev, *parts = identifier.split('-')
+      "[dev] #{parts.join(' ').capitalize}"
     end
 
     def project_modules

@@ -6,13 +6,15 @@ sidebar_navigation:
 
 # Configuring a custom web server
 
-Both the packaged and docker-based installations ship with Apache as the default web server, because the Git and SVN repository integrations (when OpenProject manages the repositories) only work with that web server.
+Both the packaged and docker-based installations ship with Apache2 as the default web server, because the Git and SVN repository integrations (when OpenProject manages the repositories) only work with Apache2.
 
-For a packaged-based installation, if for instance you wish to use NginX, you will need to skip the web server installation when asked in the initial configuration, and then configure NginX yourself so that it forwards traffic to the OpenProject web process (listening by default on 127.0.0.1:6000).If using SSL/TLS, please ensure you set the header value `X-Forwarded-Proto https` so OpenProject can correctly produce responses.
+For a packaged-based installation, if for instance you wish to use NginX, you will need to skip the web server installation when asked in the initial configuration, and then configure NginX yourself so that it forwards traffic to the OpenProject web process (listening by default on 127.0.0.1:6000). If using SSL/TLS, please ensure you set the header value `X-Forwarded-Proto https` so OpenProject can correctly produce responses.
 
-For a docker-based installation, you will need to use the (recommended) Compose stack, which will allow you to swap the `proxy` container with whatever server you want to use.
+For a docker-based installation, you will need to use the (recommended) docker-compose stack, which will allow you to swap the `proxy` container with whatever server you want to use.
 
-For instance you could define a new proxy server like this:
+The following example is for NginX as a custom web server:
+
+For instance you could define a new proxy server like this in the `docker-compose.override.yml`:
 
 ```yaml
 services:

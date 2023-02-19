@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ hr:
         main-menu-hover-font-color: "Main menu font on hover"
         main-menu-border-color: "Main menu border"
       custom_colors: "Prilagođavanje boje"
-      customize: "Prilagodite instalaciju OpenProject s vlastitim logotipom. Napomena: Ovaj logo će biti dostupan javnosti."
-      enterprise_notice: "Kao posebno \"Hvala!\" za njihov financijski doprinos za razvoj OpenProject, ova malena funkcija dostupna je samo za Enterprise Edition pretplatnike."
+      customize: "Customize your OpenProject installation with your own logo and colors."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uređivanje boja odaberite Opcije"
       instructions:
         alternative-color: "Strong accent color, typically used for the most important button on a screen."
@@ -63,16 +64,28 @@ hr:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "Upload an Enterprise Edition support token"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        title: "Delete token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise on-premises Edition"
-      paste: "Paste your Enterprise Edition support token"
-      required_for_feature: "This feature is only available with an active Enterprise Edition support token."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Za više informacija kliknite ovdje."
       start_trial: 'Start free trial'
       book_now: 'Book now'
       get_quote: 'Get a quote'
+      buttons:
+        upgrade: "Upgrade now"
+        contact: "Contact us for a demo"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
+    journal_aggregation:
+      explanation:
+        text: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent and will also affect %{webhook_link} delay."
+        link: "webhook"
   announcements:
     show_until: Pokaži sve do
     is_active: trenutno prikazani
@@ -84,6 +97,8 @@ hr:
     show_preview: 'Preview text'
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
+    enterprise:
+      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
   auth_sources:
     index:
       no_results_content_title: Trenutno ne postoji mehanizam provjere autentičnosti.
@@ -123,6 +138,7 @@ hr:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -134,13 +150,18 @@ hr:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'none'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Plain unencrypted connection, no TLS negotiation."
-      simple_tls_description: "Implicit TLS encryption, but no certificate validation. Use with caution and implicit trust of the LDAP connection."
-      start_tls_description: "Explicit TLS encryption with full validation. Use for LDAP over TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         This section concerns the connection security of this LDAP authentication source. For more information, visit <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -161,8 +182,8 @@ hr:
     edit: 'Edit custom action %{name}'
     execute: 'Execute %{name}'
     upsale:
-      title: 'Custom actions is an Enterprise Edition feature'
-      description: 'Custom actions streamline everyday work by combining a set of individual steps into one button.'
+      title: 'Custom actions'
+      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before you can add them to this project.
@@ -195,6 +216,15 @@ hr:
     ignore_filenames: >
       Specify a list of names to ignore when processing attachments for incoming mails (e.g., signatures or icons). Enter one filename per line.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Project members'
+      overviews: 'Project overview'
+      queries: 'Work packages: saved views'
+      wiki_page_attachments: 'Wiki pages: attachments'
+      work_package_attachments: 'Work packages: attachments'
+      work_package_categories: 'Work packages: categories'
+      work_package_file_links: 'Work packages: file links'
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "Project cannot be deleted: %{errors}"
@@ -255,14 +285,13 @@ hr:
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
-        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user".
-        As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
+        All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Assign work to people that are not members of the project.
+      title: Placeholder users
       description: >
-        There are multiple scenarios where you want to assign work to people that are not member of your project. It could simply be that you still need to hire the correct person for the job. Or you just don't want to give that person access to the project's information but still want track tasks assigned to that person.
+        Placeholder users are a way to assign work packages to users who are not part of your project. They can be useful in a range of scenarios; for example, if you need to track tasks for a resource that is not yet named or available, or if you don’t want to give that person access to OpenProject but still want to track tasks assigned to them.
   prioritiies:
     edit:
       priority_color_text: |
@@ -292,6 +321,8 @@ hr:
     edit:
       settings: "Postavke"
       form_configuration: "Form configuration"
+      more_info_text_html: >
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekti"
       enabled_projects: "Omogućeni projekti"
       edit_query: "Edit table"
@@ -395,6 +426,7 @@ hr:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorij"
       comment:
@@ -451,9 +483,12 @@ hr:
         code: 'Status'
         explanation: 'Status description'
         codes:
+          not_started: 'Not started'
           on_track: 'On track'
           at_risk: 'At risk'
           off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
       query:
         column_names: "Stupci"
         relations_to_type_column: "Relations to %{type}"
@@ -464,7 +499,6 @@ hr:
       repository:
         url: "URL"
       role:
-        assignable: "Work packages can be assigned to users and groups in possession of this role in the respective project"
         permissions: "Dozvole"
       time_entry:
         activity: "Aktivnost"
@@ -510,20 +544,27 @@ hr:
         begin_deletion: "Početak brisanja"
         children: "Subelements"
         done_ratio: "Napredak (%)"
+        duration: "Duration"
         end_insertion: "Kraj umetanja"
         end_deletion: "Kraj brisanja"
-        version: "Verzija"
+        ignore_non_working_days: "Ignore non working days"
+        include_non_working_days:
+          title: 'Working days'
+          false: 'working days only'
+          true: 'include non-working days'
         parent: "Matični"
         parent_issue: "Matični"
         parent_work_package: "Matični"
         priority: "Prioritet"
         progress: "Napredak (%)"
+        readonly: "Read only"
         schedule_manually: "Manual scheduling"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
         subproject: "Potprojekt"
         time_entries: "Vrijeme pristupa"
         type: "Tip"
+        version: "Verzija"
         watcher: "Nadglednik"
       'doorkeeper/application':
         uid: "Client ID"
@@ -547,7 +588,7 @@ hr:
         confirmation: "ne odgovara %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "ne postoji."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -555,6 +596,7 @@ hr:
         even: "mora biti izjednačeno."
         exclusion: "je rezerviran."
         file_too_large: "je prevelik (maksimalna veličina iznosi %{count} bajta)."
+        filter_does_not_exist: "filter does not exist."
         format: "does not match the expected format '%{expected}'."
         format_nested: "does not match the expected format '%{expected}' at path '%{path}'."
         greater_than: "mora biti veće od %{count}."
@@ -589,8 +631,15 @@ hr:
         unknown_property: "is not a known property."
         unknown_property_nested: "has the unknown path '%{path}'."
         unremovable: "cannot be removed."
+        url_not_secure_context: >
+          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "je krive duljine (mora biti %{count} znakova)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -620,7 +669,7 @@ hr:
               fragment_present: 'cannot contain a fragment.'
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
-              secured_uri: 'must be an HTTPS/SSL URI.'
+              secured_uri: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.'
               forbidden_uri: 'is forbidden by the server.'
             scopes:
               not_match_configured: "doesn't match available scopes."
@@ -641,10 +690,6 @@ hr:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
-        notification_settings:
-          only_one_global_setting: 'There must only be one global notification setting.'
-          email_alerts_global: 'The email notification settings can only be set globally.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -704,6 +749,11 @@ hr:
           attributes:
             permissions:
               dependency_missing: "need to also include '%{dependency}' as '%{permission}' is selected."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'At least one day of the week must be defined as a working day.'
+              previous_working_day_changes_unprocessed: 'The previous changes to the working days configuration have not been applied yet.'
         time_entry:
           attributes:
             hours:
@@ -714,6 +764,16 @@ hr:
               invalid_range: "can only be a valid date range."
             daily_reminders:
               full_hour: "can only be configured to be delivered at a full hour."
+            notification_settings:
+              only_one_global_setting: 'There must only be one global notification setting.'
+              email_alerts_global: 'The email notification settings can only be set globally.'
+              format: "%{message}"
+              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -721,8 +781,16 @@ hr:
         work_package:
           is_not_a_valid_target_for_time_entries: "Radni paket #%{id} nije nadređen za ponovno dodjeljivanje vremena."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nije na datum početka, međutim potrebno je za ključne točke."
+              cannot_be_null: "can not be set to null as start date and duration are known."
+            duration:
+              larger_than_dates: "is larger than the interval between the start and the finish date."
+              smaller_than_dates: "is smaller than the interval between the start and the finish date."
+              not_available_for_milestones: "is not available for milestone typed work packages."
+              cannot_be_null: "can not be set to null as start date and finish date are known."
             parent:
               cannot_be_milestone: "ne može biti ključna točka."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -730,6 +798,7 @@ hr:
               not_a_valid_parent: "je nevažeće."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
+              cannot_be_null: "can not be set to null as finish date and duration are known."
             status_id:
               status_transition_invalid: "nije valjano, zato jer ne postoji valjan prijelaz s starog na novi status za trenutne korisničke role."
               status_invalid_in_type: "is invalid because the current status does not exist in this type."
@@ -863,7 +932,7 @@ hr:
     id: "ID"
     is_default: "Zadane vrijednost"
     is_for_all: "Za sve projekte"
-    is_public: "Javno"
+    public: "Javno"
     #kept for backwards compatibility
     issue: "Radni paket"
     lastname: "Prezime"
@@ -873,7 +942,6 @@ hr:
     password: "Lozinka"
     priority: "Prioritet"
     project: "Projekt"
-    public: "Javno"
     responsible: "Accountable"
     role: "Role"
     roles: "Role"
@@ -887,9 +955,11 @@ hr:
     updated_on: "Ažurirano"
     uploader: "Uploader"
     user: "Korisnik"
+    value: "Value"
     version: "Verzija"
     work_package: "Radni paket"
   backup:
+    failed: "Backup failed"
     label_backup_token: "Backup token"
     label_create_token: "Create backup token"
     label_delete_token: "Delete backup token"
@@ -1210,11 +1280,11 @@ hr:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional features:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Prioriteti radnog paketa"
   enumeration_reported_project_statuses: "Priopćeni statusi projekta"
@@ -1236,9 +1306,10 @@ hr:
   error_cookie_missing: 'The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without.'
   error_custom_option_not_found: "Opcija ne postoji."
   error_enterprise_activation_user_limit: "Your account could not be activated (user limit reached). Please contact your administrator to gain access."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Failed to delete this entry.'
-  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "Invalid selected value."
   error_journal_attribute_not_present: "Journal does not contain attribute %{attribute}."
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
@@ -1323,10 +1394,10 @@ hr:
     blocks:
       community: "OpenProject Zajednica"
       upsale:
-        title: "Nadogradnja na izdanje Enterprise"
+        title: "Upgrade to Enterprise edition"
         more_info: "Više informacija"
     links:
-      upgrade_enterprise_edition: "Nadogradnja na izdanje Enterprise"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Korisnički priručnici"
       faq: "Često postavljana pitanja"
@@ -1348,7 +1419,9 @@ hr:
   menus:
     admin:
       mail_notification: "Obavijesti e-mailom"
-      incoming_outgoing: "Incoming & Outgoing"
+      mails_and_notifications: "Emails and notification"
+      aggregation: 'Aggregation'
+      api_and_webhooks: "API and webhooks"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1356,7 +1429,7 @@ hr:
       no_results:
         title: "Trenutno ne postoji pristupni token za prikaz"
         description: "Svi pristupni tokeni su onemogućeni. Za ponovno omogućavanje, koristite administracijski izbornik."
-      access_token: "Pristupni token"
+      access_tokens: "Access tokens"
       headers:
         action: "Radnja"
         expiration: "Vrijedi do"
@@ -1374,17 +1447,11 @@ hr:
     update_info_mail:
       body: >
         We are excited to announce the release of OpenProject 12.0. It's a major release that will hopefully significantly improve the way you use OpenProject.
-
         Starting with this release, we are introducing in-app notifications. From now on, you will receive notifications for updates to work packages directly in OpenProject. You can mark these notifications as read, reply to a comment or even directly modify work package attributes without leaving the notification center.
-
         This also means that we will no longer be using emails for notifications. We think the new notification center is a better place to view and act upon these updates. Nevertheless, if you would like continue receiving updates via email, you can choose to receive daily email reminders at particular times of your choosing.
-
         Please make sure to verify your new default notification settings, and set your preferences for notifications and email reminders via your account settings. You can do this through the “Change email settings” button bellow.
-
         We hope you find in-app notifications useful and that they makes you even more productive.
-
-        Sincerely,
-        The OpenProject team
+        Sincerely, The OpenProject team
       body_header: 'Version 12.0 with Notification Center'
       body_subheader: 'Vijesti'
       subject: 'Important changes to notifications with the release of 12.0'
@@ -1457,7 +1524,6 @@ hr:
   label_consent_settings: "Pristanak korisnika"
   label_wiki_menu_item: Element Wiki izbornika
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
-  label_select_project: "Odaberi projekt"
   label_required_disk_storage: "Potraban diskovni prostor"
   label_send_invitation: Pošalji pozivnicu
   label_change_plural: "Promjene"
@@ -1523,6 +1589,7 @@ hr:
   label_diff: "diff"
   label_diff_inline: "u liniji"
   label_diff_side_by_side: "jedno uz drugo"
+  label_digital_accessibility: 'Digital accessibility (DE)'
   label_disabled: "onemogućeno"
   label_display: "Prikaz"
   label_display_per_page: "Po stranici: %{value}"
@@ -1546,7 +1613,7 @@ hr:
   label_enumerations: "Numeriranja"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} booked active users"
-  label_enterprise_edition: "Enterprise verzija"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Okruženje"
   label_estimates_and_time: "Estimates and time"
   label_equals: "je"
@@ -1599,6 +1666,7 @@ hr:
   label_index_by_title: "Indeksiraj po naslovu"
   label_information: "Informacija"
   label_information_plural: "Informacija"
+  label_installation_guides: 'Installation guides'
   label_integer: "Integer"
   label_internal: "Unutarnji"
   label_introduction_video: "Introduction video"
@@ -1642,6 +1710,10 @@ hr:
   label_member_plural: "Članovi"
   lable_membership_added: 'Member added'
   lable_membership_updated: 'Member updated'
+  label_menu_badge:
+    pre_alpha: 'pre-alpha'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "Naziv stavke izbornika"
   label_message: "Poruka"
   label_message_last: "Posljednja poruka"
@@ -1731,7 +1803,6 @@ hr:
   label_product_version: "Verzija proizvoda"
   label_professional_support: "Profesionalna Podrška"
   label_profile: "Profil"
-  label_project_all: "Svi projekti"
   label_project_count: "Ukupan broj projekata"
   label_project_copy_notifications: "Slanje obavijesti e-mailom tijekom kopiranja projekta"
   label_project_latest: "Najnoviji projekti"
@@ -1740,6 +1811,7 @@ hr:
   label_project_new: "Novi projekt"
   label_project_plural: "Projekti"
   label_project_settings: "Postavke projekta"
+  label_project_storage_plural: "Storages"
   label_projects_storage_information: "%{count} projekt koristi %{storage} diskovnog prostora"
   label_project_view_all: "Pogledaj sve projekte"
   label_project_show_details: "Prikaži detalje o projektu"
@@ -1747,7 +1819,6 @@ hr:
   label_public_projects: "Javni projekti"
   label_query_new: "Novi upit"
   label_query_plural: "Prilagođeni upiti"
-  label_query_menu_item: "Dohvati stavku izbornika"
   label_read: "Pročitajte..."
   label_register: "Kreirajte novi račun"
   label_register_with_developer: "Registrirajte se kao developer"
@@ -1845,7 +1916,7 @@ hr:
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
   label_user: "Korisnik"
-  label_user_and_permission: "Users & Permissions"
+  label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}-a aktivnost"
   label_user_anonymous: "Anonimno"
@@ -1907,6 +1978,7 @@ hr:
   label_workflow: "Tijek rada"
   label_workflow_plural: "Tijek rada"
   label_workflow_summary: "Sažetak"
+  label_working_days: "Working days"
   label_x_closed_work_packages_abbr:
     one: "1 zaključen"
     other: "%{count} zatvorenih"
@@ -1967,7 +2039,7 @@ hr:
       center: 'To notification center'
       see_in_center: 'See comment in notification center'
       settings: 'Change email settings'
-    salutation: 'Hey %{user}!'
+    salutation: 'Hello %{user}'
     work_packages:
       created_at: 'Created at %{timestamp} by %{user} '
       login_to_see_all: 'Log in to see all notifications.'
@@ -1984,6 +2056,8 @@ hr:
         mentioned: 'Mentioned'
         subscribed: 'sve'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Novi korisnik je (%{value}) je registriran. Čeka se na vaše odobrenje:"
@@ -1995,8 +2069,11 @@ hr:
   mail_body_backup_token_info: The previous token is no longer valid.
   mail_body_backup_waiting_period: The new token will be enabled in %{hours} hours.
   mail_body_backup_token_warning: If this wasn't you, login to OpenProject immediately and reset it again.
+  mail_body_incoming_email_error: The email you sent to OpenProject could not be processed.
+  mail_body_incoming_email_error_in_reply_to: "At %{received_at} %{from_email} wrote"
+  mail_body_incoming_email_error_logs: "Logs"
   mail_body_lost_password: "Da bi ste promijenili lozinku, molimo vas odaberite sljedeću poveznicu:"
-  mail_body_register: "Welcome to OpenProject. Please activate your account by clicking on this link:"
+  mail_body_register: "Welcome to %{app_title}. Please activate your account by clicking on this link:"
   mail_body_register_header_title: "Project member invitation email"
   mail_body_register_user: "Dear %{name}, "
   mail_body_register_links_html: |
@@ -2013,6 +2090,7 @@ hr:
   mail_subject_account_activation_request: "%{value} zahtjev za aktivacijom korisničkog računa"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
+  mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaša %{value} lozinka"
   mail_subject_register: "Vaša %{value} aktivacija korisničkog računa"
   mail_subject_reminder: "%{count} radni paket(i) koji ima krajnji rok u sljedećih %{days} dana"
@@ -2105,6 +2183,12 @@ hr:
   notice_successful_create: "Uspješno kreirano."
   notice_successful_delete: "Brisanje uspješno."
   notice_successful_update: "Ažuriranje je uspješno završeno."
+  notice_successful_update_custom_fields_added_to_project: |
+    Successful update. The custom fields of the activated types are automatically activated
+    on the work package form. <a href="%{url}" target="_blank">See more</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Successful update. The active custom fields are automatically activated for
+    the associated projects of this type.
   notice_to_many_principals_to_display: "Prikazano je previše rezultata.\nSužite rezultate pretrage na način da unesete ime novog člana (ili grupe)."
   notice_user_missing_authentication_method: Korisnik mora odabrati lozinku ili drugi način prijave.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
@@ -2138,9 +2222,8 @@ hr:
           tb: "TB"
   onboarding:
     heading_getting_started: "Get an overview"
-    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
-    text_show_again: "You can restart this video from the help menu"
-    welcome: "Dobrodošli na OpenProject"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu."
+    welcome: "Welcome to %{app_title}"
     select_language: "Please select your language"
   permission_add_work_package_notes: "Dodaj bilješke"
   permission_add_work_packages: "Dodaj radne pakete"
@@ -2156,6 +2239,7 @@ hr:
   permission_comment_news: "Komentirajte vijest"
   permission_commit_access: "Read/write pristup repozitoriju (commit)"
   permission_copy_projects: "Kopiraj projekte"
+  permission_create_backup: "Create backup"
   permission_delete_work_package_watchers: "Izbrišite nadglednike"
   permission_delete_work_packages: "Izbriši radne pakete"
   permission_delete_messages: "Obriši poruke"
@@ -2172,13 +2256,14 @@ hr:
   permission_edit_own_time_entries: "Uređivanje vaših zapisa o vremenu"
   permission_edit_project: "Uredi projekt"
   permission_edit_reportings: "Uredi izvješćivanje"
-  permission_edit_time_entries: "Uredi zapise o vremenu"
+  permission_edit_time_entries: "Edit time logs for other users"
   permission_edit_timelines: "Uredi kronologiju"
   permission_edit_wiki_pages: "Uredi wiki stranice"
   permission_export_work_packages: "Izvez radnih paketa"
   permission_export_wiki_pages: "Izvezi Wiki stranice"
   permission_list_attachments: "Izlistaj sve privitke"
-  permission_log_time: "Zapiši utrošeno vrijeme"
+  permission_log_own_time: "Log own time"
+  permission_log_time: "Log time for other users"
   permission_manage_forums: "Upravljanje Forumima"
   permission_manage_categories: "Upravljaj kategorijama radnih paketa"
   permission_manage_work_package_relations: "Upravljaj relacijama radnih paketa"
@@ -2198,7 +2283,6 @@ hr:
   permission_select_custom_fields: "Select custom fields"
   permission_select_project_modules: "Odaberi module projekta"
   permission_manage_types: "Odaberi tipove"
-  permission_view_calendar: "Prikaži kalendar"
   permission_view_changesets: "Pogledaj revizije za repozitorij unutar OpenProjecta"
   permission_view_commit_author_statistics: "Pogledaj statistiku commitanja autora"
   permission_view_work_package_watchers: "Prikaži listu nadglednika"
@@ -2210,6 +2294,8 @@ hr:
   permission_view_timelines: "Prikaži kronologiju"
   permission_view_wiki_edits: "Pogledaj povijest wiki stranice"
   permission_view_wiki_pages: "Prikaži wiki"
+  permission_work_package_assigned: "Become assignee/responsible"
+  permission_work_package_assigned_explanation: "Work packages can be assigned to users and groups in possession of this role in the respective project"
   placeholders:
     default: "-"
   project:
@@ -2234,7 +2320,6 @@ hr:
       archived: "Archived"
   project_module_activity: "Aktivnost"
   project_module_forums: "Forumi"
-  project_module_calendar: "Kalendar"
   project_module_work_package_tracking: "Praćenje radnog paketa"
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
@@ -2248,7 +2333,7 @@ hr:
     assigned_to_role: "Rola opunomoćenog korisnika"
     member_of_group: "Grupa opunomoćenog korisnika"
     assignee_or_group: "Assignee or belonging group"
-    subproject_id: "Including Subproject"
+    subproject_id: "Including subproject"
     only_subproject_id: "Only subproject"
     name_or_identifier: "Ime ili identifikator"
   repositories:
@@ -2265,10 +2350,10 @@ hr:
       base_url_text: "Temeljni URL za korištenje kod generiranja URL-ova prijave (npr., https://myserver.example.org/repos/).\nNapomena: Temeljni URL je samo korišten kod ponovnog generiranja URL-ova prijave na upravljanim repozitorijima. Ostali repozitoriji su nepromijenjeni."
       default_instructions:
         git: |-
-          Podaci koji se nalaze u ovom repozitoriju mogu biti dohvaćeni na pc kroz Git. 
+          Podaci koji se nalaze u ovom repozitoriju mogu biti dohvaćeni na pc kroz Git.
           Molim vas provjerite dokumentaciju Gita ukoliko trebate još informacija o procedurama prijave i dostupnim klijentima.
         subversion: |-
-          Podaci koji se nalaze u ovom repozitoriju mogu biti dohvaćeni na pc kroz Subversion. 
+          Podaci koji se nalaze u ovom repozitoriju mogu biti dohvaćeni na pc kroz Subversion.
           Molim vas provjerite dokumentaciju Subversiona ukoliko trebate još informacija o procedurama prijave i dostupnim klijentima.
       enable_instructions_text: "Prikaži upute za provjeru na svim stranicama vezanim za repozitorij."
       instructions: "Provjeri naredbe"
@@ -2336,6 +2421,11 @@ hr:
     storage:
       not_available: "Pregled zauzeća diska nije dostupano u ovom repozitoriju."
       update_timeout: "Spremi informaciju o potrebnom prostoru na disku za repozitorij za N minuta.\nTijekom izračuna potrebnog prostora na disku može doći do usprenja rada mašine, da bi ste izbjegli smanjenje performansi podignite ovu vrijednost."
+      oauth_application_details: "The client secret value will not be accessible again after you close this window. Please copy these values into the Nextcloud OpenProject Integration settings:"
+      oauth_application_details_link_text: "Go to settings page"
+      setup_documentation_details: "If you need help configuring a new file storage please check the documentation: "
+      setup_documentation_details_link_text: "File Storages setup"
+      show_warning_details: "To use this file storage remember to activate the module and the specific storage in the project settings of each desired project."
     subversion:
       existing_title: "Postojeći Subversion repozitorij"
       existing_introduction: "Ukoliko imate postojeći lokalni Subversion repozitorij, možete ga povezati s OpenProject-om da bi ste mogi pristupati pomoću aplikacije."
@@ -2379,7 +2469,7 @@ hr:
   setting_smtp_authentication: "SMTP authentication"
   setting_smtp_user_name: "SMTP korisničko ime"
   setting_smtp_password: "SMTP lozinka"
-  setting_smtp_domain: "SMTP HELLO domain"
+  setting_smtp_domain: "SMTP HELO domain"
   setting_activity_days_default: "Prikazani dani na aktivnosti projekta"
   setting_app_subtitle: "Podnaslov aplikacije"
   setting_app_title: "Naslov aplikacije"
@@ -2415,7 +2505,6 @@ hr:
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Omogući SCM"
   setting_enabled_projects_columns: "Visible in project list"
-  setting_notification_retention_period_days: "Notification retention period"
   setting_feeds_enabled: "Omogući sažetke sadržaja aktivnosti"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksimalna veličina tesktualnih datoteka prikazanih u liniji"
@@ -2428,7 +2517,7 @@ hr:
   setting_work_package_list_default_columns: "Zadani prikaz"
   setting_work_package_properties: "Postavke radnih paketa"
   setting_work_package_startdate_is_adddate: "Koristite današanji datum kao početni datum novih radnih paketa"
-  setting_work_packages_export_limit: "Limit izvoza radnih paketa"
+  setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
   setting_journal_aggregation_time_minutes: "User actions aggregated within"
   setting_log_requesting_user: "Zabilježite korisnički pristup, ime, i email adresu za sve zahtjeve"
   setting_login_required: "Potrebna autentifikacija"
@@ -2488,8 +2577,6 @@ hr:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
     notifications:
-      retention_text: >
-        Set the number of days notification events for users (the source for in-app notifications) will be kept in the system. Any events older than this time will be deleted.
       events_explanation: 'Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user.'
       delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
     display:
@@ -2527,6 +2614,7 @@ hr:
   text_access_token_hint: "Pristupni tokeni omogućavaju vanjskim aplikacijama pristup resursima unutar OpenProjecta."
   text_analyze: "Dodatnaanaliza: %{subject}"
   text_are_you_sure: "Da li ste sigurni?"
+  text_are_you_sure_continue: "Are you sure you want to continue?"
   text_are_you_sure_with_children: "Izbriši radni paket i sve podređene radne pakete?"
   text_assign_to_project: "Pridruži projektu"
   text_form_configuration: >
@@ -2541,6 +2629,12 @@ hr:
     When using custom fields: Keep in mind that custom fields need to be activated per project, too.
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work package type and per project.
+  text_wp_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px.
   text_custom_favicon_instructions: >
@@ -2572,7 +2666,6 @@ hr:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label}%{value} dodana"
-  text_journal_aggregation_time_explanation: "Individual actions of a user (e.g. updating a work package twice) are aggregated into a single action if their age difference is less than the specified timespan. They will be displayed as a single action within the application. This will also delay notifications by the same amount of time reducing the number of emails being sent."
   text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2716,7 +2809,6 @@ hr:
       noneSelection: "(nijedan)"
       outline: "Initial outline expansion"
       parent: "Prikaži podprojekte od"
-      work_package_filters: "Filtriraj radne pakete"
       work_package_responsible: "Show work packages with accountable"
       work_package_assignee: "Prikaži radne pakete s dodijeljenim opunomoćenikom"
       types: "Prikaži tipove"
@@ -2846,14 +2938,14 @@ hr:
   warning_user_limit_reached: >
     User limit reached. You cannot activate any more users. Please <a href="%{upgrade_url}">upgrade your plan</a> or block members to allow for additional users.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise Edition plan and add additional users.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Protocol setting mismatch'
+    https_mismatch:
+      title: 'HTTPS mode setup mismatch'
       text_html: >
-        Your application is running with its protocol setting set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! Go to <a href="%{setting_path}">System settings</a> and change the "Protocol" setting to correct this.
+        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
       title: 'Hostname setting mismatch'
       text_html: >
@@ -2865,7 +2957,6 @@ hr:
   wiki_menu_item_new_main_item_explanation: >
     Izbrisati će te samo glavnu stavku wiki izbornika. U sljdećem koraku morate izabrati wiki stranicu za koju će se generirati nova stavka. Za brisanje wiki stranice, wiki modul mora biti deaktiviran od strane administratora projekta.
   wiki_menu_item_delete_not_permitted: Wiki stavka izbornika jedine wiki stranice ne može biti izbrisana.
-  query_menu_item_for: "Stavka izbornika za upit \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2873,10 +2964,22 @@ hr:
     destroy:
       info: "Brisanje radnog paketa je nepovratan čin."
       title: "Izbriši radni paket"
+  working_days:
+    info: >
+      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+    change_button: "Change working days"
+    warning: >
+      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+    journal_note:
+      changed: _**Working days** changed (%{changes})._
+      days:
+        working: "%{day} is now working"
+        non_working: "%{day} is now non-working"
   nothing_to_preview: "Ne postoji zapis za pregled"
   api_v3:
     attributes:
       lock_version: "Zaključavanje verzije"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Morate biti autorizirani za pristup ovom resursu."
@@ -2890,6 +2993,7 @@ hr:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
         date: "YYYY-MM-DD (ISO 8601 date only)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
         duration: "ISO 8601 duration"
       invalid_content_type: "Očekivani CONTENT-TYPE '%{content_type}' međutim je '%{actual}'."
       invalid_format: "Invalid format for property '%{property}': Expected format like '%{expected_format}', but got '%{actual}'."
@@ -2901,6 +3005,7 @@ hr:
         select: "The requested select of %{invalid} is not supported. Supported selects are %{supported}."
       invalid_user_status_transition: "The current user account status does not allow this operation."
       missing_content_type: "nije navedeno"
+      missing_property: "Missing property '%{property}'."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
@@ -2924,6 +3029,7 @@ hr:
       schema: 'Shema'
     undisclosed:
       parent: Undisclosed - The selected parent is invisible because of lacking permissions.
+      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 'Pre-authorization'
@@ -2932,8 +3038,11 @@ hr:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
-        invalid_redirect_uri: "The requested redirect URI is malformed or doesn't match client redirect URI."
+        invalid_request:
+          unknown: 'The request is missing a required parameter, includes an unsupported parameter value, or is otherwise malformed.'
+          missing_param: 'Missing required parameter: %{value}.'
+          request_not_authorized: 'Request need to be authorized. Required parameter for authorizing request is missing or invalid.'
+        invalid_redirect_uri: "The requested redirect uri is malformed or doesn't match client redirect URI."
         unauthorized_client: 'The client is not authorized to perform this request using this method.'
         access_denied: 'The resource owner or authorization server denied the request.'
         invalid_scope: 'The requested scope is invalid, unknown, or malformed.'
@@ -2946,6 +3055,7 @@ hr:
         admin_authenticator_not_configured: 'Access to admin panel is forbidden due to Doorkeeper.configure.admin_authenticator being unconfigured.'
         #Access grant errors
         unsupported_response_type: 'The authorization server does not support this response type.'
+        unsupported_response_mode: 'The authorization server does not support this response mode.'
         #Access token errors
         invalid_client: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.'
         invalid_grant: 'The provided authorization grant is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client.'
@@ -2954,6 +3064,10 @@ hr:
           revoked: "The access token was revoked"
           expired: "The access token expired"
           unknown: "The access token is invalid"
+        revoke:
+          unauthorized: "You are not authorized to revoke this token."
+        forbidden_token:
+          missing_scope: 'Access to this resource requires scope "%{oauth_scopes}".'
   unsupported_browser:
     title: "Your browser is outdated and unsupported."
     message: "You may run into errors and degraded experience on this page."
@@ -3008,4 +3122,51 @@ hr:
     authorization_error: "An authorization error has occurred."
     revoke_my_application_confirmation: "Do you really want to remove this application? This will revoke %{token_count} active for it."
     my_registered_applications: "Registered OAuth applications"
+  oauth_client:
+    urn_connection_status:
+      connected: "Connected"
+      error: "Error"
+      failed_authorization: "Authorization failed"
+    labels:
+      label_oauth_integration: "OAuth2 integration"
+      label_redirect_uri: "Redirect URI"
+      label_request_token: "Request token"
+      label_refresh_token: "Refresh token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 returned an error"
+      oauth_reported: "OAuth2 provider reported"
+      oauth_returned_error: "OAuth2 returned an error"
+      oauth_returned_json_error: "OAuth2 returned a JSON error"
+      oauth_returned_http_error: "OAuth2 returned a network error"
+      oauth_returned_standard_error: "OAuth2 returned an internal error"
+      wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
+      oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Internal error: Called refresh_token without a previously existing token.
+      refresh_token_updated_failed: "Error during update of OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        This error appears after you have updated the client_id and client_secret in OpenProject, but haven't updated the 'Return URI' field in the OAuth2 provider.
+      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
+      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
+      rack_oauth2:
+        client_secret_invalid: "Client secret is invalid (client_secret_invalid)"
+        invalid_request: >
+          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+        invalid_response: "OAuth2 Authorization Server provided an invalid response (invalid_response)"
+        invalid_grant: "The OAuth2 Authorization Server asks you to reauthorize (invalid_grant)."
+        invalid_client: "The OAuth2 Authorization Server doesn't recognize OpenProject (invalid_client)."
+        unauthorized_client: "The OAuth2 Authorization Server rejects the grant type (unauthorized_client)"
+        unsupported_grant_type: "The OAuth2 Authorization Server asks you to reauthorize (unsupported_grant_type)."
+        invalid_scope: "You are not allowed to access the requested resource (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "The server side request failed authorizing itself."
+      missing_authorization: "The server side request failed due to missing authorization information."
+    response:
+      unexpected: "Unexpected response received."
   you: you

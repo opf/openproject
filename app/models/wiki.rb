@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +42,7 @@ class Wiki < ApplicationRecord
                                 allow_destroy: true,
                                 reject_if: proc { |attr| attr['name'].blank? && attr['title'].blank? }
 
-  validates_presence_of :start_page
+  validates :start_page, presence: true
 
   after_create :create_menu_item_for_start_page
 
@@ -58,7 +56,7 @@ class Wiki < ApplicationRecord
     title = start_page if title.blank?
     # If a new page is initialized, it needs to have a slug (via the ensure_unique_url)
     # method right away, so that the correct menu item (if that exists already) is highlighted
-    find_page(title) || WikiPage.new(wiki: self, title: title).tap(&:ensure_unique_url)
+    find_page(title) || WikiPage.new(wiki: self, title:).tap(&:ensure_unique_url)
   end
 
   ##
@@ -127,7 +125,7 @@ class Wiki < ApplicationRecord
   def matching_redirect(title)
     redirects
       .where(title: WikiPage.slug(title))
-      .or(redirects.where(title: title))
+      .or(redirects.where(title:))
       .first
   end
 end

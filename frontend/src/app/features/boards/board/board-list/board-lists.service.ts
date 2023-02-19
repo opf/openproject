@@ -6,7 +6,7 @@ import { Board } from 'core-app/features/boards/board/board';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 
@@ -16,7 +16,7 @@ export class BoardListsService {
 
   constructor(private readonly CurrentProject:CurrentProjectService,
     private readonly pathHelper:PathHelperService,
-    private readonly apiV3Service:APIV3Service,
+    private readonly apiV3Service:ApiV3Service,
     private readonly halResourceService:HalResourceService,
     private readonly toastService:ToastService,
     private readonly I18n:I18nService) {
@@ -96,7 +96,6 @@ export class BoardListsService {
 
   private buildQueryRequest(params:Object) {
     return {
-      hidden: true,
       public: true,
       _links: {
         sortBy: [

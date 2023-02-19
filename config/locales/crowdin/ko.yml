@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ ko:
         main-menu-hover-font-color: "가리킬 때 기본 메뉴 글꼴"
         main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
-      customize: "당신만의 로고로 당신의 OpenProject 설치를 커스텀하세요. 참고: 이 로고는 공개적으로 접근 가능합니다."
-      enterprise_notice: "OpenProject 개발에의 재정적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise Edition 후원자에게만 지원됩니다."
+      customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
         alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
@@ -63,16 +64,28 @@ ko:
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
       theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
-      upgrade_to_ee: "Enterprise Edition으로 업그레이드"
-      add_token: "Enterprise Edition 지원 토큰을 업로드하세요."
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        title: "토큰 제거"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
-      order: "Enterprise on-premises Edition 주문하기"
-      paste: "당신의 Enterprise Edition 지원 토큰을 붙여넣으세요."
-      required_for_feature: "이 기능은 활성화 된 Enterprise Edition 지원 토큰에서만 가능합니다."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
       start_trial: '무료 평가판 시작'
       book_now: '지금 예약'
       get_quote: '견적 받기'
+      buttons:
+        upgrade: "지금 업그레이드"
+        contact: "당사에 데모 요청하기"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
+    journal_aggregation:
+      explanation:
+        text: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 또한 이는 전송되는 이메일 수를 줄이는 동일한 시간만큼 알림을 지연시키고 %{webhook_link} 지연에도 영향을 미칩니다."
+        link: "webhook"
   announcements:
     show_until: 표시 기한
     is_active: 현재 표시됨
@@ -84,6 +97,8 @@ ko:
     show_preview: '미리 보기 텍스트'
     add_new: '도움말 텍스트 추가'
     edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
+    enterprise:
+      description: '작업 패키지 및 프로젝트의 특성(사용자 지정 필드 포함)에 대한 추가 정보를 제공합니다. 사용자가 프로젝트 및 작업 패키지의 입력 필드 옆에 있는 물음표 기호를 클릭하면 도움말 텍스트가 표시됩니다.'
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
@@ -123,6 +138,7 @@ ko:
         자동으로 새 사용자를 만듭니다.
         OpenProject의 기존 계정만 LDAP를 통해 인증할 수 있게 하려면 이 확인란을 선택하지 마세요!
     connection_encryption: '연결 암호화'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: '시스템 계정'
     system_account_legend: |
       OpenProject는 LDAP 트리에서 사용자 및 그룹을 찾기 위해 시스템 계정을 통한 읽기 전용 액세스 권한을 필요로 합니다.
@@ -134,13 +150,18 @@ ko:
       OpenProject 사용자의 특성을 정의하기 위해 사용되는 LDAP 특성(특성 매핑)과 관련이 있습니다.
     tls_mode:
       plain: '없음'
-      simple_tls: '단순 TLS'
-      start_tls: 'TLS 시작'
-      plain_description: "일반 암호화 되지 않은 연결 TLS 협상 없음"
-      simple_tls_description: "암시적 TLS 암호화이지만, 인증서 유효성 검사가 없습니다. LDAP 연결에 대해 주의를 기울이고 암시적 신뢰에 따라 사용하십시오."
-      start_tls_description: "완전한 유효성 검사를 사용하는 명시적 TLS 암호화입니다. TLS/SSL에서 LDAP을 사용하십시오."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은 <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 포럼에 대한 포스트가 현재 없습니다.
@@ -161,8 +182,8 @@ ko:
     edit: '사용자 지정 작업 %{name} 편집'
     execute: '%{name} 실행'
     upsale:
-      title: '사용자 지정 작업은 Enterprise Edition 기능입니다.'
-      description: '사용자 지정 작업은 하나의 버튼으로 일련의 개별 단계를 결합하여 일상 업무를 간소화합니다.'
+      title: '사용자 지정 작업'
+      description: '사용자 지정 작업은 상태, 역할, 유형 또는 프로젝트를 기반으로 특정 작업 패키지에서 사용할 수 있도록 미리 정의된 작업 세트에 대한 원클릭 바로 가기입니다.'
   custom_fields:
     text_add_new_custom_field: >
       프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
@@ -195,6 +216,15 @@ ko:
     ignore_filenames: >
       받는 메일의 첨부 파일을 처리할 때 무시할 이름 목록을 지정하십시오(예: 서명 또는 아이콘). 라인 하나에 파일 이름 하나를 입력하십시오.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: '프로젝트 멤버'
+      overviews: '프로젝트 개요'
+      queries: '작업 패키지: 저장된 보기'
+      wiki_page_attachments: 'Wiki 페이지: 첨부 파일'
+      work_package_attachments: '작업 패키지: 첨부 파일'
+      work_package_categories: '작업 패키지: 카테고리'
+      work_package_file_links: '작업 패키지: 파일 링크'
     delete:
       scheduled: "삭제가 예약되었으며 백그라운드에서 수행됩니다. 결과 알림이 제공될 것입니다."
       schedule_failed: "프로젝트를 삭제할 수 없습니다: %{errors}"
@@ -255,14 +285,13 @@ ko:
     deletion_info:
       heading: "플레이스홀더 사용자 %{name} 삭제"
       data_consequences: >
-        플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다.
-        삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
+        플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
       irreversible: "이 작업은 취소할 수 없습니다"
       confirmation: "삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요."
     upsale:
-      title: 프로젝트 멤버가 아닌 자에게 작업을 할당합니다.
+      title: 플레이스홀더 사용자
       description: >
-        여러 상황에서 프로젝트의 멤버가 아닌 사람에게 작업을 할당할 수 있습니다. 단순히 그 일에 적합한 사람을 채용해야 하는 경우나, 어떤 사람이 프로젝트의 정보에 접근하지 못하게 하고 싶지만 동시에 그 사람에게 할당된 작업을 추적하고자 하는 경우 등이 있을 수 있습니다.
+        플레이스홀더 사용자는 해당 프로젝트에 속하지 않은 사용자에게 작업 패키지를 할당하는 방법으로, 다양한 시나리오에서 유용할 수 있습니다. 예를 들어, 아직 명명되지 않았거나 사용 가능하지 않은 리소스에 대한 작업을 추적해야 하거나, 해당 개인에게 OpenProject에 대한 액세스 권한을 부여하고 싶지 않지만 이들에게 할당된 작업을 추적하려는 경우에 유용합니다.
   prioritiies:
     edit:
       priority_color_text: |
@@ -291,6 +320,8 @@ ko:
     edit:
       settings: "설정"
       form_configuration: "양식 구성"
+      more_info_text_html: >
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "프로젝트"
       enabled_projects: "활성화 된 프로젝트"
       edit_query: "테이블 편집"
@@ -315,10 +346,10 @@ ko:
       other: '%{count}개 작업 패키지 하위 항목'
     bulk:
       could_not_be_saved: "다음 작업 패키지를 저장할 수 없습니다:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
+      x_out_of_y_could_be_saved: "%{failing}/%{total}개 작업 패키지를 업데이트할 수 없지만 %{success}개는 성공했습니다."
+      selected_because_descendants: "%{selected}개 작업 패키지가 선택되었지만 하위 작업 패키지를 포함하여 총 %{total}개 작업 패키지가 영향을 받았습니다."
+      descendant: "선택한 항목의 하위 작업 패키지"
     move:
       no_common_statuses_exists: "선택한 모든 작업 패키지에 사용 가능한 상태가 없습니다. 해당 상태를 변경할 수 없습니다."
       unsupported_for_multiple_projects: '여러 프로젝트에서 작업 패키지 일괄 이동/복사는 지원되지 않습니다.'
@@ -392,6 +423,7 @@ ko:
         host: "호스트"
         onthefly: "자동 사용자 생성"
         port: "포트"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "리포지토리"
       comment:
@@ -448,9 +480,12 @@ ko:
         code: '상태'
         explanation: '상태 설명'
         codes:
+          not_started: '시작되지 않음'
           on_track: '정상 상태'
           at_risk: '위험 상태'
           off_track: '비정상 상태'
+          finished: '마침'
+          discontinued: '중단됨'
       query:
         column_names: "컬럼"
         relations_to_type_column: "%{type}에 대한 관계"
@@ -461,7 +496,6 @@ ko:
       repository:
         url: "주소"
       role:
-        assignable: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
         permissions: "권한"
       time_entry:
         activity: "활동"
@@ -507,20 +541,27 @@ ko:
         begin_deletion: "삭제 시작"
         children: "하위 요소"
         done_ratio: "진행률 (%)"
+        duration: "기간"
         end_insertion: "삽입 끝"
         end_deletion: "삭제 끝"
-        version: "버전"
+        ignore_non_working_days: "휴무일 무시"
+        include_non_working_days:
+          title: '근무일'
+          false: '근무일만'
+          true: '휴무일 포함'
         parent: "부모"
         parent_issue: "부모"
         parent_work_package: "부모"
         priority: "우선 순위"
         progress: "진행률 (%)"
+        readonly: "읽기 전용"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
         subproject: "하위 프로젝트"
         time_entries: "작업시간 기록"
         type: "타입"
+        version: "버전"
         watcher: "주시자"
       'doorkeeper/application':
         uid: "고객 ID"
@@ -544,7 +585,7 @@ ko:
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         does_not_exist: "존재하지 않음"
-        error_enterprise_only: "- OpenProject Enterprise Edition에서만 사용할 수 있습니다"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "액세스하지 못할 수 있습니다."
         error_readonly: "- 쓰려고 했지만 쓸 수 없습니다."
         email: "- 유효한 이메일 주소가 아닙니다."
@@ -552,6 +593,7 @@ ko:
         even: "에 짝수를 입력해 주세요"
         exclusion: "예약됨"
         file_too_large: "은(는) 너무 큽니다. (최대 %{count} 바이트)"
+        filter_does_not_exist: "필터가 존재하지 않습니다."
         format: "- 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         format_nested: "- 경로 '%{path}'에서 필요한 형식 '%{expected}'과(와) 일치하지 않습니다."
         greater_than: "은(는) %{count}보다 커야 합니다"
@@ -586,8 +628,15 @@ ko:
         unknown_property: "- 알려진 속성이 아닙니다."
         unknown_property_nested: "- 알 수 없는 경로 '%{path}'이(가) 있습니다."
         unremovable: "- 제거할 수 없습니다."
+        url_not_secure_context: >
+          "보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.
         wrong_length: "너무 짧습니다 (최소 %{count} 자 이상이어야 합니다)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -617,7 +666,7 @@ ko:
               fragment_present: '- 조각을 포함할 수 없습니다.'
               invalid_uri: '- 유효한 URI여야 합니다.'
               relative_uri: '- 절대 URI여야 합니다.'
-              secured_uri: '- HTTPS/SSL URI여야 합니다.'
+              secured_uri: '"보안 컨텍스트"를 제공하지 않습니다. HTTPS 또는 localhost 같은 루프백 주소를 사용하세요.'
               forbidden_uri: '- 서버에 의해 금지되었습니다.'
             scopes:
               not_match_configured: "- 사용 가능한 범위와 일치하지 않습니다."
@@ -638,10 +687,6 @@ ko:
               no_notification_reason: '- IAN이 채널로 선택되었으므로 비워둘 수 없습니다.'
             reason_mail_digest:
               no_notification_reason: '- 메일 요약이 채널로 선택되었으므로 비워둘 수 없습니다.'
-        notification_settings:
-          only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
-          email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +746,11 @@ ko:
           attributes:
             permissions:
               dependency_missing: "'%{permission}'이(가) 선택되었으므로 '%{dependency}'도 포함해야 합니다."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: '적어도 일주일의 하루는 근무일로 정의해야 합니다.'
+              previous_working_day_changes_unprocessed: '근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.'
         time_entry:
           attributes:
             hours:
@@ -711,6 +761,16 @@ ko:
               invalid_range: "- 유효한 날짜 범위만 가능합니다."
             daily_reminders:
               full_hour: "- 1시간 전송만 구성할 수 있습니다."
+            notification_settings:
+              only_one_global_setting: '전역 알림 설정은 하나만 있어야 합니다.'
+              email_alerts_global: '이메일 알림 설정은 전역으로만 설정할 수 있습니다.'
+              format: "%{message}"
+              wrong_date: '시작 날짜, 기한 또는 기한 지남 값이 잘못되었습니다.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "- 이 리소스를 볼 수 없습니다."
+              locked: "- 잠겨 있습니다."
         wiki_page:
           attributes:
             slug:
@@ -718,8 +778,16 @@ ko:
         work_package:
           is_not_a_valid_target_for_time_entries: "작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "마일스톤에서 요구하지만, 시작 날짜가 없음"
+              cannot_be_null: "시작 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
+            duration:
+              larger_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 큽니다."
+              smaller_than_dates: "시작 날짜와 완료 날짜 사이의 간격보다 작습니다."
+              not_available_for_milestones: "마일스톤 유형 작업 패키지에 사용할 수 없습니다."
+              cannot_be_null: "시작 날짜와 완료 날짜를 알고 있으므로 null로 설정할 수 없습니다."
             parent:
               cannot_be_milestone: "마일스톤에 포함될 수 없음"
               cannot_be_self_assigned: "- 자신에게 할당할 수 없습니다."
@@ -727,6 +795,7 @@ ko:
               not_a_valid_parent: "은(는) 올바르지 않은 값입니다"
             start_date:
               violates_relationships: "은(는) %{soonest_start} 이상으로만 설정할 수 있습니다. 작업 패키지의 관계를 위반하지 않도록 하기 위해서입니다."
+              cannot_be_null: "완료 날짜와 기간을 알고 있으므로 null로 설정할 수 없습니다."
             status_id:
               status_transition_invalid: "현재 사용자 역할이 새 상태로 바르게 전환될 수 없으므로 유효 하지 않음"
               status_invalid_in_type: "- 유효하지 않습니다. 현재 상태가 이 유형에서 존재하지 않기 때문입니다."
@@ -739,7 +808,7 @@ ko:
               does_not_exist: "지정한 카테고리가 존재하지 않습니다."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "0 이상이어야 함"
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: '작업 패키지가 읽기 전용 상태이므로 해당 속성을 변경할 수 없습니다.'
         type:
           attributes:
             attribute_groups:
@@ -751,7 +820,7 @@ ko:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "사용자 제한에 도달했습니다. 현재 플랜에서 더 이상 계정을 만들 수 없습니다."
             password_confirmation:
               confirmation: "비밀번호와 비밀번호 확인이 일치하지 않습니다."
               format: "%{message}"
@@ -852,7 +921,7 @@ ko:
     id: "ID"
     is_default: "기본값"
     is_for_all: "모든 포로젝트를 위한"
-    is_public: "공용"
+    public: "공용"
     #kept for backwards compatibility
     issue: "작업 패키지"
     lastname: "성"
@@ -862,7 +931,6 @@ ko:
     password: "암호"
     priority: "우선 순위"
     project: "프로젝트"
-    public: "공용"
     responsible: "담당"
     role: "역할"
     roles: "역할"
@@ -876,9 +944,11 @@ ko:
     updated_on: "업데이트 날짜"
     uploader: "업로더"
     user: "사용자"
+    value: "값"
     version: "버전"
     work_package: "작업 패키지"
   backup:
+    failed: "백업 실패"
     label_backup_token: "백업 토큰"
     label_create_token: "백업 토큰 생성"
     label_delete_token: "백업 토큰 제거"
@@ -1175,11 +1245,11 @@ ko:
   ee:
     upsale:
       form_configuration:
-        description: "이 추가적인 기능들로 양식 구성을 커스텀하세요;"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "새로운 특성 그룹 추가"
         rename_groups: "특성 그룹 이름 바꾸기"
       project_filters:
-        description_html: "사용자 지정 필드의 필터링 및 정렬은 엔터프라이즈 버전의 기능입니다."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "시간 추적 활동"
   enumeration_work_package_priorities: "작업 패키지 우선 순위"
   enumeration_reported_project_statuses: "보고된 프로젝트 상태"
@@ -1201,9 +1271,10 @@ ko:
   error_cookie_missing: 'OpenProject 쿠키가 없습니다. 이 응용 프로그램은 쿠키 없이 제대로 작동하지 않으므로, 쿠키를 활성화해야 합니다.'
   error_custom_option_not_found: "존재하지 않는 옵션입니다."
   error_enterprise_activation_user_limit: "사용자 계정을 활성화할 수 없습니다(사용자 제한에 도달함). 액세스하려면 관리자에게 문의하세요."
-  error_enterprise_token_invalid_domain: "Enterprise Edition이 활성화되지 않았습니다. 해당 Enterprise 토큰의 도메인(%{actual})이 시스템의 호스트 이름(%{expected})과 일치하지 않습니다."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: '항목 삭제에 실패하였습니다.'
-  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "종속 개체를 변경하려는 중에 오류가 발생했습니다: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "종속 개체를 생성하려는 중에 오류가 발생했습니다: %{dependent_class} - %{related_subject}: %{error}"
   error_invalid_selected_value: "선택된 값이 유효하지 않습니다."
   error_journal_attribute_not_present: "저널에 %{attribute} 특성이 없습니다."
   error_pdf_export_too_many_columns: "PDF 내보내기에 대해 너무 많은 열을 선택했습니다. 열 수를 줄이십시오."
@@ -1288,10 +1359,10 @@ ko:
     blocks:
       community: "OpenProject 커뮤니티"
       upsale:
-        title: "Enterprise Edition으로 업그레이드 하세요."
+        title: "Upgrade to Enterprise edition"
         more_info: "더보기"
     links:
-      upgrade_enterprise_edition: "Enterprise Edition으로 업그레이드 하세요."
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
@@ -1313,7 +1384,9 @@ ko:
   menus:
     admin:
       mail_notification: "이메일 알림"
-      incoming_outgoing: "수신 & 발신"
+      mails_and_notifications: "이메일 및 알림"
+      aggregation: '집계'
+      api_and_webhooks: "API 및 webhook"
     quick_add:
       label: "빠른 추가 메뉴 열기"
   my_account:
@@ -1321,7 +1394,7 @@ ko:
       no_results:
         title: "표시할 수 있는 접근 토큰이 없습니다."
         description: "모두 비활성화 되었습니다. 관리 메뉴에서 가용 상태로 되돌릴 수 있습니다."
-      access_token: "액세스 토큰"
+      access_tokens: "액세스 토큰"
       headers:
         action: "액션"
         expiration: "만료"
@@ -1339,17 +1412,11 @@ ko:
     update_info_mail:
       body: >
         OpenProject 12.0 릴리스를 발표하게 되어 기쁩니다. 이 메이저 릴리스는 OpenProject를 사용하는 방식을 크게 개선할 것으로 예상됩니다.
-
         이 릴리스부터 인앱 알림을 도입합니다. 이제부터 OpenProject에서 작업 패키지 업데이트에 대한 알림을 직접 받게 됩니다. 이러한 알림을 읽음으로 표시하거나, 코멘트에 답하거나, 알림 센터를 나가지 않고도 작업 패키지 특성을 직접 수정할 수도 있습니다.
-
         즉, 더 이상 알림용으로 이메일을 사용하지 않을 것입니다. 알림 센터가 이러한 업데이트를 확인하고 조치를 취하기에 더 좋은 공간이라고 생각합니다. 그러나 이메일로 업데이트를 계속 받으려면 선택한 특정 시간에 매일 이메일 미리 알림을 받도록 선택할 수 있습니다.
-
         새로운 기본 알림 설정을 확인하고 계정 설정에서 알림 및 이메일 미리 알림에 대한 기본 설정을 지정해야 합니다. 아래의 "이메일 설정 변경" 버튼으로 이 작업을 수행할 수 있습니다.
-
         인앱 알림이 유용하고 생산성을 더욱 개선하는 데 도움이 되기를 바랍니다.
-
-        감사합니다.
-        OpenProject 팀
+        감사합니다. OpenProject 팀
       body_header: '버전 12.0, 알림 센터 포함'
       body_subheader: '뉴스'
       subject: '12.0 릴리스의 알림에 대한 중요 변경 사항'
@@ -1422,7 +1489,6 @@ ko:
   label_consent_settings: "사용자 동의"
   label_wiki_menu_item: 위키 메뉴 항목
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
-  label_select_project: "프로젝트를 선택하세요"
   label_required_disk_storage: "필요한 디스크 스토리지"
   label_send_invitation: 초대장 보내기
   label_change_plural: "변경"
@@ -1488,6 +1554,7 @@ ko:
   label_diff: "차이"
   label_diff_inline: "인라인"
   label_diff_side_by_side: "나란히"
+  label_digital_accessibility: '디지털 접근성(DE)'
   label_disabled: "사용 안 함"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
@@ -1511,7 +1578,7 @@ ko:
   label_enumerations: "열거형"
   label_enterprise: "엔터프라이즈"
   label_enterprise_active_users: "예약 활성 사용자 %{current}/%{limit}명"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "환경"
   label_estimates_and_time: "견적 및 시간"
   label_equals: "일치함"
@@ -1564,6 +1631,7 @@ ko:
   label_index_by_title: "제목별 색인"
   label_information: "정보"
   label_information_plural: "정보"
+  label_installation_guides: '설치 가이드'
   label_integer: "정수"
   label_internal: "내부"
   label_introduction_video: "소개 동영상"
@@ -1607,6 +1675,10 @@ ko:
   label_member_plural: "멤버"
   lable_membership_added: '멤버 추가됨'
   lable_membership_updated: '멤버 갱신됨'
+  label_menu_badge:
+    pre_alpha: '프리 알파'
+    alpha: '알파'
+    beta: '베타'
   label_menu_item_name: "메뉴 항목의 이름"
   label_message: "메시지"
   label_message_last: "마지막 메시지"
@@ -1696,7 +1768,6 @@ ko:
   label_product_version: "제품 버전"
   label_professional_support: "전문적 지원"
   label_profile: "프로필"
-  label_project_all: "모든 프로젝트"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"
@@ -1705,6 +1776,7 @@ ko:
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_settings: "프로젝트 설정"
+  label_project_storage_plural: "저장소"
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
   label_project_view_all: "모든 프로젝트 보기"
   label_project_show_details: "프로젝트 세부 정보 표시"
@@ -1712,7 +1784,6 @@ ko:
   label_public_projects: "공용 프로젝트"
   label_query_new: "새 쿼리"
   label_query_plural: "사용자 지정 쿼리"
-  label_query_menu_item: "쿼리 메뉴 항목"
   label_read: "읽기..."
   label_register: "새 계정 만들기"
   label_register_with_developer: "개발자로 등록"
@@ -1872,6 +1943,7 @@ ko:
   label_workflow: "워크플로"
   label_workflow_plural: "워크플로"
   label_workflow_summary: "요약"
+  label_working_days: "근무일"
   label_x_closed_work_packages_abbr:
     one: "1개 닫힘"
     other: "%{count}개 닫힘"
@@ -1932,7 +2004,7 @@ ko:
       center: '알림 센터로'
       see_in_center: '알림 센터의 코멘트 보기'
       settings: '이메일 설정 변경'
-    salutation: '안녕하세요, %{user} 님!'
+    salutation: '안녕하세요, %{user} 님'
     work_packages:
       created_at: '%{timestamp}, %{user} 님이 생성함 '
       login_to_see_all: '로그인하여 모든 알림을 확인하세요.'
@@ -1947,6 +2019,8 @@ ko:
         mentioned: '멘션됨'
         subscribed: '모두'
         prefix: '수신 이유는 다음 알림 설정입니다: %{reason}'
+        date_alert_start_date: '날짜 경보'
+        date_alert_due_date: '날짜 경보'
       see_all: '모두 보기'
       updated_at: '%{timestamp}, %{user} 님이 업데이트함'
   mail_body_account_activation_request: "새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는 중입니다."
@@ -1958,12 +2032,15 @@ ko:
   mail_body_backup_token_info: 이전 토큰은 더 이상 유효하지 않습니다.
   mail_body_backup_waiting_period: '%{hours}시간 후 새 토큰이 활성화됩니다.'
   mail_body_backup_token_warning: 만약 본인이 한 것이 아니라면, OpenProject에 즉시 로그인하고 다시 초기화하십시오.
+  mail_body_incoming_email_error: OpenProject로 보낸 이메일을 처리할 수 없습니다.
+  mail_body_incoming_email_error_in_reply_to: "%{received_at}, %{from_email} 작성함"
+  mail_body_incoming_email_error_logs: "로그"
   mail_body_lost_password: "암호를 변경하려면 다음 링크를 클릭하세요."
-  mail_body_register: "OpenProject입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
+  mail_body_register: "%{app_title}입니다. 다음 링크를 클릭하여 계정을 활성화하세요:"
   mail_body_register_header_title: "프로젝트 멤버 초대 이메일"
   mail_body_register_user: "%{name}님께, "
   mail_body_register_links_html: |
-    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고 
+    웨비나(%{webinar_link})가 제공되는 Youtube 채널(%{youtube_link})을 찾아보고
     “시작하기” 동영상(%{get_started_link})을 보고 OpenProject에서의 첫 단계를 최대한 수월하게 진행하세요.
     <br />
     추가 질문이 있으시면 설명서(%{documentation_link})를 참조하거나 관리자에게 문의하세요.
@@ -1976,6 +2053,7 @@ ko:
   mail_subject_account_activation_request: "%{value} 계정 활성화 요청"
   mail_subject_backup_ready: "백업이 준비되었습니다"
   mail_subject_backup_token_reset: "백업 토큰 초기화"
+  mail_subject_incoming_email_error: "OpenProject로 보낸 이메일을 처리할 수 없습니다."
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
   mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
@@ -2068,6 +2146,11 @@ ko:
   notice_successful_create: "생성에 성공했습니다."
   notice_successful_delete: "삭제에 성공했습니다."
   notice_successful_update: "업데이트에 성공했습니다."
+  notice_successful_update_custom_fields_added_to_project: |
+    업데이트 성공. 활성화된 유형의 사용자 지정 필드는 작업 패키지 양식에서 자동으로 활성화됩니다. <a href="%{url}" target="_blank">자세히 알아보세요</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    업데이트 성공. 활성 사용자 지정 필드는 이 유형의 관련 프로젝트에 대해
+    자동으로 활성화됩니다.
   notice_to_many_principals_to_display: "너무 많은 결과가 있습니다.\n새 멤버(또는 그룹)의 이름을 입력하여 검색 범위를 좁히세요."
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
   notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
@@ -2099,9 +2182,8 @@ ko:
           tb: "TB"
   onboarding:
     heading_getting_started: "개요 가져오기"
-    text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
-    text_show_again: "도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다."
-    welcome: "OpenProject에 오신 것을 환영합니다."
+    text_getting_started_description: "OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다. 도움말 메뉴에서 이 동영상을 다시 시작할 수 있습니다."
+    welcome: "%{app_title}입니다."
     select_language: "언어를 선택하세요."
   permission_add_work_package_notes: "메모 추가"
   permission_add_work_packages: "작업 패키지 추가"
@@ -2117,6 +2199,7 @@ ko:
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
+  permission_create_backup: "백업 만들기"
   permission_delete_work_package_watchers: "주시자 삭제"
   permission_delete_work_packages: "작업 패키지 삭제"
   permission_delete_messages: "메시지 삭제"
@@ -2133,13 +2216,14 @@ ko:
   permission_edit_own_time_entries: "내 시간 로그 편집"
   permission_edit_project: "프로젝트 편집"
   permission_edit_reportings: "보고 편집"
-  permission_edit_time_entries: "시간 로그 편집"
+  permission_edit_time_entries: "다른 사용자의 시간 로그 편집"
   permission_edit_timelines: "타임라인 편집"
   permission_edit_wiki_pages: "위키 페이지 편집"
   permission_export_work_packages: "작업 패키지 내보내기"
   permission_export_wiki_pages: "위키 페이지 내보내기"
   permission_list_attachments: "첨부 파일 나열"
-  permission_log_time: "소요 시간 기록"
+  permission_log_own_time: "내 시간 기록"
+  permission_log_time: "다른 사용자의 시간 기록"
   permission_manage_forums: "포럼 관리"
   permission_manage_categories: "작업 패키지 카테고리 관리"
   permission_manage_work_package_relations: "작업 패키지 관계 관리"
@@ -2159,7 +2243,6 @@ ko:
   permission_select_custom_fields: "사용자 지정 필드 선택"
   permission_select_project_modules: "프로젝트 모듈 선택"
   permission_manage_types: "유형 선택"
-  permission_view_calendar: "달력 보기"
   permission_view_changesets: "OpenProject에서 리포지토리 수정 사항 보기"
   permission_view_commit_author_statistics: "커밋 작성자 통계 보기"
   permission_view_work_package_watchers: "주시자 목록 보기"
@@ -2171,6 +2254,8 @@ ko:
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
   permission_view_wiki_pages: "위키 보기"
+  permission_work_package_assigned: "담당자/책임자 되기"
+  permission_work_package_assigned_explanation: "작업 패키지는 각각의 프로젝트에서 이 역할을 가진 사용자와 그룹에 할당될 수 있습니다."
   placeholders:
     default: "-"
   project:
@@ -2195,7 +2280,6 @@ ko:
       archived: "보관됨"
   project_module_activity: "활동"
   project_module_forums: "포럼"
-  project_module_calendar: "달력"
   project_module_work_package_tracking: "작업 패키지 추적"
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
@@ -2295,6 +2379,11 @@ ko:
     storage:
       not_available: "이 리포지토리에 대한 디스크 저장소 사용량이 사용 가능하지 않습니다."
       update_timeout: "N분 동안 리포지토리의 마지막 필요한 디스크 공간 정보를 유지하세요.\n리포지토리의 필요한 디스크 저장소 공간 계산에는 비용이 많이 소요될 수 있으므로, 이 값을 늘려 성능 영향을 줄이세요."
+      oauth_application_details: "이 창을 닫으면 클라이언트 비밀 값에 다시 액세스할 수 없습니다. 다음 값을 Nextcloud OpenProject Integration 설정에 복사하세요:"
+      oauth_application_details_link_text: "설정 페이지로 이동"
+      setup_documentation_details: "새 파일 저장소를 구성하는 데 도움이 필요하면 설명서를 확인하세요. "
+      setup_documentation_details_link_text: "파일 저장소 설정"
+      show_warning_details: "이 파일 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다."
     subversion:
       existing_title: "기존 Subversion 리포지토리"
       existing_introduction: "기존 Subversion 리포지토리가 있는 경우 응용 프로그램 내에서 액세스하기 위해 OpenProject와 이 리포지토리를 연결할 수 있습니다."
@@ -2321,9 +2410,9 @@ ko:
   setting_apiv3_cors_origins: "API V3 CORS(크로스-원본 리소스 공유) 허용 원본"
   setting_apiv3_cors_origins_text_html: >
     CORS가 활성화된 경우, OpenProject API에 액세스하도록 허용된 원본이 있습니다. <br/> <a href="%{origin_link}" target="_blank">원본 헤더의 설명서</a>에서 예상 값 지정 방법을 확인하세요.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "최대 API 페이지 크기"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    API가 응답할 최대 페이지 크기를 설정하세요. 단일 페이지에서 더 많은 값을 반환하는 API 요청을 수행할 수 없습니다. <br/> <strong>경고:</strong> 이 값이 필요한 이유가 확실한 경우에만 이 값을 변경하세요. 높은 값으로 설정하면 성능에 상당한 영향을 미치고, 페이지당 옵션보다 낮은 값은 페이지가 매겨진 보기에서 오류를 일으킵니다.
   setting_apiv3_docs: "설명서"
   setting_apiv3_docs_enabled: "문서 페이지 활성화"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2338,7 +2427,7 @@ ko:
   setting_smtp_authentication: "SMTP 인증"
   setting_smtp_user_name: "SMTP 사용자 이름"
   setting_smtp_password: "SMTP 비밀번호"
-  setting_smtp_domain: "SMTP HELLO 도메인"
+  setting_smtp_domain: "SMTP HELO 도메인"
   setting_activity_days_default: "프로젝트 작업에 표시되는 기간(일)"
   setting_app_subtitle: "응용 프로그램 부제목"
   setting_app_title: "응용 프로그램 제목"
@@ -2374,7 +2463,6 @@ ko:
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
   setting_enabled_projects_columns: "프로젝트 목록에 표시"
-  setting_notification_retention_period_days: "알림 보관 기간"
   setting_feeds_enabled: "피드 사용"
   setting_feeds_limit: "피드 콘텐츠 제한"
   setting_file_max_size_displayed: "인라인에 표시되는 텍스트 파일의 최대 크기"
@@ -2387,7 +2475,7 @@ ko:
   setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
-  setting_work_packages_export_limit: "작업 패키지 내보내기 제한"
+  setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
   setting_journal_aggregation_time_minutes: "집계된 사용자 작업"
   setting_log_requesting_user: "모든 요청에 대한 로그 사용자 로그인, 이름 및 메일 주소"
   setting_login_required: "인증이 필요함"
@@ -2447,8 +2535,6 @@ ko:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).
     notifications:
-      retention_text: >
-        사용자에 대한 알림 이벤트(앱 내 알림에 대해서)가 시스템에 보관되는 일 수를 설정합니다. 이 시간보다 오래된 모든 이벤트는 삭제됩니다.
       events_explanation: '이메일을 보낼 이벤트를 관리합니다. 작업 패키지에 대한 알림은 각 사용자에 대해 구체적으로 구성할 수 있으므로 작업 패키지는 이 목록에 포함되지 않습니다.'
       delay_minutes_explanation: "인앱 알림이 구성된 사용자가 메일이 전송되기 전에 애플리케이션 내에서 알림을 확인할 수 있도록 이메일 전송이 지연될 수 있습니다. 애플리케이션 내에서 알림을 읽은 사용자는 이미 읽은 알림에 대한 이메일을 받지 않습니다."
     display:
@@ -2486,6 +2572,7 @@ ko:
   text_access_token_hint: "액세스 토큰을 사용하여 OpenProject의 리소스에 대한 외부 응용 프로그램 액세스 권한을 부여할 수 있습니다."
   text_analyze: "추가 분석: %{subject}"
   text_are_you_sure: "계속하시겠습니까?"
+  text_are_you_sure_continue: "계속하시겠습니까?"
   text_are_you_sure_with_children: "작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?"
   text_assign_to_project: "프로젝트에 할당"
   text_form_configuration: >
@@ -2500,6 +2587,12 @@ ko:
     사용자 지정 필드를 사용하는 경우: 사용자 지정 필드는 프로젝트별로 활성화해야 함을 유의하세요.
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
+  text_wp_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서 최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
   text_custom_favicon_instructions: >
@@ -2531,7 +2624,6 @@ ko:
   text_work_packages_destroy_confirmation: "선택한 작업 패키지를 삭제하시겠습니까?"
   text_work_packages_ref_in_commit_messages: "커밋 메시지의 작업 패키지 참조 또는 수정"
   text_journal_added: "%{label} %{value} 추가됨"
-  text_journal_aggregation_time_explanation: "사용자의 개별 작업(예: 작업 패키지를 두 번 업데이트)은 연령 차이가 지정된 기간 미만인 경우 단일 작업으로 집계됩니다. 애플리케이션 내에서 단일 작업으로 표시됩니다. 이것은 또한 전송되는 이메일의 수를 줄이는 동일한 시간만큼 알림을 지연시킵니다."
   text_journal_changed_html: "%{label}이(가) %{old}에서 %{linebreak}%{new}<strong>(으)로</strong> 변경되었습니다."
   text_journal_changed_plain: "%{label}이(가) %{old}에서 %{linebreak}%{new}(으)로 변경되었습니다."
   text_journal_changed_no_detail: "%{label} 업데이트됨"
@@ -2673,7 +2765,6 @@ ko:
       noneSelection: "(없음)"
       outline: "초기 윤곽 확장"
       parent: "다음의 하위 프로젝트 표시"
-      work_package_filters: "작업 패키지 필터링"
       work_package_responsible: "담당하는 작업 패키지 표시"
       work_package_assignee: "작업 패키지와 담당자 표시"
       types: "유형 표시"
@@ -2801,14 +2892,14 @@ ko:
   warning_user_limit_reached: >
     사용자 제한에 도달했습니다. 더 이상 사용자를 활성화할 수 없습니다. <a href="%{upgrade_url}">플랜을 업그레이드</a>하거나 멤버를 차단하여 추가 사용자를 허용하세요.
   warning_user_limit_reached_instructions: >
-    사용자 제한(활성 사용자 %{current}/%{max}명)에 도달했습니다. sales@openproject.com으로 연락하여 Enterprise Edition 플랜을 업그레이드하고 사용자를 더 추가하세요.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: '프로토콜 설정 불일치'
+    https_mismatch:
+      title: 'HTTPS 모드 설정 불일치'
       text_html: >
-        해당 애플리케이션이 <code>%{set_protocol}</code>(으)로 지정된 프로토콜 설정으로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이로 인해 오류가 발생하게 됩니다! <a href="%{setting_path}">시스템 설정</a>으로 이동하고 "프로토콜" 설정을 변경하여 이 오류를 수정하세요.
+        애플리케이션이 <code>%{set_protocol}</code>로 설정된 HTTPS 모드로 실행되고 있지만, 이 요청은 <code>%{actual_protocol}</code> 요청입니다. 이 경우에는 오류가 발생합니다! 다음 구성 값을 설정해야 합니다: <code>%{setting_value}</code>. 이 구성을 설정하는 방법은 <a href="%{more_info_path}">설치 설명서</a>를 참조하세요.
     hostname_mismatch:
       title: '호스트 이름 설정 불일치'
       text_html: >
@@ -2820,7 +2911,6 @@ ko:
   wiki_menu_item_new_main_item_explanation: >
     유일한 기본 위키 메뉴 항목을 삭제하려고 합니다. 이제 새로운 기본 항목이 생성될 위키 페이지를 선택해야 합니다. 위키를 삭제하기 위해 프로젝트 관리자가 위키 모듈을 비활성화할 수 있습니다.
   wiki_menu_item_delete_not_permitted: 유일한 위키 페이지의 위키 메뉴 항목은 삭제할 수 없습니다.
-  query_menu_item_for: "쿼리 \"%{title}\"에 대한 메뉴 항목"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2828,10 +2918,22 @@ ko:
     destroy:
       info: "작업 패키지 삭제는 취소할 수 없는 작업입니다."
       title: "작업 패키지 삭제"
+  working_days:
+    info: >
+      <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
+    change_button: "근무일 변경"
+    warning: >
+      근무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
+    journal_note:
+      changed: _**근무일**이 변경되었습니다(%{changes})._
+      days:
+        working: "%{day}은(는) 이제 근무일입니다."
+        non_working: "%{day}은(는) 이제 휴무일입니다."
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:
       lock_version: "잠금 버전"
+      property: '속성'
     errors:
       code_400: "잘못된 요청: %{message}"
       code_401: "접근하기 위해서 인증해야 합니다."
@@ -2845,6 +2947,7 @@ ko:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:
         date: "YYYY-MM-DD(ISO 8601 날짜만)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm](호환되는 모든 ISO 8601 날짜/시간)"
         duration: "ISO 8601 기간"
       invalid_content_type: "예상되는 CONTENT-TYPE 은 '%{content_type}' 이지만, '%{actual}' 을 응답 받았습니다."
       invalid_format: "'%{property}' 속성에 대한 잘못된 형식: '%{expected_format}' 같은 형식이 필요하지만 '%{actual}'이(가) 있습니다."
@@ -2856,6 +2959,7 @@ ko:
         select: "요청한 %{invalid}의 선택은 지원되지 않습니다. %{supported}의 선택은 지원합니다."
       invalid_user_status_transition: "현재 사용자의 계정 상태는이 작업을 허용 하지 않습니다."
       missing_content_type: "지정되지 않음"
+      missing_property: "'%{property}' 속성이 없습니다."
       missing_request_body: "요청 본문이 없습니다."
       missing_or_malformed_parameter: "쿼리 매개 변수 '%{parameter}'는 누락되거나 잘못되었습니다."
       multipart_body_error: "요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다."
@@ -2879,6 +2983,7 @@ ko:
       schema: '스키마'
     undisclosed:
       parent: 숨겨짐 - 권한이 없어 선택한 부모를 볼 수 없습니다.
+      ancestor: 숨겨짐 - 권한이 없어 상위 항목을 볼 수 없습니다.
   doorkeeper:
     pre_authorization:
       status: '사전 권한 부여'
@@ -2887,7 +2992,10 @@ ko:
     errors:
       messages:
         #Common error messages
-        invalid_request: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
+        invalid_request:
+          unknown: '이 요청에는 필요한 매개 변수가 없거나, 지원되지 않는 매개 변수 값이 포함되어 있거나, 형식이 잘못되었습니다.'
+          missing_param: '필수 매개 변수 누락: %{value}.'
+          request_not_authorized: '인증이 필요한 요청입니다. 인증 요청을 위한 필수 매개 변수가 없거나 유효하지 않습니다.'
         invalid_redirect_uri: "요청한 리디렉션 URI가 잘못된 형식이거나 클라이언트 리디렉션 URI와 일치하지 않습니다."
         unauthorized_client: '클라이언트가 이 방법을 사용하여 해당 요청을 실행하도록 허용되지 않았습니다.'
         access_denied: '리소스 소유자 또는 권한 부여 서버가 요청을 거부했습니다.'
@@ -2901,6 +3009,7 @@ ko:
         admin_authenticator_not_configured: 'Doorkeeper.configure.admin_authenticator 구성이 되지 않아 관리자 패널에 대한 액세스가 금지되었습니다.'
         #Access grant errors
         unsupported_response_type: '권한 부여 서버가 이 응답 유형을 지원하지 않습니다.'
+        unsupported_response_mode: '권한 부여 서버가 이 응답 모드를 지원하지 않습니다.'
         #Access token errors
         invalid_client: '알 수 없는 클라이언트, 포함되지 않은 클라이언트 인증 또는 지원되지 않는 인증 방법으로 인해 클라이언트 인증이 실패했습니다.'
         invalid_grant: '제공된 권한 부여가 잘못되거나, 만료되거나, 취소되었거나, 권한 부여 요청에 사용된 리디렉션 URI와 일치하지 않거나, 다른 클라이언트에 지정되었습니다.'
@@ -2909,6 +3018,10 @@ ko:
           revoked: "액세스 토큰이 취소되었습니다."
           expired: "액세스 토큰이 만료되었습니다."
           unknown: "액세스 토큰이 잘못되었습니다."
+        revoke:
+          unauthorized: "이 토큰을 취소할 권한이 없습니다."
+        forbidden_token:
+          missing_scope: '이 리소스에 액세스하려면 "%{oauth_scopes}" 범위가 필요합니다.'
   unsupported_browser:
     title: "해당 브라우저는 오래되어 지원되지 않습니다."
     message: "이 페이지에서 오류가 발생하고 기능이 저하될 수 있습니다."
@@ -2961,4 +3074,51 @@ ko:
     authorization_error: "권한 부여 오류가 발생했습니다."
     revoke_my_application_confirmation: "이 애플리케이션을 제거하시겠습니까? 그러면 이 애플리케이션에 대해 활성화된 %{token_count}개가 취소됩니다."
     my_registered_applications: "등록된 OAuth 애플리케이션"
+  oauth_client:
+    urn_connection_status:
+      connected: "연결됨"
+      error: "오류"
+      failed_authorization: "인증 실패"
+    labels:
+      label_oauth_integration: "OAuth2 통합"
+      label_redirect_uri: "리디렉션 URI"
+      label_request_token: "토큰 요청"
+      label_refresh_token: "토큰 새로고침"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2가 오류를 반환했습니다."
+      oauth_reported: "OAuth2 공급자가 다음을 보고했습니다:"
+      oauth_returned_error: "OAuth2가 오류를 반환했습니다."
+      oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
+      oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
+      oauth_returned_standard_error: "OAuth2가 내부 오류를 반환했습니다."
+      wrong_token_type_returned: "OAuth2가 잘못된 유형의 토큰을 반환했습니다. AccessToken::Bearer가 필요합니다."
+      oauth_issue_contact_admin: "OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요."
+      oauth_client_not_found: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 클라이언트를 찾을 수 없습니다."
+      refresh_token_called_without_existing_token: >
+        내부 오류: 기존 토큰 없이 refresh_token을 호출했습니다.
+      refresh_token_updated_failed: "OAuthClientToken 업데이트 중에 오류 발생"
+      oauth_client_not_found_explanation: >
+        이 오류는 OpenProject에서 client_id 및 client_secret을 업데이트했지만 OAuth2 공급자에서 'Return URI' 필드를 업데이트하지 않으면 나타납니다.
+      oauth_code_not_present: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 'code'를 찾을 수 없습니다."
+      oauth_code_not_present_explanation: >
+        이 오류는 OAuth2 공급자에서 잘못된 response_type을 선택한 경우 나타납니다. Response_type은 'code' 또는 이와 유사해야 합니다.
+      oauth_state_not_present: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 'state'를 찾을 수 없습니다."
+      oauth_state_not_present_explanation: >
+        'state'는 성공적인 OAuth2 인증 후 계속할 위치를 OpenProject에 표시하는 데 사용됩니다. 누락된 'state'는 설정 중에 나타날 수 있는 내부 오류입니다. 시스템 관리자에게 문의하세요.
+      rack_oauth2:
+        client_secret_invalid: "클라이언트 비밀이 유효하지 않습니다(client_secret_invalid)"
+        invalid_request: >
+          OAuth2 인증 서버가 'invalid_request'로 응답했습니다. 이 오류는 인증을 여러 번 시도했거나 기술적인 문제가 있는 경우 나타납니다.
+        invalid_response: "OAuth2 인증 서버가 잘못된 응답을 제공했습니다(invalid_response)."
+        invalid_grant: "OAuth2 인증 서버가 재인증을 요청합니다(invalid_grant)."
+        invalid_client: "OAuth2 인증 서버가 OpenProject를 인식하지 못합니다(invalid_client)."
+        unauthorized_client: "OAuth2 인증 서버가 인증 유형을 거부합니다(unauthorized_client)."
+        unsupported_grant_type: "OAuth2 인증 서버가 재인증을 요청합니다(unsupported_grant_type)."
+        invalid_scope: "요청한 리소스에 액세스할 수 없습니다(invalid_scope)."
+  http:
+    request:
+      failed_authorization: "서버 쪽 요청이 자체 인증에 실패했습니다."
+      missing_authorization: "인증 정보가 누락되어 서버 쪽 요청이 실패했습니다."
+    response:
+      unexpected: "예기치 않은 응답을 받았습니다."
   you: 당신

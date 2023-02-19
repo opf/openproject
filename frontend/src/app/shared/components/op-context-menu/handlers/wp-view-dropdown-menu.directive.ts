@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,11 +41,13 @@ import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/
   selector: '[wpViewDropdown]',
 })
 export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly I18n:I18nService,
     readonly wpDisplayRepresentationService:WorkPackageViewDisplayRepresentationService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService) {
+    readonly wpTableTimeline:WorkPackageViewTimelineService,
+  ) {
     super(elementRef, opContextMenu);
   }
 
@@ -69,6 +71,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // Card View
           linkText: this.I18n.t('js.views.card'),
+          title: this.I18n.t('js.button_show_cards'),
           icon: 'icon-view-card',
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayCardRepresentation);
@@ -87,6 +90,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // List View
           linkText: this.I18n.t('js.views.list'),
+          title: this.I18n.t('js.button_show_table'),
           icon: 'icon-view-list',
           onClick: (evt:any) => {
             this.wpDisplayRepresentationService.setDisplayRepresentation(wpDisplayListRepresentation);
@@ -104,6 +108,7 @@ export class WorkPackageViewDropdownMenuDirective extends OpContextMenuTrigger {
         {
           // List View with enabled Gantt
           linkText: this.I18n.t('js.views.timeline'),
+          title: this.I18n.t('js.button_show_gantt'),
           icon: 'icon-view-timeline',
           onClick: (evt:any) => {
             if (!this.wpTableTimeline.isVisible) {

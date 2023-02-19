@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ module API
 
               collection_representer.new(filters,
                                          self_link: api_v3_paths.query_filter_instance_schemas,
-                                         current_user: current_user)
+                                         current_user:)
             end
 
             route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Filter schema ID' do
@@ -66,7 +66,7 @@ module API
 
                 single_representer.new(filter,
                                        self_link: api_v3_paths.query_filter_instance_schema(params[:id]),
-                                       current_user: current_user)
+                                       current_user:)
               end
             end
           end

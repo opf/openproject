@@ -17,6 +17,7 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Component({
   templateUrl: './form.component.html',
@@ -29,22 +30,19 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   @Input() showWorkPackageField = true;
 
+  @Input() showUserField = true;
+
   @Output() modifiedEntry = new EventEmitter<{ savedResource:TimeEntryResource, isInital:boolean }>();
 
   @ViewChild('editForm', { static: true }) editForm:EditFormComponent;
 
   text = {
-    attributes: {
-      comment: this.i18n.t('js.time_entry.comment'),
-      hours: this.i18n.t('js.time_entry.hours'),
-      activity: this.i18n.t('js.time_entry.activity'),
-      workPackage: this.i18n.t('js.time_entry.work_package'),
-      spentOn: this.i18n.t('js.time_entry.spent_on'),
-    },
     wpRequired: this.i18n.t('js.time_entry.work_package_required'),
   };
 
   public workPackageSelected = false;
+
+  public schema:SchemaResource;
 
   public customFields:{ key:string, label:string }[] = [];
 
@@ -68,6 +66,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
         }
       });
 
+    this.schema = this.changeset.schema;
     this.setCustomFields();
     this.cdRef.detectChanges();
   }
@@ -105,9 +104,5 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
         this.customFields.push({ key, label: keySchema.name });
       }
     });
-  }
-
-  private get schema() {
-    return this.changeset.schema;
   }
 }

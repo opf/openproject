@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ function registerListener(
   form:JQuery,
   $event:JQuery.TriggeredEvent,
   opModalService:OpModalService,
-  modal:typeof PasswordConfirmationModalComponent,
+  passwordModal:typeof PasswordConfirmationModalComponent,
 ) {
   const passwordConfirm = form.find('_password_confirmation');
 
@@ -42,20 +42,22 @@ function registerListener(
   }
 
   $event.preventDefault();
-  const modalComponent = opModalService.show(modal, 'global');
-  modalComponent.closingEvent.subscribe((confirmModal:any) => {
-    if (confirmModal.confirmed) {
+  opModalService.show(passwordModal, 'global')
+    .subscribe((modal) => modal.closingEvent.subscribe(() => {
+      if (!modal.confirmed) {
+        return;
+      }
+
       jQuery('<input>')
         .attr({
           type: 'hidden',
           name: '_password_confirmation',
-          value: confirmModal.password_confirmation,
+          value: modal.password_confirmation,
         })
         .appendTo(form);
 
       form.trigger('submit');
-    }
-  });
+    }));
 
   return false;
 }

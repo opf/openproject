@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = 'openproject-openid_connect'
   s.version     = '1.0.0'
@@ -14,4 +12,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'lobby_boy', '~> 0.1.3'
   s.add_dependency 'omniauth-openid_connect-providers', '~> 0.1'
   s.add_dependency 'openproject-auth_plugins'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

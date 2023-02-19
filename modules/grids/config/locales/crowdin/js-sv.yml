@@ -5,8 +5,8 @@ sv:
       remove: 'Ta bort widget'
       configure: 'Configure widget'
       upsale:
-        text: "Vissa widgets, som t ex widgeten med graf över arbetspaket är endast tillgängliga i "
-        link: 'enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Egen text'
@@ -31,10 +31,13 @@ sv:
           no_results: 'Inga anpassade fält har definierats för projekt.'
         project_status:
           title: 'Projektstatus'
+          not_started: 'Not started'
           on_track: 'På banan'
           off_track: 'Utanför banan'
           at_risk: 'I riskzonen'
           not_set: 'Ej inställd'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Delprojekt'
           no_results: 'Inga delprojekt.'

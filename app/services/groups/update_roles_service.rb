@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ module Groups
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private
@@ -68,7 +68,7 @@ module Groups
           SELECT id
           FROM #{Member.table_name}
           WHERE user_id IN (SELECT user_id FROM group_users)
-          AND project_id = :project_id
+          AND project_id IS NOT DISTINCT FROM :project_id
         ),
         -- select all member roles the group has for the member
         group_member_roles AS (
@@ -78,15 +78,20 @@ module Groups
           WHERE member_roles.member_id = :member_id
         ),
         -- delete all roles assigned to users that group no longer has but keep those that the user
-        -- has independently of the group (not inherited)
+        -- has independently of the group (not inherited) or inherited from a different group
         remove_roles AS (
-          DELETE FROM #{MemberRole.table_name}
+          DELETE FROM #{MemberRole.table_name} delete_member_roles
           USING #{MemberRole.table_name} user_member_roles
           JOIN user_members ON user_members.id = user_member_roles.member_id
-          LEFT JOIN group_member_roles ON user_member_roles.role_id = group_member_roles.role_id
-          WHERE user_member_roles.inherited_from IS NOT NULL AND group_member_roles.role_id IS NULL
-          AND member_roles.id = user_member_roles.id
-          RETURNING #{MemberRole.table_name}.id, #{MemberRole.table_name}.member_id, #{MemberRole.table_name}.role_id
+          LEFT JOIN #{MemberRole.table_name} inheriting_member_roles
+            ON user_member_roles.role_id = inheriting_member_roles.role_id
+            AND user_member_roles.inherited_from = inheriting_member_roles.id
+          WHERE user_member_roles.inherited_from IS NOT NULL AND inheriting_member_roles.id IS NULL
+          AND delete_member_roles.id = user_member_roles.id
+          RETURNING
+            delete_member_roles.id,
+            delete_member_roles.member_id,
+            delete_member_roles.role_id
         ),
         -- add all roles to the user memberships
         add_roles AS (

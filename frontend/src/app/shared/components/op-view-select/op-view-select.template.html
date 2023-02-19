@@ -1,0 +1,28 @@
+<div id="viewSelect" class="searchable-menu">
+  <div class="searchable-menu--search-container">
+    <div class="searchable-menu--search-bar">
+      <label for="query-title-filter"
+             class="hidden-for-sighted"
+             [textContent]="text.label"></label>
+      <input type="text"
+             [(ngModel)]="search"
+             class="searchable-menu--search-input ellipsis"
+             name="query-title-filter"
+             id="query-title-filter"
+             [attr.placeholder]="text.search"/>
+      <i class="icon-search searchable-menu--search-icon"></i>
+    </div>
+
+    <p class="searchable-menu--no-results-container"
+       [hidden]="(views$ | async).length > 0"
+       [textContent]="text.no_results"></p>
+
+    <op-sidemenu
+      class="op-view-select--search-results"
+      [items]="views$ | async"
+      [collapsible]="true"
+      [searchable]="true"
+    >
+    </op-sidemenu>
+  </div>
+</div>

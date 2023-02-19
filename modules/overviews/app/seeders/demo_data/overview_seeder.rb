@@ -77,7 +77,7 @@ module DemoData
     end
 
     def overview_config(project_config)
-      project_config[:"project-overview"]
+      project_config[:'project-overview']
     end
 
     def text_with_references(overview, widget_options)

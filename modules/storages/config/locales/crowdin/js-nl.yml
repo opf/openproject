@@ -1,0 +1,37 @@
+#English strings go here
+nl:
+  js:
+    storages:
+      link_files_in_storage: "Koppel bestanden aan %{storageType}"
+      link_existing_files: "Bestaande bestanden koppelen"
+      login: "%{storageType} login"
+      login_to: "Inloggen op %{storageType}"
+      no_connection: "Geen %{storageType} verbinding"
+      open_storage: "%{storageType} openen"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Sommige %{storageType} instellingen werken niet. Neem contact op met uw %{storageType} beheerder.
+        live_data_error: "Fout bij ophalen bestand details"
+        live_data_error_description: >
+          Sommige %{storageType} gegevens konden niet worden opgehaald. Probeer deze pagina te herladen of neem contact op met uw %{storageType} beheerder.
+        no_file_links: "Om bestanden te koppelen aan dit werkpakket, doe het via %{storageType}."
+        not_logged_in: >
+          Om een link toetevoegen, bekijk of upload bestanden gerelateerd aan dit werkpakket, log dan in op %{storageType}.
+      file_links:
+        download: "Downloaden %{fileName}"
+        no_permission: "U heeft geen toestemming om dit bestand te bekijken."
+        open: 'Open bestand in opslag'
+        open_location: 'Open bestand op locatie'
+        remove: "Bestandslink verwijderen"
+        remove_confirmation: >
+          Weet u zeker dat u het bestand van dit werkpakket wilt ontkoppelen? Ontkoppelen heeft geen invloed op het oorspronkelijke bestand en verwijdert alleen de verbinding met dit werkpakket.
+        remove_short: "Koppeling verwijderen"
+        select: "Selecteer bestanden"
+        select_all: "Alles selecteren"
+        selection_none: "Selecteer bestanden om te koppelen"
+        selection_any: "Koppel %{number} bestanden"
+        not_allowed_tooltip: "Log in op Nextcloud om toegang te krijgen tot dit bestand"
+        already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
+        already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +28,21 @@
 
 module Migration
   module MigrationUtils
-    class PermissionAdder
-      def self.add(having, add)
+    module PermissionAdder
+      module_function
+
+      def add(having, add)
         Role
           .joins(:role_permissions)
           .where(role_permissions: { permission: having.to_s })
           .references(:role_permissions)
           .find_each do |role|
-          role.add_permission! add
+          # Check if the add-permission already exists before adding
+          already_exists = RolePermission
+                             .exists?(role_id: role.id, permission: add.to_s)
+          unless already_exists
+            role.add_permission! add
+          end
         end
       end
     end

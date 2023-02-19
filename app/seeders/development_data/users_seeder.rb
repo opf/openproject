@@ -1,7 +1,6 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -82,7 +79,7 @@ module DevelopmentData
     def seed_users_disabled?
       off_values = ["off", "false", "no", "0"]
 
-      off_values.include? ENV['OP_DEV_USER_SEEDER_ENABLED']
+      off_values.include? ENV.fetch('OP_DEV_USER_SEEDER_ENABLED', nil)
     end
 
     def user_names
@@ -106,17 +103,18 @@ module DevelopmentData
         user.status = User.statuses[:active]
         user.language = I18n.locale
         user.force_password_change = false
+        user.notification_settings.build(assignee: true, responsible: true, mentioned: true, watched: true)
       end
     end
 
     def force_password_change?
-      Rails.env != 'development' && !force_password_change_disabled?
+      !Rails.env.development? && !force_password_change_disabled?
     end
 
     def force_password_change_disabled?
       off_values = ["off", "false", "no", "0"]
 
-      off_values.include? ENV[force_password_change_env_switch_name]
+      off_values.include? ENV.fetch(force_password_change_env_switch_name, nil)
     end
   end
 end

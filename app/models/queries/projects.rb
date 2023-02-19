@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,32 +27,31 @@
 #++
 
 module Queries::Projects
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+  ::Queries::Register.register(ProjectQuery) do
+    filter Filters::AncestorFilter
+    filter Filters::TypeFilter
+    filter Filters::ActiveFilter
+    filter Filters::TemplatedFilter
+    filter Filters::PublicFilter
+    filter Filters::NameFilter
+    filter Filters::NameAndIdentifierFilter
+    filter Filters::TypeaheadFilter
+    filter Filters::CustomFieldFilter
+    filter Filters::CreatedAtFilter
+    filter Filters::LatestActivityAtFilter
+    filter Filters::PrincipalFilter
+    filter Filters::ParentFilter
+    filter Filters::IdFilter
+    filter Filters::ProjectStatusFilter
+    filter Filters::UserActionFilter
+    filter Filters::VisibleFilter
 
-  ::Queries::Register.register do
-    filter query, filters::AncestorFilter
-    filter query, filters::TypeFilter
-    filter query, filters::ActiveFilter
-    filter query, filters::TemplatedFilter
-    filter query, filters::PublicFilter
-    filter query, filters::NameAndIdentifierFilter
-    filter query, filters::CustomFieldFilter
-    filter query, filters::CreatedAtFilter
-    filter query, filters::LatestActivityAtFilter
-    filter query, filters::PrincipalFilter
-    filter query, filters::ParentFilter
-    filter query, filters::IdFilter
-    filter query, filters::ProjectStatusFilter
-    filter query, filters::UserActionFilter
-    filter query, filters::VisibleFilter
-
-    order query, orders::DefaultOrder
-    order query, orders::LatestActivityAtOrder
-    order query, orders::RequiredDiskSpaceOrder
-    order query, orders::CustomFieldOrder
-    order query, orders::ProjectStatusOrder
-    order query, orders::NameOrder
+    order Orders::DefaultOrder
+    order Orders::LatestActivityAtOrder
+    order Orders::RequiredDiskSpaceOrder
+    order Orders::CustomFieldOrder
+    order Orders::ProjectStatusOrder
+    order Orders::NameOrder
+    order Orders::TypeaheadOrder
   end
 end

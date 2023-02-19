@@ -7,13 +7,13 @@ import {
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { UserPreferencesStore } from 'core-app/features/user-preferences/state/user-preferences.store';
-import { UserPreferencesModel } from 'core-app/features/user-preferences/state/user-preferences.model';
-import { NotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
+import { IUserPreference } from 'core-app/features/user-preferences/state/user-preferences.model';
+import { INotificationSetting } from 'core-app/features/user-preferences/state/notification-setting.model';
 
-export class UserPreferencesQuery extends Query<UserPreferencesModel> {
+export class UserPreferencesQuery extends Query<IUserPreference> {
   notificationSettings$ = this.select('notifications');
 
-  notificationsGroupedByProject$:Observable<{ [key:string]:NotificationSetting[] }> = this
+  notificationsGroupedByProject$:Observable<{ [key:string]:INotificationSetting[] }> = this
     .notificationSettings$
     .pipe(
       map((settings) => settings.filter((setting) => setting._links.project.href)),
@@ -21,7 +21,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
     );
 
   /** Notification settings grouped by Project */
-  notificationsForGlobal$:Observable<NotificationSetting|undefined> = this
+  notificationsForGlobal$:Observable<INotificationSetting|undefined> = this
     .notificationSettings$
     .pipe(
       map((notifications) => notifications.find((setting) => setting._links.project.href === null)),
@@ -38,7 +38,7 @@ export class UserPreferencesQuery extends Query<UserPreferencesModel> {
     .pipe(
       map((settings) => settings.find((notification) => !notification._links.project.href)),
       filter((global) => !!global),
-    ) as Observable<NotificationSetting>;
+    ) as Observable<INotificationSetting>;
 
   /** Selected projects */
   selectedProjects$ = this

@@ -6,7 +6,7 @@ import { TimeEntryEditService } from 'core-app/shared/components/time_entries/ed
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 
 export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions-entry';
@@ -34,7 +34,7 @@ export const triggerActionsEntryComponentSelector = 'time-entry--trigger-actions
 export class TriggerActionsEntryComponent {
   @InjectField() readonly timeEntryEditService:TimeEntryEditService;
 
-  @InjectField() readonly apiv3Service:APIV3Service;
+  @InjectField() readonly apiv3Service:ApiV3Service;
 
   @InjectField() readonly toastService:ToastService;
 

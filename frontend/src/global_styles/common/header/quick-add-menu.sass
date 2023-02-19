@@ -1,10 +1,8 @@
-$background: var(--button--alt-highlight-background-color)
-$background-hover: var(--button--alt-highlight-background-hover-color)
-$color: var(--button--alt-highlight-font-color)
-
 .op-quick-add-menu
-  @include breakpoint(680px down)
-    display: none
+  $background: var(--button--alt-highlight-background-color)
+  $background-hover: var(--button--alt-highlight-background-hover-color)
+  $color: var(--button--alt-highlight-font-color)
+  flex-shrink: 0
 
   &--icon::before
     display: flex

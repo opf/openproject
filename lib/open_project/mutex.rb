@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,17 +54,18 @@ module OpenProject
     # attachable journals for the attachment added by themselves. To the user this will look as if one of the actions
     # deleted the other attachment. The next action, Action 3,  will then seem to have readded the attachment,
     # seemingly removed before.
-    def with_advisory_lock_transaction(entry, &block)
+    def with_advisory_lock_transaction(entry, suffix = nil, &)
+      lock_name = "mutex_on_#{entry.class.name}_#{entry.id}"
+      lock_name << "_#{suffix}" if suffix
+
       ActiveRecord::Base.transaction do
-        with_advisory_lock(entry, &block)
+        with_advisory_lock(entry.class, lock_name, &)
       end
     end
 
-    def with_advisory_lock(entry)
-      lock_name = "mutex_on_#{entry.class.name}_#{entry.id}"
-
+    def with_advisory_lock(resource_class, lock_name)
       debug_log("Attempting to fetched advisory lock", lock_name)
-      result = entry.class.with_advisory_lock(lock_name, transaction: true) do
+      result = resource_class.with_advisory_lock(lock_name, transaction: true) do
         debug_log("Fetched advisory lock", lock_name)
         yield
       end

@@ -1,4 +1,22 @@
 .op-principal
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  vertical-align: middle
+
+  &--avatar
+    flex-grow: 0
+    flex-shrink: 0
+
+  &--name
+    @include text-shortener
+    flex-grow: 1
+    flex-shrink: 1
+    min-width: 0 // See: https://css-tricks.com/flexbox-truncated-text/
+
+  &_wrapped &--name
+    white-space: normal
+
   &--multi-line
     display: block
     margin-bottom: 2px
@@ -7,3 +25,6 @@
     @media screen and (max-width: 680px)
       &--name
         display: none
+
+  .op-avatar + .op-principal--name
+    margin-left: $spot-spacing-0_5

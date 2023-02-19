@@ -1,0 +1,37 @@
+#English strings go here
+de:
+  js:
+    storages:
+      link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
+      link_existing_files: "Vorhandene Dateien verknüpfen"
+      login: "%{storageType} Login"
+      login_to: "Bei %{storageType} anmelden"
+      no_connection: "Keine %{storageType} Verbindung"
+      open_storage: "Öffne %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
+        live_data_error: "Fehler beim Abrufen der Dateidetails"
+        live_data_error_description: >
+          Einige %{storageType} Daten konnten nicht abgerufen werden. Bitte laden Sie diese Seite neu oder kontaktieren Sie Ihren %{storageType} Administrator.
+        no_file_links: "Verknüpfen Sie Dateien mit diesem Arbeitspaket bitte über %{storageType}."
+        not_logged_in: >
+          Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
+      file_links:
+        download: "%{fileName} herunterladen"
+        no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
+        open: 'Datei im Speicher öffnen'
+        open_location: 'Datei am Speicherort öffnen'
+        remove: "Datei-Link entfernen"
+        remove_confirmation: >
+          Sind Sie sicher, dass Sie die Verknüpfung der Datei aus diesem Arbeitspaket entfernen möchten? Das Entfernen der Verknüpfung wirkt sich nicht auf die Originaldatei aus und entfernt nur die Verbindung zu diesem Arbeitspaket.
+        remove_short: "Link entfernen"
+        select: "Dateien auswählen"
+        select_all: "Alle auswählen"
+        selection_none: "Dateien zum Verlinken auswählen"
+        selection_any: "%{number} Dateien verknüpfen"
+        not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
+        already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
+        already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

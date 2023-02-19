@@ -1,0 +1,36 @@
+@import "src/assets/sass/helpers"
+
+.op-bcf-list
+  &--result-overlay
+    @include overlay-background
+    background-color: #FFFFFF
+    opacity: 0.5
+
+  &--work-packages--card-view-container
+    width: 100%
+    overflow: auto
+    padding-bottom: 5px
+    @include styled-scroll-bar
+
+    @media screen and (min-width: 679px)
+      &._with-resizer
+        padding-left: 10px
+
+    @media screen and (max-width: 679px)
+      // Ensure the WP cards span the complete width on mobile
+      // --> Move scrollbar out of visible area
+      min-width: calc(100vw + 10px)
+
+  &--work-packages-split-view--tabletimeline-container
+    display: flex
+    flex: 1 1 auto
+    @include styled-scroll-bar
+
+    @media screen and (min-width: 679px)
+      &._with-resizer
+        padding-left: 10px
+
+    @media screen and (max-width: 679px)
+      // Ensure the WP cards span the complete width on mobile
+      // --> Move scrollbar out of visible area
+      min-width: calc(100vw + 10px)

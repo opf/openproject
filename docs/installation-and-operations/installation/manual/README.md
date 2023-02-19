@@ -4,22 +4,24 @@ sidebar_navigation: false
 
 # Manual installation guide
 
-**IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation). This guide is simply provided as a reference, and is most likely NOT up to date with relation to the latest OpenProject releases.**
+> **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation).**
+>
+> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations taht you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
 
 Please be aware that:
 
-* This guide requires that you have a clean Ubuntu 18.04 **x64** installation
+* This guide **requires** that you have a clean **Ubuntu 18.04** **x64** installation
 with administrative rights (i.e. you must be able to `sudo`). We have tested
 the installation guide on an Ubuntu Server image, but it should work on any
 derivative. You may need to alter some of the commands to match your
 derivative.
 
-* OpenProject will be installed with a PostgreSQL database.
+* OpenProject will be installed with a **PostgreSQL** database.
 
-* OpenProject will be served in a production environment with the Apache server
+* OpenProject will be served in a production environment with the **Apache** server
 (this guide should work similarly with other servers, like nginx and others)
 
-Note: We have highlighted commands to execute like this
+> **NOTE:** We have highlighted commands to execute like this
 
 ```bash
 [user@host] command to execute
@@ -61,7 +63,7 @@ sudo passwd openproject #(enter desired password)
 
 ## Install and setup the database server (PostgreSQL)
 
-OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check https://www.postgresql.org/download/ to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
+OpenProject requires PostgreSQL v9.5+. If you system package is too old, you can check [postgresql.org](https://www.postgresql.org/download/) to get a newer version installed. In our case, Ubuntu 18.04 comes with a recent-enough version so we can use the system packages:
 
 ```bash
 [root@host] apt-get install postgresql postgresql-contrib libpq-dev
@@ -95,7 +97,7 @@ Lastly, revert to the previous system user:
 ## Installation of Ruby
 
 The are several possibilities to install Ruby on your machine. We will
-use [rbenv](http://rbenv.org/). Please be aware that the actual installation of a specific Ruby version takes some
+use [rbenv](https://github.com/rbenv/rbenv). Please be aware that the actual installation of a specific Ruby version takes some
 time to finish.
 
 ```bash
@@ -106,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 2.7.5
+[openproject@host] rbenv install 3.1.2
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 2.7.5
+[openproject@host] rbenv global 3.1.2
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 2.7.5p203 (2021-07-07 revision a21a3b7d23) [x86_64-linux]
+ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -132,7 +134,7 @@ time to finish.
 [openproject@host] echo 'export PATH="$HOME/.nodenv/bin:$PATH"' >> ~/.profile
 [openproject@host] echo 'eval "$(nodenv init -)"' >> ~/.profile
 [openproject@host] source ~/.profile
-[openproject@host] git clone git://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
+[openproject@host] git clone https://github.com/OiNutter/node-build.git ~/.nodenv/plugins/node-build
 
 [openproject@host] nodenv install 14.16.0
 [openproject@host] nodenv rehash
@@ -142,13 +144,13 @@ time to finish.
 To check our Node installation we run `node --version`. It should output something very similar to:
 
 ```
-v14.16.0
+v16.17.0
 ```
 
 ## Installation of OpenProject
 
 We will install the OpenProject Community Edition. It contains the recommended set of plugins for use
-with OpenProject. For more information, see https://github.com/opf/openproject.
+with OpenProject. For more information, see [github.com/opf/openproject](https://github.com/opf/openproject).
 
 
 ```bash
@@ -213,12 +215,10 @@ a better performance of OpenProject:
 rails_cache_store: :memcache
 ```
 
-__NOTE:__ You should validate your `yml` files, for example with
-http://www.yamllint.com/. Both, the `database.yml` and `configuration.yml`
-file are sensitive to whitespace. It is pretty easy to write
-invalid `yml` files without seeing the error. Validating those files
-prevents you from such errors.
+> __NOTE:__ You should validate your `yml` files, for example with [yamlchecker.com](https://yamlchecker.com/). Both, the `database.yml` and `configuration.yml` file are sensitive to whitespace. It is pretty easy to write invalid `yml` files without seeing the error. Validating those files prevents you from such errors.
+>
 
+To configure the environment variables such as the number of web server threads `OPENPROJECT_WEB_WORKERS`, copy the `.env.example` to `.env` and add the environment variables you want to configure. The variables will be automatically loaded to the application's environment.
 
 ## Finish the installation of OpenProject
 
@@ -230,11 +230,12 @@ prevents you from such errors.
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-**NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+
 ```bash
-[openproject@all] RAILS_ENV="production" LOCALE=fr ./bin/rake db:seed
+[openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language.
+will seed the database in the french language. A large portion of the seed data is only available in english, however.
 
 ### Secret token
 

@@ -1,0 +1,37 @@
+#English strings go here
+it:
+  js:
+    storages:
+      link_files_in_storage: "Collega file in %{storageType}"
+      link_existing_files: "Collega file esistenti"
+      login: "Accesso %{storageType}"
+      login_to: "Accedi a %{storageType}"
+      no_connection: "Nessuna connessione %{storageType}"
+      open_storage: "Apri %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
+        live_data_error: "Errore nel recupero dei dettagli del file"
+        live_data_error_description: >
+          Alcuni dati %{storageType} non possono essere recuperati. Prova a ricaricare questa pagina o contatta l'amministratore %{storageType}.
+        no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
+        not_logged_in: >
+          Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      file_links:
+        download: "Scarica %{fileName}"
+        no_permission: "Non hai i permessi per accedere al file."
+        open: 'Apri file su memoria'
+        open_location: 'Apri file nella posizione'
+        remove: "Rimuovi collegamento al file"
+        remove_confirmation: >
+          Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
+        remove_short: "Rimuovi collegamento"
+        select: "Seleziona file"
+        select_all: "Seleziona tutto"
+        selection_none: "Seleziona i file da collegare"
+        selection_any: "Collega %{number} file"
+        not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
+        already_linked_file: "Questo file è già collegato a questa macro-attività."
+        already_linked_directory: "Questa directory è già collegata a questa macro-attività."

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +26,46 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+} from '@angular/core';
+import {
+  FormBuilder,
+  Validators,
+} from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EnterpriseTrialData, EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { localizeLink } from 'core-app/shared/helpers/i18n/localized-link';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
-const newsletterURL = 'https://www.openproject.com/newsletter/';
+const newsletterURL = 'https://www.openproject.org/newsletter/';
 
 @Component({
   selector: 'enterprise-trial-form',
   templateUrl: './ee-trial-form.component.html',
   styleUrls: ['./ee-trial-form.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EETrialFormComponent {
   // Retain used values
-  userData:Partial<EnterpriseTrialData> = this.eeTrialService.userData$.getValueOr({});
+  userData:Partial<IEnterpriseData> = this.eeTrialService.current.data || {};
+
+  // The current request host
+  requestHost = window.location.host;
+
+  // The configured host name
+  configuredHost = this.configurationService.hostName;
 
   trialForm = this.formBuilder.group({
     company: [this.userData.company, Validators.required],
     first_name: [this.userData.first_name, Validators.required],
     last_name: [this.userData.last_name, Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    domain: [this.userData.domain || window.location.host, Validators.required],
+    domain: [this.userData.domain || this.configuredHost, Validators.required],
     general_consent: [null, Validators.required],
     newsletter_consent: null,
     language: this.currentUserService.language,
@@ -58,7 +74,7 @@ export class EETrialFormComponent {
   public text = {
     general_consent: this.I18n.t('js.admin.enterprise.trial.form.general_consent', {
       link_terms: localizeLink({
-        en: 'https://www.openproject.com/terms-of-service/',
+        en: 'https://www.openproject.org/terms-of-service/',
         de: 'https://www.openproject.org/de/nutzungsbedingungen/',
       }),
       link_privacy: localizeLink({
@@ -72,27 +88,30 @@ export class EETrialFormComponent {
     label_last_name: this.I18n.t('js.admin.enterprise.trial.form.label_last_name'),
     label_email: this.I18n.t('js.label_email'),
     label_domain: this.I18n.t('js.admin.enterprise.trial.form.label_domain'),
+    domain_mismatch: this.I18n.t('js.admin.enterprise.trial.form.domain_mismatch'),
     privacy_policy: this.I18n.t('js.admin.enterprise.trial.form.privacy_policy'),
     receive_newsletter: this.I18n.t('js.admin.enterprise.trial.form.receive_newsletter', { link: newsletterURL }),
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    private formBuilder:FormBuilder,
+    readonly formBuilder:FormBuilder,
     readonly currentUserService:CurrentUserService,
-    public eeTrialService:EnterpriseTrialService) {
-
+    readonly configurationService:ConfigurationService,
+    readonly eeTrialService:EnterpriseTrialService,
+  ) {
   }
 
   // checks if mail is valid after input field was edited by the user
   // displays message for user
-  public checkMailField() {
-    if (this.trialForm.value.email !== '' && this.trialForm.controls.email.errors) {
-      this.eeTrialService.emailInvalid = true;
+  public checkMailField():void {
+    const data = this.trialForm.value as IEnterpriseData;
+    if (data.email !== '' && this.trialForm.controls.email.errors) {
+      this.eeTrialService.store.update({ emailInvalid: true });
     } else {
-      this.eeTrialService.emailInvalid = false;
-      this.eeTrialService.error = undefined;
+      this.eeTrialService.store.update({ emailInvalid: false, error: undefined });
     }
   }
 }

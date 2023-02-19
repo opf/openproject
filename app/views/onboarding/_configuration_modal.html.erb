@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,22 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div class="modal-delivery-element">
   <%= labelled_tabular_form_for current_user, url: { action: 'user_settings', controller: 'onboarding' }, html: { id: 'user-form' } do |f| %>
-    <div class="op-modal--header op-modal--header_highlight">
-      <%= avatar(current_user) %>
-      <h1 class="op-modal--title">
-        <%= I18n.t('onboarding.welcome') %>, <%= current_user.name %>
-      </h1>
-      <button
-        type="button"
-        class="op-modal--close-button"
-        title="<%= t('js.close_popup_title') %>"
-        aria-label="<%= t('js.close_popup_title') %>"
-      >
-        <%= op_icon('icon-close') %>
-      </button>
+    <div class="spot-modal--header">
+      <%= I18n.t('onboarding.welcome', app_title: Setting.app_title) %>, <%= current_user.name %>
     </div>
 
-    <div class="onboarding--main op-modal--body">
+    <div class="spot-divider"></div>
+
+    <div class="onboarding--main spot-modal--body spot-container">
       <b><%= I18n.t('onboarding.select_language') %></b>
       <fieldset class="form--fieldset">
         <div class="form--field">
@@ -53,8 +44,15 @@ See COPYRIGHT and LICENSE files for more details.
       </fieldset>
     </div>
 
-    <div class="onboarding--footer op-modal--footer">
-      <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <div class="onboarding--footer spot-action-bar">
+      <div class="spot-action-bar--right">
+        <button
+          class="button button_no-margin spot-action-bar--action"
+          dynamic-content-modal-close-button
+          title=<%= t(:button_close) %>
+        ><%= t(:button_close) %></button>
+        <%= styled_button_tag t(:button_save), class: 'button_no-margin -highlight -with-icon icon-checkmark spot-action-bar--action' %>
+      </div>
     </div>
   <% end %>
 </div>

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,15 +37,15 @@ class WorkPackages::Exports::ScheduleService
     export_storage = WorkPackages::Export.create
     job = schedule_export(export_storage, mime_type, params, query)
 
-    ServiceResult.new success: true, result: job.job_id
+    ServiceResult.success result: job.job_id
   end
 
   private
 
   def schedule_export(export_storage, mime_type, params, query)
     WorkPackages::ExportJob.perform_later(export: export_storage,
-                                          user: user,
-                                          mime_type: mime_type,
+                                          user:,
+                                          mime_type:,
                                           query: serialize_query(query),
                                           query_attributes: serialize_query_props(query),
                                           **params)

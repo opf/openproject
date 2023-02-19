@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-buster
+FROM ruby:3.1.2-buster
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
@@ -7,8 +7,8 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV NODE_VERSION="14.17.0"
-ENV BUNDLER_VERSION="2.1.4"
+ENV NODE_VERSION="16.17.0"
+ENV BUNDLER_VERSION="2.3.12"
 ENV BUNDLE_PATH__SYSTEM=false
 ENV APP_USER=app
 ENV APP_PATH=/app
@@ -26,7 +26,6 @@ ENV RAILS_SERVE_STATIC_FILES=1
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
-ENV NEW_RELIC_AGENT_ENABLED=false
 ENV ATTACHMENTS_STORAGE_PATH=$APP_DATA_PATH/files
 # Set a default key base, ensure to provide a secure value in production environments!
 ENV SECRET_KEY_BASE=OVERWRITE_ME
@@ -36,6 +35,10 @@ WORKDIR $APP_PATH
 COPY docker/prod/setup ./docker/prod/setup
 RUN ./docker/prod/setup/preinstall.sh
 
+# set irb default config for app (docker run -it ...) and root (docker exec -it ...) users
+RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
+RUN ln -s /app/docker/prod/setup/.irbrc /root/
+
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
 COPY modules ./modules
@@ -43,7 +46,7 @@ COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
 COPY lib ./lib
 
-RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
+RUN bundle config set --local frozen 'false' && bundle config set --local deployment 'false' && bundle install --quiet --path vendor/bundle --no-cache \
   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
 

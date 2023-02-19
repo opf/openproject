@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,8 +37,8 @@ OpenProject::Application.configure do
   # Automatically refresh translations with I18n middleware
   config.middleware.use ::I18n::JS::Middleware
 
-  # Do not eager load code on boot.
-  config.eager_load = false
+  # Do not eager load code on boot by default.
+  config.eager_load = ENV['EAGER_LOAD'].present?
 
   # Asynchronous file watcher
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
@@ -82,7 +80,14 @@ OpenProject::Application.configure do
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
 
+  # Set email preview locations to rspec
+  config.action_mailer.preview_path = Rails.root.join('spec/mailers/previews')
+
   config.hosts << 'bs-local.com' if ENV['OPENPROJECT_DISABLE_DEV_ASSET_PROXY'].present?
+
+  if ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].present?
+    config.hosts.push(*ENV['OPENPROJECT_DEV_EXTRA_HOSTS'].split(','))
+  end
 end
 
-ActiveRecord::Base.logger = ActiveSupport::Logger.new(STDOUT) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
+ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool

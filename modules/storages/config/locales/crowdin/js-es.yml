@@ -1,0 +1,37 @@
+#English strings go here
+es:
+  js:
+    storages:
+      link_files_in_storage: "Enlace archivos en %{storageType}"
+      link_existing_files: "Enlazar archivos existentes"
+      login: "%{storageType} iniciar sesión"
+      login_to: "Iniciar sesión en %{storageType}"
+      no_connection: "No hay conexión para %{storageType}"
+      open_storage: "Abrir %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Algunos ajustes dé %{storageType} no funcionan. Póngase en contacto con el administrador de %{storageType}.
+        live_data_error: "Error obteniendo detalles del archivo"
+        live_data_error_description: >
+          Algunos datos de %{storageType} no se han podido obtener. Intente volver a cargar esta página o póngase en contacto con el administrador de %{storageType}.
+        no_file_links: "Para poder enlazar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
+        not_logged_in: >
+          Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
+      file_links:
+        download: "Descargar %{fileName}"
+        no_permission: "No tienes permisos para ver este archivo."
+        open: 'Abrir el fichero en almacenamiento'
+        open_location: 'Abrir fichero en su ubicación'
+        remove: "Eliminar vínculo de fichero"
+        remove_confirmation: >
+          ¿Está seguro que desea desvincular el archivo de este paquete de trabajo? Desvincular no afecta al archivo original, solo elimina la conexión a este paquete de trabajo.
+        remove_short: "Eliminar enlace"
+        select: "Seleccionar archivos"
+        select_all: "Seleccionar todo"
+        selection_none: "Seleccionar archivos a enlazar"
+        selection_any: "Enlace %{number} archivos"
+        not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
+        already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
+        already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

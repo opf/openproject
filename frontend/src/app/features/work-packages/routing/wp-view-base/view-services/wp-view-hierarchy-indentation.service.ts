@@ -5,7 +5,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
@@ -13,7 +13,7 @@ export class WorkPackageViewHierarchyIdentationService {
     private wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
     private states:States,
     private wpRelationHierarchy:WorkPackageRelationsHierarchyService,
-    private apiV3Service:APIV3Service,
+    private apiV3Service:ApiV3Service,
     private querySpace:IsolatedQuerySpace) {
   }
 

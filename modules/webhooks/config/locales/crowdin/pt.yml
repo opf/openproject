@@ -27,13 +27,17 @@ pt:
       events:
         created: "Criado"
         updated: "Atualizado"
+      explanation:
+        text: >
+          Na ocorrência de um evento como a criação de um pacote de trabalho ou uma atualização em um projeto, o OpenProject enviará uma solicitação POST para os terminais web configurados. Muitas vezes, o evento é enviado após o %{link} ter passado.
+        link: período de agregação configurado
       status:
         enabled: 'Webhook está habilitado'
         disabled: 'Webhook está desativado'
         enabled_text: 'O webhook emitirá payloads para os eventos definidos abaixo.'
         disabled_text: 'Clique no botão editar para ativar o webhook.'
       deliveries:
-        no_results_table: Não foram feitas entregas para este webhook.
+        no_results_table: Nenhuma entrega foi realizada para este webhook nos últimos dias.
         title: 'Entregas recentes'
         time: 'Tempo de entrega'
       form:

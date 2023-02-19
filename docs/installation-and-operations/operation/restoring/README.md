@@ -121,21 +121,20 @@ For Docker-based installations, assuming you have a backup as per the procedure 
 
 Let's assume you want to restore a database dump given in a file, say `openproject.sql`.
 
+This assumes that the database container is called `compose_db_1`. Find out the actual name on your host using `docker ps | grep postgres`.
+
 If you are using docker-compose this is what you do after you started everything for the first time using `docker-compose up -d`:
 
 1. Stop the OpenProject container using `docker-compose stop web worker`.
-2. Drop the existing, seeded database using `docker exec -it db_1 psql -U postgres -c 'drop database openproject;'`
-3. Recreate the database using `docker exec -it db_1 psql -U postgres -c 'create database openproject owner openproject;'`<sup>*</sup>
-4. Copy the dump onto the container: `docker cp openproject.sql db_1:/`
-5. Source the dump with psql on the container: `docker exec -it db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
-6. Delete the dump on the container: `docker exec -it db_1 rm openproject.sql`
-7. Restart the web and worker processes: `docker-compose start web worker`
-
-_\* If your database doesn't have an OpenProject user you either have to create one or use which ever user you used before._
-
-* * *
-
-This assumes that the database container is called `db_1`. Find out the actual name on your host using `docker ps | postgres`.
+2. Drop the existing, seeded database using `docker exec -it compose_db_1 psql -U postgres -c 'drop database openproject;'`
+3. If your database doesn't have an openproject user yet, create it with this command: `docker exec -it compose_db_1 psql -U postgres -c 'create user openproject;'` 
+4. Recreate the database using `docker exec -it compose_db_1 psql -U postgres -c 'create database openproject owner openproject;'`
+5. Copy the dump onto the container: `docker cp openproject.sql compose_db_1:/`
+6. Source the dump with psql on the container: `docker exec -it compose_db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
+7. Delete the dump on the container: `docker exec -it compose_db_1 rm openproject.sql`
+8. Run the seeder once to perform any migrations `docker-compose start seeder`
+9. Restart the web and worker processes: `docker-compose start web worker`
+10. Confirm with `docker-compose logs -f` that the processes are starting up correctly.
 
 ### Using the all-in-one container
 
@@ -152,7 +151,7 @@ First we create the folder to be mounted by our OpenProject container.
 While we're at we also create the assets folder which should be mounted too.
 
 ```
-mkdir /var/lib/openproject/{pgdata,assets}
+mkdir -p /var/lib/openproject/{pgdata,assets}
 ```
 
 #### 2) Initialize the database
@@ -160,11 +159,10 @@ mkdir /var/lib/openproject/{pgdata,assets}
 Next we need to initialize the database.
 
 ```
-docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:11
+docker run --rm -v /var/lib/openproject/pgdata:/var/openproject/pgdata -it openproject/community:12
 ```
 
-As soon as you see `CREATE ROLE` and `Migrating to ToV710AggregatedMigrations (10000000000000)`
-or lots of `create_table` in the container's output you can kill it by pressing Ctrl + C.
+As soon as you see `Database setup finished.` in the container's output you can kill it by pressing Ctrl + C.
 It may take a moment to shut down.
 This then has initialized the database under `/var/lib/openproject/pgdata` on your docker host.
 
@@ -173,7 +171,7 @@ This then has initialized the database under `/var/lib/openproject/pgdata` on yo
 Now we can restore the database. For this we mount the initialized `pgdata` folder using the postgres docker container.
 
 ```
-docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:9.6
+docker run --rm -d --name postgres -v /var/lib/openproject/pgdata:/var/lib/postgresql/data postgres:13
 ```
 
 Once the container is ready you can copy your SQL dump onto it and start `psql`.
@@ -214,7 +212,7 @@ docker exec -it postgres pg_restore -U postgres postgresql-dump-20211119210038.p
 
 **Dump restored**
 
-Once the dump is restored yuo can stop the postgres container using `docker stop postgres`.
+Once the dump is restored you can stop the postgres container using `docker stop postgres`.
 Now you have to fix the permissions that were changed by the postgres container so OpenProject
 can use the files again.
 
@@ -231,10 +229,10 @@ host which is mounted into the OpenProject container. For instance:
 
 ```
 # 1. extract files
-tar -C /var/lib/openproject/assets/files/ -xf attachments-20210211090802.tar.gz
+tar -C /var/lib/openproject/assets -xf attachments-20210211090802.tar.gz
 
 # 2. give right permission so `app` user in container can read them
-chown -R 1000:1000 /var/lib/openproject/files
+chown -R 1000:1000 /var/lib/openproject/assets
 ```
 
 You may need to create the `files` directory if it doesn't exist yet.

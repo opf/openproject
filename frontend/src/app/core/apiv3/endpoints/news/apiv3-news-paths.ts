@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,22 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APIv3GettableResource, APIv3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import {
-  Apiv3ListParameters,
-  Apiv3ListResourceInterface,
+  ApiV3ListParameters,
+  ApiV3ListResourceInterface,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { NewsResource } from 'core-app/features/hal/resources/news-resource';
 
-export class Apiv3NewsPaths
-  extends APIv3ResourceCollection<NewsResource, APIv3GettableResource<NewsResource>>
-  implements Apiv3ListResourceInterface<NewsResource> {
-  constructor(protected apiRoot:APIV3Service,
+export class ApiV3NewsPaths
+  extends ApiV3ResourceCollection<NewsResource, ApiV3GettableResource<NewsResource>>
+  implements ApiV3ListResourceInterface<NewsResource> {
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
     super(apiRoot, basePath, 'news');
   }
@@ -50,7 +50,7 @@ export class Apiv3NewsPaths
    * Load a list of time entries with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<CollectionResource<NewsResource>> {
+  public list(params?:ApiV3ListParameters):Observable<CollectionResource<NewsResource>> {
     return this
       .halResourceService
       .get<CollectionResource<TimeEntryResource>>(this.path + listParamsString(params));

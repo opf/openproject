@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,28 +42,21 @@ module API
             relations = query
                         .where(:involved, '=', @work_package.id)
                         .results
-                        .non_hierarchy
                         .includes(::API::V3::Relations::RelationCollectionRepresenter.to_eager_load)
 
             ::API::V3::Relations::RelationCollectionRepresenter.new(
               relations,
               self_link: api_v3_paths.work_package_relations(@work_package.id),
-              current_user: current_user
+              current_user:
             )
           end
 
-          post do
-            rep = parse_representer.new Relation.new, current_user: current_user
-            relation = rep.from_json request.body.read
-            service = ::Relations::CreateService.new user: current_user
-            call = service.call relation, send_notifications: (params[:notify] != 'false')
-
-            if call.success?
-              representer.new call.result, current_user: current_user, embed_links: true
-            else
-              fail ::API::Errors::ErrorBase.create_and_merge_errors(call.all_errors.reject(&:empty?).first)
-            end
-          end
+          post &::API::V3::Utilities::Endpoints::Create
+                  .new(model: Relation,
+                       params_modifier: ->(params) do
+                         params.merge(send_notifications: (params[:notify] != 'false'))
+                       end)
+                  .mount
         end
       end
     end

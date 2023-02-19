@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,21 +66,22 @@ module WorkPackage::Ancestors
         hash[id] = []
       end
 
-      results = with_work_package_ancestors
-                .map { |wp| [wp.id, wp.ancestors] }
-                .to_h
+      results = ancestors_by_work_package
 
       default.merge(results)
     end
 
     private
 
-    def with_work_package_ancestors
-      WorkPackage
-        .where(id: @ids)
-        .includes(:ancestors)
-        .where(ancestors_work_packages: { project_id: Project.allowed_to(user, :view_work_packages) })
-        .order(Arel.sql('relations.hierarchy DESC'))
+    def ancestors_by_work_package
+      WorkPackageHierarchy
+        .where(descendant_id: @ids)
+        .includes(:ancestor)
+        .where(ancestor: { project_id: Project.allowed_to(user, :view_work_packages) })
+        .where('generations > 0')
+        .order(generations: :desc)
+        .group_by(&:descendant_id)
+        .transform_values { |hierarchies| hierarchies.map(&:ancestor) }
     end
   end
 end

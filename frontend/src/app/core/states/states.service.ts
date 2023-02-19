@@ -7,7 +7,6 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
-import { CapabilityResource } from 'core-app/features/hal/resources/capability-resource';
 import { PlaceholderUserResource } from 'core-app/features/hal/resources/placeholder-user-resource';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -37,9 +36,6 @@ export class States extends StatesGroup {
 
   /* /api/v3/time_entries */
   timeEntries = multiInput<TimeEntryResource>();
-
-  /* /api/v3/capabilities */
-  capabilities = multiInput<CapabilityResource>();
 
   /* /api/v3/versions */
   versions = multiInput<VersionResource>();

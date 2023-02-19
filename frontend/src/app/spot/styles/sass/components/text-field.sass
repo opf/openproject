@@ -1,0 +1,68 @@
+.spot-text-field
+  @include spot-body-small
+
+  border: 1px solid $spot-color-basic-gray-3
+  color: $spot-color-basic-black
+  border-radius: 4px
+  padding: $spot-spacing-0_5
+  background-color: $spot-color-basic-white
+  display: inline-flex
+  justify-content: center
+  align-items: center
+
+  &::placeholder
+    color: $spot-color-basic-gray-3
+
+  &:focus,
+  &_focused
+    color: $spot-color-basic-black
+    @include spot-focus
+
+  &:disabled,
+  &_disabled
+    color: $spot-color-basic-gray-3
+    border-color: $spot-color-basic-gray-4
+
+  &:disabled,
+  &_disabled &--input
+    &,
+    &:hover
+      background-color: $spot-color-basic-white
+
+  &--input
+    background: transparent
+    border: 0
+    padding: 0
+    flex-grow: 1
+    width: 100%
+    outline: 0
+
+    &:not(:first-child)
+      margin-left: $spot-spacing-0_5
+
+    &:not(:last-child)
+      margin-right: $spot-spacing-0_5
+
+    &:disabled,
+    &:disabled:hover
+      color: $spot-color-basic-gray-4
+      background-color: $spot-color-basic-white
+
+    &:focus,
+    &:focus-visible
+      outline: none
+
+  &--clear-button
+    border: 0
+    background: transparent
+    padding: 0
+    display: flex
+    align-items: center
+    font-size: $spot-spacing-0_75
+    color: $spot-color-basic-gray-3
+
+    &:focus
+      @include spot-focus
+
+    &:not(:last-child)
+      margin-right: $spot-spacing-0_5

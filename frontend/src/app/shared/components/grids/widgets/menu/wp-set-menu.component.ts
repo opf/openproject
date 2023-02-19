@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +31,16 @@ import {
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { GridRemoveWidgetService } from 'core-app/shared/components/grids/grid/remove-widget.service';
 import { ComponentType } from '@angular/cdk/portal';
 import { WidgetAbstractMenuComponent } from 'core-app/shared/components/grids/widgets/menu/widget-abstract-menu.component';
 import { WpGraphConfigurationModalComponent } from 'core-app/shared/components/work-package-graphs/configuration-modal/wp-graph-configuration.modal';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
+import { WpTableConfigurationModalComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
-  protected configurationComponent:ComponentType<OpModalComponent>;
+  protected configurationComponent:ComponentType<WpGraphConfigurationModalComponent|WpTableConfigurationModalComponent>;
 
   @Output()
   onConfigured:EventEmitter<any> = new EventEmitter();
@@ -64,10 +64,13 @@ export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuCompone
     return {
       linkText: this.i18n.t('js.toolbar.settings.configure_view'),
       onClick: () => {
-        this.opModalService.show(this.configurationComponent, this.injector, this.locals)
-          .closingEvent.subscribe((modal:WpGraphConfigurationModalComponent) => {
-            this.onConfigured.emit(modal.configuration);
-          });
+        this.opModalService
+          .show(this.configurationComponent, this.injector, this.locals)
+          .subscribe((modal) => modal.closingEvent.subscribe(() => {
+            if (modal instanceof WpGraphConfigurationModalComponent) {
+              this.onConfigured.emit(modal.configuration);
+            }
+          }));
         return true;
       },
     };

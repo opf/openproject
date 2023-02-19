@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,8 +48,9 @@ pl:
         main-menu-hover-font-color: "Czcionka menu głównego po najechaniu myszą"
         main-menu-border-color: "Obramowanie menu głównego"
       custom_colors: "Kolory użytkownika"
-      customize: "Dostosuj instalacje OpenProject ze swoim własnym logiem. Uwaga: To logo będzie publicznie dostępne."
-      enterprise_notice: "Jako specjalne 'dziękuje!' za ich wkład finansowy który umożliwia rozwijanie OpenProject, ten mały dodatek jest dostępny tylko dla subskrybentów Enterprise Edition."
+      customize: "Dostosuj swoją instalację OpenProject do własnego logo i kolorów."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_more_info: "Uwaga: użyte logo będzie ogólnodostępne."
       manage_colors: "Edytuj kolor wybranych opcji"
       instructions:
         alternative-color: "Silnie zaakcentowany kolor, zazwyczaj stosowany do najważniejszego przycisku na ekranie."
@@ -63,16 +64,28 @@ pl:
         main-menu-bg-color: "Kolor tła lewego menu."
       theme_warning: Zmiana motywu poskutkuje zastąpieniem stylu niestandardowego. Projekt zostanie wówczas utracony. Czy na pewno chcesz kontynuować?
     enterprise:
-      upgrade_to_ee: "Uaktualnij do wersji Enterprise"
-      add_token: "Wyślij swój token wsparcia edycji Enterprise"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
+      delete_token_modal:
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        title: "Usuń token"
       replace_token: "Wymień swój obecny token wsparcia"
-      order: "Zamów wersję Enterprise On-Premises"
-      paste: "Wklej swój token wsparcia edycji Enterprise"
-      required_for_feature: "Ta funkcja jest dostępna tylko z aktywnym tokenem wsparcia wersji Enterprise."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Aby uzyskać więcej informacji, kliknij tutaj."
       start_trial: 'Rozpocznij bezpłatny okres próbny'
       book_now: 'Zarezerwuj teraz'
       get_quote: 'Uzyskaj wycenę'
+      buttons:
+        upgrade: "Zmień plan teraz"
+        contact: "Skontaktuj się z nami, aby uzyskać demo"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
+    journal_aggregation:
+      explanation:
+        text: "Indywidualne działania użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w jedno działanie, jeśli różnica czasowa między nimi jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako jedno działanie w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail i wpłynie też na opóźnienie %{webhook_link}."
+        link: "webhook"
   announcements:
     show_until: Pokazuj do
     is_active: obecnie wyświetlane
@@ -84,6 +97,8 @@ pl:
     show_preview: 'Podgląd tekstu'
     add_new: 'Dodaj tekst pomocy'
     edit: "Edytuj tekst pomocy dla %{attribute_caption}"
+    enterprise:
+      description: 'Zapewnić dodatkowe informacje dla atrybutów (w tym pól własnych) pakietów roboczych i projektów. Teksty pomocy są wyświetlane, gdy użytkownicy klikną na symbol znaku zapytania obok pól wejściowych w projektach i pakietach roboczych.'
   auth_sources:
     index:
       no_results_content_title: Nie ma jeszcze żadnych trybów autoryzacji.
@@ -121,6 +136,7 @@ pl:
         Jeśli zaznaczysz to pole, OpenProject będzie automatycznie tworzyć nowych użytkowników z ich wpisów LDAP przy pierwszym uwierzytelnieniu za pomocą OpenProject.
         Pozostaw to pole niezaznaczone, aby tylko istniejące konta w OpenProject mogły się uwierzytelniać za pomocą LDAP!
     connection_encryption: 'Szyfrowanie połączenia'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Konto systemowe'
     system_account_legend: |
       OpenProject do wyszukiwania użytkowników i grup w drzewie LDAP wymaga dostępu tylko do odczytu poprzez konto systemowe.
@@ -131,13 +147,18 @@ pl:
       Poniższe pola odnoszą się do sposobu tworzenia użytkowników w OpenProject z wpisów LDAP oraz tego, które atrybuty LDAP są używane do definiowania atrybutów użytkownika OpenProject (mapowania atrybutów).
     tls_mode:
       plain: 'Brak'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Zwykłe, nieszyfrowane połączenie bez negocjowania TLS."
-      simple_tls_description: "Szyfrowanie TLS bez sprawdzonej poprawności certyfikatu. Używaj z rozwagą i zaufanym połączeniem LDAP."
-      start_tls_description: "Jawne szyfrowanie TLS z pełnym sprawdzaniem poprawności. Użyj w przypadku protokołu LDAP przez TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Ta sekcja dotyczy zabezpieczeń połączenia tego źródła uwierzytelniania LDAP. Aby uzyskać więcej informacji, przejdź do <a href="%{link}">dokumentacji Net::LDAP</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Obecnie nie ma żadnych wpisów na forum.
@@ -158,8 +179,8 @@ pl:
     edit: 'Edytuj działanie niestandardowe %{name}'
     execute: 'Wykonaj %{name}'
     upsale:
-      title: 'Działania niestandardowe to funkcja wersji Enterprise'
-      description: 'Działania niestandardowe usprawniają codzienną pracę, łącząc zestaw oddzielnych kroków w jeden przycisk.'
+      title: 'Działania niestandardowe'
+      description: 'Akcje niestandardowe są skrótami do zestawu predefiniowanych akcji, które można udostępnić w określonych pakietach roboczych na podstawie statusu, roli, typu lub projektu.'
   custom_fields:
     text_add_new_custom_field: >
       Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
@@ -192,6 +213,15 @@ pl:
     ignore_filenames: >
       Określ listę nazw, które mają być ignorowane podczas przetwarzania załączników do poczty przychodzącej (np. sygnatur lub ikon). W każdym wierszu prowadź jedną nazwę pliku.
   projects:
+    copy:
+      #Contains custom strings for options when copying a project that cannot be found elsewhere.
+      members: 'Członkowie projektu'
+      overviews: 'Przegląd projektu'
+      queries: 'Pakiety robocze: zapisane widoki'
+      wiki_page_attachments: 'Strony Wiki: załączniki'
+      work_package_attachments: 'Pakiety robocze: załączniki'
+      work_package_categories: 'Pakiety robocze: kategorie'
+      work_package_file_links: 'Pakiety robocze: linki do pliku'
     delete:
       scheduled: "Usunięcie zostało zaplanowane i jest wykonywane w tle. Otrzymasz powiadomienie o wyniku."
       schedule_failed: "Nie można usunąc projektu: %{errors}"
@@ -252,14 +282,13 @@ pl:
     deletion_info:
       heading: "Usuń użytkownika zastępczego %{name}"
       data_consequences: >
-        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”.
-        Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
+        Wszystkie wystąpienia użytkownika zastępczego (np. jako osoby przypisanej, odpowiedzialnej lub inne wartości użytkownika) zostaną przypisane do konta o nazwie „Usunięty użytkownik”. Jako że do tego konta przypisywane są dane każdego usuniętego konta, nie można odróżnić danych utworzonych przez użytkownika od danych innego usuniętego konta.
       irreversible: "To działanie jest nieodwracalne."
       confirmation: "Wprowadź nazwę użytkownika zastępczego %{name}, aby potwierdzić usunięcie."
     upsale:
-      title: Przypisz pracę osobom, które nie są członkami projektu.
+      title: Użytkownicy zastępczy
       description: >
-        Istnieje wiele scenariuszy, w których chcesz przypisać pracę osobom, które nie są członkami projektu. Może się po prostu zdarzyć, że nadal musisz zatrudnić odpowiednią osobę do danej pracy. Lub też po prostu nie chcesz udzielać tej osobie dostępu do informacji o projekcie, ale nadal chcesz śledzić zadania przypisane do tej osoby.
+        Użytkownicy zastępczy to sposób na przypisanie pakietów pracy do użytkowników, którzy nie są częścią twojego projektu. Może to być przydatne w wielu scenariuszach; na przykład, jeśli potrzebujesz śledzić zadania dla zasobu, który nie jest jeszcze nazwany lub dostępny, lub jeśli nie chcesz dać tej osobie dostępu do OpenProject, ale nadal chcesz śledzić zadania przypisane do niej.
   prioritiies:
     edit:
       priority_color_text: |
@@ -289,6 +318,8 @@ pl:
     edit:
       settings: "Ustawienia"
       form_configuration: "Konfiguracja formularza"
+      more_info_text_html: >
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Aktywne projekty"
       edit_query: "Edytuj tabelę"
@@ -316,10 +347,10 @@ pl:
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
-      none_could_be_saved: "None of the %{total} work packages could be updated."
-      x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
-      selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
-      descendant: "descendant of selected"
+      none_could_be_saved: "Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}."
+      x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."
+      selected_because_descendants: "Wybrano pakiety robocze w liczbie %{selected}, ale dotyczy to łącznie %{total} pakietów roboczych, w tym pakietów potomnych."
+      descendant: "elementy potomne wybranego"
     move:
       no_common_statuses_exists: "Brak stanu dostępnego dla wszystkich wybranych pakietów roboczych. Ich stanu nie można zmienić."
       unsupported_for_multiple_projects: 'Hurtowe przenoszenie / kopiowanie nie jest obsługiwane dla Zestawu zadań z różnych projektów'
@@ -393,6 +424,7 @@ pl:
         host: "Host"
         onthefly: "Automatyczne tworzenie użytkowników"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozytorium"
       comment:
@@ -449,9 +481,12 @@ pl:
         code: 'Status'
         explanation: 'Opis statusu'
         codes:
+          not_started: 'Nierozpoczęte'
           on_track: 'Na ścieżce'
           at_risk: 'Zagrożony'
           off_track: 'Poza ścieżką'
+          finished: 'Zakończone'
+          discontinued: 'Przerwane'
       query:
         column_names: "Kolumny"
         relations_to_type_column: "Relacje %{type}"
@@ -462,7 +497,6 @@ pl:
       repository:
         url: "ADRES URL"
       role:
-        assignable: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
         permissions: "Uprawnienia"
       time_entry:
         activity: "Działanie"
@@ -508,20 +542,27 @@ pl:
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
         done_ratio: "Postęp (%)"
+        duration: "Czas trwania"
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
-        version: "Wersja"
+        ignore_non_working_days: "Ignoruj dni wolne od pracy"
+        include_non_working_days:
+          title: 'Dni robocze'
+          false: 'tylko dni robocze'
+          true: 'włącz dni wolne od pracy'
         parent: "Rodzic"
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"
         priority: "Priorytet"
         progress: "Postęp (%)"
+        readonly: "Tylko do odczytu"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
         subproject: "Podprojekt"
         time_entries: "Rejestruj czas pracy"
         type: "Typ"
+        version: "Wersja"
         watcher: "Obserwator"
       'doorkeeper/application':
         uid: "Numer klienta"
@@ -545,7 +586,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "jest funkcją dostępną tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         email: "nie jest poprawnym adresem e-mail."
@@ -553,6 +594,7 @@ pl:
         even: "musi być takie samo."
         exclusion: "jest już zajęte."
         file_too_large: "jest za długie (maksymalna wielkość to %{count} Bajtów)."
+        filter_does_not_exist: "filtr nie istnieje."
         format: "nie pasuje do oczekiwanego formatu '%{expected}'."
         format_nested: "nie pasuje do oczekiwanego formatu '%{expected}' na ścieżce %{path}."
         greater_than: "musi być większe niż %{count}."
@@ -587,8 +629,15 @@ pl:
         unknown_property: "nie jest znaną właściwością."
         unknown_property_nested: "ma nieznaną ścieżkę '%{path}'."
         unremovable: "nie można usunąć."
+        url_not_secure_context: >
+          nie zapewnia „bezpiecznego kontekstu”. Użyj protokołu HTTPS albo adresu pętli zwrotnej, takiej jak localhost.
         wrong_length: "ma nieprawidłową długość (powinno mieć %{count} znaków)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -618,7 +667,7 @@ pl:
               fragment_present: 'nie może zawierać fragmentu.'
               invalid_uri: 'musi być prawidłowym adres URI.'
               relative_uri: 'musi być bezwzględnym identyfikatorem URI.'
-              secured_uri: 'musi być identyfikatorem URI protokołu HTTPS/SSL.'
+              secured_uri: 'nie zapewnia "bezpiecznego kontekstu". Ewentualnie użyj HTTPS lub adresu pętli zwrotnej, takiej jak localhost.'
               forbidden_uri: 'jest zabroniony przez serwer.'
             scopes:
               not_match_configured: "nie pasuje do dostępnych zakresów."
@@ -639,10 +688,6 @@ pl:
               no_notification_reason: 'nie może być puste, ponieważ IAN jest wybrany jako kanał.'
             reason_mail_digest:
               no_notification_reason: 'nie może być puste, ponieważ streszczenie e-maili jest wybrane jako kanał.'
-        notification_settings:
-          only_one_global_setting: 'Musi być tylko jedno globalne ustawienie powiadomień.'
-          email_alerts_global: 'Ustawienia powiadomień e-mail mogą być ustawione tylko globalnie.'
-          format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -702,6 +747,11 @@ pl:
           attributes:
             permissions:
               dependency_missing: "musi również uwzględniać wybór '%{dependency}' jako '%{permission}'."
+        setting:
+          attributes:
+            base:
+              working_days_are_missing: 'Co najmniej jeden dzień tygodnia musi być zdefiniowany jako dzień roboczy.'
+              previous_working_day_changes_unprocessed: 'Poprzednie zmiany konfiguracji dni roboczych nie zostały jeszcze zastosowane.'
         time_entry:
           attributes:
             hours:
@@ -712,6 +762,16 @@ pl:
               invalid_range: "może być tylko prawidłowym zakresem dat."
             daily_reminders:
               full_hour: "można skonfigurować tylko do dostarczenia o pełnej godzinie."
+            notification_settings:
+              only_one_global_setting: 'Musi być tylko jedno globalne ustawienie powiadomień.'
+              email_alerts_global: 'Ustawienia powiadomień e-mail mogą być ustawione tylko globalnie.'
+              format: "%{message}"
+              wrong_date: 'Nieprawidłowa wartość dla daty rozpoczęcia, terminu płatności lub terminu przedawnienia.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "nie ma uprawnień do wyświetlania tego zasobu."
+              locked: "jest zablokowane."
         wiki_page:
           attributes:
             slug:
@@ -719,8 +779,16 @@ pl:
         work_package:
           is_not_a_valid_target_for_time_entries: "Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu."
           attributes:
+            assigned_to:
+              format: "%{message}"
             due_date:
               not_start_date: "nie jest w dniu rozpoczęcia, chociaż jest to wymagane dla Kamieni Milowych."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia i czas trwania są znane."
+            duration:
+              larger_than_dates: "jest większy niż interwał między datą rozpoczęcia i zakończenia."
+              smaller_than_dates: "jest krótszy niż interwał między datą rozpoczęcia i zakończenia."
+              not_available_for_milestones: "nie jest dostępny dla pakietów prac wpisywanych jako \"kamienie milowe\"."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data rozpoczęcia, zakończenia i czas trwania są znane."
             parent:
               cannot_be_milestone: "nie może być kamieniem milowym."
               cannot_be_self_assigned: "nie może być przypisany do siebie."
@@ -728,6 +796,7 @@ pl:
               not_a_valid_parent: "jest nieprawidłowe."
             start_date:
               violates_relationships: "aby nie naruszyć relacji pakietu pracy, należy ustawić datę %{soonest_start} lub późniejszą."
+              cannot_be_null: "nie można ustawić na wartość zero, ponieważ data zakończenia i czas trwania są znane."
             status_id:
               status_transition_invalid: "jest niewłaściwy z powodu braku prawidłowego przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika."
               status_invalid_in_type: "jest nieprawidłowy, ponieważ bieżący stan nie istnieje w tym typie."
@@ -740,7 +809,7 @@ pl:
               does_not_exist: "Podana kategoria nie istnieje."
             estimated_hours:
               only_values_greater_or_equal_zeroes_allowed: "musi być ≥ 0."
-          readonly_status: 'The work package is in a readonly status so its attributes cannot be changed.'
+          readonly_status: 'Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić.'
         type:
           attributes:
             attribute_groups:
@@ -752,7 +821,7 @@ pl:
         user:
           attributes:
             base:
-              user_limit_reached: "User limit reached. No more accounts can be created on the current plan."
+              user_limit_reached: "Osiągnięto limit liczby użytkowników. Nie można utworzyć więcej kont w bieżącym planie."
             password_confirmation:
               confirmation: "Powtórzone hasło różni się od wprowadzonego hasła!"
               format: "%{message}"
@@ -836,7 +905,7 @@ pl:
   attributes:
     active: "Aktywne"
     assigned_to: "Przypisany do"
-    assignee: "Przypisany do"
+    assignee: "Przypisana osoba"
     attachments: "Załączniki"
     author: "Autor"
     base: "Błąd ogólny:"
@@ -865,7 +934,7 @@ pl:
     id: "ID"
     is_default: "Wartość domyślna"
     is_for_all: "Dla wszystkich projektów"
-    is_public: "Publiczny"
+    public: "Publiczny"
     #kept for backwards compatibility
     issue: "Zadanie"
     lastname: "Nazwisko"
@@ -875,7 +944,6 @@ pl:
     password: "Hasło"
     priority: "Priorytet"
     project: "Projekt"
-    public: "Publiczny"
     responsible: "Osoba odpowiedzialna"
     role: "Rola"
     roles: "Role"
@@ -889,9 +957,11 @@ pl:
     updated_on: "Aktualizacja"
     uploader: "Osoba przesyłająca"
     user: "Użytkownik"
+    value: "Wartość"
     version: "Wersja"
     work_package: "Zadanie"
   backup:
+    failed: "Tworzenie kopii zapasowej nie powiodło się"
     label_backup_token: "Token kopii zapasowej"
     label_create_token: "Utwórz token kopii zapasowej"
     label_delete_token: "Usuń token kopii zapasowej"
@@ -1224,11 +1294,11 @@ pl:
   ee:
     upsale:
       form_configuration:
-        description: "Dostosuj konfigurację formularza z tymi dodatkowymi funkcjami:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Dodaj nowe grupy atrybutów"
         rename_groups: "Zmień grupy atrybutów"
       project_filters:
-        description_html: "Filtrowanie i sortowanie pól niestandardowych jest funkcją edycji enterprise."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Działania śledzenia czasu"
   enumeration_work_package_priorities: "Priorytety pakietów roboczych"
   enumeration_reported_project_statuses: "Status zgłoszonego projektu"
@@ -1250,9 +1320,10 @@ pl:
   error_cookie_missing: 'Brakuje pliku cookie OpenProject. Upewnij się, że obsługa plików cookie jest włączona, ponieważ bez tego aplikacja nie będzie funkcjonować prawidłowo.'
   error_custom_option_not_found: "Opcja nie istnieje."
   error_enterprise_activation_user_limit: "Twoje konto nie mogło zostać aktywowane (osiągnięty limit użytkownika). Skontaktuj się z administratorem, aby uzyskać dostęp."
-  error_enterprise_token_invalid_domain: "Wersja Enterprise jest nieaktywna. Domena Twojego tokenu Enterprise (%{actual}) nie odpowiada nazwie hosta systemu (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Nie udało się usunąć tego wpisu.'
-  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
+  error_in_dependent: "Błąd podczas próby zmiany obiektu zależnego: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
+  error_in_new_dependent: "Błąd podczas próby utworzenia obiektu zależnego: %{dependent_class} — %{related_subject}: %{error}"
   error_invalid_selected_value: "Nieprawidłowa wybrana wartość."
   error_journal_attribute_not_present: "Dziennik nie zawiera atrybutu %{attribute}."
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
@@ -1337,10 +1408,10 @@ pl:
     blocks:
       community: "Społeczność OpenProject"
       upsale:
-        title: "Aktualizuj do wersji Enterprise"
+        title: "Upgrade to Enterprise edition"
         more_info: "Więcej informacji"
     links:
-      upgrade_enterprise_edition: "Aktualizuj do wersji Enterprise"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrowanie instalacji do PostgreSQL"
       user_guides: "Przewodniki"
       faq: "Najczęściej Zadawane Pytania"
@@ -1362,7 +1433,9 @@ pl:
   menus:
     admin:
       mail_notification: "Powiadomienia e-mail"
-      incoming_outgoing: "Przychodzące i wychodzące"
+      mails_and_notifications: "Wiadomości e-mail i powiadomienia"
+      aggregation: 'Agregacja'
+      api_and_webhooks: "Interfejs API i webhooki"
     quick_add:
       label: "Otwórz menu szybkiego dodawania"
   my_account:
@@ -1370,7 +1443,7 @@ pl:
       no_results:
         title: "Brak tokenów dostępu"
         description: "Wszystkie elementy zostały wyłączone. Można je ponownie włączyć w menu administratora."
-      access_token: "Token dostępu"
+      access_tokens: "Tokeny dostępu"
       headers:
         action: "Czynność"
         expiration: "Wygasa"
@@ -1388,17 +1461,11 @@ pl:
     update_info_mail:
       body: >
         Z radością ogłaszamy wydanie wersji OpenProject 12.0. Mamy nadzieję, że to niezwykle ważne wydanie znacznie usprawni sposób korzystania z OpenProject.
-
         Począwszy od tej wersji, wprowadzamy powiadomienia w aplikacji. Od teraz będziesz otrzymywać powiadomienia o aktualizacjach pakietów roboczych bezpośrednio w OpenProject. Możesz oznaczyć te powiadomienia jako przeczytane, odpowiedzieć na komentarze lub nawet bezpośrednio modyfikować atrybuty pakietu roboczego bez opuszczania centrum powiadomień.
-
         Oznacza to również, że nie będziemy już używać wiadomości e-mail do wysyłania powiadomień. Naszym zdaniem nowe centrum powiadomień jest lepszym miejscem do przeglądania tych aktualizacji i podejmowania działań. Niemniej jednak, jeśli zależy ci na otrzymywaniu aktualizacji pocztą elektroniczną, możesz otrzymywać codzienne przypomnienia e-mail w wybranych przez siebie porach.
-
         Pamiętaj, aby zweryfikować nowe domyślne ustawienia powiadomień i ustawić swoje preferencje dotyczące powiadomień i przypomnień e-mail w ustawieniach konta. W celu dokonania zmian wybierz poniższy przycisk "Zmień ustawienia poczty elektronicznej".
-
         Mamy nadzieję, że z powodzeniem będziesz korzystać z powiadomień w aplikacji, a Twoja wydajność dzięki nim znacznie się zwiększy.
-
-        Pozdrawiamy,
-        Zespół OpenProject
+        Pozdrawiamy, Zespół OpenProject
       body_header: 'Wersja 12.0 z Centrum powiadomień'
       body_subheader: 'Aktualności'
       subject: 'Ważne zmiany w powiadomieniach w wydaniu 12.0'
@@ -1471,7 +1538,6 @@ pl:
   label_consent_settings: "Zgoda użytkownika"
   label_wiki_menu_item: Element menu Wiki
   label_select_main_menu_item: Wybierz nową pozycję menu głównego
-  label_select_project: "Wybierz projekt"
   label_required_disk_storage: "Wymagane miejsce na dysku"
   label_send_invitation: Wyślij zaproszenie
   label_change_plural: "Zmiany"
@@ -1537,6 +1603,7 @@ pl:
   label_diff: "Różnice"
   label_diff_inline: "inline"
   label_diff_side_by_side: "Obok siebie"
+  label_digital_accessibility: 'Dostępność cyfrowa (DE)'
   label_disabled: "wyłączone"
   label_display: "Wyświetlanie"
   label_display_per_page: "Na stronę: %{value}"
@@ -1560,7 +1627,7 @@ pl:
   label_enumerations: "Listy"
   label_enterprise: "Przedsiębiorstwo"
   label_enterprise_active_users: "%{current}/%{limit} zarejestrowanych aktywnych użytkowników"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Środowisko"
   label_estimates_and_time: "Szacowany czas"
   label_equals: "jest"
@@ -1613,6 +1680,7 @@ pl:
   label_index_by_title: "Indeks tytułów"
   label_information: "Informacje"
   label_information_plural: "Informacje"
+  label_installation_guides: 'Przewodniki instalacyjne'
   label_integer: "Liczba całkowita"
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
@@ -1656,6 +1724,10 @@ pl:
   label_member_plural: "Członkowie"
   lable_membership_added: 'Dodano członka'
   lable_membership_updated: 'Zaktualizowano członka'
+  label_menu_badge:
+    pre_alpha: 'wczesna alfa'
+    alpha: 'alfa'
+    beta: 'beta'
   label_menu_item_name: "Nazwa elementu menu"
   label_message: "Wiadomość"
   label_message_last: "Ostatnia wiadomość"
@@ -1745,7 +1817,6 @@ pl:
   label_product_version: "Wersja produktu"
   label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
-  label_project_all: "Wszystkie projekty"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
   label_project_latest: "Najnowsze projekty"
@@ -1754,6 +1825,7 @@ pl:
   label_project_new: "Nowy projekt"
   label_project_plural: "Projekty"
   label_project_settings: "Ustawienia projektu"
+  label_project_storage_plural: "Magazyny"
   label_projects_storage_information: "%{count} projektów zużywających %{storage} przestrzeni dyskowej"
   label_project_view_all: "Zobacz wszystkie projekty"
   label_project_show_details: "Pokaż szczegóły projektu"
@@ -1761,7 +1833,6 @@ pl:
   label_public_projects: "Projekty publiczne"
   label_query_new: "Nowe zapytanie"
   label_query_plural: "Zapytania niestandardowe"
-  label_query_menu_item: "Pozycja menu zapytania"
   label_read: "Czytaj..."
   label_register: "Utwórz nowe konto"
   label_register_with_developer: "Zarejestruj się jako programista"
@@ -1921,6 +1992,7 @@ pl:
   label_workflow: "Przepływ pracy"
   label_workflow_plural: "Przepływ zadań"
   label_workflow_summary: "Podsumowanie"
+  label_working_days: "Dni robocze"
   label_x_closed_work_packages_abbr:
     one: "1 zamknięty"
     other: "Liczba zamkniętych: %{count}"
@@ -1981,7 +2053,7 @@ pl:
       center: 'Do centrum powiadomień'
       see_in_center: 'Zobacz komentarz w centrum powiadomień'
       settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Cześć %{user}!'
+    salutation: 'Witaj %{user}'
     work_packages:
       created_at: 'Utworzono %{timestamp}, autor %{user} '
       login_to_see_all: 'Zaloguj się, aby zobaczyć wszystkie powiadomienia.'
@@ -1999,6 +2071,8 @@ pl:
         mentioned: 'Wzmianka'
         subscribed: 'wszystkie'
         prefix: 'Otrzymano z powodu ustawienia powiadomienia: %{reason}'
+        date_alert_start_date: 'Alert dotyczący daty'
+        date_alert_due_date: 'Alert dotyczący daty'
       see_all: 'Zobacz wszystkie'
       updated_at: 'Zaktualizowano %{timestamp}, autor %{user} '
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
@@ -2010,8 +2084,11 @@ pl:
   mail_body_backup_token_info: Poprzedni token jest już nieprawidłowy.
   mail_body_backup_waiting_period: Nowy token zostanie włączony za %{hours} godz.
   mail_body_backup_token_warning: Jeśli to nie Ty, zaloguj się natychmiast do OpenProject i zresetuj go ponownie.
+  mail_body_incoming_email_error: E-mail wysłany do OpenProject nie został przetworzony.
+  mail_body_incoming_email_error_in_reply_to: "O %{received_at} z adresu %{from_email} napisano"
+  mail_body_incoming_email_error_logs: "Dzienniki"
   mail_body_lost_password: "Aby zmienić hasło, kliknij na poniższy link:"
-  mail_body_register: "Witamy w OpenProject. Aktywuj swoje konto, klikając ten link:"
+  mail_body_register: "Witamy w %{app_title}. Aktywuj swoje konto, klikając ten link:"
   mail_body_register_header_title: "Wiadomość e-mail z zaproszeniem członka projektu"
   mail_body_register_user: "Witaj %{name}, "
   mail_body_register_links_html: |
@@ -2028,6 +2105,7 @@ pl:
   mail_subject_account_activation_request: "%{value} account activation request"
   mail_subject_backup_ready: "Twoja kopia zapasowa jest gotowa"
   mail_subject_backup_token_reset: "Reset tokenu kopii zapasowej"
+  mail_subject_incoming_email_error: "E-mail wysłany do OpenProject nie został przetworzony"
   mail_subject_lost_password: "Twoje hasło do %{value}"
   mail_subject_register: "Your %{value} account activation"
   mail_subject_reminder: "Termin wykonania %{count} pakietów roboczych kończy się w ciągu %{days} dni"
@@ -2119,6 +2197,12 @@ pl:
   notice_successful_create: "Tworzenie zakończone sukcesem."
   notice_successful_delete: "Usuwanie zakończone sukcesem."
   notice_successful_update: "Aktualizacja zakończona sukcesem."
+  notice_successful_update_custom_fields_added_to_project: |
+    Pomyślna aktualizacja. Pola własne aktywowanych typów są automatycznie włączane
+    do formularza pakietu roboczego. <a href="%{url}" target="_blank">Zobacz więcej</a>.
+  notice_successful_update_custom_fields_added_to_type: |
+    Pomyślna aktualizacja. Aktywne pola własne są automatycznie włączane do
+    powiązanych projektów tego typu.
   notice_to_many_principals_to_display: "Istnieje zbyt wiele wyników.\nNależy zawęzić wyszukiwanie przez wpisanie w nazwy użytkownika (lub grupy)."
   notice_user_missing_authentication_method: Użytkownik jeszcze nie wybrał sposobu logowania przez hasło lub inaczej.
   notice_user_invitation_resent: Zaproszenie wysłano do %{email}.
@@ -2153,9 +2237,8 @@ pl:
           tb: "TB"
   onboarding:
     heading_getting_started: "Zobacz szybki przegląd"
-    text_getting_started_description: "Spójrz na szybki przegląd zarządzania projektem i pracą zespołową w OpenProject."
-    text_show_again: "Możesz zresetować to wideo w menu pomocy"
-    welcome: "Witamy w OpenProject"
+    text_getting_started_description: "Uzyskaj szybki przegląd zarządzania projektem i współpracy zespołu w OpenProject. Możesz zrestartować ten film z menu pomocy."
+    welcome: "Witamy w %{app_title}"
     select_language: "Wybierz język"
   permission_add_work_package_notes: "Dodawanie notatek"
   permission_add_work_packages: "Dodawanie pakietów roboczych"
@@ -2171,6 +2254,7 @@ pl:
   permission_comment_news: "Komentowanie Nowości"
   permission_commit_access: "Dostęp odczytu i zapisu do repozytorium (wykonanie)"
   permission_copy_projects: "Kopiowanie projektów"
+  permission_create_backup: "Utwórz kopię zapasową"
   permission_delete_work_package_watchers: "Usuwanie obserwatorów"
   permission_delete_work_packages: "Usuwanie pakietów roboczych"
   permission_delete_messages: "Usuwanie wiadomości"
@@ -2187,13 +2271,14 @@ pl:
   permission_edit_own_time_entries: "Edycja własnych wpisów dziennika"
   permission_edit_project: "Edycja projektu"
   permission_edit_reportings: "Edycja raportów"
-  permission_edit_time_entries: "Edycja wpisów dziennika"
+  permission_edit_time_entries: "Edycja dzienników czasu pracy dla innych użytkowników"
   permission_edit_timelines: "Edycja osi czasu"
   permission_edit_wiki_pages: "Edycja stron wiki"
   permission_export_work_packages: "Eksportowanie pakietów roboczych"
   permission_export_wiki_pages: "Eksportowanie stron wiki"
   permission_list_attachments: "Lista załączników"
-  permission_log_time: "Rejestr spędzonego czasu"
+  permission_log_own_time: "Zarejestruj spędzony czas"
+  permission_log_time: "Zarejestruj czas pozostałych użytkowników"
   permission_manage_forums: "Zarządzanie forum"
   permission_manage_categories: "Zarządzaj kategoriami pakietów roboczych"
   permission_manage_work_package_relations: "Zarządzanie powiązaniami pakietów roboczych"
@@ -2213,7 +2298,6 @@ pl:
   permission_select_custom_fields: "Wybierz pola niestandardowe"
   permission_select_project_modules: "Wybieranie modułów projektu"
   permission_manage_types: "Select types"
-  permission_view_calendar: "Widok kalendarza"
   permission_view_changesets: "Zobacz repozytorium poprawek OpenProject"
   permission_view_commit_author_statistics: "Widok statystyk autorów"
   permission_view_work_package_watchers: "Zobacz listę obserwatorów"
@@ -2225,6 +2309,8 @@ pl:
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
   permission_view_wiki_pages: "Widok wiki"
+  permission_work_package_assigned: "Zostań osobą przypisaną/odpowiedzialną"
+  permission_work_package_assigned_explanation: "Pakiety robocze mogą być przypisane do użytkowników i grup znajdujących się w posiadaniu tej roli w odpowiednim projekcie"
   placeholders:
     default: "-"
   project:
@@ -2249,7 +2335,6 @@ pl:
       archived: "Zarchiwizowano"
   project_module_activity: "Działanie"
   project_module_forums: "Fora"
-  project_module_calendar: "Kalendarz"
   project_module_work_package_tracking: "Śledzenie pakietów roboczych"
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
@@ -2263,7 +2348,7 @@ pl:
     assigned_to_role: "Przypisany do roli"
     member_of_group: "Przypisany do grupy"
     assignee_or_group: "Przypisana osoba lub przynależna grupa"
-    subproject_id: "Z podprojektem włącznie"
+    subproject_id: "Uwzględniając podprojekt"
     only_subproject_id: "Tylko podprojekt"
     name_or_identifier: "Nazwa lub identyfikator"
   repositories:
@@ -2349,6 +2434,11 @@ pl:
     storage:
       not_available: "Zużycie pamięci dysku nie jest dostępne dla tego repozytorium."
       update_timeout: "Zachowaj informacje o ostatnim wymaganym dla repozytorium miejscu na dysku przez N minut. Ponieważ obliczenie wymaganej dla repozytorium przestrzeni dysku może być kosztowne, powiększ tę wartość, aby pomniejszyć wpływ na wydajność."
+      oauth_application_details: "Wartość kod klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj tę wartości do ustawień Nextcloud OpenProject Integration:"
+      oauth_application_details_link_text: "Przejdź do ustawień"
+      setup_documentation_details: "Jeśli potrzebujesz pomocy w konfiguracji nowego magazynu plików, sprawdź dokumentację: "
+      setup_documentation_details_link_text: "Konfiguracja magazynów plików"
+      show_warning_details: "Aby wykorzystać ten magazyn plików należy aktywować moduł i konkretny magazyn w ustawieniach projektu dla każdego żądanego projektu."
     subversion:
       existing_title: "Istniejące repozytorium Subversion"
       existing_introduction: "Jeśli masz repozytorium Subversion, możesz połączyć go z OpenProject, aby otrzymać dostęp z poziomu aplikacji."
@@ -2375,9 +2465,9 @@ pl:
   setting_apiv3_cors_origins: "Dozwolone źródła mechanizmu Cross-Origin Resource Sharing (CORS) interfejsu API V3"
   setting_apiv3_cors_origins_text_html: >
     Jeśli mechanizm CORS jest włączony, są to źródła, których dostęp do interfejsu API OpenProject jest dozwolony. <br/> Sprawdź w <a href="%{origin_link}" target="_blank">dokumentacji nagłówka origin</a> jak należy określić oczekiwane wartości.
-  setting_apiv3_max_page_size: "Maximum API page size"
+  setting_apiv3_max_page_size: "Maksymalny rozmiar strony interfejsu API"
   setting_apiv3_max_page_instructions_html: >
-    Set the maximum page size the API will respond with. It will not be possible to perform API requests that return more values on a single page. <br/> <strong>Warning:</strong> Please only change this value if you are sure why you need it. Setting to a high value will result in significant performance impacts, while a value lower than the per page options will cause errors in paginated views.
+    Ustaw maksymalny rozmiar strony, którą będzie odpowiadać interfejs API. Nie będzie możliwe wykonanie żądań interfejsu API, które zwracają więcej wartości na jednej stronie. <br/> <strong>Ostrzeżenie:</strong> zmień tę wartość tylko mając pewność, dlaczego jej potrzebujesz. Ustawienie wysokiej wartości będzie mieć znaczące skutki dla wydajności, podczas gdy wartość niższa niż opcje liczby elementów na stronie spowodują błędy w widokach stronicowanych.
   setting_apiv3_docs: "Dokumentacja"
   setting_apiv3_docs_enabled: "Włącz stronę z dokumentami"
   setting_apiv3_docs_enabled_instructions_html: >
@@ -2428,7 +2518,6 @@ pl:
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
   setting_enabled_projects_columns: "Widoczny na liście projektów"
-  setting_notification_retention_period_days: "Okres przechowywania powiadomień"
   setting_feeds_enabled: "Włącz kanały"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
@@ -2441,7 +2530,7 @@ pl:
   setting_work_package_list_default_columns: "Wyświetlane domyślnie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
-  setting_work_packages_export_limit: "Limit eksportowanych pakietów roboczych"
+  setting_work_packages_projects_export_limit: "Limit eksportu pakietów roboczych / projektów"
   setting_journal_aggregation_time_minutes: "Działania użytkownika agregowane w ciągu"
   setting_log_requesting_user: "Rejestrowanie loginu, nazwy i adresu e-mail użytkownika dla wszystkich żądań"
   setting_login_required: "Wymagane uwierzytelnienie"
@@ -2501,8 +2590,6 @@ pl:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
     notifications:
-      retention_text: >
-        Ustaw liczbę dni, w których powiadomienia dla użytkowników (źródło powiadomień w aplikacji) będą przechowywane w systemie. Wszystkie zdarzenia starsze niż ten okres zostaną usunięte.
       events_explanation: 'Zarządza dla których zdarzeń są wysyłane wiadomości e-mail. Pakiety robocze są wyłączone z tej listy, ponieważ ich powiadomienia mogą być skonfigurowane specjalnie dla każdego użytkownika.'
       delay_minutes_explanation: "Wysyłanie wiadomości e-mail może być opóźnione, aby umożliwić użytkownikom ze skonfigurowanymi powiadomieniami w aplikacji potwierdzenie powiadomienia w aplikacji przed wysłaniem wiadomości. Użytkownicy, którzy przeczytali powiadomienie w aplikacji nie otrzymają wiadomości e-mail dla powiadomień już przeczytanych."
     display:
@@ -2540,6 +2627,7 @@ pl:
   text_access_token_hint: "Tokeny dostępu umożliwiają zewnętrznym aplikacjom dostęp do zasobów w OpenProject."
   text_analyze: "Further analyze: %{subject}"
   text_are_you_sure: "Jesteś pewien?"
+  text_are_you_sure_continue: "Czy na pewno chcesz kontynuować?"
   text_are_you_sure_with_children: "Usunąć pakiet roboczy i wszystkie podrzędne pakiety?"
   text_assign_to_project: "Przypisz do projektu"
   text_form_configuration: >
@@ -2554,6 +2642,12 @@ pl:
     Korzystając z pól niestandardowych, pamiętaj, że wymagają aktywacji w każdym poszczególnym projekcie.
   text_custom_field_hint_activate_per_project_and_type: >
     Pola niestandardowe wymagają aktywacji w każdym poszczególnym typie zadań i projekcie.
+  text_wp_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+  text_wp_status_read_only_html: >
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+  text_project_custom_field_html: >
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
   text_custom_favicon_instructions: >
@@ -2585,7 +2679,6 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_aggregation_time_explanation: "Indywidualne czynności użytkownika (np. dwukrotna aktualizacja pakietu roboczego) są agregowane w pojedynczą czynność, jeśli ich różnica czasowa jest mniejsza niż określony przedział czasowy. Będą one wyświetlane jako pojedyncza czynność w aplikacji. Spowoduje to również opóźnienie powiadomień o tę samą ilość czasu, zmniejszając liczbę wysyłanych wiadomości e-mail."
   text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
@@ -2698,7 +2791,7 @@ pl:
         date: "data"
         default: "Domyślnie"
       column:
-        assigned_to: "Przypisany do"
+        assigned_to: "Przypisana osoba"
         type: "Typ"
         due_date: "Data zakończenia"
         name: "Nazwa"
@@ -2730,7 +2823,6 @@ pl:
       noneSelection: "(brak)"
       outline: "Initial outline expansion"
       parent: "Pokaż projekty podrzędne z"
-      work_package_filters: "Filtruj pakiety robocze"
       work_package_responsible: "Pokaż pakiety robocze z osobą odpowiedzialną"
       work_package_assignee: "Pokaż pakiety robocze z przypisanym"
       types: "Pokaż typy"
@@ -2861,14 +2953,14 @@ pl:
   warning_user_limit_reached: >
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
-    Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com do uaktualnienia planu Enterprise Edition i dodać więcej kont użytkowników.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
-    protocol_mismatch:
-      title: 'Niezgodność ustawienia protokołu'
+    https_mismatch:
+      title: 'Konfiguracja trybu HTTPS niezgodna'
       text_html: >
-        Twoja aplikacja jest uruchomiona z ustawieniem protokołu <code>%{set_protocol}</code>, ale żądane jest ustawienie <code>%{actual_protocol}</code>. To doprowadzi do błędów! Przejdź do obszaru <a href="%{setting_path}">Ustawienia</a> i zmień ustawienie Protokół, aby to skorygować.
+        Twoja aplikacja działa w trybie HTTPS ustawionym na <code>%{set_protocol}</code>, ale żądanie jest żądaniem <code>%{actual_protocol}</code>. Spowoduje to błędy! Musisz ustawić następującą wartość konfiguracji: <code>%{setting_value}</code>. Zapoznaj się z <a href="%{more_info_path}">dokumentacją instalacji</a>, aby dowiedzieć się, jak ustawić tę konfigurację.
     hostname_mismatch:
       title: 'Niezgodność ustawienia nazwy hosta'
       text_html: >
@@ -2880,7 +2972,6 @@ pl:
   wiki_menu_item_new_main_item_explanation: >
     Usuwasz jedyny główny element menu wiki. Teraz musisz wybrać stronę wiki dla których zostanie wygenerowany nowy główny element. Aby usunąć wpis, moduł wiki może zostać dezaktywowany poprzez administratorów projektu.
   wiki_menu_item_delete_not_permitted: Nie można usunąć elementu menu dla jedynej strony wiki.
-  query_menu_item_for: "Element menu dla zapytania \"%{title}\""
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |
@@ -2888,10 +2979,22 @@ pl:
     destroy:
       info: "Usunięcie Zestawu zadań jest czynnością nieodwracalną."
       title: "Usuń Zestawy zadań"
+  working_days:
+    info: >
+      <b>Zdefiniuj dni robocze tygodnia</b><br/> Dni nierobocze są pomijane podczas planowania pakietów roboczych i są wyłączone z obliczania czasu trwania. Może to zostać zastąpione na poziomie pakietu roboczego.
+    change_button: "Zmień dni robocze"
+    warning: >
+      Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.
+    journal_note:
+      changed: _Zmieniono **Dni robocze** (%{changes})._
+      days:
+        working: "%{day} jest teraz dniem roboczym"
+        non_working: "%{day} jest teraz dniem nieroboczym"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
       lock_version: "Wersja zablokowana"
+      property: 'Własność'
     errors:
       code_400: "Nieprawidłowe żądanie: %{message}"
       code_401: "Musisz być uwierzytelniony, aby otrzymać dostęp do tego zasobu."
@@ -2905,6 +3008,7 @@ pl:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:
         date: "RRRR-MM-DD (tylko data ISO 8601)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (dowolna data i godzina zgodne z ISO 8601)"
         duration: "Czas trwania ISO 8601"
       invalid_content_type: "Oczekiwano CONTENT-TYPE '%{content_type}' a otrzymano '%{actual}'."
       invalid_format: "Błędny format dla własności '%{property}': Format oczekiwany '%{expected_format}', otrzymano '%{actual}'."
@@ -2916,6 +3020,7 @@ pl:
         select: "Żądany wybór %{invalid} nie jest obsługiwany. Obsługiwane wybory to %{supported}."
       invalid_user_status_transition: "Aktualny stan konta użytkownika nie zezwala na wykonanie tej operacji."
       missing_content_type: "nie określono"
+      missing_property: "Brakuje właściwości „%{property}”."
       missing_request_body: "There was no request body."
       missing_or_malformed_parameter: "Parametr zapytania '%{parameter}' jest brakujący lub nieprawidłowy."
       multipart_body_error: "Żądanie źródła nie zawiera oczekiwanych wieloczęściowych elementów."
@@ -2939,6 +3044,7 @@ pl:
       schema: 'Schemat'
     undisclosed:
       parent: Nie ujawniono — wybrany element nadrzędny jest niewidoczny ze względu na brak uprawnień.
+      ancestor: Nie ujawniono — przodek jest niewidoczny ze względu na brak uprawnień.
   doorkeeper:
     pre_authorization:
       status: 'Pre-Autoryzacja'
@@ -2947,7 +3053,10 @@ pl:
     errors:
       messages:
         #Common error messages
-        invalid_request: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
+        invalid_request:
+          unknown: 'Żądanie nie zawiera wymaganego parametru, zawiera nieobsługiwaną wartość parametru lub jest w inny sposób nieprawidłowo sformułowane.'
+          missing_param: 'Brak wymaganego parametru: %{value}.'
+          request_not_authorized: 'Żądanie musi być autoryzowane. Wymagany do autoryzacji żądania parametr nie istnieje lub jest nieprawidłowy.'
         invalid_redirect_uri: "Identyfikator URI żądanego przekierowania jest nieprawidłowo sformułowany lub niezgodny z identyfikatorem URI przekierowania klienta."
         unauthorized_client: 'Klient nie ma uprawnień do wykonania tego żądania przy użyciu tej metody.'
         access_denied: 'Odrzucenie żądania ze strony właściciela zasobu lub serwera autoryzacji.'
@@ -2961,6 +3070,7 @@ pl:
         admin_authenticator_not_configured: 'Dostęp do panelu administratora jest zabroniony z powodu nieskonfigurowania ustawień Doorkeeper.configure.admin_authenticator.'
         #Access grant errors
         unsupported_response_type: 'Serwer autoryzacji nie obsługuje tego typu odpowiedzi.'
+        unsupported_response_mode: 'Serwer autoryzacji nie obsługuje tego trybu odpowiedzi.'
         #Access token errors
         invalid_client: 'Uwierzytelnianie klienta nie powiodło się z powodu nieznanego klienta, nieuwzględnienia uwierzytelniania klienta lub nieobsługiwanej metody uwierzytelniania.'
         invalid_grant: 'Udzielona autoryzacja jest nieprawidłowa, wygasła, unieważniona, nie odpowiada identyfikatorowi URI przekierowania użytemu w żądaniu autoryzacji lub została wydana innemu klientowi.'
@@ -2969,6 +3079,10 @@ pl:
           revoked: "Token dostępu został unieważniony"
           expired: "Ten token wygasł"
           unknown: "Ten token jest nieprawidłowy"
+        revoke:
+          unauthorized: "Nie masz uprawnień, aby unieważnić ten token."
+        forbidden_token:
+          missing_scope: 'Dostęp do tego zasobu wymaga zakresu „%{oauth_scopes}”.'
   unsupported_browser:
     title: "Ta przeglądarka jest przestarzała i nieobsługiwana."
     message: "Na tej stronie mogą wystąpić błędy i pogorszenie działania."
@@ -3024,4 +3138,51 @@ pl:
     authorization_error: "Wystąpił błąd autoryzacji."
     revoke_my_application_confirmation: "Czy na pewno chcesz usunąć tę aplikację? Unieważni to jej aktywne tokeny (%{token_count})."
     my_registered_applications: "Zarejestrowane aplikacje OAuth"
+  oauth_client:
+    urn_connection_status:
+      connected: "Połączono"
+      error: "Błąd"
+      failed_authorization: "Autoryzacja nie powiodła się"
+    labels:
+      label_oauth_integration: "Integracja OAuth2"
+      label_redirect_uri: "Przekieruj URI"
+      label_request_token: "Żądaj tokena"
+      label_refresh_token: "Odśwież token"
+    errors:
+      oauth_authorization_code_grant_had_errors: "OAuth2 zwrócił błąd"
+      oauth_reported: "Dostawca OAuth2 zgłosił"
+      oauth_returned_error: "OAuth2 zwrócił błąd"
+      oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
+      oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
+      oauth_returned_standard_error: "OAuth2 zwrócił błąd wewnętrzny"
+      wrong_token_type_returned: "OAuth2 zwrócił niewłaściwy typ tokena, oczekując AccessToken::Bearer"
+      oauth_issue_contact_admin: "OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu."
+      oauth_client_not_found: "Nie znaleziono klienta OAuth2 w punkcie końcowym 'callback' (redirect_uri)."
+      refresh_token_called_without_existing_token: >
+        Błąd wewnętrzny: Wywołano refresh_token bez wcześniej istniejącego tokena.
+      refresh_token_updated_failed: "Błąd podczas aktualizacji OAuthClientToken"
+      oauth_client_not_found_explanation: >
+        Ten błąd pojawia się po zaktualizowaniu client_id i client_secret w OpenProject, ale przy braku aktualizacji pola "Return URI" u dostawcy OAuth2.
+      oauth_code_not_present: "OAuth2 'code' nie został znaleziony w punkcie końcowym \"callback\" (redirect_uri)."
+      oauth_code_not_present_explanation: >
+        Ten błąd pojawia się, jeśli wybrano niewłaściwy response_type u dostawcy OAuth2. Response_type powinien być 'code' lub podobny.
+      oauth_state_not_present: "OAuth2 'state' nie został znaleziony w punkcie końcowym 'callback' (redirect_uri)."
+      oauth_state_not_present_explanation: >
+        Po pomyślnej autoryzacji OAuth2 'state' zostaje użyte do wskazania dla OpenProject, gdzie należy kontynuować. Brak 'state' to wewnętrzny błąd, który może pojawić się podczas konfiguracji. Skontaktuj się z administratorem systemu.
+      rack_oauth2:
+        client_secret_invalid: "Kod klienta jest nieprawidłowy (client_secret_invalid)"
+        invalid_request: >
+          Serwer autoryzacji OAuth2 odpowiedział 'invalid_request'. Ten błąd pojawia się, jeśli próbujesz się autoryzować wiele razy lub w przypadku problemów technicznych.
+        invalid_response: "Serwer autoryzacji OAuth2 dostarczył nieprawidłową odpowiedź (invalid_response)"
+        invalid_grant: "Serwer autoryzacji OAuth2 prosi o ponowną autoryzację (invalid_grant)."
+        invalid_client: "Serwer autoryzacji OAuth2 nie rozpoznaje OpenProject (invalid_client)."
+        unauthorized_client: "Serwer autoryzacji OAuth2 odrzuca typ uprawnienia (unauthorized_client)"
+        unsupported_grant_type: "Serwer autoryzacji OAuth2 prosi o ponowną autoryzację (unsupported_grant_type)."
+        invalid_scope: "Nie masz uprawnień dostępu do żądanego zasobu (invalid_scope)."
+  http:
+    request:
+      failed_authorization: "Żądanie po stronie serwera nie powiodło się."
+      missing_authorization: "Żądanie po stronie serwera nie powiodło się z powodu braku informacji o autoryzacji."
+    response:
+      unexpected: "Otrzymano nieoczekiwaną odpowiedź."
   you: Ty

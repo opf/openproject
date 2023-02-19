@@ -5,8 +5,8 @@ fr:
       remove: 'Supprimer le widget'
       configure: 'Configurer le widget'
       upsale:
-        text: "Certains widgets, comme le widget graphique des lots de travaux, ne sont disponibles que dans"
-        link: 'la version Entreprise.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Texte personnalisé'
@@ -31,10 +31,13 @@ fr:
           no_results: 'Aucun champ personnalisé n''a été défini pour les projets.'
         project_status:
           title: 'État du projet'
+          not_started: 'Non démarré'
           on_track: 'Sur la bonne voie'
           off_track: 'Sur la mauvaise voie'
           at_risk: 'À risque'
           not_set: 'Non défini'
+          finished: 'Terminé'
+          discontinued: 'Interrompu'
         subprojects:
           title: 'Sous-projets'
           no_results: 'Aucun sous-projet.'

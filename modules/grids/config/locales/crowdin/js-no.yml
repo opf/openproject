@@ -5,8 +5,8 @@
       remove: 'Fjern widget'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Custom text'
@@ -31,10 +31,13 @@
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'Prosjektstatus'
+          not_started: 'Not started'
           on_track: 'På rett spor'
           off_track: 'Sporet av'
           at_risk: 'I fare'
           not_set: 'Not set'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'Underprosjekter'
           no_results: 'No subprojects.'

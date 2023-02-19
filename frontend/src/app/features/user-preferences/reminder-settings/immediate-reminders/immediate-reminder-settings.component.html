@@ -3,7 +3,8 @@
     <h5 [textContent]="text.title"></h5>
   </div>
 
-  <op-checkbox-field
+  <spot-selector-field
+    [label]="text.mentioned"
     [control]="form.get('mentioned')"
   >
     <input
@@ -12,6 +13,5 @@
       formControlName="mentioned"
       data-qa-immediate-reminder="mentioned"
     />
-    <p slot="description">{{ text.mentioned }}</p>
-  </op-checkbox-field>
+  </spot-selector-field>
 </ng-container>

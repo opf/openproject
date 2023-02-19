@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,21 +36,14 @@ module Projects
         ::Projects::Copy::VersionsDependentService,
         ::Projects::Copy::CategoriesDependentService,
         ::Projects::Copy::WorkPackagesDependentService,
-        ::Projects::Copy::WorkPackageAttachmentsDependentService,
         ::Projects::Copy::WikiDependentService,
-        ::Projects::Copy::WikiPageAttachmentsDependentService,
         ::Projects::Copy::ForumsDependentService,
         ::Projects::Copy::QueriesDependentService,
         ::Projects::Copy::BoardsDependentService,
-        ::Projects::Copy::OverviewDependentService
+        ::Projects::Copy::OverviewDependentService,
+        ::Projects::Copy::StoragesDependentService,
+        ::Projects::Copy::FileLinksDependentService
       ]
-    end
-
-    ##
-    # In case a rollback is needed,
-    # destroy the copied project again.
-    def rollback
-      state.project&.destroy
     end
 
     protected
@@ -64,70 +55,86 @@ module Projects
       !Copy::Dependency.should_copy?(params, dependency_cls.identifier.to_sym)
     end
 
-    def initialize_copy(source, params)
-      target = Project.new
+    def set_attributes_params(_params)
+      attributes = source_attributes.merge(
+        # Clear enabled modules
+        enabled_module_names: source_enabled_modules,
+        types: source_types,
+        work_package_custom_fields: source_custom_fields,
 
-      target.attributes = source.attributes.dup.except(*skipped_attributes)
-      # Clear enabled modules
-      target.enabled_modules = []
-      target.enabled_module_names = source.enabled_module_names - %w[repository]
-      target.types = source.types
-      target.work_package_custom_fields = source.work_package_custom_fields
+        # Copy status object
+        status: source_status
+      )
 
-      # Copy status object
-      target.status = source.status&.dup
-
-      # Take over the CF values for attributes
-      target.custom_field_values = source.custom_value_attributes
-
-      # Additional input target params
-      target_project_params = params[:target_project_params].with_indifferent_access
-
-      cleanup_target_project_params(source, target, target_project_params)
-      cleanup_target_project_attributes(source, target, target_project_params)
-
-      # Assign additional params from user
-      call = Projects::SetAttributesService
-        .new(user: user,
-             model: target,
-             contract_class: Projects::CopyContract,
-             contract_options: { copy_source: source, validate_model: true })
-        .with_state(state)
-        .call(target_project_params)
-
-      # Retain values after the set attributes service
-      retain_attributes(source, target, target_project_params)
-
-      # Retain the project in the state for other dependent
-      # copy services to use
-      state.project = target
-
-      call
+      only_allowed_parent_id(attributes)
+        .merge(source_custom_field_attributes)
+        .merge(target_project_params)
     end
 
-    def retain_attributes(source, target, target_project_params)
+    def before_perform(params, service_call)
+      super.tap do |super_call|
+        # Retain values after the set attributes service
+        retain_attributes(source, super_call.result)
+
+        # Retain the project in the state for other dependent
+        # copy services to use
+        state.project = super_call.result
+      end
+    end
+
+    def contract_options
+      { copy_source: source, validate_model: true }
+    end
+
+    def retain_attributes(source, target)
       # Ensure we keep the public value of the source project
       # which might get overridden by the SetAttributesService
       # unless the user provided a different value
       target.public = source.public unless target_project_params.key?(:public)
     end
 
-    def cleanup_target_project_params(_source, _target, target_project_params)
-      if (parent_id = target_project_params[:parent_id]) && (parent = Project.find_by(id: parent_id)) && !user.allowed_to?(
-        :add_subprojects, parent
-      )
-        target_project_params.delete(:parent_id)
-      end
-    end
-
-    def cleanup_target_project_attributes(_source, target, _target_project_params)
-      if target.parent && !user.allowed_to?(:add_subprojects, target.parent)
-        target.parent = nil
-      end
-    end
-
     def skipped_attributes
       %w[id created_at updated_at name identifier active templated lft rgt]
+    end
+
+    def source_attributes
+      source.attributes.dup.except(*skipped_attributes).with_indifferent_access
+    end
+
+    def source_enabled_modules
+      source.enabled_module_names - %w[repository]
+    end
+
+    def source_status
+      source.status&.attributes
+    end
+
+    def source_types
+      source.types
+    end
+
+    def source_custom_fields
+      source.work_package_custom_fields
+    end
+
+    def source_custom_field_attributes
+      source
+        .custom_value_attributes
+        .transform_keys { |key| "custom_field_#{key}" }
+    end
+
+    # Additional input target params
+    def target_project_params
+      params[:target_project_params].with_indifferent_access
+    end
+
+    def only_allowed_parent_id(attributes)
+      if (parent_id = attributes[:parent_id]) && (parent = Project.find_by(id: parent_id)) &&
+        !user.allowed_to?(:add_subprojects, parent)
+        attributes.except(:parent_id)
+      else
+        attributes
+      end
     end
   end
 end

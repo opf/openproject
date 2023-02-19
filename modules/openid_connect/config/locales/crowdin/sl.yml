@@ -6,7 +6,7 @@ sl:
       openid_connect/provider:
         name: Ime
         display_name: Prikazno ime
-        identifier: Identifikator 
+        identifier: Identifikator
         secret: Skrivnost
         scope: Področje
   openid_connect:

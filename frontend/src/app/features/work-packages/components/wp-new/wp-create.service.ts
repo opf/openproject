@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
+import {
+  Observable,
+  Subject,
+} from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { WorkPackageFilterValues } from 'core-app/features/work-packages/components/wp-edit-form/work-package-filter-values';
@@ -42,12 +48,18 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource, HalSource, HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import {
+  HalResource,
+  HalSource,
+  HalSourceLink,
+} from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
+import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
@@ -58,15 +70,18 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
-  constructor(protected injector:Injector,
+  constructor(
+    protected injector:Injector,
     protected hooks:HookService,
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
     protected halResourceService:HalResourceService,
     protected querySpace:IsolatedQuerySpace,
     protected authorisationService:AuthorisationService,
     protected halEditing:HalResourceEditingService,
     protected schemaCache:SchemaCacheService,
-    protected halEvents:HalEventsService) {
+    protected halEvents:HalEventsService,
+    protected attachmentsService:AttachmentsResourceService,
+  ) {
     super();
 
     this.halEditing
@@ -90,7 +105,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       });
   }
 
-  protected newWorkPackageCreated(wp:WorkPackageResource) {
+  protected newWorkPackageCreated(wp:WorkPackageResource):void {
     this.reset();
     this.newWorkPackageCreatedSubject.next(wp);
   }
@@ -121,7 +136,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return change;
   }
 
-  public copyWorkPackage(copyFrom:WorkPackageChangeset) {
+  public copyWorkPackage(copyFrom:WorkPackageChangeset):Promise<WorkPackageChangeset> {
     const request = copyFrom.pristineResource.$source;
 
     // Ideally we would make an empty request before to get the create schema (cannot use the update schema of the source changeset)
@@ -164,19 +179,19 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this.form;
   }
 
-  public cancelCreation() {
+  public cancelCreation():void {
     this.halEditing.stopEditing({ href: newWorkPackageHref });
     this.reset();
   }
 
-  public changesetUpdates$() {
+  public changesetUpdates$():Observable<ResourceChangeset> {
     return this
       .halEditing
       .state(newWorkPackageHref)
       .values$();
   }
 
-  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number, defaults?:HalSource) {
+  public createOrContinueWorkPackage(projectIdentifier:string|null|undefined, type?:number, defaults?:HalSource):Promise<WorkPackageChangeset> {
     let changePromise = this.continueExistingEdit(type);
 
     if (!changePromise) {
@@ -196,16 +211,21 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     });
   }
 
-  protected reset() {
+  protected reset():void {
     this
       .apiV3Service
       .work_packages
       .cache
       .clearSome('new');
+
+    this
+      .attachmentsService
+      .clear('new');
+
     this.form = undefined;
   }
 
-  protected continueExistingEdit(type?:number) {
+  protected continueExistingEdit(type?:number):Promise<WorkPackageChangeset>|null {
     const change = this.halEditing.state(newWorkPackageHref).value as WorkPackageChangeset;
     if (change !== undefined) {
       const changeType = change.projectedResource.type;
@@ -231,10 +251,10 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    *  The first can be employed to e.g. provide the type or the parent of the work package.
    *  The later can be employed to create a work package that adheres to the filter values.
    *
-   * @params projectIdentifier The project the work package is to be created in.
+   * @param projectIdentifier The project the work package is to be created in.
    * @param defaults Values the new work package should possess on creation.
    */
-  protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource) {
+  protected createNewWithDefaults(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<WorkPackageChangeset> {
     return this
       .withFiltersPayload(projectIdentifier, defaults)
       .then((filterDefaults) => {
@@ -261,16 +281,16 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    *
    * The ignoring functionality could be generalized.
    *
-   * @params object
+   * @param object
    * @param defaults
    */
-  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource) {
+  private defaultsFromFilters(object:HalSource|WorkPackageChangeset, defaults?:HalSource):void {
     // Not using WorkPackageViewFiltersService here as the embedded table does not load the form
     // which will result in that service having empty current filters.
     const query = this.querySpace.query.value;
 
     if (query) {
-      const except:string[] = defaults?._links && defaults._links.type ? ['type'] : [];
+      const except:string[] = defaults?._links ? Object.keys(defaults._links) : [];
 
       new WorkPackageFilterValues(this.injector, query.filters, except)
         .applyDefaultsFromFilters(object);

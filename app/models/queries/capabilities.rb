@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,15 +27,12 @@
 #++
 
 module Queries::Capabilities
-  query = Queries::Capabilities::CapabilityQuery
-  filter_ns = Queries::Capabilities::Filters
+  ::Queries::Register.register(CapabilityQuery) do
+    filter Filters::IdFilter
+    filter Filters::PrincipalIdFilter
+    filter Filters::ContextFilter
+    filter Filters::ActionFilter
 
-  Queries::Register.filter query, filter_ns::IdFilter
-  Queries::Register.filter query, filter_ns::PrincipalIdFilter
-  Queries::Register.filter query, filter_ns::ContextFilter
-  Queries::Register.filter query, filter_ns::ActionFilter
-
-  order_ns = Queries::Capabilities::Orders
-
-  Queries::Register.order query, order_ns::IdOrder
+    order Orders::IdOrder
+  end
 end

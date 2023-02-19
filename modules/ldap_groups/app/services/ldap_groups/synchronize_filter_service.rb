@@ -8,11 +8,11 @@ module LdapGroups
 
     def call
       count = synchronize!
-      ServiceResult.new(success: true, result: count)
+      ServiceResult.success(result: count)
     rescue StandardError => e
       error = "[LDAP groups] Failed to extract LDAP groups from filter #{filter.name}: #{e.class}: #{e.message}"
       Rails.logger.error(error)
-      ServiceResult.new(success: false, message: error)
+      ServiceResult.failure(message: error)
     end
 
     ##
@@ -57,12 +57,12 @@ module LdapGroups
 
     ##
     # Perform the LDAP search for the groups
-    def search(filter, ldap_con, &block)
+    def search(filter, ldap_con, &)
       ldap_con.search(
         base: filter.used_base_dn,
         filter: filter.parsed_filter_string,
         attributes: ['dn', filter.group_name_attribute],
-        &block
+        &
       )
     end
 
@@ -70,7 +70,7 @@ module LdapGroups
     # Create or update the synchronized group item
     def create_or_update_sync_group(dn)
       group = LdapGroups::SynchronizedGroup
-        .find_or_initialize_by(dn: dn).tap do |sync|
+        .find_or_initialize_by(dn:).tap do |sync|
         # Always set the filter and auth source, in case multiple filters match the same group
         # they are simply being re-assigned to the latest one
         sync.filter_id = filter.id
@@ -91,7 +91,7 @@ module LdapGroups
         Group.where(id: sync.group_id).update_all(lastname: name)
       else
         # Create an OpenProject group
-        sync.group = Group.find_or_create_by!(name: name)
+        sync.group = Group.find_or_create_by!(name:)
       end
     end
   end

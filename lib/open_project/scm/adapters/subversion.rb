@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -187,7 +185,7 @@ module OpenProject
         # To fix this we find out the earliest available revision here
         # and start from there.
         def start_revision
-          cmd = %w(log -r1:HEAD --limit 1) + [target('')]
+          cmd = %w(log -r1:HEAD --limit 1 --stop-on-copy) + [target('')]
 
           rev = capture_svn(cmd).lines.map(&:strip)
             .select { |line| line =~ /\Ar\d+ \|/ }
@@ -276,7 +274,7 @@ module OpenProject
           Entry.new(
             name: CGI.unescape(name),
             path: ((path.empty? ? '' : "#{path}/") + name),
-            kind: kind,
+            kind:,
             size: size.empty? ? nil : size.to_i,
             lastrev: revision
           )
@@ -316,7 +314,7 @@ module OpenProject
           )
         end
 
-        def fetch_revision_entries(identifier_from, identifier_to, options, path, &block)
+        def fetch_revision_entries(identifier_from, identifier_to, options, path, &)
           path ||= ''
           identifier_from = numeric_identifier(identifier_from, 'HEAD')
           identifier_to = numeric_identifier(identifier_to, 1)
@@ -325,7 +323,7 @@ module OpenProject
           cmd << '--limit' << options[:limit].to_s if options[:limit]
           cmd << target(path, peg: identifier_from)
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/log/logentry').each &block
+            doc.xpath('/log/logentry').each(&)
           end
         end
 

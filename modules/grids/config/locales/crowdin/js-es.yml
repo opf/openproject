@@ -5,8 +5,8 @@ es:
       remove: 'Quitar widget'
       configure: 'Configurar widget'
       upsale:
-        text: "Algunos widgets, como el widget del gráfico de paquetes de trabajo, solo están disponibles en la "
-        link: 'edición Enterprise.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Edición Enterprise.'
       widgets:
         custom_text:
           title: 'Texto personalizado'
@@ -31,10 +31,13 @@ es:
           no_results: 'No se han definido campos personalizados para los proyectos.'
         project_status:
           title: 'Estado del proyecto'
+          not_started: 'No empezado'
           on_track: 'Según lo previsto'
           off_track: 'Fuera de lo previsto'
           at_risk: 'En riesgo'
           not_set: 'No establecido'
+          finished: 'Terminado'
+          discontinued: 'Discontinuado'
         subprojects:
           title: 'Subproyectos'
           no_results: 'No hay subproyectos.'
@@ -42,8 +45,8 @@ es:
           title: 'Tiempo que he invertido'
           displayed_days: 'Días mostrados en el widget:'
         time_entries_list:
-          title: 'Tiempo de gastos (últimos 7 días)'
-          no_results: 'Sin entradas temporales en los últimos 7 días.'
+          title: 'Tiempo gastado (últimos 7 días)'
+          no_results: 'Sin registros temporales en los últimos 7 días.'
         work_packages_accountable:
           title: "Paquetes de trabajo de los que soy responsable"
         work_packages_assigned:

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
    * @param resource The resource with a schema property or a string to the schema href.
    * @return A promise with the loaded schema.
    */
-  ensureLoaded(resource:HalResource|string):Promise<SchemaResource> {
+  ensureLoaded<T = SchemaResource>(resource:HalResource|string):Promise<T> {
     const href = resource instanceof HalResource ? this.getSchemaHref(resource) : resource;
 
     return this
@@ -91,7 +91,7 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
       .pipe(
         take(1),
       )
-      .toPromise();
+      .toPromise() as unknown as Promise<T>;
   }
 
   /**

@@ -7,11 +7,11 @@ module OpenProject
         # by all handlers
         def log(exception, context = {})
           # in case we're getting ActionController::Parameters
-          if context.respond_to?(:to_unsafe_h)
-            context = context.to_unsafe_h
-          else
-            context = context.to_h.dup.with_indifferent_access
-          end
+          context = if context.respond_to?(:to_unsafe_h)
+                      context.to_unsafe_h
+                    else
+                      context.to_h.dup.with_indifferent_access
+                    end
 
           message =
             if exception.is_a? Exception
@@ -46,7 +46,7 @@ module OpenProject
             message = args.shift
             context = args.shift || {}
 
-            log(message, context.merge(level: level))
+            log(message, context.merge(level:))
           end
         end
 

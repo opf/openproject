@@ -1,17 +1,17 @@
 import {
+  applyTransaction,
   EntityState,
+  EntityStore,
   ID,
-  QueryEntity,
 } from '@datorama/akita';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
-  Apiv3ListParameters,
+  ApiV3ListParameters,
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { Observable } from 'rxjs';
-import {
-  filter,
-} from 'rxjs/operators';
+import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { filter } from 'lodash';
 
 export interface CollectionResponse {
   ids:ID[];
@@ -20,10 +20,9 @@ export interface CollectionResponse {
 export interface CollectionState<T> extends EntityState<T> {
   /** Loaded notification collections */
   collections:Record<string, CollectionResponse>;
-}
 
-export interface CollectionService<T> {
-  query:QueryEntity<CollectionState<T>>;
+  /** Loading collections */
+  loadingCollections:Record<string, boolean>;
 }
 
 export interface CollectionItem {
@@ -39,9 +38,10 @@ export function mapHALCollectionToIDCollection<T extends CollectionItem>(collect
 /**
  * Initialize the collection part of the entity store
  */
-export function createInitialCollectionState():{ collections:Record<string, CollectionResponse> } {
+export function createInitialCollectionState<T>():CollectionState<T> {
   return {
     collections: {},
+    loadingCollections: {},
   };
 }
 
@@ -50,52 +50,138 @@ export function createInitialCollectionState():{ collections:Record<string, Coll
  *
  * @param params list params
  */
-export function collectionKey(params:Apiv3ListParameters):string {
+export function collectionKey(params:ApiV3ListParameters):string {
   return listParamsString(params);
 }
 
 /**
- * Retrieve a collection from the given parameter set.
+ * Mark a collection key as being loaded
  *
- * @param service
- * @param params
+ * @param store An entity store for the collection
+ * @param collectionUrl The key to insert the collection at
+ * @param loading The loading state
  */
-export function selectCollectionAsHrefs$<T extends CollectionItem>(service:CollectionService<T>, params:Apiv3ListParameters):Observable<CollectionResponse> {
-  return service
-    .query
-    .select((state) => {
-      const collection = collectionKey(params);
-      return state?.collections[collection];
-    })
-    .pipe(
-      filter((collection) => !!collection),
-    );
+export function setCollectionLoading<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  collectionUrl:string,
+):void {
+  store.update(({ loadingCollections }) => (
+    {
+      loadingCollections: {
+        ...loadingCollections,
+        [collectionUrl]: true,
+      },
+    }
+  ));
 }
 
 /**
- * Retrieve the entities from the collection a given the ID collection
+ * Mark a collection key as no longer loading
  *
- * @param service
- * @param collection
+ * @param store An entity store for the collection
+ * @param collectionUrl The key to insert the collection at
  */
-export function selectEntitiesFromIDCollection<T extends CollectionItem>(service:CollectionService<T>, collection:CollectionResponse):T[] {
-  const ids = collection?.ids || [];
-
-  return ids
-    .map((id) => service.query.getEntity(id))
-    .filter((item) => !!item) as T[];
+export function removeCollectionLoading<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  collectionUrl:string,
+):void {
+  store.update(({ loadingCollections }) => (
+    {
+      loadingCollections: filter(loadingCollections, (_, key) => key !== collectionUrl),
+    }
+  ));
 }
 
 /**
- * Retrieve the entities from the collection a given parameter set produces.
+ * Insert a collection into the given entity store
  *
- * @param service
- * @param state
- * @param params
+ * @param store An entity store for the collection
+ * @param collection A loaded collection
+ * @param collectionUrl The key to insert the collection at
  */
-export function selectCollectionAsEntities$<T extends CollectionItem>(service:CollectionService<T>, state:CollectionState<T>, params:Apiv3ListParameters):T[] {
-  const key = collectionKey(params);
-  const collection = state.collections[key];
+export function insertCollectionIntoState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  collection:IHALCollection<T>,
+  collectionUrl:string,
+):void {
+  const { elements } = collection._embedded as { elements:undefined|T[] };
 
-  return selectEntitiesFromIDCollection(service, collection);
+  // Some JSON endpoints return no elements result if there are no elements
+  const ids = elements?.map((el) => el.id) || [];
+
+  applyTransaction(() => {
+    // Avoid inserting when elements is not defined
+    if (elements && elements.length > 0) {
+      store.upsertMany(elements);
+    }
+
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ids,
+          },
+        },
+      }
+    ));
+  });
+}
+
+export function removeEntityFromCollectionAndState<T extends { id:ID }>(
+  store:EntityStore<CollectionState<T>>,
+  entityId:ID,
+  collectionUrl:string,
+):void {
+  applyTransaction(() => {
+    store.remove(entityId);
+    store.update(({ collections }) => (
+      {
+        collections: {
+          ...collections,
+          [collectionUrl]: {
+            ...collections[collectionUrl],
+            ids: (collections[collectionUrl]?.ids || []).filter((id) => id !== entityId),
+          },
+        },
+      }
+    ));
+  });
+}
+
+export function collectionFrom<T>(elements:T[]):IHALCollection<T> {
+  const count = elements.length;
+
+  return {
+    _type: 'Collection',
+    count,
+    total: count,
+    pageSize: count,
+    offset: 1,
+    _embedded: {
+      elements,
+    },
+  };
+}
+
+/**
+ * Takes a collection of elements that do not have an ID, and extract the ID from self link.
+ * @param collection a IHALCollection with elements that have a self link
+ * @returns the same collection with elements extended with an ID derived from the self link.
+ */
+export function extendCollectionElementsWithId<T extends { _links:IHalResourceLinks }>(
+  collection:IHALCollection<T>,
+):IHALCollection<T&{ id:ID }> {
+  const elements = collection._embedded.elements.map((element) => ({
+    ...element,
+    id: idFromLink(element._links.self.href),
+  }));
+
+  return {
+    ...collection,
+    _embedded: {
+      ...collection._embedded,
+      elements,
+    },
+  };
 }

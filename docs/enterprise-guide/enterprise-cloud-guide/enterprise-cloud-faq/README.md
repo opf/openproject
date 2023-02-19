@@ -3,11 +3,14 @@ sidebar_navigation:
   title: Enterprise cloud FAQ
   priority: 001
 description: Frequently asked questions regarding Enterprise cloud
-robots: index, follow
-keywords: Enterprise cloud FAQ, Cloud Edition, hosted by OpenProject
+keywords: Enterprise cloud, FAQ, cloud edition, hosted by OpenProject
 ---
 
 # Frequently asked questions (FAQ) for Enterprise cloud
+
+## How can I test the Enterprise cloud version?
+
+Simply create a 14 days free trial on: [start.openproject.com](https://start.openproject.com/). Enter your organization name in small letters, without spaces (e.g. openproject) and press the blue Start Free Trial button.
 
 ## How can I book additional users for the Enterprise cloud?
 
@@ -15,31 +18,48 @@ You can do this in your OpenProject instance in the administration. The number o
 
 ## How can I change my payment details (e.g. new credit card)?
 
-Please have a look at [this instruction](../manage-cloud-subscription/).
+Please have a look at [this instruction](../manage-cloud-subscription/) for the Enterprise cloud edition to change your payment details.
 
 
 ## Does OpenProject comply with GDPR?
 
-The protection of personal data is for OpenProject more than just a legal requirement. We are highly committed to data security and privacy. We are a company based in Berlin, the European Union, and the awareness and importance for data security and privacy actions have always been a major topic for us. OpenProject complies with GDPR and we handle our customer’s data with care. Get more detailed information [here](https://www.openproject.org/gdpr-compliance/).
+Yes. The protection of personal data is for OpenProject more than just a legal requirement. We are highly committed to data security and privacy. We are a company based in Berlin, the European Union, and the awareness and importance for data security and privacy actions have always been a major topic for us. OpenProject complies with GDPR and we handle our customer’s data with care. Get more detailed information [here](https://www.openproject.org/security-and-privacy/).
 
 ## Is the Enterprise cloud certified?
 
-The data center (AWS) we use for Enterprise Cloud Edition is ISO27001 certified.
+The data center (AWS) we use for Enterprise cloud edition is ISO27001 certified.
 
 For more information please visit the [information regarding security measures](https://www.openproject.org/legal/data-processing-agreement/technical-and-organizational-data-security-measures) on our website.
 
-## Where geographically is the OpenProject Enterprise cloud data stored?
+## How to change the Open Project Enterprise cloud creators account?
 
-The OpenProject Enterprise cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Ireland. AWS is a GDPR compliant cloud infrastructure provider with extensive security and compliance programs as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards. OpenProject Enterprise cloud environment is continuously backing up user data with data at rest being fully encrypted with AES-256. Each individual's instance is logically separated and data is persisted in a unique database schema, reducing the risk of intersection or data leaks between instances. You can find more information [here](https://www.openproject.org/gdpr-compliance/).
+Users (who are administrators) can change email addresses and accounts of other users, but not their own account. Single administrators can change their own account/email address by creating a second administrator account and using the new administrator to change data of the first administrator. The second administrator could be deactivated again afterwards by the first administrator. Normal users CAN change their own email address, just not their login.
 
+## Does OpenProject employ sub-processors for the OpenProject Enterprise cloud edition from outside the EU?
+
+A list of all sub-processors used in the OpenProject Enterprise cloud can be found [here](https://www.openproject.org/legal/data-processing-agreement/sub-processors/).
+
+Please note: For the OpenProject Enterprise cloud we currently have two SaaS infrastructures:
+
+**OpenProject.com** 
+
+This infrastructure is hosted at AWS in Dublin. For sending transactional emails we use the service Postmark which is based in the US.
+
+**OpenProject.eu (beta)**
+
+Starting from April 2022, we will also offer hosting of the OpenProject Enterprise cloud in our new SaaS infrastructure *OpenProject.eu*. In this new environment there is no transfer to sub-processors outside the EU. If you want to join the beta program please contact privacy@openproject.com (GPG Key: [BDCFE01EDE84EA199AE172CE7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958)).
+
+**Migration after the beta phase in April 2022**
+
+After the end of the beta phase we plan to migrate <u>all</u> customers to the new infrastructure *OpenProject.eu*. Before this migration we (Processor) notified in March 2022 all clients (Controller) about the new sub-processors by email.  After the expiry of the objection period of two weeks, the modification shall be deemed approved within the meaning of Article 28  (2) GDPR. If the the Controller objects by email to privacy@openproject.com within two weeks we will <u>not</u> migrate their data. For more information please have a look at [Use of sub-processors](https://www.openproject.org/legal/data-processing-agreement/#77-use-of-sub-processors) in your DPA.
 
 ## Can I get a custom domain name instead of example.openproject.com?
 
-Yes, you can create your custom domain name. For this service we charge €100 once-off. Please add it in your booking process (will soon be available) or contact us via email (support@openproject.com).
+Yes, you can create your custom domain name. For this service we charge €100 per month. Please contact us via email (support@openproject.com) if you are interested.
 
 ## Can I import my OpenProject community instance into my Enterprise cloud environment?
 
-Yes, we provide an upload possibility of your data to move from a Community Edition installation to the Enterprise cloud edition.
+Yes, we provide an upload possibility of your data to move from a Community edition installation to the Enterprise cloud edition.
 To import your community instance into our cloud environment, please send us the following files:
 
 1. The database SQL dump of your local installation
@@ -58,10 +78,9 @@ Currently, there is unfortunately no option to export all the documents in OpenP
 
 Access to the database (including the PostgreSQL tables) is restricted for the Enterprise cloud edition due to technical and security reasons. Instead, you can use the OpenProject [API](../../../api) to both read and write data (where supported). If you require direct database access, you may want to take a look at the OpenProject [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition) which you can run on your own server.
 
-## Can I use LDAP authentican in my Enterprise cloud environment?
+## Can I use LDAP authentication in my Enterprise cloud environment?
 
-You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-authentication/) in your
-cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
+You can use [LDAP authentication](../../../system-admin-guide/authentication/ldap-authentication/) in your cloud environment. **However**, usually LDAP servers will _not_ be exposed to the internet, which they have to be for this to work.
 Whitelisting IPs is no option since the OpenProject servers' IPs are not permanent and can change without notice.
 Moreover we do not have a mechanism to list all IP addresses currently in use.
 

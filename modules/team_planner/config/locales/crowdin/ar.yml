@@ -1,0 +1,13 @@
+#English strings go here
+ar:
+  permission_view_team_planner: "عرض مخطط الفريق"
+  permission_manage_team_planner: "إدارة مخطط الفريق"
+  project_module_team_planner_view: "مخطط الفريق"
+  team_planner:
+    label_team_planner: "مخطط الفريق"
+    label_create_new_team_planner: "إنشاء مخطط فريق جديد"
+    label_team_planner_plural: "مخططي الفريق"
+    label_assignees: "المعينون"
+    upsale:
+      title: "مخطط الفريق"
+      description: "احصل على نظرة عامة كاملة لتخطيط فريقك مع فريق تخطيط العمل. تمديد, اختصار و سحب و إسقاط مجموعات العمل لتعديل التواريخ أو نقلها أو تغيير المحال إليهم."

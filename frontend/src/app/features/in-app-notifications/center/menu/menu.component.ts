@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -12,6 +40,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
@@ -48,7 +77,7 @@ export class IanMenuComponent implements OnInit {
     },
     {
       key: 'assigned',
-      title: this.I18n.t('js.notifications.menu.assigned'),
+      title: this.I18n.t('js.label_assignee'),
       icon: 'assigned',
       ...getUiLinkForFilters({ filter: 'reason', name: 'assigned' }),
     },
@@ -60,13 +89,20 @@ export class IanMenuComponent implements OnInit {
     },
     {
       key: 'watched',
-      title: this.I18n.t('js.notifications.menu.watching'),
+      title: this.I18n.t('js.notifications.menu.watched'),
       icon: 'watching',
       ...getUiLinkForFilters({ filter: 'reason', name: 'watched' }),
     },
+    {
+      key: 'dateAlert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
+      icon: 'date-alert',
+      isEnterprise: true,
+      ...this.eeGuardedDateAlertRoute,
+    },
   ];
 
-  notificationsByProject$ = this.ianMenuService.query.notificationsByProject$.pipe(
+  notificationsByProject$ = this.ianMenuService.notificationsByProject$.pipe(
     map((items) => items
       .map((item) => ({
         ...item,
@@ -82,7 +118,7 @@ export class IanMenuComponent implements OnInit {
       })),
   );
 
-  notificationsByReason$ = this.ianMenuService.query.notificationsByReason$.pipe(
+  notificationsByReason$ = this.ianMenuService.notificationsByReason$.pipe(
     map((items) => this.reasonMenuItems.map((reason) => ({
       ...items.find((item) => item.value === reason.key),
       ...reason,
@@ -125,9 +161,18 @@ export class IanMenuComponent implements OnInit {
     readonly I18n:I18nService,
     readonly ianMenuService:IanMenuService,
     readonly state:StateService,
+    readonly bannersService:BannersService,
   ) { }
 
   ngOnInit():void {
     this.ianMenuService.reload();
+  }
+
+  private get eeGuardedDateAlertRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'notifications.date_alerts_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' });
   }
 }

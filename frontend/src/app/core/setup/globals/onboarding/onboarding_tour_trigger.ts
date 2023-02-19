@@ -4,14 +4,15 @@ import {
   demoProjectsLinks,
   OnboardingTourNames,
   onboardingTourStorageKey,
+  ProjectName,
   waitForElement,
 } from 'core-app/core/setup/globals/onboarding/helpers';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 
-async function triggerTour(name:OnboardingTourNames):Promise<void> {
+async function triggerTour(name:OnboardingTourNames, project?:ProjectName):Promise<void> {
   debugLog(`Loading and triggering onboarding tour ${name}`);
   await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour').then((tour) => {
-    tour.start(name);
+    tour.start(name, project);
   });
 }
 
@@ -32,11 +33,16 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
-      waitForElement('.onboarding-modal .op-modal--close-button', 'body', () => {
-        // Start automatically when the language selection is closed
-        jQuery('.op-modal--close-button').click(() => {
-          tourCancelled = true;
-          void triggerTour('homescreen');
+      // Start automatically when modal is closed by backdrop click
+      waitForElement('.spot-modal-overlay_active', 'body', () => {
+        const elementsByClassName = document.getElementsByClassName('spot-modal-overlay_active');
+        Array.from(elementsByClassName).forEach((modalOverlay) => {
+          modalOverlay.addEventListener('click', (evt) => {
+            if (evt.target === modalOverlay) {
+              tourCancelled = true;
+              void triggerTour('homescreen');
+            }
+          });
         });
       });
 
@@ -56,26 +62,27 @@ export function detectOnboardingTour():void {
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (currentTourPart === 'startMainTourFromBacklogs' || url.searchParams.get('start_onboarding_tour')) {
-      void triggerTour('main');
+      const projectName:ProjectName = currentTourPart === 'startMainTourFromBacklogs' ? ProjectName.scrum : ProjectName.demo;
+      void triggerTour('main', projectName);
     }
 
     // ------------------------------- Prepare Backlogs page -------------------------------
     if (url.searchParams.get('start_scrum_onboarding_tour')) {
       if (jQuery('.backlogs-menu-item').length > 0) {
-        void triggerTour('prepareBacklogs');
+        void triggerTour('prepareBacklogs', ProjectName.scrum);
       } else {
-        void triggerTour('taskboard');
+        void triggerTour('taskboard', ProjectName.scrum);
       }
     }
 
     // ------------------------------- Tutorial Backlogs page -------------------------------
     if (currentTourPart === 'prepareTaskBoardTour') {
-      void triggerTour('backlogs');
+      void triggerTour('backlogs', ProjectName.scrum);
     }
 
     // ------------------------------- Tutorial Task Board page -------------------------------
     if (currentTourPart === 'startTaskBoardTour') {
-      void triggerTour('taskboard');
+      void triggerTour('taskboard', ProjectName.scrum);
     }
   }
 }

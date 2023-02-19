@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +27,7 @@
 #++
 
 class CopyProjectJob < ApplicationJob
-  queue_with_priority :low
+  queue_with_priority :above_normal
   include OpenProject::LocaleHelper
 
   attr_reader :user_id,
@@ -63,16 +61,16 @@ class CopyProjectJob < ApplicationJob
 
     if target_project
       successful_status_update
-      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now
+      ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_later
     else
       failure_status_update
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t('copy_project.failed_internal')]
     failure_status_update
-    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_now
+    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
   end
 
   def store_status?
@@ -100,7 +98,7 @@ class CopyProjectJob < ApplicationJob
 
     upsert_status status: :success,
                   message: I18n.t('copy_project.succeeded', target_project_name: target_project.name),
-                  payload: payload
+                  payload:
   end
 
   def failure_status_update
@@ -110,7 +108,7 @@ class CopyProjectJob < ApplicationJob
       message << ": #{errors.join("\n")}"
     end
 
-    upsert_status status: :failure, message: message
+    upsert_status status: :failure, message:
   end
 
   def user
@@ -140,23 +138,23 @@ class CopyProjectJob < ApplicationJob
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
   rescue StandardError => e
-    logger.error('Encountered an error when trying to copy project '\
+    logger.error('Encountered an error when trying to copy project ' \
                  "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
   ensure
     unless errors.empty?
-      logger.error('Encountered an errors while trying to copy related objects for '\
+      logger.error('Encountered an errors while trying to copy related objects for ' \
                    "project '#{source_project_id}': #{errors.inspect}")
     end
   end
 
   def copy_project
     ::Projects::CopyService
-      .new(source: source_project, user: user)
+      .new(source: source_project, user:)
       .call(copy_project_params)
   end
 
   def copy_project_params
-    params = { target_project_params: target_project_params }
+    params = { target_project_params: }
     params[:only] = associations_to_copy if associations_to_copy.present?
 
     params

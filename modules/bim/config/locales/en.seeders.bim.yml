@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ en:
             timeline: false
             sort_by: id
             hidden: true
-            is_public: false
+            public: false
             columns:
               - type
               - id
@@ -65,7 +65,7 @@ en:
           - name: Planners
           - name: Structural Engineers
         welcome:
-          title: "Welcome to OpenProject BIM Edition!"
+          title: "Welcome to OpenProject BIM edition!"
           text: |
             Checkout the demo projects to get started with some examples.
 
@@ -94,6 +94,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -112,6 +113,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -119,6 +121,8 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
+                  - assigned_to
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -143,6 +147,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               bcf:
                 name: "Simple drag'n drop workflow"
@@ -162,6 +169,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -180,6 +188,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -187,6 +196,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -211,6 +221,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             work_packages:
               - :start: 4
                 :subject: Project kick off construction project
@@ -221,7 +234,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Planners
-                :duration: 0
+                :duration: 1
               - :start: 7
                 :subject: Basic evaluation
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
@@ -275,7 +288,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Planners
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Summarize the results
                         :type: follows
@@ -344,7 +357,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Planners
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Summarize results
                     :type: follows
@@ -383,7 +396,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Planners
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Finishing design
                         :type: follows
@@ -520,7 +533,7 @@ en:
                       *   Bring some drinks, snacks and your smile
                     :status: default_status_new
                     :type: default_type_milestone
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Final touches
                         :type: follows
@@ -544,6 +557,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -562,6 +576,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -569,6 +584,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -593,6 +609,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             work_packages:
               - :start: 14
                 :subject: Project kick off creating BIM model
@@ -603,7 +622,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
-                :duration: 0
+                :duration: 1
               - :start: 15
                 :subject: Project preperation
                 :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
@@ -661,7 +680,7 @@ en:
                     :status: seeders.bim.default_status_resolved
                     :type: default_type_milestone
                     :assigned_to: BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Creating the BIM execution plan
                         :type: follows
@@ -674,7 +693,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Project preperation
                     :type: follows
@@ -730,7 +749,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Initial, internal model check and revising
                         :type: follows
@@ -761,7 +780,7 @@ en:
                     :status: default_status_new
                     :type: default_type_task
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Submitting initial BIM model
                         :type: follows
@@ -809,7 +828,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Modellers
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: First Cycle, internal model check and revising
                         :type: follows
@@ -856,7 +875,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: Lead BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Issue management, first cycle
                         :type: follows
@@ -871,7 +890,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Finishing coordination, first cycle
                     :type: follows
@@ -882,7 +901,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, second cycle
                     :type: follows
@@ -892,7 +911,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, ... cycle
                     :type: follows
@@ -903,7 +922,7 @@ en:
                 :status: default_status_new
                 :type: default_type_phase
                 :assigned_to: BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating, (n-th minus 1) cycle
                     :type: follows
@@ -914,7 +933,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Modelling & coordinating n-th cycle
                     :type: follows
@@ -965,7 +984,7 @@ en:
                     :status: default_status_new
                     :type: default_type_milestone
                     :assigned_to: BIM Coordinators
-                    :duration: 0
+                    :duration: 1
                     :relations:
                       - :to: Construct the building
                         :type: follows
@@ -998,7 +1017,7 @@ en:
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: Lead BIM Coordinators
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Finish construction
                     :type: follows
@@ -1007,7 +1026,7 @@ en:
                 :description: Enjoy your building :)
                 :status: default_status_new
                 :type: default_type_phase
-                :duration: 0
+                :duration: 1
                 :relations:
                   - :to: Handover for Facility Management
                     :type: follows
@@ -1025,6 +1044,7 @@ en:
               - work_package_tracking
               - bim
               - board_view
+              - team_planner_view
             ifc_models:
               - file: 'hospital_architecture'
                 name: 'Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)'
@@ -1067,6 +1087,7 @@ en:
                 timeline: true
                 sort_by: start_date
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -1074,6 +1095,7 @@ en:
                   - subject
                   - start_date
                   - due_date
+                  - duration
               - name: Milestones
                 status: open
                 type: :default_type_milestone
@@ -1098,6 +1120,9 @@ en:
                   - type
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               bcf:
                 name: "BCF issues"

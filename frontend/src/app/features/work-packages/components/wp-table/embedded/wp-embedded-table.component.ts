@@ -15,7 +15,7 @@ import {
 } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Component({
   selector: 'wp-embedded-table',
@@ -36,7 +36,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  @InjectField() apiv3Service:APIV3Service;
+  @InjectField() apiv3Service:ApiV3Service;
 
   @InjectField() opModalService:OpModalService;
 
@@ -88,16 +88,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  public openConfigurationModal(onUpdated:() => void) {
-    this.querySpace.query
-      .valuesPromise()
-      .then(() => {
-        const modal = this.opModalService
-          .show(WpTableConfigurationModalComponent, this.injector);
+  public async openConfigurationModal(onUpdated:() => void):Promise<void> {
+    await this.querySpace.query.valuesPromise();
 
-        // Detach this component when the modal closes and pass along the query data
-        modal.onDataUpdated.subscribe(onUpdated);
-      });
+    this.opModalService
+      .show(WpTableConfigurationModalComponent, this.injector)
+      // Detach this component when the modal closes and pass along the query data
+      .subscribe((modal) => modal.onDataUpdated.subscribe(onUpdated));
   }
 
   protected initializeStates(query:QueryResource) {

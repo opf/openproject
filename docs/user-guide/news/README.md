@@ -3,7 +3,6 @@ sidebar_navigation:
   title: News
   priority: 830
 description: Communicate project news to your team members
-robots: index, follow
 keywords: news
 ---
 
@@ -18,12 +17,12 @@ On the news page, you can see the latest news in a project in reverse chronologi
 They can be displayed on the main project overview page.
 
 | Feature                                     | Documentation for                                 |
-| ------------------------------------------- | ------------------------------------------------- |
-| [Comment on news](#comment-on-news)         | How to comment news in a project?                 |
-| [Watch news](#watch-a-news-entry)           | How to add yourself as a watcher to a news entry? |
-| [Edit a news entry](#edit-a-news-entry)     | How to edit an existing news entry?               |
-| [Add a news entry](#add-a-news-entry)       | How to create a new news entry?                   |
-| [Delete a news entry](#delete-a-news-entry) | How to delete a news entry?                       |
+|---------------------------------------------|---------------------------------------------------|
+| [Comment on news](#comment-on-news)         | How to comment news in a project.                 |
+| [Watch news](#watch-a-news-entry)           | How to add yourself as a watcher to a news entry. |
+| [Edit a news entry](#edit-a-news-entry)     | How to edit an existing news entry.               |
+| [Add a news entry](#add-a-news-entry)       | How to create a new news entry.                   |
+| [Delete a news entry](#delete-a-news-entry) | How to delete a news entry.                       |
 
 ## Comment on news
 

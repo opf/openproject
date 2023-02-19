@@ -1,12 +1,8 @@
 # OpenProject Textile to Markdown migration
 
-<div class="alert alert-info" role="alert">
+> **Note**: This guide concerns a legacy version of OpenProject (8.0.0). This only affects your system if you try to upgrade to a newer version from OpenProject 7.4 or lower.
 
-**Note**: This guide concerns a legacy version of OpenProject (8.0.0). This only affects your system if you try to upgrade to a newer version from OpenProject 7.4 or lower.
-
-</div>
-
-OpenProject 8.0.0. includes a switch away from Textile syntax formatting to Markdown. Pandoc is used for the conversion of all formattable texts in your existing OpenProject instance.
+OpenProject 8.0.0. includes a switch away from Textile syntax formatting to Markdown. Pandoc is used for the conversion of all formattable texts in your existing OpenProject instance.
 
 ## Applicable Instances
 
@@ -34,7 +30,7 @@ Our Markdown parsers and formatters operate on the [CommonMark Markdown standard
 
 ## Skipping the migration
 
-If you want to skip the migration during the upgrade of 8.0. (e.g., because you want it to run asynchronously), please set the environment variable `OPENPROJECT_SKIP_TEXTILE_MIGRATION="true"` .
+If you want to skip the migration during the upgrade of 8.0. (e.g., because you want it to run asynchronously), please set the environment variable `OPENPROJECT_SKIP_TEXTILE_MIGRATION="true"` .
 
 This will print a warning and then continue with the migration. You can manually force the migration with the following command. **Warning:** Be careful not to execute this once you have already migrated to Markdown because the converter does not distinguish between input formats and simply iterates over all values.
 

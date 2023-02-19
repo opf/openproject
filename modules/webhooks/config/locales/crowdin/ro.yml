@@ -27,13 +27,17 @@ ro:
       events:
         created: "Creat pe"
         updated: "Actualizat"
+      explanation:
+        text: >
+          La apariția unui eveniment, cum ar fi crearea unui pachet de lucru sau o actualizare a unui proiect, OpenProject va trimite o cerere POST către punctele finale web configurate. De multe ori, evenimentul este trimis după ce a trecut %{link}.
+        link: perioada de agregare configurată
       status:
         enabled: 'Webhook este activat'
         disabled: 'Webhook este dezactivat'
         enabled_text: 'Webhook va emite sarcini utile pentru evenimentele definite mai jos.'
         disabled_text: 'Faceți clic pe butonul de editare pentru a activa webhook-ul.'
       deliveries:
-        no_results_table: Nu au fost efectuate livrări pentru acest webhook.
+        no_results_table: Nu au fost efectuate livrări pentru acest webhook în ultimele zile.
         title: 'Livrări recente'
         time: 'Termen de livrare'
       form:

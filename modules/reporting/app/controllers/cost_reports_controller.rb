@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -105,7 +105,7 @@ class CostReportsController < ApplicationController
   ##
   # Create a new saved query. Returns the redirect url to an XHR or redirects directly
   def create
-    @query.name = params[:query_name].present? ? params[:query_name] : ::I18n.t(:label_default)
+    @query.name = params[:query_name].presence || ::I18n.t(:label_default)
     @query.public! if make_query_public?
     @query.send("#{user_key}=", current_user.id)
     @query.save!
@@ -359,36 +359,27 @@ class CostReportsController < ApplicationController
     # If report does not belong to a project, it is ok to look for the
     # permission in any project. Otherwise, the user should have the permission
     # in this project.
-    options = if report.project.present?
-                {}
-              else
-                { global: true }
-              end
+    global = report.project.nil?
 
-    case action
-    when :create
-      user.allowed_to?(:save_cost_reports, @project, options) or
-        user.allowed_to?(:save_private_cost_reports, @project, options)
-
-    when :save, :destroy, :rename
-      if report.is_public?
-        user.allowed_to?(:save_cost_reports, @project, options)
-      else
-        user.allowed_to?(:save_cost_reports, @project, options) or
-          user.allowed_to?(:save_private_cost_reports, @project, options)
+    permissions =
+      case action
+      when :create
+        %i[save_cost_reports save_private_cost_reports]
+      when :save, :destroy, :rename
+        if report.is_public?
+          %i[save_cost_reports]
+        else
+          %i[save_cost_reports save_private_cost_reports]
+        end
+      when :save_as_public
+        %i[save_cost_reports]
       end
-
-    when :save_as_public
-      user.allowed_to?(:save_cost_reports, @project, options)
-
-    else
-      false
-    end
+    Array(permissions).any? { |permission| user.allowed_to?(permission, @project, global:) }
   end
 
   def display_report_list
     report_type = params[:report_type] || :public
-    render partial: 'report_list', locals: { report_type: report_type }, layout: !request.xhr?
+    render partial: 'report_list', locals: { report_type: }, layout: !request.xhr?
   end
 
   private
@@ -498,7 +489,7 @@ class CostReportsController < ApplicationController
       groups  = group_params
     end
     cookie = session[report_engine.name.underscore.to_sym] || {}
-    session[report_engine.name.underscore.to_sym] = cookie.merge(filters: filters, groups: groups)
+    session[report_engine.name.underscore.to_sym] = cookie.merge(filters:, groups:)
   end
 
   ##
@@ -510,8 +501,8 @@ class CostReportsController < ApplicationController
         unless filters[:values][filter] == ['<<inactive>>']
           values = Array(filters[:values][filter]).map { |v| v == '<<null>>' ? nil : v }
           q.filter(filter.to_sym,
-                   operator: operator,
-                   values: values)
+                   operator:,
+                   values:)
         end
       end
     end

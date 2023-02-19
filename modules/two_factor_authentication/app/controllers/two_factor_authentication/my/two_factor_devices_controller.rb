@@ -8,7 +8,7 @@ module ::TwoFactorAuthentication
 
       before_action :find_device, except: %i[new index register]
 
-      # Remmeber token functionality
+      # Remember token functionality
       include ::TwoFactorAuthentication::RememberToken
 
       # Password confirmation helpers and actions
@@ -94,7 +94,7 @@ module ::TwoFactorAuthentication
           flash[:notice] = transmit.result if transmit.result.present?
 
           # Request confirmation from user as in the regular login flow
-          render 'two_factor_authentication/two_factor_devices/confirm', layout: 'base', locals: locals
+          render 'two_factor_authentication/two_factor_devices/confirm', layout: 'base', locals:
         else
           error = transmit.errors.full_messages.join(". ")
           default_message = t('two_factor_authentication.devices.confirm_send_failed')

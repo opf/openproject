@@ -7,27 +7,47 @@ import { WorkPackageChangeset } from 'core-app/features/work-packages/components
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export class WorkPackageFilterValues {
   @InjectField() currentUser:CurrentUserService;
 
   @InjectField() halResourceService:HalResourceService;
 
+  @InjectField() currentProject:CurrentProjectService;
+
   handlers:Partial<Record<FilterOperator, (filter:QueryFilterInstanceResource) => void>> = {
     '=': this.applyFirstValue.bind(this),
     '!*': this.setToNull.bind(this),
   };
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     private filters:QueryFilterInstanceResource[],
-    private excluded:string[] = []) {
+    private excluded:string[] = [],
+  ) {}
 
-  }
-
-  public applyDefaultsFromFilters(change:WorkPackageChangeset|Object) {
+  applyDefaultsFromFilters(change:WorkPackageChangeset|Object):void {
     _.each(this.filters, (filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.indexOf(filter.id) !== -1) {
+        return;
+      }
+
+      // Special case due to the introduction of the project include dropdown
+      // If we are in a project, we want the create wp to be part of that project.
+      // Only for embedded tables, there might be different filter values necessary.
+      if (filter.id === 'project') {
+        const projectFilter = _.find(filter.values, (resource:HalResource|string) => {
+          return ((resource instanceof HalResource) ? resource.href : resource) === this.currentProject.apiv3Path;
+        });
+        this.setValue(change, 'project', projectFilter || filter.values[0]);
+
+        return;
+      }
+
+      // ID filters should never be taken over
+      if (filter.id === 'id') {
         return;
       }
 
@@ -75,7 +95,7 @@ export class WorkPackageFilterValues {
     this.setValue(change, attributeName, { href: null });
   }
 
-  private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource) {
+  private setValueFor(change:WorkPackageChangeset|Object, field:string, value:string|HalResource):void {
     const newValue = this.findSpecialValue(value, field) || value;
 
     if (newValue) {
@@ -83,7 +103,7 @@ export class WorkPackageFilterValues {
     }
   }
 
-  private setValue(change:WorkPackageChangeset|{ [id:string]:any }, field:string, value:any) {
+  private setValue(change:WorkPackageChangeset|{ [id:string]:any }, field:string, value:any):void {
     if (change instanceof WorkPackageChangeset) {
       change.setValue(field, value);
     } else {

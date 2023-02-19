@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# make sure to require Widget::Filters::Base first because otherwise
-# ruby might find Base within Widget and Rails will not load it
-require_dependency 'widget/filters/base'
 class Widget::Filters::MultiChoice < Widget::Filters::Base
   def render
     filterName = filter_class.underscore_name
@@ -38,7 +35,7 @@ class Widget::Filters::MultiChoice < Widget::Filters::Base
           type: 'radio',
           name: "values[#{filterName}][]",
           id: "#{filterName}_radio_option_#{i}",
-          value: value
+          value:
         }
         opts[:checked] = 'checked' if filter.values == [value].flatten
         radio_button = tag :input, opts

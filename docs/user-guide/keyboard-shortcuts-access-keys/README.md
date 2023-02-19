@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Keyboard Shortcuts and Access Keys
   priority: 450
 description: Keyboard Shortcuts and Access Keys in OpenProject.
-robots: index, follow
 keywords: keyboard shortcuts and access keys
 ---
 # Keyboard Shortcuts and Access Keys

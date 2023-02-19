@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +32,8 @@ module Cron
 
     # List of registered jobs, requires eager load in dev(!)
     class_attribute :registered_jobs, default: []
+
+    include ScheduledJob
 
     class << self
       ##
@@ -68,18 +68,8 @@ module Cron
         delayed_job&.destroy
       end
 
-      ##
-      # Is there a job scheduled?
-      def scheduled?
-        delayed_job_query.exists?
-      end
-
       def delayed_job
         delayed_job_query.first
-      end
-
-      def delayed_job_query
-        Delayed::Job.where('handler LIKE ?', "%job_class: #{name}%")
       end
     end
   end

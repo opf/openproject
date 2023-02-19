@@ -15,7 +15,7 @@ export class BrowserDetector {
   }
 
   /**
-   * ToDo: Remove all occurences once Edge on Chromium is released
+   * ToDo: Remove all occurrences once Edge on Chromium is released
    */
   public get isEdge() {
     return this.hasBodyClass('-browser-edge');

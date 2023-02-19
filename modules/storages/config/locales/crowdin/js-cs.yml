@@ -1,0 +1,37 @@
+#English strings go here
+cs:
+  js:
+    storages:
+      link_files_in_storage: "Prolinkovat soubory v"
+      link_existing_files: "Link existing files"
+      login: "%{storageType} přihlášení"
+      login_to: "Přihlásit se k %{storageType}"
+      no_connection: "Žádné připojení %{storageType}"
+      open_storage: "Otevřít %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+        live_data_error: "Chyba při načítání detailů souboru"
+        live_data_error_description: >
+          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
+        no_file_links: "Chcete-li propojit soubory s tímto pracovním balíčkem, proveďte to prostřednictvím %{storageType}."
+        not_logged_in: >
+          Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
+      file_links:
+        download: "Stáhnout %{fileName}"
+        no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
+        open: 'Otevřít soubor v úložišti'
+        open_location: 'Otevřít soubor v umístění'
+        remove: "Odstranit odkaz na soubor"
+        remove_confirmation: >
+          Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
+        remove_short: "Odstranit odkaz"
+        select: "Select files"
+        select_all: "Select all"
+        selection_none: "Select files to link"
+        selection_any: "Link %{number} files"
+        not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
+        already_linked_file: "This file is already linked to this work package."
+        already_linked_directory: "This directory is already linked to this work package."

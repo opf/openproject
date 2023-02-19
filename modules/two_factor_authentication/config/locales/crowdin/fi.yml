@@ -71,8 +71,8 @@ fi:
       text_2fa_enabled: 'Jokaisen sisäänkirjautumisen yhteydessä tätä käyttäjää pyydetään syöttämään OTP-tunniste hänen oletusarvoisesta 2FA-laitteestaan.'
       text_2fa_disabled: "Käyttäjä ei ole asettanut tunnistuslaitetta tiliasetuksissa"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Tälle tilille ei ole palautuskoodeja.
       singular: Palautuskoodi
@@ -133,8 +133,6 @@ fi:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
     strategies:
       totp: 'Kaksivaiheisen kirjautumisen salasanasovellus'
       sns: 'Amazon SNS'

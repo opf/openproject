@@ -1,10 +1,12 @@
 module OpenProject
   module Recaptcha
     module Configuration
+      CONFIG_KEY = 'recaptcha_via_hcaptcha'.freeze
+
       extend self
 
       def use_hcaptcha?
-        OpenProject::Configuration['recaptcha_via_hcaptcha']
+        OpenProject::Configuration[CONFIG_KEY]
       end
 
       def hcaptcha_response_limit

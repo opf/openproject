@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,9 +39,7 @@ import {
   Optional,
   ViewChild,
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -56,9 +54,11 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { debugLog } from '../../../../helpers/debug_output';
 import { hasSelectionWithin } from '../../../../helpers/selection-helpers';
+import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 
 @Component({
-  selector: 'editable-attribute-field',
+  selector: 'op-editable-attribute-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './editable-attribute-field.component.html',
 })
@@ -69,15 +69,13 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   @Input() public wrapperClasses?:string;
 
-  @Input() public displayFieldOptions:any = {};
-
-  @Input() public displayPlaceholder?:string;
+  @Input() public displayFieldOptions:{ [key:string]:unknown } = {};
 
   @Input() public isDropTarget?:boolean = false;
 
-  @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef;
+  @ViewChild('displayContainer', { static: true }) readonly displayContainer:ElementRef<HTMLElement>;
 
-  @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef;
+  @ViewChild('editContainer', { static: true }) readonly editContainer:ElementRef<HTMLElement>;
 
   public fieldRenderer:DisplayFieldRenderer;
 
@@ -92,7 +90,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   constructor(protected states:States,
     protected injector:Injector,
     protected elementRef:ElementRef,
-    protected ConfigurationService:ConfigurationService,
     protected opContextMenu:OPContextMenuService,
     protected halEditing:HalResourceEditingService,
     protected schemaCache:SchemaCacheService,
@@ -103,16 +100,16 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     super();
   }
 
-  public setActive(active = true) {
+  public setActive(active = true):void {
     this.active = active;
     if (!this.componentDestroyed) {
       this.cdRef.detectChanges();
     }
   }
 
-  public ngOnInit() {
+  public ngOnInit():void {
     this.fieldRenderer = new DisplayFieldRenderer(this.injector, 'single-view', this.displayFieldOptions);
-    this.$element = jQuery(this.elementRef.nativeElement);
+    this.$element = jQuery<HTMLElement>(this.elementRef.nativeElement);
 
     // Register on the form if we're in an editable context
     this.editForm?.register(this);
@@ -130,7 +127,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   // Open the field when its closed and relay drag & drop events to it.
-  public startDragOverActivation(event:JQuery.TriggeredEvent) {
+  public startDragOverActivation(event:JQuery.TriggeredEvent):boolean {
     if (!this.isDropTarget || !this.isEditable || this.active) {
       return true;
     }
@@ -140,13 +137,13 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return false;
   }
 
-  public render() {
-    const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
+  public render():void {
+    const el = this.fieldRenderer.render(this.resource, this.fieldName, null);
     this.displayContainer.nativeElement.innerHTML = '';
     this.displayContainer.nativeElement.appendChild(el);
   }
 
-  public deactivate(focus = false) {
+  public deactivate(focus = false):void {
     this.editContainer.nativeElement.innerHTML = '';
     this.editContainer.nativeElement.hidden = true;
     this.setActive(false);
@@ -157,10 +154,11 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   }
 
   public get isEditable():boolean {
-    return this.editForm && this.schema.isAttributeEditable(this.fieldName);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    return !!(this.editForm && this.schema.isAttributeEditable(this.fieldName));
   }
 
-  public activateIfEditable(event:MouseEvent|KeyboardEvent) {
+  public activateIfEditable(event:MouseEvent|KeyboardEvent):boolean {
     // Ignore selections
     if (hasSelectionWithin(event.target as HTMLElement)) {
       debugLog(`Not activating ${this.fieldName} because of active selection within`);
@@ -173,9 +171,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       return true;
     }
 
-    if (this.isEditable) {
-      this.handleUserActivate(event);
-    }
+    this.handleUserActivate(event);
 
     this.opContextMenu.close();
     event.preventDefault();
@@ -184,7 +180,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return false;
   }
 
-  public activateOnForm(noWarnings = false) {
+  public activateOnForm(noWarnings = false):Promise<void|EditFieldHandler> {
     // Activate the field
     this.setActive(true);
 
@@ -193,15 +189,20 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
       .catch(() => this.deactivate(true));
   }
 
-  public handleUserActivate(evt:MouseEvent|KeyboardEvent|null) {
+  public handleUserActivate(evt:MouseEvent|KeyboardEvent|null):boolean {
+    if (!this.isEditable) {
+      return false;
+    }
+
     let positionOffset = 0;
 
+    // This can be both a direct click as well as a "click" via keyboard, e.g. the <Enter> key.
     if (evt?.type === 'click') {
       // Get the position where the user clicked.
       positionOffset = getPosition(evt);
     }
 
-    this.activateOnForm()
+    void this.activateOnForm()
       .then((handler) => {
         if (!handler) {
           return;
@@ -214,15 +215,17 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return false;
   }
 
-  public reset() {
+  public reset():void {
     this.render();
     this.deactivate();
   }
 
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
-      return this.halEditing.typedState(this.resource).value!.schema;
+      const val = this.halEditing.typedState(this.resource).value as { schema:SchemaResource };
+      return val.schema;
     }
+
     return this.schemaCache.of(this.resource);
   }
 }

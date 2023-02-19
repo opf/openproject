@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Custom fields FAQ
   priority: 001
 description: Frequently asked questions regarding custom fields
-robots: index, follow
 keywords: custom field FAQ, project custom field, create own attribute
 ---
 

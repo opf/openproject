@@ -17,11 +17,12 @@
     align-items: center
 
   &--item-title
-    min-width: 0px
+    min-width: 0
+    line-height: 1
     white-space: nowrap
 
   &--item-action
-    background: transparent 
+    background: transparent
     border: 0
     display: flex
     justify-content: center
@@ -32,8 +33,11 @@
     color: var(--header-item-font-color)
     font-size: var(--header-item-font-size)
     text-decoration: none
-    padding: 0 15px
     min-width: 0px
+    padding: 0 15px
+
+    @include breakpoint(680px down)
+      padding: 0 8px
 
     .op-app-menu--item_dropdown-open &,
     &:hover

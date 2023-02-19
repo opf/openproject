@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Settings
   priority: 990
 description: Authentication settings in OpenProject.
-robots: index, follow
 keywords: authentication settings
 ---
 # Authentication settings

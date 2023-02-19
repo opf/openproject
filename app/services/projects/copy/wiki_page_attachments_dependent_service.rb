@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,25 +28,14 @@
 
 module Projects::Copy
   class WikiPageAttachmentsDependentService < Dependency
-    include ::Copy::Concerns::CopyAttachments
+    include ::Projects::Copy::NoCopier
 
     def self.human_name
-      I18n.t(:label_wiki_page_attachments)
+      I18n.t(:'projects.copy.wiki_page_attachments')
     end
 
     def source_count
       source.wiki && source.wiki.pages.joins(:attachments).count('attachments.id')
-    end
-
-    protected
-
-    def copy_dependency(params:)
-      # If no wiki pages copied, we cannot copy their attachments
-      return unless state.wiki_page_id_lookup
-
-      state.wiki_page_id_lookup.each do |old_id, new_id|
-        copy_attachments('WikiPage', from_id: old_id, to_id: new_id)
-      end
     end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 
 # OpenProject is an open source project management software.
@@ -69,7 +67,7 @@ module DemoData
           seeder.seed!
         end
 
-        Setting.demo_projects_available = 'true'
+        Setting.demo_projects_available = true
       end
 
       puts ' ↳ Assign groups to projects'
@@ -95,13 +93,22 @@ module DemoData
     end
 
     def seed_settings
-      welcome = demo_data_for('welcome')
-
-      if welcome.present?
-        Setting.welcome_title = welcome[:title]
-        Setting.welcome_text = welcome[:text]
-        Setting.welcome_on_homescreen = 1
+      seedable_welcome_settings
+        .select { |k,| Settings::Definition[k].writable? }
+        .each do |k, v|
+        Setting[k] = v
       end
+    end
+
+    def seedable_welcome_settings
+      welcome = demo_data_for('welcome')
+      return {} if welcome.blank?
+
+      {
+        welcome_title: welcome[:title],
+        welcome_text: welcome[:text],
+        welcome_on_homescreen: 1
+      }
     end
 
     def reset_project(key)
@@ -125,7 +132,7 @@ module DemoData
 
       if status_code || status_explanation
         Projects::Status.create!(
-          project: project,
+          project:,
           code: status_code,
           explanation: status_explanation
         )
@@ -134,10 +141,10 @@ module DemoData
 
     def set_members(project)
       role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.admin.first
+      user = User.user.admin.first
 
       Member.create!(
-        project: project,
+        project:,
         principal: user,
         roles: [role]
       )
@@ -170,7 +177,7 @@ module DemoData
     def seed_news(project, key)
       user = User.admin.first
       Array(project_data_for(key, 'news')).each do |news|
-        News.create! project: project, author: user, title: news[:title], summary: news[:summary], description: news[:description]
+        News.create! project:, author: user, title: news[:title], summary: news[:summary], description: news[:description]
       end
     end
 
@@ -190,7 +197,7 @@ module DemoData
 
     def seed_board(project)
       Forum.create!(
-        project: project,
+        project:,
         name: demo_data_for('board.name'),
         description: demo_data_for('board.description')
       )
@@ -218,7 +225,7 @@ module DemoData
         identifier = project_data_for(key, 'parent')
         return nil unless identifier.present?
 
-        Project.find_by(identifier: identifier)
+        Project.find_by(identifier:)
       end
 
       def project_name(key)

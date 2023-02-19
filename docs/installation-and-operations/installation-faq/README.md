@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Installation & Ops FAQ
   priority: 001
 description: Frequently asked questions regarding installation and operation of OpenProject
-robots: index, follow
 keywords: installation FAQ, upgrades, updates, operation faq
 ---
 
@@ -15,7 +14,7 @@ keywords: installation FAQ, upgrades, updates, operation faq
 
 There's the package based installation (recommended), installation via Docker, using a provider (like Univention, Bitnami, IONOS) and the manual installation.
 
-### What skills should I have for the installation of Community Edition or Enterprise on-premises?
+### What skills should I have for the installation of Community edition or Enterprise on-premises?
 
 If you use the packaged installation, you should have basic knowledge of Linux and the command-line terminal.
 
@@ -23,7 +22,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### My favorite Linux distribution is not listed. What can I do?
 
-You can either try the manual installation, or ask in the forum whether this could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
+You can either try the OUTDATED and OLD manual installation guide, or add a Feature request whether your operating system could be added to the list of supported distributions. We try to support recent major distributions, but due to maintenance and operations cost cannot freely add to that list.
 
 ### What is the better option to run OpenProject in production environments: Docker or Linux packages?
 
@@ -35,7 +34,7 @@ You can use a virtual machine as long as the hardware and the operating system m
 
 ### Why is there no installation wizard for desktop as there is for other software?
 
-The Community Edition and Enterprise Edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
+The Community edition and Enterprise edition of OpenProject are not a desktop application but a server application, typically for Linux servers. Therefore there's no typical user interface to install it. 
 If you want to install it on Windows or Mac you can use the Docker based installation. Please note that installing on Windows Desktop usually works but is not officially supported.
 The package based installation (for Linux) offers an installation wizard.
 If you already use Univention, you can use it to install OpenProject, too.
@@ -50,6 +49,10 @@ Ruby support on Windows is notoriously difficult, however you might be able to r
 
 There's no installation packages for Mac. However, you can use Docker (easier way) or install it manually. 
 Your Mac will have to be reachable from the Internet if you want to collaborate with others. 
+
+### Does the OpenProject docker container run on ARM technology like Apple M1 or Raspberry PI? 
+
+At the moment, OpenProject is supported only on x86-x64 technology (Intel). The Development of OpenProject started 2010, when ARM was out of scope for being supported. With strong ARM processors this might change in the future, but at the moment the only possible solution is to build OpenProject from source on your ARM hardware. OpenProject does not support ARM at the moment.
 
 ### Can I install OpenProject offline?
 
@@ -74,16 +77,16 @@ Please follow these steps:
 1. Make a dump of files you might have uploaded. You can refer to the [Bitnami documentation](https://docs.bitnami.com/general/apps/openproject/) to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
 1. Install OpenProject using the packaged installation.
-1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using https://pgloader.io
+1. By default, this will allow you to install a PostgreSQL database, which we recommend. You can migrate your data from MySQL using [pgloader](https://pgloader.io)
 1. Import the dump into your new database. You can get your configuration by running `sudo openproject config:get DATABASE_URL`
 1. Extract the Bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community Edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
-If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €150 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
+If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €300 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
 ### How do I get SSL certificates (in case of installation support by OpenProject employee)? Do we have to purchase them?
 
@@ -115,7 +118,7 @@ Set a higher number of web workers to allow more processes to be handled at the 
 
 There are two different types of emails in OpenProject: One sent directly within the request to the server (this includes the test mail) and one sent asynchronously, via a background job from the backend. The majority of mail sending jobs is run asynchronously to facilitate a faster response time for server request.
 
-Use a browser to call your domain name followed by "health_checks/all" (e.g. https://myopenproject.com/health_checks/all). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
+Use a browser to call your domain name followed by "health_checks/all" (e.g. `https://myopenproject.com/health_checks/all`). There should be entries about "delayed_jobs_backed_up" and "delayed_jobs_never_ran". If PASSED is written behind it, everything is good.
 
 If the health check does not return satisfying results, have a look if the background worker is running by entering `ps aux | grep jobs` on the server. If it is not running, no entry is returned. If it is running an entry with "jobs:work" at the end is displayed.
 
@@ -143,7 +146,7 @@ For packaged installations, the openproject package behaves just like every othe
 
 ### After upgrading I receive the error message "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation." What does that mean?
 
-For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure`as part of the update process. 
+For some updates of OpenProject, the database layout needs to be adapted to support new features and fix bugs. These changes need to be carried out as part of the update process. This is why it is important to always run `sudo openproject configure` as part of the update process. 
 
 Please also have a look at [our upgrade guide](../operation/upgrading).
 
@@ -158,7 +161,7 @@ For existing projects you can enable the module in the project settings (*Projec
 
 Mind, that repository integration in the sense that you will be able to checkout the repository through OpenProject **does only work in the packaged installation, not docker**. 
 
-### How can I uninstall OpenProject (Community Edition or Enterprise on-premises)?
+### How can I uninstall OpenProject (Community edition or Enterprise on-premises)?
 
 The package based installation is intended to be run on a dedicated system. Dedicated in this case means that no other application software should be served by the server. The system can be either physical or virtual. Removing OpenProject is then equivalent with removing that system or docker instances. 
 

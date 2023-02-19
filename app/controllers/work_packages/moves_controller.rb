@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +58,7 @@ class WorkPackages::MovesController < ApplicationController
 
     klass
       .new(user: current_user, work_packages: @work_packages)
-      .call(permitted_create_params)
+      .call(attributes_for_create)
   end
 
   def redirect_after_create(result)
@@ -98,31 +96,23 @@ class WorkPackages::MovesController < ApplicationController
   end
 
   def prepare_for_work_package_move
-    @work_packages = @work_packages.includes(:ancestors)
     @copy = params.has_key? :copy
     @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
     @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
     @target_project ||= @project
     @types = @target_project.types
+    @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes]
-    @notes ||= ''
+    @notes = params[:notes] || ''
   end
 
-  def permitted_create_params
-    params
-      .permit(:assigned_to_id,
-              :responsible_id,
-              :start_date,
-              :due_date,
-              :status_id,
-              :version_id,
-              :priority_id)
+  def attributes_for_create
+    permitted_params
+      .move_work_package
+      .compact_blank
+      # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
+      .transform_values { |v| v == 'none' ? nil : v }
       .to_h
-      .merge(type_id: params[:new_type_id],
-             project_id: params[:new_project_id],
-             journal_notes: params[:notes])
-      .reject { |_, v| v.blank? }
   end
 end

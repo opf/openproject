@@ -1,4 +1,7 @@
-import { Injectable, Injector } from '@angular/core';
+import {
+  Injectable,
+  Injector,
+} from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -9,48 +12,59 @@ import { HalResourceEditingService } from 'core-app/shared/components/fields/edi
 import { Moment } from 'moment';
 import { TimeEntryCreateModalComponent } from 'core-app/shared/components/time_entries/create/create.modal';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryModalOptions } from 'core-app/shared/components/time_entries/edit/edit.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class TimeEntryCreateService {
   constructor(readonly opModalService:OpModalService,
     readonly injector:Injector,
     readonly halResource:HalResourceService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly schemaCache:SchemaCacheService,
     protected halEditing:HalResourceEditingService,
     readonly i18n:I18nService) {
   }
 
-  public create(date:Moment, wp?:WorkPackageResource, showWorkPackageField = true) {
+  public create(
+    date:Moment,
+    wp?:WorkPackageResource,
+    options:TimeEntryModalOptions = {},
+  ):Promise<{ entry:TimeEntryResource, action:'create' }> {
     return new Promise<{ entry:TimeEntryResource, action:'create' }>((resolve, reject) => {
-      this
+      void this
         .createNewTimeEntry(date, wp)
         .then((changeset) => {
-          const modal = this.opModalService.show(TimeEntryCreateModalComponent, this.injector, { changeset, showWorkPackageField });
-
-          modal
-            .closingEvent
-            .pipe(take(1))
-            .subscribe(() => {
-              if (modal.createdEntry) {
-                resolve({ entry: modal.createdEntry, action: 'create' });
-              } else {
-                reject();
-              }
+          this.opModalService.show(
+            TimeEntryCreateModalComponent,
+            this.injector,
+            { ...options, changeset },
+          ).subscribe((modal) => {
+            modal
+              .closingEvent
+              .pipe(take(1))
+              .subscribe(() => {
+                if (modal.createdEntry) {
+                  resolve({ entry: modal.createdEntry, action: 'create' });
+                } else {
+                  reject();
+                }
+              });
             });
         });
     });
   }
 
-  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource) {
+  public createNewTimeEntry(date:Moment, wp?:WorkPackageResource):Promise<ResourceChangeset> {
     const payload:any = {
       spentOn: date.format('YYYY-MM-DD'),
     };
 
     if (wp) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       payload._links = {
         workPackage: {
           href: wp.href,
@@ -73,9 +87,13 @@ export class TimeEntryCreateService {
     return this.halEditing.edit<TimeEntryResource, ResourceChangeset<TimeEntryResource>>(entry, form);
   }
 
-  private initializeNewResource(form:FormResource) {
-    const entry = this.halResource.createHalResourceOfType<TimeEntryResource>('TimeEntry', form.payload.$plain());
+  private initializeNewResource(form:FormResource):TimeEntryResource {
+    const entry = this.halResource.createHalResourceOfType<TimeEntryResource>(
+      'TimeEntry',
+      (form.payload as HalResource).$plain(),
+    );
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     entry.$links.schema = { href: 'new' };
 
     entry._type = 'TimeEntry';
@@ -83,9 +101,11 @@ export class TimeEntryCreateService {
     entry.hours = 'PT1H';
 
     // Set update link to form
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access,no-multi-assign
     entry.update = entry.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    entry.updateImmediately = entry.$links.updateImmediately = (payload:{}) => this
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,no-multi-assign
+    entry.updateImmediately = entry.$links.updateImmediately = (payload:Record<string, unknown>) => this
       .apiV3Service
       .time_entries
       .post(payload)

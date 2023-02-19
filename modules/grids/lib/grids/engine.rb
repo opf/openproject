@@ -7,9 +7,9 @@ module Grids
     end
 
     config.to_prepare do
-      query = Grids::Query
-
-      Queries::Register.filter query, Grids::Filters::ScopeFilter
+      Queries::Register.register(Grids::Query) do
+        filter Grids::Filters::ScopeFilter
+      end
     end
   end
 end

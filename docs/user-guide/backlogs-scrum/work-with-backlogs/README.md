@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Working with backlogs
   priority: 990
 description: Working with backlogs (scrum)
-robots: index, follow
 keywords: backlogs, scrum, agile, burndown
 ---
 
@@ -13,16 +12,16 @@ The starting point for effective work in Scrum teams is a well-maintained and pr
 
 Moreover, please note that the backlogs module is not available in the accessibility mode, since it uses drag&drop functionalities which are not accessible. If you use the accessibility mode you can however perform the same actions (like viewing and editing work packages such as user stories and epics) from the work package list view.
 
-| Topic                                               | Content                                                      |
-| --------------------------------------------------- | ------------------------------------------------------------ |
-| [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint?               |
-| [Create a new user story](#create-a-new-user-story) | How to create a new user story, epic, bug in the backlogs view? |
-| [Prioritize user stories](#prioritize-user-stories) | How to prioritize user stories in the backlogs view?         |
-| [Story points](#working-with-story-points)          | Estimate user stories and document story points.             |
-| [Sprint duration](#editing-sprint-duration)         | How to edit sprint duration?                                 |
-| [Burndown chart](#burndown-chart)                   | How to view the burndown chart?                              |
-| [Print story cards](#print-story-cards)             | How to print story cards for a physical task board?          |
-| [Sprint wiki](#sprint-wiki)                         | How to create a sprint wiki to document sprint information?  |
+| Topic                                               | Content                                                         |
+|-----------------------------------------------------|-----------------------------------------------------------------|
+| [Create a new backlog](#create-a-new-backlog)       | How to create a new product backlog or sprint.                  |
+| [Create a new user story](#create-a-new-user-story) | How to create a new user story, epic, bug in the backlogs view. |
+| [Prioritize user stories](#prioritize-user-stories) | How to prioritize user stories in the backlogs view.            |
+| [Story points](#working-with-story-points)          | Estimate user stories and document story points.                |
+| [Sprint duration](#editing-sprint-duration)         | How to edit sprint duration.                                    |
+| [Burndown chart](#burndown-chart)                   | How to view the burndown chart.                                 |
+| [Print story cards](#print-story-cards)             | How to print story cards for a physical task board.             |
+| [Sprint wiki](#sprint-wiki)                         | How to create a sprint wiki to document sprint information.     |
 
 ## Create a new backlog
 
@@ -56,18 +55,14 @@ Of course, new user stories can also be directly created following the usual pro
 
 This will take you to the filtered work package view of all user stories and tasks in a sprint.
 
-<div class="alert alert-info" role="alert">
-**Note**: All tasks created for a user story via the task board view are automatically configured as child work packages of a user story. The task is thus always automatically assigned to the target version of the parent work package (i.e. the user story).
-</div>
+> **Note**: All tasks created for a user story via the task board view are automatically configured as child work packages of a user story. The task is thus always automatically assigned to the target version of the parent work package (i.e. the user story).
 
 
 ## Prioritize user stories
 
 You can prioritize different work packages within the product backlog using drag & drop and you can assign them to a specific sprint backlog or re-order them within a sprint.
 
-<div class="alert alert-info" role="alert">
-**Note**: If you move a work package into the backlogs view, the target version will automatically be adapted in the background.
-</div>
+> **Note**: If you move a work package into the backlogs view, the target version will automatically be adapted in the background.
 
 ![User-guide-backlogs-prioritize-user-stories](User-guide-backlogs-prioritize-user-stories.png)
 
@@ -91,15 +86,11 @@ In the same way, you can also edit the name, start and end date and status of a 
 
 Moreover, you can adjust the start and end date of a backlog in the backlogs view. Clicking on the date opens a calendar where you can make your changes.
 
-<div class="alert alert-info" role="alert">
-**Note**: Apart from start and end date, you can also adjust the sprint name. To do so, you have to be a project administrator.
-</div>
+> **Note**: Apart from start and end date, you can also adjust the sprint name. To do so, you have to be a project administrator.
 
 ![User-guide-backlogs-sprint-duration](User-guide-backlogs-sprint-duration.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: A backlog version will be shown under [Roadmap](../../roadmap/), but not in a [Gantt chart](../../gantt-chart). If you want to display a sprint in a timeline, you can create a new work package, select a phase as a work package type, give it the same name as to a specific version (for example Sprint 1) and assign the same start and end date.
-</div>
+> **Note**: A backlog version will be shown under [Roadmap](../../roadmap/), but not in a [Gantt chart](../../gantt-chart). If you want to display a sprint in a timeline, you can create a new work package, select a phase as a work package type, give it the same name as to a specific version (for example Sprint 1) and assign the same start and end date.
 
 
 ## Burndown chart
@@ -116,7 +107,7 @@ The remaining story points per sprint are displayed in the chart. Optionally, th
 
 ![Burndown chart graph](17_BurndownChart2.png)
 
-​    
+    
 
 ## Print story cards
 
@@ -142,6 +133,4 @@ Here, you have all the tools for creating wiki pages at your disposal, with the 
 
 ![sprint wiki](image-20200129140655485.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: You can configure the sprint wiki template in the Administration -> Backlogs. If you create a wiki page with the respective name, e.g. "sprintwiki", all sprint wikis will use this wiki page as a template.
-</div>
+> **Note**: You can configure the sprint wiki template in the Administration -> Backlogs. If you create a wiki page with the respective name, e.g. "sprintwiki", all sprint wikis will use this wiki page as a template.

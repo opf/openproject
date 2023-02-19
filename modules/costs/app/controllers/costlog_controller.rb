@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -117,17 +117,17 @@ class CostlogController < ApplicationController
   end
 
   def find_optional_project
-    if !params[:work_package_id].blank?
+    if params[:work_package_id].present?
       @work_package = WorkPackage.find(params[:work_package_id])
       @project = @work_package.project
-    elsif !params[:work_package_id].blank?
+    elsif params[:work_package_id].present?
       @work_package = WorkPackage.find(params[:work_package_id])
       @project = @work_package.project
-    elsif !params[:project_id].blank?
+    elsif params[:project_id].present?
       @project = Project.find(params[:project_id])
     end
 
-    if !params[:cost_type_id].blank?
+    if params[:cost_type_id].present?
       @cost_type = CostType.find(params[:cost_type_id])
     end
   end

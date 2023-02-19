@@ -23,7 +23,7 @@ ru:
       views:
         viewer: 'Просмотрщик'
         split: 'Просмотр и таблица'
-        split_cards: 'Просмотрщик и карты'
+        split_cards: 'Просмотрщик и карточки'
     revit:
       revit_add_in: "Дополнения для библиотеки Revit"
       revit_add_in_settings: "Настройки дополнений Revit"

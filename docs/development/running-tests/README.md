@@ -2,13 +2,18 @@
 
 OpenProject uses automated tests throughout the stack. Tests that are executed in the browser (angular frontend, rspec system tests) require to have Chrome installed.
 
-You will likely start working with the OpenProject test suite through our continuous testing setup at [Github Actions](https://github.com/opf/openproject/actions). All pull requests and commits to the core repository will be tested by Github Actions.
+You will likely start working with the OpenProject test suite through our continuous testing setup at [GitHub Actions](https://github.com/opf/openproject/actions). All pull requests and commits to the core repository will be tested by GitHub Actions.
 
 
 
-# Continuous testing with Github Actions
+# Continuous testing with GitHub Actions
 
-As part of the [development flow at OpenProject](../../development/#branching-model-and-development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on Github Actions. You will see the results as a status on your pull request. Successful test suite runs are one requirement to see your changes merged.
+As part of the [development flow at OpenProject](../../development/#branching-model-and-development-flow), proposed changes to the core application will be made through a GitHub pull request and the entire test suite is automatically evaluated on GitHub Actions. You will see the results as a status on your pull request.
+
+Successful test suite runs are one requirement to see your changes merged.
+
+
+## List failures
 
 A failing status will look like the following on your pull request. You may need to click *Show all checks* to expand all checks to see the details link.
 
@@ -16,9 +21,11 @@ A failing status will look like the following on your pull request. You may need
 
 
 
-Here you'll see that the *Github Actions* check has reported an error, which likely means that your pull request contains errors. It might also result from a temporary error running the test suite, or from a test that was broken in the `dev` branch.
+Here you'll see that the *GitHub Actions* check has reported an error, which likely means that your pull request contains errors. It might also result from a [temporary error running the test suite](#tests-failing-on-github-actions-ci-and-passing-locally), or from a test that was broken in the `dev` branch.
 
-If you expand the view  by clicking on details, you will see the individual *jobs* that Github executes. The test suite is run in parallel to save time.  The overall run time of the test suite is around *15 minutes* on Github. Due to parallel test runs and beefier custom worker machines, the run time is significantly lower than on our previous test CI.
+The test suite is [run in parallel](#parallel-testing) to save time. The overall run time of the test suite is around *15 minutes* on GitHub.
+
+Click on the Details link to see the individual *jobs* that GitHub executes.
 
 [Here's a link to an exemplary failed test run on GitHub](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). In this case, one of the feature jobs has reported an error.
 
@@ -26,7 +33,7 @@ If you expand the view  by clicking on details, you will see the individual *job
 
 
 
-You can click on each job and each step to show the [log output for this job](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
+Click on each job and each step to show the [log output for this job](https://github.com/opf/openproject/pull/9355/checks?check_run_id=2730782867). It will contain more information about how many tests failed and will also temporarily provide a screenshot of the browser during the occurrence of the test failure (only if a browser was involved in testing).
 
 In our example, multiple tests are reported as failing:
 ```
@@ -37,17 +44,20 @@ rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:193 # W
 rspec ./spec/features/work_packages/timeline/timeline_navigation_spec.rb:317 # Work package timeline navigation when table is grouped shows milestone icons on collapsed project group rows but not on expanded ones
 ```
 
-![Github job log showing failing test](github-broken-tests.png)
+![GitHub job log showing failing test](github-broken-tests.png)
 
 
 
-You can now run this test locally to try and reproduce the failure. How to do this depends on the kind of job that failed.
+## Diagnose failures
 
+Once you know which tests are failing, run them locally to try and reproduce the failures. Having reproducible failures locally is the first step to diagnose and fix them.
+
+How to do this depends on the kind of job that failed.
 
 
 **Errors in the npm group**
 
-If there is an error in the npm group, you likely have broken an existing Angular component spec or added an invalid new one. Please see the [Frontend tests section](#frontend-tests) on how to run them.
+An error in the *npm* group means you likely have broken an existing Angular component spec or added an invalid new one. Please see the [Frontend tests](#frontend-tests) section on how to run them.
 
 
 
@@ -61,29 +71,63 @@ You will be able to run failing tests locally in a similar fashion for all error
 
 
 
-**Errors in the legacy specs**
-
-For the `legacy specs` job, please [see the section on running legacy specs](#legacy-specs).
-
-
-
 **Helper to extract all failing tests**
 
-There is a small ruby script that will parse the logs of a Github Actions run and output all `rspec` tests that failed for you to run in one command.
+There is a small ruby script that will parse the logs of a GitHub Actions run and output all `rspec` tests that failed for you to run in one command.
 
 ```
 ./script/github_pr_errors
 ```
 
-Note that it will output legacy specs and specs together, which need to be run separately.
+If you want to run the tests directly to rspec, you can use this command:
+
+```
+./script/github_pr_errors | xargs bundle exec rspec
+```
+
+
+## Tests failing on GitHub Actions CI and passing locally
+
+Some tests can fail on GitHub actions CI, and pass locally which makes them harder to reproduce, diagnose, and fix.
+
+Possible reasons are:
+
+* Different configuration between CI environment and local environment
+  * GitHub actions run with `CI=true` environment variable. This setting will eager load the app before running tests. As some classes may monkey patch parts of the code, the behavior can be different when the app is fully loaded.
+    * Try running the tests with `CI=true`.
+  * OpenProject configuration difference
+    * Try changing or disabling any environment variables prefixed with `OPENPROJECT_` in your environment or `.env` files.
+    * Try changing or removing `config/configuration.yml` settings under the `test:` key.
+* Missing executables
+  * Source control management tests may need `svnadmin` or `git` to execute properly.
+  * LDAP tests may need `java` to spin up a LDAP server instance.
+* Different test execution order
+  * Parts of the OpenProject code are using memoization and caching for performance, and some tests can do weird things like prepending a module or other meta programming. Without proper clean up of the global state, subsequent tests may fail. It can go unnoticed depending on the test execution order.
+  * RSpec tests order is different on each run. The order is defined by the random seed which can be set with `--seed` option. When running rspec, the random seed is displayed like this: `Randomized with seed 18352`.
+  * Try running tests locally with the same random seed as the one used on CI.
+    * Once you determined that the failure is order dependant, use [`--bisect`](https://relishapp.com/rspec/rspec-core/docs/command-line/bisect) to isolate the minimal set of examples that reproduce the same failures.
+* Faster / slower machine and race conditions
+  * Some system tests using browser and performing ajax requests may not be synchronized with the test execution: the test is testing something that has not happened yet. Sometimes the ajax runs at the right time and the test passes, sometimes it runs at the wrong time and the test fails.
+  * Use `script/bulk_run_rspec` to run the same test multiple times. If it has both failing and passing results, it means it is a flickering test.
+  * To help diagnose why a system test is failing:
+    * Browser screenshots are created for failing system tests involving a browser. You can find them in the job log output.
+    * Try running with `OPENPROJECT_TESTING_NO_HEADLESS=1` to view what the browser is doing. Use `OPENPROJECT_TESTING_AUTO_DEVTOOLS=1` to have DevTools opened so that you can use `debugger` statements in the js code.
+* Migration executed locally
+  * While developing on another branch, you may run migrations and forget to roll them back when switching branches. This can lead to different test results: a migration modifying a database column default value can impact system behavior and change test results.
+  * To find if this is your case, run `rails db:migrate:status` to list migration status. Look for `up    <migration-id>  ********** NO FILE **********` patterns. If you have some, try looking up the commit associated with this migration and check if it explains behavior difference.
+  * To look up commits referencing the migration, use the `<migration-id>` from previous command and run `git log -p --all -- '**/*<migration-id>*'`. For instance `git log -p --all -- '**/*20220816065025*'`.
+  * If you find a commit and want to roll the associated migration back:
+    * Checkout the commit: `git switch --detach <commit-sha>`
+    * Roll the migration back: `rails db:migrate:down VERSION=<migration-id>`
+    * Switch back to where you left: `git switch -`
 
 
 
-### Skipping test execution on Github Actions CI
+## Skip test execution on GitHub Actions CI
 
 Sometimes, you know you're pushing changes to a pull request that you now are work in progress or are known to break existing or new tests.
 
-To avoid additional test executions, you can include `[skip ci]` in your commit message to ensure Github Actions are not being triggered and skips your build. Please note that a successful merge of your pull request will require a green CI build.
+To avoid additional test executions, you can include `[skip ci]` in your commit message to ensure GitHub Actions are not being triggered and skips your build. Please note that a successful merge of your pull request will require a green CI build.
 
 
 
@@ -164,13 +208,13 @@ Alternatively, when in the `frontend/` folder, you can also use the watch mode o
 
 ## Unit tests
 
- After following the prerequisites, you can simply use the following command to run individual specs:
+After following the prerequisites, use the following command to run individual specs:
 
 ```bash
 RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb
 ```
 
-You can run multiple specs by separating them with space:
+Run multiple specs by separating them with spaces:
 
 ```bash
 RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/project_spec.rb
@@ -180,7 +224,15 @@ RAILS_ENV=test bundle exec rspec spec/models/work_package_spec.rb spec/models/pr
 
 ## System tests
 
-We use Capybara and Selenium for system tests, which are often also called as *rspec feature specs*. They are automatically executed with an actual browser when `js: true` is set.
+System tests are also called *rspec feature specs* and use [Capybara](https://rubydoc.info/github/teamcapybara/capybara/master) and [Selenium](https://www.selenium.dev/documentation/webdriver/) to run. They are automatically executed with an actual browser when `js: true` is set.
+
+System tests are located in `spec/features`. Use the following command to run individual test:
+
+```bash
+RAILS_ENV=test bundle exec rspec spec/features/auth/login_spec.rb
+```
+
+
 
 ### Dependencies
 
@@ -204,7 +256,7 @@ The tests will generally run a lot slower due to the whole application being run
 
 
 
-You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let Github Actions CI test the entire suite.
+You can also run *all* feature specs locally with this command. This is not recommended due to the required execution time. Instead, prefer to select individual tests that you would like to test and let GitHub Actions CI test the entire suite.
 
 ```bash
 RAILS_ENV=test bundle exec rake parallel:features -- --group-number 1 --only-group 1
@@ -216,7 +268,7 @@ In case you are on Windows using WSL2 rather than Linux directly, running tests 
 
 **1) Download the chrome web driver**
 
-You can find the driver for your Chrome version here: https://chromedriver.chromium.org/downloads
+You can find the driver for your Chrome version [here](https://chromedriver.chromium.org/downloads)
 
 **2) Add the driver to your `PATH`**
 
@@ -229,7 +281,7 @@ It will be called something like "Ethernet adapter vEthernet (WSL)".
 
 **4) Download Selenium hub**
 
-Download version 3.141.59 (at the time of writing) here: https://www.selenium.dev/downloads/
+Download version 3.141.59 (at the time of writing) [here](https://www.selenium.dev/downloads/)
 
 The download is a JAR, i.e. a Java application. You will also need to download and install a Java Runtime Environment in at least version 8 to be able to run it.
 
@@ -294,23 +346,10 @@ You can fix this either by accessing a page locally (if the rails server is runn
 
 You can run the specs with the following commands:
 
-* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on Github Actions CI as part of your pull request.
+* `bundle exec rake spec` Run all core specs and feature tests. Again ensure that the Angular CLI is running for these to work. This will take a long time locally, and it is not recommend to run the entire suite locally. Instead, wait for the test suite run to be performed on GitHub Actions CI as part of your pull request.
 
-* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that Github Actions CI used in their log output.
+* `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935. Use this to control in what order the tests are run to identify order-dependent failures. You will find the seed that GitHub Actions CI used in their log output.
 
-  
-
-## Legacy specs
-
-**Note:** *We do not write new tests in this category. Tests are expected to be removed from these two groups whenever they break.*
-
-The legacy specs use `minitest` and reside under `spec_legacy/` in the application root. No new tests are to be added here, but old ones removed whenever we refactor code.
-
-To run all legacy specs, use this command:
-
-```bash
-RAILS_ENV=test bundle exec rake spec -I spec_legacy spec_legacy/
-```
 
 ## Parallel testing
 
@@ -344,18 +383,44 @@ First migrate and dump your current development schema with `RAILS_ENV=developme
 
 Then you can just use `RAILS_ENV=test ./bin/rails parallel:prepare` to prepare test databases.
 
-
-
 #### RSpec specs
 
 Run all unit and system tests in parallel with `RAILS_ENV=test ./bin/rails parallel:spec`
 
+#### Running specific tests
+
+If you want to run specific tests (e.g., only those from the team planner module), you can use this command:
+
+```bash
+RAILS_ENV=test bundle exec parallel_rspec -- modules/team_planner/spec
+```
+
+## Automatically run tests when files are modified
+
+To run tests automatically when a file is modified, you can use [watchexec](https://github.com/watchexec/watchexec) like this:
+
+```
+watchexec --exts rb,erb -- bin/rspec spec/some/path/to/a_particular_spec.rb
+```
+
+This command instructs `watchexec` to watch `.rb` and `.erb` files for modifications in the current folder and its subfolders. Whenever a file modification is reported, the command `bin/rspec spec/some/path/to/a_particular_spec.rb` will be executed.
+
+Stop `watchexec` by pressing `Ctrl+C`.
+
+Set an alias to make it easier to call:
+```
+alias wrspec='watchexec --exts rb,erb -- bin/rspec'
+
+wrspec spec/some/path/to/a_particular_spec.rb
+```
+
+To easily change the RSpec examples being run without relaunching `watchexec` every time, you can focus a particular example or example group with `focus: true`, `fit`, `fdescribe`, and `fcontext`. More details available on [RSpec documentation](https://relishapp.com/rspec/rspec-core/docs/filtering/filter-run-when-matching).
 
 
 ## Manual acceptance tests
 
 * Sometimes you want to test things manually. Always remember: If you test something more than once, write an automated test for it.
-* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from Microsoft: http://www.modern.ie/en-us/virtualization-tools#downloads
+* Assuming you do not have a version of Edge already installed on your computer, you can grab a VM with preinstalled IE's directly from [Microsoft](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
 
 
@@ -372,7 +437,7 @@ One way is to disable the Angular CLI that serves some of the assets when develo
 # Precompile the application
 ./bin/rails assets:precompile
 
-# Start the application server while disabling the CLI asset host 
+# Start the application server while disabling the CLI asset host
 OPENPROJECT_CLI_PROXY='' ./bin/rails s -b 0.0.0.0 -p 3000
 ```
 
@@ -386,7 +451,7 @@ you can access both from inside a VM with nat/bridged networking as follows:
 
 ```bash
 # Start ng serve middleware binding to all interfaces
-npm run serve-public
+npm run serve:public
 
 # Start your openproject server with the CLI proxy configuration set
 OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 3000

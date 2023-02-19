@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 class Budget < ApplicationRecord
-  belongs_to :author, class_name: 'User', foreign_key: 'author_id'
+  belongs_to :author, class_name: 'User'
   belongs_to :project
   has_many :work_packages, dependent: :nullify
   has_many :material_budget_items, -> {
@@ -146,31 +146,27 @@ class Budget < ApplicationRecord
   end
 
   def spent_material
-    @spent_material ||= begin
-      if cost_entries.blank?
-        BigDecimal('0.0000')
-      else
-        cost_entries.visible_costs(User.current, project).sum("CASE
+    @spent_material ||= if cost_entries.blank?
+                          BigDecimal('0.0000')
+                        else
+                          cost_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{CostEntry.table_name}.overridden_costs IS NULL THEN
             #{CostEntry.table_name}.costs
           ELSE
             #{CostEntry.table_name}.overridden_costs END").to_d
-      end
-    end
+                        end
   end
 
   def spent_labor
-    @spent_labor ||= begin
-      if time_entries.blank?
-        BigDecimal('0.0000')
-      else
-        time_entries.visible_costs(User.current, project).sum("CASE
+    @spent_labor ||= if time_entries.blank?
+                       BigDecimal('0.0000')
+                     else
+                       time_entries.visible_costs(User.current, project).sum("CASE
           WHEN #{TimeEntry.table_name}.overridden_costs IS NULL THEN
             #{TimeEntry.table_name}.costs
           ELSE
             #{TimeEntry.table_name}.overridden_costs END").to_d
-      end
-    end
+                     end
   end
 
   def new_material_budget_item_attributes=(material_budget_item_attributes)
@@ -236,7 +232,7 @@ class Budget < ApplicationRecord
     budget_items = send("#{type}_budget_items")
 
     budget_items.reject(&:new_record?).each do |budget_item|
-      attributes = budget_item_attributes[budget_item.id.to_s]
+      attributes = budget_item_attributes[budget_item.id.to_s.to_sym]
       send("correct_#{type}_attributes!", attributes)
 
       if send("valid_#{type}_budget_attributes?", attributes)

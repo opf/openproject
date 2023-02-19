@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +29,7 @@
 class WorkPackages::CopyService
   include ::Shared::ServiceContext
   include Contracted
+  include ::Copy::Concerns::CopyAttachments
 
   attr_accessor :user,
                 :work_package,
@@ -42,47 +41,57 @@ class WorkPackages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, **attributes)
+  def call(send_notifications: true, copy_attachments: true, **attributes)
     in_context(work_package, send_notifications) do
-      copy(attributes, send_notifications)
+      copy(attributes, copy_attachments, send_notifications)
     end
   end
 
   protected
 
-  def copy(attribute_override, send_notifications)
-    attributes = copied_attributes(work_package, attribute_override)
-
-    copied = create(attributes, send_notifications)
-
-    if copied.success?
-      remove_author_watcher(copied.result)
-      copy_watchers(copied.result)
-    end
+  def copy(attribute_override, copy_attachments, send_notifications)
+    copied = create(work_package,
+                    attribute_override,
+                    send_notifications)
+      .on_success do |copy_call|
+        remove_author_watcher(copy_call.result)
+        copy_watchers(copy_call.result)
+        copy_work_package_attachments(copy_call.result) if copy_attachments
+      end
 
     copied.state.copied_from_work_package_id = work_package&.id
 
     copied
   end
 
-  def create(attributes, send_notifications)
+  def create(work_package, attribute_overrides, send_notifications)
     WorkPackages::CreateService
-      .new(user: user,
-           contract_class: contract_class)
-      .call(**attributes.merge(send_notifications: send_notifications).symbolize_keys)
+      .new(user:,
+           contract_class:)
+      .call(**copied_attributes(work_package, attribute_overrides).merge(send_notifications:).symbolize_keys)
   end
 
-  def copied_attributes(wp, override)
-    wp
-      .attributes
-      .slice(*writable_work_package_attributes(wp))
-      .merge('parent_id' => wp.parent_id,
-             'custom_field_values' => wp.custom_value_attributes)
-      .merge(override)
+  def copied_attributes(work_package, override)
+    overwritten_attributes = override.stringify_keys
+
+    attributes = work_package
+                   .attributes
+                   .slice(*writable_work_package_attributes(work_package))
+                   .merge('parent_id' => work_package.parent_id,
+                          'custom_field_values' => work_package.custom_value_attributes)
+                   .merge(overwritten_attributes)
+
+    if overwritten_attributes.has_key?('start_date') &&
+      overwritten_attributes.has_key?('due_date') &&
+      !overwritten_attributes.has_key?('duration')
+      attributes.delete('duration')
+    end
+
+    attributes
   end
 
-  def writable_work_package_attributes(wp)
-    instantiate_contract(wp, user).writable_attributes
+  def writable_work_package_attributes(work_package)
+    instantiate_contract(work_package, user).writable_attributes
   end
 
   def remove_author_watcher(copied)
@@ -93,5 +102,9 @@ class WorkPackages::CopyService
     work_package.watcher_users.each do |user|
       copied.add_watcher(user) if user.active?
     end
+  end
+
+  def copy_work_package_attachments(copy)
+    copy_attachments('WorkPackage', from_id: work_package.id, to_id: copy.id)
   end
 end

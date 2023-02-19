@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +34,13 @@ module Capabilities::Scopes
       # Currently, this does not reflect the behaviour present in the backend that every permission in at least one project
       # leads to having that permission in the global context as well. Hopefully, this is not necessary to be added.
       def default
-        capabilities_sql = <<~SQL
+        capabilities_sql = <<~SQL.squish
           (
             #{default_sql_by_member}
             UNION
             #{default_sql_by_non_member}
+            UNION
+            #{default_sql_by_non_member_with_anonymous}
             UNION
             #{default_sql_by_admin}
           ) capabilities
@@ -53,7 +53,7 @@ module Capabilities::Scopes
       private
 
       def default_sql_by_member
-        <<~SQL
+        <<~SQL.squish
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -76,14 +76,14 @@ module Capabilities::Scopes
       end
 
       def default_sql_by_admin
-        <<~SQL
+        <<~SQL.squish
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
             projects.id context_id
           FROM (#{Action.default.to_sql}) actions
           JOIN (#{Principal.visible.not_builtin.not_locked.to_sql}) users
-            ON "users".admin = true
+            ON "users".admin = true AND actions.grant_to_admin = true
           LEFT OUTER JOIN "projects"
             ON "projects".active = true
             AND NOT "actions".global
@@ -95,7 +95,7 @@ module Capabilities::Scopes
       end
 
       def default_sql_by_non_member
-        <<~SQL
+        <<~SQL.squish
           SELECT DISTINCT
             actions.id "action",
             users.id principal_id,
@@ -112,6 +112,27 @@ module Capabilities::Scopes
                                                      WHERE members.project_id = projects.id
                                                      AND members.user_id = users.id
                                                      LIMIT 1))
+          LEFT OUTER JOIN enabled_modules
+            ON enabled_modules.project_id = projects.id
+            AND actions.module = enabled_modules.name
+
+          WHERE enabled_modules.project_id IS NOT NULL OR "actions".module IS NULL
+        SQL
+      end
+
+      def default_sql_by_non_member_with_anonymous
+        <<~SQL.squish
+          SELECT DISTINCT
+            actions.id "action",
+            users.id principal_id,
+            projects.id context_id
+          FROM (#{Action.default.to_sql}) actions
+          JOIN "role_permissions" ON "role_permissions"."permission" = "actions"."permission"
+          JOIN "roles" ON "roles".id = "role_permissions".role_id AND roles.builtin = #{Role::BUILTIN_ANONYMOUS}
+          JOIN users ON users.type = '#{AnonymousUser.name}'
+          JOIN "projects"
+            ON "projects".active = true
+            AND "projects".public = true
           LEFT OUTER JOIN enabled_modules
             ON enabled_modules.project_id = projects.id
             AND actions.module = enabled_modules.name

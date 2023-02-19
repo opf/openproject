@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2020 the OpenProject GmbH
@@ -57,7 +55,6 @@ class UserFilterCell < IndividualPrincipalBaseFilterCell
     def base_query
       Queries::Users::UserQuery
     end
-
 
     protected
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,24 +35,33 @@ module OpenProject
                   :project_module,
                   :dependencies
 
-      def initialize(name, hash, options)
+      def initialize(name,
+                     hash,
+                     public: false,
+                     require: nil,
+                     global: false,
+                     enabled: true,
+                     project_module: nil,
+                     contract_actions: [],
+                     grant_to_admin: true,
+                     dependencies: nil)
         @name = name
-        @controller_actions = []
-        @public = options[:public] || false
-        @require = options[:require]
-        @global = options[:global] || false
-        @enabled = options.include?(:enabled) ? options[:enabled] : true
-        @dependencies = Array(options[:dependencies]) || []
-        @project_module = options[:project_module]
-        @contract_actions = options[:contract_actions] || []
-        hash.each do |controller, actions|
-          @controller_actions << if actions.is_a? Array
-                                   actions.map { |action| "#{controller}/#{action}" }
-                                 else
-                                   "#{controller}/#{actions}"
-                                 end
-        end
-        @controller_actions.flatten!
+        @public = public
+        @require = require
+        @global = global
+        @enabled = enabled
+        @project_module = project_module
+        @contract_actions = contract_actions
+        @grant_to_admin = grant_to_admin
+        @dependencies = Array(dependencies)
+
+        @controller_actions = hash.map do |controller, actions|
+          if actions.is_a? Array
+            actions.map { |action| "#{controller}/#{action}" }
+          else
+            "#{controller}/#{actions}"
+          end
+        end.flatten
       end
 
       def public?
@@ -63,6 +70,10 @@ module OpenProject
 
       def global?
         @global
+      end
+
+      def grant_to_admin?
+        @grant_to_admin
       end
 
       def require_member?

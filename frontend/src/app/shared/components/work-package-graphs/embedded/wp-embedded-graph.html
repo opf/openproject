@@ -6,8 +6,8 @@
           [options]="internalChartOptions"
           *ngIf="hasDataToDisplay">
   </canvas>
-  <no-results *ngIf="!hasDataToDisplay && initialized"
+  <op-no-results *ngIf="!hasDataToDisplay && initialized"
               [title]="text.noResults">
-  </no-results>
+  </op-no-results>
 </div>
 

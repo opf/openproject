@@ -84,7 +84,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent {
           (sort:QuerySortByResource) => ({ name: sort.column.name, href: sort.column.href }),
         );
 
-        // For whatever reason, even though the UI doesnt implement it,
+        // For whatever reason, even though the UI doesn't implement it,
         // QuerySortByResources are doubled for each column (one for asc/desc direction)
         this.allColumns = _.uniqBy(allColumns, 'href');
 

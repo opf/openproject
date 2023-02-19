@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,19 +43,14 @@ module API
 
           get do
             authorize(:view_work_packages, global: true)
-            service = WorkPackageCollectionFromQueryParamsService
-                      .new(current_user)
-                      .call(params)
 
-            if service.success?
-              service.result
-            else
-              api_errors = service.errors.full_messages.map do |message|
-                ::API::Errors::InvalidQuery.new(message)
-              end
-
-              raise ::API::Errors::MultipleErrors.create_if_many api_errors
+            call = raise_invalid_query_on_service_failure do
+              WorkPackageCollectionFromQueryParamsService
+                .new(current_user)
+                .call(params)
             end
+
+            call.result
           end
 
           post &::API::V3::Utilities::Endpoints::Create.new(model: WorkPackage,

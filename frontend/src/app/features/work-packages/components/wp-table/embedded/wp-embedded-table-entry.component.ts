@@ -1,6 +1,7 @@
 import {
-  Component, ElementRef, Input, OnInit,
+  Component, ElementRef, Input,
 } from '@angular/core';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 export const wpTableEntrySelector = 'wp-embedded-table-entry';
 
@@ -15,26 +16,14 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
     </ng-container>
   `,
 })
-export class WorkPackageEmbeddedTableEntryComponent implements OnInit {
-  @Input() public queryProps:any;
+export class WorkPackageEmbeddedTableEntryComponent {
+  @Input() public queryProps:unknown;
 
-  @Input() public configuration:any;
+  @Input() public configuration:unknown;
 
   @Input() public initialLoadingIndicator = true;
 
   constructor(readonly elementRef:ElementRef) {
-  }
-
-  ngOnInit() {
-    const element = this.elementRef.nativeElement;
-
-    if (element.getAttribute('query-props')) {
-      this.getInputsFromData(element);
-    }
-  }
-
-  private getInputsFromData(element:HTMLElement) {
-    this.queryProps = JSON.parse(element.getAttribute('query-props')!);
-    this.configuration = JSON.parse(element.getAttribute('configuration')!);
+    populateInputsFromDataset(this);
   }
 }

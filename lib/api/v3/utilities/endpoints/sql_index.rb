@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,10 +38,8 @@ module API
 
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(results,
-                   embed: { 'elements' => {} },
-                   select: { '*' => {}, 'elements' => { '*' => {} } },
                    current_user: User.current,
-                   self_path: self_path,
+                   self_path:,
                    url_query: resulting_params)
               .walk(deduce_render_representer)
           end
@@ -52,6 +50,12 @@ module API
 
           def deduce_render_representer
             "::API::V3::#{deduce_api_namespace}::#{api_name}SqlCollectionRepresenter".constantize
+          end
+
+          def calculate_resulting_params(query, provided_params)
+            super.tap do |params|
+              params[:select] = nested_from_csv(provided_params['select']) || { '*' => {}, 'elements' => { '*' => {} } }
+            end
           end
         end
       end

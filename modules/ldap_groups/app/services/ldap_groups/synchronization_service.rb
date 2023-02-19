@@ -12,7 +12,6 @@ module LdapGroups
         LdapGroups::SynchronizedFilter
           .where(auth_source_id: ldap.id)
           .find_each do |filter|
-
           LdapGroups::SynchronizeFilterService
             .new(filter)
             .call

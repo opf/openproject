@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,6 +74,7 @@ module BasicData
           move_work_packages
           edit_work_packages
           assign_versions
+          work_package_assigned
           add_work_package_notes
           edit_own_work_package_notes
           manage_work_package_relations
@@ -120,6 +119,7 @@ module BasicData
           view_members
           manage_board_views
           show_board_views
+          view_team_planner
         ]
       }
     end
@@ -146,6 +146,7 @@ module BasicData
           browse_repository
           view_changesets
           show_board_views
+          view_team_planner
         ]
       }
     end

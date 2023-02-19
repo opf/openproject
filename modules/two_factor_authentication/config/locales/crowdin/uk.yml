@@ -72,8 +72,8 @@ uk:
       text_2fa_enabled: 'Після кожного входу користувачеві буде запропоновано ввести маркер OTP зі свого пристрою за умовчанням 2FA.'
       text_2fa_disabled: "Користувач не налаштував пристрій 2FA через свою сторінку \"Мій обліковий запис\""
     upsale:
-      title: 'Двофакторна аутентифікація - це функція підприємства'
-      description: 'Зміцнюйте свої внутрішні або зовнішні механізми аутентифікації другим фактором.'
+      title: 'Двофакторна аутентифікація'
+      description: 'Посильте безпеку свого екземпляра OpenProject, передбачивши можливість проходити двоетапну автентифікацію (добровільно або примусово) для всіх учасників проєкту.'
     backup_codes:
       none_found: Для цього облікового запису не існує резервних кодів.
       singular: Резервний код
@@ -136,8 +136,6 @@ uk:
     message_bird:
       sms_delivery_failed: 'Помилка доставки SMS MessageBird.'
       voice_delivery_failed: 'Помилка голосового дзвінка MessageBird.'
-    restdt:
-      delivery_failed_with_code: 'Помилка доставки маркера. (Error code %{code})'
     strategies:
       totp: 'Програма-автентифікатор'
       sns: 'Amazon SNS'
@@ -166,7 +164,7 @@ uk:
   label_confirmed: 'Підтверджено'
   button_continue: 'Продовжити'
   button_make_default: 'Позначити за умовчанням'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Мобільний телефон не перевірено"
   notice_phone_number_format: "Введіть номер у такому форматі: + XX XXXXXXXX."
   text_otp_not_receive: "Інші методи верифікації"
   text_send_otp_again: "Повторно надіслати одноразовий пароль:"

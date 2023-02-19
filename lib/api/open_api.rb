@@ -3,24 +3,20 @@ module API
     extend self
 
     def spec
-      @spec ||= begin
-        spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
+      spec = if Rails.env.development?
+               load_spec
+             else
+               memoized_spec
+             end
 
-        if spec_path.exist?
-          assemble_spec spec_path
-        else
-          raise "Could not find openapi-spec.yml under #{spec_path}"
-        end
-      end
-
-      @spec["servers"] = [
+      spec["servers"] = [
         {
           "description" => "This server",
           "url" => "#{Setting.protocol}://#{Setting.host_name}/"
         }
       ]
 
-      @spec
+      spec
     end
 
     def assemble_spec(file_path)
@@ -31,12 +27,28 @@ module API
       raise "Failed to load #{file_path}: #{e.class} #{e.message}"
     end
 
+    private
+
+    def memoized_spec
+      @memoized_spec ||= load_spec
+    end
+
+    def load_spec
+      spec_path = Rails.application.root.join("docs/api/apiv3/openapi-spec.yml")
+
+      if spec_path.exist?
+        assemble_spec spec_path
+      else
+        raise "Could not find openapi-spec.yml under #{spec_path}"
+      end
+    end
+
     def substitute_refs(spec, path:, root_path:, root_spec: spec)
       case spec
       when Hash
-        substitute_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
+        substitute_refs_in_hash spec, path:, root_path:, root_spec:
       when Array
-        spec.map { |s| substitute_refs s, path: path, root_path: root_path, root_spec: root_spec }
+        spec.map { |s| substitute_refs s, path:, root_path:, root_spec: }
       else
         spec
       end
@@ -47,9 +59,9 @@ module API
         ref_path = path.join spec.values.first
         ref_value = YAML.safe_load File.read(ref_path.to_s)
 
-        resolve_refs ref_value, path: ref_path.parent, root_path: root_path, root_spec: root_spec
+        resolve_refs ref_value, path: ref_path.parent, root_path:, root_spec:
       else
-        spec.transform_values { |v| substitute_refs(v, path: path, root_path: root_path, root_spec: root_spec) }
+        spec.transform_values { |v| substitute_refs(v, path:, root_path:, root_spec:) }
       end
     rescue Psych::SyntaxError => e
       raise "Failed to load #{ref_path}: #{e.class} #{e.message}"
@@ -58,9 +70,9 @@ module API
     def resolve_refs(spec, path:, root_path:, root_spec:)
       case spec
       when Hash
-        resolve_refs_in_hash spec, path: path, root_path: root_path, root_spec: root_spec
+        resolve_refs_in_hash spec, path:, root_path:, root_spec:
       when Array
-        spec.map { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
+        spec.map { |v| resolve_refs v, path:, root_path:, root_spec: }
       else
         spec
       end
@@ -70,7 +82,7 @@ module API
       if spec.size == 1 && spec.keys.first == "$ref"
         resolve_ref spec, path: path, root_path: root_path, root_spec: root_spec
       else
-        spec.transform_values { |v| resolve_refs v, path: path, root_path: root_path, root_spec: root_spec }
+        spec.transform_values { |v| resolve_refs v, path:, root_path:, root_spec: }
       end
     end
 
@@ -78,7 +90,7 @@ module API
       ref_path = spec.values.first
 
       if ref_path.start_with?(".")
-        { spec.keys.first => schema_ref(ref_path, path: path, root_path: root_path, root_spec: root_spec) }
+        { spec.keys.first => schema_ref(ref_path, path:, root_path:, root_spec:) }
       else
         spec
       end
@@ -102,7 +114,14 @@ module API
       file = schema_file ref_path, path: path, root_path: root_path
       spec_path = schema_path ref_path, path: path, root_path: root_path
 
-      root_spec.dig(*spec_path).find { |_k, v| v["$ref"] == file }.first
+      spec_files = root_spec.dig(*spec_path)
+
+      raise "Path not defined #{spec_path}" unless spec_files
+
+      spec_file = spec_files.find { |_k, v| v["$ref"] == file }&.first
+      raise "Reference '#{file}' not valid within #{spec_path}" unless spec_file
+
+      spec_file
     end
   end
 end

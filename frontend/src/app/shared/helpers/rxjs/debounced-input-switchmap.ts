@@ -43,10 +43,12 @@ export class DebouncedRequestSwitchmap<T, R = HalResource> {
    * @param preFilterNull {boolean} Whether to exclude null and undefined searches
    * @param emptyValue {R} The empty fall back value before first response or on errors
    */
-  constructor(readonly requestHandler:RequestSwitchmapHandler<T, R[]>,
+  constructor(
+    readonly requestHandler:RequestSwitchmapHandler<T, R[]>,
     readonly errorHandler:RequestErrorHandler,
     readonly preFilterNull:boolean = false,
-    readonly debounceMs = 250) {
+    readonly debounceMs = 250,
+  ) {
     /** Output switchmap observable */
     this.output$ = concat(
       of([]),

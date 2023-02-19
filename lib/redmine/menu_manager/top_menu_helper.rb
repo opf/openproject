@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,19 +33,44 @@ module Redmine::MenuManager::TopMenuHelper
 
   def render_top_menu_left
     content_tag :ul, class: 'op-app-menu op-app-menu_drop-left' do
-      [render_main_top_menu_nodes,
-       render_projects_top_menu_node,
-       render_quick_add_menu].join.html_safe
+      safe_join top_menu_left_menu_items
     end
   end
 
-  def render_top_menu_right
-    content_tag :ul, class: 'op-app-menu' do
-      [render_module_top_menu_node,
-       render_notification_top_menu_node,
-       render_help_top_menu_node,
-       render_user_top_menu_node].join.html_safe
+  def top_menu_left_menu_items
+    [render_main_top_menu_nodes,
+     render_projects_top_menu_node,
+     render_quick_add_menu]
+  end
+
+  def render_top_menu_center
+    content_tag :div, class: 'op-logo' do
+      link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link')
     end
+  end
+
+  def render_top_menu_search
+    render partial: 'search/mini_form'
+  end
+
+  def render_top_menu_right
+    capture do
+      concat render_top_menu_search
+      concat top_menu_right_node
+    end
+  end
+
+  def top_menu_right_node
+    content_tag(:ul, class: 'op-app-menu') do
+      safe_join top_menu_right_menu_items
+    end
+  end
+
+  def top_menu_right_menu_items
+    [render_module_top_menu_node,
+     render_notification_top_menu_node,
+     render_help_top_menu_node,
+     render_user_top_menu_node]
   end
 
   private
@@ -53,7 +78,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_notification_top_menu_node
     return ''.html_safe unless User.current.logged?
 
-    content_tag('li', class: 'op-app-menu--item') do
+    content_tag('li', class: 'op-app-menu--item', title: I18n.t('mail.notification.center')) do
       tag('op-in-app-notification-bell')
     end
   end
@@ -73,9 +98,9 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to url,
                    class: 'op-app-menu--item-action',
                    title: I18n.t(:label_login) do
-      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile"></i>'.html_safe)
-      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
+      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
+      concat content_tag(:i, '', class: 'op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     render_menu_dropdown(link, menu_item_class: '') do
@@ -87,8 +112,8 @@ module Redmine::MenuManager::TopMenuHelper
     link = link_to signin_path,
                    class: 'op-app-menu--item-action login',
                    title: I18n.t(:label_login) do
-      concat('<span class="op-app-menu--item-title hidden-for-mobile">'.concat(I18n.t(:label_login)).concat('</span>').html_safe)
-      concat('<i class="icon2 icon-user hidden-for-desktop"></i>'.html_safe)
+      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
+      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
     end
 
     content_tag :li, class: "" do
@@ -104,7 +129,7 @@ module Redmine::MenuManager::TopMenuHelper
         title: User.current.name,
         icon: (avatar.present? ? 'overridden-by-avatar' : 'icon-user')
       },
-      items: items,
+      items:,
       options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
     )
   end
@@ -117,7 +142,7 @@ module Redmine::MenuManager::TopMenuHelper
         'account/login'
       end
 
-    render partial: partial
+    render partial:
   end
 
   def render_module_top_menu_node(items = more_top_menu_items)
@@ -125,7 +150,7 @@ module Redmine::MenuManager::TopMenuHelper
       render_menu_dropdown_with_items(
         label: '',
         label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
-        items: items,
+        items:,
         options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
       )
     end

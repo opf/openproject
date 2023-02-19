@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +51,7 @@ class SysController < ActionController::Base
 
   def update_required_storage
     result = update_storage_information(@repository, params[:force] == '1')
-    render plain: "Updated: #{result}", status: 200
+    render plain: "Updated: #{result}", status: :ok
   end
 
   def fetch_changesets
@@ -69,9 +67,9 @@ class SysController < ActionController::Base
         project.repository.fetch_changesets
       end
     end
-    head 200
+    head :ok
   rescue ActiveRecord::RecordNotFound
-    head 404
+    head :not_found
   end
 
   def repo_auth
@@ -79,7 +77,7 @@ class SysController < ActionController::Base
     if project && authorized?(project, @authenticated_user)
       render plain: 'Access granted'
     else
-      render plain: 'Not allowed', status: 403 # default to deny
+      render plain: 'Not allowed', status: :forbidden # default to deny
     end
   end
 
@@ -99,7 +97,7 @@ class SysController < ActionController::Base
     User.current = nil
     unless Setting.sys_api_enabled? && params[:key].to_s == Setting.sys_api_key
       render plain: 'Access denied. Repository management WS is disabled or key is invalid.',
-             status: 403
+             status: :forbidden
       false
     end
   end
@@ -116,18 +114,18 @@ class SysController < ActionController::Base
   def find_project
     @project = Project.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render plain: "Could not find project ##{params[:id]}.", status: 404
+    render plain: "Could not find project ##{params[:id]}.", status: :not_found
   end
 
   def find_repository_with_storage
     @repository = @project.repository
 
     if @repository.nil?
-      render plain: "Project ##{@project.id} does not have a repository.", status: 404
+      render plain: "Project ##{@project.id} does not have a repository.", status: :not_found
     else
       return true if @repository.scm.storage_available?
 
-      render plain: 'repositories.storage.not_available', status: 400
+      render plain: 'repositories.storage.not_available', status: :bad_request
     end
 
     false
@@ -140,7 +138,7 @@ class SysController < ActionController::Base
     end
 
     response.headers['WWW-Authenticate'] = 'Basic realm="Repository Authentication"'
-    render plain: 'Authorization required', status: 401
+    render plain: 'Authorization required', status: :unauthorized
     false
   end
 

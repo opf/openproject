@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,16 @@
     #main
       top: 12px
 
-
 .router--work-packages-partitioned-split-view:not(.router--work-packages-full-create),
-.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create)
+.router--work-packages-partitioned-split-view-details:not(.router--work-packages-full-create),
+.router--work-packages-partitioned-split-view-new:not(.router--work-packages-full-create)
   @include extended-content--bottom
   @include extended-content--right
+
+  // Since only the split screen on the right should touch the bottom,
+  // we need to add it manually to the left to avoid a jump there
+  .work-packages-partitioned-page--content-left
+    padding-bottom: 10px
 
 // Ensure correct height applied to child elements.
 // The dom looks like this:
@@ -127,38 +132,6 @@
   will-change: transform
   // Hinter browser that the content of the flex is contained except for size
   contain: strict
-
-
-.work-package--attachments--files
-  margin-bottom: 1rem
-
-  > h4
-    margin-top: 5px
-
-    i
-      display: inline-block
-      &:before
-        vertical-align: middle
-        padding-top: 0
-
-  .work-package--attachments--filename
-    display: inline-block
-    line-height: 1.4
-    // FF & IE
-    word-break: break-all
-    // Chrome & Safari
-    word-break: break-word
-    width: 90%
-    vertical-align: middle
-
-    .work-package--attachments--info
-      display: inline-block
-      margin-left: 5px
-      font-size: 12px
-      color: var(--body-font-color)
-      font-style: italic
-      &:hover
-        text-decoration: none
 
 .router--work-packages-base
   #content

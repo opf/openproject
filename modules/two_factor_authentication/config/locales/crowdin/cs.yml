@@ -71,105 +71,103 @@ cs:
       text_2fa_enabled: 'Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení.'
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
     upsale:
-      title: 'Two-factor authentication is an enterprise feature'
-      description: 'Strenghten your internal or external authentication mechanisms with a second factor.'
+      title: 'Dvoufázové ověření'
+      description: 'Posilte bezpečnost vaší OpenProject instance tím, že nabízíte (nebo vynucujte) dvoufaktorové ověřování všem členům projektu.'
     backup_codes:
       none_found: Pro tento účet neexistují žádné záložní kódy.
       singular: Záložní kód
       plural: Záložní kódy
       your_codes: pro Váš %{app_name} účet %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Pokud nejste schopni přihlásit ke svým dvou faktorovým zařízením, můžete použít záložní kód k opětovnému získání přístupu k vašemu účtu.
+        Použijte následující tlačítko pro vygenerování nové sady záložních kódů.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
-        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        title: Generovat záložní kódy
+        keep_safe_as_password: 'Důležité! Považujte a zacházejte s tyto kódy jako s hesly.'
+        keep_safe_warning: 'Buď je uložte ve správci hesel, nebo vytiskněte tuto stránku a vložte na bezpečné místo.'
+        regenerate_warning: 'Upozornění: Pokud jste dříve vytvořili záložní kódy, budou zneplatněny a již nebudou fungovat.'
     devices:
-      add_new: 'Add new 2FA device'
-      register: 'Register device'
-      confirm_default: 'Confirm changing default device'
-      confirm_device: 'Confirm device'
-      confirm_now: 'Not confirmed, click here to activate'
-      cannot_delete_default: 'Cannot delete default device'
-      make_default_are_you_sure: 'Are you sure you want to make this 2FA device your default?'
-      make_default_failed: 'Failed to update the default 2FA device.'
-      deletion_are_you_sure: 'Are you sure you want to delete this 2FA device?'
-      registration_complete: '2FA device registration complete!'
-      registration_failed_token_invalid: '2FA device registration failed, the token was invalid.'
-      registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
-      confirm_send_failed: 'Confirmation of your 2FA device failed.'
-      button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
-      failed_to_delete: 'Failed to delete 2FA device.'
-      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
-      not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      add_new: 'Přidat nové 2FA zařízení'
+      register: 'Registrovat zařízení'
+      confirm_default: 'Potvrdit změnu výchozího zařízení'
+      confirm_device: 'Potvrdit zařízení'
+      confirm_now: 'Nepotvrzeno, klikněte zde pro aktivaci'
+      cannot_delete_default: 'Nelze odstranit výchozí zařízení'
+      make_default_are_you_sure: 'Jste si jisti, že chcete nastavit toto 2FA zařízení?'
+      make_default_failed: 'Nepodařilo se aktualizovat výchozí 2FA zařízení.'
+      deletion_are_you_sure: 'Jste si jisti, že chcete odstranit toto 2FA zařízení?'
+      registration_complete: 'Registrace 2FA zařízení dokončena!'
+      registration_failed_token_invalid: 'Registrace 2FA zařízení selhala, token byl neplatný.'
+      registration_failed_update: 'Registrace 2FA zařízení selhala, token byl platný, ale zařízení nelze aktualizovat.'
+      confirm_send_failed: 'Potvrzení 2FA zařízení se nezdařilo.'
+      button_complete_registration: 'Dokončete 2FA registraci'
+      text_confirm_to_complete_html: "Prosím dokončete registraci zařízení <strong>%{identifier}</strong> zadáním jednorázového hesla z výchozího zařízení."
+      text_confirm_to_change_default_html: "Potvrďte prosím změnu výchozího zařízení na <strong>%{new_identifier}</strong> zadáním jednorázového hesla z aktuálního výchozího zařízení."
+      text_identifier: 'Můžete dát zařízení vlastní identifikátor pomocí tohoto pole.'
+      failed_to_delete: 'Smazání 2FA zařízení se nezdařilo.'
+      is_default_cannot_delete: 'Zařízení je označeno jako výchozí a nemůže být odstraněno z důvodu aktivní bezpečnostní politiky. Před smazáním označte jiné zařízení jako výchozí.'
+      not_existing: 'Žádné 2FA zařízení nebylo zaregistrováno pro váš účet.'
+      request_2fa: Zadejte prosím kód z Vašeho %{device_name} pro ověření Vaší identity.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
-        secret_key: 'Secret key'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        title: 'Použít autentifikátor založený na aplikaci'
+        provisioning_uri: 'Poskytování URI'
+        secret_key: 'Tajný klíč'
+        time_based: 'Na základě času'
+        account: 'Název účtu / vydavatel'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Pro nastavení dvoufaktorového ověřování pomocí Google Authenticator, stáhněte si aplikaci z Apple App Store nebo Google Play Store.
+          Po otevření aplikace můžete naskenovat následující QR kód pro registraci zařízení.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Nelze naskenovat kód pomocí vaší aplikace?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Pokud nemůžete naskenovat kód, můžete zadat položku ručně pomocí následujících údajů:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Zaregistrujte autentifikátor aplikace pro použití u OpenProject pomocí standardu jednorázového ověřování hesla.
+          Běžnými příklady jsou Google Authenticator nebo Authy.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'Použijte svůj mobilní telefon'
+        redacted_identifier: 'Mobilní zařízení (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, zaslali jsme Vám ověřovací kód přes %{delivery_channel}'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          Zaregistrujte své mobilní telefonní číslo pro jednorázové doručení OpenProject hesel.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'Odeslání SNS selhalo:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
+      sms_delivery_failed: 'Odeslání MessageBird SMS  se nezdařilo.'
+      voice_delivery_failed: 'Hlasový hovor MessageBird se nezdařil.'
     strategies:
       totp: 'Ověřovací aplikace'
       sns: 'Amazon SNS'
       resdt: 'SMS Rest API'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+    mobile_transmit_notification: "Na váš mobilní telefon bylo odesláno jednorázové heslo."
+    label_two_factor_authentication: 'Dvoufázové ověření'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+      required_to_add_device: 'Aktivní bezpečnostní politika vyžaduje, abyste povolili dvoufaktorové ověřování. Pro registraci zařízení použijte následující formulář.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
-  field_phone: "Cell phone"
+        Váš účet má aktivní paměť cookie platná do %{expires_on}. Tato cookie umožňuje přihlášení bez dalšího faktoru k vašemu účtu až do té doby.
+      other_active_session_notice: Váš účet má aktivní paměť cookie v jiné relaci.
+      label: 'Zapamatovat'
+      clear_cookie: 'Kliknutím sem odstraníte všechny zapamatované 2FA relace.'
+      cookie_removed: 'Všechny zapamatované 2FA relace byly odstraněny.'
+      dont_ask_again: "Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní."
+  field_phone: "Mobilní telefon"
   field_otp: "Jednorázové heslo"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_developer_strategy_otp: "Developer strategy generated the following one-time password: %{token} (Channel: %{channel})"
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
+  notice_account_otp_invalid: "Neplatné jednorázové heslo."
+  notice_account_otp_expired: "Zadané jednorázové heslo vypršelo."
+  notice_developer_strategy_otp: "Vývojářská strategie vytvořila toto jednorázové heslo: %{token} (kanál: %{channel})"
+  notice_account_otp_send_failed: "Vaše jednorázové heslo nelze odeslat."
+  notice_account_has_no_phone: "S vaším účtem není přiřazeno žádné telefonní číslo."
+  label_expiration_hint: "%{date} nebo po odhlášení"
   label_actions: 'Akce'
   label_confirmed: 'Potvrzený'
   button_continue: 'Pokračovat'
-  button_make_default: 'Mark as default'
-  label_unverified_phone: "Cell phone not yet verified"
-  notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
-  text_otp_not_receive: "Other verification methods"
-  text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
+  button_make_default: 'Označit jako výchozí'
+  label_unverified_phone: "Mobilní telefon ještě nebyl ověřen"
+  notice_phone_number_format: "Zadejte číslo v následujícím formátu: +XX XXXXXXXX."
+  text_otp_not_receive: "Jiné metody ověřování"
+  text_send_otp_again: "Znovu odeslat jednorázové heslo přes:"
+  button_resend_otp_form: "Znovu odeslat"
+  button_otp_by_voice: "Hovor"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Doručovací kanál"

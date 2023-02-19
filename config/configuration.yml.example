@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -161,7 +161,15 @@
 #     - 'statuses'
 #     - 'types'
 #     - 'admin/roles'
-
+#
+# Beta features
+#
+# Some features are hidden behind a feature flag during development.
+# To activate one or more features set the corresponding flag inside the section.
+#
+# Example:
+# production:
+#   feature_your_module_active: true
 
 # default configuration options for all environments
 default:
@@ -200,9 +208,6 @@ default:
   #
   # rails_relative_url_root: ""
 
-  # whether to force ssl in production
-  rails_force_ssl: false
-
   # Absolute path to the directory where attachments are stored.
   # The default is the 'files' directory in your OpenProject instance.
   # Your OpenProject instance needs to have write permission on this
@@ -213,7 +218,7 @@ default:
 
   # Grace period until uploaded but unassigned (i.e. to a container like work packages,
   # wiki pages) attachments are deleted (in minutes)
-  # attachment_grace_period: 180
+  # attachments_grace_period: 180
 
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
@@ -322,11 +327,11 @@ default:
   #
   #   Available types for git:
   #     - :local (Local repositories, registered using a local path)
-  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #     - :managed (Managed repositories, available IF :manages path is set below)
   #   Available types for subversion:
   #     - :existing (Existing subversion repositories by URL - local using file:/// or remote
   #                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-  #     - :managed (Managed repositores, available IF :manages path is set below)
+  #     - :managed (Managed repositories, available IF :manages path is set below)
   #
   # Exemplary configuration
   #
@@ -408,7 +413,7 @@ default:
   # after_first_login_redirect_url: '/projects/demo'
 
   # For filtering work packages based on their attachments (name, content) it's worth to specify the main language that
-  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL shipps
+  # is used in those documents. This improves the full text search features of PostgreSQL. Currently PostgreSQL ships
   # with the following languages pre-installed:
   #
   # danish

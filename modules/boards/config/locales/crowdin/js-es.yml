@@ -2,14 +2,13 @@
 es:
   js:
     boards:
+      create_new: 'Crear panel'
       label_unnamed_board: 'Panel sin nombre'
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'
       upsale:
-        teaser_text: 'Mejore su administración de proyectos ágiles con esta vista flexible de paneles. Cree tantos paneles como prefiera para cualquier elemento del que quiera realizar un seguimiento.'
-        upgrade_to_ee_text: 'Los paneles son una característica de la versión Enterprise. Actualice a un plan de pago.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Actualizar ahora'
-        personal_demo: 'Contacte con nosotros para una demostración'
       lists:
         delete: 'Eliminar lista'
       version:
@@ -63,7 +62,7 @@ es:
           status: Estado
           version: Versión
           subproject: Subproyecto
-          subtasks: Principal-secundaria
+          subtasks: Padre-hijo
           basic: Básico
         select_attribute: "Atributo de acción"
       add_list_modal:

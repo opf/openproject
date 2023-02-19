@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,6 +57,7 @@ en:
               - news
               - wiki
               - board_view
+              - team_planner_view
             news:
               - title: Welcome to your demo project
                 summary: >
@@ -75,6 +76,7 @@ en:
                 timeline: true
                 sort_by: id
                 hierarchy: true
+                starred: true
                 columns:
                   - id
                   - type
@@ -82,6 +84,7 @@ en:
                   - status
                   - start_date
                   - due_date
+                  - duration
                   - assigned_to
               - name: Milestones
                 type: :default_type_milestone
@@ -105,6 +108,9 @@ en:
                   - priority
                   - status
                   - assigned_to
+              - name: Team planner
+                module: team_planner
+                assignee: OpenProject Admin
             boards:
               kanban:
                 name: 'Kanban board'
@@ -114,73 +120,97 @@ en:
                 name: 'Basic board'
               parent_child:
                 name: 'Work breakdown structure'
+            # For all dates, the reference is the monday of the current week
+            # So
+            # * start: 0 references Monday
+            # * start: 4 references Friday
+            # * start: -1 references the last Sunday
             work_packages:
-              - start: 4
+              - start: -1
                 subject: Start of project
                 description:
                 status: default_status_closed
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 schedule_manually: false
-              - start: 5
+              - start: 0
                 subject: Organize open source conference
                 description:
                 status: default_status_in_progress
                 type: default_type_phase
                 children:
-                  - start: 5
+                  - start: 0
                     subject: Set date and location of conference
                     description: ''
                     status: default_status_in_progress
                     type: default_type_task
-                    duration: 16
+                    children:
+                      - start: 0
+                        subject: Send invitation to speakers
+                        description: ''
+                        status: default_status_in_progress
+                        type: default_type_task
+                        duration: 1
+                      - start: 0
+                        subject: Contact sponsoring partners
+                        description: ''
+                        status: default_status_new
+                        type: default_type_task
+                        duration: 2
+                      - start: 0
+                        subject: Create sponsorship brochure and hand-outs
+                        description: ''
+                        status: default_status_new
+                        type: default_type_task
+                        duration: 4
+                    duration: 4
                     schedule_manually: false
-                  - start: 22
-                    subject: Setup conference website
-                    description: ''
-                    status: default_status_new
-                    type: default_type_task
-                    duration: 35
-                    relations:
-                      - to: Set date and location of conference
-                        type: follows
-                    :schedule_manually: false
-                  - start: 22
+                  - start: 4
                     subject: Invite attendees to conference
                     description: ''
                     status: default_status_new
                     type: default_type_task
-                    duration: 16
+                    duration: 1
                     relations:
                       - to: Set date and location of conference
                         type: follows
                     schedule_manually: false
-                duration: 70
+                  - start: 4
+                    subject: Setup conference website
+                    description: ''
+                    status: default_status_new
+                    type: default_type_task
+                    duration: 11
+                    relations:
+                      - to: Set date and location of conference
+                        type: follows
+                    schedule_manually: false
+                duration: 15
                 schedule_manually: true
-              - start: 76
+              - start: 15
                 subject: Conference
                 description:
                 status: default_status_scheduled
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 relations:
                   - to: Organize open source conference
                     type: follows
                 schedule_manually: false
-              - start: 77
+              - start: 21
                 subject: Follow-up tasks
                 description:
                 status: default_status_to_be_scheduled
                 type: default_type_phase
                 children:
-                  - start: 77
+                  - start: 21
                     subject: Upload presentations to website
                     description: ''
                     status: default_status_new
                     type: default_type_task
-                    duration: 16
+                    duration: 10
                     schedule_manually: false
-                  - start: 77
+                  - start: 31
                     subject: Party for conference supporters :-)
                     description: |-
                       *   [ ] Beer
@@ -189,16 +219,16 @@ en:
                       *   [ ] Even more beer
                     status: default_status_new
                     type: default_type_task
-                    duration: 0
+                    duration: 1
                     schedule_manually: false
-                duration: 16
+                duration: 11
                 schedule_manually: false
-              - start: 94
+              - start: 32
                 subject: End of project
                 description:
                 status: default_status_new
                 type: default_type_milestone
-                duration: 0
+                duration: 1
                 relations:
                   - to: Follow-up tasks
                     type: follows
@@ -354,8 +384,8 @@ en:
               - subject: New website
                 status: :default_status_specified
                 type: :default_type_epic
-                start: 26
-                duration: 0
+                start: 0
+                duration: 29
                 children:
                   - subject: Newsletter registration form
                     status: :default_status_in_progress
@@ -373,22 +403,22 @@ en:
                     version: Sprint 1
                     position: 2
                     story_points: 3
-                    start: 26
-                    duration: 0
+                    start: 28
+                    duration: 1
                     children:
                       - subject: Create wireframes for new landing page
                         status: :default_status_in_progress
                         type: :default_type_task
                         version: Sprint 1
-                        start: 26
-                        duration: 0
+                        start: 28
+                        duration: 1
               - subject: Contact form
                 status: :default_status_specified
                 type: :default_type_user_story
                 version: Sprint 1
                 position: 5
                 start: 21
-                duration: 0
+                duration: 1
                 story_points: 1
               - subject: Feature carousel
                 status: :default_status_specified
@@ -408,7 +438,7 @@ en:
                 position: 4
                 story_points: 1
                 start: 21
-                duration: 0
+                duration: 1
               - subject: SSL certificate
                 status: :default_status_specified
                 type: :default_type_user_story
@@ -422,7 +452,7 @@ en:
                 version: Product Backlog
                 position: 2
                 start: 23
-                duration: 0
+                duration: 1
               - subject: Choose a content management system
                 status: :default_status_specified
                 type: :default_type_user_story
@@ -437,21 +467,21 @@ en:
                 position: 7
                 story_points: 3
                 start: 25
-                duration: 0
+                duration: 1
                 children:
                   - subject: Set up navigation concept for website.
                     status: :default_status_in_specification
                     type: :default_type_task
                     version: Sprint 1
                     start: 25
-                    duration: 0
+                    duration: 1
               - subject: Internal link structure
                 status: :default_status_closed
                 type: :default_type_user_story
                 version: Product Backlog
                 position: 5
                 start: 25
-                duration: 0
+                duration: 1
               - subject: Develop v1.0
                 status: :default_status_in_progress
                 type: :default_type_phase
@@ -461,7 +491,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 18
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v1.0
                     type: follows
@@ -474,7 +504,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 25
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v1.1
                     type: follows
@@ -487,7 +517,7 @@ en:
                 status: :default_status_new
                 type: :default_type_milestone
                 start: 32
-                duration: 0
+                duration: 1
                 relations:
                   - to: Develop v2.0
                     type: follows

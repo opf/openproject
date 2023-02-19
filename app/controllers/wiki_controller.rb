@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,16 +77,10 @@ class WikiController < ApplicationController
   # List of pages, sorted alphabetically and by parent (hierarchy)
   def index
     slug = wiki_page_title.nil? ? 'wiki' : WikiPage.slug(wiki_page_title)
-    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug: slug)
+    @related_page = WikiPage.find_by(wiki_id: @wiki.id, slug:)
 
-    load_pages_for_index
+    @pages = @wiki.pages.order(Arel.sql('title')).includes(wiki: :project)
     @pages_by_parent_id = @pages.group_by(&:parent_id)
-  end
-
-  # List of page, by last update
-  def date_index
-    load_pages_for_index
-    @pages_by_date = @pages.group_by { |p| p.updated_at.to_date }
   end
 
   def new; end
@@ -113,7 +105,7 @@ class WikiController < ApplicationController
     @content = @page.content
 
     if call.success?
-      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to_show
     else
@@ -175,7 +167,7 @@ class WikiController < ApplicationController
     @content = @page.content
 
     if call.success?
-      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to_show
     else
@@ -423,10 +415,6 @@ class WikiController < ApplicationController
   # Returns true if the current user is allowed to edit the page, otherwise false
   def editable?(page = @page)
     page.editable_by?(User.current)
-  end
-
-  def load_pages_for_index
-    @pages = @wiki.pages.with_updated_at.order(Arel.sql('title')).includes(wiki: :project)
   end
 
   def default_breadcrumb

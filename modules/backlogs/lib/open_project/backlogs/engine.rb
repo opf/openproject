@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,16 +51,18 @@ module OpenProject::Backlogs
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: settings do
-      OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
-        add.controller_actions << 'rb_stories/create'
-        add.controller_actions << 'rb_tasks/create'
-        add.controller_actions << 'rb_impediments/create'
-      end
+      Rails.application.reloader.to_prepare do
+        OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
+          add.controller_actions << 'rb_stories/create'
+          add.controller_actions << 'rb_tasks/create'
+          add.controller_actions << 'rb_impediments/create'
+        end
 
-      OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
-        edit.controller_actions << 'rb_stories/update'
-        edit.controller_actions << 'rb_tasks/update'
-        edit.controller_actions << 'rb_impediments/update'
+        OpenProject::AccessControl.permission(:edit_work_packages).tap do |edit|
+          edit.controller_actions << 'rb_stories/update'
+          edit.controller_actions << 'rb_tasks/update'
+          edit.controller_actions << 'rb_impediments/update'
+        end
       end
 
       project_module :backlogs, dependencies: :work_package_tracking do
@@ -106,7 +108,7 @@ module OpenProject::Backlogs
            :backlogs,
            { controller: '/rb_master_backlogs', action: :index },
            caption: :project_module_backlogs,
-           before: :calendar,
+           after: :work_packages,
            icon: 'icon2 icon-backlogs'
 
       menu :project_menu,
@@ -130,6 +132,7 @@ module OpenProject::Backlogs
                Version]
 
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
+    patch_with_namespace :WorkPackages, :UpdateAncestors, :Loader
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :DemoData, :ProjectSeeder
     patch_with_namespace :WorkPackages, :UpdateAncestorsService
@@ -168,16 +171,16 @@ module OpenProject::Backlogs
                         &::OpenProject::Backlogs::Patches::API::WorkPackageSchemaRepresenter.extension)
 
     add_api_attribute on: :work_package, ar_name: :story_points
-    add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }
+    add_api_attribute on: :work_package, ar_name: :remaining_hours, writable: ->(*) { model.leaf? }
 
     add_api_path :backlogs_type do |id|
       # There is no api endpoint for this url
       "#{root}/backlogs_types/#{id}"
     end
 
-    initializer 'backlogs.register_hooks' do
-      require 'open_project/backlogs/hooks'
-      require 'open_project/backlogs/hooks/user_settings_hook'
+    config.to_prepare do
+      OpenProject::Backlogs::Hooks::LayoutHook
+      OpenProject::Backlogs::Hooks::UserSettingsHook
     end
 
     config.to_prepare do
@@ -206,8 +209,11 @@ module OpenProject::Backlogs
       ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
       ::Type.add_default_mapping(:other, :position)
 
-      Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
-      Queries::Register.column Query, OpenProject::Backlogs::QueryBacklogsColumn
+      ::Queries::Register.register(::Query) do
+        filter OpenProject::Backlogs::WorkPackageFilter
+
+        column OpenProject::Backlogs::QueryBacklogsColumn
+      end
     end
   end
 end

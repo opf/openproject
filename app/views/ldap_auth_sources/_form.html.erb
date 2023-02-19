@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -62,34 +62,55 @@ See COPYRIGHT and LICENSE files for more details.
     <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.connection_encryption') %></legend>
     <p>
       <%= t 'ldap_auth_sources.tls_mode.section_more_info_link_html',
-            link: OpenProject::Static::Links[:ldap_encryption_documentation][:href]  %>
+            link: OpenProject::Static::Links[:ldap_encryption_documentation][:href] %>
     </p>
     <div class="form--field">
-        <%= f.radio_button :tls_mode,
-                          'plain_ldap',
-                          label: t('ldap_auth_sources.tls_mode.plain'),
-                          container_class: '-wide' %>
+      <%= f.radio_button :tls_mode,
+                         'start_tls',
+                         label: t('ldap_auth_sources.tls_mode.start_tls'),
+                         container_class: '-wide' %>
       <p class="form--field-instructions">
-        <%= t('ldap_auth_sources.tls_mode.plain_description') %>
+        <%= t('ldap_auth_sources.tls_mode.start_tls_description') %>
       </p>
     </div>
     <div class="form--field">
-        <%= f.radio_button :tls_mode,
-                          'simple_tls',
-                          label: t('ldap_auth_sources.tls_mode.simple_tls'),
-                          container_class: '-wide' %>
+      <%= f.radio_button :tls_mode,
+                         'simple_tls',
+                         label: t('ldap_auth_sources.tls_mode.simple_tls'),
+                         container_class: '-wide' %>
       <p class="form--field-instructions">
         <%= t('ldap_auth_sources.tls_mode.simple_tls_description') %>
       </p>
     </div>
     <div class="form--field">
-        <%= f.radio_button :tls_mode,
-                          'start_tls',
-                          label: t('ldap_auth_sources.tls_mode.start_tls'),
-                          container_class: '-wide' %>
+      <%= f.radio_button :tls_mode,
+                         'plain_ldap',
+                         label: t('ldap_auth_sources.tls_mode.plain'),
+                         container_class: '-wide' %>
       <p class="form--field-instructions">
-        <%= t('ldap_auth_sources.tls_mode.start_tls_description') %>
+        <%= t('ldap_auth_sources.tls_mode.plain_description') %>
       </p>
+    </div>
+  </fieldset>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.connection_encryption') %></legend>
+    <div class="form--field">
+      <%= f.check_box :verify_peer,
+                      label: t('ldap_auth_sources.tls_options.verify_peer'),
+                      container_class: '-wide' %>
+      <p class="form--field-instructions">
+        <%= t('ldap_auth_sources.tls_options.verify_peer_description_html') %>
+      </p>
+    </div>
+    <div class="form--field">
+      <%= f.text_area :tls_certificate_string,
+                      label: AuthSource.human_attribute_name(:tls_certificate_string),
+                      placeholder: "-----BEGIN CERTIFICATE-----\n ..... \n-----END CERTIFICATE-----",
+                      rows: 10,
+                      container_class: '-wide' %>
+      <div class="form--field-instructions">
+        <p><%= t('ldap_auth_sources.tls_options.tls_certificate_description') %></p>
+      </div>
     </div>
   </fieldset>
   <fieldset class="form--fieldset">
@@ -97,7 +118,7 @@ See COPYRIGHT and LICENSE files for more details.
     <p><%= t 'ldap_auth_sources.system_account_legend' %></p>
 
     <div class="form--field">
-      <%= f.text_field 'account', container_class: '-middle'  %>
+      <%= f.text_field 'account', container_class: '-middle' %>
       <span class="form--field-instructions">
         <%= t('ldap_auth_sources.attribute_texts.system_user_dn_html') %>
       </span>
@@ -105,7 +126,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field">
       <%= f.password_field 'account_password',
                            label: AuthSource.human_attribute_name(:password),
-                           placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)),
+                           placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●' * 15)),
                            autocomplete: 'off',
                            container_class: '-middle' %>
       <span class="form--field-instructions">
@@ -116,7 +137,7 @@ See COPYRIGHT and LICENSE files for more details.
 </section>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.ldap_details')%></legend>
+  <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.ldap_details') %></legend>
   <div class="form--field">
     <%= f.text_field :base_dn, size: 60, container_class: '-wide' %>
     <span class="form--field-instructions">
@@ -142,7 +163,7 @@ See COPYRIGHT and LICENSE files for more details.
 </fieldset>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=t('ldap_auth_sources.user_settings')%></legend>
+  <legend class="form--fieldset-legend"><%= t('ldap_auth_sources.user_settings') %></legend>
   <p><%= t 'ldap_auth_sources.user_settings_legend' %></p>
 
   <div class="form--field -required">
@@ -151,7 +172,7 @@ See COPYRIGHT and LICENSE files for more details.
                      required: true,
                      size: 20,
                      placeholder: 'uid',
-                     container_class: '-middle'  %>
+                     container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('ldap_auth_sources.attribute_texts.login_map') %>
     </span>
@@ -161,7 +182,7 @@ See COPYRIGHT and LICENSE files for more details.
                      label: AuthSource.human_attribute_name(:firstname),
                      size: 20,
                      placeholder: 'givenName',
-                     container_class: '-middle'  %>
+                     container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:firstname)) %>
     </span>
@@ -171,7 +192,7 @@ See COPYRIGHT and LICENSE files for more details.
                      label: AuthSource.human_attribute_name(:lastname),
                      size: 20,
                      placeholder: 'sn',
-                     container_class: '-middle'  %>
+                     container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:lastname)) %>
     </span>
@@ -181,13 +202,13 @@ See COPYRIGHT and LICENSE files for more details.
                      label: AuthSource.human_attribute_name(:mail),
                      size: 20,
                      placeholder: 'mail',
-                     container_class: '-middle'  %>
+                     container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('ldap_auth_sources.attribute_texts.generic_map', attribute: AuthSource.human_attribute_name(:mail)) %>
     </span>
   </div>
   <div class="form--field">
-    <%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle'  %>
+    <%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle' %>
     <span class="form--field-instructions">
       <%= t('ldap_auth_sources.attribute_texts.admin_map_html') %>
     </span>

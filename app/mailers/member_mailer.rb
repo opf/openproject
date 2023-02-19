@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,8 +76,8 @@ class MemberMailer < ApplicationMailer
   end
 
   def send_mail(current_user, member, subject, message)
-    in_member_locale(member) do
-      User.execute_as(current_user) do
+    User.execute_as(current_user) do
+      in_member_locale(member) do
         message_id member, current_user
 
         @roles = member.roles
@@ -89,14 +87,14 @@ class MemberMailer < ApplicationMailer
         yield if block_given?
 
         mail to: member.principal.mail,
-             subject: subject
+             subject:
       end
     end
   end
 
-  def in_member_locale(member, &block)
+  def in_member_locale(member, &)
     raise ArgumentError unless member.principal.is_a?(User)
 
-    with_locale_for(member.principal, &block)
+    with_locale_for(member.principal, &)
   end
 end

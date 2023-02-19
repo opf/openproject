@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -116,7 +114,7 @@ class WorkPackages::BulkController < ApplicationController
     permitted_params
       .update_work_package
       .tap { |attributes| attributes[:custom_field_values]&.reject! { |_k, v| v.blank? } }
-      .reject { |_k, v| v.blank? }
+      .compact_blank
       .transform_values { |v| v == 'none' ? '' : v }
       .to_h
   end

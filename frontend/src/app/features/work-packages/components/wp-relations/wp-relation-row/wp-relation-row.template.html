@@ -14,6 +14,7 @@
         <span *ngIf="groupByWorkPackageType"
               [textContent]="normalizedRelationType"></span>
         <span *ngIf="!groupByWorkPackageType"
+              [ngClass]="highlightingClassForWpType()"
               [textContent]="relatedWorkPackage.type.name"></span>
         <span class="hidden-for-sighted" [textContent]="text.updateRelation"></span>
       </button>
@@ -44,7 +45,7 @@
 
     <div class="grid-content medium-3 collapse wp-relations-status-field">
       <edit-form *ngIf="relatedWorkPackage" [resource]="relatedWorkPackage">
-        <editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></editable-attribute-field>
+        <op-editable-attribute-field [resource]="relatedWorkPackage" fieldName="status"></op-editable-attribute-field>
       </edit-form>
     </div>
 
@@ -52,7 +53,7 @@
          ng-class="{'-expanded': userInputs.showRelationInfo }">
       <button
         type="button"
-        class="op-link wp-relations--description-btn"
+        class="spot-link wp-relations--description-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
         [title]="text.description_label"
         (click)="userInputs.showRelationInfo = !userInputs.showRelationInfo"
@@ -63,7 +64,7 @@
       <button
         *ngIf="!!relation.delete"
         type="button"
-        class="op-link relation-row--remove-btn"
+        class="spot-link relation-row--remove-btn"
         [ngClass]="{'-visible': showDescriptionInfo }"
         [title]="text.removeButton"
         (click)="removeRelation()"

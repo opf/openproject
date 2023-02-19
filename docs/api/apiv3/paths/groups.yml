@@ -18,6 +18,14 @@ get:
     schema:
       default: '[["id", "asc"]]'
       type: string
+  - description: |-
+      Comma separated list of properties to include.
+    example: 'total,elements/name,elements/self,self'
+    in: query
+    name: select
+    required: false
+    schema:
+      type: string
   responses:
     '200':
       content:
@@ -74,6 +82,8 @@ get:
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -103,20 +113,12 @@ post:
       description: Created
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -128,9 +130,15 @@ post:
 
         **Required permission:** Administrator
       headers: {}
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
     '422':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:
@@ -163,7 +171,7 @@ post:
             _links:
               properties:
                 members:
-                  type: arrray
+                  type: array
                   items:
                     type: object
                     properties:

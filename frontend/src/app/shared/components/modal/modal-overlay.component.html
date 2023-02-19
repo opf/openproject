@@ -1,0 +1,19 @@
+<div
+  class="spot-modal-overlay"
+  [class.spot-modal-overlay_active]="(activeModalInstance$ | async) !== null"
+  [class.spot-modal-overlay_not-full-screen]="notFullscreen"
+  #overlay
+  tabindex="0"
+  cdkFocusInitial
+  cdkTrapFocus
+  (click)="close($event, false)"
+>
+  <button
+    type="button"
+    class="spot-button spot-modal-overlay--close-button"
+    (click)="close($event)"
+  >
+    <span class="spot-icon spot-icon_close"></span>
+  </button>
+  <ng-template cdkPortalOutlet></ng-template>
+</div>

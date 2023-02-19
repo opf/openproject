@@ -42,8 +42,7 @@ ro:
         group_name_attribute_text: 'Introduceți atributul grupului LDAP utilizat pentru a seta numele grupului OpenProject.'
         filter_string_text: 'Introduceți filtrul LDAP RFC4515 care returnează grupurile din LDAP pentru a le sincroniza cu OpenProject.'
         base_dn_text: >
-          Introduceți DN-ul de bază de căutare care urmează să fie utilizat pentru acest filtru. Acesta trebuie să fie sub DN de bază al conexiunii LDAP selectate.
-          Lăsați această opțiune goală pentru a reutiliza DN-ul de bază al conexiunii
+          Introduceți DN-ul de bază de căutare care urmează să fie utilizat pentru acest filtru. Acesta trebuie să fie sub DN de bază al conexiunii LDAP selectate. Lăsați această opțiune goală pentru a reutiliza DN-ul de bază al conexiunii
     synchronized_groups:
       add_new: 'Adăugarea de noi grupuri de atribute'
       destroy:
@@ -67,4 +66,6 @@ ro:
           Dacă activați această opțiune, utilizatorii găsiți vor fi, de asemenea, creați automat în OpenProject. Fără această opțiune, doar conturile existente în OpenProject vor fi adăugate la grupuri.
         dn_text: 'Introduceți DN-ul complet al grupului în LDAP'
         group_text: 'Selectați un grup OpenProject existent cu care membrii grupului LDAP trebuie să fie sincronizați'
+      upsale:
+        description: 'Profitați de grupurile LDAP sincronizate pentru a gestiona utilizatorii, a le modifica permisiunile și a facilita gestionarea utilizatorilor între grupuri.'
 

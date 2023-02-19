@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,27 +33,14 @@ module Bim
       end
 
       def type_table
-        color_names = [
-          'blue-6',
-          'indigo-7',
-          'orange-6',
-          'cyan-7',
-          'red-8'
-        ]
-
-        # When selecting for an array of values, implicit order is applied
-        # so we need to restore values by their name.
-        colors_by_name = Color.where(name: color_names).index_by(&:name)
-        colors = color_names.collect { |name| colors_by_name[name].id }
-
-        { # position is_default color_id is_in_roadmap is_milestone
-          task: [1, true, colors[0], true, false, :default_type_task],
-          milestone: [2, true, colors[2], false, true, :default_type_milestone],
-          phase: [3, true, I18n.t(:default_color_gray), false, false, :default_type_phase],
-          issue: [4, true, colors[1], true, false, 'seeders.bim.default_type_issue'],
+        { # position is_default color_name is_in_roadmap is_milestone type_name
+          task: [1, true, 'blue-6', true, false, :default_type_task],
+          milestone: [2, true, 'orange-6', false, true, :default_type_milestone],
+          phase: [3, true, I18n.t(:default_color_grey), false, false, :default_type_phase],
+          issue: [4, true, 'indigo-7', true, false, 'seeders.bim.default_type_issue'],
           remark: [5, true, I18n.t(:default_color_green_dark), true, false, 'seeders.bim.default_type_remark'],
-          request: [6, true, colors[3], true, false, 'seeders.bim.default_type_request'],
-          clash: [7, true, colors[4], true, false, 'seeders.bim.default_type_clash']
+          request: [6, true, 'cyan-7', true, false, 'seeders.bim.default_type_request'],
+          clash: [7, true, 'red-8', true, false, 'seeders.bim.default_type_clash']
         }
       end
     end

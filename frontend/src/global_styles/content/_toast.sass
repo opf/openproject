@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -42,9 +42,9 @@ $nm-color-success-border: #35c53f
 $nm-color-success-icon: #35c53f
 $nm-color-success-background: #d8fdd1
 
-$nm-color-warning-border: #b5b078
-$nm-color-warning-icon: #333
-$nm-color-warning-background: #f4f4aa
+$nm-color-warning-border: #ef9e56
+$nm-color-warning-icon: #ef9e56
+$nm-color-warning-background: #ffe6c6
 
 $nm-color-info-icon: #333
 
@@ -71,15 +71,11 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   color: $nm-color-success-icon
 
 %nm-icon-warning
-  @include icon-mixin-attention
+  @include icon-mixin-warning
   color: $nm-color-warning-icon
 
 %nm-icon-info
   @include icon-mixin-info1
-  color: $nm-color-info-icon
-
-%nm-icon-enterprise
-  @include icon-mixin-enterprise
   color: $nm-color-info-icon
 
 %error-placeholder
@@ -107,7 +103,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 .op-toast
   @extend %toaster
-  z-index: 21
+  @include spot-z-index("toast")
   +toaster-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
   +toaster-style($background: $nm-color-background, $color: var(--body-font-color), $padding: $nm-padding-box, $radius: $nm-border-radius)
   .toaster-icon
@@ -136,9 +132,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-error,
   &.-success,
   &.-warning,
-  &.-info,
-  &.-ee-upsale
+  &.-info
     padding: $nm-box-padding
+  &.-ee-upsale
+    z-index: 1
+
+  &.-left-margin
+    margin-left: 20px
 
   &.-error
     @extend %error-placeholder
@@ -166,18 +166,19 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-ee-upsale::before
     @extend %info-placeholder
     @include messages-icon
-    @extend %nm-icon-enterprise
 
   &.-upload
     padding: $nm-upload-box-padding
 
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
-  & p, & ul
+  & p, & div, & ul
     margin-bottom: 0
-  & p, & ul>li, & .button
+  & p, & div, & ul>li, & .button
     font-size: $nm-font-size
 
+  &.-with-bottom-spacing
+    margin-bottom: 2rem
 
 [class^="icon-"]
   &.-error
@@ -225,6 +226,7 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   .op-toast--content
     width: 100%
 
+    > div,
     > p
       margin-bottom: 0
       color: var(--body-font-color)
@@ -238,6 +240,14 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
         border-radius: $nm-pb-border-radius
       &::-webkit-progress-value
         border-radius: $nm-pb-border-radius
+
+.op-toast.-loading
+  width: 150px
+  margin: 0 auto
+
+  .op-toast--content
+    display: flex
+    align-items: center
 
 // upload toaster styles
 %progress-styles
@@ -285,6 +295,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 // Use same styles for flash messages
 .flash, #errorExplanation
+  // Always above the toast
+  @include spot-z-index("toast", 1)
   border-radius: $nm-border-radius
   border-style: solid
   border-width: rem-calc(1)
@@ -294,7 +306,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
   margin-bottom: 0.1875rem
   margin-top: 0.5rem
-  z-index: 15
 
   &.ng-leave
     @include animation(0.5s fade-out)

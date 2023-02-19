@@ -1,9 +1,10 @@
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
 
-export interface NotificationSetting {
+export interface INotificationSetting {
   _links:{ project:HalSourceLink };
   watched:boolean;
-  involved:boolean;
+  assignee:boolean;
+  responsible:boolean;
   mentioned:boolean;
   workPackageCommented:boolean;
   workPackageCreated:boolean;
@@ -18,9 +19,12 @@ export interface NotificationSetting {
   wikiPageUpdated:boolean;
   membershipAdded:boolean;
   membershipUpdated:boolean;
+  startDate?:string|null;
+  dueDate?:string|null;
+  overdue?:string|null;
 }
 
-export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<NotificationSetting>):NotificationSetting {
+export function buildNotificationSetting(project:null|HalSourceLink, params:Partial<INotificationSetting>):INotificationSetting {
   return {
     _links: {
       project: {
@@ -28,7 +32,8 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
         title: project?.title,
       },
     },
-    involved: true,
+    assignee: true,
+    responsible: true,
     mentioned: true,
     watched: true,
     workPackageCommented: true,
@@ -44,6 +49,9 @@ export function buildNotificationSetting(project:null|HalSourceLink, params:Part
     wikiPageUpdated: true,
     membershipAdded: true,
     membershipUpdated: true,
+    startDate: 'P1D',
+    dueDate: 'P1D',
+    overdue: null,
     ...params,
   };
 }

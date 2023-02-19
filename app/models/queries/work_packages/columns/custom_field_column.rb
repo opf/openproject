@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,9 +46,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     @cf.name
   end
 
-  def null_handling(asc)
-    custom_field.null_handling(asc)
-  end
+  delegate :null_handling, to: :custom_field
 
   def custom_field
     @cf
@@ -102,7 +98,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
     WorkPackage
       .where(id: query.results.work_packages)
       .left_joins(:custom_values)
-      .where(custom_values: { custom_field: custom_field })
+      .where(custom_values: { custom_field: })
       .where.not(custom_values: { value: nil })
       .where.not(custom_values: { value: '' })
   end

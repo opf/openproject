@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,31 @@
 
 module CustomActions::Register
   class << self
-    def action(action)
-      @actions ||= []
-
-      @actions << action
+    def actions
+      [
+        CustomActions::Actions::AssignedTo,
+        CustomActions::Actions::Responsible,
+        CustomActions::Actions::Status,
+        CustomActions::Actions::Priority,
+        CustomActions::Actions::CustomField,
+        CustomActions::Actions::Type,
+        CustomActions::Actions::Project,
+        CustomActions::Actions::Notify,
+        CustomActions::Actions::DoneRatio,
+        CustomActions::Actions::EstimatedHours,
+        CustomActions::Actions::StartDate,
+        CustomActions::Actions::DueDate,
+        CustomActions::Actions::Date
+      ]
     end
 
-    def condition(condition)
-      @conditions ||= []
-
-      @conditions << condition
+    def conditions
+      [
+        CustomActions::Conditions::Status,
+        CustomActions::Conditions::Role,
+        CustomActions::Conditions::Type,
+        CustomActions::Conditions::Project
+      ]
     end
-
-    attr_accessor :actions,
-                  :conditions
   end
 end

@@ -5,8 +5,8 @@ hi:
       remove: 'विजेट हटाएँ'
       configure: 'Configure widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the "
-        link: 'enterprise edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'कस्टम पाठ'
@@ -31,10 +31,13 @@ hi:
           no_results: 'No custom fields have been defined for projects.'
         project_status:
           title: 'प्रोजेक्ट स्थिति'
+          not_started: 'Not started'
           on_track: 'On track'
           off_track: 'Off track'
           at_risk: 'At risk'
           not_set: 'Not set'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         subprojects:
           title: 'उपपरियोजनाएँ'
           no_results: 'No subprojects.'

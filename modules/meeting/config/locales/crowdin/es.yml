@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -36,7 +36,7 @@ es:
         invalid_time_format: "no es una hora válida. Formato requerido: HH:MM"
     models:
       meeting_agenda: "Agenda"
-      meeting_minutes: "Minutos"
+      meeting_minutes: "Minutas"
   description_attended: "ha asistido"
   description_invite: "invitado"
   events:
@@ -44,18 +44,18 @@ es:
     meeting_agenda: Agenda de reuniones editada
     meeting_agenda_closed: Agenda de reuniones cerrada
     meeting_agenda_opened: Agenda de reuniones abierta
-    meeting_minutes: Minutos de reuniones editados
-    meeting_minutes_created: Minutos de reuniones creados
+    meeting_minutes: Minuta de reunión editada
+    meeting_minutes_created: Minuta de reuniones creada
   error_notification_with_errors: "Error al enviar la notificación. Los siguientes destinatarios no han sido notificados: %{recipients}"
   label_meeting: "Reunión"
   label_meeting_plural: "Reuniones"
   label_meeting_new: "Nueva reunión"
   label_meeting_edit: "Editar reunión"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minutos"
+  label_meeting_minutes: "Minutas"
   label_meeting_close: "Cerrar"
   label_meeting_open: "Abrir"
-  label_meeting_agenda_close: "Cerrar la agenda para comenzar los minutos"
+  label_meeting_agenda_close: "Cerrar la agenda para comenzar la minuta"
   label_meeting_date_time: "Fecha/hora"
   label_meeting_diff: "Diferencia"
   label_notify: "Enviar para revisión"
@@ -74,8 +74,8 @@ es:
   permission_create_meeting_agendas: "Gestionar agendas"
   permission_close_meeting_agendas: "Cerrar agendas"
   permission_send_meeting_agendas_notification: "Enviar notificaciones de revisión para las agendas"
-  permission_create_meeting_minutes: "Gestionar minutos"
-  permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutos"
+  permission_create_meeting_minutes: "Gestionar minutas"
+  permission_send_meeting_minutes_notification: "Enviar notificaciones de revisión para los minutas"
   permission_meetings_send_invite: "Invitar a usuarios a reuniones"
   permission_send_meeting_agendas_icalendar: "Enviar agenda de reunión como entrada del calendario"
   project_module_meetings: "Reuniones"
@@ -83,8 +83,8 @@ es:
   text_in_hours: "en horas"
   text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
   text_meeting_closing_are_you_sure: "¿Está seguro que desea cerrar la reunión?"
-  text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las actas. ¿Quiere continuar?"
-  text_meeting_minutes_for_meeting: 'minutos para la reunión "%{meeting}"'
+  text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
+  text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."
-  text_review_meeting_minutes: "%{author} ha puesto el %{link} para revisión."
+  text_review_meeting_minutes: "%{author} ha definido el %{link} para revisión."
   text_notificiation_invited: "El correo electrónico contiene una entrada ics para la reunión siguiente:"

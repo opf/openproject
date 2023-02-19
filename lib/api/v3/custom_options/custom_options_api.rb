@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,12 +37,26 @@ module API
             end
 
             helpers do
-              def authorize_view_in_activated_project(custom_option)
+              def authorize_custom_option_visibility(custom_option)
+                case custom_option.custom_field
+                when WorkPackageCustomField
+                  authorized_work_package_option(custom_option)
+                when ProjectCustomField
+                  authorize_any(%i[view_project], global: true) { raise API::Errors::NotFound }
+                when TimeEntryCustomField
+                  authorize_any(%i[log_time log_own_time], global: true) { raise API::Errors::NotFound }
+                when UserCustomField, GroupCustomField
+                  true
+                else
+                  raise API::Errors::NotFound
+                end
+              end
+
+              def authorized_work_package_option(custom_option)
                 allowed = Project
-                          .allowed_to(current_user, :view_work_packages)
-                          .joins(:work_package_custom_fields)
-                          .where(custom_fields: { id: custom_option.custom_field_id })
-                          .exists?
+                  .allowed_to(current_user, :view_work_packages)
+                  .joins(:work_package_custom_fields)
+                  .exists?(custom_fields: { id: custom_option.custom_field_id })
 
                 unless allowed
                   raise API::Errors::NotFound
@@ -55,9 +67,9 @@ module API
             get do
               co = CustomOption.find(params[:id])
 
-              authorize_view_in_activated_project(co)
+              authorize_custom_option_visibility(co)
 
-              CustomOptionRepresenter.new(co, current_user: current_user)
+              CustomOptionRepresenter.new(co, current_user:)
             end
           end
         end

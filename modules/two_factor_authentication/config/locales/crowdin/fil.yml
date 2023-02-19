@@ -72,8 +72,8 @@ fil:
       text_2fa_enabled: 'Sa bawat pag-login, ang gumagamit na ito ay hinihiling na ipasok ang OTP na token mula sa kanyang default na 2FA aparato.'
       text_2fa_disabled: "Ang gumagamit ay hindi nag-set up ng 2FA mula sa kanyang 'Aking account sa pahina'"
     upsale:
-      title: 'Ang Dalawang-dahilan ng pagpapatunay ay isang tampok sa negosyo'
-      description: 'Para mapalakas ang iyong panloob o panlabas na pagpapatunay sa mga mekanismo kasama ang pangalawang kadahilanan.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Walang mga backup na umiiral para sa account na ito.
       singular: Ang Backup code
@@ -136,8 +136,6 @@ fil:
     message_bird:
       sms_delivery_failed: 'MessageBird SMS delivery failed.'
       voice_delivery_failed: 'MessageBird voice call failed.'
-    restdt:
-      delivery_failed_with_code: 'Ang token sa paghahatid ay bigo. (Error code %{code})'
     strategies:
       totp: 'Ang Aplikasyon sa Authenticator'
       sns: 'Ang SNS sa Amazon'

@@ -27,13 +27,17 @@ lt:
       events:
         created: "Sukurta"
         updated: "Atnaujinta"
+      explanation:
+        text: >
+          Atsitikus įvykiui, tokiam kaip darbų paketo sukūrimui ar projekto pakeitimui, OpenProject išsiųs POST užklausą nurodytoms jungtims. Dažnai įvykis siunčiamas po %{link} praėjimo.
+        link: konfigūruotas agregavimo periodas
       status:
         enabled: '„Webhook“ įgalintas'
         disabled: '„Webhook“ atjungtas'
         enabled_text: '„Webhook“ išsiųs „krovinį“ įvykus tokiems įvykiams'
         disabled_text: 'Paspauskite „Redaguoti“ mygtuką, kad aktyvuotumėte „webhook“.'
       deliveries:
-        no_results_table: Šis „webhook“ nesiuntė jokių pranešimų.
+        no_results_table: No deliveries have been made for this webhook in the past days.
         title: 'Paskutiniai pranešimai'
         time: 'Pristatymo laikas'
       form:

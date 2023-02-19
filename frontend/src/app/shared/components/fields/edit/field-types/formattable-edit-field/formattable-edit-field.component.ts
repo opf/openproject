@@ -43,7 +43,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
   public readonly field = this;
 
-  // Detect when inner component could not be initalized
+  // Detect when inner component could not be initialized
   public initializationError = false;
 
   @ViewChild(OpCkeditorComponent, { static: true }) editor:OpCkeditorComponent;

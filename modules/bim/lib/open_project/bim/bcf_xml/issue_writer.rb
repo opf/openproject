@@ -223,7 +223,7 @@ module OpenProject::Bim::BcfXml
       issue.viewpoints.find_each do |vp|
         xml.Viewpoints "Guid" => vp.uuid do
           xml.Viewpoint "#{vp.uuid}.bcfv"
-          xml.Snapshot "#{vp.uuid}#{vp.snapshot.extension}"
+          xml.Snapshot "#{vp.uuid}#{vp.snapshot.extension}" if vp.snapshot
         end
       end
     end
@@ -231,7 +231,7 @@ module OpenProject::Bim::BcfXml
     ##
     # Find existing issue or create new
     def find_or_initialize_issue
-      ::Bim::Bcf::Issue.find_or_initialize_by(work_package: work_package)
+      ::Bim::Bcf::Issue.find_or_initialize_by(work_package:)
     end
   end
 end

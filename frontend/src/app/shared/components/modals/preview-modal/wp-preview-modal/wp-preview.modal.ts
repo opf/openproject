@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateService } from '@uirouter/core';
 
 @Component({
@@ -54,7 +54,7 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
     @Inject(OpModalLocalsToken) readonly locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly i18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly opModalService:OpModalService,
     readonly $state:StateService) {
     super(locals, cdRef, elementRef);
@@ -74,7 +74,7 @@ export class WpPreviewModalComponent extends OpModalComponent implements OnInit 
         this.workPackage = workPackage;
         this.cdRef.detectChanges();
 
-        const modal = jQuery(this.elementRef.nativeElement).find('.op-wp-preview-modal');
+        const modal = jQuery(this.elementRef.nativeElement);
         this.reposition(modal, this.locals.event.target);
       });
   }

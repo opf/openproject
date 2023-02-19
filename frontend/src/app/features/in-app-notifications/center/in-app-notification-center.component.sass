@@ -21,11 +21,29 @@
 
   // While loading, appear to be showing one item row
   &--loading-indicator
-    height: 100px
-    overflow: hidden // FIXME this shouldn't be necessary with proper svg scaling
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+    text-align: center
+    max-width: 600px
+
+    @media screen and (max-width: 679px)
+      left: 0
+      top: 2rem
+      transform: none
 
   :host
     .-browser-safari &
       // Because of Safari's viewport bug, the address bar overlaps content with height: 100vh
       // Check #38082 before changing it
       height: 100%
+
+  &-loading-text
+    color: var(--gray-dark)
+    font-size: 18px
+
+  &-loading-image
+    max-height: 130px
+    min-height: 130px
+    margin-bottom: 15px

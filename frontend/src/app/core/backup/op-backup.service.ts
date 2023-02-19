@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 import { Injectable } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Observable } from 'rxjs';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable({ providedIn: 'root' })
 export class OpenProjectBackupService {
   constructor(
-    protected apiV3Service:APIV3Service,
+    protected apiV3Service:ApiV3Service,
   ) {
   }
 

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +29,6 @@
 module Bim
   module IfcModels
     class IfcModelsController < BaseController
-      helper_method :gon
-
       before_action :find_project_by_project_id,
                     only: %i[index new create show defaults edit update destroy direct_upload_finished]
       before_action :find_ifc_model_object, only: %i[edit update destroy]
@@ -75,7 +71,7 @@ module Bim
 
       def direct_upload_finished
         id = request.params[:key].scan(/\/file\/(\d+)\//).flatten.first
-        attachment = Attachment.pending_direct_upload.where(id: id).first
+        attachment = Attachment.pending_direct_upload.where(id:).first
         if attachment.nil? # this should not happen
           flash[:error] = "Direct upload failed."
           redirect_to action: :new
@@ -194,8 +190,9 @@ module Bim
       end
 
       def frontend_redirect(model_ids)
+        props = '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}'
         redirect_to bcf_project_frontend_path(models: JSON.dump(Array(model_ids)),
-                                              query_props: '{"t":"id:desc"}')
+                                              query_props: props)
       end
 
       def find_all_ifc_models

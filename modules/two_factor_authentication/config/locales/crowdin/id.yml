@@ -71,8 +71,8 @@ id:
       text_2fa_enabled: 'Setelah setiap login, user ini akan diminta untuk memasukkan tanda OTP dari perangkat nya 2FA default.'
       text_2fa_disabled: "Pengguna tidak mengatur perangkat 2FA melalui 'Halaman akun saya'"
     upsale:
-      title: 'Dua faktor otentikasi adalah fitur perusahaan'
-      description: 'Memperkuat mekanisme otentikasi internal atau eksternal Anda dengan faktor kedua.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Tidak ada cadangan yang ada untuk akun ini.
       singular: Kode cadangan
@@ -132,8 +132,6 @@ id:
     message_bird:
       sms_delivery_failed: 'Pengiriman SMS MessageBird gagal.'
       voice_delivery_failed: 'Panggilan suara MessageBird gagal.'
-    restdt:
-      delivery_failed_with_code: 'Token pengiriman yang gagal. (Kesalahan kode %{code})'
     strategies:
       totp: 'Otentikasi aplikasi'
       sns: 'Amazon SNS'

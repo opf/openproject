@@ -1,19 +1,35 @@
 import { ID } from '@datorama/akita';
 import {
-  HalResourceLink,
-  HalResourceLinks,
+  IHalResourceLink,
+  IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
 
 export const NOTIFICATIONS_MAX_SIZE = 100;
 
-export interface InAppNotificationHalResourceLinks extends HalResourceLinks {
-  actor:HalResourceLink;
-  project:HalResourceLink;
-  resource:HalResourceLink;
-  activity:HalResourceLink;
+export interface IInAppNotificationHalResourceLinks extends IHalResourceLinks {
+  actor:IHalResourceLink;
+  project:IHalResourceLink;
+  resource:IHalResourceLink;
+  activity:IHalResourceLink;
 }
 
-export interface InAppNotification {
+export type IInAppNotificationDetailsAttribute = 'startDate'|'dueDate'|'date';
+
+export interface IInAppNotificationDetailsResource {
+  property:IInAppNotificationDetailsAttribute;
+  value:string|null;
+
+  _links:{
+    self:IHalResourceLink;
+    schema:IHalResourceLink;
+  };
+}
+
+export interface IInAppNotificationHalResourceEmbedded {
+  details:IInAppNotificationDetailsResource[];
+}
+
+export interface INotification {
   id:ID;
   subject:string;
   createdAt:string;
@@ -27,5 +43,6 @@ export interface InAppNotification {
   // Show message of a notification?
   expanded:boolean;
 
-  _links:InAppNotificationHalResourceLinks;
+  _links:IInAppNotificationHalResourceLinks;
+  _embedded:IInAppNotificationHalResourceEmbedded;
 }

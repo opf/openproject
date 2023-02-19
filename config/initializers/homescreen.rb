@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,15 +56,11 @@ OpenProject::Static::Homescreen.manage :blocks do |blocks|
     },
     {
       partial: 'community',
-      if: Proc.new { EnterpriseToken.show_banners? || OpenProject::Configuration.show_community_links? }
+      if: Proc.new { OpenProject::Configuration.show_community_links? }
     },
     {
       partial: 'administration',
       if: Proc.new { User.current.admin? }
-    },
-    {
-      partial: 'upsale',
-      if: Proc.new { EnterpriseToken.show_banners? }
     }
   )
 end

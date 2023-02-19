@@ -170,7 +170,7 @@ export class FormsService {
 
       result = {
         ...result,
-        ...this.isValue(resourceModel) && { [resourceKey]: resourceModel },
+        ...(this.isValue(resourceModel) && { [resourceKey]: resourceModel }),
       };
 
       return result;

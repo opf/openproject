@@ -3,6 +3,11 @@
   flex-direction: column
 
   &--item
+    &-title
+      white-space: nowrap
+      font-weight: 400
+      overflow: hidden
+      text-overflow: ellipsis
 
     &-action
       display: block
@@ -10,10 +15,7 @@
       line-height: 32px
       text-decoration: none
       padding: 0px 13px 0px 10px
-      white-space: nowrap
       font-weight: 400
-      overflow: hidden
-      text-overflow: ellipsis
       color: var(--context-menu-unselected-font-color)
 
       &:focus

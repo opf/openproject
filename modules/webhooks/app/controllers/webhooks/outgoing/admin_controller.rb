@@ -21,7 +21,7 @@ module Webhooks
       end
 
       def create
-        service = ::Webhooks::Outgoing::UpdateWebhookService.new(webhook_class.new_default, current_user: current_user)
+        service = ::Webhooks::Outgoing::UpdateWebhookService.new(webhook_class.new_default, current_user:)
         action = service.call(attributes: permitted_webhooks_params)
         if action.success?
           flash[:notice] = I18n.t(:notice_successful_create)
@@ -33,7 +33,7 @@ module Webhooks
       end
 
       def update
-        service = ::Webhooks::Outgoing::UpdateWebhookService.new(@webhook, current_user: current_user)
+        service = ::Webhooks::Outgoing::UpdateWebhookService.new(@webhook, current_user:)
         action = service.call(attributes: permitted_webhooks_params)
         if action.success?
           flash[:notice] = I18n.t(:notice_successful_update)

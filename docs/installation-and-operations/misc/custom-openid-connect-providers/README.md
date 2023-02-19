@@ -1,16 +1,12 @@
 # Custom OpenID Connect providers
 
 OpenProject's admin interface only allows you to configure providers from a pre-defined list.
-This includes Google and Azure right now.
+This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/).
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
-That means you will have to do it directly using the console on the server.
+That means you will have to do it directly using the console on the server or via environment variables.
 
-<div class="alert alert-info" role="alert">
-
-**Warning**: Only do this if you know what you are doing. This may break your existing OpenID Connect authentication or cause other issues otherwise.
-
-</div>
+> **Warning**: Only do this if you know what you are doing. This may break your existing OpenID Connect authentication or cause other issues otherwise.
 
 First start the console.
 
@@ -73,7 +69,7 @@ Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_open
 })
 ```
 
-Replace "okta" with any other value such as "keycloak". It is used in some URLs so keep it a plain lowercase string.
+Replace "okta" with any other value such as "keycloak". It is used as the identifier in some URLs so keep it a plain lowercase string.
 
 Just copy these lines into the console and again confirm using *Enter*.
 After you are done you can leave the console by entering `exit`.
@@ -81,7 +77,49 @@ After you are done you can leave the console by entering `exit`.
 Once this is done you will see an "Okta" button in the bottom area of the login form.
 Clicking on it will start the login process.
 
-_**Note**: This is an Enterprise Edition feature. If you do not see the button you will have to activate the Enterprise Edition first._
+_**Note**: This is an Enterprise add-on. If you do not see the button you will have to activate the Enterprise edition first._
+
+## Environment variables
+
+Rather than setting these options via the rails console, you can also define them through the
+[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
+also be defined through
+[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
+
+The variable names can be derived from the options seen above. All variables will start with the prefix
+`OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
+be defined via environment variables like this:
+
+```
+OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
+OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
+OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
+# etc.
+```
+
+**Note**: Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive
+underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth.
+
+## Environment variables
+
+Rather than setting these options via the rails console, you can also define them through the
+[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
+also be defined through
+[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
+
+The variable names can be derived from the options seen above. All variables will start with the prefix
+`OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
+be defined via environment variables like this:
+
+```
+OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
+OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
+OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
+# etc.
+```
+
+**Note**: Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive
+underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth.
 
 ## More options
 
@@ -91,7 +129,7 @@ You can see a list of possible options [here](https://github.com/m0n9oose/omniau
 
 There are a number of known providers where the endpoints are configured automatically based on the provider name in the configuration. All that is required are the client ID (identifier) and secret in that case.
 
-If you want to configure multiple connections using the same provider you can prefix an arbitary name with the
+If you want to configure multiple connections using the same provider you can prefix an arbitrary name with the
 provider name followed by a period. For instance, if you want to configure 2 AzureAD connections and 1 Google connection it would look like this:
 
 ```
@@ -105,6 +143,27 @@ Setting.plugin_openproject_openid_connect = Hash(Setting.plugin_openproject_open
 ```
 
 At the time of writing the known providers are: `azure`, `google`, `okta`
+
+### Attribute mapping
+
+You can override the default attribute mapping for values derived from the userinfo endpoint. For example, let's map the OpenProject login to the claim `preferred_username` that is sent by many OIDC providers.
+
+```
+options = { 
+  # ... other options
+  attribute_map: {
+    'login' => 'preferred_username'
+  }
+}
+```
+
+
+
+### Back-channel logout
+
+OpenProject OIDC integration supports [back-channel logouts](https://openid.net/specs/openid-connect-backchannel-1_0.html) if OpenProject is configured for ActiveRecord based sessions (which is the default).
+
+On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
 
 ### Claims
 

@@ -7,8 +7,8 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { MembershipResource } from 'core-app/features/hal/resources/membership-resource';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { Apiv3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 const DISPLAYED_MEMBERS_LIMIT = 100;
@@ -34,7 +34,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   public membersAddable = false;
 
   constructor(readonly pathHelper:PathHelperService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly i18n:I18nService,
     protected readonly injector:Injector,
     readonly currentProject:CurrentProjectService,
@@ -111,7 +111,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   }
 
   private get listMembersParams() {
-    const params:Apiv3ListParameters = { sortBy: [['created_at', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
+    const params:ApiV3ListParameters = { sortBy: [['created_at', 'desc']], pageSize: DISPLAYED_MEMBERS_LIMIT };
 
     if (this.currentProject.id) {
       params.filters = [['project_id', '=', [this.currentProject.id]]];
@@ -123,7 +123,7 @@ export class WidgetMembersComponent extends AbstractWidgetComponent implements O
   private get listAvailableProjectsParams() {
     // It would make sense to set the pageSize but the backend for projects
     // returns an upaginated list which does not support that.
-    const params:Apiv3ListParameters = {};
+    const params:ApiV3ListParameters = {};
 
     if (this.currentProject.id) {
       params.filters = [['id', '=', [this.currentProject.id]]];

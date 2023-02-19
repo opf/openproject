@@ -1,8 +1,7 @@
 ---
 sidebar_navigation:
-  title: API Documentation
+  title: API documentation
   priority: 910
-robots: index, follow
 ---
 
 # OpenProject API
@@ -25,6 +24,10 @@ While by no means complete, a whole lot of different scenarios can be automatise
 Examples for this include managing work packages, projects and users.
 
 ➔ [Go to OpenProject API](./introduction/)
+
+### OpenAPI Specification
+
+Download the API specification in OpenAPI format as [json](https://www.openproject.org/docs/api/v3/spec.json) or [yml](https://www.openproject.org/docs/api/v3/spec.yml).
 
 ## BCF v2.1
 

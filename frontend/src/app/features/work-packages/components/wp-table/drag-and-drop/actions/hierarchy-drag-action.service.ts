@@ -8,14 +8,14 @@ import {
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { relationRowClass, isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class HierarchyDragActionService extends TableDragActionService {
   @InjectField() private wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   @InjectField() private relationHierarchyService:WorkPackageRelationsHierarchyService;
 
-  @InjectField() private apiV3Service:APIV3Service;
+  @InjectField() private apiV3Service:ApiV3Service;
 
   public get applies() {
     return this.wpTableHierarchies.isEnabled;

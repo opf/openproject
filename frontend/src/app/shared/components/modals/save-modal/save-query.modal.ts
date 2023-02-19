@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,8 @@ export class SaveQueryModalComponent extends OpModalComponent {
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly I18n:I18nService,
     readonly states:States,
@@ -74,24 +75,27 @@ export class SaveQueryModalComponent extends OpModalComponent {
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
     readonly cdRef:ChangeDetectorRef,
-    readonly toastService:ToastService) {
+    readonly toastService:ToastService,
+  ) {
     super(locals, cdRef, elementRef);
   }
 
-  public setValues(change:QuerySharingChange) {
+  public setValues(change:QuerySharingChange):void {
     this.isStarred = change.isStarred;
     this.isPublic = change.isPublic;
   }
 
-  public onOpen() {
+  public onOpen():void {
     this.queryNameField.nativeElement.focus();
   }
 
-  public get afterFocusOn() {
-    return jQuery('#work-packages-settings-button');
+  public get afterFocusOn():HTMLElement {
+    return document.getElementById('work-packages-settings-button') as HTMLElement;
   }
 
-  public saveQueryAs($event:JQuery.TriggeredEvent) {
+  public saveQueryAs($event:Event):void {
+    $event.preventDefault();
+
     if (this.isBusy || !this.queryName) {
       return;
     }

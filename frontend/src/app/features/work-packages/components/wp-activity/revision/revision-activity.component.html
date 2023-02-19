@@ -17,18 +17,15 @@
   </div>
 
   <op-principal
-    *ngIf="activity.author && userName"
-    [attr.data-principal-id]="userId"
-    [attr.data-principal-name]="userName"
-    data-principal-type="user"
-    data-hide-name="true"
+    *ngIf="activity.author"
+    [principal]="activity.author"
+    [hideName]="true"
   ></op-principal>
 
   <op-principal
     *ngIf="!activity.author && userName"
-    [attr.data-principal-name]="userName"
-    data-principal-type="user"
-    data-hide-name="true"
+    [principal]="{ name: userName }"
+    [hideName]="true"
   ></op-principal>
 
   <span class="user" *ngIf="userActive">
@@ -38,7 +35,7 @@
       [textContent]="userName"
     ></a>
   </span>
-  <span class="user" *ngIf="!userActive" [textContent]="userName"></span>
+  <span class="user" *ngIf="!userActive" [textContent]="userName"></span>&nbsp;
   <span class="revision-activity--revision-link date" [innerHtml]="revisionLink"></span>
   <span class="user-comment wiki">
     <span class="message" [innerHtml]="message"></span>

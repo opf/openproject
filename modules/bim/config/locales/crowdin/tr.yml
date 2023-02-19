@@ -115,8 +115,8 @@ tr:
     no_results: "Bu projeye hiç IFC modeli yüklenmedi."
     conversion_status:
       label: 'İşleme?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Bekliyor'
+      processing: 'İşleniyor'
       completed: 'Tamamlandı'
       error: 'Hata'
     processing_notice:

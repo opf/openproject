@@ -47,7 +47,7 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
 
   def format_columns
     spreadsheet.add_format_option_to_column(headers.length - 3,
-                                            number_format: number_format)
+                                            number_format:)
     spreadsheet.add_format_option_to_column(headers.length - 1,
                                             number_format: currency_format)
   end
@@ -68,10 +68,10 @@ class OpenProject::XlsExport::XlsViews::CostEntryTable < OpenProject::XlsExport:
 
   def build_footer
     footer = [''] * cost_entry_attributes.size
-    footer += if show_result(query, 0) != show_result(query)
-                one_unit_type_footer
-              else
+    footer += if show_result(query, 0) == show_result(query)
                 multiple_unit_types_footer
+              else
+                one_unit_type_footer
               end
     spreadsheet.add_sums(footer) # footer
   end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-
 import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
@@ -49,7 +49,7 @@ export const activeFieldClassName = 'inline-edit--field';
 export class TableEditForm extends EditForm<WorkPackageResource> {
   @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() public apiV3Service!:APIV3Service;
+  @InjectField() public apiV3Service!:ApiV3Service;
 
   @InjectField() public states:States;
 
@@ -122,7 +122,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
       td.removeClass(editModeClassName);
 
       if (focus) {
-        this.FocusHelper.focusElement(cell);
+        this.FocusHelper.focus(cell[0]);
       }
     }
   }

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 //++
 
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
-import { CachableAPIV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
+import { ApiV3Resource } from 'core-app/core/apiv3/cache/cachable-apiv3-resource';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { Apiv3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
+import { ApiV3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
 
-export class APIv3UserPaths extends CachableAPIV3Resource<UserResource> {
+export class ApiV3UserPaths extends ApiV3Resource<UserResource> {
   readonly avatar = this.subResource('avatar');
 
-  readonly preferences = this.subResource('preferences', Apiv3UserPreferencesPaths);
+  readonly preferences = this.subResource('preferences', ApiV3UserPreferencesPaths);
 
   protected createCache():StateCacheService<UserResource> {
     return new StateCacheService<UserResource>(this.states.users);

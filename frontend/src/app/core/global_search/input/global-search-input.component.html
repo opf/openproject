@@ -23,12 +23,11 @@
     [focusDirectly]="isFocusedDirectly"
     [model]="selectedItem"
     [searchFn]="customSearchFn"
-    [loading]="isLoading"
     (focus)="onFocus()"
     (blur)="onFocusOut()"
     (search)="search($event)"
     (open)="openCloseMenu(currentValue)"
-    (close)="select.searchTerm = currentValue"
+    (close)="onClose()"
     (change)="followItem($event)"
     (keydown.enter)="onEnterBeforeResultsLoaded()"
     (keydown.escape)="blur()"
@@ -54,7 +53,7 @@
           style="line-height: 1"
         >
           <op-principal
-            [hide-name]="true"
+            [hideName]="true"
             [principal]="item.author"
             class="hidden-for-mobile global-search--principal"
           ></op-principal>

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -64,11 +64,13 @@ export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMen
       linkText: this.i18n.t('js.grid.configure'),
       onClick: () => {
         this.opModalService.show(TimeEntriesCurrentUserConfigurationModalComponent, this.injector, this.locals)
-          .closingEvent.subscribe((modal:TimeEntriesCurrentUserConfigurationModalComponent) => {
-            if (modal.options) {
-              this.onConfigured.emit(modal.options);
-            }
-          });
+          .subscribe(
+            (modal) => modal.closingEvent.subscribe(() => {
+              if (modal.options) {
+                this.onConfigured.emit(modal.options);
+              }
+            }),
+          );
         return true;
       },
     };

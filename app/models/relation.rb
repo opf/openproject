@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,30 +27,8 @@
 #++
 
 class Relation < ApplicationRecord
-  include VirtualAttribute
-
-  include ::Scopes::Scoped
-
-  scopes :follows_non_manual_ancestors,
-         :visible
-
-  scope :of_work_package,
-        ->(work_package) { where('from_id = ? OR to_id = ?', work_package, work_package) }
-
-  virtual_attribute :relation_type do
-    types = ((TYPES.keys + [TYPE_HIERARCHY]) & Relation.column_names).select do |name|
-      send(name).positive?
-    end
-
-    case types.length
-    when 1
-      types[0]
-    when 0
-      nil
-    else
-      TYPE_MIXED
-    end
-  end
+  belongs_to :from, class_name: 'WorkPackage'
+  belongs_to :to, class_name: 'WorkPackage'
 
   TYPE_RELATES      = 'relates'.freeze
   TYPE_DUPLICATES   = 'duplicates'.freeze
@@ -65,8 +41,11 @@ class Relation < ApplicationRecord
   TYPE_PARTOF       = 'partof'.freeze
   TYPE_REQUIRES     = 'requires'.freeze
   TYPE_REQUIRED     = 'required'.freeze
-  TYPE_HIERARCHY    = 'hierarchy'.freeze
-  TYPE_MIXED        = 'mixed'.freeze
+  # The parent/child relation is maintained separately
+  # (in WorkPackage and WorkPackageHierarchy) and a relation cannot
+  # have the type 'parent' but this is abstracted to simplify the code.
+  TYPE_PARENT       = 'parent'.freeze
+  TYPE_CHILD        = 'child'.freeze
 
   TYPES = {
     TYPE_RELATES => {
@@ -112,94 +91,23 @@ class Relation < ApplicationRecord
     }
   }.freeze
 
-  validates_numericality_of :delay, allow_nil: true
+  include ::Scopes::Scoped
 
-  validate :validate_sanity_of_relation
+  scopes :follows_non_manual_ancestors,
+         :types,
+         :visible
+
+  scope :of_work_package,
+        ->(work_package) { where(from: work_package).or(where(to: work_package)) }
+
+  scope :follows_with_delay,
+        -> { follows.where("delay > 0") }
+
+  validates :delay, numericality: { allow_nil: true }
+
+  validates :to, uniqueness: { scope: :from }
 
   before_validation :reverse_if_needed
-
-  before_save :set_type_column
-
-  [TYPE_RELATES,
-   TYPE_DUPLICATES,
-   TYPE_BLOCKS,
-   TYPE_PRECEDES,
-   TYPE_FOLLOWS,
-   TYPE_INCLUDES,
-   TYPE_REQUIRES,
-   TYPE_HIERARCHY].each do |type|
-    define_method "#{type}=" do |value|
-      instance_variable_set(:"@relation_type_set", nil)
-      super(value)
-    end
-  end
-
-  def self.relation_column(type)
-    if TYPES.key?(type) && TYPES[type][:reverse]
-      TYPES[type][:reverse]
-    elsif TYPES.key?(type) || type == TYPE_HIERARCHY
-      type
-    end
-  end
-
-  def self.from_work_package_or_ancestors(work_package)
-    ancestor_or_self_ids = work_package
-                           .ancestors_relations
-                           .or(where(from_id: work_package.id))
-                           .select(:from_id)
-
-    where(from_id: ancestor_or_self_ids)
-  end
-
-  def self.from_parent_to_self_and_descendants(work_package)
-    from_work_package_or_ancestors(work_package.parent)
-      .where(to_id: work_package.self_and_descendants.select(:id))
-  end
-
-  def self.from_self_and_descendants_to_ancestors(work_package)
-    # using parent.self_and_ancestors to be able to cope with unpersisted parent
-    where(from_id: work_package.self_and_descendants.select(:id))
-      .where(to_id: work_package.parent.self_and_ancestors.select(:id))
-  end
-
-  def self.hierarchy_or_follows
-    with_type_columns_0(_dag_options.type_columns - %i(hierarchy follows))
-      .non_reflexive
-  end
-
-  def self.hierarchy_or_reflexive
-    with_type_columns_0(_dag_options.type_columns - %i(hierarchy))
-  end
-
-  def self.non_hierarchy_of_work_package(work_package)
-    of_work_package(work_package)
-      .non_hierarchy
-      .direct
-  end
-
-  def self.to_root(work_package)
-    # MySQL does not support limit inside a subquery.
-    # As this is intended to be used inside a subquery, we have to avoid using limit
-    joins("LEFT OUTER JOIN relations r2
-          ON relations.to_id = r2.to_id
-          AND relations.hierarchy < r2.hierarchy")
-      .where('r2.id IS NULL')
-      .where(to_id: work_package.id)
-      .hierarchy_or_reflexive
-  end
-
-  def self.tree_of(work_package)
-    root_id = to_root(work_package)
-              .select(:from_id)
-
-    hierarchy
-      .where(from_id: root_id)
-  end
-
-  def self.sibling_of(work_package)
-    hierarchy
-      .where(from_id: work_package.parent_id)
-  end
 
   def other_work_package(work_package)
     from_id == work_package.id ? to : from
@@ -227,8 +135,10 @@ class Relation < ApplicationRecord
   end
 
   def successor_soonest_start
-    if relation_type == TYPE_FOLLOWS && (to.start_date || to.due_date)
-      (to.due_date || to.start_date) + 1 + (delay || 0)
+    if follows? && (to.start_date || to.due_date)
+      days = WorkPackages::Shared::Days.for(from)
+      relation_start_date = (to.due_date || to.start_date) + 1.day
+      days.soonest_working_day(relation_start_date, delay:)
     end
   end
 
@@ -241,6 +151,12 @@ class Relation < ApplicationRecord
   # since we don't plan to use dj with Relation objects, this should be fine
   def delay
     self[:delay]
+  end
+
+  TYPES.each_key do |type|
+    define_method "#{type}?" do
+      canonical_type == self.class.canonical_type(type)
+    end
   end
 
   def canonical_type
@@ -258,37 +174,6 @@ class Relation < ApplicationRecord
 
   private
 
-  def shared_hierarchy?
-    to_from = hierarchy_but_not_self(to: to, from: from)
-    from_to = hierarchy_but_not_self(to: from, from: to)
-
-    to_from
-      .or(from_to)
-      .any?
-  end
-
-  def validate_sanity_of_relation
-    return unless from && to
-
-    errors.add :to_id, :invalid if from_id == to_id
-    errors.add :to_id, :not_same_project unless from.project_id == to.project_id ||
-                                                Setting.cross_project_work_package_relations?
-    errors.add :base, :cant_link_a_work_package_with_a_descendant if shared_hierarchy?
-  end
-
-  def set_type_column
-    if relation_type_changed? && relation_type_was
-      was_column = self.class.relation_column(relation_type_was)
-      write_attribute was_column, 0
-    end
-
-    return unless relation_type
-
-    new_column = self.class.relation_column(relation_type)
-
-    send("#{new_column}=", 1) if new_column
-  end
-
   # Reverses the relation if needed so that it gets stored in the proper way
   def reverse_if_needed
     if TYPES.key?(relation_type) && TYPES[relation_type][:reverse]
@@ -297,9 +182,5 @@ class Relation < ApplicationRecord
       self.from = work_package_tmp
       self.relation_type = TYPES[relation_type][:reverse]
     end
-  end
-
-  def hierarchy_but_not_self(to:, from:)
-    Relation.hierarchy.where(to: to, from: from).where.not(id: id)
   end
 end

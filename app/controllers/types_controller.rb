@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +32,6 @@ class TypesController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  helper_method :gon
 
   def index
     @types = ::Type.page(page_param).per_page(per_page_param)
@@ -87,7 +84,7 @@ class TypesController < ApplicationController
       .new(@type, current_user)
       .call(permitted_type_params) do |call|
       call.on_success do
-        redirect_to_type_tab_path(@type, t(:notice_successful_update))
+        redirect_to_type_tab_path(@type, update_success_message)
       end
 
       call.on_failure do |result|
@@ -138,8 +135,8 @@ class TypesController < ApplicationController
 
   def redirect_to_type_tab_path(type, notice)
     tab = params["tab"] || "settings"
-    redirect_to(edit_type_tab_path(type, tab: tab),
-                notice: notice)
+    redirect_to(edit_type_tab_path(type, tab:),
+                notice:)
   end
 
   def default_breadcrumb
@@ -162,13 +159,21 @@ class TypesController < ApplicationController
     true
   end
 
+  def update_success_message
+    if params[:tab].in?(["form_configuration", "projects"])
+      t(:notice_successful_update_custom_fields_added_to_type)
+    else
+      t(:notice_successful_update)
+    end
+  end
+
   def destroy_error_message
     if @type.is_standard?
       t(:error_can_not_delete_standard_type)
     else
       error_message = [
         ApplicationController.helpers.sanitize(
-          t(:'error_can_not_delete_type.explanation', { url: belonging_wps_url(@type.id) }),
+          t(:'error_can_not_delete_type.explanation', url: belonging_wps_url(@type.id)),
           attributes: %w(href target)
         )
       ]
@@ -177,7 +182,7 @@ class TypesController < ApplicationController
       if !archived_projects.empty?
         error_message.push(
           t(:'error_can_not_delete_type.archived_projects',
-            { archived_projects: archived_projects.map(&:name).join(', ') })
+            archived_projects: archived_projects.map(&:name).join(', '))
         )
       end
 
@@ -186,6 +191,6 @@ class TypesController < ApplicationController
   end
 
   def belonging_wps_url(type_id)
-    work_packages_path query_props: '{"f":[{"n":"type","o":"=","v":[' + type_id.to_s + ']}]}'
+    work_packages_path query_props: "{\"f\":[{\"n\":\"type\",\"o\":\"=\",\"v\":[#{type_id}]}]}"
   end
 end

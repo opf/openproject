@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Integrations FAQ
   priority: 001
 description: Frequently asked questions regarding integrations
-robots: index, follow
 keywords: integrations FAQ, apps, add-ons
 ---
 

@@ -14,7 +14,12 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
  *
  * @returns {PortalInjector}
  */
-export function createLocalInjector(injector:Injector, change:ResourceChangeset, fieldHandler:EditFieldHandler, schema:IFieldSchema):Injector {
+export function createLocalInjector(
+  injector:Injector,
+  change:ResourceChangeset,
+  fieldHandler:EditFieldHandler,
+  schema:IFieldSchema,
+):Injector {
   const injectorTokens = new WeakMap();
 
   injectorTokens.set(OpEditingPortalChangesetToken, change);

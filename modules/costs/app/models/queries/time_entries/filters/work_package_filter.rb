@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +28,8 @@
 
 class Queries::TimeEntries::Filters::WorkPackageFilter < Queries::TimeEntries::Filters::TimeEntryFilter
   def allowed_values
-    @allowed_values ||= begin
-      # We don't care for the first value as we do not display the values visibly
-      ::WorkPackage.visible.pluck(:id).map { |id| [id, id.to_s] }
-    end
+    # We don't care for the first value as we do not display the values visibly
+    @allowed_values ||= ::WorkPackage.visible.pluck(:id).map { |id| [id, id.to_s] }
   end
 
   def type

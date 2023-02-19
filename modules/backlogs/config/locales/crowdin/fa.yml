@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -92,7 +92,7 @@ fa:
   backlogs_story: "Story"
   backlogs_story_type: "Story types"
   backlogs_task: "وظیفه"
-  backlogs_task_type: "Task type"
+  backlogs_task_type: "نوع وظیفه"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
   backlogs_wiki_template: "Template for sprint wiki page"
@@ -118,17 +118,17 @@ fa:
   label_work_package_hierarchy: "Work package Hierarchy"
   label_master_backlog: "Master Backlog"
   label_not_prioritized: "not prioritized"
-  label_points: "points"
+  label_points: "امتیاز ها"
   label_points_burn_down: "پایین"
   label_points_burn_up: "بالا"
   label_product_backlog: "product backlog"
-  label_select_all: "Select all"
+  label_select_all: "انتخاب همه موارد"
   label_sprint_backlog: "sprint backlog"
   label_sprint_cards: "Export cards"
   label_sprint_impediments: "Sprint Impediments"
-  label_sprint_name: "Sprint \"%{name}\""
+  label_sprint_name: "انتخاب \"%{name}\""
   label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
-  label_stories: "Stories"
+  label_stories: "داستان ها"
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "نسخه ها"

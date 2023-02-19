@@ -3,8 +3,7 @@ sidebar_navigation:
   title: Manage subscription
   priority: 970
 description: Manage and change all subscription-related topics of your Enterprise cloud.
-robots: index, follow
-keywords: cloud edition, subscription, address, payment method, invoices
+keywords: enterprise cloud edition, subscription, address, payment method, invoices
 ---
 
 # Manage your OpenProject Enterprise cloud subscription
@@ -55,6 +54,4 @@ Click on the **Cancel Subscription link** if you want to terminate your OpenProj
 
 ![cloud-cancel-subscription](cloud-cancel-subscription-0584229.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: After cancellation you will receive an email confirmation. Your subscription will be terminated at the end of the current subscription period. After cancellation your data will be kept for a certain period of time in case of reactivation of a subscription.
-</div>
+> **Note**: After cancellation you will receive an email confirmation. Your subscription will be terminated at the end of the current subscription period. After cancellation your data will be kept for a certain period of time in case of reactivation of a subscription.

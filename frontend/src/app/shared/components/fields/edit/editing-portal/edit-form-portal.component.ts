@@ -47,10 +47,11 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
 
   public label:string;
 
-  constructor(readonly injector:Injector,
+  constructor(
+    readonly injector:Injector,
     readonly editField:EditFieldService,
-    readonly elementRef:ElementRef) {
-  }
+    readonly elementRef:ElementRef,
+  ) { }
 
   ngOnInit() {
     if (this.editFieldHandler && this.schemaInput) {

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,12 +30,13 @@ module Overviews
   class CopyService < ::Grids::CopyService
     protected
 
-    def initialize_new_grid!(new_overview, _original_overview, _params)
+    def set_attributes_params(params)
       unless state.project
         raise ArgumentError, "Overviews can only be copied as part of a project. Each project may only contain 1 overview itself."
       end
 
-      new_overview.project = state.project
+      super
+        .merge(project: state.project)
     end
   end
 end

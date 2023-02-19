@@ -7,6 +7,8 @@ get:
       Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/) endpoint. Currently supported filters are:
 
       + id: The schema's id
+
+      Schema id has the form `project_id-work_package_type_id`.
     example: '[{ "id": { "operator": "=", "values": ["12-1", "14-2"] } }]'
     in: query
     name: filters
@@ -41,19 +43,12 @@ get:
       description: OK
       headers: {}
     '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidQuery
-                message: Unknown filter.
-      description: Returned if the client sends invalid request.
-      headers: {}
+      $ref: "../components/responses/invalid_request_body.yml"
     '403':
       content:
         application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
           examples:
             response:
               value:

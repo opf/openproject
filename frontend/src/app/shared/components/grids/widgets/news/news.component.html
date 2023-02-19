@@ -1,5 +1,7 @@
-<widget-header [name]="widgetName"
-               [editable]="isEditable">
+<widget-header
+  [name]="widgetName"
+  [editable]="isEditable"
+>
 
   <widget-menu
     slot="menu"
@@ -8,37 +10,41 @@
 
 </widget-header>
 <div class="grid--widget-content">
-  <no-results *ngIf="noEntries" 
-              [title]="text.noResults">
-  </no-results>
+  <op-no-results
+    *ngIf="noEntries" 
+    [title]="text.noResults"
+  ></op-no-results>
   <ul class="widget-box--arrow-links">
-    <li class="-widget-box--arrow-multiline" 
-        *ngFor="let news of entries">
-      <div class="news-project">
-        <op-principal
-          *ngIf="news.author"
-          [principal]="news.author"
-          [hide-name]="true"
-          class="news-author-avatar hidden-for-mobile"
-        ></op-principal>
-        <div>
-          <a [href]="newsProjectPath(news)"
-             [textContent]="newsProjectName(news)">
-          </a>:
-          <a [href]="newsPath(news)"
-             [textContent]="news.title">
-          </a>
-        </div>
-        <div *ngIf="news.author" 
-             class="news-author">
-          <span [innerHTML]="text.addedBy(news)"></span>
-        </div>
-        <div>
-          <p *ngIf="news.summary" 
-             [textContent]="news.summary"
-             class="widget-box--additional-info"></p>
-        </div>
+    <li
+      class="widget-box--arrow-multiline" 
+      *ngFor="let news of entries"
+    >
+      <op-principal
+        *ngIf="news.author"
+        [principal]="news.author"
+        [hideName]="true"
+        class="widget-box--avatar news-author-avatar hidden-for-mobile"
+      ></op-principal>
+      <div class="widget-box--project">
+        <a
+          [href]="newsProjectPath(news)"
+          [textContent]="newsProjectName(news)"
+        ></a>:
+        <a
+          [href]="newsPath(news)"
+          [textContent]="news.title"
+        ></a>
       </div>
+      <div
+        *ngIf="news.author" 
+        class="widget-box--author news-author"
+        [innerHTML]="text.addedBy(news)"
+      ></div>
+      <p
+        *ngIf="news.summary" 
+        [textContent]="news.summary"
+        class="widget-box--additional-info"
+      ></p>
     </li>
   </ul>
 </div>

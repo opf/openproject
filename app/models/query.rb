@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,15 +34,19 @@ class Query < ApplicationRecord
 
   belongs_to :project
   belongs_to :user
-  has_one :query_menu_item, -> { order('name') },
-          class_name: 'MenuItems::QueryMenuItem',
-          dependent: :delete, foreign_key: 'navigatable_id'
+  has_many :views,
+           dependent: :destroy
+
   serialize :filters, Queries::WorkPackages::FilterSerializer
   serialize :column_names, Array
   serialize :sort_criteria, Array
 
-  validates :name, presence: true
-  validates_length_of :name, maximum: 255
+  validates :name,
+            presence: true,
+            length: { maximum: 255 }
+
+  validates :include_subprojects,
+            inclusion: [true, false]
 
   validate :validate_work_package_filters
   validate :validate_columns
@@ -52,28 +54,18 @@ class Query < ApplicationRecord
   validate :validate_group_by
   validate :validate_show_hierarchies
 
-  scope(:visible, ->(to:) do
-    # User can see public queries and his own queries
-    scope = where(is_public: true)
-
-    if to.logged?
-      scope.or(where(user_id: to.id))
-    else
-      scope
-    end
-  end)
+  include Scopes::Scoped
+  scopes :visible,
+         :having_views
 
   scope(:global, -> { where(project_id: nil) })
-
-  scope(:hidden, -> { where(hidden: true) })
-
-  scope(:non_hidden, -> { where(hidden: false) })
 
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
       query.add_default_filter
       query.set_default_sort
       query.show_hierarchies = true
+      query.include_subprojects = Setting.display_subprojects_work_packages?
     end
   end
 
@@ -92,7 +84,7 @@ class Query < ApplicationRecord
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['id', 'asc']]
+    self.sort_criteria = [%w[id asc]]
   end
 
   def context
@@ -104,7 +96,7 @@ class Query < ApplicationRecord
   end
 
   def add_default_filter
-    return unless filters.blank?
+    return if filters.present?
 
     add_filter('status_id', 'o', [''])
   end
@@ -118,7 +110,7 @@ class Query < ApplicationRecord
   end
 
   def validate_columns
-    available_names = available_columns.map(&:name).map(&:to_sym)
+    available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     (column_names - available_names).each do |name|
       errors.add :column_names,
@@ -145,8 +137,12 @@ class Query < ApplicationRecord
 
   def validate_show_hierarchies
     if show_hierarchies && group_by.present?
-      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by: group_by
+      errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by:
     end
+  end
+
+  def hidden
+    views.empty?
   end
 
   # Try to fix an invalid query
@@ -194,11 +190,11 @@ class Query < ApplicationRecord
 
   def available_columns
     if @available_columns &&
-       (@available_columns_project == (project && project.cache_key || 0))
+       (@available_columns_project == (project&.cache_key || 0))
       return @available_columns
     end
 
-    @available_columns_project = project && project.cache_key || 0
+    @available_columns_project = project&.cache_key || 0
     @available_columns = ::Query.available_columns(project)
   end
 
@@ -209,12 +205,20 @@ class Query < ApplicationRecord
       .flatten
   end
 
+  def self.displayable_columns
+    available_columns.select(&:displayable?)
+  end
+
   def self.groupable_columns
     available_columns.select(&:groupable)
   end
 
   def self.sortable_columns
-    available_columns.select(&:sortable) + [manual_sorting_column]
+    available_columns.select(&:sortable)
+  end
+
+  def displayable_columns
+    available_columns.select(&:displayable?)
   end
 
   # Returns an array of columns that can be used to group the results
@@ -224,7 +228,7 @@ class Query < ApplicationRecord
 
   # Returns an array of columns that can be used to sort the results
   def sortable_columns
-    available_columns.select(&:sortable) + [manual_sorting_column]
+    available_columns.select(&:sortable)
   end
 
   # Returns a Hash of sql columns for sorting by column
@@ -253,12 +257,12 @@ class Query < ApplicationRecord
                   end
 
     # preserve the order
-    column_list.map { |name| available_columns.find { |col| col.name == name.to_sym } }.compact
+    column_list.map { |name| displayable_columns.find { |col| col.name == name.to_sym } }.compact
   end
 
   def column_names=(names)
     col_names = Array(names)
-                .reject(&:blank?)
+                .compact_blank
                 .map(&:to_sym)
 
     # Set column_names to blank/nil if it is equal to the default columns
@@ -342,7 +346,7 @@ class Query < ApplicationRecord
 
     statement_filters
       .map { |filter| "(#{filter.where})" }
-      .reject(&:empty?)
+      .compact_blank
       .join(' AND ')
   end
 
@@ -370,19 +374,13 @@ class Query < ApplicationRecord
     raise ::Query::StatementInvalid.new(e.message)
   end
 
-  # Note: Convenience method to allow the angular front end to deal with query
-  # menu items in a non implementation-specific way
-  def starred
-    !!query_menu_item
-  end
-
   def project_limiting_filter
-    return if subproject_filters_involved?
+    return if project_filter_set?
 
     subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
-    subproject_filter.operator = if Setting.display_subprojects_work_packages?
+    subproject_filter.operator = if include_subprojects?
                                    '*'
                                  else
                                    '!*'
@@ -394,10 +392,14 @@ class Query < ApplicationRecord
 
   ##
   # Determine whether there are explicit filters
-  # on whether work packages from subprojects are used
-  def subproject_filters_involved?
+  # on whether work packages from
+  # * subprojects
+  # * other projects
+  # are used.
+  def project_filter_set?
     filters.any? do |filter|
-      filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter)
+      filter.is_a?(::Queries::WorkPackages::Filter::SubprojectFilter) ||
+        filter.is_a?(::Queries::WorkPackages::Filter::ProjectFilter)
     end
   end
 
@@ -434,7 +436,7 @@ class Query < ApplicationRecord
   end
 
   def valid_column_subset!
-    available_names = available_columns.map(&:name).map(&:to_sym)
+    available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     self.column_names &= available_names
   end

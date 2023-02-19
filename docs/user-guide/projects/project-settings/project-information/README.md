@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Project information
   priority: 990
 description: General project information.
-robots: index, follow
 keywords: project information
 ---
 # Manage project information
@@ -27,7 +26,7 @@ You will have the following options in the project settings.
 11. **Create a new subproject** for this project with the green **+ Subproject** button.
 12. **Copy the project**. When [copying a project](../../#copy-a-project) you can choose which modules you'd like to copy.
 13. **Archive a project**. This way the [archived project](../../#archive-a-project) will not appear in the project selection anymore and cannot be accessed by team members. You can view archived projects in the view all projects list.
-14. **Set as template** or **Remove from templates**. By [setting a project as template](../../#create-a-project-template-premium-feature) it can be copied multiple times to create similar projects.
+14. **Set as template** or **Remove from templates**. By [setting a project as template](../../project-templates/#create-a-project-template) it can be copied multiple times to create similar projects.
 15. **Delete a project**. By [deleting a project](../../#delete-a-project) the whole project with all included information will be removed.
 
 ![project-information](image-20201010152113743.png)

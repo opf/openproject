@@ -1,5 +1,4 @@
 id:
   dashboards:
-    label: 'Dashboards'
-    menu_badge: 'Alpha'
-  project_module_dashboards: 'Dashboards'
+    label: 'Dasbor'
+  project_module_dashboards: 'Dasbor'

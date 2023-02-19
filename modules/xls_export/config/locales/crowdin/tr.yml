@@ -9,5 +9,5 @@ tr:
       xls_with_descriptions: "Açıklamaları ile XLS"
       xls_with_relations: "XLS ile ilişkileri"
   xls_export:
-    child_of: şunun çocuğu 
+    child_of: şunun çocuğu
     parent_of: ebeveyni

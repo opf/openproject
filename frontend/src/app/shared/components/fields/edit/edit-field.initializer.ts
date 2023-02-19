@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
 import { TextEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/text-edit-field/text-edit-field.component';
 import { IntegerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/integer-edit-field/integer-edit-field.component';
-import { DurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/duration-edit-field.component';
 import { SelectEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { MultiSelectEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/multi-select-edit-field.component';
 import { FloatEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/float-edit-field.component';
@@ -45,23 +44,29 @@ import { CombinedDateEditFieldComponent } from 'core-app/shared/components/field
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { WorkPackageAutocompleterComponent } from 'core-app/shared/components/autocompleter/work-package-autocompleter/wp-autocompleter.component';
 import { WorkPackageCommentFieldComponent } from 'core-app/features/work-packages/components/work-package-comment/wp-comment-field.component';
+import { ProjectEditFieldComponent } from './field-types/project-edit-field.component';
+import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
+import { UserEditFieldComponent } from './field-types/user-edit-field.component';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
-  return () => {
+  return ():void => {
     editFieldService.defaultFieldType = 'text';
     editFieldService
       .addFieldType(TextEditFieldComponent, 'text', ['String'])
       .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
-      .addFieldType(DurationEditFieldComponent, 'duration', ['Duration'])
-      .addFieldType(SelectEditFieldComponent, 'select', ['Priority',
+      .addFieldType(HoursDurationEditFieldComponent, 'estimatedTime', ['estimatedTime'])
+      .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
+      .addFieldType(UserEditFieldComponent, 'user', ['User'])
+      .addFieldType(SelectEditFieldComponent, 'select', [
+        'Priority',
         'Status',
         'Type',
-        'User',
         'Version',
         'TimeEntriesActivity',
         'Category',
         'CustomOption',
-        'Project'])
+      ])
       .addFieldType(MultiSelectEditFieldComponent, 'multi-select', [
         '[]CustomOption',
         '[]User',
@@ -77,9 +82,14 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
         'date',
         ['combinedDate', 'startDate', 'dueDate', 'date'])
+      .addSpecificFieldType('WorkPackage', DaysDurationEditFieldComponent,
+        'duration',
+        ['duration'])
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
-      .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage']);
+      .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
+      .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours'])
+      .addSpecificFieldType('WorkPackage', HoursDurationEditFieldComponent, 'remainingTime', ['remainingTime']);
 
     selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
     selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');

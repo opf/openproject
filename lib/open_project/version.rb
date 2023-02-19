@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +30,10 @@ require 'rexml/document'
 require 'open3'
 
 module OpenProject
-  module VERSION #:nodoc:
+  module VERSION # :nodoc:
     MAJOR = 12
-    MINOR = 0
-    PATCH = 7
+    MINOR = 4
+    PATCH = 1
 
     class << self
       # Used by semver to define the special version (if any).
@@ -60,7 +58,7 @@ module OpenProject
       def product_version
         cached_or_block(:@product_version) do
           path = Rails.root.join('config', 'PRODUCT_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -69,7 +67,7 @@ module OpenProject
       def core_version
         cached_or_block(:@core_version) do
           path = Rails.root.join('config', 'CORE_VERSION')
-          if File.exists? path
+          if File.exist? path
             File.read(path)
           end
         end
@@ -96,7 +94,7 @@ module OpenProject
       def release_date_from_file
         cached_or_block(:@release_date_from_file) do
           path = Rails.root.join('config', 'RELEASE_DATE')
-          if File.exists? path
+          if File.exist? path
             s = File.read(path)
             Date.parse(s)
           end

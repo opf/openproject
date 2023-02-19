@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,7 +128,7 @@ module OpenProject::TextFormatting
       def self.process_match(m, matched_string, context)
         # Leading string before match
         instance = new(
-          matched_string: matched_string,
+          matched_string:,
           leading: m[1],
           escaped: m[2],
           project_prefix: m[3],
@@ -139,7 +137,7 @@ module OpenProject::TextFormatting
           sep: m[7] || m[9],
           raw_identifier: m[8] || m[10],
           identifier: m[8] || m[11] || m[10],
-          context: context
+          context:
         )
 
         instance.process
@@ -158,8 +156,17 @@ module OpenProject::TextFormatting
                   :link,
                   :context
 
-      def initialize(matched_string:, leading:, escaped:, project_prefix:, project_identifier:,
-                     prefix:, sep:, raw_identifier:, identifier:, context:)
+      def initialize(matched_string:,
+                     leading:,
+                     escaped:,
+                     project_prefix:,
+                     project_identifier:,
+                     prefix:,
+                     sep:,
+                     raw_identifier:,
+                     identifier:,
+                     context:)
+        super()
         # The entire string that was matched
         @matched_string = matched_string
         # Leading string before the link match
@@ -217,7 +224,7 @@ module OpenProject::TextFormatting
       # Build a matching link by asking all handlers
       def link_from_match
         self.class.link_handlers.each do |klazz|
-          handler = klazz.new(self, context: context)
+          handler = klazz.new(self, context:)
 
           if handler.applicable?
             @link = handler.call

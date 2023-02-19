@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Calendar FAQ
   priority: 001
 description: Frequently asked questions regarding the calendar module
-robots: index, follow
 keywords: calendar FAQ, diary, planner, holiday
 ---
 
@@ -15,7 +14,7 @@ The calendar automatically displays the start and end dates of work packages in 
 
 ## Where can I embed / activate the calendar?
 
-To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../../projects/project-settings/modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](../../projects/#global-projects-overview---view-all-projects). You can also enable the calendar in your [“My page” view](../../../getting-started/my-page).
+To use the calendar in a project, you need to [activate the “Calendar” module in the project settings](../../projects/project-settings/modules). Afterwards you can access the calendar in the project menu, as well as add it in the [project overview](../../projects/#projects-list). You can also enable the calendar in your [“My page” view](../../../getting-started/my-page).
 
 ## Is there an option to export or sync my calendar (e.g. Outlook)?
 

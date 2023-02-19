@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,19 +32,17 @@ module API
       module Helpers
         module QueryRepresenterResponse
           def query_representer_response(query, params, valid_subset = false)
-            representer = ::API::V3::WorkPackageCollectionFromQueryService
-                          .new(query, current_user)
-                          .call(params, valid_subset: valid_subset)
-
-            if representer.success?
-              QueryRepresenter.new(query,
-                                   current_user: current_user,
-                                   results: representer.result,
-                                   embed_links: true,
-                                   params: params)
-            else
-              raise ::API::Errors::InvalidQuery.new(representer.errors.full_messages)
+            call = raise_invalid_query_on_service_failure do
+              ::API::V3::WorkPackageCollectionFromQueryService
+                .new(query, current_user)
+                .call(params, valid_subset:)
             end
+
+            QueryRepresenter.new(query,
+                                 current_user:,
+                                 results: call.result,
+                                 embed_links: true,
+                                 params:)
           end
         end
       end

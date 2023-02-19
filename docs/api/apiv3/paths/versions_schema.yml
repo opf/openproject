@@ -1,0 +1,123 @@
+# /api/v3/versions/schemas
+---
+get:
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _dependencies: []
+                _links:
+                  self:
+                    href: "/api/v3/versions/schema"
+                _type: Schema
+                createdAt:
+                  hasDefault: false
+                  name: Created on
+                  required: true
+                  type: DateTime
+                  writable: false
+                customField14:
+                  hasDefault: false
+                  name: text CF
+                  required: false
+                  type: String
+                  visibility: default
+                  writable: true
+                customField40:
+                  _links: {}
+                  hasDefault: false
+                  location: _links
+                  name: List CF
+                  required: false
+                  type: CustomOption
+                  visibility: default
+                  writable: true
+                definingProject:
+                  _links: {}
+                  hasDefault: false
+                  name: Project
+                  required: true
+                  type: Project
+                  writable: true
+                description:
+                  hasDefault: false
+                  name: Description
+                  required: false
+                  type: Formattable
+                  writable: true
+                endDate:
+                  hasDefault: false
+                  name: Finish date
+                  required: false
+                  type: Date
+                  writable: false
+                id:
+                  hasDefault: false
+                  name: ID
+                  required: true
+                  type: Integer
+                  writable: false
+                name:
+                  hasDefault: false
+                  maxLength: 60
+                  minLength: 1
+                  name: Name
+                  required: true
+                  type: String
+                  writable: true
+                sharing:
+                  _links: {}
+                  hasDefault: false
+                  name: Sharing
+                  required: true
+                  type: String
+                  visibility: default
+                  writable: true
+                startDate:
+                  hasDefault: false
+                  name: Start date
+                  required: false
+                  type: Date
+                  writable: true
+                status:
+                  _links: {}
+                  hasDefault: false
+                  name: Status
+                  required: true
+                  type: String
+                  visibility: default
+                  writable: true
+                updatedAt:
+                  hasDefault: false
+                  name: Updated on
+                  required: true
+                  type: DateTime
+                  writable: false
+          schema:
+            "$ref": "../components/schemas/version_schema_model.yml"
+      description: OK
+      headers: {}
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+                message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions to see the schema.
+
+        **Required permission:** view work packages or manage versions on any project
+      headers: {}
+  tags:
+  - Versions
+  description: ''
+  operationId: View_version_schema
+  summary: View version schema

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Task board view
   priority: 850
 description: Taskboard in OpenProject.
-robots: index, follow
 keywords: taskboard, task board, user story, epic
 ---
 
@@ -32,9 +31,7 @@ On the very top of the table, sprint impediments are documented and assigned to 
 
 ![User-guide-sprint-impediments](User-guide-sprint-impediments.png)
 
-<div class="alert alert-info" role="alert">
-**Note**: If you add an impediment and type the work package number into the field Blocked (ID), the respective work package will be linked to the impediment. As long as the impediment remains, the work package cannot be closed.
-</div>
+> **Note**: If you add an impediment and type the work package number into the field Blocked (ID), the respective work package will be linked to the impediment. As long as the impediment remains, the work package cannot be closed.
 
 ![sprint impediments](image-20200129132413044.png)
 

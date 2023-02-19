@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,8 +40,15 @@ module Users
     validate :user_allowed_to_add
     validate :authentication_defined
     validate :type_is_user
+    validate :notification_settings_present
 
     private
+
+    def notification_settings_present
+      if model.notification_settings.empty?
+        errors.add :notification_settings, :blank
+      end
+    end
 
     def authentication_defined
       errors.add :password, :blank if model.active? && no_auth?

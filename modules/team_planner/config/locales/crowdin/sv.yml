@@ -1,0 +1,13 @@
+#English strings go here
+sv:
+  permission_view_team_planner: "Visa teamplanerare"
+  permission_manage_team_planner: "Hantera teamplanerare"
+  project_module_team_planner_view: "Team planerare"
+  team_planner:
+    label_team_planner: "Team planerare"
+    label_create_new_team_planner: "Skapa ny teamplanerare"
+    label_team_planner_plural: "Team planerare"
+    label_assignees: "Utförare"
+    upsale:
+      title: "Team planerare"
+      description: "Få en fullständig överblick över ditt teams planering med Team Planner. Tänj ut, förkorta och dra-och-släpp arbetspaket för att ändra datum, flytta dem eller ändra utförare."

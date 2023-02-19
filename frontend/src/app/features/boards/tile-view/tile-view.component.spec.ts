@@ -32,21 +32,21 @@ describe('shows tiles', () => {
     element = fixture.debugElement;
   });
 
-  it('should render the componenet successfully', () => {
+  it('should render the component successfully', () => {
     fixture.detectChanges();
-    const tile = document.querySelector('.tile-blocks--container');
+    const tile = document.querySelector('.op-tile-block--title');
     expect(document.contains(tile)).toBeTruthy();
   });
 
   it('should show each tile', () => {
     fixture.detectChanges();
-    const tile:HTMLElement = element.query(By.css('.tile-block')).nativeElement;
+    const tile:HTMLElement = element.query(By.css('.op-tile-block--title')).nativeElement;
     expect(tile.textContent).toContain('Basic');
   });
 
   it('should show the image', () => {
     fixture.detectChanges();
-    const tile = document.querySelector('.tile-block-image');
+    const tile = document.querySelector('.op-tile-block--image');
     expect(document.contains(tile)).toBeTruthy();
   });
 });

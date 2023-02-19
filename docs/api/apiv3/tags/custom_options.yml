@@ -1,0 +1,17 @@
+---
+description: |-
+  ## Linked Properties
+
+  |  Link         | Description               | Type          | Constraints | Supported operations |
+  |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
+  | self          | This custom option        | CustomOption  | not null    | READ                 |
+
+  ## Local Properties
+
+  | Property         | Description                                    | Type     | Constraints | Supported operations |
+  |:----------------:| ---------------------------------------------- | -------- | ----------- | -------------------- |
+  | id               | The identifier                                 | Integer  |             | READ                 |
+  | value            | The value defined for this custom option       | String   |             | READ                 |
+
+  custom options are options of list custom fields.
+name: Custom Options

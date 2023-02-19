@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,9 +55,9 @@ class Changeset < ApplicationRecord
                      project_key: "#{Repository.table_name}.project_id",
                      date_column: 'committed_on'
 
-  validates_presence_of :repository_id, :revision, :committed_on, :commit_date
-  validates_uniqueness_of :revision, scope: :repository_id
-  validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
+  validates :repository_id, :revision, :committed_on, :commit_date, presence: true
+  validates :revision, uniqueness: { scope: :repository_id }
+  validates :scmid, uniqueness: { scope: :repository_id, allow_nil: true }
 
   scope :visible, ->(*args) {
     includes(repository: :project)
@@ -94,9 +92,7 @@ class Changeset < ApplicationRecord
     end
   end
 
-  def project
-    repository.project
-  end
+  delegate :project, to: :repository
 
   def author
     user || committer.to_s.split('<').first
@@ -238,7 +234,7 @@ class Changeset < ApplicationRecord
 
     work_package.add_journal(user || User.anonymous, ll(Setting.default_language, :text_status_changed_by_changeset, text_tag))
     work_package.status = status
-    unless Setting.commit_fix_done_ratio.blank?
+    if Setting.commit_fix_done_ratio.present?
       work_package.done_ratio = Setting.commit_fix_done_ratio.to_i
     end
     OpenProject::Hook.call_hook(:model_changeset_scan_commit_for_issue_ids_pre_issue_update,
@@ -257,7 +253,7 @@ class Changeset < ApplicationRecord
     end
 
     Changesets::LogTimeService
-      .new(user: user, changeset: self)
+      .new(user:, changeset: self)
       .call(work_package, hours)
       .result
   end
@@ -293,18 +289,18 @@ class Changeset < ApplicationRecord
       str.force_encoding('UTF-8') if str.respond_to?(:force_encoding)
       return str
     end
-    normalized_encoding = encoding.blank? ? 'UTF-8' : encoding
+    normalized_encoding = encoding.presence || 'UTF-8'
     if str.respond_to?(:force_encoding)
-      if normalized_encoding.upcase != 'UTF-8'
-        str.force_encoding(normalized_encoding)
-        str = str.encode('UTF-8', invalid: :replace,
-                                  undef: :replace, replace: '?')
-      else
+      if normalized_encoding.upcase == 'UTF-8'
         str.force_encoding('UTF-8')
         unless str.valid_encoding?
           str = str.encode('US-ASCII', invalid: :replace,
                                        undef: :replace, replace: '?').encode('UTF-8')
         end
+      else
+        str.force_encoding(normalized_encoding)
+        str = str.encode('UTF-8', invalid: :replace,
+                                  undef: :replace, replace: '?')
       end
     else
 

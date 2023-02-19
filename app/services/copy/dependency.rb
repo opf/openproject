@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,13 +47,20 @@ module Copy
       identifier.capitalize
     end
 
+    ##
+    # Dependencies the current dependency itself supports.
+    # The most common case for this are attachment services.
+    def self.copy_dependencies
+      []
+    end
+
     def initialize(source:, target:, user:)
       @source = source
       @target = target
       @user = user
       # Create a result with an empty error set
       # that we can merge! so that not the target.errors object is reused.
-      @result = ServiceResult.new(result: target, success: true, errors: ActiveModel::Errors.new(target))
+      @result = ServiceResult.success(result: target, errors: ActiveModel::Errors.new(target))
     end
 
     protected
@@ -76,7 +81,7 @@ module Copy
 
     def perform(params:)
       begin
-        copy_dependency(params: params)
+        copy_dependency(params:)
       rescue StandardError => e
         Rails.logger.error { "Failed to copy dependency #{self.class.identifier}: #{e.message}" }
         result.success = false

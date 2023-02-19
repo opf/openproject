@@ -1,0 +1,175 @@
+# /api/v3/work_packages/{id}/file_links
+---
+post:
+  summary: Creates file links.
+  operationId: create_work_package_file_link
+  tags:
+    - Work Packages
+    - File links
+  description: |-
+    Creates file links on a work package.
+
+    The request is interpreted as a bulk insert, where every element of the collection is validated separately. Each
+    element contains the origin meta data and a link to the storage, the file link is about to point to. The storage
+    link can be provided as a resource link with id or as the host url.
+
+    The file's id and name are considered mandatory information. The rest of the origin meta data SHOULD be provided
+    by the client. The _mimeType_ SHOULD be a standard mime type. An empty mime type will be handled as unknown. To link
+    a folder, the custom mime type `application/x-op-directory` MUST be used.
+
+    Up to 20 file links can be submitted at once.
+
+    If any element data is invalid, no file links will be created.
+
+    If a file link with matching origin id, work package, and storage already exists, then it will not create an
+    additional file link or update the meta data. Instead the information from the existing file link will be returned.
+  parameters:
+    - name: id
+      description: Work package id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/file_link_collection_write_model.yml'
+        example:
+          _type: Collection
+          _embedded:
+            elements:
+              - originData:
+                  id: 5503
+                  name: logo.png
+                  mimeType: image/png
+                  size: 433765
+                  createdAt: '2021-12-19T09:42:10.170Z'
+                  lastModifiedAt: '2021-12-20T14:00:13.987Z'
+                  createdByName: Luke Skywalker
+                  lastModifiedByName: Anakin Skywalker
+                _links:
+                  storageUrl:
+                    href: https://nextcloud.deathstar.rocks/
+
+  responses:
+    '201':
+      description: Created
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
+    '400':
+      $ref: "../components/responses/invalid_request_body.yml"
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** manage file links
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package, view file links
+    '406':
+      $ref: "../components/responses/missing_content_type.yml"
+    '415':
+      $ref: "../components/responses/unsupported_media_type.yml"
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The request was invalid. File Link logo.png - Storage was invalid.
+      description: |-
+        Occurs if the request body was correctly formatted, but some properties lead to errors in the validation
+        process. This happens e.g. if the provided storage url is not available on the server.
+
+get:
+  summary: Gets all file links of a work package
+  operationId: list_work_package_file_links
+  tags:
+    - Work Packages
+    - File links
+  description: |-
+    Gets all file links of a work package.
+    
+    As a side effect, for every file link a request is sent to the storage's origin to fetch live data and patch
+    the file link's data before returning, as well as retrieving permissions of the user on this origin file. 
+  parameters:
+    - name: id
+      description: Work package id
+      in: path
+      required: true
+      schema:
+        type: integer
+      example: 1337
+    - name: filters
+      in: query
+      description: |-
+        JSON specifying filter conditions.
+        Accepts the same format as returned by the [queries](https://www.openproject.org/docs/api/endpoints/queries/)
+        endpoint. The following filters are supported:
+
+        - storage
+      required: false
+      example: '[{"storage":{"operator":"=","values":["42"]}}]'
+      schema:
+        type: string
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/file_link_collection_read_model.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not authorized to access this resource.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** view file links
+
+        *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package

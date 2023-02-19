@@ -2,17 +2,17 @@
 nl:
   recaptcha:
     label_recaptcha: "reCAPTCHA"
-    button_please_wait: 'Please wait ...'
-    verify_account: "Verify your account"
-    error_captcha: "Your account could not be verified. Please contact an administrator."
+    button_please_wait: 'Even geduld a.u.b.'
+    verify_account: "Verifieer je account"
+    error_captcha: "Uw account kon niet worden geverifieerd. Neem contact op met een beheerder."
     settings:
-      website_key: 'Website key'
-      website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
+      website_key: 'Website sleutel'
+      website_key_text: 'Vul de website sleutel in die je hebt gemaakt op de reCAPTCHA admin console voor dit domein.'
       secret_key: 'Geheime sleutel'
-      secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
-      type: 'Use reCAPTCHA'
-      type_disabled: 'Disable reCAPTCHA'
+      secret_key_text: 'Voer de geheime sleutel in die u hebt aangemaakt op de reCAPTCHA admin console.'
+      type: 'ReCAPTCHA gebruiken'
+      type_disabled: 'ReCAPTCHA uitschakelen'
       type_v2: 'reCAPTCHA v2'
       type_v3: 'reCAPTCHA v3'
       recaptcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link}
+        reCAPTCHA is een gratis dienst van Google die kan worden ingeschakeld voor uw OpenProject instantie. Indien ingeschakeld, zal een captcha formulier worden weergegeven bij het inloggen voor alle gebruikers die nog niet hebben geverifieerd. <br/> Zie de volgende link voor meer informatie over reCAPTCHA en de bijbehorende versies, en hoe de website en geheime sleutels te maken: %{recaptcha_link}

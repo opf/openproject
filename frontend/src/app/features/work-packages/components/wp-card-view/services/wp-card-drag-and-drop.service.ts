@@ -8,7 +8,7 @@ import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-a
 import { findIndex } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 import { WorkPackageCardViewComponent } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -28,7 +28,7 @@ export class WorkPackageCardDragAndDropService {
     readonly reorderService:WorkPackageViewOrderService,
     readonly wpCreate:WorkPackageCreateService,
     readonly notificationService:WorkPackageNotificationService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly currentProject:CurrentProjectService,
     @Optional() readonly dragService:DragAndDropService,
     readonly wpInlineCreate:WorkPackageInlineCreateService) {

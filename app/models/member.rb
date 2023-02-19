@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +32,11 @@ class Member < ApplicationRecord
   extend DeprecatedAlias
   belongs_to :principal, foreign_key: 'user_id'
   has_many :member_roles, dependent: :destroy, autosave: true, validate: false
-  has_many :roles, through: :member_roles
+  has_many :roles, -> { distinct }, through: :member_roles
   belongs_to :project
 
-  validates_presence_of :principal
-  validates_uniqueness_of :user_id, scope: :project_id
+  validates :principal, presence: true
+  validates :user_id, uniqueness: { scope: :project_id }
 
   validate :validate_presence_of_role
   validate :validate_presence_of_principal
@@ -49,9 +47,7 @@ class Member < ApplicationRecord
          :of,
          :visible
 
-  def name
-    principal.name
-  end
+  delegate :name, to: :principal
 
   def to_s
     name
@@ -68,6 +64,13 @@ class Member < ApplicationRecord
 
   def deletable?
     member_roles.detect(&:inherited_from).nil?
+  end
+
+  def deletable_role?(role)
+    member_roles
+      .only_inherited
+      .where(role:)
+      .none?
   end
 
   def include?(principal)

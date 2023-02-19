@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +32,6 @@ module Admin
     before_action :require_admin
     before_action :find_plugin, only: %i[show_plugin update_plugin]
 
-    helper_method :gon
-
     current_menu_item [:show] do
       :settings
     end
@@ -55,7 +51,7 @@ module Admin
       return unless params[:settings]
 
       call = ::Settings::UpdateService
-        .new(user: current_user)
+        .new(user: current_user, contract_options:)
         .call(settings_params)
 
       call.on_success { flash[:notice] = t(:notice_successful_update) }
@@ -96,6 +92,10 @@ module Admin
 
     def settings_params
       permitted_params.settings.to_h
+    end
+
+    def contract_options
+      {}
     end
   end
 end

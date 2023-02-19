@@ -25,7 +25,7 @@ To stop the servers from being accessed on the old installation, stop the servic
 
 ## Install new package
 
-Follow the first step (**Installation**) of our packaged installation guides at https://www.openproject.org/download-and-installation/.
+Follow the first step (**Installation**) of our [packaged installation guides](https://www.openproject.org/download-and-installation/).
 
 After this step, you should have an installed version of `openproject`.
 
@@ -44,7 +44,7 @@ You can simply look through the installer.dat and change those values you need.
 
 **The conf.d folder**
 
-Additional environment, either generated from the wizard or entered by you through `openproject config:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation. 
+Additional environment, either generated from the wizard or entered by you through `openproject config:set` is written to  `/etc/openproject/conf.d/{server,database,other}`. Also look through those and check which contain relevant values for your new installation.
 
 ### PostgreSQL database
 
@@ -62,13 +62,13 @@ First the dump has to be extracted (unzipped) and then restored. The command use
 
 ```
 # Restore the PostgreSQL dump
-pg_restore -h <dbhost> -u <dbuser> -W <dbname> --clean postgresql-dump-20180408095521.pgdump
+pg_restore -h <dbhost> -u <dbuser> -W --dbname <dbname> --clean postgresql-dump-20180408095521.pgdump
 ```
 
 
 ### Attachments
 
-Your storage path can be shown on the old installation can be shown using the following command:
+Your storage path on the old installation can be shown using the following command:
 
 ```
 openproject config:get ATTACHMENTS_STORAGE_PATH
@@ -83,7 +83,7 @@ Simply extract your attachments dump into that folder with `tar -vxfz <dump>.tar
 
 For repositories, the same approach applies as for the attachments:
 
-Your SVN and Git storage paths can be shown on the old installation can be shown using the following command:
+Your SVN and Git storage paths on the old installation can be shown using the following command:
 
 ```
 # Subversion

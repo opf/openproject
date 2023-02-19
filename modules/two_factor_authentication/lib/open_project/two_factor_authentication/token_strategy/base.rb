@@ -73,7 +73,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def self.configuration_params
-        OpenProject::Configuration['2fa'][identifier]
+        Setting.plugin_openproject_two_factor_authentication[identifier.to_s]
       end
 
       protected

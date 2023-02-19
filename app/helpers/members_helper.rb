@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,12 +35,42 @@ module MembersHelper
   def global_member_role_deletion_link(member, role)
     if member.roles.length == 1
       link_to('',
-              user_membership_path(user_id: member.user_id, id: member.id),
+              principal_membership_path(member.principal, member),
               { method: :delete, class: 'icon icon-delete', title: t(:button_delete) })
     else
       link_to('',
-              user_membership_path(user_id: member.user_id, id: member.id, 'membership[role_ids]' => member.roles - [role]),
+              principal_membership_path(member.principal, member, 'membership[role_ids]' => member.roles - [role]),
               { method: :patch, class: 'icon icon-delete', title: t(:button_delete) })
+    end
+  end
+
+  ##
+  # Decorate the form_for helper for membership of a user or a group to a global
+  # role.
+  def global_role_membership_form_for(principal, global_member, options = {}, &)
+    args =
+      if global_member
+        { url: principal_membership_path(principal, global_member), method: :patch }
+      else
+        { url: principal_memberships_path(principal), method: :post }
+      end
+
+    form_for(:principal_roles, args.merge(options), &)
+  end
+
+  def principal_membership_path(principal, global_member, options = {})
+    if principal.is_a?(Group)
+      membership_of_group_path(principal, global_member, options)
+    else
+      user_membership_path(principal, global_member, options)
+    end
+  end
+
+  def principal_memberships_path(principal, options = {})
+    if principal.is_a?(Group)
+      memberships_of_group_path(principal, options)
+    else
+      user_memberships_path(principal, options)
     end
   end
 end

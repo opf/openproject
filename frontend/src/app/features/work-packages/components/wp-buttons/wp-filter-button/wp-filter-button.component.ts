@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -49,10 +49,14 @@ export class WorkPackageFilterButtonComponent extends AbstractWorkPackageButtonC
 
   public iconClass = 'icon-filter';
 
-  constructor(readonly I18n:I18nService,
+  public title = this.I18n.t('js.work_packages.filters.title');
+
+  constructor(
+    readonly I18n:I18nService,
     protected cdRef:ChangeDetectorRef,
     protected wpFiltersService:WorkPackageFiltersService,
-    protected wpTableFilters:WorkPackageViewFiltersService) {
+    protected wpTableFilters:WorkPackageViewFiltersService,
+  ) {
     super(I18n);
   }
 

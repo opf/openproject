@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,23 +30,26 @@ module Queries
   class CopyService < ::BaseServices::Copy
     def self.copy_dependencies
       [
-        ::Queries::Copy::MenuItemDependentService,
+        ::Queries::Copy::ViewsDependentService,
         ::Queries::Copy::OrderedWorkPackagesDependentService
       ]
     end
 
     protected
 
-    def initialize_copy(source, _params)
-      new_query = ::Query.new source.attributes.dup.except(*skipped_attributes)
+    def set_attributes(_params)
+      new_query = copied_query
       new_query.sort_criteria = source.sort_criteria if source.sort_criteria
-      new_query.project = state.project || source.project
 
       ::Queries::Copy::FiltersMapper
         .new(state, new_query.filters)
         .map_filters!
 
-      ServiceResult.new(success: new_query.save, result: new_query)
+      ServiceResult.new(success: new_query.valid?, result: new_query)
+    end
+
+    def copied_query
+      ::Query.new source.attributes.dup.except(*skipped_attributes).merge(project: state.project || source.project)
     end
 
     def skipped_attributes

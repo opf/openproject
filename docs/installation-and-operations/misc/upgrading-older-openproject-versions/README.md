@@ -64,8 +64,10 @@ You can simply upgrade your package first and then switch to a PostgreSQL databa
 3. After this is completed, stop the servers to restore the database separately
 
    `service openproject stop`
+   
+The following command will restore the database. **WARNING:** This will remove the database returned by `openproject config:get DATABASE_URL`, so please double check this is what you want to do:
 
-   `pg_restore --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
+   `pg_restore --clean --if-exists --dbname $(openproject config:get DATABASE_URL) /path/to/migrated/postgresql.dump`  
 
 4. Execute configure script to ensure the migrations are complete and to restart the server
 
@@ -85,9 +87,9 @@ The steps for this option is as follows:
 
 3. From your backup, restore the configuration and attachment files ([See our restoring guide](../../operation/restoring/) for more information):
 
-   ​	`tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
+   `tar xzf conf-<timestamp>.tar.gz -C /etc/openproject/conf.d/`
 
-   ​	`tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
+   `tar xzf attachments-<timestamp>.tar.gz -C /var/db/openproject/files`
 
 4. Run `openproject reconfigure` and select to install a PostgreSQL database
 
@@ -108,7 +110,7 @@ The steps for this option is as follows:
 ## Problems with the migration?
 
 
-Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact-us/) with feedback and issues you experienced.
+Please let us know if you have any questions regarding this upgrade path. Reach out to us [through our contact data or form on our website](https://www.openproject.org/contact/) with feedback and issues you experienced.
 
 We're very interested in providing a smooth upgrade at all times, and would like to document issues you experience during the upgrade.
 

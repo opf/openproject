@@ -5,8 +5,8 @@ pl:
       remove: 'Usuń widżet'
       configure: 'Konfiguruj widżet'
       upsale:
-        text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji"
-        link: 'Enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Tekst niestandardowy/użytkownika'
@@ -31,10 +31,13 @@ pl:
           no_results: 'Nie zdefiniowano żadnych pól niestandardowych dla projektów.'
         project_status:
           title: 'Stan projektu'
+          not_started: 'Nierozpoczęte'
           on_track: 'Na ścieżce'
           off_track: 'Poza ścieżką'
           at_risk: 'Zagrożony'
           not_set: 'Nie ustawione'
+          finished: 'Zakończone'
+          discontinued: 'Przerwane'
         subprojects:
           title: 'Podprojekty'
           no_results: 'Brak podprojektów.'

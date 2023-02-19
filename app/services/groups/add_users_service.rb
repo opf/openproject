@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +28,14 @@
 
 module Groups
   class AddUsersService < ::BaseServices::BaseContracted
+    using CoreExtensions::SquishSql
     include Groups::Concerns::MembershipManipulation
 
     def initialize(group, current_user:, contract_class: AdminOnlyContract)
       self.model = group
 
       super user: current_user,
-            contract_class: contract_class
+            contract_class:
     end
 
     private
@@ -51,7 +50,7 @@ module Groups
     end
 
     def add_to_user_and_projects_cte
-      <<~SQL
+      <<~SQL.squish
         -- select existing users from given IDs
         WITH found_users AS (
           SELECT id as user_id FROM #{User.table_name} WHERE id IN (:user_ids)
@@ -85,7 +84,7 @@ module Groups
           SELECT members.id, found_users.user_id, members.project_id
           FROM members, found_users, group_memberships
           WHERE members.user_id = found_users.user_id
-          AND members.project_id = group_memberships.project_id
+          AND members.project_id IS NOT DISTINCT FROM group_memberships.project_id
           AND members.id IS NOT NULL
         ),
         -- insert the group user into members
@@ -93,7 +92,7 @@ module Groups
           INSERT INTO #{Member.table_name} (project_id, user_id, updated_at, created_at)
           SELECT group_memberships.project_id, found_users.user_id, (SELECT time from timestamp), (SELECT time from timestamp)
           FROM found_users, group_memberships
-          WHERE NOT EXISTS (SELECT 1 FROM existing_members WHERE existing_members.user_id = found_users.user_id AND existing_members.project_id = group_memberships.project_id)
+          WHERE NOT EXISTS (SELECT 1 FROM existing_members WHERE existing_members.user_id = found_users.user_id AND existing_members.project_id IS NOT DISTINCT FROM group_memberships.project_id)
           ON CONFLICT(project_id, user_id) DO NOTHING
           RETURNING id, user_id, project_id
         ),
@@ -103,7 +102,7 @@ module Groups
           SELECT members.id, group_roles.role_id, group_roles.member_role_id
           FROM group_roles
           JOIN
-            (SELECT * FROM new_members UNION SELECT * from existing_members) members ON group_roles.project_id = members.project_id
+            (SELECT * FROM new_members UNION SELECT * from existing_members) members ON group_roles.project_id IS NOT DISTINCT FROM members.project_id
           -- Ignore if the role was already inserted by us
           ON CONFLICT DO NOTHING
           RETURNING id, member_id, role_id

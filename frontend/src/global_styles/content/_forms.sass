@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -95,6 +95,7 @@ form
 
       & > *
         padding-left: 1rem
+        padding-right: 1rem
 
     .form--section-title
       background-color: var(--content-form-danger-zone-bg-color)
@@ -124,6 +125,9 @@ form
         &:before
           padding-left: 0px
           color: var(--content-form-danger-zone-bg-color)
+
+    .danger-zone--expected-value
+      white-space: pre
 
     .danger-zone--verification
       display: flex
@@ -181,6 +185,9 @@ hr
 
     &.-invisible
       border-bottom-width: 0px
+
+    &_limited
+      max-width: 600px
 
 .form--space
   padding-top: 1rem
@@ -393,6 +400,9 @@ fieldset.form--fieldset
       line-height: $base-line-height
       padding-right: 0.325rem
 
+  &.-bold
+    font-weight: bold
+
   &.-top
     align-self: flex-start
     line-height: 2.15rem
@@ -416,6 +426,16 @@ fieldset.form--fieldset
 
   &.-vertical
     display: block
+
+  &.-horizontal
+    flex-direction: column
+    
+    @include breakpoint(1080px up)
+      flex-direction: row
+      flex-wrap: wrap
+
+      > *:last-child
+        margin-right: auto
 
   .form--field.-visible-overflow &
     overflow: visible
@@ -480,6 +500,12 @@ fieldset.form--fieldset
 
   &.-no-italic
     font-style: normal
+
+  &.-xwide
+    max-width: 800px
+
+  &.-labeled-checkbox
+    margin-left: 25px
 
 .form--inline-instructions
   font-style: italic
@@ -739,6 +765,7 @@ input[readonly].-clickable
 
 .inline-label
   margin: 0rem
+  flex-grow: 1
 
   > .form-label.-transparent
     margin-bottom: 0
@@ -797,6 +824,10 @@ input[readonly].-clickable
     @extend %required-star
     padding: 0 0.325rem 0 0
 
+  .form--check-box
+    top: -1px
+    position: relative
+
 .form--field-affix
   flex: 0 0 auto
   display: flex
@@ -851,6 +882,9 @@ input[readonly].-clickable
     &:last-of-type
       border-top-right-radius: 2px
       border-bottom-right-radius: 2px
+
+    &:focus-within
+      @include spot-focus
 
 .form--list
   display: flex

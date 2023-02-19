@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +32,10 @@ module API
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
         def initialize(models,
                        self_link:,
-                       groups:, total_sums:, current_user:, query: {},
+                       groups:,
+                       total_sums:,
+                       current_user:,
+                       query: {},
                        project: nil,
                        page: nil,
                        per_page: nil,
@@ -44,12 +45,12 @@ module API
           @embed_schemas = embed_schemas
 
           super(models,
-                self_link: self_link,
-                query: query,
-                page: page,
-                per_page: per_page,
-                groups: groups,
-                current_user: current_user)
+                self_link:,
+                query:,
+                page:,
+                per_page:,
+                groups:,
+                current_user:)
 
           # In order to optimize performance we
           #   * override paged_models so that only the id is fetched from the
@@ -68,7 +69,7 @@ module API
         end
 
         link :sumsSchema do
-          next unless total_sums || groups && groups.any?(&:has_sums?)
+          next unless total_sums || (groups && groups.any?(&:has_sums?))
 
           {
             href: api_v3_paths.work_package_sums_schema
@@ -133,7 +134,7 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.new(model, current_user: current_user)
+                       rep_class.send(:new, model, current_user:)
                      end
                    },
                    exec_context: :decorator,
@@ -155,7 +156,8 @@ module API
                  render_nil: false
 
         def current_user_allowed_to_add_work_packages?
-          current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
+          @current_user_allowed_to_add_work_packages ||=
+            current_user.allowed_to?(:add_work_packages, project, global: project.nil?)
         end
 
         def current_user_allowed_to_edit_work_packages?
@@ -166,14 +168,14 @@ module API
           schemas = schema_pairs.map do |project, type, available_custom_fields|
             # This hack preloads the custom fields for a project so that they do not have to be
             # loaded again later on
-            project.instance_variable_set(:'@all_work_package_custom_fields', all_cfs_of_project[project.id])
+            project.instance_variable_set(:@all_work_package_custom_fields, all_cfs_of_project[project.id])
 
-            Schema::TypedWorkPackageSchema.new(project: project, type: type, custom_fields: available_custom_fields)
+            Schema::TypedWorkPackageSchema.new(project:, type:, custom_fields: available_custom_fields)
           end
 
           Schema::WorkPackageSchemaCollectionRepresenter.new(schemas,
                                                              self_link: schemas_path,
-                                                             current_user: current_user)
+                                                             current_user:)
         end
 
         def schemas_path
@@ -185,7 +187,7 @@ module API
         end
 
         def schema_pairs
-          represented
+          @schema_pairs ||= represented
             .map { |work_package| [work_package.project, work_package.type, work_package.available_custom_fields] }
             .uniq
         end
@@ -193,12 +195,11 @@ module API
         def all_cfs_of_project
           @all_cfs_of_project ||= represented
                                   .group_by(&:project_id)
-                                  .map { |id, wps| [id, wps.map(&:available_custom_fields).flatten.uniq] }
-                                  .to_h
+                                  .transform_values { |wps| wps.map(&:available_custom_fields).flatten.uniq }
         end
 
         def paged_models(models)
-          models.page(@page).per_page(@per_page).pluck(:id)
+          super.pluck(:id)
         end
 
         def _type
@@ -227,15 +228,15 @@ module API
         def representation_format(identifier, mime_type:, format: identifier, i18n_key: format, url_query_extras: nil)
           path_params = { controller: :work_packages, action: :index, project_id: project }
 
-          href = "#{url_for(path_params.merge(format: format))}?#{href_query(@page, @per_page)}"
+          href = "#{url_for(path_params.merge(format:))}?#{href_query(@page, @per_page)}"
 
           if url_query_extras
             href += "&#{url_query_extras}"
           end
 
           {
-            href: href,
-            identifier: identifier,
+            href:,
+            identifier:,
             type: mime_type,
             title: I18n.t("export.format.#{i18n_key}")
           }

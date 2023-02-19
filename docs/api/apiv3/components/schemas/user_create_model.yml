@@ -1,0 +1,53 @@
+# Schema: UserCreateModel
+---
+type: object
+required:
+  - admin
+  - email
+  - login
+  - firstName
+  - lastName
+  - language
+properties:
+  admin:
+    type: boolean
+  email:
+    type: string
+    maxLength: 60
+  login:
+    type: string
+    maxLength: 256
+  password:
+    type: string
+    description: |-
+      The users password.
+
+      *Conditions:*
+
+      Only writable on creation, not on update.
+  firstName:
+    type: string
+    maxLength: 30
+  lastName:
+    type: string
+    maxLength: 30
+  status:
+    type: string
+    description: |-
+      The current activation status of the user.
+
+      *Conditions:*
+
+      Only writable on creation, not on update.
+  language:
+    type: string
+
+example:
+  login: j.sheppard
+  password: idestroyedsouvereign
+  firstName: John
+  lastName: Sheppard
+  email: shep@mail.com
+  admin: true
+  status: active
+  language: en

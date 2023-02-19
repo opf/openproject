@@ -3,6 +3,13 @@
                      [showText]="true">
   </wp-watcher-button>
 
+  <op-work-package-mark-notification-button
+    *ngIf="displayNotificationsButton"
+    [workPackage]="workPackage"
+    [showWithText]="true"
+    data-qa-selector="mark-notification-read-button"
+  ></op-work-package-mark-notification-button>
+
   <button class="button dropdown-relative"
           [attr.accesskey]="7"
 

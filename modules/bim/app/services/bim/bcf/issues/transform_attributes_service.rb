@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,8 +34,7 @@ module Bim::Bcf
       end
 
       def call(attributes)
-        ServiceResult.new success: true,
-                          result: work_package_attributes(attributes)
+        ServiceResult.success result: work_package_attributes(attributes)
       end
 
       private
@@ -69,7 +66,7 @@ module Bim::Bcf
       ##
       # Try to find the given user by mail in the project
       def find_user(mail)
-        project.users.find_by(mail: mail)
+        project.users.find_by(mail:)
       end
 
       def type(attributes)

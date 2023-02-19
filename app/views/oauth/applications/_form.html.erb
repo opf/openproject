@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2021 the OpenProject GmbH
+Copyright (C) 2012-2022 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -84,8 +84,8 @@ See COPYRIGHT and LICENSE files for more details.
       <div class="form--field-container">
         <div class="form--text-field-container -middle">
           <%= f.hidden_field :client_credentials_user_id,  value: @application.client_credentials_user_id %>
-          <user-autocompleter data-allow-empty="true"
-                              data-update-input="application[client_credentials_user_id]"></user-autocompleter>
+          <op-user-autocompleter data-allow-empty="true"
+                              data-name='"application[client_credentials_user_id]"'></op-user-autocompleter>
         </div>
       </div>
       <p class="form--field-instructions">

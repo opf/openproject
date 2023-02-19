@@ -29,11 +29,11 @@
 
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
-import { IGitlabMergeRequestResource } from "../../../../../../../../modules/gitlab_integration/frontend/module/typings";
 import { I18nService } from "core-app/core/i18n/i18n.service";
+import {IGitlabMergeRequestResource} from "core-app/features/plugins/linked/openproject-gitlab_integration/typings";
+import {ApiV3Service} from "core-app/core/apiv3/api-v3.service";
 
 @Component({
   selector: 'tab-mrs',
@@ -47,13 +47,14 @@ export class TabMrsComponent implements OnInit {
 
   constructor(
     readonly I18n:I18nService,
-    readonly apiV3Service:APIV3Service,
+    readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService,
     readonly changeDetector:ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-    const mergeRequestsPath = this.apiV3Service.work_packages.id({id: this.workPackage.id })?.gitlab_merge_requests.path;
+    const basePath = this.apiV3Service.work_packages.id(this.workPackage.id as string).path;
+    const mergeRequestsPath = `${basePath}/gitlab_merge_requests`;
 
     this.halResourceService
       .get<CollectionResource<IGitlabMergeRequestResource>>(mergeRequestsPath)

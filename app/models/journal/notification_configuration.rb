@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,12 +33,12 @@ class Journal::NotificationConfiguration
     # In case the method is called multiple times within itself, the first setting prevails.
     # This allows to control the setting globally without having to pass the setting down the call stack in
     # order to ensure all subsequent code follows the provided setting.
-    def with(send_notifications, &block)
+    def with(send_notifications, &)
       if already_set?
         log_warning(send_notifications)
         yield
       else
-        with_first(send_notifications, &block)
+        with_first(send_notifications, &)
       end
     end
 

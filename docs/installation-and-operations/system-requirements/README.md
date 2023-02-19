@@ -67,6 +67,7 @@ The [package-based installation](../installation/packaged) requires one of the f
 
 | Distribution (**64 bits only**) |
 | ------------------------------- |
+| Ubuntu 22.04 Jammy              |
 | Ubuntu 20.04 Focal              |
 | Ubuntu 18.04 Bionic Beaver      |
 | Ubuntu 16.04 Xenial Xerus       |
@@ -90,7 +91,7 @@ Both the package and docker based installations will install and setup the follo
 * __Database__: [PostgreSQL](https://www.postgresql.org/) Version >= 13
 
 Starting in OpenProject 12.0, PostgreSQL 13.0 will be a minimum requirement.
-PostgreSQL versions 9.6. and up will continue to work, but may result in incompatibilities and degraded performance in the future. We have a [migration guide on how to upgrade to PostgreSQL 13](https://www.openproject.org/docs/installation-and-operations/misc/migration-to-postgresql13/).
+PostgreSQL versions 9.6. and up will continue to work, but may result in incompatibilities and degraded performance in the future. We have a [migration guide on how to upgrade to PostgreSQL 13](../../installation-and-operations/misc/migration-to-postgresql13/).
 
 ## Client
 

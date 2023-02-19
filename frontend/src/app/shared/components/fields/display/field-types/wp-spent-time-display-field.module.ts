@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,10 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import * as URI from 'urijs';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { DurationDisplayField } from './duration-display-field.module';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { EstimatedTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/estimated-time-display-field.module';
 
-export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
+export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField {
   public text = {
     linkTitle: this.I18n.t('js.work_packages.message_view_spent_time'),
     logTime: this.I18n.t('js.button_log_time'),
@@ -45,7 +45,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   @InjectField(TimeEntryCreateService, null) timeEntryCreateService:TimeEntryCreateService;
 
-  @InjectField() apiV3Service:APIV3Service;
+  @InjectField() apiV3Service:ApiV3Service;
 
   public render(element:HTMLElement, displayText:string):void {
     if (!this.value) {
@@ -100,7 +100,7 @@ export class WorkPackageSpentTimeDisplayField extends DurationDisplayField {
 
   private showTimelogWidget(wp:WorkPackageResource) {
     this.timeEntryCreateService
-      .create(moment(new Date()), wp, false)
+      .create(moment(new Date()), wp, { showWorkPackageField: false })
       .catch(() => {
         // do nothing, the user closed without changes
       });

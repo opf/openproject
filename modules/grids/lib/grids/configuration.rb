@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,14 +31,11 @@ module Grids::Configuration
     def register_grid(grid,
                       klass)
       grid_register[grid] = klass
+      @registered_grids = nil
     end
 
     def registered_grids
-      if @registered_grid_classes && @registered_grid_classes.length == grid_register.length
-        @registered_grid_classes
-      else
-        @registered_grid_classes = grid_register.keys.map(&:constantize)
-      end
+      @registered_grids ||= grid_register.keys.map(&:constantize)
     end
 
     def all_scopes
@@ -56,12 +51,12 @@ module Grids::Configuration
     end
 
     def attributes_from_scope(page)
-      config = all.find do |config|
+      found_config = all.find do |config|
         config.from_scope(page)
       end
 
-      if config
-        config.from_scope(page)
+      if found_config
+        found_config.from_scope(page)
       else
         { class: ::Grids::Grid }
       end
@@ -88,11 +83,11 @@ module Grids::Configuration
     end
 
     def register_widget(identifier, grid_classes)
-      @widget_register ||= {}
-
-      @widget_register[identifier] ||= []
+      @widget_register ||= Hash.new { |h, k| h[k] = [] }
 
       @widget_register[identifier] += Array(grid_classes)
+
+      @registered_widget_by_identifier = nil
     end
 
     def allowed_widget?(grid, identifier, user, project)
@@ -138,13 +133,8 @@ module Grids::Configuration
     end
 
     def registered_widget_by_identifier
-      if @registered_widget_by_identifier && @registered_widget_by_identifier.length == @widget_register.length
-        @registered_widget_by_identifier
-      else
-        @registered_widget_by_identifier = @widget_register
-                                           .map { |identifier, classes| [identifier, classes.map(&:constantize)] }
-                                           .to_h
-      end
+      @registered_widget_by_identifier ||= @widget_register
+                                         .transform_values { |classes| classes.map(&:constantize) }
     end
 
     def url_helpers

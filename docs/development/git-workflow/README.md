@@ -2,7 +2,6 @@
 sidebar_navigation:
   title: Development workflow
 description: How new features and bug fixes are developed at OpenProject
-robots: index, follow
 keywords: development workflow, gitflow, git flow
 ---
 
@@ -12,7 +11,7 @@ keywords: development workflow, gitflow, git flow
 
 This guide will introduce you to how we at OpenProject develop OpenProject with Git, and how to contribute code. For other ways on how to contribute to OpenProject, [please see the contribution guide](../#contributor-code-of-conduct).
 
-The OpenProject core is developed fully at our GitHub repository at https://github.com/opf/openproject. In the course of this guide, we assume that you are familiar with Git. If you need a refresher on certain topics, we recommend the [free Pro Git online book](https://git-scm.com/book/en/v2) as a resource for all topics on Git.
+The OpenProject core is developed fully at our [GitHub repository](https://github.com/opf/openproject). In the course of this guide, we assume that you are familiar with Git. If you need a refresher on certain topics, we recommend the [free Pro Git online book](https://git-scm.com/book/en/v2) as a resource for all topics on Git.
 
 
 
@@ -49,7 +48,7 @@ The basic overview of how to contribute code to OpenProject is as follows.
 
 For contributing source code, please follow the git workflow below:
 
-- Use GitHub UI to fork the [OpenProject repository](https://github.com/opf/openproject) https://github.com/opf/openproject.
+- Use GitHub UI to fork the [OpenProject repository](https://github.com/opf/openproject).
 - Clone your fork to your development machine:
 
 ```
@@ -90,7 +89,7 @@ git push origin <your feature branch>
 
 ## Create a Pull Request
 
-Create a pull request against a branch of of the <opf/openproject> repository, containing a **clear description** of what the pull request attempts to change and/or fix.
+Create a pull request against a branch of of the `opf/openproject` repository, containing a **clear description** of what the pull request attempts to change and/or fix.
 
 If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
 

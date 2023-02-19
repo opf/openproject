@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module BaseServices
   class Delete < BaseContracted
     def initialize(user:, model:, contract_class: nil, contract_options: {})
       self.model = model
-      super(user: user, contract_class: contract_class, contract_options: contract_options)
+      super(user:, contract_class:, contract_options:)
     end
 
     def persist(service_result)

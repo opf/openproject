@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,13 +80,13 @@ module API
 
         def payload_representer
           QueryPayloadRepresenter
-            .new(represented, current_user: current_user)
+            .new(represented, current_user:)
         end
 
         def schema_representer
           Schemas::QuerySchemaRepresenter.new(represented,
                                               form_embedded: true,
-                                              current_user: current_user)
+                                              current_user:)
         end
 
         def allow_commit?

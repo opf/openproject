@@ -72,8 +72,8 @@ ja:
       text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
       text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
     upsale:
-      title: '2要素認証はエンタープライズ版の機能です'
-      description: '第2の要素で内部または外部の認証メカニズムを強化します。'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: このアカウントのバックアップコードはありません。
       singular: バックアップコード
@@ -136,8 +136,6 @@ ja:
     message_bird:
       sms_delivery_failed: 'MessageBird SMSの配信に失敗しました。'
       voice_delivery_failed: 'MessageBirdの音声通話に失敗しました。'
-    restdt:
-      delivery_failed_with_code: 'トークンの配信に失敗しました。 (エラーコード %{code})'
     strategies:
       totp: '認証システム アプリケーション'
       sns: 'Amazon SNS'

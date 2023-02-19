@@ -122,9 +122,9 @@ It is probably best to use READMEs of already released plugins as a template.
 - Ensure gemspec fields are complete and version number is correct
 - `gem build <name>.gemspec`
 - `gem push <name>-<version>.gem`. This asks for your user/password
-- Go to https://rubygems.org, log in, go to the dashboard, click on the uploaded gem, click edit.  Set URLs, at least source code URL and Bug Tracker URL
+- Go to [rubygems.org](https://rubygems.org), log in, go to the dashboard, click on the uploaded gem, click edit.  Set URLs, at least source code URL and Bug Tracker URL
 - You are done .
-- *Be careful when publishing a gem.Once it is published, it cannot be replaced in the same version*. It is only possible to take a version out of the index and publish a new version.
+- *Be careful when publishing a gem. Once it is published, it cannot be replaced in the same version*. It is only possible to take a version out of the index and publish a new version.
 
 ### Create public visibility
 

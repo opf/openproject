@@ -2,8 +2,7 @@
 sidebar_navigation:
   title: Create trial installation
   priority: 998
-description: Create a free OpenProject Cloud Edition trial installation.
-robots: index, follow
+description: Create a free OpenProject Enterprise cloud trial installation.
 keywords: trial installation
 ---
 
@@ -35,7 +34,7 @@ You will then be asked to [**create an OpenProject account**](../../../getting-s
 6. Click the **create new account button**.
 7. Alternatively, you can login with an existing Google account by clicking the **Sign up with Google button**.
 
-![Cloud-create-trial](Cloud-create-trial.png)
+![Enterprise cloud edition trial](Cloud-create-trial.png)
 
 Your OpenProject instance will be created and you will be directed to your OpenProject installation.
 

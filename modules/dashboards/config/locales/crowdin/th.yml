@@ -1,5 +1,4 @@
 th:
   dashboards:
     label: 'แผงควบคุม'
-    menu_badge: 'ความโปร่งใส'
   project_module_dashboards: 'แผงควบคุม'

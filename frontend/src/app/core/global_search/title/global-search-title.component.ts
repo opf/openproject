@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import {
-  ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Injector,
+  Input,
+  OnInit,
 } from '@angular/core';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
@@ -42,7 +47,7 @@ export const globalSearchTitleSelector = 'global-search-title';
   selector: 'global-search-title',
   templateUrl: './global-search-title.component.html',
 })
-export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnDestroy {
+export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public searchTerm:string;
 
   @Input() public project:string;
@@ -93,13 +98,10 @@ export class GlobalSearchTitleComponent extends UntilDestroyedMixin implements O
     switch (scope) {
       case 'all':
         return this.text.all_projects;
-        break;
       case 'current_project':
         return currentProjectName;
-        break;
       case '':
         return `${currentProjectName} ${this.text.project_and_subprojects}`;
-        break;
       default:
         return '';
     }

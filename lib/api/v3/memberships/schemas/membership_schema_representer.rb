@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,9 +33,9 @@ module API
         class MembershipSchemaRepresenter < ::API::Decorators::SchemaRepresenter
           def initialize(represented, self_link: nil, current_user: nil, form_embedded: false)
             super(represented,
-                  self_link: self_link,
-                  current_user: current_user,
-                  form_embedded: form_embedded)
+                  self_link:,
+                  current_user:,
+                  form_embedded:)
           end
 
           schema :id,

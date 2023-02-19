@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +37,7 @@ class ApplicationController < ActionController::Base
   class_attribute :accept_key_auth_actions
 
   helper_method :render_to_string
+  helper_method :gon
 
   protected
 
@@ -106,18 +105,18 @@ class ApplicationController < ActionController::Base
       # Check whether user have cookies enabled, otherwise they'll only be
       # greeted with the CSRF error upon login.
       message = I18n.t(:error_token_authenticity)
-      message << ' ' + I18n.t(:error_cookie_missing) if openproject_cookie_missing?
+      message << (' ' + I18n.t(:error_cookie_missing)) if openproject_cookie_missing?
 
       log_csrf_failure
 
-      render_error status: 422, message: message
+      render_error status: 422, message:
     end
   end
 
   # Ensure the default handler is listed FIRST
   unless Rails.application.config.consider_all_requests_local
     rescue_from StandardError do |exception|
-      render_500 exception: exception
+      render_500 exception:
     end
   end
 
@@ -127,12 +126,13 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from ActiveRecord::ConnectionTimeoutError do |exception|
-    render_500 exception: exception,
+    render_500 exception:,
                payload: ::OpenProject::Logging::ThreadPoolContextBuilder.build!
   end
 
   before_action :user_setup,
                 :set_localization,
+                :tag_request,
                 :check_if_login_required,
                 :log_requesting_user,
                 :reset_i18n_fallbacks,
@@ -140,7 +140,7 @@ class ApplicationController < ActionController::Base
                 :stop_if_feeds_disabled,
                 :set_cache_buster,
                 :action_hooks,
-                :reload_mailer_configuration!
+                :reload_mailer_settings!
 
   include Redmine::Search::Controller
   include Redmine::MenuManager::MenuController
@@ -168,8 +168,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def reload_mailer_configuration!
-    OpenProject::Configuration.reload_mailer_configuration!
+  def tag_request
+    ::OpenProject::Appsignal.tag_request(controller: self, request:)
+  end
+
+  def reload_mailer_settings!
+    Setting.reload_mailer_settings!
   end
 
   # Checks if the session cookie is missing.
@@ -229,7 +233,7 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
     context = @project || @projects
-    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+    is_authorized = User.current.allowed_to?({ controller: ctrl, action: }, context, global:)
 
     unless is_authorized
       if @project&.archived?
@@ -271,7 +275,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_optional_project_and_raise_error
-    @project = Project.find(params[:project_id]) unless params[:project_id].blank?
+    @project = Project.find(params[:project_id]) if params[:project_id].present?
     allowed = User.current.allowed_to?({ controller: params[:controller], action: params[:action] },
                                        @project, global: @project.nil?)
     allowed ? true : deny_access
@@ -332,10 +336,10 @@ class ApplicationController < ActionController::Base
   def find_belongs_to_chained_objects(associations, start_object = nil)
     associations.inject([start_object].compact) do |instances, association|
       scope_name, scope_association = if association.is_a?(Hash)
-        [association.keys.first.to_s.downcase, association.values.first]
-      else
-        [association.to_s.downcase, association.to_s.downcase]
-      end
+                                        [association.keys.first.to_s.downcase, association.values.first]
+                                      else
+                                        [association.to_s.downcase, association.to_s.downcase]
+                                      end
 
       # TODO: Remove this hidden dependency on params
       instances << (
@@ -391,7 +395,7 @@ class ApplicationController < ActionController::Base
     policy = RedirectPolicy.new(
       params[:back_url],
       hostname: request.host,
-      default: default,
+      default:,
       return_escaped: use_escaped
     )
 
@@ -455,13 +459,13 @@ class ApplicationController < ActionController::Base
   def render_validation_errors(object)
     options = { status: :unprocessable_entity, layout: false }
     errors = case params[:format]
-    when 'xml'
-      { xml: object.errors }
-    when 'json'
-      { json: { 'errors' => object.errors } } # ActiveResource client compliance
-    else
-      fail "Unknown format #{params[:format]} in #render_validation_errors"
-    end
+             when 'xml'
+               { xml: object.errors }
+             when 'json'
+               { json: { 'errors' => object.errors } } # ActiveResource client compliance
+             else
+               fail "Unknown format #{params[:format]} in #render_validation_errors"
+             end
     options.merge! errors
     render options
   end

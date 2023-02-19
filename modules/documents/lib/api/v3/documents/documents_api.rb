@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module API
   module V3
     module Documents
       class DocumentsAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::PageSizeHelper
+        helpers ::API::Utilities::UrlPropsParsingHelper
 
         resources :documents do
           get do
@@ -43,9 +43,9 @@ module API
                                                 self_link: api_v3_paths.documents,
                                                 page: to_i_or_nil(params[:offset]),
                                                 per_page: resolve_page_size(params[:pageSize]),
-                                                current_user: current_user)
+                                                current_user:)
             else
-              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+              raise_query_errors query
             end
           end
 
@@ -58,7 +58,7 @@ module API
 
             get do
               ::API::V3::Documents::DocumentRepresenter.new(document,
-                                                            current_user: current_user,
+                                                            current_user:,
                                                             embed_links: true)
             end
 

@@ -1,0 +1,75 @@
+# Schema: FileLinkCollectionReadModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: "./link.yml"
+              - description: |-
+                  This file links collection
+                  
+                  **Resource**: FileLinkCollectionReadModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            items:
+              $ref: './file_link_read_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: '/api/v3/work_packages/42/file_links'
+  _embedded:
+    elements:
+      - id: 1337
+        _type: FileLink
+        createdAt: '2021-12-20T13:37:00.211Z'
+        updatedAt: '2021-12-20T13:37:00.211Z'
+        originData:
+          id: 5503
+          name: logo.png
+          mimeType: image/png
+          size: 16042
+          createdAt: '2021-12-19T09:42:10.170Z'
+          lastModifiedAt: '2021-12-20T14:00:13.987Z'
+          createdByName: Luke Skywalker
+          lastModifiedByName: Anakin Skywalker
+        _links:
+          self:
+            href: /api/v3/work_package/17/file_links/1337
+            title: file link
+          storage:
+            href: /api/v3/storage/42
+            title: storage
+          container:
+            href: /api/v3/work_package/17
+            title: work package
+          creator:
+            href: /api/v3/users/33
+            title: Obi-Wan Kenobi
+          delete:
+            href: /api/v3/work_package/17/file_links/1337
+            method: delete
+          originOpen:
+            href: https://nextcloud.deathstar.rocks/index.php/f?fileid=5503
+          staticOriginOpen:
+            href: /api/v3/work_package/17/file_links/1337/open
+      - _hint: File Link resource shortened for brevity
+        id: 1338

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,10 +39,11 @@ const iframeSelector = '.iframe-target-wrapper';
  */
 @Injectable({ providedIn: 'root' })
 export class OpModalWrapperAugmentService {
-  constructor(@Inject(DOCUMENT) protected documentElement:Document,
+  constructor(
+    @Inject(DOCUMENT) protected documentElement:Document,
     protected injector:Injector,
-    protected opModalService:OpModalService) {
-  }
+    protected opModalService:OpModalService,
+  ) {}
 
   /**
    * Create initial listeners for Rails-rendered modals
@@ -99,10 +100,16 @@ export class OpModalWrapperAugmentService {
   }
 
   private appendIframe(body:JQuery<HTMLElement>, url:string) {
-    const iframe = jQuery('<iframe frameborder="0" height="400" allowfullscreen>></iframe>');
+    const iframe = jQuery('<iframe frameborder="0" height="350" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
-    body.find(iframeSelector).append(iframe);
+    const iframeParent = body.find(iframeSelector);
+    if (iframeParent.find('iframe').length > 0) {
+      // Make sure we don't initialize the iframe multiple times
+      return body.html();
+    }
+
+    iframeParent.append(iframe);
 
     return body.html();
   }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,10 +44,14 @@ npm-debug.log*
 # Ignore Visual Studio Code files
 /.vscode
 
+# Ignore Vim backup files
+*~
+
 # Ignore Ctags files
 /tags
 /tags.lock
 /tags.temp
+/tags.files
 
 # Ignore RubyMine files
 /.idea
@@ -92,6 +96,7 @@ npm-debug.log*
 /.ruby-gemset
 /.foreman
 .DS_Store
+*.icloud
 .rspec
 .byebug_history
 
@@ -105,15 +110,28 @@ npm-debug.log*
 /frontend/npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
+/frontend/storybook-static
 node_modules/
+
+# Storybook data
+/frontend/documentation.json
 
 # Ignore global package-lock.json that generates
 /package-lock.json
 plaintext.yml
 structure.sql
 
-# Local development docker 
-/.env
+# Local development
+# used by dotenv
+/.env.*.local
 
-# Local development direnv file
+# Local development docker
+/.env
+/docker-compose.override.yml
+
+# Local development direnv files
 /.envrc
+/.direnv
+
+# lefthook.yml user override
+lefthook-local.yml

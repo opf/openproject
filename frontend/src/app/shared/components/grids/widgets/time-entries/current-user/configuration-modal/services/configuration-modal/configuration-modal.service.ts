@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DisplayedDays } from 'core-app/shared/components/calendar/te-calendar/te-calendar.component';
+import { DisplayedDays } from 'core-app/features/calendar/te-calendar/te-calendar.component';
 
 @Injectable()
 export class TimeEntriesCurrentUserConfigurationModalService {

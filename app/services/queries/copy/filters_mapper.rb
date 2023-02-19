@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,15 +40,15 @@ module Queries::Copy
     # Returns the mapped filter array for either
     # hash-based APIv3 filters or filter clasess
     def map_filters!
-      filters.each do |filter|
-        if filter.is_a?(Hash)
-          map_api_filter_hash(filter)
+      filters.map do |input|
+        if input.is_a?(Hash)
+          filter = input.dup.with_indifferent_access
+          filter.tap(&method(:map_api_filter_hash))
         else
-          map_filter_class(filter)
+          map_filter_class(input)
+          input
         end
       end
-
-      filters
     end
 
     protected

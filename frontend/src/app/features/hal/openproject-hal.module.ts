@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { APP_INITIALIZER, ErrorHandler, NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  APP_INITIALIZER,
+  ErrorHandler,
+  NgModule,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
 import { HalAwareErrorHandler } from 'core-app/features/hal/services/hal-aware-error-handler';
 import { initializeHalResourceConfig } from 'core-app/features/hal/services/hal-resource.config';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -38,11 +40,9 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
   ],
   providers: [
     { provide: ErrorHandler, useClass: HalAwareErrorHandler },
-    { provide: HTTP_INTERCEPTORS, useClass: OpenProjectHeaderInterceptor, multi: true },
     {
       provide: APP_INITIALIZER, useFactory: initializeHalResourceConfig, deps: [HalResourceService], multi: true,
     },

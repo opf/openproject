@@ -41,6 +41,6 @@ module IfcModelsHelper
   end
 
   def gon_ifc_model_xkt_attachment_ids(models)
-    Hash[models.map { |model| [model.id, model.xkt_attachment.id] }]
+    models.map { |model| [model.id, model.xkt_attachment.id] }.to_h
   end
 end

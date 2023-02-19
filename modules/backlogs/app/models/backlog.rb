@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ class Backlog
 
     stories_by_sprints = Story.backlogs(project.id, backlogs.map(&:id))
 
-    backlogs.map { |sprint| new(stories: stories_by_sprints[sprint.id], owner_backlog: true, sprint: sprint) }
+    backlogs.map { |sprint| new(stories: stories_by_sprints[sprint.id], owner_backlog: true, sprint:) }
   end
 
   def self.sprint_backlogs(project)
@@ -44,7 +44,7 @@ class Backlog
 
     stories_by_sprints = Story.backlogs(project.id, sprints.map(&:id))
 
-    sprints.map { |sprint| new(stories: stories_by_sprints[sprint.id], sprint: sprint) }
+    sprints.map { |sprint| new(stories: stories_by_sprints[sprint.id], sprint:) }
   end
 
   def initialize(options = {})

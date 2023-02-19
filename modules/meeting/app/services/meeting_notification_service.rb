@@ -7,7 +7,7 @@ class MeetingNotificationService
   end
 
   def call(content, action, include_author: false)
-    recipients_with_errors = send_notifications!(content, action, include_author: include_author)
+    recipients_with_errors = send_notifications!(content, action, include_author:)
     ServiceResult.new(success: recipients_with_errors.empty?, errors: recipients_with_errors)
   end
 

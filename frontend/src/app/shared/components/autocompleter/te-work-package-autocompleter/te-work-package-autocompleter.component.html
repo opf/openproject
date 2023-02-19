@@ -1,5 +1,4 @@
 <op-autocompleter
-  #ngSelectComponent
   [model]="model"
   [items]="availableValues"
   [ngClass]="classes"
@@ -12,13 +11,11 @@
   [typeahead]="typeahead"
   [appendTo]="appendTo"
   [hideSelected]="hideSelected"
-  [loading]="finishedLoading | async"
   [id]="id"
   (change)="changeModel($event)"
   (open)="opened()"
   (close)="closed()"
   (keydown)="keyPressed($event)"
-  bindLabel="name"
   resource="work_packages"
 >
   <ng-template op-autocompleter-header-tmp>
@@ -52,8 +49,5 @@
         </ul>
       </div>
     </div>
-  </ng-template>
-  <ng-template op-autocompleter-tag-tmp let-search="searchTerm">
-    <b [textContent]="text.add_new_action"></b>: {{search}}
   </ng-template>
 </op-autocompleter>

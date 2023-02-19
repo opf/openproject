@@ -3,7 +3,7 @@
   [formGroup]="templateForm"
 >
   <div [ngClass]="{ 'op-highlighted-input': true, 'op-highlighted-input_active': !!templateControl?.value }">
-    <op-form-field
+    <spot-form-field
       [label]="text.use_template"
       data-qa-field-name="use_template"
     >
@@ -16,7 +16,7 @@
         slot="input"
       >
       </ng-select>
-    </op-form-field>
+    </spot-form-field>
   </div>
 </form>
 

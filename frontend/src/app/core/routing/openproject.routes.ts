@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -56,6 +56,8 @@ import {
   mobileGuardActivated,
   redirectToMobileAlternative,
 } from 'core-app/shared/helpers/routing/mobile-guard.helper';
+import { TEAM_PLANNER_LAZY_ROUTES } from 'core-app/features/team-planner/team-planner/team-planner.lazy-routes';
+import { CALENDAR_LAZY_ROUTES } from 'core-app/features/calendar/calendar.lazy-routes';
 
 export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   {
@@ -144,6 +146,8 @@ export const OPENPROJECT_ROUTES:Ng2StateDeclaration[] = [
   },
   ...MY_ACCOUNT_LAZY_ROUTES,
   ...IAN_LAZY_ROUTES,
+  ...TEAM_PLANNER_LAZY_ROUTES,
+  ...CALENDAR_LAZY_ROUTES,
 ];
 
 /**
@@ -204,6 +208,19 @@ export function uiRouterConfiguration(uiRouter:UIRouter, injector:Injector, modu
       equals: (a:any, b:any) => _.isEqual(a, b),
     },
   );
+
+  uiRouter.urlService.config.type(
+    'opQueryId',
+    {
+      pattern: new RegExp(/(?:new|[0-9]+)/),
+      encode: (id:string|null) => id || 'new',
+      decode: (id:string) => (id === 'new' ? null : id),
+      raw: true,
+      dynamic: true,
+      is: (val:unknown) => typeof (val) === 'string',
+      equals: (a:unknown, b:unknown) => _.isEqual(a, b),
+    },
+  );
 }
 
 export function initializeUiRouterListeners(injector:Injector) {
@@ -242,9 +259,6 @@ export function initializeUiRouterListeners(injector:Injector) {
     if (transition.from().data && _.get(state, 'data.menuItem') !== transition.from().data.menuItem) {
       updateMenuItem(_.get(state, 'data.menuItem'), 'add');
     }
-
-    // Reset scroll position, mostly relevant for mobile
-    window.scrollTo(0, 0);
   });
 
   $transitions.onExit({}, (transition:Transition, state:StateDeclaration) => {

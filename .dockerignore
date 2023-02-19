@@ -26,7 +26,6 @@ features
 help
 log/*.log
 spec
-spec_legacy
 tmp
 frontend/node_modules
 node_modules

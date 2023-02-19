@@ -85,7 +85,7 @@ de:
         bim/ifc_models/ifc_model:
           attributes:
             base:
-              ifc_attachment_missing: "Keine IFC Datei angehängt."
+              ifc_attachment_missing: "Keine IFC-Datei angehängt."
               invalid_ifc_file: "Die angegebene Datei ist keine gültige IFC-Datei."
         bim/bcf/viewpoint:
           bitmaps_not_writable: "bitmaps ist noch nicht schreibbar, da es noch nicht implementiert wurde."

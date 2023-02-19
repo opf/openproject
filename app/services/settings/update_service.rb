@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,28 +27,65 @@
 #++
 
 class Settings::UpdateService < ::BaseServices::BaseContracted
-  def initialize(user:)
-    super user: user,
+  def initialize(user:, contract_options: {})
+    super user:,
+          contract_options:,
           contract_class: Settings::UpdateContract
+  end
+
+  def validate_params(params)
+    if contract_options[:params_contract]
+      contract = contract_options[:params_contract].new(model, user, params:)
+      ServiceResult.new success: contract.valid?,
+                        errors: contract.errors,
+                        result: model
+    else
+      super
+    end
   end
 
   def after_validate(params, call)
     params.each do |name, value|
-      Setting[name] = derive_value(value)
+      remember_previous_value(name)
+      set_setting_value(name, value)
     end
 
     call
   end
 
+  def after_perform(call)
+    super.tap do
+      params.each_key do |name|
+        run_on_change_callback(name)
+      end
+    end
+  end
+
   private
+
+  def remember_previous_value(name)
+    previous_values[name] = Setting[name]
+  end
+
+  def set_setting_value(name, value)
+    Setting[name] = derive_value(value)
+  end
+
+  def previous_values
+    @previous_values ||= {}
+  end
+
+  def run_on_change_callback(name)
+    if (definition = Settings::Definition[name]) && definition.on_change
+      definition.on_change.call(previous_values[name])
+    end
+  end
 
   def derive_value(value)
     case value
-    when Array
-      # remove blank values in array settings
-      value.delete_if(&:blank?)
-    when Hash
-      value.delete_if { |_, v| v.blank? }
+    when Array, Hash
+      # remove blank values in array, hash settings
+      value.compact_blank!
     else
       value.strip
     end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { Instance } from 'flatpickr/dist/types/instance';
 import { KeyCodes } from 'core-app/shared/helpers/keyCodes.enum';
 import { DatePicker } from 'core-app/shared/components/op-date-picker/datepicker';
@@ -34,6 +39,7 @@ import { AbstractDatePickerDirective } from 'core-app/shared/components/op-date-
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 
+/* eslint-disable-next-line change-detection-strategy/on-push */
 @Component({
   selector: 'op-single-date-picker',
   templateUrl: './op-single-date-picker.component.html',
@@ -41,14 +47,31 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
   @Output() public changed = new DebouncedEventEmitter<string>(componentDestroyed(this));
 
+  @Output() public blurred = new EventEmitter<string>();
+
+  @Output() public enterPressed = new EventEmitter<string>();
+
   @Input() public initialDate = '';
 
   onInputChange():void {
     if (this.inputIsValidDate()) {
       this.changed.emit(this.currentValue);
-    } else {
-      this.changed.emit('');
     }
+  }
+
+  onBlurred(event:MouseEvent):void {
+    if (this.isOutsideClick(event)) {
+      this.close();
+      this.blurred.emit(this.currentValue);
+    }
+  }
+
+  get dateValue():string {
+    if (this.inputIsValidDate()) {
+      return this.currentValue;
+    }
+
+    return '';
   }
 
   protected inputIsValidDate():boolean {
@@ -84,11 +107,11 @@ export class OpSingleDatePickerComponent extends AbstractDatePickerDirective {
     }
 
     this.datePickerInstance = new DatePicker(
+      this.injector,
       `#${this.id}`,
       initialValue,
       options,
       null,
-      this.configurationService,
     );
   }
 }

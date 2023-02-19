@@ -26,7 +26,7 @@ The wizard will automatically set environment variables to be used by OpenProjec
 
 ## Docker installation
 
-For the Compose-based docker installation, you should update the `docker-compose.yml` file and add any [environment variable](../../configuration/environment) that you may require. Docker Compose supports [file overrides](https://docs.docker.com/compose/extends/) so you may also want to use that. Then simply issue the following command:
+For the Compose-based docker installation, you should not update the `docker-compose.yml` file as it refreshes with each pull, but use the file `docker-compose.override.yml` instead. There you could add any [environment variable](../../configuration/environment) that you may require. Docker Compose supports [file overrides](https://docs.docker.com/compose/extends/) so you may also want to use that. Then simply issue the following command:
 
 ```
 docker-compose up -d

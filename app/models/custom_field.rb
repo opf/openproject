@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +28,7 @@
 
 class CustomField < ApplicationRecord
   include CustomField::OrderStatements
-
+  scope :required, -> { where(is_required: true) }
   has_many :custom_values, dependent: :delete_all
   # WARNING: the inverse_of option is also required in order
   # for the 'touch: true' option on the custom_field association in CustomOption
@@ -43,7 +41,7 @@ class CustomField < ApplicationRecord
            inverse_of: 'custom_field'
   accepts_nested_attributes_for :custom_options
 
-  acts_as_list scope: 'type = \'#{self.class}\''
+  acts_as_list scope: [:type]
 
   validates :field_format, presence: true
   validates :custom_options,
@@ -54,14 +52,14 @@ class CustomField < ApplicationRecord
   validate :uniqueness_of_name_with_scope
 
   def uniqueness_of_name_with_scope
-    taken_names = CustomField.where(type: type)
-    taken_names = taken_names.where('id != ?', id) if id
+    taken_names = CustomField.where(type:)
+    taken_names = taken_names.where.not(id:) if id
     taken_names = taken_names.pluck(:name)
 
     errors.add(:name, :taken) if name.in?(taken_names)
   end
 
-  validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
+  validates :field_format, inclusion: { in: OpenProject::CustomFieldFormat.available_formats }
 
   validate :validate_default_value
   validate :validate_regex
@@ -142,9 +140,9 @@ class CustomField < ApplicationRecord
 
   def value_of(value)
     if list?
-      custom_options.where(value: value).pluck(:id).first
+      custom_options.where(value:).pick(:id)
     else
-      CustomValue.new(custom_field: self, value: value).valid? && value
+      CustomValue.new(custom_field: self, value:).valid? && value
     end
   end
 
@@ -173,7 +171,7 @@ class CustomField < ApplicationRecord
       if custom_option
         custom_option.value = value
       else
-        custom_options.build position: i + 1, value: value
+        custom_options.build position: i + 1, value:
       end
 
       max_position = i + 1
@@ -184,7 +182,7 @@ class CustomField < ApplicationRecord
 
   def cast_value(value)
     casted = nil
-    unless value.blank?
+    if value.present?
       case field_format
       when 'string', 'text', 'list'
         casted = value
@@ -305,9 +303,9 @@ class CustomField < ApplicationRecord
 
   def possible_values_from_arg(arg)
     if arg.is_a?(Array)
-      arg.compact.map(&:strip).reject(&:blank?)
+      arg.compact.map(&:strip).compact_blank
     else
-      arg.to_s.split(/[\n\r]+/).map(&:strip).reject(&:blank?)
+      arg.to_s.split(/[\n\r]+/).map(&:strip).compact_blank
     end
   end
 

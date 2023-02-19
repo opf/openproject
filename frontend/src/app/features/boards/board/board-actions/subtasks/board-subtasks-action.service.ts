@@ -59,7 +59,7 @@ export class BoardSubtasksActionService extends BoardActionService {
     return this
       .apiV3Service
       .work_packages
-      .filtered(filters)
+      .filtered(filters, { pageSize: '-1' })
       .get()
       .pipe(
         map((collection) => collection.elements),

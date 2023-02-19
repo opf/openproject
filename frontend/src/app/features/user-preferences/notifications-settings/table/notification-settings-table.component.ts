@@ -4,13 +4,15 @@ import {
   Component,
   ChangeDetectionStrategy,
   Input,
+  OnInit,
 } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES, REMINDER_AVAILABLE_TIMEFRAMES } from '../overdue-reminder-available-times';
 
 @Component({
   selector: 'op-notification-settings-table',
@@ -18,10 +20,28 @@ import { HalSourceLink } from 'core-app/features/hal/resources/hal-resource';
   styleUrls: ['./notification-settings-table.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NotificationSettingsTableComponent {
+export class NotificationSettingsTableComponent implements OnInit {
   @Input() userId:string;
 
   @Input() settings:FormArray;
+
+  public eeShowBanners = false;
+
+  public availableTimes = [
+    {
+      value: null,
+      title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
+    },
+    ...REMINDER_AVAILABLE_TIMEFRAMES,
+  ];
+
+  public availableTimesOverdue = [
+    {
+      value: null,
+      title: this.I18n.t('js.notifications.settings.reminders.no_notification'),
+    },
+    ...OVERDUE_REMINDER_AVAILABLE_TIMEFRAMES,
+  ];
 
   text = {
     notify_me: this.I18n.t('js.notifications.settings.notify_me'),
@@ -30,10 +50,20 @@ export class NotificationSettingsTableComponent {
       title: this.I18n.t('js.notifications.settings.reasons.mentioned.title'),
       description: this.I18n.t('js.notifications.settings.reasons.mentioned.description'),
     },
-    involved_header: {
-      title: this.I18n.t('js.notifications.settings.reasons.involved.title'),
-      description: this.I18n.t('js.notifications.settings.reasons.involved.description'),
+    notifyImmediately: {
+      title: this.I18n.t('js.notifications.settings.global.immediately.title'),
+      description: this.I18n.t('js.notifications.settings.global.immediately.description'),
     },
+    alsoNotifyFor: {
+      title: this.I18n.t('js.notifications.settings.global.delayed.title'),
+      description: this.I18n.t('js.notifications.settings.global.delayed.description'),
+    },
+    dateAlerts: {
+      title: this.I18n.t('js.notifications.settings.global.date_alerts.title'),
+      description: this.I18n.t('js.notifications.settings.global.date_alerts.description'),
+    },
+    assignee: this.I18n.t('js.notifications.settings.reasons.assignee'),
+    responsible: this.I18n.t('js.notifications.settings.reasons.responsible'),
     watched_header: this.I18n.t('js.notifications.settings.reasons.watched'),
     work_package_commented_header: this.I18n.t('js.notifications.settings.reasons.work_package_commented'),
     work_package_created_header: this.I18n.t('js.notifications.settings.reasons.work_package_created'),
@@ -41,12 +71,20 @@ export class NotificationSettingsTableComponent {
     work_package_prioritized_header: this.I18n.t('js.notifications.settings.reasons.work_package_prioritized'),
     work_package_scheduled_header: this.I18n.t('js.notifications.settings.reasons.work_package_scheduled'),
     remove_project_settings: this.I18n.t('js.notifications.settings.project_specific.remove'),
+    startDate: this.I18n.t('js.work_packages.properties.startDate'),
+    dueDate: this.I18n.t('js.work_packages.properties.dueDate'),
+    overdue: this.I18n.t('js.notifications.settings.global.overdue'),
   };
 
   constructor(
     private I18n:I18nService,
     private pathHelper:PathHelperService,
+    readonly bannersService:BannersService,
   ) {}
+
+  ngOnInit():void {
+    this.eeShowBanners = this.bannersService.eeShowBanners;
+  }
 
   projectLink(href:string) {
     return this.pathHelper.projectPath(idFromLink(href));
@@ -55,12 +93,16 @@ export class NotificationSettingsTableComponent {
   addProjectSettings(project:HalSourceLink):void {
     this.settings.push(new FormGroup({
       project: new FormControl(project),
-      involved: new FormControl(false),
+      assignee: new FormControl(false),
+      responsible: new FormControl(false),
       workPackageCreated: new FormControl(false),
       workPackageProcessed: new FormControl(false),
       workPackageScheduled: new FormControl(false),
       workPackagePrioritized: new FormControl(false),
       workPackageCommented: new FormControl(false),
+      startDate: new FormControl(this.availableTimes[2].value),
+      dueDate: new FormControl(this.availableTimes[2].value),
+      overdue: new FormControl(this.availableTimesOverdue[0].value),
     }));
   }
 

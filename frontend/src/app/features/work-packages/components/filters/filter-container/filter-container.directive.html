@@ -16,11 +16,11 @@
     id="query_form_content"
     class="hide-when-print" *ngIf="visible$ | async"
   >
-    <query-filters
+    <op-query-filters
       *ngIf="!!filters"
       [filters]="filters"
       [showCloseFilter]="true"
       (filtersChanged)="replaceIfComplete($event)"
-    ></query-filters>
+    ></op-query-filters>
   </div>
 </div>

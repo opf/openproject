@@ -15,6 +15,7 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
     window.OpenProject.getPluginContext()
       .then((context) => {
         const datePicker = new DatePicker(
+          context.injector,
           '.-augmented-datepicker',
           target.val() as string,
           {
@@ -22,7 +23,6 @@ export function augmentedDatePicker(evt:JQuery.TriggeredEvent, target:JQuery) {
             allowInput: true,
           },
           target[0],
-          context.services.configurationService,
         );
         datePicker.show();
       })

@@ -5,8 +5,8 @@ tr:
       remove: 'Widget''ı kaldır'
       configure: 'Widget''ı yapılandır'
       upsale:
-        text: "İş paketi grafik widget'ı gibi bazı widget’lar yalnızca"
-        link: 'kurumsal baskı.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Özel metin'
@@ -31,10 +31,13 @@ tr:
           no_results: 'Projeler için özel alan tanımlanmadı.'
         project_status:
           title: 'Proje Durumu'
+          not_started: 'Başlatılmadı'
           on_track: 'Takipte'
           off_track: 'Kapalı parça'
           at_risk: 'Riskli'
           not_set: 'Ayarlanmadı'
+          finished: 'Bitti'
+          discontinued: 'Durduruldu'
         subprojects:
           title: 'Alt Projeler'
           no_results: 'Alt proje yok.'

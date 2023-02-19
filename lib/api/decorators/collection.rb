@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +36,7 @@ module API
         @groups = groups
         @self_link = self_link
 
-        super(models, current_user: current_user)
+        super(models, current_user:)
       end
 
       class_attribute :element_decorator_class
@@ -77,7 +75,7 @@ module API
       collection :elements,
                  getter: ->(*) {
                    represented.map do |model|
-                     element_decorator.create(model, current_user: current_user)
+                     element_decorator.create(model, current_user:)
                    end
                  },
                  exec_context: :decorator,

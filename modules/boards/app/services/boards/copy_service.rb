@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +30,9 @@ module Boards
   class CopyService < ::Grids::CopyService
     protected
 
-    def initialize_new_grid!(new_board, original_board, _params)
-      new_board.project = state.project || original_board.project
+    def set_attributes_params(params)
+      super
+        .merge(project: state.project || model.project)
     end
   end
 end

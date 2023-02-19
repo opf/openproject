@@ -7,9 +7,11 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { WorkPackageRelationsService } from '../wp-relations.service';
+import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+
 
 @Component({
   selector: 'wp-relation-row',
@@ -63,7 +65,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
     },
   };
 
-  constructor(protected apiV3Service:APIV3Service,
+  constructor(protected apiV3Service:ApiV3Service,
     protected notificationService:WorkPackageNotificationService,
     protected wpRelations:WorkPackageRelationsService,
     protected halEvents:HalEventsService,
@@ -199,5 +201,9 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       })
       .catch((err:any) => this.notificationService.handleRawError(err,
         this.relatedWorkPackage));
+  }
+
+  public highlightingClassForWpType():string {
+    return Highlighting.inlineClass('type', this.relatedWorkPackage.type.id!);
   }
 }

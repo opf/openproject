@@ -4,13 +4,14 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { mapTo, switchMap } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RoleResource } from 'core-app/features/hal/resources/role-resource';
-import { PrincipalData } from 'core-app/shared/components/principal/principal-types';
+import { PrincipalData, PrincipalLike } from 'core-app/shared/components/principal/principal-types';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { PrincipalType } from '../invite-user.component';
@@ -19,6 +20,7 @@ import { PrincipalType } from '../invite-user.component';
   selector: 'op-ium-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryComponent {
   @Input() type:PrincipalType;
@@ -40,38 +42,36 @@ export class SummaryComponent {
   public PrincipalType = PrincipalType;
 
   public text = {
-    title: () => this.I18n.t('js.invite_user_modal.title.invite_principal_to_project', {
-      principal: this.principal?.name,
-      project: this.project?.name,
-    }),
+    title: ():string => this.I18n.t('js.invite_user_modal.title.invite'),
     projectLabel: this.I18n.t('js.invite_user_modal.project.label'),
     principalLabel: {
       User: this.I18n.t('js.invite_user_modal.principal.label.name_or_email'),
       PlaceholderUser: this.I18n.t('js.invite_user_modal.principal.label.name'),
       Group: this.I18n.t('js.invite_user_modal.principal.label.name'),
     },
-    roleLabel: () => this.I18n.t('js.invite_user_modal.role.label', {
+    roleLabel: ():string => this.I18n.t('js.invite_user_modal.role.label', {
       project: this.project?.name,
     }),
     messageLabel: this.I18n.t('js.invite_user_modal.message.label'),
     backButton: this.I18n.t('js.invite_user_modal.back'),
-    nextButton: () => this.I18n.t('js.invite_user_modal.summary.next_button', {
+    cancelButton: this.I18n.t('js.button_cancel'),
+    nextButton: ():string => this.I18n.t('js.invite_user_modal.summary.next_button', {
       type: this.type,
       principal: this.principal,
     }),
   };
 
-  public get principal() {
+  public get principal():PrincipalLike|null {
     return this.principalData.principal;
   }
 
   constructor(
     readonly I18n:I18nService,
     readonly elementRef:ElementRef,
-    readonly api:APIV3Service,
+    readonly api:ApiV3Service,
   ) { }
 
-  invite() {
+  invite():Observable<HalResource> {
     return of(this.principalData)
       .pipe(
         switchMap((principalData:PrincipalData) => this.createPrincipal(principalData)),
@@ -99,18 +99,18 @@ export class SummaryComponent {
     switch (this.type) {
       case PrincipalType.User:
         return this.api.users.post({
-          email: principal!.name,
+          email: (principal as PrincipalLike).name,
           status: 'invited',
           ...customFields,
         });
       case PrincipalType.Placeholder:
-        return this.api.placeholder_users.post({ name: principal!.name });
+        return this.api.placeholder_users.post({ name: (principal as PrincipalLike).name });
       default:
         throw new Error('Unsupported PrincipalType given');
     }
   }
 
-  onSubmit($e:Event) {
+  onSubmit($e:Event):void {
     $e.preventDefault();
 
     this

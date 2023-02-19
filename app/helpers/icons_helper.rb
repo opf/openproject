@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +34,11 @@ module IconsHelper
   def op_icon(classnames, title: nil)
     title = "title=\"#{h(title)}\"" unless title.nil?
     %(<i class="#{classnames}" #{title} aria-hidden="true"></i>).html_safe
+  end
+
+  def spot_icon(icon_name, title: nil)
+    classnames = "spot-icon spot-icon_#{icon_name}"
+    content_tag(:span, title, class: classnames.to_s)
   end
 
   ##

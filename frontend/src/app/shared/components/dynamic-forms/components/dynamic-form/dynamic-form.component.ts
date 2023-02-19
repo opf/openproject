@@ -21,6 +21,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { IDynamicFieldGroupConfig, IOPDynamicFormSettings, IOPFormlyFieldSettings } from '../../typings';
 import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 /**
 * SETTINGS:
@@ -81,7 +82,7 @@ import { DynamicFormService } from '../../services/dynamic-form/dynamic-form.ser
 *
 * - initialPayload @Input:
 *   Allows to provide and initial payload to the form settings request. Checkout
-*   the [forms documentation](https://docs.openproject.org/api/forms/).
+*   the [forms documentation](https://www.openproject.org/docs/api/forms/).
 *
 * - model @Input:
 *   Allows to change model of the form.
@@ -378,6 +379,11 @@ export class DynamicFormComponent extends UntilDestroyedMixin implements OnChang
     if (this.fieldGroups) {
       fields = this.dynamicFieldsService.getFormlyFormWithFieldGroups(this.fieldGroups, fields);
     }
+
+    // We pass the resourceId through because some of the inputComponents need it to pass to their subcomponents
+    // (e.g. the userInputComponent)
+    const id = this.resourceId || idFromLink(this.resourcePath || null);
+    model.id = id;
 
     this.fields = fields;
     this.innerModel = model;

@@ -39,7 +39,7 @@ module Projects
 
     def deactivate_class_on_lft_sort
       if sorted_by_lft?
-        'op-link_inactive'
+        'spot-link_inactive'
       end
     end
 
@@ -50,17 +50,15 @@ module Projects
     end
 
     def all_columns
-      @all_columns ||= begin
-        [
-          [:hierarchy, { builtin: true }],
-          [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
-          [:project_status, { caption: Project.human_attribute_name(:status) }],
-          [:status_explanation, { caption: Projects::Status.human_attribute_name(:explanation) }],
-          [:public, { caption: Project.human_attribute_name(:public) }],
-          *custom_field_columns,
-          *admin_columns
-        ]
-      end
+      @all_columns ||= [
+        [:hierarchy, { builtin: true }],
+        [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
+        [:project_status, { caption: Project.human_attribute_name(:status) }],
+        [:status_explanation, { caption: Projects::Status.human_attribute_name(:explanation) }],
+        [:public, { caption: Project.human_attribute_name(:public) }],
+        *custom_field_columns,
+        *admin_columns
+      ]
     end
 
     def headers
@@ -99,8 +97,7 @@ module Projects
         fields = ProjectCustomField.visible(current_user).order(:position)
 
         fields
-          .map { |cf| [:"cf_#{cf.id}", cf] }
-          .to_h
+          .index_by { |cf| :"cf_#{cf.id}" }
       end
     end
   end

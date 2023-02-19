@@ -38,9 +38,7 @@ module ::TwoFactorAuthentication
         end
       end
 
-      def enforced?
-        strategy_manager.enforced?
-      end
+      delegate :enforced?, to: :strategy_manager
 
       def strategy_manager
         ::OpenProject::TwoFactorAuthentication::TokenStrategyManager

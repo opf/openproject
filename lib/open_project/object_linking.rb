@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +47,7 @@ module OpenProject
         name = user.name
         href = user_url(user,
                         only_path: options.delete(:only_path) { true })
-        options[:title] ||= I18n.t(:label_user_named, name: name)
+        options[:title] ||= I18n.t(:label_user_named, name:)
 
         link_to(name, href, options)
       else
@@ -64,7 +62,7 @@ module OpenProject
       name = group.name
       href = show_group_url(group,
                             only_path: options.delete(:only_path) { true })
-      options[:title] ||= I18n.t(:label_group_named, name: name)
+      options[:title] ||= I18n.t(:label_group_named, name:)
 
       link_to(name, href, options)
     end
@@ -87,7 +85,7 @@ module OpenProject
     def link_to_revision(revision, project, options = {})
       text = options.delete(:text) || format_revision(revision)
       rev = revision.respond_to?(:identifier) ? revision.identifier : revision
-      url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: rev }
+      url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: }
       html_options = { title: I18n.t(:label_revision_id, value: format_revision(revision)) }.merge(options)
       link_to(h(text), url_opts, html_options)
     end

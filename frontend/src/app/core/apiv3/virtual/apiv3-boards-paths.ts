@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,34 +27,35 @@
 //++
 
 import { GridResource } from 'core-app/features/hal/resources/grid-resource';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
-import { Apiv3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import { ApiV3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { Board, BoardType } from 'core-app/features/boards/board/board';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
-import { CachableAPIV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
+import { ApiV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { APIv3BoardPath } from 'core-app/core/apiv3/virtual/apiv3-board-path';
+import { ApiV3BoardPath } from 'core-app/core/apiv3/virtual/apiv3-board-path';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
-export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardPath> {
+export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
   @InjectField() private authorisationService:AuthorisationService;
 
   @InjectField() private PathHelper:PathHelperService;
 
-  constructor(protected apiRoot:APIV3Service,
+  constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {
-    super(apiRoot, basePath, 'grids', APIv3BoardPath);
+    super(apiRoot, basePath, 'grids', ApiV3BoardPath);
   }
 
   /**
    * Load a list of grids with a given list parameter filter
    * @param params
    */
-  public list(params?:Apiv3ListParameters):Observable<Board[]> {
+  public list(params?:ApiV3ListParameters):Observable<Board[]> {
     return this
       .halResourceService
       .get<CollectionResource<GridResource>>(this.path + listParamsString(params))
@@ -77,7 +78,7 @@ export class Apiv3BoardsPaths extends CachableAPIV3Collection<Board, APIv3BoardP
    */
   public allInScope(projectIdentifier:string):Observable<Board[]> {
     const path = this.boardPath(projectIdentifier);
-    return this.list({ filters: [['scope', '=', [path]]] });
+    return this.list({ filters: [['scope', '=', [path]]], pageSize: MAGIC_PAGE_NUMBER });
   }
 
   /**

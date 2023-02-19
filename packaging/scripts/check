@@ -34,13 +34,3 @@ if ps -u "$APP_USER" -f | grep -q "rake jobs:work" ; then
 else
   log_ko "openproject background job worker is NOT running"
 fi
-
-if [ -z "$ADMIN_EMAIL" ]; then
-  log_ko "no ADMIN_EMAIL set. Can't test email settings."
-else
-  if $(pwd)/packaging/scripts/send-test-email ; then
-    log_ok "test email sent to ${ADMIN_EMAIL}"
-  else
-    log_ko "unable to send test email to ${ADMIN_EMAIL}"
-  fi
-fi

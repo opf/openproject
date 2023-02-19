@@ -1,32 +1,32 @@
 import { ID } from '@datorama/akita';
 import {
-  HalResourceLink,
-  HalResourceLinks,
-  Formattable,
+  IHalResourceLink,
+  IHalResourceLinks,
+  IFormattable,
 } from 'core-app/core/state/hal-resource';
 
-export const PROJECTS_MAX_SIZE = 100;
-
-export interface ProjectHalResourceLinks extends HalResourceLinks {
-  categories:HalResourceLink;
-  delete:HalResourceLink;
-  parent:HalResourceLink;
-  self:HalResourceLink;
-  status:HalResourceLink;
-  schema:HalResourceLink;
+export interface IProjectHalResourceLinks extends IHalResourceLinks {
+  ancestors:IHalResourceLink[];
+  categories:IHalResourceLink;
+  delete:IHalResourceLink;
+  parent:IHalResourceLink;
+  self:IHalResourceLink;
+  status:IHalResourceLink;
+  schema:IHalResourceLink;
+  storages?:IHalResourceLink[];
 }
 
-export interface Project {
+export interface IProject {
   id:ID;
   identifier:string;
   name:string;
   public:boolean;
   active:boolean;
-  statusExplanation:Formattable;
-  description:Formattable;
+  statusExplanation:IFormattable;
+  description:IFormattable;
 
   createdAt:string;
   updatedAt:string;
 
-  _links:ProjectHalResourceLinks;
+  _links:IProjectHalResourceLinks;
 }

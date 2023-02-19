@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -84,7 +84,7 @@ ar:
   label_costlog: "تكاليف الوحدة المسجلة"
   label_cost_plural: "التكاليف"
   label_cost_type_plural: "أنواع التكلفة"
-  label_cost_type_specific: "Cost type #%{id}: %{name}"
+  label_cost_type_specific: "نوع التكلفة #%{id}:%{name}"
   label_costs_per_page: "التكاليف للصفحة"
   label_currency: "العملة"
   label_currency_format: "شكل العملة"
@@ -134,7 +134,7 @@ ar:
   permission_view_own_cost_entries: "عرض تكاليف الحجز الخاصة"
   permission_view_own_hourly_rate: "عرض الأجور الساعيّة الخاصة"
   permission_view_own_time_entries: "عرض الوقت الخاص الذي تم قضاؤه"
-  project_module_costs: "Time and costs"
+  project_module_costs: "الوقت والتكاليف"
   text_assign_time_and_cost_entries_to_project: "تعيين الساعات والتكاليف التي تمّ الإبلاغ عنها للمشروع"
   text_destroy_cost_entries_question: "%{cost_entries} تم الإبلاغ عنها في مجموعات العمل التي توشك أن تلغيها. ماذا تريد أن تفعل؟"
   text_destroy_time_and_cost_entries: "إلغاء الساعات والتكاليف التي تم الإبلاغ عنها"

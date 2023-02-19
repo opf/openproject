@@ -1,0 +1,13 @@
+#English strings go here
+ro:
+  permission_view_team_planner: "Vezi planificatorul echipei"
+  permission_manage_team_planner: "Gestionează planificatorul de echipe"
+  project_module_team_planner_view: "Planificator de echipă"
+  team_planner:
+    label_team_planner: "Planificator de echipă"
+    label_create_new_team_planner: "Creați un nou planificator de echipă"
+    label_team_planner_plural: "Planificatori de echipe"
+    label_assignees: "Responsabili"
+    upsale:
+      title: "Planificator de echipă"
+      description: "Obțineți o imagine de ansamblu completă a planificării echipei dumneavoastră cu Team Planner. Întindeți, scurtați și glisați pachetele de lucru pentru a modifica datele, pentru a le muta sau pentru a schimba destinatarii."

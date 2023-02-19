@@ -22,7 +22,7 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   }
 
   /**
-   * The hierarchy builder is only applicable if the hierachy mode is active
+   * The hierarchy builder is only applicable if the hierarchy mode is active
    */
   public isApplicable(_table:WorkPackageTable) {
     return this.wpTableHierarchies.isEnabled;

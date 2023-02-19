@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,16 +31,25 @@ module WorkPackages::Scopes::IncludeDerivedDates
 
   class_methods do
     def include_derived_dates
-      left_joins(:descendants)
-        .select(*select_statement)
+      joins(derived_dates_join_statement)
+        .select(*derived_dates_select_statement)
         .group(:id)
     end
 
     private
 
-    def select_statement
+    def derived_dates_select_statement
       ["LEAST(MIN(#{descendants_alias}.start_date), MIN(#{descendants_alias}.due_date)) AS derived_start_date",
        "GREATEST(MAX(#{descendants_alias}.start_date), MAX(#{descendants_alias}.due_date)) AS derived_due_date"]
+    end
+
+    def derived_dates_join_statement
+      <<~SQL.squish
+        LEFT JOIN work_package_hierarchies wp_hierarchies
+        ON wp_hierarchies.ancestor_id = work_packages.id AND wp_hierarchies.generations > 0
+        LEFT JOIN work_packages #{descendants_alias}
+        ON wp_hierarchies.descendant_id = #{descendants_alias}.id
+      SQL
     end
 
     def descendants_alias

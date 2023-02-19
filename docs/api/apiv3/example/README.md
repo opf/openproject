@@ -38,17 +38,34 @@ Regardless of the authentication mechanism used, a client will always authentica
 
 ### Basic auth
 
-Basic auth is simple to setup and understand but should be avoided in the long run due to security reasons but also because it limits a client and is harder to manage within an organization.
+Basic auth is simple to setup and understand but should be avoided in 
+the long run due to security reasons but also because it limits a client 
+and is harder to manage within an organization.
 
-In order to authenticate with basic auth, a user first has to login into OpenProject, generate an api key, and then use the key to authenticate on API calls. A user cannot use the credentials used to login into the UI to also authenticate when communicating with the API.
+In order to authenticate with basic auth, a user first has to login 
+into OpenProject and generate an API key. After that he can use the 
+API key to authenticate API calls. The normal login credentials will 
+not work when communicating via the API.
 
-An API key can be generated on the "Access token" page within the "My account" section by clicking on the "Generate" or "Reset" (depending on whether a key already exists) link within the "API" row. 
+An API key can be generated on the "Access token" page within the 
+"My account" section by clicking on the "Generate" or "Reset" 
+(depending on whether a key already exists) link within the "API" row. 
 
 ![get basic auth key](./basic-auth-key-generation.png)
 
-Only one API key can exist for a user at any given time. Generating a new key will invalidate the former key so make sure to note down the access token. This is one of the limitations that do apply to basic auth but do not apply to OAuth2.
+Only one API key can exist for a user at any given time. 
+Generating a new key will invalidate the former key, so please
+make sure to note down the access token. 
+This is one of the limitations that do apply to basic auth 
+but do not apply to OAuth2.
 
-Postman offers to correctly encode the key and set the correct `Authorization` header via a form. So using Postman, having chosen "Basic Auth" as the authorization type, we can authenticate by pasting in the key into the "Password" field and by setting 'apikey' for "Username". When using basic auth, the user's login is never used. The whole of the information is already encoded in the generated key.
+Postman offers to correctly encode the key and set the 
+correct `Authorization` header via a form. So using Postman, 
+having chosen "Basic Auth" as the authorization type, 
+we can authenticate by pasting in the key into the 
+"Password" field and by setting 'apikey' for "Username". 
+When using basic auth, the user's login is never used. T
+he whole of the information is already encoded in the generated key.
 
 ![basic auth postman form](./basic-auth-postman-form.png)
 
@@ -60,72 +77,45 @@ We could just as well have generated the header ourselves by Base64 encoding the
 
 ### OAuth2
 
-The OAuth2 based authentication requires an administrator to set up but offers significant advantages compared to authentication based on Basic auth. 
+OAuth2 based authentication requires an administrator to create
+and configure an OAuth2 application as described in the 
+[Administration Guide](../../system-admin-guide/authentication/oauth-applications/).
+The guide also explains how to use the Postman application to
+test the OAuth2 flow and to obtain a Bearer token.
 
-OpenProject supports two OAuth flows: "Authorization code" and "Client credentials". In OpenProject terms, the main difference is whether a client wants to impersonate different users or wants to always access OpenProject with the same user account. An example for the former would be an application for logging time. Via the "Authorization code" flow, the logged time would be booked in the name of each user separately. The user would be the user creating the logged time. If the calling user is less important or if that user can always be the same, the "Client credentials" flow is sufficient.
+Once available, we chose to use the resulting Bearer token 
+in Postman by pressing "Use token".
 
-Before the client can authenticate, an administrator sets up the OAuth application within the OpenProject instance. Go to the Administration and select "OAuth applications" within the "Authentication" menu.
-
-![OAuth2 index](./oauth2-index.png)
-
-Click the "+ Add" button to add an application:
-
-![OAuth2 add](./oauth2-add.png)
-
-The "Name" attribute can be freely chosen. But naming reveals a difference between the way the two flows are used. While "Authorization code" flow is less focused on one use case per OAuth2 application, the "Client credentials" flow is more client application specific. This is because the user, and by that the permissions granted, can change for "Authorization code" but is fixed for "Client credentials" as a specific user has to be chosen when configuring the later.
-
-For the guide, we will focus on the "Authorization code" flow. After having selected a name, specify the callback url that the browser is redirected to, after the user has authenticated successfully. It is the end point that the credentials will be send to via POST from the OpenProject instance to the client so it is dependent on the client application. To stress the point, this is an end point within the client application, not within OpenProject.
-
-Next we chose "api_v3" to be the scope of the application. This means, that clients can only access the API v3 and cannot use the same OAuth application to also authenticate for the [BCF api which OpenProject also offers](../bcf-rest-api).
-
-If we can ensure, that the application can secure the api key, we can check the "Confidential" checkbox. This is typically the case for client applications running on a server or on desktop but requires the client application to ensure it.
-
-After having provided the necessary information we click "Create" to actually create the application and are presented the following screen:
-
-![OAuth2 created](./oauth2-created.png)
-
-It contains information we are going to copy to our client application. Part of the information, the client secret, will be shown never again after the page is left so ensure to write it down. 
-
-For this guide, we again chose Postman as our client application. Apart from "Basic auth" as the "Authorization" type, it also supports "Oauth 2.0" which is what we are going to chose:
-
-![OAuth2 postman configure](./oauth2-postman-configure.png)
-
-There are a couple of fields in that form but most of the information can simply be copied over:
-
-* Token Name: Freely choosable field
-* Grant Type: Choose "Authorization Code"
-* Callback URL: Copy from OpenProject
-* Auth URL: Copy from OpenProject
-* Access Token URL: Copy from OpenProject
-* Client ID: Copy from OpenProject
-* Client Secret: Copy from OpenProject
-* Scope: Type in "api_v3" as we chose that in OpenProject
-* State: You can leave this blank
-
-After having provided the necessary information, you can press the "Request Token" button which will result in a browser being shown in which the user, not the client as it will impersonate the user, can log in:
-
-![OAuth2 postman login](./oauth2-postman-login.png) 
-
-Using the UI credentials, be that username and password or any authentication provider e.g. Google, the user now authenticates and is asked whether she/he wants to grant the client application, Postman in this case, access on her/his behalf. 
-
-![OAuth2 postman grant](./oauth2-postman-grant.png) 
-
-Choosing "Authorize" will show the granted token:
- 
 ![OAuth2 postman token](./oauth2-postman-token.png) 
 
-which we chose to use by pressing "Use token". Please note that an OAuth token expires in two hours so the client has to request a new token, then. But using the refreshToken, this does not necessarily require user interaction.
+Please note that an OAuth token expires after two hours,
+so the client has to request a new token then. This will require
+another click to the "Get New Access Token" button at the bottom
+of the Postman "Authorization" tab.
 
 ### Being authenticated
 
-Once we gain authenticated access to the OpenProject application, the error, informing the client of a missing `Authorization` header will disappear. But the collection of work packages returned might still not contain the work packages the client is looking for. This might be, because the user in whose name the client accesses the application is lacking permissions. 
+With the Bearer token included in the request, 
+we should see a list of work packages
+in the work packages page above.
+
+However, the collection of work packages returned might still 
+not contain the work packages the client is looking for. 
+This might be, because the user in whose name the client 
+accesses the application is lacking permissions. 
 We need to ensure that the user also has the necessary authorization.
 
 ## Authorization
 
-As the client accesses OpenProject on behalf of a user, that user needs to have authorization to do the desired actions. So while the user might be authenticated, she/he might lack the necessary permissions to do anything.
+As the client accesses OpenProject on behalf of a user, 
+that user needs to have authorization to do the desired actions. 
+So while the user might be authenticated, she/he might lack the 
+necessary permissions to do anything.
 
-In OpenProject, permissions are mostly granted by creating a connection between a user, a project and a role in the form of a membership. So for every project the user is supposed to have access, a role needs to be assigned to him/her.
+In OpenProject, permissions are mostly granted by creating a 
+connection between a user, a project and a role in the form of a 
+membership. So for every project the user is supposed to have access, 
+a role needs to be assigned to him/her.
 
 This can be done in the members administration of each project:
 
@@ -292,7 +282,7 @@ Sending a POST request to that link, as specified via the `method` attribute nex
 ![work package empty update form](./wp-update-form-blank.png)
 
 The body of the request needs to include the current `lockVersion` of the work package. The `lockVersion` property prevents conflicting modifications in scenarios where one user changes a work package and another
-user overwrites that change unknowingly because she/he did not notice the update having been made in the meantime. The `lockVersion` is listed as one of the work package`s properties.
+user overwrites that change unknowingly because she/he did not notice the update having been made in the meantime. The `lockVersion` is listed as one of the work package's properties.
 
 The form itself is the same as the form for creating work packages with `payload`, `schema` and `validationErrors` helping the client to perform the update. Again a couple of changes can be prepared before the
 actual change is performed:
@@ -320,6 +310,3 @@ Deletion of work packages is done be issuing a DELETE request to the work packag
 ![work package delete](./wp-delete.png)
 
 The `Content-Type: application/json` header was set in Postman by hand this time as no body is required.
-
-
-

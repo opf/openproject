@@ -1,0 +1,39 @@
+@import '../../app/spot/styles/sass/variables'
+
+.op-datepicker-modal
+  z-index: 500
+  width: auto
+  // Basically the width of the two calendars next to each other + spacings
+  // will be overwritten on mobile
+  max-width: 600px
+  min-height: 200px
+  box-shadow: $spot-shadow-light-mid
+  // Apply a bottom margin before the banners are loaded
+  // to avoid overlapping
+  margin-bottom: 60px
+
+  &--toggle-actions-container
+    display: grid
+    grid-template-columns: auto auto 1fr
+    grid-column-gap: $spot-spacing-2
+
+  &--dates-container
+    display: grid
+    grid-template-columns: 1fr 1fr 150px
+    grid-gap: $spot-spacing-1
+
+  &--date-field
+    &_current,
+    &_current:hover
+      outline: 2px solid var(--primary-color)
+      outline-offset: -2px
+
+  &--date-container
+    display: inline-grid
+
+  &--action
+    &:last-of-type
+      margin-right: 0
+
+  &--hidden-link
+    visibility: hidden

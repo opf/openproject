@@ -3,19 +3,18 @@ sidebar_navigation:
   title: Members
   priority: 650
 description: Manage members in OpenProject.
-robots: index, follow
 keywords: members, project participants
 ---
 
 # Manage members
 
-| Topic                                           | Content                                                      |
-| ----------------------------------------------- | ------------------------------------------------------------ |
-| [Add members](#add-members)                     | How to add existing members or invite new members to a project? |
-| [Edit members](#edit-members)                   | How to change the role of a member in a project?             |
-| [Remove members](#remove-members)               | How to remove members from a project?                        |
-| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members?             |
-| [Groups](#groups)                               | How to add members to a groups and add groups to a project?  |
+| Topic                                           | Content                                                         |
+|-------------------------------------------------|-----------------------------------------------------------------|
+| [Add members](#add-members)                     | How to add existing members or invite new members to a project. |
+| [Edit members](#edit-members)                   | How to change the role of a member in a project.                |
+| [Remove members](#remove-members)               | How to remove members from a project.                           |
+| [Roles and permissions](#roles-and-permissions) | How to manage roles and permissions for members.                |
+| [Groups](#groups)                               | How to add members to a group and add groups to a project.      |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Invite-and-Manage-Members.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -45,7 +44,8 @@ To remove members from a project, [select the project](../../getting-started/pro
 
 Members will have different roles with different permissions in a project. To find out how to configure roles and permissions click [here](../../system-admin-guide/users-permissions/roles-permissions).
 
-<div class="glossary">A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.
+<div class="glossary">
+A **role** is defined as a set of permissions defined by a unique name. Project members are assigned to a project by specifying a user's, group's or placeholder user's name and the role(s) they should assume in the project.
 </div>
 
 To assign work packages to a project member, the respective user's or placeholder user's role needs to be able to be assigned work packages. This is the default setting for default roles. You can check this setting in the [Roles and Permissions section](../../system-admin-guide/users-permissions/roles-permissions/#create-a-new-role) of the system administration.

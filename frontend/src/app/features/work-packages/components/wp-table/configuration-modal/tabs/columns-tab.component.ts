@@ -6,6 +6,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { DraggableOption } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
+import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 @Component({
   templateUrl: './columns-tab.component.html',
@@ -24,7 +25,6 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
   public eeShowBanners = false;
 
   public text = {
-
     columnsHelp: this.I18n.t('js.work_packages.table_configuration.columns_help_text'),
     columnsLabel: this.I18n.t('js.label_columns'),
     selectedColumns: this.I18n.t('js.description_selected_columns'),
@@ -32,6 +32,7 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
 
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
+    moreInfoLink: enterpriseDocsUrl.website,
   };
 
   constructor(readonly injector:Injector,

@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Search
   priority: 000
 description: How to use the search bar and search feature in OpenProject
-robots: index, follow
 keywords: search, find, filter, search bar
 ---
 
@@ -17,7 +16,7 @@ The search bar can be found at the upper right of the application. To search for
 
 Searching for e.g. "big cat" will also return work packages with the description "big old cat".
 
-![search-bar](image-20210422101143600.png)
+![search bar in navigation bar](search-bar-in-navigation-bar.png)
 
 ## Advanced search
 
@@ -31,4 +30,18 @@ Now, you can find the results for your search term from different categories/par
 
 ![search-result-categories](image-20210412205730857.png)
 
-Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#global-projects-overview---view-all-projects).
+Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#projects-list).
+
+## Full text search, incl. work package attachments
+
+The search bar of Openproject is configured to allow a full text search. This means that you can search not only headings but also descriptions and texts, such as a wiki text or the description of a work package.
+
+The title and the description of a work package can also be found by [filtering by text](../work-packages/work-package-table-configuration/#filtering-by-text).
+Aside from full-text search, you can search work packages based on their attached file name or even within the content of an attachment.
+
+<<<<<<< HEAD
+**Note** Full text search is a Premium Feature in OpenProject and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+=======
+**Note** Full text search is an Enterprise add-on in OpenProject and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
+>>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
+

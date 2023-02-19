@@ -21,7 +21,7 @@ import { OpCkeditorComponent } from 'core-app/shared/components/editor/component
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { OpFormFieldComponent } from 'core-app/shared/components/forms/form-field/form-field.component';
+import { SpotFormFieldComponent } from 'core-app/spot/components/form-field/form-field.component';
 
 export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model:any, providers?:any[]):ComponentFixture<any> {
   @Component({
@@ -78,7 +78,7 @@ export function createDynamicInputFixture(fields:IOPFormlyFieldSettings[], model
         SelectInputComponent,
         SelectProjectStatusInputComponent,
         BooleanInputComponent,
-        OpFormFieldComponent,
+        SpotFormFieldComponent,
         DateInputComponent,
         OpCkeditorComponent,
         FormattableControlComponent,

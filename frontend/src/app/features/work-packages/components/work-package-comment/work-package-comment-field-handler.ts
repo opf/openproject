@@ -63,7 +63,7 @@ export abstract class WorkPackageCommentFieldHandler extends EditFieldHandler im
   }
 
   public get commentValue() {
-    return this.change.value('comment');
+    return this.change.value<{ raw:string }>('comment');
   }
 
   public handleUserCancel() {

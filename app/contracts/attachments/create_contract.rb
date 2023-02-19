@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +50,7 @@ module Attachments
     def validate_attachments_addable
       return if model.container
 
-      if Redmine::Acts::Attachable.attachables.none?(&:attachments_addable?)
+      if Redmine::Acts::Attachable.attachables.none?(&:uncontainered_attachable?)
         errors.add(:base, :error_unauthorized)
       end
     end

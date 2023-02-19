@@ -1,0 +1,37 @@
+#English strings go here
+ca:
+  js:
+    storages:
+      link_files_in_storage: "Fitxers enllaçats a %{storageType}"
+      link_existing_files: "Enllaça fitxers existents"
+      login: "%{storageType} inici de sessió"
+      login_to: "Inicia sessió a %{storageType}"
+      no_connection: "%{storageType} sense connexió"
+      open_storage: "Obre %{storageType}"
+      types:
+        nextcloud: "Nextcloud"
+      information:
+        connection_error: >
+          Alguna configuració de %{storageType} no està funcionant. Si us plau, contacta el teu administrador de %{storageType}.
+        live_data_error: "Error recuperant els detalls del fitxer"
+        live_data_error_description: >
+          Algunes dades de %{storageType} no s'han pogut recuperar. Si us plau, prova de tornar a carregar la pàgina o contacta l'administrador de %{storageType}.
+        no_file_links: "Per tal d'enllaçar arxius a aquest paquet de treball si us plau fes-ho a través de %{storageType}."
+        not_logged_in: >
+          Per afegir un enllaç, veure o pujar fitxers relacionats amb aquest paquet de treball si us plau inicia sessió a %{storageType}.
+      file_links:
+        download: "Descarrega %{fileName}"
+        no_permission: "No tens permisos per veure aquest fitxer."
+        open: 'Obre el fitxer a l''emmagatzematge'
+        open_location: 'Obre la ubicació del fitxer'
+        remove: "Elimina l'enllaç del fitxer"
+        remove_confirmation: >
+          Estàs segur que vols eliminar l'enllaç de fitxer d'aquest paquet de treball? Eliminar l'enllaç no afecta el fitxer original, només elimina la connexió d'aquest paquet de treball.
+        remove_short: "Eliminar enllaç"
+        select: "Selecciona fitxers"
+        select_all: "Selecciona-ho tot"
+        selection_none: "Selecciona fitxers a enllaçar"
+        selection_any: "Enllaça %{number} de fitxers"
+        not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
+        already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
+        already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

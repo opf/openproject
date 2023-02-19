@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,7 +120,7 @@ class CustomStylesController < ApplicationController
   private
 
   def options_for_theme_select
-    options = OpenProject::CustomStyles::ColorThemes.themes.map { |val| val[:theme] }
+    options = OpenProject::CustomStyles::ColorThemes.themes.pluck(:theme)
     unless @current_theme.present?
       options << [t('admin.custom_styles.color_theme_custom'), '',
                   { selected: true, disabled: true }]
@@ -142,7 +140,7 @@ class CustomStylesController < ApplicationController
   def file_download(path_method)
     @custom_style = CustomStyle.current
     if @custom_style && @custom_style.send(path_method)
-      expires_in 1.years, public: true, must_revalidate: false
+      expires_in 1.year, public: true, must_revalidate: false
       send_file(@custom_style.send(path_method))
     else
       head :not_found

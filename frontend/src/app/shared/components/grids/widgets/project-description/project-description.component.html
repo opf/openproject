@@ -15,8 +15,8 @@
 <div class="grid--widget-content -allow-inner-overflow">
   <edit-form *ngIf="(project$ | async) as project"
              [resource]="project">
-    <editable-attribute-field [resource]="project"
+    <op-editable-attribute-field [resource]="project"
                               fieldName="description">
-    </editable-attribute-field>
+    </op-editable-attribute-field>
   </edit-form>
 </div>

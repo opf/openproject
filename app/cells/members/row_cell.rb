@@ -61,7 +61,7 @@ module Members
         row: self,
         params: controller.params,
         roles: table.available_roles,
-        context: { controller: controller }
+        context: { controller: }
       )
     end
 
@@ -76,7 +76,7 @@ module Members
     end
 
     def may_update?
-      !principal&.admin && table.authorize_update
+      table.authorize_update
     end
 
     def may_delete?

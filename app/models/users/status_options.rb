@@ -8,7 +8,7 @@ module Users
     # @return [Hash[Symbol, Integer]] A hash mapping each status symbol (such as :active, :blocked,
     #                               etc.) to its count (e.g. { active: 1, blocked: 5, random: 42).
     def user_statuses_with_count(extra: {})
-      user_count_by_status(extra: extra)
+      user_count_by_status(extra:)
         .compact
         .to_h
     end

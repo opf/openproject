@@ -1,0 +1,92 @@
+#English strings go here
+tr:
+  permission_view_file_links: "Dosya bağlantılarını görüntüle"
+  permission_manage_file_links: "Dosya bağlantılarını yönet"
+  permission_manage_storages_in_project: "Projedeki dosya depolarını yönetin"
+  project_module_storages: "Dosya depoları"
+  activerecord:
+    models:
+      storages/storage: "Depolama"
+    attributes:
+      storages/storage:
+        name: "İsim"
+        creator: "Oluşturan"
+        provider_type: "Sağlayıcı türü"
+      storages/file_link:
+        origin_id: "Kaynak kimliği"
+    errors:
+      messages:
+        not_linked_to_project: "projeye bağlı değildir."
+      models:
+        storages/storage:
+          attributes:
+            host:
+              cannot_be_connected_to: "ile bağlanamaz."
+              minimal_nextcloud_version_unmet: "minimum sürüm gereksinimlerini karşılamıyor (Nextcloud 23 veya üstü olmalıdır)"
+              not_nextcloud_server: "bir Nextcloud sunucusu değil"
+              op_application_not_installed: >
+                "OpenProject entegrasyonu" uygulamasının yüklü olmadığı görülüyor. Lütfen önce kurun ve sonra tekrar deneyin.
+              authorization_header_missing: >
+                tam olarak kurulmamıştır. Nextcloud örneği, API isteklerinin Taşıyıcı belirteci tabanlı yetkilendirmesi için gerekli olan "Yetkilendirme" başlığını almaz. Lütfen HTTP sunucu yapılandırmanızı iki kez kontrol edin.
+        storages/file_link:
+          attributes:
+            origin_id:
+              only_numeric_or_uuid: "yalnızca sayısal veya uuid olabilir."
+  api_v3:
+    errors:
+      too_many_elements_created_at_once: "Aynı anda çok fazla öğe oluşturuldu. En fazla %{max} bekleniyordu, %{actual} alındı."
+  storages:
+    buttons:
+      done_continue_setup: "Tamamlandı. Kuruluma devam et"
+      replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
+      replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
+      save_and_continue_setup: "Kaydet ve kuruluma devam et"
+      save_and_complete_setup: "Kaydet ve kurulumu tamamla"
+    page_titles:
+      project_settings:
+        index: "Bu projedeki mevcut dosya depoları"
+        new: "Bu projeye bir dosya deposu ekle"
+    instructions:
+      type: "Lütfen Nextcloud bulut sunucunuzda yönetici ayrıcalıklarına sahip olduğunuzdan ve kurulumu yapmadan önce aşağıdaki uygulamanın kurulu olduğundan emin olun:"
+      type_link_text: "“Entegrasyon OpenProject”"
+      name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
+      host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
+      no_storage_set_up: "Henüz ayarlanmış bir dosya deposu yok."
+      setting_up_additional_storages: "Ek dosya depoları ayarlamak için lütfen adresi ziyaret edin."
+      setting_up_additional_storages_non_admin: "Yöneticiler, Yönetim'de ek dosya depoları kurabilir"
+      setting_up_storages: "Dosya depolarını ayarlamak için lütfen adresi ziyaret edin."
+      setting_up_storages_non_admin: "Yöneticiler, Yönetim'de dosya depoları kurabilir"
+      all_available_storages_already_added: "Mevcut tüm depolar zaten projeye eklenmiştir."
+      copy_from: "Bu değeri şuradan kopyala"
+      nextcloud:
+        integration: "Nextcloud Yönetimi / OpenProject"
+    delete_warning:
+      storage: >
+        Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
+      project_storage: >
+        Bu dosya deposunu bu projeden kaldırmak istediğinizden emin misiniz? Bu aynı zamanda bu proje için bu depoda saklanan dosyalara olan tüm bağlantıları da kaldıracaktır.
+    label_creator: "Oluşturan"
+    label_file_link: "Dosya bağlantısı"
+    label_file_links: "Dosya bağlantıları"
+    label_name: "İsim"
+    label_host: "Barındırıcı URL'si"
+    label_oauth_breadcrumb:
+      openproject: "OpenProject OAuth"
+      nextcloud: "Nextcloud OAuth"
+    label_oauth_application_details: "OAuth uygulaması ayrıntıları"
+    label_oauth_client_details: "OAuth istemci ayrıntıları"
+    label_provider_type: "Sağlayıcı türü"
+    label_new_storage: "Yeni depolama"
+    label_storage: "Depolama"
+    label_storages: "Depolamalar"
+    no_results: "Henüz bir depo kurulmadı."
+    provider_types:
+      label: "Sağlayıcı türü"
+      nextcloud:
+        name: "Nextcloud"
+        name_placeholder: "ör. Nextcloud"
+        default_name: "Benim Nextcloud'um"
+    confirm_replace_oauth_application: "Emin misiniz? Tüm kullanıcıların OpenProject'e karşı yeniden yetkilendirmesi gerekecektir."
+    confirm_replace_oauth_client: "Emin misiniz? Tüm kullanıcılar, depolamaya karşı yeniden yetkilendirme yapmak zorunda kalacak."
+    oauth_client_details_missing: "Kurulumu tamamlamak için lütfen depolama alanınızdan OAuth istemci kimlik bilgilerini ekleyin."
+    notice_oauth_application_replaced: "OpenProject OAuth uygulaması başarıyla değiştirildi."

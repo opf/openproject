@@ -1,10 +1,19 @@
 # Schema: SchemaModel
 ---
 type: object
+required:
+  - _type
+  - _links
 properties:
+  _type:
+    type: string
+    enum:
+      - Schema
   _dependencies:
-    type: schemadependency
+    type: array
     description: A list of dependencies between one property's value and another property
+    items:
+      type: string
   _links:
     type: object
     properties:

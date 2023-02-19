@@ -1,0 +1,24 @@
+.op-sidebar
+  height: 100%
+  display: flex
+  flex-direction: column
+  overflow: hidden
+
+  &--body
+    flex-grow: 1
+    overflow: auto
+    @include styled-scroll-bar
+
+    &:only-child
+      padding-bottom: 10px
+
+  &--footer
+    display: grid
+    text-align: center
+    padding: 1rem
+
+    @supports (-webkit-touch-callout: none)
+      padding: 1rem 1rem 5rem
+
+    .button .spot-icon
+      margin-right: 0.5rem

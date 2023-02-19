@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,10 +43,9 @@ module Query::Highlighting
 
     serialize :highlighted_attributes, Array
 
-    validates_inclusion_of :highlighting_mode,
-                           in: QUERY_HIGHLIGHTING_MODES,
-                           allow_nil: true,
-                           allow_blank: true
+    validates :highlighting_mode,
+              inclusion: { in: QUERY_HIGHLIGHTING_MODES,
+                           allow_blank: true }
 
     validate :attributes_highlightable?
 
@@ -57,7 +54,7 @@ module Query::Highlighting
     end
 
     def available_highlighting_columns
-      @available_highlighting_columns ||= available_columns.select(&:highlightable?)
+      @available_highlighting_columns ||= displayable_columns.select(&:highlightable?)
     end
 
     def highlighted_columns

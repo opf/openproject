@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Enumerations
   priority: 780
 description: Manage enumerations in OpenProject.
-robots: index, follow
 keywords: enumerations, time tracking, priority, document categories
 ---
 # Manage Enumerations
@@ -43,6 +42,4 @@ To **change the color of work package priorities** choose the respective priorit
 
  
 
-<div class="alert alert-info" role="alert">
-**Note**: To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*. 
-</div> 
+> **Note**: To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*. 

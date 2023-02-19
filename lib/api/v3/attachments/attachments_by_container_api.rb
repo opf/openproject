@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ module API
             attachments = container.attachments
             AttachmentCollectionRepresenter.new(attachments,
                                                 self_link: get_attachment_self_path,
-                                                current_user: current_user)
+                                                current_user:)
           end
         end
 
@@ -79,7 +79,7 @@ module API
                  params_source: method(:parse_multipart),
                  before_hook: ->(request:) { request.restrict_permissions(permissions) },
                  params_modifier: ->(params) do
-                   params.merge(container: container)
+                   params.merge(container:)
                  end)
             .mount
         end
@@ -94,7 +94,7 @@ module API
                  params_source: method(:parse_multipart),
                  before_hook: ->(request:) { request.restrict_permissions(permissions) },
                  params_modifier: ->(params) do
-                   params.merge(container: container)
+                   params.merge(container:)
                  end)
             .mount
         end

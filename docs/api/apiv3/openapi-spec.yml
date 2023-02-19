@@ -1,5 +1,6 @@
 ---
 openapi: 3.0.0
+
 info:
   description: |-
     You're looking at the current **stable** documentation of the OpenProject APIv3. If you're interested in the current
@@ -8,7 +9,7 @@ info:
     ## Introduction
 
     The documentation for the APIv3 is written according to the [OpenAPI 3.0 Specification](https://swagger.io/specification/).
-    You can either view the static version of this documentation on the [website](https://www.openproject.com/docs/api/introduction/)
+    You can either view the static version of this documentation on the [website](https://www.openproject.org/docs/api/introduction/)
     or the interactive Swagger UI version in your OpenProject installation under `/api/docs`.
     In the latter you can try out the various API endpoints directly interacting with our OpenProject data.
     Moreover you can access the specification source itself under `/api/v3/spec.json` and `/api/v3/spec.yml`
@@ -64,7 +65,7 @@ info:
 
     ### API Key through Basic Auth
 
-    Users can authenticate towards the API v3 using basic auth with `apikey` (as a string, NOT your API key) as the user name and their API key as the password.
+    Users can authenticate towards the API v3 using basic auth with the user name `apikey` (NOT your login) and the API key as the password.
     Users can find their API key on their account page.
 
     Example:
@@ -84,7 +85,7 @@ info:
     You can then use one the following guides to perform the supported OAuth 2.0 flows:
 
     - [Authorization code flow](https://oauth.net/2/grant-types/authorization-code)
-    
+
     - [Authorization code flow with PKCE](https://doorkeeper.gitbook.io/guides/ruby-on-rails/pkce-flow), recommended for clients unable to keep the client_secret confidential.
 
     - [Client credentials](https://oauth.net/2/grant-types/client-credentials/) - Requires an application to be bound to an impersonating user for non-public access
@@ -133,8 +134,16 @@ info:
     are supported. The client signals the desired compression by setting the [`Accept-Encoding` header](https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.3).
     If no `Accept-Encoding` header is send, `Accept-Encoding: identity` is assumed which will result in the API responding uncompressed.
   title: OpenProject API V3 (Stable)
-  version: ''
-servers: []
+  version: '3'
+
+servers:
+  - url: https://qa.openproject-edge.com
+    description: Edge QA instance
+  - url: https://qa.openproject-stage.com
+    description: Staging instance
+  - url: https://community.openproject.org
+    description: Community instance
+
 paths:
   "/api/v3":
     "$ref": "./paths/root.yml"
@@ -164,8 +173,20 @@ paths:
     "$ref": "./paths/custom_action.yml"
   "/api/v3/custom_actions/{id}/execute":
     "$ref": "./paths/custom_action_execute.yml"
-  "/api/v3/custom_objects/{id}":
-    "$ref": "./paths/custom_object.yml"
+  "/api/v3/custom_options/{id}":
+    "$ref": "./paths/custom_option.yml"
+  "/api/v3/days/non_working":
+    "$ref": "./paths/days_non_working.yml"
+  "/api/v3/days/non_working/{date}":
+    "$ref": "./paths/days_non_working_date.yml"
+  "/api/v3/days/week":
+    "$ref": "./paths/days_week.yml"
+  "/api/v3/days/week/{day}":
+    "$ref": "./paths/days_week_day.yml"
+  "/api/v3/days":
+    "$ref": "./paths/days.yml"
+  "/api/v3/days/{date}":
+    "$ref": "./paths/days_date.yml"
   "/api/v3/documents":
     "$ref": "./paths/documents.yml"
   "/api/v3/documents/{id}":
@@ -176,6 +197,12 @@ paths:
     "$ref": "./paths/example_schema.yml"
   "/api/v3/examples":
     "$ref": "./paths/examples.yml"
+  "/api/v3/file_links/{id}":
+    "$ref": "./paths/file_link.yml"
+  "/api/v3/file_links/{id}/open":
+    "$ref": "./paths/file_link_open.yml"
+  "/api/v3/file_links/{id}/download":
+    "$ref": "./paths/file_link_download.yml"
   "/api/v3/grids":
     "$ref": "./paths/grids.yml"
   "/api/v3/grids/form":
@@ -198,8 +225,8 @@ paths:
     "$ref": "./paths/memberships_available_projects.yml"
   "/api/v3/memberships/form":
     "$ref": "./paths/memberships_form.yml"
-  "/api/v3/memberships/schemas":
-    "$ref": "./paths/memberships_schemas.yml"
+  "/api/v3/memberships/schema":
+    "$ref": "./paths/memberships_schema.yml"
   "/api/v3/memberships/{id}":
     "$ref": "./paths/membership.yml"
   "/api/v3/memberships/{id}/form":
@@ -212,8 +239,18 @@ paths:
     "$ref": "./paths/news_item.yml"
   "/api/v3/notifications":
     "$ref": "./paths/notifications.yml"
+  "/api/v3/notifications/read_ian":
+    "$ref": "./paths/notifications_read.yml"
+  "/api/v3/notifications/unread_ian":
+    "$ref": "./paths/notifications_unread.yml"
   "/api/v3/notifications/{id}":
     "$ref": "./paths/notification.yml"
+  "/api/v3/notifications/{notification_id}/details/{id}":
+    "$ref": "./paths/notification_details.yml"
+  "/api/v3/notifications/{id}/read_ian":
+    "$ref": "./paths/notification_read.yml"
+  "/api/v3/notifications/{id}/unread_ian":
+    "$ref": "./paths/notification_unread.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -228,8 +265,8 @@ paths:
     "$ref": "./paths/projects.yml"
   "/api/v3/projects/form":
     "$ref": "./paths/projects_form.yml"
-  "/api/v3/projects/schemas":
-    "$ref": "./paths/projects_schemas.yml"
+  "/api/v3/projects/schema":
+    "$ref": "./paths/projects_schema.yml"
   "/api/v3/projects/{id}":
     "$ref": "./paths/project.yml"
   "/api/v3/projects/{id}/form":
@@ -316,6 +353,10 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages/{id}":
+    "$ref": "./paths/storage.yml"
+  "/api/v3/storages/{id}/files":
+    "$ref": "./paths/storage_files.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -336,28 +377,34 @@ paths:
     "$ref": "./paths/type.yml"
   "/api/v3/users":
     "$ref": "./paths/users.yml"
-  "/api/v3/users/schemas":
-    "$ref": "./paths/users_schemas.yml"
+  "/api/v3/users/schema":
+    "$ref": "./paths/users_schema.yml"
   "/api/v3/users/{id}":
     "$ref": "./paths/user.yml"
   "/api/v3/users/{id}/form":
     "$ref": "./paths/user_form.yml"
   "/api/v3/users/{id}/lock":
     "$ref": "./paths/user_lock.yml"
+  "/api/v3/values/schema/{id}":
+    "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
   "/api/v3/versions/available_projects":
     "$ref": "./paths/versions_available_projects.yml"
   "/api/v3/versions/form":
     "$ref": "./paths/versions_form.yml"
-  "/api/v3/versions/schemas":
-    "$ref": "./paths/versions_schemas.yml"
+  "/api/v3/versions/schema":
+    "$ref": "./paths/versions_schema.yml"
   "/api/v3/versions/{id}":
     "$ref": "./paths/version.yml"
   "/api/v3/versions/{id}/form":
     "$ref": "./paths/version_form.yml"
   "/api/v3/versions/{id}/projects":
     "$ref": "./paths/version_projects.yml"
+  "/api/v3/views":
+    "$ref": "./paths/views.yml"
+  "/api/v3/views/{id}":
+    "$ref": "./paths/view.yml"
   "/api/v3/wiki_pages/{id}":
     "$ref": "./paths/wiki_page.yml"
   "/api/v3/wiki_pages/{id}/attachments":
@@ -366,7 +413,7 @@ paths:
     "$ref": "./paths/work_packages.yml"
   "/api/v3/work_packages/form":
     "$ref": "./paths/work_packages_form.yml"
-  "/api/v3/work_packages/schemas/":
+  "/api/v3/work_packages/schemas":
     "$ref": "./paths/work_packages_schemas.yml"
   "/api/v3/work_packages/schemas/{identifier}":
     "$ref": "./paths/work_packages_schemas_{identifier}.yml"
@@ -382,6 +429,10 @@ paths:
     "$ref": "./paths/work_package_available_relation_candidates.yml"
   "/api/v3/work_packages/{id}/available_watchers":
     "$ref": "./paths/work_package_available_watchers.yml"
+  "/api/v3/work_packages/{id}/file_links":
+    "$ref": "./paths/work_package_file_links.yml"
+  "/api/v3/work_packages/{id}/update_file_links":
+    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -392,33 +443,59 @@ paths:
     "$ref": "./paths/work_package_watchers.yml"
   "/api/v3/work_packages/{id}/watchers/{user_id}":
     "$ref": "./paths/work_package_watcher.yml"
+
 components:
   examples:
+    DateAlertNotification:
+      $ref: './components/examples/date_alert_notification.yml'
+    MentionedNotification:
+      $ref: './components/examples/mentioned_notification.yml'
+    NotificationCollection:
+      $ref: './components/examples/notification_collection.yml'
     Project:
       $ref: "./components/examples/project.yml"
     ProjectBody:
       $ref: "./components/examples/project_body.yml"
+    QueriesModel:
+      "$ref": "./components/examples/queries.yml"
+    QueryModel:
+      "$ref": "./components/examples/query.yml"
+    QuerySchemaModel:
+      "$ref": "./components/examples/query_schema.yml"
+    ValuesPropertyStartDateSchema:
+      "$ref": "./components/examples/values_property_start_date_schema.yml"
+    ValuesPropertyDueDateSchema:
+      "$ref": "./components/examples/values_property_due_date_schema.yml"
+    ValuesPropertyDateSchema:
+      "$ref": "./components/examples/values_property_date_schema.yml"
+    ValuesPropertyStartDate:
+      "$ref": "./components/examples/values_property_start_date.yml"
+    ValuesPropertyDueDate:
+      "$ref": "./components/examples/values_property_due_date.yml"
+    ValuesPropertyDate:
+      "$ref": "./components/examples/values_property_date.yml"
+    Views:
+      "$ref": "./components/examples/views.yml"
+    ViewWorkPackagesTable:
+      "$ref": "./components/examples/view_work_packages_table.yml"
+    ViewTeamPlanner:
+      "$ref": "./components/examples/view_team_planner.yml"
+
+  responses:
+    InvalidRequestBody:
+      "$ref": "./components/responses/invalid_request_body.yml"
+    MissingContentType:
+      "$ref": "./components/responses/missing_content_type.yml"
+    UnsupportedMediaType:
+      "$ref": "./components/responses/unsupported_media_type.yml"
+
   schemas:
     ActivityModel:
       "$ref": "./components/schemas/activity_model.yml"
-    Aggregations:
-      "$ref": "./components/schemas/aggregations.yml"
     AttachmentModel:
       "$ref": "./components/schemas/attachment_model.yml"
-    Attachments:
-      "$ref": "./components/schemas/attachments.yml"
-    Attachments_by_post:
-      "$ref": "./components/schemas/attachments_by_post.yml"
-    Attachments_by_postModel:
-      "$ref": "./components/schemas/attachments_by_post_model.yml"
-    Attachments_by_wiki_page:
-      "$ref": "./components/schemas/attachments_by_wiki_page.yml"
-    Attachments_by_wiki_pageModel:
-      "$ref": "./components/schemas/attachments_by_wiki_page_model.yml"
-    Attachments_by_work_package:
-      "$ref": "./components/schemas/attachments_by_work_package.yml"
-    Attachments_by_work_packageModel:
-      "$ref": "./components/schemas/attachments_by_work_package_model.yml"
+    Attachments_Model:
+      "$ref": "./components/schemas/attachments_model.yml"
     Available_AssigneesModel:
       "$ref": "./components/schemas/available_assignees_model.yml"
     Available_ResponsiblesModel:
@@ -465,10 +542,14 @@ components:
       "$ref": "./components/schemas/cursor_based_pagination.yml"
     Custom_ActionModel:
       "$ref": "./components/schemas/custom_action_model.yml"
-    Custom_ObjectModel:
-      "$ref": "./components/schemas/custom_object_model.yml"
+    Custom_OptionModel:
+      "$ref": "./components/schemas/custom_option_model.yml"
     CustomactionModel:
       "$ref": "./components/schemas/customaction_model.yml"
+    DayCollectionModel:
+      "$ref": "./components/schemas/day_collection_model.yml"
+    DayModel:
+      "$ref": "./components/schemas/day_model.yml"
     Default_QueryModel:
       "$ref": "./components/schemas/default_query_model.yml"
     Default_Query_for_ProjectModel:
@@ -487,12 +568,26 @@ components:
       "$ref": "./components/schemas/document_model.yml"
     DocumentsModel:
       "$ref": "./components/schemas/documents_model.yml"
+    ErrorResponse:
+      "$ref": "./components/schemas/error_response.yml"
     Example_FormModel:
       "$ref": "./components/schemas/example_form_model.yml"
     Example_SchemaModel:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
+    FileCollectionModel:
+      $ref: './components/schemas/file_collection_model.yml'
+    FileLinkCollectionReadModel:
+      $ref: './components/schemas/file_link_collection_read_model.yml'
+    FileLinkCollectionWriteModel:
+      $ref: './components/schemas/file_link_collection_write_model.yml'
+    FileLinkOriginDataModel:
+      "$ref": "./components/schemas/file_link_origin_data_model.yml"
+    FileLinkReadModel:
+      $ref: './components/schemas/file_link_read_model.yml'
+    FileLinkWriteModel:
+      $ref: './components/schemas/file_link_write_model.yml'
     FormModel:
       "$ref": "./components/schemas/form_model.yml"
     Formattable:
@@ -527,8 +622,6 @@ components:
       "$ref": "./components/schemas/list_memberships_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_notificationsModel:
-      "$ref": "./components/schemas/list_notifications_model.yml"
     List_projectsModel:
       "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
@@ -549,8 +642,14 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NonWorkingDayModel:
+      "$ref": "./components/schemas/non_working_day_model.yml"
+    NotificationCollectionModel:
+      "$ref": "./components/schemas/notification_collection_model.yml"
     NotificationModel:
       "$ref": "./components/schemas/notification_model.yml"
+    NotificationSettingsModel:
+      "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
     Plain_Text:
@@ -633,6 +732,12 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
+    StorageModel:
+      "$ref": "./components/schemas/storage_model.yml"
+    StorageFileModel:
+      "$ref": "./components/schemas/storage_file_model.yml"
+    StorageFileLocationModel:
+      "$ref": "./components/schemas/storage_file_location_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
@@ -661,6 +766,10 @@ components:
       "$ref": "./components/schemas/update_project.yml"
     Update_time_entry:
       "$ref": "./components/schemas/update_time_entry.yml"
+    UserCollectionModel:
+      "$ref": "./components/schemas/user_collection_model.yml"
+    UserCreateModel:
+      "$ref": "./components/schemas/user_create_model.yml"
     UserModel:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
@@ -671,8 +780,8 @@ components:
       "$ref": "./components/schemas/user_create_form.yml"
     User_update_form:
       "$ref": "./components/schemas/user_update_form.yml"
-    UsersModel:
-      "$ref": "./components/schemas/users_model.yml"
+    ValuesPropertyModel:
+      "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
     Version_create_form:
@@ -709,76 +818,81 @@ components:
       "$ref": "./components/schemas/view_user_schema_model.yml"
     WatchersModel:
       "$ref": "./components/schemas/watchers_model.yml"
+    WeekDayCollectionModel:
+      "$ref": "./components/schemas/week_day_collection_model.yml"
+    WeekDayCollectionWriteModel:
+      "$ref": "./components/schemas/week_day_collection_write_model.yml"
+    WeekDayModel:
+      "$ref": "./components/schemas/week_day_model.yml"
+    WeekDaySelfLinkModel:
+      "$ref": "./components/schemas/week_day_self_link_model.yml"
+    WeekDayWriteModel:
+      "$ref": "./components/schemas/week_day_write_model.yml"
     Wiki_PageModel:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Create_Form:
-      "$ref": "./components/schemas/work_package_create_form.yml"
-    Work_Package_Create_Form_For_Project:
-      "$ref": "./components/schemas/work_package_create_form_for_project.yml"
-    Work_Package_Edit_Form:
-      "$ref": "./components/schemas/work_package_edit_form.yml"
     Work_Package_Relation_FormModel:
       "$ref": "./components/schemas/work_package_relation_form_model.yml"
-    Work_Package_Schema:
-      "$ref": "./components/schemas/work_package_schema.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
       "$ref": "./components/schemas/work_package_activities_model.yml"
     Work_PackagesModel:
       "$ref": "./components/schemas/work_packages_model.yml"
-    Work_Packages_by_ProjectModel:
-      "$ref": "./components/schemas/work_packages_by_project_model.yml"
   securitySchemes:
     BasicAuth:
       type: http
       scheme: basic
 tags:
-- "$ref": "./tags/basic_objects.yml"
-- "$ref": "./tags/collections.yml"
-- "$ref": "./tags/filters.yml"
-- "$ref": "./tags/forms.yml"
-- "$ref": "./tags/actions_and_capabilities.yml"
-- "$ref": "./tags/activities.yml"
-- "$ref": "./tags/attachments.yml"
-- "$ref": "./tags/budgets.yml"
-- "$ref": "./tags/categories.yml"
-- "$ref": "./tags/configuration.yml"
-- "$ref": "./tags/custom_actions.yml"
-- "$ref": "./tags/custom_objects.yml"
-- "$ref": "./tags/documents.yml"
-- "$ref": "./tags/grids.yml"
-- "$ref": "./tags/groups.yml"
-- "$ref": "./tags/help_texts.yml"
-- "$ref": "./tags/memberships.yml"
-- "$ref": "./tags/news.yml"
-- "$ref": "./tags/notifications.yml"
-- "$ref": "./tags/posts.yml"
-- "$ref": "./tags/principals.yml"
-- "$ref": "./tags/priorities.yml"
-- "$ref": "./tags/projects.yml"
-- "$ref": "./tags/queries.yml"
-- "$ref": "./tags/query_columns.yml"
-- "$ref": "./tags/query_filters.yml"
-- "$ref": "./tags/query_operators.yml"
-- "$ref": "./tags/query_sort_bys.yml"
-- "$ref": "./tags/query_filter_instance_schema.yml"
-- "$ref": "./tags/relations.yml"
-- "$ref": "./tags/previewing.yml"
-- "$ref": "./tags/revisions.yml"
-- "$ref": "./tags/roles.yml"
-- "$ref": "./tags/root.yml"
-- "$ref": "./tags/schemas.yml"
-- "$ref": "./tags/statuses.yml"
-- "$ref": "./tags/time_entries.yml"
-- "$ref": "./tags/time_entry_activities.yml"
-- "$ref": "./tags/types.yml"
-- "$ref": "./tags/userpreferences.yml"
-- "$ref": "./tags/users.yml"
-- "$ref": "./tags/versions.yml"
-- "$ref": "./tags/wiki_pages.yml"
-- "$ref": "./tags/work_packages.yml"
+  - "$ref": "./tags/basic_objects.yml"
+  - "$ref": "./tags/collections.yml"
+  - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/forms.yml"
+  - "$ref": "./tags/signaling.yml"
+  - "$ref": "./tags/actions_and_capabilities.yml"
+  - "$ref": "./tags/activities.yml"
+  - "$ref": "./tags/attachments.yml"
+  - "$ref": "./tags/budgets.yml"
+  - "$ref": "./tags/categories.yml"
+  - "$ref": "./tags/configuration.yml"
+  - "$ref": "./tags/custom_actions.yml"
+  - "$ref": "./tags/custom_options.yml"
+  - "$ref": "./tags/documents.yml"
+  - "$ref": "./tags/file_links.yml"
+  - "$ref": "./tags/grids.yml"
+  - "$ref": "./tags/groups.yml"
+  - "$ref": "./tags/help_texts.yml"
+  - "$ref": "./tags/memberships.yml"
+  - "$ref": "./tags/news.yml"
+  - "$ref": "./tags/notifications.yml"
+  - "$ref": "./tags/posts.yml"
+  - "$ref": "./tags/principals.yml"
+  - "$ref": "./tags/priorities.yml"
+  - "$ref": "./tags/projects.yml"
+  - "$ref": "./tags/queries.yml"
+  - "$ref": "./tags/query_columns.yml"
+  - "$ref": "./tags/query_filters.yml"
+  - "$ref": "./tags/query_operators.yml"
+  - "$ref": "./tags/query_sort_bys.yml"
+  - "$ref": "./tags/query_filter_instance_schema.yml"
+  - "$ref": "./tags/relations.yml"
+  - "$ref": "./tags/previewing.yml"
+  - "$ref": "./tags/revisions.yml"
+  - "$ref": "./tags/roles.yml"
+  - "$ref": "./tags/root.yml"
+  - "$ref": "./tags/schemas.yml"
+  - "$ref": "./tags/statuses.yml"
+  - "$ref": "./tags/time_entries.yml"
+  - "$ref": "./tags/time_entry_activities.yml"
+  - "$ref": "./tags/types.yml"
+  - "$ref": "./tags/userpreferences.yml"
+  - "$ref": "./tags/users.yml"
+  - "$ref": "./tags/values_property.yml"
+  - "$ref": "./tags/versions.yml"
+  - "$ref": "./tags/views.yml"
+  - "$ref": "./tags/wiki_pages.yml"
+  - "$ref": "./tags/work_packages.yml"
+  - "$ref": "./tags/work_schedule.yml"
 security:
-- BasicAuth: []
+  - BasicAuth: []

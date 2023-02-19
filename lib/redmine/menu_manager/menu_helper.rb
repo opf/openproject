@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +31,7 @@ module Redmine::MenuManager::MenuHelper
   include ::Redmine::MenuManager::WikiMenuHelper
   include AccessibilityHelper
 
-  # Returns the current menu item name
-  def current_menu_item
-    controller.current_menu_item
-  end
+  delegate :current_menu_item, to: :controller
 
   # Renders the application main menu
   def render_main_menu(menu, project = nil)
@@ -69,7 +64,7 @@ module Redmine::MenuManager::MenuHelper
     first_level = any_item_selected?(select_leafs(menu_items)) || !current_menu_item_part_of_menu?(menu, project)
     classes = first_level ? 'open' : 'closed'
 
-    links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: 'menu_root ' + classes)
+    links.empty? ? nil : content_tag('ul', safe_join(links, "\n"), class: "menu_root #{classes}")
   end
 
   def select_leafs(items)
@@ -84,7 +79,7 @@ module Redmine::MenuManager::MenuHelper
     selected = any_item_selected?(items)
     label_node = render_drop_down_label_node(label, selected, label_options)
 
-    options[:drop_down_class] = 'op-menu ' + options.fetch(:drop_down_class, '')
+    options[:drop_down_class] = "op-menu #{options.fetch(:drop_down_class, '')}"
     render_menu_dropdown(label_node, options) do
       items.each do |item|
         concat render_menu_node(item, project)
@@ -100,14 +95,14 @@ module Redmine::MenuManager::MenuHelper
   # Available options:
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
-  def render_menu_dropdown(label_node, options = {}, &block)
+  def render_menu_dropdown(label_node, options = {}, &)
     content_tag :li, class: "op-app-menu--item op-app-menu--item_has-dropdown #{options[:menu_item_class]}" do
       concat(label_node)
       concat(content_tag(:ul,
                          style: 'display:none',
                          id: options[:drop_down_id],
-                         class: 'op-app-menu--dropdown ' + options.fetch(:drop_down_class, ''),
-                         &block))
+                         class: "op-app-menu--dropdown #{options.fetch(:drop_down_class, '')}",
+                         &))
     end
   end
 
@@ -157,7 +152,7 @@ module Redmine::MenuManager::MenuHelper
       unless standard_children_list.empty?
         node << content_tag(:ul, standard_children_list, class: 'main-menu--children')
       end
-      unless unattached_children_list.blank?
+      if unattached_children_list.present?
         node << content_tag(:ul, unattached_children_list, class: 'main-menu--children unattached')
       end
 
@@ -173,12 +168,14 @@ module Redmine::MenuManager::MenuHelper
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
-      ''.html_safe + caption + badge_for(item)
+      title_text = ''.html_safe + caption + badge_for(item)
+      title_text
     end
-    link_text << ' '.html_safe + op_icon(item.icon_after) if item.icon_after.present?
-    html_options = item.html_options(selected: selected)
+    link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
+    html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
-    html_options[:class] = "#{html_options[:class]}  #{menu_class}--item-action"
+    html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
+    html_options['data-qa-selector'] = "#{menu_class}--item-action"
 
     link_to link_text, url, html_options
   end
@@ -193,8 +190,8 @@ module Redmine::MenuManager::MenuHelper
     false
   end
 
-  def first_level_menu_items_for(menu, project = nil, &block)
-    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &block)
+  def first_level_menu_items_for(menu, project = nil, &)
+    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &)
   end
 
   private
@@ -231,7 +228,10 @@ module Redmine::MenuManager::MenuHelper
 
   def render_single_node_or_partial(node, project)
     if node.partial
-      content_tag('li', render(partial: node.partial), class: "partial", data: { name: node.name })
+      content_tag('li',
+                  render(partial: node.partial, locals: { name: node.name, parent_name: node.parent.name }),
+                  class: "partial",
+                  data: { name: node.name })
     else
       content_tag('li', render_single_menu_node(node, project), data: { name: node.name })
     end
@@ -341,7 +341,7 @@ module Redmine::MenuManager::MenuHelper
     @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
     if @hidden_menu_items.length.positive?
       hidden_nodes = @hidden_menu_items[menu.to_s] || []
-      !hidden_nodes.include? node.name.to_s
+      hidden_nodes.exclude? node.name.to_s
     else
       true
     end

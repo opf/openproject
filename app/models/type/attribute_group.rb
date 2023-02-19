@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +50,7 @@ class Type::AttributeGroup < Type::FormGroup
 
   def active_members(project)
     members.select do |prop|
-      type.passes_attribute_constraint?(prop, project: project)
+      type.passes_attribute_constraint?(prop, project:)
     end
   end
 end

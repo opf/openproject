@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,7 +36,6 @@ module OpenProject
   module ActsAsUrl
     module Adapter
       class OpActiveRecord < Stringex::ActsAsUrl::Adapter::ActiveRecord
-
         ##
         # Avoid generating the slug if the attribute is already set
         # and only_when_blank is true
@@ -58,7 +55,7 @@ module OpenProject
         def modify_base_url
           root = instance.send(settings.attribute_to_urlify).to_s
           locale = configuration.settings.locale || :en
-          self.base_url = root.to_localized_slug(locale: locale, **configuration.string_extensions_settings)
+          self.base_url = root.to_localized_slug(locale:, **configuration.string_extensions_settings)
 
           modify_base_url_custom_rules if base_url.empty?
         end

@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +32,17 @@ module Type::Attributes
   EXCLUDED = %w[_type
                 _dependencies
                 attribute_groups
-                links parent_id
-                parent
-                description
-                schedule_manually
                 derived_start_date
                 derived_due_date
-                derived_estimated_time].freeze
+                derived_estimated_time
+                ignore_non_working_days
+                duration
+                description
+                links
+                parent_id
+                parent
+                readonly
+                schedule_manually].freeze
 
   included do
     # Allow plugins to define constraints
@@ -84,7 +86,7 @@ module Type::Attributes
     end
 
     def translated_work_package_form_attributes(merge_date: false)
-      all_work_package_form_attributes(merge_date: merge_date)
+      all_work_package_form_attributes(merge_date:)
         .each_with_object({}) do |(k, v), hash|
         hash[k] = translated_attribute_name(k, v)
       end
@@ -124,7 +126,7 @@ module Type::Attributes
 
       definitions.keys
                  .reject { |key| skipped_attribute?(key, definitions[key]) }
-                 .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+                 .index_with { |key| JSON::parse(definitions[key].to_json) }
     end
 
     def skipped_attribute?(key, definition)
@@ -141,7 +143,7 @@ module Type::Attributes
     end
 
     def add_custom_fields_to_form_attributes(attributes)
-      WorkPackageCustomField.includes(:custom_options).all.each do |field|
+      WorkPackageCustomField.includes(:custom_options).all.find_each do |field|
         attributes["custom_field_#{field.id}"] = {
           required: field.is_required,
           has_default: field.default_value.present?,
@@ -173,7 +175,7 @@ module Type::Attributes
   ##
   # Get all applicable work package attributes
   def work_package_attributes(merge_date: true)
-    all_attributes = self.class.all_work_package_form_attributes(merge_date: merge_date)
+    all_attributes = self.class.all_work_package_form_attributes(merge_date:)
 
     # Reject those attributes that are not available for this type.
     all_attributes.select { |key, _| passes_attribute_constraint? key }
@@ -192,7 +194,7 @@ module Type::Attributes
 
     # Check other constraints (none in the core, but costs/backlogs adds constraints)
     constraint = attribute_constraints[attribute.to_sym]
-    constraint.nil? || constraint.call(self, project: project)
+    constraint.nil? || constraint.call(self, project:)
   end
 
   ##

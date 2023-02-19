@@ -5,7 +5,6 @@ sidebar_navigation:
   title: Repository
   priority: 700
 description: Manage repositories with SVN or GIT in OpenProject.
-robots: index, follow
 keywords: svn, git, repository management
 ---
 
@@ -13,9 +12,8 @@ keywords: svn, git, repository management
 
 **Repository** is defined as a document management system that allows users to manage files and folders via different version control system (SVN or Git).
 
-<div class="alert alert-info" role="alert">
-**Note**: in order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
-</div>
+> **Note**: Repositories are currently only available for the packaged-based on-premises installations. In order to use Repository functionality please make sure that the Repository module is [activated in the project settings](../projects/project-settings/modules/).
+
 
 ## Repository browser view
 
@@ -27,7 +25,7 @@ In order to be able to edit files and to upload the updated versions to reposito
 
 ![User-guide_repository](User-guide_repository.png)
 
-Below the list of files you can see the latest revisions and the changing comments. If you select a specific file, you will see the list its revisions.
+Below the list of files you can see the latest revisions and the changing comments. If you select a specific file, you will see the list of its revisions.
 
 You can create a comparison of two versions to see the changes made for specific files. Please keep in mind that this comparison option is available for single files, so a specific file has to be selected, not a folder. Hint: the comparison only works for plain Text Files (e.g. xml, yaml, json, html, etc.) and not for Binary Files (e.g. pdf, ppt, doc, images, audio- or archive files, etc.).
 

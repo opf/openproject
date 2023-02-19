@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +41,7 @@ module API
             path ||= plural_name
 
             define_singleton_method(plural_name) do
-              "#{root}/#{path}"
+              RequestStore.store[:"cached_#{plural_name}"] ||= "#{root}/#{path}"
             end
           end
           private_class_method :index
@@ -54,7 +52,9 @@ module API
           private_class_method :show
 
           def self.create_form(name)
-            define_singleton_method(:"create_#{name}_form") { build_path(name, "form") }
+            define_singleton_method(:"create_#{name}_form") do
+              RequestStore.store[:"cached_create_#{name}_form"] ||= build_path(name, "form")
+            end
           end
           private_class_method :create_form
 
@@ -64,7 +64,9 @@ module API
           private_class_method :update_form
 
           def self.schema(name)
-            define_singleton_method(:"#{name}_schema") { build_path(name, "schema") }
+            define_singleton_method(:"#{name}_schema") do
+              RequestStore.store[:"cached_#{name}_schema"] ||= build_path(name, "schema")
+            end
           end
           private_class_method :schema
 
@@ -91,7 +93,11 @@ module API
           end
 
           def self.root
-            "#{root_path}api/v3"
+            RequestStore.store[:cached_root] ||= "#{root_path}api/v3"
+          end
+
+          def self.same_origin?(url)
+            url.to_s.start_with? root_url
           end
 
           index :action
@@ -150,12 +156,8 @@ module API
             "#{work_package(work_package_id)}/available_projects"
           end
 
-          def self.available_projects_on_create(type_id)
-            if type_id.to_i.zero?
-              "#{work_packages}/available_projects"
-            else
-              "#{work_packages}/available_projects?for_type=#{type_id}"
-            end
+          def self.available_projects_on_create
+            "#{work_packages}/available_projects"
           end
 
           def self.available_relation_candidates(work_package_id)
@@ -198,6 +200,30 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.day(date)
+            "#{days}/#{date}"
+          end
+
+          def self.days
+            "#{root}/days"
+          end
+
+          def self.days_week
+            "#{days}/week"
+          end
+
+          def self.days_week_day(day)
+            "#{days_week}/#{day}"
+          end
+
+          def self.days_non_working
+            "#{root}/days/non_working"
+          end
+
+          def self.days_non_working_day(date)
+            "#{days_non_working}/#{date}"
+          end
+
           index :help_text
           show :help_text
 
@@ -235,6 +261,10 @@ module API
 
           def self.notification_unread_ian(id)
             "#{notification(id)}/unread_ian"
+          end
+
+          def self.notification_detail(notification_id, detail_id)
+            "#{notification(notification_id)}/details/#{detail_id}"
           end
 
           index :placeholder_user
@@ -412,10 +442,25 @@ module API
             "#{user(id)}/preferences"
           end
 
+          def self.my_preferences
+            "#{root}/my_preferences"
+          end
+
           index :group
           show :group
 
+          def self.value_schema(property)
+            "#{root}/values/schemas/#{property}"
+          end
+
           resources :version
+
+          index :view
+          show :view
+
+          def self.views_type(type)
+            "#{views}/#{type}"
+          end
 
           def self.versions_available_projects
             "#{versions}/available_projects"
@@ -455,8 +500,9 @@ module API
             "#{work_package_relations(work_package_id)}/#{id}"
           end
 
-          def self.work_package_available_relation_candidates(id)
-            "#{work_package(id)}/available_relation_candidates"
+          def self.work_package_available_relation_candidates(id, type: nil)
+            query = "?type=#{type}" if type
+            "#{work_package(id)}/available_relation_candidates#{query}"
           end
 
           def self.work_package_revisions(id)
@@ -472,7 +518,7 @@ module API
                 "#{project_id}-#{type_id}"
               end
 
-              filter = [{ id: { operator: '=', values: values } }]
+              filter = [{ id: { operator: '=', values: } }]
 
               path + "?filters=#{CGI.escape(filter.to_s)}"
             end
@@ -490,14 +536,15 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil)
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
-              offset: offset
-            }.reject { |_, v| v.blank? }
+              offset:,
+              select:
+            }.compact_blank
 
             if query_params.any?
               "#{send(path)}?#{query_params.to_query}"

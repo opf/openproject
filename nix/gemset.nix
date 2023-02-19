@@ -475,7 +475,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/budgets;
+      path = ../modules/budgets;
       type = "path";
     };
     version = "1.0.0";
@@ -701,7 +701,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/costs;
+      path = ../modules/costs;
       type = "path";
     };
     version = "1.0.0";
@@ -796,42 +796,10 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/dashboards;
+      path = ../modules/dashboards;
       type = "path";
     };
     version = "1.0.0";
-  };
-  database_cleaner = {
-    dependencies = ["database_cleaner-active_record"];
-    groups = ["test"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "1x4r22rnpwnm9yln88vhzqj4cl3sbd26c4j50g9k6wp7y01rln4w";
-      type = "gem";
-    };
-    version = "2.0.1";
-  };
-  database_cleaner-active_record = {
-    dependencies = ["activerecord" "database_cleaner-core"];
-    groups = ["default" "test"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "1jg7jd7w65hdarzbi8f252la3qgsnd2sjavhlmc82kwzfx37k38m";
-      type = "gem";
-    };
-    version = "2.0.0";
-  };
-  database_cleaner-core = {
-    groups = ["default" "test"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0v44bn386ipjjh4m2kl53dal8g4d41xajn2jggnmjbhn6965fil6";
-      type = "gem";
-    };
-    version = "2.0.1";
   };
   date_validator = {
     dependencies = ["activemodel" "activesupport"];
@@ -1382,7 +1350,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/grids;
+      path = ../modules/grids;
       type = "path";
     };
     version = "1.0.0";
@@ -1924,7 +1892,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/my_page;
+      path = ../modules/my_page;
       type = "path";
     };
     version = "1.0.0";
@@ -2118,7 +2086,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/auth_plugins;
+      path = ../modules/auth_plugins;
       type = "path";
     };
     version = "1.0.0";
@@ -2128,7 +2096,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/auth_saml;
+      path = ../modules/auth_saml;
       type = "path";
     };
     version = "1.0.0";
@@ -2138,7 +2106,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/avatars;
+      path = ../modules/avatars;
       type = "path";
     };
     version = "1.0.0";
@@ -2148,7 +2116,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/backlogs;
+      path = ../modules/backlogs;
       type = "path";
     };
     version = "1.0.0";
@@ -2158,7 +2126,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/bim;
+      path = ../modules/bim;
       type = "path";
     };
     version = "1.0.0";
@@ -2167,7 +2135,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/boards;
+      path = ../modules/boards;
       type = "path";
     };
     version = "1.0.0";
@@ -2176,7 +2144,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/documents;
+      path = ../modules/documents;
       type = "path";
     };
     version = "1.0.0";
@@ -2186,7 +2154,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/github_integration;
+      path = ../modules/github_integration;
       type = "path";
     };
     version = "1.0.0";
@@ -2195,7 +2163,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/job_status;
+      path = ../modules/job_status;
       type = "path";
     };
     version = "1.0.0";
@@ -2204,7 +2172,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/ldap_groups;
+      path = ../modules/ldap_groups;
       type = "path";
     };
     version = "1.0.0";
@@ -2214,7 +2182,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/meeting;
+      path = ../modules/meeting;
       type = "path";
     };
     version = "1.0.0";
@@ -2224,7 +2192,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/openid_connect;
+      path = ../modules/openid_connect;
       type = "path";
     };
     version = "1.0.0";
@@ -2234,7 +2202,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/pdf_export;
+      path = ../modules/pdf_export;
       type = "path";
     };
     version = "1.0.0";
@@ -2244,7 +2212,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/recaptcha;
+      path = ../modules/recaptcha;
       type = "path";
     };
     version = "1.0.0";
@@ -2254,7 +2222,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/reporting;
+      path = ../modules/reporting;
       type = "path";
     };
     version = "1.0.0";
@@ -2288,7 +2256,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/two_factor_authentication;
+      path = ../modules/two_factor_authentication;
       type = "path";
     };
     version = "1.0.0";
@@ -2297,7 +2265,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/webhooks;
+      path = ../modules/webhooks;
       type = "path";
     };
     version = "1.0.0";
@@ -2307,7 +2275,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/xls_export;
+      path = ../modules/xls_export;
       type = "path";
     };
     version = "1.0.0";
@@ -2317,7 +2285,7 @@
     groups = ["opf_plugins"];
     platforms = [];
     source = {
-      path = modules/overviews;
+      path = ../modules/overviews;
       type = "path";
     };
     version = "1.0.0";

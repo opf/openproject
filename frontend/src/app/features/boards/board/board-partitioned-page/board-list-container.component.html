@@ -1,12 +1,13 @@
 <ng-container *ngIf="(board$ | async) as board">
-  <div class="boards-list--container"
-       [ngClass]="{ '-free' : board.isFree }"
-       #container
-       *ngIf="showBoardListView()"
-       cdkDropList
-       [cdkDropListDisabled]="!board.editable"
-       cdkDropListOrientation="horizontal"
-       (cdkDropListDropped)="moveList(board, $event)"
+  <div
+    *ngIf="!eeShowBanners || board.isFree"
+    class="boards-list--container"
+    [ngClass]="{ '-free' : board.isFree }"
+    #container
+    cdkDropList
+    [cdkDropListDisabled]="!board.editable"
+    cdkDropListOrientation="horizontal"
+    (cdkDropListDropped)="moveList(board, $event)"
   >
     <div *ngFor="let boardWidget of boardWidgets; trackBy:trackByQueryId"
          class="boards-list--item"
@@ -40,10 +41,12 @@
     </div>
   </div>
 
-  <enterprise-banner *ngIf="!showBoardListView()"
-                     [leftMargin]="true"
-                     [linkMessage]="text.upsaleCheckOutLink"
-                     [textMessage]="text.upsaleBoards"
-                     [opReferrer]="opReferrer(board)">
-  </enterprise-banner>
+  <op-enterprise-banner
+    *ngIf="eeShowBanners"
+    [moreInfoLink]="text.more_info_link"
+    [leftMargin]="true"
+    [linkMessage]="text.upgrade_to_ee_text"
+    [textMessage]="text.teaser_text"
+    opReferrer="boards#board-show">
+  </op-enterprise-banner>
 </ng-container>

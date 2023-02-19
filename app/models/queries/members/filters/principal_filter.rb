@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +33,7 @@ class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::Me
     @allowed_values ||= begin
       values = Principal
                .not_locked
-               .in_visible_project_or_me
+               .visible
                .map { |s| [s.name, s.id.to_s] }
                .sort
 
@@ -48,10 +46,6 @@ class Queries::Members::Filters::PrincipalFilter < Queries::Members::Filters::Me
   end
 
   def ar_object_filter?
-    true
-  end
-
-  def principal_resource?
     true
   end
 

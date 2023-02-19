@@ -1,6 +1,6 @@
 <ng-select
-  appendTo=".op-modal-overlay"
-  [formControl]="principalControl"
+  appendTo=".spot-modal-overlay"
+  [formControl]="spotFormBinding"
   [addTag]="showAddTag ? createNewFromInput.bind(this) : false"
   [typeahead]="input$"
   [items]="items$ | async"
@@ -9,7 +9,6 @@
   [clearSearchOnAdd]="false"
   [compareWith]="compareWith"
   bindValue="principal"
-  autofocus
   #ngselect
 >
   <ng-template ng-label-tmp let-item="item">

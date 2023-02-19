@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +31,7 @@ class Version < ApplicationRecord
   include ::Scopes::Scoped
 
   belongs_to :project
-  has_many :work_packages, foreign_key: :version_id, dependent: :nullify
+  has_many :work_packages, dependent: :nullify
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze
@@ -43,9 +41,9 @@ class Version < ApplicationRecord
             presence: true,
             uniqueness: { scope: [:project_id], case_sensitive: false }
 
-  validates_format_of :effective_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
-  validates_format_of :start_date, with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true
-  validates_inclusion_of :status, in: VERSION_STATUSES
+  validates :effective_date, format: { with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true }
+  validates :start_date, format: { with: /\A\d{4}-\d{2}-\d{2}\z/, message: :not_a_date, allow_nil: true }
+  validates :status, inclusion: { in: VERSION_STATUSES }
   validate :validate_start_date_before_effective_date
 
   scopes :order_by_semver_name,
@@ -77,7 +75,7 @@ class Version < ApplicationRecord
   # Returns the total estimated time for this version
   # (sum of leaves estimated_hours)
   def estimated_hours
-    @estimated_hours ||= work_packages.hierarchy_leaves.sum(:estimated_hours).to_f
+    @estimated_hours ||= work_packages.leaves.sum(:estimated_hours).to_f
   end
 
   # Returns the total reported time for this version
@@ -100,17 +98,6 @@ class Version < ApplicationRecord
   # Returns true if the version is completed: finish date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
-  end
-
-  def behind_schedule?
-    if completed_percent == 100
-      false
-    elsif due_date && start_date
-      done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
-      done_date <= Date.today
-    else
-      false # No issues so it's not late
-    end
   end
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
@@ -155,7 +142,7 @@ class Version < ApplicationRecord
   end
 
   def wiki_page
-    if project.wiki && !wiki_page_title.blank?
+    if project.wiki && wiki_page_title.present?
       @wiki_page ||= project.wiki.find_page(wiki_page_title)
     end
     @wiki_page

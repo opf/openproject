@@ -9,9 +9,14 @@ Automated tests and manual code reviews ensure that these contributions are safe
 
 ### Security announcements mailing list
 
-We provide a mailing list for security advisories on OpenProject at <https://groups.google.com/forum/#!forum/openproject-security>. Please register there to get immediate notifications as we publish them.
+We provide a mailing list for security advisories on OpenProject at <https://groups.google.com/forum/#!forum/openproject-security>. Please register there to get immediate notifications as we publish them. No messages except for security advisories or security related announcements will be sent there.
 
-Any security related information will also be published on our blog and website at https://www.openproject.com
+Any security related information will also be published on our blog and website at https://www.openproject.org
+
+To join this mailing list, please use the UI if you have a google account. If you don't, you can send an empty email to [openproject-security+subscribe@googlegroups.com](mailto:openproject-security+subscribe@googlegroups.com). You will get a join request, which you again have to reply with any content.
+
+To unsubscribe, you will find a link at the end of every submission.
+
 
 
 

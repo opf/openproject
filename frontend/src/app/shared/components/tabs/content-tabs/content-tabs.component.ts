@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,13 +58,13 @@ export class ContentTabsComponent extends ScrollableTabsComponent {
 
   constructor(
     readonly elementRef:ElementRef,
-    readonly $state:StateService,
+    protected readonly $state:StateService,
     readonly gon:GonService,
     cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     public injector:Injector,
   ) {
-    super(cdRef, injector);
+    super($state, cdRef, injector);
 
     const gonTabs = JSON.parse((this.gon.get('contentTabs') as any).tabs);
     const currentTab = JSON.parse((this.gon.get('contentTabs') as any).selected);

@@ -14,12 +14,13 @@ import { StateService } from '@uirouter/angular';
 import { UIRouterGlobals } from '@uirouter/core';
 import { IanCenterService } from 'core-app/features/in-app-notifications/center/state/ian-center.service';
 import {
-  InAppNotification,
+  INotification,
   NOTIFICATIONS_MAX_SIZE,
 } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 @Component({
   selector: 'op-in-app-notification-center',
@@ -30,13 +31,13 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
 export class InAppNotificationCenterComponent implements OnInit {
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
-  hasMoreThanPageSize$ = this.storeService.query.hasMoreThanPageSize$;
+  hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
 
-  hasNotifications$ = this.storeService.query.hasNotifications$;
+  hasNotifications$ = this.storeService.hasNotifications$;
 
-  notifications$ = this.storeService.query.notifications$;
+  notifications$ = this.storeService.notifications$;
 
-  loading$ = this.storeService.query.selectLoading();
+  loading$ = this.storeService.loading$;
 
   private totalCount$ = this.bellService.unread$;
 
@@ -48,7 +49,6 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   totalCountWarning$ = this
     .storeService
-    .query
     .notLoaded$
     .pipe(
       filter((notLoaded) => notLoaded > 0),
@@ -62,11 +62,46 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   originalOrder = ():number => 0;
 
-  trackNotificationGroups = (i:number, item:InAppNotification[]):string => item
+  reasonMenuItems = [
+    {
+      key: 'mentioned',
+      title: this.I18n.t('js.notifications.menu.mentioned'),
+    },
+    {
+      key: 'assigned',
+      title: this.I18n.t('js.label_assignee'),
+    },
+    {
+      key: 'responsible',
+      title: this.I18n.t('js.notifications.menu.accountable'),
+    },
+    {
+      key: 'watched',
+      title: this.I18n.t('js.notifications.menu.watched'),
+    },
+    {
+      key: 'dateAlert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
+    },
+  ];
+
+  selectedFilter = this.reasonMenuItems.find((item) => item.key === this.uiRouterGlobals.params.name)?.title;
+
+  image = {
+    no_notification: imagePath('notification-center/empty-state-no-notification.svg'),
+    no_selection: imagePath('notification-center/empty-state-no-selection.svg'),
+    loading: imagePath('notification-center/notification_loading.gif'),
+  };
+
+  trackNotificationGroups = (i:number, item:INotification[]):string => item
     .map((el) => `${el.id}@${el.updatedAt}`)
     .join(',');
 
   text = {
+    no_notification: this.I18n.t('js.notifications.center.empty_state.no_notification'),
+    no_notification_with_current_filter_project: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_project_filter'),
+    no_notification_with_current_filter: this.I18n.t('js.notifications.center.empty_state.no_notification_with_current_filter', { filter: this.selectedFilter }),
+    no_selection: this.I18n.t('js.notifications.center.empty_state.no_selection'),
     change_notification_settings: this.I18n.t(
       'js.notifications.settings.change_notification_settings',
       { url: this.pathService.myNotificationsSettingsPath() },
@@ -87,7 +122,7 @@ export class InAppNotificationCenterComponent implements OnInit {
     readonly bellService:IanBellService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly state:StateService,
-    readonly apiV3:APIV3Service,
+    readonly apiV3:ApiV3Service,
     readonly pathService:PathHelperService,
   ) {
   }
@@ -98,5 +133,12 @@ export class InAppNotificationCenterComponent implements OnInit {
       filter: this.uiRouterGlobals.params.filter, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
       name: this.uiRouterGlobals.params.name, // eslint-disable-line @typescript-eslint/no-unsafe-assignment
     });
+  }
+
+  noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
+    if (!(!hasNotifications && totalNotifications > 0)) {
+      return this.text.no_notification;
+    }
+    return (this.uiRouterGlobals.params.filter === 'project' ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);
   }
 }

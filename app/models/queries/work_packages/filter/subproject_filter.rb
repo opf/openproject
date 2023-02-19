@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +29,7 @@
 class Queries::WorkPackages::Filter::SubprojectFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
   def allowed_values
-    @allowed_values ||= begin
-      visible_subproject_array.map { |id, name| [name, id.to_s] }
-    end
+    @allowed_values ||= visible_subproject_array.map { |id, name| [name, id.to_s] }
   end
 
   def default_operator
@@ -100,13 +96,11 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
 
   def visible_subprojects
     # This can be accessed even when `available?` is false
-    @visible_subprojects ||= begin
-      if project.nil?
-        []
-      else
-        project.descendants.visible
-      end
-    end
+    @visible_subprojects ||= if project.nil?
+                               []
+                             else
+                               project.descendants.visible
+                             end
   end
 
   def visible_subproject_ids

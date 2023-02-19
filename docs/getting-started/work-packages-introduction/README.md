@@ -3,7 +3,6 @@ sidebar_navigation:
   title: Work packages introduction
   priority: 700
 description: Introduction to work packages in OpenProject.
-robots: index, follow
 keywords: work packages introduction, attributes, values, task
 ---
 
@@ -13,12 +12,12 @@ In this document you will get a first introduction to work packages. You will fi
 
 For further documentation, please visit our [user guide for work packages](../../user-guide/work-packages).
 
-| Topic                                                        | Content                                                   |
-| ------------------------------------------------------------ | --------------------------------------------------------- |
-| [What is a work package?](#what-is-a-work-package)          | Find out what a work package in OpenProject is.           |
-| [Create a new work package](#create-a-new-work-package)      | How to create a new work package in a project?           |
-| [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package? |
-| [Activity of work packages](#activity-of-work-packages)      | See all changes in a work package.                        |
+| Topic                                                         | Content                                                   |
+|---------------------------------------------------------------|-----------------------------------------------------------|
+| [What is a work package?](#what-is-a-work-package)            | Find out what a work package in OpenProject is.           |
+| [Create a new work package](#create-a-new-work-package)       | How to create a new work package in a project.            |
+| [Open and edit a work package](#open-and-edit-a-work-package) | How to open and make changes to an existing work package. |
+| [Activity of work packages](#activity-of-work-packages)       | See all changes in a work package.                        |
 
 <video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Work-Packages.mp4" type="video/mp4" controls="" style="width:100%"></video>
 
@@ -30,9 +29,9 @@ A work package in OpenProject can basically be everything you need to keep track
 
 To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project drop-down menu, navigate to the **module work packages** in the project menu.
 
-Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone.
+Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. To create a new work package, you can also select the blue printed + Create a new workpackage writing.
 
-![create-work-package](create-work-package-1569611257373.png)
+![create-a-new-workpackage](create-a-new-workpackage.png)
 
 A split screen view is opened with the new work package form on the right and the list of already existing work packages on the left.
 
@@ -42,11 +41,11 @@ In the empty form on the right, you can enter all relevant information for this 
 
 Click the green **Save** button to create the work package.
 
-![split-screen-work-packages](split-screen-work-packages.png)
+![split-screen-workpackages](split-screen-workpackages.png)
 
 The work package will the be displayed in the list view:
 
-![list-view-work-package](1569611758166.png)
+ ![create-work-package-define-project](create-work-package-define-project-6669224.png)
 
 Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/project-settings/work-package-types/#work-package-types) that are activated, will be shown and you can select the relevant work package type to be created.
 
@@ -54,7 +53,7 @@ Another option to create a work package is to do it from the header menu. The [w
 
 Once you click on the work package type that you want to create, the work package detail view opens and you have to **select the project** that you want to create the work package for. 
 
-![create-work-package-define-project](create-work-package-define-project.png)
+![create and name work package](create-work-package.png)
 
 Then you follow the same steps as mentioned above to fill in the your work package attributes and save it.
 
@@ -84,7 +83,7 @@ You can also insert a comment at the end of the Activity list.
 
 ![activity-work-packages](activity-work-packages.png)
 
-The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
+To notify other people about changes in your work packages activities, you can comment and type an @" infront of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/system-settings/display-settings/#time-and-date-formatting-aggregation-of-changes-in-activity).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
 

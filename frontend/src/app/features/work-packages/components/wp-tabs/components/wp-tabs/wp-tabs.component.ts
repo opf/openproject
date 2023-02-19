@@ -28,7 +28,7 @@ export class WpTabsComponent implements OnInit {
   text = {
     details: {
       close: this.I18n.t('js.button_close_details'),
-      goToFullScreen: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
+      goToFullScreen: this.I18n.t('js.button_show_fullscreen'),
     },
   };
 

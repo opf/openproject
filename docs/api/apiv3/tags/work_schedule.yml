@@ -1,0 +1,78 @@
+---
+name: Work Schedule
+description: |-
+  The work schedule defines if days are working days or non-working days.
+
+  A day can be a non-working day if any of these two conditions are met:
+
+    - the day is a recurring non-working week day: a weekend day. For instance
+      Sunday is not worked in most countries;
+    - the day has been defined as a non-working day: national bank holidays or
+      other days deemed special. For instance the 1st of January is New Year's
+      day and is a bank holiday in most countries.
+
+  Endpoints can define which week days are working/non-working days, and which
+  dates are non-working days.
+
+  To represent the work schedule, `Day`, `WeekDay`, and `NonWorkingDay` models are used.
+
+  ## Day Actions
+
+  None
+
+  ## Day Linked Properties
+
+  | Link              | Description                                                      | Type                      | Constraints | Supported operations |
+  | :---------------: | ---------------------------------------------------------------- | ------------------------- | ----------- | -------------------- |
+  | self              | This day                                                         | Day                       | not null    | READ                 |
+  | nonWorkingReasons | A list of resources describing why this day is a non-working day | (WeekDay/NonWorkingDay)[] |             | READ                 |
+  | weekDay           | The week day for this day                                        | WeekDay                   | not null    | READ                 |
+
+  ## Day Local Properties
+
+  | Property   | Description                                 | Type    | Constraints    | Supported operations |
+  | :--------: | ------------------------------------------- | ------- | -------------- | -------------------- |
+  | date       | The date in ISO8601 format (YYYY-MM-DD)     | Date    | not null       | READ                 |
+  | name       | The name of the day                         | String  | not null       | READ                 |
+  | working    | `true` for a working day, `false` otherwise | Boolean | not null       | READ                 |
+
+
+  ## WeekDay Actions
+
+  | Link   | Description          | Condition                          |
+  | :----: | -------------------- | ---------------------------------- |
+  | update | Update this week day | **Permission**: edit work schedule |
+
+  ## WeekDay Linked Properties
+
+  | Link | Description   | Type    | Constraints | Supported operations |
+  | :--: | ------------- | ------- | ----------- | -------------------- |
+  | self | This week day | WeekDay | not null    | READ                 |
+
+  ## WeekDay Local Properties
+
+  | Property | Description                                         | Type    | Constraints    | Supported operations |
+  | :------: | --------------------------------------------------- | ------- | -------------- | -------------------- |
+  | day      | The week day from 1 to 7. 1 is Monday. 7 is Sunday. | Integer | x >= 1, x <= 7 | READ                 |
+  | name     | The name of the week day                            | String  | not null       | READ                 |
+  | working  | `true` for a working week day, `false` otherwise    | Boolean | not null       | READ/WRITE           |
+
+
+  ## NonWorkingDay Actions
+
+  | Link   | Description                 | Condition                          |
+  | :----: | --------------------------- | ---------------------------------- |
+  | update | Update this non-working day | **Permission**: edit work schedule |
+
+  ## NonWorkingDay Linked Properties
+
+  | Link | Description          | Type          | Constraints | Supported operations |
+  | :--: | -------------------- | ------------- | ----------- | -------------------- |
+  | self | This non-working day | NonWorkingDay | not null    | READ                 |
+
+  ## NonWorkingDay Local Properties
+
+  | Property | Description                             | Type   | Constraints | Supported operations |
+  | :------: | --------------------------------------- | ------ | ----------- | -------------------- |
+  | date     | The date in ISO8601 format (YYYY-MM-DD) | Date   | not null    | READ                 |
+  | name     | The name of the non-working day day     | String | not null    | READ/WRITE           |

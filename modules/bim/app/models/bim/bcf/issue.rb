@@ -14,7 +14,7 @@ module Bim::Bcf
              foreign_key: :issue_id,
              class_name: "Bim::Bcf::Viewpoint",
              dependent: :destroy
-    has_many :comments, foreign_key: :issue_id, class_name: "Bim::Bcf::Comment", dependent: :destroy
+    has_many :comments, class_name: "Bim::Bcf::Comment", dependent: :destroy
 
     after_update :invalidate_markup_cache
 

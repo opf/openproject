@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -56,6 +56,7 @@ export function makeSplitViewRoutes(baseRoute:string,
   showComponent:ComponentType<unknown>,
   newComponent:ComponentType<unknown> = WorkPackageNewSplitViewComponent,
   makeFullWidth?:boolean,
+  showMobileAlternative = true,
   routeName = baseRoute):Ng2StateDeclaration[] {
   // makeFullWidth configuration
   const views:{ [content:string]:{ component:ComponentType<unknown>; }; } = makeFullWidth
@@ -82,7 +83,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         newRoute: `${routeName}.new`,
         partition,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
       // Retarget and by that override the grandparent views
       // https://ui-router.github.io/guide/views#relative-parent-state
@@ -96,7 +97,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         baseRoute,
         menuItem: menuItemClass,
         parent: `${routeName}.details`,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
     },
     // Split create route
@@ -104,6 +105,11 @@ export function makeSplitViewRoutes(baseRoute:string,
       name: `${routeName}.new`,
       url: '/create_new?{type:[0-9]+}&{parent_id:[0-9]+}',
       reloadOnSearch: false,
+      params: {
+        defaults: {
+          value: null,
+        },
+      },
       data: {
         partition: '-split',
         allowMovingInEditMode: true,
@@ -111,7 +117,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         // Remember the base route so we can route back to it anywhere
         baseRoute,
         parent: baseRoute,
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
       views: {
         // Retarget and by that override the grandparent views
@@ -134,7 +140,7 @@ export function makeSplitViewRoutes(baseRoute:string,
         bodyClasses: 'router--work-packages-partitioned-split-view',
         menuItem: menuItemClass,
         partition: '-split',
-        mobileAlternative: 'work-packages.show',
+        mobileAlternative: showMobileAlternative ? 'work-packages.show' : undefined,
       },
     },
   ];

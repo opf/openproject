@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,16 +27,31 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, Input, ViewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  ViewChild,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  DomSanitizer,
+  SafeResourceUrl,
+} from '@angular/platform-browser';
+import {
+  FormControl,
+  FormGroup,
+} from '@angular/forms';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { EETrialFormComponent } from 'core-app/features/enterprise/enterprise-modal/enterprise-trial-form/ee-trial-form.component';
 import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?autoplay=1';
 
@@ -44,6 +59,7 @@ export const eeOnboardingVideoURL = 'https://www.youtube.com/embed/zLMSydhFSkw?a
   selector: 'enterprise-trial-modal',
   templateUrl: './enterprise-trial.modal.html',
   styleUrls: ['./enterprise-trial.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnterpriseTrialModalComponent extends OpModalComponent implements AfterViewInit {
   @ViewChild(EETrialFormComponent, { static: false }) formComponent:EETrialFormComponent;
@@ -51,13 +67,6 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
   @Input() public opReferrer:string;
 
   public trialForm:FormGroup;
-
-  // modal configuration
-  public showClose = true;
-
-  public closeOnEscape = false;
-
-  public closeOnOutsideClick = false;
 
   public trustedEEVideoURL:SafeResourceUrl;
 
@@ -72,6 +81,39 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
     quick_overview: this.I18n.t('js.admin.enterprise.trial.quick_overview'),
   };
 
+  headerText$:Observable<string> = this
+    .eeTrialService
+    .observe$
+    .pipe(
+      map(({ status }) => {
+        if (status === 'mailSubmitted') {
+          return this.text.heading_confirmation;
+        }
+
+        if (status === 'startTrial') {
+          return this.text.heading_next_steps;
+        }
+
+        return this.text.heading_test_ee;
+      }),
+    );
+
+  showState$ = this
+    .eeTrialService
+    .observe$
+    .pipe(
+      map(({ status, cancelled }) => {
+        if (!status || cancelled) {
+          return 'trial-form';
+        }
+        if (status === 'mailSubmitted' && !cancelled) {
+          return 'trial-waiting';
+        }
+
+        return 'overview';
+      }),
+    );
+
   constructor(readonly elementRef:ElementRef,
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
@@ -82,51 +124,39 @@ export class EnterpriseTrialModalComponent extends OpModalComponent implements A
     this.trustedEEVideoURL = this.trustedURL(eeOnboardingVideoURL);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.trialForm = this.formComponent.trialForm;
   }
 
   // checks if form is valid and submits it
-  public onSubmit() {
+  public onSubmit():void {
     if (this.trialForm.valid) {
       this.trialForm.addControl('_type', new FormControl('enterprise-trial'));
-      this.eeTrialService.sendForm(this.trialForm);
+      void this.eeTrialService.sendForm(this.trialForm);
     }
   }
 
-  public startEnterpriseTrial() {
+  public startEnterpriseTrial():void {
     // open onboarding modal screen
     this.eeTrialService.setStartTrialStatus();
   }
 
-  public headerText() {
-    if (this.eeTrialService.mailSubmitted) {
-      return this.text.heading_confirmation;
-    } if (this.eeTrialService.trialStarted) {
-      return this.text.heading_next_steps;
-    }
-    return this.text.heading_test_ee;
-  }
-
-  public closeModal(event:any) {
+  public closeModal(event:Event):void {
     this.closeMe(event);
+
+    const { status, confirmed } = this.eeTrialService.current;
     // refresh page to show enterprise trial
-    if (this.eeTrialService.trialStarted || this.eeTrialService.confirmed) {
+    if (status === 'startTrial' || confirmed) {
       window.location.reload();
+    } else if (status === 'mailSubmitted') {
+      window.location.reload();
+      return;
     }
-    this.eeTrialService.modalOpen = false;
+
+    this.eeTrialService.store.update({ modalOpen: false });
   }
 
-  public trustedURL(url:string) {
+  public trustedURL(url:string):SafeResourceUrl {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
-  }
-
-  public openWindow():number {
-    if (!this.eeTrialService.status || this.eeTrialService.cancelled) {
-      return 1;
-    } if (this.eeTrialService.mailSubmitted && !this.eeTrialService.cancelled) {
-      return 2;
-    }
-    return 3;
   }
 }

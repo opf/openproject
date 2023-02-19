@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,10 +42,10 @@ module Design
 
         custom_style.save!
 
-        ServiceResult.new success: true, result: custom_style
+        ServiceResult.success result: custom_style
       end
     rescue StandardError => e
-      ServiceResult.new success: false, message: e.message
+      ServiceResult.failure message: e.message
     end
 
     private

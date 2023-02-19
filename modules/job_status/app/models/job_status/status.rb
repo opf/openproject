@@ -15,7 +15,7 @@ module JobStatus
     }
 
     def self.of_reference(reference)
-      where(reference: reference)
+      where(reference:)
     end
   end
 end

@@ -6,7 +6,7 @@ it:
       openid_connect/provider:
         name: Nome
         display_name: Visualizza nome
-        identifier: Identificatore
+        identifier: Identificativo
         secret: Parola chiave
         scope: Ambito
   openid_connect:

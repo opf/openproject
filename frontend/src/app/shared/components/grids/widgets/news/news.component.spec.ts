@@ -5,7 +5,7 @@ import { States } from 'core-app/core/states/states.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HttpClientModule } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
-import { APIV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { of } from 'rxjs';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WidgetNewsComponent } from './news.component';
@@ -51,7 +51,7 @@ describe('shows news', () => {
         TimezoneService,
         { provide: ConfigurationService, useValue: configurationServiceStub },
         States,
-        { provide: APIV3Service, useValue: apiv3ServiceStub },
+        { provide: ApiV3Service, useValue: apiv3ServiceStub },
         HalResourceService,
       ],
       imports: [HttpClientModule],
@@ -69,7 +69,7 @@ describe('shows news', () => {
     expect(app.entries.length).toBe(1);
   }));
 
-  it('should render the componenet successfully to show the news', waitForAsync(() => {
+  it('should render the component successfully to show the news', waitForAsync(() => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       const newsItem = document.querySelector('li');

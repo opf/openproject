@@ -19,12 +19,20 @@ properties:
     - "$ref": "./formattable.yml"
     - {}
   details:
-    type: array of formattable
+    type: array
     readOnly: true
+    items:
+      allOf:
+      - "$ref": "./formattable.yml"
   createdAt:
     type: string
     format: date-time
     description: Time of creation
+    readOnly: true
+  updatedAt:
+    type: string
+    format: date-time
+    description: Time of update
     readOnly: true
 example:
   _type: Activity::Comment
@@ -48,4 +56,5 @@ example:
     raw: Lorem ipsum dolor sit amet.
     html: "<p>Lorem ipsum dolor sit amet.</p>"
   createdAt: '2014-05-21T08:51:20Z'
+  updatedAt: '2014-05-21T09:14:02Z'
   version: 31

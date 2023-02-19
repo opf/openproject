@@ -10,7 +10,7 @@ module ::Avatars
 
     def replace(avatar)
       if avatar.nil?
-        return ServiceResult.new(success: false).tap do |_result|
+        return ServiceResult.failure.tap do |_result|
           return error_result(I18n.t(:empty_file_error))
         end
       end
@@ -33,7 +33,7 @@ module ::Avatars
       end
 
       @user.local_avatar_attachment = avatar
-      ServiceResult.new(success: true, result: I18n.t(:message_avatar_uploaded))
+      ServiceResult.success(result: I18n.t(:message_avatar_uploaded))
     rescue StandardError => e
       Rails.logger.error "Failed to update avatar of user##{user.id}: #{e}"
       error_result(I18n.t(:error_image_upload))
@@ -43,7 +43,7 @@ module ::Avatars
       current_attachment = @user.local_avatar_attachment
       if current_attachment && current_attachment.destroy
         @user.reload
-        ServiceResult.new(success: true, result: I18n.t(:avatar_deleted))
+        ServiceResult.success(result: I18n.t(:avatar_deleted))
       else
         error_result(I18n.t(:unable_to_delete_avatar))
       end
@@ -55,7 +55,7 @@ module ::Avatars
     private
 
     def error_result(message)
-      ServiceResult.new(success: false).tap do |result|
+      ServiceResult.failure.tap do |result|
         result.errors.add(:base, message)
       end
     end

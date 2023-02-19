@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
 
       versions.each do |version|
         display = version_settings_display_map[version.name] || VersionSetting::DISPLAY_NONE
-        version.version_settings.create! display: display, project: version.project
+        version.version_settings.create! display:, project: version.project
       end
     end
 

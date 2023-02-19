@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -119,7 +119,7 @@ export abstract class EditFieldHandler extends UntilDestroyedMixin {
   /**
    * Handle users pressing enter inside an edit mode.
    * Outside an edit mode, the regular save event is captured by handleUserSubmit (submit event).
-   * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
+   * In an edit mode, we can't derive from a submit event whether the user pressed enter
    * (and on what field he did that).
    */
   public abstract handleUserKeydown(event:JQuery.TriggeredEvent, onlyCancel?:boolean):void;

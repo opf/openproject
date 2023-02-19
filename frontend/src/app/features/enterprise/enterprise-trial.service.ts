@@ -1,46 +1,111 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2022 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import { Injectable } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import {
+  HttpClient,
+  HttpErrorResponse,
+} from '@angular/common/http';
+import { Query } from '@datorama/akita';
+import {
+  filter,
+  map,
+  shareReplay,
+} from 'rxjs/operators';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { FormGroup } from '@angular/forms';
-import { input } from 'reactivestates';
-
-export interface EnterpriseTrialData {
-  id?:string;
-  company:string;
-  first_name:string;
-  last_name:string;
-  email:string;
-  domain:string;
-  general_consent?:boolean;
-  newsletter_consent?:boolean;
-}
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { EnterpriseTrialStore } from 'core-app/features/enterprise/enterprise-trial.store';
+import { GonType } from 'core-app/core/gon/gon.service';
+import {
+  EnterpriseTrialErrorHalResource,
+  EnterpriseTrialHalResource,
+  IEnterpriseData,
+  IEnterpriseTrial,
+} from 'core-app/features/enterprise/enterprise-trial.model';
+import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 
 @Injectable()
 export class EnterpriseTrialService {
-  // user data needs to be sync in ee-active-trial.component.ts
-  userData$ = input<EnterpriseTrialData>();
+  readonly store = new EnterpriseTrialStore();
+
+  private query = new Query(this.store);
+
+  confirmed$ = this.query.select('confirmed');
+
+  cancelled$ = this.query.select('cancelled');
+
+  status$ = this.query.select('status');
+
+  observe$ = this.query.select();
+
+  userData$ = this.query
+    .select('data')
+    .pipe(filter(isDefinedEntity));
+
+  emailError$ = this
+    .query
+    .select()
+    .pipe(
+      map(({ error, emailInvalid }) => {
+        if (emailInvalid) {
+          return this.text.invalid_email;
+        }
+
+        const errorResponse = error?.error as { identifier?:string };
+        if (error && errorResponse.identifier === 'user_already_created_trial') {
+          return this.text.taken_email;
+        }
+        return null;
+      }),
+      shareReplay(1),
+    );
+
+  domainTaken$ = this
+    .query
+    .select()
+    .pipe(
+      map(({ error }) => {
+        const errorResponse = error?.error as { identifier?:string };
+        if (error && errorResponse.identifier === 'domain_taken') {
+          return this.text.taken_domain;
+        }
+        return null;
+      }),
+      shareReplay(1),
+    );
 
   public readonly baseUrlAugur:string;
 
   public readonly tokenVersion:string;
-
-  public trialLink:string;
-
-  public resendLink:string;
-
-  public modalOpen = false;
-
-  public confirmed:boolean;
-
-  public cancelled = false;
-
-  public status:'mailSubmitted'|'startTrial'|undefined;
-
-  public error:HttpErrorResponse|undefined;
-
-  public emailInvalid = false;
 
   public text = {
     invalid_email: this.I18n.t('js.admin.enterprise.trial.form.invalid_email'),
@@ -52,49 +117,69 @@ export class EnterpriseTrialService {
     protected http:HttpClient,
     readonly pathHelper:PathHelperService,
     protected toastService:ToastService) {
-    const { gon } = window as any;
+    const gon = window.gon as (GonType&{ augur_url:string, token_version:string, ee_trial_key?:string });
     this.baseUrlAugur = gon.augur_url;
     this.tokenVersion = gon.token_version;
 
-    if ((window as any).gon.ee_trial_key) {
+    if (gon.ee_trial_key) {
       this.setMailSubmittedStatus();
     }
   }
 
   // send POST request with form object
   // receive an enterprise trial link to access a token
-  public sendForm(form:FormGroup) {
-    const request = { ...form.value, token_version: this.tokenVersion };
-    this.http.post(`${this.baseUrlAugur}/public/v1/trials`, request)
+  public sendForm(form:FormGroup):Promise<unknown> {
+    const request:unknown = { ...form.value, token_version: this.tokenVersion };
+    return this.http
+      .post(
+        `${this.baseUrlAugur}/public/v1/trials`,
+        request,
+        {
+          headers: {
+            [EXTERNAL_REQUEST_HEADER]: 'true',
+          },
+        },
+      )
       .toPromise()
-      .then((enterpriseTrial:any) => {
-        this.userData$.putValue(form.value);
-        this.cancelled = false;
+      .then((enterpriseTrial:EnterpriseTrialHalResource) => {
+        const trialLink = enterpriseTrial._links.self.href;
+        const data = form.value as IEnterpriseData;
 
-        this.trialLink = enterpriseTrial._links.self.href;
-        this.saveTrialKey(this.trialLink);
+        this.store.update({
+          trialLink,
+          data,
+          cancelled: false,
+        });
 
+        void this.saveTrialKey(trialLink);
         this.retryConfirmation();
       })
       .catch((error:HttpErrorResponse) => {
         // mail is invalid or user already created a trial
         if (error.status === 422 || error.status === 400) {
-          this.error = error;
+          this.store.update({ error });
         } else {
-          this.toastService.addWarning(error.error.description || I18n.t('js.error.internal'));
+          const description = (error.error as { description?:string }).description;
+          this.toastService.addWarning(description || I18n.t('js.error.internal'));
         }
       });
   }
 
   // get a token from the trial link if user confirmed mail
-  public getToken() {
+  public getToken():void {
     // 2) GET /public/v1/trials/:id
-    this.http
-      .get<any>(this.trialLink)
+    this.http.get(
+      this.store.getValue().trialLink as string,
+      {
+        headers: {
+          [EXTERNAL_REQUEST_HEADER]: 'true',
+        },
+      },
+    )
       .toPromise()
-      .then(async (res:any) => {
+      .then(async (res:{ token_retrieved?:boolean, token:string }) => {
         // show confirmed status and enable continue btn
-        this.confirmed = true;
+        this.store.update({ confirmed: true });
 
         // returns token if mail was confirmed
         // -> if token is new (token_retrieved: false) save token in backend
@@ -103,19 +188,24 @@ export class EnterpriseTrialService {
         }
       })
       .catch((error:HttpErrorResponse) => {
+        const errorResponse = error.error as EnterpriseTrialErrorHalResource;
         // returns error 422 while waiting of confirmation
-        if (error.status === 422 && error.error.identifier === 'waiting_for_email_verification') {
+        if (error.status === 422 && errorResponse.identifier === 'waiting_for_email_verification') {
           // get resend button link
-          this.resendLink = error.error._links.resend.href;
+          const resendLink = errorResponse._links.resend.href;
+          this.store.update({ resendLink });
+
+          const { status, cancelled } = this.store.getValue();
+
           // save a key for the requested trial
-          if (!this.status || this.cancelled) { // only do it once
-            this.saveTrialKey(this.resendLink);
+          if (!status || cancelled) { // only do it once
+            void this.saveTrialKey(resendLink);
           }
           // open next modal window -> status waiting
           this.setMailSubmittedStatus();
-          this.confirmed = false;
-        } else if (_.get(error, 'error._type') === 'Error') {
-          this.toastService.addError(error.error.message);
+          this.store.update({ confirmed: false });
+        } else if (errorResponse?.message) {
+          this.toastService.addError(errorResponse.message);
         } else {
           this.toastService.addError(error.error || I18n.t('js.error.internal'));
         }
@@ -125,7 +215,7 @@ export class EnterpriseTrialService {
   // save a part of the resend link in db
   // which allows to remember if a user has already requested a trial token
   // and to ask for the corresponding user data saved in Augur
-  private saveTrialKey(resendlink:string) {
+  private saveTrialKey(resendlink:string):Promise<unknown> {
     // extract token from resend link
     const trialKey = resendlink.split('/')[6];
     return this.http.post(
@@ -134,8 +224,9 @@ export class EnterpriseTrialService {
       { withCredentials: true },
     )
       .toPromise()
-      .catch((e:any) => {
-        this.toastService.addError(e.error.message || e.message || e);
+      .catch((e:HttpErrorResponse) => {
+        const errorResponse = e.error as EnterpriseTrialErrorHalResource;
+        this.toastService.addError(errorResponse.message || e.message || e);
       });
   }
 
@@ -148,8 +239,9 @@ export class EnterpriseTrialService {
     )
       .toPromise()
       .then(() => {
+        const { modalOpen } = this.store.getValue();
         // load page if mail was confirmed and modal window is not open
-        if (!this.modalOpen) {
+        if (!modalOpen) {
           setTimeout(() => { // display confirmed status before reloading
             window.location.reload();
           }, 500);
@@ -158,23 +250,29 @@ export class EnterpriseTrialService {
       .catch((error:HttpErrorResponse) => {
         // Delete the trial key as the token could not be saved and thus something is wrong with the token.
         // Without this deletion, we run into an endless loop of an confirmed mail, but no saved token.
-        this.http
+        void this.http
           .delete(
             `${this.pathHelper.api.v3.apiV3Base}/admin/enterprise/delete_trial_key`,
             { withCredentials: true },
           )
           .toPromise();
 
-        this.toastService.addError(error.error.description || I18n.t('js.error.internal'));
+        const errorResponse = error.error as EnterpriseTrialErrorHalResource;
+        this.toastService.addError(errorResponse.description || I18n.t('js.error.internal'));
       });
   }
 
   // retry request while waiting for mail confirmation
-  public retryConfirmation(delay = 5000, retries = 60) {
-    if (this.cancelled || this.confirmed) {
+  public retryConfirmation(delay = 5000, retries = 60):void {
+    const { cancelled, confirmed } = this.store.getValue();
 
-    } else if (retries === 0) {
-      this.cancelled = true;
+    if (cancelled || confirmed) {
+      // no need to retry
+      return;
+    }
+
+    if (retries === 0) {
+      this.store.update({ cancelled: true });
     } else {
       this.getToken();
       setTimeout(() => {
@@ -183,49 +281,15 @@ export class EnterpriseTrialService {
     }
   }
 
-  public setStartTrialStatus() {
-    this.status = 'startTrial';
+  public setStartTrialStatus():void {
+    this.store.update({ status: 'startTrial' });
   }
 
-  public setMailSubmittedStatus() {
-    this.status = 'mailSubmitted';
+  public setMailSubmittedStatus():void {
+    this.store.update({ status: 'mailSubmitted' });
   }
 
-  public get trialStarted():boolean {
-    return this.status === 'startTrial';
-  }
-
-  public get mailSubmitted():boolean {
-    return this.status === 'mailSubmitted';
-  }
-
-  public get domainTaken():boolean {
-    return this.error ? this.error.error.identifier === 'domain_taken' : false;
-  }
-
-  public get emailTaken():boolean {
-    return this.error ? this.error.error.identifier === 'user_already_created_trial' : false;
-  }
-
-  public get emailError():boolean {
-    if (this.emailInvalid) {
-      return true;
-    } if (this.error) {
-      return this.emailTaken;
-    }
-    return false;
-  }
-
-  public get errorMsg() {
-    let error = '';
-    if (this.emailInvalid) {
-      error = this.text.invalid_email;
-    } else if (this.domainTaken) {
-      error = this.text.taken_domain;
-    } else if (this.emailTaken) {
-      error = this.text.taken_email;
-    }
-
-    return error;
+  public get current():IEnterpriseTrial {
+    return this.store.getValue();
   }
 }

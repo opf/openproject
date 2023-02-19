@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,6 +38,9 @@ module TimeEntries
       if no_project_or_context_changed?
         model.project = model.work_package&.project
       end
+
+      # Always set the logging user as logged_by
+      set_logged_by
     end
 
     def set_default_attributes(*)
@@ -48,9 +49,15 @@ module TimeEntries
       set_default_hours
     end
 
+    def set_logged_by
+      model.change_by_system do
+        model.logged_by = user
+      end
+    end
+
     def set_default_user
       model.change_by_system do
-        model.user = user
+        model.user ||= user
       end
     end
 

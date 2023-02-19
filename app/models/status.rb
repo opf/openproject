@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +34,7 @@ class Status < ApplicationRecord
   has_many :workflows, foreign_key: 'old_status_id'
   acts_as_list
 
-  belongs_to :color, class_name: 'Color', foreign_key: 'color_id'
+  belongs_to :color, class_name: 'Color'
 
   before_destroy :delete_workflows
 
@@ -45,14 +43,14 @@ class Status < ApplicationRecord
             uniqueness: { case_sensitive: false },
             length: { maximum: 30 }
 
-  validates_inclusion_of :default_done_ratio, in: 0..100, allow_nil: true
+  validates :default_done_ratio, inclusion: { in: 0..100, allow_nil: true }
 
   validate :default_status_must_not_be_readonly
 
   after_save :unmark_old_default_value, if: :is_default?
 
   def unmark_old_default_value
-    Status.where.not(id: id).update_all(is_default: false)
+    Status.where.not(id:).update_all(is_default: false)
   end
 
   # Returns the default status for new issues
@@ -67,7 +65,7 @@ class Status < ApplicationRecord
   # Update all the +Issues+ setting their done_ratio to the value of their +Status+
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
-      Status.where(['default_done_ratio >= 0']).each do |status|
+      Status.where(['default_done_ratio >= 0']).find_each do |status|
         WorkPackage
           .where(['status_id = ?', status.id])
           .update_all(['done_ratio = ?', status.default_done_ratio])
@@ -91,6 +89,12 @@ class Status < ApplicationRecord
     super
   end
   alias :is_readonly? :is_readonly
+
+  ##
+  # Overrides cache key so that changes to EE state are reflected
+  def cache_key
+    super 
+  end
 
   private
 

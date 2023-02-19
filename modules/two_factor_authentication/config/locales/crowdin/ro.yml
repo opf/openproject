@@ -72,8 +72,8 @@ ro:
       text_2fa_enabled: 'La fiecare autentificare, acest utilizator va fi rugat să introducă un token OTP de pe dispozitivul său 2FA implicit.'
       text_2fa_disabled: "Utilizatorul nu a configurat un dispozitiv 2FA prin intermediul paginii \"Contul meu\""
     upsale:
-      title: 'Autentificarea cu doi factori este o caracteristică de întreprindere'
-      description: 'Consolidați mecanismele de autentificare internă sau externă cu un al doilea factor.'
+      title: 'Autentificare cu doi factori'
+      description: 'Consolidarea securității instanței OpenProject prin oferirea (sau impunerea) autentificării cu doi factori pentru toți membrii proiectului.'
     backup_codes:
       none_found: Nu există coduri de rezervă pentru acest cont.
       singular: Cod de rezervă
@@ -136,8 +136,6 @@ ro:
     message_bird:
       sms_delivery_failed: 'Livrarea SMS-urilor MessageBird a eșuat.'
       voice_delivery_failed: 'Apelul vocal MessageBird a eșuat.'
-    restdt:
-      delivery_failed_with_code: 'Livrarea jetonului a eșuat. (Cod de eroare %{code})'
     strategies:
       totp: 'Aplicația Authenticator'
       sns: 'Amazon SNS'

@@ -66,4 +66,6 @@ sl:
           Če omogočite to opcijo, bojo najdeni uporabniki avtomatsko kreirani v OpenProject-u. Brez tega bodo samo obstoječi računi v OpenProjectu-u dodani v skupine
         dn_text: 'Vnesite celoten DN skupine v LDAP'
         group_text: 'Izberite obstoječo skupino OpenProject, s katero bodo člani skupine LDAP sinhronizirani'
+      upsale:
+        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
 

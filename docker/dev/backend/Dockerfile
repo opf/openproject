@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-buster as develop
+FROM ruby:3.1.2-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -7,7 +7,7 @@ ARG DEV_GID=1001
 ENV USER=dev
 ENV RAILS_ENV=development
 
-ENV BUNDLER_VERSION "2.0.2"
+ENV BUNDLER_VERSION "2.3.12"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #
@@ -23,7 +23,12 @@ WORKDIR /home/$USER
 
 RUN apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    postgresql-client
+    postgresql-client libffi7 libffi-dev curl
+
+# Setup node source and install nodejs. Needed for running certain scripts in backend container,
+# as the `./scripts/api/validate_spec`.
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+RUN apt-get install -y nodejs
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app
@@ -42,7 +47,7 @@ WORKDIR /home/$USER/openproject
 
 USER $USER
 
-RUN gem install bundler --version "${bundler_version}" --no-document
+RUN gem install bundler --version "${BUNDLER_VERSION}" --no-document
 
 ####### Testing image below #########
 

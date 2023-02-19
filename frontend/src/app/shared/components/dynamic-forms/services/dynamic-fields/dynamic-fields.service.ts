@@ -59,6 +59,12 @@ export class DynamicFieldsService {
     },
     {
       config: {
+        type: 'userInput',
+      },
+      useForFields: ['User'],
+    },
+    {
+      config: {
         type: 'formattableInput',
         className: '',
         templateOptions: {
@@ -89,8 +95,24 @@ export class DynamicFieldsService {
         },
       },
       useForFields: [
-        'Priority', 'Status', 'Type', 'User', 'Version', 'TimeEntriesActivity',
-        'Category', 'CustomOption', 'Project',
+        'Priority', 'Status', 'Type', 'Version', 'TimeEntriesActivity',
+        'Category', 'CustomOption',
+      ],
+    },
+    {
+      config: {
+        type: 'projectInput',
+        defaultValue: this.selectDefaultValue,
+        templateOptions: {
+          locale: this.I18n.locale,
+          bindLabel: 'name',
+        },
+        expressionProperties: {
+          'templateOptions.clearable': (model:any, formState:any, field:FormlyFieldConfig) => !field.templateOptions?.required,
+        },
+      },
+      useForFields: [
+        'Project',
       ],
     },
     {
@@ -194,11 +216,12 @@ export class DynamicFieldsService {
         required,
         label,
         hasDefault,
-        ...payloadValue != null && { payloadValue },
-        ...minLength && { minLength },
-        ...maxLength && { maxLength },
+        ...(payloadValue != null && { payloadValue }),
+        ...(minLength && { minLength }),
+        ...(maxLength && { maxLength }),
         ...templateOptions,
-        ...fieldOptions && { options: fieldOptions },
+        ...(fieldOptions && { options: fieldOptions }),
+        allowedValuesHref: fieldSchema?._links?.allowedValues?.href,
       },
     };
 
@@ -211,7 +234,7 @@ export class DynamicFieldsService {
 
     if (!inputType) {
       console.warn(
-        `Could not find a input definition for a field with the folowing type: ${fieldType}. The full field configuration is`, field,
+        `Could not find a input definition for a field with the following type: ${fieldType}. The full field configuration is`, field,
       );
       return null;
     }
@@ -219,13 +242,17 @@ export class DynamicFieldsService {
     const inputConfig = inputType.config;
     let configCustomizations;
 
-    if (inputConfig.type === 'integerInput' || inputConfig.type === 'selectInput' || inputConfig.type === 'selectProjectStatusInput') {
+    if (
+      inputConfig.type === 'integerInput'
+      || inputConfig.type === 'selectInput'
+      || inputConfig.type === 'selectProjectStatusInput'
+      || inputConfig.type === 'userInput'
+    ) {
       configCustomizations = {
         className: field.name,
         templateOptions: {
           ...inputConfig.templateOptions,
-          ...this.isMultiSelectField(field) && { multiple: true },
-          ...fieldType === 'User' && { showAddNewUserButton: true },
+          ...(this.isMultiSelectField(field) && { multiple: true }),
         },
       };
     } else if (inputConfig.type === 'formattableInput') {
@@ -291,11 +318,11 @@ export class DynamicFieldsService {
           ...newFormFieldGroup,
           templateOptions: {
             ...newFormFieldGroup.templateOptions,
-            ...fieldGroup.settings.templateOptions && fieldGroup.settings.templateOptions,
+            ...(fieldGroup.settings.templateOptions && fieldGroup.settings.templateOptions),
           },
           expressionProperties: {
             ...newFormFieldGroup.expressionProperties,
-            ...fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties,
+            ...(fieldGroup.settings.expressionProperties && fieldGroup.settings.expressionProperties),
           },
         };
       }

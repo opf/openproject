@@ -100,7 +100,6 @@ $meter-radius: 0 !default;
     color: $input-color-hover;
   }
   &:focus {
-    outline: 0;
     border: $input-border-focus;
     background: $input-background-focus;
     color: $input-color-focus;
@@ -252,10 +251,6 @@ select {
     background-color: $select-background-hover;
   }
 
-  &:focus {
-    outline: 0;
-  }
-
   // Remove the dropdown arrow added in IE10/11
   &::-ms-expand {
     display: none;
@@ -279,10 +274,6 @@ input[type="range"] {
 
   @if hasvalue($slider-radius) {
     border-radius: $slider-radius;
-  }
-
-  &:focus {
-    outline: 0;
   }
 
   // Chrome/Safari

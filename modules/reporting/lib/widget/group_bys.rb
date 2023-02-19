@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,11 @@ class Widget::GroupBys < Widget::Base
   def render_options(group_by_ary)
     group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
-
-      content_tag :option, value: group_by.underscore_name, 'data-label': CGI::escapeHTML(h(group_by.label)).to_s do
-        h(group_by.label)
+      label_text = CGI::escapeHTML(h(group_by.label)).to_s
+      option_tags = { value: group_by.underscore_name, 'data-label': label_text }
+      option_tags[:title] = label_text if group_by.label.length > 40
+      content_tag :option, option_tags do
+        h(truncate_single_line(group_by.label, length: 40))
       end
     end.join.html_safe
   end
@@ -65,7 +67,7 @@ class Widget::GroupBys < Widget::Base
                             class: 'hidden-for-sighted'
 
           label += content_tag :select, id: "group-by--add-#{type}", class: 'advanced-filters--select' do
-            content = content_tag :option, I18n.t(:label_group_by_add), value: ''
+            content = content_tag :option, I18n.t(:label_group_by_add), value: '', disabled: true, selected: true
 
             content += engine::GroupBy.all_grouped.sort_by do |label, _group_by_ary|
               I18n.t(label)

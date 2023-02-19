@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,14 +32,30 @@ module API
       identifier 'InternalServerError'
       code 500
 
-      def initialize(error_message = nil, **)
+      def initialize(error_message = nil, exception: nil, **)
         error = I18n.t('api_v3.errors.code_500')
 
-        if error_message
+        if error_message && visible_exception?(exception)
           error += " #{error_message}"
         end
 
         super error
+      end
+
+      private
+
+      ##
+      # Hide internal database errors in production
+      def visible_exception?(exception)
+        exception_blacklist.none? do |clz|
+          exception.is_a?(clz)
+        end
+      end
+
+      def exception_blacklist
+        [
+          ActiveRecord::StatementInvalid
+        ]
       end
     end
   end

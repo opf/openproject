@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2021 the OpenProject GmbH
+#Copyright (C) 2012-2022 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -514,7 +514,7 @@ zh-CN:
         subproject: "子项目"
         time_entries: "记录时间"
         type: "类型"
-        watcher: "关注人"
+        watcher: "关注者"
       'doorkeeper/application':
         uid: "客户端 ID"
         secret: "客户端密钥"
@@ -842,7 +842,7 @@ zh-CN:
     id: "ID"
     is_default: "默认值"
     is_for_all: "为所有项目"
-    is_public: "公开"
+    public: "公开"
     #kept for backwards compatibility
     issue: "工作包"
     lastname: "姓氏"
@@ -852,7 +852,6 @@ zh-CN:
     password: "密码"
     priority: "优先级"
     project: "项目"
-    public: "公开"
     responsible: "负责"
     role: "角色"
     roles: "角色"
@@ -898,7 +897,7 @@ zh-CN:
   button_add: "添加"
   button_add_comment: "添加评论"
   button_add_member: 添加成员
-  button_add_watcher: "添加关注人"
+  button_add_watcher: "添加关注者"
   button_annotate: "批注"
   button_apply: "应用"
   button_archive: "存档"
@@ -920,7 +919,7 @@ zh-CN:
   button_create_and_continue: "创建并继续"
   button_delete: "删除"
   button_decline: "拒绝"
-  button_delete_watcher: "删除关注人 %{name}"
+  button_delete_watcher: "删除关注者 %{name}"
   button_download: "下载"
   button_duplicate: "复制"
   button_edit: "编辑"
@@ -1597,6 +1596,10 @@ zh-CN:
   label_member_plural: "成员"
   lable_membership_added: '已添加成员'
   lable_membership_updated: '已更新成员'
+  label_menu_badge:
+    pre_alpha: 'pre-beta'
+    alpha: 'alpha'
+    beta: 'beta'
   label_menu_item_name: "菜单项名称"
   label_message: "消息"
   label_message_last: "最后一条消息"
@@ -1702,7 +1705,6 @@ zh-CN:
   label_public_projects: "公开项目"
   label_query_new: "新的查询"
   label_query_plural: "自定义查询"
-  label_query_menu_item: "查询菜单项"
   label_read: "阅读..."
   label_register: "创建一个新帐户"
   label_register_with_developer: "注册成为开发人员"
@@ -2372,7 +2374,6 @@ zh-CN:
   setting_work_package_list_default_columns: "默认显示"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
-  setting_work_packages_export_limit: "工作包导出限制"
   setting_journal_aggregation_time_minutes: "内部聚合的用户操作"
   setting_log_requesting_user: "记录所有请求的用户帐户，名称和邮件地址"
   setting_login_required: "需要身份验证"
@@ -2511,8 +2512,8 @@ zh-CN:
   text_work_package_category_destroy_question: "一些工作包 (%{count}) 被分配到这个类别。你想做什么？"
   text_work_package_category_reassign_to: "重新分配工作包到此类别"
   text_work_package_updated: "工作包 %{id} 已经被 %{author} 更新。"
-  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注人。"
-  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注人中移除。"
+  text_work_package_watcher_added: "%{watcher_changer} 已将您添加为工作包 %{id} 的一个关注者。"
+  text_work_package_watcher_removed: "%{watcher_changer} 已将您从工作包 %{id} 的关注者中移除。"
   text_work_packages_destroy_confirmation: "确实要删除所选的工作包吗?"
   text_work_packages_ref_in_commit_messages: "引用和修复工作包中提交消息"
   text_journal_added: "%{label} %{value} 已添加"
@@ -2804,7 +2805,6 @@ zh-CN:
   wiki_menu_item_new_main_item_explanation: >
     您正在删除唯一的主wiki菜单项。您现在需要选择一个wiki页面生成新的主项目。若要删除wiki，wiki模块可以由管理员停用。
   wiki_menu_item_delete_not_permitted: 不能删除唯一 wiki 页面的 wiki 菜单项。
-  query_menu_item_for: "查询\"%{title}\"的菜单项"
   #TODO: merge with work_packages top level key
   work_package:
     updated_automatically_by_child_changes: |

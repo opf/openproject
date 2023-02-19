@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,18 +36,19 @@ module Principals
       rewrite_default_journals(from, to)
       rewrite_customizable_journals(from, to)
 
-      ServiceResult.new success: true
+      ServiceResult.success
     end
 
     private
 
-    # rubocop:disable Rails/SkipsModelValidations
     def rewrite_active_models(from, to)
       rewrite_author(from, to)
       rewrite_user(from, to)
       rewrite_assigned_to(from, to)
       rewrite_responsible(from, to)
       rewrite_actor(from, to)
+      rewrite_owner(from, to)
+      rewrite_logged_by(from, to)
     end
 
     def rewrite_custom_value(from, to)
@@ -63,9 +62,7 @@ module Principals
       journal_classes.each do |klass|
         foreign_keys.each do |foreign_key|
           if klass.column_names.include? foreign_key
-            klass
-              .where(foreign_key => from.id)
-              .update_all(foreign_key => to.id)
+            rewrite(klass, foreign_key, from, to)
           end
         end
       end
@@ -89,7 +86,7 @@ module Principals
        Budget,
        MeetingAgenda,
        MeetingMinutes].each do |klass|
-        klass.where(author_id: from.id).update_all(author_id: to.id)
+        rewrite(klass, :author_id, from, to)
       end
     end
 
@@ -99,35 +96,50 @@ module Principals
        Changeset,
        CostQuery,
        MeetingParticipant].each do |klass|
-        klass.where(user_id: from.id).update_all(user_id: to.id)
+        rewrite(klass, :user_id, from, to)
       end
     end
 
     def rewrite_actor(from, to)
       [::Notification].each do |klass|
-        klass.where(actor_id: from.id).update_all(actor_id: to.id)
+        rewrite(klass, :actor_id, from, to)
+      end
+    end
+
+    def rewrite_owner(from, to)
+      [::Doorkeeper::Application].each do |klass|
+        rewrite(klass, :owner_id, from, to)
       end
     end
 
     def rewrite_assigned_to(from, to)
       [WorkPackage].each do |klass|
-        klass.where(assigned_to_id: from.id).update_all(assigned_to_id: to.id)
+        rewrite(klass, :assigned_to_id, from, to)
       end
     end
 
     def rewrite_responsible(from, to)
       [WorkPackage].each do |klass|
-        klass.where(responsible_id: from.id).update_all(responsible_id: to.id)
+        rewrite(klass, :responsible_id, from, to)
       end
     end
-    # rubocop:enable Rails/SkipsModelValidations
+
+    def rewrite_logged_by(from, to)
+      [TimeEntry].each do |klass|
+        rewrite(klass, :logged_by_id, from, to)
+      end
+    end
 
     def journal_classes
       [Journal] + Journal::BaseJournal.subclasses
     end
 
     def foreign_keys
-      %w[author_id user_id assigned_to_id responsible_id]
+      %w[author_id user_id assigned_to_id responsible_id logged_by_id]
+    end
+
+    def rewrite(klass, attribute, from, to)
+      klass.where(attribute => from.id).update_all(attribute => to.id)
     end
   end
 end

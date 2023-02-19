@@ -27,13 +27,17 @@ pl:
       events:
         created: "Utworzono"
         updated: "Zaktualizowano"
+      explanation:
+        text: >
+          Po wystąpieniu zdarzenia takiego jak utworzenie pakietu roboczego lub aktualizacja projektu OpenProject wyśle żądanie POST do skonfigurowanych punktów końcowych sieci. Zdarzenie jest często wysyłane po upływie %{link}.
+        link: skonfigurowany okres agregacji
       status:
         enabled: 'Webhook jest włączony'
         disabled: 'Webhook jest wyłączony'
         enabled_text: 'Webhook będzie emitować zawartość zdarzeń określonych poniżej.'
         disabled_text: 'Kliknij przycisk edycji, aby aktywować webhook.'
       deliveries:
-        no_results_table: Nie wykonano żadnych dostaw dla tego webhooka.
+        no_results_table: W ciągu ostatnich dni nie dokonano żadnych dostaw dla tego webhooka.
         title: 'Ostatnie dostawy'
         time: 'Czas dostawy'
       form:

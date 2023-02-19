@@ -1,0 +1,13 @@
+#English strings go here
+nl:
+  permission_view_team_planner: "Bekijk team planner"
+  permission_manage_team_planner: "Teamplanner beheren"
+  project_module_team_planner_view: "Team planner"
+  team_planner:
+    label_team_planner: "Team planner"
+    label_create_new_team_planner: "Maak een nieuwe teamplanner"
+    label_team_planner_plural: "Team planners"
+    label_assignees: "Toegewezen personen"
+    upsale:
+      title: "Team planner"
+      description: "Krijg een compleet overzicht van de planning van je team met Team Planner. Verleng, verkort en sleep-en-plaats werkpakketten om data te wijzigen, ze te verplaatsen of taakontvangers te veranderen."

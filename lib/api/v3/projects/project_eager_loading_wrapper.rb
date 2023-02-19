@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,14 +32,32 @@ module API
       class ProjectEagerLoadingWrapper < API::V3::Utilities::EagerLoading::EagerLoadingWrapper
         include API::V3::Utilities::EagerLoading::CustomFieldAccessor
 
+        # delegate class check to wrapped object, as there are cases where the type is checked explicitly.
+        delegate :is_a?, to: :__getobj__
+
         class << self
           def wrap(projects)
-            custom_fields = if projects.present?
-                              projects.first.available_custom_fields
-                            end
+            custom_fields = projects.first.available_custom_fields if projects.present?
+            ancestors = ancestor_projects(projects) if projects.present?
 
             super
-              .each { |project| project.available_custom_fields = custom_fields }
+              .each do |project|
+              project.available_custom_fields = custom_fields
+              project.ancestors_from_root = ancestors.select { |a| a.is_ancestor_of?(project) }.sort_by(&:lft)
+            end
+          end
+
+          def ancestor_projects(projects)
+            ancestor_selector = projects[1..].inject(ancestor_project_select(projects[0])) do |select, project|
+              select.or(ancestor_project_select(project))
+            end
+            Project.where(ancestor_selector).to_a
+          end
+
+          def ancestor_project_select(project)
+            projects_table = Project.arel_table
+
+            projects_table[:lft].lt(project.lft).and(projects_table[:rgt].gt(project.rgt))
           end
         end
       end

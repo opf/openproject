@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2021 the OpenProject GmbH
+// Copyright (C) 2012-2022 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,98 +26,77 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { take } from 'rxjs/operators';
-import { DateEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-edit-field/date-edit-field.component';
-import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { DatePickerModalComponent } from 'core-app/shared/components/datepicker/datepicker.modal';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { Component } from '@angular/core';
+import { DatePickerEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/date-picker-edit-field.component';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 @Component({
   template: `
     <input [value]="dates"
-           (click)="handleClick()"
+           (click)="showDatePickerModal()"
            class="op-input"
            type="text" />
   `,
 })
-export class CombinedDateEditFieldComponent extends DateEditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() readonly timezoneService:TimezoneService;
-
-  @InjectField() opModalService:OpModalService;
-
+export class CombinedDateEditFieldComponent extends DatePickerEditFieldComponent {
   dates = '';
 
-  text_no_start_date = this.I18n.t('js.label_no_start_date');
+  text = {
+    placeholder: {
+      startDate: this.I18n.t('js.label_no_start_date'),
+      dueDate: this.I18n.t('js.label_no_due_date'),
+      date: this.I18n.t('js.label_no_date'),
+    },
+  };
 
-  text_no_due_date = this.I18n.t('js.label_no_due_date');
+  public showDatePickerModal():void {
+    super.showDatePickerModal();
 
-  private modal:OpModalComponent;
-
-  ngOnInit() {
-    super.ngOnInit();
-
-    this.handler
-      .$onUserActivate
-      .pipe(
-        this.untilDestroyed(),
-      )
-      .subscribe(() => {
-        this.showDatePickerModal();
-      });
-  }
-
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    this.modal?.closeMe();
-  }
-
-  public handleClick() {
-    this.showDatePickerModal();
-  }
-
-  private showDatePickerModal():void {
-    const modal = this.modal = this
-      .opModalService
-      .show(DatePickerModalComponent, this.injector, { changeset: this.change, fieldName: this.name }, true);
-
-    setTimeout(() => {
-      const modalElement = jQuery(modal.elementRef.nativeElement).find('.op-datepicker-modal');
-      const field = jQuery(this.elementRef.nativeElement);
-      modal.reposition(modalElement, field);
-    });
-
-    modal
-      .onDataUpdated
+    this
+      .modal
+      ?.onDataUpdated
       .subscribe((dates:string) => {
         this.dates = dates;
         this.cdRef.detectChanges();
       });
-
-    modal
-      .closingEvent
-      .pipe(take(1))
-      .subscribe(() => {
-        this.handler.handleUserSubmit();
-      });
   }
 
-  // Overwrite super in order to set the inital dates.
-  protected initialize() {
+  protected onModalClosed():void {
+    this.resetDates();
+    super.onModalClosed();
+  }
+
+  // Overwrite super in order to set the initial dates.
+  protected initialize():void {
     super.initialize();
-
-    // this breaks the preceived abstraction of the edit fields. But the date picker
-    // is already highly specific to start and due Date.
-    this.dates = `${this.currentStartDate} - ${this.currentDueDate}`;
+    this.resetDates();
   }
 
-  protected get currentStartDate():string {
-    return this.resource.startDate || this.text_no_start_date;
+  protected resetDates():void {
+    switch (this.name) {
+      case 'combinedDate':
+        this.dates = `${this.current('startDate')} - ${this.current('dueDate')}`;
+        break;
+
+      case 'startDate':
+        this.dates = `${this.current('startDate')}`;
+        break;
+
+      case 'dueDate':
+        this.dates = `${this.current('dueDate')}`;
+        break;
+
+      case 'date':
+        this.dates = `${this.current('date')}`;
+        break;
+
+      default:
+        break;
+    }
   }
 
-  protected get currentDueDate():string {
-    return this.resource.dueDate || this.text_no_due_date;
+  protected current(dateAttribute:'startDate' | 'dueDate' | 'date'):string {
+    const value = (this.resource && (this.resource as WorkPackageResource)[dateAttribute]) as string|null;
+    return (value || this.text.placeholder[dateAttribute]);
   }
 }

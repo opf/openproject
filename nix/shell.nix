@@ -1,4 +1,5 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/8ca77a63599ed951d6a2d244c1d62092776a3fe1.tar.gz") {}
+}:
 with pkgs;
 let 
   op-get-test-failures = writeShellScriptBin "op-get-test-failures" ''
@@ -16,7 +17,7 @@ in
       buildPackages.ruby_2_7
       postgresql
       nodejs
-      tightvnc
+      tigervnc
       bundix
       docker-compose
       google-chrome

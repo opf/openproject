@@ -3,20 +3,17 @@ sidebar_navigation:
   title: OpenProject Documentation
   priority: 999
 description: Help and documentation for OpenProject Community Edition, Enterprise on-premises and Enterprise cloud.
-robots: index, follow
 keywords: help, documentation
----
+--- 
 # OpenProject Documentation
 
-<div class="alert alert-info" role="alert">
-**Note**: To better read our OpenProject Documentation, please go to [www.openproject.org/docs/](https://www.openproject.org/docs/).
-</div>
+> **Note**: To better read our OpenProject Documentation, please go to [www.openproject.org/docs/](https://www.openproject.org/docs/).
 
 ## Installation
 
-Get started with installing and upgrading OpenProject using [our Installation Guide starting point](https://www.openproject.org/docs/installation-and-operations/).
+Get started with installing and upgrading OpenProject using [our Installation Guide starting point](./installation-and-operations/).
 
-The guides for [manual](./installation-and-operations/installation/manual), [packaged](./installation-and-operations/installation/packaged) and [Docker-based](./installation-and-operations/installation/docker) installations are provided.
+The guides [packaged](./installation-and-operations/installation/packaged) and [Docker-based](./installation-and-operations/installation/docker) installations are provided.
 
 ## Upgrading
 
@@ -35,7 +32,11 @@ The guides for [upgrading](./installation-and-operations/operation/upgrading) ar
 
 ## User Guides
 
-Please see our [User Guide pages](https://www.openproject.org/docs/user-guide/) for detailed documentation on the functionality of OpenProject.
+Please see our [User Guide pages](./user-guide/) for detailed documentation on the functionality of OpenProject.
+
+## Use Cases
+
+Please see our [Use Cases section](./use-cases/) for detailed how-to guides and step-by-step instruction on how to set up a variety of common cases and views.
 
 
 ## Development

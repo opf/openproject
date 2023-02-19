@@ -5,6 +5,7 @@ export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
+export PARALLEL_TEST_FIRST_IS_1=true
 
 # if from within docker
 if [ $(id -u) -eq 0 ]; then
@@ -32,7 +33,7 @@ execute() {
 }
 
 cleanup() {
-        rm -rf tmp/cache/parallel*
+	rm -rf tmp/cache/parallel*
 }
 
 if [ "$1" == "setup-tests" ]; then
@@ -51,14 +52,16 @@ if [ "$1" == "setup-tests" ]; then
 	done
 
 	execute "time bundle install -j$JOBS"
-	execute "TEST_ENV_NUMBER=0 time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	# create test database "app" and dump schema
+	execute "time bundle exec rake db:create db:migrate db:schema:dump webdrivers:chromedriver:update webdrivers:geckodriver:update openproject:plugins:register_frontend"
+	# create parallel test databases "app#n" and load schema
 	execute "time bundle exec rake parallel:create parallel:load_schema"
 fi
 
 if [ "$1" == "run-units" ]; then
 	shift
+	execute "time bundle exec rake zeitwerk:check"
 	execute "cd frontend && npm install && npm run test"
-	execute "time bundle exec rspec -I spec_legacy spec_legacy"
 	if ! execute "time bundle exec rake parallel:units" ; then
 		execute "cat tmp/parallel_summary.log"
 		cleanup

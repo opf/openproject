@@ -1,8 +1,6 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +32,8 @@ class Project < ApplicationRecord
 
   include Projects::Storage
   include Projects::Activity
+  include Projects::Hierarchy
+  include Projects::AncestorsFromRoot
   include ::Scopes::Scoped
 
   # Maximum length for project identifiers
@@ -71,7 +71,7 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
-  has_many :queries, dependent: :delete_all
+  has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
   has_many :forums, -> { order('position ASC') }, dependent: :destroy
@@ -79,16 +79,16 @@ class Project < ApplicationRecord
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
   # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields, -> {
-    order("#{CustomField.table_name}.position")
-  }, class_name: 'WorkPackageCustomField',
-     join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-     association_foreign_key: 'custom_field_id'
+  has_and_belongs_to_many :work_package_custom_fields,
+                          -> { order("#{CustomField.table_name}.position") },
+                          class_name: 'WorkPackageCustomField',
+                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
-
-  acts_as_nested_set order_column: :name, dependent: :destroy
+  has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
+  has_many :storages, through: :projects_storages
 
   acts_as_customizable
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
@@ -101,6 +101,8 @@ class Project < ApplicationRecord
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_at
+
+  has_paper_trail
 
   validates :name,
             presence: true,
@@ -137,11 +139,13 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
+  delegate :explanation, to: :status, allow_nil: true, prefix: true
+
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
   scope :public_projects, -> { where(public: true) }
-  scope :visible, ->(user = User.current) { merge(Project.visible_by(user)) }
+  scope :visible, ->(user = User.current) { where(id: Project.visible_by(user)) }
   scope :newest, -> { order(created_at: :desc) }
   scope :active, -> { where(active: true) }
 
@@ -223,7 +227,7 @@ class Project < ApplicationRecord
   # Closes open and locked project versions that are completed
   def close_completed_versions
     Version.transaction do
-      versions.where(status: %w(open locked)).each do |version|
+      versions.where(status: %w(open locked)).find_each do |version|
         if version.completed?
           version.update_attribute(:status, 'closed')
         end
@@ -252,17 +256,6 @@ class Project < ApplicationRecord
   # project's versions.
   def assignable_versions
     @assignable_versions ||= shared_versions.references(:project).with_status_open.order_by_semver_name.to_a
-  end
-
-  # Returns a hash of project users grouped by role
-  def users_by_role
-    members.includes(:principal, :roles).inject({}) do |h, m|
-      m.roles.each do |r|
-        h[r] ||= []
-        h[r] << m.principal
-      end
-      h
-    end
   end
 
   # Returns an AR scope of all custom fields enabled for project's work packages
@@ -304,11 +297,11 @@ class Project < ApplicationRecord
 
   def enabled_module_names=(module_names)
     if module_names&.is_a?(Array)
-      module_names = module_names.map(&:to_s).reject(&:blank?)
+      module_names = module_names.map(&:to_s).compact_blank
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
           mod.name == name
-        end || EnabledModule.new(name: name)
+        end || EnabledModule.new(name:)
       end
     else
       enabled_modules.clear
@@ -349,7 +342,7 @@ class Project < ApplicationRecord
     #
     def build_projects_hierarchy(projects)
       ancestors = []
-      result    = []
+      result = []
 
       projects.sort_by(&:lft).each do |project|
         while ancestors.any? && !project.is_descendant_of?(ancestors.last[:project])
@@ -358,8 +351,8 @@ class Project < ApplicationRecord
           ancestors.pop
         end
 
-        current_hierarchy = { project: project, children: [] }
-        current_tree      = ancestors.any? ? ancestors.last[:children] : result
+        current_hierarchy = { project:, children: [] }
+        current_tree = ancestors.any? ? ancestors.last[:children] : result
 
         current_tree << current_hierarchy
         ancestors << current_hierarchy
@@ -375,35 +368,20 @@ class Project < ApplicationRecord
       sort_by_name(result)
     end
 
-    def project_tree_from_hierarchy(projects_hierarchy, level, &block)
+    def project_tree_from_hierarchy(projects_hierarchy, level, &)
       projects_hierarchy.each do |hierarchy|
         project = hierarchy[:project]
         children = hierarchy[:children]
         yield project, level
         # recursively show children
-        project_tree_from_hierarchy(children, level + 1, &block) if children.any?
+        project_tree_from_hierarchy(children, level + 1, &) if children.any?
       end
     end
 
     # Yields the given block for each project with its level in the tree
-    def project_tree(projects, &block)
+    def project_tree(projects, &)
       projects_hierarchy = build_projects_hierarchy(projects)
-      project_tree_from_hierarchy(projects_hierarchy, 0, &block)
-    end
-
-    def project_level_list(projects)
-      list = []
-      project_tree(projects) do |project, level|
-        element = {
-          project: project,
-          level: level
-        }
-
-        element.merge!(yield(project)) if block_given?
-
-        list << element
-      end
-      list
+      project_tree_from_hierarchy(projects_hierarchy, 0, &)
     end
 
     private
@@ -414,17 +392,18 @@ class Project < ApplicationRecord
   end
 
   def allowed_permissions
-    @allowed_permissions ||= begin
-      names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
+    @allowed_permissions ||=
+      begin
+        names = enabled_modules.loaded? ? enabled_module_names : enabled_modules.pluck(:name)
 
-      OpenProject::AccessControl.modules_permissions(names).map(&:name)
-    end
+        OpenProject::AccessControl.modules_permissions(names).map(&:name)
+      end
   end
 
   def allowed_actions
     @actions_allowed ||= allowed_permissions
-                         .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                         .flatten
+                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
+                           .flatten
   end
 
   def remove_white_spaces_from_project_name

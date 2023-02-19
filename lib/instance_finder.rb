@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,14 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class InstanceFinder
-  def self.register(model, method)
+module InstanceFinder
+  module_function
+
+  def register(model, method)
     @model_method_map ||= {}
 
     @model_method_map[model] = method
   end
 
-  def self.find(model, identifier)
+  def find(model, identifier)
     if @model_method_map[model].nil?
       raise "#{model} is not registered with InstanceFinder"
     end

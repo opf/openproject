@@ -1,14 +1,23 @@
 # /api/v3/work_packages/{id}
 ---
 delete:
+  summary: Delete Work Package
+  operationId: delete_work_package
+  tags:
+    - Work Packages
+  description: |-
+    Deletes the work package, as well as:
+
+    - all associated time entries
+    - its hierarchy of child work packages
   parameters:
-  - description: Work package id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
+    - description: Work package id
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '204':
       description: |-
@@ -16,465 +25,78 @@ delete:
 
         Note that the response body is empty as of now. In future versions of the API a body
         *might* be returned along with an appropriate HTTP status.
-      headers: {}
     '403':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to delete this work package.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to delete this work package.
       description: |-
         Returned if the client does not have sufficient permissions.
 
         **Required permission:** delete work package
-      headers: {}
     '404':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified work package does not exist.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package
-      headers: {}
-  tags:
-  - Work Packages
-  description: |-
-    Deletes the work package, as well as:
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
 
-    * all associated time entries
-
-    * its hierarchy of child work packages
-  operationId: Delete_Work_Package
-  summary: Delete Work Package
 get:
-  parameters:
-  - description: Work package id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  responses:
-    '200':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  addAttachment:
-                    href: "/api/v3/work_packages/1528/attachments"
-                    method: post
-                  addComment:
-                    href: "/api/v3/work_packages/1528/activities"
-                    method: post
-                    title: Add comment
-                  addRelation:
-                    href: "/api/v3/relations"
-                    method: post
-                    title: Add relation
-                  addWatcher:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/{user_id}"
-                    templated: true
-                  ancestors:
-                  - href: "/api/v3/work_packages/1290"
-                    title: Root node of hierarchy
-                  - href: "/api/v3/work_packages/1291"
-                    title: Intermediate node of hierarchy
-                  - href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  assignee:
-                    href: "/api/v3/users/11"
-                    title: Emmie Okuneva - Adele5450
-                  attachments:
-                    href: "/api/v3/work_packages/1528/attachments"
-                  author:
-                    href: "/api/v3/users/1"
-                    title: OpenProject Admin - admin
-                  availableWatchers:
-                    href: "/api/v3/work_packages/1528/available_watchers"
-                  category:
-                    href: "/api/v3/categories/1298"
-                    title: eligend isi
-                  changeParent:
-                    href: "/api/v3/work_packages/694"
-                    method: patch
-                    title: Change parent of Bug in OpenProject
-                  children:
-                  - href: "/api/v3/work_packages/1529"
-                    title: Write API documentation
-                  customActions:
-                  - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
-                    method: post
-                    title: Reset
-                  - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
-                    method: post
-                    title: Forward to accounting
-                  customField3:
-                    href: api/v3/users/14
-                  delete:
-                    href: "/work_packages/bulk?ids=1528"
-                    method: delete
-                    title: Delete Develop API
-                  logTime:
-                    href: "/work_packages/1528/time_entries/new"
-                    title: Log time on Develop API
-                    type: text/html
-                  move:
-                    href: "/work_packages/1528/move/new"
-                    title: Move Develop API
-                    type: text/html
-                  parent:
-                    href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  priority:
-                    href: "/api/v3/priorities/2"
-                    title: Normal
-                  project:
-                    href: "/api/v3/projects/1"
-                    title: A Test Project
-                  relations:
-                    href: "/api/v3/work_packages/1528/relations"
-                    title: Show relations
-                  removeWatcher:
-                    href: "/api/v3/work_packages/1528/watchers/{user_id}"
-                    method: delete
-                    templated: true
-                  responsible:
-                    href: "/api/v3/users/23"
-                    title: Laron Leuschke - Alaina5788
-                  revisions:
-                    href: "/api/v3/work_packages/1528/revisions"
-                  schema:
-                    href: "/api/v3/work_packages/schemas/11-2"
-                  self:
-                    href: "/api/v3/work_packages/1528"
-                    title: Develop API
-                  status:
-                    href: "/api/v3/statuses/1"
-                    title: New
-                  timeEntries:
-                    href: "/work_packages/1528/time_entries"
-                    title: Time entries
-                    type: text/html
-                  type:
-                    href: "/api/v3/types/1"
-                    title: A Type
-                  update:
-                    href: "/api/v3/work_packages/1528"
-                    method: patch
-                    title: Update Develop API
-                  version:
-                    href: "/api/v3/versions/1"
-                    title: Version 1
-                  watch:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/1"
-                  watchers:
-                    href: "/api/v3/work_packages/1528/watchers"
-                _type: WorkPackage
-                createdAt: '2014-08-29T12:40:53Z'
-                customField1: Foo
-                customField2: 42
-                derivedDueDate: 
-                derivedEstimatedTime: PT10H
-                derivedStartDate: 
-                description:
-                  format: markdown
-                  html: "<p>Develop super cool OpenProject API.</p>"
-                  raw: Develop super cool OpenProject API.
-                dueDate: 
-                estimatedTime: PT2H
-                id: 1528
-                percentageDone: 0
-                scheduleManually: false
-                startDate: 
-                subject: Develop API
-                updatedAt: '2014-08-29T12:44:41Z'
-          schema:
-            "$ref": "../components/schemas/work_package_model.yml"
-      description: OK
-      headers: {}
-    '404':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified work package does not exist.
-      description: |-
-        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
-
-        **Required permission:** view work package
-      headers: {}
-  tags:
-  - Work Packages
-  description: ''
-  operationId: View_Work_Package
   summary: View Work Package
-patch:
+  operationId: view_work_package
+  tags:
+    - Work Packages
+  description: |-
+    Returns the specified work package.
   parameters:
-  - description: Work package id
-    example: '1'
-    in: path
-    name: id
-    required: true
-    schema:
-      type: integer
-  - description: |-
-      Indicates whether change notifications (e.g. via E-Mail) should be sent.
-      Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
-      not just the current user.
-    example: 'false'
-    in: query
-    name: notify
-    required: false
-    schema:
-      default: 'true'
-      type: boolean
+    - description: Work package id
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      example: 1
   responses:
     '200':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _links:
-                  addAttachment:
-                    href: "/api/v3/work_packages/1528/attachments"
-                    method: post
-                  addComment:
-                    href: "/api/v3/work_packages/1528/activities"
-                    method: post
-                    title: Add comment
-                  addRelation:
-                    href: "/api/v3/relations"
-                    method: post
-                    title: Add relation
-                  addWatcher:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/{user_id}"
-                    templated: true
-                  ancestors:
-                  - href: "/api/v3/work_packages/1290"
-                    title: Root node of hierarchy
-                  - href: "/api/v3/work_packages/1291"
-                    title: Intermediate node of hierarchy
-                  - href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  assignee:
-                    href: "/api/v3/users/11"
-                    title: Emmie Okuneva - Adele5450
-                  attachments:
-                    href: "/api/v3/work_packages/1528/attachments"
-                  author:
-                    href: "/api/v3/users/1"
-                    title: OpenProject Admin - admin
-                  availableWatchers:
-                    href: "/api/v3/work_packages/1528/available_watchers"
-                  category:
-                    href: "/api/v3/categories/1298"
-                    title: eligend isi
-                  changeParent:
-                    href: "/api/v3/work_packages/694"
-                    method: patch
-                    title: Change parent of Bug in OpenProject
-                  children:
-                  - href: "/api/v3/work_packages/1529"
-                    title: Write API documentation
-                  customActions:
-                  - href: "/api/v3/work_packages/1528/custom_actions/153/execute"
-                    method: post
-                    title: Reset
-                  - href: "/api/v3/work_packages/1528/custom_actions/94/execute"
-                    method: post
-                    title: Forward to accounting
-                  customField3:
-                    href: api/v3/users/14
-                  delete:
-                    href: "/work_packages/bulk?ids=1528"
-                    method: delete
-                    title: Delete Develop API
-                  logTime:
-                    href: "/work_packages/1528/time_entries/new"
-                    title: Log time on Develop API
-                    type: text/html
-                  move:
-                    href: "/work_packages/1528/move/new"
-                    title: Move Develop API
-                    type: text/html
-                  parent:
-                    href: "/api/v3/work_packages/1298"
-                    title: nisi eligendi officiis eos delectus quis voluptas dolores
-                  priority:
-                    href: "/api/v3/priorities/2"
-                    title: Normal
-                  project:
-                    href: "/api/v3/projects/1"
-                    title: A Test Project
-                  relations:
-                    href: "/api/v3/work_packages/1528/relations"
-                    title: Show relations
-                  removeWatcher:
-                    href: "/api/v3/work_packages/1528/watchers/{user_id}"
-                    method: delete
-                    templated: true
-                  responsible:
-                    href: "/api/v3/users/23"
-                    title: Laron Leuschke - Alaina5788
-                  revisions:
-                    href: "/api/v3/work_packages/1528/revisions"
-                  schema:
-                    href: "/api/v3/work_packages/schemas/11-2"
-                  self:
-                    href: "/api/v3/work_packages/1528"
-                    title: Develop API
-                  status:
-                    href: "/api/v3/statuses/1"
-                    title: New
-                  timeEntries:
-                    href: "/work_packages/1528/time_entries"
-                    title: Time entries
-                    type: text/html
-                  type:
-                    href: "/api/v3/types/1"
-                    title: A Type
-                  update:
-                    href: "/api/v3/work_packages/1528"
-                    method: patch
-                    title: Update Develop API
-                  version:
-                    href: "/api/v3/versions/1"
-                    title: Version 1
-                  watch:
-                    href: "/api/v3/work_packages/1528/watchers"
-                    method: post
-                    payload:
-                      user:
-                        href: "/api/v3/users/1"
-                  watchers:
-                    href: "/api/v3/work_packages/1528/watchers"
-                _type: WorkPackage
-                createdAt: '2014-08-29T12:40:53Z'
-                customField1: Foo
-                customField2: 42
-                derivedDueDate: 
-                derivedEstimatedTime: PT10H
-                derivedStartDate: 
-                description:
-                  format: markdown
-                  html: "<p>Develop super cool OpenProject API.</p>"
-                  raw: Develop super cool OpenProject API.
-                dueDate: 
-                estimatedTime: PT2H
-                id: 1528
-                percentageDone: 0
-                scheduleManually: false
-                startDate: 
-                subject: Develop API
-                updatedAt: '2014-08-29T12:44:41Z'
           schema:
-            "$ref": "../components/schemas/work_package_model.yml"
+            $ref: '../components/schemas/work_package_model.yml'
       description: OK
-      headers: {}
-    '400':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:InvalidRequestBody
-                message: The request body was not a single JSON object.
-      description: Occurs when the client did not send a valid JSON object in the
-        request body.
-      headers: {}
-    '403':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not allowed to edit the content of the work package.
-      description: |-
-        Returned if the client does not have sufficient permissions.
-
-        **Required permission:** edit work package, assign version, manage subtasks or move work package
-      headers: {}
     '404':
       content:
         application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The specified work package does not exist.
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
       description: |-
         Returned if the work package does not exist or the client does not have sufficient permissions to see it.
 
         **Required permission:** view work package
-      headers: {}
-    '409':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
-                message: Your changes could not be saved, because the work package
-                  was changed since you've seen it the last time.
-      description: Returned if the resource was changed since the client requested
-        it. This is determined using the `lockVersion` property.
-      headers: {}
-    '422':
-      content:
-        application/hal+json:
-          examples:
-            response:
-              value:
-                _embedded:
-                  details:
-                    attribute: Subject
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-                message: The subject might not be blank.
-      description: |-
-        Returned if:
 
-        * the client tries to modify a read-only property (`PropertyIsReadOnly`)
-
-        * a constraint for a property was violated (`PropertyConstraintViolation`)
-
-        * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
-      headers: {}
+patch:
+  summary: Edit Work Package
+  operationId: edit_work_package
   tags:
-  - Work Packages
+    - Work Packages
   description: |-
     When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
     Note that it is only allowed to provide properties or links supporting the **write** operation.
@@ -483,29 +105,96 @@ patch:
     by the `GET` request this change originates from.
 
     The value of `lockVersion` is used to implement [optimistic locking](https://en.wikipedia.org/wiki/Optimistic_concurrency_control).
-  operationId: Edit_Work_Package
+  parameters:
+    - description: Work package id
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      example: 1
+    - description: |-
+        Indicates whether change notifications (e.g. via E-Mail) should be sent.
+        Note that this controls notifications for all users interested in changes to the work package (e.g. watchers, author and assignee),
+        not just the current user.
+      in: query
+      name: notify
+      required: false
+      schema:
+        default: true
+        type: boolean
+      example: false
   requestBody:
     content:
       application/json:
         schema:
+          $ref: '../components/schemas/work_package_model.yml'
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            '$ref': '../components/schemas/work_package_model.yml'
+      description: OK
+    '400':
+      $ref: '../components/responses/invalid_request_body.yml'
+    '403':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
           example:
-            _links:
-              parent:
-                href: "/api/v3/work_packages/42"
-            lockVersion: 13
-            subject: Lorem
-          properties:
-            _links:
-              properties:
-                parent:
-                  properties:
-                    href:
-                      type: string
-                  type: object
-              type: object
-            lockVersion:
-              type: number
-            subject:
-              type: string
-          type: object
-  summary: Edit Work Package
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
+            message: You are not allowed to edit the content of the work package.
+      description: |-
+        Returned if the client does not have sufficient permissions.
+
+        **Required permission:** edit work package, assign version, manage subtasks or move work package
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The specified work package does not exist.
+      description: |-
+        Returned if the work package does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view work package
+    '406':
+      $ref: '../components/responses/missing_content_type.yml'
+    '409':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:UpdateConflict
+            message: Your changes could not be saved, because the work package
+              was changed since you've seen it the last time.
+      description: Returned if the resource was changed since the client requested
+        it. This is determined using the `lockVersion` property.
+    '415':
+      $ref: '../components/responses/unsupported_media_type.yml'
+    '422':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _embedded:
+              details:
+                attribute: Subject
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+            message: The subject might not be blank.
+      description: |-
+        Returned if:
+
+        - the client tries to modify a read-only property (`PropertyIsReadOnly`)
+        - a constraint for a property was violated (`PropertyConstraintViolation`)
+        - the client provides a link to an invalid resource (`ResourceTypeMismatch`)

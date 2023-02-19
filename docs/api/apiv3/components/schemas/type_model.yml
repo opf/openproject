@@ -13,7 +13,7 @@ properties:
     description: Type name
     readOnly: true
   color:
-    type: color
+    type: string
     description: The color used to represent this type
     readOnly: true
   position:
@@ -22,10 +22,11 @@ properties:
     readOnly: true
   isDefault:
     type: boolean
+    description: Is this type active by default in new projects?
     readOnly: true
   isMilestone:
     type: boolean
-    description: Do tickets of this type represent a milestone?
+    description: Do work packages of this type represent a milestone?
     readOnly: true
   createdAt:
     type: string

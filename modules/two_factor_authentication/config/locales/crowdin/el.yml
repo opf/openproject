@@ -71,8 +71,8 @@ el:
       text_2fa_enabled: 'Κατά κάθε σύνδεση, θα ζητείται από αυτόν τον χρήστη να εισάγει ένα OPT token από την προεπιλεγμένη 2FA συσκευή του.'
       text_2fa_disabled: "Ο χρήστης δεν έχει ορίσει μια συσκευή 2FA μέσω της σελίδας 'Ο λογαριασμός μου'"
     upsale:
-      title: 'Η ταυτοποίηση δύο παραγόντων είναι λειτουργία έκδοσης επιχειρήσεων'
-      description: 'Ενδυναμώστε τους μηχανισμούς εσωτερικής και εξωτερικής ταυτοποίησης με ένα δεύτερο παράγοντα.'
+      title: 'Two-factor authentication'
+      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
     backup_codes:
       none_found: Δεν υπάρχουν κωδικοί αντιγράφων ασφαλείας για αυτό τον λογαριασμό.
       singular: Κωδικός αντιγράφων ασφαλείας
@@ -133,8 +133,6 @@ el:
     message_bird:
       sms_delivery_failed: 'Η παράδοση του MessageBird SMS απέτυχε.'
       voice_delivery_failed: 'Η φωνητική κλήση MessageBird απέτυχε.'
-    restdt:
-      delivery_failed_with_code: 'Η παράδοση του token απέτυχε. (Κωδικός σφάλματος %{code})'
     strategies:
       totp: 'Εφαρμογή ταυτοποίησης'
       sns: 'Amazon SNS'

@@ -46,12 +46,9 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
       end
 
       statuses.to_a.map do |status|
-        Query.new_default(project: project, user: admin).tap do |query|
-          # Hide the query in the main menu
-          query.hidden = true
-
+        Query.new_default(project:, user: admin).tap do |query|
           # Make it public so that new members can see it too
-          query.is_public = true
+          query.public = true
 
           query.name = status.name
           # Set filter by this status

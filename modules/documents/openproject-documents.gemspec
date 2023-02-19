@@ -1,5 +1,3 @@
-# encoding: UTF-8
-
 Gem::Specification.new do |s|
   s.name        = "openproject-documents"
   s.version     = '1.0.0'
@@ -10,5 +8,5 @@ Gem::Specification.new do |s|
   s.license     = "GPLv3"
 
   s.files = Dir["{app,config,db,lib,doc}/**/*", "README.md"]
-  s.test_files = Dir["spec/**/*"]
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,8 +49,7 @@ module Bim::Bcf::API::V2_1
 
         get &::Bim::Bcf::API::V2_1::Endpoints::Show.new(model: Project).mount
         put &::Bim::Bcf::API::V2_1::Endpoints::Update
-               .new(model: Project,
-                    process_service: ::Projects::UpdateService)
+               .new(model: Project)
                .mount
 
         mount ::Bim::Bcf::API::V2_1::TopicsAPI

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2021 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,8 +62,8 @@ module Report
       superclass.base
     end
 
-    def self.from_base(&block)
-      base.instance_eval(&block)
+    def self.from_base(&)
+      base.instance_eval(&)
     end
 
     def self.available
@@ -129,9 +129,9 @@ module Report
 
     accepts_property :type
 
-    def each(&block)
+    def each(&)
       yield self
-      child.try(:each, &block)
+      child.try(:each, &)
     end
 
     def row?
@@ -218,14 +218,14 @@ module Report
       end
     end
 
-    def chain_collect(name, *args, &block)
-      top.subchain_collect(name, *args, &block)
+    def chain_collect(name, *args, &)
+      top.subchain_collect(name, *args, &)
     end
 
     # See #chain_collect
-    def subchain_collect(name, *args, &block)
-      subchain = child.subchain_collect(name, *args, &block) unless bottom?
-      [* send(name, *args, &block)].push(*subchain).compact.uniq
+    def subchain_collect(name, *args, &)
+      subchain = child.subchain_collect(name, *args, &) unless bottom?
+      [* send(name, *args, &)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state
