@@ -83,6 +83,8 @@ sudo pg_restore --clean --if-exists --dbname $(sudo openproject config:get DATAB
 
 As the `pg_restore` tries to apply the username from the dumped database as the owner, you might see errors if you restoring to a database with a different username. In this case, please add `--no-owner` as a command line argument.
 
+> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
+
 #### Troubleshooting
 
 **Restore fails with something like 'Error while PROCESSING TOC [...] cannot drop constraint'**
@@ -135,6 +137,8 @@ If you are using docker-compose this is what you do after you started everything
 8. Run the seeder once to perform any migrations `docker-compose start seeder`
 9. Restart the web and worker processes: `docker-compose start web worker`
 10. Confirm with `docker-compose logs -f` that the processes are starting up correctly.
+
+> **NOTE:** If the backup was made in the OpenProject Enterprise-Cloud, please navigate to [Changing the database schema from cloud to on-premises](./#changing-the-database-schema-from-cloud-to-on-premises)
 
 ### Using the all-in-one container
 
@@ -241,3 +245,25 @@ You may need to create the `files` directory if it doesn't exist yet.
 
 Start the container as described in the [installation section](../../installation/docker/#one-container-per-process-recommended)
 mounting `/var/lib/openproject/pgdata` (and `/var/lib/openproject/assets/` for attachments).
+
+## Changing the database schema from cloud to on-premises
+
+If you want to restore a dump from the OpenProject cloud to your on-premises installation,
+you will have to change the schema name in the database.
+
+Cloud schemas have a long alpha-numeric name, for instance `123456789_1234567_1234567a_123b_12c3_1234_c2a1a123c123`.
+If you want to use this on-premises you will have to rename that to the default which is `public`.
+
+1. Stop OpenProject (`service openproject stop`) but keep the database up and running.
+2. Connect to your PSQL database (`psql $(openproject config:get DATABASE_URL)`).
+3. Double check the existing schemas using `\dn` on the psql console.
+4. If there are indeed 2 schemas, that is an extra schema on top of public, drop the public one and rename the other accordingly.
+
+```psql
+openproject=# DROP SCHEMA public CASCADE;
+DROP SCHEMA
+openproject=# ALTER SCHEMA "123456789_1234567_1234567a_123b_12c3_1234_c2a1a123c123" RENAME TO public;
+ALTER SCHEMA
+```
+
+Mind that the schema name (`123456789_...`) will be different in your case.

@@ -29,7 +29,7 @@ cs:
           Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
         remove_short: "Odstranit odkaz"
         select: "Select files"
-        select_all: "Select all"
+        select_all: "Vybrat vše"
         selection_none: "Select files to link"
         selection_any: "Link %{number} files"
         not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"

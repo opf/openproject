@@ -108,18 +108,31 @@ module Redmine
         end
 
         def custom_field_values
-          @custom_field_values ||= available_custom_fields.flat_map do |custom_field|
-            existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
+          custom_field_values_cache[custom_field_cache_key] ||=
+            available_custom_fields.flat_map do |custom_field|
+              existing_cvs = custom_values.select { |v| v.custom_field_id == custom_field.id }
 
-            if existing_cvs.empty?
-              new_value = custom_values.build(customized: self,
-                                              custom_field:,
-                                              value: custom_field.default_value)
-              existing_cvs.push new_value
+              if existing_cvs.empty?
+                new_value = custom_values.build(customized: self,
+                                                custom_field:,
+                                                value: custom_field.default_value)
+                existing_cvs.push new_value
+              end
+
+              existing_cvs
             end
+        end
 
-            existing_cvs
-          end
+        # Returns the cache key for caching @custom_field_values_cache.
+        #
+        # In certain cases, the implementing models have a changing list of custom field values
+        # depending on certain attributes. By overriding this method, we can include the
+        # dependent attributes in the cache key, providing a more flexible key caching mechanism.
+        #
+        # i.e.: The work package custom field values are changing based on the project_id and type_id.
+        # The only way to keep the cache updated is to include those ids in the cache key.
+        def custom_field_cache_key
+          1
         end
 
         ##
@@ -131,7 +144,7 @@ module Redmine
             value = cv.value
 
             hash[key] =
-              if existing = hash[key]
+              if (existing = hash[key])
                 Array(existing) << value
               else
                 value
@@ -157,9 +170,10 @@ module Redmine
         def typed_custom_value_for(c)
           cvs = custom_value_for(c)
 
-          if cvs.is_a? Array
+          case cvs
+          when Array
             cvs.map(&:typed_value)
-          elsif cvs.is_a? CustomValue
+          when CustomValue
             cvs.typed_value
           else
             cvs
@@ -169,9 +183,10 @@ module Redmine
         def formatted_custom_value_for(c)
           cvs = custom_value_for(c)
 
-          if cvs.is_a? Array
+          case cvs
+          when Array
             cvs.map(&:formatted_value)
-          elsif cvs.is_a? CustomValue
+          when CustomValue
             cvs.formatted_value
           else
             cvs
@@ -191,7 +206,7 @@ module Redmine
         end
 
         def reset_custom_values_change_tracker
-          @custom_field_values = nil
+          @custom_field_values_cache = nil
           self.custom_value_destroyed = false
         end
 
@@ -224,6 +239,32 @@ module Redmine
             .reject(&:marked_for_destruction?)
             .select(&:invalid?)
             .each { |custom_value| add_custom_value_errors! custom_value }
+        end
+
+        # Build the changes hash similar to ActiveRecord::Base#changes,
+        # but for the custom field values that have been changed.
+        def custom_field_changes
+          custom_field_values.reduce({}) do |cfv_changes, cfv|
+            next cfv_changes unless cfv.changed?
+
+            # In order to construct a valid changes hash, we need to find the old value if it exists.
+            # Otherwise set it to nil.
+            cfv_was = custom_values.find do |cv|
+              cv.marked_for_destruction? && cv.custom_field_id == cfv.custom_field_id
+            end
+            value_was = cfv_was&.value
+            # Skip when the old value equals the new value (no change happened).
+            next cfv_changes if value_was == cfv.value
+
+            # Skip when the new value is the default value
+            next cfv_changes if value_was.nil? && cfv.default?
+
+            cfv_changes.merge("custom_field_#{cfv.custom_field_id}": [value_was, cfv.value])
+          end
+        end
+
+        def changed_with_custom_fields
+          changed + custom_field_changes.keys
         end
 
         def add_custom_value_errors!(custom_value)
@@ -357,6 +398,10 @@ module Redmine
           custom_value.mark_for_destruction
           custom_field_values.delete custom_value
           self.custom_value_destroyed = true
+        end
+
+        def custom_field_values_cache
+          @custom_field_values_cache ||= {}
         end
 
         module ClassMethods

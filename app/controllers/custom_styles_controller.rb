@@ -74,15 +74,15 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    file_delete(:remove_logo!)
+    file_delete(:remove_logo)
   end
 
   def favicon_delete
-    file_delete(:remove_favicon!)
+    file_delete(:remove_favicon)
   end
 
   def touch_icon_delete
-    file_delete(:remove_touch_icon!)
+    file_delete(:remove_touch_icon)
   end
 
   def update_colors

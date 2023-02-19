@@ -893,7 +893,7 @@ cs:
         click_on_show_relations_to_open_gantt: 'Klikněte na "%{button_name}pro přehled GANTT.'
         show_relations: 'Zobrazit vztahy'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: 'pouze pracovní dny'
       description_filter: "Filtr"
       description_enter_text: "Zadejte text"
       description_options_hide: "Skrýt možnosti"

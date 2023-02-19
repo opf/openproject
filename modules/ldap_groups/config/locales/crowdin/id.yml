@@ -3,53 +3,53 @@ id:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        auth_source: 'LDAP connection'
-        sync_users: 'Sync users'
+        auth_source: 'koneksi LDAP'
+        sync_users: 'Sinkronkan pengguna'
       ldap_groups/synchronized_filter:
-        filter_string: 'LDAP filter'
-        auth_source: 'LDAP connection'
-        group_name_attribute: "Group name attribute"
-        sync_users: 'Sync users'
-        base_dn: "Search base DN"
+        filter_string: 'penyaring LDAP'
+        auth_source: 'koneksi LDAP'
+        group_name_attribute: "Atribut nama grup"
+        sync_users: 'Sinkronkan pengguna'
+        base_dn: "Cari basis DN"
     models:
-      ldap_groups/synchronized_group: 'Synchronized LDAP group'
-      ldap_groups/synchronized_filter: 'LDAP Group synchronization filter'
+      ldap_groups/synchronized_group: 'Grup LDAP tersinkronisasi'
+      ldap_groups/synchronized_filter: 'Filter sinkronisasi Grup LDAP'
     errors:
       models:
         ldap_groups/synchronized_filter:
-          must_contain_base_dn: "Filter base DN must be contained within the LDAP connection's base DN"
+          must_contain_base_dn: "Filter base DN harus dimuat dalam base DN koneksi LDAP"
   ldap_groups:
-    label_menu_item: 'LDAP group synchronization'
-    label_group_key: 'LDAP group filter key'
-    label_synchronize: 'Synchronize'
+    label_menu_item: 'Sinkronisasi grup LDAP'
+    label_group_key: 'Kunci filter grup LDAP'
+    label_synchronize: 'Sinkronkan'
     settings:
-      name_attribute: 'LDAP groups name attribute'
-      name_attribute_text: 'The LDAP attribute used for naming the OpenProject group when created by a filter'
+      name_attribute: 'Atribut nama grup LDAP'
+      name_attribute_text: 'Atribut LDAP yang digunakan untuk menamai grup OpenProject saat dibuat oleh filter'
     synchronized_filters:
-      add_new: 'Add synchronized LDAP filter'
-      singular: 'LDAP Group synchronization filter'
-      plural: 'LDAP Group synchronization filters'
+      add_new: 'Tambahkan filter LDAP tersinkronisasi'
+      singular: 'Filter sinkronisasi Grup LDAP'
+      plural: 'Filter sinkronisasi Grup LDAP'
       label_n_groups_found:
-        one: "1 group found by the filter"
-        other: "%{count} groups found by the filter"
-        zero: "No groups were found by the filter"
+        one: "1 grup ditemukan oleh filter"
+        other: "%{count} grup ditemukan oleh filter"
+        zero: "Tidak ada grup yang ditemukan oleh filter"
       destroy:
-        title: 'Remove synchronized filter %{name}'
-        confirmation: "If you continue, the synchronized filter %{name} and all groups %{groups_count} created through it will be removed."
-        removed_groups: "Warning: This will remove the following groups from OpenProject and remove it from all projects!"
-        verification: "Enter the filter name %{name} to verify the deletion."
+        title: 'Hapus filter tersinkronisasi %{name}'
+        confirmation: "Jika Anda melanjutkan, filter tersinkronisasi %{name} dan semua grup %{groups_count} yang dibuat melaluinya akan dihapus."
+        removed_groups: "Peringatan: Ini akan menghapus grup berikut dari OpenProject dan menghapusnya dari semua proyek!"
+        verification: "Masukkan nama filter %{name} untuk memverifikasi penghapusan."
       form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
-        filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
+        group_name_attribute_text: 'Masukkan atribut grup LDAP yang digunakan untuk mengatur nama grup OpenProject.'
+        filter_string_text: 'Masukkan filter LDAP RFC4515 yang mengembalikan grup di LDAP Anda untuk disinkronkan dengan OpenProject.'
         base_dn_text: >
-          Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection
+          Masukkan DN basis pencarian yang akan digunakan untuk filter ini.  Itu harus di bawah DN dasar dari koneksi LDAP yang dipilih.  Biarkan opsi ini kosong untuk menggunakan kembali DN dasar koneksi
     synchronized_groups:
-      add_new: 'Add synchronized LDAP group'
+      add_new: 'Tambahkan grup LDAP tersinkronisasi'
       destroy:
-        title: 'Remove synchronized group %{name}'
-        confirmation: "If you continue, the synchronized group %{name} and all %{users_count} users synchronized through it will be removed."
-        info: "Note: The OpenProject group itself and members added outside this LDAP synchronization will not be removed."
-        verification: "Enter the group's name %{name} to verify the deletion."
+        title: 'Hapus grup tersinkronisasi %{name}'
+        confirmation: "Jika Anda melanjutkan, grup yang disinkronkan %{name} dan semua %{users_count} pengguna yang disinkronkan melaluinya akan dihapus."
+        info: "Catatan: Grup OpenProject itu sendiri dan anggota yang ditambahkan di luar sinkronisasi LDAP ini tidak akan dihapus."
+        verification: "Masukkan nama grup %{name} untuk memverifikasi penghapusan."
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
         It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.

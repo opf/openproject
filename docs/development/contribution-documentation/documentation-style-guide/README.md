@@ -399,7 +399,6 @@ Images, including screenshots, can help a reader better understand a guide. Howe
 Before including an image in the documentation, ensure it provides value to the reader.
 
 
-
 ### Capture images
 
 Use images to help the reader understand where they are in a process, or how they need to interact with the application.
@@ -410,7 +409,25 @@ When you take screenshots:
 
 - Be consistent: Coordinate screenshots with the other screenshots already on a documentation page. For example, if other screenshots include the left sidebar, include the sidebar in all screenshots.
 
-  
+
+### Highlight specific areas and add numbered labels
+
+You can highlight a specific area of a screenshot to draw the reader's attention to it. Additionally, add numbered labels to refer to specific parts of the screenshot in the documentation text. These should, however, be used sparingly, since any future changes to the interface require the highlighted areas and labels to be manually added to each updated screenshot.
+
+A highlighted area should be marked with a green rectangle (2px width, *Accent/Accent* color in our design system: #308720). The size of the area will naturally depend on the size of the area you wish you highlight.
+
+![screenshot_highlights_example](screenshot_area_highlight.png)
+
+The numbered labels should be light grey text *(Basic/Grey 6*: #F3F3F3) on a 24-pixel green circle (*Accent/Accent*: #308720) with a light grey outline (2px, *Basic/Grey 6*: #F3F3F3).
+
+![Style guide for numbered labels](screenshot_numberedlabels_highlight.png)
+
+This is an example of a screenshot with both highlighted areas and numbered labels:
+
+![A screenshot of the Notification center with highlighted areas and numbered labels](screenshot_highlights_example.png)
+
+When referring to the numbered labels in the documentation text, use either an ordered list starting at number 1, with the numbers corresponding to the labeled parts of the screenshot. You may also refer to them within a line of text by using the word "Area" followed by the number, in parentheses, like so: "(Area 1)".
+
 
 ### Save images
 

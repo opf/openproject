@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Integrations
-  priority: 002
+  priority: 200
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
@@ -53,6 +53,10 @@ To activate it in the Enterprise cloud please [get in touch](https://www.openpro
 ## Thunderbird
 
 There is an OpenProject integration with Thunderbird from the Community. Please note that this add-on is not officially supported and that we do not take any liability when you use it. You can find it [here](https://addons.thunderbird.net/en-GB/thunderbird/addon/thunderbird-openproject/).
+
+## TimeCamp
+
+There is an integration between OpenProject and TimeCamp. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/timecamp-integration/) how to set it up and use it. However, please note that this add-on is not officially supported and we do not take any liability when you use it. 
 
 ## Timesheet
 

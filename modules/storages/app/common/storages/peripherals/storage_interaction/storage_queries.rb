@@ -47,9 +47,8 @@ module Storages::Peripherals::StorageInteraction
               result:
                 ::Storages::Peripherals::StorageInteraction::NextcloudStorageQuery.new(
                   base_uri: @uri,
-                  origin_user_id: token.origin_user_id,
-                  token: token.access_token,
-                  with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
+                  token:,
+                  with_refreshed_token: connection_manager.method(:request_with_token_refresh).to_proc
                 )
             )
           end,

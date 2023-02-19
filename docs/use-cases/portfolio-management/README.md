@@ -6,32 +6,73 @@ description: Step-by-step instruction about portfolio management and custom repo
 keywords: use-case, portfolio management
 ---
 
-# Use Case: Portfolio Management and Custom Reporting Options
+# Use Case: Portfolio management and custom reporting options
 
-Step 1: To view all projects, first select the *project chooser drop-down*, the chose *View all projects*
+If you have a lot of projects running at the same time it can be helpful and even necessary to have a meta level overview of your projects, keep track of the project status and due dates. With OpenProject you can do just that. 
 
-![Chose project](chose-project.jpg)
+![OpenProject projects portfolio overview](openproject_projects_overview.png)
 
-Step 2: You can sort and filter this view using custom fields, such as *Initiative* or *Status.* If you have not added useful custom fields, please see [here](../../system-admin-guide/custom-fields/).
+## Creating projects overview
 
-Step 3: Press the **floppy disk icon** to save and name your view once you are happy with the information that is displayed. You can also add this view as a favorite to the black bar on the left.
+Step 1: To view all projects, first select the **Select a project** dropdown menu, then click on the **Projects list** button. 
 
-## Creating Custom Reports
+![open project list](openproject_select_projects_list.png)
 
-You can create advanced project reports by using the same techniques and the print function (**CTRL+P**), then saving as PDF, for example. The print function in OpenProject is optimized for reporting purposes. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it.
+Step 2: You will get a list of all the projects that exist in your organization. You can filter the list by various project attributes, such as **project owner** or **creation date**. You can also use project custom fields as filters (please keep in mind that this is an enterprise add-on).  If you have not added any custom fields yet, please see [here](../../system-admin-guide/custom-fields/) how to do it. 
 
-For more advanced requirements, using the Wiki is another powerful tool. For more information about how to use the Wiki function, please consult: [Wiki](../../user-guide/wiki/)
+![OpenProject filter projects view](openproject_filter_projects.png)
 
-The Wiki function allows you to build complete custom reports using embedded work package tables, macros and even embedded calculations.
+You can then sort the project list by clicking on a column heading, for example by project status.
 
-Here is an example of how a wiki could look:
+![Openproject sort project list by status](sort_by_status.png)
 
-![Creating custom reports](custom-reports.jpg)
+You can add a visual component to the overview by clicking on the **Open as Gantt view** button. 
+
+![OpenProject projects Gantt overview](open_as_gantt_view.png)
+
+![OpenProject projects in Gantt view](gantt_view.png)
+
+Step 3: You can also configure this view using the button with the three dots at the upper right corner and select **Configure**. 
+
+![OpenProject configure projects overview](openrpoject_configure_projects_overview.png)
+
+You will then be led to the **System settings** of the global Administration. If you scroll down the page, you can select which columns are to be displayed in the project list in the section **Settings for project overview list** (you will need to scroll down the page). Please save your changes via the blue **Save** button, at the bottom of the page.
+
+![OpenProject settings for project overview list](openproject_settings_for_project_overview_list.png)
+
+If you click on **Edit query** you can adjust the project overview when using the Gantt chart option. 
+
+## Creating custom reports
+
+### Exporting reports
+For creating custom project reports you can use the export function in the work packages view. 
+
+![Openproject reports export](openproject_export.png)
+
+
+
+You can export the work packages in one of the following formats. 
+
+![Openproject export options](export_options.png)
+
+To export or print a Gantt chart use the print function (**CTRL+P**) and then save it as PDF. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it. Please see here [how to print a Gantt chart in OpenProject](../../user-guide/gantt-chart/#how-to-print-a-gantt-chart).
+
+
+### Project status reporting
+You can [display and configure the individual project status](../../user-guide/projects/project-status/) on the project overview page. 
+
+For more advanced project reporting requirements, using the Wiki module is another powerful tool. The Wiki allows you to build complete custom reports using embedded work package tables, macros and even embedded calculations.
+
+Here is an example of how a project report wiki could look:
+
+![Creating custom reports](Wiki.png)
 
 And how the dynamic data, such as calculations, filters, macros and reference language work behind the scenes:
 
-![Dynamic data](dynamic-data.jpg)
+![Dynamic data](openproject_wiki_editing.png)
 
-For more information about the syntax and how the attributes work [here](../../user-guide/wysiwyg/).
+For more information about the syntax and how the attributes work please look [here](../../user-guide/wysiwyg/).
 
-If you like to work with multiple Wiki-based reports, you can create an umbrella Wiki page as a table of content, for example, on which all the other reports are listed. See more info on Wiki and the use of Macros [here](../../user-guide/wiki/).
+If you want to work with multiple Wiki-based reports, you can create a parent Wiki page as a table of contents, for example, on which all the other reports are listed.
+
+See more info on Wiki and the use of Macros [here](../../user-guide/wiki/).

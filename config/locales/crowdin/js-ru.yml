@@ -492,7 +492,7 @@ ru:
     label_wait: "Пожалуйста, подождите конфигурацию..."
     label_upload_counter: "%{done} из %{count} файлов завершено"
     label_validation_error: "Пакет работ не может быть сохранен из-за следующих ошибок:"
-    label_version_plural: "Версии"
+    label_version_plural: "Этапы"
     label_view_has_changed: "Это представление имеет несохраненные изменения. Кликните, чтобы сохранить их."
     help_texts:
       show_modal: 'Показать содержимое атрибута текста справки'
@@ -541,8 +541,8 @@ ru:
       reasons:
         mentioned: 'упомянутый'
         watched: 'наблюдатель'
-        assigned: 'исполнитель'
-        responsible: 'проверяющий'
+        assigned: 'назначенный'
+        responsible: 'подотчетный'
         created: 'создано'
         scheduled: 'запланировано'
         commented: 'прокомментировано'
@@ -588,7 +588,7 @@ ru:
           message: 'Есть новые уведомления.'
           link_text: 'Нажмите здесь для их загрузки'
       menu:
-        accountable: 'Проверяющий'
+        accountable: 'Подотчетный'
         by_project: 'Непрочитано по проекту'
         by_reason: 'Причина'
         inbox: 'Входящие'
@@ -615,8 +615,8 @@ ru:
           mentioned:
             title: 'Упомянутые'
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
-          assignee: 'Исполнитель'
-          responsible: 'Проверяющий'
+          assignee: 'Назначенный'
+          responsible: 'Подотчетный'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -626,7 +626,7 @@ ru:
         global:
           immediately:
             title: 'Участие'
-            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (исполнитель, проверяющий или наблюдатель).'
+            description: 'Уведомления обо всех действиях в пакетах работ, в которых вы участвуете (назначение, подотчетность или наблюдение).'
           delayed:
             title: 'Неучастие'
             description: 'Дополнительные уведомления для деятельности во всех проектах.'
@@ -736,8 +736,8 @@ ru:
       duplicated: "Дублируется"
       blocks: "Блокирует"
       blocked: "Блокируется"
-      precedes: "Идет перед"
-      follows: "Идет после"
+      precedes: "Предшествует"
+      follows: "Следует"
       includes: "Включения"
       partof: "Является частью"
       requires: "Требует выполнения"
@@ -944,7 +944,7 @@ ru:
         estimatesAndTime: "Оценки & время"
         other: "Другие"
       properties:
-        assignee: "Исполнитель"
+        assignee: "Назначенный"
         author: "Автор"
         createdAt: "Создано"
         description: "Описание"
@@ -965,8 +965,8 @@ ru:
         title: "Заголовок"
         type: "Тип"
         updatedAt: "Обновлено"
-        versionName: "Этапы"
-        version: "Этапы"
+        versionName: "Этап"
+        version: "Этап"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
