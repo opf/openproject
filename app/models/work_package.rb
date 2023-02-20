@@ -290,7 +290,7 @@ class WorkPackage < ApplicationRecord
 
   def estimated_hours=(hours)
     converted_hours = hours.is_a?(String) ? hours.to_hours : hours
-    write_attribute :estimated_hours, converted_hours 
+    write_attribute :estimated_hours, converted_hours
   end
 
   def duration_in_hours
