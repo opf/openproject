@@ -37,6 +37,9 @@ zh-TW:
     models:
       meeting_agenda: "會議大綱"
       meeting_minutes: "會議記錄"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "出席人員"
   description_invite: "已邀請"
   events:

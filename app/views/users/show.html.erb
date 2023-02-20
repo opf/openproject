@@ -73,33 +73,14 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="grid-content">
-    <% unless @events_by_day.empty? %>
+    <% unless @events.empty? %>
       <h3>
-        <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events_by_day.keys.first %>
+        <%= link_to t(:label_activity), controller: '/activities', action: 'index', id: nil, user_id: @user, from: @events.first.event_datetime %>
       </h3>
       <p>
         <%=t(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
       </p>
-      <div id="activity">
-        <% @events_by_day.keys.sort.reverse.each do |day| %>
-          <h4><%= format_activity_day(day) %></h4>
-          <ul class="generic-list">
-            <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-              <li class="<%= e.event_type %>">
-                <div class="title">
-                  <%= icon_wrapper("icon-context icon-#{event_icon(e)}", e.event_name) %>
-                  <span class="time"><%= format_time(e.event_datetime, false) %></span>
-                  <%= content_tag('span', h(e.project), class: 'project') %>
-                  <%= link_to format_activity_title(e.event_title), e.event_url %>
-                </div>
-                <div class="description">
-                  <%= truncate_formatted_text(e.event_description) %>
-                </div>
-              </li>
-            <% end -%>
-          </ul>
-        <% end -%>
-      </div>
+      <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4'))  %>
 
       <%= other_formats_links do |f| %>
         <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key} %>

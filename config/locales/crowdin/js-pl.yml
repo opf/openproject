@@ -254,17 +254,18 @@ pl:
           you_contribute: "Deweloperzy również muszą płacić rachunki. Poprzez przejście na wersję Enterprise będziesz wspierać ten wysiłek społeczności open source i przyczyniać się do jej rozwoju, utrzymania i ciągłego doskonalenia."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "Dni nierobocze"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
+          new_date: '(nowe)'
+        add_non_working_day: "Dzień nieroboczy"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
+        change_button: "Zapisz i zmień harmonogram"
+        change_title: "Zmień dni robocze"
+        removed_title: "Z listy dni nieroboczych usuniesz następujące dni:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'wł'
@@ -1067,7 +1068,6 @@ pl:
         relations: Relacje
         watchers: Obserwatorzy
         files: Pliki
-        files_tab_migration_help: 'Pliki można teraz dołączać do pakietów roboczych za pomocą nowej karty:'
       time_relative:
         days: "dni"
         weeks: "tygodnie"

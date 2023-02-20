@@ -37,6 +37,9 @@ fi:
     models:
       meeting_agenda: "Esityslista"
       meeting_minutes: "Pöytäkirja"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "osallistunut"
   description_invite: "kutsuttu"
   events:

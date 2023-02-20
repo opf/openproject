@@ -189,6 +189,7 @@ class WorkPackage < ApplicationRecord
                                        method(:cleanup_time_entries_before_destruction_of)
 
   include WorkPackage::Journalized
+  prepend Journable::Timestamps
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'

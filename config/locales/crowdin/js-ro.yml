@@ -263,7 +263,8 @@ ro:
         removed_title: "Veţi elimina următoarele zile din lista de zile nelucrătoare:"
         change_description: "Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz."
         warning: >
-          Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate. Ești sigur că vrei să continui?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'pe'
@@ -1065,7 +1066,6 @@ ro:
         relations: Relații
         watchers: Observatori
         files: Fişiere
-        files_tab_migration_help: 'Acum puteți atașa fișiere la pachetele de lucru prin intermediul noii file:'
       time_relative:
         days: "zile"
         weeks: "săptămâni"

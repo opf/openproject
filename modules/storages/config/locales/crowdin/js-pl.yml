@@ -27,8 +27,8 @@ pl:
       files:
         directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
         dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Ten folder jest pusty."
+        empty_folder_location_hint: "Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji."
         file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
       file_links:
         empty: >

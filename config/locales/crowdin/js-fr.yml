@@ -264,7 +264,8 @@ fr:
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'le'
@@ -1065,7 +1066,6 @@ fr:
         relations: Relations
         watchers: Observateurs
         files: Fichiers
-        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"

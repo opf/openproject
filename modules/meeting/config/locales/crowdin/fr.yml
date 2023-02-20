@@ -37,6 +37,9 @@ fr:
     models:
       meeting_agenda: "Ordre du jour"
       meeting_minutes: "Compte-rendu"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "ont participé"
   description_invite: "invité"
   events:

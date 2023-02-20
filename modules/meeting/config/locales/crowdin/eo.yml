@@ -37,6 +37,9 @@ eo:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutes"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "attended"
   description_invite: "invited"
   events:

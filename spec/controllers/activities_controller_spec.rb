@@ -63,7 +63,7 @@ describe ActivitiesController do
 
       it_behaves_like 'valid index response'
 
-      it { expect(assigns(:events_by_day)).not_to be_empty }
+      it { expect(assigns(:events)).not_to be_empty }
 
       describe 'view' do
         render_views
@@ -86,7 +86,7 @@ describe ActivitiesController do
 
         it_behaves_like 'valid index response'
 
-        it { expect(assigns(:events_by_day)).to be_empty }
+        it { expect(assigns(:events)).to be_empty }
       end
     end
 

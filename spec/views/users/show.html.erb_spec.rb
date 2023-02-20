@@ -45,7 +45,7 @@ describe 'users/show' do
 
     assign(:user, user)
     assign(:memberships, user.memberships)
-    assign(:events_by_day, [])
+    assign(:events, [])
   end
 
   it 'renders the visible custom values' do

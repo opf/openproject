@@ -23,6 +23,9 @@ lol:
   activerecord:
     models:
       document: "crwdns494199:0crwdne494199:0"
+  activity:
+    filter:
+      document: "crwdns845795:0crwdne845795:0"
   default_doc_category_tech: "crwdns494201:0crwdne494201:0"
   default_doc_category_user: "crwdns494203:0crwdne494203:0"
   enumeration_doc_categories: "crwdns494205:0crwdne494205:0"

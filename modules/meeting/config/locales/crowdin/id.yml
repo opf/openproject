@@ -37,6 +37,9 @@ id:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Laporan"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "hadir"
   description_invite: "diundang"
   events:

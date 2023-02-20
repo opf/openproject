@@ -39,6 +39,9 @@ vi:
     models:
       budget: "Ngân sách"
       material_budget_item: "Đơn vị"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Ngân sách"
   button_add_budget_item: "Thêm chi phí đã lên kế hoạch"

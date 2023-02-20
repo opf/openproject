@@ -204,6 +204,8 @@ gem 'validate_url'
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'view_component'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.0.0'
@@ -248,7 +250,6 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0', require: nil
 
   gem 'parallel_tests', '~> 4.0'
-  gem 'database_cleaner-active_record'
 end
 
 group :ldap do
