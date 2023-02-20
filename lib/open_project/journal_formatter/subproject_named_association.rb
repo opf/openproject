@@ -25,14 +25,41 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatter::NamedAssociation
+  private
 
-class OpenProject::JournalFormatter::Subproject < JournalFormatter::Base
-  def render(key, values, options = { html: true })
-    # label_text = options[:html] ? content_tag(:strong, label(key)) : label(key)
-    # activated_text = values.last ? I18n.t('scheduling.activated') : I18n.t('scheduling.deactivated')
+  def format_details(key, values, cache:)
+    binding.pry
+    if values.first.nil?
+      label = label(key)
+    else
+      label = I18n.t("activerecord.attributes.project.parent_without_of")
+    end
 
-    # I18n.t(:text_journal_label_value, label: label_text, value: activated_text)
+    old_value, value = *format_values(values, key, cache:)
 
-    # Maybe need to revert some of 5570e2c?
+    [label, old_value, value]
+  end
+
+  def render_ternary_detail_text(label, value, old_value, options)
+    binding.pry
+    return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
+    return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
+
+    linebreak = should_linebreak?(old_value.to_s, value.to_s)
+
+    if options[:html]
+      I18n.t(:text_journal_changed_html,
+             label:,
+             linebreak: linebreak ? "<br/>".html_safe : '',
+             old: old_value,
+             new: value)
+    else
+      I18n.t(:text_journal_changed_plain,
+             label:,
+             linebreak: linebreak ? "\n" : '',
+             old: old_value,
+             new: value)
+    end
   end
 end

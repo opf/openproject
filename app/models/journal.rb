@@ -43,7 +43,7 @@ class Journal < ApplicationRecord
   register_journal_formatter :active_status, OpenProject::JournalFormatter::ActiveStatus
   register_journal_formatter :template, OpenProject::JournalFormatter::Template
   register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
-  # register_journal_formatter :subproject, OpenProject::JournalFormatter::Subproject
+  register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

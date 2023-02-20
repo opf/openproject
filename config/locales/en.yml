@@ -543,6 +543,7 @@ en:
         identifier: "Identifier"
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
+        parent_without_of: "Subproject"
         public_value:
           title: "Visibility"
           true: "public"
@@ -2844,6 +2845,7 @@ en:
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
