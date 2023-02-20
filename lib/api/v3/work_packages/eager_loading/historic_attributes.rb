@@ -38,9 +38,10 @@ module API::V3::WorkPackages::EagerLoading
                                    work_package_with_historic_attributes.timestamps.last.to_s)
 
       work_package.at_timestamps = work_package_with_historic_attributes
-                                     .journables_by_timestamp
-                                     .map do |timestamp, wp|
-        wrapped_wp = HistoricAttributesDelegator.new(wp)
+                                     .timestamps
+                                     .map do |timestamp|
+        wrapped_wp = HistoricAttributesDelegator
+                       .new(work_package_with_historic_attributes.at_timestamp(timestamp))
         wrapped_wp.timestamp = timestamp.dup
 
         set_non_delegated_properties(wrapped_wp,
@@ -68,7 +69,7 @@ module API::V3::WorkPackages::EagerLoading
       @work_packages_with_historic_attributes ||= begin
         @timestamps ||= @query.try(:timestamps) || []
         Journable::WithHistoricAttributes \
-          .wrap_multiple(work_packages, timestamps: @timestamps, query: @query, include_only_changed_attributes: true)
+          .wrap(work_packages, timestamps: @timestamps, query: @query, include_only_changed_attributes: true)
           .index_by(&:id)
       end
     end

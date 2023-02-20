@@ -70,12 +70,16 @@
 #   work_package.subject  # => "Subject at PT0S (current time)"
 #
 class Journable::WithHistoricAttributes < SimpleDelegator
-  attr_accessor :timestamps, :query, :include_only_changed_attributes, :attributes_by_timestamp,
-                :matches_query_filters_at_timestamps, :exists_at_timestamps,
-                :journables_by_timestamp
+  attr_accessor :timestamps,
+                :query,
+                :include_only_changed_attributes,
+                :loader
 
-
-  def initialize(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
+  def initialize(journable,
+                 timestamps: nil,
+                 query: nil,
+                 include_only_changed_attributes: false,
+                 loader: Loader.new(journable))
     super(journable)
 
     if query and not journable.is_a? WorkPackage
@@ -88,104 +92,59 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     self.timestamps = timestamps || query.try(:timestamps) || []
     self.include_only_changed_attributes = include_only_changed_attributes
 
-    self.attributes_by_timestamp = {}
-    self.matches_query_filters_at_timestamps = []
-    self.exists_at_timestamps = []
-    self.journables_by_timestamp = {}
+    self.loader = loader
   end
+  private_class_method :new
 
-  def self.wrap(journable_or_journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
-    case journable_or_journables
-    when Array, ActiveRecord::Relation
-      wrap_multiple(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
-    else
-      wrap_one(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
-    end
-  end
-
-  def self.wrap_one(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
-    timestamps ||= query.try(:timestamps) || []
-    journable = journable.at_timestamp(timestamps.last) if timestamps.last.try(:historic?)
-    journable = new(journable, timestamps:, query:, include_only_changed_attributes:)
-    timestamps.each do |timestamp|
-      journable.assign_historic_attributes(
-        timestamp:,
-        historic_journable: journable.at_timestamp(timestamp),
-        matching_journable: (query_work_packages(query:, timestamp:).find_by(id: journable.id) if query)
-      )
-    end
-    journable
-  end
-
-  # rubocop:disable Metrics/AbcSize
-  def self.wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
-    timestamps ||= query.try(:timestamps) || []
-    journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables) if timestamps.last.try(:historic?)
-    journables = journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:) }
-    timestamps.each do |timestamp|
-      assign_historic_attributes_to(
-        journables,
-        timestamp:,
-        historic_journables: WorkPackage.at_timestamp(timestamp).where(id: journables.map(&:id)),
-        matching_journables: (query_work_packages(query:, timestamp:) if query),
-        query:
-      )
-    end
-    journables
-  end
-  # rubocop:enable Metrics/AbcSize
-
-  def assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
-    attributes_by_timestamp[timestamp.to_s] = extract_historic_attributes_from(historic_journable:) if historic_journable
-    journables_by_timestamp[timestamp.to_s] = historic_journable
-    matches_query_filters_at_timestamps << timestamp if matching_journable
-    exists_at_timestamps << timestamp if historic_journable
-  end
-
-  def self.assign_historic_attributes_to(journables, timestamp:, historic_journables:, matching_journables:, query:)
-    journables.each do |journable|
-      historic_journable = historic_journables.find_by(id: journable.id)
-      matching_journable = matching_journables.find_by(id: journable.id) if query
-      journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
-    end
-  end
-
-  def extract_historic_attributes_from(historic_journable:)
-    convert_attributes_hash_to_struct(
-      historic_journable.attributes.select do |key, value|
-        not include_only_changed_attributes \
-        or not respond_to?(key) \
-        or value != send(key)
+  class << self
+    def wrap(journable_or_journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
+      case journable_or_journables
+      when Array, ActiveRecord::Relation
+        wrap_multiple(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
+      else
+        wrap_one(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
       end
-    )
+    end
+
+    private
+
+    def wrap_one(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
+      wrap_multiple(Array(journable), timestamps:, query:, include_only_changed_attributes:).first
+    end
+
+    def wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
+      timestamps ||= query.try(:timestamps) || []
+      loader = Loader.new(journables)
+
+      journables = loader.at_timestamp(timestamps.last).values if timestamps.last.try(:historic?)
+
+      journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:, loader:) }
+    end
   end
 
-  # This allows us to use the historic attributes in the same way as the current attributes
-  # using methods rather than hash keys.
-  #
-  # Example:
-  #   work_package.baseline_attributes.subject
-  #   work_package.baseline_attributes["subject"]
-  #
-  # Rubocop complains about OpenStruct because it is slightly slower than Struct.
-  # https://docs.rubocop.org/rubocop/cops_style.html#styleopenstructuse
-  #
-  # However, I prefer OpenStruct here because it makes it easier to deal with the
-  # non existing attributes when using `include_only_changed_attributes: true`.
-  #
-  # We need to patch the `as_json` method because OpenStruct's `as_json` would
-  # wrap everything into a "table" hash.
-  #
-  # rubocop:disable Style/OpenStructUse
-  #
-  def convert_attributes_hash_to_struct(attributes)
-    Class.new(OpenStruct) do
-      def as_json(options = nil)
-        to_h.as_json(options)
-      end
-    end.new(attributes)
+  def attributes_by_timestamp
+    @attributes_by_timestamp ||= Hash.new do |h, t|
+      attributes = if include_only_changed_attributes
+                     changes_at_timestamp(t)&.transform_values(&:last)
+                   else
+                     historic_attributes_at(t)
+                   end
+
+      h[t] = attributes ? Hashie::Mash.new(attributes) : nil
+    end
   end
-  # rubocop:enable Style/OpenStructUse
+
+  def changed_at_timestamp(timestamp)
+    changes_at_timestamp(timestamp)&.keys || []
+  end
+
+  def matches_query_filters_at_timestamps
+    timestamps.select { |timestamp| loader.work_package_ids_of_query_at_timestamp(query:, timestamp:).include?(__getobj__.id) }
+  end
+
+  def exists_at_timestamps
+    timestamps.select { |t| at_timestamp(t).present? }
+  end
 
   def baseline_timestamp
     timestamps.first
@@ -211,18 +170,8 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     query && matches_query_filters_at_timestamps.include?(timestamp)
   end
 
-  def changed_at_timestamp(timestamp)
-    return [] unless journables_by_timestamp[timestamp.to_s]
-
-    ::Acts::Journalized::JournableDiffer
-    .changes(__getobj__, journables_by_timestamp[timestamp.to_s])
-    .keys
-  end
-
-  def self.query_work_packages(query:, timestamp: nil)
-    query = query.dup
-    query.timestamps = [timestamp] if timestamp
-    query.results.work_packages
+  def at_timestamp(timestamp)
+    loader.journable_at_timestamp(__getobj__, timestamp)
   end
 
   def to_ary
@@ -231,6 +180,29 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
   def inspect
     __getobj__.inspect.gsub(/#<(.+)>/m, "#<#{self.class.name} \\1>")
+  end
+
+  private
+
+  def historic_attributes_at(timestamp)
+    historic_journable = at_timestamp(Timestamp.parse(timestamp))
+
+    return unless historic_journable
+
+    historic_journable
+      .attributes
+      .select do |key, _|
+        respond_to?(key)
+      end
+  end
+
+  def changes_at_timestamp(timestamp)
+    historic_journable = at_timestamp(Timestamp.parse(timestamp))
+
+    return unless historic_journable
+
+    ::Acts::Journalized::JournableDiffer
+      .changes(__getobj__, historic_journable)
   end
 
   class NotImplemented < StandardError; end
