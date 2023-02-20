@@ -98,6 +98,8 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
 
   @Input() minimalDate:Date|null = null;
 
+  @Input() inputClassNames = '';
+
   @ViewChild('input') input:ElementRef;
 
   text = {
