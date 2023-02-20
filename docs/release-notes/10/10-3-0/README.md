@@ -59,11 +59,7 @@ You can find useful information in the [OpenProject help section](https://www.op
 
 ### Upgrading your installation to OpenProject 10.3.
 
-<<<<<<< .merge_file_HOm9gD
-If you’re using the OpenProject Cloud Edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
-=======
 If you’re using the OpenProject Enterprise cloud edition, you will be automatically updated to the latest version of OpenProject 10.1 in the next days. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
->>>>>>> .merge_file_DwSdS6
 
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading/).
 

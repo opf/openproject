@@ -70,16 +70,6 @@ Calculation examples:
 
 As an alternative to the manual progress tracking mode above, you can configure 
 your OpenProject system to associate work packages statuses .
-<<<<<<< HEAD
-In the administration section please modify the 
-[work package settings](../../../system-admin-guide/manage-work-packages/work-package-settings) and set the value of “Calculate the work package done ratio” to 
-“Use the work package status”.
-
-In this mode, OpenProject does _not_ allow you to modify the 
-**Progress (%)** field.
-Instead, the **Progress (%)** value will be taken from the work package 
-status configuration page:
-=======
 In the Administration, please navigate to Work packages -> Settings and change “Calculate the work package done ratio” to 
 “Use the work package status”.
 
@@ -91,7 +81,6 @@ Instead, the **Progress (%)** value will be set automatically based on the the w
 status configuration page.
 
 Within the Administration, navigate to Work package -> Status and select the status you want to edit regarding the progress tracking. Here you can select the desired progress percentage from the drop-down menu in the progress line and add it to the status. Please do not forget to save your changes.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 ![Progress calculation in the WP hierarchy](progress-tracking-admin-status-percentage.png)
 

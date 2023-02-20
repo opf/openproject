@@ -9,11 +9,7 @@ keywords: manage projects
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
-<<<<<<< HEAD
-Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
-=======
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 | Topic                                                                        | Content                                                                                                                  |
 |------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|

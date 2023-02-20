@@ -19,11 +19,7 @@ Before you can enable a custom field it needs to be created in the [system admin
 
 1. Manage the custom field by clicking on the name.
 2. **Select if the custom fields shall be enabled in the project**. If enabled globally in the custom fields settings in the system administration, it will automatically be displayed in all projects.
-<<<<<<< HEAD
-3. View the work package types for which the custom field is already enabled. Only for the displayed types the custom field will be active. You can add the custom field to additional work package types by [adding them to the respective work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature).
-=======
 3. View the work package types for which the custom field is already enabled. Only for the displayed types the custom field will be active. You can add the custom field to additional work package types by [adding them to the respective work package form](../../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on).
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 4. **Create a new custom field** with the green + Custom field button. You have to be a system administrator in order to create new custom fields.
 5. Press the blue **Save** button to confirm your changes.
 

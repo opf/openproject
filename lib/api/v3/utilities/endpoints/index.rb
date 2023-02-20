@@ -142,14 +142,6 @@ module API
             end
           end
 
-          def calculated_self_path(request)
-            if self_path.respond_to?(:call)
-              request.instance_exec(&self_path)
-            else
-              request.api_v3_paths.send(self_path)
-            end
-          end
-
           def deduce_render_representer
             "::API::V3::#{deduce_api_namespace}::#{api_name}CollectionRepresenter".constantize
           end

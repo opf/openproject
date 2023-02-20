@@ -1,13 +1,14 @@
 <% more_info = local_assigns[:feature_more_info] %>
 <% feature_video = local_assigns[:feature_video] %>
 <% feature_image = local_assigns[:feature_image] %>
-
+<% additional_classes = local_assigns[:additional_classes] %>
+<% write_augur_to_gon %>
 
 <% if !EnterpriseToken.current.present? %>
   <% write_trial_key_to_gon %>
 <% end %>
 
-<div class="upsale-notification">
+<div class="upsale-notification <%= additional_classes %>">
     <h2><%= feature_title %></h2>
     <% if feature_description.empty? %>
       <p class="upsale--feature-reference">
@@ -32,7 +33,7 @@
     <% elsif feature_image.present? %>
       <%= image_tag feature_image, class: "widget-box--teaser-image" %>
     <% else %>
-      <%= image_tag "enterprise_edition.png", class: "widget-box--teaser-image_default" %>
+      <%= image_tag "enterprise-add-on.svg", class: "widget-box--teaser-image_default" %>
     <% end %>
 
     <p> <%= feature_title %> <%= t('admin.enterprise.enterprise_info_html') %>
@@ -52,7 +53,7 @@
                   aria: {label: t('admin.enterprise.buttons.upgrade')},
                   target: '_blank',
                   title: t('admin.enterprise.buttons.upgrade')}) do %>
-      <%= op_icon('button--icon icon-medal') %>
+      <%= spot_icon('enterprise-addons enterprise-addons--button-icon') %>
       <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
     <% end %>
     <free-trial-button></free-trial-button>

@@ -14,11 +14,7 @@ keywords: work packages table configuration, work package list, columns, filter,
 | [Filter work packages](#filter-work-packages)                                       | How to filter in the work package table.                                         |
 | [Sort the work package list](#sort-the-work-package-list)                           | How to sort within the work package table.                                       |
 | [Display settings](#flat-list-hierarchy-mode-and-group-by)                          | Get to know the flat list, the hierarchy mode, the group by and the sum feature. |
-<<<<<<< HEAD
-| [Attribute highlighting (Premium Feature)](#attribute-highlighting-premium-feature) | How to highlight certain attributes in the work package table.                   |
-=======
 | [Attribute highlighting (Enterprise add-on)](#attribute-highlighting-enterprise-add-on) | How to highlight certain attributes in the work package table.                   |
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 | [Save work package views](#save-work-package-views)                                 | How to save a new work package view and how to change existing ones.             |
 
 You can configure the work package table view in OpenProject to display the information that you need in the list.
@@ -114,11 +110,7 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
-<<<<<<< HEAD
-### Advanced filters (premium feature)
-=======
 ### Advanced filters (Enterprise add-on)
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
 
@@ -262,8 +254,4 @@ If you make changes to a saved view, e.g. change a filter criteria, you have to 
 
 If you want to save a completely new work package view, again click on the settings and select **Save as...** as described [above](#save-work-package-views). 
 
-<<<<<<< HEAD
-> **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. 
-=======
 > **Please note**:  You can't change the default "All open" view. Therefore pressing the disc icon won't have any effect on the default view that is displayed when navigating to the work packages module. You always have to create a new view (filter, group, etc.), set a name and save it (private or public).
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f

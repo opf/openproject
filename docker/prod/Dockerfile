@@ -46,14 +46,9 @@ COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
 COPY lib ./lib
 
-# RUN bundle config set --local frozen 'false' && bundle config set --local deployment 'false' && bundle install --quiet --path vendor/bundle --no-cache \
-#   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
-#   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
-
 RUN bundle install --quiet --deployment --path vendor/bundle --no-cache \
   --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
   rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
-
 
 # Finally, copy over the whole thing
 COPY . .

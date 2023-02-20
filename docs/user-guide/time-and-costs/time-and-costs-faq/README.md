@@ -10,11 +10,7 @@ keywords: time and costs FAQ, time tracking, time logging, booking costs
 
 ## Is there a way to prevent logging hours for Phases (or other work package types)? 
 
-<<<<<<< HEAD
-It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature)) but it would still be possible to log time for Phases.
-=======
 It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)) but it would still be possible to log time for Phases.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 ## Can I log time for another user than myself?
 
