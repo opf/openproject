@@ -175,7 +175,7 @@ class Activities::BaseActivityProvider
     params = { provider: self,
                event_id: event_data['event_id'],
                event_description: event_data['event_description'],
-               author_id: event_data['event_author'].to_i,
+               author_id: event_data['author_id'].to_i,
                journable_id: event_data['journable_id'],
                project_id: event_data['project_id'].to_i }
 
@@ -191,7 +191,7 @@ class Activities::BaseActivityProvider
   def event_projection
     [[:id, 'event_id'],
      [:created_at, 'event_datetime'],
-     [:user_id, 'event_author'],
+     [:user_id, 'author_id'],
      [:notes, 'event_description'],
      [:version, 'version'],
      [:journable_id, 'journable_id']].map do |column, alias_name|

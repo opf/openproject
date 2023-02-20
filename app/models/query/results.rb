@@ -37,11 +37,6 @@ class ::Query::Results
     self.query = query
   end
 
-  # Returns the work package count
-  def work_package_count
-    work_packages.count
-  end
-
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
     if query.historic?
@@ -52,23 +47,12 @@ class ::Query::Results
   end
 
   def sorted_work_packages_matching_the_filters_today
-    work_package_scope
-      .where(query.statement)
-      .includes(all_includes)
-      .joins(all_joins)
-      .order(order_option)
-      .references(:projects)
-      .order(sort_criteria_array)
+    sorted_work_packages.merge(filtered_work_packages)
   end
 
   def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
-    work_package_scope
+    sorted_work_packages
       .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
-      .includes(all_includes)
-      .joins(sort_criteria_joins)
-      .order(order_option)
-      .references(:projects)
-      .order(sort_criteria_array)
   end
 
   def order_option
@@ -88,7 +72,7 @@ class ::Query::Results
   #
   def work_packages_matching_the_filters_at_any_of_the_given_timestamps
     query.timestamps.collect do |timestamp|
-      WorkPackage.where(id: work_packages_relation.at_timestamp(timestamp))
+      WorkPackage.where(id: filtered_work_packages.at_timestamp(timestamp))
     end.reduce(:or)
   end
 
@@ -100,27 +84,30 @@ class ::Query::Results
   #
   # https://community.openproject.org/projects/openproject/work_packages/26448
   #
-  def work_packages_relation
+  def filtered_work_packages
     work_package_scope
+      .joins(all_filter_joins)
       .where(query.statement)
-      .includes(all_includes)
-      .joins(all_joins)
-      .references(:projects)
+  end
+
+  def sorted_work_packages
+    work_package_scope
+      .joins(sort_criteria_joins)
+      .order(order_option)
+      .order(sort_criteria_array)
   end
 
   def work_package_scope
     WorkPackage
       .visible
       .merge(filter_merges)
+      .includes(all_includes)
+      .references(:projects)
   end
 
   def all_includes
     (%i(project) +
       includes_for_columns(include_columns)).uniq
-  end
-
-  def all_joins
-    sort_criteria_joins + all_filter_joins
   end
 
   def includes_for_columns(column_names)

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "rails_helper"
 
-describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { create(:admin) }
+RSpec.describe Activities::ItemSubtitleComponent, type: :component do
+  include Redmine::I18n
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
+  let(:datetime) { Time.current }
 
-  before do
-    login_as(user)
+  subject { render_inline(described_class.new(user:, datetime:, is_creation:)) }
+
+  context 'on creation with a user' do
+    let(:is_creation) { true }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
   end
 
-  describe 'project activity' do
-    it 'can show the meeting in the project activity' do
-      visit project_activity_index_path(project)
+  context 'on creation without a user' do
+    let(:is_creation) { true }
+    let(:user) { nil }
 
-      check 'Meetings'
-      click_on 'Apply'
+    it { is_expected.to have_text("created on #{format_time(datetime)}") }
+  end
 
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
-    end
+  context 'on update with a user' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+
+    it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on update without a user' do
+    let(:is_creation) { false }
+    let(:user) { nil }
+
+    it { is_expected.to have_text("updated on #{format_time(datetime)}") }
   end
 end

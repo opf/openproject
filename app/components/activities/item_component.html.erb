@@ -1,0 +1,25 @@
+<li class="op-activity-list--item">
+  <div class="op-activity-list--item-title">
+    <%= link_to format_activity_title(@event.event_title), @event.event_path %>
+    <% if display_belonging_project? -%>
+      (<%= I18n.t('events.title.project', name: content_tag('span', link_to(@event.project.name, @event.project), class: 'project')).html_safe %>)
+    <% end -%>
+  </div>
+  <%=
+    render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
+                                             datetime: @event.event_datetime,
+                                             is_creation: @event.journal.initial?))
+  %>
+  <% if @event.event_description.present? -%>
+    <div class="op-activity-list--item-description">
+      <%= helpers.truncate_formatted_text(@event.event_description) %>
+    </div>
+  <% end -%>
+  <% if display_details? -%>
+    <ul class="op-activity-list--item-details">
+      <% rendered_details.each do |detail| -%>
+        <li class="op-activity-list--item-detail"><%= detail %></li>
+      <% end -%>
+    </ul>
+  <% end -%>
+</li>

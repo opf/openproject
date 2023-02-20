@@ -101,10 +101,6 @@ module ApplicationHelper
     link_to I18n.t(:button_delete), url, options
   end
 
-  def format_activity_title(text)
-    h(truncate_single_line(text, length: 100))
-  end
-
   def format_activity_day(date)
     date == User.current.today ? I18n.t(:label_today).titleize : format_date(date)
   end
