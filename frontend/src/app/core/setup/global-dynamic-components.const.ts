@@ -212,6 +212,10 @@ import {
   opModalOverlaySelector,
 } from 'core-app/shared/components/modal/modal-overlay.component';
 import {
+  OpSingleDatePickerComponent,
+  opSingleDatePickerSelector,
+} from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import {
   OpModalSingleDatePickerComponent,
   opModalSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/modal-single-date-picker/modal-single-date-picker.component';
@@ -279,6 +283,7 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
   // It is important to initialize the remoteFieldUpdaterSelector after the opModalSingleDatePickerSelector,
   // because we need to access the input field of the opModalSingleDatePickerSelector inside the remoteFieldUpdaterSelector
+  { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent, embeddable: true },
   { selector: opModalSingleDatePickerSelector, cls: OpModalSingleDatePickerComponent, embeddable: true },
   { selector: opBasicSingleDatePickerSelector, cls: OpBasicSingleDatePickerComponent, embeddable: true },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },

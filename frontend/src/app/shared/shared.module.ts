@@ -78,6 +78,10 @@ import { OpDatePickerBannerComponent } from 'core-app/shared/components/datepick
 import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
 import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
 
+// Old datepickers
+import { OpSingleDatePickerComponent } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { OpMultiDatePickerComponent } from 'core-app/shared/components/datepicker/multi-date-picker/multi-date-picker.component';
+
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
@@ -218,6 +222,10 @@ export function bootstrapModule(injector:Injector):void {
     OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
+    
+    // Old datepickers
+    OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
 
     OpNonWorkingDaysListComponent,
   ],
@@ -286,6 +294,10 @@ export function bootstrapModule(injector:Injector):void {
     OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
     OpDatePickerSchedulingToggleComponent,
+    
+    // Old datepickers
+    OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
   ],
 })
 export class OpSharedModule {

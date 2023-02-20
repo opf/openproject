@@ -14,10 +14,10 @@
     />
   </spot-selector-field>
 
-  <op-basic-range-date-picker
+  <op-multi-date-picker
     *ngIf="(enabled$ | async)"
     [required]="enabled$ | async"
     [value]="selectedDates$ | async"
     (valueChange)="setDates($event)"
-  ></op-basic-range-date-picker>
+  ></op-multi-date-picker>
 </div>
