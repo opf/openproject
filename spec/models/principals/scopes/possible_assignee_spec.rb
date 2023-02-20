@@ -110,5 +110,21 @@ describe Principals::Scopes::PossibleAssignee do
           .to be_empty
       end
     end
+
+    context 'when asking for multiple projects' do
+      subject { Principal.possible_assignee([project, other_project]) }
+
+      before do
+        create(:member,
+               principal: member_user,
+               project: other_project,
+               roles: [role])
+      end
+
+      it 'returns users assignable in all of the provided projects (intersection)' do
+        expect(subject)
+          .to match_array([member_user])
+      end
+    end
   end
 end
