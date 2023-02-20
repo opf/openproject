@@ -383,7 +383,7 @@ GEM
       no_proxy_fix
       octokit (~> 5.0)
       terminal-table (>= 1, < 4)
-    danger-brakeman (0.0.2)
+    danger-brakeman (0.0.3)
       brakeman
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
