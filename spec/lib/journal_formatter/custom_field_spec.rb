@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,7 +88,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>#{custom_field.name}</strong>",
-               value: "<i title=\"#{formatted_value}\">#{formatted_value}</i>")
+               value: "<i>#{formatted_value}</i>")
       end
 
       it 'outputs both formatted names' do
@@ -104,7 +104,7 @@ describe OpenProject::JournalFormatter::CustomField do
         let(:expected) do
           I18n.t(:text_journal_set_to,
                  label: "<strong>#{custom_field.name}</strong>",
-                 value: "<i title=\"#{formatted_value}\">#{formatted_value}</i>")
+                 value: "<i>#{formatted_value}</i>")
         end
 
         it 'outputs the one visible formatted name' do
@@ -121,7 +121,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:expected) do
       I18n.t(:text_journal_set_to,
              label: "<strong>#{custom_field.name}</strong>",
-             value: "<i title=\"#{formatted_value}\">#{formatted_value}</i>")
+             value: "<i>#{formatted_value}</i>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -136,8 +136,8 @@ describe OpenProject::JournalFormatter::CustomField do
       I18n.t(:text_journal_changed_html,
              label: "<strong>#{custom_field.name}</strong>",
              linebreak: '',
-             old: "<i title=\"#{old_formatted_value}\">#{old_formatted_value}</i>",
-             new: "<i title=\"#{new_formatted_value}\">#{new_formatted_value}</i>")
+             old: "<i>#{old_formatted_value}</i>",
+             new: "<i>#{new_formatted_value}</i>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -150,7 +150,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:expected) do
       I18n.t(:text_journal_deleted,
              label: "<strong>#{custom_field.name}</strong>",
-             old: "<strike><i title=\"#{formatted_value}\">#{formatted_value}</i></strike>")
+             old: "<strike><i>#{formatted_value}</i></strike>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -166,7 +166,7 @@ describe OpenProject::JournalFormatter::CustomField do
              value: format_value(values.last, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
@@ -181,7 +181,7 @@ describe OpenProject::JournalFormatter::CustomField do
              new: format_value(values.last, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being a valid value as a string, and the second being nil
@@ -194,7 +194,7 @@ describe OpenProject::JournalFormatter::CustomField do
              old: format_value(values.first, custom_field))
     end
 
-    it { expect(instance.render(key, values, no_html: true)).to eq(expected) }
+    it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
   describe "WITH the first value being nil, and the second a valid value as string
@@ -205,7 +205,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:expected) do
       I18n.t(:text_journal_set_to,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
-             value: "<i title=\"#{values.last}\">#{values.last}</i>")
+             value: "<i>#{values.last}</i>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -220,8 +220,8 @@ describe OpenProject::JournalFormatter::CustomField do
       I18n.t(:text_journal_changed_html,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
              linebreak: '',
-             old: "<i title=\"#{values.first}\">#{values.first}</i>",
-             new: "<i title=\"#{values.last}\">#{values.last}</i>")
+             old: "<i>#{values.first}</i>",
+             new: "<i>#{values.last}</i>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -235,7 +235,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:expected) do
       I18n.t(:text_journal_deleted,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
-             old: "<strike><i title=\"#{values.first}\">#{values.first}</i></strike>")
+             old: "<strike><i>#{values.first}</i></strike>")
     end
 
     it { expect(instance.render(key, values)).to eq(expected) }
@@ -298,8 +298,8 @@ describe OpenProject::JournalFormatter::CustomField do
         I18n.t(:text_journal_changed_html,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
-               old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
-               new: "<i title=\"cf 3, cf 4\">cf 3, cf 4</i>")
+               old: "<i>cf 1, cf 2</i>",
+               new: "<i>cf 3, cf 4</i>")
       end
 
       it { expect(instance.render(key, values)).to eq(expected) }
@@ -313,8 +313,8 @@ describe OpenProject::JournalFormatter::CustomField do
         I18n.t(:text_journal_changed_html,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
-               old: "<i title=\"cf 1, cf 2\">cf 1, cf 2</i>",
-               new: "<i title=\"(deleted option), cf 4\">(deleted option), cf 4</i>")
+               old: "<i>cf 1, cf 2</i>",
+               new: "<i>(deleted option), cf 4</i>")
       end
 
       it { expect(instance.render(key, values)).to eq(expected) }

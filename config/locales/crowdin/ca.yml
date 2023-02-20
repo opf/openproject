@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ ca:
         main-menu-border-color: "Vora del menú principal"
       custom_colors: "Colors personalitzats"
       customize: "Personalitza la teva instal·lació d'OpenProject amb el teu propi logotip i colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Com un \"Gràcies!\" especial per la contribució financera al desenvolupament d'OpenProject, aquest petit add-on només està disponible pels subscriptors de l'edició Enterprise."
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
@@ -64,15 +64,15 @@ ca:
         main-menu-bg-color: "Color de fons del menú lateral de l'esquerra."
       theme_warning: Canviant el tema substituiràs el teu estil personalitzat. El disseny es perdrà. Estàs segur que vols continuar?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Actualitza a l'edició Enterprise"
+      add_token: "Carrega un token de suport de l'edició Enterprise"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Estàs segur que vols eliminar el token de l'edició Enterprise utilitzat?"
         title: "Eliminar el token"
       replace_token: "Substitueix el teu token de suport actual"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Ordena l'edició Enterpise on-premises"
+      paste: "Enganxa el teu token de suport de l'edició Enterprise"
+      required_for_feature: "Aquest add-om només està disponible amb un token de suport de l'edició Enterprise."
       enterprise_link: "Per a més informació, cliqueu aquí."
       start_trial: 'Inicia la prova gratuïta'
       book_now: 'Reserva ara'
@@ -80,7 +80,7 @@ ca:
       buttons:
         upgrade: "Actualitza ara"
         contact: "Contacta amb nosaltres per una demostració"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "és un add-on de l'edició Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
       upgrade_info: "Si us plau, actualitza a una versió de pagament per tal d'activar i començar a utilitzar aquesta funcionalitat en el teu equip."
     journal_aggregation:
       explanation:
@@ -319,7 +319,7 @@ ca:
       settings: "Configuració"
       form_configuration: "Configuració del formulari"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        L'edició Enterprise et permet personalitzar la configuració de formularis amb aquests add-ons extra: <br> <ul class="%{list_styling_class}"><ul class="%{list_styling_class}"> <li><b>Afegeix nous grups d'atributs</b></li> <li><b>Canvia el nom dels grups d'atributs</b></li> <li><b>Afegeix una taula de paquets de treball relacionats</b></li> </ul>
       projects: "Projectes"
       enabled_projects: "Projectes habilitats"
       edit_query: "Edita la taula"
@@ -333,6 +333,7 @@ ca:
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
     no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    print_hint: Aquesta acció imprimirà el contingut de la pàgina wiki sense cap barra de navegació.
     index:
       no_results_content_text: Afegiu una nova pàgina wiki
   work_flows:
@@ -371,7 +372,7 @@ ca:
   account:
     delete: "Elimina el compte"
     delete_confirmation: "Segur que vols eliminar aquest compte?"
-    deleted: "Compte suprimit amb èxit"
+    deletion_pending: "El compte ha estat bloquejat i està programada per eliminar-se. Tingues en compte que aquesta acció es processa de fons. Pot tardar uns moments fins que l'usuari estigui eliminat completament."
     deletion_info:
       data_consequences:
         other: "De les dades de l'usuari ha creat (per exemple, correu electrònic, preferències, paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible. Fixeu-vos que dades com paquets de treball i entrades de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades es reassignaran a un compte genèric anomenat \"Usuari esborrat\". Com que les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric no serà possible distingir les dades d'aquest usuari de les dades d'un altre usuari esborrat."
@@ -466,14 +467,24 @@ ca:
       member:
         roles: "Rol"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificador"
         latest_activity_at: "Última activitat al"
         parent: "Subprojecte de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Consultes"
+        templated: "Plantilla de projecte"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-        templated: 'Plantilla de projecte'
       projects/status:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
@@ -583,7 +594,7 @@ ca:
         confirmation: "no coincideix amb el %{attribute}."
         could_not_be_copied: "%{dependency} no s'ha pogut copiar (completament)."
         does_not_exist: "no existeix."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} només està disponible en l'edició Enterprise d'OpenProject"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
         email: "no és una adreça de correu electrònic vàlida."
@@ -685,6 +696,11 @@ ca:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un dia no laborable ja existeix el %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -695,6 +711,8 @@ ca:
           archived_ancestor: 'El projecte té un ancestre arxivat.'
           foreign_wps_reference_version: 'Els paquets de treball en projectes no descendents referencien versions del projecte o els seus descendents.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "No tens els permisos requerits per arxivar tots els subprojectes. Si us plau, contacta amb un administrador."
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
             enabled_modules:
@@ -890,6 +908,15 @@ ca:
   activity:
     created: "Creat: %{title}"
     updated: "Actualitzat: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Actiu"
@@ -1025,6 +1052,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
+  button_apply_changes: "Apply changes"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
   button_sort: "Ordena"
@@ -1259,11 +1287,11 @@ ca:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
         add_groups: "Afegir un nou atribut de grups"
         rename_groups: "Canviar de nom atribut de grups"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
   enumeration_work_package_priorities: "Prioritats dels paquets de treball"
   enumeration_reported_project_statuses: "Estats de projecte notificats"
@@ -1285,7 +1313,7 @@ ca:
   error_cookie_missing: 'La cookie d''OpenProject no s''ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense.'
   error_custom_option_not_found: "L'opció no existeix."
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "L'edició Enterprise no està activa. El domini del token Enterprise (%{actual}) no concorda amb el nom d'allotjament del sistema (%{expected})."
   error_failed_to_delete_entry: 'Error a l''eliminar aquesta entrada.'
   error_in_dependent: "Error en intentar alterar objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
   error_in_new_dependent: "Error en intentar crear objectes dependents: %{dependent_class} #%{related_id} -%{related_subject}: %{error}" #%{related_id} -%{related_subject}: %{error}"
@@ -1320,16 +1348,19 @@ ca:
   error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
-    project: 'Projecte editat'
     changeset: 'Conjunt de canvis editat'
     message: Missatge editat
     news: Notícies
+    project_attributes: 'Atributs del projecte editats'
+    projects: 'Projecte editat'
     reply: Respost
     time_entry: 'Registre horari editat'
     wiki_page: 'Pàgina wiki editada'
     work_package_closed: 'Paquet de treball tancat'
     work_package_edit: 'Paquet de treball editat'
     work_package_note: 'Afegida nota al paquet de treball'
+    title:
+      project: "Projecte: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -1373,10 +1404,10 @@ ca:
     blocks:
       community: "Comunitat OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Actualitza a l'edició Enterprise"
         more_info: "Més informació"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Actualitza a l'edició Enterprise"
       postgres_migration: "Migrant la teva instal·lació a PostgreSQL"
       user_guides: "Guies d'usuari"
       faq: "Preguntes Més Freqüents"
@@ -1592,7 +1623,7 @@ ca:
   label_enumerations: "Enumeracions"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuaris actius registrats"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Edició Enterprise."
   label_environment: "Entorn"
   label_estimates_and_time: "Estimacions i temps"
   label_equals: "és"
@@ -1741,6 +1772,10 @@ ca:
   label_not_contains: "no conté"
   label_not_equals: "no és"
   label_on: "en"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -1782,6 +1817,8 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_activity: "Activitat del projecte"
+  label_project_attribute_plural: "Atributs de projecte"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"
@@ -2069,8 +2106,6 @@ ca:
   mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del teu compte %{value}"
-  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:
@@ -2201,6 +2236,7 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
+  permission_archive_project: "Arxiva el projecte"
   permission_manage_user: "Crear i editar usuaris"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"
@@ -2600,11 +2636,11 @@ ca:
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de paquets de treball: <br> <ul> <li><b>Permet múltiple selecció dels camps personalitzats pels estils Llista o Usuari</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de projectes: <br> <ul> <li><b>Afegeix camps personalitzats pels teus projectes a la teva llista de projectes per crear una vista de cartera de projectes</b></li> </ul>
   text_custom_logo_instructions: >
     Es recomana un logo blanc amb fons transparent. Per a un millor resultat tant en pantalles retina o convencionals assegura't que la teva imatge té unes dimensions de 460px per 60px.
   text_custom_favicon_instructions: >
@@ -2906,7 +2942,7 @@ ca:
   warning_user_limit_reached: >
     Límit d'usuaris assolit. No pots activar cap més usuari. Si us plau, <a href="%{upgrade_url}">actualitza el teu pla</a> o bloqueja a membres per permetre nous usuaris.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Has assolit el nombre d'usuaris límit (%{current}/%{max} usuaris actius. Si us plau, posa't en contacte amb sales@openproject.com per actualitzar la teva edició Enterpirse i afegir nous usuaris.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2934,13 +2970,18 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:
+        working: "%{day} és ara laboral"
+        non_working: "%{day} és ara no laboral"
+      dates:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"

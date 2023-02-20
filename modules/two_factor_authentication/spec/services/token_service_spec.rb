@@ -1,9 +1,9 @@
 require_relative '../spec_helper'
 
-describe ::TwoFactorAuthentication::TokenService do
+describe TwoFactorAuthentication::TokenService do
   describe 'sending messages' do
     let(:user) { create(:user) }
-    let(:dev_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
+    let(:dev_strategy) { OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
     let(:configuration) do
       {
         'active_strategies' => active_strategies,

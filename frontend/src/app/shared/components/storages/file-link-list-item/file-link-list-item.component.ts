@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -110,7 +110,7 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.downloadAllowed = !isDirectory(this.originData.mimeType);
+    this.downloadAllowed = !isDirectory(this.originData);
 
     this.text.title.downloadFileLink = this.i18n.t(
       'js.storages.file_links.download',
@@ -123,14 +123,14 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
   ngAfterViewInit():void {
     if (this.originData.lastModifiedByName) {
       this.principalRendererService.render(
-        this.avatar.nativeElement,
+        this.avatar.nativeElement as HTMLElement,
         { name: this.originData.lastModifiedByName, href: '/external_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
     } else {
       this.principalRendererService.render(
-        this.avatar.nativeElement,
+        this.avatar.nativeElement as HTMLElement,
         { name: 'Not Available', href: '/placeholder_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },

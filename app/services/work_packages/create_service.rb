@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::CreateService < ::BaseServices::BaseCallable
+class WorkPackages::CreateService < BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
   include ::Shared::ServiceContext
 
@@ -51,11 +51,13 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
   def create(attributes, work_package)
     result = set_attributes(attributes, work_package)
 
-    result.success = if result.success
-                       replace_attachments(work_package)
-                     else
-                       false
-                     end
+    result.success =
+      if result.success
+        work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
+        work_package.save
+      else
+        false
+      end
 
     if result.success?
       result.merge!(reschedule_related(work_package))
@@ -80,16 +82,10 @@ class WorkPackages::CreateService < ::BaseServices::BaseCallable
       .call(attributes)
   end
 
-  def replace_attachments(work_package)
-    work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
-    work_package.save
-  end
-
   def reschedule_related(work_package)
     result = WorkPackages::SetScheduleService
-             .new(user:,
-                  work_package:)
-             .call
+               .new(user:, work_package:)
+               .call
 
     result.self_and_dependent.each do |r|
       unless r.result.save

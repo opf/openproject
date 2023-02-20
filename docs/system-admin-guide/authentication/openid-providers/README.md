@@ -7,6 +7,14 @@ keywords: OpenID providers
 ---
 # OpenID providers
 
+
+| Topic                                                        | Content                                                      |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Google Workspace](#google-workspace)                        | How to use Google Workspace as an SSO provider for OpenProject? |
+| [Azure Active Directory](#azure-active-directory)            | How to use Microsoft Azure Active Directory as an SSO provider for OpenProject? |
+| [Custom OpenID Connect Providers](#custom-openid-connect-providers) | Configuration of additional OpenID Connect providers.        |
+| [Troubleshooting](#troubleshooting)                          | Common complications when using OpenID as SSO.               |
+
 To activate and configure OpenID providers in OpenProject, navigate to -> *Administration* -> *Authentication* and choose -> *OpenID providers*.
 
 ## Add a new authentication application for oauth
@@ -171,6 +179,12 @@ Currently this is not possible through the user interface.
 
 But you can do it via the console as described [here](../../../installation-and-operations/misc/custom-openid-connect-providers/#custom-openid-connect-providers) where you can add `tenant` next to the other options like `host`, `identifier` and `secret`.
 
+## Custom OpenID Connect Providers
+
+You  can still use an arbitrary provider. But for the time being there is no user interface yet for this. That means you will have to do it directly using the console on the server or via environment variables.
+
+Please continue reading in the [Miscellaneous section of the Installation and Operations Guide](https://www.openproject.org/docs/installation-and-operations/misc/custom-openid-connect-providers/).
+
 ## Troubleshooting
 
 Q: After clicking on a provider badge, I am redirected to a signup form that says a user already exists with that login.
@@ -194,3 +208,6 @@ exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
+
+
+Note that this setting is set to true by default for new installations already.

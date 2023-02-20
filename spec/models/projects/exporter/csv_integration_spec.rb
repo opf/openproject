@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative 'exportable_project_context'
 
-describe Projects::Exports::CSV, 'integration', type: :model do
+describe Projects::Exports::CSV, 'integration' do
   include_context 'with a project with an arrangement of custom fields'
   include_context 'with an instance of the described exporter'
 
@@ -62,7 +62,7 @@ describe Projects::Exports::CSV, 'integration', type: :model do
 
   describe 'custom field columns selected' do
     before do
-      Setting.enabled_projects_columns += custom_fields.map { |cf| "cf_#{cf.id}" }
+      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do

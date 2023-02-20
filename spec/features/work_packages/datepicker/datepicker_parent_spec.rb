@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,15 @@ describe 'Datepicker logic on parents',
 
     it 'disables the non working days options' do
       datepicker.expect_ignore_non_working_days_disabled
+      datepicker.expect_scheduling_mode false
+
+      first_monday = Time.zone.today.beginning_of_month.next_occurring(:monday)
+      datepicker.expect_disabled(first_monday)
+
+      datepicker.toggle_scheduling_mode
+      datepicker.expect_scheduling_mode true
+
+      datepicker.expect_not_disabled(first_monday)
     end
   end
 end

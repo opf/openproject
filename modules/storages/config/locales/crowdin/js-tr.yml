@@ -5,6 +5,8 @@ tr:
       link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
       link_existing_files: "Mevcut dosyaları bağla"
       upload_files: "Dosyaları yükle"
+      drop_files: "%{name}'a yüklemek için dosyaları buraya bırakın."
+      drop_or_click_files: "Dosyaları %{name}'a yüklemek için buraya bırakın veya tıklayın."
       login: "%{storageType} oturum açma"
       login_to: "%{storageType}'da oturum açın"
       no_connection: "%{storageType} bağlantısı yok"
@@ -22,7 +24,15 @@ tr:
         no_file_links: "Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın."
         not_logged_in: >
           Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
+      files:
+        directory_not_writeable: "Bu klasöre dosya eklemek için izin almanız gerekmez."
+        dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
+        empty_folder: "Bu klasör boş.\n"
+        empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
+        file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
       file_links:
+        empty: >
+          Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
         download: "%{fileName} dosyasını indir"
         no_permission: "Bu dosyayı görme izniniz yok."
         open: 'Dosyayı depoda aç'
@@ -37,6 +47,12 @@ tr:
           zero: "Bağlanacak dosyaları seçin"
           one: "1 dosya bağla"
           other: "%{count} dosya bağla"
+        success_create:
+          one: "1 dosya bağlantısı başarıyla oluşturuldu."
+          other: "%{count} dosya bağlantısı başarıyla oluşturuldu."
+        upload_error: "'%{fileName}' dosyası yüklenirken bir hata oluştu."
+        link_uploaded_file_error: >
+          Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
         already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
         already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

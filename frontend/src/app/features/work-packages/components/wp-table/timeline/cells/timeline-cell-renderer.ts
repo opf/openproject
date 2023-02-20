@@ -144,7 +144,12 @@ export class TimelineCellRenderer {
     if (direction === 'left') {
       dates.startDate = moment(initialStartDate || initialDueDate).add(delta, 'days');
     } else if (direction === 'right') {
-      dates.dueDate = moment(initialDueDate || now).add(delta, 'days');
+      // When no due date is present and the start date is in the past,
+      // we assume the task hasn't finished yet, meaning the end date is not in the past.
+      // To cover this case we have to choose the start date, only when it's in the future,
+      // and choose now if the start date is in the past.
+      const calculatedDueDate = initialDueDate || (now > initialStartDate ? now : initialStartDate);
+      dates.dueDate = moment(calculatedDueDate).add(delta, 'days');
     } else if (direction === 'both') {
       if (initialStartDate) {
         dates.startDate = moment(initialStartDate).add(delta, 'days');
@@ -316,7 +321,7 @@ export class TimelineCellRenderer {
         break;
       }
       // Extend the duration if the currentDate is non-working
-      if (this.weekdayService.isNonWorkingDay(currentDate.toDate())) {
+      if (this.weekdayService.isNonWorkingDay(currentDate.toDate() || this.workPackageTimeline.isNonWorkingDay(currentDate.toDate()))) {
         duration += 1;
       }
     }
@@ -467,10 +472,11 @@ export class TimelineCellRenderer {
     const dates = (evOrDates instanceof MouseEvent)
       ? [this.cursorDateAndDayOffset(evOrDates, renderInfo)[0]]
       : evOrDates;
-    if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both' && this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate())) {
+    if (!renderInfo.workPackage.ignoreNonWorkingDays && direction === 'both'
+      && (this.weekdayService.isNonWorkingDay(dates[dates.length - 1].toDate() || this.workPackageTimeline.isNonWorkingDay(dates[dates.length - 1].toDate())))) {
       return false;
     }
-    return dates.some((date) => this.weekdayService.isNonWorkingDay(date.toDate()));
+    return dates.some((date) => (this.weekdayService.isNonWorkingDay(date.toDate()) || this.workPackageTimeline.isNonWorkingDay(date.toDate())));
   }
 
   /**

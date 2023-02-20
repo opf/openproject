@@ -51,7 +51,7 @@ it:
       type_link_text: "“Integrazione OpenProject”"
       name: "Dai al tuo archivio un nome in modo che gli utenti lo possano distinguere tra più archivi."
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
-      no_storage_set_up: "Non ci sono ancora archivi di file impostati."
+      no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
       setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
       setting_up_additional_storages_non_admin: "Gli amministratori possono impostare ulteriori archivi file in Amministrazione / Archivi file."
       setting_up_storages: "Per impostare archivi file, visita"
@@ -79,7 +79,7 @@ it:
     label_new_storage: "Nuovo archivio"
     label_storage: "Archivio"
     label_storages: "Archivi"
-    no_results: "Ancora nessun archivio configurato."
+    no_results: "Ancora nessun'archiviazione configurata."
     provider_types:
       label: "Tipo di fonte"
       nextcloud:

@@ -5,12 +5,12 @@ describe "multi select custom values", js: true do
   let(:type) { create :type }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:group_by) { Components::WorkPackages::GroupBy.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
   let(:user) { create :admin }
-  let(:cf_frontend) { "customField#{custom_field.id}" }
+  let(:cf_frontend) { custom_field.attribute_name(:camel_case) }
   let(:project) { create :project, types: [type] }
   let(:multi_value) { true }
 
@@ -30,7 +30,7 @@ describe "multi select custom values", js: true do
   end
 
   def table_edit_field(work_package)
-    field = wp_table.edit_field work_package, "customField#{custom_field.id}"
+    field = wp_table.edit_field work_package, custom_field.attribute_name(:camel_case)
     field.field_type = 'create-autocompleter'
     field
   end
@@ -62,7 +62,7 @@ describe "multi select custom values", js: true do
 
     describe 'in single view' do
       let(:edit_field) do
-        field = wp_page.edit_field "customField#{custom_field.id}"
+        field = wp_page.edit_field custom_field.attribute_name(:camel_case)
         field.field_type = 'create-autocompleter'
         field
       end
@@ -147,7 +147,7 @@ describe "multi select custom values", js: true do
 
         # Open split view
         split_view = wp_table.open_split_view work_package
-        field = SelectField.new(split_view.container, "customField#{custom_field.id}")
+        field = SelectField.new(split_view.container, custom_field.attribute_name(:camel_case))
 
         field.activate!
         field.unset_value "ham", multi: true
@@ -190,10 +190,10 @@ describe "multi select custom values", js: true do
       let(:wp2_field) { table_edit_field(work_package2) }
       let!(:query) do
         query = build(:query, user:, project:)
-        query.column_names = ['id', 'type', 'subject', "cf_#{custom_field.id}"]
+        query.column_names = ['id', 'type', 'subject', custom_field.column_name]
         query.filters.clear
         query.timeline_visible = false
-        query.sort_criteria = [["cf_#{custom_field.id}", 'asc']]
+        query.sort_criteria = [[custom_field.column_name, 'asc']]
 
         query.save!
         query

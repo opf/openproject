@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Work package filtering by user custom field', js: true do
   let(:project) { create :project }
   let(:type) { project.types.first }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let!(:user_cf) do
     create(:user_wp_custom_field).tap do |cf|
       type.custom_fields << cf
@@ -97,7 +97,7 @@ describe 'Work package filtering by user custom field', js: true do
 
     # Filtering by user
 
-    filters.add_filter_by(user_cf.name, 'is', [other_user.name], "customField#{user_cf.id}")
+    filters.add_filter_by(user_cf.name, 'is (OR)', [other_user.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder, work_package_group)
     wp_table.expect_work_package_listed(work_package_user)
@@ -112,20 +112,20 @@ describe 'Work package filtering by user custom field', js: true do
     wp_table.expect_work_package_listed(work_package_user)
 
     filters.open
-    filters.expect_filter_by(user_cf.name, 'is', [other_user.name], "customField#{user_cf.id}")
+    filters.expect_filter_by(user_cf.name, 'is (OR)', [other_user.name], "customField#{user_cf.id}")
 
     # Filtering by placeholder
 
-    filters.remove_filter "customField#{user_cf.id}"
-    filters.add_filter_by(user_cf.name, 'is', [placeholder_user.name], "customField#{user_cf.id}")
+    filters.remove_filter user_cf.attribute_name(:camel_case)
+    filters.add_filter_by(user_cf.name, 'is (OR)', [placeholder_user.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_user, work_package_group)
     wp_table.expect_work_package_listed(work_package_placeholder)
 
     # Filtering by group
 
-    filters.remove_filter "customField#{user_cf.id}"
-    filters.add_filter_by(user_cf.name, 'is', [group.name], "customField#{user_cf.id}")
+    filters.remove_filter user_cf.attribute_name(:camel_case)
+    filters.add_filter_by(user_cf.name, 'is (OR)', [group.name], user_cf.attribute_name(:camel_case))
 
     wp_table.ensure_work_package_not_listed!(work_package_user, work_package_placeholder)
     wp_table.expect_work_package_listed(work_package_group)

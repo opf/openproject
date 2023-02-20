@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,16 @@
 
 FactoryBot.define do
   factory :webdav_data, class: 'String' do
+    transient do
+      root_path { '' }
+      parent_path { '' }
+    end
+
     skip_create
 
     initialize_with do
+      base_path = File.join(root_path, '/remote.php/dav/files/admin', parent_path)
+
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].multistatus(
           'xmlns:d' => 'DAV:',
@@ -39,12 +46,13 @@ FactoryBot.define do
           'xmlns:nc' => 'http://nextcloud.org/ns'
         ) do
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/')
+            xml['d'].href(base_path)
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('6')
                 xml['oc'].size('20028269')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:27:36 GMT')
+                xml['oc'].permissions('RGDNVCK')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -57,12 +65,13 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/Folder1/')
+            xml['d'].href(File.join(base_path, 'Folder1', ''))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('11')
                 xml['oc'].size('6592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
+                xml['oc'].permissions('RGDNVCK')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -75,26 +84,47 @@ FactoryBot.define do
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/README.md')
+            xml['d'].href(File.join(base_path, 'Folder2', ''))
+            xml['d'].propstat do
+              xml['d'].prop do
+                xml['oc'].fileid('20')
+                xml['oc'].size('8592')
+                xml['d'].getlastmodified('Fri, 28 Oct 2022 14:43:26 GMT')
+                xml['oc'].permissions('RGDNV')
+                xml['oc'].send('owner-display-name', 'admin')
+              end
+              xml['d'].status('HTTP/1.1 200 OK')
+            end
+            xml['d'].propstat do
+              xml['d'].prop do
+                xml['d'].getcontenttype
+              end
+              xml['d'].status('HTTP/1.1 404 Not Found')
+            end
+          end
+          xml['d'].response do
+            xml['d'].href(File.join(base_path, 'README.md'))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('12')
                 xml['oc'].size('1024')
                 xml['d'].getcontenttype('text/markdown')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
+                xml['oc'].permissions('RGDNVW')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
           end
           xml['d'].response do
-            xml['d'].href('/remote.php/dav/files/admin/Manual.pdf')
+            xml['d'].href(File.join(base_path, 'Manual.pdf'))
             xml['d'].propstat do
               xml['d'].prop do
                 xml['oc'].fileid('13')
                 xml['oc'].size('12706214')
                 xml['d'].getcontenttype('application/pdf')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
+                xml['oc'].permissions('RGDNV')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -123,6 +153,7 @@ FactoryBot.define do
                 xml['oc'].fileid('11')
                 xml['oc'].size('6592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
+                xml['oc'].permissions('RGDNVCK')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -142,6 +173,7 @@ FactoryBot.define do
                 xml['oc'].size('2048')
                 xml['d'].getcontenttype('image/png')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
+                xml['oc'].permissions('RGDNVW')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -155,6 +187,7 @@ FactoryBot.define do
                 xml['oc'].size('22736218')
                 xml['d'].getcontenttype('audio/ogg')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
+                xml['oc'].permissions('RGDNVW')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')
@@ -168,6 +201,7 @@ FactoryBot.define do
                 xml['oc'].size('128')
                 xml['d'].getcontenttype('text/plain')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
+                xml['oc'].permissions('RGDNVW')
                 xml['oc'].send('owner-display-name', 'admin')
               end
               xml['d'].status('HTTP/1.1 200 OK')

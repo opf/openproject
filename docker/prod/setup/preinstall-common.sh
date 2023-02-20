@@ -42,6 +42,7 @@ apt-get install -y \
 	postgresql-13 \
 	postgresql-client-13 \
 	imagemagick \
+	memcached \
 	dotnet-runtime-6.0 # required for BIM edition
 
 # remove any existing cluster

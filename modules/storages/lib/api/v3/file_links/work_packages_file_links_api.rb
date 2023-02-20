@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,11 +30,7 @@
 # functionality from the Grape REST API framework. It is mounted in lib/api/v3/work_packages/work_packages_api.rb,
 # which puts the file_links namespace behind the provided namespace of the work packages api
 # -> /api/v3/work_packages/:id/file_links/...
-class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
-  # helpers is defined by the grape framework. They make methods from the
-  # module available from within the endpoint context.
-  helpers Storages::Peripherals::Scopes
-
+class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
   # The `:resources` keyword defines the API namespace -> /api/v3/work_packages/:id/file_links/...
   resources :file_links do
     # Get the list of FileLinks related to a work package, with updated information from Nextcloud.
@@ -51,29 +47,37 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < ::API::OpenProjectAPI
         raise ::API::Errors::InvalidQuery.new(message)
       end
 
-      # Get a (potentially huge...) list of all FileLinks for the work package.
-      file_links = query.results
-                        .where(id: visible_file_links
-                                     .where(container_id: @work_package.id, container_type: 'WorkPackage'))
-
-      # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
-      # We ignore the result, because partial errors (storage network issues) are written to each FileLink
-      service_result = ::Storages::FileLinkSyncService
-                         .new(user: current_user)
-                         .call(file_links)
-
+      result = if current_user.allowed_to?(:view_file_links, @work_package.project)
+                 # Get a (potentially huge...) list of all FileLinks for the work package.
+                 file_links = query.results.where(container_id: @work_package.id,
+                                                  container_type: 'WorkPackage',
+                                                  storage: @work_package.project.storages)
+                 # Synchronize with Nextcloud. StorageAPI has handled OAuth2 for us before.
+                 # We ignore the result, because partial errors (storage network issues) are written to each FileLink
+                 ::Storages::FileLinkSyncService
+                   .new(user: current_user)
+                   .call(file_links)
+                   .result
+               else
+                 []
+               end
       ::API::V3::FileLinks::FileLinkCollectionRepresenter.new(
-        service_result.result,
+        result,
         self_link: api_v3_paths.file_links(@work_package.id),
         current_user:
       )
     end
 
-    post &::API::V3::FileLinks::CreateEndpoint
+    post &::API::V3::FileLinks::WorkPackagesFileLinksCreateEndpoint
             .new(
               model: ::Storages::FileLink,
               parse_service: Storages::Peripherals::ParseCreateParamsService,
-              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
+              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter,
+              params_modifier: ->(params) do
+                params[:container_id] = work_package.id
+                params[:container_type] = work_package.class.name
+                params
+              end
             )
             .mount
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackageCollectionFromQueryService,
+describe API::V3::WorkPackageCollectionFromQueryService,
          type: :model do
   include API::V3::Utilities::PathHelper
 
@@ -169,7 +169,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
       stub_const('::API::V3::WorkPackages::WorkPackageCollectionRepresenter', mock_wp_representer)
       stub_const('::API::V3::WorkPackages::WorkPackageAggregationGroup', mock_aggregation_representer)
 
-      allow(::API::V3::UpdateQueryFromV3ParamsService)
+      allow(API::V3::UpdateQueryFromV3ParamsService)
         .to receive(:new)
         .with(query, user)
         .and_return(mock_update_query_service)
@@ -184,7 +184,7 @@ describe ::API::V3::WorkPackageCollectionFromQueryService,
 
       it 'is a WorkPackageCollectionRepresenter' do
         expect(subject)
-          .to be_a(::API::V3::WorkPackages::WorkPackageCollectionRepresenter)
+          .to be_a(API::V3::WorkPackages::WorkPackageCollectionRepresenter)
       end
 
       context 'work_packages' do

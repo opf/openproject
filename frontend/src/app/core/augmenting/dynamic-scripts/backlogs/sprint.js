@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,9 +59,17 @@ RB.Sprint = (function ($) {
     },
 
     saveDirectives: function () {
-      var j = this.$,
-          data = j.find('.editor').serialize() + "&_method=put",
-          url = RB.urlFor('update_sprint', { id: this.getID() });
+      const wrapper = this.$;
+      const editor = wrapper.find('.editor');
+      const inputs = editor.map((i, el) => {
+        if (el.matches('op-single-date-picker')) {
+          return Array.from(el.querySelectorAll('input'));
+        }
+
+        return el;
+      });
+      const data = inputs.serialize() + "&_method=put";
+      const url = RB.urlFor('update_sprint', { id: this.getID() });
 
       return {
         url : url,

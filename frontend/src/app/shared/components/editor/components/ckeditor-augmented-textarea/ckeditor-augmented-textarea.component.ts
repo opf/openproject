@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -175,19 +175,9 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     return editor;
   }
 
-  private stopDragging() {
-    // The attachment list listens globally for drag events, but when
-    // an item gets dropped in the editor, this event never makes it to the list.
-    // Manually dispatching the event makes sure the `op-attachments` component
-    // knows we are certainly not dragging anymore.
-    const event = new DragEvent('dragleave');
-    document.body.dispatchEvent(event);
-  }
-
   private setupAttachmentAddedCallback(editor:ICKEditorInstance) {
     editor.model.on('op:attachment-added', () => {
       this.states.forResource(this.resource!)!.putValue(this.resource);
-      this.stopDragging();
     });
   }
 
@@ -210,7 +200,6 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
         }
 
         this.attachments = _.clone(resource!.attachments.elements);
-        this.stopDragging();
       });
   }
 

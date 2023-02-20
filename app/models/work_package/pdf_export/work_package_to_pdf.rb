@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,7 +252,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
       pdf.font style: :italic, size: 8
       journal.details.each do |detail|
         text = journal
-          .render_detail(detail, no_html: true, only_path: false)
+          .render_detail(detail, html: false, only_path: false)
           .gsub(/\((https?[^)]+)\)$/, "(<link href='\\1'>\\1</link>)")
 
         pdf.text('- ' + text, inline_format: true)

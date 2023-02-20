@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -334,6 +334,7 @@ nl:
   wiki:
     page_not_editable_index: De opgevraagde pagina bestaat (nog) niet. Je bent doorverwezen naar de index van alle wiki-pagina's.
     no_results_title_text: Er zijn momenteel geen wiki-pagina's.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Voeg een nieuwe wiki-pagina toe
   work_flows:
@@ -372,7 +373,7 @@ nl:
   account:
     delete: "Account Verwijderen"
     delete_confirmation: "Weet je zeker dat je dit account wilt verwijderen?"
-    deleted: "Account met succes verwijderd"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail, voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items niet kunnen worden verwijderd zonder het belemmeren van het werk van de andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan een account genaamd \"Verwijderde gebruiker\". Zodra de gegevens van elk verwijderd account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een ander verwijderd account."
@@ -467,14 +468,24 @@ nl:
       member:
         roles: "Rollen"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifier"
         latest_activity_at: "Laatste activiteit om"
         parent: "Subproject van"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Query 's"
+        templated: "Projectsjabloon"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typen"
         versions: "Versies"
         work_packages: "Werkpakketten"
-        templated: 'Projectsjabloon'
       projects/status:
         code: 'Status'
         explanation: 'Status beschrijving'
@@ -634,7 +645,7 @@ nl:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -686,6 +697,11 @@ nl:
               no_notification_reason: 'mag niet leeg zijn omdat IAN is gekozen als een kanaal.'
             reason_mail_digest:
               no_notification_reason: 'mag niet leeg zijn omdat mail digest is gekozen als een kanaal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +712,8 @@ nl:
           archived_ancestor: 'Het project heeft een gearchiveerde voorouder.'
           foreign_wps_reference_version: 'Werkpakketten in niet-onderliggende projecten verwijzen naar versies van het project of zijn afstammelingen.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "nog steeds in gebruik door werkpakketten: %{types}"
             enabled_modules:
@@ -891,6 +909,15 @@ nl:
   activity:
     created: "Gemaakt: %{title}"
     updated: "Bijgewerkt: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Actief"
@@ -1026,6 +1053,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
+  button_apply_changes: "Apply changes"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
   button_sort: "Sorteren"
@@ -1321,16 +1349,19 @@ nl:
   error_external_authentication_failed: "Er is een fout opgetreden tijdens de externe verificatie. Probeer het opnieuw."
   error_attribute_not_highlightable: "Attribute(s) niet markeerbaar: %{attributes}"
   events:
-    project: 'Project bewerkt'
     changeset: 'Wijzigingsset bewerkt'
     message: Bericht bewerkt
     news: Nieuws
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Beantwoord
     time_entry: 'Tijdlog bewerkt'
     wiki_page: 'Wiki-pagina bewerkt'
     work_package_closed: 'Werkpakket gesloten'
     work_package_edit: 'Werkpakket bewerkt'
     work_package_note: 'Werkpakket notitie toegevoegd'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Uw werkpakketten exporteren"
     succeeded: "Het exporteren is voltooid."
@@ -1742,6 +1773,10 @@ nl:
   label_not_contains: "bevat geen"
   label_not_equals: "is niet"
   label_on: "op"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Menu openen"
   label_open_work_packages: "Open"
   label_open_work_packages_plural: "Open"
@@ -1783,6 +1818,8 @@ nl:
   label_product_version: "Versie van het product"
   label_professional_support: "Professionele ondersteuning"
   label_profile: "Profiel"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totale aantal projecten"
   label_project_copy_notifications: "Verzenden van e-mailmeldingen tijdens het project kopiëren"
   label_project_latest: "Meest recente projecten"
@@ -2072,8 +2109,6 @@ nl:
   mail_subject_incoming_email_error: "Een e-mail die u naar OpenProject heeft verzonden kon niet worden verwerkt"
   mail_subject_lost_password: "Uw wachtwoord %{value}"
   mail_subject_register: "Uw %{value} account activatie"
-  mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days} dagen"
-  mail_subject_group_reminder: "Voor groep \"%{group}\" %{count} werkpakket(ten) te doen in de komende %{days} dagen"
   mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
   mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
   mail_member_added_project:
@@ -2206,6 +2241,7 @@ nl:
   permission_add_work_packages: "Werkpakketten toevoegen"
   permission_add_messages: "Berichten posten"
   permission_add_project: "Project Aanmaken"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Gebruikers aanmaken en bewerken"
   permission_manage_placeholder_user: "Maak, bewerk en verwijder tijdelijke gebruikers"
   permission_add_subprojects: "Subprojecten maken"
@@ -2940,15 +2976,20 @@ nl:
       title: "Werkpakket verwijderen"
   working_days:
     info: >
-      <b>Definieer de werkdagen van de week</b><br/> Niet-werkdagen worden overgeslagen bij het plannen van werkpakketten en worden uitgesloten bij het berekenen van de duur. Dit kan op werkpakketniveau worden overschreven.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Wijzig werkdagen"
     warning: >
-      Veranderen van welke dagen van de week als werkdagen worden beschouwd, kan van invloed zijn op de begin- en einddagen van alle werkpakketten in deze instantie.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Werkdagen** veranderd (%{changes})._
       days:
         working: "%{day} werkt nu"
         non_working: "%{day} is nu niet actief"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Niets om te bekijken"
   api_v3:
     attributes:

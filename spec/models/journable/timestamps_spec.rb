@@ -26,10 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable RSpec/ClassCheck
-#   Prefer `kind_of?` over `is_a?` because it reads well before vowel and consonant sounds.
-#   E.g.: `relation.kind_of? ActiveRecord::Relation`
-
 require 'spec_helper'
 
 describe Journable::Timestamps do
@@ -87,16 +83,16 @@ describe Journable::Timestamps do
       subject { WorkPackage.at_timestamp(timestamp) }
 
       it "returns a historic active-record relation" do
-        expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-        expect(subject).to be_kind_of ActiveRecord::Relation
+        expect(subject).to be_a Journable::HistoricActiveRecordRelation
+        expect(subject).to be_an ActiveRecord::Relation
       end
 
       describe "chaining a where clause" do
         subject { WorkPackage.at_timestamp(timestamp).where(assigned_to_id: 1) }
 
         it "still returns a historic active-record relation" do
-          expect(subject).to be_kind_of Journable::HistoricActiveRecordRelation
-          expect(subject).to be_kind_of ActiveRecord::Relation
+          expect(subject).to be_a Journable::HistoricActiveRecordRelation
+          expect(subject).to be_an ActiveRecord::Relation
         end
       end
 
@@ -356,7 +352,7 @@ describe Journable::Timestamps do
 
           it "returns an error because maximum returns a float rather than a relation" do
             expect { subject }.to raise_error NoMethodError
-            expect(WorkPackage.maximum(:estimated_hours)).to be_kind_of Float
+            expect(WorkPackage.maximum(:estimated_hours)).to be_a Float
           end
         end
       end
@@ -644,7 +640,50 @@ describe Journable::Timestamps do
         end
       end
     end
+
+    describe "#position (unjournalized column)" do
+      let(:timestamp) { monday }
+      let(:position) { 42 }
+
+      before do
+        work_package.update_attribute :position, position
+      end
+
+      describe "when retrieving the position of the current (nin-historic) record" do
+        subject { work_package.position }
+
+        it "returns the value of the work_packages table" do
+          expect(subject).to eq position
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "does not print a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).not_to have_received(:warn).with(/position/)
+        end
+      end
+
+      describe "when retrieving the position of a historic record" do
+        subject { work_package.at_timestamp(timestamp).position }
+
+        it "returns nil" do
+          expect(subject).to be_nil
+        end
+
+        it "does not raise an error" do
+          expect { subject }.not_to raise_error
+        end
+
+        it "prints a warning" do
+          allow(Rails.logger).to receive(:warn)
+          subject
+          expect(Rails.logger).to have_received(:warn).with(/position/)
+        end
+      end
+    end
   end
 end
-
-# rubocop:enable RSpec/ClassCheck

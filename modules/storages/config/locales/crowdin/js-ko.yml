@@ -5,6 +5,8 @@ ko:
       link_files_in_storage: "%{storageType}의 파일 연결"
       link_existing_files: "기존 파일 연결"
       upload_files: "Upload files"
+      drop_files: "Drop files here to upload them to %{name}."
+      drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} 로그인"
       login_to: "%{storageType}에 로그인"
       no_connection: "%{storageType} 연결 없음"
@@ -22,7 +24,15 @@ ko:
         no_file_links: "이 작업 패키지에 파일을 연결하려면 %{storageType}을(를) 통해 연결하세요."
         not_logged_in: >
           링크를 추가하거나, 이 작업 패키지와 관련된 파일을 보거나 업로드하려면 %{storageType}에 로그인하세요.
+      files:
+        directory_not_writeable: "You do not have to permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
       file_links:
+        empty: >
+          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "%{fileName} 다운로드"
         no_permission: "이 파일을 볼 수 있는 권한이 없습니다."
         open: '저장소의 파일 열기'
@@ -36,6 +46,11 @@ ko:
         selection:
           zero: "Select files to link"
           other: "Link %{count} files"
+        success_create:
+          other: "Successfully created %{count} file links."
+        upload_error: "An error occurred uploading the file '%{fileName}'."
+        link_uploaded_file_error: >
+          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "이 파일에 액세스하려면 Nextcloud에 로그인하세요"
         already_linked_file: "이 파일은 이미 이 작업 패키지에 연결되어 있습니다."
         already_linked_directory: "이 디렉터리는 이미 이 작업 패키지에 연결되어 있습니다."

@@ -9,8 +9,9 @@ keywords: manage groups
 # Manage Groups
 
 <div class="glossary">
-A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in *Administration -> Users and permissions -> Groups*.
+A **Group** is defined as a list of users which can be assigned to a project with a selected role. New groups can be defined in **Administration -> Users and permissions -> Groups**.
 </div>
+
 
 OpenProject allows creating tailored project member **groups**, which  grant additional permissions to individual users within a project. Instead of adding individual users to a project you can add a user group, e.g. Marketing. You can edit existing groups, create new ones, add and remove users or delete groups.
 
@@ -20,9 +21,9 @@ After selecting **Groups** from the administration menu a list of the existing g
 
 Click the green **+ Group** button to create a new group.
 
-![create groups](image-20200211142053557.png)
+![create groups](create-new-group.png)
 
-![no existing groups](image-20200115164118182.png)
+![no existing groups](no-groups-yet.png)
 
 Give a name for your new group, which must be unique, and click the blue **Create** button.
 
@@ -32,7 +33,7 @@ Give a name for your new group, which must be unique, and click the blue **Creat
 
 You can add users to a group and edit a group by clicking on the **name of the group** (1) and  delete the group by clicking on **delete** icon in the respective line (2).
 
-![Sys-admin-edit-groups](Sys-admin-edit-groups.png)
+![Sys-admin-edit-groups](system-guide-edit-groups.png)
 
 After clicking on a group's name, you can **change the group name**, **add or remove group members** and **assign groups to projects**.
 
@@ -42,7 +43,7 @@ After clicking on a group's name, you can **change the group name**, **add or re
 
 ### Add users to a group
 
-Click the **Users** tab. Select the users you want to add to this group from the "New user" drop-down list. Click the blue **Add** button. Users already in the group are not shown in the list. Click the "X" next to a user to remove that user from the group.
+Click the **Users** tab. Select the users you want to add to this group from the **New user** drop-down list. Click the blue **Add** button. Users already in the group are not shown in the list. Click the **X** next to a user to remove that user from the group.
 
 ![add-users-to-group](image-20210302095755016.png)
 
@@ -52,13 +53,13 @@ Removing a user from a group removes the role from that user in any project usin
 
 ### Add a group to projects
 
-Click the **Projects** tab. Select the projects you want to add this group to from the "New project" drop-down list. Tick the roles that you want the group to have. Click the blue **Add** button. Users in the group are added to that project's members using the role selected.
+Click the **Projects** tab. Select the projects you want to add this group to from the **New project** drop-down list. Tick the roles that you want the group to have. Click the blue **Add** button. Users in the group are added to that project's members using the role selected.
 
 ### Add global roles to a group
 
 Click the **Global Roles** tab. Select the global roles you want to add to this group. Click the **Add** button.
 
-In order to add a global role to a group, at least one global role needs to be [created](../roles-permissions) in the system (a role with the "Global role" field ticked).
+In order to add a global role to a group, at least one global role needs to be [created](../roles-permissions) in the system (a role with the **Global role** field ticked).
 
 ### Delete a group
 

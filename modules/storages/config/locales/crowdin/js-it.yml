@@ -5,6 +5,8 @@ it:
       link_files_in_storage: "Collega file in %{storageType}"
       link_existing_files: "Collega file esistenti"
       upload_files: "Caricare i files"
+      drop_files: "Rilascia qui i file per caricarli su %{name}."
+      drop_or_click_files: "Rilascia qui i file o clicca per caricarli su %{name}."
       login: "Accesso %{storageType}"
       login_to: "Accedi a %{storageType}"
       no_connection: "Nessuna connessione %{storageType}"
@@ -22,7 +24,15 @@ it:
         no_file_links: "Per collegare i file a questa macro-attività, farlo tramite %{storageType}."
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
+      files:
+        directory_not_writeable: "Non sei autorizzato ad aggiungere file a questa cartella."
+        dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
       file_links:
+        empty: >
+          Correntemente, non esiste alcun file collegato a questo pacchetto di lavoro. Inizia a collegare i file con l'azione seguente o dall'interno di %{storageType}.
         download: "Scarica %{fileName}"
         no_permission: "Non hai i permessi per accedere al file."
         open: 'Apri file su memoria'
@@ -37,6 +47,12 @@ it:
           zero: "Seleziona i files da collegare"
           one: "Collega %{count} files"
           other: "Collega %{number} file"
+        success_create:
+          one: "1 link del file creato correttamente."
+          other: "%{count} link di file creati correttamente."
+        upload_error: "Si è verificato un errore caricando il file '%{fileName}'."
+        link_uploaded_file_error: >
+          Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

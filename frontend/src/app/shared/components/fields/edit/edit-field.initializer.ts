@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ import { WorkPackageCommentFieldComponent } from 'core-app/features/work-package
 import { ProjectEditFieldComponent } from './field-types/project-edit-field.component';
 import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { UserEditFieldComponent } from './field-types/user-edit-field.component';
-import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return ():void => {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@ require 'rake'
 
 ##
 # Invoke a rake task while safely loading the tasks only once
-# to ensure they are neither loaded nor executed twice.
+# to ensure they are only loaded once.
 module RakeJob
   attr_reader :task_name, :args
 
@@ -46,6 +46,8 @@ module RakeJob
   def invoke
     load_tasks!
     task.invoke *args
+  ensure
+    task&.reenable
   end
 
   ##

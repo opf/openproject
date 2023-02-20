@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::Utilities::ResourceLinkParser do
+describe API::Utilities::ResourceLinkParser do
   subject { described_class }
 
   describe '#parse' do
@@ -137,13 +137,13 @@ describe ::API::Utilities::ResourceLinkParser do
     it 'raises on version mismatch' do
       expect do
         subject.parse_id('/api/v4/statuses/14', property: 'foo', expected_version: '3')
-      end.to raise_error(::API::Errors::InvalidResourceLink)
+      end.to raise_error(API::Errors::InvalidResourceLink)
     end
 
     it 'raises on namespace mismatch' do
       expect do
         subject.parse_id('/api/v3/types/14', property: 'foo', expected_namespace: 'statuses')
-      end.to raise_error(::API::Errors::InvalidResourceLink)
+      end.to raise_error(API::Errors::InvalidResourceLink)
     end
 
     it 'contains the property name in exception messages' do

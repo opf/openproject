@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::CustomField, type: :model do
+describe CustomActions::Actions::CustomField do
   let(:list_custom_field) do
     build_stubbed(:list_wp_custom_field,
                   custom_options: [build_stubbed(:custom_option, value: 'A'),
@@ -85,7 +85,7 @@ describe CustomActions::Actions::CustomField, type: :model do
       .with(id: custom_field.id.to_s)
       .and_return(custom_field)
 
-    described_class.for(:"custom_field_#{custom_field.id}")
+    described_class.for(custom_field.attribute_name)
   end
   let(:instance) do
     klass.new
@@ -105,22 +105,23 @@ describe CustomActions::Actions::CustomField, type: :model do
       expect(described_class.all.map(&:custom_field))
         .to match_array(custom_fields)
 
-      expect(described_class.all.all? { |a| described_class >= a })
-        .to be_truthy
+      described_class.all.each do |subclass|
+        expect(subclass.ancestors).to include(described_class)
+      end
     end
   end
 
   describe '.key' do
     it 'is the custom field accessor' do
       expect(klass.key)
-        .to eql(:"custom_field_#{custom_field.id}")
+        .to eql(custom_field.attribute_getter)
     end
   end
 
   describe '#key' do
     it 'is the custom field accessor' do
       expect(instance.key)
-        .to eql(:"custom_field_#{custom_field.id}")
+        .to eql(custom_field.attribute_getter)
     end
   end
 
@@ -334,7 +335,7 @@ describe CustomActions::Actions::CustomField, type: :model do
       end
     end
 
-    context 'for a non multi value field' do
+    context 'for a multi value field' do
       let(:custom_field) { list_multi_custom_field }
 
       it 'is true' do
@@ -477,6 +478,8 @@ describe CustomActions::Actions::CustomField, type: :model do
     end
 
     context 'for a multi list custom field' do
+      let(:custom_field) { list_multi_custom_field }
+
       it_behaves_like 'associated custom action validations' do
         let(:allowed_values) do
           custom_field
@@ -571,7 +574,7 @@ describe CustomActions::Actions::CustomField, type: :model do
   end
 
   describe '#apply' do
-    let(:work_package) { double('work_package') }
+    let(:work_package) { build(:work_package) }
 
     %i[list
        version
@@ -586,13 +589,15 @@ describe CustomActions::Actions::CustomField, type: :model do
       let(:custom_field) { send(:"#{type}_custom_field") }
 
       it "sets the value for #{type} custom fields" do
-        expect(work_package)
-          .to receive(:"custom_field_#{custom_field.id}=")
-          .with([42])
+        allow(work_package)
+          .to receive(custom_field.attribute_setter)
 
         instance.values = 42
-
         instance.apply(work_package)
+
+        expect(work_package)
+          .to have_received(custom_field.attribute_setter)
+          .with([42])
       end
     end
 
@@ -600,13 +605,15 @@ describe CustomActions::Actions::CustomField, type: :model do
       let(:custom_field) { date_custom_field }
 
       it "sets the value to today for a dynamic value" do
-        expect(work_package)
-          .to receive(:"custom_field_#{custom_field.id}=")
-                .with(Date.today)
+        allow(work_package)
+          .to receive(custom_field.attribute_setter)
 
         instance.values = '%CURRENT_DATE%'
-
         instance.apply(work_package)
+
+        expect(work_package)
+          .to have_received(custom_field.attribute_setter)
+                .with(Date.current)
       end
     end
   end

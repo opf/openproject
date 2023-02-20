@@ -251,6 +251,10 @@ paths:
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
     "$ref": "./paths/notification_unread.yml"
+  "/api/v3/oauth_applications/{id}":
+    "$ref": "./paths/oauth_application.yml"
+  "/api/v3/oauth_client_credentials/{id}":
+    "$ref": "./paths/oauth_client_credentials.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -353,10 +357,16 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages":
+    "$ref": "./paths/storages.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files/prepare_upload":
+    "$ref": "./paths/storage_files_prepare_upload.yml"
+  "/api/v3/storages/{id}/oauth_client_credentials":
+    "$ref": "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -431,8 +441,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/update_file_links":
-    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -576,8 +584,6 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-    FileCollectionModel:
-      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -642,6 +648,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NonWorkingDayCollectionModel:
+      "$ref": "./components/schemas/non_working_day_collection_model.yml"
     NonWorkingDayModel:
       "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
@@ -652,6 +660,12 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
+    OAuthApplicationReadModel:
+      "$ref": "./components/schemas/oauth_application_read_model.yml"
+    OAuthClientCredentialsReadModel:
+      "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
+    OAuthClientCredentialsWriteModel:
+      "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
@@ -732,40 +746,30 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
-    StorageModel:
-      "$ref": "./components/schemas/storage_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
-    StorageFileLocationModel:
-      "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageFilesModel:
+      "$ref": "./components/schemas/storage_files_model.yml"
+    StorageFileUploadPreparationModel:
+      "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
+    StorageFileUploadLinkModel:
+      "$ref": "./components/schemas/storage_file_upload_link_model.yml"
+    StorageReadModel:
+      "$ref": "./components/schemas/storage_read_model.yml"
+    StorageWriteModel:
+      "$ref": "./components/schemas/storage_write_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
-    Time_entry_create_form:
-      "$ref": "./components/schemas/time_entry_create_form.yml"
-    Time_entry_update_form:
-      "$ref": "./components/schemas/time_entry_update_form.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
       "$ref": "./components/schemas/types_model.yml"
     Types_by_ProjectModel:
       "$ref": "./components/schemas/types_by_project_model.yml"
-    Unlock_user:
-      "$ref": "./components/schemas/unlock_user.yml"
     Unstar_QueryModel:
       "$ref": "./components/schemas/unstar_query_model.yml"
-    Update_User:
-      "$ref": "./components/schemas/update_user.yml"
-    Update_group:
-      "$ref": "./components/schemas/update_group.yml"
-    Update_membership:
-      "$ref": "./components/schemas/update_membership.yml"
-    Update_project:
-      "$ref": "./components/schemas/update_project.yml"
-    Update_time_entry:
-      "$ref": "./components/schemas/update_time_entry.yml"
     UserCollectionModel:
       "$ref": "./components/schemas/user_collection_model.yml"
     UserCreateModel:
@@ -774,8 +778,6 @@ components:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
       "$ref": "./components/schemas/user_preferences_model.yml"
-    User_PreferenceModel:
-      "$ref": "./components/schemas/user_preference_model.yml"
     ValuesPropertyModel:
       "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:
@@ -856,6 +858,7 @@ tags:
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"
+  - "$ref": "./tags/oauth.yml"
   - "$ref": "./tags/posts.yml"
   - "$ref": "./tags/principals.yml"
   - "$ref": "./tags/priorities.yml"

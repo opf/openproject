@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,14 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% group_permissions_by_module(@permissions).each do |mod, mod_permissions| %>
     <% module_name = mod.blank? ? "form--" + I18n.t('attributes.project') : "form--" + l_or_humanize(mod, prefix: 'project_module_').gsub(' ','_') %>
-    <fieldset class="form--fieldset -collapsible" id= "<%= module_name %>">
+    <% escaped_name = module_name.parameterize %>
+    <fieldset class="form--fieldset -collapsible" id= "<%= escaped_name %>">
       <legend class="form--fieldset-legend" >
         <%= mod.blank? ? I18n.t('attributes.project') : l_or_humanize(mod, prefix: 'project_module_') %>
       </legend>
       <div class="form--toolbar">
         <span class="form--toolbar-item">
-          (<%= check_all_links module_name %>)
+          (<%= check_all_links escaped_name %>)
         </span>
       </div>
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -224,14 +224,14 @@ es:
           status_label: "Estado:"
           status_confirmed: "confirmado"
           status_waiting: "correo electrónico enviado - esperando confirmación"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Pruebe la edición Enterprise de forma gratuita durante 14 días"
+          quick_overview: "Obtenga un resumen rápido sobre la gestión de proyectos y la colaboración en equipo con OpenProject edición Enterprise."
         upsale:
           become_hero: "¡Conviértete en un héroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} es un add-on de la edición Enterprise <span class='spot-icon spot-icon_enterprise-badge'></span>."
           upgrade_info: "Actualice a un plan de pago para activarla y empiece a usarla en su equipo."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "¿Cuáles son las ventajas de la edición Enterprise on-premises?"
             high_security: "Funcionalidades de seguridad"
             high_security_text: "Inicio de sesión único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Ayuda en la instalación"
@@ -249,9 +249,23 @@ es:
           link_quote: "Solicitar presupuesto"
           more_info: "Más información"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'en'
@@ -280,7 +294,7 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
+      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar este add-on."
       upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
@@ -300,15 +314,11 @@ es:
           learn_about: "Más información sobre las nuevas funcionalidades"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -475,10 +485,10 @@ es:
     label_custom_queries: "Privado"
     label_columns: "Columnas"
     label_attachments: Archivos adjuntos
-    label_drop_files: Suelta los archivos aquí
-    label_drop_files_hint: o haga clic en agregar archivos
+    label_drop_files: "Arrastra archivos aquí para adjuntarlos."
+    label_drop_or_click_files: "Arrastra los archivos o haz clic aquí para adjuntar archivos."
     label_drop_folders_hint: No se pueden cargar carpetas como archivos adjuntos. Seleccione archivos individuales.
-    label_add_attachments: "Añadir archivos adjuntos"
+    label_add_attachments: "Adjuntar archivos"
     label_formattable_attachment_hint: "Para adjuntar y vincular archivos, colóquelos en este campo o péguelos desde el portapapeles."
     label_remove_file: "Eliminar %{fileName}"
     label_remove_watcher: "Eliminar observador %{name}"
@@ -572,7 +582,7 @@ es:
           one: 'y 1 más'
           other: 'y %{count} más'
         no_results:
-          at_all: 'Las nuevas notificaciones aparecerán aquí cuando haya alguna actividad que te concierna, mientras tanto, también puedes ver y modificar la configuración de las notificaciones y modificar cuándo quieres ser notificado.'
+          at_all: 'Aquí se mostrarán las nuevas notificaciones cuando haya actividad que le resulte pertinente.'
           with_current_filter: 'No hay notificaciones en esta vista actualmente'
         mark_all_read: 'Marcar todas como leídas'
         mark_as_read: 'Marcar como leída'
@@ -595,7 +605,7 @@ es:
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
       settings:
-        change_notification_settings: 'Para ver y cambiar los ajustes de notificaciones, <a target="_blank" href="%{url}">haga clic aquí</a>'
+        change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
         notify_me: "Notifícame"
         reminders:
@@ -657,6 +667,7 @@ es:
     project:
       required_outside_context: >
         Seleccione el proyecto donde quiere crear el paquete de trabajo para ver todos los atributos. Solo puede seleccionar proyectos que tengan activado el tipo de paquete utilizado.
+      details_activity: 'Actividad de detalles del proyecto'
       context: 'Contexto del proyecto'
       work_package_belongs_to: 'Este paquete de trabajo pertenece al proyecto %{projectname}.'
       click_to_switch_context: 'Abra este paquete de trabajo en ese proyecto.'
@@ -707,8 +718,8 @@ es:
         reset_title: "Restablecer la configuración del formulario"
         confirm_reset: >
           Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Actualizar a edición Enterprise on-premises"
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de la edición Enterprise?"
         more_information: "Más información"
         nevermind: "No importa"
       edit:
@@ -855,7 +866,7 @@ es:
       zooms: "Nivel de zoom"
       outlines: "Nivel de jerarquía"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Add-on de la edición Enterprise'
     wiki_formatting:
       strong: "Negrita"
       italic: "Cursiva"
@@ -1046,7 +1057,7 @@ es:
         upsale:
           attribute_highlighting: '¿Necesita que algunos paquetes de trabajo destaquen del resto?'
           relation_columns: '¿Necesita ver las relaciones en la lista de paquetes de trabajo?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Echa un vistazo a la edición Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar paquetes de trabajo por tipo de relación'
       tabs:
@@ -1055,7 +1066,6 @@ es:
         relations: Relaciones
         watchers: Observadores
         files: Archivos
-        files_tab_migration_help: 'Ahora puede adjuntar archivos a los paquetes de trabajo desde la nueva pestaña:'
       time_relative:
         days: "días"
         weeks: "semanas"
@@ -1190,9 +1200,9 @@ es:
           description: 'Permisos basados en el rol asignado en el proyecto seleccionado'
         placeholder:
           title: 'Usuario de marcador de posición'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Usuario de marcador de posición (add-on solo para edición Enterprise)'
           description: 'No tiene acceso al proyecto y no se enviarán correos electrónicos.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'No tiene acceso al proyecto y no se enviarán correos electrónicos. <br>Consulte <a href="%{eeHref}" target="_blank">edición Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nombre o dirección de correo electrónico'
@@ -1251,4 +1261,5 @@ es:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Cerrar'

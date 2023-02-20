@@ -6,7 +6,7 @@ import {
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import {
-  FormGroup,
+  UntypedFormGroup,
   FormGroupDirective,
 } from '@angular/forms';
 
@@ -31,7 +31,7 @@ export const emailAlerts:EmailAlertType[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmailAlertsSettingsComponent implements OnInit {
-  form:FormGroup;
+  form:UntypedFormGroup;
 
   alerts:EmailAlertType[] = emailAlerts;
 
@@ -56,6 +56,6 @@ export class EmailAlertsSettingsComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.form = this.rootFormGroup.control.get('emailAlerts') as FormGroup;
+    this.form = this.rootFormGroup.control.get('emailAlerts') as UntypedFormGroup;
   }
 }

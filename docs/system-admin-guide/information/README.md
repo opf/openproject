@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Information
-  priority: 500
+  priority: 300
 description: System information in OpenProject.
 keywords: system information
 ---

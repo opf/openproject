@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,13 @@ module Projects
     private
 
     def manage_permission
-      :edit_project
+      if changed_by_user == ["active"]
+        :archive_project
+      else
+        # if "active" is changed, :archive_project permission will also be
+        # checked in `Projects::BaseContract#validate_changing_active`
+        :edit_project
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,7 +88,7 @@ describe OpenProject::SCM::Adapters::Git do
     describe 'invalid repository' do
       describe '.check_availability!' do
         it 'is not available' do
-          expect(Dir.exists?(url)).to be false
+          expect(Dir.exist?(url)).to be false
           expect(adapter).not_to be_available
           expect { adapter.check_availability! }
             .to raise_error(OpenProject::SCM::Exceptions::SCMUnavailable)
@@ -121,7 +121,7 @@ describe OpenProject::SCM::Adapters::Git do
 
         describe 'Git version compatibility' do
           before do
-            allow(::Open3).to receive(:capture2e).and_return(output, nil)
+            allow(Open3).to receive(:capture2e).and_return(output, nil)
           end
 
           context 'older Git version' do
@@ -155,7 +155,7 @@ describe OpenProject::SCM::Adapters::Git do
         end
 
         it 'is a valid repository' do
-          expect(Dir.exists?(repo_dir)).to be true
+          expect(Dir.exist?(repo_dir)).to be true
 
           out, process = Open3.capture2e('git', '--git-dir', repo_dir, 'branch')
           expect(process.exitstatus).to eq(0)

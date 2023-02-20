@@ -5,7 +5,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectAutocompleterModule } from 'core-app/shared/components/autocompleter/openproject-autocompleter.module';
 import { UserPreferencesService } from 'core-app/features/user-preferences/state/user-preferences.service';
 import { NotificationsSettingsPageComponent } from 'core-app/features/user-preferences/notifications-settings/page/notifications-settings-page.component';
@@ -38,7 +38,7 @@ import { PauseRemindersComponent } from './reminder-settings/pause-reminders/pau
   ],
   imports: [
     CommonModule,
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectAutocompleterModule,
     FormsModule,
     ReactiveFormsModule,

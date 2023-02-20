@@ -31,19 +31,14 @@ Rails.application.config.after_initialize do
     # Rules for media (e.g. video sources)
     media_src = default_src
 
-    if OpenProject::Configuration.sentry_frontend_dsn.present?
-      connect_src += [OpenProject::Configuration.sentry_host]
-    end
-
     if OpenProject::Configuration.appsignal_frontend_key
       connect_src += ['https://appsignal-endpoint.net']
     end
 
     # Add proxy configuration for Angular CLI to csp
     if FrontendAssetHelper.assets_proxied?
-      proxied = ['ws://localhost:3000', 'http://localhost:3000',
-                 'ws://localhost:4200', 'http://localhost:4200',
-                 FrontendAssetHelper.cli_proxy]
+      proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
+                 FrontendAssetHelper.cli_proxy.sub('http', 'ws'), FrontendAssetHelper.cli_proxy]
       connect_src += proxied
       assets_src += proxied
       media_src += proxied

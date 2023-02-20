@@ -95,7 +95,7 @@ class DateEditField < EditField
     if active?
       modal_element.find(input_selector)
     else
-      page.find(".#{property_name} input")
+      page.find(".#{property_name} .spot-input")
     end
   end
 
@@ -151,7 +151,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(page).to have_selector(".#{property_name} input", value:)
+    expect(page).to have_selector(".#{property_name} .spot-input", value: value)
   end
 
   def set_active_date(value)

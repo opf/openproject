@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'form query configuration', type: :feature, js: true do
+describe 'form query configuration', js: true do
   shared_let(:admin) { create :admin }
   let(:type_bug) { create :type_bug }
   let(:type_task) { create :type_task }
@@ -79,10 +79,10 @@ describe 'form query configuration', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:form) { Components::Admin::TypeConfigurationForm.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   describe "with EE token" do
     before do
@@ -98,7 +98,7 @@ describe 'form query configuration', type: :feature, js: true do
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
-      expect(query_group.attributes).to be_kind_of(::Query)
+      expect(query_group.attributes).to be_kind_of(Query)
       expect(query_group.key).to eq('Empty test')
     end
 
@@ -152,7 +152,7 @@ describe 'form query configuration', type: :feature, js: true do
         # Select the soon archived project
         modal.switch_to 'Filters'
         filters.expect_filter_count 1
-        filters.add_filter_by('Project', 'is', archived.name)
+        filters.add_filter_by('Project', 'is (OR)', archived.name)
         filters.expect_filter_count 2
         filters.save
 
@@ -250,7 +250,7 @@ describe 'form query configuration', type: :feature, js: true do
         modal.switch_to 'Filters'
         # the templated filter should be hidden in the Filters tab
         filters.expect_filter_count 1
-        filters.add_filter_by('Type', 'is', type_task.name)
+        filters.add_filter_by('Type', 'is (OR)', type_task.name)
         filters.save
 
         form.save_changes
@@ -292,7 +292,7 @@ describe 'form query configuration', type: :feature, js: true do
         modal.expect_open
         modal.switch_to 'Filters'
         filters.expect_filter_count 2
-        filters.expect_filter_by 'Type', 'is', type_task.name
+        filters.expect_filter_by 'Type', 'is (OR)', type_task.name
 
         # Remove the filter again
         filters.remove_filter 'type'

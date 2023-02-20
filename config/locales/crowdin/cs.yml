@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ cs:
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Přidat novou wiki stránku
   work_flows:
@@ -377,7 +378,7 @@ cs:
   account:
     delete: "Odstranit účet"
     delete_confirmation: "Jste si jisti, že chcete odstranit tento účet?"
-    deleted: "Účet úspěšně odstraněn"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu."
@@ -472,14 +473,24 @@ cs:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
         parent: "Podprojekt"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Dotazy"
+        templated: "Projektová šablona"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
-        templated: 'Projektová šablona'
       projects/status:
         code: 'Stav'
         explanation: 'Popis stavu'
@@ -639,7 +650,7 @@ cs:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -691,6 +702,11 @@ cs:
               no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
               no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +717,8 @@ cs:
           archived_ancestor: 'Projekt má archivovaného předka.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
             enabled_modules:
@@ -904,6 +922,15 @@ cs:
   activity:
     created: "Vytvořeno: %{title}"
     updated: "Aktualizováno: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktivní"
@@ -1039,6 +1066,7 @@ cs:
   button_reset: "Obnovit"
   button_rollback: "Obnovit tuto verzi"
   button_save: "Uložit"
+  button_apply_changes: "Apply changes"
   button_save_back: "Uložit a odejít"
   button_show: "Zobrazit"
   button_sort: "Řadit"
@@ -1358,16 +1386,19 @@ cs:
   error_external_authentication_failed: "Vyskytla sa chyba během externí autentifikace. Prosím zkuste to znova."
   error_attribute_not_highlightable: "Atribut není zvýrazněn: %{attributes}"
   events:
-    project: 'Projekt upraven'
     changeset: 'Sada změn upravena'
     message: Zpráva upravena
     news: Novinky
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Zodpovězeno
     time_entry: 'Časový záznam změněn'
     wiki_page: 'Wiki stránka upravena'
     work_package_closed: 'Pracovní balíček uzavřen'
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
     succeeded: "Export úspěšně dokončen."
@@ -1779,6 +1810,10 @@ cs:
   label_not_contains: "neobsahuje"
   label_not_equals: "není"
   label_on: "zapnuto"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -1820,6 +1855,8 @@ cs:
   label_product_version: "Verze produktu"
   label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -2111,8 +2148,6 @@ cs:
   mail_subject_incoming_email_error: "E-mail odeslaný na OpenProject nelze zpracovat"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
-  mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
   mail_member_added_project:
@@ -2247,6 +2282,7 @@ cs:
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Vytvořit a upravit uživatele"
   permission_manage_placeholder_user: "Vytvořit, upravit a odstranit placeholder uživatele"
   permission_add_subprojects: "Vytvořit podprojekty"
@@ -2985,15 +3021,20 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:

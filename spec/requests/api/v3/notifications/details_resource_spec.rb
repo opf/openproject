@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'fetch notification details',
          content_type: :json do
   include API::V3::Utilities::PathHelper
@@ -91,7 +91,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
           .to be_json_eql('startDate'.to_json)
                 .at_path('property')
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.start_date).to_json)
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.start_date).to_json)
                 .at_path('value')
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)
@@ -111,7 +111,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
           .to be_json_eql('dueDate'.to_json)
                 .at_path('property')
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
                 .at_path('value')
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)
@@ -132,7 +132,7 @@ describe ::API::V3::Notifications::NotificationsAPI,
           .to be_json_eql('date'.to_json)
                 .at_path('property')
         expect(last_response.body)
-          .to be_json_eql(::API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
+          .to be_json_eql(API::V3::Utilities::DateTimeFormatter.format_date(resource.due_date).to_json)
                 .at_path('value')
         expect(last_response.body)
           .to be_json_eql(notification_detail_path.to_json)

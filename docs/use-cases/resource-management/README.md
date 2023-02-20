@@ -6,32 +6,54 @@ description: Step-by-step instruction about resource management
 keywords: use-case, resource management
 ---
 
-# Use Case: Resource Management
+# Use Case: Resource management
 
-**Note:** This is a workaround. OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations.
+**Note:**  OpenProject does not have the automated functionality to provide detailed resource management or employee work capacity calculations. However, there is a workaround that you can use to configure a visual estimate of task distribution and plan accordingly. 
 
-![resource management](resource-management.png)
+## Work packages view
 
-Step 1: Select a project and go to the work package overview. 
+These are the steps you can follow to adjust a work package overview to suit your goals. 
 
-Step 2: Either use existing fields, **Estimated time** and **Spent time**, or create custom fields (i.e. **Est. Scope (h)** and **Time spent (h)**)
+![resource management](configure_wp_view.png)
 
-Step 3: Either insert the standard fields to the view, or insert the custom fields if created in Step 2
+Step 1: Select a project and go to the work package overview by clicking **Work packages** in the project menu on the left. If you would like to create an overview over multiple projects, select the respective projects and/or subprojects in the **Include projects** menu between the **+ Create** and the **Filter** buttons. 
 
-Step 4: Then sort and filter all work packages and group by assignee. 
+Alternatively, you can also chose the **Global work package overview** by selecting the **Waffle icon** in the top right corner:
 
-Step 5: Save your view
+![OpenProject global work packages overview](openproject_global_wp_view.png)
 
-You could also add the Gantt view to add an additional dimension to your overview
+Step 2: You can add existing fields, such as **Estimated time**, **Spent time** and **Remaining hours** to your work packages list. Also, you can [create additional custom fields](../../system-admin-guide/custom-fields/), e.g. **Scope (h)**, to get an overview of the team capacity. 
 
-![Gantt](Gantt.jpg)
+Step 3: You can add these fields via the **Insert columns** option via the drop-down menu. 
 
-This will provide a rough overview of the various tasks assigned to a specific person or team. Using the Gantt view in addition provides additional overview of how these tasks happen in terms of timelines. It’s a visual way of looking at roughly how many tasks are assigned to an individual and gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources a little bit. Using filters and the (+) zoom function will help to focus the Gantt view to only tasks that are scheduled in let’s say the next 30 days. These functions can help focus in on showing relevant results only. 
+Step 4: You can add any filters necessary and sort or group the work packages by assignee. 
 
-You can also use the sum function inside of **[⋮]** -> ***Configure view*** -> ***Display settings*** -> check ***Display Sums*** box:
+![OpenProject sort work packages by assignee](openproject_sort_by_assignee.png)
 
-![Configure view](configure-view.jpg)
+Step 5: Save your adjusted view by clicking on the **Save** icon on the left (you can name this view before saving or re-name it later). ![Save adjusted openrpoject workpage view](openproject_save_wp_adjusted_view.png)
 
-![Display sums](display-sums.jpg) 
+This view will be saved and shown under your private work package filters (you can make it public and share with other team members).
 
-**Limitations:** This workaround can provide an overview of who works on what and when, but it is unfortunately not a solid capacity management tool. It just provides a quick visual estimate.
+![OpenProjec work package private filter](work_package_private_filter.png)
+
+## Adding sums to the work packages view
+
+You can also use the sum function. Select **[⋮]** -> ***Configure view*** -> ***Display settings*** -> and check the ***Display Sums*** box:
+
+![OpenProject work package configure view](openproject_configure_view.png)
+
+![OpenProject display sums](openproject_display_sums.png) 
+
+You will see the estimated, spent and remaining hours summed up by user, as well as the overall sum.
+
+![OpenProject work packages sums](openproject_work_packages_sum.png)
+
+## Gantt chart view
+
+You could also add the Gantt view to add an additional dimension to your overview.
+
+![OpenProject work packages Gantt view](openproject_wp_gantt_view.png)
+
+This will provide a rough overview of the various tasks assigned to a specific person or team. Adding the Gantt view provides a supplementary overview of when these tasks are scheduled. It is a visual way of looking at approximately how many tasks are assigned to an individual. This view gives you an estimate about the timeline, allowing for adjustments in assignments and timing to be made to balance your resources. 
+
+To get a more in-depth overview about who does which tasks and when, you can also switch to the [team planner view](../../user-guide/team-planner/).

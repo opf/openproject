@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,21 @@ class CostQuery::Filter::CustomFieldEntries < Report::Filter::Base
       use :null_operators
     else
       fail "cannot handle #{custom_field.field_format.inspect}"
+    end
+  end
+
+  def self.field
+    # There is a special treatment for how list custom values are retrieved as those
+    # are not taken directly from the custom_values but from the custom_options table.
+    # But the value still has to be the id of the option which is later on mapped to the
+    # human readable value.
+    # Mapping to the human readable value is done for all custom values (e.g. users, versions)
+    # following the same pattern of code, so simply making the exception here to use the value
+    # would complicated the code later on.
+    if custom_field.field_format == 'list'
+      "#{db_field}.value"
+    else
+      super
     end
   end
 

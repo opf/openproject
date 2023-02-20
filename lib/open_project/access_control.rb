@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,12 +127,15 @@ module OpenProject
 
       def contract_actions_map
         @contract_actions_map ||= permissions.each_with_object({}) do |p, hash|
-          next unless p.contract_actions.any?
+          next if p.contract_actions.none?
 
-          hash[p.name] = { actions: p.contract_actions,
-                           global: p.global?,
-                           module_name: p.project_module,
-                           grant_to_admin: p.grant_to_admin? }
+          hash[p.name] = {
+            actions: p.contract_actions,
+            global: p.global?,
+            module_name: p.project_module,
+            grant_to_admin: p.grant_to_admin?,
+            public: p.public?
+          }
         end
       end
 

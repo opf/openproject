@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgModule } from '@angular/core';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 
 @NgModule({
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectHalModule,
   ],
 })

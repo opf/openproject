@@ -5,6 +5,8 @@ ru:
       link_files_in_storage: "Файлы ссылок в %{storageType}"
       link_existing_files: "Связать существующие файлы"
       upload_files: "Загрузить файлы"
+      drop_files: "Перетащите файлы сюда, чтобы загрузить их в %{name}."
+      drop_or_click_files: "Перетащите файлы сюда или нажмите чтобы загрузить их на %{name}."
       login: "Логин %{storageType}"
       login_to: "Войти в %{storageType}"
       no_connection: "Нет подключения к %{storageType}"
@@ -22,7 +24,15 @@ ru:
         no_file_links: "Чтобы связать файлы с этим рабочим пакетом, пожалуйста, сделайте это через %{storageType}."
         not_logged_in: >
           Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
+      files:
+        directory_not_writeable: "Вам не хватает прав для добавления файлов в эту папку."
+        dragging_many_files: "Загрузка в %{storageType} поддерживает только один файл одновременно."
+        empty_folder: "Папка пуста."
+        empty_folder_location_hint: "Нажмите на кнопку ниже, чтобы загрузить файл в это место."
+        file_not_selectable_location: "Выбор файла невозможен в процессе выбора местоположения."
       file_links:
+        empty: >
+          В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.
         download: "Скачать %{fileName}"
         no_permission: "У вас недостаточно прав для просмотра этого файла."
         open: 'Открыть файл в хранилище'
@@ -39,6 +49,14 @@ ru:
           few: "Ссылка на %{count} файлов"
           many: "Ссылка на %{count} файлов"
           other: "Ссылка на %{count} файлов"
+        success_create:
+          one: "1 ссылка на файл успешно создана."
+          few: "Успешно создано %{count} ссылок на файл."
+          many: "Успешно создано %{count} ссылок на файл."
+          other: "Успешно создано %{count} ссылок на файл."
+        upload_error: "Произошла ошибка при загрузке файла '%{fileName}'."
+        link_uploaded_file_error: >
+          Произошла ошибка при привязке недавно загруженного файла '%{fileName}' к пакету работ %{workPackageId}.
         not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

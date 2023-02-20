@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -32,9 +32,10 @@ import {
   storageIconMappings,
 } from 'core-app/shared/components/storages/icons.mapping';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 
-export function isDirectory(mimeType?:string):boolean {
-  return mimeType === 'application/x-op-directory';
+export function isDirectory(originData:IFileLinkOriginData):boolean {
+  return originData.mimeType === 'application/x-op-directory';
 }
 
 export function getIconForMimeType(mimeType?:string):IFileIcon {
@@ -53,8 +54,8 @@ export function getIconForStorageType(storageType?:string):string {
   return storageIconMappings.default;
 }
 
-export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string|null):IHalResourceLink {
-  const query = location !== null ? `?parent=${location}` : '';
+export function makeFilesCollectionLink(storageLink:IHalResourceLink, location:string):IHalResourceLink {
+  const query = location !== '/' ? `?parent=${location}` : '';
 
   return {
     href: `${storageLink.href}/files${query}`,

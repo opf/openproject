@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
+describe API::V3::Users::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -40,8 +40,8 @@ describe ::API::V3::Users::UpdateFormAPI, content_type: :json do
   end
   shared_let(:user) do
     create(:user,
-           "custom_field_#{text_custom_field.id}": "CF text",
-           "custom_field_#{list_custom_field.id}": list_custom_field.custom_options.first)
+           text_custom_field.attribute_getter => "CF text",
+           list_custom_field.attribute_getter => list_custom_field.custom_options.first)
   end
 
   let(:path) { api_v3_paths.user_form(user.id) }

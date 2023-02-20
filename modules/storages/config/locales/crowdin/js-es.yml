@@ -5,6 +5,8 @@ es:
       link_files_in_storage: "Enlace archivos en %{storageType}"
       link_existing_files: "Enlazar archivos existentes"
       upload_files: "Subir archivos"
+      drop_files: "Arrastra archivos aquí para cargarlos a %{storageType}."
+      drop_or_click_files: "Arrastra archivos o haz clic aquí para cargarlos a %{storageType}."
       login: "%{storageType} iniciar sesión"
       login_to: "Iniciar sesión en %{storageType}"
       no_connection: "No hay conexión para %{storageType}"
@@ -22,7 +24,15 @@ es:
         no_file_links: "Para poder enlazar archivos en este paquete de trabajo, por favor, utiliza %{storageType}."
         not_logged_in: >
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
+      files:
+        directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
+        dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
       file_links:
+        empty: >
+          Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
         download: "Descargar %{fileName}"
         no_permission: "No tienes permisos para ver este archivo."
         open: 'Abrir el fichero en almacenamiento'
@@ -37,6 +47,12 @@ es:
           zero: "Seleccionar archivos a enlazar"
           one: "Enlazar 1 archivo"
           other: "Enlazar %{count} archivos"
+        success_create:
+          one: "Se ha creado correctamente 1 enlace de fichero."
+          other: "Se han creado correctamente %{count} enlaces de fichero."
+        upload_error: "Se ha producido un error al cargar el archivo '%{fileName}'."
+        link_uploaded_file_error: >
+          Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'compare-xml'
 
 describe OpenProject::Bim::BcfXml::ViewpointWriter do
   let(:writer_instance) { described_class.new json_resource }
-  let(:reader_instance) { ::OpenProject::Bim::BcfJson::ViewpointReader.new xml_resource.uuid, subject.to_xml }
+  let(:reader_instance) { OpenProject::Bim::BcfJson::ViewpointReader.new xml_resource.uuid, subject.to_xml }
   let(:xml_comparison) { Nokogiri::XML(xml_resource.viewpoint) }
   let(:json_comparison) { json_resource.raw_json_viewpoint }
 

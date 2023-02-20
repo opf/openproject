@@ -1,7 +1,6 @@
 require_relative '../spec_helper'
 
 describe 'Password change with OTP',
-         type: :feature,
          with_settings: {
            plugin_openproject_two_factor_authentication: {
              'active_strategies' => [:developer]
@@ -28,7 +27,7 @@ describe 'Password change with OTP',
 
     sms_token = nil
     # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
       .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end

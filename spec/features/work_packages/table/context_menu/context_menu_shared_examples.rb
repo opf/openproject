@@ -79,7 +79,7 @@ shared_examples_for 'provides a single WP context menu' do
       expect(page).to have_selector('.inline-edit--container.subject input')
       expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
 
-      split_view = ::Pages::SplitWorkPackageCreate.new project: work_package.project
+      split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
       subject = split_view.edit_field(:subject)
       subject.set_value 'Child task'
       # Wait a bit for the split view to be fully initialized

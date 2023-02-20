@@ -1,12 +1,11 @@
 <op-attachment-list
   [ngClass]="{
-    'op-attachments--list': true,
-    'op-attachments--list_dragging': dragging
+    'op-file-section--list': true,
+    'op-file-section--list_dragging': dragging > 0
   }"
   *ngIf="(attachments$ | async).length"
   [attachments]="attachments$ | async"
   [collectionKey]="collectionKey"
-  [allowUploading]="allowUploading"
 ></op-attachment-list>
 
 <input
@@ -20,32 +19,16 @@
   multiple
 />
 
-<div
-  *ngIf="allowUploading && resource.canAddAttachments && (attachments$ | async).length"
-  class="op-attachments--actions"
->
-  <button
-    type="button"
-    class="spot-link"
-    (click)="triggerFileInput($event)"
-    data-qa-selector="op-attachments--upload-button"
-  >
-    <span class="spot-icon spot-icon_attachment"></span>
-
-    Add attachment
-  </button>
-</div>
-
 <button
   *ngIf="allowUploading && resource.canAddAttachments"
   [attr.aria-label]="text.uploadLabel"
   data-qa-selector="op-attachments--drop-box"
   [ngClass]="{
     'hide-when-print': true,
-    'op-attachments--drop-box': true,
-    'op-attachments--drop-box_dragging': dragging,
-    'op-attachments--drop-box_dragging-over': draggingOverDropZone,
-    'op-attachments--drop-box_float': (attachments$ | async).length
+    'op-file-section--drop-box': true,
+    'op-file-section--drop-box_dragging': dragging > 0,
+    'op-file-section--drop-box_dragging-over': draggingOverDropZone,
+    'op-file-section--drop-box_float': (attachments$ | async).length
   }"
   type="button"
   (click)="triggerFileInput()"
@@ -54,13 +37,31 @@
   (drop)="onDropFiles($event)"
 >
   <span
-    class="spot-icon spot-icon_attachment op-attachments--drop-box-icon"
+    class="spot-icon spot-icon_add-attachment op-file-section--drop-box-icon"
   ></span>
-  <label
-    for="attachment_files"
-    class="op-attachments--drop-box-text"
-  >
-    {{ text.dropFiles }}<br>
-    {{ text.dropFilesHint }}
-  </label>
+  <span
+    *ngIf="(attachments$ | async).length > 0"
+    class="op-file-section--drop-box-text"
+    [textContent]="text.dropFiles"
+  ></span>
+  <span
+    *ngIf="(attachments$ | async).length === 0"
+    class="op-file-section--drop-box-text"
+    [textContent]="text.dropClickFiles"
+  ></span>
 </button>
+
+<div
+  *ngIf="allowUploading && resource.canAddAttachments"
+  class="op-file-section--actions"
+>
+  <button
+    type="button"
+    class="spot-link"
+    (click)="triggerFileInput()"
+    data-qa-selector="op-attachments--upload-button"
+  >
+    <span class="spot-icon spot-icon_add-attachment"></span>
+    {{text.uploadLabel}}
+  </button>
+</div>

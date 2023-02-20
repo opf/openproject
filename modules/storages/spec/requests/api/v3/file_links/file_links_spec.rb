@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -42,7 +42,8 @@ describe 'API v3 file links resource', type: :request do
   let(:work_package) { create(:work_package, author: current_user, project:) }
   let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }
@@ -63,14 +64,14 @@ describe 'API v3 file links resource', type: :request do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
   before do
     # Mock ConnectionManager to behave as if connected
-    allow(::OAuthClients::ConnectionManager)
+    allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
       .to receive(:get_access_token)
@@ -81,13 +82,83 @@ describe 'API v3 file links resource', type: :request do
       .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
-    allow(::Storages::FileLinkSyncService)
+    allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
       ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
     end
 
     login_as current_user
+  end
+
+  describe 'POST /api/v3/file_links' do
+    let(:path) { '/api/v3/file_links' }
+    let(:permissions) { %i(manage_file_links) }
+    let(:storage_url) { storage.host }
+    let(:params) do
+      {
+        _type: "Collection",
+        _embedded: {
+          elements: embedded_elements
+        }
+      }
+    end
+    let(:embedded_elements) do
+      [
+        {
+          originData: {
+            id: 5503,
+            name: "logo.png",
+            mimeType: "image/png",
+            createdAt: "2021-12-19T09:42:10.170Z",
+            lastModifiedAt: "2021-12-20T14:00:13.987Z",
+            createdByName: "Luke Skywalker",
+            lastModifiedByName: "Anakin Skywalker"
+          },
+          _links: {
+            storageUrl: {
+              href: storage_url
+            }
+          }
+        },
+        build(:file_link_element, storage_url:)
+      ]
+    end
+
+    before do
+      header 'Content-Type', 'application/json'
+      post path, params.to_json
+    end
+
+    context 'when all embedded file link elements are valid' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'creates corresponding FileLink records', :aggregate_failures do
+        expect(Storages::FileLink.count).to eq 2
+        Storages::FileLink.find_each.with_index do |file_link, i|
+          unset_keys = %w[container_id container_type]
+          set_keys = (file_link.attributes.keys - unset_keys)
+          set_keys.each do |key|
+            expect(file_link.attributes[key]).not_to(
+              be_nil,
+              "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+            )
+          end
+          unset_keys.each do |key|
+            expect(file_link.attributes[key]).to be_nil
+          end
+        end
+      end
+
+      it 'does not provide a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(
+          'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
+        ).at_path('_links/self/href')
+      end
+    end
   end
 
   describe 'GET /api/v3/work_packages/:work_package_id/file_links' do
@@ -212,6 +283,10 @@ describe 'API v3 file links resource', type: :request do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
+      end
+
+      it 'provides a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
     end
 
@@ -404,6 +479,12 @@ describe 'API v3 file links resource', type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'if file link does not have a container.' do
+      let(:file_link) { create(:file_link) }
+
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
@@ -417,7 +498,7 @@ describe 'API v3 file links resource', type: :request do
 
     it 'is successful' do
       expect(subject.status).to be 204
-      expect(::Storages::FileLink.exists?(id: file_link.id)).to be false
+      expect(Storages::FileLink.exists?(id: file_link.id)).to be false
     end
 
     context 'if user has no view permissions' do

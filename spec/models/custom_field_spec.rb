@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe CustomField, type: :model do
+describe CustomField do
   before do
-    CustomField.destroy_all
+    described_class.destroy_all
   end
 
-  let(:field)  { build :custom_field }
-  let(:field2) { build :custom_field }
+  let(:field)  { build(:custom_field) }
+  let(:field2) { build(:custom_field) }
 
   describe '#name' do
     it { is_expected.to validate_presence_of(:name) }
@@ -183,12 +183,42 @@ describe CustomField, type: :model do
     end
   end
 
-  describe '#accessor_name' do
-    let(:field) { build_stubbed :custom_field }
+  describe '#attribute_name' do
+    let(:field) { build_stubbed(:custom_field) }
 
-    it 'is formatted as expected' do
-      expect(field.accessor_name).to eql("custom_field_#{field.id}")
+    subject { field.attribute_name }
+
+    it { is_expected.to eq("custom_field_#{field.id}") }
+
+    context 'when a format is provided' do
+      subject { field.attribute_name(:camel_case) }
+
+      it { is_expected.to eq("customField#{field.id}") }
     end
+  end
+
+  describe '#attribute_getter' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.attribute_getter }
+
+    it { is_expected.to eq(:"custom_field_#{field.id}") }
+  end
+
+  describe '#attribute_setter' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.attribute_setter }
+
+    it { is_expected.to eq(:"custom_field_#{field.id}=") }
+  end
+
+  describe '#column_name' do
+    let(:field) { build_stubbed(:custom_field) }
+
+    subject { field.column_name }
+
+    it { is_expected.to eq("cf_#{field.id}") }
   end
 
   describe '#possible_values_options' do
@@ -218,7 +248,7 @@ describe CustomField, type: :model do
 
       context 'for something that responds to project' do
         it 'is a list of name, id pairs' do
-          object = OpenStruct.new project: project
+          object = OpenStruct.new(project:) # rubocop:disable Style/OpenStructUse
 
           expect(field.possible_values_options(object))
             .to match_array [[user1.name, user1.id.to_s],
@@ -297,7 +327,7 @@ describe CustomField, type: :model do
 
   describe '#possible_values' do
     context 'on a list custom field' do
-      let(:field) { CustomField.new field_format: "list" }
+      let(:field) { described_class.new field_format: "list" }
 
       context 'on providing an array' do
         before do
@@ -337,7 +367,7 @@ describe CustomField, type: :model do
   describe 'nested attributes for custom options' do
     let(:option) { build(:custom_option) }
     let(:options) { [option] }
-    let(:field) { build :custom_field, field_format: 'list', custom_options: options }
+    let(:field) { build(:custom_field, field_format: 'list', custom_options: options) }
 
     before do
       field.save!
@@ -374,7 +404,7 @@ describe CustomField, type: :model do
 
   describe '#multi_value_possible?' do
     context 'with a wp list cf' do
-      let(:field) { build_stubbed :list_wp_custom_field }
+      let(:field) { build_stubbed(:list_wp_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -383,7 +413,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a wp user cf' do
-      let(:field) { build_stubbed :user_wp_custom_field }
+      let(:field) { build_stubbed(:user_wp_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -392,7 +422,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a wp int cf' do
-      let(:field) { build_stubbed :int_wp_custom_field }
+      let(:field) { build_stubbed(:int_wp_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -401,7 +431,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project list cf' do
-      let(:field) { build_stubbed :list_project_custom_field }
+      let(:field) { build_stubbed(:list_project_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -410,7 +440,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project user cf' do
-      let(:field) { build_stubbed :user_project_custom_field }
+      let(:field) { build_stubbed(:user_project_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -419,7 +449,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a project int cf' do
-      let(:field) { build_stubbed :int_project_custom_field }
+      let(:field) { build_stubbed(:int_project_custom_field) }
 
       it 'is true' do
         expect(field)
@@ -428,7 +458,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a time_entry user cf' do
-      let(:field) { build_stubbed :time_entry_custom_field, field_format: 'user' }
+      let(:field) { build_stubbed(:time_entry_custom_field, field_format: 'user') }
 
       it 'is true' do
         expect(field)
@@ -437,7 +467,7 @@ describe CustomField, type: :model do
     end
 
     context 'with a time_entry list cf' do
-      let(:field) { build_stubbed :time_entry_custom_field, field_format: 'list' }
+      let(:field) { build_stubbed(:time_entry_custom_field, field_format: 'list') }
 
       it 'is true' do
         expect(field)
@@ -451,9 +481,7 @@ describe CustomField, type: :model do
       field.save!
 
       field.destroy
-
-      expect(CustomField.where(id: field.id).exists?)
-        .to be_falsey
+      expect(described_class.where(id: field.id)).not_to exist
     end
   end
 end

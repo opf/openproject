@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Custom fields reporting', type: :feature, js: true do
+describe 'Custom fields reporting', js: true do
   let(:type) { create :type }
   let(:project) { create :project, types: [type] }
 
@@ -105,7 +105,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
 
       # Expect empty result table
       within('#result-table') do
-        expect(page).to have_no_selector('.top.result', text: '12.50 hours')
+        expect(page).not_to have_selector('.top.result', text: '12.50 hours')
       end
       expect(page).to have_selector('.generic-table--no-results-title')
 
@@ -132,8 +132,9 @@ describe 'Custom fields reporting', type: :feature, js: true do
       # Expect row of work package
       within('#result-table') do
         expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
-        expect(page).to have_selector('th.inner', text: 'First option')
-        expect(page).to have_no_selector('th.inner', text: 'Second option')
+        # There used to be additional and unwanted text after the option name being rendered.
+        expect(page).to have_selector('th.inner', text: /^First option$/)
+        expect(page).not_to have_selector('th.inner', text: 'Second option')
 
         # Only first option should have content for the work package
         expect(page).to have_selector('table.report tbody tr', count: 1)
@@ -180,7 +181,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       end
 
       it 'groups by the raw values when an invalid value exists' do
-        expect(work_package2.send("custom_field_#{custom_field_2.id}")).to eq(['invalid not found'])
+        expect(work_package2.send(custom_field_2.attribute_getter)).to eq(['invalid not found'])
 
         expect(page).to have_selector('#group-by--add-columns')
         expect(page).to have_selector('#group-by--add-rows')
@@ -188,13 +189,14 @@ describe 'Custom fields reporting', type: :feature, js: true do
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
 
+        sleep(0.1)
         click_link 'Apply'
 
         # Expect row of work package
         within('#result-table') do
           expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
           expect(page).to have_selector('th.inner', text: '1')
-          expect(page).to have_no_selector('th.inner', text: 'invalid!')
+          expect(page).not_to have_selector('th.inner', text: 'invalid!')
         end
       end
     end
@@ -227,7 +229,7 @@ describe 'Custom fields reporting', type: :feature, js: true do
       within('#result-table') do
         expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
         expect(page).to have_selector('th.inner', text: 'foo')
-        expect(page).to have_no_selector('th.inner', text: 'None')
+        expect(page).not_to have_selector('th.inner', text: 'None')
 
         # Only first option should have content for the work package
         expect(page).to have_selector('table.report tbody tr', count: 1)

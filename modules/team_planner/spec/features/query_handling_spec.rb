@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative '../support/pages/team_planner'
 require_relative '../../../../spec/features/views/shared_examples'
 
-describe 'Team planner query handling', type: :feature, js: true do
+describe 'Team planner query handling', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:project) do
@@ -71,10 +71,10 @@ describe 'Team planner query handling', type: :feature, js: true do
            subject: 'A bug for the user'
   end
 
-  let(:team_planner) { ::Pages::TeamPlanner.new project }
-  let(:work_package_page) { ::Pages::WorkPackagesTable.new project }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:query_menu) { ::Components::WorkPackages::QueryMenu.new }
+  let(:team_planner) { Pages::TeamPlanner.new project }
+  let(:work_package_page) { Pages::WorkPackagesTable.new project }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:filters) { team_planner.filters }
 
   current_user { user }
@@ -97,7 +97,7 @@ describe 'Team planner query handling', type: :feature, js: true do
     filters.expect_filter_count("1")
     filters.open
 
-    filters.add_filter_by('Type', 'is', [type_bug.name])
+    filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
 
     filters.expect_filter_count("2")
 
@@ -120,7 +120,7 @@ describe 'Team planner query handling', type: :feature, js: true do
 
     # Change filter
     filters.open
-    filters.add_filter_by('Type', 'is', [type_bug.name])
+    filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
     filters.expect_filter_count("2")
 
     # Save current filters

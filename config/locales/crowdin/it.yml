@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -64,14 +64,14 @@ it:
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
       theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
-      upgrade_to_ee: "Aggiorna a Enterprise Edition"
-      add_token: "Carica un token di assistenza per Enterprise Edition"
+      upgrade_to_ee: "Aggiorna a Enterprise edition"
+      add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Order Enterprise on-premises edition"
-      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise edition"
       required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: 'Inizia la prova gratuita'
@@ -334,6 +334,7 @@ it:
   wiki:
     page_not_editable_index: La pagina richiesta non esiste (ancora). Sei stato reindirizzato all'indice di tutte le pagine wiki.
     no_results_title_text: Al momento non vi sono pagine wiki.
+    print_hint: Questo stamperà il contenuto di questa pagina della wiki senza alcuna barra di navigazione.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
   work_flows:
@@ -372,7 +373,7 @@ it:
   account:
     delete: "Cancella account"
     delete_confirmation: "Sei davvero sicuro di voler cancellare questo account?"
-    deleted: "Account cancellato con successo"
+    deletion_pending: "Il profilo è stato bloccato e ne è stata pianificata l'eliminazione. Nota che questo processo avviene in background. Potrebbe volerci un po', prima della completa eliminazione dell'utente."
     deletion_info:
       data_consequences:
         other: "I dati creati dall'utente (ad esempio posta elettronica, preferenze, macro-attività, voci wiki) verranno eliminati completamente se possibile. Si noti, tuttavia, che alcuni tipi di dati, come ad esempio i pacchetti di lavoro e le voci wiki, non possono essere eliminati senza creare un ostacolo per il lavoro di altri utenti. La proprietà di tali dati sarà pertanto trasferita ad un account generico chiamato \"Deleted user\". Visto che i dati di tutti gli account eliminati vengono riassegnati a questo stesso account, non sarà più possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato."
@@ -467,14 +468,24 @@ it:
       member:
         roles: "Ruoli"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificatore"
         latest_activity_at: "Ultima attività alle"
         parent: "Sotto-progetto di"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Interrogazioni"
+        templated: "Progetto modello"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -584,7 +595,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         email: "non è un indirizzo email valido"
@@ -634,7 +645,7 @@ it:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Il certificato SSL fornito non è valido: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -686,6 +697,11 @@ it:
               no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un giorno non lavorativo esiste già per %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +712,8 @@ it:
           archived_ancestor: 'Il progetto ha un antenato archiviato.'
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Non hai le autorizzazioni necessarie ad archiviare tutti i progetti secondari. Sei pregato di contattare un amministratore."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -891,6 +909,15 @@ it:
   activity:
     created: "Creato: %{title}"
     updated: "Aggiornato: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Attivo"
@@ -1026,6 +1053,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
   button_sort: "Ordina"
@@ -1286,7 +1314,7 @@ it:
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1321,16 +1349,19 @@ it:
   error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
-    project: 'Progetto modificato'
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
+    project_attributes: 'Attributi del progetto modificati'
+    projects: 'Progetto modificato'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
     work_package_closed: 'Macro-attività chiusa'
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
+    title:
+      project: "Progetto: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1374,10 +1405,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise Edition"
+        title: "Aggiorna ad Enterprise edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1593,7 +1624,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -1742,6 +1773,10 @@ it:
   label_not_contains: "non contiene"
   label_not_equals: "non è"
   label_on: "il"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
   label_open_work_packages_plural: "aperte"
@@ -1783,6 +1818,8 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_activity: "Attività del progetto"
+  label_project_attribute_plural: "Attributi del progetto"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2072,8 +2109,6 @@ it:
   mail_subject_incoming_email_error: "Impossibile elaborare un'email inviata a OpenProject"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
-  mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
-  mail_subject_group_reminder: "Per il gruppo \"%{group}\" ci sono %{count} macro-attività in scadenza nei prossimi %{days} giorni"
   mail_subject_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta"
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
   mail_member_added_project:
@@ -2207,6 +2242,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_archive_project: "Archivia progetto"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"
@@ -2942,15 +2978,20 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
         working: "%{day} ora è lavorativo"
         non_working: "%{day} ora non è lavorativo"
+      dates:
+        working: "%{date} è ora lavorativo"
+        non_working: "%{date} è ora non lavorativo"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -109,7 +109,7 @@ describe OpenProject::ChangedBySystem do
       it 'returns the custom fields too' do
         model.custom_field_values = { cf1.id => 'test' }
         expect(model.changed_by_user)
-          .to include("custom_field_#{cf1.id}")
+          .to include(cf1.attribute_name)
       end
     end
   end

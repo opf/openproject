@@ -5,6 +5,8 @@ fr:
       link_files_in_storage: "Lier des fichiers dans %{storageType}"
       link_existing_files: "Lier des fichiers existants"
       upload_files: "Charger des fichiers"
+      drop_files: "Déposez les fichiers ici pour les télécharger sur %{name}."
+      drop_or_click_files: "Déposez des fichiers ici ou cliquez pour les télécharger sur %{name}."
       login: "Connexion à %{storageType}"
       login_to: "Connexion à %{storageType}"
       no_connection: "Aucune connexion à %{storageType}"
@@ -22,7 +24,15 @@ fr:
         no_file_links: "Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}."
         not_logged_in: >
           Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
+      files:
+        directory_not_writeable: "Vous n'avez pas la permission d'ajouter des fichiers à ce dossier."
+        dragging_many_files: "Le téléversement vers %{storageType} ne supporte qu'un seul fichier à la fois."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement."
       file_links:
+        empty: >
+          Il n'y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l'action ci-dessous ou à partir de %{storageType}.
         download: "Télécharger %{fileName}"
         no_permission: "Vous n'avez pas la permission de voir ce fichier."
         open: 'Ouvrir le fichier sur le stockage'
@@ -35,8 +45,14 @@ fr:
         select_all: "Tout sélectionner"
         selection:
           zero: "Sélectionner les fichiers à lier"
-          one: "Link 1 file"
+          one: "Lier un fichier"
           other: "Lier %{count} fichiers"
+        success_create:
+          one: "Un lien de fichier a été créé avec succès."
+          other: "%{count} liens de fichier ont été créés avec succès."
+        upload_error: "Une erreur s'est produite lors du téléversement du fichier '%{fileName}'."
+        link_uploaded_file_error: >
+          Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
         not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
         already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

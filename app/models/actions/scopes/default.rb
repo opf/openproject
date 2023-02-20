@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,16 @@ module Actions::Scopes
 
     class_methods do
       def default
-        actions_sql = <<~SQL.squish
-          (SELECT id, permission, global, module, grant_to_admin
-           FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin)) actions
-        SQL
+        RequestStore[:action_default_scope] ||= begin
+          actions_sql = <<~SQL.squish
+            (SELECT id, permission, global, module, grant_to_admin, public
+             FROM (VALUES #{action_map}) AS t(id, permission, global, module, grant_to_admin, public)) actions
+          SQL
 
-        select('actions.*')
-          .from(actions_sql)
+          unscoped # prevent triggering the default scope again
+            .select('actions.*')
+            .from(actions_sql)
+        end
       end
 
       private
@@ -51,14 +54,17 @@ module Actions::Scopes
           .join(', ')
       end
 
-      def map_actions(permission, actions:, global:, module_name:, grant_to_admin:)
+      def map_actions(permission, actions:, global:, module_name:, grant_to_admin:, public:)
         actions.map do |namespace, actions|
           actions.map do |action|
-            values = [quote_string("#{action_v3_name(namespace)}/#{action}"),
-                      quote_string(permission),
-                      global,
-                      module_name ? quote_string(module_name) : 'NULL',
-                      grant_to_admin].join(', ')
+            values = [
+              quote_string("#{action_v3_name(namespace)}/#{action}"),
+              quote_string(permission),
+              global,
+              module_name ? quote_string(module_name) : 'NULL',
+              grant_to_admin,
+              public
+            ].join(', ')
 
             "(#{values})"
           end

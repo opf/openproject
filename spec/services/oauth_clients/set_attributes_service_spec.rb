@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe ::OAuthClients::SetAttributesService, type: :model do
+describe OAuthClients::SetAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
 
   let(:contract_instance) do
-    contract = instance_double(::OAuthClients::CreateContract, 'contract_instance')
+    contract = instance_double(OAuthClients::CreateContract, 'contract_instance')
     allow(contract)
       .to receive(:validate)
       .and_return(contract_valid)
@@ -49,13 +49,13 @@ describe ::OAuthClients::SetAttributesService, type: :model do
   let(:instance) do
     described_class.new(user: current_user, model: model_instance, contract_class:, contract_options: {})
   end
-  let(:model_instance) { ::OAuthClient.new }
+  let(:model_instance) { OAuthClient.new }
   let(:contract_class) do
-    allow(::OAuthClients::CreateContract)
+    allow(OAuthClients::CreateContract)
       .to receive(:new)
       .and_return(contract_instance)
 
-    ::OAuthClients::CreateContract
+    OAuthClients::CreateContract
   end
 
   let(:params) { {} }

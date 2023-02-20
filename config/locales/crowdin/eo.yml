@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ eo:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Aldoni novan vikipaĝon
   work_flows:
@@ -375,7 +376,7 @@ eo:
   account:
     delete: "Forigi konton"
     delete_confirmation: "Are you sure you want to delete the account?"
-    deleted: "Konto sukcese forigita"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
@@ -470,14 +471,24 @@ eo:
       member:
         roles: "Roloj"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identigilo"
         latest_activity_at: "Lasta aktiveco en"
         parent: "Subprojekto de"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Informpetoj"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Specoj"
         versions: "Versioj"
         work_packages: "Laborpakaĵoj"
-        templated: 'Template project'
       projects/status:
         code: 'Stato'
         explanation: 'Priskribo de stato'
@@ -637,7 +648,7 @@ eo:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -689,6 +700,11 @@ eo:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +715,8 @@ eo:
           archived_ancestor: 'La projekto havas antaŭan projekton arkivita.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "ankoraŭ uzara de la laborpakaĵoj: %{types}"
             enabled_modules:
@@ -894,6 +912,15 @@ eo:
   activity:
     created: "Kreita: %{title}"
     updated: "Ĝisdatigita: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktiva"
@@ -1029,6 +1056,7 @@ eo:
   button_reset: "Restarigi"
   button_rollback: "Rollback to this version"
   button_save: "Konservi"
+  button_apply_changes: "Apply changes"
   button_save_back: "Konservi kaj retroiri"
   button_show: "Montri"
   button_sort: "Ordigi"
@@ -1324,16 +1352,19 @@ eo:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Projekto redaktita'
     changeset: 'Ŝanĝaro redaktita'
     message: Mesaĝo redaktita
     news: Novaĵoj
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Respondis
     time_entry: 'Tempprotokolo redaktita'
     wiki_page: 'Vikipaĝo redaktita'
     work_package_closed: 'Laborpakaĵo fermita'
     work_package_edit: 'Laborpakaĵo redaktita'
     work_package_note: 'Laborpakaĵa noto aldonita'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1745,6 +1776,10 @@ eo:
   label_not_contains: "ne enhavas"
   label_not_equals: "ne estas"
   label_on: "en"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Malfermi menuon"
   label_open_work_packages: "malfermita"
   label_open_work_packages_plural: "malfermita"
@@ -1786,6 +1821,8 @@ eo:
   label_product_version: "Versio de la produkto"
   label_professional_support: "Profesia subteno"
   label_profile: "Profilo"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totala kvanto da projektoj"
   label_project_copy_notifications: "Sendi retpoŝtajn sciigojn dum la projekta kopiado"
   label_project_latest: "Lastaj projektoj"
@@ -2075,8 +2112,6 @@ eo:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:
@@ -2210,6 +2245,7 @@ eo:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
@@ -2945,15 +2981,20 @@ eo:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:

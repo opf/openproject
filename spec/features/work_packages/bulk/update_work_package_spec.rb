@@ -61,10 +61,10 @@ describe 'Bulk update work packages through Rails view', js: true do
            type:)
   end
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
-  let(:notes) { ::Components::WysiwygEditor.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
+  let(:notes) { Components::WysiwygEditor.new }
 
   before do
     login_as current_user
@@ -144,8 +144,8 @@ describe 'Bulk update work packages through Rails view', js: true do
 
       context 'with enterprise', with_ee: [:readonly_work_packages] do
         it 'does not update the work packages' do
-          expect(work_package.send(custom_field.accessor_name)).to be_nil
-          expect(work_package2.send(custom_field.accessor_name)).to be_nil
+          expect(work_package.send(custom_field.attribute_getter)).to be_nil
+          expect(work_package2.send(custom_field.attribute_getter)).to be_nil
 
           fill_in custom_field.name, with: 'Custom field text'
           click_on 'Submit'
@@ -170,18 +170,18 @@ describe 'Bulk update work packages through Rails view', js: true do
           work_package.reload
           work_package2.reload
 
-          expect(work_package.send(custom_field.accessor_name))
+          expect(work_package.send(custom_field.attribute_getter))
             .to eq('Custom field text')
 
-          expect(work_package2.send(custom_field.accessor_name))
+          expect(work_package2.send(custom_field.attribute_getter))
             .to be_nil
         end
       end
 
       context 'without enterprise', with_ee: false do
         it 'ignores the readonly status and updates the work packages' do
-          expect(work_package.send(custom_field.accessor_name)).to be_nil
-          expect(work_package2.send(custom_field.accessor_name)).to be_nil
+          expect(work_package.send(custom_field.attribute_getter)).to be_nil
+          expect(work_package2.send(custom_field.attribute_getter)).to be_nil
 
           fill_in custom_field.name, with: 'Custom field text'
           click_on 'Submit'
@@ -192,10 +192,10 @@ describe 'Bulk update work packages through Rails view', js: true do
           work_package.reload
           work_package2.reload
 
-          expect(work_package.send(custom_field.accessor_name))
+          expect(work_package.send(custom_field.attribute_getter))
             .to eq('Custom field text')
 
-          expect(work_package2.send(custom_field.accessor_name))
+          expect(work_package2.send(custom_field.attribute_getter))
             .to eq('Custom field text')
         end
       end

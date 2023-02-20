@@ -25,6 +25,8 @@
     <op-storage
       [resource]="workPackage"
       [storage]="storage"
+      [allowUploading]="allowManageFileLinks$ | async"
+      [allowLinking]="allowManageFileLinks$ | async"
     ></op-storage>
   </section>
 </div>

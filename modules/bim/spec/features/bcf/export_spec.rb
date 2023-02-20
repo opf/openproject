@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@ require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
 describe 'bcf export',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' } do
   let(:status) { create(:status, name: 'New', is_default: true) }
@@ -63,9 +62,9 @@ describe 'bcf export',
            uploader: current_user)
   end
 
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
-  let(:wp_cards) { ::Pages::WorkPackageCards.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new project }
+  let(:wp_cards) { Pages::WorkPackageCards.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     login_as current_user

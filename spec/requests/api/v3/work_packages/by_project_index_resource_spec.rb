@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, content_type: :json do
+describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -56,7 +56,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   context 'when not allowed to see the project' do
-    let(:current_user) { build(:user) }
+    let(:current_user) { create(:user) }
 
     it 'fails with HTTP Not Found' do
       expect(subject.status).to eq 404

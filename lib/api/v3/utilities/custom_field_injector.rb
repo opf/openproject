@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,12 +127,12 @@ module API
 
         private
 
-        def property_name(id)
-          "customField#{id}".to_sym
+        def property_name(custom_field)
+          custom_field.attribute_name(:camel_case).to_sym
         end
 
         def inject_version_schema(custom_field)
-          @class.schema_with_allowed_collection property_name(custom_field.id),
+          @class.schema_with_allowed_collection property_name(custom_field),
                                                 type: resource_type(custom_field),
                                                 name_source: ->(*) { custom_field.name },
                                                 values_callback: ->(*) {
@@ -150,7 +150,7 @@ module API
         end
 
         def inject_user_schema(custom_field)
-          @class.schema_with_allowed_link property_name(custom_field.id),
+          @class.schema_with_allowed_link property_name(custom_field),
                                           type: resource_type(custom_field),
                                           name_source: ->(*) { custom_field.name },
                                           required: custom_field.is_required,
@@ -159,7 +159,7 @@ module API
 
         def inject_list_schema(custom_field)
           @class.schema_with_allowed_collection(
-            property_name(custom_field.id),
+            property_name(custom_field),
             type: resource_type(custom_field),
             name_source: ->(*) { custom_field.name },
             values_callback: list_schemas_values_callback(custom_field),
@@ -170,7 +170,7 @@ module API
         end
 
         def inject_basic_schema(custom_field)
-          @class.schema property_name(custom_field.id),
+          @class.schema property_name(custom_field),
                         type: resource_type(custom_field),
                         name_source: ->(*) { custom_field.name },
                         required: custom_field.is_required,
@@ -182,7 +182,7 @@ module API
         end
 
         def inject_link_value(custom_field)
-          name = property_name(custom_field.id)
+          name = property_name(custom_field)
           expected_namespace = NAMESPACE_MAP[custom_field.field_format]
 
           link = LinkValueGetter.link_for custom_field
@@ -196,7 +196,7 @@ module API
                    end
 
           @class.send(method,
-                      property_name(custom_field.id),
+                      property_name(custom_field),
                       link:,
                       setter:,
                       getter:)
@@ -219,7 +219,7 @@ module API
               [value].compact
             end
 
-            represented.send(:"custom_field_#{custom_field.id}=", values)
+            represented.send(custom_field.attribute_setter, values)
           }
         end
 
@@ -233,7 +233,7 @@ module API
                     custom_field.list? ||
                     custom_field.multi_value?
 
-            value = represented.send custom_field.accessor_name
+            value = represented.send custom_field.attribute_getter
 
             next unless value
 
@@ -243,8 +243,8 @@ module API
         end
 
         def inject_property_value(custom_field)
-          @class.property "custom_field_#{custom_field.id}".to_sym,
-                          as: property_name(custom_field.id),
+          @class.property custom_field.attribute_name.to_sym,
+                          as: property_name(custom_field),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
                           render_nil: true
@@ -254,7 +254,7 @@ module API
           ->(*) {
             next unless available_custom_fields.include?(custom_field)
 
-            value = send custom_field.accessor_name
+            value = send(custom_field.attribute_getter)
 
             if custom_field.field_format == 'text'
               ::API::Decorators::Formattable.new(value, object: self)
@@ -271,7 +271,7 @@ module API
                     else
                       fragment
                     end
-            send(:"custom_field_#{custom_field.id}=", value)
+            send(custom_field.attribute_setter, value)
           }
         end
 

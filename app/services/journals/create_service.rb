@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -251,7 +251,6 @@ module Journals
             journable_id,
             journable_type,
             version,
-            activity_type,
             user_id,
             notes,
             created_at,
@@ -263,7 +262,6 @@ module Journals
           :journable_id,
           :journable_type,
           COALESCE(max_journals.version, 0) + 1,
-          :activity_type,
           :user_id,
           :notes,
           #{journal_timestamp_sql(notes, ':created_at')},
@@ -277,7 +275,6 @@ module Journals
       sanitize(journal_sql,
                notes:,
                journable_id: journable.id,
-               activity_type: journable.activity_type,
                journable_type:,
                user_id: user.id,
                created_at: journable_timestamp,
@@ -311,6 +308,10 @@ module Journals
                journable_id: journable.id)
     end
 
+    def journable_class_name
+      journable.class.base_class.name
+    end
+
     def insert_attachable_sql
       attachable_sql = <<~SQL
         INSERT INTO
@@ -332,7 +333,7 @@ module Journals
 
       sanitize(attachable_sql,
                journable_id: journable.id,
-               journable_class_name: journable.class.name)
+               journable_class_name:)
     end
 
     def insert_customizable_sql
@@ -358,7 +359,7 @@ module Journals
 
       sanitize(customizable_sql,
                journable_id: journable.id,
-               journable_class_name: journable.class.name)
+               journable_class_name:)
     end
 
     def select_max_journal_sql(predecessor)
@@ -424,7 +425,7 @@ module Journals
 
       sanitize(attachable_changes_sql,
                journable_id: journable.id,
-               container_type: journable.class.name)
+               container_type: journable_class_name)
     end
 
     def customizable_changes_sql
@@ -451,7 +452,7 @@ module Journals
       SQL
 
       sanitize(customizable_changes_sql,
-               customized_type: journable.class.name,
+               customized_type: journable_class_name,
                journable_id: journable.id)
     end
 

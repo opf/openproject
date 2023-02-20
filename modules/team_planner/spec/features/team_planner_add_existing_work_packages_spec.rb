@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './shared_context'
 require_relative '../support/components/add_existing_pane'
 
-describe 'Team planner add existing work packages', type: :feature, js: true do
+describe 'Team planner add existing work packages', js: true do
   include_context 'with team planner full access'
 
   let(:closed_status) { create :status, is_closed: true }
@@ -69,8 +69,8 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
            status: closed_status
   end
 
-  let(:add_existing_pane) { ::Components::AddExistingPane.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:add_existing_pane) { Components::AddExistingPane.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   context 'with full permissions' do
     before do
@@ -129,7 +129,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
       # Select work package in add existing
       add_existing_pane.card(second_wp).click
-      split_screen = ::Pages::SplitWorkPackage.new second_wp
+      split_screen = Pages::SplitWorkPackage.new second_wp
       split_screen.expect_subject
       expect(page).to have_current_path /\/details\/#{second_wp.id}/
     end
@@ -185,7 +185,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
 
       filters.expect_filter_count 1
       filters.open
-      filters.expect_filter_by 'Status', 'all', nil
+      filters.expect_filter_by 'Status', 'is not empty', nil
 
       # Change the filter for the whole page
       filters.set_filter 'Status', 'open', nil
@@ -214,7 +214,7 @@ describe 'Team planner add existing work packages', type: :feature, js: true do
                ]
       end
 
-      let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+      let(:dropdown) { Components::ProjectIncludeComponent.new }
 
       it 'applies the project include filter' do
         # Search for the work package in the child project

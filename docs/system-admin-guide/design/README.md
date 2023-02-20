@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Design
-  priority: 700
+  priority: 870
 description: Custom color, theme and logo.
 keywords: custom color, theme and logo
 ---

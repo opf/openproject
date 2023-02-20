@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -333,6 +333,7 @@ ja:
   wiki:
     page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: 新しいWikiページを追加
   work_flows:
@@ -370,7 +371,7 @@ ja:
   account:
     delete: "アカウントを削除"
     delete_confirmation: "アカウントを削除してもよろしいですか？"
-    deleted: "アカウントが正常に削除されました。"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
@@ -465,14 +466,24 @@ ja:
       member:
         roles: "ロール"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別子"
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "クエリ"
+        templated: "テンプレートプロジェクト"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "ワークパッケージのタイプ"
         versions: "バージョン"
         work_packages: "ワークパッケージ"
-        templated: 'テンプレートプロジェクト'
       projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
@@ -632,7 +643,7 @@ ja:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -684,6 +695,11 @@ ja:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -694,6 +710,8 @@ ja:
           archived_ancestor: 'プロジェクトの祖先がアーカイブされています。'
           foreign_wps_reference_version: '子孫でないプロジェクトのワークパッケージが、プロジェクトまたはその子孫のバージョンを参照しています。'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "まだワークパッケージによって使用されています: %{types}"
             enabled_modules:
@@ -885,6 +903,15 @@ ja:
   activity:
     created: "作成: %{title}"
     updated: "更新: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "アクティブ"
@@ -1020,6 +1047,7 @@ ja:
   button_reset: "リセット"
   button_rollback: "このバージョンにロールバック"
   button_save: "保存"
+  button_apply_changes: "Apply changes"
   button_save_back: "保存して戻る"
   button_show: "表示"
   button_sort: "並べ替え"
@@ -1303,16 +1331,19 @@ ja:
   error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
-    project: 'プロジェクトが編集されました。'
     changeset: '変更セットが編集されました。'
     message: メッセージが編集されました。
     news: ニュース
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 返信済み
     time_entry: '時系列ログが編集されました。'
     wiki_page: 'Wiki ページが編集されました。'
     work_package_closed: '作業が完了'
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
@@ -1724,6 +1755,10 @@ ja:
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
   label_on: "オン"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
   label_open_work_packages_plural: "未完了"
@@ -1765,6 +1800,8 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"
@@ -2053,8 +2090,6 @@ ja:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
-  mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
-  mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_member_added_project:
@@ -2187,6 +2222,7 @@ ja:
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
+  permission_archive_project: "Archive project"
   permission_manage_user: "ユーザーの作成と編集"
   permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
@@ -2919,15 +2955,20 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:

@@ -2,42 +2,34 @@ require Rails.root.join('config/constants/open_project/inflector')
 
 OpenProject::Inflector.rule do |_, abspath|
   if abspath.match?(/open_project\/version(\.rb)?\z/) ||
-     abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
+    abspath.match?(/lib\/open_project\/\w+\/version(\.rb)?\z/)
     "VERSION"
   end
 end
 
+# The order of the matchers is relevant, as less specific matcher could exclude more specific matchers.
+# I.e. `/\Afoo_(.*)_bar\z/` must be specified before `/\Afoo_(.*)\z/` and `/\A(.*)_bar\z/`,
+# as only the first matching rule wil be applied.
 OpenProject::Inflector.rule do |basename, abspath|
   case basename
+  when /\Aoauth_(.*)_api\z/
+    "OAuth#{default_inflect($1, abspath)}API"
   when /\Aapi_(.*)\z/
-    'API' + default_inflect($1, abspath)
+    "API#{default_inflect($1, abspath)}"
   when /\A(.*)_api\z/
-    default_inflect($1, abspath) + 'API'
+    "#{default_inflect($1, abspath)}API"
   when 'api'
     'API'
-  end
-end
-
-OpenProject::Inflector.rule do |basename, abspath|
-  if basename =~ /\Aar_(.*)\z/
-    'AR' + default_inflect($1, abspath)
-  end
-end
-
-OpenProject::Inflector.rule do |basename, abspath|
-  case basename
+  when /\Aar_(.*)\z/
+    "AR#{default_inflect($1, abspath)}"
   when /\Aoauth_(.*)\z/
-    'OAuth' + default_inflect($1, abspath)
+    "OAuth#{default_inflect($1, abspath)}"
   when /\A(.*)_oauth\z/
-    default_inflect($1, abspath) + 'OAuth'
+    "#{default_inflect($1, abspath)}OAuth"
   when 'oauth'
     'OAuth'
-  end
-end
-
-OpenProject::Inflector.rule do |basename, abspath|
-  if basename =~ /\A(.*)_sso\z/
-    default_inflect($1, abspath) + 'SSO'
+  when /\A(.*)_sso\z/
+    "#{default_inflect($1, abspath)}SSO"
   end
 end
 

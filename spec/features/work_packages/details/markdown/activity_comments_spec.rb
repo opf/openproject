@@ -129,7 +129,7 @@ describe 'activity comments', js: true, with_mail: false do
             comment_field.submit_by_click
             page.find('#activity-2 a.issue', text: wp2.id).click
 
-            other_wp_page = ::Pages::FullWorkPackage.new wp2
+            other_wp_page = Pages::FullWorkPackage.new wp2
             other_wp_page.ensure_page_loaded
             other_wp_page.edit_field(:subject).expect_text 'AutoFoo'
           end
@@ -249,6 +249,37 @@ describe 'activity comments', js: true, with_mail: false do
         expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
         expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
       end
+    end
+
+    it 'can move away to another tab, keeping the draft comment' do
+      comment_field.activate!
+      comment_field.input_element.send_keys "I'm typing an important message here ..."
+
+      wp_page.switch_to_tab tab: :files
+      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+
+      wp_page.switch_to_tab tab: :activity
+
+      comment_field.expect_active!
+      comment_field.ckeditor.expect_value "I'm typing an important message here ..."
+
+      wp_page.switch_to_tab tab: :overview
+
+      comment_field.expect_active!
+      comment_field.ckeditor.expect_value "I'm typing an important message here ..."
+
+      comment_field.cancel_by_click
+
+      # Has removed the draft now
+
+      wp_page.switch_to_tab tab: :files
+      expect(page).to have_selector('[data-qa-selector="op-tab-content--tab-section"]')
+
+      wp_page.switch_to_tab tab: :activity
+      comment_field.expect_inactive!
+
+      wp_page.switch_to_tab tab: :overview
+      comment_field.expect_inactive!
     end
   end
 

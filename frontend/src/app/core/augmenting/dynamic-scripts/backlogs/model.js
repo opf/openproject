@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -153,15 +153,15 @@ RB.Model = (function ($) {
 
       if (!editor.hasClass('permanent')) {
         this.$.find('.editable').each(function (index) {
-          let field, fieldId, fieldType, fieldLabel, fieldName, fieldOrder, input, newInput,
-            typeId, statusId;
-
-          field = $(this);
-          fieldId = field.attr('field_id');
-          fieldName = field.attr('fieldname');
-          fieldLabel = field.attr('fieldlabel');
-          fieldOrder = parseInt(field.attr('fieldorder'), 10);
-          fieldType = field.attr('fieldtype') || 'input';
+          const field = $(this);
+          const fieldId = field.attr('field_id');
+          const fieldName = field.attr('fieldname');
+          const fieldOrder = parseInt(field.attr('fieldorder'), 10);
+          const fieldType = field.attr('fieldtype') || 'input';
+          let fieldLabel = field.attr('fieldlabel');
+          let typeId;
+          let statusId;
+          let input;
 
           if (!fieldLabel) {
             fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
@@ -183,7 +183,7 @@ RB.Model = (function ($) {
               input.change(function () {
                 typeId = $(this).val();
                 statusId = $.trim(self.$.find('.status_id .v').html());
-                newInput = self.findFactory(typeId, statusId, 'status_id');
+                let newInput = self.findFactory(typeId, statusId, 'status_id');
                 newInput = self.prepareInputFromFactory(newInput, fieldId, 'status_id', fieldOrder, maxTabIndex);
                 newInput = self.replaceStatusForNewType(input, newInput, $(this).parent().find('.status_id').val(), editor);
               });
@@ -224,7 +224,7 @@ RB.Model = (function ($) {
 
     findFactory: function (typeId, statusId, fieldName){
       // Find a factory
-      newInput = $('#' + fieldName + '_options_' + typeId + '_' + statusId);
+      let newInput = $('#' + fieldName + '_options_' + typeId + '_' + statusId);
       if (newInput.length === 0) {
         // when no list found, only offer the default status
         // no list = combination is not valid / user has no rights -> workflow
@@ -404,11 +404,10 @@ RB.Model = (function ($) {
 
       // Copy the values from the fields to the proper html elements
       editors.each(function (index) {
-        var editor, fieldName;
-
-        editor = $(this);
-        fieldName = editor.attr('name');
-        if (this.type.match(/select/)) {
+        const editor = $(this).find('input,select,textarea').addBack('input,select,textarea');
+        const fieldName = editor.attr('name');
+        const type = editor.attr('type');
+        if (type && type.match(/select/)) {
           // if the user changes the type and that type does not offer the status
           // of the current story, the status field is set to blank
           // if the user saves this edit we will receive a validation error

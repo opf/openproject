@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -336,6 +336,7 @@ ru:
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
     no_results_title_text: На данный момент wiki-страницы отсутствуют.
+    print_hint: Это позволит печатать содержимое этой страницы вики без каких-либо навигационных баров.
     index:
       no_results_content_text: Добавить новую wiki-страницу
   work_flows:
@@ -376,7 +377,7 @@ ru:
   account:
     delete: "Удалить учётную запись"
     delete_confirmation: "Вы уверены, что хотите удалить учетную запись?"
-    deleted: "Учетная запись успешно удалена"
+    deletion_pending: "Учетная запись была заблокирована и была запланирована к удалению. Заметьте, что этот процесс происходит в фоновом режиме. Это может занять несколько минут, пока пользователь не будет полностью удален."
     deletion_info:
       data_consequences:
         other: "Данные, созданные пользователем (адрес электронной почты, предпочтения, пакеты работ, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи и пр. могут влиять на работы других пользователей, поэтому такие данные не удаляются, а закрепляются за другой, специальной учетной записью, именуемой «Удаленный пользователь». После такого переназначения определить кому принадлежали эти данные ранее становиться невозможно."
@@ -471,14 +472,24 @@ ru:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "разархивировано"
+          false: "архивировано"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
+        public_value:
+          title: "Видимость"
+          true: "публичный"
+          false: "приватный"
         queries: "Запросы"
+        templated: "Проект шаблона"
+        templated_value:
+          true: "помечено как шаблон"
+          false: "снято с отметки как шаблон"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Проект шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Описание статуса'
@@ -638,7 +649,7 @@ ru:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "Предоставленный сертификат SSL недействителен: %{additional_message}"
+              invalid_certificate: "Указанный сертификат SSL недействителен: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -690,6 +701,11 @@ ru:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Для %{value} уже существует нерабочий день."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -700,6 +716,8 @@ ru:
           archived_ancestor: 'В проекте есть архивированный предок.'
           foreign_wps_reference_version: 'Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "У вас нет разрешений, необходимых для архивирования всех подпроектов. Обратитесь к администратору."
             types:
               in_use_by_work_packages: "всё ещё используются в пакетах работ: %{types}"
             enabled_modules:
@@ -903,11 +921,20 @@ ru:
   activity:
     created: "Создано: %{title}"
     updated: "Обновлено: %{title}"
+    filter:
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Потраченное время"
+      wiki_edit: "Вики"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"
     assigned_to: "Назначенный"
-    assignee: "Исполнитель"
+    assignee: "Назначенный"
     attachments: "Вложения"
     author: "Автор"
     base: "Общая ошибка:"
@@ -1038,6 +1065,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
+  button_apply_changes: "Применить изменения"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
   button_sort: "Сортировать"
@@ -1357,16 +1385,19 @@ ru:
   error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
-    project: 'Проект отредактирован'
     changeset: 'Набор изменений отредактирован'
     message: Сообщение отредактировано
     news: Новости
+    project_attributes: 'Атрибуты проекта изменены'
+    projects: 'Проект отредактирован'
     reply: Отвечено
     time_entry: 'Время подключения отредактировано'
     wiki_page: 'Wiki-страница отредактирована'
     work_package_closed: 'Комплекс работ закрыт'
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
+    title:
+      project: "Проект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -1577,7 +1608,7 @@ ru:
   label_copy_target: "Цель"
   label_copy_workflow_from: "Копировать рабочий поток из"
   label_copy_project: "Копировать проект"
-  label_core_version: "Основной этап"
+  label_core_version: "Текущая версия"
   label_current_status: "Текущий статус"
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
@@ -1778,6 +1809,10 @@ ru:
   label_not_contains: "не содержит"
   label_not_equals: "не"
   label_on: "на"
+  label_operator_all: "не пусто"
+  label_operator_none: "пустой"
+  label_operator_equals_or: "является (или)"
+  label_operator_equals_all: "является (AND)"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыто"
@@ -1819,6 +1854,8 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_activity: "Активность проекта"
+  label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"
@@ -2069,7 +2106,7 @@ ru:
       reason:
         watched: 'Просмотрено'
         assigned: 'Назначено'
-        responsible: 'Проверяющий'
+        responsible: 'Подотчетный'
         mentioned: 'Упомянутые'
         subscribed: 'все'
         prefix: 'Получено из-за настройки уведомления: %{reason}'
@@ -2110,8 +2147,6 @@ ru:
   mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
-  mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
-  mail_subject_group_reminder: "В группе \"%{group}\" есть комплексы работ (%{count}), срок выполнения которых истекает в следующие %{days} дн."
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_member_added_project:
@@ -2246,6 +2281,7 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
+  permission_archive_project: "Архивировать проект"
   permission_manage_user: "Создание и редактирование пользователей"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
@@ -2793,7 +2829,7 @@ ru:
         date: "дата"
         default: "по умолчанию"
       column:
-        assigned_to: "Исполнитель"
+        assigned_to: "Назначенный"
         type: "Тип"
         due_date: "Дате окончания"
         name: "Имя"
@@ -2942,7 +2978,7 @@ ru:
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
   version_status_locked: "заблокировано"
-  version_status_open: "открыто"
+  version_status_open: "открыт"
   note: Заметка
   note_password_login_disabled: "Вход по паролю был отключен через параметры %{configuration}."
   warning: Предупреждение
@@ -2982,15 +3018,20 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
+      <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
+    instance_wide_info: >
+      <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
+      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:
         working: "%{day} сейчас работает"
         non_working: "%{day} теперь не работает"
+      dates:
+        working: "%{date} сейчас работает"
+        non_working: "%{date} теперь не работает"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:

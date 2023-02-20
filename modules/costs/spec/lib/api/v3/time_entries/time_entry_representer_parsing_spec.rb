@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
+  include API::V3::Utilities::PathHelper
 
   let(:time_entry) do
     build_stubbed(:time_entry,
@@ -72,7 +72,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
           "href" => api_v3_paths.work_package(work_package2.id)
 
         },
-        "customField#{user_custom_field.id}" => {
+        user_custom_field.attribute_name(:camel_case) => {
           "href" => api_v3_paths.user(user2.id)
         }
       },
@@ -81,7 +81,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'parsing' do
         "raw" => "some comment"
       },
       "spentOn" => "2017-07-28",
-      "customField#{test_custom_field.id}" => {
+      test_custom_field.attribute_name(:camel_case) => {
         "raw" => "some text"
       }
     }

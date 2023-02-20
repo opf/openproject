@@ -5,6 +5,8 @@ lol:
       link_files_in_storage: "crwdns823088:0%{storageType}crwdne823088:0"
       link_existing_files: "crwdns836442:0crwdne836442:0"
       upload_files: "crwdns838827:0crwdne838827:0"
+      drop_files: "crwdns843201:0%{name}crwdne843201:0"
+      drop_or_click_files: "crwdns843203:0%{name}crwdne843203:0"
       login: "crwdns823090:0%{storageType}crwdne823090:0"
       login_to: "crwdns823092:0%{storageType}crwdne823092:0"
       no_connection: "crwdns823094:0%{storageType}crwdne823094:0"
@@ -22,7 +24,15 @@ lol:
         no_file_links: "crwdns823106:0%{storageType}crwdne823106:0"
         not_logged_in: >
           crwdns823108:0%{storageType}crwdne823108:0
+      files:
+        directory_not_writeable: "crwdns844171:0crwdne844171:0"
+        dragging_many_files: "crwdns844507:0%{storageType}crwdne844507:0"
+        empty_folder: "crwdns845473:0crwdne845473:0"
+        empty_folder_location_hint: "crwdns845475:0crwdne845475:0"
+        file_not_selectable_location: "crwdns844779:0crwdne844779:0"
       file_links:
+        empty: >
+          crwdns842641:0%{storageType}crwdne842641:0
         download: "crwdns823110:0%{fileName}crwdne823110:0"
         no_permission: "crwdns823112:0crwdne823112:0"
         open: 'crwdns823114:0crwdne823114:0'
@@ -37,6 +47,12 @@ lol:
           zero: "crwdns838833:0crwdne838833:0"
           one: "crwdns838835:1crwdne838835:1"
           other: "crwdns838835:5%{count}crwdne838835:5"
+        success_create:
+          one: "crwdns842643:1crwdne842643:1"
+          other: "crwdns842643:5%{count}crwdne842643:5"
+        upload_error: "crwdns844159:0%{fileName}crwdne844159:0"
+        link_uploaded_file_error: >
+          crwdns844161:0%{fileName}crwdnd844161:0%{workPackageId}crwdne844161:0
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"
         already_linked_file: "crwdns836781:0crwdne836781:0"
         already_linked_directory: "crwdns836783:0crwdne836783:0"

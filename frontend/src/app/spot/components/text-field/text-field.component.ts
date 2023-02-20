@@ -68,6 +68,11 @@ export class SpotTextFieldComponent implements ControlValueAccessor {
   @Input() public value = '';
 
   /**
+   * Whether the field should be receive a [required] property.
+   */
+  @Input() public required:boolean = false;
+
+  /**
    * The html input (Regexp) pattern to provide hints to keyboards what layout to use
    * and to aid in validation.
    */

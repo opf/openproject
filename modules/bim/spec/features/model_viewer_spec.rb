@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require_relative '../spec_helper'
 
 describe 'model viewer',
          with_config: { edition: 'bim' },
-         type: :feature,
          js: true do
   let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
@@ -50,8 +49,8 @@ describe 'model viewer',
   end
 
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
+  let(:model_tree) { Components::XeokitModelTree.new }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
 
   context 'with all permissions' do
     describe 'showing a model' do

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
@@ -56,15 +56,21 @@ import {
 
 @Directive()
 export abstract class FilePickerBaseModalComponent extends OpModalComponent implements OnInit, OnDestroy {
+  private loadingSubscription:Subscription;
+
   protected readonly storageFiles$ = new BehaviorSubject<IStorageFile[]>([]);
 
-  public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent(
-    [{
-      text: this.locals.storageName as string,
-      icon: getIconForStorageType(this.locals.storageType as string),
-      navigate: () => this.changeLevel(null, this.breadcrumbs.crumbs.slice(0, 1)),
-    }],
-  );
+  protected currentDirectory:IStorageFile;
+
+  protected get storageLink():IHalResourceLink {
+    return this.locals.storageLink as IHalResourceLink;
+  }
+
+  public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent([{
+    text: this.locals.storageName as string,
+    icon: getIconForStorageType(this.locals.storageType as string),
+    navigate: () => {},
+  }]);
 
   public listItems$:Observable<StorageFileListItem[]> = this.storageFiles$
     .pipe(
@@ -74,12 +80,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     );
 
   public readonly loading$ = new BehaviorSubject<boolean>(true);
-
-  protected get storageLink():IHalResourceLink {
-    return this.locals.storageLink as IHalResourceLink;
-  }
-
-  private loadingSubscription:Subscription;
 
   protected constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -94,10 +94,25 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   ngOnInit():void {
     super.ngOnInit();
 
-    this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, null))
-      .pipe(take(1))
-      .subscribe((files) => {
-        this.storageFiles$.next(files);
+    this.storageFilesResourceService
+      .files(makeFilesCollectionLink(this.storageLink, '/'))
+      .subscribe((storageFiles) => {
+        const root = storageFiles.parent;
+        if (root === undefined) {
+          throw new Error('Collection does not contain a root directory!');
+        }
+
+        this.currentDirectory = root;
+
+        this.breadcrumbs = new BreadcrumbsContent(
+          [{
+            text: this.locals.storageName as string,
+            icon: getIconForStorageType(this.locals.storageType as string),
+            navigate: () => this.changeLevel(root, this.breadcrumbs.crumbs.slice(0, 1)),
+          }],
+        );
+
+        this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
   }
@@ -108,14 +123,10 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     this.storageFilesResourceService.reset();
   }
 
-  public openStorageLocation():void {
-    window.open(this.locals.storageLocation, '_blank');
-  }
-
   protected abstract storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem;
 
   protected enterDirectoryCallback(directory:IStorageFile):() => void {
-    if (!isDirectory(directory.mimeType)) {
+    if (!isDirectory(directory)) {
       return () => {};
     }
 
@@ -126,19 +137,23 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
         text: directory.name,
         // The navigate-callback needs to slice the future breadcrumb, which contains the new crumb itself.
         // Therefore, we need the closure in here.
-        navigate: () => this.changeLevel(directory.location, this.breadcrumbs.crumbs.slice(0, end)),
+        navigate: () => this.changeLevel(directory, this.breadcrumbs.crumbs.slice(0, end)),
       };
-      this.changeLevel(directory.location, crumbs.concat(newCrumb));
+      this.changeLevel(directory, crumbs.concat(newCrumb));
     };
   }
 
-  private changeLevel(parent:string|null, crumbs:Breadcrumb[]):void {
+  protected changeLevel(directory:IStorageFile, crumbs:Breadcrumb[]):void {
+    this.currentDirectory = directory;
+
     this.cancelCurrentLoading();
+
     this.loading$.next(true);
     this.breadcrumbs = new BreadcrumbsContent(crumbs);
 
-    this.loadingSubscription = this.storageFilesResourceService.files(makeFilesCollectionLink(this.storageLink, parent))
-      .pipe(take(1))
+    this.loadingSubscription = this.storageFilesResourceService
+      .files(makeFilesCollectionLink(this.storageLink, directory.location))
+      .pipe(map((storageFiles) => storageFiles.files.filter((file) => file.name !== this.currentDirectory.name)))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);
@@ -146,8 +161,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   }
 
   private cancelCurrentLoading():void {
-    if (this.loadingSubscription) {
-      this.loadingSubscription.unsubscribe();
-    }
+    this.loadingSubscription?.unsubscribe();
   }
 }

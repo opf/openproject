@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ ko:
         main-menu-border-color: "기본 메뉴 테두리"
       custom_colors: "사용자 정의 색상"
       customize: "고유한 로고와 색상으로 OpenProject 설치를 사용자 지정하세요."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "OpenProject 개발의 금전적인 후원에 대한 특별한 감사로 이 작은 기능은 Enterprise edition 구독자에게만 지원됩니다."
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
@@ -64,15 +64,15 @@ ko:
         main-menu-bg-color: "왼쪽 메뉴의 배경색입니다."
       theme_warning: 테마를 변경하면 사용자 정의 스타일을 덮어 씁니다. 그러면 디자인이 손실됩니다. 너 정말 계속하고 싶니?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Enterprise edition으로 업그레이드하기"
+      add_token: "Enterprise edition 지원 토큰을 업로드하세요."
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "현재 사용된 Enterprise edition 토큰을 제거하시겠습니까?"
         title: "토큰 제거"
       replace_token: "당신의 현재 지원 토큰을 바꾸세요."
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Enterprise on-premises edition 주문하기"
+      paste: "Enterprise edition 지원 토큰을 붙여넣으세요."
+      required_for_feature: "이 기능은 활성화된 Enterprise edition 지원 토큰에서만 사용 가능합니다."
       enterprise_link: "더 자세한 내용은 여기를 클릭하세요."
       start_trial: '무료 평가판 시작'
       book_now: '지금 예약'
@@ -158,7 +158,7 @@ ko:
       section_more_info_link_html: >
         본 섹션에서는 이 LDAP 인증 소스의 연결 보안에 대해 설명합니다. 자세한 내용은 <a href="%{link}">Net::LDAP 문서</a>를 참조하십시오.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "SSL 인증서 확인"
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
@@ -336,6 +336,7 @@ ko:
   wiki:
     page_not_editable_index: 요청한 페이지가 (아직) 존재하지 않습니다. 모든 위키 페이지의 색인으로 리디렉션되었습니다.
     no_results_title_text: 위키 페이지가 없습니다.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: 위키 페이지 추가
   work_flows:
@@ -373,7 +374,7 @@ ko:
   account:
     delete: "계정 삭제"
     delete_confirmation: "이 계정을 정말로 삭제합니까?"
-    deleted: "계정을 성공적으로 삭제했습니다."
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "이 사용자에 대한 데이터(예를 들어 이메일, 환경 설정, 일감, 위키 항목)를 가능한 범위까지 지울 것입니다. 다만 일감이나 위키 항목과 같은 데이터는 지워버릴 경우 다른 사용자의 작업을 방해하게 됩니다. 따라서 그러한 데이터는 \"삭제된 사용자\" 계정에 귀속됩니다. 삭제된 사용자의 작업물이 하나의 계정으로 귀속되기에, 작업물을 만든 원래 사용자가 누구인지 구분할 수 없게 됩니다."
@@ -468,14 +469,24 @@ ko:
       member:
         roles: "역할"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "식별자"
         latest_activity_at: "다음의 최근 활동"
         parent: "하위 프로젝트"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "쿼리"
+        templated: "템플릿 프로젝트"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "유형"
         versions: "버전"
         work_packages: "작업 패키지"
-        templated: '템플릿 프로젝트'
       projects/status:
         code: '상태'
         explanation: '상태 설명'
@@ -635,7 +646,7 @@ ko:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provides SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -687,6 +698,11 @@ ko:
               no_notification_reason: '- IAN이 채널로 선택되었으므로 비워둘 수 없습니다.'
             reason_mail_digest:
               no_notification_reason: '- 메일 요약이 채널로 선택되었으므로 비워둘 수 없습니다.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +713,8 @@ ko:
           archived_ancestor: '이 프로젝트에는 보관된 상위 항목이 있습니다.'
           foreign_wps_reference_version: '하위가 아닌 프로젝트의 작업 패키지는 해당 프로젝트 또는 하위 프로젝트의 버전을 참조합니다.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "아직 작업 패키지에 사용됨: %{types}"
             enabled_modules:
@@ -888,6 +906,15 @@ ko:
   activity:
     created: "작성: %{title}"
     updated: "업데이트: %{title}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "활성"
@@ -1023,6 +1050,7 @@ ko:
   button_reset: "재설정"
   button_rollback: "이 버전으로 롤백"
   button_save: "저장"
+  button_apply_changes: "Apply changes"
   button_save_back: "저장하고 돌아가기"
   button_show: "표시"
   button_sort: "분류"
@@ -1306,16 +1334,19 @@ ko:
   error_external_authentication_failed: "외부 인증 중에 오류가 발생했습니다. 다시 시도하세요."
   error_attribute_not_highlightable: "강조 표시되지 않는 특성: %{attributes}"
   events:
-    project: '프로젝트 편집됨'
     changeset: '변경 집합 편집됨'
     message: 메시지 편집됨
     news: 뉴스
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 회신함
     time_entry: '시간 로그 편집됨'
     wiki_page: '위키 페이지 편집됨'
     work_package_closed: '작업 패키지 닫힘'
     work_package_edit: '작업 패키지 편집됨'
     work_package_note: '작업 패키지 메모 추가됨'
+    title:
+      project: "Project: %{name}"
   export:
     your_work_packages_export: "내 작업 패키지 내보내기"
     succeeded: "내보내기가 성공적으로 완료되었습니다."
@@ -1727,6 +1758,10 @@ ko:
   label_not_contains: "포함하지 않음"
   label_not_equals: "일치하지 않음"
   label_on: "에"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "메뉴 열기"
   label_open_work_packages: "열기"
   label_open_work_packages_plural: "열기"
@@ -1768,6 +1803,8 @@ ko:
   label_product_version: "제품 버전"
   label_professional_support: "전문적 지원"
   label_profile: "프로필"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "전체 프로젝트 수"
   label_project_copy_notifications: "프로젝트 복사 중에 이메일 알림 보내기"
   label_project_latest: "최근 프로젝트"
@@ -2056,8 +2093,6 @@ ko:
   mail_subject_incoming_email_error: "OpenProject로 보낸 이메일을 처리할 수 없습니다."
   mail_subject_lost_password: "%{value} 암호"
   mail_subject_register: "%{value} 계정 활성화"
-  mail_subject_reminder: "다음 %{days}일 후 만료되는 %{count} 작업 패키지"
-  mail_subject_group_reminder: "\"%{group}\" 그룹에 대한 향후 %{days}일 후 만료되는 %{count}개 작업 패키지"
   mail_subject_wiki_content_added: "'%{id}' 위키 페이지가 추가되었습니다."
   mail_subject_wiki_content_updated: "'%{id}' 위키 페이지가 업데이트되었습니다."
   mail_member_added_project:
@@ -2189,6 +2224,7 @@ ko:
   permission_add_work_packages: "작업 패키지 추가"
   permission_add_messages: "메시지 게시"
   permission_add_project: "프로젝트 만들기"
+  permission_archive_project: "Archive project"
   permission_manage_user: "사용자 생성 및 편집"
   permission_manage_placeholder_user: "플레이스홀더 사용자 생성, 수정, 제거"
   permission_add_subprojects: "하위 프로젝트 만들기"
@@ -2920,15 +2956,20 @@ ko:
       title: "작업 패키지 삭제"
   working_days:
     info: >
-      <b>일주일의 근무일 정의</b><br/> 휴무일은 작업 패키지를 예약할 때 건너뛰고 기간을 계산할 때 제외됩니다. 작업 패키지 수준에서 재정의할 수 있습니다.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "근무일 변경"
     warning: >
-      근무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
     journal_note:
       changed: _**근무일**이 변경되었습니다(%{changes})._
       days:
         working: "%{day}은(는) 이제 근무일입니다."
         non_working: "%{day}은(는) 이제 휴무일입니다."
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "미리 볼 내용 없음"
   api_v3:
     attributes:
