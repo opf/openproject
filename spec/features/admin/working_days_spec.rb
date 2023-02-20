@@ -187,13 +187,13 @@ describe 'Working Days', js: true do
     end
 
     it 'can add non-working days' do
-      click_on 'Non-working day'
+      click_on 'Add non-working day'
 
       # It can cancel and reopen
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Cancel'
       end
-      click_on 'Non-working day'
+      click_on 'Add non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         fill_in 'name', with: 'My holiday'
@@ -209,7 +209,7 @@ describe 'Working Days', js: true do
       expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
 
       # Add a second day
-      click_on 'Non-working day'
+      click_on 'Add non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         fill_in 'name', with: 'Another important day'
@@ -234,7 +234,7 @@ describe 'Working Days', js: true do
       expect(nwd2.date).to eq date2
 
       # Check if date and name are entered then close the datepicker
-      click_on 'Non-working day'
+      click_on 'Add non-working day'
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Add'
