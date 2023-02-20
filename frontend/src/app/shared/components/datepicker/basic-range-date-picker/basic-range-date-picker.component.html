@@ -5,7 +5,7 @@
   [attr.data-value]="value"
   [id]="id"
   [name]="name"
-  [value]="value"
-  (change)="changeValueFromInputDebounced($event)"
+  [ngModel]="stringValue"
+  (ngModelChange)="changeValueFromInputDebounced($event)"
   (focus)="showDatePicker()"
 />

@@ -73,6 +73,7 @@ import { OpWpSingleDateFormComponent } from 'core-app/shared/components/datepick
 import { OpModalSingleDatePickerComponent } from 'core-app/shared/components/datepicker/modal-single-date-picker/modal-single-date-picker.component';
 import { OpBasicSingleDatePickerComponent } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import { OpModalRangeDatePickerComponent } from 'core-app/shared/components/datepicker/modal-range-date-picker/modal-range-date-picker.component';
+import { OpBasicRangeDatePickerComponent } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
 import { OpWpMultiDateFormComponent } from 'core-app/shared/components/datepicker/wp-multi-date-form/wp-multi-date-form.component';
 import { OpDatePickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
 import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
@@ -214,6 +215,7 @@ export function bootstrapModule(injector:Injector):void {
     OpModalSingleDatePickerComponent,
     OpBasicSingleDatePickerComponent,
     OpModalRangeDatePickerComponent,
+    OpBasicRangeDatePickerComponent,
     OpDatePickerBannerComponent,
     OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,
@@ -282,6 +284,7 @@ export function bootstrapModule(injector:Injector):void {
     OpModalSingleDatePickerComponent,
     OpBasicSingleDatePickerComponent,
     OpModalRangeDatePickerComponent,
+    OpBasicRangeDatePickerComponent,
     OpDatePickerBannerComponent,
     OpWpMultiDateFormComponent,
     OpDatePickerWorkingDaysToggleComponent,

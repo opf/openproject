@@ -27,7 +27,7 @@
 //++
 
 import {
-  AfterContentInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -36,7 +36,6 @@ import {
   forwardRef,
   Injector,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -46,11 +45,7 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import {
-  onDayCreate,
-  parseDate,
-  setDates,
-} from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import { onDayCreate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
@@ -58,6 +53,8 @@ import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
+
+export const rangeSeparator = '-';
 
 export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
 
@@ -75,13 +72,16 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
     },
   ],
 })
-export class OpBasicRangeDatePickerComponent implements ControlValueAccessor {
+export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Output('valueChange') valueChange = new EventEmitter();
+
+  public stringValue = '';
 
   private _value:string[] = [];
 
   @Input() set value(newValue:string[]) {
     this._value = newValue;
+    this.stringValue = this.resolveDateArrayToString(newValue);
   }
 
   get value() {
@@ -118,38 +118,40 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor {
     populateInputsFromDataset(this);
   }
 
+  ngAfterViewInit():void {
+    this.initializeDatePicker();
+  }
+
   changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
 
   changeValueFromInput(value:string) {
-    this.valueChange.emit(value);
-    this.onChange(value);
-    this.writeValue(value);
-
-    const date = parseDate(value || '');
-
-    if (date !== '') {
-      const dateString = this.timezoneService.formattedISODate(date);
-      this.onTouched(dateString);
-    }
+    const newDates = this.resolveDateStringToArray(value);
+    this.valueChange.emit(newDates);
+    this.onChange(newDates);
+    this.onTouched(newDates);
+    this.writeValue(newDates);
     this.cdRef.detectChanges();
   }
 
-  public showDatePicker() {
+  showDatePicker():void {
+    this.datePickerInstance?.show();
+  }
+
+  private initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
       this.value || '',
       {
+        allowInput: true,
         mode: 'range',
-        showMonths: 1,
+        showMonths: 2,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
         },
-        onChange: (dates:Date[]) => {
-          if (dates.length > 1) {
-            const start = this.timezoneService.formattedISODate(dates[0]);
-            const end = this.timezoneService.formattedISODate(dates[1]);
-            const value = [start, end];
+        onChange: (dates:Date[], dateStr:string) => {
+          if (dates.length === 2) {
+            const value = this.resolveDateStringToArray(dateStr);
             this.writeValue(value);
             this.onChange(value);
             this.onTouched(value);
@@ -184,5 +186,15 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor {
 
   registerOnTouched(fn:(_:string[]) => void):void {
     this.onTouched = fn;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private resolveDateStringToArray(dates:string):string[] {
+    return dates.split(` ${rangeSeparator} `).map((date) => date.trim());
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private resolveDateArrayToString(dates:string[]):string {
+    return dates.join(` ${rangeSeparator} `);
   }
 }

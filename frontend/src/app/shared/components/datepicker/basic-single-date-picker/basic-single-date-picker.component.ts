@@ -27,7 +27,7 @@
 //++
 
 import {
-  AfterContentInit,
+    AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -36,7 +36,6 @@ import {
   forwardRef,
   Injector,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -49,7 +48,6 @@ import {
 import {
   onDayCreate,
   parseDate,
-  setDates,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
@@ -75,7 +73,7 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
     },
   ],
 })
-export class OpBasicSingleDatePickerComponent implements ControlValueAccessor {
+export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Output('valueChange') valueChange = new EventEmitter();
 
   private _value = '';
@@ -118,6 +116,10 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor {
     populateInputsFromDataset(this);
   }
 
+  ngAfterViewInit():void {
+    this.initializeDatePicker();
+  }
+
   changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
 
   changeValueFromInput(value:string) {
@@ -134,12 +136,17 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor {
     this.cdRef.detectChanges();
   }
 
-  public showDatePicker() {
+  showDatePicker():void {
+    this.datePickerInstance?.show();
+  }
+
+  private initializeDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
       this.value || '',
       {
+        allowInput: true,
         mode: 'single',
         showMonths: 1,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
