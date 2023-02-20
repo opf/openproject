@@ -82,20 +82,20 @@ import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helpe
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
 @Component({
-  selector: 'op-multi-date-picker',
-  templateUrl: './multi-date-picker.component.html',
+  selector: 'op-modal-range-date-picker',
+  templateUrl: './modal-range-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => OpMultiDatePickerComponent),
+      useExisting: forwardRef(() => OpModalRangeDatePickerComponent),
       multi: true,
     },
   ],
 })
-export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
+export class OpModalRangeDatePickerComponent extends UntilDestroyedMixin implements OnInit, ControlValueAccessor {
   @ViewChild('modalContainer') modalContainer:ElementRef<HTMLElement>;
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;

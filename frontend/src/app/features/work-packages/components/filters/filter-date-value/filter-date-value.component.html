@@ -1,4 +1,4 @@
-<op-single-date-picker
+<op-basic-single-date-picker
   [id]="'values-' + filter.id"
   [name]="'v[' + filter.id + ']'"
   class="advanced-filters--date-field"
@@ -6,4 +6,4 @@
   (changed)="value = parser($event)"
   [value]="formatter(value)"
   [required]="true"
-></op-single-date-picker>
+></op-basic-single-date-picker>

@@ -59,32 +59,29 @@ import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
-export const opSingleDatePickerSelector = 'op-single-date-picker';
+export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 
 @Component({
-  selector: opSingleDatePickerSelector,
-  templateUrl: './single-date-picker.component.html',
+  selector: opBasicSingleDatePickerSelector,
+  templateUrl: './basic-single-date-picker.component.html',
   styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => OpSingleDatePickerComponent),
+      useExisting: forwardRef(() => OpBasicSingleDatePickerComponent),
       multi: true,
     },
   ],
 })
-export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterContentInit {
-  @Output('closed') closed = new EventEmitter();
-
+export class OpBasicSingleDatePickerComponent implements ControlValueAccessor {
   @Output('valueChange') valueChange = new EventEmitter();
 
   private _value = '';
 
   @Input() set value(newValue:string) {
     this._value = newValue;
-    this.writeWorkingValue(newValue);
   }
 
   get value() {
@@ -101,52 +98,14 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() minimalDate:Date|null = null;
 
-  @Input() applyLabel:string;
-
-  private _opened = false;
-
-  @Input() set opened(opened:boolean) {
-    if (this._opened === !!opened) {
-      return;
-    }
-
-    this._opened = !!opened;
-
-    if (this._opened) {
-      this.initializeDatepickerAfterOpen();
-    } else {
-      this.closed.emit();
-    }
-  }
-
-  get opened() {
-    return this._opened;
-  }
-
-  @Input() showIgnoreNonWorkingDays = false;
-
-  @Input() ignoreNonWorkingDays = false;
-
-  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
-
-  public workingValue = '';
-
-  public workingDate:Date|null = null;
-
-  public datePickerInstance:DatePicker;
-
-  public useDefaultTrigger = false;
+  @ViewChild('input') input:ElementRef;
 
   text = {
-    apply: this.I18n.t('js.modals.button_apply'),
-    cancel: this.I18n.t('js.button_cancel'),
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
-    today: this.I18n.t('js.label_today'),
-    ignoreNonWorkingDays: {
-      title: this.I18n.t('js.work_packages.datepicker_modal.ignore_non_working_days.title'),
-    },
   };
+
+  public datePickerInstance:DatePicker;
 
   constructor(
     readonly I18n:I18nService,
@@ -157,44 +116,6 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
     readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
   ) {
     populateInputsFromDataset(this);
-  }
-
-  ngOnInit() {
-    this.applyLabel = this.applyLabel || this.text.apply;
-  }
-
-  ngAfterContentInit() {
-    const trigger = (this.elementRef.nativeElement as HTMLElement).querySelector("[slot='trigger']");
-    this.useDefaultTrigger = trigger === null;
-  }
-
-  onInputClick(event:MouseEvent) {
-    event.stopPropagation();
-  }
-
-  save($event:Event) {
-    const form = $event.target as HTMLFormElement;
-
-    if (form.reportValidity()) {
-      $event.preventDefault();
-      this.valueChange.emit(this.workingValue);
-      this.onChange(this.workingValue);
-      this.writeValue(this.workingValue);
-      this.opened = false;
-      this.workingValue = '';
-      this.cdRef.detectChanges();
-    }
-  }
-
-  setToday():void {
-    const today = parseDate(new Date()) as Date;
-    this.writeWorkingValue(this.timezoneService.formattedISODate(today));
-    this.enforceManualChangesToDatepicker(today);
-  }
-
-  changeNonWorkingDays():void {
-    this.initializeDatepickerAfterOpen();
-    this.cdRef.detectChanges();
   }
 
   changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
@@ -208,49 +129,27 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
     if (date !== '') {
       const dateString = this.timezoneService.formattedISODate(date);
-      this.writeWorkingValue(dateString);
-      this.enforceManualChangesToDatepicker(date);
       this.onTouched(dateString);
     }
     this.cdRef.detectChanges();
   }
 
-  private enforceManualChangesToDatepicker(enforceDate?:Date) {
-    const date = parseDate(this.workingDate || '');
-    setDates(date, this.datePickerInstance, enforceDate);
-  }
-
-  private initializeDatepickerAfterOpen():void {
-    this.spotDropModalTeleportationService
-      .afterRenderOnce$(true)
-      .subscribe(() => {
-        this.initializeDatepicker();
-      });
-  }
-
-  private initializeDatepicker() {
-    this.datePickerInstance?.destroy();
-
-    // Initialize the working values.
-    const initialDate = parseDate(this.value || new Date()) as Date;
-    this.writeWorkingValue(this.timezoneService.formattedISODate(initialDate));
-
+  public showDatePicker() {
     this.datePickerInstance = new DatePicker(
       this.injector,
       this.id,
-      this.workingDate || '',
+      this.value || '',
       {
         mode: 'single',
         showMonths: 1,
-        inline: true,
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
         },
         onChange: (dates:Date[]) => {
           if (dates.length > 0) {
             const dateString = this.timezoneService.formattedISODate(dates[0]);
-            this.writeWorkingValue(dateString);
-            this.enforceManualChangesToDatepicker(dates[0]);
+            this.writeValue(dateString);
+            this.onChange(dateString);
             this.onTouched(dateString);
           }
 
@@ -259,23 +158,17 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            !this.ignoreNonWorkingDays,
+            false,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },
       },
-      this.flatpickrTarget.nativeElement as HTMLElement,
+      this.input.nativeElement as HTMLInputElement,
     );
   }
 
-  writeWorkingValue(value:string):void {
-    this.workingValue = value;
-    this.workingDate = new Date(value);
-  }
-
   writeValue(value:string):void {
-    this.writeWorkingValue(value);
     this.value = value;
   }
 

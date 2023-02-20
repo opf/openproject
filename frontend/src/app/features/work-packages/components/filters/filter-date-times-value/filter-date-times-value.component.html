@@ -1,11 +1,25 @@
-<op-multi-date-picker
-  [id]="'values-' + filter.id"
-  [name]="'v[' + filter.id + ']'"
-  class="advanced-filters--date-field"
-
-  [(ngModel)]="value"
+<op-basic-single-date-picker
+  [ngModel]="isoDateFormatter(begin)"
+  (ngModelChange)="begin = isoDateParser($event)"
   [opAutofocus]="shouldFocus"
-></op-multi-date-picker>
+  required="true"
+  [id]="'values-' + filter.id + '-begin'"
+  [name]="'v[' + filter.id + ']-begin'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
+
+<span
+  class="advanced-filters--affix"
+  [textContent]="text.spacer"
+></span>
+
+<op-basic-single-date-picker
+  [ngModel]="isoDateFormatter(end)"
+  (ngModelChange)="end = isoDateParser($event)"
+  [id]="'values-' + filter.id + '-end'"
+  [name]="'v[' + filter.id + ']-end'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
 
 <span
   class="advanced-filters--tooltip-trigger -multiline"

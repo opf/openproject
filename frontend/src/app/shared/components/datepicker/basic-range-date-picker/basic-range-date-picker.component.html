@@ -1,0 +1,11 @@
+<input
+  #input
+  type="text"
+  class="spot-input"
+  [attr.data-value]="value"
+  [id]="id"
+  [name]="name"
+  [value]="value"
+  (change)="changeValueFromInputDebounced($event)"
+  (focus)="showDatePicker()"
+/>
