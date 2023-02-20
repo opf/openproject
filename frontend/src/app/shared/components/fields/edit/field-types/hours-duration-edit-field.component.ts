@@ -27,7 +27,7 @@
 //++
 
 import * as moment from 'moment';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -46,9 +46,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
            [disabled]="inFlight"
            [id]="handler.htmlId" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HoursDurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
+
+  inputValue = null;
 
   public parser(value:any, input:any) {
     // Managing decimal separators in a multi-language app is a complex topic:
@@ -63,9 +66,10 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     // context, we check the validity of the input and, if it's not valid, we
     // default to the previous value, emulating the way the browsers work with
     // valid separators (e.g: introducing 1. would set 1 as a value).
-    if (!(input.validity.valid as boolean)) {
-      if (value == null) {
-        value = 0;
+    this.inputValue = input.value;
+    if (!input.validity.valid as boolean) {
+      if (value == null || input.value == "") {
+        value = null;
       } else {
         value = this.value;
       }
@@ -74,12 +78,14 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
   }
 
   public formatter(value:any) {
+    if(value == null)
+      return null;
     return Number(moment.duration(value).asHours().toFixed(2));
   }
 
   protected parseValue(val:moment.Moment | null) {
-    if (val === null) {
-      return val;
+    if (val === null || this.inputValue== "") {
+      return null;
     }
 
     let parsedValue;
