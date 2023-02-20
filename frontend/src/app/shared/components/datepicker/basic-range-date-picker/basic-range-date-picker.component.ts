@@ -92,9 +92,9 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
 
   @Input() name = '';
 
-  @Input() remoteFieldKey = '';
-
   @Input() required = false;
+
+  @Input() disabled = false;
 
   @Input() minimalDate:Date|null = null;
 
