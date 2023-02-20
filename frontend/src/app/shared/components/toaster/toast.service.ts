@@ -38,9 +38,10 @@ import {
   IHalMultipleError,
   isHalError,
 } from 'core-app/features/hal/resources/error-resource';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+import { forkJoin, Observable } from 'rxjs';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { filter, take, tap } from 'rxjs/operators';
 
 export function removeSuccessFlashMessages():void {
   jQuery('.flash.notice').remove();
@@ -65,11 +66,12 @@ export class ToastService {
     readonly configurationService:ConfigurationService,
     readonly I18n:I18nService,
   ) {
-    jQuery(window)
-      .on(OPToastEvent,
-        (event:JQuery.TriggeredEvent, toast:IToast) => {
-          this.add(toast);
-        });
+    jQuery(window).on(
+      OPToastEvent,
+      (event:JQuery.TriggeredEvent, toast:IToast) => {
+        this.add(toast);
+      },
+    );
   }
 
   /**
@@ -140,6 +142,26 @@ export class ToastService {
 
   public addNotice(message:IToast|string):IToast {
     return this.add(this.createToast(message, 'info'));
+  }
+
+  public addUpload(message:string, uploads:[[File, Observable<HttpEvent<unknown>>]]):IToast {
+    const notification = this.add({
+      data: uploads,
+      type: 'upload',
+      message,
+    });
+
+    const observables = uploads.map((o) => o[1].pipe(filter((ev) => ev.type === HttpEventType.Response)));
+    forkJoin(observables)
+      .pipe(
+        take(1),
+        tap(() => {
+          setTimeout(() => this.remove(notification), 700);
+        }),
+      )
+      .subscribe();
+
+    return notification;
   }
 
   public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {

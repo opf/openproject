@@ -42,10 +42,8 @@ import {
   catchError,
   filter,
   map,
-  share,
   switchMap,
   take,
-  tap,
 } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
@@ -64,7 +62,7 @@ import {
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { StorageActionButton } from 'core-app/shared/components/storages/storage-information/storage-action-button';
 import {
   StorageInformationBox,
@@ -78,11 +76,12 @@ import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import uploadToNextcloud, { FileUploadResponse } from 'core-app/shared/components/storages/storage/upload-to-nextcloud';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   selector: 'op-storage',
@@ -181,6 +180,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     private readonly http:HttpClient,
     private readonly toastService:ToastService,
     private readonly cookieService:CookieService,
+    private readonly uploadService:OpUploadService,
     private readonly opModalService:OpModalService,
     private readonly timezoneService:TimezoneService,
     private readonly pathHelperService:PathHelperService,
@@ -276,7 +276,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       });
   }
 
-  private uploadFile(file:UploadFile, locationId:string):void {
+  private uploadFile(file:File, locationId:string):void {
     let isUploadError = false;
 
     this.storageFilesResourceService
@@ -310,40 +310,13 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       );
   }
 
-  private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IFileLinkOriginData> {
-    const { method, href } = link._links.destination;
-
-    interface FileUploadResponse {
-      file_name:string;
-      file_id:string;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file, file.name);
-    formData.append('overwrite', 'false');
-    const observable = this.http.request<FileUploadResponse>(
-      method,
-      href,
-      {
-        body: formData,
-        headers: { 'X-External-Request': 'true' },
-        observe: 'events',
-        reportProgress: true,
-        responseType: 'json',
-      },
-    ).pipe(share());
-    const notification = this.toastService.add({
-      data: [[file, observable]],
-      type: 'upload',
-      message: this.text.toast.uploadingLabel,
-    });
+  private uploadAndNotify(link:IUploadLink, file:File):Observable<IFileLinkOriginData> {
+    const observable = uploadToNextcloud(this.uploadService, link, file);
+    this.toastService.addUpload(this.text.toast.uploadingLabel, [[file, observable]]);
 
     return observable
       .pipe(
         filter((ev) => ev.type === HttpEventType.Response),
-        tap(() => {
-          setTimeout(() => this.toastService.remove(notification), 700);
-        }),
         map((ev:HttpResponse<FileUploadResponse>) => ev.body),
         map((data) => {
           if (data === null) {

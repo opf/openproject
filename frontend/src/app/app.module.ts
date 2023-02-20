@@ -36,7 +36,9 @@ import {
   HTTP_INTERCEPTORS,
   HttpClientModule,
 } from '@angular/common/http';
+import { A11yModule } from '@angular/cdk/a11y';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
@@ -76,7 +78,7 @@ import { PasswordConfirmationModalComponent } from 'core-app/shared/components/m
 import { WpPreviewModalComponent } from 'core-app/shared/components/modals/preview-modal/wp-preview-modal/wp-preview.modal';
 import { OpHeaderProjectSelectComponent } from 'core-app/shared/components/header-project-select/header-project-select.component';
 import { OpHeaderProjectSelectListComponent } from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
-
+import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -88,12 +90,11 @@ import { OpenprojectPluginsModule } from 'core-app/features/plugins/openproject-
 import { LinkedPluginsModule } from 'core-app/features/plugins/linked-plugins.module';
 import { OpenProjectInAppNotificationsModule } from 'core-app/features/in-app-notifications/in-app-notifications.module';
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
-import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
+import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenProjectHeaderInterceptor } from 'core-app/features/hal/http/openproject-header-interceptor';
 import { TopMenuService } from 'core-app/core/top-menu/top-menu.service';
-import { A11yModule } from '@angular/cdk/a11y';
 
 export function initializeServices(injector:Injector) {
   return () => {
@@ -207,6 +208,7 @@ export function initializeServices(injector:Injector) {
     },
     PaginationService,
     OpenProjectBackupService,
+    OpUploadService,
     OpenProjectFileUploadService,
     OpenProjectDirectFileUploadService,
     ConfirmDialogService,
