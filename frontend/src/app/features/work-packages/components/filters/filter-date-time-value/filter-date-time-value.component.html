@@ -1,4 +1,4 @@
-<op-single-date-picker
+<op-basic-single-date-picker
   [id]="'values-' + filter.id"
   [name]="'v[' + filter.id + ']'"
   class="advanced-filters--date-field"
@@ -8,8 +8,7 @@
   [value]="isoDateFormatter(value)"
 
   [opAutofocus]="shouldFocus"
-
-></op-single-date-picker>
+></op-basic-single-date-picker>
 
 <span
   class="advanced-filters--tooltip-trigger -multiline"
