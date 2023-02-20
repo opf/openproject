@@ -12,11 +12,7 @@ Boards support agile project management methodologies, such as Scrum or Kanban.
 
 Our Agile boards can be for anything you would like to keep track of within your projects: Tasks to be done, Bugs to be fixed, Things to be reviewed, Features to be developed, Risks to be monitored, Ideas to be spread, anything! The boards consist of lists (columns) and cards. You can choose between a Basic board and various advanced Action boards.
 
-<<<<<<< HEAD
-> **Note**: The basic board is included in the OpenProject Community Edition. OpenProject Action boards is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
-=======
 > **Note**: The basic board is included in the OpenProject Community edition. OpenProject Action boards are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 
 | Topic                                                     | Content                                                                          |
@@ -54,21 +50,12 @@ Click on the green **+Board** button to create a new Board view.
 
 Next, you need to choose which kind of Agile board you want to create.
 
-<<<<<<< HEAD
-### Basic board (Community Edition)
-The Basic board is included in the OpenProject Community Edition. You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas. 
-
-![Board types basic board](Board-types-basic-board.png)
-
-### Action boards (Premium feature)
-=======
 ## Basic board (Community edition)
 The Basic board is included in the OpenProject Community edition. You can freely create lists, name them and order your work packages within. If you move work packages between  the lists, there will be **NO changes** to the work package itself. This allows you to create flexible boards for any kind of activity you would like to track, e.g. Management of Ideas. 
 
 ![Board types basic board](Board-types-basic-board.png)
 
 ## Action boards (Enterprise add-on)
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 In an Action board each lists represents a value of an attribute of the contained work packages (cards), e.g. there's a list for the status "New" and a list for the status "In Progress" in the Status board.
 Moving work packages (cards) between two lists will update them automatically, based on the list to which they're moved.
@@ -101,11 +88,7 @@ Every list represents a subproject. Within the list you will find the subproject
 ### Parent-child board
 Every list represents a parent work package. Within the list you will find the work package's children. 
 Only work packages from the current project can be selected as a list, i.e. can be chosen as the name of the list.
-<<<<<<< HEAD
-The Parent-Child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
-=======
 The Parent-child board is ideal for depicting a **work breakdown structure (WBS)**. By moving cards to another list you can reorder the work package as a child to another work package.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 Please note: This will only display one hierarchy level below the displayed work package, i.e. only immediate children and no grandchildren.
 
 ![create parent child board](create-parent-child-board.png)

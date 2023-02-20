@@ -20,11 +20,7 @@ This integration can be added for example for Google Chrome as [Toggl Track exte
 
 On the cogwheel of the Toggl Track extension you reach the **Settings**, from there chose **Integrations**.
 
-<<<<<<< HEAD
-For OpenProject Domains that are located on openproject.com, which is the case for most of the Enterprise Cloud instances, you are able to chose **Openproject - openroject.com** from the list of default integrations.
-=======
 For OpenProject domains that are located on openproject.com, which is the case for most of the Enterprise cloud instances, you are able to chose **Openproject - openproject.com** from the list of default integrations.
->>>>>>> e3ea00ec0acf8e00d05bfa0e5901527320d5d26f
 
 For any other OpenProject Domains you need to exactly add the **Fully Qualified Domain Name** (including subdomain) to the **Custom URLs for Integration** and chose **OpenProject**. For example: community.openproject.org (wildcards are not supported by Toggl Track at the moment of writing)
 

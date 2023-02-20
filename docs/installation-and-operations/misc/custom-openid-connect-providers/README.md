@@ -101,27 +101,6 @@ OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
 **Note**: Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive
 underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth.
 
-## Environment variables
-
-Rather than setting these options via the rails console, you can also define them through the
-[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
-also be defined through
-[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
-
-The variable names can be derived from the options seen above. All variables will start with the prefix
-`OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would
-be defined via environment variables like this:
-
-```
-OPENPROJECT_OPENID__CONNECT_OKTA_DISPLAY__NAME="Okta"
-OPENPROJECT_OPENID__CONNECT_OKTA_HOST="mypersonal.okta.com"
-OPENPROJECT_OPENID__CONNECT_OKTA_IDENTIFIER="<identifier or client id>"
-# etc.
-```
-
-**Note**: Underscores in option names must be escaped by doubling them. So make sure to really do use two consecutive
-underscores in `DISPLAY__NAME`, `TOKEN__ENDPOINT` and so forth.
-
 ## More options
 
 You can see a list of possible options [here](https://github.com/m0n9oose/omniauth_openid_connect#options-overview).

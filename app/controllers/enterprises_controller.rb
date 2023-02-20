@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class EnterprisesController < ApplicationController
-  # include EnterpriseTrialHelper
 
   layout 'admin'
   menu_item :enterprise
@@ -41,11 +40,7 @@ class EnterprisesController < ApplicationController
     @current_token = EnterpriseToken.current
     @token = @current_token || EnterpriseToken.new
 
-    # helpers.write_augur_to_gon
 
-    # if !@current_token.present?
-    #   helpers.write_trial_key_to_gon
-    # end
   end
 
   def create
