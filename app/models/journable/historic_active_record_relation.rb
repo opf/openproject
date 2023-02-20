@@ -122,6 +122,10 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     original_build_arel(aliases)
   end
 
+  def eager_loading?
+    false
+  end
+
   private
 
   # Switch the database table, e.g. from `work_packages` to `work_package_journals`.
