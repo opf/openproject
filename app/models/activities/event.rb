@@ -5,13 +5,14 @@ module Activities
                      :event_title,
                      :event_description,
                      :author_id,
-                     :event_author,
                      :event_datetime,
                      :journable_id,
                      :project_id,
-                     :project,
                      :event_type,
                      :event_path,
                      :event_url,
-                     keyword_init: true)
+                     # attributes below are eager loaded by Activities::Fetcher
+                     :event_author,
+                     :journal,
+                     :project)
 end

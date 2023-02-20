@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+class Activities::ItemComponent < ViewComponent::Base
+  with_collection_parameter :event
 
-describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { create(:admin) }
-
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
-
-  before do
-    login_as(user)
+  def initialize(event:, display_user: true)
+    super()
+    @event = event
+    @display_user = display_user
   end
 
-  describe 'project activity' do
-    it 'can show the meeting in the project activity' do
-      visit project_activity_index_path(project)
+  def display_belonging_project?
+    @event.journal.journable_type != 'Project'
+  end
 
-      check 'Meetings'
-      click_on 'Apply'
+  def display_user?
+    @display_user
+  end
 
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
-    end
+  def display_details?
+    return false if @event.journal.initial?
+
+    rendered_details.present?
+  end
+
+  def rendered_details
+    @rendered_details ||=
+      @event.journal
+        .details
+        .flat_map { |detail| @event.journal.render_detail(detail) }
+  end
+
+  def format_activity_title(text)
+    helpers.truncate_single_line(text, length: 100)
   end
 end

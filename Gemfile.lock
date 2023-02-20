@@ -944,6 +944,10 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
+    view_component (2.82.0)
+      activesupport (>= 5.2.0, < 8.0)
+      concurrent-ruby (~> 1.0)
+      method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-basic_auth (0.2.1)
@@ -1142,6 +1146,7 @@ DEPENDENCIES
   typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2022.1)
   validate_url
+  view_component
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webdrivers (~> 5.2.0)

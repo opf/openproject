@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "rails_helper"
 
-describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { create(:admin) }
+RSpec.describe Activities::ItemComponent, type: :component do
+  let(:event) do
+    Activities::Event.new(
+      event_title: "Event Title",
+      event_description: "something",
+      event_datetime: journal.created_at,
+      event_path: "/project/123",
+      project_id: project.id,
+      project:,
+      journal:
+    )
+  end
+  let(:project) { build_stubbed(:project) }
+  let(:journal) { build_stubbed(:work_package_journal) }
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
+  it 'renders the title escaped' do
+    event.event_title = 'Hello <b>World</b>!'
+    render_inline(described_class.new(event:))
 
-  before do
-    login_as(user)
+    expect(page).to have_css('.op-activity-list--item-title', text: 'Hello <b>World</b>!')
   end
 
-  describe 'project activity' do
-    it 'can show the meeting in the project activity' do
-      visit project_activity_index_path(project)
+  it 'renders the project name to which the event belongs, escaped' do
+    event.project.name = 'Project <b>name</b> with HTML'
+    render_inline(described_class.new(event:))
 
-      check 'Meetings'
-      click_on 'Apply'
-
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
-    end
+    expect(page).to have_css('.op-activity-list--item-title', text: '(Project: Project <b>name</b> with HTML)')
   end
 end

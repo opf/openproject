@@ -28,28 +28,24 @@
 
 require 'spec_helper'
 
-describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { create(:admin) }
+describe 'index users', js: true do
+  current_user { create(:admin) }
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
+  let(:index_page) { Pages::Admin::Users::Index.new }
 
-  before do
-    login_as(user)
-  end
+  it 'displays the user activity list', with_settings: { journal_aggregation_time_minutes: 0 } do
+    # create some activities
+    project = create(:project_with_types)
+    project.update(name: 'new name', description: 'new project description')
 
-  describe 'project activity' do
-    it 'can show the meeting in the project activity' do
-      visit project_activity_index_path(project)
+    work_package = create(:work_package, author: current_user, project:)
+    work_package.update(subject: 'new subject', description: 'new work package description')
 
-      check 'Meetings'
-      click_on 'Apply'
+    visit user_path(current_user)
 
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
-    end
+    expect(page).to have_selector('li', text: "Project: #{project.name}")
+    expected_work_package_title = "#{work_package.type.name} ##{work_package.id}: #{work_package.subject} " \
+                                  "(Project: #{work_package.project.name})"
+    expect(page).to have_selector('li', text: expected_work_package_title)
   end
 end

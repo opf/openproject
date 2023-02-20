@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,30 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
-  let(:user) { create(:admin) }
-
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
-
-  before do
-    login_as(user)
+class Activities::ItemSubtitleComponent < ViewComponent::Base
+  def initialize(user:, datetime:, is_creation:)
+    super()
+    @user = user
+    @datetime = datetime
+    @is_creation = is_creation
   end
 
-  describe 'project activity' do
-    it 'can show the meeting in the project activity' do
-      visit project_activity_index_path(project)
+  def user_html
+    return unless @user
 
-      check 'Meetings'
-      click_on 'Apply'
+    [
+      helpers.avatar(@user, size: 'mini'),
+      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
+    ].join(' ')
+  end
 
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
-    end
+  def datetime_html
+    helpers.format_time(@datetime)
+  end
+
+  def i18n_key
+    i18n_key = 'activity.item.'.dup
+    i18n_key << (@is_creation ? 'created_' : 'updated_')
+    i18n_key << 'by_' if @user
+    i18n_key << 'on'
+    i18n_key
   end
 end
