@@ -52,7 +52,7 @@ This badge shows the current status of your OpenProject installation. It will in
 
 ### Security alerts
 
-Security updates allow a fast fix of security issues in the system. Relevant channels will be monitored regarding security topics and the responsible contact person will be informed. Software packages for security fixes will be provided promptly.
+Security updates allow a fast fix of security issues in the system. Relevant channels will be monitored regarding security topics and the responsible contact person will be informed. Software packages for security fixes will be provided promptly. Sign up to our [security mailing list](/#security-announcements-mailing-list) to receive all security notifications via e-mail.
 
 ### LDAP sync (Enterprise add-on)
 
