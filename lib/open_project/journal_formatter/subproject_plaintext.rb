@@ -25,35 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatter::NamedAssociation
+class OpenProject::JournalFormatter::SubprojectPlaintext < JournalFormatter::Base
   private
 
-  def format_details(key, values, cache:)
-    if values.first.nil?
-      label = label(key)
-    elsif values.last.nil?
-      label = I18n.t("activerecord.attributes.project.parent_no_longer")
-    else
-      label = I18n.t("activerecord.attributes.project.parent_without_of")
-    end
-
-    old_value, value = *format_values(values, key, cache:)
-
-    [label, old_value, value]
-  end
-
-  def format_html_details(label, old_value, value)
-    label = content_tag(:strong, label)
-    old_value = content_tag('i', h(old_value)) if old_value.present?
-    value = content_tag('i', h(value)) if value.present?
-    value ||= ''
-
-    [label, old_value, value]
-  end
-
   def render_ternary_detail_text(label, value, old_value, options)
-    return I18n.t(:text_journal_deleted_custom_subproject, label:, old: old_value) if value.blank?
-    return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
+    return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
+    return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 
     linebreak = should_linebreak?(old_value.to_s, value.to_s)
 

@@ -106,8 +106,8 @@ class Project < ApplicationRecord
 
   register_journal_formatted_fields(:active_status, 'active')
   register_journal_formatted_fields(:template, 'templated')
-  register_journal_formatted_fields(:plaintext, 'identifier')
-  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:subproject_plaintext, 'identifier')
+  register_journal_formatted_fields(:subproject_plaintext, 'name')
   register_journal_formatted_fields(:diff, 'description')
   register_journal_formatted_fields(:visibility, 'public')
   register_journal_formatted_fields(:subproject_named_association, 'parent_id')
