@@ -29,7 +29,7 @@ module Components
     end
 
     def container
-      page.document.find(context_selector)
+      page.find(context_selector)
     end
 
     def flatpickr_container
