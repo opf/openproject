@@ -51,9 +51,9 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 export class HoursDurationEditFieldComponent extends EditFieldComponent {
   @InjectField() TimezoneService:TimezoneService;
 
-  inputValue = null;
+  inputValue:null|string;
 
-  public parser(value:any, input:any) {
+  public parser(value:any, input:HTMLInputElement) {
     // Managing decimal separators in a multi-language app is a complex topic:
     // https://www.ctrl.blog/entry/html5-input-number-localization.html
     // Depending on the locale of the OS, the browser or the app itself,
@@ -67,24 +67,25 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     // default to the previous value, emulating the way the browsers work with
     // valid separators (e.g: introducing 1. would set 1 as a value).
     this.inputValue = input.value;
-    if (!input.validity.valid as boolean) {
-      if (value == null || input.value == "") {
+    if (!input.validity.valid) {
+      if (value === null || input.value === '') {
         value = null;
       } else {
-        value = this.value;
+        value = this.value as string;
       }
     }
     return moment.duration(value, 'hours');
   }
 
   public formatter(value:any) {
-    if(value == null)
+    if (value === null) {
       return null;
+    }
     return Number(moment.duration(value).asHours().toFixed(2));
   }
 
   protected parseValue(val:moment.Moment | null) {
-    if (val === null || this.inputValue== "") {
+    if (val === null || this.inputValue === '') {
       return null;
     }
 
