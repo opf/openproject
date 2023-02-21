@@ -159,7 +159,7 @@ export class UrlParamsHelperService {
   private encodeHighlightedAttributes(query:QueryResource):Partial<QueryProps> {
     if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
-        return { hla: query.highlightedAttributes.map((el) => el.id as string) };
+        return { hla: query.highlightedAttributes.map((el) => this.idFromHref(el.href as string)) };
       }
     }
 
