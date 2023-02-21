@@ -44,7 +44,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
 
   public schema:SchemaResource;
 
-  public customFields:{ key:string, label:string }[] = [];
+  public customFields:{ key:string, label:string, type:string }[] = [];
 
   constructor(readonly halEditing:HalResourceEditingService,
     readonly cdRef:ChangeDetectorRef,
@@ -101,7 +101,7 @@ export class TimeEntryFormComponent extends UntilDestroyedMixin implements OnIni
   private setCustomFields() {
     Object.entries(this.schema).forEach(([key, keySchema]) => {
       if (/customField\d+/.exec(key)) {
-        this.customFields.push({ key, label: keySchema.name });
+        this.customFields.push({ key, label: keySchema.name, type: keySchema.type });
       }
     });
   }
