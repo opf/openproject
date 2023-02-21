@@ -909,8 +909,11 @@ tr:
     header_invalid_fields: "Aşağıdaki alanları ile ilgili sorunlar oluştu:"
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
-    created: "Oluşturuldu: %{title}"
-    updated: "Güncellendi: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

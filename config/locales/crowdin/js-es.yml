@@ -254,18 +254,18 @@ es:
           you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+          empty_state_header: "Días no laborables"
+          empty_state_description: 'No hay días no laborables específicos definidos para este año. Haga clic en "+ día no laborable" abajo para añadir una fecha.'
+          new_date: '(nuevo)'
+        add_non_working_day: "Día no laborable"
+        already_added_error: "Ya existe un día no laborable para esta fecha. Solo puede haber un día no laborable creado para cada fecha."
+        change_button: "Guardar y reprogramar"
+        change_title: "Cambiar los días laborables"
+        removed_title: "Eliminará los siguientes días de la lista de días no laborables:"
+        change_description: "Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
+          ¿Está seguro de que desea continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -318,7 +318,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -1261,5 +1261,5 @@ es:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal.'
         Close: 'Cerrar'

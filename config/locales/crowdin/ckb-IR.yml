@@ -910,8 +910,11 @@ ckb-IR:
     header_invalid_fields: "There were problems with the following fields:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
-    created: "Created: %{title}"
-    updated: "Updated: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

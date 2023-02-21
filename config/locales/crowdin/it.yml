@@ -907,8 +907,11 @@ it:
     header_invalid_fields: "Ci sono stati dei problemi con i seguenti campi:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
-    created: "Creato: %{title}"
-    updated: "Aggiornato: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

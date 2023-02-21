@@ -910,8 +910,11 @@ fi:
     header_invalid_fields: "Seuraavissa kentissä oli ongelmia:"
     field_erroneous_label: "Tämä kenttä on virheellinen: %{full_errors} Anna kelvollinen arvo."
   activity:
-    created: "Luotu: %{title}"
-    updated: "Päivitetty: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"
