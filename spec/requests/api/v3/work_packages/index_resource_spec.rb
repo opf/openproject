@@ -651,6 +651,30 @@ describe 'API v3 Work package resource',
           end
         end
       end
+
+      describe "when providing only the current timestamp PT0S, which is equivalent to providing no timestamps" do
+        let(:timestamps) { [Timestamp.now] }
+
+        it "has the attributes in the main object" do
+          expect(subject.body)
+            .to be_json_eql(work_package.subject.to_json)
+            .at_path('_embedded/elements/0/subject')
+        end
+
+        it "has no _meta" do
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/0/_meta/matchesFilters')
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/0/_meta/exists')
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/0/_meta/timestamp')
+        end
+
+        it "has no attributesByTimestamp" do
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp')
+        end
+      end
     end
   end
 end
