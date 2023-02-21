@@ -29,9 +29,10 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
   private
 
   def format_details(key, values, cache:)
-    binding.pry
     if values.first.nil?
       label = label(key)
+    elsif values.last.nil?
+      label = I18n.t("activerecord.attributes.project.parent_no_longer")
     else
       label = I18n.t("activerecord.attributes.project.parent_without_of")
     end
@@ -42,8 +43,7 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
   end
 
   def render_ternary_detail_text(label, value, old_value, options)
-    binding.pry
-    return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
+    return I18n.t(:text_journal_deleted_custom_subproject, label:, old: old_value) if value.blank?
     return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
 
     linebreak = should_linebreak?(old_value.to_s, value.to_s)

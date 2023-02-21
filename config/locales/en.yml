@@ -544,6 +544,7 @@ en:
         latest_activity_at: "Latest activity at"
         parent: "Subproject of"
         parent_without_of: "Subproject"
+        parent_no_longer: "No longer subproject of"
         public_value:
           title: "Visibility"
           true: "public"
@@ -2844,6 +2845,7 @@ en:
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_custom_subproject: "%{label} (%{old})"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"

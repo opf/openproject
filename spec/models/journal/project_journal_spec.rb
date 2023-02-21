@@ -66,7 +66,6 @@ RSpec.describe Journal::ProjectJournal do
     end
 
     it 'renders parent field correctly' do
-      pending('need to update code')
       parent = create(:project)
 
       # Set
@@ -86,9 +85,9 @@ RSpec.describe Journal::ProjectJournal do
 
       # Delete
       expect(journal.render_detail(['parent_id', [parent.id, nil]], html: true))
-        .to eq("<strong>Subproject of</strong> deleted (<strike><i>#{parent.name}</i></strike>)")
+        .to eq("<strong>No longer subproject of</strong> (<strike><i>#{parent.name}</i></strike>)")
       expect(journal.render_detail(['parent_id', [parent.id, nil]], html: false))
-        .to eq("Subproject of deleted (#{parent.name})")
+        .to eq("No longer subproject of (#{parent.name})")
     end
   end
 end
