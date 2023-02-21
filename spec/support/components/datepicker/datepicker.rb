@@ -11,7 +11,7 @@ module Components
     # @param trigger [String] Selector to click the trigger at
     # @param date [Date | String] Date or ISO8601 date string to set to
     def self.update_field(trigger, date)
-      datepicker = Components::Datepicker.new
+      datepicker = new
 
       datepicker.instance_eval do
         input = page.find(trigger)
