@@ -333,7 +333,8 @@ module API
         property :_meta,
                  if: ->(*) {
                    respond_to? :matches_query_filters_at_timestamps \
-                   and matches_query_filters_at_timestamps.any?
+                   and respond_to? :timestamps \
+                   and timestamps != [Timestamp.now]
                  },
                  getter: ->(*) {
                    {
@@ -353,7 +354,6 @@ module API
                      #
                      'timestamp': timestamps.last.to_s
                    }
-                 }
                  },
                  uncacheable: true
 
@@ -507,7 +507,7 @@ module API
 
         property :attributes_by_timestamp,
                  as: :attributesByTimestamp,
-                 if: ->(*) { respond_to?(:attributes_by_timestamp) and attributes_by_timestamp.present? },
+                 if: ->(*) { respond_to?(:attributes_by_timestamp) and respond_to?(:timestamps) and timestamps != [Timestamp.now] },
                  getter: ->(*) do
                    timestamps.collect do |timestamp|
                      attrs = attributes_by_timestamp[timestamp.to_s].to_h
