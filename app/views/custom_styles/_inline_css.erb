@@ -32,13 +32,20 @@ See COPYRIGHT and LICENSE files for more details.
   <%  DesignColor.overwritten.each do |design_color| %>
     --<%= design_color.variable %>: <%= design_color.hexcode %>;
     <% if design_color.variable == "header-border-bottom-color" %>
-      --header-border-bottom-width: 1px;
+    --header-border-bottom-width: 1px;
     <% end %>
     <% if design_color.variable == "main-menu-border-color" %>
-      --main-menu-border-width: 1px;
+    --main-menu-border-width: 1px;
     <% end %>
     <% if design_color.variable == "alternative-color" %>
-      --button--alt-highlight-background-hover-color: <%= darken_color design_color.hexcode, 0.82 %>;
+    --button--alt-highlight-background-hover-color: <%= design_color.darken 0.82 %>;
+    <% end %>
+    <% if design_color.variable == "primary-color" %>
+    --primary-color--lighten-10: <%= design_color.lighten 0.1 %>;
+    --primary-color--lighten-20: <%= design_color.lighten 0.2 %>;
+    --primary-color--lighten-30: <%= design_color.lighten 0.3 %>;
+    --primary-color--lighten-40: <%= design_color.lighten 0.4 %>;
+    --primary-color--lighten-50: <%= design_color.lighten 0.5 %>;
     <% end %>
   <% end %>
   }
