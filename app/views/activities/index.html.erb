@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
             subtitle: t(:label_date_from_to, start: format_date(@date_to - @days), end: format_date(@date_to-1))
 %>
 
-<%= render(Activities::DaysComponent.new(events: @events, activity_page: @activity_page))  %>
+<%= render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))  %>
 
 <% if @events.empty? %>
   <%= no_results_box %>

@@ -29,9 +29,10 @@
 #++
 
 class Activities::ListComponent < ViewComponent::Base
-  def initialize(events:, display_user: true, activity_page: nil)
+  def initialize(events:, current_project:, display_user: true, activity_page: nil)
     super()
     @events = events.sort { |x, y| y.event_datetime <=> x.event_datetime }
+    @current_project = current_project
     @display_user = display_user
     @activity_page = activity_page
   end

@@ -3,6 +3,7 @@
     <%= content_tag(@header_tag, helpers.format_activity_day(day), class: 'op-activity-days--header') %>
 
     <%= render(Activities::ListComponent.new(events:,
+                                             current_project: @current_project,
                                              display_user: @display_user,
                                              activity_page: @activity_page))
     %>
