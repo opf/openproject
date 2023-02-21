@@ -73,7 +73,3 @@ Web sites should be:
 ## 5. Additional information
 * [WCAG checklist](https://webaim.org/standards/wcag/checklist) (English)
 * [BITV checklist](https://www.barrierefreies-webdesign.de/richtlinien/verwaltung/bitv-2.0.html) (German)
-
-Screen reader used for accessibility tests (DTAG):
-
-* JAWS 18 (with Chrome (latest version), German language settings, activated accessibility mode)
