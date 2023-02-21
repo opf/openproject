@@ -215,6 +215,14 @@ import {
   OpSingleDatePickerComponent,
   opSingleDatePickerSelector,
 } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import {
+  OpModalSingleDatePickerComponent,
+  opModalSingleDatePickerSelector,
+} from 'core-app/shared/components/datepicker/modal-single-date-picker/modal-single-date-picker.component';
+import {
+  OpBasicSingleDatePickerComponent,
+  opBasicSingleDatePickerSelector,
+} from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
 import { SpotDropModalPortalComponent, spotDropModalPortalComponentSelector } from 'core-app/spot/components/drop-modal/drop-modal-portal.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
@@ -273,9 +281,11 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: opInAppNotificationBellSelector, cls: InAppNotificationBellComponent },
   { selector: ianMenuSelector, cls: IanMenuComponent },
   { selector: opModalOverlaySelector, cls: OpModalOverlayComponent },
-  // It is important to initialize the remoteFieldUpdaterSelector after the opSingleDatePickerSelector,
-  // because we need to access the input field of the opSingleDatePickerSelector inside the remoteFieldUpdaterSelector
+  // It is important to initialize the remoteFieldUpdaterSelector after the opModalSingleDatePickerSelector,
+  // because we need to access the input field of the opModalSingleDatePickerSelector inside the remoteFieldUpdaterSelector
   { selector: opSingleDatePickerSelector, cls: OpSingleDatePickerComponent, embeddable: true },
+  { selector: opModalSingleDatePickerSelector, cls: OpModalSingleDatePickerComponent, embeddable: true },
+  { selector: opBasicSingleDatePickerSelector, cls: OpBasicSingleDatePickerComponent, embeddable: true },
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
   { selector: spotDropModalPortalComponentSelector, cls: SpotDropModalPortalComponent },
 ];

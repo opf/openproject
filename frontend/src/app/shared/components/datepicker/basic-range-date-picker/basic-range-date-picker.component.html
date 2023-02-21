@@ -1,0 +1,15 @@
+<input
+  #input
+  type="text"
+  class="spot-input"
+  [ngClass]="inputClassNames"
+  [attr.data-value]="value"
+  [id]="id"
+  [name]="name"
+  [attr.name]="name"
+  [required]="required"
+  [disabled]="disabled"
+  [ngModel]="stringValue"
+  (ngModelChange)="changeValueFromInputDebounced($event)"
+  (focus)="showDatePicker()"
+/>
