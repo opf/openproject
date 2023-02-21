@@ -354,6 +354,8 @@ module API
                      'timestamp': timestamps.last.to_s
                    }
                  }
+                 },
+                 uncacheable: true
 
         property :id,
                  render_nil: true
@@ -501,7 +503,7 @@ module API
                    attrs
                  end,
                  embedded: true,
-                 uncachable: true
+                 uncacheable: true
 
         property :attributes_by_timestamp,
                  as: :attributesByTimestamp,
@@ -530,7 +532,7 @@ module API
                    end
                  end,
                  embedded: true,
-                 uncachable: true
+                 uncacheable: true
 
         associated_resource :category
 
@@ -736,6 +738,7 @@ module API
            I18n.locale,
            json_key_representer_parts,
            represented.cache_checksum,
+           timestamps,
            Setting.work_package_done_ratio,
            Setting.feeds_enabled?]
         end
