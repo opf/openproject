@@ -34,6 +34,7 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
+  HostBinding,
   Injector,
   Input,
   Output,
@@ -61,7 +62,11 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
 @Component({
   selector: opBasicRangeDatePickerSelector,
   templateUrl: './basic-range-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: [
+    '../styles/datepicker.modal.sass',
+    '../styles/datepicker_mobile.modal.sass',
+    './basic-range-date-picker.component.sass',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -73,6 +78,8 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
   ],
 })
 export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, AfterViewInit {
+  @HostBinding('class.op-basic-range-datepicker') className = true;
+
   @Output('valueChange') valueChange = new EventEmitter();
 
   public stringValue = '';
