@@ -140,6 +140,8 @@ class Timestamp
     self != Timestamp.now
   end
 
+  delegate :hash, to: :iso8601
+
   class Exception < StandardError; end
 
   # rubocop:disable Metrics/AbcSize

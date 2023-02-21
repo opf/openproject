@@ -374,6 +374,40 @@ describe Timestamp do
     end
   end
 
+  describe "#hash" do
+    # rubocop:disable RSpec/IdenticalEqualityAssertion
+    context 'for two instance of relative time representing the same point in time' do
+      it 'is eql' do
+        expect(described_class.new("PT0S").hash)
+          .to eql described_class.new("PT0S").hash
+      end
+    end
+
+    context 'for two instance of relative time representing different points in time' do
+      it 'is different' do
+        expect(described_class.new("PT0S").hash)
+          .not_to eql described_class.new("PT10S").hash
+      end
+    end
+
+    context 'for two instance of absolute time representing the same point in time' do
+      let(:time) { Time.zone.now }
+
+      it 'is equal' do
+        expect(described_class.new(time).hash)
+          .to eql described_class.new(time).hash
+      end
+    end
+
+    context 'for two instance of absolute time representing different points in time' do
+      it 'is different' do
+        expect(described_class.new(10.seconds.ago).hash)
+          .not_to eql described_class.new(5.seconds.ago).hash
+      end
+    end
+    # rubocop:enable RSpec/IdenticalEqualityAssertion
+  end
+
   describe "passing a described_class to a where clause" do
     subject { Query.where("updated_at < ?", timestamp) }
 
