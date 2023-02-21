@@ -27,10 +27,6 @@ module FormFields
       input_element.send_keys(*args)
     end
 
-    def click
-      scroll_to_and_click(input_element)
-    end
-
     def input_element
       field_container.find 'input'
     end

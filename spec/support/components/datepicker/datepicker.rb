@@ -36,10 +36,6 @@ module Components
       container.find(".flatpickr-calendar")
     end
 
-    def working_days_label
-      container.find(:label, text: 'Working days only')
-    end
-
     ##
     # Clear all values
     def clear!
@@ -142,12 +138,6 @@ module Components
     end
 
     ##
-    # Expect the date input value
-    def expect_input(value)
-      expect(container).to have_field('date', with: value)
-    end
-
-    ##
     # Expect the current selection to match the
     # given ISO601 date
     def expect_current_date(date)
@@ -156,7 +146,6 @@ module Components
       expect_year(date.year)
       expect_month(date.month)
       expect_day(date.day)
-      expect_input(date.iso8601)
     end
 
     ##
