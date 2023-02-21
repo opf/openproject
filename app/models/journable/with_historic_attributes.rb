@@ -122,7 +122,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       assign_historic_attributes_to(
         journables,
         timestamp:,
-        historic_journables: WorkPackage.at_timestamp(timestamp).where(id: journables),
+        historic_journables: WorkPackage.at_timestamp(timestamp).where(id: journables.map(&:id)),
         matching_journables: (query_work_packages(query:, timestamp:) if query),
         query:
       )
