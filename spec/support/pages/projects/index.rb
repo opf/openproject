@@ -76,7 +76,7 @@ module Pages
             set_created_at_filter(human_operator, values)
           elsif name =~ /cf_\d+/
             select(human_operator, from: 'operator')
-            set_custom_field_filter(selected_filter, human_operator, name, values)
+            set_custom_field_filter(selected_filter, human_operator, values)
           end
         end
       end
@@ -118,7 +118,7 @@ module Pages
           end
         elsif selected_filter[:'filter-type'] == 'date'
           if human_operator == 'on'
-            set_date "on-date-value-#{name}", values.first
+            fill_in 'value', with: values.first
           end
         end
       end
