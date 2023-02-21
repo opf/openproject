@@ -109,5 +109,15 @@ module API::V3::WorkPackages::EagerLoading
     def timestamp
       new_record? ? @timestamp : __getobj__.timestamp
     end
+
+    # Since custom fields are currently never displayed in the attributesByTimestamp,
+    # for which this object is used, simply short circuit the loading of the custom field information.
+    def available_custom_fields
+      WorkPackageCustomField.none
+    end
+
+    def define_all_custom_field_accessors
+      nil
+    end
   end
 end
