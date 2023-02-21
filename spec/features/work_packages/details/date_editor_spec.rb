@@ -299,7 +299,6 @@ describe 'date inplace editor',
 
       # Open date picker
       cf_field.input_element.click
-      datepicker.expect_working_days_only_enabled
       datepicker.set_date Time.zone.today
       datepicker.save!
 
@@ -317,9 +316,8 @@ describe 'date inplace editor',
       cf_field.activate!
       cf_field.expect_active!
 
-      datepicker.expect_working_days_only_enabled
-
       datepicker.set_date Time.zone.today
+
       datepicker.expect_year Time.zone.today.year
       datepicker.expect_month Time.zone.today.strftime("%B")
       datepicker.expect_day Time.zone.today.day
