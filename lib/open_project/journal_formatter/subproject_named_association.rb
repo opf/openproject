@@ -29,13 +29,13 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
   private
 
   def format_details(key, values, cache:)
-    if values.first.nil?
-      label = label(key)
-    elsif values.last.nil?
-      label = I18n.t("activerecord.attributes.project.parent_no_longer")
-    else
-      label = I18n.t("activerecord.attributes.project.parent_without_of")
-    end
+    label = if values.first.nil?
+              label(key)
+            elsif values.last.nil?
+              I18n.t("activerecord.attributes.project.parent_no_longer")
+            else
+              I18n.t("activerecord.attributes.project.parent_without_of")
+            end
 
     old_value, value = *format_values(values, key, cache:)
 
