@@ -114,7 +114,7 @@ $datepicker--border-radius: 5px
           @include non-working-day
 
           &.inRange
-            color: $spot-color-feedback-info-dark
+            color: $spot-color-basic-gray-2
 
         &.today
           background: $spot-color-indication-current-date
@@ -124,8 +124,8 @@ $datepicker--border-radius: 5px
         &.selected,
         &.startRange,
         &.endRange
-          background: $spot-color-main
-          border-color: $spot-color-main
+          background: var(--primary-color)
+          border-color: var(--primary-color)
           color: $spot-color-basic-white
 
         &.startRange
@@ -138,9 +138,9 @@ $datepicker--border-radius: 5px
           border-radius: $datepicker--border-radius
 
         &.inRange
-          background: $spot-color-feedback-info-light
+          background: var(--primary-color--lighten-80)
           color: $spot-color-basic-black
-          border-color: $spot-color-feedback-info-light
+          border-color: var(--primary-color--lighten-80)
           border-radius: 0
 
         &.flatpickr-disabled
