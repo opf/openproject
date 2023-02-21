@@ -32,7 +32,8 @@ class ActivitiesController < ApplicationController
                 :verify_activities_module_activated,
                 :determine_date_range,
                 :determine_subprojects,
-                :determine_author
+                :determine_author,
+                :set_current_activity_page
 
   after_action :set_session
 
@@ -113,6 +114,10 @@ class ActivitiesController < ApplicationController
     else
       :all
     end
+  end
+
+  def set_current_activity_page
+    RequestStore[:current_activity_page] = @project ? "projects/#{@project.identifier}" : 'all'
   end
 
   def set_session

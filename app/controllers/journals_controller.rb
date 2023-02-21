@@ -67,6 +67,7 @@ class JournalsController < ApplicationController
       return render_400 message: I18n.t(:error_journal_attribute_not_present, attribute: field_param)
     end
 
+    @activity_page = params['activity_page']
     @diff = Redmine::Helpers::Diff.new(to, from)
 
     respond_to do |format|
