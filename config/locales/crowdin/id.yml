@@ -899,8 +899,11 @@ id:
     header_invalid_fields: "Eror pada isian berikut :"
     field_erroneous_label: "Bidang ini tidak valid: %{full_errors} masukkan nilai yang berlaku."
   activity:
-    created: "Dibuat : %{title}"
-    updated: "Diupdate : %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

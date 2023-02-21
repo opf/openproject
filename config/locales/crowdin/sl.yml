@@ -917,8 +917,11 @@ sl:
     header_invalid_fields: "Težave so bile na naslednjih področjih:"
     field_erroneous_label: "To polje je neveljavno: %{full_errors}\nProsimo vnesite veljavno vrednost."
   activity:
-    created: "Ustvarjeno: %{title}"
-    updated: "Posodobljeno: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

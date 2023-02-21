@@ -892,8 +892,11 @@ lol:
     header_invalid_fields: "crwdns495749:0crwdne495749:0"
     field_erroneous_label: "crwdns495751:0%{full_errors}crwdne495751:0"
   activity:
-    created: "crwdns495753:0%{title}crwdne495753:0"
-    updated: "crwdns495755:0%{title}crwdne495755:0"
+    item:
+      created_by_on: "crwdns845923:0%{user}crwdnd845923:0%{datetime}crwdne845923:0"
+      created_on: "crwdns845925:0%{datetime}crwdne845925:0"
+      updated_by_on: "crwdns845927:0%{user}crwdnd845927:0%{datetime}crwdne845927:0"
+      updated_on: "crwdns845929:0%{datetime}crwdne845929:0"
     filter:
       changeset: "crwdns845777:0crwdne845777:0"
       message: "crwdns845811:0crwdne845811:0"

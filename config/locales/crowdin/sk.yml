@@ -920,8 +920,11 @@ sk:
     header_invalid_fields: "Nastali problémy s nasledujúcimi poliami:"
     field_erroneous_label: "Toto pole je neplatné: %{full_errors}. Prosím zadajte platnú hodnotu."
   activity:
-    created: "Vytvoril: %{title}"
-    updated: "Aktualizované: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

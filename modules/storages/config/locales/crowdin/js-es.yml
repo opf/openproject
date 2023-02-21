@@ -27,8 +27,8 @@ es:
       files:
         directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
         dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Esta carpeta está vacía."
+        empty_folder_location_hint: "Haga clic en el botón de abajo para subir el archivo a esta ubicación."
         file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
       file_links:
         empty: >

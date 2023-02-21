@@ -930,8 +930,11 @@ ar:
     header_invalid_fields: "كان هناك مشاكل في المجالات التالية:"
     field_erroneous_label: "هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة."
   activity:
-    created: "الإنشاء: %{title}"
-    updated: "التحديث: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

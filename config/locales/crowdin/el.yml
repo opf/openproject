@@ -906,8 +906,11 @@ el:
     header_invalid_fields: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία:"
     field_erroneous_label: "Αυτό το πεδίο δεν είναι έγκυρο: %{full_errors}\nΠαρακαλούμε εισάγετε μια έγκυρη τιμή."
   activity:
-    created: "Δημιουργήθηκε: %{title}"
-    updated: "Ενημερώθηκε: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

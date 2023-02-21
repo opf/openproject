@@ -907,8 +907,11 @@ nl:
     header_invalid_fields: "Er waren problemen met de volgende velden:"
     field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft een geldige waarde in."
   activity:
-    created: "Gemaakt: %{title}"
-    updated: "Bijgewerkt: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

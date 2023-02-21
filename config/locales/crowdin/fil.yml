@@ -910,8 +910,11 @@ fil:
     header_invalid_fields: "Mayroon mga problema sa mga sumusnod na mga patlang:"
     field_erroneous_label: "Ang patlang na ito ay invalid: %{full_errors}\nMangyaring magbigay ng balidong halaga."
   activity:
-    created: "Nilikha: %{title}"
-    updated: "Naka-update: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Changesets"
       message: "Forums"

@@ -917,8 +917,11 @@ pl:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
-    created: "Utworzona: %{title}"
-    updated: "Aktualizacja: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
       changeset: "Zestawy zmian"
       message: "Fora"

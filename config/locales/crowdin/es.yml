@@ -469,20 +469,20 @@ es:
         roles: "Perfiles"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "desarchivado"
+          false: "archivado"
         identifier: "Identificador"
         latest_activity_at: "Última actividad en"
         parent: "Subproyecto de"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Visibilidad"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
         templated: "Plantilla del proyecto"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marcar como plantilla"
+          false: "desmarcar como plantilla"
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
@@ -907,17 +907,20 @@ es:
     header_invalid_fields: "Hubo problemas con los siguientes campos:"
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
-    created: "Creado: %{title}"
-    updated: "Actualizado: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
-      time_entry: "Spent time"
+      changeset: "Conjuntos de cambios"
+      message: "Foros"
+      news: "Noticias"
+      project_attribute: "Atributos del proyecto"
+      subproject: "Incluir subproyectos"
+      time_entry: "Tiempo empleado"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Paquetes de trabajo"
   #common attributes of all models
   attributes:
     active: "Activo"
@@ -1053,7 +1056,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Aplicar cambios"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1773,10 +1776,10 @@ es:
   label_not_contains: "no contiene"
   label_not_equals: "no es"
   label_on: "en"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "no está vacío"
+  label_operator_none: "está vacío"
+  label_operator_equals_or: "es (OR)"
+  label_operator_equals_all: "es (AND)"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
   label_open_work_packages_plural: "abierto"
@@ -2976,12 +2979,12 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definir los días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no se incluyen en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:
