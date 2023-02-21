@@ -259,17 +259,6 @@ describe 'API v3 Work package resource',
           expect(subject && last_response.status).to eq(200)
         end
 
-        it 'embeds the baselineAttributes' do
-          expect(subject)
-            .to be_json_eql("The original work package".to_json)
-            .at_path('_embedded/baselineAttributes/subject')
-        end
-
-        it 'does not embed the attributes in baselineAttributes if they are the same as the current attributes' do
-          expect(subject)
-            .not_to have_json_path('_embedded/baselineAttributes/description')
-        end
-
         it 'embeds the attributesByTimestamp' do
           expect(subject)
             .to be_json_eql("The original work package".to_json)

@@ -1348,32 +1348,6 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
           current_journal
         end
 
-        describe 'baselineAttributes' do
-          it 'has the work package attributes at the baseline time' do
-            expect(subject)
-              .to be_json_eql('The original work package'.to_json)
-              .at_path('_embedded/baselineAttributes/subject')
-          end
-
-          it 'has a link to the baseline work package' do
-            expect(subject)
-              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps.first]).to_json)
-              .at_path('_embedded/baselineAttributes/_links/self/href')
-          end
-
-          it 'has the baseline timestamp as meta information' do
-            expect(subject)
-              .to be_json_eql(timestamps.first.to_s.to_json)
-              .at_path('_embedded/baselineAttributes/_meta/timestamp')
-          end
-
-          it 'has no information about whether the work package matches the query filters at the baseline time' \
-             'because there are no filters without a query' do
-            expect(subject)
-              .not_to have_json_path('_embedded/baselineAttributes/_meta/matchesFilters')
-          end
-        end
-
         describe 'attributesByTimestamp' do
           it 'has an array' do
             expect(JSON.parse(subject)['_embedded']['attributesByTimestamp']).to be_an Array
@@ -1435,14 +1409,6 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
                    lastname: '1',
                    member_in_project: project,
                    member_with_permissions: %i[view_work_packages view_file_links])
-          end
-
-          describe 'baselineAttributes' do
-            it 'states whether the work package matches the query filters at the baseline time' do
-              expect(subject)
-                .to be_json_eql(true.to_json)
-                .at_path('_embedded/baselineAttributes/_meta/matchesFilters')
-            end
           end
 
           describe 'attributesByTimestamp' do

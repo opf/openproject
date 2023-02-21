@@ -560,18 +560,6 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
           .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
           .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/self/href")
       end
-
-      it 'embeds the properties of the baseline work package in baselineAttributes' do
-        expect(collection)
-          .to be_json_eql("The original work package".to_json)
-          .at_path("_embedded/elements/0/_embedded/baselineAttributes/subject")
-      end
-
-      it 'embeds the link to the baseline work package in baselineAttributes' do
-        expect(collection)
-          .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
-          .at_path("_embedded/elements/0/_embedded/baselineAttributes/_links/self/href")
-      end
     end
 
     shared_examples_for 'has the absolute timestamps within the self link' do
@@ -649,14 +637,6 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
       context 'with baseline and current timestamps' do
         let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
-
-        describe 'baselineAttributes' do
-          it 'states whether the work package matches the query filters at the baseline time' do
-            expect(subject)
-              .to be_json_eql(true.to_json)
-              .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
-          end
-        end
 
         describe 'attributesByTimestamp' do
           it 'states whether the work package matches the query filters at the timestamp' do

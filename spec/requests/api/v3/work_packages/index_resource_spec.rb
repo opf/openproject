@@ -282,17 +282,6 @@ describe 'API v3 Work package resource',
         expect(subject.status).to be 200
       end
 
-      it 'embeds the baselineAttributes' do
-        expect(subject.body)
-          .to be_json_eql("The original work package".to_json)
-          .at_path('_embedded/elements/0/_embedded/baselineAttributes/subject')
-      end
-
-      it 'does not embed the attributes in baselineAttributes if they are the same as the current attributes' do
-        expect(subject.body)
-          .not_to have_json_path('_embedded/elements/0/_embedded/baselineAttributes/description')
-      end
-
       it 'embeds the attributesByTimestamp' do
         expect(subject.body)
           .to be_json_eql("The original work package".to_json)
@@ -477,51 +466,12 @@ describe 'API v3 Work package resource',
               end
             end
           end
-
-          describe "baselineAttributes" do
-            describe "_meta" do
-              describe "matchesFilters" do
-                it 'marks the work package as matching the filters at the baseline time' do
-                  expect(subject.body)
-                    .to be_json_eql(true.to_json)
-                    .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
-                end
-              end
-            end
-          end
         end
       end
 
       describe "when the work package has not been present at the baseline time" do
         let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
         let(:created_at) { 10.days.ago }
-
-        describe "baselineAttributes" do
-          describe "_meta" do
-            describe "exists" do
-              it 'marks the work package as not existing at the baseline time' do
-                expect(subject.body)
-                  .to be_json_eql(false.to_json)
-                  .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/exists')
-              end
-            end
-
-            describe "matchesFilters" do
-              it 'marks the work package as not matching the filters at the baseline time' do
-                expect(subject.body)
-                  .to be_json_eql(false.to_json)
-                  .at_path('_embedded/elements/0/_embedded/baselineAttributes/_meta/matchesFilters')
-              end
-            end
-          end
-
-          describe "_links" do
-            it 'is not present' do
-              expect(subject.body)
-                .not_to have_json_path('_embedded/elements/0/_embedded/baselineAttributes/_links')
-            end
-          end
-        end
 
         describe "attributesByTimestamp" do
           describe "0 (baseline attributes)" do
