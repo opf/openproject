@@ -480,7 +480,9 @@ module API
 
         property :attributes_by_timestamp,
                  as: :attributesByTimestamp,
-                 if: ->(*) { respond_to?(:attributes_by_timestamp) and respond_to?(:timestamps) and timestamps != [Timestamp.now] },
+                 if: ->(*) {
+                       respond_to?(:attributes_by_timestamp) and respond_to?(:timestamps) and timestamps != [Timestamp.now]
+                     },
                  getter: ->(*) do
                    timestamps.collect do |timestamp|
                      attrs = attributes_by_timestamp[timestamp.to_s].to_h

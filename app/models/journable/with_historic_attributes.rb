@@ -114,6 +114,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     journable
   end
 
+  # rubocop:disable Metrics/AbcSize
   def self.wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
     timestamps ||= query.try(:timestamps) || []
     journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables) if timestamps.last.try(:historic?)
@@ -129,6 +130,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     end
     journables
   end
+  # rubocop:enable Metrics/AbcSize
 
   def assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
     attributes_by_timestamp[timestamp.to_s] = extract_historic_attributes_from(historic_journable:) if historic_journable
