@@ -353,7 +353,7 @@ module API
                      # This meta property holds the timestamp of the data of the work package.
                      #
                      'timestamp': timestamps.last.to_s
-                   }
+                   }.compact
                  },
                  uncacheable: true
 
