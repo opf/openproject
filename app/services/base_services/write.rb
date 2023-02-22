@@ -77,7 +77,7 @@ module BaseServices
     end
 
     def set_attributes_params(params)
-      params
+      params.except(:send_notifications)
     end
   end
 end

@@ -76,7 +76,7 @@ describe Groups::UpdateService, type: :model do
 
           expect(add_users_service)
             .to have_received(:call)
-            .with(ids: [new_group_user.user_id])
+            .with(ids: [new_group_user.user_id], send_notifications: true)
         end
       end
 
@@ -94,7 +94,7 @@ describe Groups::UpdateService, type: :model do
 
           expect(add_users_service)
             .to have_received(:call)
-            .with(ids: [new_group_user.user_id])
+            .with(ids: [new_group_user.user_id], send_notifications: true)
         end
       end
 
