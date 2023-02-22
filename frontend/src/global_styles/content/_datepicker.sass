@@ -44,6 +44,9 @@ $datepicker--border-radius: 5px
   pointer-events: none
 
 @mixin non-working-day_enabled
+  background: $spot-color-basic-gray-6
+  color: #000000
+  border-radius: 0
   pointer-events: auto
 
 .flatpickr-current-month
@@ -157,7 +160,11 @@ $datepicker--border-radius: 5px
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
             color: $spot-color-basic-gray-4
-
+  
+          &.flatpickr-non-working-day_enabled
+            background: $spot-color-basic-gray-6
+            color: #000000
+  
             &.inRange
               color: $spot-color-basic-gray-5
               background: $spot-color-basic-gray-6
