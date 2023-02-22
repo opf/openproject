@@ -36,6 +36,7 @@ module ColorsHelper
       options[:data] = {
         color: c.hexcode,
         bright: c.bright?,
+        dark: c.dark?,
         background: c.contrasting_color(light_color: 'transparent')
       }
       options[:selected] = true if c.id == colored_thing.color_id
