@@ -91,25 +91,29 @@
   &--state
     grid-area: state
     display: inline-block
-    padding: 7px 11px
-    border-radius: 5px
-    border: 1px solid #fff
+    padding: 6px 10px
+    border-radius: 10rem
+    border: 3px solid #fff
     color: #fff
-    font-size: 0.9rem
-    font-weight: 700
+    font-size: 0.8rem
+    font-weight: 600
     text-transform: capitalize
 
-    &_draft
-      background-color: #6a737d
+    &_open
+      background-color: #c3e6cd
+      color: #24663b
 
     &_ready
-      background-color: #108548
+      background-color: #c3e6cd
+      color: #24663b
 
     &_merged
-      background-color: #1f75cb
+      background-color: #cbe2f9 
+      color: #0b5cad
 
     &_closed
-      background-color: #dd2b0e
+      background-color: #fdd4cd
+      color: #ae1800
 
   &--pipeline-label
     grid-area: pipeline-label
