@@ -64,15 +64,21 @@ module Colors
     ##
     # Darken this color by the given decimal amount
     def darken(amount)
-      r, g, b = rgb_modify { |color| color * amount }
-      '#%<r>02x%<g>2x%<b>02x' % { r:, g:, b: }
+      blend 0, 1 - amount
     end
 
     ##
     # Lighten this color by the given decimal amount
     def lighten(amount)
-      r, g, b = rgb_modify { |color| color + (255 * amount) }
-      '#%<r>02x%<g>2x%<b>02x' % { r:, g:, b: }
+      blend 255, 1 - amount
+    end
+
+    ##
+    # Blend the color with the same mix_value for all channels
+    # and the given opacity
+    def blend(mix_value, opacity)
+      r, g, b = rgb_modify { |channel| (channel * opacity) + (mix_value * (1 - opacity)) }
+      '#%<r>02x%<g>02x%<b>02x' % { r:, g:, b: }
     end
 
     # rubocop:disable Metrics/AbcSize
