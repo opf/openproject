@@ -76,8 +76,6 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Output('valueChange') valueChange = new EventEmitter();
 
-  @Input() remoteFieldKey = null;
-
   private _value = '';
 
   @Input() set value(newValue:string) {
@@ -99,6 +97,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
   @Input() minimalDate:Date|null = null;
 
   @Input() inputClassNames = '';
+
+  @Input() remoteFieldKey = null;
 
   @ViewChild('input') input:ElementRef;
 
