@@ -106,6 +106,10 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       inputs['remote-field-key'] = options.dig(:data, :'remote-field-key')
     end
 
+    if !options[:show_ignore_non_working_days].nil?
+      inputs['show-ignore-non-working-days'] = options[:show_ignore_non_working_days]
+    end
+
     label = label_for_field(field, label_options)
     input = angular_component_tag('op-single-date-picker',
                                   class: options[:class],
