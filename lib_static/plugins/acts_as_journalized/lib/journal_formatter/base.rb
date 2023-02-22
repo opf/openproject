@@ -86,7 +86,7 @@ module JournalFormatter
       linebreak = should_linebreak?(old_value.to_s, value.to_s)
 
       if options[:html]
-        I18n.t(:text_journal_changed_html,
+        I18n.t(:text_journal_changed_plain,
                label:,
                linebreak: linebreak ? "<br/>".html_safe : '',
                old: old_value,
