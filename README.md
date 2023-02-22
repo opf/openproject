@@ -10,8 +10,8 @@ This 2.x version includes a UI with all linked MRs, their status, their labels a
 ## Introduction
 
 OpenProject module for integration with Gitlab:
-* Latest Gitlab release tested: **15.6.2**
-* Latest OpenProject release tested: **12.4.0** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
+* Latest Gitlab release tested: **15.8.3**
+* Latest OpenProject release tested: **12.4.4** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
