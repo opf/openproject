@@ -156,8 +156,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  describe "WITH the first value being nil, and the second a valid value as string
-              WITH no html requested" do
+  describe "WITH the first value being nil, and the second a valid value as string " \
+           "and WITH no html requested" do
     let(:values) { [nil, '1'] }
 
     let(:expected) do
@@ -169,8 +169,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
-  describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
-              WITH no html requested" do
+  describe "WITH the first value being a valid value as a string, and the second being a valid value as a string " \
+           "and WITH no html requested" do
     let(:values) { %w[0 1] }
 
     let(:expected) do
@@ -184,8 +184,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
-  describe "WITH the first value being a valid value as a string, and the second being nil
-              WITH no html requested" do
+  describe "WITH the first value being a valid value as a string, and the second being nil " \
+           "and WITH no html requested" do
     let(:values) { ['0', nil] }
 
     let(:expected) do
@@ -197,8 +197,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values, html: false)).to eq(expected) }
   end
 
-  describe "WITH the first value being nil, and the second a valid value as string
-              WITH the custom field being deleted" do
+  describe "WITH the first value being nil, and the second a valid value as string " \
+           "and WITH the custom field being deleted" do
     let(:values) { [nil, '1'] }
     let(:key) { 'custom_values0' }
 
@@ -211,8 +211,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  describe "WITH the first value being a valid value as a string, and the second being a valid value as a string
-              WITH the custom field being deleted" do
+  describe "WITH the first value being a valid value as a string, and the second being a valid value as a string " \
+           "and WITH the custom field being deleted" do
     let(:values) { %w[0 1] }
     let(:key) { 'custom_values0' }
 
@@ -227,8 +227,8 @@ describe OpenProject::JournalFormatter::CustomField do
     it { expect(instance.render(key, values)).to eq(expected) }
   end
 
-  describe "WITH the first value being a valid value as a string, and the second being nil
-              WITH the custom field being deleted" do
+  describe "WITH the first value being a valid value as a string, and the second being nil " \
+           "and WITH the custom field being deleted" do
     let(:values) { ['0', nil] }
     let(:key) { 'custom_values0' }
 
@@ -291,7 +291,8 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:old_custom_option_names) { [[1, 'cf 1'], [2, 'cf 2']] }
     let(:new_custom_option_names) { [[3, 'cf 3'], [4, 'cf 4']] }
 
-    describe "WITH the first value being a comma separated list of ids, and the second being a comma separated list of ids" do
+    describe "WITH the first value being a comma separated list of ids, " \
+             "and the second being a comma separated list of ids" do
       let(:values) { %w[1,2 3,4] }
 
       let(:expected) do
@@ -305,7 +306,8 @@ describe OpenProject::JournalFormatter::CustomField do
       it { expect(instance.render(key, values)).to eq(expected) }
     end
 
-    describe "WITH the first value being a comma separated list of ids, and the second being a comma separated list of ids that no longer exist" do
+    describe "WITH the first value being a comma separated list of ids, " \
+             "and the second being a comma separated list of ids that no longer exist" do
       let(:values) { %w[1,2 3,4] }
       let(:new_custom_option_names) { [[4, 'cf 4']] }
 

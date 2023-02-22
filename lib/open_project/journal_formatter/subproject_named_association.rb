@@ -25,6 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatter::NamedAssociation
   private
 
@@ -55,20 +56,6 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
     return I18n.t(:text_journal_deleted_subproject, label:, old: old_value) if value.blank?
     return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
 
-    linebreak = should_linebreak?(old_value.to_s, value.to_s)
-
-    if options[:html]
-      I18n.t(:text_journal_changed_plain,
-             label:,
-             linebreak: linebreak ? "<br/>".html_safe : '',
-             old: old_value,
-             new: value)
-    else
-      I18n.t(:text_journal_changed_plain,
-             label:,
-             linebreak: linebreak ? "\n" : '',
-             old: old_value,
-             new: value)
-    end
+    super
   end
 end
