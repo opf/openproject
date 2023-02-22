@@ -27,7 +27,7 @@
 //++
 
 import {
-    AfterViewInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -75,6 +75,8 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 })
 export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
   @Output('valueChange') valueChange = new EventEmitter();
+
+  @Input() remoteFieldKey = null;
 
   private _value = '';
 

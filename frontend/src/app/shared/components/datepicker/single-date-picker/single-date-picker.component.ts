@@ -95,8 +95,6 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() name = '';
 
-  @Input() remoteFieldKey = '';
-
   @Input() required = false;
 
   @Input() minimalDate:Date|null = null;
