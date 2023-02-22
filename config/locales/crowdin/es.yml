@@ -2984,7 +2984,7 @@ es:
       <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:

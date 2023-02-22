@@ -920,10 +920,10 @@ ru:
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
     item:
-      created_by_on: "created by %{user} on %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
+      created_by_on: "создано %{user} %{datetime}"
+      created_on: "создано %{datetime}"
+      updated_by_on: "обновлено %{user} %{datetime}"
+      updated_on: "обновлено %{datetime}"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -3026,7 +3026,7 @@ ru:
       <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:
