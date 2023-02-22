@@ -123,7 +123,8 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   @Input() showIgnoreNonWorkingDays = false;
 
-  @Input() ignoreNonWorkingDays = false;
+  // When the "Working days only" switch is shown, it should be on, otherwise is off.
+  @Input() ignoreNonWorkingDays = !this.showIgnoreNonWorkingDays;
 
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
 
@@ -159,6 +160,9 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
   ngOnInit() {
     this.applyLabel = this.applyLabel || this.text.apply;
+    // The showIgnoreNonWorkingDays can come from the populateInputsFromDataset,
+    // hence we need to set the ignoreNonWorkingDays default here as well.
+    this.ignoreNonWorkingDays = !this.showIgnoreNonWorkingDays;
   }
 
   ngAfterContentInit() {
@@ -191,7 +195,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepickerAfterOpen();
+    this.initializeDatepicker(false);
     this.cdRef.detectChanges();
   }
 
@@ -226,12 +230,13 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
       });
   }
 
-  private initializeDatepicker() {
+  private initializeDatepicker(setInitialDate = true) {
     this.datePickerInstance?.destroy();
 
-    // Initialize the working values.
-    const initialDate = parseDate(this.value || new Date()) as Date;
-    this.writeWorkingValue(this.timezoneService.formattedISODate(initialDate));
+    if (setInitialDate) {
+      const initialDate = parseDate(this.value || new Date()) as Date;
+      this.writeWorkingValue(this.timezoneService.formattedISODate(initialDate));
+    }
 
     this.datePickerInstance = new DatePicker(
       this.injector,
@@ -257,7 +262,7 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            !this.ignoreNonWorkingDays,
+            this.ignoreNonWorkingDays,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
