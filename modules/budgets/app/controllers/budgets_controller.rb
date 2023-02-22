@@ -125,7 +125,7 @@ class BudgetsController < ApplicationController
 
     if call.success?
       flash[:notice] = t(:notice_successful_update)
-      redirect_to(params[:back_to] || { action: 'show', id: @budget })
+      redirect_to(@budget)
     else
       @budget = call.result
       @errors = call.errors
