@@ -30,7 +30,7 @@ $datepicker--border-radius: 5px
 
 @mixin disabled-day
   background: $spot-color-basic-white
-  color: $spot-color-basic-gray-4
+  color: $spot-color-basic-gray-3
   pointer-events: none
   cursor: not-allowed
 
@@ -45,7 +45,7 @@ $datepicker--border-radius: 5px
 
 @mixin non-working-day_enabled
   background: $spot-color-basic-gray-6
-  color: #000000
+  color: $spot-color-basic-black
   border-radius: 0
   pointer-events: auto
 
@@ -150,7 +150,7 @@ $datepicker--border-radius: 5px
 
         &.inRange
           background: var(--primary-color--lighten-80)
-          color: $spot-color-basic-black
+          color: var(--primary-color)
           border-color: var(--primary-color--lighten-80)
           border-radius: 0
 
@@ -159,11 +159,11 @@ $datepicker--border-radius: 5px
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
-            color: $spot-color-basic-gray-4
+            color: $spot-color-basic-gray-3
   
           &.flatpickr-non-working-day_enabled
             background: $spot-color-basic-gray-6
-            color: #000000
+            color: $spot-color-basic-black
   
             &.inRange
               color: $spot-color-basic-gray-5
@@ -183,7 +183,9 @@ $datepicker--border-radius: 5px
             color: $spot-color-basic-gray-3
 
           &.today
-            color: $spot-color-basic-gray-4
+            color: $spot-color-basic-gray-3
+            background: $spot-color-indication-current-date
+            border-color: $spot-color-indication-current-date
 
 .flatpickr-calendar.flatpickr-container-suppress-hover
   .flatpickr-day
