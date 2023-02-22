@@ -35,7 +35,7 @@ class OpenProject::JournalFormatter::SubprojectPlaintext < JournalFormatter::Bas
     linebreak = should_linebreak?(old_value.to_s, value.to_s)
 
     if options[:html]
-      I18n.t(:text_journal_changed_html_project_activity,
+      I18n.t("activity.item.text_journal_changed_html",
              label:,
              linebreak: linebreak ? "<br/>".html_safe : '',
              old: old_value,

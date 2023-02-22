@@ -32,9 +32,9 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
     label = if values.first.nil?
               label(key)
             elsif values.last.nil?
-              I18n.t("activerecord.attributes.project.parent_no_longer")
+              I18n.t("activity.item.parent_no_longer")
             else
-              I18n.t("activerecord.attributes.project.parent_without_of")
+              I18n.t("activity.item.parent_without_of")
             end
 
     old_value, value = *format_values(values, key, cache:)
@@ -52,13 +52,13 @@ class OpenProject::JournalFormatter::SubprojectNamedAssociation < JournalFormatt
   end
 
   def render_ternary_detail_text(label, value, old_value, options)
-    return I18n.t(:text_journal_deleted_custom_subproject, label:, old: old_value) if value.blank?
-    return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
+    return I18n.t("activity.item.text_journal_deleted", label:, old: old_value) if value.blank?
+    return I18n.t("activity.item.text_journal_of", label:, value:) if old_value.blank?
 
     linebreak = should_linebreak?(old_value.to_s, value.to_s)
 
     if options[:html]
-      I18n.t(:text_journal_changed_html_project_activity,
+      I18n.t("activity.item.text_journal_changed_html",
              label:,
              linebreak: linebreak ? "<br/>".html_safe : '',
              old: old_value,
