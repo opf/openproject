@@ -255,7 +255,7 @@ ca:
       working_days:
         calendar:
           empty_state_header: "Dies no laborables"
-          empty_state_description: 'No hi ha cap dia no laborable especificat per aquest any. Fes clic al botó "+ dies no laborables" de sota per afegir una data.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(nou)'
         add_non_working_day: "Dia no laborable"
         already_added_error: "Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data."

@@ -255,7 +255,7 @@ pl:
       working_days:
         calendar:
           empty_state_header: "Dni nierobocze"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(nowe)'
         add_non_working_day: "Dzień nieroboczy"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."

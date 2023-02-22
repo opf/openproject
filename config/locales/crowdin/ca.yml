@@ -2978,7 +2978,7 @@ ca:
       <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviant quins dies de la setmana es consideren laborals i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

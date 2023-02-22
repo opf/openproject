@@ -254,7 +254,7 @@ ru:
       working_days:
         calendar:
           empty_state_header: "Нерабочие дни"
-          empty_state_description: 'В этом году никаких конкретных нерабочих дней не определено. Нажмите на кнопку "Добавить нерабочий день" ниже, чтобы добавить дату.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(новый)'
         add_non_working_day: "Нерабочий день"
         already_added_error: "Нерабочий день для этой даты уже существует. Может быть только один нерабочий день для каждой уникальной даты."
