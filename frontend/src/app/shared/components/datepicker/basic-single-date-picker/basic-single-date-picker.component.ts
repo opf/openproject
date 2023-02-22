@@ -27,7 +27,7 @@
 //++
 
 import {
-    AfterViewInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -97,6 +97,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
   @Input() minimalDate:Date|null = null;
 
   @Input() inputClassNames = '';
+
+  @Input() remoteFieldKey = null;
 
   @ViewChild('input') input:ElementRef;
 

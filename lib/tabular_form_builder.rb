@@ -85,6 +85,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def date_picker(field, options = {})
     options[:class] = Array(options[:class])
+    options[:container_class] ||= '-xslim'
     merge_required_attributes(options[:required], options)
     options[:visible_overflow] = true
 
@@ -104,6 +105,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
     if options.dig(:data, :'remote-field-key')
       inputs['remote-field-key'] = options.dig(:data, :'remote-field-key')
+      inputs[:inputClassNames] = 'remote-field--input'
     end
 
     if !options[:show_ignore_non_working_days].nil?
@@ -111,7 +113,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     end
 
     label = label_for_field(field, label_options)
-    input = angular_component_tag('op-single-date-picker',
+    input = angular_component_tag('op-basic-single-date-picker',
                                   class: options[:class],
                                   inputs:)
     (label + container_wrap_field(input, :date_picker, options))
