@@ -1,6 +1,6 @@
 class CleanEmailsFooter < ActiveRecord::Migration[6.1]
   def up
-    return unless Setting.exists?(name: 'emails_footer')
+    return unless Setting.where(name: 'emails_footer').exists?
 
     Setting.reset_column_information
     filtered_footer = Setting

@@ -67,6 +67,7 @@ module BasicData
 
     def seedable_setting_definitions
       Setting.definitions
+             .values
              .select(&:writable?)
              .reject { |definition| definition.value.nil? }
     end

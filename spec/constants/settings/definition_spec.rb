@@ -28,187 +28,171 @@
 
 require 'spec_helper'
 
-describe Settings::Definition do
+describe Settings::Definition, :settings_reset do
   describe '.all' do
     subject(:all) { described_class.all }
 
-    it "is a list of setting definitions" do
-      expect(all)
-        .to(be_all { |d| d.is_a?(described_class) })
+    it "is a hash map of setting definitions" do
+      expect(all.class).to eq(Hash)
+      expect(all.values).to(be_all { |d| d.is_a?(described_class) })
     end
 
     it 'contains a definition from settings' do
-      expect(all)
-        .to(be_any { |d| d.name == 'smtp_address' })
+      expect(all[:smtp_address]).to be_present
     end
 
     it 'contains a definition from configuration' do
-      expect(all)
-        .to(be_any { |d| d.name == 'edition' })
+      expect(all[:edition]).to be_present
     end
 
     it 'contains a definition from settings.yml' do
-      expect(all)
-        .to(be_any { |d| d.name == 'sendmail_location' })
+      expect(all[:sendmail_location]).to be_present
     end
 
     it 'casts the value from settings.yml' do
-      expect(all.detect { |d| d.name == 'brute_force_block_after_failed_logins' }.value)
-        .to eq 20
+      expect(all[:brute_force_block_after_failed_logins].value).to eq(20)
     end
 
-    context 'when overriding from ENV', :settings_reset do
-      def value_for(name)
-        all.detect { |d| d.name == name }.value
-      end
-
+    context 'when overriding from ENV' do
       it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with double underscore case (legacy)' do
         stub_const('ENV',
                    {
                      'OPENPROJECT_EDITION' => 'bim',
                      'OPENPROJECT_DEFAULT__LANGUAGE' => 'de'
                    })
+        reset(:edition)
+        reset(:default_language)
 
-        expect(value_for('edition')).to eql 'bim'
-        expect(value_for('default_language')).to eql 'de'
+        expect(all[:edition].value).to eql 'bim'
+        expect(all[:default_language].value).to eql 'de'
       end
 
       it 'allows overriding configuration from ENV with OPENPROJECT_ prefix with single underscore case' do
         stub_const('ENV', { 'OPENPROJECT_DEFAULT_LANGUAGE' => 'de' })
-
-        expect(value_for('default_language')).to eql 'de'
+        reset(:default_language)
+        expect(all[:default_language].value).to eql 'de'
       end
 
       it 'allows overriding configuration from ENV without OPENPROJECT_ prefix' do
-        stub_const('ENV',
-                   {
-                     'EDITION' => 'bim'
-                   })
-
-        expect(value_for('edition')).to eql 'bim'
+        stub_const('ENV', { 'EDITION' => 'bim' })
+        reset(:edition)
+        expect(all[:edition].value).to eql 'bim'
       end
 
       it 'does not allows overriding configuration from ENV without OPENPROJECT_ prefix if setting is writable' do
-        stub_const('ENV',
-                   {
-                     'DEFAULT_LANGUAGE' => 'de'
-                   })
-
-        expect(value_for('default_language')).to eql 'en'
+        stub_const('ENV', { 'DEFAULT_LANGUAGE' => 'de' })
+        reset(:default_language)
+        expect(all[:default_language].value).to eql 'en'
       end
 
       it 'allows overriding email/smtp configuration from ENV without OPENPROJECT_ prefix even though setting is writable' do
-        stub_const('ENV',
-                   {
-                     'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
-                     'EMAIL_DELIVERY_METHOD' => 'smtp',
-                     'SMTP_ADDRESS' => 'smtp.somedomain.org',
-                     'SMTP_AUTHENTICATION' => 'something',
-                     'SMTP_DOMAIN' => 'email.bogus.abc',
-                     'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
-                     'SMTP_PASSWORD' => 'password',
-                     'SMTP_PORT' => '987',
-                     'SMTP_USER_NAME' => 'user',
-                     'SMTP_SSL' => 'true'
-                   })
+        env_vars = {
+          'EMAIL_DELIVERY_CONFIGURATION' => 'legacy',
+          'EMAIL_DELIVERY_METHOD' => 'smtp',
+          'SMTP_ADDRESS' => 'smtp.somedomain.org',
+          'SMTP_AUTHENTICATION' => 'something',
+          'SMTP_DOMAIN' => 'email.bogus.abc',
+          'SMTP_ENABLE_STARTTLS_AUTO' => 'true',
+          'SMTP_PASSWORD' => 'password',
+          'SMTP_PORT' => '987',
+          'SMTP_USER_NAME' => 'user',
+          'SMTP_SSL' => 'true'
+        }
+        stub_const('ENV', env_vars)
 
-        expect(value_for('email_delivery_configuration')).to eql 'legacy'
-        expect(value_for('email_delivery_method')).to eq :smtp
-        expect(value_for('smtp_address')).to eql 'smtp.somedomain.org'
-        expect(value_for('smtp_authentication')).to eql 'something'
-        expect(value_for('smtp_domain')).to eql 'email.bogus.abc'
-        expect(value_for('smtp_enable_starttls_auto')).to be true
-        expect(value_for('smtp_password')).to eql 'password'
-        expect(value_for('smtp_port')).to eq 987
-        expect(value_for('smtp_user_name')).to eq 'user'
-        expect(value_for('smtp_ssl')).to be true
+        env_vars.each_key do |env_var|
+          reset(env_var.downcase.to_sym)
+        end
+
+        expect(all[:email_delivery_configuration].value).to eql 'legacy'
+        expect(all[:email_delivery_method].value).to eq :smtp
+        expect(all[:smtp_address].value).to eql 'smtp.somedomain.org'
+        expect(all[:smtp_authentication].value).to eql 'something'
+        expect(all[:smtp_domain].value).to eql 'email.bogus.abc'
+        expect(all[:smtp_enable_starttls_auto].value).to be true
+        expect(all[:smtp_password].value).to eql 'password'
+        expect(all[:smtp_port].value).to eq 987
+        expect(all[:smtp_user_name].value).to eq 'user'
+        expect(all[:smtp_ssl].value).to be true
       end
 
       it 'logs a deprecation warning when overriding configuration from ENV without OPENPROJECT_ prefix' do
         allow(Rails.logger).to receive(:warn)
         stub_const('ENV', { 'EDITION' => 'bim' })
 
-        expect(value_for('edition')).to eql 'bim'
-        expect(Rails.logger)
-          .to have_received(:warn)
-              .with(a_string_including("use OPENPROJECT_EDITION instead of EDITION"))
+        reset(:edition)
+
+        expect(all[:edition].value).to eql 'bim'
+        expect(Rails.logger).to have_received(:warn)
+                                  .with(a_string_including("use OPENPROJECT_EDITION instead of EDITION"))
       end
 
       it 'overriding boolean configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_REST__API__ENABLED' => '0' })
-
-        expect(all.detect { |d| d.name == 'rest_api_enabled' }.value)
-          .to be false
+        reset(:rest_api_enabled)
+        expect(all[:rest_api_enabled].value).to be false
       end
 
       it 'overriding datetime configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_CONSENT__TIME' => '2222-01-01' })
-
-        expect(all.detect { |d| d.name == 'consent_time' }.value)
-          .to eql DateTime.parse('2222-01-01')
+        reset(:consent_time)
+        expect(all[:consent_time].value).to eql DateTime.parse('2222-01-01')
       end
 
       it 'overriding timezone configuration from ENV will cast the value' do
         stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'Europe/Berlin' })
-
-        expect(value_for('user_default_timezone')).to eq 'Europe/Berlin'
+        reset(:user_default_timezone)
+        expect(all[:user_default_timezone].value).to eq 'Europe/Berlin'
       end
 
       it 'overriding timezone configuration from ENV with a bogus value' do
         stub_const('ENV', { 'OPENPROJECT_USER__DEFAULT__TIMEZONE' => 'foobar' })
-
-        expect { value_for('user_default_timezone') }.to raise_error(ArgumentError)
+        expect { reset(:user_default_timezone) }.to raise_error(ArgumentError)
       end
 
       it 'overriding configuration from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_EDITION' => 'bim' })
-
-        expect(all.detect { |d| d.name == 'edition' })
-          .not_to be_writable
+        reset(:edition)
+        expect(all[:edition]).not_to be_writable
       end
 
       it 'allows overriding settings array from ENV' do
         stub_const('ENV', { 'OPENPROJECT_PASSWORD__ACTIVE__RULES' => YAML.dump(['lowercase']) })
-
-        expect(all.detect { |d| d.name == 'password_active_rules' }.value)
-          .to eql ['lowercase']
+        reset(:password_active_rules)
+        expect(all[:password_active_rules].value).to eql ['lowercase']
       end
 
       it 'overriding settings from ENV will set it to non writable' do
         stub_const('ENV', { 'OPENPROJECT_WELCOME__TITLE' => 'Some title' })
-
-        expect(all.detect { |d| d.name == 'welcome_title' })
-          .not_to be_writable
+        reset(:welcome_title)
+        expect(all[:welcome_title]).not_to be_writable
       end
 
       it 'allows overriding settings hash partially from ENV' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY__CHECKOUT__DATA_GIT_ENABLED' => '1' })
-
-        expect(value_for('repository_checkout_data'))
-          .to eql({
-                    'git' => { 'enabled' => 1 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding settings hash partially from ENV with single underscore name' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_GIT_ENABLED' => '1' })
-
-        expect(value_for('repository_checkout_data'))
-          .to eql({
-                    'git' => { 'enabled' => 1 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding settings hash partially from ENV with yaml data' do
         stub_const('ENV', { 'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1}}' })
-
-        expect(value_for('repository_checkout_data'))
-          .to eql({
-                    'git' => { 'enabled' => 1 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding settings hash fully from repeated ENV values' do
@@ -222,14 +206,13 @@ describe Settings::Definition do
             'OPENPROJECT_REPOSITORY_CHECKOUT_DATA_SUBVERSION_ENABLED' => '1'
           }
         )
-
-        expect(value_for('repository_checkout_data'))
-          .to eql({
-                    'cvs' => { 'enabled' => 0 },
-                    'git' => { 'enabled' => 1, 'minimum_version' => 42 },
-                    'hg' => { 'enabled' => 0 },
-                    'subversion' => { 'enabled' => 1 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'cvs' => { 'enabled' => 0 },
+                                                              'git' => { 'enabled' => 1, 'minimum_version' => 42 },
+                                                              'hg' => { 'enabled' => 0 },
+                                                              'subversion' => { 'enabled' => 1 }
+                                                            })
       end
 
       it 'allows overriding settings hash fully from ENV with yaml data' do
@@ -239,13 +222,12 @@ describe Settings::Definition do
             'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{git: {enabled: 1, key: "42"}, cvs: {enabled: 0}}'
           }
         )
-
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
-          .to eql({
-                    'git' => { 'enabled' => 1, 'key' => '42' },
-                    'cvs' => { 'enabled' => 0 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1, 'key' => '42' },
+                                                              'cvs' => { 'enabled' => 0 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding settings hash fully from ENV with yaml data multiline' do
@@ -262,13 +244,12 @@ describe Settings::Definition do
             YML
           }
         )
-
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
-          .to eql({
-                    'git' => { 'enabled' => 1, 'key' => '42' },
-                    'cvs' => { 'enabled' => 0 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1, 'key' => '42' },
+                                                              'cvs' => { 'enabled' => 0 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding settings hash fully from ENV with json data' do
@@ -278,13 +259,12 @@ describe Settings::Definition do
             'OPENPROJECT_REPOSITORY_CHECKOUT_DATA' => '{"git": {"enabled": 1, "key": "42"}, "cvs": {"enabled": 0}}'
           }
         )
-
-        expect(all.detect { |d| d.name == 'repository_checkout_data' }.value)
-          .to eql({
-                    'git' => { 'enabled' => 1, 'key' => '42' },
-                    'cvs' => { 'enabled' => 0 },
-                    'subversion' => { 'enabled' => 0 }
-                  })
+        reset(:repository_checkout_data)
+        expect(all[:repository_checkout_data].value).to eql({
+                                                              'git' => { 'enabled' => 1, 'key' => '42' },
+                                                              'cvs' => { 'enabled' => 0 },
+                                                              'subversion' => { 'enabled' => 0 }
+                                                            })
       end
 
       it 'allows overriding configuration array from ENV with yaml/json data' do
@@ -294,9 +274,8 @@ describe Settings::Definition do
             'OPENPROJECT_BLACKLISTED_ROUTES' => '["admin/info", "admin/plugins"]'
           }
         )
-
-        expect(value_for('blacklisted_routes'))
-          .to eq(['admin/info', 'admin/plugins'])
+        reset(:blacklisted_routes)
+        expect(all[:blacklisted_routes].value).to eq(['admin/info', 'admin/plugins'])
       end
 
       it 'allows overriding configuration array from ENV with space separated string' do
@@ -307,6 +286,7 @@ describe Settings::Definition do
           }
         )
 
+        reset(:blacklisted_routes)
         # works for OpenProject::Configuration thanks to OpenProject::Configuration::Helper mixin
         expect(OpenProject::Configuration.blacklisted_routes)
           .to eq(['admin/info', 'admin/plugins'])
@@ -316,14 +296,6 @@ describe Settings::Definition do
       end
 
       context 'with definitions from plugins' do
-        let(:definition_2fa) { definitions_before.find { _1.name == 'plugin_openproject_two_factor_authentication' }.dup }
-
-        before do
-          # hack to have access to Setting.plugin_openproject_two_factor_authentication after
-          # having done
-          described_class.all << definition_2fa
-        end
-
         it 'allows overriding settings hash partially from ENV with aliased env name' do
           stub_const(
             'ENV',
@@ -332,10 +304,10 @@ describe Settings::Definition do
               'OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS' => '15'
             }
           )
-
-          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
-          expect(value_for('plugin_openproject_two_factor_authentication'))
-            .to eq('active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15)
+          # override from env manually because this settings are added by plugin intself
+          described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
+          expect(all[:plugin_openproject_two_factor_authentication].value).to eq('active_strategies' => [:totp],
+                                                                                 'enforced' => true, 'allow_remember_for_days' => 15)
         end
 
         it 'allows overriding settings hash from ENV with aliased env name' do
@@ -345,34 +317,27 @@ describe Settings::Definition do
               'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
             }
           )
-          described_class.send(:override_value, definition_2fa) # override from env manually after changing ENV
-          expect(value_for('plugin_openproject_two_factor_authentication'))
+          # override from env manually because this settings are added by plugin intself
+          described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
+          expect(all[:plugin_openproject_two_factor_authentication].value)
             .to eq({ 'active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
         end
       end
 
       it 'will not handle ENV vars for which no definition exists' do
-        stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
-
-        expect(all.detect { |d| d.name == 'bogus' })
-          .to be_nil
+        stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1234' })
+        expect(all[:bogus]).to be_nil
       end
 
       it 'will handle ENV vars for definitions added after #all was called (e.g. in a module)' do
         stub_const('ENV', { 'OPENPROJECT_BOGUS' => '1' })
-
-        all
-
-        described_class.add 'bogus',
-                            default: 0
-
-        expect(all.detect { |d| d.name == 'bogus' }.value)
-          .to eq 1
+        described_class.add(:bogus, default: 0)
+        expect(all[:bogus].value).to eq 1
       end
     end
 
-    context 'when overriding from file', :settings_reset do
-      let(:file_contents) do
+    context 'when overriding from file' do
+      let(:configuration_yml) do
         <<~YAML
           ---
             default:
@@ -387,88 +352,70 @@ describe Settings::Definition do
         YAML
       end
 
-      before do
-        allow(File)
-          .to receive(:file?)
-                .with(Rails.root.join('config/configuration.yml'))
-                .and_return(true)
-
-        allow(File)
-          .to receive(:read)
-                .with(Rails.root.join('config/configuration.yml'))
-                .and_return(file_contents)
-
-        # Loading of the config file is partially disabled in test env
-        allow(Rails.env)
-          .to receive(:test?)
-          .and_return(false)
-      end
+      before { stub_configuration_yml }
 
       it 'overrides from file default' do
-        expect(all.detect { |d| d.name == 'edition' }.value)
-          .to eql 'bim'
+        reset(:edition)
+        expect(all[:edition].value).to eql 'bim'
       end
 
       it 'marks the value overwritten from file default unwritable' do
-        expect(all.detect { |d| d.name == 'edition' })
-          .not_to be_writable
+        reset(:edition)
+        expect(all[:edition]).not_to be_writable
       end
 
       it 'overrides from file default path but once again from current env' do
-        expect(all.detect { |d| d.name == 'sendmail_location' }.value)
-          .to eql 'test location'
+        reset(:sendmail_location)
+        expect(all[:sendmail_location].value).to eql 'test location'
       end
 
       it 'marks the value overwritten from file default and again from current unwritable' do
-        expect(all.detect { |d| d.name == 'sendmail_location' })
-          .not_to be_writable
+        reset(:sendmail_location)
+        expect(all[:sendmail_location]).not_to be_writable
       end
 
       it 'overrides from file current env' do
-        expect(all.detect { |d| d.name == 'smtp_address' }.value)
-          .to eql 'test address'
+        reset(:smtp_address)
+        expect(all[:smtp_address].value).to eql 'test address'
       end
 
       it 'marks the value overwritten from file current unwritable' do
-        expect(all.detect { |d| d.name == 'smtp_address' })
-          .not_to be_writable
+        reset(:smtp_address)
+        expect(all[:smtp_address]).not_to be_writable
       end
 
       it 'does not accept undefined settings' do
-        expect(all.detect { |d| d.name == 'bogus' })
-          .to be_nil
+        expect(all[:bogus]).to be_nil
       end
 
       it 'correctly parses date objects' do
-        expect(all.detect { |d| d.name == 'consent_time' }.value)
-          .to eql DateTime.parse("2222-01-01")
+        reset(:consent_time)
+        expect(all[:consent_time].value).to eql DateTime.parse("2222-01-01")
       end
 
       it 'correctly overrides a default by a false value' do
-        expect(all.detect { |d| d.name == 'direct_uploads' }.value)
-          .to be false
+        reset(:direct_uploads)
+        expect(all[:direct_uploads].value).to be false
       end
 
       context 'when Rails environment is test' do
         before do
-          allow(Rails.env)
-            .to receive(:test?)
-            .and_return(true)
+          allow(Rails.env).to receive(:test?).and_return(true)
         end
 
         it 'does not override from file default' do
-          expect(all.detect { |d| d.name == 'edition' }.value)
-            .not_to eql 'bim'
+          reset(:edition)
+          expect(all[:edition].value).not_to eql 'bim'
         end
 
         it 'overrides from file current env' do
-          expect(all.detect { |d| d.name == 'smtp_address' }.value)
-            .to eql 'test address'
+          reset(:smtp_address)
+          expect(all[:smtp_address].value).to eql 'test address'
         end
       end
 
       context 'when having invalid values in the file' do
-        let(:file_contents) do
+        let(:configuration_yml) do
           <<~YAML
             ---
               default:
@@ -477,8 +424,9 @@ describe Settings::Definition do
         end
 
         it 'is invalid' do
-          expect { all }
-            .to raise_error ArgumentError
+          expect do
+            reset(:smtp_openssl_verify_mode)
+          end.to raise_error ArgumentError
         end
       end
 
@@ -488,27 +436,21 @@ describe Settings::Definition do
         end
 
         it 'overrides from ENV' do
-          expect(all.detect { |d| d.name == 'sendmail_location' }.value)
-            .to eql 'env location'
+          reset(:sendmail_location)
+          expect(all[:sendmail_location].value).to eql 'env location'
         end
 
         it 'marks the overwritten value unwritable' do
-          expect(all.detect { |d| d.name == 'sendmail_location' })
-            .not_to be_writable
+          reset(:sendmail_location)
+          expect(all[:sendmail_location]).not_to be_writable
         end
       end
     end
 
-    context 'when adding an additional setting', :settings_reset do
+    context 'when adding an additional setting' do
       it 'includes the setting' do
-        all
-
-        described_class.add 'bogus',
-                            default: 1,
-                            format: :integer
-
-        expect(all.detect { |d| d.name == 'bogus' }.value)
-          .to eq(1)
+        described_class.add('bogus', default: 1, format: :integer)
+        expect(all[:bogus].value).to eq(1)
       end
     end
   end

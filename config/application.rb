@@ -36,7 +36,7 @@ require 'core_extensions'
 # Silence deprecations early on for testing on CI and production
 ActiveSupport::Deprecation.silenced =
   (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
-  (Rails.env.test? && ENV['CI'])
+  (Rails.env.test? && ENV.fetch('CI', nil))
 
 if defined?(Bundler)
   # Require the gems listed in Gemfile, including any gems
@@ -83,7 +83,7 @@ module OpenProject
 
     # Set up STDOUT logging if requested
     if ENV["RAILS_LOG_TO_STDOUT"].present?
-      logger           = ActiveSupport::Logger.new(STDOUT)
+      logger           = ActiveSupport::Logger.new($stdout)
       logger.formatter = config.log_formatter
       config.logger    = ActiveSupport::TaggedLogging.new(logger)
     end
@@ -214,8 +214,14 @@ module OpenProject
     # Enable the Rails 7 cache format
     config.active_support.cache_format_version = 7.0
 
+    config.after_initialize do
+      Settings::Definition::DEFINITIONS.each do |setting_name, setting_options|
+        Settings::Definition.add(setting_name, **setting_options)
+      end
+    end
+
     def self.root_url
-      Setting.protocol + "://" + Setting.host_name
+      "#{Setting.protocol}://#{Setting.host_name}"
     end
 
     ##

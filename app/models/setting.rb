@@ -144,7 +144,7 @@ class Setting < ApplicationRecord
   validates :name,
             uniqueness: true,
             inclusion: {
-              in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
+              in: ->(*) { Settings::Definition.all.keys.map(&:to_s) } # @available_settings change at runtime
             }
   validates :value,
             numericality: {
