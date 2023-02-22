@@ -61,4 +61,20 @@ class Activities::ItemComponent < ViewComponent::Base
   def format_activity_title(text)
     helpers.truncate_single_line(text, length: 100)
   end
+
+  def comment
+    return unless work_package?
+
+    @event.event_description
+  end
+
+  def description
+    return if work_package?
+
+    @event.event_description
+  end
+
+  def work_package?
+    @event.journal.journable_type == "WorkPackage"
+  end
 end

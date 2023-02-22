@@ -133,7 +133,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:new_formatted_value) { format_value(values.last, custom_field) }
 
     let(:expected) do
-      I18n.t(:text_journal_changed_html,
+      I18n.t(:text_journal_changed_plain,
              label: "<strong>#{custom_field.name}</strong>",
              linebreak: '',
              old: "<i>#{old_formatted_value}</i>",
@@ -217,7 +217,7 @@ describe OpenProject::JournalFormatter::CustomField do
     let(:key) { 'custom_values0' }
 
     let(:expected) do
-      I18n.t(:text_journal_changed_html,
+      I18n.t(:text_journal_changed_plain,
              label: "<strong>#{I18n.t(:label_deleted_custom_field)}</strong>",
              linebreak: '',
              old: "<i>#{values.first}</i>",
@@ -295,7 +295,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:values) { %w[1,2 3,4] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed_html,
+        I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
                old: "<i>cf 1, cf 2</i>",
@@ -310,7 +310,7 @@ describe OpenProject::JournalFormatter::CustomField do
       let(:new_custom_option_names) { [[4, 'cf 4']] }
 
       let(:expected) do
-        I18n.t(:text_journal_changed_html,
+        I18n.t(:text_journal_changed_plain,
                label: "<strong>#{custom_field.name}</strong>",
                linebreak: '',
                old: "<i>cf 1, cf 2</i>",

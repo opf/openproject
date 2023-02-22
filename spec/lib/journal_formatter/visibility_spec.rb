@@ -33,13 +33,13 @@ describe OpenProject::JournalFormatter::Visibility do
 
   it "renders correctly when setting visibility" do
     html = instance.render("public", [nil, true], html: true)
-    expect(html).to eq("<strong>Visibility</strong> set to public")
+    expect(html).to eq("<strong>Visibility</strong> set to <i>public</i>")
 
     html = instance.render("public", [nil, true], html: false)
     expect(html).to eq("Visibility set to public")
 
     html = instance.render("public", [nil, false], html: true)
-    expect(html).to eq("<strong>Visibility</strong> set to private")
+    expect(html).to eq("<strong>Visibility</strong> set to <i>private</i>")
 
     html = instance.render("public", [nil, false], html: false)
     expect(html).to eq("Visibility set to private")
@@ -47,13 +47,13 @@ describe OpenProject::JournalFormatter::Visibility do
 
   it "renders correctly when changing visibility" do
     html = instance.render("public", [false, true], html: true)
-    expect(html).to eq("<strong>Visibility</strong> set to public")
+    expect(html).to eq("<strong>Visibility</strong> set to <i>public</i>")
 
     html = instance.render("public", [false, true], html: false)
     expect(html).to eq("Visibility set to public")
 
     html = instance.render("public", [true, false], html: true)
-    expect(html).to eq("<strong>Visibility</strong> set to private")
+    expect(html).to eq("<strong>Visibility</strong> set to <i>private</i>")
 
     html = instance.render("public", [true, false], html: false)
     expect(html).to eq("Visibility set to private")

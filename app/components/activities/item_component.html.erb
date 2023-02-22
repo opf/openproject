@@ -10,9 +10,17 @@
                                              datetime: @event.event_datetime,
                                              is_creation: @event.journal.initial?))
   %>
-  <% if @event.event_description.present? -%>
+  <% if comment.present? -%>
+    <ul class="op-activity-list--item-details">
+      <li class="op-activity-list--item-detail">
+        <strong>Comment added</strong>
+        <p class="op-uc-p"><%= helpers.truncate_formatted_text(comment) %></p>
+      </li>
+    </ul>
+  <% end -%>
+  <% if description.present? -%>
     <div class="op-activity-list--item-description">
-      <%= helpers.truncate_formatted_text(@event.event_description) %>
+      <%= helpers.truncate_formatted_text(description) %>
     </div>
   <% end -%>
   <% if display_details? -%>
