@@ -43,6 +43,9 @@ $datepicker--border-radius: 5px
   border-radius: 0
   pointer-events: none
 
+@mixin non-working-day_enabled
+  pointer-events: auto
+
 .flatpickr-current-month
   display: flex !important
 
@@ -56,6 +59,8 @@ $datepicker--border-radius: 5px
     @include disabled-day
   &.flatpickr-non-working-day
     @include non-working-day
+  &.flatpickr-non-working-day_enabled
+    @include non-working-day_enabled
 
 .flatpickr-calendar.inline
   box-shadow: none !important
@@ -113,6 +118,9 @@ $datepicker--border-radius: 5px
         &.flatpickr-non-working-day
           @include non-working-day
 
+        &.flatpickr-non-working-day_enabled
+          @include non-working-day_enabled
+  
           &.inRange
             color: $spot-color-basic-gray-2
 

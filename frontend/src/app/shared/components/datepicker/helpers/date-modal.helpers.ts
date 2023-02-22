@@ -104,7 +104,10 @@ export function onDayCreate(
   isNonWorkingDay:boolean,
   isDayDisabled:boolean,
 ):void {
-  if (!ignoreNonWorkingDays && isNonWorkingDay) {
+  if (ignoreNonWorkingDays && isNonWorkingDay) {
+    dayElem.classList.add('flatpickr-non-working-day_enabled');
+  }
+  if (isNonWorkingDay) {
     dayElem.classList.add('flatpickr-non-working-day');
   }
 
