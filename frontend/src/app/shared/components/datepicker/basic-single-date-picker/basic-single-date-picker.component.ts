@@ -167,7 +167,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            false,
+            true,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
