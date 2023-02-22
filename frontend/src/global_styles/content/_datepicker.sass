@@ -45,7 +45,7 @@ $datepicker--border-radius: 5px
 
 @mixin non-working-day_enabled
   background: $spot-color-basic-gray-6
-  color: $spot-color-basic-black
+  color: $spot-color-basic-gray-1
   border-radius: 0
   pointer-events: auto
 
@@ -108,7 +108,8 @@ $datepicker--border-radius: 5px
         max-width: 267px
 
       .flatpickr-day
-        color: $spot-color-basic-black
+        color: $spot-color-basic-gray-1
+        background: $spot-color-basic-white
         height: 30px
         line-height: 28px
         margin: 0
@@ -123,9 +124,6 @@ $datepicker--border-radius: 5px
 
         &.flatpickr-non-working-day_enabled
           @include non-working-day_enabled
-  
-          &.inRange
-            color: $spot-color-basic-gray-2
 
         &.today
           background: $spot-color-indication-current-date
@@ -163,10 +161,10 @@ $datepicker--border-radius: 5px
   
           &.flatpickr-non-working-day_enabled
             background: $spot-color-basic-gray-6
-            color: $spot-color-basic-black
+            color: $spot-color-basic-gray-3
   
             &.inRange
-              color: $spot-color-basic-gray-5
+              color: $spot-color-basic-gray-3
               background: $spot-color-basic-gray-6
               border-color: $spot-color-basic-gray-6
 
@@ -194,4 +192,4 @@ $datepicker--border-radius: 5px
     &.endRange:not(.selected)
       background: transparent !important
       border-color: transparent !important
-      color: black !important
+      color: $spot-color-basic-gray-1 !important
