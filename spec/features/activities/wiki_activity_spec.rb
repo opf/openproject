@@ -71,7 +71,7 @@ describe 'Wiki activities' do
     # will be two activities to see
     visit project_activity_index_path(project)
 
-    check 'Wiki edits'
+    check 'Wiki'
 
     click_button 'Apply'
 

@@ -23,6 +23,9 @@ ru:
   activerecord:
     models:
       document: "Документ"
+  activity:
+    filter:
+      document: "Документы"
   default_doc_category_tech: "Техническая документация"
   default_doc_category_user: "Документация пользователя"
   enumeration_doc_categories: "Категории документов"

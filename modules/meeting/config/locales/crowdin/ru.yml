@@ -37,6 +37,9 @@ ru:
     models:
       meeting_agenda: "Повестка дня"
       meeting_minutes: "Протокол(-ы)"
+  activity:
+    filter:
+      meeting: "Совещания"
   description_attended: "участие"
   description_invite: "приглашено"
   events:

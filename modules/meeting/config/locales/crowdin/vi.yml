@@ -37,6 +37,9 @@ vi:
     models:
       meeting_agenda: "Các ý chính"
       meeting_minutes: "Phút"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "Đã tham dự"
   description_invite: "invited"
   events:

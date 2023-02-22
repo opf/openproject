@@ -37,6 +37,9 @@ lt:
     models:
       meeting_agenda: "Dienotvarkė"
       meeting_minutes: "Minutės"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "būtinai dalyvavo"
   description_invite: "pakviesta"
   events:

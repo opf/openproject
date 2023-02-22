@@ -329,7 +329,7 @@ ru:
       reset: "Восстановить значения по умолчанию"
       type_color_text: |
         Выбранный цвет выделяет разные типы
-        в диаграммах Ганта или таблицах рабочих пакетов. Поэтому рекомендуется использовать насыщенный цвет.
+        в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -919,8 +919,20 @@ ru:
     header_invalid_fields: "Были проблемы со следующими полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
-    created: "Создано: %{title}"
-    updated: "Обновлено: %{title}"
+    item:
+      created_by_on: "создано %{user} %{datetime}"
+      created_on: "создано %{datetime}"
+      updated_by_on: "обновлено %{user} %{datetime}"
+      updated_on: "обновлено %{datetime}"
+    filter:
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Потраченное время"
+      wiki_edit: "Вики"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"
@@ -3014,7 +3026,7 @@ ru:
       <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

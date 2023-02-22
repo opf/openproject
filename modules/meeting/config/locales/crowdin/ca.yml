@@ -37,6 +37,9 @@ ca:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
+  activity:
+    filter:
+      meeting: "Reunions"
   description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:

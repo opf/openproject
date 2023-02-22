@@ -47,9 +47,9 @@ describe 'Meetings', js: true do
       check 'Meetings'
       click_on 'Apply'
 
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Meeting: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
     end
   end
 end

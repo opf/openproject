@@ -255,7 +255,7 @@ tr:
       working_days:
         calendar:
           empty_state_header: "Çalışılmayan günler"
-          empty_state_description: 'Bu yıl için belirli bir çalışma dışı gün tanımlanmamıştır. Bir tarih eklemek için aşağıdaki "Çalışma dışı gün ekle"ye tıklayın.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(yeni)'
         add_non_working_day: "Çalışılmayan günler"
         already_added_error: "Bu tarih için çalışılmayan bir gün zaten var. Her benzersiz tarih için yalnızca bir çalışılmayan gün oluşturulabilir."
@@ -264,7 +264,8 @@ tr:
         removed_title: "Aşağıdaki günleri çalışılmayan günler listesinden çıkaracaksınız:"
         change_description: "Haftanın hangi günlerinin iş günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir."
         warning: >
-          Değişikliklerin geçerlilik kazanması biraz zaman alabilir. İlgili tüm iş paketleri güncellendiğinde bilgilendirileceksiniz. Devam etmek istediğine emin misin?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'açık'
@@ -1065,7 +1066,6 @@ tr:
         relations: İlişkiler
         watchers: Takip Edenler
         files: Dosyalar
-        files_tab_migration_help: 'Artık yeni sekme aracılığıyla iş paketlerine dosya ekleyebilirsiniz:'
       time_relative:
         days: "gün"
         weeks: "hafta"

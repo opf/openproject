@@ -42,7 +42,62 @@ describe Task do
   before do
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-      .and_return({ 'task_type' => task_type.id.to_s })
+            .and_return({ 'task_type' => task_type.id.to_s })
+  end
+
+  describe 'having custom journables', with_settings: { journal_aggregation_time_minutes: 0 } do
+    let(:user) { create(:user) }
+    let(:role) { create(:role, permissions: %i[add_work_packages manage_subtasks manage_work_packages view_work_packages]) }
+    let(:member) { create(:member, principal: user, project:, roles: [role]) }
+
+    before do
+      project.members << member
+    end
+
+    describe 'with unchanged custom field' do
+      let(:custom_field) { create(:work_package_custom_field, name: 'TestingCustomField', field_format: 'text') }
+
+      before do
+        project.work_package_custom_fields << custom_field
+        task_type.custom_fields << custom_field
+      end
+
+      it 'must have the same journal when resaved' do
+        task.custom_field_values = { custom_field.id => 'Example CF text' }
+        task.save!
+
+        expect(task.journals.last.customizable_journals.count).to eq 1
+        customizable_journal = task.journals.last.customizable_journals.first
+
+        attributes = { id: task.id, parent_id: task.parent_id, status_id: task.status_id }
+        result = WorkPackages::UpdateService.new(user:, model: task).call(**attributes)
+
+        expect(result).to be_success
+        task.reload
+
+        expect(task.journals.last.customizable_journals.first).to eq customizable_journal
+      end
+    end
+
+    describe 'with attachment' do
+      let(:attachment) { build(:attachment) }
+
+      it 'must have the same journal when resaved' do
+        task.attachments << attachment
+        task.save!
+
+        expect(task.journals.last.attachable_journals.count).to eq 1
+        attachable_journal = task.journals.last.attachable_journals.first
+
+        attributes = { id: task.id, parent_id: task.parent_id, status_id: task.status_id }
+        result = WorkPackages::UpdateService.new(user:, model: task).call(**attributes)
+
+        expect(result).to be_success
+        task.reload
+
+        expect(task.journals.last.attachable_journals.first).to eq attachable_journal
+      end
+    end
   end
 
   describe 'copying remaining_hours to estimated_hours and vice versa' do

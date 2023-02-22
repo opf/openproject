@@ -39,6 +39,9 @@ lt:
     models:
       budget: "Biudžetas"
       material_budget_item: "Vienetas"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Biudžetas"
   button_add_budget_item: "Pridėti suplanuotus kaštus"

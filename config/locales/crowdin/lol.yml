@@ -892,8 +892,20 @@ lol:
     header_invalid_fields: "crwdns495749:0crwdne495749:0"
     field_erroneous_label: "crwdns495751:0%{full_errors}crwdne495751:0"
   activity:
-    created: "crwdns495753:0%{title}crwdne495753:0"
-    updated: "crwdns495755:0%{title}crwdne495755:0"
+    item:
+      created_by_on: "crwdns845923:0%{user}crwdnd845923:0%{datetime}crwdne845923:0"
+      created_on: "crwdns845925:0%{datetime}crwdne845925:0"
+      updated_by_on: "crwdns845927:0%{user}crwdnd845927:0%{datetime}crwdne845927:0"
+      updated_on: "crwdns845929:0%{datetime}crwdne845929:0"
+    filter:
+      changeset: "crwdns845777:0crwdne845777:0"
+      message: "crwdns845811:0crwdne845811:0"
+      news: "crwdns845781:0crwdne845781:0"
+      project_attribute: "crwdns845783:0crwdne845783:0"
+      subproject: "crwdns845785:0crwdne845785:0"
+      time_entry: "crwdns845787:0crwdne845787:0"
+      wiki_edit: "crwdns845789:0crwdne845789:0"
+      work_package: "crwdns845791:0crwdne845791:0"
   #common attributes of all models
   attributes:
     active: "crwdns495757:0crwdne495757:0"
@@ -2945,7 +2957,7 @@ lol:
       crwdns845743:0crwdne845743:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
-      crwdns845745:0crwdne845745:0
+      crwdns845953:0crwdne845953:0
     journal_note:
       changed: crwdns834172:0%{changes}crwdne834172:0
       days:

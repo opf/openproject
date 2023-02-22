@@ -101,10 +101,6 @@ module ApplicationHelper
     link_to I18n.t(:button_delete), url, options
   end
 
-  def format_activity_title(text)
-    h(truncate_single_line(text, length: 100))
-  end
-
   def format_activity_day(date)
     date == User.current.today ? I18n.t(:label_today).titleize : format_date(date)
   end
@@ -385,7 +381,7 @@ module ApplicationHelper
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-single-date-picker angular component instead", caller
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-basic-single-date-picker angular component instead", caller
   end
 
   def locale_first_day_of_week

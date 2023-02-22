@@ -13,7 +13,7 @@
     (click)="onInputClick($event)"
     (focus)="opened = true"
   />
-  
+
   <form
     slot="body"
     class="op-datepicker-modal op-datepicker-modal_wide"
@@ -25,19 +25,6 @@
     (submit)="save($event)"
   >
     <div class="spot-container op-datepicker-modal--stretch-content">
-      <spot-selector-field
-        [reverseLabel]="true"
-        [label]="text.ignoreNonWorkingDays.title"
-      >
-        <spot-switch
-          slot="input"
-          name="ignoreNonWorkingDays"
-          [(ngModel)]="ignoreNonWorkingDays"
-          (ngModelChange)="changeNonWorkingDays()"
-          data-qa-selector="op-datepicker-modal--include-non-working-days"
-        ></spot-switch>
-      </spot-selector-field>
-
       <div class="op-datepicker-modal--dates-container">
         <spot-form-field
           [label]="text.startDate"

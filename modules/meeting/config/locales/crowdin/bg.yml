@@ -37,6 +37,9 @@ bg:
     models:
       meeting_agenda: "Дневен ред"
       meeting_minutes: "Минути"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "присъства"
   description_invite: "invited"
   events:

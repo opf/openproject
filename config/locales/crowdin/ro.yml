@@ -915,8 +915,20 @@ ro:
     header_invalid_fields: "Există probleme cu următoarele câmpuri:"
     field_erroneous_label: "Acest câmp este invalid: %{full_errors}\nTrebuie introdusă o valoare validă."
   activity:
-    created: "Creat: %{title}"
-    updated: "Actualizat: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Activ"
@@ -2997,7 +3009,7 @@ ro:
       <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de salvare modificări.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:

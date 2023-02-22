@@ -471,20 +471,20 @@ pl:
         roles: "Role"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "niezarchiwizowane"
+          false: "zarchiwizowane"
         identifier: "Identyfikator"
         latest_activity_at: "Ostatnia aktywność o"
         parent: "Projekt nadrzędny"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Widoczność"
+          true: "publiczne"
+          false: "prywatne"
         queries: "Kwerendy"
         templated: "Projekt wzorcowy"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "oznaczono jako szablon"
+          false: "odznaczono jako szablon"
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
@@ -917,8 +917,20 @@ pl:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
-    created: "Utworzona: %{title}"
-    updated: "Aktualizacja: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+    filter:
+      changeset: "Zestawy zmian"
+      message: "Fora"
+      news: "Wiadomości"
+      project_attribute: "Atrybuty projektu"
+      subproject: "Zawiera podprojekty"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Pakiety robocze"
   #common attributes of all models
   attributes:
     active: "Aktywne"
@@ -1054,7 +1066,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
   button_sort: "Sortowanie"
@@ -1798,10 +1810,10 @@ pl:
   label_not_contains: "nie zawierają"
   label_not_equals: "nie jest"
   label_on: "wł"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "nie jest puste"
+  label_operator_none: "jest puste"
+  label_operator_equals_or: "jest (OR)"
+  label_operator_equals_all: "jest (AND)"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
   label_open_work_packages_plural: "Otwarte"
@@ -3013,7 +3025,7 @@ pl:
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Zmień dni robocze"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _Zmieniono **Dni robocze** (%{changes})._
       days:

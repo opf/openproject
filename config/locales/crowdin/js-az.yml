@@ -255,7 +255,7 @@ az:
       working_days:
         calendar:
           empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(new)'
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
@@ -264,7 +264,8 @@ az:
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'on'
@@ -1065,7 +1066,6 @@ az:
         relations: Relations
         watchers: Watchers
         files: Files
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "days"
         weeks: "weeks"

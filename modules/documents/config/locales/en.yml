@@ -31,6 +31,10 @@ en:
     models:
       document: "Document"
 
+  activity:
+    filter:
+      document: "Documents"
+
   default_doc_category_tech: "Technical documentation"
   default_doc_category_user: "User documentation"
 

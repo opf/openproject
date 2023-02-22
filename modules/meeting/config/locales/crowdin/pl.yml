@@ -37,6 +37,9 @@ pl:
     models:
       meeting_agenda: "Plan spotkania"
       meeting_minutes: "Protokół ze spotkania"
+  activity:
+    filter:
+      meeting: "Spotkania"
   description_attended: "Obecny"
   description_invite: "Zaproszony"
   events:
