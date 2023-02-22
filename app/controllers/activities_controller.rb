@@ -117,7 +117,7 @@ class ActivitiesController < ApplicationController
   end
 
   def set_current_activity_page
-    RequestStore[:current_activity_page] = @project ? "projects/#{@project.identifier}" : 'all'
+    @activity_page = @project ? "projects/#{@project.identifier}" : 'all'
   end
 
   def set_session

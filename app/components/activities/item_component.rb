@@ -31,10 +31,11 @@
 class Activities::ItemComponent < ViewComponent::Base
   with_collection_parameter :event
 
-  def initialize(event:, display_user: true)
+  def initialize(event:, display_user: true, activity_page: nil)
     super()
     @event = event
     @display_user = display_user
+    @activity_page = activity_page
   end
 
   def display_belonging_project?
@@ -55,7 +56,7 @@ class Activities::ItemComponent < ViewComponent::Base
     @rendered_details ||=
       @event.journal
         .details
-        .flat_map { |detail| @event.journal.render_detail(detail) }
+        .flat_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 
   def format_activity_title(text)

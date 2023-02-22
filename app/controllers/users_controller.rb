@@ -275,7 +275,7 @@ class UsersController < ApplicationController
   end
 
   def set_current_activity_page
-    RequestStore[:current_activity_page] = "users/#{@user.id}"
+    @activity_page = "users/#{@user.id}"
   end
 
   def my_or_admin_layout

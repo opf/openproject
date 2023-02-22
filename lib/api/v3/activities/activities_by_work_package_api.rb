@@ -35,7 +35,6 @@ module API
         resource :activities do
           get do
             self_link = api_v3_paths.work_package_activities @work_package.id
-            RequestStore[:current_activity_page] = "work_packages/#{@work_package.id}"
             journals = @work_package.journals.includes(:data,
                                                        :customizable_journals,
                                                        :attachable_journals,

@@ -29,11 +29,12 @@
 #++
 
 class Activities::DaysComponent < ViewComponent::Base
-  def initialize(events:, display_user: true, header_tag: 'h3')
+  def initialize(events:, display_user: true, header_tag: 'h3', activity_page: nil)
     super()
     @events = events
     @display_user = display_user
     @header_tag = header_tag
+    @activity_page = activity_page
   end
 
   def events_by_day

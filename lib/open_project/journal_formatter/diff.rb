@@ -74,7 +74,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
              action: 'diff',
              id: @journal.id,
              field: key.downcase,
-             activity_page: RequestStore[:current_activity_page])
+             activity_page: options[:activity_page])
       .compact
 
     if options[:html]
