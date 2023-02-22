@@ -41,11 +41,21 @@ See COPYRIGHT and LICENSE files for more details.
     --button--alt-highlight-background-hover-color: <%= design_color.darken 0.82 %>;
     <% end %>
     <% if design_color.variable == "primary-color" %>
-    --primary-color--lighten-10: <%= design_color.lighten 0.1 %>;
-    --primary-color--lighten-20: <%= design_color.lighten 0.2 %>;
-    --primary-color--lighten-40: <%= design_color.lighten 0.4 %>;
-    --primary-color--lighten-60: <%= design_color.lighten 0.6 %>;
-    --primary-color--lighten-80: <%= design_color.lighten 0.8 %>;
+      <% if design_color.bright? %>
+      --primary-color--lighten-10: <%= design_color.darken 0.1 %>;
+      --primary-color--lighten-20: <%= design_color.darken 0.2 %>;
+      --primary-color--lighten-40: <%= design_color.darken 0.4 %>;
+      --primary-color--lighten-60: <%= design_color.darken 0.6 %>;
+      --primary-color--lighten-80: <%= design_color.darken 0.8 %>;
+      <% end %>
+      <% if design_color.dark? %>
+      --primary-color--lighten-10: <%= design_color.lighten 0.1 %>;
+      --primary-color--lighten-20: <%= design_color.lighten 0.2 %>;
+      --primary-color--lighten-40: <%= design_color.lighten 0.4 %>;
+      --primary-color--lighten-60: <%= design_color.lighten 0.6 %>;
+      --primary-color--lighten-80: <%= design_color.lighten 0.8 %>;
+      <% end %>
+
     <% end %>
   <% end %>
   }

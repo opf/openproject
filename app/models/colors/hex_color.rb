@@ -30,6 +30,10 @@ module Colors
       brightness_yiq >= 150
     end
 
+    def dark?
+      brightness_yiq < 150
+    end
+
     ##
     # Returns whether the color is very bright according to
     # YIQ lightness.
