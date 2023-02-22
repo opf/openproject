@@ -267,6 +267,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
