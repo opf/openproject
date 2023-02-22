@@ -60,7 +60,7 @@ export class MergeRequestComponent {
   get state() {
 
     if (this.mergeRequest.state === 'opened') {
-      return (this.mergeRequest.draft ? 'draft' : 'ready');
+      return (this.mergeRequest.draft ? 'open' : 'ready');
     } else {
       return(this.mergeRequest.merged ? 'merged' : 'closed');
     }
