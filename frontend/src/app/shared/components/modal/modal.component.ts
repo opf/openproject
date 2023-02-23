@@ -27,12 +27,18 @@
 //++
 
 import {
-  ChangeDetectorRef, Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit,
+  ChangeDetectorRef,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
