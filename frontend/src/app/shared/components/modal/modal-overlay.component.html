@@ -1,6 +1,7 @@
 <div
   class="spot-modal-overlay"
   [class.spot-modal-overlay_active]="(activeModalInstance$ | async) !== null"
+  [class.spot-modal-overlay_not-active]="(activeModalInstance$ | async) === null"
   [class.spot-modal-overlay_not-full-screen]="notFullscreen"
   #overlay
   tabindex="0"

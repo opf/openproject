@@ -27,70 +27,46 @@
 //++
 
 import {
-  ChangeDetectorRef, Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
 } from '@angular/core';
 
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
+import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 
-@Directive()
-export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  /* Reference to service */
-  protected service:OpModalService = this.locals.service;
+@Component({
+  templateUrl: 'upload-conflict-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class UploadConflictModalComponent extends OpModalComponent {
+  public overwrite:boolean|null = null;
 
-  public $element:HTMLElement;
+  public text = {
+    header: this.i18n.t('js.storages.files.already_existing_header'),
+    body: () => this.i18n.t('js.storages.files.already_existing_body', { fileName: this.locals.fileName as string }),
+    buttons: {
+      keepBoth: this.i18n.t('js.storages.files.upload_keep_both'),
+      replace: this.i18n.t('js.storages.files.upload_replace'),
+      cancel: this.i18n.t('js.button_cancel'),
+    },
+  };
 
-  /** Closing event called from the service when closing this modal */
-  public closingEvent = new EventEmitter<this>();
-
-  public openingEvent = new EventEmitter<this>();
-
-  /* Data to be return from this modal instance */
-  public data:unknown;
-
-  protected constructor(
+  public constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
+    private readonly i18n:I18nService,
   ) {
-    super();
+    super(locals, cdRef, elementRef);
   }
 
-  ngOnInit():void {
-    this.$element = this.elementRef.nativeElement as HTMLElement;
-  }
-
-  ngOnDestroy():void {
-    this.closingEvent.complete();
-    this.openingEvent.complete();
-  }
-
-  /**
-   * Called when the user attempts to close the modal window.
-   * The service will close this modal if this method returns true
-   * @returns {boolean}
-   */
-  public onClose():boolean {
-    this.afterFocusOn && this.afterFocusOn.focus();
-    return true;
-  }
-
-  public closeMe(evt?:Event):void {
+  public close(overwrite:boolean):void {
+    this.overwrite = overwrite;
     this.service.close();
-
-    if (evt) {
-      evt.stopPropagation();
-      evt.preventDefault();
-    }
-  }
-
-  public onOpen():void {
-    this.openingEvent.emit();
-    this.cdRef.detectChanges();
-  }
-
-  protected get afterFocusOn():HTMLElement {
-    return this.$element;
   }
 }
