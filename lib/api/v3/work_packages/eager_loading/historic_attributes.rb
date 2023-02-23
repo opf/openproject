@@ -36,9 +36,10 @@ module API::V3::WorkPackages::EagerLoading
 
       work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
 
-      set_non_delegated_properties(work_package,
-                                   work_package_with_historic_attributes,
-                                   work_package_with_historic_attributes.timestamps.last.to_s)
+      set_attributes_at_timestamp(work_package,
+                                  work_package_with_historic_attributes,
+                                  work_package_with_historic_attributes.timestamps.last,
+                                  override_current: true)
 
       work_package.at_timestamps = work_package_with_historic_attributes
                                      .timestamps
@@ -46,9 +47,9 @@ module API::V3::WorkPackages::EagerLoading
         wrapped_wp = AttributesByTimestampWorkPackage
                        .new(work_package_with_historic_attributes.at_timestamp(timestamp), timestamp)
 
-        set_non_delegated_properties(wrapped_wp,
-                                     work_package_with_historic_attributes,
-                                     wrapped_wp.timestamp)
+        set_attributes_at_timestamp(wrapped_wp,
+                                    work_package_with_historic_attributes,
+                                    wrapped_wp.timestamp)
 
         wrapped_wp
       end
@@ -60,7 +61,8 @@ module API::V3::WorkPackages::EagerLoading
 
     private
 
-    def set_non_delegated_properties(work_package, source, timestamp)
+    def set_attributes_at_timestamp(work_package, source, timestamp, override_current: false)
+      work_package.attributes = source.attributes.except('timestamp') if override_current
       work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
       work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
       work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)

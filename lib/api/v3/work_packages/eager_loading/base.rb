@@ -30,7 +30,7 @@ module API
   module V3
     module WorkPackages
       module EagerLoading
-        class Base < SimpleDelegator
+        class Base
           def initialize(work_packages)
             self.work_packages = work_packages
           end

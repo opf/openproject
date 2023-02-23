@@ -138,7 +138,11 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filters_at_timestamps
-    timestamps.select { |timestamp| loader.work_package_ids_of_query_at_timestamp(query:, timestamp:).include?(__getobj__.id) }
+    if query.present?
+      timestamps.select { |timestamp| loader.work_package_ids_of_query_at_timestamp(query:, timestamp:).include?(__getobj__.id) }
+    else
+      []
+    end
   end
 
   def exists_at_timestamps
@@ -154,7 +158,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filters_at_baseline_timestamp?
-    query && matches_query_filters_at_timestamps.include?(baseline_timestamp)
+    matches_query_filters_at_timestamps.include?(baseline_timestamp)
   end
 
   def current_timestamp
@@ -162,11 +166,11 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def matches_query_filters_at_current_timestamp?
-    query && matches_query_filters_at_timestamps.include?(current_timestamp)
+    matches_query_filters_at_timestamps.include?(current_timestamp)
   end
 
   def matches_query_filters_at_timestamp?(timestamp)
-    query && matches_query_filters_at_timestamps.include?(timestamp)
+    matches_query_filters_at_timestamps.include?(timestamp)
   end
 
   def at_timestamp(timestamp)

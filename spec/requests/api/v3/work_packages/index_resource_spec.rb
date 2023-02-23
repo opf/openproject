@@ -33,6 +33,8 @@ describe 'API v3 Work package resource',
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
+  create_shared_association_defaults_for_work_package_factory
+
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
