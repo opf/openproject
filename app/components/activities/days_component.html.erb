@@ -1,11 +1,14 @@
 <div class="op-activity-days">
-  <% events_by_day.each do |day, events| %>
+  <% events_by_day_sorted_by_newest_first.each do |day, events| %>
     <%= content_tag(@header_tag, helpers.format_activity_day(day), class: 'op-activity-days--header') %>
 
-    <%= render(Activities::ListComponent.new(events:,
-                                             current_project: @current_project,
-                                             display_user: @display_user,
-                                             activity_page: @activity_page))
-    %>
+    <ul class="op-activity-list">
+      <%=
+        render(Activities::ItemComponent.with_collection(events,
+                                                         current_project: @current_project,
+                                                         display_user: @display_user,
+                                                         activity_page: @activity_page))
+      %>
+    </ul>
   <% end -%>
 </div>

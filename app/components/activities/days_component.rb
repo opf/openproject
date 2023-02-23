@@ -38,9 +38,10 @@ class Activities::DaysComponent < ViewComponent::Base
     @activity_page = activity_page
   end
 
-  def events_by_day
-    @events_by_day ||= @events
+  def events_by_day_sorted_by_newest_first
+    @events_by_day_sorted_by_newest_first ||= @events
       .group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+      .transform_values { |events| events.sort { |x, y| y.event_datetime <=> x.event_datetime } }
       .sort_by { |day, _events| day }
       .reverse
   end
