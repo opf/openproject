@@ -329,6 +329,10 @@ module API
             "#{query(id)}/order"
           end
 
+          def self.query_create_ical_url(id)
+            "#{query(id)}/create_ical_url"
+          end
+
           def self.query_column(name)
             "#{queries}/columns/#{name}"
           end

@@ -41,7 +41,8 @@ class QueryPolicy < BasePolicy
         depublicize: depublicize_allowed?(cached_query),
         star: persisted_and_own_or_public?(cached_query),
         unstar: persisted_and_own_or_public?(cached_query),
-        reorder_work_packages: reorder_work_packages?(cached_query)
+        reorder_work_packages: reorder_work_packages?(cached_query),
+        create_ical_url: create_ical_url_allowed?(cached_query)
       }
     end
 
@@ -118,5 +119,13 @@ class QueryPolicy < BasePolicy
     end
 
     @manage_public_queries_cache[query.project]
+  end
+  
+  def create_ical_url_allowed?(query)
+    @create_ical_url_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_to?(:share_calendars, project, global: project.nil?)
+    end
+
+    @create_ical_url_cache[query.project]
   end
 end

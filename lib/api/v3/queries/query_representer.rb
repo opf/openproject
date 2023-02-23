@@ -146,6 +146,16 @@ module API
             method: :delete
           }
         end
+        
+        link :createIcalUrl do
+          next if represented.new_record? ||
+                  !allowed_to?(:create_ical_url)
+
+          {
+            href: api_v3_paths.query_create_ical_url(represented.id),
+            method: :post
+          }
+        end
 
         associated_resource :user
 

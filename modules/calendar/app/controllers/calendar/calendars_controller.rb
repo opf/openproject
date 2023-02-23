@@ -42,30 +42,6 @@ module ::Calendar
       render layout: 'angular/angular'
     end
 
-    def generate_ical_url
-      begin
-        call = ::Calendar::GenerateIcalUrl.new().call(
-          user: current_user,
-          query_id: params[:id],
-          project_id: @project.id
-        )
-      rescue ActiveRecord::RecordNotFound
-        render_404
-        return
-      end
-
-      if call.present? && call.success?
-        # TODO: Use translations
-        flash[:info] = "
-          You can share and import this calendar by using the following iCalendar URL:
-          #{call.result}
-         "
-        redirect_to action: :index
-      else
-        render_404
-      end
-    end
-
     def ical
       begin
         call = ::Calendar::IcalResponseService.new().call(

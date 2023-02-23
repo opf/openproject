@@ -44,6 +44,7 @@ import {
   triggerEditingEvent,
 } from 'core-app/shared/components/editable-toolbar-title/editable-toolbar-title.component';
 import { QuerySharingModalComponent } from 'core-app/shared/components/modals/share-modal/query-sharing.modal';
+import { QueryGetIcalUrlModalComponent } from 'core-app/shared/components/modals/get-ical-url-modal/query-get-ical-url.modal';
 import { WpTableExportModalComponent } from 'core-app/shared/components/modals/export-modal/wp-table-export.modal';
 import { SaveQueryModalComponent } from 'core-app/shared/components/modals/save-modal/save-query.modal';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
@@ -56,6 +57,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;
+  @Input() public showCalendarSharingOption:boolean;
 
   private form:QueryFormResource;
 
@@ -312,6 +314,20 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         linkText: this.query.results.customFields && this.query.results.customFields.name,
         icon: 'icon-custom-fields',
         onClick: () => false,
+      },
+      {
+        // Calendar sharing modal
+        hidden: !this.showCalendarSharingOption,
+        disabled: this.authorisationService.cannot('query', 'createIcalUrl'),
+        linkText: "Share Calendar", // TODO: translate 
+        icon: 'icon-link', // TODO: find sharing icons
+        onClick: ($event:JQuery.TriggeredEvent) => {
+          if (this.authorisationService.can('query', 'createIcalUrl')) {
+            this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
+          }
+
+          return true;
+        },
       },
     ];
   }

@@ -1,0 +1,30 @@
+<div
+  class="spot-modal loading-indicator--location op-query-get-ical-url"
+  data-indicator-name="modal"
+>
+  <div class="spot-modal--header">{{text.label_ical_sharing}}</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <p>
+      {{text.description_ical_sharing}}
+    </p>
+    <p class="ical-url">
+      <a href="{{icalUrl}}" target="_blank">{{icalUrl}}</a>
+    </p>
+  </div>
+
+  <div class="spot-action-bar">
+    <div class="spot-action-bar--right">
+      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+              [textContent]="text.button_cancel"
+              (click)="closeMe($event)">
+      </button>
+      <button class="button button_no-margin -highlight -with-icon icon-copy spot-action-bar--action"
+              (click)="copyUrl($event)"
+              [textContent]="text.button_copy">
+      </button>
+    </div>
+  </div>
+</div>

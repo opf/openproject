@@ -159,6 +159,24 @@ module API
                        .mount
             end
 
+            namespace :create_ical_url do
+              post do
+                authorize_by_policy(:create_ical_url)
+
+                # currently the generated URL points to controller action in calendar module
+                # correct approach? or should it be implemented as a API here?
+                call = ::Calendar::GenerateIcalUrl.new().call(
+                  user: current_user,
+                  query_id: @query.id,
+                  project_id: @query.project_id
+                )
+
+                {
+                  icalUrl: call.result
+                }
+              end
+            end
+
             mount API::V3::Queries::Order::QueryOrderAPI
           end
         end
