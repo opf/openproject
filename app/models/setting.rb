@@ -116,10 +116,6 @@ class Setting < ApplicationRecord
       class_eval src, __FILE__, __LINE__
     end
 
-    def definitions
-      Settings::Definition.all
-    end
-
     def method_missing(method, *args, &)
       if exists?(accessor_base_name(method))
         create_setting_accessors(accessor_base_name(method))
