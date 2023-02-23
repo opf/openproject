@@ -97,4 +97,14 @@ RSpec.describe Activities::ItemComponent, type: :component do
       expect(page).to have_css('.op-activity-list--item-title', text: '(Subproject: My subproject)')
     end
   end
+
+  context 'when a journal change does not have a formatter associated' do
+    it 'does not display the change information' do
+      event.event_description = ''
+      allow(event.journal).to receive(:details).and_return(i_do_not_have_a_formatter_associated: ['old', 'new'])
+      render_inline(described_class.new(event:))
+
+      expect(page).not_to have_css('.op-activity-list--item-detail')
+    end
+  end
 end

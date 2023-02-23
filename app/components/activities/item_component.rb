@@ -63,7 +63,7 @@ class Activities::ItemComponent < ViewComponent::Base
     @rendered_details ||=
       @event.journal
         .details
-        .flat_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+        .filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 
   def format_activity_title(text)
