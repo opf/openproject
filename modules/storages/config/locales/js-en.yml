@@ -29,7 +29,7 @@ en:
           To add a link, see or upload files related to this work package, please login to %{storageType}.
 
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
