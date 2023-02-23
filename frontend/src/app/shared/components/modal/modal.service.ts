@@ -33,7 +33,7 @@ import {
 } from '@angular/core';
 import { ComponentType, PortalInjector } from '@angular/cdk/portal';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 
@@ -93,7 +93,10 @@ export class OpModalService {
     });
 
     return this.activeModalInstance$
-      .pipe(filter((m) => m instanceof modal)) as Observable<T>;
+      .pipe(
+        filter((m) => m instanceof modal),
+        take(1),
+      ) as Observable<T>;
   }
 
   /**
