@@ -53,7 +53,7 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
 
   inputValue:null|string;
 
-  public parser(value:any, input:HTMLInputElement) {
+  public parser(value:null|string, input:HTMLInputElement) {
     // Managing decimal separators in a multi-language app is a complex topic:
     // https://www.ctrl.blog/entry/html5-input-number-localization.html
     // Depending on the locale of the OS, the browser or the app itself,
@@ -77,7 +77,7 @@ export class HoursDurationEditFieldComponent extends EditFieldComponent {
     return moment.duration(value, 'hours');
   }
 
-  public formatter(value:any) {
+  public formatter(value:null|string) {
     if (value === null) {
       return null;
     }
