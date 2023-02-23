@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Groups::UpdateRolesService, 'integration', type: :model do
-  subject(:service_call) { instance.call(member:, message:) }
+  subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
   let(:project) { create :project }
   let(:role) { create :role }
@@ -46,12 +46,13 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       ::Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
-        .call(user_ids: users.map(&:id))
+        .call(user_ids: users.map(&:id), send_notifications: false)
     end
   end
   let(:users) { create_list :user, 2 }
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
+  let(:send_notifications) { true }
 
   let(:instance) do
     described_class.new(group, current_user:)
@@ -89,6 +90,15 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     end
   end
 
+  shared_examples_for 'sends no notification' do
+    it 'on the updated membership' do
+      service_call
+
+      expect(Notifications::GroupMemberAlteredJob)
+        .not_to have_received(:perform_later)
+    end
+  end
+
   context 'when adding a role' do
     let(:added_role) { create(:role) }
 
@@ -112,6 +122,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'sends notification' do
       let(:user) { users }
+    end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
     end
   end
 
@@ -154,6 +170,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
       it_behaves_like 'sends notification' do
         let(:user) { users }
       end
+
+      context 'when notifications are suppressed' do
+        let(:send_notifications) { false }
+
+        it_behaves_like 'sends no notification'
+      end
     end
 
     context 'when removing a global role' do
@@ -179,6 +201,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
       it_behaves_like 'sends notification' do
         let(:user) { users }
+      end
+
+      context 'when notifications are suppressed' do
+        let(:send_notifications) { false }
+
+        it_behaves_like 'sends no notification'
       end
     end
   end
@@ -222,6 +250,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     it_behaves_like 'sends notification' do
       let(:user) { users.last }
     end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
+    end
   end
 
   context 'when removing a role' do
@@ -247,6 +281,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'sends notification' do
       let(:user) { users }
+    end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
     end
   end
 
@@ -290,6 +330,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     it_behaves_like 'sends notification' do
       let(:user) { users.last }
     end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
+    end
   end
 
   context 'when replacing roles' do
@@ -315,6 +361,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'sends notification' do
       let(:user) { users }
+    end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
     end
   end
 
@@ -358,6 +410,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
     it_behaves_like 'sends notification' do
       let(:user) { users }
     end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
+    end
   end
 
   context 'when adding a role and the user has a role already granted by a different group' do
@@ -373,7 +431,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
         ::Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
-          .call(user_ids: users.map(&:id))
+          .call(user_ids: users.map(&:id), send_notifications: false)
       end
     end
 
@@ -398,6 +456,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
 
     it_behaves_like 'sends notification' do
       let(:user) { users }
+    end
+
+    context 'when notifications are suppressed' do
+      let(:send_notifications) { false }
+
+      it_behaves_like 'sends no notification'
     end
   end
 
