@@ -3,7 +3,7 @@
   [title]="fixedTime"
   [textContent]="relativeTime$ | async"
 ></div>
-<div>
+<div class="op-ian-actors--container">
   <ng-container *ngFor="let actor of actors | slice:0:3; let last = last">
       <span *ngIf="last && actors.length > 1 && actors.length < 4">
         {{ text.and }}
