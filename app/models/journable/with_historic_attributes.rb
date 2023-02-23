@@ -97,25 +97,24 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   private_class_method :new
 
   class << self
-    def wrap(journable_or_journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
+    def wrap(journable_or_journables,
+             timestamps: query.try(:timestamps) || [],
+             query: nil,
+             include_only_changed_attributes: false)
+      wrapped = wrap_each_journable(Array(journable_or_journables), timestamps:, query:, include_only_changed_attributes:)
+
       case journable_or_journables
       when Array, ActiveRecord::Relation
-        wrap_multiple(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
+        wrapped
       else
-        wrap_one(journable_or_journables, timestamps:, query:, include_only_changed_attributes:)
+        wrapped.first
       end
     end
 
     private
 
-    def wrap_one(journable, timestamps: nil, query: nil, include_only_changed_attributes: false)
-      wrap_multiple(Array(journable), timestamps:, query:, include_only_changed_attributes:).first
-    end
-
-    def wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
-      timestamps ||= query.try(:timestamps) || []
+    def wrap_each_journable(journables, timestamps:, query:, include_only_changed_attributes:)
       loader = Loader.new(journables)
-
       journables = loader.at_timestamp(timestamps.last).values if timestamps.last.try(:historic?)
 
       journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:, loader:) }

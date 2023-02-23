@@ -28,9 +28,12 @@
 
 module API::V3::WorkPackages::EagerLoading
   class HistoricAttributes < Base
-    attr_accessor :timestamps, :query
+    attr_writer :timestamps
+    attr_accessor :query
 
     def apply(work_package)
+      return unless timestamps.any?(&:historic?)
+
       work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
 
       set_non_delegated_properties(work_package,
@@ -40,9 +43,8 @@ module API::V3::WorkPackages::EagerLoading
       work_package.at_timestamps = work_package_with_historic_attributes
                                      .timestamps
                                      .map do |timestamp|
-        wrapped_wp = HistoricAttributesDelegator
-                       .new(work_package_with_historic_attributes.at_timestamp(timestamp))
-        wrapped_wp.timestamp = timestamp.dup
+        wrapped_wp = AttributesByTimestampWorkPackage
+                       .new(work_package_with_historic_attributes.at_timestamp(timestamp), timestamp)
 
         set_non_delegated_properties(wrapped_wp,
                                      work_package_with_historic_attributes,
@@ -66,12 +68,16 @@ module API::V3::WorkPackages::EagerLoading
     end
 
     def work_packages_with_historic_attributes
-      @work_packages_with_historic_attributes ||= begin
-        @timestamps ||= @query.try(:timestamps) || []
-        Journable::WithHistoricAttributes \
-          .wrap(work_packages, timestamps: @timestamps, query: @query, include_only_changed_attributes: true)
-          .index_by(&:id)
-      end
+      @work_packages_with_historic_attributes ||= Journable::WithHistoricAttributes
+                                                  .wrap(work_packages,
+                                                        timestamps:,
+                                                        query:,
+                                                        include_only_changed_attributes: true)
+                                                  .index_by(&:id)
+    end
+
+    def timestamps
+      @timestamps ||= query.try(:timestamps) || []
     end
   end
 
@@ -96,18 +102,21 @@ module API::V3::WorkPackages::EagerLoading
     end
   end
 
-  # TODO: Get this in line with the rest of the eager loading
-  class HistoricAttributesDelegator < SimpleDelegator
+  # The wrapper around a work package only loaded to be then displayed as part of the
+  # attributesByTimestamps in the work package representer.
+  class AttributesByTimestampWorkPackage < SimpleDelegator
     include HistoricAttributesAccessors
 
-    def initialize(work_package)
+    def initialize(work_package, timestamp)
       super(work_package || WorkPackage.new)
+
+      self.timestamp = timestamp.dup
     end
 
     attr_writer :timestamp
 
     def timestamp
-      new_record? ? @timestamp : __getobj__.timestamp
+      new_record? ? @timestamp : Timestamp.parse(__getobj__.timestamp)
     end
 
     # Since custom fields are currently never displayed in the attributesByTimestamp,

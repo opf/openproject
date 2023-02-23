@@ -235,7 +235,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'when provoding timestamps' do
+    context 'when providing timestamps' do
       subject do
         get path
         last_response

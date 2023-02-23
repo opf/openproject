@@ -490,7 +490,7 @@ module API
 
           def self.work_package(id, timestamps: nil)
             "#{root}/work_packages/#{id}" + \
-            if (param_value = timestamps_to_param_value(timestamps)).present?
+            if (param_value = timestamps_to_param_value(timestamps)).present? && Array(timestamps).any?(&:historic?)
               "?#{{ timestamps: param_value }.to_query}"
             end.to_s
           end

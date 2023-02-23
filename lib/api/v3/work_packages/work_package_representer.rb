@@ -676,7 +676,7 @@ module API
         end
 
         def timestamps_active?
-          timestamps.any?
+          timestamps.any?(&:historic?)
         end
 
         # Attachments need to be eager loaded for the description

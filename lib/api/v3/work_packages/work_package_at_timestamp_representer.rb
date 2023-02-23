@@ -58,6 +58,10 @@ module API
           super(model, current_user:, embed_links:, timestamps: [model.timestamp])
         end
 
+        def timestamps_active?
+          true
+        end
+
         private
 
         def representable_map(*)
