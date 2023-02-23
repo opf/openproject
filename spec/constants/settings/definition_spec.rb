@@ -29,6 +29,27 @@
 require 'spec_helper'
 
 describe Settings::Definition, :settings_reset do
+  describe '.add_all' do
+    it 'adds all core setting definitions if they are not loaded' do
+      described_class.instance_variable_set(:@all, nil)
+      expect(described_class.all).to eq({})
+
+      described_class.add_all
+
+      expect(described_class.all.keys).to eq(described_class::DEFINITIONS.keys)
+    end
+
+    it 'does not add any plugin/feature settings if they were removed for some reason' do
+      not_core_settings = described_class.all.keys - described_class::DEFINITIONS.keys
+      expect(not_core_settings).not_to be_empty
+      described_class.instance_variable_set(:@all, nil)
+
+      described_class.add_all
+
+      expect(described_class.all.keys).not_to include(not_core_settings)
+    end
+  end
+
   describe '.all' do
     subject(:all) { described_class.all }
 

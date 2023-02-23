@@ -1143,9 +1143,7 @@ module Settings
               allowed: nil,
               env_alias: nil)
         name = name.to_sym
-        return if @all.present? && @all[name].present?
-
-        @all = {} if @all.nil?
+        return if exists?(name)
 
         definition = new(name,
                          format:,
@@ -1155,17 +1153,19 @@ module Settings
                          allowed:,
                          env_alias:)
         override_value(definition)
-        @all[name] = definition
+        all[name] = definition
       end
 
-      def define(&)
-        instance_exec(&)
+      def add_all
+        Settings::Definition::DEFINITIONS.each do |setting_name, setting_options|
+          Settings::Definition.add(setting_name, **setting_options)
+        end
       end
 
       def [](name)
         name = name.to_sym
-        if @all.present? && @all.key?(name)
-          @all[name]
+        if exists?(name)
+          all[name]
         else
           h = DEFINITIONS[name]
           add(name, **h) if h.present?
@@ -1173,11 +1173,11 @@ module Settings
       end
 
       def exists?(name)
-        @all.keys.include?(name.to_sym)
+        all.key?(name.to_sym)
       end
 
       def all
-        @all
+        @all ||= {}
       end
 
       private

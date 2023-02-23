@@ -215,9 +215,7 @@ module OpenProject
     config.active_support.cache_format_version = 7.0
 
     config.after_initialize do
-      Settings::Definition::DEFINITIONS.each do |setting_name, setting_options|
-        Settings::Definition.add(setting_name, **setting_options)
-      end
+      Settings::Definition.add_all
     end
 
     def self.root_url
