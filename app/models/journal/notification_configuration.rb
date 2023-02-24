@@ -47,7 +47,8 @@ class Journal::NotificationConfiguration
     end
 
     def active?
-      active.value
+      @active ||= Concurrent::ThreadLocalVar.new(DEFAULT)
+      @active.value
     end
 
     protected
@@ -73,20 +74,13 @@ class Journal::NotificationConfiguration
       Rails.logger.debug message.strip
     end
 
-    def active
-      @active ||= Concurrent::ThreadLocalVar.new(DEFAULT)
-    end
-
-    def already_set
-      @already_set ||= Concurrent::ThreadLocalVar.new(false)
+    def active=(value)
+      @active.value = value
     end
 
     def already_set?
-      already_set.value
-    end
-
-    def active=(value)
-      @active.value = value
+      @already_set ||= Concurrent::ThreadLocalVar.new(false)
+      @already_set.value
     end
 
     def already_set=(value)
