@@ -1,6 +1,6 @@
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
-    <%= link_to format_activity_title(@event.event_title), @event.event_path %>
+    <%= link_to @event.event_title.squish, @event.event_path %>
     <%= project_suffix %>
   </div>
   <%=
