@@ -28,54 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemComponent < ViewComponent::Base
-  with_collection_parameter :event
+require 'spec_helper'
 
-  def initialize(event:, display_user: true, activity_page: nil)
-    super()
-    @event = event
-    @display_user = display_user
-    @activity_page = activity_page
-  end
-
-  def display_belonging_project?
-    @event.journal.journable_type != 'Project'
-  end
-
-  def display_user?
-    @display_user
-  end
-
-  def display_details?
-    return false if @event.journal.initial?
-
-    rendered_details.present?
-  end
-
-  def rendered_details
-    @rendered_details ||=
-      @event.journal
-        .details
-        .flat_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
-  end
-
-  def format_activity_title(text)
-    helpers.truncate_single_line(text, length: 100)
-  end
-
-  def comment
-    return unless work_package?
-
-    @event.event_description
-  end
-
-  def description
-    return if work_package?
-
-    @event.event_description
-  end
-
-  def work_package?
-    @event.journal.journable_type == "WorkPackage"
+RSpec.describe JournalsHelper do
+  describe 'back_to_activity_page_url' do
+    {
+      'all' => 'http://test.host/activities',
+      'projects/some-identifier' => 'http://test.host/projects/some-identifier/activities',
+      'unsupported_gizmo' => nil,
+      'users/5' => 'http://test.host/users/5',
+      'work_packages/42' => 'http://test.host/work_packages/42',
+      nil => nil
+    }.each do |activity_page, expected_url|
+      context "when activity page is #{activity_page.inspect}" do
+        it do
+          expect(back_to_activity_page_url(activity_page)).to eq(expected_url)
+        end
+      end
+    end
   end
 end

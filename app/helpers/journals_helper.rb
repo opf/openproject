@@ -28,54 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemComponent < ViewComponent::Base
-  with_collection_parameter :event
-
-  def initialize(event:, display_user: true, activity_page: nil)
-    super()
-    @event = event
-    @display_user = display_user
-    @activity_page = activity_page
-  end
-
-  def display_belonging_project?
-    @event.journal.journable_type != 'Project'
-  end
-
-  def display_user?
-    @display_user
-  end
-
-  def display_details?
-    return false if @event.journal.initial?
-
-    rendered_details.present?
-  end
-
-  def rendered_details
-    @rendered_details ||=
-      @event.journal
-        .details
-        .flat_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
-  end
-
-  def format_activity_title(text)
-    helpers.truncate_single_line(text, length: 100)
-  end
-
-  def comment
-    return unless work_package?
-
-    @event.event_description
-  end
-
-  def description
-    return if work_package?
-
-    @event.event_description
-  end
-
-  def work_package?
-    @event.journal.journable_type == "WorkPackage"
+module JournalsHelper
+  def back_to_activity_page_url(activity_page)
+    case activity_page&.split('/')
+    in ['all']
+      activities_url
+    in ['projects', project_id]
+      project_activities_url(project_id)
+    in ['users', user_id]
+      user_url(user_id)
+    in ['work_packages', work_package_id]
+      work_package_url(work_package_id)
+    else
+      nil
+    end
   end
 end

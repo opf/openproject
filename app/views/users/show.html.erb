@@ -80,7 +80,7 @@ See COPYRIGHT and LICENSE files for more details.
       <p>
         <%=t(:label_reported_work_packages)%>: <%= @user.reported_work_package_count %>
       </p>
-      <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4'))  %>
+      <%= render(Activities::DaysComponent.new(events: @events, display_user: false, header_tag: 'h4', activity_page: @activity_page))  %>
 
       <%= other_formats_links do |f| %>
         <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: nil, user_id: @user, key: User.current.rss_key} %>

@@ -69,10 +69,13 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-    url_attr = default_attributes(options).merge(controller: '/journals',
-                                                 action: 'diff',
-                                                 id: @journal.id,
-                                                 field: key.downcase)
+    url_attr = default_attributes(options)
+      .merge(controller: '/journals',
+             action: 'diff',
+             id: @journal.id,
+             field: key.downcase,
+             activity_page: options[:activity_page])
+      .compact
 
     if options[:html]
       link_to(I18n.t(:label_details),
