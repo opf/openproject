@@ -25,7 +25,7 @@ it:
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
       files:
-        directory_not_writeable: "Non sei autorizzato ad aggiungere file a questa cartella."
+        directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
@@ -50,7 +50,14 @@ it:
         success_create:
           one: "1 link del file creato correttamente."
           other: "%{count} link di file creati correttamente."
-        upload_error: "Si è verificato un errore caricando il file '%{fileName}'."
+        upload_error:
+          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
