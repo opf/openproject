@@ -34,12 +34,43 @@ module API::V3::WorkPackages::EagerLoading
     def apply(work_package)
       return unless timestamps.any?(&:historic?)
 
+      set_root_work_package_attributes(work_package)
+      set_at_timestamp_attributes(work_package)
+    end
+
+    def self.module
+      HistoricAttributesAccessors
+    end
+
+    private
+
+    # Sets the attributes of the work package to be displayed directly as part of the _embedded/elements collection.
+    #
+    # Attributes can be:
+    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * the attributes the work package had at the timestamp. This is only necessary in case a historic (i.e.) non
+    #     current timestamp is provided.
+    def set_root_work_package_attributes(work_package)
       work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
+
+      last_timestamp = work_package_with_historic_attributes.timestamps.last
 
       set_attributes_at_timestamp(work_package,
                                   work_package_with_historic_attributes,
-                                  work_package_with_historic_attributes.timestamps.last,
-                                  override_current: true)
+                                  last_timestamp,
+                                  override_current: last_timestamp.historic?)
+    end
+
+    # Sets the attributes of the work package to be displayed as part of the _embedded/attributesAtTimestamp of each
+    # work package of the collection (the full path could then be e.g. _embedded/elements/5/_embedded/attributesAtTimestamp)
+    #
+    # Attributes are:
+    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * the timestamp the work package is at. Mostly necessary in case the work package did not exist at that time as a
+    #     stand-in work package is created in this case.
+    #   * stand-in blank values for custom values/fields which are currently not used and thus do not need to be loaded.
+    def set_at_timestamp_attributes(work_package)
+      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
 
       work_package.at_timestamps = work_package_with_historic_attributes
                                      .timestamps
@@ -54,12 +85,6 @@ module API::V3::WorkPackages::EagerLoading
         wrapped_wp
       end
     end
-
-    def self.module
-      HistoricAttributesAccessors
-    end
-
-    private
 
     def set_attributes_at_timestamp(work_package, source, timestamp, override_current: false)
       override_attributes(work_package, source) if override_current
@@ -82,6 +107,7 @@ module API::V3::WorkPackages::EagerLoading
     def override_attributes(work_package, source)
       work_package.attributes = source.attributes.except('timestamp')
       work_package.clear_changes_information
+      work_package.readonly!
     end
 
     def set_timestamp_attributes(work_package, source, timestamp)
