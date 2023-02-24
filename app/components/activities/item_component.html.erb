@@ -1,9 +1,7 @@
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
     <%= link_to format_activity_title(@event.event_title), @event.event_path %>
-    <% if display_belonging_project? -%>
-      (<%= I18n.t('events.title.project', name: content_tag('span', link_to(@event.project.name, @event.project), class: 'project')).html_safe %>)
-    <% end -%>
+    <%= project_suffix %>
   </div>
   <%=
     render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
