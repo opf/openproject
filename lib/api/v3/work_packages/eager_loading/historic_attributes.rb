@@ -62,11 +62,8 @@ module API::V3::WorkPackages::EagerLoading
     private
 
     def set_attributes_at_timestamp(work_package, source, timestamp, override_current: false)
-      work_package.attributes = source.attributes.except('timestamp') if override_current
-      work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
-      work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
-      work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)
-      work_package.with_query = source.query.present?
+      override_attributes(work_package, source) if override_current
+      set_timestamp_attributes(work_package, source, timestamp)
     end
 
     def work_packages_with_historic_attributes
@@ -80,6 +77,18 @@ module API::V3::WorkPackages::EagerLoading
 
     def timestamps
       @timestamps ||= query.try(:timestamps) || []
+    end
+
+    def override_attributes(work_package, source)
+      work_package.attributes = source.attributes.except('timestamp')
+      work_package.clear_changes_information
+    end
+
+    def set_timestamp_attributes(work_package, source, timestamp)
+      work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
+      work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
+      work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)
+      work_package.with_query = source.query.present?
     end
   end
 
