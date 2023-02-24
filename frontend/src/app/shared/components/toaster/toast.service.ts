@@ -26,21 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import {
-  input,
-  State,
-} from 'reactivestates';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
+import { input, State } from 'reactivestates';
 import { Injectable } from '@angular/core';
+import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
 import {
   IHalErrorBase,
   IHalMultipleError,
   isHalError,
 } from 'core-app/features/hal/resources/error-resource';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export function removeSuccessFlashMessages():void {
   jQuery('.flash.notice').remove();
@@ -65,11 +64,10 @@ export class ToastService {
     readonly configurationService:ConfigurationService,
     readonly I18n:I18nService,
   ) {
-    jQuery(window)
-      .on(OPToastEvent,
-        (event:JQuery.TriggeredEvent, toast:IToast) => {
-          this.add(toast);
-        });
+    jQuery(window).on(
+      OPToastEvent,
+      (event:JQuery.TriggeredEvent, toast:IToast) => { this.add(toast); },
+    );
   }
 
   /**
@@ -144,6 +142,23 @@ export class ToastService {
 
   public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {
     return this.add(this.createAttachmentUploadToast(message, uploads));
+  }
+
+  public addUpload(message:string, uploads:[[File, Observable<HttpEvent<unknown>>]]):IToast {
+    const notification = this.add({
+      data: uploads,
+      type: 'upload',
+      message,
+    });
+
+    const observables = uploads.map((o) => o[1].pipe(filter((ev) => ev.type === HttpEventType.Response)));
+    forkJoin(observables)
+      .pipe(take(1))
+      .subscribe(() => {
+        setTimeout(() => this.remove(notification), 700);
+      });
+
+    return notification;
   }
 
   public addLoading(observable:Observable<unknown>):IToast {
