@@ -54,6 +54,7 @@ import {
   map,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
@@ -265,7 +266,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   public removeFileLink(fileLink:IFileLink):void {
-    this.fileLinkResourceService.remove(this.collectionKey, fileLink);
+    this.fileLinkResourceService.remove(this.collectionKey, fileLink)
+      .subscribe(
+        () => { /* Do nothing */ },
+        (error:HttpErrorResponse) => this.toastService.addError(error),
+      );
   }
 
   public openLinkFilesDialog():void {
@@ -350,6 +355,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           return throwError(error);
         }),
         switchMap((uploadResponse) => this.createFileLinkData(data.file, uploadResponse)),
+        tap((fileLinkCreationData) => {
+          // Update the file link list of this storage only in case of a linked file got updated
+          if (fileLinkCreationData === null) {
+            this.fileLinkResourceService.updateCollection(this.fileLinkSelfLink).subscribe();
+          }
+        }),
         filter(isNotNull),
         switchMap((file) => this.fileLinkResourceService.addFileLinks(
           this.collectionKey,
@@ -393,7 +404,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<FileUploadResponse> {
     const { href } = link._links.destination;
     const uploadFiles:NextcloudUploadFile[] = [{ file, overwrite }];
-    const observable = this.uploadService.upload(href, uploadFiles)[0];
+    const observable = this.uploadService.upload<FileUploadResponse>(href, uploadFiles)[0];
     this.toastService.addUpload(this.text.toast.uploadingLabel, [[file, observable]]);
 
     return observable
