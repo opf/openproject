@@ -66,10 +66,6 @@ class Activities::ItemComponent < ViewComponent::Base
         .filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 
-  def format_activity_title(text)
-    helpers.truncate_single_line(text, length: 100)
-  end
-
   def comment
     return unless work_package_activity?
 

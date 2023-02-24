@@ -66,6 +66,20 @@ RSpec.describe Activities::ItemComponent, type: :component do
     expect(page).to have_css('.op-activity-list--item-title', text: 'Project: Project <b>name</b> with HTML)')
   end
 
+  it 'does not truncate the title' do
+    event.event_title = 'Hello, World!' * 20
+    render_inline(described_class.new(event:))
+
+    expect(page).to have_css('.op-activity-list--item-title', text: event.event_title)
+  end
+
+  it 'removes line breaks and tabs from the title and replaces them with spaces' do
+    event.event_title = "This \t should\n\rbe\n all\ncleaned"
+    render_inline(described_class.new(event:))
+
+    expect(page).to have_css('.op-activity-list--item-title', text: 'This should be all cleaned')
+  end
+
   context 'for Project activities' do
     let(:journal) { build_stubbed(:project_journal) }
 
