@@ -1387,6 +1387,7 @@ ro:
     work_package_note: 'Notă adăugată la pachetul de lucru'
     title:
       project: "Proiect: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."

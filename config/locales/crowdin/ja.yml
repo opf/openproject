@@ -1349,6 +1349,7 @@ ja:
     work_package_note: '仕事項目の注記が追加されました。'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"

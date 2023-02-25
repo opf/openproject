@@ -1404,6 +1404,7 @@ sk:
     work_package_note: 'Poznámka pracovného balíčka pridaná'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."

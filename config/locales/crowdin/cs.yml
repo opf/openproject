@@ -1404,6 +1404,7 @@ cs:
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
     succeeded: "Export úspěšně dokončen."

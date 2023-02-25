@@ -1367,6 +1367,7 @@ hu:
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."

@@ -1369,6 +1369,7 @@ pt:
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."

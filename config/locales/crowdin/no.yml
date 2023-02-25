@@ -1370,6 +1370,7 @@
     work_package_note: 'Notat lagt til arbeidspakke'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."

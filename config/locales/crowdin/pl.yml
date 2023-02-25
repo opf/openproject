@@ -1401,6 +1401,7 @@ pl:
     work_package_note: 'Notatka pakietu roboczego dodana'
     title:
       project: "Projekt: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."

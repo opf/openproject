@@ -1370,6 +1370,7 @@ bg:
     work_package_note: 'Добавена бележка за работен пакет'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Експорт на вашите работни пакети"
     succeeded: "Експортирането завърши успешно"

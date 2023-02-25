@@ -1367,6 +1367,7 @@ nl:
     work_package_note: 'Werkpakket notitie toegevoegd'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Uw werkpakketten exporteren"
     succeeded: "Het exporteren is voltooid."

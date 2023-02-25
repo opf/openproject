@@ -1367,6 +1367,7 @@ es:
     work_package_note: 'Nota de paquete de trabajo añadido'
     title:
       project: "Proyecto: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."

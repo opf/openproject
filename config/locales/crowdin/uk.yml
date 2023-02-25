@@ -1399,6 +1399,7 @@ uk:
     work_package_note: 'Робочий пакет не доданий'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Експорт ваших пакетів робіт"
     succeeded: "Експорт успішно завершено."

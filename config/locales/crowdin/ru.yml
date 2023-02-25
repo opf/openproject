@@ -1403,6 +1403,7 @@ ru:
     work_package_note: 'Добавлено примечание к пакету работ'
     title:
       project: "Проект: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."

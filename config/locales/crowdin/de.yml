@@ -1365,6 +1365,7 @@ de:
     work_package_note: 'Arbeitspaket kommentiert'
     title:
       project: "Projekt: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."

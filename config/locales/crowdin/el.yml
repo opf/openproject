@@ -1366,6 +1366,7 @@ el:
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."

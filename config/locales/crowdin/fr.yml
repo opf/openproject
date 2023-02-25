@@ -1370,6 +1370,7 @@ fr:
     work_package_note: 'Note de Lot de Travaux ajoutée'
     title:
       project: "Projet : %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"

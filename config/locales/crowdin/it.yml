@@ -1367,6 +1367,7 @@ it:
     work_package_note: 'Aggiunta nota alla macro-attività'
     title:
       project: "Progetto: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."

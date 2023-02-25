@@ -1401,6 +1401,7 @@ lt:
     work_package_note: 'Darbų paketo pastaba pridėta'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Jūsų darbo užduočių eksportas"
     succeeded: "Eksportas baigtas sėkmingai."

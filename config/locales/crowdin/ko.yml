@@ -1352,6 +1352,7 @@ ko:
     work_package_note: '작업 패키지 메모 추가됨'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "내 작업 패키지 내보내기"
     succeeded: "내보내기가 성공적으로 완료되었습니다."

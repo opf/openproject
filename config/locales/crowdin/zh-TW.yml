@@ -1353,6 +1353,7 @@ zh-TW:
     work_package_note: '工作項目註記已新增'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"

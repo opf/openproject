@@ -1352,6 +1352,7 @@ lol:
     work_package_note: 'crwdns496703:0crwdne496703:0'
     title:
       project: "crwdns842631:0%{name}crwdne842631:0"
+      subproject: "crwdns846087:0%{name}crwdne846087:0"
   export:
     your_work_packages_export: "crwdns496705:0crwdne496705:0"
     succeeded: "crwdns496707:0crwdne496707:0"

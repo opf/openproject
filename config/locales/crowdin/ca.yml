@@ -1366,6 +1366,7 @@ ca:
     work_package_note: 'Afegida nota al paquet de treball'
     title:
       project: "Projecte: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
