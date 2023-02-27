@@ -248,7 +248,6 @@ describe 'API v3 Work package resource',
         end
 
         before do
-          WorkPackage.destroy_all
           work_package
           Journal.destroy_all
           original_journal

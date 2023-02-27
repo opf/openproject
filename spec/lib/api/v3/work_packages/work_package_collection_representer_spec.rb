@@ -35,7 +35,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:work_packages) { WorkPackage.all }
   let(:user) { build_stubbed(:user) }
 
-  let(:query) { {} }
+  let(:query_params) { {} }
   let(:groups) { nil }
   let(:total_sums) { nil }
   let(:project) { nil }
@@ -46,13 +46,13 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:total) { 5 }
   let(:embed_schemas) { false }
   let(:timestamps) { nil }
-  let(:_query) { nil }
+  let(:query) { nil }
 
   let(:representer) do
     described_class.new(
       work_packages,
       self_link: self_base_link,
-      query:,
+      query_params:,
       project:,
       groups:,
       total_sums:,
@@ -61,7 +61,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       current_user: user,
       embed_schemas:,
       timestamps:,
-      _query:
+      query:
     )
   end
   let(:collection_inner_type) { 'WorkPackage' }
@@ -107,31 +107,31 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     describe 'representations' do
       context 'when outside of a project and the user has the export_work_packages permission' do
-        let(:query) { { foo: 'bar' } }
+        let(:query_params) { { foo: 'bar' } }
 
         let(:expected) do
-          expected_query = query.merge(pageSize: 30, offset: 1)
+          expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: work_packages_path({ format: 'pdf' }.merge(expected_query)),
+              href: work_packages_path({ format: 'pdf' }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf',
               title: I18n.t('export.format.pdf')
             },
             {
-              href: work_packages_path({ format: 'pdf', show_descriptions: true }.merge(expected_query)),
+              href: work_packages_path({ format: 'pdf', show_descriptions: true }.merge(expected_query_params)),
               identifier: 'pdf-with-descriptions',
               type: 'application/pdf',
               title: I18n.t('export.format.pdf_with_descriptions')
             },
             {
-              href: work_packages_path({ format: 'csv' }.merge(expected_query)),
+              href: work_packages_path({ format: 'csv' }.merge(expected_query_params)),
               type: 'text/csv',
               identifier: 'csv',
               title: I18n.t('export.format.csv')
             },
             {
-              href: work_packages_path({ format: 'atom' }.merge(expected_query)),
+              href: work_packages_path({ format: 'atom' }.merge(expected_query_params)),
               identifier: 'atom',
               type: 'application/atom+xml',
               title: I18n.t('export.format.atom')
@@ -153,28 +153,28 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         let(:project) { build_stubbed(:project) }
 
         let(:expected) do
-          expected_query = query.merge(pageSize: 30, offset: 1)
+          expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf',
               title: I18n.t('export.format.pdf')
             },
             {
-              href: project_work_packages_path(project, { format: 'pdf', show_descriptions: true }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'pdf', show_descriptions: true }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf-with-descriptions',
               title: I18n.t('export.format.pdf_with_descriptions')
             },
             {
-              href: project_work_packages_path(project, { format: 'csv' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'csv' }.merge(expected_query_params)),
               identifier: 'csv',
               type: 'text/csv',
               title: I18n.t('export.format.csv')
             },
             {
-              href: project_work_packages_path(project, { format: 'atom' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'atom' }.merge(expected_query_params)),
               identifier: 'atom',
               type: 'application/atom+xml',
               title: I18n.t('export.format.atom')
@@ -429,8 +429,8 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
   end
 
-  context 'when passing a query hash' do
-    let(:query) { { a: 'b', b: 'c' } }
+  context 'when passing a query_params hash' do
+    let(:query_params) { { a: 'b', b: 'c' } }
 
     it_behaves_like 'has an untitled link' do
       let(:link) { 'self' }
@@ -619,7 +619,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
     context 'when passing a query' do
       let(:search_term) { 'original' }
-      let(:_query) do
+      let(:query) do
         login_as(current_user)
         build(:query, user: current_user, project: nil).tap do |query|
           query.filters.clear

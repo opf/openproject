@@ -77,7 +77,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
   let(:mock_wp_representer) do
     Struct.new(:work_packages,
                :self_link,
-               :query,
+               :query_params,
                :project,
                :groups,
                :total_sums,
@@ -86,10 +86,10 @@ describe API::V3::WorkPackageCollectionFromQueryService,
                :embed_schemas,
                :current_user,
                :timestamps,
-               :_query) do
+               :query) do
       def initialize(work_packages,
                      self_link:,
-                     query:,
+                     query_params:,
                      project:,
                      groups:,
                      total_sums:,
@@ -98,10 +98,10 @@ describe API::V3::WorkPackageCollectionFromQueryService,
                      embed_schemas:,
                      current_user:,
                      timestamps:,
-                     _query:)
+                     query:)
         super(work_packages,
               self_link,
-              query,
+              query_params,
               project,
               groups,
               total_sums,
@@ -110,7 +110,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
               embed_schemas,
               current_user,
               timestamps,
-              _query)
+              query)
       end
     end
   end
@@ -246,10 +246,8 @@ describe API::V3::WorkPackageCollectionFromQueryService,
       end
 
       context 'when a _query object is given' do
-        # This is a workaround to allow the representer to access the query object itself.
-        # The attribute 'query' is already used by the representer and holds a Hash.
         it 'has the query' do
-          expect(subject._query)
+          expect(subject.query)
             .to eq(query)
         end
       end
@@ -323,7 +321,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           it 'is represented' do
             query.display_sums = true
 
-            expect(subject.query[:showSums])
+            expect(subject.query_params[:showSums])
               .to be(true)
           end
         end
@@ -332,7 +330,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           it 'is represented' do
             query.show_hierarchies = true
 
-            expect(subject.query[:showHierarchies])
+            expect(subject.query_params[:showHierarchies])
               .to be(true)
           end
         end
@@ -341,7 +339,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           it 'is represented' do
             query.group_by = 'status_id'
 
-            expect(subject.query[:groupBy])
+            expect(subject.query_params[:groupBy])
               .to eq('status_id')
           end
         end
@@ -352,7 +350,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
 
             expected_sort = JSON::dump [['status', 'desc']]
 
-            expect(subject.query[:sortBy])
+            expect(subject.query_params[:sortBy])
               .to eq(expected_sort)
           end
         end
@@ -367,14 +365,14 @@ describe API::V3::WorkPackageCollectionFromQueryService,
                                             { subprojectId: { operator: '=', values: ['3', '4'] } }
                                           ])
 
-            expect(subject.query[:filters])
+            expect(subject.query_params[:filters])
               .to eq(expected_filters)
           end
 
           it 'represents no filters' do
             expected_filters = JSON::dump([])
 
-            expect(subject.query[:filters])
+            expect(subject.query_params[:filters])
               .to eq(expected_filters)
           end
         end
@@ -382,7 +380,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
 
       context 'offset' do
         it 'is 1 as default' do
-          expect(subject.query[:offset])
+          expect(subject.query_params[:offset])
             .to be(1)
         end
 
@@ -392,7 +390,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           let(:params) { { 'offset' => 3 } }
 
           it 'is that value' do
-            expect(subject.query[:offset])
+            expect(subject.query_params[:offset])
               .to be(3)
           end
         end
@@ -406,7 +404,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
         end
 
         it 'is nil' do
-          expect(subject.query[:pageSize])
+          expect(subject.query_params[:pageSize])
             .to be(25)
         end
 
@@ -416,7 +414,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           let(:params) { { 'pageSize' => 100 } }
 
           it 'is that value' do
-            expect(subject.query[:pageSize])
+            expect(subject.query_params[:pageSize])
               .to be(100)
           end
         end
@@ -425,7 +423,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
           let(:query_manually_sorted) { true }
 
           it 'is the setting value' do
-            expect(subject.query[:pageSize])
+            expect(subject.query_params[:pageSize])
               .to be(42)
           end
 
@@ -433,7 +431,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
             let(:params) { { 'pageSize' => 100 } }
 
             it 'is the setting value' do
-              expect(subject.query[:pageSize])
+              expect(subject.query_params[:pageSize])
                 .to be(42)
             end
           end
@@ -442,7 +440,7 @@ describe API::V3::WorkPackageCollectionFromQueryService,
             let(:params) { { 'pageSize' => 0 } }
 
             it 'is the provided value' do
-              expect(subject.query[:pageSize])
+              expect(subject.query_params[:pageSize])
                 .to be(0)
             end
           end
