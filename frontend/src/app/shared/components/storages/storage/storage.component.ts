@@ -42,7 +42,12 @@ import {
   HttpEventType,
   HttpResponse,
 } from '@angular/common/http';
-import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  throwError,
+} from 'rxjs';
 import {
   catchError,
   filter,
@@ -83,11 +88,18 @@ import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { UploadFile } from 'core-app/core/file-upload/op-file-upload.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import {
+  UploadConflictModalComponent,
+} from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import { FileUploadResponse, LocationData, UploadData } from 'core-app/shared/components/storages/storage/interfaces';
+import isNotNull from 'core-app/core/state/is-not-null';
+import compareId from 'core-app/core/state/compare-id';
 
 @Component({
   selector: 'op-storage',
@@ -197,9 +209,9 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   };
 
   constructor(
+    private readonly http:HttpClient,
     private readonly i18n:I18nService,
     private readonly cdRef:ChangeDetectorRef,
-    private readonly http:HttpClient,
     private readonly toastService:ToastService,
     private readonly cookieService:CookieService,
     private readonly opModalService:OpModalService,
@@ -276,43 +288,70 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     const fileList = this.filePicker.nativeElement.files;
     if (fileList === null) return;
 
-    this.openSelectLocationDialog(fileList[0]);
+    this.storageFileUpload(fileList[0]);
     // reset file input, so that selecting the same file again triggers a change
     this.filePicker.nativeElement.value = '';
   }
 
-  private openSelectLocationDialog(file:File):void {
+  private storageFileUpload(file:File):void {
+    this.selectUploadLocation()
+      .pipe(
+        switchMap((data) => this.resolveUploadConflicts(file, data.files, data.location)),
+      )
+      .subscribe((data) => {
+        this.uploadAndCreateFileLink(data);
+      });
+  }
+
+  private selectUploadLocation():Observable<LocationData> {
     const locals = {
       storageType: this.storage._links.type.href,
       storageName: this.storage.name,
       storageLink: this.storage._links.self,
     };
-    this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
-      .subscribe((m) => {
-        m.closingEvent.subscribe((modal) => {
-          if (modal.submitted) {
-            this.uploadFile(file, modal.location);
-          }
-        });
-      });
+
+    return this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
+      .pipe(
+        switchMap((modal) => modal.closingEvent),
+        filter((modal) => modal.submitted),
+        take(1),
+        map((modal) => ({ location: modal.location, files: modal.filesAtLocation })),
+      );
   }
 
-  private uploadFile(file:UploadFile, locationId:string):void {
+  private resolveUploadConflicts(file:File, storageFiles:IStorageFile[], location:string):Observable<UploadData> {
+    const conflict = storageFiles.find((f) => f.name === file.name);
+    if (!conflict) {
+      return of({ file, location, overwrite: null });
+    }
+
+    return this.opModalService.show<UploadConflictModalComponent>(UploadConflictModalComponent, 'global', { fileName: file.name })
+      .pipe(
+        switchMap((modal) => modal.closingEvent),
+        filter((modal) => modal.overwrite !== null),
+        take(1),
+        map((modal) => ({ file, location, overwrite: modal.overwrite })),
+      );
+  }
+
+  private uploadAndCreateFileLink(data:UploadData):void {
     let isUploadError = false;
 
     this.storageFilesResourceService
-      .uploadLink(this.uploadResourceLink(file.name, locationId))
+      .uploadLink(this.uploadResourceLink(data.file.name, data.location))
       .pipe(
-        switchMap((link) => this.uploadAndNotify(link, file)),
+        switchMap((link) => this.uploadAndNotify(link, data.file, data.overwrite)),
         catchError((error) => {
           isUploadError = true;
           return throwError(error);
         }),
-        switchMap((f) => this.fileLinkResourceService.addFileLinks(
+        switchMap((uploadResponse) => this.createFileLinkData(data.file, uploadResponse)),
+        filter(isNotNull),
+        switchMap((file) => this.fileLinkResourceService.addFileLinks(
           this.collectionKey,
           this.addFileLinksHref,
           this.storage._links.self,
-          [f],
+          [file],
         )),
       )
       .subscribe(
@@ -321,9 +360,9 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         },
         (error) => {
           if (isUploadError) {
-            this.handleUploadError(error as HttpErrorResponse, file.name);
+            this.handleUploadError(error as HttpErrorResponse, data.file.name);
           } else {
-            this.toastService.addError(this.text.toast.linkingAfterUploadFailed(file.name, this.resource.id as string));
+            this.toastService.addError(this.text.toast.linkingAfterUploadFailed(data.file.name, this.resource.id as string));
           }
 
           console.error(error);
@@ -347,23 +386,20 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     }
   }
 
-  private uploadAndNotify(link:IUploadLink, file:UploadFile):Observable<IFileLinkOriginData> {
+  private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<FileUploadResponse> {
     const { method, href } = link._links.destination;
-
-    interface FileUploadResponse {
-      file_name:string;
-      file_id:string;
-    }
 
     const formData = new FormData();
     formData.append('file', file, file.name);
-    formData.append('overwrite', 'false');
+    if (overwrite !== null) {
+      formData.append('overwrite', String(overwrite));
+    }
     const observable = this.http.request<FileUploadResponse>(
       method,
       href,
       {
         body: formData,
-        headers: { 'X-External-Request': 'true' },
+        headers: { [EXTERNAL_REQUEST_HEADER]: 'true' },
         observe: 'events',
         reportProgress: true,
         responseType: 'json',
@@ -387,10 +423,25 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
             throw new Error('Upload data is null.');
           }
 
+          return data;
+        }),
+      );
+  }
+
+  private createFileLinkData(file:File, response:FileUploadResponse):Observable<IFileLinkOriginData|null> {
+    return this.fileLinks$
+      .pipe(
+        take(1),
+        map((fileLinks) => {
+          const existingFileLink = fileLinks.find((l) => compareId(l.originData.id, response.file_id));
+          if (existingFileLink) {
+            return null;
+          }
+
           const now = this.timezoneService.parseDate(new Date()).toISOString();
           return ({
-            id: data.file_id,
-            name: data.file_name,
+            id: response.file_id,
+            name: response.file_name,
             mimeType: file.type,
             size: file.size,
             createdAt: now,
@@ -516,7 +567,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       return;
     }
 
-    this.openSelectLocationDialog(files[0]);
+    this.storageFileUpload(files[0]);
   }
 
   public onDragOver(event:DragEvent):void {
