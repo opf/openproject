@@ -39,7 +39,9 @@ module Projects
 
     private
 
-    def before_perform(_params, _service_result)
+    def before_perform(_params, service_result)
+      return service_result if model.archived?
+
       Projects::ArchiveService
         .new(user:, model:)
         .call
