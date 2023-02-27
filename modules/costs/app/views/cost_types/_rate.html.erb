@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
                                  index: id_or_index,
                                  inputmode: :decimal,
                                  placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
-                                 value: rate.rate ? rate.rate.round(2) : "",
+                                 value: rate.rate ? unitless_currency_number(rate.rate.round(2)) : "",
                                  required: templated ? false : true %>
         <span class="form-label">
           <%= Setting.plugin_costs['costs_currency'] %>
