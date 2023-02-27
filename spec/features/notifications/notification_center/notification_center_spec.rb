@@ -352,4 +352,16 @@ describe "Notification center",
       end
     end
   end
+
+  describe 'logging into deep link', with_settings: { login_required: true } do
+    it 'redirects to the notification deep link' do
+      visit notifications_center_path(state: "details/#{work_package.id}/activity")
+
+      expect(page).to have_current_path /login/
+
+      login_with recipient.login, 'adminADMIN!', visit_signin_path: false
+
+      expect(page).to have_current_path /notifications\/details\/#{work_package.id}\/activity/
+    end
+  end
 end
