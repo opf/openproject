@@ -122,19 +122,24 @@
     border: none
     display: block
     float: left
-    min-height: 84px
+    min-height: 90px
     margin: 5px
     padding: 5px
     position: relative
     width: 190px
+    border-raius: 4px
+    font-size: 10pt
+    font-weight: bold
   .story
     .subject
       height: 42px
-      line-height: 13px
+      line-height: 15px
       margin-top: 0
       overflow: hidden
-      padding: 2px
+      padding: 6px
       width: 180px
+      font-size: 10pt
+      font-weight: 400
     &.closed .subject
       text-decoration: line-through
   .work_package, .placeholder
@@ -144,11 +149,12 @@
     display: block
     float: left
     font-size: 10px
-    height: 80px
+    height: 90px
     padding: 5px
     margin: 5px 0px
     position: relative
     width: 85px
+    border-radius: 4px
   .work_package.prevent_edit
     cursor: default
   .placeholder
@@ -307,12 +313,17 @@
     a
       opacity: 1.0
       filter: alpha(opacity = 100)
+      font-weight: bold
+      background-color: white
+      border-radius: 1rem
+      padding: 2px
+      float: right
   .editable:hover
     background-color: transparent
   .subject.editable
     font-size: 1rem - rem-calc(3px)
-    height: 42px
-    line-height: 13px
+    height: 50px
+    line-height: 11px
     margin-top: 0
     overflow: hidden
     padding: 2px
