@@ -158,7 +158,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^6.6.6",
     "screenfull": "^4.2.1",
-    "swagger-ui": "^4.1.3",
+    "swagger-ui": "^4.16.1",
     "tablesorter": "^2.31.3",
     "ts-action": "^11.0.0",
     "ts-action-operators": "^9.1.2",
