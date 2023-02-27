@@ -83,17 +83,36 @@ describe Projects::ScheduleDeletionService, type: :model do
 
   subject { instance.call }
 
+  before do
+    allow(Projects::DeleteProjectJob)
+      .to receive(:perform_later)
+  end
+
   context 'if contract and archiving are successful' do
     it 'archives the project and creates a delayed job' do
+      expect(subject).to be_success
+
       expect(archive_service)
-        .to receive(:call)
-        .and_return(archive_result)
+        .to have_received(:call)
 
       expect(Projects::DeleteProjectJob)
-        .to receive(:perform_later)
+        .to have_received(:perform_later)
         .with(user:, project:)
+    end
+  end
 
+  context 'if project is archived already' do
+    let(:project) { build_stubbed(:project, active: false) }
+
+    it 'does not call archive service' do
       expect(subject).to be_success
+
+      expect(archive_service)
+        .not_to have_received(:call)
+
+      expect(Projects::DeleteProjectJob)
+        .to have_received(:perform_later)
+        .with(user:, project:)
     end
   end
 
