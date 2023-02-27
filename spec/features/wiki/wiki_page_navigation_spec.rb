@@ -57,5 +57,9 @@ describe 'Wiki page navigation spec', js: true do
 
     # Expect scrolled to menu node
     expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')
+
+    # Expect permalink being correct (Regression #46351)
+    permalink = page.all('.op-uc-link_permalink', visible: :all).first
+    expect(permalink['href']).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
   end
 end
