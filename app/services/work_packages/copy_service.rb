@@ -41,7 +41,7 @@ class WorkPackages::CopyService
     self.contract_class = contract_class
   end
 
-  def call(send_notifications: true, copy_attachments: true, **attributes)
+  def call(send_notifications: nil, copy_attachments: true, **attributes)
     in_context(work_package, send_notifications:) do
       copy(attributes, copy_attachments, send_notifications)
     end

@@ -30,7 +30,7 @@ module BaseServices
   class Create < Write
     protected
 
-    def service_context(send_notifications: true, &block)
+    def service_context(send_notifications:, &block)
       in_user_context(send_notifications:, &block)
     end
 
