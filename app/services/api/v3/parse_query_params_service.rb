@@ -34,10 +34,10 @@ module API
 
       def call(params)
         json_parsed = json_parsed_params(params)
-        return json_parsed unless json_parsed.success?
+        return json_parsed if json_parsed.failure?
 
         parsed = parsed_params(params)
-        return parsed unless parsed.success?
+        return parsed if parsed.failure?
 
         result = without_empty(parsed.result.merge(json_parsed.result), determine_allowed_empty(params))
 
