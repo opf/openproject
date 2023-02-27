@@ -42,7 +42,7 @@ class WikiPages::CopyService
   end
 
   def call(send_notifications: true, copy_attachments: true, **attributes)
-    in_context(model, send_notifications) do
+    in_context(model, send_notifications:) do
       copy(attributes, copy_attachments)
     end
   end

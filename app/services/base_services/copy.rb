@@ -93,8 +93,8 @@ module BaseServices
 
     ##
     # Disabling sending regular notifications
-    def service_context(*_args, &)
-      in_context(model, false, &)
+    def service_context(*, &)
+      in_context(model, send_notifications: false, &)
     end
 
     ##

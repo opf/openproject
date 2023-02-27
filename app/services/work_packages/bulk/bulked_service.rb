@@ -43,7 +43,8 @@ module WorkPackages
         # This is not an all or nothing service. We currently accept that
         # one work package might be moved while another one fails.
         # Personally, I'd rather wrap it in a transaction.
-        without_context_transaction(params[:send_notification] == '1') do
+        send_notifications = params[:send_notification] == '1'
+        without_context_transaction(send_notifications:) do
           bulk(params)
         end
       end

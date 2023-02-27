@@ -41,7 +41,7 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
   def perform(work_package: WorkPackage.new,
               send_notifications: true,
               **attributes)
-    in_user_context(send_notifications) do
+    in_user_context(send_notifications:) do
       create(attributes, work_package)
     end
   end

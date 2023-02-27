@@ -31,7 +31,7 @@ module BaseServices
     protected
 
     def service_context(send_notifications: true, &block)
-      in_user_context(send_notifications, &block)
+      in_user_context(send_notifications:, &block)
     end
 
     def instance(_params)
