@@ -41,21 +41,12 @@ See COPYRIGHT and LICENSE files for more details.
     --button--alt-highlight-background-hover-color: <%= design_color.darken 0.82 %>;
     <% end %>
     <% if design_color.variable == "primary-color" %>
-      <% if design_color.bright? %>
-      --primary-color--lighten-10: <%= design_color.darken 0.1 %>;
-      --primary-color--lighten-20: <%= design_color.darken 0.2 %>;
-      --primary-color--lighten-40: <%= design_color.darken 0.4 %>;
-      --primary-color--lighten-60: <%= design_color.darken 0.6 %>;
-      --primary-color--lighten-80: <%= design_color.darken 0.8 %>;
-      <% end %>
-      <% if design_color.dark? %>
-      --primary-color--lighten-10: <%= design_color.lighten 0.1 %>;
-      --primary-color--lighten-20: <%= design_color.lighten 0.2 %>;
-      --primary-color--lighten-40: <%= design_color.lighten 0.4 %>;
-      --primary-color--lighten-60: <%= design_color.lighten 0.6 %>;
-      --primary-color--lighten-80: <%= design_color.lighten 0.8 %>;
-      <% end %>
-
+      --primary-color--minor1: <%= design_color.lighten 0.3 %>;
+      --primary-color--minor2: <%= design_color.lighten 0.6 %>;
+      --primary-color--minor3: <%= design_color.lighten 0.8 %>;
+      --primary-color--major1: <%= design_color.darken 0.2 %>;
+      --primary-color--major2: <%= design_color.darken 0.4 %>;
+      --primary-color--major3: <%= design_color.darken 0.6 %>;
     <% end %>
   <% end %>
   }
