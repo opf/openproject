@@ -151,5 +151,50 @@ describe 'my',
 
       expect(page).not_to have_content 'Missing RSS access key'
     end
+
+    it 'in Access Tokens they can see if Ical tokens exists' do
+      visit my_access_token_path
+      expect(page).not_to have_content 'iCalendar'
+      
+      new_ical_token = Token::Ical.create user: user
+
+      visit my_access_token_path
+      expect(page).to have_content 'iCalendar'
+
+      within(:xpath, "//tr[contains(.,'iCalendar')]") do
+        expect(page).to have_content "#{::I18n.l(new_ical_token.created_at, format: :time)} (latest)"
+      end
+
+      Timecop.travel(1.minutes.from_now) do
+        another_new_ical_token = Token::Ical.create user: user
+
+        visit my_access_token_path
+        expect(page).to have_content 'iCalendar'
+
+        within(:xpath, "//tr[contains(.,'iCalendar')]") do
+          expect(page).not_to have_content "#{::I18n.l(new_ical_token.created_at, format: :time)} (latest)"
+          expect(page).to have_content "#{::I18n.l(another_new_ical_token.created_at, format: :time)} (latest)"
+        end
+      end
+    end
+
+    it 'in Access Tokens they can revoke all existing Ical tokens' do      
+      new_ical_token_1 = Token::Ical.create user: user
+      new_ical_token_2 = Token::Ical.create user: user
+
+      visit my_access_token_path
+      within(:xpath, "//tr[contains(.,'iCalendar')]") do
+        expect(page).to have_content "Revoke all"
+      end
+
+      find(:xpath, "//tr[contains(.,'iCalendar')]/td/a", text: 'Revoke all').click
+
+      expect(page).to have_content 'All iCalendar tokens have been revoked.'
+
+      expect(page).not_to have_xpath "//tr[contains(.,'iCalendar')]"
+
+      expect(Token::Ical.where(user_id: user.id).count).to eq 0
+    end
+
   end
 end

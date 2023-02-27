@@ -111,15 +111,15 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
           <% if Token::Ical.where(user: current_user).any? %>
             <tr>
-              <td>iCal</td>
+              <td><%= t(:label_ical_access_key_type) %></td>
               <td>
                 <span title="<%= format_time(Token::Ical.where(user: current_user).last.created_at) %>">
-                  <%= format_time(Token::Ical.where(user: current_user).last.created_at.to_s) %> (latest)
+                  <%= format_time(Token::Ical.where(user: current_user).last.created_at.to_s) %> (<%= t(:label_ical_access_key_latest) %>)
                 </span>
               </td>
               <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
               <td>
-                <%= link_to 'Revoke all',
+                <%= link_to t(:label_ical_access_key_revoke_all),
                             { action: 'revoke_all_ical_tokens' },
                             method: :delete,
                             class: 'icon icon-delete' %>

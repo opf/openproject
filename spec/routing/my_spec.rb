@@ -65,4 +65,8 @@ describe 'my routes' do
     expect(get('/my/deletion_info')).to route_to(controller: 'users',
                                                  action: 'deletion_info')
   end
+
+  it '/my/revoke_all_ical_tokens DELETE routes to my#revoke_all_ical_tokens' do
+    expect(delete('/my/revoke_all_ical_tokens')).to route_to('my#revoke_all_ical_tokens')
+  end
 end

@@ -131,6 +131,7 @@ class MyController < ApplicationController
 
   def revoke_all_ical_tokens
     Token::Ical.where(user: current_user).destroy_all
+    flash[:info] = t('my.access_token.notice_ical_tokens_reverted')
   rescue StandardError => e
     Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)

@@ -295,5 +295,31 @@ describe MyController do
         end
       end
     end
+
+    describe 'ical' do
+      # unlike with the other tokens, creating new ical tokens is not done in this context
+      # ical tokens are generated whenever the user requests a new ical url
+      # a user can have N ical tokens
+      #
+      # in this context all ical tokens of a user should be reverted at once
+      # this invalidates all previously generated ical urls, which is the intention
+      context 'with existing keys' do
+        let!(:key_1) { Token::Ical.create user: }
+        let!(:key_2) { Token::Ical.create user: }
+
+        it 'revokes all existing keys' do
+          expect(Token::Ical.where(user_id: user.id)).to contain_exactly(key_1, key_2)
+
+          post :revoke_all_ical_tokens
+
+          expect(Token::Ical.where(user_id: user.id).count).to eq(0)
+
+          expect(flash[:info]).to be_present
+          expect(flash[:error]).not_to be_present
+
+          expect(response).to redirect_to action: :access_token
+        end
+      end
+    end
   end
 end
