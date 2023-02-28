@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe WorkPackages::MovesController, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { create(:user) }
-  let(:role) do
+  shared_let(:user) { create(:user) }
+  shared_let(:role) do
     create :role,
            permissions: %i(move_work_packages
                            view_work_packages
@@ -40,18 +40,18 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
                            manage_subtasks
                            work_package_assigned)
   end
-  let(:type) { create :type }
-  let(:type_2) { create :type }
-  let!(:status) { create :default_status }
-  let(:target_status) { create :status }
-  let(:priority) { create :priority }
-  let(:target_priority) { create :priority }
-  let(:project) do
+  shared_let(:type) { create :type }
+  shared_let(:type_2) { create :type }
+  shared_let(:status) { create :default_status }
+  shared_let(:target_status) { create :status }
+  shared_let(:priority) { create :priority }
+  shared_let(:target_priority) { create :priority }
+  shared_let(:project) do
     create(:project,
            public: false,
            types: [type, type_2])
   end
-  let(:work_package) do
+  shared_let(:work_package) do
     create(:work_package,
            project_id: project.id,
            type:,
@@ -59,7 +59,7 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
            priority:)
   end
 
-  let(:current_user) { create(:user) }
+  shared_let(:current_user) { create(:user) }
 
   before do
     allow(User).to receive(:current).and_return current_user
