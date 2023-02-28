@@ -228,6 +228,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
   private formUpdates$ = new Subject<FieldUpdates>();
 
+  private minimalSchedulingDate:Date|null = null;
+
   constructor(
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
@@ -289,8 +291,8 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
   }
 
   ngAfterViewInit():void {
-    const init = (date:Date|null) => {
-      this.initializeDatepicker(date);
+    const init = () => {
+      this.initializeDatepicker();
 
       // Autofocus duration if that's what activated us
       if (this.initialActivatedField === 'duration') {
@@ -299,14 +301,17 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     };
 
     if (isNewResource(this.changeset.pristineResource)) {
-      init(null);
+      init();
       return;
     }
 
     this
       .dateModalRelations
       .getMinimalDateFromPreceeding()
-      .subscribe((date) => init(date));
+      .subscribe((date) => {
+        this.minimalSchedulingDate = date;
+        init();
+      });
   }
 
   changeSchedulingMode():void {
@@ -459,7 +464,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
     this.enforceManualChangesToDatepicker();
   }
 
-  private initializeDatepicker(minimalDate?:Date|null) {
+  private initializeDatepicker() {
     this.datePickerInstance?.destroy();
     this.datePickerInstance = new DatePicker(
       this.injector,
@@ -499,7 +504,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
             dayElem,
             this.ignoreNonWorkingDays,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
-            this.isDayDisabled(dayElem, minimalDate),
+            this.isDayDisabled(dayElem, this.minimalSchedulingDate),
           );
         },
       },
