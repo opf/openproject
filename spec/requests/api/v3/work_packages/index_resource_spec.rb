@@ -675,6 +675,43 @@ describe 'API v3 Work package resource',
             .not_to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp')
         end
       end
+
+      describe "for multiple work packages" do
+        let!(:work_package2) do
+          new_work_package = create(:work_package, subject: "Other work package", project:)
+          new_work_package.update_columns(created_at:)
+          new_work_package.journals.update_all(created_at:)
+          new_work_package
+        end
+
+        it "succeeds" do
+          expect(subject.status).to eq(200)
+        end
+
+        it "has the current attributes of both work packages" do
+          expect(subject.body)
+            .to be_json_eql(work_package.subject.to_json)
+            .at_path('_embedded/elements/0/subject')
+          expect(subject.body)
+            .to be_json_eql(work_package2.subject.to_json)
+            .at_path('_embedded/elements/1/subject')
+        end
+
+        it "embeds the attributesByTimestamp for both work packages" do
+          expect(subject.body)
+            .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp')
+          expect(subject.body)
+            .to have_json_path('_embedded/elements/1/_embedded/attributesByTimestamp')
+        end
+
+        it "has the attributes that are different from the current attributes in the embedded objects" do
+          expect(subject.body)
+            .to be_json_eql("The original work package".to_json)
+            .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/subject')
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/1/_embedded/attributesByTimestamp/0/subject')
+        end
+      end
     end
   end
 end

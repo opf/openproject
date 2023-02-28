@@ -32,7 +32,6 @@ module API::V3::WorkPackages::EagerLoading
     attr_accessor :timestamps, :query
 
     def apply(work_package)
-      # TODO Add spec with multiple work packages to make sure the order is preserved
       work_package_array_index = work_packages.map(&:id).find_index(work_package.id)
       work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package_array_index]
       work_package.attributes = work_package_with_historic_attributes.attributes.try(:except, 'timestamp')

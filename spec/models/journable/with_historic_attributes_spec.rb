@@ -306,6 +306,143 @@ describe Journable::WithHistoricAttributes do
         end
       end
     end
+
+    context "with multiple work packages" do
+      let!(:work_package2) do
+        new_work_package = create(:work_package, subject: "Other work package", project: project1)
+        new_work_package.update_columns(created_at:)
+        new_work_package.journals.update_all(created_at:)
+        new_work_package
+      end
+      let(:work_packages) { [work_package, work_package2] }
+
+      it "returns an array of Journable::WithHistoricAttributes instances" do
+        expect(subject).to all be_a described_class
+      end
+
+      it "provides access to the work-package attributes" do
+        expect(subject.first.subject).to eq "The current work package"
+        expect(subject.second.subject).to eq "Other work package"
+      end
+
+      it "provides access to the work-package attributes at timestamps" do
+        expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+        expect(subject.first.attributes_by_timestamp["PT0S"].subject).to eq "The current work package"
+        expect(subject.second.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "Other work package"
+        expect(subject.second.attributes_by_timestamp["PT0S"].subject).to eq "Other work package"
+      end
+
+      describe "when providing a query" do
+        let(:query) do
+          login_as(user1)
+          build(:query, user: nil, project: nil).tap do |query|
+            query.filters.clear
+            query.add_filter 'subject', '~', search_term
+          end
+        end
+        let(:search_term) { "original" }
+
+        it "determines for each timestamp whether the journables matches the query at that timestamp" do
+          expect(subject.first.matches_query_filters_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+          expect(subject.first.matches_query_filters_at_timestamps).not_to include Timestamp.parse("PT0S")
+          expect(subject.second.matches_query_filters_at_timestamps).to be_empty
+        end
+      end
+
+      describe "when requesting only historic data" do
+        let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z")] }
+
+        it "provides access to the historic work-package attributes" do
+          expect(subject.first.subject).to eq "The original work package"
+          expect(subject.second.subject).to eq "Other work package"
+        end
+
+        it "provides access to the historic work-package attributes at timestamps" do
+          expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+          expect(subject.second.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "Other work package"
+        end
+
+        it "determines whether the journable attributes are historic" do
+          expect(subject.first.historic?).to be true
+          expect(subject.second.historic?).to be true
+        end
+      end
+
+      describe "when both work packages did not exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+        specify "the given work packages do exist (at present time)" do
+          expect(work_package).to be_present
+          expect(work_package2).to be_present
+          expect(work_packages.count).to eq 2
+        end
+
+        it "has no attributes" do
+          expect(subject.first.attributes).to be_nil
+          expect(subject.second.attributes).to be_nil
+        end
+
+        it "has no attributes at the baseline date, which is the only given date" do
+          expect(subject.first.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+          expect(subject.second.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+        end
+
+        it "has no baseline attributes" do
+          expect(subject.first.baseline_attributes).to be_nil
+          expect(subject.second.baseline_attributes).to be_nil
+        end
+
+        it "does not include the timestamp in the exists_at_timestamps array" do
+          expect(subject.first.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+          expect(subject.second.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+        end
+      end
+
+      describe "when only one work package did exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z")] }
+        let!(:work_package2) do
+          new_work_package = create(:work_package, subject: "Other work package", project: project1)
+          new_work_package.update_columns(created_at: "2022-05-01")
+          new_work_package.journals.update_all(created_at: "2022-05-01")
+          new_work_package
+        end
+
+        specify "the given work packages do exist (at present time)" do
+          expect(work_package).to be_present
+          expect(work_package2).to be_present
+          expect(work_packages.count).to eq 2
+        end
+
+        specify "only one work package exists at the requested date" do
+          expect(work_package.at_timestamp(timestamps.first)).to be_present
+          expect(work_package2.at_timestamp(timestamps.first)).not_to be_present
+        end
+
+        it "provides two wrapper objects" do
+          expect(subject.count).to eq 2
+        end
+
+        it "marks only one work package as existing at the requested date" do
+          expect(subject.first.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+          expect(subject.second.exists_at_timestamps).not_to include Timestamp.parse("2022-01-01T00:00:00Z")
+        end
+
+        it "provides access to the work-package attributes at the requested date" do
+          expect(subject.first.subject).to eq "The original work package"
+          expect(subject.second).not_to respond_to :subject
+        end
+
+        it "provides access to the work-package attributes at timestamps" do
+          expect(subject.first.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject).to eq "The original work package"
+          expect(subject.second.attributes_by_timestamp["2022-01-01T00:00:00Z"]).to be_nil
+        end
+
+        it "determines whether the journable attributes are historic" do
+          expect(subject.first.historic?).to be true
+          expect(subject.second).not_to respond_to :historic?
+        end
+      end
+    end
   end
 
   describe "#baseline_timestamp" do
