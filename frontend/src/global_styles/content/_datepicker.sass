@@ -204,3 +204,31 @@ $datepicker--border-radius: 5px
       background: transparent !important
       border-color: transparent !important
       color: $spot-color-basic-gray-1 !important
+
+    &.flatpickr-non-working-day
+      background: $spot-color-basic-gray-6 !important
+      color: $spot-color-basic-gray-3 !important
+  
+    &.flatpickr-non-working-day_enabled
+      background: $spot-color-basic-gray-6 !important
+      color: $spot-color-basic-gray-1 !important
+
+      &.today
+        color: $spot-color-basic-gray-1 !important
+
+      &.inRange,
+      &.startRange:not(.selected),
+      &.endRange:not(.selected)
+        color: $spot-color-basic-gray-1 !important
+        background: $spot-color-basic-gray-6 !important
+        border-color: $spot-color-basic-gray-6 !important
+
+        &.today
+          color: $spot-color-basic-gray-1 !important
+          background: $spot-color-indication-current-date !important
+          border-color: $spot-color-indication-current-date !important
+  
+    &.today
+      color: $spot-color-basic-gray-3 !important
+      background: $spot-color-indication-current-date !important
+      border-color: $spot-color-indication-current-date !important
