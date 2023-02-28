@@ -28,13 +28,17 @@
 
 class Journal::NotificationConfiguration
   class << self
+    DEFAULT = true
+
     # Allows controlling whether notifications are sent out for created journals.
     # After the block is executed, the setting is returned to its original state which is true by default.
     # In case the method is called multiple times within itself, the first setting prevails.
     # This allows to control the setting globally without having to pass the setting down the call stack in
     # order to ensure all subsequent code follows the provided setting.
     def with(send_notifications, &)
-      if already_set?
+      if send_notifications.nil?
+        yield
+      elsif already_set?
         log_warning(send_notifications)
         yield
       else
@@ -43,7 +47,8 @@ class Journal::NotificationConfiguration
     end
 
     def active?
-      active.value
+      @active ||= Concurrent::ThreadLocalVar.new(DEFAULT)
+      @active.value
     end
 
     protected
@@ -64,25 +69,18 @@ class Journal::NotificationConfiguration
       return if active? == send_notifications
 
       message = <<~MSG
-        Ignoring setting journal notifications to '#{send_notifications}' as a parent block already set it to #{active?}"
+        Ignoring setting journal notifications to '#{send_notifications}' as a parent block already set it to #{active?}
       MSG
-      Rails.logger.debug message
-    end
-
-    def active
-      @active ||= Concurrent::ThreadLocalVar.new(true)
-    end
-
-    def already_set
-      @already_set ||= Concurrent::ThreadLocalVar.new(false)
-    end
-
-    def already_set?
-      already_set.value
+      Rails.logger.debug message.strip
     end
 
     def active=(value)
       @active.value = value
+    end
+
+    def already_set?
+      @already_set ||= Concurrent::ThreadLocalVar.new(false)
+      @already_set.value
     end
 
     def already_set=(value)
