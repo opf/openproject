@@ -35,8 +35,12 @@ module API::V3::WorkPackages::EagerLoading
       work_package_array_index = work_packages.map(&:id).find_index(work_package.id)
       work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package_array_index]
       work_package.attributes = work_package_with_historic_attributes.attributes.try(:except, 'timestamp')
-      work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
-      work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
+      work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes.try(:except, 'timestamp')
+      work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp \
+          .transform_values do |attributes|
+            attributes.delete_field('timestamp') if attributes.respond_to? :timestamp
+            attributes
+          end
       work_package.timestamps = work_package_with_historic_attributes.timestamps
       work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
       work_package.matches_query_filters_at_baseline_timestamp = \

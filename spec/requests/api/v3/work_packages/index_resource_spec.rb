@@ -325,6 +325,20 @@ describe 'API v3 Work package resource',
         end
       end
 
+      it 'has no redundant timestamp attribute in the main section' do
+        # The historic work packages have a timestamp attribute. But we do not expose that here
+        # because the timestamp is already given in the _meta section.
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/timestamp")
+      end
+
+      it 'has no redundant timestamp attribute in the attributesByTimestamp' do
+        # The historic work packages have a timestamp attribute. But we do not expose that here
+        # because the timestamp is already given in the _meta section.
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/timestamp")
+      end
+
       describe "when filtering such that the filters do not match at all timestamps" do
         let(:path) { api_v3_paths.path_for :work_packages, filters:, timestamps: }
         let(:filters) do
