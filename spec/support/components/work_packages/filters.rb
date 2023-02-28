@@ -167,27 +167,11 @@ module Components
       end
 
       def expect_autocomplete_value(id, value)
-        # wait for filter to be present
-        filter_element = page.find("#filter_#{id}")
-        if page.has_selector?("#filter_#{id} .ng-select-container")
-          Array(value).each do |val|
-            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
-                                           query: val,
-                                           results_selector: '.ng-dropdown-panel-items'
-            expect(dropdown).to have_selector('.ng-option', text: val)
-          end
-        end
+        autocomplete_dropdown_value(id:, value:)
       end
 
       def expect_missing_autocomplete_value(id, value)
-        if page.has_selector?("#filter_#{id} .ng-select-container")
-          Array(value).each do |val|
-            dropdown = search_autocomplete page.find("#filter_#{id} op-autocompleter"),
-                                           query: val,
-                                           results_selector: '.ng-dropdown-panel-items'
-            expect(dropdown).not_to have_selector('.ng-option', text: val)
-          end
-        end
+        autocomplete_dropdown_value(id:, value:, present: false)
       end
 
       def expect_no_filter_by(name, selector = nil)
@@ -258,6 +242,19 @@ module Components
                 ensure_value_is_input_correctly input, value: value[index]
               end
             end
+          end
+        end
+      end
+
+      def autocomplete_dropdown_value(id:, value:, present: true)
+        filter_element = page.find("#filter_#{id}")
+
+        if filter_element.has_selector?(".ng-select-container", wait: false)
+          Array(value).each do |val|
+            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).to have_conditional_selector(present, '.ng-option', text: val)
           end
         end
       end
