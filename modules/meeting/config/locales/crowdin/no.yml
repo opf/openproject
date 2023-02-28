@@ -30,10 +30,10 @@
         participants_attended: "Tilsluttete"
         participants_invited: "Inviterte"
         start_time: "Tidspunkt"
-        start_time_hour: "Starting time"
+        start_time_hour: "Starter"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "er ikke et gyldig tidpunkt. Formatet må være HH:MM"
     models:
       meeting_agenda: "Saksliste"
       meeting_minutes: "Referat"
@@ -59,12 +59,12 @@
   label_meeting_date_time: "Dato/klokkeslett"
   label_meeting_diff: "Forskjell"
   label_notify: "Send till gjennomgang"
-  label_icalendar: "Send iCalendar"
+  label_icalendar: "Send til iCalendar"
   label_version: "Versjon"
   label_time_zone: "Tidssone"
   label_start_date: "Startdato"
   meeting:
-    copied: "Copied from Meeting #%{id}"
+    copied: "Kopiert fra møte #"
   notice_successful_notification: "Påminning sendt"
   notice_timezone_missing: Ingen tidssone angis og %{zone} antas. Vennligst klikk her for å velge egen tidssone.
   permission_create_meetings: "Opprett møter"
@@ -76,15 +76,15 @@
   permission_send_meeting_agendas_notification: "Send påminning om gjennomgang av sakslister"
   permission_create_meeting_minutes: "Håndter referater"
   permission_send_meeting_minutes_notification: "Send påminning om gjennomgang av referater"
-  permission_meetings_send_invite: "Invite users to meetings"
-  permission_send_meeting_agendas_icalendar: "Send meeting agenda as calendar entry"
+  permission_meetings_send_invite: "Inviter bruker til møter"
+  permission_send_meeting_agendas_icalendar: "Send møteagenda som kalenderinnkalling"
   project_module_meetings: "Møter"
-  text_duration_in_hours: "Duration in hours"
+  text_duration_in_hours: "Varighet i timer"
   text_in_hours: "i timer"
   text_meeting_agenda_for_meeting: 'saksliste for møtet "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting?"
-  text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
+  text_meeting_closing_are_you_sure: "Er du sikker på at du vil avslutte møtet?"
+  text_meeting_agenda_open_are_you_sure: "Dette vil overskrive alle endringer i minuttene! Vil du fortsette?"
   text_meeting_minutes_for_meeting: 'referat for møtet "%{meeting}"'
   text_review_meeting_agenda: "%{author} har lagt opp %{link} for gjennomgang."
   text_review_meeting_minutes: "%{author} har lagt opp %{link} for gjennomgang."
-  text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
+  text_notificiation_invited: "Denne e-posten inneholder ny informasjon for møtet nedenfor:"
