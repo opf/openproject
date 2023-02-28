@@ -32,8 +32,10 @@ module API::V3::WorkPackages::EagerLoading
     attr_accessor :timestamps, :query
 
     def apply(work_package)
-      work_package_with_historic_attributes = work_packages_with_historic_attributes.detect { |wp| wp.id == work_package.id }
-      work_package.attributes = work_package_with_historic_attributes.attributes.except('timestamp')
+      # TODO Add spec with multiple work packages to make sure the order is preserved
+      work_package_array_index = work_packages.map(&:id).find_index(work_package.id)
+      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package_array_index]
+      work_package.attributes = work_package_with_historic_attributes.attributes.try(:except, 'timestamp')
       work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes
       work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp
       work_package.timestamps = work_package_with_historic_attributes.timestamps

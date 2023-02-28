@@ -107,7 +107,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     timestamps.each do |timestamp|
       journable.assign_historic_attributes(
         timestamp:,
-        historic_journable: journable.at_timestamp(timestamp),
+        historic_journable: journable.try(:at_timestamp, timestamp),
         matching_journable: (query_work_packages(query:, timestamp:).find_by(id: journable.id) if query)
       )
     end
@@ -115,9 +115,10 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.wrap_multiple(journables, timestamps: nil, query: nil, include_only_changed_attributes: false)
     timestamps ||= query.try(:timestamps) || []
-    journables = journables.first.class.at_timestamp(timestamps.last).where(id: journables) if timestamps.last.try(:historic?)
+    journables = journables.map { |j| j.at_timestamp(timestamps.last) } if timestamps.last.try(:historic?)
     journables = journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:) }
     timestamps.each do |timestamp|
       assign_historic_attributes_to(
@@ -131,6 +132,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     journables
   end
   # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
     attributes_by_timestamp[timestamp.to_s] = extract_historic_attributes_from(historic_journable:) if historic_journable
@@ -140,9 +142,11 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
   def self.assign_historic_attributes_to(journables, timestamp:, historic_journables:, matching_journables:, query:)
     journables.each do |journable|
-      historic_journable = historic_journables.find_by(id: journable.id)
-      matching_journable = matching_journables.find_by(id: journable.id) if query
-      journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
+      if journable
+        historic_journable = historic_journables.find_by(id: journable.id)
+        matching_journable = matching_journables.find_by(id: journable.id) if query
+        journable.assign_historic_attributes(timestamp:, historic_journable:, matching_journable:)
+      end
     end
   end
 
@@ -211,6 +215,14 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     query = query.dup
     query.timestamps = [timestamp] if timestamp
     query.results.work_packages
+  end
+
+  def id
+    __getobj__.try(:id)
+  end
+
+  def attributes
+    __getobj__.try(:attributes)
   end
 
   def to_ary

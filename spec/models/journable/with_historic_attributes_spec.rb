@@ -171,7 +171,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    describe "when the work package did not exist yet at the basline date" do
+    describe "when the work package did not exist yet at the baseline date" do
       let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
 
       it "provides access to the work-package attributes" do
@@ -189,6 +189,26 @@ describe Journable::WithHistoricAttributes do
       it "does not include the timestamp in the exists_at_timestamps array" do
         expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
         expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
+      end
+    end
+
+    describe "when the work package did not exist at the only requested date" do
+      let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+      it "has no attributes" do
+        expect(subject.attributes).to be_nil
+      end
+
+      it "has no attributes at the baseline date, which is the only given date" do
+        expect(subject.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+      end
+
+      it "has no baseline attributes" do
+        expect(subject.baseline_attributes).to be_nil
+      end
+
+      it "does not include the timestamp in the exists_at_timestamps array" do
+        expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
       end
     end
   end
@@ -258,6 +278,31 @@ describe Journable::WithHistoricAttributes do
 
         it "determines whether the journable attributes are historic" do
           expect(subject.first.historic?).to be true
+        end
+      end
+
+      describe "when the work package did not exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+        specify "the given work package does exist (at present time)" do
+          expect(work_package).to be_present
+          expect(work_packages.count).to eq 1
+        end
+
+        it "has no attributes" do
+          expect(subject.first.attributes).to be_nil
+        end
+
+        it "has no attributes at the baseline date, which is the only given date" do
+          expect(subject.first.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+        end
+
+        it "has no baseline attributes" do
+          expect(subject.first.baseline_attributes).to be_nil
+        end
+
+        it "does not include the timestamp in the exists_at_timestamps array" do
+          expect(subject.first.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
         end
       end
     end
