@@ -129,6 +129,9 @@ $datepicker--border-radius: 5px
         &.flatpickr-non-working-day_enabled
           @include non-working-day_enabled
 
+          &.selected
+            border-radius: $datepicker--border-radius
+
         &.today
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
