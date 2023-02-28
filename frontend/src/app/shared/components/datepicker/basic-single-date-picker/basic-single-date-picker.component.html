@@ -9,8 +9,7 @@
   [attr.name]="name"
   [required]="required"
   [disabled]="disabled"
-  [ngModel]="value"
-  (ngModelChange)="changeValueFromInputDebounced($event)"
+  (input)="changeValueFromInput($event)"
   (focus)="showDatePicker()"
   [attr.data-remote-field-key]="remoteFieldKey"
 />
