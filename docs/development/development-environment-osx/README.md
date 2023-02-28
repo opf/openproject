@@ -15,7 +15,7 @@ We'll use [homebrew](https://brew.sh/) to install most of our requirements. Plea
 
 ## Install Ruby
 
-Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.2.0"
+Use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build#readme) to install Ruby. We always require the latest ruby versions, and you can check which version is required by [checking the Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile#L31) for the `ruby "~> X.Y"` statement. At the time of writing, this version is "3.2.1"
 
 ### Install rbenv and ruby-build
 
@@ -29,23 +29,23 @@ $ brew install rbenv ruby-build
 $ rbenv init
 ```
 
-### Installing ruby-3.0
+### Installing ruby
 
-With both installed, we can now install the actual ruby version 3.0. You can check available ruby versions with `rbenv install --list`.
-At the time of this writing, the latest stable version is `3.2.0`, which we also require.
+With both installed, we can now install the actual ruby version. You can check available ruby versions with `rbenv install --list`.
+At the time of this writing, the latest stable version is `3.2.1`, which we also require.
 
 We suggest you install the version we require in the [Gemfile](https://github.com/opf/openproject/blob/dev/Gemfile). Search for the `ruby '~> X.Y.Z'` line
 and install that version.
 
 ```bash
 # Install the required version as read from the Gemfile
-rbenv install 3.2.0
+rbenv install 3.2.1
 ```
 
 This might take a while depending on whether ruby is built from source. After it is complete, you need to tell rbenv to globally activate this version
 
 ```bash
-rbenv global 3.2.0
+rbenv global 3.2.1
 ```
 
 You also need to install [bundler](https://github.com/bundler/bundler/), the ruby gem bundler.
@@ -116,10 +116,10 @@ You should now have an active ruby and node installation. Verify that it works w
 
 ```bash
 $ ruby --version
-ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
+ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
 
 $ bundler --version
-Bundler version 2.4.1
+Bundler version 2.4.7
 
 node --version
 v16.17.0
