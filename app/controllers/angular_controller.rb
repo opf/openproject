@@ -40,4 +40,8 @@ class AngularController < ApplicationController
     # but we will need to render with notification specific layout
     render html: '', layout: 'angular/notifications'
   end
+
+  def login_back_url_params
+    params.permit(:state)
+  end
 end
