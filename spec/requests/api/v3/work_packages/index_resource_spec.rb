@@ -339,8 +339,20 @@ describe 'API v3 Work package resource',
           .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/timestamp")
       end
 
+      it 'has the relative timestamps within the _meta timestamps' do
+        expect(subject.body)
+          .to be_json_eql('2015-01-01T00:00:00Z'.to_json)
+          .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+        expect(subject.body)
+          .to be_json_eql('PT0S'.to_json)
+          .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+        expect(subject.body)
+          .to be_json_eql('PT0S'.to_json)
+          .at_path('_embedded/elements/0/_meta/timestamp')
+      end
+
       describe "when filtering such that the filters do not match at all timestamps" do
-        let(:path) { api_v3_paths.path_for :work_packages, filters:, timestamps: }
+        let(:path) { "#{api_v3_paths.path_for(:work_packages, filters:)}&timestamps=#{timestamps.join(',')}" }
         let(:filters) do
           [
             {
@@ -751,6 +763,20 @@ describe 'API v3 Work package resource',
               ]
             end
             let(:search_term) { 'original' }
+
+            it 'has the relative timestamps within the _meta timestamps' do
+              expect(timestamps.first.to_s).to eq('P-2D')
+              expect(timestamps.first).to be_relative
+              expect(subject.body)
+                .to be_json_eql('P-2D'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+              expect(subject.body)
+                .to be_json_eql('PT0S'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+              expect(subject.body)
+                .to be_json_eql('PT0S'.to_json)
+                .at_path('_embedded/elements/0/_meta/timestamp')
+            end
 
             it "does not use an outdated cache" do
               get path

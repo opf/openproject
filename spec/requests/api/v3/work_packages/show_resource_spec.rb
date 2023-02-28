@@ -259,21 +259,6 @@ describe 'API v3 Work package resource',
           expect(subject && last_response.status).to eq(200)
         end
 
-        it 'embeds the attributesByTimestamp' do
-          expect(subject)
-            .to be_json_eql("The original work package".to_json)
-            .at_path("_embedded/attributesByTimestamp/0/subject")
-          expect(subject)
-            .to have_json_path("_embedded/attributesByTimestamp/1")
-        end
-
-        it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
-          expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/0/description")
-          expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/1/description")
-        end
-
         it 'has the current attributes as attributes' do
           expect(subject)
             .to be_json_eql("The current work package".to_json)
@@ -291,6 +276,36 @@ describe 'API v3 Work package resource',
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
               .at_path('_links/self/href')
+          end
+        end
+
+        describe "attributesByTimestamp" do
+          it 'embeds the attributesByTimestamp' do
+            expect(subject)
+              .to be_json_eql("The original work package".to_json)
+              .at_path("_embedded/attributesByTimestamp/0/subject")
+            expect(subject)
+              .to have_json_path("_embedded/attributesByTimestamp/1")
+          end
+
+          it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/0/description")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/description")
+          end
+
+          describe '_meta' do
+            describe 'timestamp' do
+              it 'has the relative timestamps' do
+                expect(subject)
+                  .to be_json_eql('2015-01-01T00:00:00Z'.to_json)
+                  .at_path('_embedded/attributesByTimestamp/0/_meta/timestamp')
+                expect(subject)
+                  .to be_json_eql('PT0S'.to_json)
+                  .at_path('_embedded/attributesByTimestamp/1/_meta/timestamp')
+              end
+            end
           end
         end
 

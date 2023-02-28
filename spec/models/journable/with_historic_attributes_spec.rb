@@ -443,6 +443,18 @@ describe Journable::WithHistoricAttributes do
         end
       end
     end
+
+    context "with multiple relative and absolute timestamps" do
+      let(:timestamps) do
+        [Timestamp.parse("2015-01-01T00:00:00Z"), Timestamp.parse("P-1Y"),
+         Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")]
+      end
+      let(:work_packages) { [work_package] }
+
+      it "preserves the relative character of the timestamps" do
+        expect(subject.first.timestamps.map(&:relative?)).to eq [false, true, false, true]
+      end
+    end
   end
 
   describe "#baseline_timestamp" do
