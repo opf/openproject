@@ -712,6 +712,45 @@ describe 'API v3 Work package resource',
             .not_to have_json_path('_embedded/elements/1/_embedded/attributesByTimestamp/0/subject')
         end
       end
+
+      context "with caching" do
+        context "with relative timestamps" do
+          let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+          let(:created_at) { '2015-01-01' }
+
+          describe "when the filter becomes outdated" do
+            # The work package has been updated 1 day ago, which is after the baseline
+            # date (2 days ago). When time progresses, the date of the update will be
+            # before the baseline date, because the baseline date is relative to the
+            # current date. This means that the filter will become outdated and we cannot
+            # use a cached result in this case.
+
+            let(:path) { "#{api_v3_paths.path_for(:work_packages, filters:)}&timestamps=#{timestamps.join(',')}" }
+            let(:filters) do
+              [
+                {
+                  subject: {
+                    operator: '~',
+                    values: [search_term]
+                  }
+                }
+              ]
+            end
+            let(:search_term) { 'original' }
+
+            it "does not use an outdated cache" do
+              get path
+              expect do
+                Timecop.travel 5.days do
+                  get path
+                end
+              end.to change {
+                JSON.parse(last_response.body).dig('_embedded', 'elements').count
+              }.from(1).to(0)
+            end
+          end
+        end
+      end
     end
   end
 end

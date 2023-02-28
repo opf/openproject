@@ -349,6 +349,60 @@ describe 'API v3 Work package resource',
             end
           end
         end
+
+        context "with caching" do
+          before { login_as current_user }
+
+          context "with relative timestamps" do
+            let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+            let(:created_at) { '2015-01-01' }
+
+            describe "attributesByTimestamp" do
+              it "does not cache the self link" do
+                get get_path
+                expect do
+                  Timecop.travel 20.minutes do
+                    get get_path
+                  end
+                end.to change {
+                  JSON.parse(last_response.body)
+                    .dig("_embedded", "attributesByTimestamp", 0, "_links", "self", "href")
+                }
+              end
+
+              it "does not cache the attributes" do
+                get get_path
+                expect do
+                  Timecop.travel 2.days do
+                    get get_path
+                  end
+                end.to change {
+                  JSON.parse(last_response.body)
+                    .dig("_embedded", "attributesByTimestamp", 0, "subject")
+                }
+              end
+            end
+
+            describe "_meta" do
+              describe "exists" do
+                let(:timestamps) { [Timestamp.parse("P-2D")] }
+                let(:created_at) { 25.hours.ago }
+
+                it "is not cached" do
+                  get get_path
+                  expect do
+                    Timecop.travel 2.days do
+                      get get_path
+                    end
+                  end.to change {
+                    JSON.parse(last_response.body)
+                      .dig("_meta", "exists")
+                  }
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
