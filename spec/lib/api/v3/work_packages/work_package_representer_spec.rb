@@ -370,7 +370,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when false', with_ee: %i[readonly_work_packages] do
-          let(:status) { build_stubbed :status, is_readonly: false }
+          let(:status) { build_stubbed(:status, is_readonly: false) }
 
           it 'renders as false' do
             expect(subject).to be_json_eql(false.to_json).at_path('readonly')
@@ -378,7 +378,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when true', with_ee: %i[readonly_work_packages] do
-          let(:status) { build_stubbed :status, is_readonly: true }
+          let(:status) { build_stubbed(:status, is_readonly: true) }
 
           it 'renders as true' do
             expect(subject).to be_json_eql(true.to_json).at_path('readonly')
@@ -399,12 +399,10 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql('PT3H45M'.to_json).at_path('derivedEstimatedTime') }
     end
 
-    # rubocop:disable RSpec:MultipleMemoizedHelpers
     xdescribe 'spentTime' do
       # spentTime is completely overwritten by costs
       # TODO: move specs from costs to here
     end
-    # rubocop:enable RSpec:MultipleMemoizedHelpers
 
     describe 'percentageDone' do
       describe 'work package done ratio setting behavior' do
@@ -631,7 +629,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when version is set' do
-          let!(:version) { create :version, project: }
+          let!(:version) { create(:version, project:) }
 
           before do
             work_package.version = version
@@ -677,7 +675,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when category is set' do
-          let!(:category) { build_stubbed :category }
+          let!(:category) { build_stubbed(:category) }
 
           before do
             work_package.category = category
@@ -1160,7 +1158,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when admin' do
-          let(:current_user) { build_stubbed :admin }
+          let(:current_user) { build_stubbed(:admin) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'configureForm' }

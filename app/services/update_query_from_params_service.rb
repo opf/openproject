@@ -32,6 +32,7 @@ class UpdateQueryFromParamsService
     self.current_user = user
   end
 
+  # rubocop:disable Metrics/AbcSize
   def call(params, valid_subset: false)
     apply_group_by(params)
 
@@ -67,6 +68,7 @@ class UpdateQueryFromParamsService
       ServiceResult.failure(errors: query.errors)
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   private
 

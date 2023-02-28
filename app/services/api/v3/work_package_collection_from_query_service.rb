@@ -169,7 +169,7 @@ module API
             embed_schemas: true,
             current_user:,
             timestamps: query.timestamps,
-            query: query
+            query:
           )
         end
       end

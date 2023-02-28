@@ -170,5 +170,4 @@ class Timestamp
   def self.scan_for_shortcut_value(string:, unit:)
     string.scan(/(\d+)#{unit}/).flatten.first
   end
-
 end
