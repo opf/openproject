@@ -312,7 +312,6 @@ gem 'roar', '~> 1.2.0'
 gem 'rack-cors', '~> 1.1.1'
 
 # Gmail API
-gem 'google-apis-core', require: false
 gem 'google-apis-gmail_v1', require: false
 gem 'googleauth', require: false
 
