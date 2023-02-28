@@ -47,7 +47,8 @@ describe API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Role' }
-        let(:href) { api_v3_paths.roles }
+        let(:grantable_filter) { CGI.escape(JSON.dump([grantable: { operator: '=', values: ['t'] }])) }
+        let(:href) { api_v3_paths.roles + "?filters=#{grantable_filter}" }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }

@@ -64,7 +64,7 @@ module Components
       end
 
       def quick_filter(text)
-        input = page.find('#filter-by-text-input')
+        input = page.find_by_id('filter-by-text-input')
         input.hover
         input.click
         SeleniumHubWaiter.wait
@@ -132,6 +132,18 @@ module Components
         end
       end
 
+      def expect_filter_value_by(name, operator, value, selector = nil)
+        add_filter(name)
+
+        id = selector || name.downcase
+
+        set_operator(name, operator, selector)
+
+        expect_autocomplete_value id, value
+
+        remove_filter id
+      end
+
       def expect_missing_filter_value_by(name, operator, value, selector = nil)
         add_filter(name)
 
@@ -139,9 +151,33 @@ module Components
 
         set_operator(name, operator, selector)
 
-        expect_missing_value id, value
+        expect_missing_autocomplete_value id, value
 
         remove_filter id
+      end
+
+      def expect_autocomplete_value(id, value)
+        # wait for filter to be present
+        filter_element = page.find("#filter_#{id}")
+        if page.has_selector?("#filter_#{id} .ng-select-container")
+          Array(value).each do |val|
+            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).to have_selector('.ng-option', text: val)
+          end
+        end
+      end
+
+      def expect_missing_autocomplete_value(id, value)
+        if page.has_selector?("#filter_#{id} .ng-select-container")
+          Array(value).each do |val|
+            dropdown = search_autocomplete page.find("#filter_#{id} op-autocompleter"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).not_to have_selector('.ng-option', text: val)
+          end
+        end
       end
 
       def expect_no_filter_by(name, selector = nil)
@@ -207,7 +243,7 @@ module Components
             datepicker.save!
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
             Array(value).each do |val|
-              select_autocomplete filter_element,
+              select_autocomplete filter_element.find("op-autocompleter"),
                                   query: val,
                                   results_selector: '.ng-dropdown-panel-items'
             end
@@ -218,19 +254,6 @@ module Components
                 ensure_value_is_input_correctly input, value: value[index]
               end
             end
-          end
-        end
-      end
-
-      def expect_missing_value(id, value)
-        # wait for filter to be present
-        filter_element = page.find("#filter_#{id}")
-        if filter_element.has_selector?(".ng-select-container", wait: false)
-          Array(value).each do |val|
-            dropdown = search_autocomplete filter_element,
-                                           query: val,
-                                           results_selector: '.ng-dropdown-panel-items'
-            expect(dropdown).not_to have_selector('.ng-option', text: val)
           end
         end
       end
