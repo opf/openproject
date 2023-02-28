@@ -39,7 +39,7 @@ ca:
       meeting_minutes: "Acta"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Reunions"
   description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:

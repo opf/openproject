@@ -39,7 +39,7 @@ tr:
       meeting_minutes: "Dakika"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Toplantılar"
   description_attended: "katıldı"
   description_invite: "davet et"
   events:

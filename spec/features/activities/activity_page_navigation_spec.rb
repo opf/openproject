@@ -139,4 +139,41 @@ describe 'Activity page navigation' do
   context 'with subprojects NOT included by default', with_setting: { display_subprojects_work_packages: false } do
     include_examples 'subprojects checkbox state is preserved'
   end
+
+  context 'when navigating to a diff' do
+    before do
+      project_work_package.update(description: 'New work package description')
+    end
+
+    def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+      visit(activity_page)
+      activity_page_url = page.current_url
+
+      expect(page).to have_link(text: 'Details')
+      expect(page.text).to include("Description changed (Details)")
+      click_link('Details')
+
+      # on diff page, click the back button
+      expect(page).to have_link(text: 'Back')
+      click_link('Back')
+
+      expect(page.current_url).to eq(activity_page_url)
+    end
+
+    it 'Back button navigates to the previously seen activity page' do
+      [
+        activities_path,
+        project_activities_path(project),
+        user_path(user)
+      ].each do |activity_page|
+        assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+      end
+    end
+
+    # work package activity page is rendered by Angular, so it needs js: true
+    it 'Back button navigates to the previously seen work package page', js: true do
+      activity_page = work_package_path(project_work_package)
+      assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+    end
+  end
 end

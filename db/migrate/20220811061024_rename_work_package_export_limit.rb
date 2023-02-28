@@ -1,6 +1,6 @@
 class RenameWorkPackageExportLimit < ActiveRecord::Migration[7.0]
   def up
-    if Setting.exists?(name: 'work_packages_projects_export_limit')
+    if Setting.where(name: 'work_packages_projects_export_limit').exists? # rubocop:disable Rails/WhereExists
       Setting
         .where(name: 'work_packages_export_limit')
         .delete_all

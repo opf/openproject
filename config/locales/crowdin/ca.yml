@@ -468,20 +468,20 @@ ca:
         roles: "Rol"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "desarxivat"
+          false: "arxivat"
         identifier: "Identificador"
         latest_activity_at: "Última activitat al"
         parent: "Subprojecte de"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Visibilitat"
+          true: "públic"
+          false: "privat"
         queries: "Consultes"
         templated: "Plantilla de projecte"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marca com a plantilla"
+          false: "desmarca com a plantilla"
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
@@ -906,17 +906,22 @@ ca:
     header_invalid_fields: "S'han detectat problemes en els camps següents:"
     field_erroneous_label: "Aquest camp no és vàlid: %{full_errors} si us plau, introduïu un valor correcte."
   activity:
-    created: "Creat: %{title}"
-    updated: "Actualitzat: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
-      time_entry: "Spent time"
+      changeset: "Conjunt de canvis"
+      message: "Fòrums"
+      news: "Notícies"
+      project_attribute: "Atributs de projecte"
+      subproject: "Inclou subprojectes"
+      time_entry: "Temps invertit"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Paquets de treball"
   #common attributes of all models
   attributes:
     active: "Actiu"
@@ -1052,7 +1057,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Aplicar canvis"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
   button_sort: "Ordena"
@@ -1361,6 +1366,7 @@ ca:
     work_package_note: 'Afegida nota al paquet de treball'
     title:
       project: "Projecte: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -1772,10 +1778,10 @@ ca:
   label_not_contains: "no conté"
   label_not_equals: "no és"
   label_on: "en"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "no està buit"
+  label_operator_none: "està buit"
+  label_operator_equals_or: "és (OR)"
+  label_operator_equals_all: "és (AND)"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -2672,12 +2678,13 @@ ca:
   text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_changed_html: "%{label} ha canviat de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2970,12 +2977,12 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:

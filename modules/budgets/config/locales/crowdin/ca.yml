@@ -41,7 +41,7 @@ ca:
       material_budget_item: "Unitat"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Pressupostos"
   attributes:
     budget: "Pressupost"
   button_add_budget_item: "Afegeix costs planejats"

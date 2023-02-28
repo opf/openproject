@@ -267,6 +267,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
@@ -299,7 +301,6 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.4.0'
-  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false

@@ -30,42 +30,40 @@
       [cdkTrapFocusAutoCapture]="true"
       (submit)="save($event)"
     >
-      <spot-selector-field
-        *ngIf="showIgnoreNonWorkingDays"
-        [reverseLabel]="true"
-        [label]="text.ignoreNonWorkingDays.title"
-      >
-        <spot-switch
-          slot="input"
-          name="ignoreNonWorkingDays"
-          [(ngModel)]="ignoreNonWorkingDays"
-          (ngModelChange)="changeNonWorkingDays()"
-          data-qa-selector="op-datepicker-modal--include-non-working-days"
-        ></spot-switch>
-      </spot-selector-field>
+
+      <div class="spot-container">
+       <div class="op-datepicker-modal--toggle-actions-container">
+         <op-datepicker-working-days-toggle
+           *ngIf="showIgnoreNonWorkingDays"
+           name="ignoreNonWorkingDays"
+           [(ngModel)]="ignoreNonWorkingDays"
+           (ngModelChange)="changeNonWorkingDays()"
+         ></op-datepicker-working-days-toggle>
+       </div>
+     </div>
 
       <ng-content select="[slot=extra-fields]"></ng-content>
 
-    <spot-form-field
-      [label]="text.date"
-      [required]="required"
-    >
-      <spot-text-field
-        slot="input"
-        name="date"
-        class="op-datepicker-modal--date-field"
-        [ngModel]="workingValue"
+      <spot-form-field
+        [label]="text.date"
         [required]="required"
-          (ngModelChange)="writeWorkingValue($event)"
-          [showClearButton]="true"
-        ></spot-text-field>
-        <button
-          slot="action"
-          type="button"
-          class="spot-link"
-          (click)="setToday()"
-          [textContent]="text.today">
-        </button>
+      >
+        <spot-text-field
+          slot="input"
+          name="date"
+          class="op-datepicker-modal--date-field"
+          [ngModel]="workingValue"
+          [required]="required"
+            (ngModelChange)="writeWorkingValue($event)"
+            [showClearButton]="true"
+          ></spot-text-field>
+          <button
+            slot="action"
+            type="button"
+            class="spot-link"
+            (click)="setToday()"
+            [textContent]="text.today">
+          </button>
       </spot-form-field>
 
       <div #flatpickrTarget></div>
@@ -94,7 +92,5 @@
 <input
   [name]="name"
   [value]="value"
-  [ngClass]="{ 'remote-field--input': !!remoteFieldKey }"
-  [attr.data-remote-field-key]="remoteFieldKey"
   hidden
 >

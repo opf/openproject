@@ -930,8 +930,13 @@ ar:
     header_invalid_fields: "كان هناك مشاكل في المجالات التالية:"
     field_erroneous_label: "هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة."
   activity:
-    created: "الإنشاء: %{title}"
-    updated: "التحديث: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1432,6 +1437,7 @@ ar:
     work_package_note: 'لم يتم اضافة مجموعة العمل'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2752,12 +2758,13 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} تعيين إلى %{value}"
   text_journal_set_with_diff: "%{label} تم تعيينه إلى (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -3063,7 +3070,7 @@ ar:
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

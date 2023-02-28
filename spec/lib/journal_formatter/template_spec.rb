@@ -33,7 +33,7 @@ describe OpenProject::JournalFormatter::Template do
 
   it "renders correctly when marked as template" do
     html = instance.render("templated", [false, true], html: true)
-    expect(html).to eq("<strong>Project</strong> marked as template")
+    expect(html).to eq("<strong>Project</strong> <strong>marked as template</strong>")
 
     html = instance.render("templated", [false, true], html: false)
     expect(html).to eq("Project marked as template")
@@ -43,7 +43,7 @@ describe OpenProject::JournalFormatter::Template do
 
   it "renders correctly when unmarked as template" do
     html = instance.render("templated", [true, false], html: true)
-    expect(html).to eq("<strong>Project</strong> unmarked as template")
+    expect(html).to eq("<strong>Project</strong> <strong>unmarked as template</strong>")
 
     html = instance.render("templated", [true, false], html: false)
     expect(html).to eq("Project unmarked as template")

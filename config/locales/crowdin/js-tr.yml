@@ -264,8 +264,7 @@ tr:
         removed_title: "Aşağıdaki günleri çalışılmayan günler listesinden çıkaracaksınız:"
         change_description: "Haftanın hangi günlerinin iş günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Değişikliklerin geçerlilik kazanması biraz zaman alabilir. İlgili tüm iş paketleri güncellendiğinde bilgilendirileceksiniz. Devam etmek istediğine emin misin?
     custom_actions:
       date:
         specific: 'açık'

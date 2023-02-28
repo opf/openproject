@@ -98,9 +98,16 @@ describe CustomFieldFormBuilder do
       end
 
       it 'outputs element' do
-        expect(output).to be_html_eql(%{
-<op-single-date-picker class="custom-class" data-value="null" data-id='"user_custom_field_#{custom_field.id}"' data-name='"user[custom_field_#{custom_field.id}]"'></op-single-date-picker>
-        }).at_path('op-single-date-picker')
+        expect(output).to be_html_eql(
+          <<~HTML
+            <op-basic-single-date-picker
+              class="custom-class"
+              data-value="null"
+              data-id='"user_custom_field_#{custom_field.id}"'
+              data-name='"user[custom_field_#{custom_field.id}]"'
+            ></op-basic-single-date-picker>
+          HTML
+        ).at_path('op-basic-single-date-picker')
       end
     end
 

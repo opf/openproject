@@ -28,10 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ListComponent < ViewComponent::Base
-  def initialize(events:, display_user: true)
-    super()
-    @events = events.sort { |x, y| y.event_datetime <=> x.event_datetime }
-    @display_user = display_user
+require 'spec_helper'
+
+RSpec.describe JournalsHelper do
+  describe 'back_to_activity_page_url' do
+    {
+      'all' => 'http://test.host/activities',
+      'projects/some-identifier' => 'http://test.host/projects/some-identifier/activities',
+      'unsupported_gizmo' => nil,
+      'users/5' => 'http://test.host/users/5',
+      'work_packages/42' => 'http://test.host/work_packages/42',
+      nil => nil
+    }.each do |activity_page, expected_url|
+      context "when activity page is #{activity_page.inspect}" do
+        it do
+          expect(back_to_activity_page_url(activity_page)).to eq(expected_url)
+        end
+      end
+    end
   end
 end

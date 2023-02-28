@@ -259,6 +259,11 @@ describe 'filter work packages', js: true do
       wp_table.expect_work_package_listed work_package_with_list_value
       wp_table.ensure_work_package_not_listed! work_package_with_anti_list_value
 
+      # Do not display already selected values in the autocompleter (Regression #46249)
+      filters.open_autocompleter list_cf.attribute_name(:camel_case)
+
+      expect(page).not_to have_selector('.ng-option', text: list_cf.custom_options.last.value)
+
       wp_table.save_as('Some query name')
 
       filters.remove_filter list_cf.attribute_name(:camel_case)

@@ -909,17 +909,22 @@ tr:
     header_invalid_fields: "Aşağıdaki alanları ile ilgili sorunlar oluştu:"
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
-    created: "Oluşturuldu: %{title}"
-    updated: "Güncellendi: %{title}"
+    item:
+      created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
+      created_on: "Oluşturulma tarihi: {dateTime}"
+      updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
+      updated_on: "Güncellenme tarihi: {dateTime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
-      time_entry: "Spent time"
-      wiki_edit: "Wiki"
-      work_package: "Work packages"
+      changeset: "Değişiklik Listeleri"
+      message: "Forumlar"
+      news: "Haberler"
+      project_attribute: "Proje öznitelikleri"
+      subproject: "Alt proje dahil"
+      time_entry: "Harcanan zaman"
+      wiki_edit: "Rehber"
+      work_package: "İş paketleri"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1364,6 +1369,7 @@ tr:
     work_package_note: 'İk Paketi notu eklendi'
     title:
       project: "Proje: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "İş paketleri dışa aktarma"
     succeeded: "Dışa aktarma başarıyla tamamlandı."
@@ -2679,12 +2685,13 @@ tr:
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
-  text_journal_changed_html: "%{label}, %{old} %{linebreak} %{new}<strong>olarak</strong> değiştirildi"
   text_journal_changed_plain: "%{label}, %{old} %{linebreak} iken %{new} olarak değiştirildi"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"

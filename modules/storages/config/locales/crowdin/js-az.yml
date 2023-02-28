@@ -25,7 +25,7 @@ az:
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
@@ -50,7 +50,14 @@ az:
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error:
+          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

@@ -54,6 +54,9 @@ import {
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
+import {
+  UploadConflictModalComponent,
+} from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
 
 @NgModule({
   imports: [
@@ -71,6 +74,7 @@ import {
     StorageInformationComponent,
     StorageFileListItemComponent,
     SortFilesPipe,
+    UploadConflictModalComponent,
   ],
   exports: [
     StorageComponent,

@@ -254,7 +254,7 @@ ro:
       working_days:
         calendar:
           empty_state_header: "Zile nelucrătoare"
-          empty_state_description: 'Pentru acest an nu este definită nicio zi nelucrătoare, apasă pe "Adaugă o zi nelucrătoare" de mai jos pentru a adăuga o dată.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(nou)'
         add_non_working_day: "Zi nelucrătoare"
         already_added_error: "O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică."
