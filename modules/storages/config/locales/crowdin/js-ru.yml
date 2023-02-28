@@ -25,18 +25,23 @@ ru:
         not_logged_in: >
           Для добавления ссылки, просмотра или загрузки файлов, относящиеся к этому пакету работ, войдите в %{storageType}.
       files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "Загрузка в %{storageType} поддерживает только один файл одновременно."
         empty_folder: "Папка пуста."
         empty_folder_location_hint: "Нажмите на кнопку ниже, чтобы загрузить файл в это место."
         file_not_selectable_location: "Выбор файла невозможен в процессе выбора местоположения."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.
         download: "Скачать %{fileName}"
         no_permission: "У вас недостаточно прав для просмотра этого файла."
-        open: 'Открыть файл в хранилище'
-        open_location: 'Открыть файл в расположении'
+        open: "Открыть файл в хранилище"
+        open_location: "Открыть файл в расположении"
         remove: "Удалить ссылку на файл"
         remove_confirmation: >
           Вы уверены, что хотите удалить файл из этого пакета работ? Отсоединение не влияет на исходный файл и только удаляет соединение с этим рабочим пакетом.

@@ -1,19 +1,19 @@
 "no":
   logout_warning: >
-    You have been logged out. The contents of any form you submit may be lost. Please [log in].
+    Du har blitt logget ut. Innholdet kan gå tapt. Vennligst [logg in].
   activemodel:
     attributes:
       openid_connect/provider:
         name: Navn
-        display_name: Display name
+        display_name: Visningsnavn
         identifier: Identifikator
-        secret: Secret
-        scope: Scope
+        secret: Hemmelig
+        scope: Omfang
   openid_connect:
-    menu_title: OpenID providers
+    menu_title: OpenID leverandører
     providers:
-      label_add_new: Add a new OpenID provider
-      label_edit: Edit OpenID provider %{name}
-      no_results_table: No providers have been defined yet.
-      plural: OpenID providers
-      singular: OpenID provider
+      label_add_new: Legg til ny OpenID-leverandør
+      label_edit: Rediger OpenID-leverandør %{name}
+      no_results_table: Ingen leverandører har blitt definert ennå.
+      plural: OpenID leverandører
+      singular: OpenID-leverandør

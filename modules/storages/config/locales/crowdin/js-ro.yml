@@ -25,18 +25,23 @@ ro:
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
       files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
         empty_folder: "Acest director este gol."
         empty_folder_location_hint: "Faceţi clic pe butonul de mai jos pentru a încărca fişierul în această locaţie."
         file_not_selectable_location: "Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
         download: "Descarcă %{fileName}"
         no_permission: "Nu aveți permisiunea de a vedea acest fișier."
-        open: 'Deschide fişierul pe stocare'
-        open_location: 'Deschide fișierul în locație'
+        open: "Deschide fişierul pe stocare"
+        open_location: "Deschide fișierul în locație"
         remove: "Elimină link-ul fișierului"
         remove_confirmation: >
           Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.

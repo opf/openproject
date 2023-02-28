@@ -2,7 +2,7 @@
 "no":
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Opprett ny tavle'
       label_unnamed_board: 'Unnamed board'
       label_unnamed_list: 'Unnamed list'
       label_board_type: 'Tavle type'
