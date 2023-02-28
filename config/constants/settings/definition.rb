@@ -989,6 +989,9 @@ module Settings
       work_packages_projects_export_limit: {
         default: 500
       },
+      work_packages_bulk_request_limit: {
+        default: 10
+      },
       work_package_list_default_highlighted_attributes: {
         default: [],
         allowed: -> {

@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::FlashBulkError
-  extend ActiveSupport::Concern
+module WorkPackages
+  class MoveJob < BulkJob
+    protected
 
-  included do
-    private
+    def service_class
+      Bulk::MoveService
+    end
 
-    def error_flash(selected_work_packages, service_result)
-      flash[:error] = render_to_string partial: 'work_packages/bulk/errors',
-                                       locals: { service_result:,
-                                                 selected_work_packages: }
+    def success_message
+      I18n.t(:notice_successful_update)
     end
   end
 end
