@@ -507,6 +507,14 @@ describe Journable::WithHistoricAttributes do
         expect(subject).to be false
       end
     end
+
+    describe "without a query" do
+      let(:query) { nil }
+
+      it "does not determine whether the journable matches the query at the baseline timestamp" do
+        expect(subject).to be_nil
+      end
+    end
   end
 
   describe "#current_timestamp" do
@@ -546,6 +554,14 @@ describe Journable::WithHistoricAttributes do
 
       it "determines whether the journable matches the query at the current timestamp" do
         expect(subject).to be true
+      end
+    end
+
+    describe "without a query" do
+      let(:query) { nil }
+
+      it "does not determine whether the journable matches the query at the current timestamp" do
+        expect(subject).to be_nil
       end
     end
   end
