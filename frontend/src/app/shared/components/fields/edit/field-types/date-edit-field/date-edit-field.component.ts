@@ -37,8 +37,12 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
     <op-basic-single-date-picker
       [(ngModel)]="value"
       (keydown.escape)="onCancel()"
-      [id]="handler.htmlId"
+      (keydown.enter)="handler.handleUserSubmit()"
+      (picked)="handler.handleUserSubmit()"
       class="inline-edit--field"
+      [id]="handler.htmlId"
+      [required]="required"
+      [disabled]="inFlight"
       [opAutofocus]="autofocus"
     ></op-basic-single-date-picker>
   `,
@@ -61,7 +65,13 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
 
   public set value(value:string) {
     this.resource[this.name] = this.parseValue(value);
-    void this.handler.handleUserSubmit();
+  }
+
+  public parseValue(data:string) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      return data;
+    }
+    return null;
   }
 
   public onCancel():void {
