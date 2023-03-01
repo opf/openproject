@@ -26,27 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Metrics/AbcSize
 module API::V3::WorkPackages::EagerLoading
   class HistoricAttributes < Base
-    attr_accessor :timestamps, :query
+    attr_writer :timestamps
+    attr_accessor :query
 
     def apply(work_package)
-      work_package_array_index = work_packages.map(&:id).find_index(work_package.id)
-      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package_array_index]
-      work_package.attributes = work_package_with_historic_attributes.attributes.try(:except, 'timestamp')
-      work_package.baseline_attributes = work_package_with_historic_attributes.baseline_attributes.try(:except, 'timestamp')
-      work_package.attributes_by_timestamp = work_package_with_historic_attributes.attributes_by_timestamp \
-          .transform_values do |attributes|
-            attributes.delete_field('timestamp') if attributes.respond_to? :timestamp
-            attributes
-          end
-      work_package.timestamps = work_package_with_historic_attributes.timestamps
-      work_package.baseline_timestamp = work_package_with_historic_attributes.baseline_timestamp
-      work_package.matches_query_filters_at_baseline_timestamp = \
-        work_package_with_historic_attributes.matches_query_filters_at_baseline_timestamp?
-      work_package.matches_query_filters_at_timestamps = work_package_with_historic_attributes.matches_query_filters_at_timestamps
-      work_package.exists_at_timestamps = work_package_with_historic_attributes.exists_at_timestamps
+      return unless timestamps.any?(&:historic?)
+
+      set_root_work_package_attributes(work_package)
+      set_at_timestamp_attributes(work_package)
     end
 
     def self.module
@@ -55,12 +44,77 @@ module API::V3::WorkPackages::EagerLoading
 
     private
 
-    def work_packages_with_historic_attributes
-      @work_packages_with_historic_attributes ||= begin
-        @timestamps ||= @query.try(:timestamps) || []
-        Journable::WithHistoricAttributes \
-          .wrap_multiple(work_packages, timestamps: @timestamps, query: @query, include_only_changed_attributes: true)
+    # Sets the attributes of the work package to be displayed directly as part of the _embedded/elements collection.
+    #
+    # Attributes can be:
+    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * the attributes the work package had at the timestamp. This is only necessary in case a historic (i.e.) non
+    #     current timestamp is provided.
+    def set_root_work_package_attributes(work_package)
+      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
+
+      last_timestamp = work_package_with_historic_attributes.timestamps.last
+
+      set_attributes_at_timestamp(work_package,
+                                  work_package_with_historic_attributes,
+                                  last_timestamp,
+                                  override_current: last_timestamp.historic?)
+    end
+
+    # Sets the attributes of the work package to be displayed as part of the _embedded/attributesAtTimestamp of each
+    # work package of the collection (the full path could then be e.g. _embedded/elements/5/_embedded/attributesAtTimestamp)
+    #
+    # Attributes are:
+    #   * those associated with the timestamp functionality, e.g. the whether the work package existed.
+    #   * the timestamp the work package is at. Mostly necessary in case the work package did not exist at that time as a
+    #     stand-in work package is created in this case.
+    #   * stand-in blank values for custom values/fields which are currently not used and thus do not need to be loaded.
+    def set_at_timestamp_attributes(work_package)
+      work_package_with_historic_attributes = work_packages_with_historic_attributes[work_package.id]
+
+      work_package.at_timestamps = work_package_with_historic_attributes
+                                     .timestamps
+                                     .map do |timestamp|
+        wrapped_wp = AttributesByTimestampWorkPackage
+                       .new(work_package_with_historic_attributes.at_timestamp(timestamp), timestamp)
+
+        set_attributes_at_timestamp(wrapped_wp,
+                                    work_package_with_historic_attributes,
+                                    wrapped_wp.timestamp)
+
+        wrapped_wp
       end
+    end
+
+    def set_attributes_at_timestamp(work_package, source, timestamp, override_current: false)
+      override_attributes(work_package, source) if override_current
+      set_timestamp_attributes(work_package, source, timestamp)
+    end
+
+    def work_packages_with_historic_attributes
+      @work_packages_with_historic_attributes ||= Journable::WithHistoricAttributes
+                                                  .wrap(work_packages,
+                                                        timestamps:,
+                                                        query:,
+                                                        include_only_changed_attributes: true)
+                                                  .index_by(&:id)
+    end
+
+    def timestamps
+      @timestamps ||= query.try(:timestamps) || []
+    end
+
+    def override_attributes(work_package, source)
+      work_package.attributes = source.attributes.except('timestamp')
+      work_package.clear_changes_information
+      work_package.readonly!
+    end
+
+    def set_timestamp_attributes(work_package, source, timestamp)
+      work_package.matches_filters_at_timestamp = source.matches_query_filters_at_timestamps.include?(timestamp)
+      work_package.exists_at_timestamp = source.exists_at_timestamps.include?(timestamp)
+      work_package.attributes_changed_to_baseline = source.changed_at_timestamp(timestamp)
+      work_package.with_query = source.query.present?
     end
   end
 
@@ -68,25 +122,48 @@ module API::V3::WorkPackages::EagerLoading
     extend ActiveSupport::Concern
 
     included do
-      attr_accessor :baseline_attributes, :attributes_by_timestamp, :timestamps, :baseline_timestamp,
-                    :matches_query_filters_at_baseline_timestamp,
-                    :matches_query_filters_at_timestamps,
-                    :exists_at_timestamps
+      attr_accessor :at_timestamps,
+                    :attributes_changed_to_baseline
+
+      attr_writer :with_query,
+                  :exists_at_timestamp,
+                  :matches_filters_at_timestamp
+
+      def with_query?; @with_query; end
+      def exists_at_timestamp?; @exists_at_timestamp; end
+      def matches_filters_at_timestamp?; @matches_filters_at_timestamp; end
     end
 
-    # Does the work package match the query filter at the baseline timestamp?
-    # Returns `nil` if no query is given.
-    #
-    def matches_query_filters_at_baseline_timestamp?
-      matches_query_filters_at_timestamps.any? ? matches_query_filters_at_baseline_timestamp : nil
+    def wrapped?
+      true
+    end
+  end
+
+  # The wrapper around a work package only loaded to be then displayed as part of the
+  # attributesByTimestamps in the work package representer.
+  class AttributesByTimestampWorkPackage < SimpleDelegator
+    include HistoricAttributesAccessors
+
+    def initialize(work_package, timestamp)
+      super(work_package || WorkPackage.new)
+
+      self.timestamp = timestamp.dup
     end
 
-    # Does the work package match the query filter at the given timestamp?
-    # Returns `nil` if no query is given.
-    #
-    def matches_query_filters_at_timestamp?(timestamp)
-      matches_query_filters_at_timestamps.any? ? matches_query_filters_at_timestamps.include?(timestamp) : nil
+    attr_writer :timestamp
+
+    def timestamp
+      new_record? ? @timestamp : Timestamp.parse(__getobj__.timestamp)
+    end
+
+    # Since custom fields are currently never displayed in the attributesByTimestamp,
+    # for which this object is used, simply short circuit the loading of the custom field information.
+    def available_custom_fields
+      WorkPackageCustomField.none
+    end
+
+    def define_all_custom_field_accessors
+      nil
     end
   end
 end
-# rubocop:enable Metrics/AbcSize

@@ -332,30 +332,26 @@ module API
 
         property :_meta,
                  if: ->(*) {
-                   respond_to? :matches_query_filters_at_timestamps \
-                   and respond_to? :timestamps \
-                   and timestamps != [Timestamp.now]
+                   timestamps_active?
                  },
                  getter: ->(*) {
                    {
-                     # This meta property states whether the attributes of the work package at the
-                     # last given timestamp (commonly the current time) match the filters of the
-                     # query. https://github.com/opf/openproject/pull/11783
-                     #
-                     'matchesFilters': matches_query_filters_at_timestamp?(timestamps.last),
-
-                     # This meta property states whether the work package exists at the last given
-                     # timestamp (commonly the current time).
+                     # This meta property states whether the work package exists at time.
                      # https://github.com/opf/openproject/pull/11783#issuecomment-1374897874
-                     #
-                     'exists': exists_at_timestamps.include?(timestamps.last),
+                     'exists': represented.exists_at_timestamp?,
 
                      # This meta property holds the timestamp of the data of the work package.
                      #
-                     'timestamp': timestamps.last.to_s
+                     'timestamp': timestamps.last.to_s,
+
+                     # This meta property states whether the attributes of the work package at the
+                     # timestamp match the filters of the query.
+                     # https://github.com/opf/openproject/pull/11783
+                     'matchesFilters': represented.with_query? ? represented.matches_filters_at_timestamp? : nil
                    }.compact
                  },
-                 uncacheable: true
+                 uncacheable: true,
+                 exec_context: :decorator
 
         property :id,
                  render_nil: true
@@ -479,35 +475,19 @@ module API
                  end
 
         property :attributes_by_timestamp,
-                 as: :attributesByTimestamp,
                  if: ->(*) {
-                       respond_to?(:attributes_by_timestamp) and respond_to?(:timestamps) and timestamps != [Timestamp.now]
-                     },
+                   timestamps_active?
+                 },
                  getter: ->(*) do
-                   timestamps.collect do |timestamp|
-                     attrs = attributes_by_timestamp[timestamp.to_s].to_h
-                     if exists_at_timestamps.include?(timestamp)
-                       attrs = attrs.merge({
-                                             '_links': {
-                                               'self': {
-                                                 'href': API::V3::Utilities::PathHelper::ApiV3Path \
-                                                   .work_package(id, timestamps: timestamp)
-                                               }
-                                             }
-                                           })
-                     end
-                     attrs = attrs.merge({
-                                           '_meta': {
-                                             'timestamp': timestamp.to_s,
-                                             'matchesFilters': matches_query_filters_at_timestamp?(timestamp),
-                                             'exists': exists_at_timestamps.include?(timestamp)
-                                           }.compact
-                                         })
-                     attrs
+                   represented.at_timestamps.map do |work_package_at_timestamp|
+                     API::V3::WorkPackages::WorkPackageAtTimestampRepresenter
+                       .create(work_package_at_timestamp,
+                               current_user:)
                    end
                  end,
                  embedded: true,
-                 uncacheable: true
+                 uncacheable: true,
+                 exec_context: :decorator
 
         associated_resource :category
 
@@ -693,6 +673,10 @@ module API
         def ordered_custom_actions
           # As the custom actions are sometimes set as an array
           @ordered_custom_actions ||= represented.custom_actions(current_user).to_a.sort_by(&:position)
+        end
+
+        def timestamps_active?
+          timestamps.any?(&:historic?)
         end
 
         # Attachments need to be eager loaded for the description
