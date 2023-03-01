@@ -37,7 +37,7 @@ module Members
 
     protected
 
-    def perform(_params = {})
+    def perform(*)
       prune_watchers
       unassign_categories
 

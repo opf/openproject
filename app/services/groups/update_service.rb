@@ -49,7 +49,7 @@ class Groups::UpdateService < ::BaseServices::Update
     if new_user_ids.any?
       db_call = ::Groups::AddUsersService
                   .new(call.result, current_user: user)
-                  .call(ids: new_user_ids, send_notifications: params.fetch(:send_notifications, true))
+                  .call(ids: new_user_ids)
 
       call.add_dependent!(db_call)
     end

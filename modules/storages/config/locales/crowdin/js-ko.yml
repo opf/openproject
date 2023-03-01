@@ -25,18 +25,23 @@ ko:
         not_logged_in: >
           링크를 추가하거나, 이 작업 패키지와 관련된 파일을 보거나 업로드하려면 %{storageType}에 로그인하세요.
       files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "%{fileName} 다운로드"
         no_permission: "이 파일을 볼 수 있는 권한이 없습니다."
-        open: '저장소의 파일 열기'
-        open_location: '위치의 파일 열기'
+        open: "저장소의 파일 열기"
+        open_location: "위치의 파일 열기"
         remove: "파일 링크 제거"
         remove_confirmation: >
           이 작업 패키지에서 파일을 연결 해제하시겠습니까? 연결 해제는 원본 파일에 영향을 주지 않으며 이 작업 패키지에 대한 연결만 제거합니다.

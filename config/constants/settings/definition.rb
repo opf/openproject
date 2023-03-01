@@ -1084,18 +1084,9 @@ module Settings
     end
 
     def override_value(other_value)
-      if format == :hash
-        self.value = {} if value.nil?
-        value.deep_merge! other_value.deep_stringify_keys
-      elsif format == :datetime && !other_value.is_a?(DateTime)
-        self.value = DateTime.parse(other_value.to_s)
-      else
-        self.value = other_value
-      end
-
-      raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}" unless valid?
-
+      self.value = coerce(other_value, format)
       self.writable = false
+      raise ArgumentError, "Value for #{name} must be one of #{allowed.join(', ')} but is #{value}" unless valid?
     end
 
     def valid?
@@ -1396,6 +1387,19 @@ module Settings
         :duration
       else
         raise ArgumentError, "Cannot deduce the format for the setting definition #{name}"
+      end
+    end
+
+    def coerce(value, format)
+      case format
+      when :hash
+        (self.value || {}).deep_merge value.deep_stringify_keys
+      when :array
+        value.is_a?(String) ? value.split : Array(value)
+      when :datetime
+        value.is_a?(DateTime) ? value : DateTime.parse(value.to_s)
+      else
+        value
       end
     end
   end

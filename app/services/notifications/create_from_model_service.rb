@@ -49,14 +49,21 @@ class Notifications::CreateFromModelService
   end
 
   # Creates Notifications according to the various settings:
+  #
   # * configured by the individual users
   # * the send_notifications property provided
+  #
   # and also by the properties of the journal, e.g.:
+  #
   # * a work package mentioning a user
   # * a news begin watched
-  # This method might be called multiple times, mostly when a journal is aggregated.
-  # On the second run, the potentially existing Notifications need to be taken into account by
-  # * updating them if the user is still to be notified: resetting the read_ian to false if the strategy supports ian
+  #
+  # This method might be called multiple times, mostly when a journal is
+  # aggregated. On the second run, the potentially existing Notifications need
+  # to be taken into account by
+  #
+  # * updating them if the user is still to be notified: resetting the read_ian
+  #   to false if the strategy supports ian
   # * destroying them if the user is no longer to be notified
   def call(send_notifications)
     result = ServiceResult.new success: !abort_sending?

@@ -308,12 +308,25 @@ describe Settings::Definition, :settings_reset do
         )
 
         reset(:blacklisted_routes)
-        # works for OpenProject::Configuration thanks to OpenProject::Configuration::Helper mixin
         expect(OpenProject::Configuration.blacklisted_routes)
           .to eq(['admin/info', 'admin/plugins'])
-        # sadly behaves differently for Setting
         expect(Setting.blacklisted_routes)
-          .to eq('admin/info admin/plugins')
+          .to eq(['admin/info', 'admin/plugins'])
+      end
+
+      it 'allows overriding configuration array from ENV with single string' do
+        stub_const(
+          'ENV',
+          {
+            'OPENPROJECT_DISABLED__MODULES' => 'repository'
+          }
+        )
+
+        reset(:disabled_modules)
+        expect(OpenProject::Configuration.disabled_modules)
+          .to eq(['repository'])
+        expect(Setting.disabled_modules)
+          .to eq(['repository'])
       end
 
       context 'with definitions from plugins' do
@@ -325,7 +338,7 @@ describe Settings::Definition, :settings_reset do
               'OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS' => '15'
             }
           )
-          # override from env manually because this settings are added by plugin intself
+          # override from env manually because these settings are added by plugin itself
           described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
           expect(all[:plugin_openproject_two_factor_authentication].value).to eq('active_strategies' => [:totp],
                                                                                  'enforced' => true, 'allow_remember_for_days' => 15)
@@ -338,7 +351,7 @@ describe Settings::Definition, :settings_reset do
               'OPENPROJECT_2FA' => '{"enforced": true, "allow_remember_for_days": 15}'
             }
           )
-          # override from env manually because this settings are added by plugin intself
+          # override from env manually because these settings are added by plugin itself
           described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
           expect(all[:plugin_openproject_two_factor_authentication].value)
             .to eq({ 'active_strategies' => [:totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
@@ -365,6 +378,8 @@ describe Settings::Definition, :settings_reset do
               edition: 'bim'
               sendmail_location: 'default_location'
               direct_uploads: false
+              disabled_modules: 'repository'
+              blacklisted_routes: 'admin/info admin/plugins'
             test:
               smtp_address: 'test address'
               sendmail_location: 'test location'
@@ -412,6 +427,13 @@ describe Settings::Definition, :settings_reset do
       it 'correctly parses date objects' do
         reset(:consent_time)
         expect(all[:consent_time].value).to eql DateTime.parse("2222-01-01")
+      end
+
+      it 'correctly converts a space separated string into array for array format' do
+        reset(:disabled_modules)
+        expect(all[:disabled_modules].value).to eq ['repository']
+        reset(:blacklisted_routes)
+        expect(all[:blacklisted_routes].value).to eq ['admin/info', 'admin/plugins']
       end
 
       it 'correctly overrides a default by a false value' do

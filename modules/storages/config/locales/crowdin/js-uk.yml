@@ -25,18 +25,23 @@ uk:
         not_logged_in: >
           Щоб додати посилання, переглянути або завантажити файли, пов’язані з цим пакетом робіт, увійдіть у %{storageType}.
       files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Завантажити %{fileName}"
         no_permission: "У вас немає дозволу на перегляд цього файлу."
-        open: 'Відкрити файл у сховищі'
-        open_location: 'Відкрити файл у папці'
+        open: "Відкрити файл у сховищі"
+        open_location: "Відкрити файл у папці"
         remove: "Видалити посилання на файл"
         remove_confirmation: >
           Справді відв’язати файл від цього пакету робіт? Це не вплине не вихідний файл. Буде вилучено тільки зв’язок із цим пакетом робіт.

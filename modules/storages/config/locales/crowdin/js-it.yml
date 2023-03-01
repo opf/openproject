@@ -25,18 +25,23 @@ it:
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
       files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
         empty_folder: "This folder is empty."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Correntemente, non esiste alcun file collegato a questo pacchetto di lavoro. Inizia a collegare i file con l'azione seguente o dall'interno di %{storageType}.
         download: "Scarica %{fileName}"
         no_permission: "Non hai i permessi per accedere al file."
-        open: 'Apri file su memoria'
-        open_location: 'Apri file nella posizione'
+        open: "Apri file su memoria"
+        open_location: "Apri file nella posizione"
         remove: "Rimuovi collegamento al file"
         remove_confirmation: >
           Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
