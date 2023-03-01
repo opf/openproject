@@ -115,9 +115,14 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
     def wrap_each_journable(journables, timestamps:, query:, include_only_changed_attributes:)
       loader = Loader.new(journables)
-      journables = loader.at_timestamp(timestamps.last).values if timestamps.last.try(:historic?)
 
-      journables.map { |j| new(j, timestamps:, query:, include_only_changed_attributes:, loader:) }
+      journables.map do |journable|
+        if timestamps.last.try(:historic?)
+          journable = loader.journable_at_timestamp(journable, timestamps.last) || WorkPackage.new(id: journable.id)
+        end
+
+        new(journable, timestamps:, query:, include_only_changed_attributes:, loader:)
+      end
     end
   end
 
@@ -182,7 +187,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   end
 
   def attributes
-    __getobj__.try(:attributes)
+    __getobj__.new_record? ? {} : __getobj__.attributes
   end
 
   def to_ary

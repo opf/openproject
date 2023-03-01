@@ -126,7 +126,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    context "with an AR of work packages" do
+    context "with active record relation of work packages" do
       let(:work_packages) { WorkPackage.all }
 
       it "returns an array of Journable::WithHistoricAttributes instances" do
@@ -158,6 +158,14 @@ describe Journable::WithHistoricAttributes do
           expect(subject.subject).to eq "The current work package 1"
         end
       end
+
+      describe "when the work package did not exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+        it "has no attributes" do
+          expect(subject.attributes).to be_empty
+        end
+      end
     end
 
     context "with an array of work packages" do
@@ -168,7 +176,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    context "with an AR of work packages" do
+    context "with active record relation of work packages" do
       let(:work_packages) { WorkPackage.all }
 
       it "provides access to the work-package attributes" do
@@ -222,6 +230,14 @@ describe Journable::WithHistoricAttributes do
           expect(subject.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
         end
       end
+
+      describe "when the work package did not exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+        it "has no attributes at the baseline date, which is the only given date" do
+          expect(subject.attributes_by_timestamp["2021-01-01T00:00:00Z"]).to be_nil
+        end
+      end
     end
 
     context "with an array of work packages" do
@@ -257,7 +273,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    context "with an AR of work packages" do
+    context "with active record relation of work packages" do
       let(:work_packages) { WorkPackage.all }
 
       it "provides access to the work-package attributes at timestamps" do
@@ -340,6 +356,14 @@ describe Journable::WithHistoricAttributes do
           expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
         end
       end
+
+      describe "when the work package did not exist at the only requested date" do
+        let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
+
+        it "does not include the timestamp in the exists_at_timestamps array" do
+          expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+        end
+      end
     end
   end
 
@@ -372,7 +396,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    context "with an AR of work packages" do
+    context "with active record relation of work packages" do
       let(:work_packages) { WorkPackage.all }
 
       describe "when requesting only historic data" do
@@ -423,7 +447,7 @@ describe Journable::WithHistoricAttributes do
       end
     end
 
-    context "with an AR of work packages" do
+    context "with active record relation of work packages" do
       let(:work_packages) { WorkPackage.all }
 
       describe "when providing a query" do
@@ -458,6 +482,14 @@ describe Journable::WithHistoricAttributes do
 
     describe "when the work package did not exist yet at the baseline date" do
       let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+
+      it "has no baseline attributes" do
+        expect(subject).to be_nil
+      end
+    end
+
+    describe "when the work package did not exist at the only requested date" do
+      let(:timestamps) { [Timestamp.parse("2021-01-01T00:00:00Z")] }
 
       it "has no baseline attributes" do
         expect(subject).to be_nil

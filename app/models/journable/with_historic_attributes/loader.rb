@@ -33,7 +33,7 @@ class Journable::WithHistoricAttributes
     end
 
     def journable_at_timestamp(journable, timestamp)
-      at_timestamp(timestamp)[journable.id]
+      at_timestamp(timestamp)[journable&.id]
     end
 
     def at_timestamp(timestamp)
