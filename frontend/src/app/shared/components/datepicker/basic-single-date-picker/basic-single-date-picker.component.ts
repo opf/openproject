@@ -74,9 +74,9 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
   ],
 })
 export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
-  @Output('valueChange') valueChange = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
-  @Output('picked') picked = new EventEmitter();
+  @Output() picked = new EventEmitter();
 
   private _value = '';
 
@@ -126,7 +126,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
     this.initializeDatePicker();
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy():void {
     this.datePickerInstance?.destroy();
   }
 
