@@ -104,15 +104,16 @@ export function onDayCreate(
   isNonWorkingDay:boolean,
   isDayDisabled:boolean,
 ):void {
+  dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
+
+  if (isDayDisabled) {
+    dayElem.classList.add('flatpickr-disabled');
+    return;
+  }
+
   if (ignoreNonWorkingDays && isNonWorkingDay) {
     dayElem.classList.add('flatpickr-non-working-day_enabled');
   } else if (!ignoreNonWorkingDays && isNonWorkingDay) {
     dayElem.classList.add('flatpickr-non-working-day');
   }
-
-  if (isDayDisabled) {
-    dayElem.classList.add('flatpickr-disabled');
-  }
-
-  dayElem.setAttribute('data-iso-date', dayElem.dateObj.toISOString());
 }
