@@ -72,6 +72,10 @@ $datepicker--border-radius: 5px
   &.flatpickr-non-working-day_enabled
     @include non-working-day_enabled
 
+.flatpickr-calendar.inline
+  // flatpickr default styles introduce a top: 2px, that causes strange scrolling behavior
+  top: unset !important
+
 .flatpickr-calendar
   box-shadow: none !important
   @include spot-caption
@@ -94,6 +98,14 @@ $datepicker--border-radius: 5px
   .flatpickr-weekday
     color: var(--body-font-color)
 
+  .flatpickr-day.prevMonthDay
+    height: 0
+    width: 0
+    visibility: hidden
+
+  .flatpickr-day.nextMonthDay
+    display: none
+
   .flatpickr-weekdaycontainer,
   .flatpickr-days .dayContainer
 
@@ -109,6 +121,9 @@ $datepicker--border-radius: 5px
       box-shadow: none
       min-width: 283px
       max-width: 283px
+      display: grid
+      grid-template-columns: repeat(7, 1fr)
+      justify-items: center
 
       @media screen and (max-width: 679px)
         min-width: 267px
@@ -117,6 +132,7 @@ $datepicker--border-radius: 5px
       .flatpickr-day
         color: $spot-color-basic-gray-1
         background: $spot-color-basic-white
+        width: 40px
         height: 30px
         line-height: 28px
         margin: 0
@@ -229,7 +245,6 @@ $datepicker--border-radius: 5px
           border-color: $spot-color-indication-current-date !important
   
     &.today
-      color: $spot-color-basic-gray-3 !important
       background: $spot-color-indication-current-date !important
       border-color: $spot-color-indication-current-date !important
 
