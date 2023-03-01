@@ -75,6 +75,7 @@ describe 'Datepicker logic on follow relationships',
 
     datepicker.toggle_ignore_non_working_days
     datepicker.expect_ignore_non_working_days true
+    datepicker.show_date '2023-02-05'
     datepicker.expect_disabled Date.parse('2023-02-05')
     datepicker.expect_disabled Date.parse('2023-02-04')
     datepicker.expect_disabled Date.parse('2023-02-03')
