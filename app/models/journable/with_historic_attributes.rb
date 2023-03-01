@@ -131,7 +131,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
       attributes = if include_only_changed_attributes
                      changed_attributes_at_timestamp(t)
                    else
-                     historic_attributes_at(t)
+                     historic_attributes_at_timestamp(t)
                    end
 
       h[t] = attributes ? Hashie::Mash.new(attributes) : nil
@@ -200,7 +200,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
   private
 
-  def historic_attributes_at(timestamp)
+  def historic_attributes_at_timestamp(timestamp)
     historic_journable = at_timestamp(Timestamp.parse(timestamp))
 
     return unless historic_journable
