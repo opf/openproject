@@ -36,6 +36,7 @@ import {
   forwardRef,
   Injector,
   Input,
+  OnDestroy,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -47,14 +48,13 @@ import {
 } from '@angular/forms';
 import {
   onDayCreate,
-  parseDate,
+  validDate,
 } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash';
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 
 export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
@@ -73,8 +73,10 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
     },
   ],
 })
-export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit {
-  @Output('valueChange') valueChange = new EventEmitter();
+export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+  @Output() valueChange = new EventEmitter();
+
+  @Output() picked = new EventEmitter();
 
   private _value = '';
 
@@ -124,20 +126,24 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
     this.initializeDatePicker();
   }
 
-  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+  ngOnDestroy():void {
+    this.datePickerInstance?.destroy();
+  }
 
-  changeValueFromInput(value:string) {
-    this.valueChange.emit(value);
-    this.onChange(value);
-    this.writeValue(value);
-
-    const date = parseDate(value || '');
-
-    if (date !== '') {
-      const dateString = this.timezoneService.formattedISODate(date);
+  changeValueFromInput($event:KeyboardEvent) {
+    const value = ($event.target as HTMLInputElement).value;
+    if (validDate(value)) {
+      const dateString = this.timezoneService.formattedISODate(value);
+      this.datePickerInstance.setDates(dateString);
+      this.valueChange.emit(dateString);
       this.onTouched(dateString);
+      this.onChange(dateString);
+      this.writeValue(dateString);
+    } else if (value === '') {
+      this.datePickerInstance.setDates('');
+      this.onTouched('');
+      this.onChange('');
     }
-    this.cdRef.detectChanges();
   }
 
   showDatePicker():void {
@@ -156,17 +162,20 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
         onReady: (_date:Date[], _datestr:string, instance:flatpickr.Instance) => {
           instance.calendarContainer.classList.add('op-datepicker-modal--flatpickr-instance');
         },
-        onChange: (dates:Date[]) => {
-          if (dates.length > 0) {
-            const dateString = this.timezoneService.formattedISODate(dates[0]);
-            this.writeValue(dateString);
-            this.onChange(dateString);
+        onChange: (_:Date[], dateStr:string) => {
+          this.writeValue(dateStr);
+          if (dateStr.length > 0) {
+            const dateString = this.timezoneService.formattedISODate(dateStr);
+            this.valueChange.emit(dateString);
             this.onTouched(dateString);
+            this.onChange(dateString);
+            this.writeValue(dateString);
+            this.picked.emit();
           }
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (_dObj:Date[], _dStr:string, _fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             true,
@@ -181,6 +190,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
 
   writeValue(value:string):void {
     this.value = value;
+    this.datePickerInstance?.setDates(this.value);
   }
 
   onChange = (_:string):void => {};
