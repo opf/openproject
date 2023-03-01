@@ -915,6 +915,8 @@ fi:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1368,6 +1370,7 @@ fi:
     work_package_note: 'Kommentti lisätty tehtävään'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2686,12 +2689,13 @@ fi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Vertailemalla ja korjaus toimia paketit sitoutua viestejä"
   text_journal_added: "%{label} %{value} lisätty"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} päivitetty"
   text_journal_changed_with_diff: "%{label} muutettu (%{link})"
   text_journal_deleted: "%{label} poistettu (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} muutettu %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"

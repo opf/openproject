@@ -49,9 +49,8 @@ module Pages::Meetings
 
     def set_start_date(date)
       find_by_id('meeting_start_date').click
-      datepicker = Components::Datepicker.new
+      datepicker = Components::BasicDatepicker.new
       datepicker.set_date(date)
-      datepicker.save!
     end
 
     def set_start_time(time)

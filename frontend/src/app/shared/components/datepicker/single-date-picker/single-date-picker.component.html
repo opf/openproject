@@ -31,19 +31,14 @@
       (submit)="save($event)"
     >
       <div class="spot-container op-datepicker-modal--stretch-content">
-        <spot-selector-field
-          *ngIf="showIgnoreNonWorkingDays"
-          [reverseLabel]="true"
-          [label]="text.ignoreNonWorkingDays.title"
-        >
-          <spot-switch
-            slot="input"
-            name="ignoreNonWorkingDays"
-            [(ngModel)]="ignoreNonWorkingDays"
-            (ngModelChange)="changeNonWorkingDays()"
-            data-qa-selector="op-datepicker-modal--include-non-working-days"
-          ></spot-switch>
-        </spot-selector-field>
+       <div class="op-datepicker-modal--toggle-actions-container">
+         <op-datepicker-working-days-toggle
+           *ngIf="showIgnoreNonWorkingDays"
+           name="ignoreNonWorkingDays"
+           [(ngModel)]="ignoreNonWorkingDays"
+           (ngModelChange)="changeNonWorkingDays()"
+         ></op-datepicker-working-days-toggle>
+       </div>
 
         <ng-content select="[slot=extra-fields]"></ng-content>
 
@@ -68,7 +63,6 @@
             [textContent]="text.today">
           </button>
         </spot-form-field>
-
         <div #flatpickrTarget></div>
       </div>
 
@@ -96,7 +90,5 @@
 <input
   [name]="name"
   [value]="value"
-  [ngClass]="{ 'remote-field--input': !!remoteFieldKey }"
-  [attr.data-remote-field-key]="remoteFieldKey"
   hidden
 >

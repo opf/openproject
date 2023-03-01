@@ -27,7 +27,7 @@
 //++
 
 import {
-    AfterViewInit,
+  AfterViewInit,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
@@ -98,6 +98,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
 
   @Input() inputClassNames = '';
 
+  @Input() remoteFieldKey = null;
+
   @ViewChild('input') input:ElementRef;
 
   text = {
@@ -167,7 +169,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
         onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            false,
+            true,
             this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );

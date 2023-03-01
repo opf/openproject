@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.0'
+ruby '~> 3.2.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -267,6 +267,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do

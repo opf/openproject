@@ -40,7 +40,7 @@ describe JournalFormatter::DayCount do
   describe '#render' do
     describe 'when setting the old value to 1 day, and the new value to 3 days' do
       let(:expected) do
-        I18n.t(:text_journal_changed_html,
+        I18n.t(:text_journal_changed_plain,
                label: "<strong>Duration</strong>",
                old: '<i>1 day</i>',
                new: '<i>3 days</i>',

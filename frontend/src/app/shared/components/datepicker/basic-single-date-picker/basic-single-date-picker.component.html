@@ -12,4 +12,5 @@
   [ngModel]="value"
   (ngModelChange)="changeValueFromInputDebounced($event)"
   (focus)="showDatePicker()"
+  [attr.data-remote-field-key]="remoteFieldKey"
 />

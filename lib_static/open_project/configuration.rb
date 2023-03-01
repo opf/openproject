@@ -115,14 +115,6 @@ module OpenProject
           TRUE_VALUES.include? self[definition.name]
         end
       end
-
-      # Filters a hash with String keys by a key prefix and removes the prefix from the keys
-      def settings_of_prefix(prefix)
-        Settings::Definition
-          .all_of_prefix(prefix)
-          .to_h { |setting| [setting.name.delete_prefix(prefix), setting.value] }
-          .symbolize_keys!
-      end
     end
   end
 end

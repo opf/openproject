@@ -924,6 +924,8 @@ ru:
       created_on: "создано %{datetime}"
       updated_by_on: "обновлено %{user} %{datetime}"
       updated_on: "обновлено %{datetime}"
+      parent_without_of: "Подпроект"
+      parent_no_longer: "Больше не подпроект"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1401,6 +1403,7 @@ ru:
     work_package_note: 'Добавлено примечание к пакету работ'
     title:
       project: "Проект: %{name}"
+      subproject: "Подпроект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -2720,12 +2723,13 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -3026,7 +3030,7 @@ ru:
       <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку применить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

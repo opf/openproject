@@ -922,6 +922,8 @@ lt:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1399,6 +1401,7 @@ lt:
     work_package_note: 'Darbų paketo pastaba pridėta'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Jūsų darbo užduočių eksportas"
     succeeded: "Eksportas baigtas sėkmingai."
@@ -2719,12 +2722,13 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_changed_html: "%{label} pakeista iš %{old} %{linebreak}<strong>į</strong> %{new}"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ištrintas (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_label_value: "%{label} %{value}"

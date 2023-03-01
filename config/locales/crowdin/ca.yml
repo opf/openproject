@@ -911,6 +911,8 @@ ca:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Conjunt de canvis"
       message: "Fòrums"
@@ -1364,6 +1366,7 @@ ca:
     work_package_note: 'Afegida nota al paquet de treball'
     title:
       project: "Projecte: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -2675,12 +2678,13 @@ ca:
   text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_changed_html: "%{label} ha canviat de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
   text_journal_label_value: "%{label} %{value}"

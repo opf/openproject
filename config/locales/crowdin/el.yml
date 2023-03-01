@@ -911,6 +911,8 @@ el:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1364,6 +1366,7 @@ el:
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
@@ -2681,12 +2684,13 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
   text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
   text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
   text_journal_label_value: "%{label} %{value}"

@@ -910,6 +910,8 @@ de:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1363,6 +1365,7 @@ de:
     work_package_note: 'Arbeitspaket kommentiert'
     title:
       project: "Projekt: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
@@ -2681,12 +2684,13 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
   text_journal_label_value: "%{label} %{value}"

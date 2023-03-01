@@ -910,6 +910,8 @@ th:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1351,6 +1353,7 @@ th:
     work_package_note: 'เพิ่มหมายเหตุชุดภารกิจ'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2667,12 +2670,13 @@ th:
   text_work_packages_destroy_confirmation: "คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก ?"
   text_work_packages_ref_in_commit_messages: "อ้างอิงและแก้ไขชุดภารกิจในข้อความยืนยัน"
   text_journal_added: "%{label} %{value} ถูกเพิ่มแล้ว"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "มีการแก้ไข %{label} แล้ว"
   text_journal_changed_with_diff: "มีการเปลี่ยนแปลง %{label} (%{link})"
   text_journal_deleted: "%{label} ถูกลบแล้ว (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ถูกลบแล้ว (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "กำหนดค่า %{label} เป็น %{value}"
   text_journal_set_with_diff: "มีการกำหนดค่า %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"

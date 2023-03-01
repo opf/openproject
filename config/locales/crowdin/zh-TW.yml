@@ -910,6 +910,8 @@ zh-TW:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1351,6 +1353,7 @@ zh-TW:
     work_package_note: '工作項目註記已新增'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
@@ -2666,12 +2669,13 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_changed_html: "%{label} 從 %{old} %{linebreak}<strong> 改為</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
   text_journal_label_value: "%{label} %{value}"

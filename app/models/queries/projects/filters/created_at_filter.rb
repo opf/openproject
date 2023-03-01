@@ -30,8 +30,4 @@ class Queries::Projects::Filters::CreatedAtFilter < Queries::Projects::Filters::
   def type
     :datetime_past
   end
-
-  def available?
-    User.current.admin?
-  end
 end

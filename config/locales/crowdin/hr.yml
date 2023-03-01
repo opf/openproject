@@ -920,6 +920,8 @@ hr:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1385,6 +1387,7 @@ hr:
     work_package_note: 'Bilješka za Radni paket je dodana'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2705,12 +2708,13 @@ hr:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label}%{value} dodana"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} promijenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} postavljen na %{value}"
   text_journal_set_with_diff: "%{label} postavljen (%{link})"
   text_journal_label_value: "%{label} %{value}"

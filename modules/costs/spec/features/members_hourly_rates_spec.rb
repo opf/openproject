@@ -57,9 +57,8 @@ describe 'hourly rates on a member', js: true do
     sleep(0.1)
     click_link_or_button 'Add rate'
 
-    datepicker = Components::Datepicker.new
+    datepicker = Components::BasicDatepicker.new
     datepicker.set_date(date.strftime('%Y-%m-%d'))
-    datepicker.save!
 
     within "tr[id^='user_new_rate_attributes_']" do
       fill_in 'Rate', with: rate
@@ -69,9 +68,8 @@ describe 'hourly rates on a member', js: true do
   def change_rate_date(from:, to:)
     input = find("table.rates .date input[data-value='#{from.strftime('%Y-%m-%d')}']")
     input.click
-    datepicker = Components::Datepicker.new
+    datepicker = Components::BasicDatepicker.new
     datepicker.set_date(to.strftime('%Y-%m-%d'))
-    datepicker.save!
   end
 
   before do

@@ -915,6 +915,8 @@ fr:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1368,6 +1370,7 @@ fr:
     work_package_note: 'Note de Lot de Travaux ajoutée'
     title:
       project: "Projet : %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -2686,12 +2689,13 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_changed_html: "%{label} changé de %{old} %{linebreak}<strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
   text_journal_label_value: "%{label} %{value}"

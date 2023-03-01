@@ -33,7 +33,7 @@ describe OpenProject::JournalFormatter::ActiveStatus do
 
   it "renders correctly when unarchiving" do
     html = instance.render("active", [false, true], html: true)
-    expect(html).to eq("<strong>Project</strong> unarchived")
+    expect(html).to eq("<strong>Project</strong> <strong>unarchived</strong>")
 
     html = instance.render("active", [false, true], html: false)
     expect(html).to eq("Project unarchived")
@@ -41,7 +41,7 @@ describe OpenProject::JournalFormatter::ActiveStatus do
 
   it "renders correctly when archiving" do
     html = instance.render("active", [true, false], html: true)
-    expect(html).to eq("<strong>Project</strong> archived")
+    expect(html).to eq("<strong>Project</strong> <strong>archived</strong>")
 
     html = instance.render("active", [true, false], html: false)
     expect(html).to eq("Project archived")

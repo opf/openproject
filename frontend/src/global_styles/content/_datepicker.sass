@@ -30,7 +30,7 @@ $datepicker--border-radius: 5px
 
 @mixin disabled-day
   background: $spot-color-basic-white
-  color: $spot-color-basic-gray-4
+  color: $spot-color-basic-gray-3
   pointer-events: none
   cursor: not-allowed
 
@@ -43,6 +43,12 @@ $datepicker--border-radius: 5px
   border-radius: 0
   pointer-events: none
 
+@mixin non-working-day_enabled
+  background: $spot-color-basic-gray-6
+  color: $spot-color-basic-gray-1
+  border-radius: 0
+  pointer-events: auto
+
 .flatpickr-current-month
   display: flex !important
 
@@ -50,12 +56,21 @@ $datepicker--border-radius: 5px
   position: fixed
   left: 65%
 
+.flatpickr-prev-month, .flatpickr-next-month
+  svg:hover
+    fill: var(--primary-color) !important
+
+.flatpickr-prev-month, .flatpickr-next-month 
+  svg
+    fill: $spot-color-basic-gray-1 !important
 
 .flatpickr-day
   &.flatpickr-disabled
     @include disabled-day
   &.flatpickr-non-working-day
     @include non-working-day
+  &.flatpickr-non-working-day_enabled
+    @include non-working-day_enabled
 
 .flatpickr-calendar.inline
   box-shadow: none !important
@@ -100,21 +115,22 @@ $datepicker--border-radius: 5px
         max-width: 267px
 
       .flatpickr-day
-        color: $spot-color-basic-black
+        color: $spot-color-basic-gray-1
+        background: $spot-color-basic-white
         height: 30px
         line-height: 28px
         margin: 0
         border-radius: $datepicker--border-radius
         box-shadow: none !important
 
-        &:hover
-          border-radius: 0
-
         &.flatpickr-non-working-day
           @include non-working-day
 
-          &.inRange
-            color: $spot-color-feedback-info-dark
+        &.flatpickr-non-working-day_enabled
+          @include non-working-day_enabled
+
+          &.selected
+            border-radius: $datepicker--border-radius
 
         &.today
           background: $spot-color-indication-current-date
@@ -124,8 +140,8 @@ $datepicker--border-radius: 5px
         &.selected,
         &.startRange,
         &.endRange
-          background: $spot-color-main
-          border-color: $spot-color-main
+          background: var(--primary-color)
+          border-color: var(--primary-color)
           color: $spot-color-basic-white
 
         &.startRange
@@ -138,20 +154,28 @@ $datepicker--border-radius: 5px
           border-radius: $datepicker--border-radius
 
         &.inRange
-          background: $spot-color-feedback-info-light
-          color: $spot-color-basic-black
-          border-color: $spot-color-feedback-info-light
+          background: var(--primary-color--minor3)
+          color: var(--primary-color)
+          border-color: var(--primary-color--minor3)
           border-radius: 0
 
+          &.flatpickr-non-working-day
+            background: $spot-color-basic-gray-6
+            border-color: $spot-color-basic-gray-6
+  
         &.flatpickr-disabled
           @include disabled-day
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6
-            color: $spot-color-basic-gray-4
-
+            color: $spot-color-basic-gray-3
+  
+          &.flatpickr-non-working-day_enabled
+            background: $spot-color-basic-gray-6
+            color: $spot-color-basic-gray-3
+  
             &.inRange
-              color: $spot-color-basic-gray-5
+              color: $spot-color-basic-gray-3
               background: $spot-color-basic-gray-6
               border-color: $spot-color-basic-gray-6
 
@@ -168,7 +192,9 @@ $datepicker--border-radius: 5px
             color: $spot-color-basic-gray-3
 
           &.today
-            color: $spot-color-basic-gray-4
+            color: $spot-color-basic-gray-3
+            background: $spot-color-indication-current-date
+            border-color: $spot-color-indication-current-date
 
 .flatpickr-calendar.flatpickr-container-suppress-hover
   .flatpickr-day
@@ -177,4 +203,32 @@ $datepicker--border-radius: 5px
     &.endRange:not(.selected)
       background: transparent !important
       border-color: transparent !important
-      color: black !important
+      color: $spot-color-basic-gray-1 !important
+
+    &.flatpickr-non-working-day
+      background: $spot-color-basic-gray-6 !important
+      color: $spot-color-basic-gray-3 !important
+  
+    &.flatpickr-non-working-day_enabled
+      background: $spot-color-basic-gray-6 !important
+      color: $spot-color-basic-gray-1 !important
+
+      &.today
+        color: $spot-color-basic-gray-1 !important
+
+      &.inRange,
+      &.startRange:not(.selected),
+      &.endRange:not(.selected)
+        color: $spot-color-basic-gray-1 !important
+        background: $spot-color-basic-gray-6 !important
+        border-color: $spot-color-basic-gray-6 !important
+
+        &.today
+          color: $spot-color-basic-gray-1 !important
+          background: $spot-color-indication-current-date !important
+          border-color: $spot-color-indication-current-date !important
+  
+    &.today
+      color: $spot-color-basic-gray-3 !important
+      background: $spot-color-indication-current-date !important
+      border-color: $spot-color-indication-current-date !important

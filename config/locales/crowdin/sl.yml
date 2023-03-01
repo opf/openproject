@@ -922,6 +922,8 @@ sl:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1399,6 +1401,7 @@ sl:
     work_package_note: 'Dodana opomba o delovnem paketu'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Izvoz delovnih paketov\n"
     succeeded: "Izvoz uspešno zaključen."
@@ -2720,12 +2723,13 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
   text_journal_changed_with_diff: "%{label} spremenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastavljeno na %{value}"
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
   text_journal_label_value: "%{label} %{value}"

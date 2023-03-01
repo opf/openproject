@@ -915,6 +915,8 @@ si:
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1368,6 +1370,7 @@ si:
     work_package_note: 'වැඩ පැකේජ සටහන එකතු'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2686,12 +2689,13 @@ si:
   text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
   text_work_packages_ref_in_commit_messages: "කැපවීමේ පණිවුඩවල වැඩ පැකේජ යොමු කිරීම සහ සවි කිරීම"
   text_journal_added: "%{label} %{value} එකතු"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} යාවත්කාලීන"
   text_journal_changed_with_diff: "%{label} වෙනස් (%{link})"
   text_journal_deleted: "%{label} මකාදැමුවා (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} මකාදැමුවා (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value}කිරීමට කට්ටලයක්"
   text_journal_set_with_diff: "%{label} කට්ටලයක් (%{link})"
   text_journal_label_value: "%{label} %{value}"

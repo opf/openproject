@@ -30,15 +30,23 @@
 
 class Activities::ItemComponent < ViewComponent::Base
   with_collection_parameter :event
+  strip_trailing_whitespace
 
-  def initialize(event:, display_user: true)
+  def initialize(event:, current_project: nil, display_user: true, activity_page: nil)
     super()
     @event = event
+    @current_project = current_project
     @display_user = display_user
+    @activity_page = activity_page
   end
 
-  def display_belonging_project?
-    @event.journal.journable_type != 'Project'
+  def project_suffix
+    return if project_activity?
+    return if activity_is_from_current_project?
+
+    kind = activity_is_from_subproject? ? 'subproject' : 'project'
+    suffix = I18n.t("events.title.#{kind}", name: link_to(@event.project.name, @event.project))
+    "(#{suffix})".html_safe # rubocop:disable Rails/OutputSafety
   end
 
   def display_user?
@@ -55,10 +63,36 @@ class Activities::ItemComponent < ViewComponent::Base
     @rendered_details ||=
       @event.journal
         .details
-        .flat_map { |detail| @event.journal.render_detail(detail) }
+        .filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 
-  def format_activity_title(text)
-    helpers.truncate_single_line(text, length: 100)
+  def comment
+    return unless work_package_activity?
+
+    @event.event_description
+  end
+
+  def description
+    return if work_package_activity?
+
+    @event.event_description
+  end
+
+  private
+
+  def work_package_activity?
+    @event.journal.journable_type == "WorkPackage"
+  end
+
+  def project_activity?
+    @event.journal.journable_type == 'Project'
+  end
+
+  def activity_is_from_current_project?
+    @current_project && (@event.project == @current_project)
+  end
+
+  def activity_is_from_subproject?
+    @current_project && (@event.project != @current_project)
   end
 end
