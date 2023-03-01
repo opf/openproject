@@ -146,5 +146,16 @@ describe WorkPackage, 'acts_as_customizable' do
         expect(model_instance.custom_field_changes).to be_empty
       end
     end
+
+    context 'with a bool custom_field having a default value' do
+      before do
+        custom_field.update! field_format: 'bool', default_value: '0'
+        model_instance.custom_values.destroy_all
+      end
+
+      it 'returns no changes' do
+        expect(model_instance.custom_field_changes).to be_empty
+      end
+    end
   end
 end
