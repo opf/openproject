@@ -72,7 +72,7 @@ $datepicker--border-radius: 5px
   &.flatpickr-non-working-day_enabled
     @include non-working-day_enabled
 
-.flatpickr-calendar.inline
+.flatpickr-calendar
   box-shadow: none !important
   @include spot-caption
 
@@ -232,3 +232,8 @@ $datepicker--border-radius: 5px
       color: $spot-color-basic-gray-3 !important
       background: $spot-color-indication-current-date !important
       border-color: $spot-color-indication-current-date !important
+
+.flatpickr-calendar:not(.inline)
+  box-shadow: $spot-shadow-light-mid !important
+  padding: 0.5rem !important
+  width: max-content !important
