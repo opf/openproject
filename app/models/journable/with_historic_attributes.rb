@@ -148,6 +148,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   def exists_at_timestamps
     timestamps.select { |t| at_timestamp(t).present? }
   end
+
   def baseline_timestamp
     timestamps.first
   end

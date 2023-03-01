@@ -101,7 +101,8 @@ describe Journable::WithHistoricAttributes do
     journal_attributes = work_package_attributes \
         .extract!(*Journal::WorkPackageJournal.attribute_names) \
         .symbolize_keys.merge(attributes)
-    create(:work_package_journal, version:,
+    create(:work_package_journal,
+           version:,
            journable:, created_at: timestamp, updated_at: timestamp,
            data: build(:journal_work_package_journal, journal_attributes))
   end
