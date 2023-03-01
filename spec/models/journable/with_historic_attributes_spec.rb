@@ -102,8 +102,8 @@ describe Journable::WithHistoricAttributes do
         .extract!(*Journal::WorkPackageJournal.attribute_names) \
         .symbolize_keys.merge(attributes)
     create(:work_package_journal, version:,
-                                  journable:, created_at: timestamp, updated_at: timestamp,
-                                  data: build(:journal_work_package_journal, journal_attributes))
+           journable:, created_at: timestamp, updated_at: timestamp,
+           data: build(:journal_work_package_journal, journal_attributes))
   end
 
   subject { described_class.wrap(work_packages, timestamps:, query:, include_only_changed_attributes:) }

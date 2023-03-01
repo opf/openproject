@@ -255,7 +255,7 @@ cs:
       working_days:
         calendar:
           empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(new)'
         add_non_working_day: "Non-working day"
         already_added_error: "Nepracovní den pro toto datum již existuje. Pro každý jedinečný datum může být vytvořen pouze jeden nepracovní den."

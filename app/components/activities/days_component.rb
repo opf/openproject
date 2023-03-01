@@ -29,16 +29,19 @@
 #++
 
 class Activities::DaysComponent < ViewComponent::Base
-  def initialize(events:, display_user: true, header_tag: 'h3')
+  def initialize(events:, current_project: nil, display_user: true, header_tag: 'h3', activity_page: nil)
     super()
     @events = events
+    @current_project = current_project
     @display_user = display_user
     @header_tag = header_tag
+    @activity_page = activity_page
   end
 
-  def events_by_day
-    @events_by_day ||= @events
+  def events_by_day_sorted_by_newest_first
+    @events_by_day_sorted_by_newest_first ||= @events
       .group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+      .transform_values { |events| events.sort { |x, y| y.event_datetime <=> x.event_datetime } }
       .sort_by { |day, _events| day }
       .reverse
   end

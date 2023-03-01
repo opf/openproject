@@ -42,7 +42,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
       end
 
       def test_method_failure(model)
-        in_context model, true do
+        in_context model do
           Setting.connection.execute <<~SQL
             INSERT INTO settings (name, value)
             VALUES ('test_setting', 'abc')
@@ -53,7 +53,7 @@ describe Shared::ServiceContext, 'integration', type: :model do
       end
 
       def test_method_success(model)
-        in_context model, true do
+        in_context model do
           Setting.connection.execute <<~SQL
             INSERT INTO settings (name, value)
             VALUES ('test_setting', 'abc')

@@ -327,8 +327,34 @@ describe 'API v3 Work package resource',
         end
       end
 
+      it 'has no redundant timestamp attribute in the main section' do
+        # The historic work packages have a timestamp attribute. But we do not expose that here
+        # because the timestamp is already given in the _meta section.
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/timestamp")
+      end
+
+      it 'has no redundant timestamp attribute in the attributesByTimestamp' do
+        # The historic work packages have a timestamp attribute. But we do not expose that here
+        # because the timestamp is already given in the _meta section.
+        expect(subject.body)
+          .not_to have_json_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/timestamp")
+      end
+
+      it 'has the relative timestamps within the _meta timestamps' do
+        expect(subject.body)
+          .to be_json_eql('2015-01-01T00:00:00Z'.to_json)
+          .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+        expect(subject.body)
+          .to be_json_eql('PT0S'.to_json)
+          .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+        expect(subject.body)
+          .to be_json_eql('PT0S'.to_json)
+          .at_path('_embedded/elements/0/_meta/timestamp')
+      end
+
       describe "when filtering such that the filters do not match at all timestamps" do
-        let(:path) { api_v3_paths.path_for :work_packages, filters:, timestamps: }
+        let(:path) { "#{api_v3_paths.path_for(:work_packages, filters:)}&timestamps=#{timestamps.join(',')}" }
         let(:filters) do
           [
             {
@@ -675,6 +701,96 @@ describe 'API v3 Work package resource',
         it "has no attributesByTimestamp" do
           expect(subject.body)
             .not_to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp')
+        end
+      end
+
+      describe "for multiple work packages" do
+        let!(:work_package2) do
+          new_work_package = create(:work_package, subject: "Other work package", project:)
+          new_work_package.update_columns(created_at:)
+          new_work_package.journals.update_all(created_at:)
+          new_work_package
+        end
+
+        it "succeeds" do
+          expect(subject.status).to eq(200)
+        end
+
+        it "has the current attributes of both work packages" do
+          expect(subject.body)
+            .to be_json_eql(work_package.subject.to_json)
+            .at_path('_embedded/elements/0/subject')
+          expect(subject.body)
+            .to be_json_eql(work_package2.subject.to_json)
+            .at_path('_embedded/elements/1/subject')
+        end
+
+        it "embeds the attributesByTimestamp for both work packages" do
+          expect(subject.body)
+            .to have_json_path('_embedded/elements/0/_embedded/attributesByTimestamp')
+          expect(subject.body)
+            .to have_json_path('_embedded/elements/1/_embedded/attributesByTimestamp')
+        end
+
+        it "has the attributes that are different from the current attributes in the embedded objects" do
+          expect(subject.body)
+            .to be_json_eql("The original work package".to_json)
+            .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/subject')
+          expect(subject.body)
+            .not_to have_json_path('_embedded/elements/1/_embedded/attributesByTimestamp/0/subject')
+        end
+      end
+
+      context "with caching" do
+        context "with relative timestamps" do
+          let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+          let(:created_at) { '2015-01-01' }
+
+          describe "when the filter becomes outdated" do
+            # The work package has been updated 1 day ago, which is after the baseline
+            # date (2 days ago). When time progresses, the date of the update will be
+            # before the baseline date, because the baseline date is relative to the
+            # current date. This means that the filter will become outdated and we cannot
+            # use a cached result in this case.
+
+            let(:path) { "#{api_v3_paths.path_for(:work_packages, filters:)}&timestamps=#{timestamps.join(',')}" }
+            let(:filters) do
+              [
+                {
+                  subject: {
+                    operator: '~',
+                    values: [search_term]
+                  }
+                }
+              ]
+            end
+            let(:search_term) { 'original' }
+
+            it 'has the relative timestamps within the _meta timestamps' do
+              expect(timestamps.first.to_s).to eq('P-2D')
+              expect(timestamps.first).to be_relative
+              expect(subject.body)
+                .to be_json_eql('P-2D'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+              expect(subject.body)
+                .to be_json_eql('PT0S'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+              expect(subject.body)
+                .to be_json_eql('PT0S'.to_json)
+                .at_path('_embedded/elements/0/_meta/timestamp')
+            end
+
+            it "does not use an outdated cache" do
+              get path
+              expect do
+                Timecop.travel 5.days do
+                  get path
+                end
+              end.to change {
+                JSON.parse(last_response.body).dig('_embedded', 'elements').count
+              }.from(1).to(0)
+            end
+          end
         end
       end
     end

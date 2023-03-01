@@ -148,7 +148,6 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   def exists_at_timestamps
     timestamps.select { |t| at_timestamp(t).present? }
   end
-
   def baseline_timestamp
     timestamps.first
   end
@@ -175,6 +174,14 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
   def at_timestamp(timestamp)
     loader.journable_at_timestamp(__getobj__, timestamp)
+  end
+
+  def id
+    __getobj__.try(:id)
+  end
+
+  def attributes
+    __getobj__.try(:attributes)
   end
 
   def to_ary

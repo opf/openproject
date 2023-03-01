@@ -34,10 +34,10 @@ module API
 
       def call(params)
         json_parsed = json_parsed_params(params)
-        return json_parsed unless json_parsed.success?
+        return json_parsed if json_parsed.failure?
 
         parsed = parsed_params(params)
-        return parsed unless parsed.success?
+        return parsed if parsed.failure?
 
         result = without_empty(parsed.result.merge(json_parsed.result), determine_allowed_empty(params))
 
@@ -156,7 +156,7 @@ module API
       def highlighted_attributes_from_params(params)
         highlighted_attributes = Array(params[:highlightedAttributes].presence)
 
-        return unless highlighted_attributes.present?
+        return if highlighted_attributes.blank?
 
         highlighted_attributes.map do |href|
           attr = href.split('/').last
@@ -165,9 +165,10 @@ module API
       end
 
       def boolearize(value)
-        if value == 'true'
+        case value
+        when 'true'
           true
-        elsif value == 'false'
+        when 'false'
           false
         end
       end
@@ -196,9 +197,10 @@ module API
 
       def parse_sorting_from_json(json)
         JSON.parse(json).map do |order|
-          attribute, direction = if order.is_a?(Array)
+          attribute, direction = case order
+                                 when Array
                                    [order.first, order.last]
-                                 elsif order.is_a?(String)
+                                 when String
                                    order.split(':')
                                  end
 
@@ -241,7 +243,7 @@ module API
 
       def group_by_empty?(params)
         params_exist?(params, KEYS_GROUP_BY) &&
-          !params_value(params, KEYS_GROUP_BY).present?
+          params_value(params, KEYS_GROUP_BY).blank?
       end
     end
   end

@@ -36,7 +36,7 @@ module API
                  embedded: true,
                  if: ->(*) { details_schemas.any? }
 
-        def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
+        def initialize(models, self_link:, current_user:, query_params: {}, page: nil, per_page: nil, groups: nil)
           super
 
           @represented = ::API::V3::Notifications::NotificationEagerLoadingWrapper.wrap(represented)

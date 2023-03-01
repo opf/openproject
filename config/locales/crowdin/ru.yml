@@ -329,7 +329,7 @@ ru:
       reset: "Восстановить значения по умолчанию"
       type_color_text: |
         Выбранный цвет выделяет разные типы
-        в диаграммах Ганта или таблицах рабочих пакетов. Поэтому рекомендуется использовать насыщенный цвет.
+        в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -919,8 +919,13 @@ ru:
     header_invalid_fields: "Были проблемы со следующими полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
-    created: "Создано: %{title}"
-    updated: "Обновлено: %{title}"
+    item:
+      created_by_on: "создано %{user} %{datetime}"
+      created_on: "создано %{datetime}"
+      updated_by_on: "обновлено %{user} %{datetime}"
+      updated_on: "обновлено %{datetime}"
+      parent_without_of: "Подпроект"
+      parent_no_longer: "Больше не подпроект"
     filter:
       changeset: "Наборы изменений"
       message: "Форумы"
@@ -1398,6 +1403,7 @@ ru:
     work_package_note: 'Добавлено примечание к пакету работ'
     title:
       project: "Проект: %{name}"
+      subproject: "Подпроект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -2717,12 +2723,13 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -3023,7 +3030,7 @@ ru:
       <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней считающихся рабочими или нерабочими днями недели, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку сохранить изменения.
+      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку применить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

@@ -53,7 +53,7 @@ describe 'Logging time within the work package view', js: true do
     # Update the fields
     time_logging_modal.update_field 'activity', activity.name
 
-    Components::Datepicker.update_field(
+    Components::BasicDatepicker.update_field(
       "##{time_logging_modal.field_identifier('spent_on')}",
       date.strftime("%Y-%m-%d")
     )

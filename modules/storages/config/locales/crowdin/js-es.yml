@@ -25,18 +25,23 @@ es:
         not_logged_in: >
           Para añadir un enlace, ver o subir archivos relacionados con este paquete de trabajo, por favor inicie sesión en %{storageType}.
       files:
-        directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Esta carpeta está vacía."
+        empty_folder_location_hint: "Haga clic en el botón de abajo para subir el archivo a esta ubicación."
         file_not_selectable_location: "No es posible seleccionar un archivo en el proceso de seleccionar una ubicación."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
         download: "Descargar %{fileName}"
         no_permission: "No tienes permisos para ver este archivo."
-        open: 'Abrir el fichero en almacenamiento'
-        open_location: 'Abrir fichero en su ubicación'
+        open: "Abrir el fichero en almacenamiento"
+        open_location: "Abrir fichero en su ubicación"
         remove: "Eliminar vínculo de fichero"
         remove_confirmation: >
           ¿Está seguro que desea desvincular el archivo de este paquete de trabajo? Desvincular no afecta al archivo original, solo elimina la conexión a este paquete de trabajo.
@@ -50,7 +55,14 @@ es:
         success_create:
           one: "Se ha creado correctamente 1 enlace de fichero."
           other: "Se han creado correctamente %{count} enlaces de fichero."
-        upload_error: "Se ha producido un error al cargar el archivo '%{fileName}'."
+        upload_error:
+          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"

@@ -52,7 +52,10 @@ module Groups
     def after_perform(call)
       Groups::CreateInheritedRolesService
         .new(model, current_user: user, contract_class:)
-        .call(user_ids: params[:ids], message: params[:message])
+        .call(
+          user_ids: params[:ids],
+          message: params[:message]
+        )
 
       call
     end

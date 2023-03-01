@@ -144,7 +144,11 @@ export class SpotDropModalComponent implements OnDestroy {
               {
                 placement: this.alignment,
                 middleware: this.allowRepositioning ? [
-                  flip(),
+                  flip({
+                    mainAxis: true,
+                    crossAxis: true,
+                    fallbackAxisSideDirection: 'start',
+                  }),
                   shift({ limiter: limitShift() }),
                 ] : [],
               },

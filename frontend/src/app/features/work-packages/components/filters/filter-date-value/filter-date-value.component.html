@@ -1,9 +1,9 @@
-<op-single-date-picker
+<op-basic-single-date-picker
   [id]="'values-' + filter.id"
   [name]="'v[' + filter.id + ']'"
   class="advanced-filters--date-field"
   [opAutofocus]="shouldFocus"
-  (changed)="value = parser($event)"
+  (valueChange)="valueChanged($event)"
   [value]="formatter(value)"
   [required]="true"
-></op-single-date-picker>
+></op-basic-single-date-picker>

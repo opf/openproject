@@ -34,7 +34,8 @@ class Services::CreateWatcher
     @watcher = Watcher.new(user:, watchable: work_package)
   end
 
-  def run(send_notifications: true, success: ->(*) {}, failure: ->(*) {})
+  def run(send_notifications: nil, success: ->(*) {}, failure: ->(*) {})
+    send_notifications = Journal::NotificationConfiguration.active? if send_notifications.nil?
     if @work_package.watcher_users.include?(@user)
       success.(created: false)
     elsif @watcher.valid?

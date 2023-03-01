@@ -154,10 +154,10 @@ class Timestamp
     # map -1y to P-1Y, -1m to P-1M, -1w to P-1W, -1d to P-1D
     # map -1y1d to P-1Y-1D
     sign = "-" if string.start_with? "-"
-    years = string.scan(/(\d+)y/).flatten.first
-    months = string.scan(/(\d+)m/).flatten.first
-    weeks = string.scan(/(\d+)w/).flatten.first
-    days = string.scan(/(\d+)d/).flatten.first
+    years = scan_for_shortcut_value(string:, unit: "y")
+    months = scan_for_shortcut_value(string:, unit: "m")
+    weeks = scan_for_shortcut_value(string:, unit: "w")
+    days = scan_for_shortcut_value(string:, unit: "d")
     if years || months || weeks || days
       string = "P" \
                "#{sign if years}#{years}#{'Y' if years}" \
@@ -170,4 +170,8 @@ class Timestamp
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/PerceivedComplexity
+
+  def self.scan_for_shortcut_value(string:, unit:)
+    string.scan(/(\d+)#{unit}/).flatten.first
+  end
 end

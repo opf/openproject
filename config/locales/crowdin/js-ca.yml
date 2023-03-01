@@ -254,18 +254,18 @@ ca:
           you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribuiràs al seu desenvolupament, manteniment i millora continua."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+          empty_state_header: "Dies no laborables"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(nou)'
+        add_non_working_day: "Dia no laborable"
+        already_added_error: "Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data."
+        change_button: "Guarda i reprograma"
+        change_title: "Canvia els dies laborals"
+        removed_title: "Eliminaràs els següents dies de la llista de dies no laborals:"
+        change_description: "Canviar quins dies de la setmana són laborals i quins no pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Els canvis poden tardar un temps a ser aplicats. Et notificarem un cop s'hagin actualitzat tots els paquets de treball rellevants.
+          Estàs segur que vols continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -318,7 +318,7 @@ ca:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -1261,5 +1261,5 @@ ca:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l''element que ha activat la finestra emergent.'
         Close: 'Tanca'

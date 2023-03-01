@@ -66,7 +66,7 @@ module JournalFormatter
     end
 
     def format_html_details(label, old_value, value)
-      label = content_tag('strong', label)
+      label = content_tag(:strong, label)
       old_value = content_tag('i', h(old_value)) if old_value.present?
       old_value = content_tag('strike', old_value) if old_value and value.blank?
       value = content_tag('i', h(value)) if value.present?
@@ -83,21 +83,15 @@ module JournalFormatter
       return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
       return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 
-      linebreak = should_linebreak?(old_value.to_s, value.to_s)
-
-      if options[:html]
-        I18n.t(:text_journal_changed_html,
-               label:,
-               linebreak: linebreak ? "<br/>".html_safe : '',
-               old: old_value,
-               new: value)
-      else
-        I18n.t(:text_journal_changed_plain,
-               label:,
-               linebreak: linebreak ? "\n" : '',
-               old: old_value,
-               new: value)
+      if should_linebreak?(old_value.to_s, value.to_s)
+        linebreak = options[:html] ? "<br/>".html_safe : "\n"
       end
+
+      I18n.t(:text_journal_changed_plain,
+             label:,
+             linebreak:,
+             old: old_value,
+             new: value)
     end
 
     def render_binary_detail_text(label, value, old_value)

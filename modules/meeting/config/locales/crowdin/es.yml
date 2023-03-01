@@ -39,7 +39,7 @@ es:
       meeting_minutes: "Minutas"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Reuniones"
   description_attended: "ha asistido"
   description_invite: "invitado"
   events:

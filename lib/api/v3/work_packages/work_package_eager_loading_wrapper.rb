@@ -55,16 +55,13 @@ module API
 
           def wrap_and_apply(work_packages, container_classes, timestamps:, query:)
             containers = container_classes
-                         .map { |klass| klass.new(work_packages) }
+                         .map { |klass| klass.new(work_packages, timestamps:, query:) }
 
             work_packages = work_packages.map do |work_package|
               new(work_package)
             end
 
             containers.each do |container|
-              container.timestamps = timestamps if container.respond_to?(:timestamps=)
-              container.query = query if container.respond_to?(:query=)
-
               work_packages.each do |work_package|
                 container.apply(work_package)
               end

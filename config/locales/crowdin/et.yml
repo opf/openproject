@@ -910,8 +910,13 @@ et:
     header_invalid_fields: "Järgmiste väljadega esines tõrkeid:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
-    created: "Loodud: %{title}"
-    updated: "Uuendatud: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
     filter:
       changeset: "Changesets"
       message: "Forums"
@@ -1365,6 +1370,7 @@ et:
     work_package_note: 'Teemale on lisatud märkus'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -2683,12 +2689,13 @@ et:
   text_work_packages_destroy_confirmation: "Oled Sa kindel oma soovis valitud teema(d) kustutada?"
   text_work_packages_ref_in_commit_messages: "Teemadele ja parandustele viitamine sissekannete märkustes"
   text_journal_added: "%{label} %{value} lisatud"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uuendatud"
   text_journal_changed_with_diff: "%{label} uuendatud (%{link})"
   text_journal_deleted: "%{label} kustutatud (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} kustutatud (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} on nüüd %{value}"
   text_journal_set_with_diff: "%{label} määratud (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2986,7 +2993,7 @@ et:
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

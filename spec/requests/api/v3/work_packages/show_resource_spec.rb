@@ -220,14 +220,15 @@ describe 'API v3 Work package resource',
       context 'when providing timestamps' do
         let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
         let(:baseline_time) { timestamps.first.to_time }
+        let(:created_at) { baseline_time - 1.day }
 
         let(:work_package) do
           new_work_package = create(:work_package, subject: "The current work package", project:)
-          new_work_package.update_columns created_at: baseline_time - 1.day
+          new_work_package.update_columns(created_at:)
           new_work_package
         end
         let(:original_journal) do
-          create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+          create_journal(journable: work_package, timestamp: created_at,
                          version: 1,
                          attributes: { subject: "The original work package" })
         end
@@ -248,7 +249,6 @@ describe 'API v3 Work package resource',
         end
 
         before do
-          WorkPackage.destroy_all
           work_package
           Journal.destroy_all
           original_journal
@@ -257,21 +257,6 @@ describe 'API v3 Work package resource',
 
         it 'responds with 200' do
           expect(subject && last_response.status).to eq(200)
-        end
-
-        it 'embeds the attributesByTimestamp' do
-          expect(subject)
-            .to be_json_eql("The original work package".to_json)
-            .at_path("_embedded/attributesByTimestamp/0/subject")
-          expect(subject)
-            .to have_json_path("_embedded/attributesByTimestamp/1")
-        end
-
-        it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
-          expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/0/description")
-          expect(subject)
-            .not_to have_json_path("_embedded/attributesByTimestamp/1/description")
         end
 
         it 'has the current attributes as attributes' do
@@ -291,6 +276,146 @@ describe 'API v3 Work package resource',
             expect(subject)
               .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
               .at_path('_links/self/href')
+          end
+        end
+
+        describe "attributesByTimestamp" do
+          it 'embeds the attributesByTimestamp' do
+            expect(subject)
+              .to be_json_eql("The original work package".to_json)
+              .at_path("_embedded/attributesByTimestamp/0/subject")
+            expect(subject)
+              .to have_json_path("_embedded/attributesByTimestamp/1")
+          end
+
+          it 'does not embed the attributes in attributesByTimestamp if they are the same as the current attributes' do
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/0/description")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/description")
+          end
+
+          describe '_meta' do
+            describe 'timestamp' do
+              it 'has the relative timestamps' do
+                expect(subject)
+                  .to be_json_eql('2015-01-01T00:00:00Z'.to_json)
+                  .at_path('_embedded/attributesByTimestamp/0/_meta/timestamp')
+                expect(subject)
+                  .to be_json_eql('PT0S'.to_json)
+                  .at_path('_embedded/attributesByTimestamp/1/_meta/timestamp')
+              end
+            end
+          end
+        end
+
+        describe "when the work package has not been present at the baseline time" do
+          let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z'), Timestamp.now] }
+          let(:created_at) { 10.days.ago }
+
+          describe "attributesByTimestamp" do
+            describe "exists" do
+              it "marks the work package as not existing at the baseline time" do
+                expect(subject)
+                  .to be_json_eql(false.to_json)
+                  .at_path("_embedded/attributesByTimestamp/0/_meta/exists")
+              end
+
+              it "marks the work package as existing at the current time" do
+                expect(subject)
+                  .to be_json_eql(true.to_json)
+                  .at_path("_embedded/attributesByTimestamp/1/_meta/exists")
+              end
+            end
+          end
+
+          describe "_meta" do
+            describe "exits" do
+              it "is true because the work package does exist at the last given timestamp" do
+                expect(subject)
+                  .to be_json_eql(true.to_json)
+                  .at_path("_meta/exists")
+              end
+            end
+          end
+        end
+
+        describe "when the work package does not exist at the only requested timestamp" do
+          let(:timestamps) { [Timestamp.parse('2015-01-01T00:00:00Z')] }
+          let(:created_at) { 10.days.ago }
+
+          describe "attributesByTimestamp" do
+            describe "exists" do
+              it "marks the work package as not existing at the requested time" do
+                expect(subject)
+                  .to be_json_eql(false.to_json)
+                  .at_path("_embedded/attributesByTimestamp/0/_meta/exists")
+              end
+            end
+          end
+
+          describe "_meta" do
+            describe "exits" do
+              it "is false because the work package does not exist at the requested timestamp" do
+                expect(subject)
+                  .to be_json_eql(false.to_json)
+                  .at_path("_meta/exists")
+              end
+            end
+          end
+        end
+
+        context "with caching" do
+          before { login_as current_user }
+
+          context "with relative timestamps" do
+            let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+            let(:created_at) { '2015-01-01' }
+
+            describe "attributesByTimestamp" do
+              it "does not cache the self link" do
+                get get_path
+                expect do
+                  Timecop.travel 20.minutes do
+                    get get_path
+                  end
+                end.to change {
+                  JSON.parse(last_response.body)
+                    .dig("_embedded", "attributesByTimestamp", 0, "_links", "self", "href")
+                }
+              end
+
+              it "does not cache the attributes" do
+                get get_path
+                expect do
+                  Timecop.travel 2.days do
+                    get get_path
+                  end
+                end.to change {
+                  JSON.parse(last_response.body)
+                    .dig("_embedded", "attributesByTimestamp", 0, "subject")
+                }
+              end
+            end
+
+            describe "_meta" do
+              describe "exists" do
+                let(:timestamps) { [Timestamp.parse("P-2D")] }
+                let(:created_at) { 25.hours.ago }
+
+                it "is not cached" do
+                  get get_path
+                  expect do
+                    Timecop.travel 2.days do
+                      get get_path
+                    end
+                  end.to change {
+                    JSON.parse(last_response.body)
+                      .dig("_meta", "exists")
+                  }
+                end
+              end
+            end
           end
         end
       end

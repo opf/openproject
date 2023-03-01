@@ -47,17 +47,17 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% if User.current.allowed_to?(:update_sprints, @project) %>
     <div class="editors permanent">
-      <%= angular_component_tag "op-single-date-picker",
-                            class: "effective_date editor",
+      <%= angular_component_tag "op-basic-single-date-picker",
                             inputs: {
                               value: sprint.effective_date,
+                              inputClassNames: 'effective_date editor',
                               id: "effective_date_#{sprint.id}",
                               name: :effective_date
                             } %>
-      <%= angular_component_tag "op-single-date-picker",
-                            class: "start_date editor",
+      <%= angular_component_tag "op-basic-single-date-picker",
                             inputs: {
                               value: sprint.start_date,
+                              inputClassNames: 'start_date editor',
                               id: "start_date_#{sprint.id}",
                               name: :start_date
                             } %>
