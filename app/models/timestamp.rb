@@ -40,12 +40,25 @@ class Timestamp
   end
 
   def self.parse(iso8601_string)
+    iso8601_string.strip!
+    iso8601_string = substitute_special_shortcut_values(iso8601_string)
     if iso8601_string.start_with? "P" # ISO8601 "Period"
-      ActiveSupport::Duration.parse(iso8601_string)
-    elsif Time.zone.parse(iso8601_string).blank?
-      raise ArgumentError, "The string \"#{iso8601_string}\" cannot be parsed to a Time."
+      iso8601_string = ActiveSupport::Duration.parse(iso8601_string).iso8601
+    elsif (time = Time.zone.parse(iso8601_string)).present?
+      iso8601_string = time.iso8601
+    else
+      raise ArgumentError, "The string \"#{iso8601_string}\" cannot be parsed to Time or ActiveSupport::Duration."
     end
     Timestamp.new(iso8601_string)
+  end
+
+  # Take a comma-separated string of ISO-8601 timestamps and convert it
+  # into an array of Timestamp objects.
+  #
+  def self.parse_multiple(comma_separated_iso8601_string)
+    comma_separated_iso8601_string.to_s.split(",").compact_blank.collect do |iso8601_string|
+      Timestamp.parse(iso8601_string)
+    end
   end
 
   def self.now
@@ -68,8 +81,16 @@ class Timestamp
     @timestamp_iso8601_string.to_s
   end
 
+  def to_iso8601
+    iso8601
+  end
+
   def inspect
     "#<Timestamp \"#{iso8601}\">"
+  end
+
+  def absolute
+    Timestamp.new(to_time)
   end
 
   def to_time
@@ -88,7 +109,7 @@ class Timestamp
     end
   end
 
-  def as_json
+  def as_json(*_args)
     to_s
   end
 
@@ -97,8 +118,56 @@ class Timestamp
   end
 
   def ==(other)
-    iso8601 == other.iso8601
+    case other
+    when String
+      iso8601 == other or to_s == other
+    when Timestamp
+      iso8601 == other.iso8601
+    when NilClass
+      to_s.blank?
+    else
+      raise Timestamp::Exception, "Comparison to #{other.class.name} not implemented, yet."
+    end
+  end
+
+  def eql?(other)
+    self == other
+  end
+
+  def historic?
+    self != Timestamp.now
   end
 
   class Exception < StandardError; end
+
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/PerceivedComplexity
+  def self.substitute_special_shortcut_values(string)
+    # map now to PT0S
+    string = "PT0S" if string == "now"
+
+    # map 1y to P1Y, 1m to P1M, 1w to P1W, 1d to P1D
+    # map -1y to P-1Y, -1m to P-1M, -1w to P-1W, -1d to P-1D
+    # map -1y1d to P-1Y-1D
+    sign = "-" if string.start_with? "-"
+    years = scan_for_shortcut_value(string:, unit: "y")
+    months = scan_for_shortcut_value(string:, unit: "m")
+    weeks = scan_for_shortcut_value(string:, unit: "w")
+    days = scan_for_shortcut_value(string:, unit: "d")
+    if years || months || weeks || days
+      string = "P" \
+               "#{sign if years}#{years}#{'Y' if years}" \
+               "#{sign if months}#{months}#{'M' if months}" \
+               "#{sign if weeks}#{weeks}#{'W' if weeks}" \
+               "#{sign if days}#{days}#{'D' if days}"
+    end
+
+    string
+  end
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/PerceivedComplexity
+
+  def self.scan_for_shortcut_value(string:, unit:)
+    string.scan(/(\d+)#{unit}/).flatten.first
+  end
 end

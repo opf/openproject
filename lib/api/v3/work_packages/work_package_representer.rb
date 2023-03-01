@@ -26,6 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# rubocop:disable Lint/SymbolConversion
+#   because some of the json attributes are written in 'singleQuotes' instead of symbols
+#   for better reading.
+
 module API
   module V3
     module WorkPackages
@@ -41,10 +45,19 @@ module API
         cached_representer key_parts: %i(project),
                            disabled: false
 
-        def initialize(model, current_user:, embed_links: false)
+        attr_accessor :timestamps, :query
+
+        def initialize(model, current_user:, embed_links: false, timestamps: nil, query: nil)
+          @query = query
+          @timestamps = timestamps || query.try(:timestamps) || []
+
           model = load_complete_model(model)
 
-          super
+          super(model, current_user:, embed_links:)
+        end
+
+        def self_v3_path(*)
+          api_v3_paths.work_package(represented.id, timestamps:)
         end
 
         self_link title_getter: ->(*) { represented.subject }
@@ -317,6 +330,33 @@ module API
           end
         end
 
+        property :_meta,
+                 if: ->(*) {
+                   respond_to? :matches_query_filters_at_timestamps \
+                   and respond_to? :timestamps \
+                   and timestamps != [Timestamp.now]
+                 },
+                 getter: ->(*) {
+                   {
+                     # This meta property states whether the attributes of the work package at the
+                     # last given timestamp (commonly the current time) match the filters of the
+                     # query. https://github.com/opf/openproject/pull/11783
+                     #
+                     'matchesFilters': matches_query_filters_at_timestamp?(timestamps.last),
+
+                     # This meta property states whether the work package exists at the last given
+                     # timestamp (commonly the current time).
+                     # https://github.com/opf/openproject/pull/11783#issuecomment-1374897874
+                     #
+                     'exists': exists_at_timestamps.include?(timestamps.last),
+
+                     # This meta property holds the timestamp of the data of the work package.
+                     #
+                     'timestamp': timestamps.last.to_s
+                   }.compact
+                 },
+                 uncacheable: true
+
         property :id,
                  render_nil: true
 
@@ -437,6 +477,37 @@ module API
                  getter: ->(*) do
                    status_id && status.is_readonly?
                  end
+
+        property :attributes_by_timestamp,
+                 as: :attributesByTimestamp,
+                 if: ->(*) {
+                       respond_to?(:attributes_by_timestamp) and respond_to?(:timestamps) and timestamps != [Timestamp.now]
+                     },
+                 getter: ->(*) do
+                   timestamps.collect do |timestamp|
+                     attrs = attributes_by_timestamp[timestamp.to_s].to_h
+                     if exists_at_timestamps.include?(timestamp)
+                       attrs = attrs.merge({
+                                             '_links': {
+                                               'self': {
+                                                 'href': API::V3::Utilities::PathHelper::ApiV3Path \
+                                                   .work_package(id, timestamps: timestamp)
+                                               }
+                                             }
+                                           })
+                     end
+                     attrs = attrs.merge({
+                                           '_meta': {
+                                             'timestamp': timestamp.to_s,
+                                             'matchesFilters': matches_query_filters_at_timestamp?(timestamp),
+                                             'exists': exists_at_timestamps.include?(timestamp)
+                                           }.compact
+                                         })
+                     attrs
+                   end
+                 end,
+                 embedded: true,
+                 uncacheable: true
 
         associated_resource :category
 
@@ -647,9 +718,11 @@ module API
         end
 
         def load_complete_model(model)
-          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user)
+          ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap_one(model, current_user, timestamps:, query:)
         end
       end
     end
   end
 end
+
+# rubocop:enable Lint/SymbolConversion
