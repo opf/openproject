@@ -376,21 +376,21 @@ describe Timestamp do
 
   describe "#hash" do
     # rubocop:disable RSpec/IdenticalEqualityAssertion
-    context 'for two instance of relative time representing the same point in time' do
+    context 'for two instances of relative time representing the same point in time' do
       it 'is eql' do
         expect(described_class.new("PT0S").hash)
           .to eql described_class.new("PT0S").hash
       end
     end
 
-    context 'for two instance of relative time representing different points in time' do
+    context 'for two instances of relative time representing different points in time' do
       it 'is different' do
         expect(described_class.new("PT0S").hash)
           .not_to eql described_class.new("PT10S").hash
       end
     end
 
-    context 'for two instance of absolute time representing the same point in time' do
+    context 'for two instances of absolute time representing the same point in time' do
       let(:time) { Time.zone.now }
 
       it 'is equal' do
@@ -399,7 +399,7 @@ describe Timestamp do
       end
     end
 
-    context 'for two instance of absolute time representing different points in time' do
+    context 'for two instances of absolute time representing different points in time' do
       it 'is different' do
         expect(described_class.new(10.seconds.ago).hash)
           .not_to eql described_class.new(5.seconds.ago).hash
