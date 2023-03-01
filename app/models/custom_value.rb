@@ -62,7 +62,7 @@ class CustomValue < ApplicationRecord
   end
 
   def default?
-    value == custom_field.default_value
+    custom_field.cast_value(value) == custom_field.default_value
   end
 
   protected
