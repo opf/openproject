@@ -58,6 +58,8 @@
 #   work_package = Journable::WithHistoricAttributes.wrap(work_package, timestamps:, include_only_changed_attributes: true)
 #   work_package.attributes_by_timestamp["2022-01-01T00:00:00Z"].subject  # => "Subject at 2022-01-01 (baseline time)"
 #   work_package.attributes_by_timestamp["PT0S"].subject  # => nil
+#   # Get only the changed attribute names at the timestamp
+#   work_package.changed_at_timestamp("PT0S") #=> ['subject']
 #
 #   # Simplified interface for two timestamps
 #   query.timestamps  # => [<Timestamp 2022-01-01T00:00:00Z>, <Timestamp PT0S>]
@@ -138,6 +140,10 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     end
   end
 
+  # Analogous to ActiveModel::Dirty#changed, returns the
+  # names of attributes changed at a specific timestamp compared
+  # to the attributes the object (e.g. work package) this
+  # Journable::WithHistoricAttributes instance is initialized with.
   def changed_at_timestamp(timestamp)
     changes_at_timestamp(timestamp)&.keys || []
   end
