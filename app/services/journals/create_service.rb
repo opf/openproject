@@ -612,7 +612,7 @@ module Journals
     end
 
     def within_aggregation_time?(predecessor)
-      predecessor.updated_at >= Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes
+      predecessor.updated_at >= (Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes)
     end
 
     def only_one_note(predecessor, notes)
