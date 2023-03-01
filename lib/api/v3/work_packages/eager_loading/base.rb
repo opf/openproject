@@ -30,9 +30,12 @@ module API
   module V3
     module WorkPackages
       module EagerLoading
-        class Base < SimpleDelegator
-          def initialize(work_packages)
+        class Base
+          def initialize(work_packages, **options)
             self.work_packages = work_packages
+            options.each do |key, value|
+              send("#{key}=", value) if respond_to?("#{key}=")
+            end
           end
 
           def apply(_work_package)

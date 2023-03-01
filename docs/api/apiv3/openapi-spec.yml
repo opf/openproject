@@ -840,6 +840,7 @@ tags:
   - "$ref": "./tags/basic_objects.yml"
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/baseline_comparisons.yml"
   - "$ref": "./tags/forms.yml"
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"

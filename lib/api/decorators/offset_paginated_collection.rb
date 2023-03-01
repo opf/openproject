@@ -35,9 +35,9 @@ module API
         relation.base_class.per_page
       end
 
-      def initialize(models, self_link:, current_user:, query: {}, page: nil, per_page: nil, groups: nil)
+      def initialize(models, self_link:, current_user:, query_params: {}, page: nil, per_page: nil, groups: nil)
         @self_link_base = self_link
-        @query = query
+        @query_params = query_params
         @page = page.to_i > 0 ? page.to_i : 1
         resolved_page_size = resolve_page_size(per_page)
         @per_page = resulting_page_size(resolved_page_size, models)
@@ -103,7 +103,7 @@ module API
       end
 
       def query_params(page = @page, page_size = @per_page)
-        @query.merge(offset: page, pageSize: page_size)
+        @query_params.merge(offset: page, pageSize: page_size)
       end
 
       def paged_models(models)

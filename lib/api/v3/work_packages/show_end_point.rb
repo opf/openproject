@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2022 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Utilities
-      module EagerLoading
-        class EagerLoadingWrapper < SimpleDelegator
-          private_class_method :new
-
-          ##
-          # Workaround against warnings in flatten
-          # delegator does not forward private method #to_ary
-          def to_ary
-            __getobj__.send(:to_ary)
-          end
-
-          def inspect
-            __getobj__.inspect.gsub(/#<(.+)>/m, "#<#{self.class.name} \\1>")
-          end
-
-          class << self
-            def wrap(objects)
-              objects
-                .map { |object| new(object) }
-            end
-          end
-        end
-      end
+module API::V3::WorkPackages
+  class ShowEndPoint < API::V3::Utilities::Endpoints::Show
+    def render(request)
+      API::V3::WorkPackages::WorkPackageRepresenter
+        .create(request.instance_exec(request.params, &instance_generator),
+                current_user: request.current_user,
+                embed_links: true,
+                timestamps: Timestamp.parse_multiple(request.params[:timestamps]))
     end
   end
 end
