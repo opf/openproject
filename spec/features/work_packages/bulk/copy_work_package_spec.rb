@@ -193,6 +193,33 @@ describe 'Copy work packages through Rails view', js: true do
               text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
         end
+
+        context 'when the limit to move in the frontend is 0',
+                with_settings: { work_packages_bulk_request_limit: 0 } do
+          it 'shows the errors properly in the frontend' do
+            click_on 'Copy and follow'
+
+            expect(page).to have_text 'The job has been queued and will be processed shortly.'
+
+            perform_enqueued_jobs
+
+            expect(page).to have_text 'The work packages could not be copied.', wait: 10
+
+            expect(page).to have_text I18n.t('work_packages.bulk.none_could_be_saved', total: 3)
+
+            expect(page)
+              .to have_text I18n.t('work_packages.bulk.selected_because_descendants', total: 3, selected: 2)
+
+            expect(page)
+              .to have_text "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+
+            expect(page)
+              .to have_text "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+
+            expect(page)
+              .to have_text "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+          end
+        end
       end
     end
 

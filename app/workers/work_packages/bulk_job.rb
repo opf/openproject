@@ -77,10 +77,6 @@ module WorkPackages
       path = redirect_path(call, follow)
       payload = redirect_payload(path)
 
-      if call.errors.any?
-        payload[:errors] = errors
-      end
-
       upsert_status status: :success,
                     message: success_message,
                     payload:
@@ -99,9 +95,12 @@ module WorkPackages
     end
 
     def failure_status_update(call)
-      message = bulk_error_message(work_packages, call)
+      message = failure_message
+      html = bulk_error_message(work_packages, call)
 
-      upsert_status status: :failure, message:
+      upsert_status status: :failure,
+                    message:,
+                    payload: { html: }
     end
 
     def url_helpers

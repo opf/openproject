@@ -27,6 +27,12 @@
           [attr.href]="downloadHref"
         ></a>
       </span>
+      <ng-container *ngIf="htmlContent">
+        <div
+          class="job-status--modal-additional-content"
+          [innerHTML]="htmlContent"
+        ></div>
+      </ng-container>
       <ng-container *ngIf="payload?.errors">
         <h3 class="job-status--modal-additional-errors" [textContent]="text.errors"></h3>
         <ul *ngFor="let error of payload.errors">

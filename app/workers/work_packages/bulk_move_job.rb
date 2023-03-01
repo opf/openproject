@@ -37,5 +37,9 @@ module WorkPackages
     def success_message
       I18n.t(:notice_successful_update)
     end
+
+    def failure_message
+      I18n.t('work_packages.bulk.move_failed')
+    end
   end
 end
