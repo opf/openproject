@@ -31,25 +31,25 @@ require 'spec_helper'
 describe WorkPackages::MovesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   shared_let(:user) { create(:user) }
   shared_let(:role) do
-    create :role,
+    create(:role,
            permissions: %i(move_work_packages
                            view_work_packages
                            add_work_packages
                            edit_work_packages
                            assign_versions
                            manage_subtasks
-                           work_package_assigned)
+                           work_package_assigned))
   end
-  shared_let(:type) { create :type }
-  shared_let(:type_2) { create :type }
-  shared_let(:status) { create :default_status }
-  shared_let(:target_status) { create :status }
-  shared_let(:priority) { create :priority }
-  shared_let(:target_priority) { create :priority }
+  shared_let(:type) { create(:type) }
+  shared_let(:type2) { create(:type) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:target_status) { create(:status) }
+  shared_let(:priority) { create(:priority) }
+  shared_let(:target_priority) { create(:priority) }
   shared_let(:project) do
     create(:project,
            public: false,
-           types: [type, type_2])
+           types: [type, type2])
   end
   shared_let(:work_package) do
     create(:work_package,
@@ -124,7 +124,7 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
     let(:work_package_2) do
       create(:work_package,
              project_id: project.id,
-             type: type_2,
+             type: type2,
              priority:)
     end
 
@@ -191,34 +191,40 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
                  ids: [work_package.id, work_package_2.id],
                  new_project_id: target_project.id
                }
-          work_package.reload
-          work_package_2.reload
         end
 
         it 'project id is changed for both work packages, but keeps types' do
+          work_package.reload
+          work_package_2.reload
+
           expect(work_package.project_id).to eq(target_project.id)
           expect(work_package_2.project_id).to eq(target_project.id)
 
           expect(work_package.type_id).to eq(type.id)
-          expect(work_package_2.type_id).to eq(type_2.id)
+          expect(work_package_2.type_id).to eq(type2.id)
         end
 
-        context 'when the limit to copy in the frontend is 1',
+        context 'when the limit to move in the frontend is 1',
                 with_settings: { work_packages_bulk_request_limit: 1 } do
-
-          it 'only schedules the copy job' do
-            expect(WorkPackages::BulkCopyJob)
+          it 'only schedules the move job' do
+            expect(WorkPackages::BulkMoveJob)
               .to have_been_enqueued
+
+            work_package.reload
+            work_package_2.reload
 
             expect(work_package.project_id).to eq(project.id)
             expect(work_package_2.project_id).to eq(project.id)
 
             perform_enqueued_jobs
 
+            work_package.reload
+            work_package_2.reload
+
             expect(work_package.project_id).to eq(target_project.id)
             expect(work_package_2.project_id).to eq(target_project.id)
             expect(work_package.type_id).to eq(type.id)
-            expect(work_package_2.type_id).to eq(type_2.id)
+            expect(work_package_2.type_id).to eq(type2.id)
           end
         end
       end
@@ -228,15 +234,15 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
           post :create,
                params: {
                  ids: [work_package.id, work_package_2.id],
-                 new_type_id: type_2.id
+                 new_type_id: type2.id
                }
           work_package.reload
           work_package_2.reload
         end
 
         it "changed work packages' types" do
-          expect(work_package.type_id).to eq(type_2.id)
-          expect(work_package_2.type_id).to eq(type_2.id)
+          expect(work_package.type_id).to eq(type2.id)
+          expect(work_package_2.type_id).to eq(type2.id)
         end
       end
 
@@ -353,7 +359,7 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
           let(:due_date) { Date.today + 1 }
           let(:target_version) { create(:version, project: target_project) }
           let(:target_user) do
-            user = create :user
+            user = create(:user)
 
             create(:member,
                    user:,
@@ -442,9 +448,10 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
 
           subject { WorkPackage.limit(1).order(Arel.sql('id desc')).last.journals }
 
-          it { expect(subject.count).to eq(1) }
-
-          it { expect(subject.last.notes).to eq(note) }
+          it 'contains that note' do
+            expect(subject.count).to eq(1)
+            expect(subject.last.notes).to eq(note)
+          end
         end
 
         context 'parent and child work package' do
@@ -472,6 +479,34 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
                 expect(response.body).to have_selector "a.issue", count: 1
                 expect(response.body).to have_selector "contextual-info", text: '(+ One child work package)'
               end
+            end
+          end
+
+          context 'when copying the parent with a child exceeds the request limit',
+                  with_settings: { work_packages_bulk_request_limit: 1 } do
+            let(:note) { 'Copying a work package' }
+
+            before do
+              post :create,
+                   params: {
+                     ids: [work_package.id],
+                     copy: '',
+                     notes: note
+                   }
+            end
+
+            subject { WorkPackage.limit(2).order(Arel.sql('id desc')).last.journals }
+
+            it 'runs in the background' do
+              expect(WorkPackages::BulkCopyJob)
+                .to have_been_enqueued
+
+              expect { perform_enqueued_jobs }
+                .to change(WorkPackage, :count)
+                .by(2)
+
+              expect(subject.first.notes).to eq(note)
+              expect(subject.last.notes).to eq(note)
             end
           end
         end

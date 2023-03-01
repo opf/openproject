@@ -80,14 +80,10 @@ module Pages
     end
 
     def expect_current_path(query_params = nil)
-      uri = URI.parse(current_url)
-      current_path = uri.path
-      current_path += "?#{uri.query}" if uri.query
-
       expected_path = path
       expected_path += "?#{query_params}" if query_params
 
-      expect(current_path).to eql expected_path
+      expect(page).to have_current_path expected_path, wait: 10
     end
 
     def expect_toast(message:, type: :success)
