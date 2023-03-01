@@ -467,18 +467,20 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
           end
 
           context 'on new' do
+            render_views
+
             before do
               get :new,
                   params: {
                     ids: [work_package.id, child_wp.id],
                     copy: '',
-                    new_project_id: to_project.id
+                    new_project_id: target_project.id
                   }
+            end
 
-              it 'reports the one child work package' do
-                expect(response.body).to have_selector "a.issue", count: 1
-                expect(response.body).to have_selector "contextual-info", text: '(+ One child work package)'
-              end
+            it 'reports the one child work package' do
+              expect(response.body).to have_selector "a.work_package", count: 2
+              expect(response.body).to have_selector ".contextual-info", text: '(+ One descendant work package)'
             end
           end
 
@@ -511,7 +513,7 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
           end
         end
 
-        context 'child work package from one project to other' do
+        context 'when copying child work package from one project to other' do
           let(:to_project) do
             create(:project,
                    types: [type])
