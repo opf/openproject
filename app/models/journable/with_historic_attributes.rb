@@ -129,7 +129,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
   def attributes_by_timestamp
     @attributes_by_timestamp ||= Hash.new do |h, t|
       attributes = if include_only_changed_attributes
-                     changes_at_timestamp(t)&.transform_values(&:last)
+                     changed_attributes_at_timestamp(t)
                    else
                      historic_attributes_at(t)
                    end
@@ -219,6 +219,10 @@ class Journable::WithHistoricAttributes < SimpleDelegator
 
     ::Acts::Journalized::JournableDiffer
       .changes(__getobj__, historic_journable)
+  end
+
+  def changed_attributes_at_timestamp(timestamp)
+    changes_at_timestamp(timestamp)&.transform_values(&:last)
   end
 
   class NotImplemented < StandardError; end
