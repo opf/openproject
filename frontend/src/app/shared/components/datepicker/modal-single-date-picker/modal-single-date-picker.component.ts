@@ -64,7 +64,7 @@ export const opModalSingleDatePickerSelector = 'op-modal-single-date-picker';
 @Component({
   selector: opModalSingleDatePickerSelector,
   templateUrl: './modal-single-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

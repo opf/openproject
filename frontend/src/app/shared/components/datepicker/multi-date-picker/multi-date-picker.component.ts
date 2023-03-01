@@ -83,7 +83,7 @@ import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop
 @Component({
   selector: 'op-multi-date-picker',
   templateUrl: './multi-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [

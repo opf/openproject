@@ -64,7 +64,6 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
   templateUrl: './basic-range-date-picker.component.html',
   styleUrls: [
     '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
     './basic-range-date-picker.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,

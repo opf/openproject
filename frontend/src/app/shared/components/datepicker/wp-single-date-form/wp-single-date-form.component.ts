@@ -75,7 +75,6 @@ import { DateModalSchedulingService } from '../services/date-modal-scheduling.se
   styleUrls: [
     './wp-single-date-form.component.sass',
     '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
