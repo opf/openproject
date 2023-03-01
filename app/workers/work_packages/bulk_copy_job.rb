@@ -27,7 +27,7 @@
 #++
 
 module WorkPackages
-  class CopyJob < BulkJob
+  class BulkCopyJob < BulkJob
     protected
 
     def service_class

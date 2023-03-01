@@ -195,14 +195,31 @@ describe WorkPackages::MovesController, with_settings: { journal_aggregation_tim
           work_package_2.reload
         end
 
-        it 'project id is changed for both work packages' do
+        it 'project id is changed for both work packages, but keeps types' do
           expect(work_package.project_id).to eq(target_project.id)
           expect(work_package_2.project_id).to eq(target_project.id)
-        end
 
-        it 'changed no types' do
           expect(work_package.type_id).to eq(type.id)
           expect(work_package_2.type_id).to eq(type_2.id)
+        end
+
+        context 'when the limit to copy in the frontend is 1',
+                with_settings: { work_packages_bulk_request_limit: 1 } do
+
+          it 'only schedules the copy job' do
+            expect(WorkPackages::BulkCopyJob)
+              .to have_been_enqueued
+
+            expect(work_package.project_id).to eq(project.id)
+            expect(work_package_2.project_id).to eq(project.id)
+
+            perform_enqueued_jobs
+
+            expect(work_package.project_id).to eq(target_project.id)
+            expect(work_package_2.project_id).to eq(target_project.id)
+            expect(work_package.type_id).to eq(type.id)
+            expect(work_package_2.type_id).to eq(type_2.id)
+          end
         end
       end
 
