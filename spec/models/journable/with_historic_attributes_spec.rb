@@ -530,7 +530,7 @@ describe Journable::WithHistoricAttributes do
     end
   end
 
-  describe '.changed_at_timestamp' do
+  describe '#changed_at_timestamp' do
     subject { described_class.wrap(work_package1, timestamps:) }
 
     context 'for a timestamp where the work package did exist' do
