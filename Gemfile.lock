@@ -876,7 +876,7 @@ GEM
     temple (0.10.0)
     test-prof (1.2.0)
     thor (1.2.1)
-    tilt (2.0.11)
+    tilt (2.1.0)
     timecop (0.9.6)
     timeout (0.3.1)
     trailblazer-option (0.1.2)
