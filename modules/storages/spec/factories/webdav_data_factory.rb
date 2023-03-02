@@ -29,6 +29,7 @@
 FactoryBot.define do
   factory :webdav_data, class: 'String' do
     transient do
+      origin_user_id { 'admin' }
       root_path { '' }
       parent_path { '' }
     end
@@ -36,7 +37,8 @@ FactoryBot.define do
     skip_create
 
     initialize_with do
-      base_path = File.join(root_path, '/remote.php/dav/files/admin', parent_path)
+      url_safe_user_id = origin_user_id.gsub(' ', '%20')
+      base_path = File.join(root_path, '/remote.php/dav/files', url_safe_user_id, parent_path)
 
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].multistatus(
@@ -53,7 +55,7 @@ FactoryBot.define do
                 xml['oc'].size('20028269')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:27:36 GMT')
                 xml['oc'].permissions('RGDNVCK')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send('owner-display-name', url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -72,7 +74,7 @@ FactoryBot.define do
                 xml['oc'].size('6592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:31:26 GMT')
                 xml['oc'].permissions('RGDNVCK')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send('owner-display-name', url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -91,7 +93,7 @@ FactoryBot.define do
                 xml['oc'].size('8592')
                 xml['d'].getlastmodified('Fri, 28 Oct 2022 14:43:26 GMT')
                 xml['oc'].permissions('RGDNV')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send('owner-display-name', url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -111,7 +113,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('text/markdown')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
                 xml['oc'].permissions('RGDNVW')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send('owner-display-name', url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end
@@ -125,7 +127,7 @@ FactoryBot.define do
                 xml['d'].getcontenttype('application/pdf')
                 xml['d'].getlastmodified('Thu, 14 Jul 2022 08:42:15 GMT')
                 xml['oc'].permissions('RGDNV')
-                xml['oc'].send('owner-display-name', 'admin')
+                xml['oc'].send('owner-display-name', url_safe_user_id)
               end
               xml['d'].status('HTTP/1.1 200 OK')
             end

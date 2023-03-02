@@ -188,7 +188,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     let(:root_path) { '' }
     let(:xml) { create(:webdav_data, parent_path: parent, root_path:) }
     let(:url) { "https://example.com#{root_path}" }
-    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
+    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id.gsub(' ', '%20')}#{parent}" }
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
@@ -289,6 +289,25 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               raise "Files query could not be created: #{error}"
             end
           )
+      end
+
+      describe 'with origin user id containing whitespaces' do
+        let(:origin_user_id) { 'my user' }
+        let(:xml) { create(:webdav_data, origin_user_id:) }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result.files[0].location).to eq('/Folder1')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
       end
 
       describe 'with parent query parameter' do
