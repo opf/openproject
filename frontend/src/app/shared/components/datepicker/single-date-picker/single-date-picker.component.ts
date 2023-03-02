@@ -259,11 +259,11 @@ export class OpSingleDatePickerComponent implements ControlValueAccessor, OnInit
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },
