@@ -26,16 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages::FlashBulkError
-  extend ActiveSupport::Concern
+module WorkPackages
+  class BulkCopyJob < BulkJob
+    protected
 
-  included do
-    private
+    def service_class
+      Bulk::CopyService
+    end
 
-    def error_flash(selected_work_packages, service_result)
-      flash[:error] = render_to_string partial: 'work_packages/bulk/errors',
-                                       locals: { service_result:,
-                                                 selected_work_packages: }
+    def success_message
+      I18n.t(:notice_successful_create)
+    end
+
+    def failure_message
+      I18n.t('work_packages.bulk.copy_failed')
     end
   end
 end
