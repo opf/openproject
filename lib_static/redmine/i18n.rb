@@ -38,8 +38,8 @@ module Redmine
     end
 
     def self.all_languages
-      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/**/*.yml'))
-          .map { |f| File.basename(f).split('.').first }
+      @@all_languages ||= Rails.root.glob('config/locales/**/*.yml')
+          .map { |f| f.basename.to_s.split('.').first }
           .reject! { |l| /\Ajs-/.match(l.to_s) }
           .uniq
           .map(&:to_sym)

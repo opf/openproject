@@ -33,6 +33,8 @@ describe 'API v3 Work package resource',
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
+  create_shared_association_defaults_for_work_package_factory
+
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
@@ -235,7 +237,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'when provoding timestamps' do
+    context 'when providing timestamps' do
       subject do
         get path
         last_response
