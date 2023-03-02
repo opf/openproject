@@ -64,7 +64,6 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
   templateUrl: './basic-range-date-picker.component.html',
   styleUrls: [
     '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
     './basic-range-date-picker.component.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -168,11 +167,11 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            false,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            true,
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },

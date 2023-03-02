@@ -103,7 +103,6 @@ export type FieldUpdates =
   templateUrl: './wp-multi-date-form.component.html',
   styleUrls: [
     '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

@@ -83,7 +83,7 @@ import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop
 @Component({
   selector: 'op-multi-date-picker',
   templateUrl: './multi-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -318,11 +318,11 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           this.handleSingleDateUpdate(activeField, latestSelectedDateObj);
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.weekdayService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             this.isDayDisabled(dayElem, minimalDate),
           );
         },

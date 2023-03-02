@@ -165,7 +165,7 @@ describe 'Projects', 'editing settings', js: true do
       visit project_settings_general_path(project.id)
 
       form_field.set_value '2021-05-26'
-      form_field.send_keys :escape
+      form_field.send_keys :enter
 
       click_on 'Save'
 

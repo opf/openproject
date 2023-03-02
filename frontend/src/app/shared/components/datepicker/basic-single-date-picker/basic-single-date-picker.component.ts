@@ -62,7 +62,7 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 @Component({
   selector: opBasicSingleDatePickerSelector,
   templateUrl: './basic-single-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -175,11 +175,11 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
 
           this.cdRef.detectChanges();
         },
-        onDayCreate: (_dObj:Date[], _dStr:string, _fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (_dObj:Date[], _dStr:string, _fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             true,
-            this.datePickerInstance?.weekdaysService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
         },
