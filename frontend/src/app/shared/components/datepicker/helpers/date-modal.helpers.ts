@@ -74,8 +74,15 @@ export function keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:num
 }
 
 export function setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
-  const { currentMonth } = datePicker.datepickerInstance;
-  const { currentYear } = datePicker.datepickerInstance;
+  const { currentMonth, currentYear, selectedDates } = datePicker.datepickerInstance;
+
+  const [newStart, newEnd] = _.castArray(dates) as Date[];
+  const [selectedStart, selectedEnd] = selectedDates;
+
+  if (newStart.getTime() === selectedStart.getTime() && (newEnd === selectedEnd || !!newEnd === !!selectedEnd)) {
+    return;
+  }
+
   datePicker.setDates(dates);
 
   if (enforceDate) {
