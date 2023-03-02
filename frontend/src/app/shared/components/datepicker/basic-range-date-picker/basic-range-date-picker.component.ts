@@ -170,7 +170,7 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
         onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
-            false,
+            true,
             await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             !!this.minimalDate && dayElem.dateObj <= this.minimalDate,
           );
