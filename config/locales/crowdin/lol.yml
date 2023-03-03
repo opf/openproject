@@ -330,6 +330,8 @@ lol:
       one: 'crwdns495057:1crwdne495057:1'
       other: 'crwdns495057:5%{count}crwdne495057:5'
     bulk:
+      copy_failed: "crwdns846205:0crwdne846205:0"
+      move_failed: "crwdns846207:0crwdne846207:0"
       could_not_be_saved: "crwdns495059:0crwdne495059:0"
       none_could_be_saved: "crwdns537767:0%{total}crwdne537767:0"
       x_out_of_y_could_be_saved: "crwdns537769:0%{failing}crwdnd537769:0%{total}crwdnd537769:0%{success}crwdne537769:0"

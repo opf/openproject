@@ -345,6 +345,8 @@ uk:
       many: '%{count} нащадки робочого пакета'
       other: '%{count} нащадки робочого пакета'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
       none_could_be_saved: "Жоден із пакетів робіт (%{total}) не можна оновити."
       x_out_of_y_could_be_saved: "Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}."

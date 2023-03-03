@@ -348,6 +348,8 @@ az:
       one: 'One descendant work package'
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."

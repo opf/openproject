@@ -348,6 +348,8 @@ fr:
       one: 'Un lot de travaux descendant'
       other: '%{count} lots de travaux descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
       none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."

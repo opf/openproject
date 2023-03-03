@@ -345,6 +345,8 @@ hu:
       one: 'Egy leszármazott feladatcsoport'
       other: '%{count} munkacsomag leszármazottai'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
       none_could_be_saved: "%{total} munkacsomag közül egyik sem frissíthető."
       x_out_of_y_could_be_saved: "%{total} munkacsomag közül %{success} frissítése sikeres, %{failing} pedig sikertelen."

@@ -343,6 +343,8 @@ de:
       one: 'Ein untergeordnetes Arbeitspaket'
       other: '%{count} untergeordnete Arbeitspakete'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
       none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."

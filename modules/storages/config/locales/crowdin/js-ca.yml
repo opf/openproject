@@ -27,7 +27,7 @@ ca:
       files:
         already_existing_header: "Aquest fitxer ja existeix"
         already_existing_body: >
-          Un fitxer amb el nom "%{fileName}" ja existeix a la ubicació on estàs intentant carregar-lo. Que vols fer?
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
         empty_folder: "Aquesta carpeta està buida."

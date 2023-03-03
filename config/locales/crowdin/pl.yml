@@ -347,6 +347,8 @@ pl:
       many: 'Wiele potomnych pakietów roboczych (%{count})'
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
       none_could_be_saved: "Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}."
       x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."

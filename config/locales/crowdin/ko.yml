@@ -346,6 +346,8 @@ ko:
     x_descendants:
       other: '%{count}개 작업 패키지 하위 항목'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "다음 작업 패키지를 저장할 수 없습니다:"
       none_could_be_saved: "%{total}개 작업 패키지 중 아무것도 업데이트할 수 없습니다."
       x_out_of_y_could_be_saved: "%{failing}/%{total}개 작업 패키지를 업데이트할 수 없지만 %{success}개는 성공했습니다."

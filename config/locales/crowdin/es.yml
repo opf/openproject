@@ -345,6 +345,8 @@ es:
       one: 'Un paquete de trabajo descendiente'
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
@@ -908,12 +910,12 @@ es:
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
     item:
-      created_by_on: "created by %{user} on %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
-      parent_no_longer: "No longer subproject of"
+      created_by_on: "creado por %{user} el %{datetime}"
+      created_on: "creado el %{datetime}"
+      updated_by_on: "actualizado por %{user} el %{datetime}"
+      updated_on: "actualizado el %{datetime}"
+      parent_without_of: "Subproyecto"
+      parent_no_longer: "Ya no es subproyecto de"
     filter:
       changeset: "Conjuntos de cambios"
       message: "Foros"
@@ -1367,7 +1369,7 @@ es:
     work_package_note: 'Nota de paquete de trabajo añadido'
     title:
       project: "Proyecto: %{name}"
-      subproject: "Subproject: %{name}"
+      subproject: "Subproyecto: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
@@ -2988,7 +2990,7 @@ es:
       <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:

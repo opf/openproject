@@ -345,6 +345,8 @@ it:
       one: 'Una macro-attività discendente'
       other: '%{count} macro-attività discendenti'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."

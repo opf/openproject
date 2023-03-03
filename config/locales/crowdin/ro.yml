@@ -349,6 +349,8 @@ ro:
       few: '%{count} descendenți ai pachetului de lucru'
       other: '%{count} pachete de lucru descendente'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
       none_could_be_saved: "Niciunul dintre pachetele de lucru %{total} nu a putut fi actualizat."
       x_out_of_y_could_be_saved: "%{failing} din %{total} pachete de lucru nu au putut fi actualizate în timp ce %{success} ar putea fi actualizat."

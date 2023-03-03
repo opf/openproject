@@ -345,6 +345,8 @@ nl:
       one: 'Een nakomend werkpakket'
       other: '%{count} werk pakket afstammelingen'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "De volgende werkpakketten konden niet worden opgeslagen:"
       none_could_be_saved: "Geen van de %{total} werkpakketten konden worden bijgewerkt."
       x_out_of_y_could_be_saved: "%{failing} van de %{total} werkpakketten konden niet worden bijgewerkt terwijl %{success} kon."

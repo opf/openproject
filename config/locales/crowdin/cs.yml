@@ -350,6 +350,8 @@ cs:
       many: '%{count} potomků pracovního balíčku'
       other: '%{count} potomků pracovního balíčku'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Následující pracovní balíčky nelze uložit:"
       none_could_be_saved: "Žádný z %{total} pracovních balíčků nemohl být aktualizován."
       x_out_of_y_could_be_saved: "%{failing} z pracovních balíčků %{total} nemohl být aktualizován, zatímco %{success} může."

@@ -27,7 +27,7 @@ ro:
       files:
         already_existing_header: "This file already exists"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location, where you are trying to upload this file. What would you like to do?
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
         empty_folder: "Acest director este gol."

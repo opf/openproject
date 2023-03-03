@@ -347,6 +347,8 @@ lt:
       many: '%{count} pasekėjų darbo paketų'
       other: '%{count} pasekėjų darbo paketų'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
       none_could_be_saved: "Ne visus iš %{total} darbo paketų pavyko pakeisti."
       x_out_of_y_could_be_saved: "%{failing} iš %{total} darbo paketų nepavyko atnaujinti, o %{success} - pavyko."

@@ -349,6 +349,8 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
       none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
       x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."

@@ -344,6 +344,8 @@ ca:
       one: 'Un paquet de treball descendent'
       other: '%{count} paquets de treball descendents'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
       none_could_be_saved: "Cap dels %{total} paquets de treball s'ha pogut actualitzar."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquets de treball no s'han pogut actualitzar mentre %{success} s'han actualitzat."

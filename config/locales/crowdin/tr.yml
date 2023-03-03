@@ -347,6 +347,8 @@ tr:
       one: 'Bir soydan iş paketi'
       other: '%{count} Bir soydan iş paketi'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
       none_could_be_saved: "%{total} iş paketlerinin hiçbiri güncellenemedi."
       x_out_of_y_could_be_saved: "%{total} iş paketinden %{failing} tanesi güncellenemezken %{success} güncellenebildi."

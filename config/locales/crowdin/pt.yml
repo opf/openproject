@@ -347,6 +347,8 @@ pt:
       one: 'Um pacote de trabalho descendente'
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
       none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
