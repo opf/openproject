@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner error handling', js: true do
+describe 'Team planner error handling', beginning_of_week: :locale, js: true do
   include_context 'with team planner full access'
 
   let!(:work_package) do
