@@ -35,11 +35,11 @@
 
   @media #{$spot-mq-mobile}
     &.spot-modal
-      min-height: calc(100vh - 5rem)
+      min-height: calc(#{var(--app-height)} - 5rem)
 
   &--modal-body
     @media #{$spot-mq-desktop}
-      height: 50vh
+      height: calc(#{var(--app-height)} / 2)
       max-height: 32rem
 
   &--empty
