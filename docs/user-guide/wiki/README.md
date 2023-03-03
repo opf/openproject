@@ -108,26 +108,32 @@ In some resources such as work packages or comments, the editor does not exhibit
 
 ## Links to OpenProject resources
 
-As with the textile formatting syntax, you can link to other resources within OpenProject using the same shortcuts as before. Create links to a:
+As with the textile formatting syntax, you can link to other resources within OpenProject using the same shortcuts as before. Create links to:
 
-    wiki page: [[Wiki page]]
-    wiki page with separate link name: [[Wiki page|The text of the link]]
-    wiki page in the Sandbox project: [[Sandbox:Wiki page]]
+    a wiki page: [[Wiki page]]
+    a wiki page with separate link name: [[Wiki page|The text of the link]]
+    a wiki page in the Sandbox project: [[Sandbox:Wiki page]]
     
-    work package with ID12: #12
-    work package with ID234: view#12
-    default work package view: view:default
+    a work package with ID12: #12
+    a work package with ID234: view#12
+    the default work package view: view:default
     
-    version by ID or name: version#3, version:"Release 1.0.0"
-    project by ID/name: project#12 , project:"My project name"
-    attachment by filename: attachment:filename.zip
-    user by id or login: user#4 , user:"johndoe"
+    a version by ID or name: version#3, version:"Release 1.0.0"
+    a project by ID/name: project#12 , project:"My project name"
+    an attachment by filename: attachment:filename.zip
+    a user by id or login: user#4 , user:"johndoe"
     a forum message by ID: message#1218
-    repository revision 43: r43
-    commit by hash: commit:f30e13e4
-    To a source file in the repository: source:"some/file"
+    a repository revision 43: r43
+    a commit by hash: commit:f30e13e4
+    a source file in the repository: source:"some/file"
 
-To avoid processing these items, precede them with a bang ! character such as !#12 will prevent linking to a work package with ID 12.
+You can always prefix these links with a project identifier followed by a colon in order to reference resources from projects other than the one of the current wiki page:
+
+    my-project:view:default
+
+To avoid processing these items, precede them with a bang ! character such as !#12 will prevent linking to a work package with ID 12:
+
+    Wiki systems contain all the answers !#42
 
 ### Autocompletion for work packages
 
