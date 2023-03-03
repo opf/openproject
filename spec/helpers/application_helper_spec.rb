@@ -29,9 +29,6 @@
 require 'spec_helper'
 
 describe ApplicationHelper do
-  include ApplicationHelper
-  include WorkPackagesHelper
-
   describe '.link_to_if_authorized' do
     let(:project) { create :valid_project }
     let(:project_member) do
@@ -173,6 +170,50 @@ describe ApplicationHelper do
         it { is_expected.to match /7 days/ }
         it { is_expected.to be_html_safe }
       end
+    end
+  end
+
+  describe '.all_lang_options_for_select' do
+    it 'has all languages translated ("English" should appear only once)' do
+      impostor_locales =
+        all_lang_options_for_select(false)
+          .reject { |_lang, locale| locale == 'en' }
+          .select { |lang, _locale| lang == "English" }
+          .map { |_lang, locale| locale }
+      expect(impostor_locales.count).to eq(0), <<~ERR
+        The locales #{impostor_locales.to_sentence} display themselves as "English"!
+
+        Probably because new languages were added, and the translation for their language is not
+        available, so it fallbacks to the English translation.
+
+        To fix it, generate translation files from CLDR by running
+
+            script/i18n/generate_languages_translations
+
+        And commit the yml files added in "config/locales/generated/*.yml".
+      ERR
+    end
+
+    it 'has distinct languages translation' do
+      duplicate_langs =
+        all_lang_options_for_select(false)
+          .map { |lang, _locale| lang }
+          .tally
+          .reject { |_lang, count| count == 1 }
+          .map { |lang, _count| lang }
+      duplicate_options =
+        all_lang_options_for_select(false)
+          .filter { |lang, _locale| duplicate_langs.include?(lang) }
+          .sort
+
+      expect(duplicate_options.count).to eq(0), <<~ERR
+        Some identical language names are used for different locales!
+
+          duplicates: #{duplicate_options}
+
+        To fix it, inspect translation files located in "config/locales/generated/*.yml".
+        You can also try running the script "script/i18n/generate_languages_translations".
+      ERR
     end
   end
 end
