@@ -88,7 +88,7 @@ Click the blue **Apply** button to add this work package list to your form.
 
 The embedded related work package table in the work package form will look like this. Here, the work packages with the chosen relation will be shown automatically (based on the filtered criteria in the embedded list) or new work packages with this relation can be added. 
 
-![Sys-admin-related-work-package-table](op_Sys-admin-related-work-package-table.png)
+![Sys-admin-related-work-package-table](open_project_admin_related_wp_table.png)
 
 ## Activate work package types for projects
 
