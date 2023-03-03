@@ -27,18 +27,13 @@
 //++
 
 import {
-  ChangeDetectorRef,
-  Directive,
-  ElementRef,
-  EventEmitter,
-  Inject,
-  OnDestroy,
-  OnInit,
+  ChangeDetectorRef, Directive, ElementRef, EventEmitter, Inject, OnDestroy, OnInit,
 } from '@angular/core';
 
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalLocalsToken, OpModalService } from 'core-app/shared/components/modal/modal.service';
+import { debounce } from 'lodash';
 
 @Directive()
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
@@ -70,6 +65,8 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   ngOnDestroy():void {
     this.closingEvent.complete();
     this.openingEvent.complete();
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('orientationchange', this.onResize);
   }
 
   /**
@@ -93,10 +90,22 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
 
   public onOpen():void {
     this.openingEvent.emit();
+    this.updateAppHeight();
     this.cdRef.detectChanges();
+
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('orientationchange', this.onResize);
   }
 
   protected get afterFocusOn():HTMLElement {
     return this.$element;
   }
+
+  private onResize = debounce(() => this.updateAppHeight(), 10);
+
+  private updateAppHeight = () =>
+    document
+      .documentElement
+      .style
+      .setProperty('--app-height', `${window.innerHeight}px`);
 }
