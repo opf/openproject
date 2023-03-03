@@ -31,7 +31,10 @@ module OpenProject::OpenIDConnect
       # Use OpenSSL default certificate store instead of HTTPClient's.
       # It's outdated and it's unclear how it's managed.
       OpenIDConnect.http_config do |config|
-        config.ssl_config.set_default_paths
+        # The line does not work with new version of `rack-oauth2`(Faraday is used instead of HTTPClient).
+        # No need for this config. Proof:
+        # https://github.com/lostisland/faraday-net_http/blob/main/lib/faraday/adapter/net_http.rb#L175
+        # config.ssl_config.set_default_paths
       end
 
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
