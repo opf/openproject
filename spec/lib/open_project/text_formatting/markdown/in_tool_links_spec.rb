@@ -204,6 +204,28 @@ describe OpenProject::TextFormatting,
       end
     end
 
+    context 'Default work package query link' do
+      let(:default_query_link) do
+        link_to(
+          'Work packages',
+          project_work_packages_path([project.id]),
+          class: 'query op-uc-link'
+        )
+      end
+
+      context 'Link to default work package query' do
+        subject { format_text("view:default") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{default_query_link}</p>") }
+      end
+
+      context 'Escaping link to default work package query' do
+        subject { format_text("!view:default") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>view:default</p>") }
+      end
+    end
+
     context 'Message links' do
       let(:forum) { create(:forum, project:) }
       let(:message1) { create(:message, forum:) }
