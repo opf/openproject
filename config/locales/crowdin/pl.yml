@@ -1429,7 +1429,6 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Polski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"

@@ -449,7 +449,7 @@ module ApplicationHelper
        ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
       [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
     else
-      [I18n.t(:general_lang_name, locale: lang_code), lang_code.to_s]
+      [I18n.t('cldr.language_name', locale: lang_code), lang_code.to_s]
     end
   end
 

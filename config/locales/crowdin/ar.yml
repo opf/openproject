@@ -1465,7 +1465,6 @@ ar:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "اَللُّغَةُ اَلْعَرَبِيَّة"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "لا"
   general_text_yes: "نعم"

@@ -1381,7 +1381,6 @@ zh-TW:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "星期日"
-  general_lang_name: "台灣正體"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "否"
   general_text_yes: "是"

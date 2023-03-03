@@ -1397,7 +1397,6 @@ sv:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Svenska"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nej"
   general_text_yes: "ja"
