@@ -49,6 +49,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
       status: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.status'),
       type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
+      version: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.version'),
       entire_row_by: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.entire_row_by'),
     },
     upsaleAttributeHighlighting: this.I18n.t('js.work_packages.table_configuration.upsale.attribute_highlighting'),
@@ -69,6 +70,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
     this.availableRowHighlightedAttributes = [
       { name: this.text.highlighting_mode.status, value: 'status' },
       { name: this.text.highlighting_mode.priority, value: 'priority' },
+      { name: this.text.highlighting_mode.version, value: 'version' },
     ];
 
     this.setSelectedValues();
@@ -93,7 +95,7 @@ export class WpTableConfigurationHighlightingTabComponent implements TabComponen
       this.highlightingMode = mode;
     }
 
-    if (['status', 'priority'].indexOf(this.highlightingMode) !== -1) {
+    if (['status', 'priority', 'version'].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireRowAttribute = this.highlightingMode;
       this.entireRowMode = true;
     } else {

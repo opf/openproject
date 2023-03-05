@@ -26,6 +26,7 @@ export class BoardHighlightingTabComponent implements TabComponent {
       none: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.none'),
       type: this.I18n.t('js.work_packages.properties.type'),
       priority: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.priority'),
+      version: this.I18n.t('js.work_packages.table_configuration.highlighting_mode.version'),
       entire_card_by: this.I18n.t('js.card.highlighting.entire_card_by'),
     },
   };
@@ -53,7 +54,7 @@ export class BoardHighlightingTabComponent implements TabComponent {
       this.highlightingMode = mode;
     }
 
-    if (['priority', 'type'].indexOf(this.highlightingMode) !== -1) {
+    if (['priority', 'type', 'version'].indexOf(this.highlightingMode) !== -1) {
       this.lastEntireCardAttribute = this.highlightingMode;
       this.entireCardMode = true;
     } else {

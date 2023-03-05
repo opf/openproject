@@ -98,6 +98,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: [->(table_name = Version.table_name) { Version.semver_sql(table_name) }, 'name'],
       default_order: 'ASC',
       null_handling: 'NULLS LAST',
+      highlightable: true,
       groupable: "#{WorkPackage.table_name}.version_id"
     },
     start_date: {

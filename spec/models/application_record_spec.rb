@@ -15,6 +15,8 @@ describe ApplicationRecord do
     end
 
     let!(:status) { create :status }
+    
+    let!(:version) { create :version }
 
     def expect_matched_date(postgres_time, rails_time)
       # Rails uses timestamp without timezone for timestamp columns
@@ -33,6 +35,9 @@ describe ApplicationRecord do
 
       expect_matched_date described_class.most_recently_changed(Status),
                           status.updated_at
+
+      expect_matched_date described_class.most_recently_changed(Version),
+                          version.updated_at
     end
   end
 end

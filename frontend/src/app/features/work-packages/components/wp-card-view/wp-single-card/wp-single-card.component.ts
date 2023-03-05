@@ -258,7 +258,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   }
 
   private cardHighlighting(wp:WorkPackageResource):string {
-    if (['status', 'priority', 'type'].includes(this.highlightingMode)) {
+    if (['status', 'priority', 'type', 'version'].includes(this.highlightingMode) && wp[this.highlightingMode]) {
       return Highlighting.backgroundClass(this.highlightingMode, wp[this.highlightingMode].id);
     }
     return '';

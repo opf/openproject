@@ -39,7 +39,7 @@ module Query::Highlighting
   included do
     prepend PrependValidHighlightingSubset
 
-    QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority].freeze
+    QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority version].freeze
 
     serialize :highlighted_attributes, Array
 

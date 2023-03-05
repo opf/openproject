@@ -175,7 +175,7 @@ describe PermittedParams do
     context 'whitelisted params' do
       let(:hash) do
         %w(name description effective_date due_date
-           start_date wiki_page_title status sharing).index_with { |_x| 'value' }.to_h
+           start_date wiki_page_title status color_id sharing).index_with { |_x| 'value' }.to_h
       end
 
       it_behaves_like 'allows params'
