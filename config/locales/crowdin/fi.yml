@@ -1398,7 +1398,6 @@ fi:
   general_csv_encoding: "ISO-8859-15"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Suomi"
   general_pdf_encoding: "ISO-8859-15"
   general_text_no: "ei"
   general_text_yes: "kyllä"

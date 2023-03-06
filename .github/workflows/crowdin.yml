@@ -73,7 +73,7 @@ jobs:
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
       - name: "Fixing translation names"
         run: |
-          ruby script/crowdin/fix_locale_keys.rb
+          ruby script/i18n/fix_crowdin_translation_filenames.rb
       - name: "Commit translations"
         run: |
           git config user.name "OpenProject Actions CI"

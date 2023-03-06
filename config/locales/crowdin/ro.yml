@@ -1415,7 +1415,6 @@ ro:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Română"
   general_pdf_encoding: "UTF-8"
   general_text_no: "nu"
   general_text_yes: "da"

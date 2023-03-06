@@ -62,10 +62,6 @@ module Redmine
       ('%.2f' % hours.to_f)
     end
 
-    def ll(lang, str, value = nil)
-      ::I18n.t(str.to_s, value:, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
-    end
-
     def format_date(date)
       return nil unless date
 
