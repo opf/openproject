@@ -24,7 +24,7 @@
         <div class="op-ian-center--loading-indicator">
         <img [src]="image.no_notification" class="op-ian-center-loading-image"/>
         <p class="op-ian-center-loading-text">
-          <span [textContent]="noNotificationText(hasNotifications, (totalCount$ | async))"></span>
+          <span [textContent]="noNotificationText((totalCount$ | async) > 0)"></span>
          
         </p>
           <span
