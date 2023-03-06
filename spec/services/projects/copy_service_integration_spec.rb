@@ -609,8 +609,14 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       describe 'assigned_to' do
+        let(:assigned_user) do
+          create(:user,
+                 member_in_project: source,
+                 member_through_role: role)
+        end
+
         before do
-          work_package.update_column(:assigned_to_id, current_user.id)
+          work_package.update_column(:assigned_to_id, assigned_user.id)
         end
 
         context 'with the members being copied' do
@@ -618,9 +624,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
           it 'copies the assigned_to' do
             expect(subject).to be_success
-            expect(project_copy.users).to include current_user
             expect(project_copy.work_packages[0].assigned_to)
-              .to eql current_user
+              .to eql assigned_user
+            # The assignee of the new work package receives a notification
+            expect { perform_enqueued_jobs }
+              .to change(Notification.where(recipient: assigned_user), :count)
+                    .from(0)
+                    .to(1)
           end
         end
 
@@ -631,13 +641,22 @@ describe Projects::CopyService, 'integration', type: :model do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].assigned_to)
               .to be_nil
+            # No notification is sent out
+            expect { perform_enqueued_jobs }
+              .not_to change(Notification.where(recipient: assigned_user), :count)
           end
         end
       end
 
       describe 'responsible' do
+        let(:responsible_user) do
+          create(:user,
+                 member_in_project: source,
+                 member_through_role: role)
+        end
+
         before do
-          work_package.update_column(:responsible_id, current_user.id)
+          work_package.update_column(:responsible_id, responsible_user.id)
         end
 
         context 'with the members being copied' do
@@ -645,9 +664,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
           it 'copies the responsible' do
             expect(subject).to be_success
-            expect(project_copy.users).to include current_user
             expect(project_copy.work_packages[0].responsible)
-              .to eql current_user
+              .to eql responsible_user
+            # The responsible of the new work package receives a notification
+            expect { perform_enqueued_jobs }
+              .to change(Notification.where(recipient: responsible_user), :count)
+                    .from(0)
+                    .to(1)
           end
         end
 
@@ -658,6 +681,9 @@ describe Projects::CopyService, 'integration', type: :model do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].responsible)
               .to be_nil
+            # No notification is sent out
+            expect { perform_enqueued_jobs }
+              .not_to change(Notification.where(recipient: responsible_user), :count)
           end
         end
       end
