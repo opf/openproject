@@ -97,19 +97,9 @@ describe "Notification center",
 
     context 'with more the 100 notifications' do
       let(:notifications) do
-        Array(0..204).map do |item|
-          reason = if item < 100
-                     :mentioned
-                   else
-                     :watched
-                   end
-
-          create(:notification,
-                 recipient:,
-                 project: project1,
-                 resource: work_package,
-                 reason:)
-        end
+        attributes = { recipient:, project: project1, resource: work_package }
+        create_list(:notification, 100, attributes.merge(reason: :mentioned)) +
+        create_list(:notification, 105, attributes.merge(reason: :watched))
       end
 
       it 'can dismiss all notifications of the currently selected filter' do
