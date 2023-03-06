@@ -85,7 +85,7 @@ sl:
   text_duration_in_hours: "Trajanje v urah"
   text_in_hours: "v urah"
   text_meeting_agenda_for_meeting: 'dnevni red za sestanek "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Ali ste prepričani, da želite zapreti sestanek?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
   text_meeting_agenda_open_are_you_sure: "To bo prepisalo vse spremembe v zapisniku! Ali želite nadaljevati?"
   text_meeting_minutes_for_meeting: 'zapisnik za sestanek "%{meeting}"'
   text_review_meeting_agenda: "%{author} je dal %{link} v pregled."

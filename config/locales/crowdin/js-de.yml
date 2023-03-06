@@ -254,17 +254,17 @@ de:
       working_days:
         calendar:
           empty_state_header: "Arbeitsfreie Tage"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          empty_state_description: 'Für dieses Jahr sind keine besonderen arbeitsfreien Tage definiert. Klicken Sie unten auf „+ arbeitsfreier Tag“, um ein Datum hinzuzufügen.'
           new_date: '(neu)'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "Arbeitsfreier Tag"
         already_added_error: "Für dieses Datum existiert bereits ein arbeitsfreier Tag. Für jedes einzelne Datum kann nur ein arbeitsfreier Tag erstellt werden."
         change_button: "Speichern und neu planen"
         change_title: "Arbeitstage ändern"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        removed_title: "Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:"
+        change_description: "Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete aktualisiert worden sind.
+          Sind Sie sicher, dass Sie fortfahren möchten?
     custom_actions:
       date:
         specific: 'am'
@@ -581,7 +581,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Hier werden neue Benachrichtigungen angezeigt, wenn es Aktivitäten gibt, die Sie betreffen.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -604,7 +604,7 @@ de:
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
         reminders:
@@ -666,7 +666,7 @@ de:
     project:
       required_outside_context: >
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
-      details_activity: 'Project details activity'
+      details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
