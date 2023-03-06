@@ -3174,8 +3174,8 @@ en:
 
   # TODO: merge with work_packages top level key
   work_package:
-    updated_automatically_by_child_changes: |
-      _Updated automatically by changing values within child work package %{child}_
+    updated_automatically_by_related_changes: |
+      _Updated automatically by changing values within related work package %{related}_
     destroy:
       info: "Deleting the work package is an irreversible action."
       title: "Delete the work package"

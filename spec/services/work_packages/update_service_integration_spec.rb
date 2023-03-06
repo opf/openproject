@@ -408,6 +408,15 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
           .to eql(attributes[:start_date])
         expect(wp.due_date)
           .to eql(sibling2_work_package.due_date)
+
+        # add a journal note about the change being made automatically
+        expect(wp.journals.last.notes)
+          .to eql(
+            I18n.t(
+              'work_package.updated_automatically_by_related_changes',
+              related: "##{work_package.id}"
+            )
+          )
       end
 
       # sibling dates are unchanged
@@ -791,6 +800,22 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         .to eql Time.zone.today + 32.days
       expect(following3_sibling_work_package.due_date)
         .to eql Time.zone.today + 36.days
+
+      # add journal notes about the changes being made automatically
+      [following_parent_work_package,
+       following_work_package,
+       following2_parent_work_package,
+       following2_work_package,
+       following3_parent_work_package,
+       following3_work_package].each do |wp|
+        expect(wp.journals.last.notes)
+          .to eql(
+            I18n.t(
+              'work_package.updated_automatically_by_related_changes',
+              related: "##{work_package.id}"
+            )
+          )
+      end
 
       # Returns changed work packages
       expect(subject.all_results)
@@ -1182,13 +1207,13 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
   describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:user) { admin }
 
-    let(:project) { create :project }
-    let!(:wp_a) { create :work_package }
-    let!(:wp_b) { create :work_package, parent: wp_a }
-    let!(:wp_c) { create :work_package, parent: wp_a }
+    let(:project) { create(:project) }
+    let!(:wp_a) { create(:work_package) }
+    let!(:wp_b) { create(:work_package, parent: wp_a) }
+    let!(:wp_c) { create(:work_package, parent: wp_a) }
 
     let(:work_package) { wp_c }
 
@@ -1200,8 +1225,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   end
 
   describe 'Changing type to one that does not have the current status (Regression #27780)' do
-    let(:type) { create :type_with_workflow }
-    let(:new_type) { create :type }
+    let(:type) { create(:type_with_workflow) }
+    let(:new_type) { create(:type) }
     let(:project_types) { [type, new_type] }
     let(:attributes) { { type: new_type } }
 
@@ -1216,7 +1241,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
 
     context 'when the work package does have default status' do
-      let(:status) { create :default_status }
+      let(:status) { create(:default_status) }
       let!(:workflow_type) do
         create(:workflow, type: new_type, role:, old_status_id: status.id)
       end

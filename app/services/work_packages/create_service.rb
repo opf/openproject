@@ -87,6 +87,8 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
                .new(user:, work_package:)
                .call
 
+    set_journal_note(work_package, result.dependent_results)
+
     result.self_and_dependent.each do |r|
       unless r.result.save
         result.success = false

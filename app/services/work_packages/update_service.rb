@@ -120,10 +120,14 @@ class WorkPackages::UpdateService < ::BaseServices::Update
   end
 
   def reschedule(work_package, work_packages)
-    WorkPackages::SetScheduleService
+    results = WorkPackages::SetScheduleService
       .new(user:,
            work_package: work_packages)
       .call(work_package.saved_changes.keys.map(&:to_sym))
+
+    set_journal_note(work_package, results.dependent_results)
+
+    results
   end
 
   # When multiple services change a work package, we still only want one update to the database due to:

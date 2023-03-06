@@ -62,6 +62,13 @@ module WorkPackages
                work_package: wp)
           .call(changes)
       end
+
+      def set_journal_note(work_package, dependent_results)
+        dependent_results.each do |dr|
+          wp = dr.result
+          wp.journal_notes = I18n.t('work_package.updated_automatically_by_related_changes', related: "##{work_package.id}")
+        end
+      end
     end
   end
 end

@@ -128,6 +128,24 @@ describe WorkPackages::CreateService, 'integration', type: :model do
       expect(parent.due_date)
         .to eql attributes[:due_date]
 
+      # Note: In this spec we are making two automated changes to attributes of the parent work package
+      # (done_ratio and start/due_date).
+      # The WorkPackages::UpdateAncestorsService is called as we change the done_ratio
+      # and the reschedule_related method of the CreateService is called as we change the start/due_dates.
+      # This lead to two journal entries, each of them having an updated_automatically_by_related_changes
+      # note/comment. This prevents the two journal entries from being aggregated into one journal entry.
+      # So in this spec we need to check the last 2 journal entries.
+
+      parent.journals.last(2).each do |journal|
+        expect(journal.notes)
+          .to eql(
+            I18n.t(
+              'work_package.updated_automatically_by_related_changes',
+              related: "##{new_work_package.id}"
+            )
+          )
+      end
+
       # adds the user (author) as watcher
       expect(new_work_package.watcher_users)
         .to match_array([user])
