@@ -25,7 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "ostruct"
 
 ##
 # Service state object to be passed around services
@@ -34,7 +33,7 @@ require "ostruct"
 # Borrows heavily from interactor gem's context class at
 # https://github.com/collectiveidea/interactor
 module Shared
-  class ServiceState < OpenStruct
+  class ServiceState < Hashie::Mash
     ##
     # Builds the context object unless
     # it's already an instance of this context.
