@@ -632,7 +632,7 @@ de:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
