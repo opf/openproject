@@ -237,7 +237,7 @@ describe OAuthClients::ConnectionManager, type: :model do
         expect(subject.success).to be_falsey
         expect(subject.result).to eq "unexpected token at 'some: very, invalid> <json}'"
         expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
@@ -255,14 +255,27 @@ describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with bad HTTP response' do
+    context 'when something is wrong with connection' do
       before do
-        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Net::HTTPBadResponse)
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::ConnectionFailed)
       end
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq("Exception from WebMock")
+        expect(subject.errors[:base].count).to be(1)
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      end
+    end
+
+    context 'when something is wrong with SSL' do
+      before do
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::SSLError)
+      end
+
+      it 'returns an unspecific error message' do
+        expect(subject.success).to be_falsey
+        expect(subject.result).to eq("Exception from WebMock")
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
@@ -275,7 +288,7 @@ describe OAuthClients::ConnectionManager, type: :model do
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq("execution expired")
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
@@ -368,7 +381,7 @@ describe OAuthClients::ConnectionManager, type: :model do
 
           it 'returns a valid ClientToken object', webmock: true do
             expect(subject.success).to be_falsey
-            expect(subject.result).to be_nil
+            expect(subject.result).to eq("execution expired")
             expect(subject.errors.size).to be(1)
           end
         end

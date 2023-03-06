@@ -201,15 +201,20 @@ module OAuthClients
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
-    rescue Rack::OAuth2::Client::Error, Faraday::ParsingError => e
+    rescue Rack::OAuth2::Client::Error => e
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
-    rescue Faraday::TimeoutError, Faraday::ConnectionFailed => e
+    rescue Faraday::TimeoutError,
+           Faraday::ConnectionFailed,
+           Faraday::ParsingError,
+           Faraday::SSLError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
+        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
+        e.message
       )
     rescue StandardError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
+        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
+        e.message
       )
     end
 
