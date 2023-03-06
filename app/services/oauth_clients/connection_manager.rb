@@ -204,7 +204,6 @@ module OAuthClients
     rescue Rack::OAuth2::Client::Error, Faraday::ParsingError => e
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
     rescue Faraday::TimeoutError, Faraday::ConnectionFailed => e
-      # Reduce the number of exceptions in the list https://github.com/lostisland/faraday-net_http/blob/main/lib/faraday/adapter/net_http.rb
       service_result_with_error(
         "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
       )
