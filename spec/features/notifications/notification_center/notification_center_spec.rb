@@ -95,6 +95,45 @@ describe "Notification center",
       center.expect_bell_count 0
     end
 
+    context 'with more the 100 notifications' do
+      let(:notifications) do
+        attributes = { recipient:, project: project1, resource: work_package }
+        create_list(:notification, 100, attributes.merge(reason: :mentioned)) +
+        create_list(:notification, 105, attributes.merge(reason: :watched))
+      end
+
+      it 'can dismiss all notifications of the currently selected filter' do
+        visit home_path
+        center.expect_bell_count '99+'
+        center.open
+
+        # side menu items show full count of notifications (inbox has one more due to the "Created" notification)
+        side_menu.expect_item_with_count 'Inbox', 206
+        side_menu.expect_item_with_count 'Mentioned', 100
+        side_menu.expect_item_with_count 'Watcher', 105
+
+        # select watcher filter and mark all as read
+        side_menu.click_item 'Watcher'
+        side_menu.finished_loading
+        center.mark_all_read
+
+        center.expect_bell_count '99+'
+        side_menu.expect_item_with_count 'Inbox', 101
+        side_menu.expect_item_with_count 'Mentioned', 100
+        side_menu.expect_item_with_no_count 'Watcher'
+
+        # select inbox and mark all as read
+        side_menu.click_item 'Inbox'
+        side_menu.finished_loading
+        center.mark_all_read
+
+        center.expect_bell_count 0
+        side_menu.expect_item_with_no_count 'Inbox'
+        side_menu.expect_item_with_no_count 'Mentioned'
+        side_menu.expect_item_with_no_count 'Watcher'
+      end
+    end
+
     it 'can open the split screen of the notification' do
       visit home_path
       center.expect_bell_count 2
