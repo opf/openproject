@@ -246,8 +246,7 @@ describe 'BCF 2.1 viewpoints resource', content_type: :json, with_mail: false do
     let(:path) { "/api/bcf/2.1/projects/#{project.id}/topics/#{bcf_issue.uuid}/viewpoints" }
     let(:current_user) { create_user }
     let(:params) do
-      FactoryBot
-        .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+      attributes_for(:bcf_viewpoint)[:json_viewpoint]
         .merge(
           "snapshot" =>
             {
@@ -296,8 +295,7 @@ describe 'BCF 2.1 viewpoints resource', content_type: :json, with_mail: false do
 
     context 'providing a number for a perspective that might be transformed into a BigDecimal (by the Oj gem)' do
       let(:params) do
-        FactoryBot
-          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+        attributes_for(:bcf_viewpoint)[:json_viewpoint]
           .merge(
             "perspective_camera" => {
               "camera_view_point" => {
@@ -339,8 +337,7 @@ describe 'BCF 2.1 viewpoints resource', content_type: :json, with_mail: false do
 
     context 'providing an invalid viewpoint json by having an invalid snapshot type' do
       let(:params) do
-        FactoryBot
-          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+        attributes_for(:bcf_viewpoint)[:json_viewpoint]
           .merge(
             "snapshot" =>
               {
@@ -357,8 +354,7 @@ describe 'BCF 2.1 viewpoints resource', content_type: :json, with_mail: false do
 
     context 'providing an invalid viewpoint json by not having snapshot_data' do
       let(:params) do
-        FactoryBot
-          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+        attributes_for(:bcf_viewpoint)[:json_viewpoint]
           .merge(
             "snapshot" =>
               {
@@ -374,8 +370,7 @@ describe 'BCF 2.1 viewpoints resource', content_type: :json, with_mail: false do
 
     context 'providing an invalid viewpoint json by writing bitmaps and having a string for the integer' do
       let(:params) do
-        FactoryBot
-          .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+        attributes_for(:bcf_viewpoint)[:json_viewpoint]
           .merge('index' => 'some invalid index')
       end
 

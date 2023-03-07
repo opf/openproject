@@ -60,14 +60,14 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
            comments: 'My comment')
   end
   let!(:visible_time_entry_on_project) do
-    FactoryBot.create(:time_entry,
-                      work_package: nil,
-                      project:,
-                      activity:,
-                      user:,
-                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
-                      hours: 1,
-                      comments: 'My comment')
+    create(:time_entry,
+           work_package: nil,
+           project:,
+           activity:,
+           user:,
+           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           hours: 1,
+           comments: 'My comment')
   end
   let!(:other_visible_time_entry) do
     create(:time_entry,

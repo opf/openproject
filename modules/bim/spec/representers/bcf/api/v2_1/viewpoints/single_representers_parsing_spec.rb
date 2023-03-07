@@ -33,8 +33,7 @@ describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
     OpenStruct.new
   end
   let(:hash) do
-    FactoryBot
-      .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+    attributes_for(:bcf_viewpoint)[:json_viewpoint]
       .merge(
         "snapshot" =>
           {

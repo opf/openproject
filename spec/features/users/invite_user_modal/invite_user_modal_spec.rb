@@ -102,8 +102,8 @@ describe 'Invite user modal', js: true do
     let(:wp_page) { Pages::FullWorkPackageCreate.new(project:) }
     let(:assignee_field) { wp_page.edit_field :assignee }
     let(:subject_field) { wp_page.edit_field :subject }
-    let!(:status) { FactoryBot.create(:default_status) }
-    let!(:priority) { FactoryBot.create(:default_priority) }
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
     let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_members work_package_assigned] }
 
     it 'selects the placeholder' do
