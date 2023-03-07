@@ -36,7 +36,7 @@ describe OAuthClients::CreateContract do
   let(:current_user) { create(:admin) }
   let(:client_id) { "1234567889" }
   let(:client_secret) { "asdfasdfasdf" }
-  let(:integration) { build_stubbed :storage }
+  let(:integration) { build_stubbed(:storage) }
   let(:oauth_client) do
     build(:oauth_client, client_id:, client_secret:, integration:)
   end
@@ -73,7 +73,7 @@ describe OAuthClients::CreateContract do
     end
 
     context 'with integration (polymorphic attribute) linked' do
-      let(:integration) { create :storage }
+      let(:integration) { create(:storage) }
 
       include_examples 'contract is valid'
     end

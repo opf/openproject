@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) do
-    create :project, name: 'Demo project', identifier: 'demo-project', public: true,
-                     enabled_module_names: %w[work_package_tracking wiki]
+    create(:project, name: 'Demo project', identifier: 'demo-project', public: true,
+                     enabled_module_names: %w[work_package_tracking wiki])
   end
   let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
 
   let(:scrum_project) do
-    create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
-                     enabled_module_names: %w[work_package_tracking]
+    create(:project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
+                     enabled_module_names: %w[work_package_tracking])
   end
   let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
 
@@ -160,8 +160,8 @@ describe 'onboarding tour for new users', js: true do
 
   context 'with a new user who is not allowed to see the parts of the tour' do
     # necessary to be able to see public projects
-    let(:non_member_role) { create :non_member, permissions: [:view_work_packages] }
-    let(:non_member_user) { create :user }
+    let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
+    let(:non_member_user) { create(:user) }
 
     before do
       allow(Setting).to receive(:demo_projects_available).and_return(true)

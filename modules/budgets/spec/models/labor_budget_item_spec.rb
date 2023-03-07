@@ -109,7 +109,7 @@ describe LaborBudgetItem do
     end
 
     describe 'WHEN a group is provided' do
-      let(:group) { create :group }
+      let(:group) { create(:group) }
 
       before do
         item.save!

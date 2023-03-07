@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe TimeEntryWebhookJob, type: :job, webmock: true do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:time_entry) { create :time_entry, hours: 10 }
-  shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
+  shared_let(:time_entry) { create(:time_entry, hours: 10) }
+  shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
 
   shared_examples "a time entry webhook call" do
     let(:event) { "time_entry:created" }

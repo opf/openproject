@@ -31,39 +31,39 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Time entries widget on dashboard', js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           author: user
+           author: user)
   end
   let!(:visible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            user:,
            spent_on: Date.today,
            hours: 6,
-           comments: 'My comment'
+           comments: 'My comment')
   end
   let!(:other_visible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            user: other_user,
            spent_on: Date.today - 1.day,
            hours: 5,
-           comments: 'Another`s comment'
+           comments: 'Another`s comment')
   end
   let!(:invisible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project: other_project,
            user:,
-           hours: 4
+           hours: 4)
   end
   let(:role) do
     create(:role,

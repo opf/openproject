@@ -703,9 +703,9 @@ describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      let(:parent) { build_stubbed :work_package }
+      let(:parent) { build_stubbed(:work_package) }
       let(:new_parent) do
-        wp = build_stubbed :work_package
+        wp = build_stubbed(:work_package)
         allow(WorkPackage)
           .to receive(:find_by)
           .with(id: wp.id.to_s)

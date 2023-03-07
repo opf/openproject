@@ -3,34 +3,34 @@ require 'spec_helper'
 describe 'Work Package highlighting fields',
          with_ee: %i[conditional_highlighting],
          js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
 
-  let(:status1) { create :status, color: create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
-  let(:status2) { create :status, color: create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
+  let(:status1) { create(:status, color: create(:color, hexcode: '#FF0000')) } # rgba(255, 0, 0, 1)
+  let(:status2) { create(:status, color: create(:color, hexcode: '#F0F0F0')) } # rgba(240, 240, 240, 1)
 
   let(:priority1) do
-    create :issue_priority, color: create(:color, hexcode: '#123456')
+    create(:issue_priority, color: create(:color, hexcode: '#123456'))
   end
-  let(:priority_no_color) { create :issue_priority, color: nil }
+  let(:priority_no_color) { create(:issue_priority, color: nil) }
 
   let!(:wp_1) do
-    create :work_package,
+    create(:work_package,
            project:,
            status: status1,
            subject: 'B',
            due_date: (Date.today - 1.day),
-           priority: priority1
+           priority: priority1)
   end
 
   let!(:wp_2) do
-    create :work_package,
+    create(:work_package,
            project:,
            status: status2,
            subject: 'A',
            due_date: Date.today,
-           priority: priority_no_color
+           priority: priority_no_color)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

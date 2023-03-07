@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'work_package'
 
 describe Users::MembershipsController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:user) { create(:user) }
   let(:anonymous) { create(:anonymous) }

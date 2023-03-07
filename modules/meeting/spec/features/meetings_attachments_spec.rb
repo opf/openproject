@@ -3,11 +3,11 @@ require 'features/page_objects/notification'
 
 describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
-    create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
+    create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
 
   let(:dev) do
-    create :user, member_in_project: project, member_through_role: role
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:project) { create(:project) }

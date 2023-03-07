@@ -40,12 +40,12 @@ describe 'messages', js: true do
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: forum.project,
            member_through_role: role,
            notification_settings: [
              build(:notification_setting, **notification_settings_all_false, watched: true)
-           ]
+           ])
   end
   let(:other_user) do
     create(:user,

@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'Work package relations tab', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
@@ -60,24 +60,24 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { create :project, types: [type_1, type_2] }
-    let(:type_1) { create :type }
-    let(:type_2) { create :type }
+    let(:project) { create(:project, types: [type_1, type_2]) }
+    let(:type_1) { create(:type) }
+    let(:type_2) { create(:type) }
 
     let(:to_1) { create(:work_package, type: type_1, project:) }
     let(:to_2) { create(:work_package, type: type_2, project:) }
 
     let!(:relation_1) do
-      create :relation,
+      create(:relation,
              from: work_package,
              to: to_1,
-             relation_type: Relation::TYPE_FOLLOWS
+             relation_type: Relation::TYPE_FOLLOWS)
     end
     let!(:relation_2) do
-      create :relation,
+      create(:relation,
              from: work_package,
              to: to_2,
-             relation_type: Relation::TYPE_RELATES
+             relation_type: Relation::TYPE_RELATES)
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -149,13 +149,13 @@ describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      create :role, permissions:
+      create(:role, permissions:)
     end
 
     let(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: user_role
+             member_through_role: user_role)
     end
 
     context 'as view-only user, with parent set' do

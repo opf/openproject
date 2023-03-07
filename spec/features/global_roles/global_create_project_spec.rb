@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Global role: Global Create project', js: true do
   let(:user) { create(:admin) }
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
   before do
     login_as(user)
@@ -68,7 +68,7 @@ describe 'Global role: Global Create project', js: true do
     let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
     let!(:member_role) { create(:role, name: 'Member', permissions: %i[view_project]) }
 
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let!(:global_member) do
       create(:global_member,
              principal: user,
@@ -98,7 +98,7 @@ describe 'Global role: Global Create project', js: true do
     # | Firstname | Bob |
     # | Lastname | Bobbit |
     #   When I am already logged in as "bob"
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     it 'does show the global permission' do
       # And I go to the overall projects page

@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe 'Work Package group by boolean field', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project, types: [type], work_package_custom_fields: [bool_cf]) }
-  let(:bool_cf) { create :bool_wp_custom_field, name: 'booleanField', types: [type] }
+  let(:bool_cf) { create(:bool_wp_custom_field, name: 'booleanField', types: [type]) }
   let(:type) { create(:type) }
 
   let!(:wp1) { create(:work_package, project:, type:) }

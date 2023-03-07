@@ -30,13 +30,13 @@ require 'spec_helper'
 require_relative '../principals/shared_memberships_examples'
 
 describe 'placeholder user memberships through placeholder user page', js: true do
-  shared_let(:principal) { create :placeholder_user, name: 'UX Designer' }
+  shared_let(:principal) { create(:placeholder_user, name: 'UX Designer') }
   shared_let(:principal_page) { Pages::Admin::IndividualPrincipals::Edit.new(principal) }
 
   include_context 'principal membership management context'
 
   context 'as admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'principal membership management flows'
   end

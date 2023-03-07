@@ -46,7 +46,7 @@ describe API::Decorators::Formattable do
   end
 
   context 'when passing an object context' do
-    let(:object) { build_stubbed :work_package }
+    let(:object) { build_stubbed(:work_package) }
 
     subject { described_class.new(represented, object:) }
 

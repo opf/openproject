@@ -31,9 +31,9 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Project description widget on dashboard', js: true do
-  let!(:type) { create :type_task, name: 'Task' }
+  let!(:type) { create(:type_task, name: 'Task') }
   let!(:project) do
-    create :project, types: [type]
+    create(:project, types: [type])
   end
 
   let(:permissions) do

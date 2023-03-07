@@ -182,16 +182,16 @@ describe SearchController do
 
     context 'when searching for a note' do
       let!(:note_1) do
-        create :work_package_journal,
+        create(:work_package_journal,
                journable_id: work_package_1.id,
                notes: 'Test note 1',
-               version: 2
+               version: 2)
       end
       let!(:note_2) do
-        create :work_package_journal,
+        create(:work_package_journal,
                journable_id: work_package_1.id,
                notes: 'Special note 2',
-               version: 3
+               version: 3)
       end
 
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }

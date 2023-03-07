@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe Query::Results, with_mail: false do
   let(:query) do
-    build :query,
-          show_hierarchies: false
+    build(:query,
+          show_hierarchies: false)
   end
   let(:query_results) do
     described_class.new query
   end
-  let(:project1) { create :project }
+  let(:project1) { create(:project) }
   let(:role_pm) do
     create(:role,
            permissions: %i(
@@ -67,10 +67,10 @@ describe Query::Results, with_mail: false do
 
   describe '#work_package_count_by_group' do
     let(:query) do
-      build :query,
+      build(:query,
             show_hierarchies: false,
             group_by:,
-            project: project1
+            project: project1)
     end
     let(:type1) do
       create(:type)
@@ -309,8 +309,8 @@ describe Query::Results, with_mail: false do
   end
 
   describe 'filtering' do
-    let!(:project1) { create :project }
-    let!(:project2) { create :project }
+    let!(:project1) { create(:project) }
+    let!(:project2) { create(:project) }
     let!(:member) do
       create(:member,
              project: project2,
@@ -349,7 +349,7 @@ describe Query::Results, with_mail: false do
       end
 
       context 'when a project is set' do
-        let(:query) { build :query, project: project2 }
+        let(:query) { build(:query, project: project2) }
 
         it 'displays only wp for selected project and selected role' do
           expect(query_results.work_packages).to match_array([wp_p2])
@@ -357,7 +357,7 @@ describe Query::Results, with_mail: false do
       end
 
       context 'when no project is set' do
-        let(:query) { build :query, project: nil }
+        let(:query) { build(:query, project: nil) }
 
         it 'displays all wp from projects where User.current has access' do
           expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
@@ -370,10 +370,10 @@ describe Query::Results, with_mail: false do
     context 'with a custom field being returned and paginating' do
       let(:group_by) { nil }
       let(:query) do
-        build_stubbed :query,
+        build_stubbed(:query,
                       show_hierarchies: false,
                       group_by:,
-                      project: project2
+                      project: project2)
       end
 
       let!(:custom_field) { create(:work_package_custom_field, is_for_all: true) }
@@ -424,10 +424,10 @@ describe Query::Results, with_mail: false do
 
     context 'when grouping by responsible' do
       let(:query) do
-        build :query,
+        build(:query,
               show_hierarchies: false,
               group_by:,
-              project: project1
+              project: project1)
       end
       let(:group_by) { 'responsible' }
 

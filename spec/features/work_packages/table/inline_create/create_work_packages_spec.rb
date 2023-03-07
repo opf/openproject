@@ -5,24 +5,24 @@ describe 'inline create work package', js: true do
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:status) { create(:default_status) }
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role:
+           role:)
   end
 
   let!(:project) { create(:project, public: true, types:) }
   let!(:existing_wp) { create(:work_package, project:) }
-  let!(:priority) { create :priority, is_default: true }
+  let!(:priority) { create(:priority, is_default: true) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
@@ -179,17 +179,17 @@ describe 'inline create work package', js: true do
     context 'when user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
-      let(:project2) { create :project }
+      let(:project2) { create(:project) }
       let(:role2) do
-        create :role,
+        create(:role,
                permissions: %i[view_work_packages
-                               add_work_packages]
+                               add_work_packages])
       end
       let!(:membership) do
-        create :member,
+        create(:member,
                user:,
                project: project2,
-               roles: [role2]
+               roles: [role2])
       end
 
       it 'renders the work packages, but no create' do

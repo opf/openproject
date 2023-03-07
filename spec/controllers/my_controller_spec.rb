@@ -121,7 +121,7 @@ describe MyController do
   end
 
   describe 'account' do
-    let(:custom_field) { create :text_user_custom_field }
+    let(:custom_field) { create(:text_user_custom_field) }
 
     before do
       custom_field

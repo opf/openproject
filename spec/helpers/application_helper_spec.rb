@@ -30,19 +30,19 @@ require 'spec_helper'
 
 describe ApplicationHelper do
   describe '.link_to_if_authorized' do
-    let(:project) { create :valid_project }
+    let(:project) { create(:valid_project) }
     let(:project_member) do
-      create :user,
+      create(:user,
              member_in_project: project,
              member_through_role: create(:role,
                                          permissions: %i[view_work_packages edit_work_packages
-                                                         browse_repository view_changesets view_wiki_pages])
+                                                         browse_repository view_changesets view_wiki_pages]))
     end
     let(:issue) do
-      create :work_package,
+      create(:work_package,
              project:,
              author: project_member,
-             type: project.types.first
+             type: project.types.first)
     end
 
     context 'if user is authorized' do

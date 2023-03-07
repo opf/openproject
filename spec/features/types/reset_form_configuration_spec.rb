@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Reset form configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
+  let(:project) { create(:project, types: [type]) }
   let(:form) { Components::Admin::TypeConfigurationForm.new }
   let(:dialog) { Components::ConfirmationDialog.new }
 

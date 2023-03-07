@@ -31,7 +31,7 @@ require_relative './mock_global_permissions'
 
 describe 'Global role: No module', js: true do
   let(:admin) { create(:admin) }
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let!(:role) { create(:role) }
 
   before do

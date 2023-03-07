@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Help menu items' do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
 
   before do

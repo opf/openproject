@@ -34,10 +34,10 @@ describe 'Calendar drag&dop and resizing', js: true do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let(:overview_page) do
@@ -46,11 +46,11 @@ describe 'Calendar drag&dop and resizing', js: true do
   let(:wp_full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
   current_user do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_calendar manage_overview
-           ]
+           ])
   end
 
   before do

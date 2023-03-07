@@ -33,8 +33,8 @@ describe 'index placeholder users', js: true do
     with_enterprise_token(:placeholder_users)
   end
 
-  let!(:current_user) { create :admin }
-  let!(:anonymous) { create :anonymous }
+  let!(:current_user) { create(:admin) }
+  let!(:anonymous) { create(:anonymous) }
   let!(:placeholder_user_1) do
     create(:placeholder_user,
            name: 'B',
@@ -50,8 +50,8 @@ describe 'index placeholder users', js: true do
            name: 'C',
            created_at: 1.minute.ago)
   end
-  let(:manager_role) { create :existing_role, permissions: [:manage_members] }
-  let(:member_role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:manager_role) { create(:existing_role, permissions: [:manage_members]) }
+  let(:member_role) { create(:existing_role, permissions: [:view_work_packages]) }
   let(:index_page) { Pages::Admin::PlaceholderUsers::Index.new }
 
   shared_examples 'placeholders index flow' do
@@ -83,13 +83,13 @@ describe 'index placeholder users', js: true do
   end
 
   context 'as admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'placeholders index flow'
   end
 
   context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders index flow'
 
@@ -140,7 +140,7 @@ describe 'index placeholder users', js: true do
   end
 
   context 'as user without global permission' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'returns an error' do
       index_page.visit!

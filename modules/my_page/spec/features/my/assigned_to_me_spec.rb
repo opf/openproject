@@ -31,33 +31,33 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Assigned to me embedded query on my page', js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:assigned_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Assigned to me',
            type:,
            author: user,
-           assigned_to: user
+           assigned_to: user)
   end
   let!(:assigned_work_package_2) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'My task 2',
            type:,
            author: user,
-           assigned_to: user
+           assigned_to: user)
   end
   let!(:assigned_to_other_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Not assigned to me',
            type:,
            author: user,
-           assigned_to: other_user
+           assigned_to: other_user)
   end
   let(:other_user) do
     create(:user)
@@ -85,13 +85,13 @@ describe 'Assigned to me embedded query on my page', js: true do
 
   context 'with parent work package' do
     let!(:assigned_work_package_child) do
-      create :work_package,
+      create(:work_package,
              subject: 'Child',
              parent: assigned_work_package,
              project:,
              type:,
              author: user,
-             assigned_to: user
+             assigned_to: user)
     end
 
     it 'can toggle hierarchy mode in embedded tables (Regression test #29578)' do

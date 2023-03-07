@@ -67,8 +67,8 @@ describe 'user deletion:', js: true do
   end
 
   context 'user with global add role' do
-    let!(:user) { create :user }
-    let(:current_user) { create :user, global_permission: :manage_user }
+    let!(:user) { create(:user) }
+    let(:current_user) { create(:user, global_permission: :manage_user) }
 
     it 'can not delete even if settings allow it', js: true do
       Setting.users_deletable_by_admins = 1
@@ -83,7 +83,7 @@ describe 'user deletion:', js: true do
   end
 
   context 'admin user' do
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     let(:user_password) { 'admin! * 4' }
     let(:current_user) do
       create(:admin,

@@ -33,8 +33,8 @@ describe 'Manual sorting of WP table', js: true do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:type_task) { create :type_task }
-  let(:type_bug) { create :type_bug }
+  let(:type_task) { create(:type_task) }
+  let(:type_bug) { create(:type_bug) }
   let(:project) { create(:project, types: [type_task, type_bug]) }
   let(:work_package1) do
     create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.zone.now)
@@ -239,8 +239,8 @@ describe 'Manual sorting of WP table', js: true do
         q.save!
       end
     end
-    let!(:status) { create :default_status }
-    let!(:priority) { create :default_priority }
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
 
     before do
       OrderedWorkPackage.create(query: query, work_package: work_package1, position: 0)

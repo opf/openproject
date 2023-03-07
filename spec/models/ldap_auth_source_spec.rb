@@ -137,12 +137,12 @@ describe LdapAuthSource do
 
   describe 'admin attribute mapping' do
     let(:auth_source) do
-      build :ldap_auth_source,
+      build(:ldap_auth_source,
             attr_login: 'uid',
             attr_firstname: 'givenName',
             attr_lastname: 'sn',
             attr_mail: 'mail',
-            attr_admin:
+            attr_admin:)
     end
     let(:entry) do
       Net::LDAP::Entry.new('uid=login,foo=bar').tap do |entry|
@@ -229,7 +229,7 @@ describe LdapAuthSource do
 
     # Ldap has three users aa729, bb459, cc414
     let(:ldap) do
-      create :ldap_auth_source,
+      create(:ldap_auth_source,
              port: ParallelHelper.port_for_ldap.to_s,
              tls_mode: :plain_ldap,
              account: 'uid=admin,ou=system',
@@ -241,7 +241,7 @@ describe LdapAuthSource do
              attr_firstname: 'givenName',
              attr_lastname: 'sn',
              attr_mail: 'mail',
-             attr_admin:
+             attr_admin:)
     end
 
     let(:filter_string) { nil }

@@ -32,7 +32,7 @@ describe Query::Results, 'Subject filter integration', with_mail: false do
   let(:query_results) do
     Query::Results.new query
   end
-  let(:project_1) { create :project }
+  let(:project_1) { create(:project) }
   let(:user_1) do
     create(:user,
            firstname: 'user',

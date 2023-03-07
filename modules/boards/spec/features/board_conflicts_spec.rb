@@ -47,10 +47,10 @@ describe 'Board remote changes resolution', js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:work_package1) { create :work_package, project:, subject: 'Work package A', status: open_status }
-  let!(:work_package2) { create :work_package, project:, subject: 'Work package B', status: open_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:work_package1) { create(:work_package, project:, subject: 'Work package A', status: open_status) }
+  let!(:work_package2) { create(:work_package, project:, subject: 'Work package B', status: open_status) }
 
   before do
     with_enterprise_token :board_view

@@ -30,17 +30,17 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'work package export' do
-  let(:project) { create :project_with_types, types: [type_a, type_b] }
+  let(:project) { create(:project_with_types, types: [type_a, type_b]) }
   let(:export_type) { 'CSV' }
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
-  let(:type_a) { create :type, name: "Type A" }
-  let(:type_b) { create :type, name: "Type B" }
+  let(:type_a) { create(:type, name: "Type A") }
+  let(:type_b) { create(:type, name: "Type B") }
 
-  let(:wp_1) { create :work_package, project:, done_ratio: 25, type: type_a }
-  let(:wp_2) { create :work_package, project:, done_ratio: 0, type: type_a }
-  let(:wp_3) { create :work_package, project:, done_ratio: 0, type: type_b }
-  let(:wp_4) { create :work_package, project:, done_ratio: 0, type: type_a }
+  let(:wp_1) { create(:work_package, project:, done_ratio: 25, type: type_a) }
+  let(:wp_2) { create(:work_package, project:, done_ratio: 0, type: type_a) }
+  let(:wp_3) { create(:work_package, project:, done_ratio: 0, type: type_b) }
+  let(:wp_4) { create(:work_package, project:, done_ratio: 0, type: type_a) }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -172,9 +172,9 @@ describe 'work package export' do
 
     describe 'with a manually sorted query', js: true do
       let(:query) do
-        create :query,
+        create(:query,
                user: current_user,
-               project:
+               project:)
       end
 
       before do
@@ -212,9 +212,9 @@ describe 'work package export' do
   context 'PDF export', js: true do
     let(:export_type) { 'PDF' }
     let(:query) do
-      create :query,
+      create(:query,
              user: current_user,
-             project:
+             project:)
     end
 
     context 'with many columns' do

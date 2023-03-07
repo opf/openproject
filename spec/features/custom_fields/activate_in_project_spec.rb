@@ -30,10 +30,10 @@ require 'spec_helper'
 require 'support/pages/custom_fields'
 
 describe 'custom fields', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
-  let(:for_all_cf) { create :list_wp_custom_field, is_for_all: true }
-  let(:project_specific_cf) { create :int_wp_custom_field }
+  let(:for_all_cf) { create(:list_wp_custom_field, is_for_all: true) }
+  let(:project_specific_cf) { create(:int_wp_custom_field) }
   let(:work_package) do
     wp = build(:work_package).tap do |wp|
       wp.type.custom_fields = [for_all_cf, project_specific_cf]

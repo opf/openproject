@@ -32,9 +32,9 @@ require_relative './../support/onboarding_steps'
 describe 'boards onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
-    create :admin,
+    create(:admin,
            member_in_project: demo_project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:permissions) do
     %i[
@@ -49,27 +49,27 @@ describe 'boards onboarding tour', js: true do
   let(:role) { create(:role, permissions:) }
 
   let(:demo_project) do
-    create :project,
+    create(:project,
            name: 'Demo project',
            identifier: 'demo-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki board_view]
+           enabled_module_names: %w[work_package_tracking wiki board_view])
   end
   let(:scrum_project) do
-    create :project,
+    create(:project,
            name: 'Scrum project',
            identifier: 'your-scrum-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki board_view]
+           enabled_module_names: %w[work_package_tracking wiki board_view])
   end
   let!(:wp_1) { create(:work_package, project: demo_project) }
   let!(:wp_2) { create(:work_package, project: scrum_project) }
 
-  let!(:demo_board_view) { create :board_grid_with_query, project: demo_project, name: 'Kanban', query: }
-  let!(:demo_basic_board_view) { create :board_grid_with_query, project: demo_project, name: 'Basic board', query: }
-  let!(:scrum_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Kanban', query: }
-  let!(:scrum_basic_board_view) { create :board_grid_with_query, project: scrum_project, name: 'Task board', query: }
-  let(:query) { create :query, user:, project: demo_project }
+  let!(:demo_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Kanban', query:) }
+  let!(:demo_basic_board_view) { create(:board_grid_with_query, project: demo_project, name: 'Basic board', query:) }
+  let!(:scrum_board_view) { create(:board_grid_with_query, project: scrum_project, name: 'Kanban', query:) }
+  let!(:scrum_basic_board_view) { create(:board_grid_with_query, project: scrum_project, name: 'Task board', query:) }
+  let(:query) { create(:query, user:, project: demo_project) }
 
   before do
     OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)

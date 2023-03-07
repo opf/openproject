@@ -33,7 +33,7 @@ module OpenProject
     include Redmine::I18n
 
     let(:format) { '%d/%m/%Y' }
-    let(:user) { build_stubbed :user }
+    let(:user) { build_stubbed(:user) }
 
     after do
       Time.zone = nil

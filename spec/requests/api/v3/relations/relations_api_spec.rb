@@ -31,11 +31,11 @@ require 'spec_helper'
 describe  'API v3 Relation resource', content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:current_user) { user }
 
-  let!(:from) { create :work_package }
-  let!(:to) { create :work_package }
+  let!(:from) { create(:work_package) }
+  let!(:to) { create(:work_package) }
 
   let(:type) { "follows" }
   let(:description) { "This first" }
@@ -57,12 +57,12 @@ describe  'API v3 Relation resource', content_type: :json do
     }
   end
   let(:relation) do
-    create :relation,
+    create(:relation,
            from:,
            to:,
            relation_type: type,
            description:,
-           delay:
+           delay:)
   end
 
   before do
@@ -110,10 +110,10 @@ describe  'API v3 Relation resource', content_type: :json do
         create(:work_package, parent: to)
       end
       let(:children_follows_relation) do
-        create :relation,
+        create(:relation,
                from: to_child,
                to: from_child,
-               relation_type: Relation::TYPE_FOLLOWS
+               relation_type: Relation::TYPE_FOLLOWS)
       end
       let(:relation_type) { Relation::TYPE_FOLLOWS }
       let(:setup) do
@@ -278,7 +278,7 @@ describe  'API v3 Relation resource', content_type: :json do
     end
 
     context "with trying to change an immutable attribute" do
-      let(:other_wp) { create :work_package }
+      let(:other_wp) { create(:work_package) }
 
       let(:update) do
         {
@@ -309,18 +309,18 @@ describe  'API v3 Relation resource', content_type: :json do
   end
 
   describe "permissions" do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     let(:permissions) { %i(view_work_packages manage_work_package_relations) }
 
     let(:role) do
-      create :existing_role, permissions:
+      create(:existing_role, permissions:)
     end
 
-    let(:project) { create :project, members: { user => role } }
+    let(:project) { create(:project, members: { user => role }) }
 
-    let!(:from) { create :work_package, project: }
-    let!(:to) { create :work_package, project: }
+    let!(:from) { create(:work_package, project:) }
+    let!(:to) { create(:work_package, project:) }
 
     before do
       header "Content-Type", "application/json"
@@ -346,7 +346,7 @@ describe  'API v3 Relation resource', content_type: :json do
     # is in another project for which the user does not have permission to
     # view work packages.
     context "without manage_work_package_relations" do
-      let!(:to) { create :work_package }
+      let!(:to) { create(:work_package) }
 
       it "returns 422" do
         expect(last_response.status).to eq 422
@@ -428,9 +428,9 @@ describe  'API v3 Relation resource', content_type: :json do
     let(:invisible_relation) do
       invisible_wp = create(:work_package)
 
-      create :relation,
+      create(:relation,
              from:,
-             to: invisible_wp
+             to: invisible_wp)
     end
     let(:other_visible_work_package) do
       create(:work_package,
@@ -438,9 +438,9 @@ describe  'API v3 Relation resource', content_type: :json do
              type: to.type)
     end
     let(:other_visible_relation) do
-      create :relation,
+      create(:relation,
              from: to,
-             to: other_visible_work_package
+             to: other_visible_work_package)
     end
 
     let(:members) { [member_project_to, member_project_from] }
@@ -524,9 +524,9 @@ describe  'API v3 Relation resource', content_type: :json do
       let(:invisible_relation) do
         invisible_wp = create(:work_package)
 
-        create :relation,
+        create(:relation,
                from:,
-               to: invisible_wp
+               to: invisible_wp)
       end
 
       let(:path) do

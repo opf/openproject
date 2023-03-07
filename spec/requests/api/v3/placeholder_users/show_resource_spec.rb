@@ -32,7 +32,7 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'show' do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -61,7 +61,7 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
 
   describe 'user with manage_members permission' do
     let(:project) { create(:project, members: { placeholder => role }) }
-    let(:role) { create :role, permissions: %i[manage_members] }
+    let(:role) { create(:role, permissions: %i[manage_members]) }
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
 
     it_behaves_like 'represents the placeholder'

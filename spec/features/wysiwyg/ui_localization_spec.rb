@@ -35,7 +35,7 @@ describe 'WYSIWYG UI localization',
   let(:editor) { Components::WysiwygEditor.new }
 
   let(:wiki_page) do
-    page = build :wiki_page_with_content
+    page = build(:wiki_page_with_content)
     page.content.text = <<~MARKDOWN
       paragraph
 

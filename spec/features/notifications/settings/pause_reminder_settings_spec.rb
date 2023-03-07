@@ -42,7 +42,7 @@ describe "Pause reminder settings", js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      create :user
+      create(:user)
     end
 
     it_behaves_like 'pause reminder settings'
@@ -51,11 +51,11 @@ describe "Pause reminder settings", js: true do
   context 'with the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
     let(:pref) { other_user.pref }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
     it_behaves_like 'pause reminder settings'

@@ -29,7 +29,7 @@ require 'spec_helper'
 require 'rack/test'
 
 describe "/api/v3/queries/:id/order" do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:query) { create(:query, name: "A Query", user:) }
   let(:path) { "/api/v3/queries/#{query.id}/order" }
 
@@ -41,8 +41,8 @@ describe "/api/v3/queries/:id/order" do
   end
 
   describe 'with order present' do
-    let(:wp1) { create :work_package }
-    let(:wp2) { create :work_package }
+    let(:wp1) { create(:work_package) }
+    let(:wp2) { create(:work_package) }
 
     before do
       query.ordered_work_packages.create(work_package_id: wp1.id, position: 0)
@@ -59,8 +59,8 @@ describe "/api/v3/queries/:id/order" do
   end
 
   describe '#patch' do
-    let!(:wp1) { create :work_package }
-    let!(:wp2) { create :work_package }
+    let!(:wp1) { create(:work_package) }
+    let!(:wp2) { create(:work_package) }
 
     let(:timestamp) { API::V3::Utilities::DateTimeFormatter.format_datetime(query.updated_at) }
 

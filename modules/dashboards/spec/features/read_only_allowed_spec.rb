@@ -31,14 +31,14 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Read only mode when user lacks edit permission on dashboard', js: true do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:dashboard) do
     create(:dashboard_with_table, project:)

@@ -33,7 +33,7 @@ describe "POST /api/v3/queries/form" do
 
   let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { create(:admin) }
-  let(:role) { create :existing_role, permissions: }
+  let(:role) { create(:existing_role, permissions:) }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
 
   let!(:project) { create(:project_with_types, members: { user => role }) }
@@ -303,7 +303,7 @@ describe "POST /api/v3/queries/form" do
   end
 
   describe 'with all parameters given' do
-    let(:status) { create :status }
+    let(:status) { create(:status) }
 
     let(:additional_setup) do
       status

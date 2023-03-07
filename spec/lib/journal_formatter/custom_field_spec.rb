@@ -52,8 +52,8 @@ describe OpenProject::JournalFormatter::CustomField do
   end
 
   describe 'a multi-select user field' do
-    let(:user1) { build_stubbed :user, firstname: 'Foo', lastname: 'Bar' }
-    let(:user2) { build_stubbed :user, firstname: 'Bla', lastname: 'Blub' }
+    let(:user1) { build_stubbed(:user, firstname: 'Foo', lastname: 'Bar') }
+    let(:user2) { build_stubbed(:user, firstname: 'Bla', lastname: 'Blub') }
 
     let(:custom_field) do
       build_stubbed(:user_wp_custom_field).tap do |cf|

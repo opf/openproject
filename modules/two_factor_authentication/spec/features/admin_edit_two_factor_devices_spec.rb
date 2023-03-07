@@ -7,7 +7,7 @@ describe 'Admin 2FA management',
          js: true do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
-  let(:other_user) { create :user, login: 'bob' }
+  let(:other_user) { create(:user, login: 'bob') }
   let(:admin) do
     create(:admin,
            password: user_password,
@@ -67,8 +67,8 @@ describe 'Admin 2FA management',
   end
 
   context 'with multiple devices registered' do
-    let!(:device1) { create :two_factor_authentication_device_sms, user: other_user }
-    let!(:device2) { create :two_factor_authentication_device_totp, user: other_user, default: false }
+    let!(:device1) { create(:two_factor_authentication_device_sms, user: other_user) }
+    let!(:device2) { create(:two_factor_authentication_device_totp, user: other_user, default: false) }
 
     it 'allows to delete all' do
       visit edit_user_path(other_user, tab: :two_factor_authentication)

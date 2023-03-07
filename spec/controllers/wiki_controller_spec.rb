@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   shared_let(:project) do
     create(:project).tap(&:reload)

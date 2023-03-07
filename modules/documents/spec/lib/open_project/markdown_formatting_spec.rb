@@ -39,11 +39,11 @@ describe OpenProject::TextFormatting,
   end
 
   shared_let(:project) do
-    create :project, enabled_module_names: %w[documents]
+    create(:project, enabled_module_names: %w[documents])
   end
 
   shared_let(:document) do
-    create :document, project:, title: 'My document'
+    create(:document, project:, title: 'My document')
   end
 
   subject do
@@ -63,8 +63,8 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when visible' do
-    let(:role) { create :role, permissions: %i[view_documents view_project] }
-    let(:user) { create :user, member_in_project: project, member_through_role: role }
+    let(:role) { create(:role, permissions: %i[view_documents view_project]) }
+    let(:user) { create(:user, member_in_project: project, member_through_role: role) }
 
     let(:expected) do
       <<~HTML
@@ -88,7 +88,7 @@ describe OpenProject::TextFormatting,
   end
 
   context 'when not visible' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     let(:expected) do
       <<~HTML

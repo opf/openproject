@@ -53,7 +53,7 @@ describe 'Assignee action board',
        edit_work_packages view_work_packages manage_public_queries work_package_assigned]
   end
 
-  let!(:priority) { create :default_priority }
+  let!(:priority) { create(:default_priority) }
 
   # Set up other assignees
 
@@ -75,10 +75,10 @@ describe 'Assignee action board',
   end
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            assigned_to: bobself_user,
-           subject: 'Some Task'
+           subject: 'Some Task')
   end
 
   context 'in a project with members' do

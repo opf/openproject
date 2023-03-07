@@ -4,23 +4,23 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:status) { create(:default_status) }
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role:
+           role:)
   end
 
   let!(:project) { create(:project, public: true) }
-  let!(:priority) { create :priority, is_default: true }
+  let!(:priority) { create(:priority, is_default: true) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do

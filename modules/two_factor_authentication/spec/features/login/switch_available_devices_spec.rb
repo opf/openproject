@@ -15,8 +15,8 @@ describe 'Login by switching 2FA device',
   end
 
   context 'with two default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
-    let!(:device2) { create :two_factor_authentication_device_totp, user:, active: true, default: false }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
+    let!(:device2) { create(:two_factor_authentication_device_totp, user:, active: true, default: false) }
 
     it 'requests a 2FA and allows switching' do
       first_login_step

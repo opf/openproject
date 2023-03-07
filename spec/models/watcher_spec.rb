@@ -30,28 +30,28 @@ require 'spec_helper'
 
 describe Watcher, with_mail: false do
   let(:project) { watchable.project }
-  let(:user) { build :user, admin: true }
+  let(:user) { build(:user, admin: true) }
   let(:watcher) do
-    build :watcher,
+    build(:watcher,
           watchable:,
-          user:
+          user:)
   end
-  let(:watchable) { build :news }
+  let(:watchable) { build(:news) }
   let(:other_watcher) do
-    build :watcher,
+    build(:watcher,
           watchable:,
-          user: other_user
+          user: other_user)
   end
   let(:other_project) { create(:project) }
   let(:other_user) { create(:user, admin: true) }
   let(:notification_settings) { [] }
   let(:saved_user) do
-    create :user,
+    create(:user,
            member_in_project: saved_watchable.project,
            member_with_permissions: [],
-           notification_settings:
+           notification_settings:)
   end
-  let(:saved_watchable) { create :news }
+  let(:saved_watchable) { create(:news) }
 
   describe '#valid' do
     it 'is valid for an active user' do

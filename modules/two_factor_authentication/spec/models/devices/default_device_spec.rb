@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'Default device' do
-  let(:user) { create :user }
-  let(:subject) { build :two_factor_authentication_device_totp, user:, default: true }
-  let(:other_otp) { build :two_factor_authentication_device_totp, user:, default: true }
+  let(:user) { create(:user) }
+  let(:subject) { build(:two_factor_authentication_device_totp, user:, default: true) }
+  let(:other_otp) { build(:two_factor_authentication_device_totp, user:, default: true) }
 
   it 'can be set if nothing else exists' do
     expect(subject.save).to be true
@@ -13,9 +13,9 @@ describe 'Default device' do
   end
 
   context 'assuming another default exists' do
-    let(:other_otp) { create :two_factor_authentication_device_totp, user:, default: true }
-    let(:other_sms) { create :two_factor_authentication_device_sms, user:, default: false }
-    let(:subject) { create :two_factor_authentication_device_totp, user:, default: false }
+    let(:other_otp) { create(:two_factor_authentication_device_totp, user:, default: true) }
+    let(:other_sms) { create(:two_factor_authentication_device_sms, user:, default: false) }
+    let(:subject) { create(:two_factor_authentication_device_totp, user:, default: false) }
 
     before do
       other_otp

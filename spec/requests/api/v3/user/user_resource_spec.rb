@@ -37,9 +37,9 @@ describe 'API v3 User resource',
   let(:current_user) { create(:user) }
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
-  let(:locked_admin) { create :admin, status: Principal.statuses[:locked] }
+  let(:locked_admin) { create(:admin, status: Principal.statuses[:locked]) }
   let(:user_with_global_manage_user) do
-    create :user, firstname: 'Global', lastname: 'User', global_permission: :manage_user
+    create(:user, firstname: 'Global', lastname: 'User', global_permission: :manage_user)
   end
 
   subject(:response) { last_response }
@@ -320,7 +320,7 @@ describe 'API v3 User resource',
     end
 
     context 'as non-admin' do
-      let(:current_user) { create :user, admin: false }
+      let(:current_user) { create(:user, admin: false) }
 
       it_behaves_like 'deletion is not allowed'
     end
@@ -348,7 +348,7 @@ describe 'API v3 User resource',
     end
 
     context 'as anonymous user' do
-      let(:current_user) { create :anonymous }
+      let(:current_user) { create(:anonymous) }
 
       it_behaves_like 'deletion is not allowed'
 

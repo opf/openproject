@@ -55,16 +55,16 @@ describe 'Work Package boards spec', js: true do
            status: open_status)
   end
 
-  let!(:priority) { create :priority, color: }
-  let!(:priority2) { create :priority, color: color2 }
-  let!(:type) { create :type, color: }
-  let!(:type2) { create :type, color: color2 }
-  let!(:open_status) { create :default_status, name: 'Open' }
+  let!(:priority) { create(:priority, color:) }
+  let!(:priority2) { create(:priority, color: color2) }
+  let!(:type) { create(:type, color:) }
+  let!(:type2) { create(:type, color: color2) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let(:color) { create :color }
-  let(:color2) { create :color }
+  let(:color) { create(:color) }
+  let(:color2) { create(:color) }
 
   before do
     with_enterprise_token :board_view

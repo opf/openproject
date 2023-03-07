@@ -551,21 +551,21 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
 
     describe 'updating two children with dates to a new parent (Regression #28670)' do
       let(:task1) do
-        create :work_package,
+        create(:work_package,
                project: project_1,
                start_date: Date.today - 5.days,
-               due_date: Date.today
+               due_date: Date.today)
       end
 
       let(:task2) do
-        create :work_package,
+        create(:work_package,
                project: project_1,
                start_date: Date.today - 2.days,
-               due_date: Date.today + 1.day
+               due_date: Date.today + 1.day)
       end
 
       let(:new_parent) do
-        create :work_package, project: project_1
+        create(:work_package, project: project_1)
       end
 
       before do

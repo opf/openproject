@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'account/register' do
-  let(:user) { build :user, auth_source: nil }
+  let(:user) { build(:user, auth_source: nil) }
 
   context 'with the email_login setting disabled (default value)' do
     before do
@@ -40,8 +40,8 @@ describe 'account/register' do
     end
 
     context 'with auth source' do
-      let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: }
+      let(:auth_source) { create(:auth_source) }
+      let(:user)        { build(:user, auth_source:) }
 
       it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')
@@ -64,8 +64,8 @@ describe 'account/register' do
     end
 
     context 'with auth source' do
-      let(:auth_source) { create :auth_source }
-      let(:user)        { build :user, auth_source: }
+      let(:auth_source) { create(:auth_source) }
+      let(:user)        { build(:user, auth_source:) }
 
       it 'does not show a login field' do
         expect(rendered).not_to include('user[login]')

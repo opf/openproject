@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'form query configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type_bug) { create :type_bug }
-  let(:type_task) { create :type_task }
+  shared_let(:admin) { create(:admin) }
+  let(:type_bug) { create(:type_bug) }
+  let(:type_task) { create(:type_task) }
 
-  let(:project) { create :project, types: [type_bug, type_task] }
-  let(:other_project) { create :project, types: [type_task] }
+  let(:project) { create(:project, types: [type_bug, type_task]) }
+  let(:other_project) { create(:project, types: [type_task]) }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -62,19 +62,19 @@ describe 'form query configuration', js: true do
     relation
   end
   let!(:related_task) do
-    create :work_package, project:, type: type_task
+    create(:work_package, project:, type: type_task)
   end
   let!(:unrelated_task) do
-    create :work_package, subject: 'Unrelated task', type: type_task, project:
+    create(:work_package, subject: 'Unrelated task', type: type_task, project:)
   end
   let!(:unrelated_bug) do
-    create :work_package, subject: 'Unrelated bug', type: type_bug, project:
+    create(:work_package, subject: 'Unrelated bug', type: type_bug, project:)
   end
   let!(:related_task_other_project) do
-    create :work_package, project: other_project, type: type_task
+    create(:work_package, project: other_project, type: type_task)
   end
   let!(:related_bug) do
-    create :work_package, project:, type: type_bug
+    create(:work_package, project:, type: type_bug)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -143,7 +143,7 @@ describe 'form query configuration', js: true do
     end
 
     context 'with an archived project' do
-      let!(:archived) { create :project, name: 'To be archived' }
+      let!(:archived) { create(:project, name: 'To be archived') }
 
       it 'uses the valid subset of the query (Regression #40324)' do
         form.add_query_group('Archived project', :children)

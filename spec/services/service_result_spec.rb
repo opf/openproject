@@ -144,7 +144,7 @@ describe ServiceResult, type: :model do
     end
 
     context 'when providing errors from user' do
-      let(:result) { build :work_package }
+      let(:result) { build(:work_package) }
 
       it 'creates a new errors instance' do
         instance = described_class.new result: result

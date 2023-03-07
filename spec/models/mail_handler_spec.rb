@@ -1186,8 +1186,8 @@ describe MailHandler do
     end
 
     context 'when sending a reply to work package mail' do
-      let!(:mail_user) { create :admin, mail: 'user@example.org' }
-      let!(:work_package) { create :work_package, project: }
+      let!(:mail_user) { create(:admin, mail: 'user@example.org') }
+      let!(:work_package) { create(:work_package, project:) }
 
       before do
         # Avoid trying to extract text
@@ -1311,8 +1311,8 @@ describe MailHandler do
       end
 
       context 'with a custom field' do
-        let(:work_package) { create :work_package, project: }
-        let(:type) { create :type }
+        let(:work_package) { create(:work_package, project:) }
+        let(:type) { create(:type) }
 
         before do
           type.custom_fields << custom_field
@@ -1325,7 +1325,7 @@ describe MailHandler do
         end
 
         context 'as type text' do
-          let(:custom_field) { create :text_wp_custom_field, name: "Notes" }
+          let(:custom_field) { create(:text_wp_custom_field, name: "Notes") }
 
           before do
             submit_email 'wp_reply_with_text_custom_field.eml', issue: { project: project.identifier }
@@ -1341,7 +1341,7 @@ describe MailHandler do
         end
 
         context 'as type list' do
-          let(:custom_field) { create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
+          let(:custom_field) { create(:list_wp_custom_field, name: "Letters", possible_values: %w(A B C)) }
 
           before do
             submit_email 'wp_reply_with_list_custom_field.eml', issue: { project: project.identifier }
@@ -1486,7 +1486,7 @@ describe MailHandler do
     end
 
     describe 'category' do
-      let!(:category) { create :category, project:, name: 'Foobar' }
+      let!(:category) { create(:category, project:, name: 'Foobar') }
 
       it 'adds a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')

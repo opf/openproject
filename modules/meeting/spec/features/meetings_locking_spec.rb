@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Meetings locking', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
-  let(:user) { create :admin }
-  let!(:meeting) { create :meeting }
-  let!(:agenda) { create :meeting_agenda, meeting: }
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  let(:user) { create(:admin) }
+  let!(:meeting) { create(:meeting) }
+  let!(:agenda) { create(:meeting_agenda, meeting:) }
 
   before do
     login_as(user)

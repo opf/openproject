@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Bim::Bcf::Issue do
-  let(:type) { create :type, name: "Issue [BCF]" }
-  let(:work_package) { create :work_package, type: }
-  let(:issue) { create :bcf_issue, work_package: }
+  let(:type) { create(:type, name: "Issue [BCF]") }
+  let(:work_package) { create(:work_package, type:) }
+  let(:issue) { create(:bcf_issue, work_package:) }
 
   describe '#markup_doc' do
     subject { issue }
@@ -54,8 +54,8 @@ describe Bim::Bcf::Issue do
   end
 
   describe '.of_project' do
-    let!(:other_work_package) { create :work_package, type: }
-    let!(:other_issue) { create :bcf_issue, work_package: other_work_package }
+    let!(:other_work_package) { create(:work_package, type:) }
+    let!(:other_issue) { create(:bcf_issue, work_package: other_work_package) }
 
     it 'returns all issues of the provided project' do
       expect(described_class.of_project(issue.project))

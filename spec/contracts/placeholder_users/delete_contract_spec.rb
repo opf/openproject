@@ -33,7 +33,7 @@ describe PlaceholderUsers::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:placeholder_user) { create(:placeholder_user) }
-  let(:role) { create :existing_role, permissions: [:manage_members] }
+  let(:role) { create(:existing_role, permissions: [:manage_members]) }
   let(:shared_project) { create(:project, members: { placeholder_user => role, current_user => role }) }
   let(:not_shared_project) { create(:project, members: { placeholder_user => role }) }
   let(:contract) { described_class.new(placeholder_user, current_user) }

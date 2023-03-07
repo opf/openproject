@@ -89,8 +89,8 @@ describe Members::CleanupService, 'integration', type: :model do
 
   describe 'watcher pruning' do
     let(:work_package) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
     let!(:watcher) do
       build(:watcher,

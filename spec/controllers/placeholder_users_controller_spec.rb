@@ -242,18 +242,18 @@ describe PlaceholderUsersController do
   end
 
   context 'as an admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'authorized flows'
   end
 
   context 'as a user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
     it_behaves_like 'authorized flows'
   end
 
   context 'as an unauthorized user' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     describe 'GET new' do
       before do
@@ -334,7 +334,7 @@ describe PlaceholderUsersController do
   end
 
   context 'as a user that may not delete the placeholder' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     before do
       allow(PlaceholderUsers::DeleteContract)

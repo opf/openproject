@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe 'Wiki unicode title spec', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:wiki_page_1) do
-    build :wiki_page_with_content,
-          title: '<script>alert("FOO")</script>'
+    build(:wiki_page_with_content,
+          title: '<script>alert("FOO")</script>')
   end
   let(:wiki_page_2) do
-    build :wiki_page_with_content,
-          title: 'Base de données'
+    build(:wiki_page_with_content,
+          title: 'Base de données')
   end
   let(:wiki_page_3) do
-    build :wiki_page_with_content,
-          title: 'Base_de_données'
+    build(:wiki_page_with_content,
+          title: 'Base_de_données')
   end
 
   let(:wiki_body) do

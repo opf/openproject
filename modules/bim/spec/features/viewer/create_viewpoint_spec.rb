@@ -31,8 +31,8 @@ require_relative '../../spec_helper'
 describe 'Create viewpoint from BCF details page',
          with_config: { edition: 'bim' },
          js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
-  let(:user) { create :admin }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
+  let(:user) { create(:admin) }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
@@ -98,7 +98,7 @@ describe 'Create viewpoint from BCF details page',
 
   context 'with a work package with BCF' do
     let!(:work_package) { create(:work_package, project:) }
-    let!(:bcf) { create :bcf_issue, work_package: }
+    let!(:bcf) { create(:bcf_issue, work_package:) }
 
     it_behaves_like 'can create a viewpoint from the BCF details page'
   end

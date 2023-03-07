@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe MembersController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   let(:project) { create(:project, identifier: 'pet_project') }
   let(:role) { create(:role) }
@@ -44,7 +44,7 @@ describe MembersController do
   end
 
   describe 'create' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
 
     before do
@@ -75,7 +75,7 @@ describe MembersController do
   end
 
   describe 'update' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
     let(:role_1) { create(:role) }
     let(:role_2) { create(:role) }

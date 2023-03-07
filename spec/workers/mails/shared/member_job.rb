@@ -127,12 +127,12 @@ shared_examples 'member job' do
 
     context 'with sending disabled' do
       let(:principal) do
-        create :user,
+        create(:user,
                notification_settings: [
                  build(:notification_setting,
                        NotificationSetting::MEMBERSHIP_ADDED => false,
                        NotificationSetting::MEMBERSHIP_UPDATED => false)
-               ]
+               ])
       end
 
       it 'still sends mail due to the message present' do

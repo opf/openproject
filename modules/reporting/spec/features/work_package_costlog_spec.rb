@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Cost report showing my own times', js: true do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:user) do
     create(:user, member_in_project: project, member_through_role: role)
   end
@@ -12,7 +12,7 @@ describe 'Cost report showing my own times', js: true do
     create(:budget, project:)
   end
   let(:cost_type) { create(:cost_type, name: 'Foobar', unit: 'Foobar', unit_plural: 'Foobars') }
-  let(:work_package) { create :work_package, project:, budget: }
+  let(:work_package) { create(:work_package, project:, budget:) }
   let(:wp_page) { Pages::FullWorkPackage.new work_package, project }
 
   let(:cost_entry) do

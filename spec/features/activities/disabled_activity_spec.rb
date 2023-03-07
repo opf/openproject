@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Disabled activity' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:project1) do
     create(:project, enabled_module_names: %i[work_package_tracking wiki])

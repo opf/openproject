@@ -4,7 +4,7 @@ require_relative './shared_avatar_examples'
 describe 'My avatar management', js: true do
   include Rails.application.routes.url_helpers
 
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:target_user) { user }
   let(:avatar_management_path) { edit_my_avatar_path }
 

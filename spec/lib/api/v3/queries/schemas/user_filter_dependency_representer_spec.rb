@@ -31,7 +31,7 @@ require 'spec_helper'
 describe API::V3::Queries::Schemas::UserFilterDependencyRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:project) { build_stubbed :project }
+  let(:project) { build_stubbed(:project) }
   let(:query) { build_stubbed(:query, project:) }
   let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create!(context: query) }
   let(:form_embedded) { false }

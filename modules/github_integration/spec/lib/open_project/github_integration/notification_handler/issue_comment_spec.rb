@@ -63,8 +63,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   let(:pr_html_url) { 'https://github.com/test_user/repo/pull/123' }
   let(:pr_number) { 123 }
   let(:repo_full_name) { 'test_user/repo' }
-  let(:github_system_user) { create :admin }
-  let(:work_package) { create :work_package }
+  let(:github_system_user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
 
   before do
     allow(handler_instance)

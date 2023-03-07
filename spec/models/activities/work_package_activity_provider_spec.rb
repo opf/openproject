@@ -33,12 +33,12 @@ describe Activities::WorkPackageActivityProvider do
   let(:work_package_edit_event) { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
-  let(:user) { create :admin }
-  let(:role) { create :role }
-  let(:status_closed) { create :closed_status }
+  let(:user) { create(:admin) }
+  let(:role) { create(:role) }
+  let(:status_closed) { create(:closed_status) }
   let(:work_package) do
     User.execute_as(user) do
-      create :work_package
+      create(:work_package)
     end
   end
   let!(:work_packages) { [work_package] }
@@ -62,7 +62,7 @@ describe Activities::WorkPackageActivityProvider do
     end
 
     context 'should be selected and ordered correctly' do
-      let!(:work_packages) { (1..5).map { (create :work_package, author: user).id.to_s } }
+      let!(:work_packages) { (1..5).map { (create(:work_package, author: user)).id.to_s } }
 
       let(:subject) do
         Activities::WorkPackageActivityProvider

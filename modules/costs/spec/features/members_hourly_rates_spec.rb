@@ -29,10 +29,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe 'hourly rates on a member', js: true do
-  let(:project) { build :project }
+  let(:project) { build(:project) }
   let(:user) do
-    create :admin,
-           member_in_project: project
+    create(:admin,
+           member_in_project: project)
   end
   let(:member) { Member.find_by(project:, principal: user) }
 

@@ -35,7 +35,7 @@ require 'features/work_packages/work_packages_page'
 
 describe 'scheduling mode',
          js: true do
-  let(:project) { create :project_with_types, public: true }
+  let(:project) { create(:project_with_types, public: true) }
   # Constructing a work package graph that looks like this:
   #
   #                   wp_parent       wp_suc_parent
@@ -51,11 +51,11 @@ describe 'scheduling mode',
   #                     wp_child      wp_suc_child
   #
   let!(:wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            start_date: Date.parse('2016-01-01'),
            due_date: Date.parse('2016-01-05'),
-           parent: wp_parent
+           parent: wp_parent)
   end
   let!(:wp_parent) do
     create(:work_package,
@@ -110,7 +110,7 @@ describe 'scheduling mode',
     expect(work_package.due_date).to eql Date.parse(due_date)
   end
 
-  current_user { create :admin }
+  current_user { create(:admin) }
 
   before do
     work_packages_page.visit!

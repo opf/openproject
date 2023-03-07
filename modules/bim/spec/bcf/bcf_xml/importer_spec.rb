@@ -36,7 +36,7 @@ describe OpenProject::Bim::BcfXml::Importer do
       'application/octet-stream'
     )
   end
-  let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
+  let(:type) { create(:type, name: 'Issue', is_standard: true, is_default: true) }
   let(:project) do
     create(:project,
            identifier: 'bim_project',
@@ -59,7 +59,7 @@ describe OpenProject::Bim::BcfXml::Importer do
            role: manage_bcf_role,
            type:)
   end
-  let(:priority) { create :default_priority }
+  let(:priority) { create(:default_priority) }
   let(:bcf_manager_member) do
     create(:member,
            project:,

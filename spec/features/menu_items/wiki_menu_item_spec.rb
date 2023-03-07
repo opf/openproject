@@ -33,16 +33,16 @@ require 'features/work_packages/work_packages_page'
 
 describe 'Wiki menu items' do
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %w[view_wiki_pages
                                        manage_wiki_menu
-                                       delete_wiki_pages]
+                                       delete_wiki_pages])
   end
-  let(:project) { create :project, enabled_module_names: %w[wiki] }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: 'wiki') }
-  let(:wiki_page) { create :wiki_page_with_content, wiki: }
+  let(:wiki_page) { create(:wiki_page_with_content, wiki:) }
   let(:other_wiki_page) do
     create(:wiki_page_with_content, wiki:, title: "Other page").tap do |page|
       MenuItems::WikiMenuItem.create!(navigatable_id: page.wiki.id,

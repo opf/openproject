@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Wiki page navigation spec', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   current_user { admin }
 
-  let(:project) { create :project, enabled_module_names: %w[wiki] }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let!(:wiki_page_55) do
-    create :wiki_page_with_content,
+    create(:wiki_page_with_content,
            wiki: project.wiki,
-           title: 'Wiki Page No. 55'
+           title: 'Wiki Page No. 55')
   end
   let!(:wiki_pages) do
     create_list(:wiki_page_with_content, 30, wiki: project.wiki)

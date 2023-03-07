@@ -17,7 +17,7 @@ describe 'Login with 2FA device',
   end
 
   context 'with a default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
 
     it 'requests a 2FA' do
       sms_token = nil

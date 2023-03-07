@@ -59,7 +59,7 @@ describe 'Password change with OTP',
     end
 
     context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
       it 'requires the password change after expired' do
         expect(user.current_password).not_to be_expired
@@ -107,7 +107,7 @@ describe 'Password change with OTP',
     end
 
     context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
       it 'requires the password change' do
         handle_password_change

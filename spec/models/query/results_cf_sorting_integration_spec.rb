@@ -42,21 +42,21 @@ describe Query::Results, 'Sorting of custom field floats', with_mail: false do
 
   let(:type) { create(:type_standard, custom_fields: [custom_field]) }
   let(:project) do
-    create :project,
+    create(:project,
            types: [type],
-           work_package_custom_fields: [custom_field]
+           work_package_custom_fields: [custom_field])
   end
   let(:work_package_with_float) do
-    create :work_package,
+    create(:work_package,
            type:,
            project:,
-           custom_values: { custom_field.id => "6.25" }
+           custom_values: { custom_field.id => "6.25" })
   end
 
   let(:work_package_without_float) do
-    create :work_package,
+    create(:work_package,
            type:,
-           project:
+           project:)
   end
 
   let(:custom_field) do

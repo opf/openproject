@@ -142,10 +142,10 @@ describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a subproject filter value_objects' do
-      shared_let(:admin) { create :admin }
+      shared_let(:admin) { create(:admin) }
 
-      let(:project) { create :project }
-      let(:subproject) { create :project, parent: project }
+      let(:project) { create(:project) }
+      let(:subproject) { create(:project, parent: project) }
       let(:filter) do
         subproject
         project.reload

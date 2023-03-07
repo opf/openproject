@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'work package hierarchies for milestones', js: true, selenium: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let(:work_package) { create(:work_package, project:, type:) }

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe LdapGroups::SynchronizedGroup do
   describe 'validations' do
-    subject { build :ldap_synchronized_group }
+    subject { build(:ldap_synchronized_group) }
 
     context 'correct attributes' do
       it 'saves the record' do
@@ -24,12 +24,12 @@ describe LdapGroups::SynchronizedGroup do
 
   describe 'manipulating members' do
     let(:users) { [user_1, user_2] }
-    let(:user_1) { create :user }
-    let(:user_2) { create :user }
+    let(:user_1) { create(:user) }
+    let(:user_2) { create(:user) }
 
     describe '.add_members!' do
-      let(:synchronized_group) { create :ldap_synchronized_group, group: }
-      let(:group) { create :group }
+      let(:synchronized_group) { create(:ldap_synchronized_group, group:) }
+      let(:group) { create(:group) }
 
       shared_examples 'it adds users to the synchronized group and the internal one' do
         let(:members) { raise "define me!" }
@@ -73,7 +73,7 @@ describe LdapGroups::SynchronizedGroup do
           end
         end
       end
-      let(:group) { create :group, members: users }
+      let(:group) { create(:group, members: users) }
 
       shared_examples 'it removes the users from the synchronized group and the internal one' do
         let(:members) { raise "define me!" }

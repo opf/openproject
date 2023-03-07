@@ -70,7 +70,7 @@ describe API::V3::Attachments::AttachmentsAPI do
     describe 'GET /uploaded' do
       let(:digest) { "" }
       let(:attachment) do
-        create :attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1
+        create(:attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1)
       end
 
       before do

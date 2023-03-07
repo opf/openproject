@@ -32,7 +32,7 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'update' do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
 
   let(:parameters) do
     {}

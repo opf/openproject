@@ -13,7 +13,7 @@ describe 'new work package', js: true, with_mail: false do
     create(:project, types: [type_feature, type_task, type_bug], no_types: true)
   end
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }

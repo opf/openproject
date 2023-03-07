@@ -34,10 +34,10 @@ describe Group do
 
   let(:user) { build(:user) }
   let(:status) { create(:status) }
-  let(:role) { create :role, permissions: [:view_work_packages] }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
 
   let(:projects) do
-    projects = create_list :project_with_types, 20
+    projects = create_list(:project_with_types, 20)
 
     projects.each do |project|
       add_user_to_project! user: group, project:, role:
@@ -64,7 +64,7 @@ describe Group do
     end
   end
 
-  let(:users) { create_list :user, 100 }
+  let(:users) { create_list(:user, 100) }
   let(:group) { build(:group, members: users) }
 
   describe '#destroy' do

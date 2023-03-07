@@ -31,8 +31,8 @@ require 'spec_helper'
 describe OAuthClientToken do
   let(:access_token) { "x" }
   let(:refresh_token) { "x" }
-  let(:user) { create :user }
-  let(:oauth_client) { create :oauth_client }
+  let(:user) { create(:user) }
+  let(:oauth_client) { create(:oauth_client) }
   let(:instance) { described_class.new(access_token:, refresh_token:, user:, oauth_client:) }
 
   describe '#valid?' do

@@ -100,7 +100,7 @@ describe Changeset do
   end
 
   describe 'mapping' do
-    let!(:user) { create :user, login: 'jsmith', mail: 'jsmith@somenet.foo' }
+    let!(:user) { create(:user, login: 'jsmith', mail: 'jsmith@somenet.foo') }
     let!(:repository) { create(:repository_subversion) }
 
     it 'manuals user mapping' do
@@ -150,18 +150,18 @@ describe Changeset do
              commit_fix_keywords: 'fixes , closes',
              default_language: 'en'
            } do
-    let!(:user) { create :admin, login: 'dlopper' }
-    let!(:open_status) { create :status }
-    let!(:closed_status) { create :closed_status }
+    let!(:user) { create(:admin, login: 'dlopper') }
+    let!(:open_status) { create(:status) }
+    let!(:closed_status) { create(:closed_status) }
 
-    let!(:other_work_package) { create :work_package, status: open_status }
+    let!(:other_work_package) { create(:work_package, status: open_status) }
     let(:comments) { "Some fix made, fixes ##{work_package.id} and fixes ##{other_work_package.id}" }
 
     with_virtual_subversion_repository do
       let!(:work_package) do
-        create :work_package,
+        create(:work_package,
                project: repository.project,
-               status: open_status
+               status: open_status)
       end
       let(:changeset) do
         create(:changeset,
@@ -213,7 +213,7 @@ describe Changeset do
     end
 
     describe 'with timelogs' do
-      let!(:activity) { create :activity, is_default: true }
+      let!(:activity) { create(:activity, is_default: true) }
 
       before do
         repository.project.enabled_module_names += ['costs']
@@ -264,7 +264,7 @@ describe Changeset do
       end
 
       context 'with a second work package' do
-        let!(:work_package2) { create :work_package, project: repository.project, status: open_status }
+        let!(:work_package2) { create(:work_package, project: repository.project, status: open_status) }
 
         it 'refs keywords closing with timelog' do
           allow(Setting).to receive(:commit_fix_status_id).and_return closed_status.id
@@ -319,8 +319,8 @@ describe Changeset do
     end
 
     describe 'with work package in parent project' do
-      let(:parent) { create :project }
-      let!(:work_package) { create :work_package, project: parent, status: open_status }
+      let(:parent) { create(:project) }
+      let!(:work_package) { create(:work_package, project: parent, status: open_status) }
 
       before do
         repository.project.parent = parent
@@ -344,8 +344,8 @@ describe Changeset do
     end
 
     describe 'with work package in sub project' do
-      let(:sub) { create :project }
-      let!(:work_package) { create :work_package, project: sub, status: open_status }
+      let(:sub) { create(:project) }
+      let!(:work_package) { create(:work_package, project: sub, status: open_status) }
 
       before do
         sub.parent = repository.project

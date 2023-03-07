@@ -38,10 +38,10 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
   let(:milestone_type) { create(:type, is_milestone: true) }
 
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            start_date: Date.today,
-           due_date: (Date.today + 5.days)
+           due_date: (Date.today + 5.days))
   end
 
   before do
@@ -50,20 +50,20 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
   end
 
   describe 'with multiple queries' do
-    let(:type) { create :type }
-    let(:type2) { create :type }
+    let(:type) { create(:type) }
+    let(:type2) { create(:type) }
     let(:project) { create(:project, types: [type, type2]) }
 
     let!(:work_package) do
-      create :work_package,
+      create(:work_package,
              project:,
-             type:
+             type:)
     end
 
     let!(:work_package2) do
-      create :work_package,
+      create(:work_package,
              project:,
-             type: type2
+             type: type2)
     end
 
     let!(:query) do
@@ -188,11 +188,11 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
 
   describe 'with a hierarchy being shown' do
     let!(:child_work_package) do
-      create :work_package,
+      create(:work_package,
              project:,
              parent: work_package,
              start_date: Date.today,
-             due_date: (Date.today + 5.days)
+             due_date: (Date.today + 5.days))
     end
     let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
@@ -224,38 +224,38 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
 
   describe 'when table is grouped' do
     let(:project) { create(:project) }
-    let(:category) { create :category, project:, name: 'Foo' }
-    let(:category2) { create :category, project:, name: 'Bar' }
+    let(:category) { create(:category, project:, name: 'Foo') }
+    let(:category2) { create(:category, project:, name: 'Bar') }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
     let(:relations) { Components::WorkPackages::Relations.new(wp_cat1) }
 
     let!(:wp_cat1) do
-      create :work_package,
+      create(:work_package,
              project:,
              category:,
              start_date: Date.today,
-             due_date: (Date.today + 5.days)
+             due_date: (Date.today + 5.days))
     end
     let!(:wp_cat2) do
-      create :work_package,
+      create(:work_package,
              project:,
              category: category2,
              start_date: Date.today + 5.days,
-             due_date: (Date.today + 10.days)
+             due_date: (Date.today + 10.days))
     end
 
     let!(:milestone_work_package) do
-      create :work_package,
+      create(:work_package,
              project:,
              type: milestone_type,
              start_date: Date.today - 10.days,
              due_date: Date.today - 10.days,
-             subject: 'My milestone'
+             subject: 'My milestone')
     end
 
     let!(:wp_none) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
 
     let!(:relation) do

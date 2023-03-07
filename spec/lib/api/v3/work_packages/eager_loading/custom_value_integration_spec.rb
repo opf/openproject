@@ -135,7 +135,7 @@ describe API::V3::WorkPackages::EagerLoading::CustomValue do
         type.custom_fields << cf
       end
     end
-    let(:other_project) { create :project }
+    let(:other_project) { create(:project) }
 
     subject { described_class.new [work_package] }
 
@@ -162,8 +162,8 @@ describe API::V3::WorkPackages::EagerLoading::CustomValue do
         type.custom_fields << cf
       end
     end
-    let(:other_project) { create :project }
-    let(:other_project2) { create :project }
+    let(:other_project) { create(:project) }
+    let(:other_project2) { create(:project) }
 
     subject { described_class.new [work_package] }
 

@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter do
     end
 
     context 'for me and user values' do
-      let(:user) { create :user }
-      let(:assignee2) { create :user }
+      let(:user) { create(:user) }
+      let(:assignee2) { create(:user) }
       let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do

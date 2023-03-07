@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'filter work packages', js: true do
-  let(:user) { create :admin }
-  let(:watcher) { create :user }
-  let(:project) { create :project, members: { watcher => role } }
-  let(:role) { create :existing_role, permissions: [:view_work_packages] }
+  let(:user) { create(:admin) }
+  let(:watcher) { create(:user) }
+  let(:project) { create(:project, members: { watcher => role }) }
+  let(:role) { create(:existing_role, permissions: [:view_work_packages]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
@@ -40,13 +40,13 @@ describe 'filter work packages', js: true do
 
   context 'by watchers' do
     let(:work_package_with_watcher) do
-      wp = build :work_package, project: project
+      wp = build(:work_package, project: project)
       wp.add_watcher watcher
       wp.save!
 
       wp
     end
-    let(:work_package_without_watcher) { create :work_package, project: }
+    let(:work_package_without_watcher) { create(:work_package, project:) }
 
     before do
       work_package_with_watcher
@@ -69,11 +69,11 @@ describe 'filter work packages', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { create :version, project: }
+    let(:version) { create(:version, project:) }
     let(:work_package_with_version) do
-      create :work_package, project:, subject: 'With version', version:
+      create(:work_package, project:, subject: 'With version', version:)
     end
-    let(:work_package_without_version) { create :work_package, subject: 'Without version', project: }
+    let(:work_package_without_version) { create(:work_package, subject: 'Without version', project:) }
 
     before do
       work_package_with_version
@@ -119,12 +119,12 @@ describe 'filter work packages', js: true do
   end
 
   context 'when filtering by status in project' do
-    let(:status) { create :status, name: 'Open status' }
-    let(:closed_status) { create :closed_status, name: 'Closed status' }
+    let(:status) { create(:status, name: 'Open status') }
+    let(:closed_status) { create(:closed_status, name: 'Closed status') }
     let(:work_package_with_status) do
-      create :work_package, project:, subject: 'With open status', status:
+      create(:work_package, project:, subject: 'With open status', status:)
     end
-    let(:work_package_without_status) { create :work_package, subject: 'With closed status', project:, status: closed_status }
+    let(:work_package_without_status) { create(:work_package, subject: 'With closed status', project:, status: closed_status) }
 
     before do
       work_package_with_status
@@ -152,8 +152,8 @@ describe 'filter work packages', js: true do
   end
 
   context 'by finish date outside of a project' do
-    let(:work_package_with_due_date) { create :work_package, project:, due_date: Date.today }
-    let(:work_package_without_due_date) { create :work_package, project:, due_date: Date.today + 5.days }
+    let(:work_package_with_due_date) { create(:work_package, project:, due_date: Date.today) }
+    let(:work_package_without_due_date) { create(:work_package, project:, due_date: Date.today + 5.days) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
@@ -215,21 +215,21 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_with_list_value) do
-      wp = create :work_package, project: project, type: type
+      wp = create(:work_package, project: project, type: type)
       wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
-      wp = create :work_package, project: project, type: type
+      wp = create(:work_package, project: project, type: type)
       wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
       wp.save!
       wp
     end
 
     let(:list_cf) do
-      cf = create :list_wp_custom_field
+      cf = create(:list_wp_custom_field)
 
       project.work_package_custom_fields << cf
       type.custom_fields << cf
@@ -298,21 +298,21 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_plus) do
-      wp = create :work_package, project: project, type: type
+      wp = create(:work_package, project: project, type: type)
       wp.send(string_cf.attribute_setter, 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
-      wp = create :work_package, project: project, type: type
+      wp = create(:work_package, project: project, type: type)
       wp.send(string_cf.attribute_setter, 'A&B')
       wp.save!
       wp
     end
 
     let(:string_cf) do
-      cf = create :string_wp_custom_field
+      cf = create(:string_wp_custom_field)
 
       project.work_package_custom_fields << cf
       type.custom_fields << cf
@@ -379,12 +379,12 @@ describe 'filter work packages', js: true do
     let(:attachment_a) { build(:attachment, filename: 'attachment-first.pdf') }
     let(:attachment_b) { build(:attachment, filename: 'attachment-second.pdf') }
     let(:wp_with_attachment_a) do
-      create :work_package, subject: 'WP attachment A', project:, attachments: [attachment_a]
+      create(:work_package, subject: 'WP attachment A', project:, attachments: [attachment_a])
     end
     let(:wp_with_attachment_b) do
-      create :work_package, subject: 'WP attachment B', project:, attachments: [attachment_b]
+      create(:work_package, subject: 'WP attachment B', project:, attachments: [attachment_b])
     end
-    let(:wp_without_attachment) { create :work_package, subject: 'WP no attachment', project: }
+    let(:wp_without_attachment) { create(:work_package, subject: 'WP no attachment', project:) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
@@ -497,10 +497,10 @@ describe 'filter work packages', js: true do
   describe 'specific filters' do
     describe 'filters on date by created_at (Regression #28459)' do
       let!(:wp_updated_today) do
-        create :work_package, subject: 'Created today', project:, created_at: (Date.today + 12.hours)
+        create(:work_package, subject: 'Created today', project:, created_at: (Date.today + 12.hours))
       end
       let!(:wp_updated_5d_ago) do
-        create :work_package, subject: 'Created 5d ago', project:, created_at: (Date.today - 5.days)
+        create(:work_package, subject: 'Created 5d ago', project:, created_at: (Date.today - 5.days))
       end
 
       it do
@@ -524,8 +524,8 @@ describe 'filter work packages', js: true do
   end
 
   describe 'keep the filter attribute order (Regression #33136)' do
-    let(:version1) { create :version, project:, name: 'Version 1', id: 1 }
-    let(:version2) { create :version, project:, name: 'Version 2', id: 2 }
+    let(:version1) { create(:version, project:, name: 'Version 1', id: 1) }
+    let(:version2) { create(:version, project:, name: 'Version 2', id: 2) }
 
     it do
       wp_table.visit!
@@ -546,10 +546,10 @@ describe 'filter work packages', js: true do
   end
 
   describe 'add parent WP filter' do
-    let(:wp_parent) { create :work_package, project:, subject: 'project' }
-    let(:wp_child1) { create :work_package, project:, subject: 'child 1', parent: wp_parent }
-    let(:wp_child2) { create :work_package, project:, subject: 'child 2', parent: wp_parent }
-    let(:wp_default) { create :work_package, project:, subject: 'default' }
+    let(:wp_parent) { create(:work_package, project:, subject: 'project') }
+    let(:wp_child1) { create(:work_package, project:, subject: 'child 1', parent: wp_parent) }
+    let(:wp_child2) { create(:work_package, project:, subject: 'child 2', parent: wp_parent) }
+    let(:wp_default) { create(:work_package, project:, subject: 'default') }
 
     it do
       wp_parent

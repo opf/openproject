@@ -4,50 +4,50 @@ require 'features/page_objects/notification'
 describe 'edit work package',
          js: true do
   let(:dev_role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
-                           add_work_packages]
+                           add_work_packages])
   end
   let(:dev) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: dev_role
+           member_through_role: dev_role)
   end
   let(:manager_role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
                            edit_work_packages
-                           work_package_assigned]
+                           work_package_assigned])
   end
   let(:manager) do
-    create :admin,
+    create(:admin,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: manager_role
+           member_through_role: manager_role)
   end
   let(:placeholder_user) do
-    create :placeholder_user,
+    create(:placeholder_user,
            member_in_project: project,
-           member_through_role: manager_role
+           member_through_role: manager_role)
   end
 
   let(:cf_all) do
-    create :work_package_custom_field, is_for_all: true, field_format: 'text'
+    create(:work_package_custom_field, is_for_all: true, field_format: 'text')
   end
 
   let(:cf_tp1) do
-    create :work_package_custom_field, is_for_all: true, field_format: 'text'
+    create(:work_package_custom_field, is_for_all: true, field_format: 'text')
   end
 
   let(:cf_tp2) do
-    create :work_package_custom_field, is_for_all: true, field_format: 'text'
+    create(:work_package_custom_field, is_for_all: true, field_format: 'text')
   end
 
-  let(:type) { create :type, custom_fields: [cf_all, cf_tp1] }
-  let(:type2) { create :type, custom_fields: [cf_all, cf_tp2] }
+  let(:type) { create(:type, custom_fields: [cf_all, cf_tp1]) }
+  let(:type2) { create(:type, custom_fields: [cf_all, cf_tp2]) }
   let(:project) { create(:project, types: [type, type2]) }
   let(:work_package) do
     work_package = create(:work_package,
@@ -66,17 +66,17 @@ describe 'edit work package',
 
   let(:new_subject) { 'Some other subject' }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:priority2) { create :priority }
-  let(:status2) { create :status }
+  let(:priority2) { create(:priority) }
+  let(:status2) { create(:status) }
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type2.id,
            old_status: work_package.status,
            new_status: status2,
-           role: manager_role
+           role: manager_role)
   end
-  let(:version) { create :version, project: }
-  let(:category) { create :category, project: }
+  let(:version) { create(:version, project:) }
+  let(:category) { create(:category, project:) }
 
   let(:visit_before) { true }
 
@@ -102,7 +102,7 @@ describe 'edit work package',
   context 'as an admin without roles' do
     let(:visit_before) { false }
     let(:work_package) { create(:work_package, project:, type: type2) }
-    let(:admin) { create :admin }
+    let(:admin) { create(:admin) }
 
     it 'can still use the manager role' do
       # A role must still exist

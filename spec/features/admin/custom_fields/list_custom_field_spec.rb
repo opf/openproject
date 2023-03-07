@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'List custom fields edit', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as(admin)

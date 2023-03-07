@@ -34,7 +34,7 @@ describe Users::ReplaceMentionsService, 'integration' do
   shared_let(:other_user) { create(:user, firstname: 'Frank', lastname: 'Herbert') }
   shared_let(:user) { create(:user, firstname: 'Isaac', lastname: 'Asimov') }
   shared_let(:group) { create(:group, lastname: 'Sci-Fi') }
-  shared_let(:to_user) { create :user, firstname: 'Philip K.', lastname: 'Dick' }
+  shared_let(:to_user) { create(:user, firstname: 'Philip K.', lastname: 'Dick') }
 
   let(:instance) do
     described_class.new

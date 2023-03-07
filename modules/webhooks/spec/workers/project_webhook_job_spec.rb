@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe ProjectWebhookJob, type: :job, webmock: true do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { create :project, name: 'Foo Bar' }
-  shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
+  shared_let(:project) { create(:project, name: 'Foo Bar') }
+  shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
 
   shared_examples "a project webhook call" do
     let(:event) { "project:created" }
