@@ -40,8 +40,8 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
   let(:work_package) do
     create(:work_package,
            project:,
-           start_date: Date.today,
-           due_date: (Date.today + 5.days))
+           start_date: Date.current,
+           due_date: Date.current + 5.days)
   end
 
   before do
@@ -191,8 +191,8 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
       create(:work_package,
              project:,
              parent: work_package,
-             start_date: Date.today,
-             due_date: (Date.today + 5.days))
+             start_date: Date.current,
+             due_date: Date.current + 5.days)
     end
     let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
@@ -233,23 +233,23 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
       create(:work_package,
              project:,
              category:,
-             start_date: Date.today,
-             due_date: (Date.today + 5.days))
+             start_date: Date.current,
+             due_date: Date.current + 5.days)
     end
     let!(:wp_cat2) do
       create(:work_package,
              project:,
              category: category2,
-             start_date: Date.today + 5.days,
-             due_date: (Date.today + 10.days))
+             start_date: Date.current + 5.days,
+             due_date: Date.current + 10.days)
     end
 
     let!(:milestone_work_package) do
       create(:work_package,
              project:,
              type: milestone_type,
-             start_date: Date.today - 10.days,
-             due_date: Date.today - 10.days,
+             start_date: Date.current - 10.days,
+             due_date: Date.current - 10.days,
              subject: 'My milestone')
     end
 
@@ -343,16 +343,16 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
 
       expect(milestone).to have_selector(".labelHoverLeft.not-empty")
       expect(milestone).to have_selector(".labelHoverRight.not-empty", text: milestone_work_package.subject)
-      expect(milestone).to have_selector(".labelLeft", visible: false)
-      expect(milestone).to have_selector(".labelRight", visible: false)
-      expect(milestone).to have_selector(".labelFarRight", visible: false)
+      expect(milestone).to have_selector(".labelLeft", visible: :hidden)
+      expect(milestone).to have_selector(".labelRight", visible: :hidden)
+      expect(milestone).to have_selector(".labelFarRight", visible: :hidden)
 
       # Unfold Group rows
       find('.wp-table--group-header', text: 'My Project No.')
         .find('.expander')
         .click
 
-      expect(page).to have_no_selector('.-group-row .timeline-element')
+      expect(page).not_to have_selector('.-group-row .timeline-element')
 
       click_button('wp-fold-toggle-button')
       click_button(I18n.t('js.button_collapse_all'))

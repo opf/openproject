@@ -108,7 +108,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            assigned_to: user,
            start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 1.day,
-           subject: 'A task for ' + user.name)
+           subject: "A task for #{user.name}")
   end
 
   shared_let(:sub_bug) do
@@ -118,7 +118,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
            due_date: Time.zone.today + 20.days,
-           subject: 'A bug in sub-project for ' + user.name)
+           subject: "A bug in sub-project for #{user.name}")
   end
 
   shared_let(:sub_sub_bug) do
@@ -128,7 +128,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 2.days,
-           subject: 'A bug in sub-sub-project for ' + user.name)
+           subject: "A bug in sub-sub-project for #{user.name}")
   end
 
   shared_let(:other_task) do

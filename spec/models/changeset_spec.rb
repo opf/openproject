@@ -103,41 +103,25 @@ describe Changeset do
     let!(:user) { create(:user, login: 'jsmith', mail: 'jsmith@somenet.foo') }
     let!(:repository) { create(:repository_subversion) }
 
-    it 'manuals user mapping' do
-      c = Changeset.create! repository:,
-                            committer: 'foo',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by foo.'
+    it 'supports manual user mapping with repository.committer_ids' do
+      c = create(:changeset, repository:, committer: 'foo')
 
       expect(c.user).to be_nil
       repository.committer_ids = { 'foo' => user.id }
       expect(c.reload.user).to eq user
 
       # committer is now mapped
-      c = Changeset.create! repository:,
-                            committer: 'foo',
-                            committed_on: Time.now,
-                            revision: 101,
-                            comments: 'Another commit by foo.'
+      c = create(:changeset, repository:, committer: 'foo')
       expect(c.user).to eq user
     end
 
-    it 'autoes user mapping by username' do
-      c = Changeset.create! repository:,
-                            committer: 'jsmith',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by john.'
+    it 'maps user automatically when username matches' do
+      c = create(:changeset, repository:, committer: user.login)
       expect(c.user).to eq user
     end
 
-    it 'autoes user mapping by email' do
-      c = Changeset.create! repository:,
-                            committer: 'john <jsmith@somenet.foo>',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by john.'
+    it 'maps user automatically when email matches' do
+      c = create(:changeset, repository:, committer: "john <#{user.mail}>")
 
       expect(c.user).to eq user
     end
@@ -239,14 +223,16 @@ describe Changeset do
           '0,75' => 0.75,
           '1,25h' => 1.25
         }.each do |syntax, expected_hours|
-          c = Changeset.new(repository:,
-                            committed_on: 24.hours.ago,
-                            comments: "Worked on this work_package ##{work_package.id} @#{syntax}",
-                            revision: '520',
-                            user:)
+          c = build(:changeset,
+                    repository:,
+                    committed_on: 24.hours.ago,
+                    commit_date: Date.yesterday,
+                    comments: "Worked on this work_package ##{work_package.id} @#{syntax}",
+                    revision: '520',
+                    user:)
 
           expect { c.scan_comment_for_work_package_ids }
-            .to change { TimeEntry.count }.by(1)
+            .to change(TimeEntry, :count).by(1)
 
           expect(c.work_package_ids).to eq [work_package.id]
 
@@ -272,14 +258,14 @@ describe Changeset do
           allow(Setting).to receive(:commit_fix_keywords).and_return 'fixes , closes'
           allow(Setting).to receive(:commit_logtime_enabled?).and_return true
 
-          c = Changeset.new(repository:,
-                            committed_on: Time.now,
-                            comments: "This is a comment. Fixes ##{work_package.id} @4.5, ##{work_package2.id} @1",
-                            revision: '520',
-                            user:)
+          c = build(:changeset,
+                    repository:,
+                    comments: "This is a comment. Fixes ##{work_package.id} @4.5, ##{work_package2.id} @1",
+                    revision: '520',
+                    user:)
 
           expect { c.scan_comment_for_work_package_ids }
-            .to change { TimeEntry.count }.by(2)
+            .to change(TimeEntry, :count).by(2)
 
           expect(c.work_package_ids).to match_array [work_package.id, work_package2.id]
 

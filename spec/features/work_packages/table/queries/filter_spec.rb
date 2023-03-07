@@ -152,8 +152,8 @@ describe 'filter work packages', js: true do
   end
 
   context 'by finish date outside of a project' do
-    let(:work_package_with_due_date) { create(:work_package, project:, due_date: Date.today) }
-    let(:work_package_without_due_date) { create(:work_package, project:, due_date: Date.today + 5.days) }
+    let(:work_package_with_due_date) { create(:work_package, project:, due_date: Date.current) }
+    let(:work_package_without_due_date) { create(:work_package, project:, due_date: 5.days.from_now) }
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
@@ -168,7 +168,7 @@ describe 'filter work packages', js: true do
 
       filters.add_filter_by('Finish date',
                             'between',
-                            [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
+                            [1.day.ago.strftime('%Y-%m-%d'), Date.current.strftime('%Y-%m-%d')],
                             'dueDate')
 
       loading_indicator_saveguard
@@ -194,7 +194,7 @@ describe 'filter work packages', js: true do
 
       filters.expect_filter_by('Finish date',
                                'between',
-                               [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
+                               [1.day.ago.strftime('%Y-%m-%d'), Date.current.strftime('%Y-%m-%d')],
                                'dueDate')
 
       filters.set_filter 'Finish date', 'in more than', '1', 'dueDate'
@@ -497,10 +497,10 @@ describe 'filter work packages', js: true do
   describe 'specific filters' do
     describe 'filters on date by created_at (Regression #28459)' do
       let!(:wp_updated_today) do
-        create(:work_package, subject: 'Created today', project:, created_at: (Date.today + 12.hours))
+        create(:work_package, subject: 'Created today', project:, created_at: Time.current.change(hour: 12))
       end
       let!(:wp_updated_5d_ago) do
-        create(:work_package, subject: 'Created 5d ago', project:, created_at: (Date.today - 5.days))
+        create(:work_package, subject: 'Created 5d ago', project:, created_at: 5.days.ago)
       end
 
       it do
@@ -512,7 +512,7 @@ describe 'filter work packages', js: true do
 
         filters.add_filter_by 'Created on',
                               'on',
-                              [Date.today.iso8601],
+                              [Date.current.iso8601],
                               'createdAt'
 
         loading_indicator_saveguard

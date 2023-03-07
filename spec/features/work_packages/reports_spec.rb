@@ -38,8 +38,8 @@ describe 'work package reports', js: true do
     end
   end
 
-  let!(:wp_1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
-  let!(:wp_2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
+  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
+  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 
@@ -116,7 +116,7 @@ describe 'work package reports', js: true do
       click_link '1'
     end
 
-    wp_table_page.expect_work_package_listed(wp_1)
-    wp_table_page.ensure_work_package_not_listed!(wp_2)
+    wp_table_page.expect_work_package_listed(wp1)
+    wp_table_page.ensure_work_package_not_listed!(wp2)
   end
 end
