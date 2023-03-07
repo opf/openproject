@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe CustomValue::ListStrategy, 'integration tests' do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
   let!(:custom_field) do
     create(
       :list_wp_custom_field,
@@ -43,10 +43,10 @@ describe CustomValue::ListStrategy, 'integration tests' do
   end
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') }
+           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') })
   end
 
   it 'can handle invalid CustomOptions (Regression test)' do

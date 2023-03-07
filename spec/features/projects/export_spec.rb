@@ -30,12 +30,12 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'project export', js: true do
-  shared_let(:important_project) { create :project, name: 'Important schedule plan' }
-  shared_let(:party_project) { create :project, name: 'Christmas party' }
+  shared_let(:important_project) { create(:project, name: 'Important schedule plan') }
+  shared_let(:party_project) { create(:project, name: 'Christmas party') }
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_projects: [important_project, party_project],
-           member_with_permissions: %w[view_project edit_project view_work_packages]
+           member_with_permissions: %w[view_project edit_project view_work_packages])
   end
 
   let(:index_page) { Pages::Projects::Index.new }

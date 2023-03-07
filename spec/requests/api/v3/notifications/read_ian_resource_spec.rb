@@ -35,15 +35,15 @@ describe API::V3::Notifications::NotificationsAPI,
   shared_let(:project) { create(:project) }
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages])
   end
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            resource: work_package,
-           project:
+           project:)
   end
 
   let(:send_read) do

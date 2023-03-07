@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'Work package attribute help texts', js: true do
-  let(:project) { create :project }
-  let(:work_package) { create :work_package, project: }
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project:) }
 
   let(:instance) do
-    create :work_package_help_text,
+    create(:work_package_help_text,
            attribute_name: :status,
-           help_text: 'Some **help text** for status.'
+           help_text: 'Some **help text** for status.')
   end
 
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -71,12 +71,12 @@ describe 'Work package attribute help texts', js: true do
 
   describe 'as regular user' do
     let(:view_wps_role) do
-      create :role, permissions: [:view_work_packages]
+      create(:role, permissions: [:view_work_packages])
     end
     let(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: view_wps_role
+             member_through_role: view_wps_role)
     end
 
     it_behaves_like 'allows to view help texts'

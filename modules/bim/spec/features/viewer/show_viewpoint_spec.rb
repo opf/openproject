@@ -37,11 +37,11 @@ describe 'Show viewpoint in model viewer',
            parent: parent_project)
   end
   let(:parent_project) { nil }
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let!(:work_package) { create(:work_package, project:) }
-  let!(:bcf) { create :bcf_issue, work_package: }
-  let!(:viewpoint) { create :bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one' }
+  let!(:bcf) { create(:bcf_issue, work_package:) }
+  let!(:viewpoint) { create(:bcf_viewpoint, issue: bcf, viewpoint_name: 'minimal_hidden_except_one') }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,
@@ -128,7 +128,7 @@ describe 'Show viewpoint in model viewer',
     end
 
     context "current project is a parent of the work package's project" do
-      let(:parent_project) { create :project, enabled_module_names: [:work_package_tracking] }
+      let(:parent_project) { create(:project, enabled_module_names: [:work_package_tracking]) }
       let(:wp_details) { Pages::SplitWorkPackage.new(work_package, parent_project) }
 
       it_behaves_like "moves to the BCF page"

@@ -35,7 +35,7 @@ module Pages
     ##
     # Adds planned unit costs with the default cost type.
     def add_unit_costs!(num_units, comment: nil)
-      edit_unit_costs! unit_rows, units: num_units, comment: comment, type: 'new'
+      edit_unit_costs! unit_rows, units: num_units, comment:, type: 'new'
       add_unit_costs_row!
     end
 

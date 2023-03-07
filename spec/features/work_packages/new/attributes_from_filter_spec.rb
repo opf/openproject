@@ -36,12 +36,12 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   let(:status) { create(:default_status) }
 
   let!(:status) { create(:default_status) }
-  let!(:priority) { create :priority, is_default: true }
+  let!(:priority) { create(:priority, is_default: true) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { Pages::SplitWorkPackageCreate.new(project:) }
 
-  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
+  let(:role) { create(:existing_role, permissions: %i[view_work_packages work_package_assigned]) }
 
   let!(:query) do
     build(:query, project:, user:).tap do |query|
@@ -69,9 +69,9 @@ RSpec.describe 'Work package create uses attributes from filters', js: true, sel
   context 'with a multi-value custom field' do
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
-      create :project,
+      create(:project,
              types: [type_task],
-             work_package_custom_fields: [custom_field]
+             work_package_custom_fields: [custom_field])
     end
 
     let!(:custom_field) do

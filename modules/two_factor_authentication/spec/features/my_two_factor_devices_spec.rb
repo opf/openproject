@@ -140,7 +140,7 @@ describe 'My Account 2FA configuration',
   end
 
   context 'when a device has been registered already' do
-    let!(:device) { create :two_factor_authentication_device_totp, user: }
+    let!(:device) { create(:two_factor_authentication_device_totp, user:) }
 
     it 'loads the page correctly (Regression #41719)' do
       visit my_2fa_devices_path

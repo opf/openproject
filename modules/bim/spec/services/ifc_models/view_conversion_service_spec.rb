@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Bim::IfcModels::ViewConverterService do
-  let(:model) { build :ifc_model }
+  let(:model) { build(:ifc_model) }
 
   subject { described_class.new(model) }
 

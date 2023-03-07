@@ -160,7 +160,7 @@ describe API::V3::Users::UpdateFormAPI, content_type: :json do
   end
 
   context 'with unauthorized user' do
-    let(:current_user) { create :user }
+    let(:current_user) { create(:user) }
 
     it_behaves_like 'unauthorized access'
   end

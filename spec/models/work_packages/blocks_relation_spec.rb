@@ -40,10 +40,10 @@ describe WorkPackage, 'blocks/blocked_by relations' do
   context 'with blocking work package' do
     shared_let(:blocker) { create(:work_package, subject: 'blocking wp') }
     shared_let(:relation) do
-      create :relation,
+      create(:relation,
              from: blocker,
              to: work_package,
-             relation_type: Relation::TYPE_BLOCKS
+             relation_type: Relation::TYPE_BLOCKS)
     end
 
     it 'is being blocked' do
@@ -52,7 +52,7 @@ describe WorkPackage, 'blocks/blocked_by relations' do
     end
 
     context 'when work package is closed' do
-      let(:closed_status) { create :closed_status }
+      let(:closed_status) { create(:closed_status) }
 
       before do
         work_package.update_column :status_id, closed_status.id

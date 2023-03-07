@@ -110,10 +110,10 @@ describe 'Projects copy',
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
-      create :wiki_page_with_content,
+      create(:wiki_page_with_content,
              title: 'Attached',
              wiki:,
-             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')]
+             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')])
     end
 
     let(:parent_field) { FormFields::SelectFormField.new :parent }
@@ -248,24 +248,24 @@ describe 'Projects copy',
   end
 
   describe 'copying a set of ordered work packages' do
-    let(:user) { create :admin }
-    let(:project) { create :project, types: [type] }
-    let(:type) { create :type }
-    let(:status) { create :status }
-    let(:priority) { create :priority }
+    let(:user) { create(:admin) }
+    let(:project) { create(:project, types: [type]) }
+    let(:type) { create(:type) }
+    let(:status) { create(:status) }
+    let(:priority) { create(:priority) }
 
     let(:default_params) do
       { type:, status:, project:, priority: }
     end
 
-    let(:parent1) { create :work_package, default_params.merge(subject: 'Initial phase') }
-    let(:child1_1) { create :work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase') }
-    let(:child1_2) { create :work_package, default_params.merge(parent: parent1, subject: 'Initiation') }
-    let(:parent2) { create :work_package, default_params.merge(subject: 'Execution') }
-    let(:child2_1) { create :work_package, default_params.merge(parent: parent2, subject: 'Define goal') }
-    let(:child2_2) { create :work_package, default_params.merge(parent: parent2, subject: 'Specify metrics') }
-    let(:child2_3) { create :work_package, default_params.merge(parent: parent2, subject: 'Prepare launch') }
-    let(:child2_4) { create :work_package, default_params.merge(parent: parent2, subject: 'Launch') }
+    let(:parent1) { create(:work_package, default_params.merge(subject: 'Initial phase')) }
+    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase')) }
+    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: 'Initiation')) }
+    let(:parent2) { create(:work_package, default_params.merge(subject: 'Execution')) }
+    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: 'Define goal')) }
+    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: 'Specify metrics')) }
+    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: 'Prepare launch')) }
+    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: 'Launch')) }
 
     let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]

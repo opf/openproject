@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe MembersController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   let(:project) { create(:project, identifier: 'pet_project') }
   let(:role) { create(:role) }
@@ -44,7 +44,7 @@ describe MembersController do
   end
 
   describe 'create' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
 
     before do
@@ -75,7 +75,7 @@ describe MembersController do
   end
 
   describe 'update' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
     let(:role_1) { create(:role) }
     let(:role_2) { create(:role) }
@@ -122,14 +122,14 @@ describe MembersController do
       end
 
       it 'is success' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response).to be_successful
       end
     end
 
     describe 'WHEN the user is not authorized' do
       it 'is forbidden' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response.response_code).to eq(403)
       end
     end

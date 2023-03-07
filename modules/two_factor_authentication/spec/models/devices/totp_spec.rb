@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'timecop'
 
 describe TwoFactorAuthentication::Device::Totp do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:channel) { :totp }
 
   subject { described_class.new identifier: 'foo', channel:, user:, active: true }

@@ -31,7 +31,7 @@ require 'spec_helper'
 describe 'Enterprise token', js: true do
   include Redmine::I18n
 
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:token_object) do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'

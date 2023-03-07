@@ -32,7 +32,7 @@ describe 'BIM Revit Add-in navigation spec',
          with_config: { edition: 'bim' },
          js: true,
          driver: :chrome_revit_add_in do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
     create(:role,
@@ -41,9 +41,9 @@ describe 'BIM Revit Add-in navigation spec',
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let(:model_page) { Pages::IfcModels::ShowDefault.new(project) }

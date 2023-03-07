@@ -30,7 +30,7 @@ module Accounts::AuthenticationStages
 
         successful_authentication User.find(session[:authenticated_user_id]), reset_stages: false
       else
-        flash[:error] = I18n.t :notice_auth_stage_verification_error, stage: stage
+        flash[:error] = I18n.t(:notice_auth_stage_verification_error, stage:)
 
         redirect_to signin_path
       end

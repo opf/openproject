@@ -40,7 +40,7 @@ shared_examples_for 'placeholder user contract' do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   describe 'validations' do
-    let(:current_user) { build_stubbed :admin }
+    let(:current_user) { build_stubbed(:admin) }
 
     context 'name' do
       context 'is valid' do

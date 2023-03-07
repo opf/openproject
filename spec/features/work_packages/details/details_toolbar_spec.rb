@@ -30,12 +30,12 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package details toolbar', js: true, selenium: true do
-  let(:project) { create :project_with_types, public: true }
-  let!(:work_package) { create :work_package, project: }
+  let(:project) { create(:project_with_types, public: true) }
+  let!(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
 
   describe 'toggle watch state' do
-    let(:user) { create :admin }
+    let(:user) { create(:admin) }
 
     before do
       login_as(user)

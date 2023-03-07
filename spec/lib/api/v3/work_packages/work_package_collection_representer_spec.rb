@@ -350,7 +350,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'when in project context' do
-      let(:project) { build_stubbed :project }
+      let(:project) { build_stubbed(:project) }
 
       it 'has no link to create work_packages' do
         expect(collection)

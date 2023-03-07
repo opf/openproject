@@ -31,74 +31,74 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page time entries current user widget spec', js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:activity) { create :time_entry_activity }
-  let!(:other_activity) { create :time_entry_activity }
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:activity) { create(:time_entry_activity) }
+  let!(:other_activity) { create(:time_entry_activity) }
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           subject: 'First work package'
+           subject: 'First work package')
   end
   let!(:other_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           subject: 'Another task'
+           subject: 'Another task')
   end
   let!(:visible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            activity:,
            user:,
-           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
            hours: 3,
-           comments: 'My comment'
+           comments: 'My comment')
   end
   let!(:visible_time_entry_on_project) do
-    FactoryBot.create :time_entry,
-                      work_package: nil,
-                      project:,
-                      activity:,
-                      user:,
-                      spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
-                      hours: 1,
-                      comments: 'My comment'
+    create(:time_entry,
+           work_package: nil,
+           project:,
+           activity:,
+           user:,
+           spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
+           hours: 1,
+           comments: 'My comment')
   end
   let!(:other_visible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            activity:,
            user:,
-           spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
+           spent_on: Date.current.beginning_of_week(:sunday) + 4.days,
            hours: 2,
-           comments: 'My other comment'
+           comments: 'My other comment')
   end
   let!(:last_week_visible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            activity:,
            user:,
-           spent_on: Date.today - (Date.today.wday + 3).days,
+           spent_on: Date.current - (Date.current.wday + 3).days,
            hours: 8,
-           comments: 'My last week comment'
+           comments: 'My last week comment')
   end
   let!(:invisible_time_entry) do
-    create :time_entry,
+    create(:time_entry,
            work_package:,
            project:,
            activity:,
            user: other_user,
-           hours: 4
+           hours: 4)
   end
   let!(:custom_field) do
-    create :time_entry_custom_field, field_format: 'text'
+    create(:time_entry_custom_field, field_format: 'text')
   end
   let(:other_user) do
     create(:user)
@@ -182,7 +182,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
 
     time_logging_modal.work_package_is_missing true
 
-    time_logging_modal.has_field_with_value 'spentOn', (Date.today.beginning_of_week(:sunday) + 3.days).strftime
+    time_logging_modal.has_field_with_value 'spentOn', (Date.current.beginning_of_week(:sunday) + 3.days).strftime
 
     time_logging_modal.shows_field 'user', false
 

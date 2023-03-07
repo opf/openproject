@@ -43,11 +43,11 @@ describe 'OAuthClient callback endpoint' do
   let(:redirect_uri) do
     File.join(API::V3::Utilities::PathHelper::ApiV3Path::root_url, "/my-path?and=some&query=params")
   end
-  let(:oauth_client_token) { create :oauth_client_token }
+  let(:oauth_client_token) { create(:oauth_client_token) }
   let(:oauth_client) do
-    create :oauth_client,
+    create(:oauth_client,
            client_id: 'kETWr2XsjPxhVbN7Q5jmPq83xribuUTRzgfXthpYT0vSqyJWm4dOnivKzHiZasf0',
-           client_secret: 'J1sg4L5PYbM2RZL3pUyxTnamvfpcP5eUcCPmeCQHJO60Gy6CJIdDaF4yXOeC8BPS'
+           client_secret: 'J1sg4L5PYbM2RZL3pUyxTnamvfpcP5eUcCPmeCQHJO60Gy6CJIdDaF4yXOeC8BPS')
   end
   let(:rack_oauth2_client) do
     instance_double(Rack::OAuth2::Client)
@@ -140,7 +140,7 @@ describe 'OAuthClient callback endpoint' do
       end
 
       context 'with current_user being an admin' do
-        let(:current_user) { create :admin }
+        let(:current_user) { create(:admin) }
 
         it_behaves_like 'with errors, being an admin'
       end
@@ -164,7 +164,7 @@ describe 'OAuthClient callback endpoint' do
     end
 
     context 'with current_user being an admin' do
-      let(:current_user) { create :admin }
+      let(:current_user) { create(:admin) }
 
       it_behaves_like 'with errors, being an admin'
     end

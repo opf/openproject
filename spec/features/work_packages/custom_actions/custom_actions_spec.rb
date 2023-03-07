@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Custom actions', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
   let(:role) { create(:role, permissions:) }

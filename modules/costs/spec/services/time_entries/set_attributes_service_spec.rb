@@ -179,8 +179,8 @@ describe TimeEntries::SetAttributesService, type: :model do
   end
 
   context 'with another user setting logged by' do
-    let(:other_user) { create :user }
-    let(:time_entry_instance) { create :time_entry, user: other_user, logged_by: other_user, hours: 1 }
+    let(:other_user) { create(:user) }
+    let(:time_entry_instance) { create(:time_entry, user: other_user, logged_by: other_user, hours: 1) }
 
     let(:params) do
       {

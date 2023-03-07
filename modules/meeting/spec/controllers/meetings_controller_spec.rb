@@ -29,7 +29,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingsController do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
   before do
     allow(Project).to receive(:find).and_return(project)

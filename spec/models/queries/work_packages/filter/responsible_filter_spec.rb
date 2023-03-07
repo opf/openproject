@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::ResponsibleFilter do
     end
 
     context 'for me and user values' do
-      let(:user) { create :user }
-      let(:responsible2) { create :user }
+      let(:user) { create(:user) }
+      let(:responsible2) { create(:user) }
       let(:values) { [responsible.id, user.id, 'me', responsible2.id] }
 
       before do

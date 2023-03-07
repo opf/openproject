@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
+  let(:project) { create(:project, enabled_module_names: %w[meetings activity]) }
   let(:user) { create(:admin) }
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
+  let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
+  let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo') }
+  let!(:minutes) { create(:meeting_minutes, meeting:, text: 'minutes') }
 
   before do
     login_as(user)

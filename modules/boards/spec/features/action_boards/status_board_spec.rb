@@ -47,11 +47,11 @@ describe 'Status action board', js: true do
        edit_work_packages view_work_packages manage_public_queries]
   end
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:other_status) { create :status, name: 'Whatever' }
-  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
-  let!(:work_package) { create :work_package, project:, subject: 'Foo', status: other_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:other_status) { create(:status, name: 'Whatever') }
+  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
+  let!(:work_package) { create(:work_package, project:, subject: 'Foo', status: other_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }
 

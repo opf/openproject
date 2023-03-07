@@ -38,7 +38,7 @@ describe 'Board reference work package spec', js: true do
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
-  let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
+  let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -54,11 +54,11 @@ describe 'Board reference work package spec', js: true do
       assign_versions
     ]
   end
-  let(:board_view) { create :board_grid_with_query, project: }
+  let(:board_view) { create(:board_grid_with_query, project:) }
 
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
-  let!(:version) { create :version, name: 'Foo version', project: }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
+  let!(:version) { create(:version, name: 'Foo version', project:) }
 
   before do
     with_enterprise_token :board_view

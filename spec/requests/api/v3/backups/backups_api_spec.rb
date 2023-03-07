@@ -32,10 +32,10 @@ require 'rack/test'
 describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
   include API::V3::Utilities::PathHelper
 
-  let(:user) { create :user, global_permissions: [:create_backup] }
+  let(:user) { create(:user, global_permissions: [:create_backup]) }
   let(:params) { { backupToken: backup_token.plain_value } }
 
-  let(:backup_token) { create :backup_token, user: }
+  let(:backup_token) { create(:backup_token, user:) }
 
   before do
     login_as user
@@ -97,8 +97,8 @@ describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
     end
 
     context "with pending backups" do
-      let!(:backup) { create :backup }
-      let!(:status) { create :delayed_job_status, user:, reference: backup }
+      let!(:backup) { create(:backup) }
+      let!(:status) { create(:delayed_job_status, user:, reference: backup) }
 
       include_context "request"
 
@@ -108,7 +108,7 @@ describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
     end
 
     context "with missing permissions" do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       include_context "request"
 
@@ -118,8 +118,8 @@ describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
     end
 
     context "with another user's token" do
-      let(:other_user) { create :user }
-      let(:backup_token) { create :backup_token, user: other_user }
+      let(:other_user) { create(:user) }
+      let(:backup_token) { create(:backup_token, user: other_user) }
 
       include_context "request"
 
@@ -137,7 +137,7 @@ describe API::V3::Backups::BackupsAPI, with_config: { backup_enabled: true } do
     end
 
     context "with backup token on cooldown", with_config: { backup_initial_waiting_period: 24.hours } do
-      let(:backup_token) { create :backup_token, :with_waiting_period, user:, since: 5.hours }
+      let(:backup_token) { create(:backup_token, :with_waiting_period, user:, since: 5.hours) }
 
       include_context "request"
 

@@ -28,31 +28,31 @@ require 'spec_helper'
 
 describe WorkPackages::UpdateAncestors::Loader, type: :model do
   shared_let(:grandgrandparent) do
-    create :work_package
+    create(:work_package)
   end
   shared_let(:grandparent_sibling) do
-    create :work_package,
-           parent: grandgrandparent
+    create(:work_package,
+           parent: grandgrandparent)
   end
   shared_let(:grandparent) do
-    create :work_package,
-           parent: grandgrandparent
+    create(:work_package,
+           parent: grandgrandparent)
   end
   shared_let(:parent) do
-    create :work_package,
-           parent: grandparent
+    create(:work_package,
+           parent: grandparent)
   end
   shared_let(:sibling) do
-    create :work_package,
-           parent:
+    create(:work_package,
+           parent:)
   end
   shared_let(:work_package) do
-    create :work_package,
-           parent:
+    create(:work_package,
+           parent:)
   end
   shared_let(:child) do
-    create :work_package,
-           parent: work_package
+    create(:work_package,
+           parent: work_package)
   end
 
   let(:include_former_ancestors) { true }
@@ -72,23 +72,23 @@ describe WorkPackages::UpdateAncestors::Loader, type: :model do
 
     context 'when switching the hierarchy' do
       let!(:new_grandgrandparent) do
-        create :work_package,
-               subject: 'new grandgrandparent'
+        create(:work_package,
+               subject: 'new grandgrandparent')
       end
       let!(:new_grandparent) do
-        create :work_package,
+        create(:work_package,
                parent: new_grandgrandparent,
-               subject: 'new grandparent'
+               subject: 'new grandparent')
       end
       let!(:new_parent) do
-        create :work_package,
+        create(:work_package,
                subject: 'new parent',
-               parent: new_grandparent
+               parent: new_grandparent)
       end
       let!(:new_sibling) do
-        create :work_package,
+        create(:work_package,
                subject: 'new sibling',
-               parent: new_parent
+               parent: new_parent)
       end
 
       it 'iterates over both current and former ancestors' do
@@ -99,23 +99,23 @@ describe WorkPackages::UpdateAncestors::Loader, type: :model do
 
     context 'when switching the hierarchy and not including the former ancestors' do
       let!(:new_grandgrandparent) do
-        create :work_package,
-               subject: 'new grandgrandparent'
+        create(:work_package,
+               subject: 'new grandgrandparent')
       end
       let!(:new_grandparent) do
-        create :work_package,
+        create(:work_package,
                parent: new_grandgrandparent,
-               subject: 'new grandparent'
+               subject: 'new grandparent')
       end
       let!(:new_parent) do
-        create :work_package,
+        create(:work_package,
                subject: 'new parent',
-               parent: new_grandparent
+               parent: new_grandparent)
       end
       let!(:new_sibling) do
-        create :work_package,
+        create(:work_package,
                subject: 'new sibling',
-               parent: new_parent
+               parent: new_parent)
       end
 
       let(:include_former_ancestors) { false }

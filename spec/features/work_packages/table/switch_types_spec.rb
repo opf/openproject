@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Switching types in work package table', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   describe 'switching to required CF' do
     let(:cf_req_text) do
@@ -266,11 +266,11 @@ describe 'Switching types in work package table', js: true do
     let!(:type_with_cf) { create(:type_task, custom_fields: [custom_field]) }
     let!(:type) { create(:type_bug) }
     let(:permissions) { %i(view_work_packages add_work_packages) }
-    let(:role) { create :role, permissions: }
+    let(:role) { create(:role, permissions:) }
     let(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: role
+             member_through_role: role)
     end
 
     let(:custom_field) do
@@ -291,14 +291,14 @@ describe 'Switching types in work package table', js: true do
     end
     let!(:status) { create(:default_status) }
     let!(:workflow) do
-      create :workflow,
+      create(:workflow,
              type_id: type.id,
              old_status: status,
              new_status: create(:status),
-             role:
+             role:)
     end
 
-    let!(:priority) { create :priority, is_default: true }
+    let!(:priority) { create(:priority, is_default: true) }
 
     let(:cf_edit_field) do
       field = wp_page.edit_field custom_field.attribute_name(:camel_case)

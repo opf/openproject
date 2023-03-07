@@ -31,25 +31,25 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'Arbitrary WorkPackage query table widget on my page', js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }

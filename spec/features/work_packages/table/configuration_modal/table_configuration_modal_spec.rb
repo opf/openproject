@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let!(:wp_1) { create(:work_package, project:) }

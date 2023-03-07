@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Admin menu items', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   before do
     login_as user
@@ -66,7 +66,7 @@ describe 'Admin menu items', js: true do
   end
 
   context 'when logged in with a non-admin user with specific admin permissions' do
-    let(:user) { create :user, global_permission: %i[manage_user create_backup] }
+    let(:user) { create(:user, global_permission: %i[manage_user create_backup]) }
 
     it 'must display only the actions allowed by global permissions' do
       visit admin_index_path

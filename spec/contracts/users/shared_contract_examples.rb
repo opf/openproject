@@ -39,13 +39,13 @@ shared_examples_for 'user contract' do
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
 
   context 'when admin' do
-    let(:current_user) { build_stubbed :admin }
+    let(:current_user) { build_stubbed(:admin) }
 
     it_behaves_like 'contract is valid'
   end
 
   context 'when global user' do
-    let(:current_user) { create :user, global_permission: :manage_user }
+    let(:current_user) { create(:user, global_permission: :manage_user) }
 
     describe 'cannot set the password' do
       before do
@@ -65,7 +65,7 @@ shared_examples_for 'user contract' do
     end
 
     describe 'can set the auth_source' do
-      let!(:auth_source) { create :auth_source }
+      let!(:auth_source) { create(:auth_source) }
 
       before do
         user.password = user.password_confirmation = nil

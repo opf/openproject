@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'creating a cost type', js: true do
-  let!(:user) { create :admin }
+  let!(:user) { create(:admin) }
   let!(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate, cost_type: type, rate: 1.00
+    type = create(:cost_type, name: 'Translations')
+    create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
 

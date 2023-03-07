@@ -31,8 +31,8 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Dashboard page members', js: true, with_mail: false do
-  shared_let(:type) { create :type }
-  shared_let(:project) { create :project, types: [type], description: 'My **custom** description' }
+  shared_let(:type) { create(:type) }
+  shared_let(:project) { create(:project, types: [type], description: 'My **custom** description') }
 
   shared_let(:permissions) do
     %i[manage_dashboards

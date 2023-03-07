@@ -48,7 +48,7 @@ describe Projects::BaseContract do
     end
 
     context 'as admin' do
-      let(:current_user) { build_stubbed :admin }
+      let(:current_user) { build_stubbed(:admin) }
 
       it 'validates the contract' do
         expect(subject).to be true
@@ -56,7 +56,7 @@ describe Projects::BaseContract do
     end
 
     context 'as regular user' do
-      let(:current_user) { build_stubbed :user }
+      let(:current_user) { build_stubbed(:user) }
 
       it 'returns an error on validation' do
         expect(subject).to be false

@@ -29,21 +29,21 @@
 require 'spec_helper'
 
 describe 'GET /api/v3/relations' do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
-  let(:work_package) { create :work_package }
-  let(:other_work_package) { create :work_package }
+  let(:work_package) { create(:work_package) }
+  let(:other_work_package) { create(:work_package) }
 
   let!(:relations) do
     def new_relation(opts = {})
       relation_type = opts.delete(:type)
 
-      relation = create :relation, opts.merge(relation_type:)
+      relation = create(:relation, opts.merge(relation_type:))
       relation.id
     end
 
     def new_work_package
-      create :work_package
+      create(:work_package)
     end
 
     [

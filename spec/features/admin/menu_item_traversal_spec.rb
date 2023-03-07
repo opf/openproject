@@ -50,7 +50,7 @@ describe 'Menu item traversal' do
   end
 
   describe 'route authorization', with_settings: { login_required?: false } do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let(:anon) { User.anonymous }
 
     let(:check_link) do

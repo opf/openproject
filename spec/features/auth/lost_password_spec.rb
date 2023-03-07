@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Lost password' do
-  let!(:user) { create :user }
+  let!(:user) { create(:user) }
   let(:new_password) { "new_PassW0rd!" }
 
   it 'allows logging in after having lost the password' do

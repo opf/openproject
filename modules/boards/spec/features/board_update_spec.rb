@@ -34,11 +34,11 @@ describe 'Work Package boards updating spec', js: true do
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:board_view) { create :board_grid_with_query, name: 'My board', project: }
+  let!(:board_view) { create(:board_grid_with_query, name: 'My board', project:) }
 
   before do
     with_enterprise_token :board_view

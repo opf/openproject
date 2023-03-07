@@ -15,7 +15,7 @@ describe 'Login with 2FA remember cookie',
   let(:user) do
     create(:user, password: user_password, password_confirmation: user_password)
   end
-  let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
+  let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
 
   def login_with_cookie
     page.driver.browser.manage.delete_all_cookies

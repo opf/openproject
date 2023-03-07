@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Global role: Unchanged Member Roles', js: true do
   let(:admin) { create(:admin) }
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let!(:role) { create(:role, name: 'MemberRole1') }
   let!(:global_role) { create(:global_role, name: 'GlobalRole1') }
 

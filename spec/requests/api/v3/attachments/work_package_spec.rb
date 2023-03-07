@@ -38,7 +38,7 @@ describe "work package attachments" do
     let(:update_permission) { :edit_work_packages }
 
     let(:work_package) do
-      create :work_package, author: current_user, project:
+      create(:work_package, author: current_user, project:)
     end
   end
 end

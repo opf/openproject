@@ -30,19 +30,19 @@ require 'spec_helper'
 
 describe 'Update status from WP card', js: true do
   let(:manager_role) do
-    create :role, permissions: %i[view_work_packages edit_work_packages]
+    create(:role, permissions: %i[view_work_packages edit_work_packages])
   end
   let(:manager) do
-    create :user,
+    create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: manager_role
+           member_through_role: manager_role)
   end
-  let(:status1) { create :status }
-  let(:status2) { create :status }
+  let(:status1) { create(:status) }
+  let(:status2) { create(:status) }
 
-  let(:type) { create :type }
+  let(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,
@@ -53,11 +53,11 @@ describe 'Update status from WP card', js: true do
   end
 
   let!(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status1,
            new_status: status2,
-           role: manager_role
+           role: manager_role)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

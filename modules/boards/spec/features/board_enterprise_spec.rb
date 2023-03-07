@@ -34,12 +34,12 @@ describe 'Boards enterprise spec', js: true do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  shared_let(:priority) { create :default_priority }
-  shared_let(:status) { create :default_status }
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:status) { create(:default_status) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  shared_let(:manual_board) { create :board_grid_with_query, name: 'My board', project: }
+  shared_let(:manual_board) { create(:board_grid_with_query, name: 'My board', project:) }
   shared_let(:action_board) do
     create(:subproject_board,
            name: 'Subproject board',

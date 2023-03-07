@@ -136,7 +136,7 @@ module UserInvitation
       user.invite
 
       if user.valid?
-        token = Token::Invitation.create! user: user
+        token = Token::Invitation.create!(user:)
         user.save!
 
         [user, token]

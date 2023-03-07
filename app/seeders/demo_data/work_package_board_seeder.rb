@@ -60,7 +60,7 @@ module DemoData
     private
 
     def seed_kanban_board
-      board = ::Boards::Grid.new project: project
+      board = ::Boards::Grid.new(project:)
 
       board.name = project_data_for(key, 'boards.kanban.name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
@@ -124,7 +124,7 @@ module DemoData
     end
 
     def seed_basic_board
-      board = ::Boards::Grid.new project: project
+      board = ::Boards::Grid.new(project:)
       board.name = project_data_for(key, 'boards.basic.name')
       board.options = { 'highlightingMode' => 'priority' }
 
@@ -199,7 +199,7 @@ module DemoData
     end
 
     def seed_parent_child_board
-      board = ::Boards::Grid.new project: project
+      board = ::Boards::Grid.new(project:)
 
       board.name = project_data_for(key, 'boards.parent_child.name')
       board.options = { 'type' => 'action', 'attribute' => 'subtasks' }

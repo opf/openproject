@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'users/edit' do
-  let(:admin) { build :admin }
+  let(:admin) { build(:admin) }
 
   before do
     # The url_for is missing the users id that is usually taken
@@ -40,8 +40,8 @@ describe 'users/edit' do
 
   context 'authentication provider' do
     let(:user) do
-      build :user, id: 1, # id is required to create route to edit
-                   identity_url: 'test_provider:veryuniqueid'
+      build(:user, id: 1, # id is required to create route to edit
+                   identity_url: 'test_provider:veryuniqueid')
     end
 
     before do
@@ -66,7 +66,7 @@ describe 'users/edit' do
   end
 
   context 'with an invited user' do
-    let(:user) { build_stubbed :invited_user }
+    let(:user) { build_stubbed(:invited_user) }
 
     before do
       assign(:user, user)
@@ -85,7 +85,7 @@ describe 'users/edit' do
     end
 
     context 'for a non-admin' do
-      let(:non_admin) { create :user }
+      let(:non_admin) { create(:user) }
 
       before do
         allow(view).to receive(:current_user).and_return(non_admin)
@@ -99,7 +99,7 @@ describe 'users/edit' do
   end
 
   context 'with a normal (not invited) user' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     before do
       assign(:user, user)
@@ -115,7 +115,7 @@ describe 'users/edit' do
   end
 
   context 'with password-based login' do
-    let(:user) { build :user, id: 42 }
+    let(:user) { build(:user, id: 42) }
 
     before do
       assign :user, user

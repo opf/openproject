@@ -101,7 +101,7 @@ describe Repository::Subversion do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { build :project }
+      let(:project) { build(:project) }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -130,8 +130,8 @@ describe Repository::Subversion do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { build :project }
-        let(:project) { build :project, parent: }
+        let(:parent) { build(:project) }
+        let(:project) { build(:project, parent:) }
 
         before do
           instance.project = project

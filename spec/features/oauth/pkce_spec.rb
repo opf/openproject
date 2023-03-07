@@ -34,10 +34,10 @@ describe 'OAuth authorization code flow with PKCE',
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
   let!(:app) do
-    create :oauth_application,
+    create(:oauth_application,
            name: 'Public mobile client',
            confidential: false,
-           redirect_uri: allowed_redirect_uri
+           redirect_uri: allowed_redirect_uri)
   end
   let(:code_verifier) { SecureRandom.hex(64) }
   let(:code_challenge) { Doorkeeper::AccessGrant.generate_code_challenge code_verifier }

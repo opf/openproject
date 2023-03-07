@@ -31,12 +31,12 @@ require 'spec_helper'
 describe API::V3::HelpTexts::HelpTextRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:user) { build_stubbed :admin }
+  let(:user) { build_stubbed(:admin) }
 
   let(:help_text) do
-    build_stubbed :work_package_help_text,
+    build_stubbed(:work_package_help_text,
                   attribute_name: 'status',
-                  help_text: 'This is a help text for **status** attribute.'
+                  help_text: 'This is a help text for **status** attribute.')
   end
 
   let(:representer) { described_class.new help_text, current_user: user }

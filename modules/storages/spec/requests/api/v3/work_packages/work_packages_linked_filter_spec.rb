@@ -35,8 +35,8 @@ describe 'API v3 work packages resource with filters for linked storage file',
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }
 
-  let(:role1) { create :role, permissions: file_link_permissions }
-  let(:role2) { create :role, permissions: file_link_permissions }
+  let(:role1) { create(:role, permissions: file_link_permissions) }
+  let(:role2) { create(:role, permissions: file_link_permissions) }
 
   let(:current_user) { create(:user) }
   let(:project1) { create(:project, members: { current_user => role1 }) }
@@ -105,7 +105,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create :role, permissions: %i(view_work_packages) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1] }
@@ -163,7 +163,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role1) { create :role, permissions: %i(view_work_packages) }
+        let(:role1) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }
@@ -205,7 +205,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create :role, permissions: %i(view_work_packages) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }

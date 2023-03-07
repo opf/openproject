@@ -38,12 +38,12 @@ describe WorkPackage do
         expect(context[:work_package].subject).to eq subject
       end
 
-      create :work_package, subject:
+      create(:work_package, subject:)
     end
   end
 
   describe "#update" do
-    let!(:work_package) { create :work_package }
+    let!(:work_package) { create(:work_package) }
 
     it "calls the update hook" do
       expect(OpenProject::Hook).to receive(:call_hook) do |hook, context|

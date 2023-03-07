@@ -38,21 +38,21 @@ describe 'Switching work package view',
   let(:cards) { Pages::WorkPackageCards.new(project) }
   let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
-  let(:priority1) { create :issue_priority, color: create(:color, hexcode: '#123456') }
-  let(:priority2) { create :issue_priority, color: create(:color, hexcode: '#332211') }
-  let(:status) { create :status, color: create(:color, hexcode: '#654321') }
+  let(:priority1) { create(:issue_priority, color: create(:color, hexcode: '#123456')) }
+  let(:priority2) { create(:issue_priority, color: create(:color, hexcode: '#332211')) }
+  let(:status) { create(:status, color: create(:color, hexcode: '#654321')) }
 
   let(:wp_1) do
-    create :work_package,
+    create(:work_package,
            project:,
            priority: priority1,
-           status:
+           status:)
   end
   let(:wp_2) do
-    create :work_package,
+    create(:work_package,
            project:,
            priority: priority2,
-           status:
+           status:)
   end
 
   before do

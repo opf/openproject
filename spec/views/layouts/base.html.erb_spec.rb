@@ -37,7 +37,7 @@ describe 'layouts/base' do
 
   include Redmine::MenuManager::MenuHelper
   helper Redmine::MenuManager::MenuHelper
-  let(:user) { build_stubbed :user }
+  let(:user) { build_stubbed(:user) }
   let(:anonymous) { build_stubbed(:anonymous) }
 
   before do
@@ -158,7 +158,7 @@ describe 'layouts/base' do
 
     context "EE is active and styles are present" do
       let(:custom_style) { create(:custom_style) }
-      let(:primary_color) { create :'design_color_primary-color' }
+      let(:primary_color) { create(:'design_color_primary-color') }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)

@@ -63,10 +63,10 @@ describe OpenProject::Bim::BcfXml::ViewpointWriter do
 
   describe 'with minimal example' do
     let_it_be(:json_resource) do
-      build_stubbed :bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'minimal.bcfv'
+      build_stubbed(:bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'minimal.bcfv')
     end
     let_it_be(:xml_resource) do
-      build_stubbed :xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'minimal.bcfv'
+      build_stubbed(:xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'minimal.bcfv')
     end
 
     it_behaves_like 'converts back to xml'
@@ -74,10 +74,10 @@ describe OpenProject::Bim::BcfXml::ViewpointWriter do
 
   describe 'with full viewpoint' do
     let_it_be(:json_resource) do
-      build_stubbed :bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'full_viewpoint.bcfv'
+      build_stubbed(:bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'full_viewpoint.bcfv')
     end
     let_it_be(:xml_resource) do
-      build_stubbed :xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'full_viewpoint.bcfv'
+      build_stubbed(:xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'full_viewpoint.bcfv')
     end
 
     it_behaves_like 'converts back to xml'
@@ -85,10 +85,10 @@ describe OpenProject::Bim::BcfXml::ViewpointWriter do
 
   describe 'with real-world neuhaus_sc_1 example' do
     let_it_be(:json_resource) do
-      build_stubbed :bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'neubau_sc_1.bcfv'
+      build_stubbed(:bcf_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'neubau_sc_1.bcfv')
     end
     let_it_be(:xml_resource) do
-      build_stubbed :xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'neubau_sc_1_fixed.bcfv'
+      build_stubbed(:xml_viewpoint, uuid: '{{UUID}}', viewpoint_name: 'neubau_sc_1_fixed.bcfv')
     end
 
     it_behaves_like 'converts back to xml'

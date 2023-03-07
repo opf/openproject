@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe 'Session TTL',
          with_settings: { session_ttl_enabled?: true, session_ttl: '10' } do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:admin_password) { 'adminADMIN!' }
 
-  let!(:work_package) { create :work_package }
+  let!(:work_package) { create(:work_package) }
 
   before do
     login_with(admin.login, admin_password)

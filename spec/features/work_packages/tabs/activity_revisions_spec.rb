@@ -11,7 +11,7 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update(created_at: at, updated_at: at, user:)
   end
 
-  let(:project) { create :project_with_types, public: true }
+  let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) do
     at = 5.days.ago.to_date.to_fs(:db)
     work_package = create(:work_package,

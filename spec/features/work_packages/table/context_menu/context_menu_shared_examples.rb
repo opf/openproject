@@ -70,8 +70,8 @@ shared_examples_for 'provides a single WP context menu' do
   end
 
   describe 'creating work packages' do
-    let!(:priority) { create :issue_priority, is_default: true }
-    let!(:status) { create :default_status }
+    let!(:priority) { create(:issue_priority, is_default: true) }
+    let!(:status) { create(:default_status) }
 
     it 'can create a new child from the context menu (Regression #33329)' do
       open_context_menu.call

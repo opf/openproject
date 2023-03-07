@@ -38,7 +38,7 @@ describe 'Global role: Global role CRUD', js: true do
   end
 
   # And I am already admin
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
   it 'can create global role with that perm' do
     # When I go to the new page of "Role"

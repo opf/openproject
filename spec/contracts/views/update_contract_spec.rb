@@ -33,8 +33,7 @@ describe Views::UpdateContract do
   # TODO: this is just a stub to ensure that the type is not altered
   it_behaves_like 'view contract' do
     let(:view) do
-      FactoryBot
-        .build_stubbed(:view_work_packages_table).tap do |view|
+      build_stubbed(:view_work_packages_table).tap do |view|
         view.type = view_type if defined?(view_type)
         view.query = view_query
       end

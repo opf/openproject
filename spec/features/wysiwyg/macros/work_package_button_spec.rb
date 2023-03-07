@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let!(:type) { create :type, name: 'MyTaskName' }
+  let!(:type) { create(:type, name: 'MyTaskName') }
   let(:project) do
-    create :valid_project,
+    create(:valid_project,
            identifier: 'my-project',
            enabled_module_names: %w[wiki work_package_tracking],
            name: 'My project name',
-           types: [type]
+           types: [type])
   end
 
   let(:editor) { Components::WysiwygEditor.new }

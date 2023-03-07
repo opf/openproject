@@ -31,9 +31,9 @@ require 'spec_helper'
 describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
-  let(:project) { create :project }
-  let(:role) { create :role }
-  let(:current_user) { create :admin }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
+  let(:current_user) { create(:admin) }
   let(:roles) { [role] }
 
   let!(:group) do
@@ -49,7 +49,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
         .call(user_ids: users.map(&:id), send_notifications: false)
     end
   end
-  let(:users) { create_list :user, 2 }
+  let(:users) { create_list(:user, 2) }
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
   let(:send_notifications) { true }
@@ -132,7 +132,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'with global membership' do
-    let(:role) { create :global_role }
+    let(:role) { create(:global_role) }
     let!(:group) do
       create(:group,
              members: users).tap do |group|

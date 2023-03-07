@@ -32,14 +32,14 @@ require 'support/edit_fields/edit_field'
 describe 'Datepicker modal logic test cases (WP #43539)',
          with_settings: { date_format: '%Y-%m-%d' },
          js: true do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
 
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_milestone) { create(:type_milestone) }
   shared_let(:project) { create(:project, types: [type_bug, type_milestone]) }
 
-  shared_let(:bug_wp) { create :work_package, project:, type: type_bug }
-  shared_let(:milestone_wp) { create :work_package, project:, type: type_milestone }
+  shared_let(:bug_wp) { create(:work_package, project:, type: type_bug) }
+  shared_let(:milestone_wp) { create(:work_package, project:, type: type_milestone) }
 
   # assume sat+sun are non working days
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }

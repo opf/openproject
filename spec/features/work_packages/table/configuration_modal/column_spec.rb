@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal columns spec', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let!(:wp_1) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:columns) { Components::WorkPackages::Columns.new }
-  let!(:work_package) { create :work_package, project: }
+  let!(:work_package) { create(:work_package, project:) }
 
   let!(:query) do
     query = build(:query, user:, project:)

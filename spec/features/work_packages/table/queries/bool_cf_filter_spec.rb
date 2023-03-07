@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Work package filtering by bool custom field', js: true do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -70,9 +70,9 @@ describe 'Work package filtering by bool custom field', js: true do
   end
 
   current_user do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages save_queries]
+           member_with_permissions: %i[view_work_packages save_queries])
   end
 
   it 'shows the work package matching the bool cf filter' do

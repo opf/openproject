@@ -77,7 +77,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::CheckRun do
         }
       ]
     end
-    let(:github_pull_request) { create :github_pull_request, github_id: 123 }
+    let(:github_pull_request) { create(:github_pull_request, github_id: 123) }
 
     before { github_pull_request }
 

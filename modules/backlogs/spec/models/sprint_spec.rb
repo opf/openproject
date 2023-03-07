@@ -71,7 +71,7 @@ describe Sprint do
       end
 
       context 'WITH a shared version from another project' do
-        let!(:parent_project) { create :project, identifier: "parent", name: "Parent" }
+        let!(:parent_project) { create(:project, identifier: "parent", name: "Parent") }
 
         let!(:home_project) do
           create(:project, identifier: "home", name: "Home").tap do |p|
@@ -87,7 +87,7 @@ describe Sprint do
           end
         end
 
-        let!(:version) { create :version, name: "Shared Version", sharing: "tree", project: home_project }
+        let!(:version) { create(:version, name: "Shared Version", sharing: "tree", project: home_project) }
 
         let(:displayed) { Sprint.apply_to(sister_project).displayed_left(sister_project) }
 
@@ -139,7 +139,7 @@ describe Sprint do
 
         describe 'WITH display = left in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -150,7 +150,7 @@ describe Sprint do
 
         describe 'WITH display = left in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
@@ -161,7 +161,7 @@ describe Sprint do
 
         describe 'WITH display = none in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -172,7 +172,7 @@ describe Sprint do
 
         describe 'WITH display = none in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 

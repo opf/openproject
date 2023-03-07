@@ -46,7 +46,7 @@ describe Meeting do
   it { is_expected.to validate_presence_of :title }
 
   describe 'new instance' do
-    let(:meeting) { build :meeting, title: 'dingens' }
+    let(:meeting) { build(:meeting, title: 'dingens') }
 
     describe 'to_s' do
       it { expect(meeting.to_s).to eq('dingens') }

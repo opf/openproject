@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Types', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let!(:existing_role) { create(:role) }
   let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type: existing_type) }

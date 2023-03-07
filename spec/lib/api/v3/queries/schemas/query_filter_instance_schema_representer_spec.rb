@@ -34,7 +34,7 @@ describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field!(custom_field:)
 
     allow(WorkPackageCustomField)
       .to receive(:find_by)

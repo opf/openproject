@@ -33,8 +33,8 @@ describe 'Work Package budget fields', js: true do
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) { create(:project, types: [type_task]) }
-  let(:user) { create :admin }
-  let!(:budget) { create :budget, author: user, project: }
+  let(:user) { create(:admin) }
+  let!(:budget) { create(:budget, author: user, project:) }
 
   let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
   let(:view_page) { Pages::FullWorkPackage.new(project:) }

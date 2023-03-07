@@ -31,9 +31,9 @@ require 'spec_helper'
 describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail: false do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:searchable) { true }
   let(:is_filter) { true }
 
@@ -41,9 +41,9 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
     (1..12).map do |n|
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
         subject = "Subject No. #{n} WP"
-        create :work_package,
+        create(:work_package,
                subject:,
-               project:
+               project:)
       end
     end
   end
@@ -216,7 +216,7 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
     end
 
     context 'for project search' do
-      let(:subproject) { create :project, parent: project }
+      let(:subproject) { create(:project, parent: project) }
       let!(:other_work_package) do
         create(:work_package, subject: 'Other work package', project: subproject)
       end
@@ -442,10 +442,10 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
   end
 
   describe 'when params escaping' do
-    let(:wp1) { create :work_package, subject: "Foo && Bar", project: }
-    let(:wp2) { create :work_package, subject: "Foo # Bar", project: }
-    let(:wp3) { create :work_package, subject: "Foo &# Bar", project: }
-    let(:wp4) { create :work_package, subject: %(Foo '' "" \(\) Bar), project: }
+    let(:wp1) { create(:work_package, subject: "Foo && Bar", project:) }
+    let(:wp2) { create(:work_package, subject: "Foo # Bar", project:) }
+    let(:wp3) { create(:work_package, subject: "Foo &# Bar", project:) }
+    let(:wp4) { create(:work_package, subject: %(Foo '' "" \(\) Bar), project:) }
     let!(:work_packages) { [wp1, wp2, wp3, wp4] }
     let(:table) { Pages::EmbeddedWorkPackagesTable.new(find('.work-packages-embedded-view--container')) }
 

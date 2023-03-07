@@ -14,7 +14,7 @@ def get_possible_values_reordered(amount)
 end
 
 describe 'Reordering custom options of a list custom field', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
   let!(:custom_field) do

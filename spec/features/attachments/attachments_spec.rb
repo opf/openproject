@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'attachments' do
-  let(:project) { create :valid_project }
-  let(:current_user) { create :admin }
-  let!(:priority) { create :default_priority }
+  let(:project) { create(:valid_project) }
+  let(:current_user) { create(:admin) }
+  let!(:priority) { create(:default_priority) }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
   describe 'upload', js: true do
-    let(:file) { create :file, name: 'textfile.txt' }
+    let(:file) { create(:file, name: 'textfile.txt') }
 
     # FIXME rework this spec after implementing fullscreen create view
     xit 'uploading a short text file and viewing it inline' do

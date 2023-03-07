@@ -43,9 +43,9 @@ describe 'bim/ifc_models/ifc_models/index' do
            permissions: %i[view_ifc_models manage_ifc_models])
   end
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:uploader_user) { user }
 

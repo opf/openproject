@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Work Package table configuration modal filters spec', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let!(:wp_1) { create(:work_package, project:) }
@@ -23,9 +23,9 @@ describe 'Work Package table configuration modal filters spec', js: true do
   end
 
   context 'by version in project' do
-    let(:version) { create :version, project: }
-    let(:work_package_with_version) { create :work_package, project:, version: }
-    let(:work_package_without_version) { create :work_package, project: }
+    let(:version) { create(:version, project:) }
+    let(:work_package_with_version) { create(:work_package, project:, version:) }
+    let(:work_package_without_version) { create(:work_package, project:) }
 
     before do
       work_package_with_version

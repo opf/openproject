@@ -33,7 +33,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'description inplace editor', js: true, selenium: true do
-  let(:project) { create :project_with_types, public: true }
+  let(:project) { create(:project_with_types, public: true) }
   let(:property_name) { :description }
   let(:property_title) { 'Description' }
   let(:description_text) { 'Ima description' }
@@ -44,7 +44,7 @@ describe 'description inplace editor', js: true, selenium: true do
       description: description_text
     )
   end
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:field) { TextEditorField.new wp_page, 'description' }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
@@ -107,7 +107,7 @@ describe 'description inplace editor', js: true, selenium: true do
 
   context 'with no permission' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages)) }
 
     it 'does not show the field' do
       expect(page).to have_no_selector('.inline-edit--display-field.description.-editable')

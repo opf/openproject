@@ -32,7 +32,7 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          'delete' do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -49,31 +49,31 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   context 'when admin' do
-    let(:user) { build_stubbed :admin }
+    let(:user) { build_stubbed(:admin) }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when locked admin' do
-    let(:user) { build_stubbed :admin, status: Principal.statuses[:locked] }
+    let(:user) { build_stubbed(:admin, status: Principal.statuses[:locked]) }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when non-admin' do
-    let(:user) { build_stubbed :user, admin: false }
+    let(:user) { build_stubbed(:user, admin: false) }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when user with manage_user permission' do
-    let(:user) { create :user, global_permission: %[manage_placeholder_user] }
+    let(:user) { create(:user, global_permission: %[manage_placeholder_user]) }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when anonymous user' do
-    let(:user) { create :anonymous }
+    let(:user) { create(:anonymous) }
 
     it_behaves_like 'deletion is not allowed'
   end

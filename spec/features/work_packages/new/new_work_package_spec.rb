@@ -159,7 +159,7 @@ describe 'new work package', js: true do
 
         save_work_package!
 
-        wp_page.expect_attributes subject: subject
+        wp_page.expect_attributes(subject:)
         wp_page.expect_attributes type: type_bug.name.upcase
       end
 
@@ -278,7 +278,7 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { create :work_package, type: type_bug, project: }
+    let(:existing_wp) { create(:work_package, type: type_bug, project:) }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
@@ -397,7 +397,7 @@ describe 'new work package', js: true do
 
   context 'as a user with no permissions' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages)) }
     let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
@@ -419,7 +419,7 @@ describe 'new work package', js: true do
 
   context 'as a user with add_work_packages permission, but not edit_work_packages permission (Regression 28580)' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages add_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages add_work_packages)) }
     let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
     before do

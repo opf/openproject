@@ -99,9 +99,9 @@ module Pages
     end
 
     def expect_and_dismiss_toaster(message:, type: :success)
-      expect_toast(type: type, message: message)
+      expect_toast(type:, message:)
       dismiss_toaster!
-      expect_no_toaster(type: type, message: message)
+      expect_no_toaster(type:, message:)
     end
 
     def dismiss_toaster!

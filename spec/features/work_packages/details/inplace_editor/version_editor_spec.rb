@@ -5,9 +5,9 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'subject inplace editor', js: true, selenium: true do
-  let(:project) { create :project_with_types, name: 'Root', public: true }
-  let(:subproject1) { create :project_with_types, name: 'Child', parent: project }
-  let(:subproject2) { create :project_with_types, name: 'Aunt', parent: project }
+  let(:project) { create(:project_with_types, name: 'Root', public: true) }
+  let(:subproject1) { create(:project_with_types, name: 'Child', parent: project) }
+  let(:subproject2) { create(:project_with_types, name: 'Aunt', parent: project) }
 
   let!(:version) do
     create(:version,
@@ -38,16 +38,16 @@ describe 'subject inplace editor', js: true, selenium: true do
   end
 
   let(:property_name) { :version }
-  let(:work_package) { create :work_package, project: }
+  let(:work_package) { create(:work_package, project:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions]
+           member_with_permissions: %i[view_work_packages edit_work_packages manage_versions assign_versions])
   end
   let(:second_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages assign_versions]
+           member_with_permissions: %i[view_work_packages edit_work_packages assign_versions])
   end
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }

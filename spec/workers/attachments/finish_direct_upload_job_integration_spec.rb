@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
 
   let!(:pending_attachment) do
     create(:attachment,
@@ -169,7 +169,7 @@ describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
   context 'with the user not being allowed',
           with_settings: { attachment_whitelist: %w[image/png] } do
-    shared_let(:user) { create :user }
+    shared_let(:user) { create(:user) }
     let!(:container) { create(:work_package) }
 
     it "Does not save the attachment" do

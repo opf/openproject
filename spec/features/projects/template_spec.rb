@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe 'Project templates', js: true do
   describe 'making project a template' do
-    let(:project) { create :project }
+    let(:project) { create(:project) }
 
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
     before do
       login_as admin
@@ -63,7 +63,7 @@ describe 'Project templates', js: true do
     end
     let!(:template_status) { create(:project_status, project: template, explanation: 'source') }
     let!(:other_project) { create(:project, name: 'Some other project') }
-    let!(:work_package) { create :work_package, project: template }
+    let!(:work_package) { create(:work_package, project: template) }
     let!(:wiki_page) { create(:wiki_page_with_content, wiki: template.wiki) }
 
     let!(:role) do

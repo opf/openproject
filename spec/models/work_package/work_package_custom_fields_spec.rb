@@ -379,11 +379,11 @@ describe WorkPackage do
 
     describe 'validation error interpolation' do
       let :custom_field do
-        create :work_package_custom_field,
+        create(:work_package_custom_field,
                name: 'PIN',
                field_format: 'text',
                max_length: 4,
-               is_required: true
+               is_required: true)
       end
 
       include_context 'project with custom field'

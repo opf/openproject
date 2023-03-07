@@ -39,7 +39,7 @@ describe Sessions::UserSession do
   end
 
   describe '#update' do
-    let(:session) { create :user_session }
+    let(:session) { create(:user_session) }
 
     subject { described_class.find_by(session_id: session.session_id) }
 
@@ -53,7 +53,7 @@ describe Sessions::UserSession do
   end
 
   describe '#destroy' do
-    let(:sessions) { create :user_session }
+    let(:sessions) { create(:user_session) }
 
     it 'can not destroy' do
       expect { subject.destroy }.to raise_error(ActiveRecord::ReadOnlyRecord)
@@ -62,8 +62,8 @@ describe Sessions::UserSession do
   end
 
   describe '.for_user' do
-    let(:user) { create :user }
-    let!(:sessions) { create_list :user_session, 2, user: }
+    let(:user) { create(:user) }
+    let!(:sessions) { create_list(:user_session, 2, user:) }
 
     subject { described_class.for_user(user) }
 
@@ -79,7 +79,7 @@ describe Sessions::UserSession do
   end
 
   describe '.non_user' do
-    let!(:session) { create :user_session, user: nil }
+    let!(:session) { create(:user_session, user: nil) }
 
     subject { described_class.non_user }
 
