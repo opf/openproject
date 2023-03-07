@@ -151,10 +151,6 @@ describe 'Projects copy',
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
-      # Deactivate sending of mails during copying
-      click_on 'Copy options'
-      uncheck 'Send email notifications during the project copy'
-
       click_button 'Save'
 
       expect(page).to have_text 'The job has been queued and will be processed shortly.'
