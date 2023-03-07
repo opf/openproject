@@ -37,12 +37,14 @@ props:
   - name: spot-color-danger-light
     value: "#F4ABA9"
 
-  - name: spot-color-indication-attention
+  - name: spot-color-indication-focus
     value: "#00A3FF"
   - name: spot-color-indication-flagged
     value: "#1CB6C0"
   - name: spot-color-indication-current-date
     value: "#ffffE1"
+  - name: spot-color-indication-enterprise
+    value: "#EF9E56"
 
   - name: spot-color-feedback-error-dark
     value: "#CA3F3F"
@@ -57,7 +59,7 @@ props:
   - name: spot-color-feedback-success-light
     value: "#D8FDD1"
   - name: spot-color-feedback-info-dark
-    value: "#8FC0DB"
+    value: "#54AFE0"
   - name: spot-color-feedback-info-light
     value: "#E3F5FF"
 
