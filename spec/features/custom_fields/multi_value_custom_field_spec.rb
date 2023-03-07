@@ -38,7 +38,7 @@ describe "multi select custom values", js: true do
   context "with existing custom values" do
     let(:work_package_options) { %w[ham pineapple onions] }
     let(:work_package) do
-      wp = build(:work_package, project: project, type: type, subject: 'First')
+      wp = build(:work_package, project:, type:, subject: 'First')
 
       wp.custom_field_values = {
         custom_field.id => work_package_options.map { |s| custom_value_for(s) }
@@ -50,7 +50,7 @@ describe "multi select custom values", js: true do
 
     let(:work_package2_options) { %w[ham] }
     let(:work_package2) do
-      wp = build(:work_package, project: project, type: type, subject: 'Second')
+      wp = build(:work_package, project:, type:, subject: 'Second')
 
       wp.custom_field_values = {
         custom_field.id => work_package2_options.map { |s| custom_value_for(s) }

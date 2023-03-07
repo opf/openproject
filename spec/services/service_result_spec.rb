@@ -134,7 +134,7 @@ describe ServiceResult, type: :model do
     end
 
     it 'is what the object is initialized with' do
-      instance = described_class.new errors: errors
+      instance = described_class.new(errors:)
 
       expect(instance.errors).to eql errors
     end
@@ -147,7 +147,7 @@ describe ServiceResult, type: :model do
       let(:result) { build(:work_package) }
 
       it 'creates a new errors instance' do
-        instance = described_class.new result: result
+        instance = described_class.new(result:)
         expect(instance.errors).not_to eq result.errors
       end
     end
@@ -157,7 +157,7 @@ describe ServiceResult, type: :model do
     let(:result) { instance_double(Object, 'result') }
 
     it 'is what the object is initialized with' do
-      instance = described_class.new result: result
+      instance = described_class.new(result:)
 
       expect(instance.result).to eql result
     end

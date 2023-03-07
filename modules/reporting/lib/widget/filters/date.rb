@@ -45,7 +45,7 @@ class Widget::Filters::Date < Widget::Filters::Base
                                       inputs: {
                                         value: filter.values.first.to_s,
                                         id: "#{id_prefix}arg_1_val",
-                                        name: name
+                                        name:
                                       }
         label1 + text1
       end

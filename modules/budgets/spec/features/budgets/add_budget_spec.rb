@@ -100,7 +100,7 @@ describe 'adding a new budget', js: true do
     let(:project_members) { { user => create(:role, permissions: %i[work_package_assigned]) } }
 
     before do
-      create(:cost_rate, cost_type: cost_type, rate: 50.0)
+      create(:cost_rate, cost_type:, rate: 50.0)
       create(:default_hourly_rate, user:, rate: 25.0)
     end
 

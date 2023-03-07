@@ -494,7 +494,7 @@ describe WikiController do
       end
 
       subject do
-        delete :destroy, params: params
+        delete(:destroy, params:)
 
         response
       end

@@ -35,7 +35,7 @@ describe Category do
 
   describe '#create' do
     it 'is creatable and takes the attributes' do
-      category = described_class.create project: project, name: 'New category'
+      category = described_class.create project:, name: 'New category'
 
       expect(category.attributes.slice('project_id', 'name'))
         .to eq('project_id' => project.id, 'name' => 'New category')

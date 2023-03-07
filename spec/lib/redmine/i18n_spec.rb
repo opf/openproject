@@ -186,7 +186,7 @@ module OpenProject
         let(:locale) { :de }
 
         it 'uses the passed locale' do
-          translated = link_translate :translation_with_a_link, links: urls, locale: locale
+          translated = link_translate(:translation_with_a_link, links: urls, locale:)
 
           expect(translated).to eq(
             "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +

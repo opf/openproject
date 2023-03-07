@@ -122,14 +122,14 @@ describe MembersController do
       end
 
       it 'is success' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response).to be_successful
       end
     end
 
     describe 'WHEN the user is not authorized' do
       it 'is forbidden' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response.response_code).to eq(403)
       end
     end

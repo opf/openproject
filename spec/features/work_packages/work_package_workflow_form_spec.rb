@@ -48,8 +48,8 @@ describe 'Work package transitive status workflows', js: true do
 
   let(:work_package) do
     work_package = create(:work_package,
-                          project: project,
-                          type: type,
+                          project:,
+                          type:,
                           created_at: 5.days.ago.to_date.to_fs(:db))
 
     note_journal = work_package.journals.reload.last

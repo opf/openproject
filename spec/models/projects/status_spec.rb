@@ -78,7 +78,7 @@ describe Projects::Status do
     end
 
     it 'cannot be one already having a status' do
-      described_class.create! explanation: 'some other explanation', code: :off_track, project: project
+      described_class.create!(explanation: 'some other explanation', code: :off_track, project:)
 
       expect(instance)
         .to be_invalid

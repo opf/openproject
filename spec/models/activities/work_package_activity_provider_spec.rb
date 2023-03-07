@@ -62,7 +62,7 @@ describe Activities::WorkPackageActivityProvider do
     end
 
     context 'should be selected and ordered correctly' do
-      let!(:work_packages) { (1..5).map { (create(:work_package, author: user)).id.to_s } }
+      let!(:work_packages) { (1..5).map { create(:work_package, author: user).id.to_s } }
 
       let(:subject) do
         Activities::WorkPackageActivityProvider

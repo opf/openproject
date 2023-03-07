@@ -119,7 +119,7 @@ describe CopyProjectJob, type: :model do
       project = create(:project)
 
       # add invalid repo
-      repository = Repository::Git.new scm_type: :existing, project: project
+      repository = Repository::Git.new(scm_type: :existing, project:)
       repository.save!(validate: false)
       project.reload
       project

@@ -40,7 +40,7 @@ describe 'filter work packages', js: true do
 
   context 'by watchers' do
     let(:work_package_with_watcher) do
-      wp = build(:work_package, project: project)
+      wp = build(:work_package, project:)
       wp.add_watcher watcher
       wp.save!
 
@@ -215,14 +215,14 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_with_list_value) do
-      wp = create(:work_package, project: project, type: type)
+      wp = create(:work_package, project:, type:)
       wp.send(list_cf.attribute_setter, list_cf.custom_options.first.id)
       wp.save!
       wp
     end
 
     let(:work_package_with_anti_list_value) do
-      wp = create(:work_package, project: project, type: type)
+      wp = create(:work_package, project:, type:)
       wp.send(list_cf.attribute_setter, list_cf.custom_options.last.id)
       wp.save!
       wp
@@ -298,14 +298,14 @@ describe 'filter work packages', js: true do
     end
 
     let(:work_package_plus) do
-      wp = create(:work_package, project: project, type: type)
+      wp = create(:work_package, project:, type:)
       wp.send(string_cf.attribute_setter, 'G+H')
       wp.save!
       wp
     end
 
     let(:work_package_and) do
-      wp = create(:work_package, project: project, type: type)
+      wp = create(:work_package, project:, type:)
       wp.send(string_cf.attribute_setter, 'A&B')
       wp.save!
       wp

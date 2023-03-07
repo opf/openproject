@@ -97,7 +97,7 @@ describe MessagesController, with_settings: { journal_aggregation_time_minutes: 
 
         context 'journal' do
           before do
-            put :update, params: params
+            put(:update, params:)
 
             message.reload
           end

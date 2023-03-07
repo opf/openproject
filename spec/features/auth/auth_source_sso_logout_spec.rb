@@ -48,7 +48,7 @@ describe 'Login with auth source SSO',
   end
 
   let(:auth_source) { create(:auth_source) }
-  let!(:user) { create(:user, login: 'bob', auth_source: auth_source) }
+  let!(:user) { create(:user, login: 'bob', auth_source:) }
 
   it 'can log out after multiple visits' do
     visit home_path

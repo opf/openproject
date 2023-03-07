@@ -79,8 +79,8 @@ class FogFileUploader < CarrierWave::Uploader::Base
   def download_url(options = {})
     url_options = {}
 
-    set_content_disposition! url_options, options: options
-    set_expires_at! url_options, options: options
+    set_content_disposition!(url_options, options:)
+    set_expires_at!(url_options, options:)
 
     remote_file.url url_options
   end

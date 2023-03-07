@@ -32,7 +32,7 @@ describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:query) do
-    query = Query.new project: project
+    query = Query.new(project:)
 
     # Stub some methods to avoid a test failure in unrelated tests
     allow(query)

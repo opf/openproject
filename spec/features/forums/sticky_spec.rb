@@ -32,17 +32,17 @@ describe 'sticky messages' do
   let(:forum) { create(:forum) }
 
   let!(:message1) do
-    create(:message, forum: forum, created_at: Time.now - 1.minute) do |message|
+    create(:message, forum:, created_at: Time.now - 1.minute) do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 1.minute)
     end
   end
   let!(:message2) do
-    create(:message, forum: forum, created_at: Time.now - 2.minutes) do |message|
+    create(:message, forum:, created_at: Time.now - 2.minutes) do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 2.minutes)
     end
   end
   let!(:message3) do
-    create(:message, forum: forum, created_at: Time.now - 3.minutes) do |message|
+    create(:message, forum:, created_at: Time.now - 3.minutes) do |message|
       Message.where(id: message.id).update_all(updated_at: Time.now - 3.minutes)
     end
   end

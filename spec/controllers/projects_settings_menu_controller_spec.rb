@@ -49,7 +49,7 @@ describe Projects::Settings::ModulesController, 'menu' do
 
   shared_examples_for 'renders the modules show page' do
     it 'renders show' do
-      get 'show', params: params
+      get('show', params:)
       expect(response).to be_successful
       expect(response).to render_template 'projects/settings/modules/show'
     end
@@ -59,7 +59,7 @@ describe Projects::Settings::ModulesController, 'menu' do
     render_views
 
     it do
-      get 'show', params: params
+      get('show', params:)
 
       expect(response.body).to have_selector selector
     end
@@ -69,7 +69,7 @@ describe Projects::Settings::ModulesController, 'menu' do
     render_views
 
     it do
-      get 'show', params: params
+      get('show', params:)
 
       expect(response.body).not_to have_selector selector
     end

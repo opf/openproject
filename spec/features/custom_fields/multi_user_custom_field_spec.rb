@@ -127,7 +127,7 @@ describe "multi select custom values", js: true do
 
     context "with existing custom values" do
       let(:work_package) do
-        wp = build(:work_package, project: project, type: type)
+        wp = build(:work_package, project:, type:)
 
         wp.custom_field_values = {
           custom_field.id => [user1.id.to_s, user3.id.to_s]

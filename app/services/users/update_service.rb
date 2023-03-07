@@ -34,7 +34,7 @@ module Users
 
     def before_perform(params, _service_result)
       call_hook :service_update_user_before_save,
-                params: params,
+                params:,
                 user: model
 
       super

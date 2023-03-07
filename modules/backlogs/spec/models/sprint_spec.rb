@@ -139,7 +139,7 @@ describe Sprint do
 
         describe 'WITH display = left in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -150,7 +150,7 @@ describe Sprint do
 
         describe 'WITH display = left in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
@@ -161,7 +161,7 @@ describe Sprint do
 
         describe 'WITH display = none in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -172,7 +172,7 @@ describe Sprint do
 
         describe 'WITH display = none in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 

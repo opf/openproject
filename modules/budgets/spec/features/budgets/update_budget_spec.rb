@@ -47,7 +47,7 @@ describe 'updating a budget', js: true do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      create(:cost_rate, cost_type: cost_type, rate: 50.0)
+      create(:cost_rate, cost_type:, rate: 50.0)
       create(:default_hourly_rate, user:, rate: 25.0)
     end
 
@@ -94,8 +94,8 @@ describe 'updating a budget', js: true do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      create(:cost_rate, cost_type: cost_type, rate: 50.0)
-      create(:default_hourly_rate, user: user, rate: 25.0)
+      create(:cost_rate, cost_type:, rate: 50.0)
+      create(:default_hourly_rate, user:, rate: 25.0)
 
       # trigger creation
       material_budget_item

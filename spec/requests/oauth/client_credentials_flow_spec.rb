@@ -37,8 +37,8 @@ describe 'OAuth client credentials flow' do
   let(:client_secret) { application.plaintext_secret }
 
   let(:access_token) do
-    response = post '/oauth/token',
-                    grant_type: 'client_credentials', scope: 'api_v3', client_id: application.uid, client_secret: client_secret
+    response = post('/oauth/token',
+                    grant_type: 'client_credentials', scope: 'api_v3', client_id: application.uid, client_secret:)
 
     expect(response).to be_successful
     body = JSON.parse(response.body)

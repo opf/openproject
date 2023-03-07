@@ -17,7 +17,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package1) do
-    wp = create(:work_package, project: project, type: type)
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
       custom_field.id => custom_values_for('ham', 'onions')
     }
@@ -26,7 +26,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package2) do
-    wp = create(:work_package, project: project, type: type)
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
       custom_field.id => custom_values_for('pineapple')
     }

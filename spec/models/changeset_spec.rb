@@ -104,7 +104,7 @@ describe Changeset do
     let!(:repository) { create(:repository_subversion) }
 
     it 'manuals user mapping' do
-      c = Changeset.create! repository: repository,
+      c = Changeset.create! repository:,
                             committer: 'foo',
                             committed_on: Time.now,
                             revision: 100,
@@ -115,7 +115,7 @@ describe Changeset do
       expect(c.reload.user).to eq user
 
       # committer is now mapped
-      c = Changeset.create! repository: repository,
+      c = Changeset.create! repository:,
                             committer: 'foo',
                             committed_on: Time.now,
                             revision: 101,
@@ -124,7 +124,7 @@ describe Changeset do
     end
 
     it 'autoes user mapping by username' do
-      c = Changeset.create! repository: repository,
+      c = Changeset.create! repository:,
                             committer: 'jsmith',
                             committed_on: Time.now,
                             revision: 100,
@@ -133,7 +133,7 @@ describe Changeset do
     end
 
     it 'autoes user mapping by email' do
-      c = Changeset.create! repository: repository,
+      c = Changeset.create! repository:,
                             committer: 'john <jsmith@somenet.foo>',
                             committed_on: Time.now,
                             revision: 100,
@@ -239,11 +239,11 @@ describe Changeset do
           '0,75' => 0.75,
           '1,25h' => 1.25
         }.each do |syntax, expected_hours|
-          c = Changeset.new repository: repository,
+          c = Changeset.new(repository:,
                             committed_on: 24.hours.ago,
                             comments: "Worked on this work_package ##{work_package.id} @#{syntax}",
                             revision: '520',
-                            user: user
+                            user:)
 
           expect { c.scan_comment_for_work_package_ids }
             .to change { TimeEntry.count }.by(1)
@@ -272,11 +272,11 @@ describe Changeset do
           allow(Setting).to receive(:commit_fix_keywords).and_return 'fixes , closes'
           allow(Setting).to receive(:commit_logtime_enabled?).and_return true
 
-          c = Changeset.new repository: repository,
+          c = Changeset.new(repository:,
                             committed_on: Time.now,
                             comments: "This is a comment. Fixes ##{work_package.id} @4.5, ##{work_package2.id} @1",
                             revision: '520',
-                            user: user
+                            user:)
 
           expect { c.scan_comment_for_work_package_ids }
             .to change { TimeEntry.count }.by(2)

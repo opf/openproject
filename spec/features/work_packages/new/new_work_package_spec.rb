@@ -159,7 +159,7 @@ describe 'new work package', js: true do
 
         save_work_package!
 
-        wp_page.expect_attributes subject: subject
+        wp_page.expect_attributes(subject:)
         wp_page.expect_attributes type: type_bug.name.upcase
       end
 

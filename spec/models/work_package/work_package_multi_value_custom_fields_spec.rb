@@ -52,7 +52,7 @@ describe WorkPackage do
   end
 
   let(:work_package) do
-    wp = create(:work_package, project: project, type: type)
+    wp = create(:work_package, project:, type:)
     wp.reload
     wp.custom_field_values = {
       custom_field.id => custom_values

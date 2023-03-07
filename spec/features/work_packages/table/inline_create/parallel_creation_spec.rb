@@ -86,7 +86,7 @@ describe 'Parallel work package creation spec', js: true do
     expect(page).to have_selector('.wp-inline-create-row')
 
     # Save in split screen
-    new_split = Pages::SplitWorkPackageCreate.new project: project
+    new_split = Pages::SplitWorkPackageCreate.new(project:)
     subject_field = new_split.edit_field :subject
     subject_field.expect_active!
     subject_field.expect_value 'New subject'

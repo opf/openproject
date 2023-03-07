@@ -29,7 +29,7 @@ shared_examples 'notification settings workflow' do
       settings_page.set_reminder('overdue', 'every week')
 
       # Set settings for project email
-      settings_page.configure_project project: project,
+      settings_page.configure_project project:,
                                       assignee: true,
                                       responsible: true,
                                       work_package_commented: false,

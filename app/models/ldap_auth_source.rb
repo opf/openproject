@@ -231,7 +231,7 @@ class LdapAuthSource < AuthSource
     end
 
     ldap_con.search(base: base_dn,
-                    filter: filter,
+                    filter:,
                     attributes: search_attributes) do |entry|
       attrs =
         if onthefly_register?

@@ -14,9 +14,9 @@ describe "Pause reminder settings", js: true do
       # By default the pause reminder is unchecked
       reminders_settings_page.expect_paused false
 
-      reminders_settings_page.set_paused true,
-                                         first: first,
-                                         last: last
+      reminders_settings_page.set_paused(true,
+                                         first:,
+                                         last:)
 
       sleep 2
 
@@ -26,9 +26,9 @@ describe "Pause reminder settings", js: true do
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_paused true,
-                                            first: first,
-                                            last: last
+      reminders_settings_page.expect_paused(true,
+                                            first:,
+                                            last:)
 
       pref.reload
       expect(pref.pause_reminders[:enabled]).to be true
