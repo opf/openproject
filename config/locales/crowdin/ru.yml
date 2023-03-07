@@ -220,7 +220,7 @@ ru:
       members: 'Участники проекта'
       overviews: 'Обзор проекта'
       queries: 'Пакеты работ: сохраненные виды'
-      wiki_page_attachments: 'Вики-страницы: вложения'
+      wiki_page_attachments: 'Wiki страницы: вложения'
       work_package_attachments: 'Пакеты работ: вложения'
       work_package_categories: 'Пакеты работ: категории'
       work_package_file_links: 'Пакеты работ: ссылки на файлы'
@@ -349,8 +349,8 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
-      copy_failed: "The work packages could not be copied."
-      move_failed: "The work packages could not be moved."
+      copy_failed: "Пакеты работ скопировать не удалось."
+      move_failed: "Пакеты работ переместить не удалось."
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
       none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
       x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."
@@ -2014,7 +2014,7 @@ ru:
   label_wiki_page_attachments: "Вложения вики-страницы"
   label_wiki_page_id: "ID Wiki-страницы"
   label_wiki_navigation: "Навигация по wiki"
-  label_wiki_page: "Wiki-страница"
+  label_wiki_page: "Wiki страница"
   label_wiki_page_plural: "Wiki-страницы"
   label_wiki_show_index_page_link: "Показать пункт подменю «Содержание»"
   label_wiki_show_menu_item: "Показать как меню в навигации по проекту"

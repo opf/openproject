@@ -27,7 +27,7 @@ ru:
       files:
         already_existing_header: "Этот файл уже существует"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+          Файл с именем "%{fileName}" уже существует в папке, в которую вы пытаетесь загрузить этот файл. Что бы вы хотели сделать?
         directory_not_writeable: "У вас нет прав на добавление файлов в эту папку."
         dragging_many_files: "Загрузка в %{storageType} поддерживает только один файл одновременно."
         empty_folder: "Папка пуста."
