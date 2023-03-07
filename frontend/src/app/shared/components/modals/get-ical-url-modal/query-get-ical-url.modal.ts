@@ -86,7 +86,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
     this
       .query
-      .createIcalUrl()
+      .shareCalendars()
       .then((response:HalResource) => {
         this.icalUrl = response.icalUrl;
         this.isBusy = false;

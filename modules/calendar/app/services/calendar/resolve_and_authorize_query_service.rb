@@ -27,24 +27,28 @@
 #++
 
 module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
+  class ResolveAndAuthorizeQueryService < ::BaseServices::BaseCallable
     
-    def perform(query:)
-      unless(
-        query.nil? || 
-        query.results.nil?
-      )
-        # TODO: check if the includes makes sense here in order to avoid n+1 queries
-        work_packages = query.results.work_packages.includes(
-          :project, :assigned_to, :author, :priority, :status
-        )
-      end
+    def perform(user:, query_id:)
+      query = Query
+        .visible(user) # authorization
+        .find(query_id)
 
-      unless work_packages.nil?
-        ServiceResult.success(result: work_packages)
+      # TODO: 
+      # Is this the correct way of unscoping the calendar view state
+      # in order to get all workpackages from the query?
+      query.filters = query.filters
+        .reject {  |filter| filter.name == :dates_interval }
+
+      sharing_permitted = QueryPolicy.new(user).allowed?(
+        query, :share_via_ical
+      )
+
+      if query.present? && sharing_permitted
+        ServiceResult.success(result: query)
       else
-       # TODO: raise specific error
-       raise ActiveRecord::RecordNotFound
+        # TODO: raise specific auth error
+        raise ActiveRecord::RecordNotFound
       end
     end
 

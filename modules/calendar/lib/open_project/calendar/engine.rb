@@ -37,7 +37,6 @@ module OpenProject::Calendar
                    dependencies: %i[view_calendar add_work_packages edit_work_packages save_queries manage_public_queries],
                    contract_actions: { calendar: %i[create update destroy] }
         permission :share_calendars,
-                   { 'calendar/calendars': %i[generate_ical_url] },
                    dependencies: %i[view_calendar],
                    contract_actions: { calendar: %i[read] }
       end
@@ -60,5 +59,11 @@ module OpenProject::Calendar
 
     add_view :WorkPackagesCalendar,
              contract_strategy: 'Calendar::Views::ContractStrategy'
+
+    initializer 'calendar.register_mimetypes' do
+      # next if defined? Mime::XLS
+
+      Mime::Type.register('text/calendar', :ics)
+    end
   end
 end

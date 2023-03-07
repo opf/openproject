@@ -31,7 +31,7 @@ module Calendar
   class IcalResponseService < ::BaseServices::BaseCallable
     
     def perform(ical_token:, query_id:)
-      # STEP 1 -> TODO: simple time based caching -> recreate ics only every x minute(s)
+      # TODO: simple time based caching -> recreate ics only every x minute(s)
       ical_string = resolve_from_cache(ical_token, query_id)
 
       if ical_string.present?
@@ -40,17 +40,16 @@ module Calendar
       end
 
       # if not resolved from cache, proceed:
-
-      # STEP 2 -> Resolve user by token
       user = resolve_user_by_token(ical_token)
 
-      # STEP 3 -> Resolve work_packages and authorize user
-      work_packages = resolve_work_packages(user, query_id)
+      query = resolve_and_authorize_query(user, query_id)
 
-      # STEP 4 -> Resolve work_packages and authorize user
+      work_packages = resolve_work_packages(query)
+
       ical_string = create_ical_string(work_packages)
 
       if ical_string.present?
+        # TODO: save in cache
         ServiceResult.success(result: ical_string)
       else
         ServiceResult.failure
@@ -72,10 +71,19 @@ module Calendar
       user
     end
 
-    def resolve_work_packages(user, query_id)
-      call = ::Calendar::ResolveWorkPackagesService.new().call(
+    def resolve_and_authorize_query(user, query_id)
+      call = ::Calendar::ResolveAndAuthorizeQueryService.new().call(
         user: user,
         query_id: query_id
+      )
+      query = call.result if call.success?
+
+      query
+    end
+
+    def resolve_work_packages(query)
+      call = ::Calendar::ResolveWorkPackagesService.new().call(
+        query: query
       )
       work_packages = call.result if call.success?
 

@@ -26,25 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    
-    def perform(query:)
-      unless(
-        query.nil? || 
-        query.results.nil?
-      )
-        # TODO: check if the includes makes sense here in order to avoid n+1 queries
-        work_packages = query.results.work_packages.includes(
-          :project, :assigned_to, :author, :priority, :status
+module ::Calendar
+  class IcalController < ApplicationController
+
+    def ical
+      begin
+        call = ::Calendar::IcalResponseService.new().call(
+          ical_token: params[:ical_token],
+          query_id: params[:id]
         )
+      rescue ActiveRecord::RecordNotFound
+        render_404
+        return
       end
 
-      unless work_packages.nil?
-        ServiceResult.success(result: work_packages)
+      if call.present? && call.success?
+        # # respond_to do |format|
+        # #   format.ics do
+            send_data call.result, filename: "openproject_calendar_#{DateTime.now.to_i}.ics"
+        # #   end
+        # # end
+        # render plain: call.result#, mime_type: Mime::Type.lookup("text/calendar")
       else
-       # TODO: raise specific error
-       raise ActiveRecord::RecordNotFound
+        render_404
       end
     end
 

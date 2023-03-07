@@ -161,7 +161,7 @@ module API
 
             namespace :create_ical_url do
               post do
-                authorize_by_policy(:create_ical_url)
+                authorize_by_policy(:share_via_ical)
 
                 # currently the generated URL points to controller action in calendar module
                 # correct approach? or should it be implemented as a API here?

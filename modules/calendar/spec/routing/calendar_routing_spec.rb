@@ -48,4 +48,11 @@ describe Calendar::CalendarsController do
                                                           id: '2',
                                                           project_id: '1')
   end
+
+  it do
+    expect(get('/projects/1/calendars/2/ical')).to route_to(controller: 'calendar/ical',
+                                                       action: 'ical',
+                                                       id: '2',
+                                                       project_id: '1')
+  end
 end

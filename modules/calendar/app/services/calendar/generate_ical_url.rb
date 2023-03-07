@@ -45,7 +45,7 @@ module Calendar
 
     def create_ical_url(query_id, project_id, ical_token)
       url_for(
-        controller: "calendar/calendars",
+        controller: "calendar/ical",
         action: :ical,
         id: query_id,
         project_id: project_id,

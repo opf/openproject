@@ -31,6 +31,7 @@ require 'spec_helper'
 describe Calendar::CreateIcalService, type: :model do
 
   let(:project) { create(:project) }
+  let(:user) { create(:user) }
 
   let(:work_package_without_dates) do 
     create(:work_package, project: project) 
@@ -43,11 +44,16 @@ describe Calendar::CreateIcalService, type: :model do
     create(:work_package, project: project, 
       start_date: Date.tomorrow, due_date: Date.today+7.days) 
   end
+  let(:work_package_with_due_date_and_assignee) do 
+    create(:work_package, project: project, 
+      due_date: Date.today+30.days, assigned_to: user ) 
+  end
   let(:work_packages) do 
     [
       work_package_without_dates,
       work_package_with_due_date,
-      work_package_with_start_and_due_date
+      work_package_with_start_and_due_date,
+      work_package_with_due_date_and_assignee
     ]
   end 
   
@@ -78,22 +84,31 @@ DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_due_date.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
 DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: 🟩 None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: 🟢 #{work_package_with_due_date.priority.name}\nWork package description: #{work_package_with_due_date.description}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\nWork package description: #{work_package_with_due_date.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_due_date.name}
-ATTENDEE:
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_start_and_due_date.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
-DTEND;VALUE=DATE:#{work_package_with_start_and_due_date.due_date.strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: 🟩 None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: 🟢 #{work_package_with_start_and_due_date.priority.name}\nWork package description: #{work_package_with_start_and_due_date.description}
+DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date+1.day).strftime('%Y%m%d')}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\nWork package description: #{work_package_with_start_and_due_date.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_start_and_due_date.name}
-ATTENDEE:
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
+DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
+DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date+1.day).strftime('%Y%m%d')}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\nWork package description: #{work_package_with_due_date_and_assignee.description}
+LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
+ORGANIZER:Bob Bobbit
+SUMMARY:#{work_package_with_due_date_and_assignee.name}
+ATTENDEE:#{work_package_with_due_date_and_assignee.assigned_to.name}
 END:VEVENT
 END:VCALENDAR
       EOICAL

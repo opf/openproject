@@ -147,9 +147,9 @@ module API
           }
         end
         
-        link :createIcalUrl do
+        link :shareCalendars do
           next if represented.new_record? ||
-                  !allowed_to?(:create_ical_url)
+                  !allowed_to?(:share_via_ical)
 
           {
             href: api_v3_paths.query_create_ical_url(represented.id),

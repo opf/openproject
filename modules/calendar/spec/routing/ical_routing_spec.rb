@@ -26,27 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    
-    def perform(query:)
-      unless(
-        query.nil? || 
-        query.results.nil?
-      )
-        # TODO: check if the includes makes sense here in order to avoid n+1 queries
-        work_packages = query.results.work_packages.includes(
-          :project, :assigned_to, :author, :priority, :status
-        )
-      end
+require 'spec_helper'
 
-      unless work_packages.nil?
-        ServiceResult.success(result: work_packages)
-      else
-       # TODO: raise specific error
-       raise ActiveRecord::RecordNotFound
-      end
-    end
-
+describe Calendar::IcalController do
+  it do
+    expect(get('/projects/1/calendars/2/ical')).to route_to(controller: 'calendar/ical',
+                                                       action: 'ical',
+                                                       id: '2',
+                                                       project_id: '1')
   end
 end

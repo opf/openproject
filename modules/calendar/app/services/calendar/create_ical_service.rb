@@ -44,10 +44,10 @@ module Calendar
       calendar = Icalendar::Calendar.new
 
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
-      calendar.x_wr_calname = "OpenProject Calendar"
+      calendar.x_wr_calname = "OpenProject Calendar" # TODO: Use query name instead
 
       work_packages&.each do |work_package|
-        next if work_package.due_date.nil?
+        next if work_package.start_date.nil? && work_package.due_date.nil?
 
         event = create_event(work_package)
 
@@ -60,7 +60,8 @@ module Calendar
     def create_event(work_package)
       event = Icalendar::Event.new
       event.uid = "#{work_package.id}@#{host}"
-      event.attendee = [work_package.assigned_to&.name]
+      # event.attendee = [work_package.assigned_to&.name] # causing thunderbird error "id is null"
+      event.attendee = [work_package.assigned_to&.name] if work_package.assigned_to.present?
       event.organizer = work_package.author&.name
       event.summary = work_package.name
       event.dtstart = Icalendar::Values::Date.new(start_date(work_package))
@@ -81,7 +82,7 @@ module Calendar
     
     def due_date(work_package)
       if work_package.start_date.present?
-        work_package.due_date
+        work_package.due_date + 1.day
       else
         work_package.due_date + 1.day
       end
@@ -119,11 +120,12 @@ module Calendar
     # end
 
     def description_value(work_package)
+      # TODO: translate keys
       project = "Project: #{work_package.project.name}"
-      type = "Type: #{type_emoji(work_package)} #{work_package.type&.name}"
+      type = "Type: #{type_emoji(work_package)}#{work_package.type&.name}"
       status = "Status: #{work_package.status&.name}"
       assignee = "Assignee: #{work_package.assigned_to&.name}"
-      priority = "Priority: #{priority_emoji(work_package)} #{work_package.priority&.name}"
+      priority = "Priority: #{priority_emoji(work_package)}#{work_package.priority&.name}"
       unless work_package.description.blank?
         description = "Work package description: #{work_package.description&.truncate(250)}"
       end
@@ -135,12 +137,12 @@ module Calendar
 
     def type_emoji(work_package)
       # TODO: Differentiate emoji based on type
-      "🟩"
+      # "🟩"
     end
     
     def priority_emoji(work_package)
       # TODO: Differentiate emoji based on priority
-      "🟢"
+      # "🟢"
     end
 
   end
