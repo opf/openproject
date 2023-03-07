@@ -37,10 +37,10 @@ describe 'work package export' do
   let(:type_a) { create(:type, name: "Type A") }
   let(:type_b) { create(:type, name: "Type B") }
 
-  let(:wp_1) { create(:work_package, project:, done_ratio: 25, type: type_a) }
-  let(:wp_2) { create(:work_package, project:, done_ratio: 0, type: type_a) }
-  let(:wp_3) { create(:work_package, project:, done_ratio: 0, type: type_b) }
-  let(:wp_4) { create(:work_package, project:, done_ratio: 0, type: type_a) }
+  let(:wp1) { create(:work_package, project:, done_ratio: 25, type: type_a) }
+  let(:wp2) { create(:work_package, project:, done_ratio: 0, type: type_a) }
+  let(:wp3) { create(:work_package, project:, done_ratio: 0, type: type_b) }
+  let(:wp4) { create(:work_package, project:, done_ratio: 0, type: type_a) }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -52,10 +52,10 @@ describe 'work package export' do
 
   before do
     @download_list = DownloadList.new
-    wp_1
-    wp_2
-    wp_3
-    wp_4
+    wp1
+    wp2
+    wp3
+    wp4
 
     login_as(current_user)
   end
@@ -101,10 +101,10 @@ describe 'work package export' do
       it 'shows all work packages with the default filters', js: true do
         export!
 
-        expect(subject).to have_text(wp_1.description)
-        expect(subject).to have_text(wp_2.description)
-        expect(subject).to have_text(wp_3.description)
-        expect(subject).to have_text(wp_4.description)
+        expect(subject).to have_text(wp1.description)
+        expect(subject).to have_text(wp2.description)
+        expect(subject).to have_text(wp3.description)
+        expect(subject).to have_text(wp4.description)
 
         # results are ordered by ID (asc) and not grouped by type
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A B A)
@@ -113,17 +113,17 @@ describe 'work package export' do
       it 'shows all work packages grouped by', js: true do
         group_by.enable_via_menu 'Type'
 
-        wp_table.expect_work_package_listed(wp_1)
-        wp_table.expect_work_package_listed(wp_2)
-        wp_table.expect_work_package_listed(wp_3)
-        wp_table.expect_work_package_listed(wp_4)
+        wp_table.expect_work_package_listed(wp1)
+        wp_table.expect_work_package_listed(wp2)
+        wp_table.expect_work_package_listed(wp3)
+        wp_table.expect_work_package_listed(wp4)
 
         export!
 
-        expect(subject).to have_text(wp_1.description)
-        expect(subject).to have_text(wp_2.description)
-        expect(subject).to have_text(wp_3.description)
-        expect(subject).to have_text(wp_4.description)
+        expect(subject).to have_text(wp1.description)
+        expect(subject).to have_text(wp2.description)
+        expect(subject).to have_text(wp3.description)
+        expect(subject).to have_text(wp4.description)
 
         # grouped by type
         expect(subject.scan(/Type (A|B)/).flatten).to eq %w(A A A B)
@@ -136,28 +136,28 @@ describe 'work package export' do
         sleep 1
         loading_indicator_saveguard
 
-        wp_table.expect_work_package_listed(wp_1)
-        wp_table.ensure_work_package_not_listed!(wp_2, wp_3)
+        wp_table.expect_work_package_listed(wp1)
+        wp_table.ensure_work_package_not_listed!(wp2, wp3)
 
         export!
 
-        expect(subject).to have_text(wp_1.description)
-        expect(subject).not_to have_text(wp_2.description)
-        expect(subject).not_to have_text(wp_3.description)
+        expect(subject).to have_text(wp1.description)
+        expect(subject).not_to have_text(wp2.description)
+        expect(subject).not_to have_text(wp3.description)
       end
 
       it 'shows only work packages of the filtered type', js: true do
-        filters.add_filter_by 'Type', 'is (OR)', wp_3.type.name
+        filters.add_filter_by 'Type', 'is (OR)', wp3.type.name
 
-        expect(page).to have_no_content(wp_2.description) # safeguard
+        expect(page).to have_no_content(wp2.description) # safeguard
 
         sleep(0.5)
 
         export!
 
-        expect(subject).not_to have_text(wp_1.description)
-        expect(subject).not_to have_text(wp_2.description)
-        expect(subject).to have_text(wp_3.description)
+        expect(subject).not_to have_text(wp1.description)
+        expect(subject).not_to have_text(wp2.description)
+        expect(subject).to have_text(wp3.description)
       end
 
       it 'exports selected columns', js: true do
@@ -178,10 +178,10 @@ describe 'work package export' do
       end
 
       before do
-        OrderedWorkPackage.create(query:, work_package: wp_4, position: 0)
-        OrderedWorkPackage.create(query:, work_package: wp_1, position: 1)
-        OrderedWorkPackage.create(query:, work_package: wp_2, position: 2)
-        OrderedWorkPackage.create(query:, work_package: wp_3, position: 3)
+        OrderedWorkPackage.create(query:, work_package: wp4, position: 0)
+        OrderedWorkPackage.create(query:, work_package: wp1, position: 1)
+        OrderedWorkPackage.create(query:, work_package: wp2, position: 2)
+        OrderedWorkPackage.create(query:, work_package: wp3, position: 3)
 
         query.add_filter('manual_sort', 'ow', [])
         query.sort_criteria = [[:manual_sorting, 'asc']]
@@ -190,21 +190,21 @@ describe 'work package export' do
 
       it 'returns the correct number of work packages' do
         wp_table.visit_query query
-        wp_table.expect_work_package_listed(wp_1, wp_2, wp_3, wp_4)
-        wp_table.expect_work_package_order(wp_4, wp_1, wp_2, wp_3)
+        wp_table.expect_work_package_listed(wp1, wp2, wp3, wp4)
+        wp_table.expect_work_package_order(wp4, wp1, wp2, wp3)
 
         export!
 
         expect(page).to have_selector('.job-status--modal .icon-checkmark', wait: 10)
         expect(page).to have_content('The export has completed successfully.')
 
-        expect(subject).to have_text(wp_1.description)
-        expect(subject).to have_text(wp_2.description)
-        expect(subject).to have_text(wp_3.description)
-        expect(subject).to have_text(wp_4.description)
+        expect(subject).to have_text(wp1.description)
+        expect(subject).to have_text(wp2.description)
+        expect(subject).to have_text(wp3.description)
+        expect(subject).to have_text(wp4.description)
 
         # results are ordered by ID (asc) and not grouped by type
-        expect(subject.scan(/WorkPackage No\. \d+,/)).to eq [wp_4, wp_1, wp_2, wp_3].map { |wp| wp.subject + ',' }
+        expect(subject.scan(/WorkPackage No\. \d+,/)).to eq([wp4, wp1, wp2, wp3].map { |wp| "#{wp.subject}," })
       end
     end
   end
@@ -259,10 +259,10 @@ describe 'work package export' do
         new_window = window_opened_by { click_on export_type }
 
         within_window new_window do
-          expect(page).to have_text(wp_1.description)
-          expect(page).to have_text(wp_2.description)
-          expect(page).to have_text(wp_3.description)
-          expect(page).to have_text(wp_4.description)
+          expect(page).to have_text(wp1.description)
+          expect(page).to have_text(wp2.description)
+          expect(page).to have_text(wp3.description)
+          expect(page).to have_text(wp4.description)
         end
       end
     end

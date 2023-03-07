@@ -55,7 +55,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
            project:,
            activity:,
            user:,
-           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
            hours: 3,
            comments: 'My comment')
   end
@@ -65,7 +65,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
            project:,
            activity:,
            user:,
-           spent_on: Date.today.beginning_of_week(:sunday) + 1.day,
+           spent_on: Date.current.beginning_of_week(:sunday) + 1.day,
            hours: 1,
            comments: 'My comment')
   end
@@ -75,7 +75,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
            project:,
            activity:,
            user:,
-           spent_on: Date.today.beginning_of_week(:sunday) + 4.days,
+           spent_on: Date.current.beginning_of_week(:sunday) + 4.days,
            hours: 2,
            comments: 'My other comment')
   end
@@ -85,7 +85,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
            project:,
            activity:,
            user:,
-           spent_on: Date.today - (Date.today.wday + 3).days,
+           spent_on: Date.current - (Date.current.wday + 3).days,
            hours: 8,
            comments: 'My last week comment')
   end
@@ -182,7 +182,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
 
     time_logging_modal.work_package_is_missing true
 
-    time_logging_modal.has_field_with_value 'spentOn', (Date.today.beginning_of_week(:sunday) + 3.days).strftime
+    time_logging_modal.has_field_with_value 'spentOn', (Date.current.beginning_of_week(:sunday) + 3.days).strftime
 
     time_logging_modal.shows_field 'user', false
 

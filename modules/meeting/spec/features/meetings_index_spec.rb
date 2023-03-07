@@ -47,13 +47,13 @@ describe 'Meetings' do
   end
 
   let(:meeting) do
-    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.now)
+    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current)
   end
   let(:tomorrows_meeting) do
-    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day)
+    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now)
   end
   let(:yesterdays_meeting) do
-    create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day)
+    create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: 1.day.ago)
   end
   let!(:other_project_meeting) do
     create(:meeting, project: other_project, title: 'Awesome other project meeting!')
@@ -64,7 +64,7 @@ describe 'Meetings' do
     login_as(user)
   end
 
-  it 'visting page via menu with no meetings' do
+  it 'visiting page via menu with no meetings' do
     meetings_page.navigate_by_menu
 
     meetings_page.expect_no_meetings_listed

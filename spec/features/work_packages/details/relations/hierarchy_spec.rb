@@ -158,23 +158,23 @@ shared_examples 'work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { create(:project, types: [type_1, type_2]) }
-    let(:type_1) { create(:type) }
-    let(:type_2) { create(:type) }
+    let(:project) { create(:project, types: [type1, type2]) }
+    let(:type1) { create(:type) }
+    let(:type2) { create(:type) }
 
-    let(:to_1) { create(:work_package, type: type_1, project:) }
-    let(:to_2) { create(:work_package, type: type_2, project:) }
+    let(:to1) { create(:work_package, type: type1, project:) }
+    let(:to2) { create(:work_package, type: type2, project:) }
 
-    let!(:relation_1) do
+    let!(:relation1) do
       create(:relation,
              from: work_package,
-             to: to_1,
+             to: to1,
              relation_type: Relation::TYPE_FOLLOWS)
     end
-    let!(:relation_2) do
+    let!(:relation2) do
       create(:relation,
              from: work_package,
-             to: to_2,
+             to: to2,
              relation_type: Relation::TYPE_RELATES)
     end
 

@@ -50,9 +50,7 @@ describe 'Meetings participants' do
            member_in_project: project,
            member_with_permissions: %i[])
   end
-  let(:meeting) { create(:meeting, project:) }
   let(:edit_page) { Pages::Meetings::Edit.new(meeting) }
-
   let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
 
   before do

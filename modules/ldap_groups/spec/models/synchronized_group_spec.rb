@@ -23,9 +23,9 @@ describe LdapGroups::SynchronizedGroup do
   end
 
   describe 'manipulating members' do
-    let(:users) { [user_1, user_2] }
-    let(:user_1) { create(:user) }
-    let(:user_2) { create(:user) }
+    let(:users) { [user1, user2] }
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
 
     describe '.add_members!' do
       let(:synchronized_group) { create(:ldap_synchronized_group, group:) }

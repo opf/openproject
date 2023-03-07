@@ -32,24 +32,24 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
   let(:user) { create(:user) }
   let(:user2) { create(:user) }
   let(:custom_field_value) { '125' }
-  let(:custom_field_1) do
+  let(:custom_field1) do
     create(:work_package_custom_field,
            field_format: 'string',
            is_for_all: true)
   end
-  let(:custom_field_2) { create(:work_package_custom_field) }
+  let(:custom_field2) { create(:work_package_custom_field) }
   let(:custom_field_user) { create(:user_issue_custom_field) }
   let(:status) { create(:status) }
   let(:type) do
     create(:type_standard,
-           custom_fields: [custom_field_1, custom_field_2, custom_field_user])
+           custom_fields: [custom_field1, custom_field2, custom_field_user])
   end
-  let(:project_1) do
+  let(:project1) do
     create(:project,
            types: [type],
-           work_package_custom_fields: [custom_field_2])
+           work_package_custom_fields: [custom_field2])
   end
-  let(:project_2) do
+  let(:project2) do
     create(:project,
            types: [type])
   end
@@ -63,55 +63,55 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
   end
   let(:member1_p1) do
     create(:member,
-           project: project_1,
+           project: project1,
            principal: user,
            roles: [role])
   end
   let(:member2_p1) do
     create(:member,
-           project: project_1,
+           project: project1,
            principal: user2,
            roles: [role])
   end
   let(:member1_p2) do
     create(:member,
-           project: project_2,
+           project: project2,
            principal: user,
            roles: [role])
   end
-  let(:work_package_1) do
+  let(:work_package1) do
     create(:work_package,
            author: user,
            assigned_to: user,
            responsible: user2,
            type:,
            status:,
-           custom_field_values: { custom_field_1.id => custom_field_value },
-           project: project_1)
+           custom_field_values: { custom_field1.id => custom_field_value },
+           project: project1)
   end
-  let(:work_package_2) do
+  let(:work_package2) do
     create(:work_package,
            author: user,
            assigned_to: user,
            responsible: user2,
            type:,
            status:,
-           custom_field_values: { custom_field_1.id => custom_field_value },
-           project: project_1)
+           custom_field_values: { custom_field1.id => custom_field_value },
+           project: project1)
   end
-  let(:work_package_3) do
+  let(:work_package3) do
     create(:work_package,
            author: user,
            type:,
            status:,
-           custom_field_values: { custom_field_1.id => custom_field_value },
-           project: project_2)
+           custom_field_values: { custom_field1.id => custom_field_value },
+           project: project2)
   end
 
   let(:stub_work_package) { build_stubbed(:work_package) }
 
   before do
-    custom_field_1
+    custom_field1
     member1_p1
     member2_p1
 
@@ -128,7 +128,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
     end
 
     context 'same project' do
-      before { get :edit, params: { ids: [work_package_1.id, work_package_2.id] } }
+      before { get :edit, params: { ids: [work_package1.id, work_package2.id] } }
 
       it_behaves_like 'response'
 
@@ -143,11 +143,11 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
 
         context 'custom_field' do
           describe '#type' do
-            it { assert_select 'input', attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
+            it { assert_select 'input', attributes: { name: "work_package[custom_field_values][#{custom_field1.id}]" } }
           end
 
           describe '#project' do
-            it { assert_select 'select', attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }
+            it { assert_select 'select', attributes: { name: "work_package[custom_field_values][#{custom_field2.id}]" } }
           end
 
           describe '#user' do
@@ -161,7 +161,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
       before do
         member1_p2
 
-        get :edit, params: { ids: [work_package_1.id, work_package_2.id, work_package_3.id] }
+        get :edit, params: { ids: [work_package1.id, work_package2.id, work_package3.id] }
       end
 
       it_behaves_like 'response'
@@ -177,12 +177,12 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
 
         context 'custom_field' do
           describe '#type' do
-            it { assert_select 'input', attributes: { name: "work_package[custom_field_values][#{custom_field_1.id}]" } }
+            it { assert_select 'input', attributes: { name: "work_package[custom_field_values][#{custom_field1.id}]" } }
           end
 
           describe '#project' do
             it {
-              assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }, false
+              assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field2.id}]" } }, false
             }
           end
         end
@@ -191,7 +191,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
   end
 
   describe '#update' do
-    let(:work_package_ids) { [work_package_1.id, work_package_2.id] }
+    let(:work_package_ids) { [work_package1.id, work_package2.id] }
     let(:work_packages) { WorkPackage.where(id: work_package_ids) }
     let(:priority) { create(:priority_immediate) }
     let(:group_id) { '' }
@@ -219,7 +219,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
 
         it { is_expected.to be_redirect }
 
-        it { is_expected.to redirect_to(project_work_packages_path(project_1)) }
+        it { is_expected.to redirect_to(project_work_packages_path(project1)) }
       end
     end
 
@@ -259,7 +259,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
 
           subject do
             WorkPackage.where(id: work_package_ids)
-              .map { |w| w.custom_value_for(custom_field_1.id).value }
+              .map { |w| w.custom_value_for(custom_field1.id).value }
               .uniq
           end
 
@@ -304,7 +304,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
       end
 
       context 'different projects' do
-        let(:work_package_ids) { [work_package_1.id, work_package_2.id, work_package_3.id] }
+        let(:work_package_ids) { [work_package1.id, work_package2.id, work_package3.id] }
 
         context 'with permission' do
           before { member1_p2 }
@@ -341,7 +341,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
           context 'allowed' do
             let!(:member_group_p1) do
               create(:member,
-                     project: project_1,
+                     project: project1,
                      principal: group,
                      roles: [role])
             end
@@ -406,7 +406,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
           let(:parent) do
             create(:work_package,
                    author: user,
-                   project: project_1)
+                   project: project1)
           end
 
           before do
@@ -430,13 +430,13 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
                 params: {
                   ids: work_package_ids,
                   work_package: {
-                    custom_field_values: { custom_field_1.id.to_s => result }
+                    custom_field_values: { custom_field1.id.to_s => result }
                   }
                 }
           end
 
           subject do
-            work_packages.map { |w| w.custom_value_for(custom_field_1.id).value }
+            work_packages.map { |w| w.custom_value_for(custom_field1.id).value }
                          .uniq
           end
 
@@ -481,7 +481,7 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
             end
             let(:subproject) do
               create(:project,
-                     parent: project_1,
+                     parent: project1,
                      types: [type])
             end
 
@@ -552,20 +552,20 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
     describe 'updating two children with dates to a new parent (Regression #28670)' do
       let(:task1) do
         create(:work_package,
-               project: project_1,
-               start_date: Date.today - 5.days,
-               due_date: Date.today)
+               project: project1,
+               start_date: 5.days.ago,
+               due_date: Date.current)
       end
 
       let(:task2) do
         create(:work_package,
-               project: project_1,
-               start_date: Date.today - 2.days,
-               due_date: Date.today + 1.day)
+               project: project1,
+               start_date: 2.days.ago,
+               due_date: 1.day.from_now)
       end
 
       let(:new_parent) do
-        create(:work_package, project: project_1)
+        create(:work_package, project: project1)
       end
 
       before do
@@ -587,8 +587,8 @@ describe WorkPackages::BulkController, with_settings: { journal_aggregation_time
         expect(task1.parent_id).to eq(new_parent.id)
         expect(task2.parent_id).to eq(new_parent.id)
 
-        expect(new_parent.start_date).to eq Date.today - 5.days
-        expect(new_parent.due_date).to eq Date.today + 1.day
+        expect(new_parent.start_date).to eq(task1.start_date)
+        expect(new_parent.due_date).to eq(task2.due_date)
       end
     end
   end
