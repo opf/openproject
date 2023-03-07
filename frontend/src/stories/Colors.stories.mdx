@@ -1,4 +1,5 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import getFilteredTokens from './get-filtered-tokens';
 import tokens from '../app/spot/styles/tokens/dist/tokens.json';
 
 export const ColorsPreview = ({ tokens }) => <div className="colors">
@@ -44,7 +45,7 @@ The choice of which gray to use depends on the colourspace.
 
 Note: **Basic/_Gray-1_** is the default colour for "black" text.
 
-> Code example here (Black, Gray-1, Gray-2, Gray-3, Gray-4, Gray-5, Gray-6, White)
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name.startsWith('spot-color-basic-gray-'))}></ColorsPreview>
 
 ## Main
 
@@ -52,7 +53,7 @@ The **Main/** colourset is a set of three shades of the OpenProject blue.
 
 **Main/_Main_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-main')}></ColorsPreview>
 
 This is the primary blue used for all main interactions and action buttons, including text links. 
 
@@ -60,7 +61,7 @@ It is also used in the background of the header.
 
 **Main/_Main Dark_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-main-dark')}></ColorsPreview>
 
 This darker version of the main blue is mainly used:
 
@@ -69,7 +70,7 @@ This darker version of the main blue is mainly used:
 
 **Main/_Main Light_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-main-light')}></ColorsPreview>
 
 This lighter version of the main blue is used:
 
@@ -78,19 +79,17 @@ This lighter version of the main blue is used:
 
 ## Accent
 
-> Example
-
 The **Accent/** colourset is a set of three shades of green that is used to accent certain special functions. This colour should be used sparingly, so that when it is used, it draws the user’s eye.
 
 **Accent/_Accent_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-accent')}></ColorsPreview>
 
 This is the primary accent green, used for example in the default state of an accent button. 
 
 **Accent/_Accent Dark_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-accent-dark')}></ColorsPreview>
 
 This darker version is mainly used:
 
@@ -100,7 +99,7 @@ This darker version is mainly used:
 
 **Accent/_Accent Light_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-accent-light')}></ColorsPreview>
 
 This lighter version of the main green is used:
 
@@ -115,13 +114,13 @@ It should also be used to indicate potential destructive actions (actions like d
 
 **Danger/_Danger_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-danger')}></ColorsPreview>
 
 This is the primary danger red, used for example in the default state of an accent button. 
 
 **Danger/_Danger Dark_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-danger-dark')}></ColorsPreview>
 
 This darker version is mainly used:
 
@@ -130,7 +129,7 @@ This darker version is mainly used:
 
 **Danger/_Danger Light_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-danger-light')}></ColorsPreview>
 
 This darker version of the main danger red is used:
 
@@ -141,21 +140,27 @@ This darker version of the main danger red is used:
 
 Indication colours are used to indicate certain special states.
 
-**Indication/_Attention_**
+**Indication/_Focus_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-indication-focus')}></ColorsPreview>
 
-Attention is used to draw user attention to certain updates on the screen, like in the Notification center. In certain cases, these badges can also be associated with a number.
+Focus is used as the global focus color. All elements that receive focus will get an outline with this colors.
+
+**Indication/_Enterprise_**
+
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-indication-enterprise')}></ColorsPreview>
+
+Enterprise is used to indicate enterprise features. This is usually the enterprise icon.
 
 **Indication/_Flagged_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-indication-flagged')}></ColorsPreview>
 
 This colour is used when “flagging” work packages. It is a teal colour meant to be distinct from **Indication/_Attention_**.
 
 **Indication/_Current date_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name === 'spot-color-indication-current-date')}></ColorsPreview>
 
 This colour is used to indicate the current date (today) in a calendar.
 
@@ -174,29 +179,27 @@ These are typically used in toast messages.
 
 **Feedback/_Error_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name.startsWith('spot-color-feedback-error'))}></ColorsPreview>
 
 This colour indicates that a response that is different from what the user would have expected. The user flow is usually interrupted when they see an error of this type.
 
 **Feedback/_Warning_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name.startsWith('spot-color-feedback-warning'))}></ColorsPreview>
 
 The warning is information that suggests something requires attention (and that could cause a problem), but that no error has been caused, and that the expected user flow can continue.
 
 **Feedback/_Info_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name.startsWith('spot-color-feedback-info'))}></ColorsPreview>
 
 This colour is used to indicate additional information that could be of interest to the user. (Like a toast that says “Loading...”, indicating something is happening in the background)
 
 **Feedback/_Success_**
 
-> Example
+<ColorsPreview tokens={getFilteredTokens(tokens, (name) => name.startsWith('spot-color-feedback-success'))}></ColorsPreview>
 
 This colour indicates that the requested user action was successful. It should be used sparingly and only when such a feedback is absolutely required.
-
-<ColorsPreview tokens={tokens} />
 
 
 <style>
