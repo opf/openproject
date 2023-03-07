@@ -93,23 +93,46 @@ module LdapGroups
     end
 
     ##
-    # Get the current members from the ldap group
+    # Recursively get the current members from the ldap group
     def get_members(ldap_con, group)
-      # Get user login attribute and base dn which are private
-      base_dn = ldap.base_dn
+      users, seen_dns = get_members_by_dn(ldap_con, ldap.default_filter, ldap.search_attributes(group.sync_users), group.dn, {}, {})
+      users
+    end
 
-      users = {}
-      # Override the default search attributes from the ldap
-      # if we have sync_users enabled, to also get user attributes
-      search_attributes = ldap.search_attributes(group.sync_users)
-      ldap_con.search(base: base_dn,
-                      filter: memberof_filter(group),
-                      attributes: search_attributes) do |entry|
-        data = ldap.get_user_attributes_from_ldap_entry(entry)
-        users[data[:login]] = data.except(:dn)
+    ##
+    # Recursively get the current members from the ldap group dn
+    def get_members_by_dn(ldap_con, user_filter, search_attributes, dn, users, seen_dns)
+      # Check we haven't already seen this DN
+      if !seen_dns.key?(dn)
+        seen_dns[dn] = 1
+
+        # Search for the given DN using the user filter
+        user_entry = ldap_con.search(base: dn, filter: user_filter, attributes: search_attributes, scope: Net::LDAP::SearchScope_BaseObject).first
+
+        # If it's a user entry, add it to our hash of users
+        if user_entry
+          data = ldap.get_user_attributes_from_ldap_entry(user_entry)
+          users[data[:login]] = data.except(:dn)
+        else
+          # If it's a group entry, fetch its members
+          group_entry = ldap_con.search(base: dn, scope: Net::LDAP::SearchScope_BaseObject).first
+
+          # Check for both member and uniqueMember attributes in LDAP groups
+          if group_entry
+            ["member", "uniqueMember"].each do |member_attr|
+              if group_entry[member_attr]
+
+                # For each member, recursively grab its members
+                group_entry[member_attr].each do |member_dn|
+                  new_users, seen_dns = get_members_by_dn(ldap_con, user_filter, search_attributes, member_dn, users, seen_dns)
+                end
+              end
+            end
+          end
+        end
       end
 
-      users
+      return users, seen_dns
     end
 
     ##
