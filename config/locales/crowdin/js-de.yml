@@ -251,6 +251,20 @@ de:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unbegrenzt"
           you_contribute: "Auch Software-Entwickler müssen ihre Rechnungen bezahlen. Durch ein Upgrade auf die Enterprise edition unterstützen Sie diese Open-Source-Community und tragen zur Entwicklung, Wartung und kontinuierlichen Verbesserung von OpenProject bei."
+      working_days:
+        calendar:
+          empty_state_header: "Arbeitsfreie Tage"
+          empty_state_description: 'Für dieses Jahr sind keine besonderen arbeitsfreien Tage definiert. Klicken Sie unten auf „+ arbeitsfreier Tag“, um ein Datum hinzuzufügen.'
+          new_date: '(neu)'
+        add_non_working_day: "Arbeitsfreier Tag"
+        already_added_error: "Für dieses Datum existiert bereits ein arbeitsfreier Tag. Für jedes einzelne Datum kann nur ein arbeitsfreier Tag erstellt werden."
+        change_button: "Speichern und neu planen"
+        change_title: "Arbeitstage ändern"
+        removed_title: "Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:"
+        change_description: "Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken."
+        warning: >
+          Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete aktualisiert worden sind.
+          Sind Sie sicher, dass Sie fortfahren möchten?
     custom_actions:
       date:
         specific: 'am'
@@ -299,15 +313,11 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/de/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Datums-Erinnerungen für anstehende Termine und überfällige Aufgaben aktivieren.</li> <li>Wir stellen Zwei-Faktor-Authentifizierung (2FA) für die Community Edition zur Verfügung.</li> <li>Der Teamplaner erhält eine zusätzliche Arbeitswochen-Ansicht.</li> <li>Bis bis zu drei Personen werden in einer Benachrichtigungskarte aufgelistet, wenn mehrere Personen an den Änderungen beteiligt waren.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/de/blog/openproject-12-4-release
-              new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Datums-Erinnerungen für anstehende Termine und überfällige Aufgaben aktivieren.</li> <li>Wir stellen Zwei-Faktor-Authentifizierung (2FA) für die Community Edition zur Verfügung.</li> <li>Der Teamplaner erhält eine zusätzliche Arbeitswochen-Ansicht.</li> <li>Bis bis zu drei Personen werden in einer Benachrichtigungskarte aufgelistet, wenn mehrere Personen an den Änderungen beteiligt waren.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Aktiviere"
     label_assignee: 'Zugewiesen an'
     label_add_column_after: "Spalte danach hinzufügen"
@@ -474,10 +484,10 @@ de:
     label_custom_queries: "Privat"
     label_columns: "Spalten"
     label_attachments: Anhänge
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "Dateien hier ablegen, um Dateien anzuhängen."
+    label_drop_or_click_files: "Dateien hier ablegen oder anklicken, um Dateien anzuhängen."
     label_drop_folders_hint: Ordner können nicht als Anhänge hinzugefügt werden. Bitte wählen Sie einzelne Dateien aus.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Dateien anhängen"
     label_formattable_attachment_hint: "Ziehen Sie Dateien in dieses Feld hinein oder fügen Sie sie aus der Zwischenablage ein, um sie Hinzuzufügen und zu Verlinken."
     label_remove_file: "%{fileName} löschen"
     label_remove_watcher: "Beobachter %{name} entfernen"
@@ -571,7 +581,7 @@ de:
           one: 'und ein weiterer'
           other: 'und %{count} weitere'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: 'Hier werden neue Benachrichtigungen angezeigt, wenn es Aktivitäten gibt, die Sie betreffen.'
           with_current_filter: 'Es gibt derzeit keine Benachrichtigungen in dieser Ansicht'
         mark_all_read: 'Alles als gelesen markieren'
         mark_as_read: 'Als gelesen markieren'
@@ -594,7 +604,7 @@ de:
         watched: 'Beobachter'
         date_alert: 'Datums-Erinnerung'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: 'Sie können Ihre <a target="_blank" href="%{url}">Benachrichtigungseinstellungen</a> ändern, um sicherzustellen, dass Sie keine wichtige Aktualisierung verpassen.'
         title: "Benachrichtigungseinstellungen"
         notify_me: "Benachrichtige mich"
         reminders:
@@ -656,7 +666,7 @@ de:
     project:
       required_outside_context: >
         Bitte wählen Sie ein Projekt für das Arbeitspaket, um alle Attribute anzuzeigen. Sie können nur Projekte auswählen, für die der ausgewählte Typ oben aktiviert ist.
-      details_activity: 'Project details activity'
+      details_activity: 'Projektdetails-Aktivität'
       context: 'Projektkontext'
       work_package_belongs_to: 'Dieses Arbeitspaket gehört zum Projekt %{projectname}.'
       click_to_switch_context: 'Dieses Arbeitspaket in dem Projekt öffnen.'
@@ -1055,7 +1065,6 @@ de:
         relations: Beziehungen
         watchers: Beobachter
         files: Dateien
-        files_tab_migration_help: 'Sie können nun Dateien an Arbeitspakete über den neuen Tab hochladen:'
       time_relative:
         days: "Tagen"
         weeks: "Wochen"
@@ -1251,4 +1260,5 @@ de:
       filter_chip:
         remove: 'Entfernen'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Schließen'

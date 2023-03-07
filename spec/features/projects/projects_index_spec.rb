@@ -464,7 +464,7 @@ describe 'Projects index page',
 
         projects_page.set_filter('project_status_code',
                                  'Project status',
-                                 'is',
+                                 'is (OR)',
                                  ['On track'])
 
         click_on 'Apply'
@@ -476,7 +476,7 @@ describe 'Projects index page',
         SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
                                  'Project status',
-                                 'all',
+                                 'is not empty',
                                  [])
 
         click_on 'Apply'
@@ -488,7 +488,7 @@ describe 'Projects index page',
         SeleniumHubWaiter.wait
         projects_page.set_filter('project_status_code',
                                  'Project status',
-                                 'none',
+                                 'is empty',
                                  [])
 
         click_on 'Apply'
@@ -671,7 +671,7 @@ describe 'Projects index page',
 
         projects_page.set_filter(list_custom_field.column_name,
                                  list_custom_field.name,
-                                 'is',
+                                 'is (OR)',
                                  [list_custom_field.possible_values[2].value])
 
         click_on 'Apply'

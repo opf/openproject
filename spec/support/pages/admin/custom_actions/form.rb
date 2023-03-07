@@ -36,6 +36,7 @@ module Pages
         include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
         def set_name(name)
+          fill_in 'Name', with: ''
           fill_in 'Name', with: name
         end
 

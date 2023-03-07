@@ -334,7 +334,7 @@ it:
   wiki:
     page_not_editable_index: La pagina richiesta non esiste (ancora). Sei stato reindirizzato all'indice di tutte le pagine wiki.
     no_results_title_text: Al momento non vi sono pagine wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Questo stamperà il contenuto di questa pagina della wiki senza alcuna barra di navigazione.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
   work_flows:
@@ -345,6 +345,8 @@ it:
       one: 'Una macro-attività discendente'
       other: '%{count} macro-attività discendenti'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
@@ -373,7 +375,7 @@ it:
   account:
     delete: "Cancella account"
     delete_confirmation: "Sei davvero sicuro di voler cancellare questo account?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Il profilo è stato bloccato e ne è stata pianificata l'eliminazione. Nota che questo processo avviene in background. Potrebbe volerci un po', prima della completa eliminazione dell'utente."
     deletion_info:
       data_consequences:
         other: "I dati creati dall'utente (ad esempio posta elettronica, preferenze, macro-attività, voci wiki) verranno eliminati completamente se possibile. Si noti, tuttavia, che alcuni tipi di dati, come ad esempio i pacchetti di lavoro e le voci wiki, non possono essere eliminati senza creare un ostacolo per il lavoro di altri utenti. La proprietà di tali dati sarà pertanto trasferita ad un account generico chiamato \"Deleted user\". Visto che i dati di tutti gli account eliminati vengono riassegnati a questo stesso account, non sarà più possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato."
@@ -468,14 +470,24 @@ it:
       member:
         roles: "Ruoli"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identificatore"
         latest_activity_at: "Ultima attività alle"
         parent: "Sotto-progetto di"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Interrogazioni"
+        templated: "Progetto modello"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -690,7 +702,7 @@ it:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Un giorno non lavorativo esiste già per %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -703,7 +715,7 @@ it:
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Non hai le autorizzazioni necessarie ad archiviare tutti i progetti secondari. Sei pregato di contattare un amministratore."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -897,8 +909,22 @@ it:
     header_invalid_fields: "Ci sono stati dei problemi con i seguenti campi:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
-    created: "Creato: %{title}"
-    updated: "Aggiornato: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Attivo"
@@ -1034,6 +1060,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
   button_sort: "Ordina"
@@ -1332,8 +1359,8 @@ it:
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Attributi del progetto modificati'
+    projects: 'Progetto modificato'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
@@ -1341,7 +1368,8 @@ it:
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
     title:
-      project: "Project: %{name}"
+      project: "Progetto: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1367,7 +1395,6 @@ it:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Italiano"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "si"
@@ -1753,6 +1780,10 @@ it:
   label_not_contains: "non contiene"
   label_not_equals: "non è"
   label_on: "il"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
   label_open_work_packages_plural: "aperte"
@@ -1794,8 +1825,8 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
-  label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_activity: "Attività del progetto"
+  label_project_attribute_plural: "Attributi del progetto"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2218,7 +2249,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Archivia progetto"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"
@@ -2656,12 +2687,13 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2954,18 +2986,20 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
         working: "%{day} ora è lavorativo"
         non_working: "%{day} ora non è lavorativo"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} è ora lavorativo"
+        non_working: "%{date} è ora non lavorativo"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:

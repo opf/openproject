@@ -32,7 +32,8 @@ class ActivitiesController < ApplicationController
                 :verify_activities_module_activated,
                 :determine_date_range,
                 :determine_subprojects,
-                :determine_author
+                :determine_author,
+                :set_current_activity_page
 
   after_action :set_session
 
@@ -45,14 +46,14 @@ class ActivitiesController < ApplicationController
                                         author: @author,
                                         scope: activity_scope)
 
-    events = @activity.events(@date_from.to_datetime, @date_to.to_datetime)
+    @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
 
     respond_to do |format|
       format.html do
-        respond_html(events)
+        respond_html
       end
       format.atom do
-        respond_atom(events)
+        respond_atom
       end
     end
   rescue ActiveRecord::RecordNotFound => e
@@ -89,19 +90,18 @@ class ActivitiesController < ApplicationController
     @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
   end
 
-  def respond_html(events)
-    @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+  def respond_html
     render layout: !request.xhr?
   end
 
-  def respond_atom(events)
+  def respond_atom
     title = t(:label_activity)
     if @author
       title = @author.name
     elsif @activity.scope.size == 1
       title = t("label_#{@activity.scope.first.singularize}_plural")
     end
-    render_feed(events, title: "#{@project || Setting.app_title}: #{title}")
+    render_feed(@events, title: "#{@project || Setting.app_title}: #{title}")
   end
 
   def activity_scope
@@ -114,6 +114,10 @@ class ActivitiesController < ApplicationController
     else
       :all
     end
+  end
+
+  def set_current_activity_page
+    @activity_page = @project ? "projects/#{@project.identifier}" : 'all'
   end
 
   def set_session

@@ -174,6 +174,30 @@ describe Settings::WorkingDaysUpdateService do
               )
             end
           end
+
+          context 'with duplicate params when deleting and re-creating non-working days' do
+            let(:non_working_days_params) do
+              [
+                existing_nwd.slice(:id, :name, :date).merge('_destroy' => true),
+                existing_nwd.slice(:name, :date),
+                existing_nwd.slice(:name, :date)
+              ]
+            end
+
+            include_examples 'unsuccessful working days settings call'
+
+            it 'returns the unchanged results including the ones marked for destruction' do
+              result = subject.result
+
+              expect(result).to contain_exactly(
+                have_attributes(existing_nwd.slice(:id, :name, :date)),
+                have_attributes(existing_nwd.slice(:name, :date).merge(id: nil)),
+                have_attributes(existing_nwd.slice(:name, :date).merge(id: nil))
+              )
+
+              expect(result.find { |r| r.id == existing_nwd.id }).to be_marked_for_destruction
+            end
+          end
         end
       end
     end

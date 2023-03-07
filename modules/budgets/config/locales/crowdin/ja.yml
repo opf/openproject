@@ -39,6 +39,9 @@ ja:
     models:
       budget: "予算"
       material_budget_item: "ユニット"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "予算"
   button_add_budget_item: "計画コストを追加"

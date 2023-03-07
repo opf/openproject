@@ -51,7 +51,6 @@ import { SortHeaderDirective } from 'core-app/features/work-packages/components/
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
 import { OPContextMenuComponent } from 'core-app/shared/components/op-context-menu/op-context-menu.component';
 import { OpenprojectPrincipalRenderingModule } from 'core-app/shared/components/principal/principal-rendering.module';
-import { DatePickerModule } from 'core-app/shared/components/op-date-picker/date-picker.module';
 import { FocusModule } from 'core-app/shared/directives/focus/focus.module';
 import { EnterpriseBannerComponent } from 'core-app/shared/components/enterprise-banner/enterprise-banner.component';
 import { EnterprisePageComponent } from 'core-app/shared/components/enterprise-page/enterprise-page.component';
@@ -69,6 +68,20 @@ import {
 import { CopyToClipboardDirective } from './components/copy-to-clipboard/copy-to-clipboard.directive';
 import { OpDateTimeComponent } from './components/date/op-date-time.component';
 import { ToastComponent } from './components/toaster/toast.component';
+
+import { OpWpSingleDateFormComponent } from 'core-app/shared/components/datepicker/wp-single-date-form/wp-single-date-form.component';
+import { OpModalSingleDatePickerComponent } from 'core-app/shared/components/datepicker/modal-single-date-picker/modal-single-date-picker.component';
+import { OpBasicSingleDatePickerComponent } from 'core-app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component';
+import { OpBasicRangeDatePickerComponent } from 'core-app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component';
+import { OpWpMultiDateFormComponent } from 'core-app/shared/components/datepicker/wp-multi-date-form/wp-multi-date-form.component';
+import { OpDatePickerBannerComponent } from 'core-app/shared/components/datepicker/banner/datepicker-banner.component';
+import { OpDatePickerWorkingDaysToggleComponent } from 'core-app/shared/components/datepicker/toggle/datepicker-working-days-toggle.component';
+import { OpDatePickerSchedulingToggleComponent } from 'core-app/shared/components/datepicker/scheduling-mode/datepicker-scheduling-toggle.component';
+
+// Old datepickers
+import { OpSingleDatePickerComponent } from 'core-app/shared/components/datepicker/single-date-picker/single-date-picker.component';
+import { OpMultiDatePickerComponent } from 'core-app/shared/components/datepicker/multi-date-picker/multi-date-picker.component';
+
 import { ToastsContainerComponent } from './components/toaster/toasts-container.component';
 import { UploadProgressComponent } from './components/toaster/upload-progress.component';
 import { ResizerComponent } from './components/resizer/resizer.component';
@@ -86,8 +99,11 @@ import { OpSidemenuComponent } from './components/sidemenu/sidemenu.component';
 import { OpProjectIncludeComponent } from './components/project-include/project-include.component';
 import { OpProjectIncludeListComponent } from './components/project-include/list/project-include-list.component';
 import { OpLoadingProjectListComponent } from './components/searchable-project-list/loading-project-list.component';
+import { OpNonWorkingDaysListComponent } from './components/op-non-working-days-list/op-non-working-days-list.component';
 import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
+import { OpenprojectModalModule } from './components/modal/modal.module';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -130,11 +146,12 @@ export function bootstrapModule(injector:Injector):void {
     OpenprojectPrincipalRenderingModule,
     OpenprojectContentLoaderModule,
     OpenprojectAutocompleterModule,
+    OpenprojectModalModule,
 
-    DatePickerModule,
     FocusModule,
     IconModule,
     AttributeHelpTextModule,
+    FullCalendarModule,
   ],
   exports: [
     // Re-export all commonly used
@@ -156,7 +173,6 @@ export function bootstrapModule(injector:Injector):void {
 
     OpSpotModule,
 
-    DatePickerModule,
     FocusModule,
     OpDateTimeComponent,
 
@@ -196,6 +212,22 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     ViewSelectComponent,
+
+    // Date pickers
+    OpWpSingleDateFormComponent,
+    OpModalSingleDatePickerComponent,
+    OpBasicSingleDatePickerComponent,
+    OpBasicRangeDatePickerComponent,
+    OpDatePickerBannerComponent,
+    OpWpMultiDateFormComponent,
+    OpDatePickerWorkingDaysToggleComponent,
+    OpDatePickerSchedulingToggleComponent,
+    
+    // Old datepickers
+    OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
+
+    OpNonWorkingDaysListComponent,
   ],
   providers: [
     StaticQueriesService,
@@ -250,9 +282,25 @@ export function bootstrapModule(injector:Injector):void {
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
+
+    OpNonWorkingDaysListComponent,
+
+    // Date pickers
+    OpWpSingleDateFormComponent,
+    OpModalSingleDatePickerComponent,
+    OpBasicSingleDatePickerComponent,
+    OpBasicRangeDatePickerComponent,
+    OpDatePickerBannerComponent,
+    OpWpMultiDateFormComponent,
+    OpDatePickerWorkingDaysToggleComponent,
+    OpDatePickerSchedulingToggleComponent,
+    
+    // Old datepickers
+    OpSingleDatePickerComponent,
+    OpMultiDatePickerComponent,
   ],
 })
-export class OPSharedModule {
+export class OpSharedModule {
   constructor(injector:Injector) {
     bootstrapModule(injector);
   }

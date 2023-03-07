@@ -76,7 +76,7 @@ module API
               end
             end
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: WorkPackage).mount
+            get &API::V3::WorkPackages::ShowEndPoint.new(model: WorkPackage).mount
 
             patch &::API::V3::WorkPackages::UpdateEndPoint.new(model: WorkPackage,
                                                                parse_service: ::API::V3::WorkPackages::ParseParamsService,

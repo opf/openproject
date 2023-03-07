@@ -31,7 +31,8 @@ import { CommonModule } from '@angular/common';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectEditorModule } from 'core-app/shared/components/editor/openproject-editor.module';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
+import { OpSpotModule } from 'core-app/spot/spot.module';
 import { AttributeHelpTextModule } from 'core-app/shared/components/attribute-help-texts/attribute-help-text.module';
 import { EditFieldService } from 'core-app/shared/components/fields/edit/edit-field.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
@@ -62,12 +63,14 @@ import { EditFieldControlsModule } from 'core-app/shared/components/fields/edit/
 import { ProjectEditFieldComponent } from './edit/field-types/project-edit-field.component';
 import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { UserEditFieldComponent } from './edit/field-types/user-edit-field.component';
-import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
+import { CombinedDateEditFieldComponent } from './edit/field-types/combined-date-edit-field.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    OPSharedModule,
+    OpSharedModule,
+    OpSpotModule,
     OpenprojectAttachmentsModule,
     OpenprojectEditorModule,
     OpenprojectModalModule,
@@ -108,6 +111,7 @@ import { DaysDurationEditFieldComponent } from 'core-app/shared/components/field
     FloatEditFieldComponent,
     PlainFormattableEditFieldComponent,
     MultiSelectEditFieldComponent,
+    CombinedDateEditFieldComponent,
     ProjectEditFieldComponent,
     UserEditFieldComponent,
     WorkPackageEditFieldComponent,

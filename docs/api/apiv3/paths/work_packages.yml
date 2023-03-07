@@ -108,8 +108,7 @@ get:
       required: false
       schema:
         type: string
-    - description: Indicates whether properties should be summed up if they support
-        it.
+    - description: Indicates whether properties should be summed up if they support it.
       example: true
       in: query
       name: showSums
@@ -124,6 +123,17 @@ get:
       name: select
       required: false
       schema:
+        type: string
+    - description: |-
+        In order to perform a [baseline comparison](/docs/api/baseline_comparisons), you may provide one or several timestamps
+        in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative. Usually, the first timestamp
+        is the baseline date, the last timestamp is the current date.
+      example: '2022-01-01T00:00:00Z,PT0S'
+      in: query
+      name: timestamps
+      required: false
+      schema:
+        default: PT0S
         type: string
   responses:
     '200':
@@ -150,7 +160,7 @@ get:
 
 post:
   summary: Create Work Package
-  operationId: Create_Work_Package
+  operationId: create_work_package
   tags:
     - Work Packages
   description: |-

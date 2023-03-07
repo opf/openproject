@@ -31,6 +31,8 @@ class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
+  # Show the project on activity and search views
+  has_one :project, through: :meeting
   belongs_to :author, class_name: 'User'
 
   acts_as_attachable(
@@ -69,7 +71,4 @@ class MeetingContent < ApplicationRecord
       .where(version:)
       .first.data
   end
-
-  # Show the project on activity and search views
-  delegate :project, to: :meeting
 end

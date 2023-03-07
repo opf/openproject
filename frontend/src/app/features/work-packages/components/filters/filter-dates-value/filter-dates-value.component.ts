@@ -27,7 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Component, Input, Output } from '@angular/core';
+import { Component, HostBinding, Input, Output } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import * as moment from 'moment';
@@ -41,6 +41,12 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
   templateUrl: './filter-dates-value.component.html',
 })
 export class FilterDatesValueComponent extends UntilDestroyedMixin {
+  @HostBinding('id') get id() {
+    return `div-values-${this.filter.id}`;
+  }
+
+  @HostBinding('class.inline-label') className = true;
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
@@ -56,22 +62,21 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
     super();
   }
 
+  public get value():(HalResource[]|string[]) {
+    return this.filter.values;
+  }
+
+  public set value(val:(HalResource[]|string[])) {
+    this.filter.values = val;
+    this.filterChanged.emit(this.filter);
+  }
+
   public get begin():any {
     return this.filter.values[0];
   }
 
-  public set begin(val:any) {
-    this.filter.values[0] = val || '';
-    this.filterChanged.emit(this.filter);
-  }
-
   public get end():HalResource|string {
     return this.filter.values[1];
-  }
-
-  public set end(val) {
-    this.filter.values[1] = val || '';
-    this.filterChanged.emit(this.filter);
   }
 
   public parser(data:any) {

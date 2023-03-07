@@ -61,12 +61,12 @@ module Activities
 
     # Returns an array of events for the given date range
     # sorted in reverse chronological order
-    def events(from = nil, to = nil, limit: nil)
+    def events(from: nil, to: nil, limit: nil)
       events = events_from_providers(from, to, limit)
 
       eager_load_associations(events)
 
-      sort_by_date(events)
+      sort_by_most_recent_first(events)
     end
 
     protected
@@ -104,30 +104,38 @@ module Activities
     def eager_load_associations(events)
       projects = projects_of_event_set(events)
       users = users_of_event_set(events)
+      journals = journals_of_event_set(events)
 
       events.each do |e|
-        e.event_author = users[e.author_id]&.first
-        e.project = projects[e.project_id]&.first
+        e.event_author = users[e.author_id]
+        e.project = projects[e.project_id]
+        e.journal = journals[e.event_id]
       end
     end
 
     def projects_of_event_set(events)
-      project_ids = events.map(&:project_id).compact.uniq
+      project_ids = events.filter_map(&:project_id).uniq
 
-      if project_ids.any?
-        Project.find(project_ids).group_by(&:id)
-      else
-        {}
-      end
+      Project.find(project_ids).index_by(&:id)
     end
 
     def users_of_event_set(events)
-      user_ids = events.map(&:author_id).compact.uniq
+      user_ids = events.filter_map(&:author_id).uniq
 
-      User.where(id: user_ids).group_by(&:id)
+      User.where(id: user_ids).index_by(&:id)
     end
 
-    def sort_by_date(events)
+    def journals_of_event_set(events)
+      journal_ids = events.map(&:event_id)
+
+      Journal
+        .includes(:data, :customizable_journals, :attachable_journals, :bcf_comment)
+        .find(journal_ids)
+        .then { |journals| ::API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals) }
+        .index_by(&:id)
+    end
+
+    def sort_by_most_recent_first(events)
       events.sort { |a, b| b.event_datetime <=> a.event_datetime }
     end
 

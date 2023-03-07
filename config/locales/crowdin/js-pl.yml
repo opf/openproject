@@ -252,6 +252,20 @@ pl:
             Edycja OpenProject Enterprise opiera się na edycji społecznośiowej. Zawiera dodatki dla Entrprise i profesjonalne wsparcie skierowane głównie do organizacji z ponad 10 użytkownikami, które zarządzają projektami o kluczowym znaczeniu dla biznesu za pomocą OpenProject.
           unlimited: "Bez ograniczeń"
           you_contribute: "Deweloperzy również muszą płacić rachunki. Poprzez przejście na wersję Enterprise będziesz wspierać ten wysiłek społeczności open source i przyczyniać się do jej rozwoju, utrzymania i ciągłego doskonalenia."
+      working_days:
+        calendar:
+          empty_state_header: "Dni nierobocze"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(nowe)'
+        add_non_working_day: "Dzień nieroboczy"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Zapisz i zmień harmonogram"
+        change_title: "Zmień dni robocze"
+        removed_title: "Z listy dni nieroboczych usuniesz następujące dni:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'wł'
@@ -300,15 +314,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Wydanie zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Aktywuj alerty powiadomień o nadchodzących datach i zaległych zadaniach.</li> <li>Udostępniamy uwierzytelnianie dwuskładnikowe (2FA) dla wersji społecznościowej.</li> <li>Opcja wyświetlania tygodnia roboczego została dodana do planisty zespołu.</li> <li>Wymień do 3 osób na karcie powiadomień, gdy w zmiany zaangażowanych było wiele osób.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -478,7 +488,7 @@ pl:
     label_drop_files: "Upuść pliki tutaj, aby je załączyć."
     label_drop_or_click_files: "Upuść pliki tutaj lub kliknij, aby je załączyć."
     label_drop_folders_hint: Nie można przesłać folderów jako załącznika. Wybierz pojedyncze pliki.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Załącz pliki"
     label_formattable_attachment_hint: "Aby załączyć pliki, przeciągnij je tutaj lub wklej ze schowka."
     label_remove_file: "Usuń %{fileName}"
     label_remove_watcher: "Usuń obserwującego %{name}"
@@ -659,7 +669,7 @@ pl:
     project:
       required_outside_context: >
         Wybierz projekt, w którym chcesz utworzyć pakiet roboczy, aby zobaczyć wszystkie atrybuty. Możesz wybrać tylko projekty, które mają aktywowany powyższy typ.
-      details_activity: 'Project details activity'
+      details_activity: 'Szczegóły projektu'
       context: 'Kontekst projektu'
       work_package_belongs_to: 'Ten pakiet roboczy należy do projektu %{projectname}.'
       click_to_switch_context: 'Otwórz ten pakiet roboczy w tym projekcie.'
@@ -1058,7 +1068,6 @@ pl:
         relations: Relacje
         watchers: Obserwatorzy
         files: Pliki
-        files_tab_migration_help: 'Pliki można teraz dołączać do pakietów roboczych za pomocą nowej karty:'
       time_relative:
         days: "dni"
         weeks: "tygodnie"
@@ -1199,7 +1208,7 @@ pl:
           title: 'Użytkownik zastępczy'
           title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Nie ma dostępu do projektu i żadne wiadomości e-mail nie są wysyłane. <br>Sprawdź <a href="%{eeHref}" target="_blank">wersję Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nazwa lub adres e-mail'
@@ -1258,4 +1267,5 @@ pl:
       filter_chip:
         remove: 'Usuń'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Zamknij'

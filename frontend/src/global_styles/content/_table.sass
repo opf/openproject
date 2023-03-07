@@ -46,8 +46,12 @@ $toolbar-height--mobile: 100px
   @media screen and (max-width: 679px)
     max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
 
+  .generic-table--results-container
+    padding-bottom: $spot-spacing-10
+
   .generic-table--container
     display: contents
+    
   .generic-table
     position: relative
 
@@ -61,6 +65,11 @@ $toolbar-height--mobile: 100px
 
   &.-with-footer
     padding-bottom: var(--generic-table--footer-height)
+
+  &_visible-overflow
+    &,
+    .generic-table--results-container
+      overflow: visible
 
 .generic-table--results-container
   height:       100%
@@ -158,13 +167,21 @@ table.generic-table
       td:not(.-no-ellipsis)
         @include text-shortener
 
+    .project td
+      > span,
+      > a
+        // Because of the way table-cell display works,
+        // the easiest way to properly center-align inline
+        // elements is to just push them down a pixel.
+        position: relative
+        top: 1px
+
     td
       max-width: 300px
       text-align: left
       line-height: 1.6
       padding-top: 0.5rem
       padding-bottom: 0.5rem
-      vertical-align: top
 
       &.form--td
         vertical-align: middle

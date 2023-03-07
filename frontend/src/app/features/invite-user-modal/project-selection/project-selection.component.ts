@@ -32,7 +32,6 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
   selector: 'op-ium-project-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-selection.component.html',
-  styleUrls: ['./project-selection.component.sass'],
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;

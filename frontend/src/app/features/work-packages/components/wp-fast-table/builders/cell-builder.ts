@@ -28,6 +28,10 @@ export class CellBuilder {
       td.classList.add('-max');
     }
 
+    if ([ 'startDate', 'dueDate', 'duration' ].indexOf(attribute) !== -1) {
+      td.classList.add('-no-ellipsis');
+    }
+
     const schema = this.schemaCache.of(workPackage).ofProperty(attribute);
     if (schema && schema.type === 'User') {
       td.classList.add('-contains-avatar');

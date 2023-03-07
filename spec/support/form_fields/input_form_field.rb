@@ -15,7 +15,7 @@ module FormFields
     # Set or select the given value.
     # For fields of type select, will check for an option with that value.
     def set_value(content)
-      scroll_to_element(input_element)
+      scroll_to_and_click(input_element)
 
       # A normal fill_in would cause the focus loss on the input for empty strings.
       # Thus the form would be submitted.

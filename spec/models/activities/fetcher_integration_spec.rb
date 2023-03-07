@@ -54,7 +54,7 @@ describe Activities::Fetcher, 'integration' do
       create(:wiki_page, wiki:, content:)
     end
 
-    subject { instance.events(30.days.ago, 1.day.from_now) }
+    subject { instance.events(from: 30.days.ago, to: 1.day.from_now) }
 
     context 'for global activities' do
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }

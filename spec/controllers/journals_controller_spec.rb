@@ -29,58 +29,131 @@
 require 'spec_helper'
 
 describe JournalsController do
-  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-  let(:project) { create(:project_with_types) }
-  let(:role) { create(:role, permissions:) }
-  let(:member) do
-    build(:member, project:,
-                   roles: [role],
-                   principal: user)
-  end
-  let(:work_package) do
-    build(:work_package, type: project.types.first,
-                         author: user,
-                         project:,
-                         description: '')
-  end
-  let(:journal) do
-    create(:work_package_journal,
-           journable: work_package,
-           user:)
-  end
-  let(:permissions) { [:view_work_packages] }
+  shared_let(:project) { create(:project_with_types) }
+  shared_let(:user) { create(:user, member_in_project: project, member_with_permissions: [:view_work_packages]) }
 
-  before do
-    allow(User).to receive(:current).and_return user
+  current_user { user }
+  subject(:response) do
+    get :diff,
+        xhr: true,
+        params:
   end
 
   describe 'GET diff' do
     render_views
 
-    let(:params) { { id: work_package.journals.last.id.to_s, field: :description, format: 'js' } }
+    context 'for work package description' do
+      shared_let(:work_package) do
+        create(:work_package, type: project.types.first,
+                              author: user,
+                              project:,
+                              description: '')
+      end
+      let(:params) { { id: work_package.last_journal.id.to_s, field: :description, format: 'js' } }
 
-    before do
-      work_package.update_attribute :description, 'description'
-
-      get :diff,
-          xhr: true,
-          params:
-    end
-
-    describe 'w/ authorization' do
-      it 'is successful' do
-        expect(response).to be_successful
+      before do
+        work_package.update_attribute :description, 'description'
       end
 
-      it 'presents the diff correctly' do
-        expect(response.body.strip).to eq("<div class=\"text-diff\">\n  <label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins><label class=\"hidden-for-sighted\">End of the insertion</label>\n</div>")
+      describe 'with a user having :view_work_package permission' do
+        it { expect(response).to have_http_status(:ok) }
+
+        it 'presents the diff correctly' do
+          expect(response.body.strip).to eq(
+            "<div class=\"text-diff\">" \
+            "\n  " \
+            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
+            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
+            "\n" \
+            "</div>"
+          )
+        end
+      end
+
+      describe 'with a user not having the :view_work_package permission' do
+        before do
+          RolePermission.delete_all
+        end
+
+        it { expect(response).to have_http_status(:forbidden) }
       end
     end
 
-    describe 'w/o authorization' do
-      let(:permissions) { [] }
+    context 'for project description' do
+      let(:params) { { id: project.last_journal.id.to_s, field: :description, format: 'js' } }
 
-      it { expect(response).not_to be_successful }
+      before do
+        project.update_attribute :description, 'description'
+      end
+
+      describe 'with a user being member of the project' do
+        it { expect(response).to have_http_status(:ok) }
+
+        it 'presents the diff correctly' do
+          expect(response.body.strip).to eq(
+            "<div class=\"text-diff\">" \
+            "\n  " \
+            "<label class=\"hidden-for-sighted\">Begin of the insertion</label><ins class=\"diffmod\">description</ins>" \
+            "<label class=\"hidden-for-sighted\">End of the insertion</label>" \
+            "\n" \
+            "</div>"
+          )
+        end
+      end
+
+      describe 'with a user not being member of the project' do
+        before do
+          Member.delete_all
+        end
+
+        it { expect(response).to have_http_status(:forbidden) }
+      end
+
+      describe 'when "Work Package Tracking" module is disabled' do
+        before do
+          project.enabled_module_names -= ['work_package_tracking']
+        end
+
+        it { expect(response).to have_http_status(:ok) }
+      end
+
+      describe 'when project is archived' do
+        before do
+          project.update(active: false)
+        end
+
+        it { expect(response).to have_http_status(:forbidden) }
+      end
+    end
+
+    context 'for another field than description' do
+      shared_let(:work_package) do
+        create(:work_package, type: project.types.first,
+                              author: user,
+                              project:)
+      end
+      let(:params) { { id: work_package.last_journal.id.to_s, field: :another_field, format: 'js' } }
+
+      it { expect(response).to have_http_status(:not_found) }
+    end
+
+    context 'for other types, like forum message' do
+      shared_let(:forum) { create(:forum, project:) }
+      shared_let(:message) { create(:message, forum:, content: 'initial content') }
+
+      let(:params) { { id: message.last_journal.id.to_s, field: :description, format: 'js' } }
+
+      before do
+        message.update_attribute :content, 'initial content updated'
+      end
+
+      describe 'even with a user having all permissions' do
+        before do
+          user.update(admin: true)
+        end
+
+        it { expect(response).to have_http_status(:forbidden) }
+      end
     end
   end
 end

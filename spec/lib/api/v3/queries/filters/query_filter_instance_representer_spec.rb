@@ -65,7 +65,7 @@ describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it_behaves_like 'has a titled link' do
         let(:link) { 'operator' }
         let(:href) { api_v3_paths.query_operator(CGI.escape('=')) }
-        let(:title) { 'is' }
+        let(:title) { 'is (OR)' }
       end
 
       it_behaves_like 'has an untitled link' do

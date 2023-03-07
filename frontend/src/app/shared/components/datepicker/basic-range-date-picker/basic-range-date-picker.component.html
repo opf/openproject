@@ -1,0 +1,16 @@
+<input
+  #input
+  type="text"
+  class="spot-input op-basic-range-datepicker--input"
+  data-qa-selector="op-basic-range-date-picker"
+  [ngClass]="inputClassNames"
+  [attr.data-value]="value"
+  [id]="id"
+  [name]="name"
+  [attr.name]="name"
+  [required]="required"
+  [disabled]="disabled"
+  [ngModel]="stringValue"
+  (ngModelChange)="changeValueFromInputDebounced($event)"
+  (focus)="showDatePicker()"
+/>

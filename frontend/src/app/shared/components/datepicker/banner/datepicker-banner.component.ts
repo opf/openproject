@@ -45,7 +45,7 @@ import { DateModalRelationsService } from 'core-app/shared/components/datepicker
   templateUrl: './datepicker-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatepickerBannerComponent {
+export class OpDatePickerBannerComponent {
   @Input() scheduleManually = false;
 
   hasRelations$ = this.dateModalRelations.hasRelations$;
@@ -64,9 +64,13 @@ export class DatepickerBannerComponent {
       map((relations) => relations?.length > 0),
     );
 
-  isParent = this.dateModalRelations.isParent;
+  get isParent() {
+    return this.dateModalRelations.isParent;
+  }
 
-  isChild = this.dateModalRelations.isChild;
+  get isChild() {
+    return this.dateModalRelations.isChild;
+  }
 
   text = {
     automatically_scheduled_parent: this.I18n.t('js.work_packages.datepicker_modal.automatically_scheduled_parent'),

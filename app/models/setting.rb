@@ -116,10 +116,6 @@ class Setting < ApplicationRecord
       class_eval src, __FILE__, __LINE__
     end
 
-    def definitions
-      Settings::Definition.all
-    end
-
     def method_missing(method, *args, &)
       if exists?(accessor_base_name(method))
         create_setting_accessors(accessor_base_name(method))
@@ -144,7 +140,7 @@ class Setting < ApplicationRecord
   validates :name,
             uniqueness: true,
             inclusion: {
-              in: ->(*) { Settings::Definition.all.map(&:name) } # @available_settings change at runtime
+              in: ->(*) { Settings::Definition.all.keys.map(&:to_s) } # @available_settings change at runtime
             }
   validates :value,
             numericality: {
@@ -342,7 +338,7 @@ class Setting < ApplicationRecord
     if definition.serialized? && value.is_a?(String)
       YAML::safe_load(value, permitted_classes: [Symbol, ActiveSupport::HashWithIndifferentAccess, Date, Time, URI::Generic])
         .tap { |maybe_hash| normalize_hash!(maybe_hash) if maybe_hash.is_a?(Hash) }
-    elsif value != '' && !value.nil?
+    elsif value != ''.freeze && !value.nil?
       read_formatted_setting(value, definition.format)
     else
       definition.format == :string ? value : nil

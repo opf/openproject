@@ -3,7 +3,7 @@
 >
   <div class=op-tab-content--header>
     <span
-      class="op-tab-content--header-icon spot-icon spot-icon_nextcloud-circle op-files-tab--icon op-files-tab--icon_nextcloud"
+      class="op-tab-content--header-icon spot-icon spot-icon_nextcloud-circle op-files-tab--icon op-files-tab--icon_primary"
     ></span>
     <span class="op-tab-content--header-text" [textContent]="storage.name"></span>
     <a
@@ -41,7 +41,7 @@
         op-file-link-list-item
         [fileLink]="fileLink"
         [disabled]="disabled"
-        [allowEditing]="allowEditing$ | async"
+        [allowEditing]="allowLinking"
         (removeFileLink)="removeFileLink(fileLink)"
       ></li>
     </ul>
@@ -95,7 +95,7 @@
     </button>
 
     <div
-      *ngIf="(allowEditing$ | async) && (storageErrors | async).length === 0"
+      *ngIf="(storageErrors | async).length === 0"
       class="op-file-section--actions"
     >
       <button

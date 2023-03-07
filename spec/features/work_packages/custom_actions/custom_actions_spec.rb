@@ -293,6 +293,7 @@ describe 'Custom actions', js: true do
       find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
       datepicker = Components::Datepicker.new 'body'
       datepicker.set_date date
+      datepicker.save!
 
       new_ca_page.add_action('Type', other_type.name)
       new_ca_page.expect_action('type', other_type.id)

@@ -319,7 +319,7 @@ pl:
       settings: "Ustawienia"
       form_configuration: "Konfiguracja formularza"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Wersja Enterprise pozwala dostosować konfigurację formularza za pomocą tych dodatków: <br> <ul class="%{list_styling_class}"> <li><b>Dodaj nowe grupy atrybutów</b></li> <li><b>Zmień nazwę grup atrybutów</b></li> <li><b>Dodaj tabelę powiązanych pakietów roboczych</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Aktywne projekty"
       edit_query: "Edytuj tabelę"
@@ -334,7 +334,7 @@ pl:
   wiki:
     page_not_editable_index: Żądana strona nie istnieje (jeszcze). Nastąpiło przekierowanie do indeksu wszystkich stron wiki.
     no_results_title_text: Nie ma jeszcze żadnych stron Wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Spowoduje to wydrukowanie zawartości tej strony wiki bez pasków nawigacyjnych.
     index:
       no_results_content_text: Dodaj nową stronę Wiki
   work_flows:
@@ -347,6 +347,8 @@ pl:
       many: 'Wiele potomnych pakietów roboczych (%{count})'
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
       none_could_be_saved: "Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}."
       x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."
@@ -375,7 +377,7 @@ pl:
   account:
     delete: "Usuń konto"
     delete_confirmation: "Czy na pewno chcesz usunąć to konto?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Konto zostało zablokowane i zaplanowane do usunięcia. Pamiętaj, że ten proces odbywa się w tle. Może upłynąć trochę czasu, zanim użytkownik zostanie w pełni usunięty."
     deletion_info:
       data_consequences:
         other: "Dane użytkownika (np. e-mail, preferencje, pakiety pracy, wpisy wiki) będą usunięte w miarę możliwości. Jednakże, takie dane jak Zadania i wpisy wiki nie mogą być usunięte bez wpływu na pracę pozostałych użytkowników i mogą ją utrudnić. Te dane zostaną przypisane do konta \"Użytkownik usunięty\". Wszystkie dane z usuwanego konta zostaną przypisane do tego ww. konta uniemożliwiając ich późniejszą identyfikację."
@@ -470,14 +472,24 @@ pl:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "niezarchiwizowane"
+          false: "zarchiwizowane"
         identifier: "Identyfikator"
         latest_activity_at: "Ostatnia aktywność o"
         parent: "Projekt nadrzędny"
+        public_value:
+          title: "Widoczność"
+          true: "publiczne"
+          false: "prywatne"
         queries: "Kwerendy"
+        templated: "Projekt wzorcowy"
+        templated_value:
+          true: "oznaczono jako szablon"
+          false: "odznaczono jako szablon"
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
-        templated: 'Projekt wzorcowy'
       projects/status:
         code: 'Status'
         explanation: 'Opis statusu'
@@ -692,7 +704,7 @@ pl:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Dzień wolny od pracy już istnieje dla %{value}."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -705,7 +717,7 @@ pl:
           foreign_wps_reference_version: 'Pakiety robocze w projektach innych niż wersje referencyjne projektów potomnych projektu lub jego projekty potomne.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Nie masz uprawnień wymaganych do archiwizowania wszystkich podprojektów. Skontaktuj się z administratorem."
             types:
               in_use_by_work_packages: "nadal w użyciu przez Zestawy zadań: %{types}"
             enabled_modules:
@@ -907,8 +919,22 @@ pl:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
-    created: "Utworzona: %{title}"
-    updated: "Aktualizacja: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Zestawy zmian"
+      message: "Fora"
+      news: "Wiadomości"
+      project_attribute: "Atrybuty projektu"
+      subproject: "Zawiera podprojekty"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Pakiety robocze"
   #common attributes of all models
   attributes:
     active: "Aktywne"
@@ -1044,6 +1070,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
+  button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
   button_sort: "Sortowanie"
@@ -1376,6 +1403,7 @@ pl:
     work_package_note: 'Notatka pakietu roboczego dodana'
     title:
       project: "Projekt: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."
@@ -1401,7 +1429,6 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Polski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"
@@ -1787,6 +1814,10 @@ pl:
   label_not_contains: "nie zawierają"
   label_not_equals: "nie jest"
   label_on: "wł"
+  label_operator_all: "nie jest puste"
+  label_operator_none: "jest puste"
+  label_operator_equals_or: "jest (OR)"
+  label_operator_equals_all: "jest (AND)"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
   label_open_work_packages_plural: "Otwarte"
@@ -1828,7 +1859,7 @@ pl:
   label_product_version: "Wersja produktu"
   label_professional_support: "Profesjonalne wsparcie"
   label_profile: "Profil"
-  label_project_activity: "Project activity"
+  label_project_activity: "Aktywność projektu"
   label_project_attribute_plural: "Cechy projektu"
   label_project_count: "Całkowita liczba projektów"
   label_project_copy_notifications: "Wyślij powiadomienia e-mail podczas kopiowania projektów"
@@ -2255,7 +2286,7 @@ pl:
   permission_add_work_packages: "Dodawanie pakietów roboczych"
   permission_add_messages: "Wysyłanie wiadomości"
   permission_add_project: "Tworzenie projektu"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Archiwizuj projekt"
   permission_manage_user: "Tworzenie i edycja użytkowników"
   permission_manage_placeholder_user: "Twórz, edytuj i usuwaj użytkowników zastępczych"
   permission_add_subprojects: "Tworzenie podprojektów"
@@ -2655,9 +2686,9 @@ pl:
   text_custom_field_hint_activate_per_project_and_type: >
     Pola niestandardowe wymagają aktywacji w każdym poszczególnym typie zadań i projekcie.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Wersja Enterprise doda te dodatki do pól niestandardowych pakietów roboczych: <br> <ul> <li><b>Zezwól na wybór pól niestandardowych typu Lista lub Użytkownik</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Edycja Enterprise doda te dodatkowe funkcje dla pól statusów pakietów roboczych: <br> <ul> <li><b>Zezwól na oznaczanie pakietów roboczych jako tylko do odczytu w przypadku określonych statusów</b></li> </ul>
   text_project_custom_field_html: >
     The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
@@ -2691,12 +2722,13 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2993,18 +3025,20 @@ pl:
       title: "Usuń Zestawy zadań"
   working_days:
     info: >
-      <b>Zdefiniuj dni robocze tygodnia</b><br/> Dni nierobocze są pomijane podczas planowania pakietów roboczych i są wyłączone z obliczania czasu trwania. Może to zostać zastąpione na poziomie pakietu roboczego.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Zmień dni robocze"
     warning: >
-      Zmiana, które dni tygodnia są uważane za dni robocze, może w tym przypadku wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _Zmieniono **Dni robocze** (%{changes})._
       days:
         working: "%{day} jest teraz dniem roboczym"
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{day} jest teraz roboczym"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

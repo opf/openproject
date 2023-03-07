@@ -122,7 +122,7 @@ describe 'Query menu item', js: true do
 
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do
       filters.open
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
@@ -167,7 +167,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
 
       # Removing the filter and returning to query restores it
       filters.remove_filter 'version'
@@ -184,7 +184,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
     end
   end
 end

@@ -1,6 +1,7 @@
 <spot-tooltip
   [alignment]="getTooltipAlignment"
   [disabled]="!content.tooltip"
+  [light]="true"
 >
   <p
     slot="body"
@@ -11,6 +12,7 @@
     slot="trigger"
     class="spot-list--item-action"
     data-qa-selector="op-files-picker-modal--list-item"
+    (click)="enterDirectoryOnLabel($event)"
     [ngClass]="{
       'spot-list--item-action_disabled': content.disabled,
       'op-file-list--item-action_view-not-allowed': content.isConstrained

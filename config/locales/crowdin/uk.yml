@@ -345,6 +345,8 @@ uk:
       many: '%{count} нащадки робочого пакета'
       other: '%{count} нащадки робочого пакета'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Не вдалося зберегти такі робочі пакети:"
       none_could_be_saved: "Жоден із пакетів робіт (%{total}) не можна оновити."
       x_out_of_y_could_be_saved: "Не вдалось оновити пакетів робіт: %{failing} із %{total}. Оновлено: %{success}."
@@ -468,14 +470,24 @@ uk:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Ідентифікатор"
         latest_activity_at: "Остання активність на"
         parent: "Підпроект"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Запити"
+        templated: "Проєкт шаблона"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Типи"
         versions: "Версії"
         work_packages: "Пакет робіт"
-        templated: 'Проєкт шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Опис стану'
@@ -905,8 +917,22 @@ uk:
     header_invalid_fields: "Були проблеми з наступними полями:"
     field_erroneous_label: "Це поле недійсне: %{full_errors}\nВведіть дійсне значення."
   activity:
-    created: "Створено: %{title}"
-    updated: "Оновлено: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Активний"
@@ -1042,6 +1068,7 @@ uk:
   button_reset: "Скинути"
   button_rollback: "Відкотити до даної версії"
   button_save: "Зберегти"
+  button_apply_changes: "Apply changes"
   button_save_back: "Зберегти та повернутися назад"
   button_show: "Показати"
   button_sort: "Сортувати"
@@ -1374,6 +1401,7 @@ uk:
     work_package_note: 'Робочий пакет не доданий'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Експорт ваших пакетів робіт"
     succeeded: "Експорт успішно завершено."
@@ -1399,7 +1427,6 @@ uk:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Українська"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ні"
   general_text_yes: "так"
@@ -1785,6 +1812,10 @@ uk:
   label_not_contains: "не містить"
   label_not_equals: "немає"
   label_on: "на"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Відкрити меню"
   label_open_work_packages: "відкрити"
   label_open_work_packages_plural: "відкрити"
@@ -2689,12 +2720,13 @@ uk:
   text_work_packages_destroy_confirmation: "Ви впевнені у тому, що хочете видалити вибрані робочі пакети?"
   text_work_packages_ref_in_commit_messages: "Посилання та фіксація робочих пакетів у повідомленнях комітів"
   text_journal_added: "%{label} %{value} доданий"
-  text_journal_changed_html: "%{label} змінено з %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} змінено з %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} оновлено"
   text_journal_changed_with_diff: "%{label} змінено (%{link})"
   text_journal_deleted: "%{label} видалено (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} видалено (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "Параметр %{label} змінився на %{value}"
   text_journal_set_with_diff: "%{label} встановлено (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2990,10 +3022,12 @@ uk:
       title: "Видаліть робочий пакет"
   working_days:
     info: >
-      <b>Визначити робочі дні тижня</b><br/> Неробочі дні пропускаються під час планування пакетів робіт і виключаються під час визначення тривалості. Цей параметр можна перевизначити на рівні пакетів робіт.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Змінити робочі дні"
     warning: >
-      Змінення робочих днів тижня може вплинути на дні початку й закінчення для всіх пакетів робіт в усіх проєктах цього екземпляра.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:

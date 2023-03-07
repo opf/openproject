@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class None < Base
-    label 'none'
+    label 'operator_none'
     set_symbol '!*'
     require_value false
 

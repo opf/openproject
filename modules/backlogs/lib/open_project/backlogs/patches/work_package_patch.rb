@@ -35,9 +35,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
 
-    register_on_journal_formatter(:fraction, 'remaining_hours')
-    register_on_journal_formatter(:decimal, 'story_points')
-    register_on_journal_formatter(:decimal, 'position')
+    register_journal_formatted_fields(:fraction, 'remaining_hours')
+    register_journal_formatted_fields(:decimal, 'story_points')
+    register_journal_formatted_fields(:decimal, 'position')
 
     validates_numericality_of :story_points, only_integer: true,
                                              allow_nil: true,
@@ -106,13 +106,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       if is_story?
         Story.find(id)
       elsif is_task?
-        # Make sure to get the closest ancestor that is a Story
-        ancestors_relations
-          .includes(:from)
-          .where(from: { type_id: Story.types })
-          .order(hierarchy: :asc)
+        ancestors
+          .where(type_id: Story.types)
           .first
-          .from
       end
     end
 

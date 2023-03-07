@@ -54,7 +54,7 @@ describe 'Work package filtering by id', js: true do
     wp_table.expect_work_package_listed(work_package, other_work_package)
 
     filters.open
-    filters.add_filter_by('ID', 'is', [work_package.subject])
+    filters.add_filter_by('ID', 'is (OR)', [work_package.subject])
   end
 
   it 'shows the work package matching the id filter' do
@@ -71,15 +71,15 @@ describe 'Work package filtering by id', js: true do
     wp_table.expect_work_package_listed(work_package)
 
     filters.open
-    filters.expect_filter_by('ID', 'is', ["##{work_package.id} #{work_package.subject}"])
+    filters.expect_filter_by('ID', 'is (OR)', ["##{work_package.id} #{work_package.subject}"])
     filters.remove_filter 'id'
     filters.add_filter_by('ID', 'is not', [work_package.subject, other_work_package.subject])
 
     wp_table.expect_no_work_package_listed
 
     filters.remove_filter 'id'
-    filters.add_filter_by('ID', 'is', [work_package.id.to_s])
-    filters.expect_filter_by('ID', 'is', ["##{work_package.id} #{work_package.subject}"])
+    filters.add_filter_by('ID', 'is (OR)', [work_package.id.to_s])
+    filters.expect_filter_by('ID', 'is (OR)', ["##{work_package.id} #{work_package.subject}"])
 
     wp_table.expect_work_package_listed(work_package)
   end

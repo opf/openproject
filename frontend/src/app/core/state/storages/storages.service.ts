@@ -27,7 +27,8 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { StoragesStore } from 'core-app/core/state/storages/storages.store';
 import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
@@ -40,13 +41,14 @@ import {
 
 @Injectable()
 export class StoragesResourceService extends ResourceCollectionService<IStorage> {
-  updateCollection(key:string, storageLinks:IHalResourceLink[]):void {
-    forkJoin(
-      storageLinks.map((link) => this.http.get<IStorage>(link.href)),
-    ).subscribe((storages) => {
-      const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
-      insertCollectionIntoState(this.store, storageCollection, key);
-    });
+  updateCollection(key:string, storageLinks:IHalResourceLink[]):Observable<IStorage[]> {
+    return forkJoin(storageLinks.map((link) => this.http.get<IStorage>(link.href)))
+      .pipe(
+        tap((storages) => {
+          const storageCollection = { _embedded: { elements: storages } } as IHALCollection<IStorage>;
+          insertCollectionIntoState(this.store, storageCollection, key);
+        }),
+      );
   }
 
   protected createStore():CollectionStore<IStorage> {

@@ -95,12 +95,12 @@ describe 'Invalid query spec', js: true do
     filters.expect_filter_count 2
 
     filters.open
-    filters.expect_filter_by('Assignee', 'is', :placeholder)
-    filters.expect_filter_by('Status', 'is', [status.name, status2.name])
+    filters.expect_filter_by('Assignee', 'is (OR)', :placeholder)
+    filters.expect_filter_by('Status', 'is (OR)', [status.name, status2.name])
 
     group_by.enable_via_menu('Assignee')
     sleep(0.3)
-    filters.set_filter('Assignee', 'is', user.name)
+    filters.set_filter('Assignee', 'is (OR)', user.name)
     sleep(0.3)
 
     wp_table.expect_work_package_listed work_package_assigned

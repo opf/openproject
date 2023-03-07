@@ -252,6 +252,20 @@ es:
             La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
           you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Días no laborables"
+          empty_state_description: 'No hay días no laborables específicos definidos para este año. Haga clic en "+ Día no laborable" abajo para añadir una fecha.'
+          new_date: '(nuevo)'
+        add_non_working_day: "Día no laborable"
+        already_added_error: "Ya existe un día no laborable para esta fecha. Solo puede haber un día no laborable creado para cada fecha."
+        change_button: "Guardar y reprogramar"
+        change_title: "Cambiar los días laborables"
+        removed_title: "Eliminará los siguientes días de la lista de días no laborables:"
+        change_description: "Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia."
+        warning: >
+          Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
+          ¿Está seguro de que desea continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -300,15 +314,11 @@ es:
           learn_about: "Más información sobre las nuevas funcionalidades"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -1056,7 +1066,6 @@ es:
         relations: Relaciones
         watchers: Observadores
         files: Archivos
-        files_tab_migration_help: 'Ahora puede adjuntar archivos a los paquetes de trabajo desde la nueva pestaña:'
       time_relative:
         days: "días"
         weeks: "semanas"
@@ -1252,4 +1261,5 @@ es:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal.'
         Close: 'Cerrar'

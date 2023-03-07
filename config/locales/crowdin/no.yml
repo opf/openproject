@@ -348,6 +348,8 @@
       one: 'One descendant work package'
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -471,14 +473,24 @@
       member:
         roles: "Rolle"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikator"
         latest_activity_at: "Siste aktivitet på"
         parent: "Underprosjekt av"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Spørringer"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typer"
         versions: "Versjoner"
         work_packages: "Arbeidspakker"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivelse'
@@ -900,8 +912,22 @@
     header_invalid_fields: "Det oppstod problemer med følgende felter:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
-    created: "Opprettet: %{title}"
-    updated: "Oppdatert: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1037,6 +1063,7 @@
   button_reset: "Nullstill"
   button_rollback: "Rull tilbake til denne versjonen"
   button_save: "Lagre"
+  button_apply_changes: "Apply changes"
   button_save_back: "Lagre og tilbake"
   button_show: "Vis"
   button_sort: "Sortèr"
@@ -1345,6 +1372,7 @@
     work_package_note: 'Notat lagt til arbeidspakke'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1370,7 +1398,6 @@
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Norsk"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nei"
   general_text_yes: "ja"
@@ -1756,6 +1783,10 @@
   label_not_contains: "inneholder ikke"
   label_not_equals: "er ikke"
   label_on: "på"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Åpne meny"
   label_open_work_packages: "åpne"
   label_open_work_packages_plural: "åpne"
@@ -2659,12 +2690,13 @@
   text_work_packages_destroy_confirmation: "Er du sikker på at du vil slette valgte arbeidspakke(r)?"
   text_work_packages_ref_in_commit_messages: "Referèring og retting av arbeidspakker i innsendingsmeldinger"
   text_journal_added: "%{label} %{value} lagt til"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} oppdatert"
   text_journal_changed_with_diff: "%{label} endret (%{link})"
   text_journal_deleted: "%{label} slettet (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} slettet (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} satt til %{value}"
   text_journal_set_with_diff: "%{label} angitt (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2957,10 +2989,12 @@
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

@@ -343,6 +343,8 @@ ja:
     x_descendants:
       other: '%{count} つの作業項目の子孫'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -466,14 +468,24 @@ ja:
       member:
         roles: "ロール"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別子"
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "クエリ"
+        templated: "テンプレートプロジェクト"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "ワークパッケージのタイプ"
         versions: "バージョン"
         work_packages: "ワークパッケージ"
-        templated: 'テンプレートプロジェクト'
       projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
@@ -891,8 +903,22 @@ ja:
     header_invalid_fields: "次のフィールドに問題がありました："
     field_erroneous_label: "このフィールドが間違っています: %{full_errors}\n正しい値を入力してください。"
   activity:
-    created: "作成: %{title}"
-    updated: "更新: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "アクティブ"
@@ -1028,6 +1054,7 @@ ja:
   button_reset: "リセット"
   button_rollback: "このバージョンにロールバック"
   button_save: "保存"
+  button_apply_changes: "Apply changes"
   button_save_back: "保存して戻る"
   button_show: "表示"
   button_sort: "並べ替え"
@@ -1324,6 +1351,7 @@ ja:
     work_package_note: '仕事項目の注記が追加されました。'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
@@ -1349,7 +1377,6 @@ ja:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "日本語"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "いいえ"
   general_text_yes: "はい"
@@ -1735,6 +1762,10 @@ ja:
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
   label_on: "オン"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
   label_open_work_packages_plural: "未完了"
@@ -2636,12 +2667,13 @@ ja:
   text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}を削除（%{link}）"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label}を%{value}に設定"
   text_journal_set_with_diff: "%{label}を設定（%{link}）"
   text_journal_label_value: "%{label} %{value}"
@@ -2931,10 +2963,12 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

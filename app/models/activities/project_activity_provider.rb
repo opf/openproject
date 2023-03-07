@@ -40,8 +40,12 @@ class Activities::ProjectActivityProvider < Activities::BaseActivityProvider
 
   protected
 
-  def join_with_projects_table(query)
-    query.join(projects_table).on(projects_table[:id].eq(journals_table['journable_id']))
+  def projects_reference_table
+    journals_table
+  end
+
+  def project_id_reference_field
+    'journable_id'
   end
 
   def event_title(event)

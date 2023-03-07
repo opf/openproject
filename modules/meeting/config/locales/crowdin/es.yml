@@ -37,6 +37,9 @@ es:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Minutas"
+  activity:
+    filter:
+      meeting: "Reuniones"
   description_attended: "ha asistido"
   description_invite: "invitado"
   events:
@@ -82,7 +85,7 @@ es:
   text_duration_in_hours: "Duración en horas"
   text_in_hours: "en horas"
   text_meeting_agenda_for_meeting: 'agenda para la reunión "%{meeting}"'
-  text_meeting_closing_are_you_sure: "¿Está seguro que desea cerrar la reunión?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
   text_meeting_agenda_open_are_you_sure: "Se sobrescribirán todos los cambios en las minutas. ¿Quiere continuar?"
   text_meeting_minutes_for_meeting: 'minutas para la reunión "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha puesto el %{link} para revisión."

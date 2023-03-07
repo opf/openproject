@@ -35,7 +35,7 @@ module Queries::WorkPackages::Filter::FilterOnDirectedRelationsMixin
                           .where(relation_type: normalized_relation_type)
                           .select(relation_select)
 
-    operator = if operator_class == Queries::Operators::Equals
+    operator = if operator_class <= Queries::Operators::Equals
                  'IN'
                else
                  'NOT IN'

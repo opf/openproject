@@ -103,6 +103,12 @@
 .wp-table--cell-container .dueDate .icon-pin
   display: none
 
+.wp-table--cell-container
+  &.duration,
+  &.startDate,
+  &.dueDate
+    overflow: visible
+
 .wp-table--cell-container.startDate
   padding-left: 24px
 
@@ -129,6 +135,7 @@
   border-radius: 2px
   border-width: 1px
   line-height: normal
+  word-break: break-all
 
   &:hover,
   &:focus

@@ -251,6 +251,20 @@ ro:
             Ediția OpenProject Enterprise se bazează pe ediția Community. Aceasta include add-on-uri Enterprise și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte esențiale pentru afaceri cu OpenProject.
           unlimited: "Nelimitat"
           you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
+      working_days:
+        calendar:
+          empty_state_header: "Zile nelucrătoare"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(nou)'
+        add_non_working_day: "Zi nelucrătoare"
+        already_added_error: "O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică."
+        change_button: "Salvează și reprogramează"
+        change_title: "Modificarea zilelor lucrătoare"
+        removed_title: "Veţi elimina următoarele zile din lista de zile nelucrătoare:"
+        change_description: "Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'pe'
@@ -299,15 +313,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Încărcaţi şi conectaţi fişiere din pachetele de lucru la spaţiul de stocare al fişierului Nextcloud.</li> <li>Monitorizarea schimbărilor de proiect în urmărirea activității proiectului.</li> <li>Adaugă sărbători publice pentru o anumită instanță (zile nelucrătoare).</li> <li>Proiecte arhivate altele decât administratorii.</li> <li>Un filtru nou implicit pentru pachetele de lucru restante.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -477,7 +487,7 @@ ro:
     label_drop_files: "Aruncați fișierele aici pentru a atașa fișiere."
     label_drop_or_click_files: "Lăsați fișierele aici pentru a atașa fișiere."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Atașare fișiere"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"
@@ -657,7 +667,7 @@ ro:
     project:
       required_outside_context: >
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
-      details_activity: 'Project details activity'
+      details_activity: 'Activitate detalii proiect'
       context: 'Contextul proiectului'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
@@ -1056,7 +1066,6 @@ ro:
         relations: Relații
         watchers: Observatori
         files: Fişiere
-        files_tab_migration_help: 'Acum puteți atașa fișiere la pachetele de lucru prin intermediul noii file:'
       time_relative:
         days: "zile"
         weeks: "săptămâni"
@@ -1254,4 +1263,5 @@ ro:
       filter_chip:
         remove: 'Eliminare'
       drop_modal:
+        focus_grab: 'Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal.'
         Close: 'Închide'

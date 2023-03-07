@@ -332,7 +332,7 @@ de:
   wiki:
     page_not_editable_index: Die angeforderte Seite existiert (noch) nicht. Sie wurden auf die Übersichtseite der Wiki-Seiten weitergeleitet.
     no_results_title_text: Derzeit gibt es keine Wikiseiten.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Damit wird der Inhalt dieser Wiki-Seite ohne Navigationsleisten gedruckt.
     index:
       no_results_content_text: Neue Wikiseite hinzufügen
   work_flows:
@@ -343,6 +343,8 @@ de:
       one: 'Ein untergeordnetes Arbeitspaket'
       other: '%{count} untergeordnete Arbeitspakete'
     bulk:
+      copy_failed: "Die Arbeitspakete konnten nicht kopiert werden."
+      move_failed: "Die Arbeitspakete konnten nicht verschoben werden."
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
       none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
@@ -371,7 +373,7 @@ de:
   account:
     delete: "Konto löschen"
     delete_confirmation: "Sind Sie sicher, dass Sie das Konto löschen wollen?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Das Konto wurde gesperrt und zur Löschung vorgesehen. Beachten Sie, dass dieser Vorgang im Hintergrund abläuft. Es kann ein paar Momente dauern, bis der Benutzer vollständig gelöscht ist."
     deletion_info:
       data_consequences:
         other: "Von den vom Nutzer im Zuge der Nutzung der Anwendung erstellen Daten (z.B. E-Mail-Adresse, Systemeinstellungen, Arbeitspakete, Wiki-Einträgen) werden so viele wie möglich gelöscht. Bitte beachten Sie allerdings, dass Daten wie Arbeitspakete und Wiki-Einträge nicht gelöscht werden können, da dies die Arbeit der anderen Nutzer behindern würde. Solche Daten werden daher einem \"Gelöschten Nutzer\" zugewiesen. Da die Daten aller gelöschten Accounts dem \"Gelöschten Nutzer\" zugewiesen werden, ist es unmöglich, die vom Nutzer erstellten Daten diesem Nutzer zuzuordnen."
@@ -466,14 +468,24 @@ de:
       member:
         roles: "Rollen"
       project:
+        active_value:
+          true: "nicht archiviert"
+          false: "archiviert"
         identifier: "Kennung"
         latest_activity_at: "Letzte Aktivität am"
         parent: "Unterprojekt von"
+        public_value:
+          title: "Sichtbarkeit"
+          true: "öffentlich"
+          false: "privat"
         queries: "Abfragen"
+        templated: "Projektvorlage"
+        templated_value:
+          true: "als Vorlage markiert"
+          false: "als Vorlage nicht markiert"
         types: "Typen"
         versions: "Versionen"
         work_packages: "Arbeitspakete"
-        templated: 'Projektvorlage'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeschreibung'
@@ -633,7 +645,7 @@ de:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -688,7 +700,7 @@ de:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Für %{value} existiert bereits ein arbeitsfreier Tag."
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -701,7 +713,7 @@ de:
           foreign_wps_reference_version: 'Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator."
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
             enabled_modules:
@@ -873,7 +885,7 @@ de:
       category: "Kategorie"
       status: "Arbeitspaket-Status"
       member: "Mitglied"
-      news: "Nachrichten"
+      news: "Neuigkeiten"
       notification:
         one: "Benachrichtigung"
         other: "Benachrichtigungen"
@@ -895,8 +907,22 @@ de:
     header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
     field_erroneous_label: "Dieses Feld ist ungültig: %{full_errors} \nBitte geben Sie einen gültigen Wert ein."
   activity:
-    created: "Erstellt: %{title}"
-    updated: "Aktualisiert: %{title}"
+    item:
+      created_by_on: "erstellt von %{user} am %{datetime}"
+      created_on: "erstellt am %{datetime}"
+      updated_by_on: "aktualisiert von %{user} am %{datetime}"
+      updated_on: "aktualisiert am %{datetime}"
+      parent_without_of: "Unterprojekt"
+      parent_no_longer: "Nicht mehr Unterprojekt von"
+    filter:
+      changeset: "Änderungssätze"
+      message: "Foren"
+      news: "Neuigkeiten"
+      project_attribute: "Projekt-Attribute"
+      subproject: "Unterprojekte einbeziehen"
+      time_entry: "Aufgewendete Zeit"
+      wiki_edit: "Wiki"
+      work_package: "Arbeitspakete"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1032,6 +1058,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
+  button_apply_changes: "Änderungen anwenden"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
   button_sort: "Sortierung"
@@ -1330,8 +1357,8 @@ de:
     changeset: 'Projektarchiv-Änderung bearbeitet'
     message: Nachricht bearbeitet
     news: Neuigkeiten
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Projekt-Attribute bearbeitet'
+    projects: 'Projekt bearbeitet'
     reply: Antwort erstellt
     time_entry: 'Zeiterfassungseintrag bearbeitet'
     wiki_page: 'Wiki-Seite bearbeitet'
@@ -1339,7 +1366,8 @@ de:
     work_package_edit: 'Arbeitspaket bearbeitet'
     work_package_note: 'Arbeitspaket kommentiert'
     title:
-      project: "Project: %{name}"
+      project: "Projekt: %{name}"
+      subproject: "Unterprojekt: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
@@ -1365,7 +1393,6 @@ de:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nein"
   general_text_yes: "ja"
@@ -1730,7 +1757,7 @@ de:
   label_new: "Neu"
   label_new_features: "Neue Funktionen"
   label_new_statuses_allowed: "Neuer Status"
-  label_news_singular: "Nachricht"
+  label_news_singular: "Neuigkeit"
   label_news_added: "Neuigkeit hinzugefügt"
   label_news_comment_added: "Kommentar einer Nachricht hinzugefügt"
   label_news_latest: "Aktuellste Nachrichten"
@@ -1751,6 +1778,10 @@ de:
   label_not_contains: "enthält nicht"
   label_not_equals: "ist nicht"
   label_on: "am"
+  label_operator_all: "ist nicht leer"
+  label_operator_none: "ist leer"
+  label_operator_equals_or: "ist (ODER)"
+  label_operator_equals_all: "ist (UND)"
   label_open_menu: "Menü öffnen"
   label_open_work_packages: "Offen"
   label_open_work_packages_plural: "offen"
@@ -1792,8 +1823,8 @@ de:
   label_product_version: "Produktversion"
   label_professional_support: "Professionelle Unterstützung"
   label_profile: "Profil"
-  label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_activity: "Projektaktivität"
+  label_project_attribute_plural: "Projekt-Attribute"
   label_project_count: "Gesamtzahl der Projekte"
   label_project_copy_notifications: "Sende Mailbenachrichtigungen beim Kopieren des Projekts."
   label_project_latest: "Neueste Projekte"
@@ -2216,7 +2247,7 @@ de:
   permission_add_work_packages: "Arbeitspakete hinzufügen"
   permission_add_messages: "Forenbeiträge hinzufügen"
   permission_add_project: "Projekt erstellen"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Projekt archivieren"
   permission_manage_user: "Benutzer erstellen und bearbeiten"
   permission_manage_placeholder_user: "Platzhalter Benutzer erstellen, bearbeiten und löschen"
   permission_add_subprojects: "Unterprojekte erstellen"
@@ -2654,12 +2685,13 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2951,18 +2983,20 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      <b>Definieren Sie die Arbeitstage der Woche</b><br/> Arbeitsfreie Tage werden bei der Planung der Arbeitspakete übersprungen und bei Berechnung der Dauer ausgenommen. Diese Einstellung kann pro Arbeitspaket überschrieben werden.
+      <b>Definieren Sie die Tage, die als Teil der Arbeitswoche gelten</b><br/> Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
+    instance_wide_info: >
+      <b>Besondere arbeitsfreie Tage (Feiertage und Betriebsferien)</b><br/> Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
-      Änderungen an Arbeitstagen können den Start und das Ende aller Arbeitspakete in allen Projekten in dieser Instanz beeinflussen.
+      Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken. <br/> Bitte beachten Sie, dass die Änderungen erst wirksam werden, nachdem Sie auf die Schaltfläche Änderungen anwenden geklickt haben.
     journal_note:
-      changed: _**Arbeitstage ** geändert (%{changes})._
+      changed: _**Arbeitstage** geändert (%{changes})._
       days:
         working: "%{day} ist jetzt ein Arbeitstag"
         non_working: "%{day} ist jetzt kein Arbeitstag"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} ist jetzt ein Arbeitstag"
+        non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
   nothing_to_preview: "Keine Vorschau verfügbar"
   api_v3:
     attributes:

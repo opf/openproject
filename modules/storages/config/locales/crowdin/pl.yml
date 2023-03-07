@@ -51,7 +51,7 @@ pl:
       type_link_text: "“Integration OpenProject”"
       name: "Nazwij swój magazyn pamięci, aby użytkownicy mogli je rozróżniać, jeśli występuje ich wiele."
       host: "Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków."
-      no_storage_set_up: "There are no file storages set up yet."
+      no_storage_set_up: "Nie ma jeszcze skonfigurowanych magazynów plików."
       setting_up_additional_storages: "Aby skonfigurować dodatkowe magazyny plików, odwiedź"
       setting_up_additional_storages_non_admin: "Administratorzy mogą skonfigurować dodatkowe magazyny plików w obszarze Administracja / Magazyny plików."
       setting_up_storages: "Aby skonfigurować magazyny plików, odwiedź"
@@ -79,7 +79,7 @@ pl:
     label_new_storage: "Nowy magazyn"
     label_storage: "Magazyn"
     label_storages: "Magazyny"
-    no_results: "No storages set up yet."
+    no_results: "Brak skonfigurowanych magazynów."
     provider_types:
       label: "Typ dostawcy"
       nextcloud:

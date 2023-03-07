@@ -30,23 +30,33 @@ module API
   module V3
     module WorkPackages
       class WorkPackageCollectionRepresenter < ::API::Decorators::OffsetPaginatedCollection
+        attr_accessor :timestamps, :query
+
         def initialize(models,
                        self_link:,
                        groups:,
                        total_sums:,
                        current_user:,
-                       query: {},
+                       query_params: {},
                        project: nil,
                        page: nil,
                        per_page: nil,
-                       embed_schemas: false)
+                       embed_schemas: false,
+                       timestamps: [],
+                       query: nil)
           @project = project
           @total_sums = total_sums
           @embed_schemas = embed_schemas
+          @timestamps = timestamps
+          @query = query
+
+          if timestamps.present? && (timestamps.count > 1 or timestamps.first.historic?)
+            query_params[:timestamps] ||= API::V3::Utilities::PathHelper::ApiV3Path.timestamps_to_param_value(timestamps)
+          end
 
           super(models,
                 self_link:,
-                query:,
+                query_params:,
                 page:,
                 per_page:,
                 groups:,
@@ -65,7 +75,8 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper.wrap(represented, current_user)
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper \
+            .wrap(represented, current_user, timestamps:, query:)
         end
 
         link :sumsSchema do
@@ -134,7 +145,7 @@ module API
                      rep_class = element_decorator.custom_field_class(all_fields)
 
                      represented.map do |model|
-                       rep_class.send(:new, model, current_user:)
+                       rep_class.send(:new, model, current_user:, timestamps:, query:)
                      end
                    },
                    exec_context: :decorator,

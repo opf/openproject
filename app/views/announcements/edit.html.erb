@@ -16,7 +16,7 @@
                     with_text_formatting: true %>
   </div>
   <div class="form--field">
-    <%= f.text_field :show_until, label: t('announcements.show_until'), container_class: '-xslim', class: '-augmented-datepicker' %>
+    <%= f.date_picker :show_until, label: t('announcements.show_until') %>
   </div>
   <div class="form--field">
     <%= f.check_box :active, label: t(:label_active) %>

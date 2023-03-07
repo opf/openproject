@@ -34,8 +34,10 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
   let(:member) { build_stubbed(:user) }
   let(:current_user) { member }
   let(:embed_links) { true }
+  let(:timestamps) { nil }
+  let(:query) { nil }
   let(:representer) do
-    described_class.create(work_package, current_user:, embed_links:)
+    described_class.create(work_package, current_user:, embed_links:, timestamps:, query:)
   end
   let(:parent) { nil }
   let(:priority) { build_stubbed(:priority, updated_at: Time.zone.now) }
@@ -368,7 +370,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when false', with_ee: %i[readonly_work_packages] do
-          let(:status) { build_stubbed :status, is_readonly: false }
+          let(:status) { build_stubbed(:status, is_readonly: false) }
 
           it 'renders as false' do
             expect(subject).to be_json_eql(false.to_json).at_path('readonly')
@@ -376,7 +378,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when true', with_ee: %i[readonly_work_packages] do
-          let(:status) { build_stubbed :status, is_readonly: true }
+          let(:status) { build_stubbed(:status, is_readonly: true) }
 
           it 'renders as true' do
             expect(subject).to be_json_eql(true.to_json).at_path('readonly')
@@ -397,12 +399,10 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
       it { is_expected.to be_json_eql('PT3H45M'.to_json).at_path('derivedEstimatedTime') }
     end
 
-    # rubocop:disable RSpec:MultipleMemoizedHelpers
     xdescribe 'spentTime' do
       # spentTime is completely overwritten by costs
       # TODO: move specs from costs to here
     end
-    # rubocop:enable RSpec:MultipleMemoizedHelpers
 
     describe 'percentageDone' do
       describe 'work package done ratio setting behavior' do
@@ -629,7 +629,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when version is set' do
-          let!(:version) { create :version, project: }
+          let!(:version) { create(:version, project:) }
 
           before do
             work_package.version = version
@@ -675,7 +675,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when category is set' do
-          let!(:category) { build_stubbed :category }
+          let!(:category) { build_stubbed(:category) }
 
           before do
             work_package.category = category
@@ -1158,7 +1158,7 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'when admin' do
-          let(:current_user) { build_stubbed :admin }
+          let(:current_user) { build_stubbed(:admin) }
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'configureForm' }
@@ -1296,6 +1296,150 @@ describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject)
             .to be_json_eql('Unassign'.to_json)
             .at_path('_embedded/customActions/0/name')
+        end
+      end
+
+      context 'when passing timestamps' do
+        let(:timestamps) { [Timestamp.new(baseline_time), Timestamp.now] }
+        let(:baseline_time) { Time.zone.parse("2022-01-01") }
+        let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
+        let(:work_package) do
+          new_work_package = create(:work_package,
+                                    subject: "The current work package",
+                                    assigned_to: current_user,
+                                    project:)
+          new_work_package.update_columns created_at: baseline_time - 1.day
+          new_work_package
+        end
+        let(:original_journal) do
+          create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                         version: 1,
+                         attributes: {
+                           subject: "The original work package",
+                           assigned_to: current_user
+                         })
+        end
+        let(:current_journal) do
+          create_journal(journable: work_package, timestamp: 1.day.ago,
+                         version: 2,
+                         attributes: {
+                           subject: "The current work package",
+                           assigned_to: current_user
+                         })
+        end
+        let(:project) { create(:project) }
+
+        def create_journal(journable:, version:, timestamp:, attributes: {})
+          work_package_attributes = work_package.attributes.except("id")
+          journal_attributes = work_package_attributes \
+              .extract!(*Journal::WorkPackageJournal.attribute_names) \
+              .symbolize_keys.merge(attributes)
+          create(:work_package_journal, version:,
+                                        journable:, created_at: timestamp, updated_at: timestamp,
+                                        data: build(:journal_work_package_journal, journal_attributes))
+        end
+
+        before do
+          # Usually the eager loading wrapper is mocked
+          # in spec/support/api/v3/work_packages/work_package_representer_eager_loading.rb.
+          # However, I feel more comfortable if we test the real thing here.
+          #
+          allow(API::V3::WorkPackages::WorkPackageEagerLoadingWrapper)
+            .to receive(:wrap_one)
+            .and_call_original
+
+          WorkPackage.destroy_all
+          work_package
+          Journal.destroy_all
+          original_journal
+          current_journal
+        end
+
+        describe 'attributesByTimestamp' do
+          it 'has an array' do
+            expect(JSON.parse(subject)['_embedded']['attributesByTimestamp']).to be_an Array
+          end
+
+          it 'has the historic attributes for each timestamp when they differ from the current attributes' do
+            expect(subject)
+              .to be_json_eql('The original work package'.to_json)
+              .at_path("_embedded/attributesByTimestamp/0/subject")
+          end
+
+          it 'skips the historic attributes when they are the same as the current attributes' do
+            expect(subject)
+              .to have_json_path("_embedded/attributesByTimestamp/1")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/subject")
+          end
+
+          it 'has a link to the work package at the timestamp' do
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[0]]).to_json)
+              .at_path("_embedded/attributesByTimestamp/0/_links/self/href")
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: [timestamps[1]]).to_json)
+              .at_path("_embedded/attributesByTimestamp/1/_links/self/href")
+          end
+
+          it 'has no information about whether the work package matches the query filters at the timestamp' \
+             'because there are no filters without a query' do
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
+            expect(subject)
+              .not_to have_json_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+          end
+        end
+
+        describe '_meta' do
+          describe 'matchesFilters' do
+            it 'does not have this meta field without a query given' do
+              expect(subject)
+                .not_to have_json_path('_meta/matchesFilters')
+            end
+          end
+        end
+
+        context 'when passing a query' do
+          let(:search_term) { 'original' }
+          let(:query) do
+            login_as(current_user)
+            build(:query, user: current_user, project: nil).tap do |query|
+              query.filters.clear
+              query.add_filter 'subject', '~', search_term
+              query.timestamps = timestamps
+            end
+          end
+          let(:current_user) do
+            create(:user,
+                   firstname: 'user',
+                   lastname: '1',
+                   member_in_project: project,
+                   member_with_permissions: %i[view_work_packages view_file_links])
+          end
+
+          describe 'attributesByTimestamp' do
+            it 'states whether the work package matches the query filters at the timestamp' do
+              expect(subject)
+                .to be_json_eql(true.to_json)
+                .at_path("_embedded/attributesByTimestamp/0/_meta/matchesFilters")
+              expect(subject)
+                .to be_json_eql(false.to_json)
+                .at_path("_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+            end
+          end
+
+          describe '_meta' do
+            describe 'matchesFilters' do
+              it 'states whether the work package matches the query filters at the last timestamp' do
+                # If this value is false, it means that the work package has been found by the query
+                # at another of the given timestamps, e.g. the baseline timestamp.
+                expect(subject)
+                  .to be_json_eql(false.to_json)
+                  .at_path('_meta/matchesFilters')
+              end
+            end
+          end
         end
       end
     end

@@ -40,7 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { States } from 'core-app/core/states/states.service';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpSpotModule } from 'core-app/spot/spot.module';
 import { OpDragScrollDirective } from 'core-app/shared/directives/op-drag-scroll/op-drag-scroll.directive';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
@@ -121,7 +121,7 @@ export function initializeServices(injector:Injector) {
     A11yModule,
 
     // Commons
-    OPSharedModule,
+    OpSharedModule,
     // Design System
     OpSpotModule,
     // State module

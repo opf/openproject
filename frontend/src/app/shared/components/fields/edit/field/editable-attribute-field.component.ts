@@ -87,7 +87,8 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
 
   public destroyed = false;
 
-  constructor(protected states:States,
+  constructor(
+    protected states:States,
     protected injector:Injector,
     protected elementRef:ElementRef,
     protected opContextMenu:OPContextMenuService,
@@ -96,7 +97,8 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     // Get parent field group from injector if we're in a form
     @Optional() protected editForm:EditFormComponent,
     protected cdRef:ChangeDetectorRef,
-    protected I18n:I18nService) {
+    protected I18n:I18nService,
+  ) {
     super();
   }
 

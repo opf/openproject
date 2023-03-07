@@ -347,6 +347,8 @@ zh-TW:
     x_descendants:
       other: '%{count} 個子工作項目'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "以下文檔無法被保存"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -470,14 +472,24 @@ zh-TW:
       member:
         roles: "角色"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別碼"
         latest_activity_at: "最新活動"
         parent: "上層專案"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "查詢"
+        templated: "範本專案"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
-        templated: '範本專案'
       projects/status:
         code: '狀態'
         explanation: '狀態描述'
@@ -895,8 +907,22 @@ zh-TW:
     header_invalid_fields: "以下的欄位有問題:"
     field_erroneous_label: "此欄位不正確: %{full_errors}\n請輸入一個有效的值！"
   activity:
-    created: "建立：%{title}"
-    updated: "更新：%{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "啟用"
@@ -1032,6 +1058,7 @@ zh-TW:
   button_reset: "重置"
   button_rollback: "回復到此版本"
   button_save: "儲存"
+  button_apply_changes: "Apply changes"
   button_save_back: "儲存並返回"
   button_show: "顯示"
   button_sort: "排序"
@@ -1328,6 +1355,7 @@ zh-TW:
     work_package_note: '工作項目註記已新增'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
@@ -1353,7 +1381,6 @@ zh-TW:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "星期日"
-  general_lang_name: "台灣正體"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "否"
   general_text_yes: "是"
@@ -1739,6 +1766,10 @@ zh-TW:
   label_not_contains: "不包含"
   label_not_equals: "不是"
   label_on: "開啟"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "開啟選單"
   label_open_work_packages: "打開"
   label_open_work_packages_plural: "打開"
@@ -2639,12 +2670,13 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_changed_html: "%{label} 從 %{old} %{linebreak}<strong> 改為</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2935,10 +2967,12 @@ zh-TW:
       title: "刪除工作項目"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

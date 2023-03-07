@@ -103,7 +103,7 @@ describe 'inline create work package', js: true do
       it 'applies the filter value for the custom field' do
         wp_table.visit!
         filters.open
-        filters.add_filter_by cf_list.name, 'is', cf_list.custom_options.second.name, cf_accessor_frontend
+        filters.add_filter_by cf_list.name, 'is (OR)', cf_list.custom_options.second.name, cf_accessor_frontend
 
         sleep(0.3)
 

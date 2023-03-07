@@ -51,9 +51,10 @@ export class ActivityEntryComponent implements OnInit {
 
   public activityType:string;
 
-  constructor(readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService) {
-  }
+  constructor(
+    readonly PathHelper:PathHelperService,
+    readonly I18n:I18nService,
+  ) { }
 
   ngOnInit() {
     this.projectId = idFromLink(this.workPackage.project.href);

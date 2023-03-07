@@ -44,7 +44,7 @@ module Components
       end
 
       def expect_current_project(name)
-        page.find_by_id('projects-menu', text: name)
+        page.find('#projects-menu', text: name)
       end
 
       def expect_open

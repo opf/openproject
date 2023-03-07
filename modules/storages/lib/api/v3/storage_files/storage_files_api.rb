@@ -48,8 +48,6 @@ module API::V3::StorageFiles
       end
 
       post :prepare_upload do
-        raise API::Errors::NotFound unless OpenProject::FeatureDecisions.storage_file_upload_active?
-
         (upload_link_query(@storage, current_user) >> execute_upload_link_query(request_body))
           .match(
             on_success: ->(link) { API::V3::StorageFiles::StorageUploadLinkRepresenter.new(link, current_user:) },

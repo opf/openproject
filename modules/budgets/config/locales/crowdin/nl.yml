@@ -39,6 +39,9 @@ nl:
     models:
       budget: "Begroting"
       material_budget_item: "Eenheid"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Begroting"
   button_add_budget_item: "Geplande kosten toevoegen"

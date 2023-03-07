@@ -43,7 +43,7 @@ module MailNotificationHelper
     color_id = selected_color(type)
     if color_id
       color = Color.find(color_id)
-      return color.super_bright? ? darken_color(color.hexcode, 0.75) : color.hexcode
+      return color.super_bright? ? color.darken(0.75) : color.hexcode
     end
 
     default_fallback

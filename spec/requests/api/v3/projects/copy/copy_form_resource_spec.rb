@@ -197,7 +197,7 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
       it 'returns it as false' do
         expect(response.body)
-          .to be_json_eql(true.to_json)
+          .to be_json_eql(false.to_json)
                 .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end

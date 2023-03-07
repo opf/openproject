@@ -37,6 +37,9 @@ ro:
     models:
       meeting_agenda: "Agendă"
       meeting_minutes: "Concluzii"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "a participat"
   description_invite: "a fost invitat"
   events:
@@ -82,7 +85,7 @@ ro:
   text_duration_in_hours: "Durata în ore"
   text_in_hours: "Ore"
   text_meeting_agenda_for_meeting: 'ordinea de zi a reuniunii "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Sunteți sigur că doriți să încheiem ședința?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
   text_meeting_agenda_open_are_you_sure: "Acest lucru va suprascrie toate modificările din procesul-verbal! Doriți să continuați?"
   text_meeting_minutes_for_meeting: 'procesul-verbal al reuniunii "%{meeting}"'
   text_review_meeting_agenda: "%{author} a pus %{link} pentru revizuire."

@@ -33,7 +33,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = File.join(@uri.path, "remote.php/dav/files", token.origin_user_id)
+      @base_path = File.join(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
     end
 
     def query(parent)
@@ -58,12 +58,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     private
 
+    def escape_whitespace(value)
+      value.gsub(' ', '%20')
+    end
+
     def requested_folder(folder)
       return '' if folder.nil?
 
-      folder.gsub(' ', '%20')
+      escape_whitespace(folder)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def requested_properties
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].propfind(
@@ -81,6 +86,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
     end
+    # rubocop:enable Metrics/AbcSize
 
     def error(response)
       case response

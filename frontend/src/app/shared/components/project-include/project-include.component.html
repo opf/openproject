@@ -1,9 +1,8 @@
 <spot-drop-modal
-  [open]="opened"
+  [opened]="opened"
   alignment="bottom-right"
   (closed)="opened = false"
   class="op-project-list-modal"
-  data-searchable-list-parent="true"
 >
   <button
     slot="trigger"
@@ -33,6 +32,7 @@
     <form
       (submit)="onSubmit($event)"
       class="spot-container op-project-list-modal--body"
+      data-searchable-list-parent="true"
       *ngIf="projects$ | async as projects"
     >
       <spot-text-field

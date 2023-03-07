@@ -108,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.2.0
+[openproject@host] rbenv install 3.2.1
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.2.0
+[openproject@host] rbenv global 3.2.1
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.2.0 (2022-12-25 revision a528908271) [x86_64-linux]
+ruby 3.2.1 (2023-02-08 revision 31819e82c8) [x86_64-linux]
 ```
 
 ## Installation of Node

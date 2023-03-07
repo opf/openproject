@@ -105,7 +105,7 @@ describe 'Arbitrary WorkPackage query table widget on my page', js: true, with_m
       filter_area.configure_wp_table
       modal.switch_to('Filters')
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by('Type', 'is (OR)', type.name)
       modal.save
 
       filter_area.configure_wp_table

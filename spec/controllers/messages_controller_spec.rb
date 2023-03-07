@@ -171,6 +171,15 @@ describe MessagesController, with_settings: { journal_aggregation_time_minutes: 
         expect(response).to be_successful
         expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
       end
+
+      it 'escapes HTML in quoted message author' do
+        user.update!(firstname: 'Hello', lastname: '<b>world</b>')
+        message.update!(author: user)
+        get :quote, params: { forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to eq "Hello &lt;b&gt;world&lt;/b&gt; wrote:\n> foo\n\n"
+      end
     end
   end
 end

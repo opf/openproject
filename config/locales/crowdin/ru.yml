@@ -220,7 +220,7 @@ ru:
       members: 'Участники проекта'
       overviews: 'Обзор проекта'
       queries: 'Пакеты работ: сохраненные виды'
-      wiki_page_attachments: 'Вики-страницы: вложения'
+      wiki_page_attachments: 'Wiki страницы: вложения'
       work_package_attachments: 'Пакеты работ: вложения'
       work_package_categories: 'Пакеты работ: категории'
       work_package_file_links: 'Пакеты работ: ссылки на файлы'
@@ -329,7 +329,7 @@ ru:
       reset: "Восстановить значения по умолчанию"
       type_color_text: |
         Выбранный цвет выделяет разные типы
-        в диаграммах Ганта или таблицах рабочих пакетов. Поэтому рекомендуется использовать насыщенный цвет.
+        в диаграммах Ганта или таблицах пакетов работ. Поэтому рекомендуется использовать насыщенный цвет.
   versions:
     overview:
       no_results_title_text: В настоящее время пакетов работ для этой версии нет.
@@ -349,6 +349,8 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
+      copy_failed: "Пакеты работ скопировать не удалось."
+      move_failed: "Пакеты работ переместить не удалось."
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
       none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
       x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."
@@ -472,14 +474,24 @@ ru:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "разархивировано"
+          false: "архивировано"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
+        public_value:
+          title: "Видимость"
+          true: "публичный"
+          false: "приватный"
         queries: "Запросы"
+        templated: "Проект шаблона"
+        templated_value:
+          true: "помечено как шаблон"
+          false: "снято с отметки как шаблон"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Проект шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Описание статуса'
@@ -909,8 +921,22 @@ ru:
     header_invalid_fields: "Были проблемы со следующими полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
-    created: "Создано: %{title}"
-    updated: "Обновлено: %{title}"
+    item:
+      created_by_on: "создано %{user} %{datetime}"
+      created_on: "создано %{datetime}"
+      updated_by_on: "обновлено %{user} %{datetime}"
+      updated_on: "обновлено %{datetime}"
+      parent_without_of: "Подпроект"
+      parent_no_longer: "Больше не подпроект"
+    filter:
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Потраченное время"
+      wiki_edit: "Вики"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"
@@ -1046,6 +1072,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
+  button_apply_changes: "Применить изменения"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
   button_sort: "Сортировать"
@@ -1378,6 +1405,7 @@ ru:
     work_package_note: 'Добавлено примечание к пакету работ'
     title:
       project: "Проект: %{name}"
+      subproject: "Подпроект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -1403,7 +1431,6 @@ ru:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Русский"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "нет"
   general_text_yes: "Да"
@@ -1789,6 +1816,10 @@ ru:
   label_not_contains: "не содержит"
   label_not_equals: "не"
   label_on: "на"
+  label_operator_all: "не пусто"
+  label_operator_none: "пустой"
+  label_operator_equals_or: "является (или)"
+  label_operator_equals_all: "является (AND)"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
   label_open_work_packages_plural: "открыто"
@@ -1983,7 +2014,7 @@ ru:
   label_wiki_page_attachments: "Вложения вики-страницы"
   label_wiki_page_id: "ID Wiki-страницы"
   label_wiki_navigation: "Навигация по wiki"
-  label_wiki_page: "Wiki-страница"
+  label_wiki_page: "Wiki страница"
   label_wiki_page_plural: "Wiki-страницы"
   label_wiki_show_index_page_link: "Показать пункт подменю «Содержание»"
   label_wiki_show_menu_item: "Показать как меню в навигации по проекту"
@@ -2693,12 +2724,13 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2994,10 +3026,12 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
+      <b>Определить считаемые дни рабочей недели</b><br/> Дни, которые не выбраны, пропускаются при планировании пакетов работ (и не включены в число дней). Они могут быть переопределены на уровне рабочих пакетов.
+    instance_wide_info: >
+      <b>Конкретные нерабочие дни (праздничные дни и закрытия)</b><br/> Даты, добавленные в список ниже, считаются неработающими и пропущены при планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данном случае.
+      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данном случае. <br/> Пожалуйста, обратите внимание, что изменения применяются только после того, как вы нажмете на кнопку применить изменения.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

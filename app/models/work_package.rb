@@ -57,8 +57,8 @@ class WorkPackage < ApplicationRecord
 
   has_many :time_entries, dependent: :delete_all
 
-  has_many :file_links,
-           dependent: :delete_all, class_name: 'Storages::FileLink', foreign_key: 'container_id', inverse_of: :container
+  has_many :file_links, dependent: :delete_all, class_name: 'Storages::FileLink', as: :container
+
   has_many :storages, through: :project
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
@@ -189,6 +189,7 @@ class WorkPackage < ApplicationRecord
                                        method(:cleanup_time_entries_before_destruction_of)
 
   include WorkPackage::Journalized
+  prepend Journable::Timestamps
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'
@@ -310,8 +311,7 @@ class WorkPackage < ApplicationRecord
 
   def type_id=(tid)
     self.type = nil
-    result = write_attribute(:type_id, tid)
-    result
+    write_attribute(:type_id, tid)
   end
 
   # Overrides attributes= so that type_id gets assigned first
@@ -478,7 +478,7 @@ class WorkPackage < ApplicationRecord
     key = 'activity_id'
     id = attributes[key]
     default_id = if id&.present?
-                   Enumeration.exists? id: id, is_default: true, type: 'TimeEntryActivity'
+                   Enumeration.exists? id:, is_default: true, type: 'TimeEntryActivity'
                  else
                    true
                  end

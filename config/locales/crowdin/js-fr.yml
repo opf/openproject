@@ -252,6 +252,20 @@ fr:
             La version Entreprise d'OpenProject s'appuie sur la version Community. Elle comprend des add-ons Entreprise et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
           you_contribute: "Les développeurs aussi ont besoin de payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'le'
@@ -300,15 +314,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -1056,7 +1066,6 @@ fr:
         relations: Relations
         watchers: Observateurs
         files: Fichiers
-        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
@@ -1252,4 +1261,5 @@ fr:
       filter_chip:
         remove: 'Supprimer'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Fermer'

@@ -37,6 +37,9 @@ ru:
     models:
       meeting_agenda: "Повестка дня"
       meeting_minutes: "Протокол(-ы)"
+  activity:
+    filter:
+      meeting: "Совещания"
   description_attended: "участие"
   description_invite: "приглашено"
   events:
@@ -82,7 +85,7 @@ ru:
   text_duration_in_hours: "Длительность в часах"
   text_in_hours: "в часах"
   text_meeting_agenda_for_meeting: 'Повестка дня встречи «%{meeting}»'
-  text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть совещание?"
+  text_meeting_closing_are_you_sure: "Вы уверены, что хотите закрыть повестку совещания?"
   text_meeting_agenda_open_are_you_sure: "Все изменения в протоколах будут перезаписаны! Продолжить?"
   text_meeting_minutes_for_meeting: 'Протокол совещания «%{meeting}»'
   text_review_meeting_agenda: "%{author} поставил %{link} для рецензии."

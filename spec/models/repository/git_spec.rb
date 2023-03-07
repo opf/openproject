@@ -412,7 +412,7 @@ describe Repository::Git do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(30.days.ago, 1.day.from_now)
+          fetcher.events(from: 30.days.ago, to: 1.day.from_now)
         end
 
         it 'activitieses' do

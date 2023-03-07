@@ -23,6 +23,9 @@ hu:
   activerecord:
     models:
       document: "Dokumentum"
+  activity:
+    filter:
+      document: "Documents"
   default_doc_category_tech: "Technikai dokumentáció"
   default_doc_category_user: "Felhasználói dokumentáció"
   enumeration_doc_categories: "Dokumentum kategóriák"
