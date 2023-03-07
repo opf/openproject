@@ -32,19 +32,19 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
   let(:query_results) do
     Query::Results.new query
   end
-  let(:project_1) { create(:project) }
-  let(:user_1) do
+  let(:project) { create(:project) }
+  let(:user) do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project_1,
+           member_in_project: project,
            member_with_permissions: [:view_work_packages])
   end
 
   let(:old_version) do
     create(:version,
            name: '1. Old version',
-           project: project_1,
+           project:,
            start_date: '2019-02-02',
            effective_date: '2019-02-03')
   end
@@ -52,7 +52,7 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
   let(:new_version) do
     create(:version,
            name: '1.2 New version',
-           project: project_1,
+           project:,
            start_date: '2020-02-02',
            effective_date: '2020-02-03')
   end
@@ -60,7 +60,7 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
   let(:no_date_version) do
     create(:version,
            name: '1.1 No date version',
-           project: project_1,
+           project:,
            start_date: nil,
            effective_date: nil)
   end
@@ -68,25 +68,25 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
   let!(:no_version_wp) do
     create(:work_package,
            subject: 'No version wp',
-           project: project_1)
+           project:)
   end
   let!(:newest_version_wp) do
     create(:work_package,
            subject: 'Newest version wp',
            version: new_version,
-           project: project_1)
+           project:)
   end
   let!(:oldest_version_wp) do
     create(:work_package,
            subject: 'Oldest version wp',
            version: old_version,
-           project: project_1)
+           project:)
   end
   let!(:no_date_version_wp) do
     create(:work_package,
            subject: 'No date version wp',
            version: no_date_version,
-           project: project_1)
+           project:)
   end
 
   let(:group_by) { nil }
@@ -94,10 +94,10 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
 
   let(:query) do
     build(:query,
-          user: user_1,
+          user:,
           group_by:,
           show_hierarchies: false,
-          project: project_1).tap do |q|
+          project:).tap do |q|
       q.filters.clear
       q.sort_criteria = sort_criteria
     end
@@ -105,7 +105,7 @@ describe Query::Results, 'Grouping and sorting for version', with_mail: false do
   let(:work_packages_asc) { [oldest_version_wp, no_date_version_wp, newest_version_wp, no_version_wp] }
 
   before do
-    login_as(user_1)
+    login_as(user)
   end
 
   describe 'grouping by version' do
