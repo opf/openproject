@@ -193,18 +193,19 @@ module Components
 
       def set_value(id, value)
         retry_block do
-          if page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']")
+          filter_element = page.find("#filter_#{id}")
+          if filter_element.has_selector?("[data-qa-selector='op-multi-date-picker']", wait: false)
             datepicker = Components::WorkPackageDatepicker.new
             datepicker.set_start_date(value[0])
             datepicker.set_due_date(value[1])
             datepicker.save!(text: I18n.t(:button_apply))
-          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-single-date-picker']")
+          elsif filter_element.has_selector?("[data-qa-selector='op-single-date-picker']", wait: false)
             datepicker = Components::Datepicker.new
             datepicker.set_date(value[0])
             datepicker.save!
-          elsif page.has_selector?("#filter_#{id} .ng-select-container")
+          elsif filter_element.has_selector?(".ng-select-container", wait: false)
             Array(value).each do |val|
-              select_autocomplete page.find("#filter_#{id}"),
+              select_autocomplete filter_element,
                                   query: val,
                                   results_selector: '.ng-dropdown-panel-items'
             end
@@ -263,7 +264,7 @@ module Components
 
       def within_values(id)
         page.within("#filter_#{id} .advanced-filters--filter-value", wait: 10) do
-          yield page.has_selector?('.ng-select-container')
+          yield page.has_selector?('.ng-select-container', wait: false)
         end
       end
     end
