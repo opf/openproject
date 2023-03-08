@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Estimated hours display' do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:hierarchy) { [] }
 
@@ -49,7 +49,7 @@ RSpec.describe 'Estimated hours display' do
   let(:child) { work_packages.last }
 
   let!(:query) do
-    query = build :query, user: user, project: project
+    query = build(:query, user:, project:)
     query.column_names = %w[id subject estimated_hours]
 
     query.save!

@@ -330,6 +330,8 @@ lol:
       one: 'crwdns495057:1crwdne495057:1'
       other: 'crwdns495057:5%{count}crwdne495057:5'
     bulk:
+      copy_failed: "crwdns846205:0crwdne846205:0"
+      move_failed: "crwdns846207:0crwdne846207:0"
       could_not_be_saved: "crwdns495059:0crwdne495059:0"
       none_could_be_saved: "crwdns537767:0%{total}crwdne537767:0"
       x_out_of_y_could_be_saved: "crwdns537769:0%{failing}crwdnd537769:0%{total}crwdnd537769:0%{success}crwdne537769:0"
@@ -892,8 +894,22 @@ lol:
     header_invalid_fields: "crwdns495749:0crwdne495749:0"
     field_erroneous_label: "crwdns495751:0%{full_errors}crwdne495751:0"
   activity:
-    created: "crwdns495753:0%{title}crwdne495753:0"
-    updated: "crwdns495755:0%{title}crwdne495755:0"
+    item:
+      created_by_on: "crwdns845923:0%{user}crwdnd845923:0%{datetime}crwdne845923:0"
+      created_on: "crwdns845925:0%{datetime}crwdne845925:0"
+      updated_by_on: "crwdns845927:0%{user}crwdnd845927:0%{datetime}crwdne845927:0"
+      updated_on: "crwdns845929:0%{datetime}crwdne845929:0"
+      parent_without_of: "crwdns846055:0crwdne846055:0"
+      parent_no_longer: "crwdns846057:0crwdne846057:0"
+    filter:
+      changeset: "crwdns845777:0crwdne845777:0"
+      message: "crwdns845811:0crwdne845811:0"
+      news: "crwdns845781:0crwdne845781:0"
+      project_attribute: "crwdns845783:0crwdne845783:0"
+      subproject: "crwdns845785:0crwdne845785:0"
+      time_entry: "crwdns845787:0crwdne845787:0"
+      wiki_edit: "crwdns845789:0crwdne845789:0"
+      work_package: "crwdns845791:0crwdne845791:0"
   #common attributes of all models
   attributes:
     active: "crwdns495757:0crwdne495757:0"
@@ -1338,6 +1354,7 @@ lol:
     work_package_note: 'crwdns496703:0crwdne496703:0'
     title:
       project: "crwdns842631:0%{name}crwdne842631:0"
+      subproject: "crwdns846087:0%{name}crwdne846087:0"
   export:
     your_work_packages_export: "crwdns496705:0crwdne496705:0"
     succeeded: "crwdns496707:0crwdne496707:0"
@@ -1363,7 +1380,6 @@ lol:
   general_csv_encoding: "crwdns496739:0crwdne496739:0"
   general_csv_separator: "crwdns496741:0crwdne496741:0"
   general_first_day_of_week: "crwdns496743:0crwdne496743:0"
-  general_lang_name: "crwdns496745:0crwdne496745:0"
   general_pdf_encoding: "crwdns496747:0crwdne496747:0"
   general_text_no: "crwdns496749:0crwdne496749:0"
   general_text_yes: "crwdns496751:0crwdne496751:0"
@@ -2643,12 +2659,13 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns499265:0crwdne499265:0"
   text_work_packages_ref_in_commit_messages: "crwdns499267:0crwdne499267:0"
   text_journal_added: "crwdns499269:0%{label}crwdnd499269:0%{value}crwdne499269:0"
-  text_journal_changed_html: "crwdns499273:0%{label}crwdnd499273:0%{old}crwdnd499273:0%{linebreak}crwdnd499273:0%{new}crwdne499273:0"
   text_journal_changed_plain: "crwdns499275:0%{label}crwdnd499275:0%{old}crwdnd499275:0%{linebreak}crwdnd499275:0%{new}crwdne499275:0"
   text_journal_changed_no_detail: "crwdns499277:0%{label}crwdne499277:0"
   text_journal_changed_with_diff: "crwdns499279:0%{label}crwdnd499279:0%{link}crwdne499279:0"
   text_journal_deleted: "crwdns499281:0%{label}crwdnd499281:0%{old}crwdne499281:0"
+  text_journal_deleted_subproject: "crwdns846059:0%{label}crwdnd846059:0%{old}crwdne846059:0"
   text_journal_deleted_with_diff: "crwdns499283:0%{label}crwdnd499283:0%{link}crwdne499283:0"
+  text_journal_of: "crwdns846061:0%{label}crwdnd846061:0%{value}crwdne846061:0"
   text_journal_set_to: "crwdns499285:0%{label}crwdnd499285:0%{value}crwdne499285:0"
   text_journal_set_with_diff: "crwdns499287:0%{label}crwdnd499287:0%{link}crwdne499287:0"
   text_journal_label_value: "crwdns499289:0%{label}crwdnd499289:0%{value}crwdne499289:0"
@@ -2945,7 +2962,7 @@ lol:
       crwdns845743:0crwdne845743:0
     change_button: "crwdns833348:0crwdne833348:0"
     warning: >
-      crwdns845745:0crwdne845745:0
+      crwdns845953:0crwdne845953:0
     journal_note:
       changed: crwdns834172:0%{changes}crwdne834172:0
       days:

@@ -29,19 +29,19 @@
 require 'spec_helper'
 
 describe 'group memberships through groups page', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let!(:project) do
-    create :project, name: 'Project 1', identifier: 'project1', members: project_members
+    create(:project, name: 'Project 1', identifier: 'project1', members: project_members)
   end
 
-  let!(:peter)    { create :user, firstname: 'Peter', lastname: 'Pan' }
-  let!(:hannibal) { create :user, firstname: 'Hannibal', lastname: 'Smith' }
+  let!(:peter)    { create(:user, firstname: 'Peter', lastname: 'Pan') }
+  let!(:hannibal) { create(:user, firstname: 'Hannibal', lastname: 'Smith') }
   let(:group) do
     create(:group, lastname: 'A-Team', members: group_members)
   end
 
-  let!(:manager)   { create :role, name: 'Manager' }
-  let!(:developer) { create :role, name: 'Developer' }
+  let!(:manager)   { create(:role, name: 'Manager') }
+  let!(:developer) { create(:role, name: 'Developer') }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:group_page)   { Pages::Groups.new.group(group.id) }
@@ -102,10 +102,10 @@ describe 'group memberships through groups page', js: true do
 
   describe 'with the group in two projects' do
     let!(:project2) do
-      create :project,
+      create(:project,
              name: 'Project 2',
              identifier: 'project2',
-             members: project_members
+             members: project_members)
     end
     let(:members_page1) { Pages::Members.new project.identifier }
     let(:members_page2) { Pages::Members.new project2.identifier }

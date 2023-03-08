@@ -55,23 +55,30 @@ export class FilterDateValueComponent extends UntilDestroyedMixin {
     super();
   }
 
-  public get value():HalResource|string {
-    return this.filter.values[0];
+  public get value():string {
+    return this.filter.values[0] as string;
   }
 
   public set value(val) {
-    this.filter.values = [val as string];
+    this.filter.values = [val];
     this.filterChanged.emit(this.filter);
   }
 
-  public parser(data:any) {
+  valueChanged(val:string) {
+    const parsed = this.parser(val);
+    if (parsed) {
+      this.value = val;
+    }
+  }
+
+  public parser(data:string) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
-  public formatter(data:any) {
+  public formatter(data:string) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);

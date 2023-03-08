@@ -33,16 +33,16 @@ describe 'Manual sorting of WP table', js: true do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:type_task) { create :type_task }
-  let(:type_bug) { create :type_bug }
+  let(:type_task) { create(:type_task) }
+  let(:type_bug) { create(:type_bug) }
   let(:project) { create(:project, types: [type_task, type_bug]) }
   let(:work_package1) do
-    create(:work_package, subject: 'WP1', project: project, type: type_task, created_at: Time.zone.now)
+    create(:work_package, subject: 'WP1', project:, type: type_task, created_at: Time.zone.now)
   end
   let(:work_package2) do
     create(:work_package,
            subject: 'WP2',
-           project: project,
+           project:,
            parent: work_package1,
            type: type_task,
            created_at: 1.minute.ago)
@@ -50,7 +50,7 @@ describe 'Manual sorting of WP table', js: true do
   let(:work_package3) do
     create(:work_package,
            subject: 'WP3',
-           project: project,
+           project:,
            parent: work_package2,
            type: type_bug,
            created_at: 2.minutes.ago)
@@ -58,7 +58,7 @@ describe 'Manual sorting of WP table', js: true do
   let(:work_package4) do
     create(:work_package,
            subject: 'WP4',
-           project: project,
+           project:,
            parent: work_package3,
            type: type_bug,
            created_at: 3.minutes.ago)
@@ -156,10 +156,10 @@ describe 'Manual sorting of WP table', js: true do
 
     context 'when dragging an element partly out of the hierarchy' do
       let(:work_package5) do
-        create(:work_package, subject: 'WP5', project: project, parent: work_package1)
+        create(:work_package, subject: 'WP5', project:, parent: work_package1)
       end
       let(:work_package6) do
-        create(:work_package, subject: 'WP6', project: project, parent: work_package1)
+        create(:work_package, subject: 'WP6', project:, parent: work_package1)
       end
 
       before do
@@ -234,19 +234,19 @@ describe 'Manual sorting of WP table', js: true do
 
   describe 'with a saved query and positions increasing from zero' do
     let(:query) do
-      create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+      create(:query, user:, project:, show_hierarchies: false).tap do |q|
         q.sort_criteria = [[:manual_sorting, 'asc']]
         q.save!
       end
     end
-    let!(:status) { create :default_status }
-    let!(:priority) { create :default_priority }
+    let!(:status) { create(:default_status) }
+    let!(:priority) { create(:default_priority) }
 
     before do
-      OrderedWorkPackage.create(query: query, work_package: work_package1, position: 0)
-      OrderedWorkPackage.create(query: query, work_package: work_package2, position: 1)
-      OrderedWorkPackage.create(query: query, work_package: work_package3, position: 2)
-      OrderedWorkPackage.create(query: query, work_package: work_package4, position: 3)
+      OrderedWorkPackage.create(query:, work_package: work_package1, position: 0)
+      OrderedWorkPackage.create(query:, work_package: work_package2, position: 1)
+      OrderedWorkPackage.create(query:, work_package: work_package3, position: 2)
+      OrderedWorkPackage.create(query:, work_package: work_package4, position: 3)
     end
 
     it 'can inline create a work package and it is positioned to the bottom (Regression #31078)' do
@@ -272,7 +272,7 @@ describe 'Manual sorting of WP table', js: true do
 
       # Wait until the order was saved, this might take a few moments
       retry_block do
-        order = OrderedWorkPackage.find_by(query: query, work_package: inline_created)
+        order = OrderedWorkPackage.find_by(query:, work_package: inline_created)
 
         unless order&.position == 8195
           raise "Expected order of #{inline_created.id} to be 8195. Was: #{order&.position}. Retrying"
@@ -291,7 +291,7 @@ describe 'Manual sorting of WP table', js: true do
 
   describe 'with a saved query that is NOT manually sorted' do
     let(:query) do
-      create(:query, user: user, project: project, show_hierarchies: false).tap do |q|
+      create(:query, user:, project:, show_hierarchies: false).tap do |q|
         q.sort_criteria = [[:id, 'asc']]
         q.save!
       end

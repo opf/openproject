@@ -39,6 +39,9 @@ sl:
     models:
       budget: "Proračun"
       material_budget_item: "Enota"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Proračun"
   button_add_budget_item: "Vnesi planirane stroške"

@@ -51,7 +51,7 @@ describe Projects::SetAttributesService, 'integration', type: :model do
 
   describe 'with an existing project' do
     let(:existing_identifier) { 'my-new-project' }
-    let!(:existing) { create :project, identifier: existing_identifier }
+    let!(:existing) { create(:project, identifier: existing_identifier) }
 
     context 'and a new project with no identifier set' do
       let(:project) { Project.new name: 'My new project' }

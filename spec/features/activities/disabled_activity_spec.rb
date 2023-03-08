@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Disabled activity' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:project1) do
     create(:project, enabled_module_names: %i[work_package_tracking wiki])
@@ -68,7 +68,7 @@ describe 'Disabled activity' do
   it 'does not display activities on projects disabling it' do
     visit activity_index_path
 
-    check "Wiki edits"
+    check "Wiki"
     click_on "Apply"
 
     expect(page)

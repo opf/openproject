@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe AnnouncementsController do
-  let(:announcement) { build :announcement }
+  let(:announcement) { build(:announcement) }
 
   before do
     allow(controller).to receive(:check_if_login_required)

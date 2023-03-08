@@ -34,34 +34,44 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
-    <op-single-date-picker
+    <op-basic-single-date-picker
       [(ngModel)]="value"
-      [id]="handler.htmlId"
+      (keydown.escape)="onCancel()"
+      (keydown.enter)="handler.handleUserSubmit()"
+      (picked)="handler.handleUserSubmit()"
       class="inline-edit--field"
-      [opened]="opened"
-      (closed)="onModalClosed()"
-    ></op-single-date-picker>
+      [id]="handler.htmlId"
+      [required]="required"
+      [disabled]="inFlight"
+      [opAutofocus]="autofocus"
+    ></op-basic-single-date-picker>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
 
-  opened = false;
+  autofocus = false;
 
   ngOnInit():void {
     super.ngOnInit();
     // Open the datepicker when the field is not part of an editing form.
-    this.opened = !this.handler.inEditMode;
+    this.autofocus = !this.handler.inEditMode;
   }
 
-  public get value() {
+  public get value():string {
     return this.formatter(this.resource[this.name]) || '';
   }
 
-  public set value(value:any) {
+  public set value(value:string) {
     this.resource[this.name] = this.parseValue(value);
-    void this.handler.handleUserSubmit();
+  }
+
+  public parseValue(data:string) {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      return data;
+    }
+    return null;
   }
 
   public onCancel():void {
@@ -78,8 +88,6 @@ export class DateEditFieldComponent extends EditFieldComponent implements OnInit
   }
 
   public onModalClosed():void {
-    this.opened = false;
-
     if (!this.handler.inEditMode) {
       this.handler.deactivate(false);
     }

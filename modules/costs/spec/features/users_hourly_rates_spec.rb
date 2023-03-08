@@ -29,7 +29,7 @@
 require_relative '../spec_helper'
 
 describe 'hourly rates on user edit', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   def view_rates
     visit edit_user_path(user, tab: 'rates')
@@ -79,7 +79,7 @@ describe 'hourly rates on user edit', js: true do
   end
 
   describe 'updating rates as German user', driver: :firefox_de do
-    let(:user) { create :admin, language: 'de' }
+    let(:user) { create(:admin, language: 'de') }
     let!(:rate) { create(:default_hourly_rate, user:, rate: 1.0) }
 
     it 'allows editing without reinterpreting the number (Regression #42219)' do

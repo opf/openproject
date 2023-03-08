@@ -106,13 +106,9 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       if is_story?
         Story.find(id)
       elsif is_task?
-        # Make sure to get the closest ancestor that is a Story
-        ancestors_relations
-          .includes(:from)
-          .where(from: { type_id: Story.types })
-          .order(hierarchy: :asc)
+        ancestors
+          .where(type_id: Story.types)
           .first
-          .from
       end
     end
 

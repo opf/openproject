@@ -349,6 +349,8 @@ ro:
       few: '%{count} descendenți ai pachetului de lucru'
       other: '%{count} pachete de lucru descendente'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Următoarele pachete de lucru nu au putut fi salvate:"
       none_could_be_saved: "Niciunul dintre pachetele de lucru %{total} nu a putut fi actualizat."
       x_out_of_y_could_be_saved: "%{failing} din %{total} pachete de lucru nu au putut fi actualizate în timp ce %{success} ar putea fi actualizat."
@@ -915,8 +917,22 @@ ro:
     header_invalid_fields: "Există probleme cu următoarele câmpuri:"
     field_erroneous_label: "Acest câmp este invalid: %{full_errors}\nTrebuie introdusă o valoare validă."
   activity:
-    created: "Creat: %{title}"
-    updated: "Actualizat: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Activ"
@@ -1373,6 +1389,7 @@ ro:
     work_package_note: 'Notă adăugată la pachetul de lucru'
     title:
       project: "Proiect: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportul pachetelor de lucru"
     succeeded: "Exportul a fost finalizat cu succes."
@@ -1398,7 +1415,6 @@ ro:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Română"
   general_pdf_encoding: "UTF-8"
   general_text_no: "nu"
   general_text_yes: "da"
@@ -2692,12 +2708,13 @@ ro:
   text_work_packages_destroy_confirmation: "Sunteți sigur că doriți ștergerea pachetelor de lucru selectate?"
   text_work_packages_ref_in_commit_messages: "Referențiere și rezolvare a pachetelor de lucru în mesajele de încărcare"
   text_journal_added: "%{label} %{value} adăugat"
-  text_journal_changed_html: "%{label} s-a schimbat de la %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} schimbat din %{old} %{linebreak}la %{new}"
   text_journal_changed_no_detail: "%{label} actualizat"
   text_journal_changed_with_diff: "%{label} modificat (%{link})"
   text_journal_deleted: "%{label} șters (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} șters (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} setat la %{value}"
   text_journal_set_with_diff: "%{label} setat (%{link})"
   text_journal_label_value: "%{label} %{value} adăugat"
@@ -2997,7 +3014,7 @@ ro:
       <b>Zile nelucrătoare specifice (sărbători și închidere)</b><br/> Datele adăugate în lista de mai jos sunt considerate nefuncționale și omise când se programează pachete de lucru.
     change_button: "Modificarea zilelor lucrătoare"
     warning: >
-      Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz. <br/> Vă rugăm să rețineți că modificările sunt aplicate numai după ce faceți clic pe butonul de salvare modificări.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:

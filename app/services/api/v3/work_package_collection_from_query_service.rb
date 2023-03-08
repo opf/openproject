@@ -161,13 +161,15 @@ module API
             work_packages,
             self_link: self_link(project),
             project:,
-            query: resulting_params,
+            query_params: resulting_params,
             page: resulting_params[:offset],
             per_page: resulting_params[:pageSize],
             groups:,
             total_sums: sums,
             embed_schemas: true,
-            current_user:
+            current_user:,
+            timestamps: query.timestamps,
+            query:
           )
         end
       end

@@ -61,14 +61,7 @@ RB.Sprint = (function ($) {
     saveDirectives: function () {
       const wrapper = this.$;
       const editor = wrapper.find('.editor');
-      const inputs = editor.map((i, el) => {
-        if (el.matches('op-single-date-picker')) {
-          return Array.from(el.querySelectorAll('input'));
-        }
-
-        return el;
-      });
-      const data = inputs.serialize() + "&_method=put";
+      const data = editor.serialize() + "&_method=put";
       const url = RB.urlFor('update_sprint', { id: this.getID() });
 
       return {

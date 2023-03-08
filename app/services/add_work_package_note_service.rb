@@ -40,7 +40,7 @@ class AddWorkPackageNoteService
     self.contract_class = WorkPackages::CreateNoteContract
   end
 
-  def call(notes, send_notifications: true)
+  def call(notes, send_notifications: nil)
     Journal::NotificationConfiguration.with send_notifications do
       work_package.add_journal(user, notes)
 

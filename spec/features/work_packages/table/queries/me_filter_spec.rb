@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
-  let(:status) { create :default_status }
-  let!(:priority) { create :default_priority }
+  let(:status) { create(:default_status) }
+  let!(:priority) { create(:default_priority) }
   let(:project) do
-    create :project,
+    create(:project,
            public: true,
-           members: project_members
+           members: project_members)
   end
-  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
-  let(:admin) { create :admin }
-  let(:user) { create :user }
+  let(:role) { create(:existing_role, permissions: %i[view_work_packages work_package_assigned]) }
+  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:project_members) do
@@ -50,8 +50,8 @@ describe 'filter me value', js: true do
   let!(:role_anonymous) { create(:anonymous_role, permissions: [:view_work_packages]) }
 
   describe 'assignee' do
-    let(:wp_admin) { create :work_package, status:, project:, assigned_to: admin }
-    let(:wp_user) { create :work_package, status:, project:, assigned_to: user }
+    let(:wp_admin) { create(:work_package, status:, project:, assigned_to: admin) }
+    let(:wp_user) { create(:work_package, status:, project:, assigned_to: user) }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       current_user { User.anonymous }
@@ -150,17 +150,17 @@ describe 'filter me value', js: true do
     let(:cf_accessor) { custom_field.attribute_name }
     let(:cf_accessor_frontend) { cf_accessor.camelcase(:lower) }
     let(:wp_admin) do
-      create :work_package,
+      create(:work_package,
              type: type_task,
              project:,
-             custom_field_values: { custom_field.id => admin.id }
+             custom_field_values: { custom_field.id => admin.id })
     end
 
     let(:wp_user) do
-      create :work_package,
+      create(:work_package,
              type: type_task,
              project:,
-             custom_field_values: { custom_field.id => user.id }
+             custom_field_values: { custom_field.id => user.id })
     end
 
     context 'as anonymous', with_settings: { login_required?: false } do

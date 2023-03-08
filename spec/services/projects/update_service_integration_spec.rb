@@ -96,7 +96,7 @@ describe Projects::UpdateService, 'integration', type: :model do
 
     context 'when saving the status as well as the parent' do
       let(:parent_project) { create(:project, members: { user => parent_role }) }
-      let(:parent_role) { create :role, permissions: %i(add_subprojects) }
+      let(:parent_role) { create(:role, permissions: %i(add_subprojects)) }
       let(:project_status) { create(:project_status, code: 'on_track') }
       let(:attributes) do
         {

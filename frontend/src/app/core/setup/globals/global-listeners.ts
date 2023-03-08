@@ -38,6 +38,7 @@ import { setupServerResponse } from 'core-app/core/setup/globals/global-listener
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
 import { performAnchorHijacking } from './global-listeners/link-hijacking';
+import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -139,4 +140,7 @@ export function initializeGlobalListeners():void {
 
   // Bootstrap legacy app code
   setupServerResponse();
+
+  // Replace fragment
+  fixFragmentAnchors();
 }

@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe 'Wiki page navigation spec', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   current_user { admin }
 
-  let(:project) { create :project, enabled_module_names: %w[wiki] }
+  let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let!(:wiki_page_55) do
-    create :wiki_page_with_content,
+    create(:wiki_page_with_content,
            wiki: project.wiki,
-           title: 'Wiki Page No. 55'
+           title: 'Wiki Page No. 55')
   end
   let!(:wiki_pages) do
     create_list(:wiki_page_with_content, 30, wiki: project.wiki)
@@ -57,5 +57,9 @@ describe 'Wiki page navigation spec', js: true do
 
     # Expect scrolled to menu node
     expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')
+
+    # Expect permalink being correct (Regression #46351)
+    permalink = page.all('.op-uc-link_permalink', visible: :all).first
+    expect(permalink['href']).to include "/projects/#{project.identifier}/wiki/wiki-page-no-55#wiki-page-no-55"
   end
 end

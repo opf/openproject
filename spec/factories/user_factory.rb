@@ -64,8 +64,8 @@ FactoryBot.define do
       end
 
       if factory.global_permissions.present?
-        global_role = create :global_role, permissions: factory.global_permissions
-        create :global_member, principal: user, roles: [global_role]
+        global_role = create(:global_role, permissions: factory.global_permissions)
+        create(:global_member, principal: user, roles: [global_role])
       end
     end
 

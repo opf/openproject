@@ -30,33 +30,33 @@ require 'spec_helper'
 
 describe WorkPackage::Ancestors do
   let(:user) { create(:user) }
-  let(:project) { create :project }
-  let(:project2) { create :project }
+  let(:project) { create(:project) }
+  let(:project2) { create(:project) }
 
   let!(:root_work_package) do
-    create :work_package,
-           project:
+    create(:work_package,
+           project:)
   end
 
   let!(:intermediate) do
-    create :work_package,
+    create(:work_package,
            parent: root_work_package,
-           project:
+           project:)
   end
   let!(:intermediate_project2) do
-    create :work_package,
+    create(:work_package,
            parent: root_work_package,
-           project: project2
+           project: project2)
   end
   let!(:leaf) do
-    create :work_package,
+    create(:work_package,
            parent: intermediate,
-           project:
+           project:)
   end
   let!(:leaf_project2) do
-    create :work_package,
+    create(:work_package,
            parent: intermediate_project2,
-           project:
+           project:)
   end
 
   let(:view_role) do
@@ -81,10 +81,10 @@ describe WorkPackage::Ancestors do
 
   context 'with permission in the first project' do
     before do
-      create :member,
+      create(:member,
              user:,
              project:,
-             roles: [view_role]
+             roles: [view_role])
     end
 
     describe 'fetching from db' do
@@ -119,10 +119,10 @@ describe WorkPackage::Ancestors do
 
     context 'and permission in second project' do
       before do
-        create :member,
+        create(:member,
                user:,
                project: project2,
-               roles: [view_role]
+               roles: [view_role])
       end
 
       describe 'leaf ids' do
@@ -141,10 +141,10 @@ describe WorkPackage::Ancestors do
 
   context 'no permissions' do
     before do
-      create :member,
+      create(:member,
              user:,
              project:,
-             roles: [none_role]
+             roles: [none_role])
     end
 
     describe 'leaf ids' do

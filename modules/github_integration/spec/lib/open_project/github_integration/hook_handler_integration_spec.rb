@@ -56,7 +56,7 @@ describe OpenProject::GithubIntegration::HookHandler do
     create(:project, members: { user => role })
   end
 
-  let(:work_packages) { create_list :work_package, 4, project: }
+  let(:work_packages) { create_list(:work_package, 4, project:) }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 

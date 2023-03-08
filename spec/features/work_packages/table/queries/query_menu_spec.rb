@@ -29,35 +29,35 @@
 require 'spec_helper'
 
 describe 'Query menu item', js: true do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
-  current_user { create :admin }
+  current_user { create(:admin) }
 
   context 'when visiting the global work packages page' do
     let(:wp_table) { Pages::WorkPackagesTable.new }
     let(:project) { nil }
 
     let!(:global_public_view) do
-      create :view,
-             query: create(:query, project: nil, public: true, name: 'Global public')
+      create(:view,
+             query: create(:query, project: nil, public: true, name: 'Global public'))
     end
 
     let!(:global_my_view) do
-      create :view,
-             query: create(:query, project: nil, public: false, user: current_user, name: 'Global my view')
+      create(:view,
+             query: create(:query, project: nil, public: false, user: current_user, name: 'Global my view'))
     end
 
     let!(:global_other_view) do
-      create :view,
-             query: create(:query, project: nil, public: false, user: create(:user), name: 'Other user query')
+      create(:view,
+             query: create(:query, project: nil, public: false, user: create(:user), name: 'Other user query'))
     end
 
     let!(:project_view) do
-      create :view,
-             query: create(:query, project: create(:project), name: 'Project query')
+      create(:view,
+             query: create(:query, project: create(:project), name: 'Project query'))
     end
 
     it 'shows the query menu with queries stored for the global page' do
@@ -79,9 +79,9 @@ describe 'Query menu item', js: true do
   end
 
   context 'when filtering by version in project' do
-    let(:version) { create :version, project: }
-    let(:work_package_with_version) { create :work_package, project:, version: }
-    let(:work_package_without_version) { create :work_package, project: }
+    let(:version) { create(:version, project:) }
+    let(:work_package_with_version) { create(:work_package, project:, version:) }
+    let(:work_package_without_version) { create(:work_package, project:) }
 
     before do
       work_package_with_version

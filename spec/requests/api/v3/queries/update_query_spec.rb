@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe "PATCH /api/v3/queries/:id" do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let!(:query) do
     create(
       :global_query,
@@ -98,8 +98,8 @@ describe "PATCH /api/v3/queries/:id" do
       }
     }
   end
-  let(:status) { create :status }
-  let(:project) { create :project }
+  let(:status) { create(:status) }
+  let(:project) { create(:project) }
 
   def json
     JSON.parse last_response.body

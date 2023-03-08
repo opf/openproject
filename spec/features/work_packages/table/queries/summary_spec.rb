@@ -30,13 +30,13 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Work package query summary item', js: true do
-  let(:project) { create :project, identifier: 'test_project', public: false }
-  let(:role) { create :role, permissions: [:view_work_packages] }
-  let(:work_package) { create :work_package, project: }
+  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
+  let(:work_package) { create(:work_package, project:) }
   let(:wp_page) { Pages::WorkPackagesTable.new project }
   let(:current_user) do
-    create :user, member_in_project: project,
-                  member_through_role: role
+    create(:user, member_in_project: project,
+                  member_through_role: role)
   end
 
   before do

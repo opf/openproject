@@ -32,9 +32,9 @@ require_relative '../support/pages/overview'
 
 describe 'Overview page on the fly creation if user lacks :mange_overview permission',
          js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
 
   let(:permissions) do
     %i[view_work_packages]

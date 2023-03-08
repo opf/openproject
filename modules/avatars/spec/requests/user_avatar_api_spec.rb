@@ -92,7 +92,7 @@ describe 'API v3 User avatar resource', content_type: :json do
       let(:local_avatars) { true }
 
       let(:other_user) do
-        u = create :user
+        u = create(:user)
         u.attachments = [build(:avatar_attachment, author: u)]
         u
       end

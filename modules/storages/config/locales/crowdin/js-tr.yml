@@ -25,18 +25,23 @@ tr:
         not_logged_in: >
           Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
       files:
-        directory_not_writeable: "Bu klasöre dosya eklemek için izin almanız gerekmez."
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
         empty_folder: "Bu klasör boş.\n"
         empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
         file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
         download: "%{fileName} dosyasını indir"
         no_permission: "Bu dosyayı görme izniniz yok."
-        open: 'Dosyayı depoda aç'
-        open_location: 'Dosyayı konumda aç'
+        open: "Dosyayı depoda aç"
+        open_location: "Dosyayı konumda aç"
         remove: "Dosya bağlantısını kaldır"
         remove_confirmation: >
           Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
@@ -50,7 +55,14 @@ tr:
         success_create:
           one: "1 dosya bağlantısı başarıyla oluşturuldu."
           other: "%{count} dosya bağlantısı başarıyla oluşturuldu."
-        upload_error: "'%{fileName}' dosyası yüklenirken bir hata oluştu."
+        upload_error:
+          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
         not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"

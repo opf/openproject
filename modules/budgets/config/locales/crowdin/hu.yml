@@ -39,6 +39,9 @@ hu:
     models:
       budget: "Költségvetés"
       material_budget_item: "Egység"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Költségvetés"
   button_add_budget_item: "Új tervezett költség"

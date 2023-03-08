@@ -331,7 +331,7 @@ describe "POST /api/v3/queries/form" do
   end
 
   describe 'with all parameters given' do
-    let(:status) { create :status }
+    let(:status) { create(:status) }
 
     let(:parameters) do
       {
@@ -556,7 +556,7 @@ describe "POST /api/v3/queries/form" do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       it "rejects the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))

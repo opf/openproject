@@ -80,7 +80,7 @@ module API
 
     def resolve_refs_in_hash(spec, path:, root_path:, root_spec:)
       if spec.size == 1 && spec.keys.first == "$ref"
-        resolve_ref spec, path: path, root_path: root_path, root_spec: root_spec
+        resolve_ref(spec, path:, root_path:, root_spec:)
       else
         spec.transform_values { |v| resolve_refs v, path:, root_path:, root_spec: }
       end
@@ -97,7 +97,7 @@ module API
     end
 
     def schema_ref(ref_path, path:, root_path:, root_spec:)
-      name = schema_name ref_path, path: path, root_path: root_path, root_spec: root_spec
+      name = schema_name(ref_path, path:, root_path:, root_spec:)
 
       path.join(ref_path).parent.join(name).to_s.sub(root_path.to_s, "#")
     end
@@ -111,8 +111,8 @@ module API
     end
 
     def schema_name(ref_path, path:, root_path:, root_spec:)
-      file = schema_file ref_path, path: path, root_path: root_path
-      spec_path = schema_path ref_path, path: path, root_path: root_path
+      file = schema_file(ref_path, path:, root_path:)
+      spec_path = schema_path(ref_path, path:, root_path:)
 
       spec_files = root_spec.dig(*spec_path)
 

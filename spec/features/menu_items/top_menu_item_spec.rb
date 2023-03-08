@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Top menu items', js: true, selenium: true do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -77,7 +77,7 @@ describe 'Top menu items', js: true, selenium: true do
     let(:all_items) { [news_item, project_item, reporting_item] }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays all items' do
         has_menu_items?(reporting_item, news_item, project_item)
@@ -102,7 +102,7 @@ describe 'Top menu items', js: true, selenium: true do
     end
 
     context 'as an anonymous user' do
-      let(:user) { create :anonymous }
+      let(:user) { create(:anonymous) }
 
       it 'displays only news and projects' do
         has_menu_items? news_item, project_item
@@ -117,7 +117,7 @@ describe 'Top menu items', js: true, selenium: true do
     let(:add_project) { I18n.t('js.label_project') }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays all items' do
         expect(page).to have_selector('a.button', exact_text: all_projects)
@@ -143,7 +143,7 @@ describe 'Top menu items', js: true, selenium: true do
     end
 
     context 'as an anonymous user' do
-      let(:user) { create :anonymous }
+      let(:user) { create(:anonymous) }
       let(:open_menu) { false }
 
       it 'does not show the menu' do

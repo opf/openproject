@@ -39,6 +39,9 @@ hr:
     models:
       budget: "Budžet"
       material_budget_item: "Jedinica"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Budžet"
   button_add_budget_item: "Dodaj planirane troškove"

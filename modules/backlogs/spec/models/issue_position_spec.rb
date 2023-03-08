@@ -265,7 +265,7 @@ describe WorkPackage do
                name: 'Go-Live')
       end
 
-      shared_let(:admin) { create :admin }
+      shared_let(:admin) { create(:admin) }
 
       def move_to_project(work_package, project)
         WorkPackages::UpdateService

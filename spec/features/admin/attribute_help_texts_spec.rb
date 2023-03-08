@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Attribute help texts', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Work Package table relations', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
   let(:type2) { create(:type) }

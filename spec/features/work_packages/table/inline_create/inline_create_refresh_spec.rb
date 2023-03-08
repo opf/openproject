@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Refreshing in inline-create row', flaky: true, js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:work_packages_page) { WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

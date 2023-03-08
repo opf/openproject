@@ -76,7 +76,7 @@ def build_work_package_hierarchy(data, *attributes, parent: nil, shared_attribut
         attr.values.first, *attributes, parent: parent_wp, shared_attributes:
       )
     else
-      wp = create :work_package, shared_attributes.merge(**attributes.zip(attr).to_h)
+      wp = create(:work_package, shared_attributes.merge(**attributes.zip(attr).to_h))
 
       parent.children << wp if parent
 

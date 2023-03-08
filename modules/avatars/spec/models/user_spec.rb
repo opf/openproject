@@ -2,7 +2,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../shared_examples')
 
 describe User do
-  let(:user) { build :user }
+  let(:user) { build(:user) }
 
   include_examples "there are users with and without avatars"
 

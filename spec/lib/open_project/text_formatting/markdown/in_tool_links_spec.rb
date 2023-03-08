@@ -34,25 +34,25 @@ describe OpenProject::TextFormatting,
   include_context 'expected markdown modules'
 
   describe '.format_text' do
-    shared_let(:project) { create :valid_project }
+    shared_let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
 
     shared_let(:role) do
-      create :role,
+      create(:role,
              permissions: %i(view_work_packages edit_work_packages
-                             browse_repository view_changesets view_wiki_pages)
+                             browse_repository view_changesets view_wiki_pages))
     end
 
     shared_let(:project_member) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: role
+             member_through_role: role)
     end
     shared_let(:work_package) do
-      create :work_package,
+      create(:work_package,
              project:,
              author: project_member,
-             type: project.types.first
+             type: project.types.first)
     end
 
     shared_let(:non_member) do
@@ -66,18 +66,18 @@ describe OpenProject::TextFormatting,
 
     context 'Changeset links' do
       let(:repository) do
-        build_stubbed :repository_subversion,
-                      project:
+        build_stubbed(:repository_subversion,
+                      project:)
       end
       let(:changeset1) do
-        build_stubbed :changeset,
+        build_stubbed(:changeset,
                       repository:,
-                      comments: 'My very first commit'
+                      comments: 'My very first commit')
       end
       let(:changeset2) do
-        build_stubbed :changeset,
+        build_stubbed(:changeset,
                       repository:,
-                      comments: 'This commit fixes #1, #2 and references #1 & #3'
+                      comments: 'This commit fixes #1, #2 and references #1 & #3')
       end
       let(:changeset_link) do
         link_to("r#{changeset1.revision}",
@@ -130,9 +130,9 @@ describe OpenProject::TextFormatting,
 
     context 'Version link' do
       let!(:version) do
-        create :version,
+        create(:version,
                name: '1.0',
-               project:
+               project:)
       end
       let(:version_link) do
         link_to('1.0',
@@ -178,12 +178,12 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Message links' do
-      let(:forum) { create :forum, project: }
-      let(:message1) { create :message, forum: }
+      let(:forum) { create(:forum, project:) }
+      let(:message1) { create(:message, forum:) }
       let(:message2) do
-        create :message,
+        create(:message,
                forum:,
-               parent: message1
+               parent: message1)
       end
 
       before do
@@ -278,7 +278,7 @@ describe OpenProject::TextFormatting,
 
       context 'WP subject with escapable chars' do
         let(:work_package) do
-          create :work_package, subject: "Title with \"quote\" and 'sòme 'chárs."
+          create(:work_package, subject: "Title with \"quote\" and 'sòme 'chárs.")
         end
 
         let(:work_package_link) do
@@ -302,7 +302,7 @@ describe OpenProject::TextFormatting,
     end
 
     context 'Project links' do
-      let(:subproject) { create :valid_project, parent: project, public: true }
+      let(:subproject) { create(:valid_project, parent: project, public: true) }
       let(:project_url) { project_overview_path(subproject) }
 
       context 'Plain project link' do
@@ -335,36 +335,36 @@ describe OpenProject::TextFormatting,
 
     context 'Wiki links' do
       let(:project_2) do
-        create :valid_project,
-               identifier: 'onlinestore'
+        create(:valid_project,
+               identifier: 'onlinestore')
       end
       let(:wiki_1) do
-        create :wiki,
+        create(:wiki,
                start_page: 'CookBook documentation',
-               project:
+               project:)
       end
       let(:wiki_page_1_1) do
-        create :wiki_page_with_content,
+        create(:wiki_page_with_content,
                wiki: wiki_1,
-               title: 'CookBook documentation'
+               title: 'CookBook documentation')
       end
       let(:wiki_page_1_2) do
-        create :wiki_page_with_content,
+        create(:wiki_page_with_content,
                wiki: wiki_1,
-               title: 'Another page'
+               title: 'Another page')
       end
       let(:wiki_page_1_3) do
-        create :wiki_page_with_content,
+        create(:wiki_page_with_content,
                wiki: wiki_1,
-               title: '<script>alert("FOO")</script>'
+               title: '<script>alert("FOO")</script>')
       end
 
       before do
         project_2.reload
 
-        wiki_page_2_1 = create :wiki_page_with_content,
+        wiki_page_2_1 = create(:wiki_page_with_content,
                                wiki: project_2.wiki,
-                               title: 'Start Page'
+                               title: 'Start Page')
 
         project_2.wiki.pages << wiki_page_2_1
         project_2.wiki.start_page = 'Start Page'
@@ -511,7 +511,7 @@ describe OpenProject::TextFormatting,
 
     context 'Redmine links' do
       let(:repository) do
-        build_stubbed :repository_subversion, project:
+        build_stubbed(:repository_subversion, project:)
       end
 
       def source_url(**args)
@@ -563,14 +563,14 @@ describe OpenProject::TextFormatting,
 
     context 'Pre content should not parse wiki and redmine links' do
       let(:wiki) do
-        create :wiki,
+        create(:wiki,
                start_page: 'CookBook documentation',
-               project:
+               project:)
       end
       let(:wiki_page) do
-        create :wiki_page_with_content,
+        create(:wiki_page_with_content,
                wiki:,
-               title: 'CookBook documentation'
+               title: 'CookBook documentation')
       end
       let(:raw) do
         <<~RAW

@@ -34,10 +34,10 @@ require_relative '../../../../spec/features/views/shared_examples'
 describe 'bcf view management',
          with_config: { edition: 'bim' },
          js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
-    create :role,
+    create(:role,
            permissions: %w[
              view_work_packages
              save_queries
@@ -45,13 +45,13 @@ describe 'bcf view management',
              view_ifc_models
              save_bcf_queries
              manage_public_bcf_queries
-           ]
+           ])
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let!(:model) do

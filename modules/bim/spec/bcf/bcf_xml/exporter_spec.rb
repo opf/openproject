@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe OpenProject::Bim::BcfXml::Exporter do
   let(:query) { build(:global_query) }
-  let(:work_package) { create :work_package }
+  let(:work_package) { create(:work_package) }
   let(:admin) { create(:admin) }
   let(:current_user) { admin }
 

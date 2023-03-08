@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe WikiController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   shared_let(:project) do
     create(:project).tap(&:reload)
@@ -494,7 +494,7 @@ describe WikiController do
       end
 
       subject do
-        delete :destroy, params: params
+        delete(:destroy, params:)
 
         response
       end

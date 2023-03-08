@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'creating a child directly after the wp itself was created', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project, types: [type]) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
@@ -37,9 +37,9 @@ describe 'creating a child directly after the wp itself was created', js: true d
   let!(:priority) { create(:priority, is_default: true) }
   let(:type) { create(:type, custom_fields: [custom_field]) }
   let(:custom_field) do
-    create :work_package_custom_field,
+    create(:work_package_custom_field,
            field_format: 'int',
-           is_for_all: true
+           is_for_all: true)
   end
   let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
 

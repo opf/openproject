@@ -37,12 +37,12 @@ describe 'Inviting user in project the current user is lacking permission in', j
   let(:quick_add) { Components::QuickAddMenu.new }
 
   let(:view_role) do
-    create :role,
-           permissions: []
+    create(:role,
+           permissions: [])
   end
   let(:invite_role) do
-    create :role,
-           permissions: %i[manage_members]
+    create(:role,
+           permissions: %i[manage_members])
   end
 
   let!(:other_user) { create(:user) }
@@ -50,7 +50,7 @@ describe 'Inviting user in project the current user is lacking permission in', j
   let!(:invite_project) { create(:project, members: { current_user => invite_role }) }
 
   current_user do
-    create :user
+    create(:user)
   end
 
   it 'user cannot invite in current project but for different one' do

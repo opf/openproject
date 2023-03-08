@@ -81,7 +81,7 @@ describe 'Project attributes activities' do
 
     click_button 'Apply'
 
-    within("li.op-project-activity-list--item", match: :first) do
+    within("li.op-activity-list--item", match: :first) do
       expect(page)
         .to have_link("Project: #{project.name}")
 
@@ -89,7 +89,7 @@ describe 'Project attributes activities' do
       expect(page).to have_selector('li', text: "Name changed from #{previous_project_attributes['name']} to #{project.name}")
       expect(page).to have_selector('li', text: 'Description set (Details)')
       expect(page).to have_selector('li', text: 'Visibility set to public')
-      expect(page).to have_selector('li', text: "Subproject of deleted (#{parent_project.name})")
+      expect(page).to have_selector('li', text: "No longer subproject of #{parent_project.name}")
       expect(page).to have_selector('li', text: 'Project unarchived')
       expect(page).to have_selector('li', text: "Identifier changed from #{previous_project_attributes['identifier']} " \
                                                 "to #{project.identifier}")

@@ -2,8 +2,8 @@ require 'spec_helper'
 require 'spreadsheet'
 
 describe "WorkPackageXlsExport Custom Fields" do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
 
   let!(:custom_field) do
     create(
@@ -17,7 +17,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package1) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
       custom_field.id => custom_values_for('ham', 'onions')
     }
@@ -26,7 +26,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   end
 
   let(:work_package2) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.custom_field_values = {
       custom_field.id => custom_values_for('pineapple')
     }
@@ -34,9 +34,9 @@ describe "WorkPackageXlsExport Custom Fields" do
     wp
   end
 
-  let(:work_package3) { create :work_package, project:, type: }
+  let(:work_package3) { create(:work_package, project:, type:) }
   let(:work_packages) { [work_package1, work_package2, work_package3] }
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
   let!(:query) do
     query              = build(:query, user: current_user, project:)

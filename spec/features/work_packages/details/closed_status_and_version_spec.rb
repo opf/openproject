@@ -6,11 +6,11 @@ describe 'Closed status and version in full view', js: true do
 
   let(:project) { create(:project, types: [type]) }
 
-  let(:version) { create :version, status: 'closed', project: }
-  let(:work_package) { create :work_package, project:, status:, version: }
+  let(:version) { create(:version, status: 'closed', project:) }
+  let(:work_package) { create(:work_package, project:, status:, version:) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   before do
     login_as(user)

@@ -88,7 +88,7 @@ module Pages
 
     def expect_work_package_count(count)
       within(table_container) do
-        expect(page).to have_selector(".wp--row", count: count, wait: 20)
+        expect(page).to have_selector(".wp--row", count:, wait: 20)
       end
     end
 
@@ -189,7 +189,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from: from, to: to, elements: '.wp-table--row', handler: '.wp-table--drag-and-drop-handle')
+      drag_and_drop_list(from:, to:, elements: '.wp-table--row', handler: '.wp-table--drag-and-drop-handle')
     end
 
     def row(work_package)

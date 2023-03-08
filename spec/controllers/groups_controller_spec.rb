@@ -28,7 +28,7 @@
 require 'spec_helper'
 
 describe GroupsController do
-  let(:group) { create :group, members: group_members }
+  let(:group) { create(:group, members: group_members) }
   let(:group_members) { [] }
 
   before do
@@ -36,7 +36,7 @@ describe GroupsController do
   end
 
   context 'as admin' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
 
     it 'indexes' do
@@ -90,8 +90,8 @@ describe GroupsController do
     end
 
     context 'with two existing users' do
-      let(:user1) { create :user }
-      let(:user2) { create :user }
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
 
       it 'adds users' do
         post :add_users, params: { id: group.id, user_ids: [user1.id, user2.id] }
@@ -100,8 +100,8 @@ describe GroupsController do
     end
 
     context 'with a group member' do
-      let(:user1) { create :user }
-      let(:user2) { create :user }
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
       let(:group_members) { [user1] }
 
       it 'adds users' do
@@ -128,9 +128,9 @@ describe GroupsController do
     end
 
     context 'with project and role' do
-      let(:project) { create :project }
-      let(:role1) { create :role }
-      let(:role2) { create :role }
+      let(:project) { create(:project) }
+      let(:role1) { create(:role) }
+      let(:role2) { create(:role) }
 
       it 'creates membership' do
         post :create_memberships,
@@ -173,7 +173,7 @@ describe GroupsController do
   end
 
   context 'as regular user' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let(:current_user) { user }
 
     it 'forbids index' do

@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../support/pages/meetings/edit'
 
 describe 'Meetings participants' do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let!(:user) do
     create(:user,
            firstname: 'Current',
@@ -50,10 +50,8 @@ describe 'Meetings participants' do
            member_in_project: project,
            member_with_permissions: %i[])
   end
-  let(:meeting) { create(:meeting, project:) }
   let(:edit_page) { Pages::Meetings::Edit.new(meeting) }
-
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
+  let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
 
   before do
     login_as(user)
@@ -84,7 +82,7 @@ describe 'Meetings participants' do
 
   context 'with an invalid user reference' do
     let(:show_page) { Pages::Meetings::Show.new(meeting) }
-    let(:meeting_participant) { create :meeting_participant, user: viewer_user, meeting: }
+    let(:meeting_participant) { create(:meeting_participant, user: viewer_user, meeting:) }
 
     before do
       meeting_participant.update_column(:user_id, 12341234)

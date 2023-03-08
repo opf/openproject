@@ -12,7 +12,7 @@ describe 'Login with no required OTP', with_config: { '2fa': { active_strategies
   end
 
   context 'non-default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: false }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: false) }
 
     it_behaves_like 'login without 2FA'
   end

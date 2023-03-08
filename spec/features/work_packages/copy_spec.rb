@@ -141,7 +141,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
       find('#action-show-more-dropdown-menu .button').click
       find('.menu-item', text: 'Copy', exact_text: true).click
 
-      to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
+      to_copy_work_package_page = Pages::FullWorkPackageCreate.new(original_work_package:)
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
       to_copy_work_package_page.save!
 

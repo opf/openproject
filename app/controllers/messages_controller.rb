@@ -139,9 +139,10 @@ class MessagesController < ApplicationController
   def quote
     user = @message.author
     text = @message.content
-    subject = @message.subject.gsub('"', '\"')
+    subject = @message.subject
     subject = "RE: #{subject}" unless subject.starts_with?('RE:')
-    content = "#{ll(Setting.default_language, :text_user_wrote, user)}\n> "
+    user_wrote = I18n.t(:text_user_wrote, value: ERB::Util.html_escape(user), locale: Setting.default_language)
+    content = "#{user_wrote}\n> "
     content << (text.to_s.strip.gsub(%r{<pre>(.+?)</pre>}m, '[...]').gsub('"', '\"').gsub(/(\r?\n|\r\n?)/, "\n> ") + "\n\n")
 
     respond_to do |format|

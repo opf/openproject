@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'edit users', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let(:user) { create :user, mail: 'foo@example.com' }
+  let(:user) { create(:user, mail: 'foo@example.com') }
 
-  let!(:auth_source) { create :auth_source }
+  let!(:auth_source) { create(:auth_source) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -85,7 +85,7 @@ describe 'edit users', js: true do
   end
 
   context 'as global user' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
     let(:current_user) { global_manage_user }
 
     it 'can too edit the user' do

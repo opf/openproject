@@ -34,11 +34,12 @@ module API
 
       def call(params)
         json_parsed = json_parsed_params(params)
-        return json_parsed unless json_parsed.success?
+        return json_parsed if json_parsed.failure?
 
         parsed = parsed_params(params)
+        return parsed if parsed.failure?
 
-        result = without_empty(parsed.merge(json_parsed.result), determine_allowed_empty(params))
+        result = without_empty(parsed.result.merge(json_parsed.result), determine_allowed_empty(params))
 
         ServiceResult.success(result:)
       end
@@ -59,8 +60,9 @@ module API
         result
       end
 
+      # rubocop:disable Metrics/AbcSize
       def parsed_params(params)
-        {
+        ServiceResult.success result: {
           group_by: group_by_from_params(params),
           columns: columns_from_params(params),
           display_sums: boolearize(params[:showSums]),
@@ -70,9 +72,15 @@ module API
           highlighted_attributes: highlighted_attributes_from_params(params),
           display_representation: params[:displayRepresentation],
           show_hierarchies: boolearize(params[:showHierarchies]),
-          include_subprojects: boolearize(params[:includeSubprojects])
+          include_subprojects: boolearize(params[:includeSubprojects]),
+          timestamps: Timestamp.parse_multiple(params[:timestamps])
         }
+      rescue ArgumentError => e
+        result = ServiceResult.failure
+        result.errors.add(:base, e.message)
+        result
       end
+      # rubocop:enable Metrics/AbcSize
 
       def determine_allowed_empty(params)
         allow_empty = params.keys
@@ -148,7 +156,7 @@ module API
       def highlighted_attributes_from_params(params)
         highlighted_attributes = Array(params[:highlightedAttributes].presence)
 
-        return unless highlighted_attributes.present?
+        return if highlighted_attributes.blank?
 
         highlighted_attributes.map do |href|
           attr = href.split('/').last
@@ -157,9 +165,10 @@ module API
       end
 
       def boolearize(value)
-        if value == 'true'
+        case value
+        when 'true'
           true
-        elsif value == 'false'
+        when 'false'
           false
         end
       end
@@ -188,9 +197,10 @@ module API
 
       def parse_sorting_from_json(json)
         JSON.parse(json).map do |order|
-          attribute, direction = if order.is_a?(Array)
+          attribute, direction = case order
+                                 when Array
                                    [order.first, order.last]
-                                 elsif order.is_a?(String)
+                                 when String
                                    order.split(':')
                                  end
 
@@ -233,7 +243,7 @@ module API
 
       def group_by_empty?(params)
         params_exist?(params, KEYS_GROUP_BY) &&
-          !params_value(params, KEYS_GROUP_BY).present?
+          params_value(params, KEYS_GROUP_BY).blank?
       end
     end
   end

@@ -33,8 +33,8 @@ describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:current_user) { user }
-  let(:query) { create :query, user:, project:, public: true }
-  let(:team_plan) { create :view_team_planner, query: }
+  let(:query) { create(:query, user:, project:, public: true) }
+  let(:team_plan) { create(:view_team_planner, query:) }
 
   before do
     login_as current_user
@@ -71,10 +71,10 @@ describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
 
     context 'with another user with limited access' do
       let(:current_user) do
-        create :user,
+        create(:user,
                firstname: 'Bernd',
                member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_team_planner]
+               member_with_permissions: %w[view_work_packages view_team_planner])
       end
 
       it 'does not show the create button' do
@@ -88,7 +88,7 @@ describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user:, project:, public: false }
+        let(:query) { create(:query, user:, project:, public: false) }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'

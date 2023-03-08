@@ -132,8 +132,8 @@ export class HalResourceEditFieldHandler extends EditFieldHandler {
 
     return this
       .onSubmit()
+      .then(() => this.form.submit())
       .then(() => {
-        void this.form.submit();
         this.blurActiveField();
       });
   }

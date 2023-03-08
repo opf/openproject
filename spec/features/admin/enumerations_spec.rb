@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Enumerations' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as(admin)

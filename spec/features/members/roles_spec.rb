@@ -29,22 +29,22 @@
 require 'spec_helper'
 
 describe 'members pagination', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:project) do
-    create :project,
+    create(:project,
            name: 'Project 1',
            identifier: 'project1',
            members: {
              alice => beta,
              bob => alpha
-           }
+           })
   end
 
-  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
+  let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
+  let(:alice) { create(:user, firstname: 'Alice', lastname: 'Alison') }
 
-  let(:alpha) { create :role, name: 'alpha' }
-  let(:beta)  { create :role, name: 'beta' }
+  let(:alpha) { create(:role, name: 'alpha') }
+  let(:beta)  { create(:role, name: 'beta') }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

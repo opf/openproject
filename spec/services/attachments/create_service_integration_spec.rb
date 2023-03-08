@@ -43,9 +43,9 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
     context 'when journalized' do
       shared_let(:container) { create(:work_package) }
       shared_let(:user) do
-        create :user,
+        create(:user,
                member_in_project: container.project,
-               member_with_permissions: %i[view_work_packages edit_work_packages]
+               member_with_permissions: %i[view_work_packages edit_work_packages])
       end
 
       shared_examples 'successful creation' do
@@ -106,9 +106,9 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
     context 'when not journalized' do
       shared_let(:container) { create(:message) }
       shared_let(:user) do
-        create :user,
+        create(:user,
                member_in_project: container.forum.project,
-               member_with_permissions: %i[add_messages edit_messages]
+               member_with_permissions: %i[add_messages edit_messages])
       end
 
       shared_examples 'successful creation' do
@@ -158,7 +158,7 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
 
     context "when uncontainered" do
       let(:container) { nil }
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       before do
         call_tested_method
@@ -173,7 +173,7 @@ describe Attachments::CreateService, 'integration', with_settings: { journal_agg
 
     context "when user with no permissions" do
       let(:container) { nil }
-      let(:user) { build_stubbed :user }
+      let(:user) { build_stubbed(:user) }
 
       it 'does not save an attachment' do
         expect do

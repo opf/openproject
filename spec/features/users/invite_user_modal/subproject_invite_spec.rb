@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Invite user modal subprojects', js: true do
-  shared_let(:project) { create :project, name: 'Parent project' }
-  shared_let(:subproject) { create :project, name: 'Subproject', parent: project }
-  shared_let(:work_package) { create :work_package, project: subproject }
-  shared_let(:invitable_user) { create :user, firstname: 'Invitable', lastname: 'User' }
+  shared_let(:project) { create(:project, name: 'Parent project') }
+  shared_let(:subproject) { create(:project, name: 'Subproject', parent: project) }
+  shared_let(:work_package) { create(:work_package, project: subproject) }
+  shared_let(:invitable_user) { create(:user, firstname: 'Invitable', lastname: 'User') }
 
   let(:permissions) { %i[view_work_packages edit_work_packages manage_members work_package_assigned] }
   let(:global_permissions) { %i[] }
@@ -42,18 +42,18 @@ describe 'Invite user modal subprojects', js: true do
                                              role:
   end
   let!(:role) do
-    create :role,
+    create(:role,
            name: 'Member',
-           permissions:
+           permissions:)
   end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:assignee_field) { wp_page.edit_field :assignee }
 
   current_user do
-    create :user,
+    create(:user,
            member_in_projects: [project, subproject],
            member_through_role: role,
-           global_permissions:
+           global_permissions:)
   end
 
   context 'with manage permissions in subproject' do

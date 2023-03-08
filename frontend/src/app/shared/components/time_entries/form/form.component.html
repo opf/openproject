@@ -83,7 +83,8 @@
       </div>
       <div class="attributes-map--value">
         <op-editable-attribute-field [resource]="entry"
-                                  [fieldName]="cf.key">
+                                  [fieldName]="cf.key"
+                                  [wrapperClasses]="cf.type === 'Date' ? '-tiny' : null">
         </op-editable-attribute-field>
       </div>
     </ng-container>

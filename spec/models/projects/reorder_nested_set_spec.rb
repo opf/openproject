@@ -35,11 +35,11 @@ describe Project, 'reordering of nested set' do
 
   # Create some children in non-alphabetical order
   # including lower case to test case insensitivity
-  shared_let(:child_e) { create :project, name: 'e', parent: parent_project_a }
-  shared_let(:child_c) { create :project, name: 'C', parent: parent_project_a }
-  shared_let(:child_f) { create :project, name: 'F', parent: parent_project_a }
-  shared_let(:child_d) { create :project, name: 'D', parent: parent_project_b }
-  shared_let(:child_b) { create :project, name: 'B', parent: parent_project_b }
+  shared_let(:child_e) { create(:project, name: 'e', parent: parent_project_a) }
+  shared_let(:child_c) { create(:project, name: 'C', parent: parent_project_a) }
+  shared_let(:child_f) { create(:project, name: 'F', parent: parent_project_a) }
+  shared_let(:child_d) { create(:project, name: 'D', parent: parent_project_b) }
+  shared_let(:child_b) { create(:project, name: 'B', parent: parent_project_b) }
 
   subject { described_class.all.reorder(:lft) }
 

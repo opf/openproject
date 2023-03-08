@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Principals::ReplaceReferencesService, '#call', type: :model do
   shared_let(:principal) { create(:user) }
-  shared_let(:to_principal) { create :user }
+  shared_let(:to_principal) { create(:user) }
 
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
 

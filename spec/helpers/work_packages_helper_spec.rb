@@ -160,7 +160,7 @@ describe WorkPackagesHelper do
 
   describe '#work_package_css_classes' do
     let(:statuses) { (1..5).map { |_i| build_stubbed(:status) } }
-    let(:priority) { build_stubbed :priority, is_default: true }
+    let(:priority) { build_stubbed(:priority, is_default: true) }
     let(:status) { statuses[0] }
     let(:stub_work_package) do
       build_stubbed(:work_package,

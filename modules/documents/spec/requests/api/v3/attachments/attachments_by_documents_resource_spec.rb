@@ -38,7 +38,7 @@ describe "document attachments" do
     let(:update_permission) { :manage_documents }
 
     let(:document) do
-      create :document, project:
+      create(:document, project:)
     end
   end
 end

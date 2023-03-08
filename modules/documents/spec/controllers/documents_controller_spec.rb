@@ -106,7 +106,7 @@ describe DocumentsController do
     end
 
     describe "with attachments" do
-      let(:uncontainered) { create :attachment, container: nil, author: admin }
+      let(:uncontainered) { create(:attachment, container: nil, author: admin) }
 
       before do
         notify_project = project

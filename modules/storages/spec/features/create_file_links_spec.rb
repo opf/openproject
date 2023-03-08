@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-describe 'Creating file links in work package', js: true, webmock: true do
+describe 'Managing file links in work package', js: true, webmock: true do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
@@ -62,7 +62,8 @@ describe 'Creating file links in work package', js: true, webmock: true do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
-  let(:dialog) { Components::FilePickerDialog.new }
+  let(:file_picker) { Components::FilePickerDialog.new }
+  let(:confirmation_dialog) { Components::ConfirmationDialog.new }
 
   before do
     allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
@@ -80,35 +81,46 @@ describe 'Creating file links in work package', js: true, webmock: true do
     wp_page.visit_tab! :files
   end
 
-  describe 'with the file picker', with_flag: { storage_file_picking_select_all: true } do
-    it 'must enable the user to link existing files on the storage' do
+  describe 'create with the file picker and delete', with_flag: { storage_file_picking_select_all: true } do
+    it 'must enable the user to manage existing files on the storage' do
       expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 1
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
 
       wp_page.find('[data-qa-selector="op-storage--link-existing-file-button"]').click
 
-      dialog.expect_open
-      dialog.confirm_button_state(selection_count: 0)
+      file_picker.expect_open
+      file_picker.confirm_button_state(selection_count: 0)
 
-      dialog.select_file('Manual.pdf')
-      dialog.confirm_button_state(selection_count: 1)
+      file_picker.select_file('Manual.pdf')
+      file_picker.confirm_button_state(selection_count: 1)
 
-      dialog.enter_folder('Folder1')
-      dialog.has_list_item?(text: file_link.name, checked: true, disabled: true)
-      dialog.select_all
-      dialog.confirm_button_state(selection_count: 3)
+      file_picker.enter_folder('Folder1')
+      file_picker.has_list_item?(text: file_link.name, checked: true, disabled: true)
+      file_picker.select_all
+      file_picker.confirm_button_state(selection_count: 3)
 
-      dialog.select_file('notes.txt')
-      dialog.confirm_button_state(selection_count: 2)
+      file_picker.select_file('notes.txt')
+      file_picker.confirm_button_state(selection_count: 2)
 
-      dialog.use_breadcrumb(position: 'root')
-      dialog.has_list_item?(text: 'Manual.pdf', checked: true, disabled: false)
+      file_picker.use_breadcrumb(position: 'root')
+      file_picker.has_list_item?(text: 'Manual.pdf', checked: true, disabled: false)
 
-      dialog.confirm
+      file_picker.confirm
 
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'Manual.pdf')
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: 'logo.png')
       expect(wp_page).to have_selector('[data-qa-selector="file-list--item"]', text: file_link.name)
+      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 3
+
+      wp_page.find('[data-qa-selector="file-list--item"]', text: 'logo.png').hover
+      wp_page.within('[data-qa-selector="file-list--item"]', text: 'logo.png') do
+        wp_page.find('[data-qa-selector="file-list--item-remove-floating-action"]').click
+      end
+
+      confirmation_dialog.confirm
+
+      expect(wp_page).not_to have_selector('[data-qa-selector="file-list--item"]', text: 'logo.png')
+      expect(wp_page.all('[data-qa-selector="file-list--item"]').size).to eq 2
     end
   end
 end

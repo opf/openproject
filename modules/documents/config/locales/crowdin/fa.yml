@@ -23,6 +23,9 @@ fa:
   activerecord:
     models:
       document: "سند"
+  activity:
+    filter:
+      document: "Documents"
   default_doc_category_tech: "Technical documentation"
   default_doc_category_user: "اسناد کاربر"
   enumeration_doc_categories: "Document categories"

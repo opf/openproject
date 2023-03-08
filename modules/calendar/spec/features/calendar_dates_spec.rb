@@ -33,12 +33,12 @@ describe 'Calendar non working days', js: true do
   include_context 'with calendar full access'
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_calendar
-           ]
+           ])
   end
 
   before do

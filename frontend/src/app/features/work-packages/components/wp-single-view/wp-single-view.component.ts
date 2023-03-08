@@ -126,7 +126,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     },
     files: {
       label: this.I18n.t('js.work_packages.tabs.files'),
-      migration_help: this.I18n.t('js.work_packages.tabs.files_tab_migration_help'),
     },
     project: {
       required: this.I18n.t('js.project.required_outside_context'),

@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 describe Avatars::UsersController do
   include_context "there are users with and without avatars"
 
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
   let(:enabled) { true }
 
   before do
@@ -26,7 +26,7 @@ describe Avatars::UsersController do
     end
 
     context 'as another user' do
-      let(:current_user) { create :user }
+      let(:current_user) { create(:user) }
 
       before do
         get :show, params: { id: target_user.id }

@@ -39,6 +39,9 @@ az:
     models:
       budget: "Budget"
       material_budget_item: "Unit"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Budget"
   button_add_budget_item: "Add planned costs"

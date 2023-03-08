@@ -33,9 +33,9 @@ require_relative './shared_responses'
 
 describe 'BCF 2.1 project extensions resource', content_type: :json do
   include Rack::Test::Methods
-  shared_let(:type_task) { create :type_task }
-  shared_let(:status) { create :default_status }
-  shared_let(:priority) { create :default_priority }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:priority) { create(:default_priority) }
   shared_let(:project) { create(:project, enabled_module_names: [:bim], types: [type_task]) }
   subject(:response) { last_response }
 

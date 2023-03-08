@@ -247,7 +247,7 @@ describe 'Work package navigation', js: true, selenium: true do
   context 'with work package with an attachment' do
     let!(:attachment) { build(:attachment, filename: 'attachment-first.pdf') }
     let!(:wp_with_attachment) do
-      create :work_package, subject: 'WP attachment A', project:, attachments: [attachment]
+      create(:work_package, subject: 'WP attachment A', project:, attachments: [attachment])
     end
 
     it 'will show it when navigating from table to single view' do
@@ -265,8 +265,8 @@ describe 'Work package navigation', js: true, selenium: true do
   end
 
   context 'with two work packages with card view' do
-    let!(:work_package) { create :work_package, project: }
-    let!(:work_package2) { create :work_package, project: }
+    let!(:work_package) { create(:work_package, project:) }
+    let!(:work_package2) { create(:work_package, project:) }
     let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
     let(:cards) { Pages::WorkPackageCards.new(project) }

@@ -50,23 +50,23 @@ describe 'Status action board', js: true do
   end
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
 
   let(:task_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            subject: 'Open task item',
-           status: open_status
+           status: open_status)
   end
   let(:bug_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_bug,
            subject: 'Closed bug item',
-           status: closed_status
+           status: closed_status)
   end
 
   let!(:workflow_task) do

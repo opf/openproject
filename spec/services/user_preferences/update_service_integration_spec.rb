@@ -104,7 +104,7 @@ describe UserPreferences::UpdateService, 'integration', type: :model do
     end
 
     context 'with a full replacement' do
-      let(:project) { create :project }
+      let(:project) { create(:project) }
       let(:attributes) do
         {
           notification_settings: [

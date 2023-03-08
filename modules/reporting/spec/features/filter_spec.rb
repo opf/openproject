@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'Cost report calculations', js: true do
-  let(:project) { create :project }
-  let(:user) { create :admin }
+  let(:project) { create(:project) }
+  let(:user) { create(:admin) }
 
   before do
     login_as(user)

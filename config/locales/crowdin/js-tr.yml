@@ -1065,7 +1065,6 @@ tr:
         relations: İlişkiler
         watchers: Takip Edenler
         files: Dosyalar
-        files_tab_migration_help: 'Artık yeni sekme aracılığıyla iş paketlerine dosya ekleyebilirsiniz:'
       time_relative:
         days: "gün"
         weeks: "hafta"

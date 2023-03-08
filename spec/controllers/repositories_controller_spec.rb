@@ -328,7 +328,7 @@ describe RepositoriesController do
     describe '#show' do
       it 'redirects to login while preserving the path' do
         params = { repo_path: 'aDir/within/aDir', rev: '42', project_id: project.id }
-        get :show, params: params
+        get(:show, params:)
 
         expect(response)
           .to redirect_to signin_path(back_url: show_revisions_path_project_repository_url(params))

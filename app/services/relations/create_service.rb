@@ -28,12 +28,12 @@
 
 class Relations::CreateService < Relations::BaseService
   def initialize(user:)
-    @user = user
+    super
     self.contract_class = Relations::CreateContract
   end
 
-  def perform(send_notifications: true, **attributes)
-    in_user_context(send_notifications) do
+  def perform(send_notifications: nil, **attributes)
+    in_user_context(send_notifications:) do
       update_relation ::Relation.new, attributes
     end
   end

@@ -33,12 +33,12 @@ describe Attachments::CreateContract, 'integration' do
   include_context 'ModelContract shared context'
 
   let(:model) do
-    build :attachment,
+    build(:attachment,
           container:,
           content_type:,
           file:,
           filename:,
-          author: current_user
+          author: current_user)
   end
   let(:contract) { described_class.new model, user, options: contract_options }
   let(:contract_options) { {} }
@@ -66,13 +66,13 @@ describe Attachments::CreateContract, 'integration' do
     end
 
     describe 'invalid container' do
-      let(:container) { build_stubbed :work_package }
+      let(:container) { build_stubbed(:work_package) }
 
       it_behaves_like 'contract is invalid', base: :error_unauthorized
     end
 
     describe 'valid container' do
-      let(:container) { build_stubbed :project_export }
+      let(:container) { build_stubbed(:project_export) }
 
       it_behaves_like 'contract is valid'
     end

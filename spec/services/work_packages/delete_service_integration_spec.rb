@@ -76,7 +76,7 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'with a stale work package reference' do
-    let!(:work_package) { create :work_package, project: }
+    let!(:work_package) { create(:work_package, project:) }
 
     let(:instance) do
       described_class.new(user:,
@@ -95,13 +95,13 @@ describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'with a notification' do
-    let!(:work_package) { create :work_package, project: }
+    let!(:work_package) { create(:work_package, project:) }
     let!(:notification) do
-      create :notification,
+      create(:notification,
              recipient: user,
              actor: user,
              resource: work_package,
-             project:
+             project:)
     end
 
     let(:instance) do

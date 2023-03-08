@@ -36,7 +36,7 @@ describe Queries::CreateService do
   subject { instance.call(params).result }
 
   describe 'ordered work packages' do
-    let!(:work_package) { create :work_package }
+    let!(:work_package) { create(:work_package) }
     let(:params) do
       {
         name: 'My query',

@@ -25,18 +25,23 @@ ca:
         not_logged_in: >
           Per afegir un enllaç, veure o pujar fitxers relacionats amb aquest paquet de treball si us plau inicia sessió a %{storageType}.
       files:
-        directory_not_writeable: "No tens permís per afegir arxius dins d'aquesta carpeta."
+        already_existing_header: "Aquest fitxer ja existeix"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Aquesta carpeta està buida."
+        empty_folder_location_hint: "Fes clic al botó de sota per carregar fitxers a aquesta ubicació."
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
+        upload_keep_both: "Conserva els dos"
+        upload_replace: "Substitueix"
       file_links:
         empty: >
           Actualment no hi ha cap fitxer enllaçat a aquest paquet de treball. Comença a enllaçar fitxers amb l'acció de sota o dins de %{storageType}.
         download: "Descarrega %{fileName}"
         no_permission: "No tens permisos per veure aquest fitxer."
-        open: 'Obre el fitxer a l''emmagatzematge'
-        open_location: 'Obre la ubicació del fitxer'
+        open: "Obre el fitxer a l'emmagatzematge"
+        open_location: "Obre la ubicació del fitxer"
         remove: "Elimina l'enllaç del fitxer"
         remove_confirmation: >
           Estàs segur que vols eliminar l'enllaç de fitxer d'aquest paquet de treball? Eliminar l'enllaç no afecta el fitxer original, només elimina la connexió d'aquest paquet de treball.
@@ -50,7 +55,14 @@ ca:
         success_create:
           one: "1 enllaç de fitxer creat correctament."
           other: "%{count} enllaços de fitxer creat correctament."
-        upload_error: "S'ha produït un error al carregar el fitxer \"%{fileName}\"."
+        upload_error:
+          default: "El fitxer (%{fileName}) no s'ha pogut carregar a causa d'un error."
+          403: >
+            El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
+          413: >
+            El fitxer (%{fileName}) és més gran del que OpenProject pot carregar a %{storageType}. Pots carregar-lo directament a %{storageType} i després vincular-lo.
+          507: >
+            El fitxer (%{fileName}) és més gran que la quota d'emmagatzematge permesa. Si us plau, contacta el teu administrador per a modificar aquesta quota.
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"

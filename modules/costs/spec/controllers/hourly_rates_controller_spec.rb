@@ -29,7 +29,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe HourlyRatesController do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:user) { create(:user) }
   let(:default_rate) { create(:default_hourly_rate, user:) }

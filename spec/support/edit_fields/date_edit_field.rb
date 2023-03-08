@@ -151,7 +151,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(page).to have_selector(".#{property_name} .spot-input", value: value)
+    expect(page).to have_selector(".#{property_name} .spot-input", value:)
   end
 
   def set_active_date(value)

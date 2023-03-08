@@ -85,10 +85,10 @@ describe 'Watcher tab', js: true, selenium: true do
 
     context 'with a user with arbitrary characters' do
       let!(:html_user) do
-        create :user,
+        create(:user,
                firstname: '<em>foo</em>',
                member_in_project: project,
-               member_through_role: role
+               member_through_role: role)
       end
 
       it 'escapes the user name' do
@@ -143,7 +143,7 @@ describe 'Watcher tab', js: true, selenium: true do
   end
 
   context 'with a placeholder user in the project' do
-    let!(:placeholder) { create :placeholder_user, name: 'PLACEHOLDER' }
+    let!(:placeholder) { create(:placeholder_user, name: 'PLACEHOLDER') }
     let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
     before do

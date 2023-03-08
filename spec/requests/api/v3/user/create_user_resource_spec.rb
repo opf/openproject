@@ -60,7 +60,7 @@ describe API::V3::Users::UsersAPI do
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
-      let(:auth_source) { create :auth_source, name: auth_source_id }
+      let(:auth_source) { create(:auth_source, name: auth_source_id) }
 
       context 'ID' do
         before do
@@ -193,7 +193,7 @@ describe API::V3::Users::UsersAPI do
   end
 
   describe 'user with global user CRU permission' do
-    shared_let(:current_user) { create :user, global_permission: :manage_user }
+    shared_let(:current_user) { create(:user, global_permission: :manage_user) }
 
     it_behaves_like 'create user request flow'
 
@@ -221,7 +221,7 @@ describe API::V3::Users::UsersAPI do
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
-      let(:auth_source) { create :auth_source, name: auth_source_id }
+      let(:auth_source) { create(:auth_source, name: auth_source_id) }
 
       before do
         parameters[:_links] = {

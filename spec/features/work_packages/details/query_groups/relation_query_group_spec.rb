@@ -31,18 +31,18 @@ require 'spec_helper'
 describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
-  let(:project) { create :project, types: [type] }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, types: [type]) }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
   let(:type) do
-    create :type_with_relation_query_group,
-           relation_filter: relation_type
+    create(:type_with_relation_query_group,
+           relation_filter: relation_type)
   end
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
-           type:
+           type:)
   end
   let!(:related_work_package) do
     create(:work_package,
@@ -121,7 +121,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     let(:type) do
-      create :type_with_relation_query_group, relation_filter: relation_type
+      create(:type_with_relation_query_group, relation_filter: relation_type)
     end
     let(:query_text) { 'Embedded Table for follows'.upcase }
 
@@ -188,8 +188,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_type) { :follows }
     let(:relation_target) { work_package }
     let!(:independent_work_package) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
 
     before do

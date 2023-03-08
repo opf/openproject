@@ -5,21 +5,21 @@ require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 describe 'Copy work packages through Rails view', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
-  shared_let(:type) { create :type, name: 'Bug' }
-  shared_let(:type2) { create :type, name: 'Risk' }
+  shared_let(:type) { create(:type, name: 'Bug') }
+  shared_let(:type2) { create(:type, name: 'Risk') }
 
   shared_let(:project) { create(:project, name: 'Source', types: [type, type2]) }
   shared_let(:project2) { create(:project, name: 'Target', types: [type, type2]) }
 
   shared_let(:dev) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages work_package_assigned]
+           member_with_permissions: %i[view_work_packages work_package_assigned])
   end
   shared_let(:mover) do
-    create :user,
+    create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_projects: [project, project2],
@@ -28,7 +28,7 @@ describe 'Copy work packages through Rails view', js: true do
                                        move_work_packages
                                        manage_subtasks
                                        assign_versions
-                                       add_work_packages]
+                                       add_work_packages])
   end
 
   shared_let(:work_package) do
@@ -43,7 +43,7 @@ describe 'Copy work packages through Rails view', js: true do
            project:,
            type:)
   end
-  shared_let(:version) { create :version, project: project2 }
+  shared_let(:version) { create(:version, project: project2) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
@@ -100,6 +100,22 @@ describe 'Copy work packages through Rails view', js: true do
         expect(copied_wps.map(&:project_id).uniq).to eq([project2.id])
         expect(copied_wps.map(&:version_id).uniq).to eq([version.id])
         expect(copied_wps.map { |wp| wp.journals.last.notes }.uniq).to eq(['A note on copy'])
+      end
+
+      context 'when the limit to move in the frontend is 1',
+              with_settings: { work_packages_bulk_request_limit: 1 } do
+        it 'copies them in the background and shows a status page' do
+          select version.name, from: 'version_id'
+          notes.set_markdown 'A note on copy'
+          click_on 'Copy and follow'
+
+          expect(page).to have_text 'The job has been queued and will be processed shortly.'
+
+          perform_enqueued_jobs
+
+          wp_table_target.expect_current_path
+          wp_table_target.expect_work_package_count 2
+        end
       end
 
       context 'with a work package having a child' do
@@ -176,6 +192,33 @@ describe 'Copy work packages through Rails view', js: true do
               '.flash.error',
               text: "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
             )
+        end
+
+        context 'when the limit to move in the frontend is 0',
+                with_settings: { work_packages_bulk_request_limit: 0 } do
+          it 'shows the errors properly in the frontend' do
+            click_on 'Copy and follow'
+
+            expect(page).to have_text 'The job has been queued and will be processed shortly.'
+
+            perform_enqueued_jobs
+
+            expect(page).to have_text 'The work packages could not be copied.', wait: 10
+
+            expect(page).to have_text I18n.t('work_packages.bulk.none_could_be_saved', total: 3)
+
+            expect(page)
+              .to have_text I18n.t('work_packages.bulk.selected_because_descendants', total: 3, selected: 2)
+
+            expect(page)
+              .to have_text "#{work_package.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+
+            expect(page)
+              .to have_text "#{work_package2.id}: Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+
+            expect(page)
+              .to have_text "#{child.id} (descendant of selected): Type #{I18n.t('activerecord.errors.messages.inclusion')}"
+          end
         end
       end
     end

@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.0'
+ruby '~> 3.2.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -195,7 +195,7 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.11.0', require: false
+gem 'ruby-progressbar', '~> 1.12.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
@@ -203,6 +203,8 @@ gem 'validate_url'
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
+
+gem 'view_component'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -248,7 +250,6 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0', require: nil
 
   gem 'parallel_tests', '~> 4.0'
-  gem 'database_cleaner-active_record'
 end
 
 group :ldap do
@@ -266,6 +267,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
@@ -298,7 +301,6 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.4.0'
-  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false

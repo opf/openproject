@@ -33,14 +33,14 @@ describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minut
     create(:project, enabled_module_names: [:news])
   end
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:other_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:role) do
     create(:role,

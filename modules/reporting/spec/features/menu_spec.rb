@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'project menu' do
-  let(:current_user) { create :admin }
-  let!(:project) { create :valid_project, identifier: 'ponyo', name: 'Ponyo' }
+  let(:current_user) { create(:admin) }
+  let!(:project) { create(:valid_project, identifier: 'ponyo', name: 'Ponyo') }
 
   before do
     allow(User).to receive(:current).and_return current_user

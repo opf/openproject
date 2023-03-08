@@ -61,7 +61,7 @@ describe 'projects/settings/general/show' do
   end
 
   context 'User.current is admin' do
-    let(:admin) { build_stubbed :admin }
+    let(:admin) { build_stubbed(:admin) }
 
     before do
       assign(:project, project)
@@ -78,7 +78,7 @@ describe 'projects/settings/general/show' do
   end
 
   context 'User.current is non-admin' do
-    let(:non_admin) { build_stubbed :user }
+    let(:non_admin) { build_stubbed(:user) }
 
     before do
       assign(:project, project)

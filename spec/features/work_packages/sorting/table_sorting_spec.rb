@@ -106,33 +106,33 @@ describe 'Select work package row', js: true do
     let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     let(:parent) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
     let(:child1) do
-      create :work_package,
+      create(:work_package,
              project:,
-             parent:
+             parent:)
     end
     let(:child2) do
-      create :work_package,
+      create(:work_package,
              project:,
-             parent:
+             parent:)
     end
     let(:grand_child1) do
-      create :work_package,
+      create(:work_package,
              project:,
-             parent: child1
+             parent: child1)
     end
     let(:grand_child2) do
-      create :work_package,
+      create(:work_package,
              project:,
-             parent: child2
+             parent: child2)
     end
     let(:grand_child3) do
-      create :work_package,
+      create(:work_package,
              project:,
-             parent: child1
+             parent: child1)
     end
 
     before do

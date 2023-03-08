@@ -43,10 +43,10 @@ describe 'Subtasks action board', js: true do
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:parent) { create :work_package, project:, subject: 'Parent WP', status: open_status }
-  let!(:child) { create :work_package, project:, subject: 'Child WP', parent:, status: open_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:parent) { create(:work_package, project:, subject: 'Parent WP', status: open_status) }
+  let!(:child) { create(:work_package, project:, subject: 'Child WP', parent:, status: open_status) }
 
   before do
     with_enterprise_token :board_view
@@ -76,7 +76,7 @@ describe 'Subtasks action board', js: true do
   end
 
   context 'with all permissions' do
-    let!(:other_wp) { create :work_package, project:, subject: 'Other WP', status: open_status }
+    let!(:other_wp) { create(:work_package, project:, subject: 'Other WP', status: open_status) }
 
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
@@ -178,7 +178,7 @@ describe 'Subtasks action board', js: true do
   end
 
   describe 'with German language (regression #40031)' do
-    let!(:german_user) { create :admin, language: :de }
+    let!(:german_user) { create(:admin, language: :de) }
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
          edit_work_packages view_work_packages manage_public_queries]

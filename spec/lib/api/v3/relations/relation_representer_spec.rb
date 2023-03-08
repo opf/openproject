@@ -39,12 +39,12 @@ describe API::V3::Relations::RelationRepresenter do
   let(:delay) { 3 }
 
   let(:relation) do
-    build_stubbed :relation,
+    build_stubbed(:relation,
                   from:,
                   to:,
                   relation_type: type,
                   description:,
-                  delay:
+                  delay:)
   end
 
   let(:representer) { described_class.new relation, current_user: user }

@@ -81,7 +81,7 @@ describe HomescreenController do
       end
 
       context 'with enabled announcement' do
-        let!(:announcement) { create :active_announcement }
+        let!(:announcement) { create(:active_announcement) }
 
         it 'renders the announcement' do
           expect(response).to render_template(partial: 'announcements/_show')

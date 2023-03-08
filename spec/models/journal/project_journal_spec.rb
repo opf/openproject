@@ -43,7 +43,7 @@ RSpec.describe Journal::ProjectJournal do
 
       html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: true)
       expect(html).to eq('<strong>Identifier</strong> changed from <i>my-project</i> ' \
-                         '<strong>to</strong> <i>my-beautiful-project</i>')
+                         'to <i>my-beautiful-project</i>')
 
       html = journal.render_detail(['identifier', ['my-project', 'my-beautiful-project']], html: false)
       expect(html).to eq('Identifier changed from my-project to my-beautiful-project')
@@ -59,7 +59,7 @@ RSpec.describe Journal::ProjectJournal do
 
       html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: true)
       expect(html).to eq('<strong>Name</strong> changed from <i>Old Project Name</i> ' \
-                         '<strong>to</strong> <i>New Project Name</i>')
+                         'to <i>New Project Name</i>')
 
       html = journal.render_detail(['name', ['Old Project Name', 'New Project Name']], html: false)
       expect(html).to eq('Name changed from Old Project Name to New Project Name')
@@ -70,24 +70,24 @@ RSpec.describe Journal::ProjectJournal do
 
       # Set
       expect(journal.render_detail(['parent_id', [nil, parent.id]], html: true))
-        .to eq("<strong>Subproject of</strong> set to <i>#{parent.name}</i>")
+        .to eq("<strong>Subproject of</strong> <i>#{parent.name}</i>")
       expect(journal.render_detail(['parent_id', [nil, parent.id]], html: false))
-        .to eq("Subproject of set to #{parent.name}")
+        .to eq("Subproject of #{parent.name}")
 
       previous_parent = create(:project)
 
       # Change
       expect(journal.render_detail(['parent_id', [previous_parent.id, parent.id]], html: true))
-        .to eq('<strong>Subproject of</strong> changed ' \
-               "from <i>#{previous_parent.name}</i> <strong>to</strong> <i>#{parent.name}</i>")
+        .to eq('<strong>Subproject</strong> changed ' \
+               "from <i>#{previous_parent.name}</i> to <i>#{parent.name}</i>")
       expect(journal.render_detail(['parent_id', [previous_parent.id, parent.id]], html: false))
-        .to eq("Subproject of changed from #{previous_parent.name} to #{parent.name}")
+        .to eq("Subproject changed from #{previous_parent.name} to #{parent.name}")
 
       # Delete
       expect(journal.render_detail(['parent_id', [parent.id, nil]], html: true))
-        .to eq("<strong>Subproject of</strong> deleted (<strike><i>#{parent.name}</i></strike>)")
+        .to eq("<strong>No longer subproject of</strong> <i>#{parent.name}</i>")
       expect(journal.render_detail(['parent_id', [parent.id, nil]], html: false))
-        .to eq("Subproject of deleted (#{parent.name})")
+        .to eq("No longer subproject of #{parent.name}")
     end
   end
 end

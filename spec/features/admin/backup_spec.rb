@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe 'backup', js: true do
   let(:current_user) do
-    create :user,
+    create(:user,
            global_permissions: [:create_backup],
            password: user_password,
-           password_confirmation: user_password
+           password_confirmation: user_password)
   end
-  let!(:backup_token) { create :backup_token, user: current_user }
+  let!(:backup_token) { create(:backup_token, user: current_user) }
   let(:user_password) { "adminadmin!" }
 
   before do

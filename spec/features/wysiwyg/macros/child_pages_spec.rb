@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Wysiwyg child pages spec',
          js: true do
   let(:project) do
-    create :project,
-           enabled_module_names: %w[wiki]
+    create(:project,
+           enabled_module_names: %w[wiki])
   end
   let(:editor) { Components::WysiwygEditor.new }
   let(:role) { create(:role, permissions: %i[view_wiki_pages edit_wiki_pages]) }
@@ -41,21 +41,21 @@ describe 'Wysiwyg child pages spec',
   end
 
   let(:wiki_page) do
-    create :wiki_page,
+    create(:wiki_page,
            title: 'Test',
-           content: build(:wiki_content, text: '# My page')
+           content: build(:wiki_content, text: '# My page'))
   end
 
   let(:parent_page) do
-    create :wiki_page,
+    create(:wiki_page,
            title: 'Parent page',
-           content: build(:wiki_content, text: '# parent page')
+           content: build(:wiki_content, text: '# parent page'))
   end
 
   let(:child_page) do
-    create :wiki_page,
+    create(:wiki_page,
            title: 'Child page',
-           content: build(:wiki_content, text: '# child page')
+           content: build(:wiki_content, text: '# child page'))
   end
 
   before do

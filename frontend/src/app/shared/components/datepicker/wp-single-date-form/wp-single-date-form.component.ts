@@ -73,8 +73,8 @@ import { DateModalSchedulingService } from '../services/date-modal-scheduling.se
   selector: 'op-wp-single-date-form',
   templateUrl: './wp-single-date-form.component.html',
   styleUrls: [
+    './wp-single-date-form.component.sass',
     '../styles/datepicker.modal.sass',
-    '../styles/datepicker_mobile.modal.sass',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -84,7 +84,7 @@ import { DateModalSchedulingService } from '../services/date-modal-scheduling.se
   ],
 })
 export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements AfterViewInit, OnInit {
-  @HostBinding('class.op-datepicker-modal') className = true;
+  @HostBinding('class.op-wp-single-date-form') className = true;
 
   @Input('value') value = '';
 

@@ -2,21 +2,21 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report calculations', js: true do
-  let(:project) { create :project }
-  let(:user) { create :admin }
+  let(:project) { create(:project) }
+  let(:user) { create(:admin) }
 
-  let(:work_package) { create :work_package, project: }
-  let!(:hourly_rate1) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
+  let(:work_package) { create(:work_package, project:) }
+  let!(:hourly_rate1) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 
   let!(:time_entry1) do
-    create :time_entry,
+    create(:time_entry,
            spent_on: 6.months.ago,
            user:,
            work_package:,
            project:,
-           hours: 10
+           hours: 10)
   end
 
   before do

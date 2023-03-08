@@ -55,4 +55,18 @@ describe Journal do
         .to change(Notification, :count).from(1).to(0)
     end
   end
+
+  describe '#create' do
+    context 'without a data foreign key' do
+      subject { create(:work_package_journal, data: nil) }
+
+      it 'raises an error and does not create a database record' do
+        expect { subject }
+          .to raise_error(ActiveRecord::NotNullViolation)
+
+        expect(described_class.count)
+          .to eq 0
+      end
+    end
+  end
 end

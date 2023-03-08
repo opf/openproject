@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Top menu items', js: true do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -78,7 +78,7 @@ describe 'Top menu items', js: true do
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays reporting item' do
         has_menu_items?(reporting_item)

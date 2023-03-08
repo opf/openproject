@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'form configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: }
+  let(:project) { create(:project, types: [type]) }
+  let(:category) { create(:category, project:) }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            done_ratio: 10,
-           category:
+           category:)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -351,9 +351,9 @@ describe 'form configuration', js: true do
 
       context 'if active in project' do
         let(:project) do
-          create :project,
+          create(:project,
                  types: [type],
-                 work_package_custom_fields: custom_fields
+                 work_package_custom_fields: custom_fields)
         end
 
         it 'can be added to type and is visible' do

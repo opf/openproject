@@ -78,6 +78,10 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     return this.currentDirectory.id as string;
   }
 
+  public get filesAtLocation():IStorageFile[] {
+    return this.storageFiles$.getValue();
+  }
+
   public get canChooseLocation():boolean {
     if (!this.currentDirectory) {
       return false;

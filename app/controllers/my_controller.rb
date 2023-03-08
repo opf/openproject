@@ -149,18 +149,14 @@ class MyController < ApplicationController
   end
 
   def write_settings
-    user_params = permitted_params.my_account_settings
-
     result = Users::UpdateService
              .new(user: current_user, model: current_user)
-             .call(user_params.to_h)
+             .call(user_params)
 
     if result&.success
-      flash[:notice] = t(:notice_account_updated)
+      flash[:notice] = notice_account_updated
     else
-      errors = result ? result.errors.full_messages.join("\n") : ''
-      flash[:error] = [t(:notice_account_update_failed)]
-      flash[:error] << errors
+      flash[:error] = error_account_update_failed(result)
     end
 
     redirect_back(fallback_location: my_account_path)
@@ -170,6 +166,21 @@ class MyController < ApplicationController
 
   def has_tokens?
     Setting.feeds_enabled? || Setting.rest_api_enabled?
+  end
+
+  def user_params
+    permitted_params.my_account_settings.to_h
+  end
+
+  def notice_account_updated
+    OpenProject::LocaleHelper.with_locale_for(current_user) do
+      t(:notice_account_updated)
+    end
+  end
+
+  def error_account_update_failed(result)
+    errors = result ? result.errors.full_messages.join("\n") : ''
+    [t(:notice_account_update_failed), errors]
   end
 
   def set_current_user

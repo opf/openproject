@@ -4,7 +4,7 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'activity comments', js: true, with_mail: false do
-  let(:project) { create :project, public: true }
+  let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -25,7 +25,7 @@ describe 'activity comments', js: true, with_mail: false do
   end
 
   context 'with permission' do
-    let(:current_user) { create :admin }
+    let(:current_user) { create(:admin) }
 
     before do
       wp_page.visit!
@@ -285,7 +285,7 @@ describe 'activity comments', js: true, with_mail: false do
 
   context 'with no permission' do
     let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages)) }
 
     before do
       wp_page.visit!
