@@ -128,7 +128,7 @@ module Components
         elsif value
           expect_value(id, Array(value))
         else
-          expect(page).to have_no_selector("#values-#{id}")
+          expect(page).not_to have_selector("#values-#{id}")
         end
       end
 
@@ -148,8 +148,8 @@ module Components
         id = selector || name.downcase
 
         retry_block do
-          page.raise_if_found_select("operators-#{id}")
-          page.raise_if_found_select("values-#{id}")
+          expect(page).not_to have_select("operators-#{id}")
+          expect(page).not_to have_select("values-#{id}")
         end
       end
 
@@ -164,20 +164,23 @@ module Components
       end
 
       def open_autocompleter(id)
-        input = page.all("#filter_#{id} .advanced-filters--filter-value .ng-input input").first
-
-        if input
-          input.click
-          input
-        end
+        with_filter_input_element(id, &:click)
       end
 
       def close_autocompleter(id)
-        input = open_autocompleter(id)
-        input&.send_keys :escape
+        with_filter_input_element(id) do |input|
+          input.send_keys :escape
+        end
       end
 
       protected
+
+      def with_filter_input_element(id)
+        filter_value_element = page.find("#filter_#{id} .advanced-filters--filter-value", match: :first)
+        return unless filter_value_element.has_selector?(".ng-input input", wait: false)
+
+        yield filter_value_element.find(".ng-input input")
+      end
 
       def filter_button
         find(button_selector)
@@ -193,6 +196,7 @@ module Components
 
       def set_value(id, value)
         retry_block do
+          # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
           if filter_element.has_selector?("[data-qa-selector='op-multi-date-picker']", wait: false)
             datepicker = Components::WorkPackageDatepicker.new
@@ -221,9 +225,11 @@ module Components
       end
 
       def expect_missing_value(id, value)
-        if page.has_selector?("#filter_#{id} .ng-select-container")
+        # wait for filter to be present
+        filter_element = page.find("#filter_#{id}")
+        if filter_element.has_selector?(".ng-select-container", wait: false)
           Array(value).each do |val|
-            dropdown = search_autocomplete page.find("#filter_#{id}"),
+            dropdown = search_autocomplete filter_element,
                                            query: val,
                                            results_selector: '.ng-dropdown-panel-items'
             expect(dropdown).not_to have_selector('.ng-option', text: val)
@@ -232,8 +238,9 @@ module Components
       end
 
       def expect_value_placeholder(id)
-        if page.has_selector?("#filter_#{id} .ng-select-container")
-          expect(page).to have_selector("#filter_#{id} .ng-placeholder", text: I18n.t('js.placeholders.selection'))
+        filter_element = page.find("#filter_#{id}")
+        if filter_element.has_selector?(".ng-select-container", wait: false)
+          expect(filter_element).to have_selector(".ng-placeholder", text: I18n.t('js.placeholders.selection'))
         else
           raise "Non ng-select may not have placeholders currently"
         end
@@ -245,15 +252,17 @@ module Components
             value.each do |v|
               expect(page).to have_selector("#values-#{id} .ng-value-label", text: v)
             end
-          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']")
+          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']", wait: false)
+            expected_value =
+              if value[1]
+                "#{value[0]} - #{value[1]}"
+              elsif value[0]
+                value[0].to_s
+              else
+                "-"
+              end
             input = page.find("#filter_#{id} [data-qa-selector='op-multi-date-picker'] input")
-            if value[1]
-              expect(input.value).to eql("#{value[0]} - #{value[1]}")
-            elsif value[0]
-              expect(input.value).to eql("#{value[0]}")
-            else
-              expect(input.value).to eql("-")
-            end
+            expect(input.value).to eql(expected_value)
           else
             page.all('input').each_with_index do |input, index|
               expect(input.value).to eql(value[index])
