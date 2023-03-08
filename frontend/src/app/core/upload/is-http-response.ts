@@ -26,15 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 
-export interface UploadData {
-  file:File;
-  location:string;
-  overwrite:boolean|null;
-}
-
-export interface LocationData {
-  location:string;
-  files:IStorageFile[];
+export default function isHttpResponse<T>(event:HttpEvent<T>):event is HttpResponse<T> {
+  return event.type === HttpEventType.Response;
 }

@@ -26,15 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { forkJoin, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 
-export interface UploadData {
-  file:File;
-  location:string;
-  overwrite:boolean|null;
-}
+import isHttpResponse from 'core-app/core/upload/is-http-response';
 
-export interface LocationData {
-  location:string;
-  files:IStorageFile[];
+export default function waitForUploadsFinished<T>(uploads:Observable<HttpEvent<T>>[]):Observable<HttpResponse<T>[]> {
+  return forkJoin(
+    uploads.map((o) => o.pipe(filter(isHttpResponse))),
+  );
 }

@@ -26,15 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { forkJoin, Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { input, State } from 'reactivestates';
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpEventType } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
+import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 import {
   IHalErrorBase,
   IHalMultipleError,
@@ -144,15 +145,14 @@ export class ToastService {
     return this.add(this.createAttachmentUploadToast(message, uploads));
   }
 
-  public addUpload(message:string, uploads:[[File, Observable<HttpEvent<unknown>>]]):IToast {
+  public addUpload(message:string, uploads:[File, Observable<HttpEvent<unknown>>][]):IToast {
     const notification = this.add({
       data: uploads,
       type: 'upload',
       message,
     });
 
-    const observables = uploads.map((o) => o[1].pipe(filter((ev) => ev.type === HttpEventType.Response)));
-    forkJoin(observables)
+    waitForUploadsFinished(uploads.map((o) => o[1]))
       .pipe(take(1))
       .subscribe(() => {
         setTimeout(() => this.remove(notification), 700);

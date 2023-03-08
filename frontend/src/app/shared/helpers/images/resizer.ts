@@ -47,16 +47,16 @@ export function resizeImage(maxSize:number, image:HTMLImageElement):[string, Upl
 /**
  * Resize a file input to the given max dimension, returning the data URL and a blob
  *
- * @param {maxSize} Max width or height
- * @param {File} Input file
+ * @param maxSize Max width or height
+ * @param file Input file
  */
 export function resizeFile(maxSize:number, file:File):Promise<[string, UploadBlob]> {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onload = (readerEvent:any) => {
+    reader.onload = (readerEvent:ProgressEvent<FileReader>) => {
       const image = new Image();
       image.onload = () => resolve(resizeImage(maxSize, image));
-      image.src = readerEvent.target.result;
+      image.src = readerEvent.target?.result as string;
     };
     reader.readAsDataURL(file);
   });

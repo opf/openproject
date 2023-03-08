@@ -26,15 +26,47 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 
-export interface UploadData {
-  file:File;
-  location:string;
-  overwrite:boolean|null;
+import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
+
+export interface AvatarUploadFile extends IUploadFile {
+  method:string;
 }
 
-export interface LocationData {
-  location:string;
-  files:IStorageFile[];
+@Injectable()
+export class AvatarUploadService extends OpUploadService {
+  constructor(
+    private readonly http:HttpClient,
+  ) {
+    super();
+  }
+
+  public upload<T>(
+    href:string,
+    uploadFiles:AvatarUploadFile[],
+  ):Observable<HttpEvent<T>>[] {
+    return uploadFiles.map((file) => this.uploadSingle(href, file));
+  }
+
+  private uploadSingle<T>(href:string, uploadFile:AvatarUploadFile):Observable<HttpEvent<T>> {
+    const body = new FormData();
+    body.append('metadata', JSON.stringify({ fileName: uploadFile.file.name }));
+    body.append('file', uploadFile.file, uploadFile.file.name);
+
+    return this.http.request(
+      uploadFile.method,
+      href,
+      {
+        body,
+        observe: 'events',
+        withCredentials: true,
+        responseType: 'text',
+        reportProgress: true,
+      },
+    ).pipe(share()) as Observable<HttpEvent<T>>;
+  }
 }
