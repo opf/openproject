@@ -164,22 +164,22 @@ module Components
       end
 
       def open_autocompleter(id)
-        with_filter_input_element(id, &:click)
+        with_filter_input(id, &:click)
       end
 
       def close_autocompleter(id)
-        with_filter_input_element(id) do |input|
+        with_filter_input(id) do |input|
           input.send_keys :escape
         end
       end
 
       protected
 
-      def with_filter_input_element(id)
-        filter_value_element = page.find("#filter_#{id} .advanced-filters--filter-value", match: :first)
-        return unless filter_value_element.has_selector?(".ng-input input", wait: false)
+      def with_filter_input(id)
+        filter_element = page.find("#filter_#{id}", match: :first)
+        return if filter_element.has_no_selector?(".advanced-filters--filter-value .ng-input input", wait: false)
 
-        yield filter_value_element.find(".ng-input input")
+        yield filter_element.find(".ng-input input")
       end
 
       def filter_button
