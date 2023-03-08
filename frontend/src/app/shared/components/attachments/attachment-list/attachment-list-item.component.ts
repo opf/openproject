@@ -167,6 +167,13 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
     return el;
   }
 
+  public get linkHref():string {
+    if (this.attachment._links.originOpen !== undefined) {
+      return this.attachment._links.originOpen.href;
+    }
+    return this.attachment._links.staticDownloadLocation.href;
+  }
+
   private get downloadPath():string {
     return this.pathHelper.attachmentDownloadPath(String(this.attachment.id), this.attachment.fileName);
   }

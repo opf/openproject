@@ -40,6 +40,7 @@ export interface IAttachmentHalResourceLinks extends IHalResourceLinks {
   author:IHalResourceLink;
   downloadLocation:IHalResourceLink;
   staticDownloadLocation:IHalResourceLink;
+  originOpen:IHalResourceLink;
 }
 
 export interface IAttachment {
