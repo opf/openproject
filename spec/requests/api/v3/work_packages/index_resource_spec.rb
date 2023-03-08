@@ -741,6 +741,37 @@ describe 'API v3 Work package resource',
         end
       end
 
+      describe "for a milestone typed work package" do
+        let(:type) { create(:type_milestone) }
+        let(:original_date) { Date.current }
+        let(:current_date) { Date.current + 1.day }
+
+        let(:work_package) do
+          new_work_package = create(:work_package, due_date: current_date, start_date: current_date, project:, type:)
+          new_work_package.update_columns(created_at:)
+          new_work_package
+        end
+
+        let(:original_journal) do
+          create_journal(journable: work_package,
+                         timestamp: created_at,
+                         version: 1,
+                         attributes: { due_date: original_date, start_date: original_date, duration: 1 })
+        end
+        let(:current_journal) do
+          create_journal(journable: work_package,
+                         timestamp: 1.day.ago,
+                         version: 2,
+                         attributes: { due_date: current_date, start_date: current_date, duration: 1 })
+        end
+
+        it 'displays the original date in the attributesByTimestamp' do
+          expect(subject.body)
+            .to be_json_eql(original_date.to_json)
+                  .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/date")
+        end
+      end
+
       context "with caching" do
         context "with relative timestamps" do
           let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
