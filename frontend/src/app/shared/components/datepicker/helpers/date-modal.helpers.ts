@@ -73,13 +73,30 @@ export function keepCurrentlyActiveMonth(datePicker:DatePicker, currentMonth:num
   datePicker.datepickerInstance.currentYear = currentYear;
 }
 
+export function comparableDate(date?:DateOption):number|null {
+  if (!date || typeof date === 'string') {
+    return null;
+  }
+
+  if (typeof date === 'number') {
+    return date;
+  }
+
+  return date.getTime();
+}
+
 export function setDates(dates:DateOption|DateOption[], datePicker:DatePicker, enforceDate?:Date):void {
   const { currentMonth, currentYear, selectedDates } = datePicker.datepickerInstance;
 
-  const [newStart, newEnd] = _.castArray(dates) as Date[];
+  const [newStart, newEnd] = _.castArray(dates);
   const [selectedStart, selectedEnd] = selectedDates;
 
-  if (newStart.getTime() === selectedStart.getTime() && (newEnd === selectedEnd || !!newEnd === !!selectedEnd)) {
+  // In case the new times match the current times, do not try to update
+  // the current selected months (Regression #46488)
+  if (selectedDates.length > 0
+    && comparableDate(newStart) === comparableDate(selectedStart)
+    && comparableDate(newEnd) === comparableDate(selectedEnd)
+  ) {
     return;
   }
 
