@@ -81,10 +81,10 @@ module Calendar
     end
     
     def due_date(work_package)
-      if work_package.start_date.present?
+      if work_package.due_date.present?
         work_package.due_date + 1.day
       else
-        work_package.due_date + 1.day
+        work_package.start_date + 1.day
       end
     end
 

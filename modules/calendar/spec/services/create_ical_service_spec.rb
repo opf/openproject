@@ -40,6 +40,10 @@ describe Calendar::CreateIcalService, type: :model do
     create(:work_package, project: project, 
       due_date: Date.today+7.days) 
   end
+  let(:work_package_with_start_date) do 
+    create(:work_package, project: project, 
+      start_date: Date.today+14.days) 
+  end
   let(:work_package_with_start_and_due_date) do 
     create(:work_package, project: project, 
       start_date: Date.tomorrow, due_date: Date.today+7.days) 
@@ -52,6 +56,7 @@ describe Calendar::CreateIcalService, type: :model do
     [
       work_package_without_dates,
       work_package_with_due_date,
+      work_package_with_start_date,
       work_package_with_start_and_due_date,
       work_package_with_due_date_and_assignee
     ]
@@ -88,6 +93,16 @@ DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_du
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_due_date.name}
+END:VEVENT
+BEGIN:VEVENT
+DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+UID:#{work_package_with_start_date.id}@localhost:3000
+DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
+DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date+1.day).strftime('%Y%m%d')}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\nWork package description: #{work_package_with_start_date.description}
+LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
+ORGANIZER:Bob Bobbit
+SUMMARY:#{work_package_with_start_date.name}
 END:VEVENT
 BEGIN:VEVENT
 DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
