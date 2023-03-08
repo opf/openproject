@@ -50,7 +50,7 @@ class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
 
   def apply_change_to_work_package(user, work_package)
     WorkPackages::UpdateService
-      .new(user:, model: work_package, contract_class: EmptyContract)
+      .new(user:, model: work_package, contract_class: EmptyContract, contract_options: { skip_journal_notes: true })
       .call(duration: work_package.duration) # trigger a recomputation of start and due date
       .all_results
   end

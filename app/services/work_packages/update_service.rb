@@ -125,7 +125,9 @@ class WorkPackages::UpdateService < ::BaseServices::Update
            work_package: work_packages)
       .call(work_package.saved_changes.keys.map(&:to_sym))
 
-    set_journal_note(work_package, results.dependent_results)
+    unless contract_options[:skip_journal_notes]
+      set_journal_note(work_package, results.dependent_results)
+    end
 
     results
   end
