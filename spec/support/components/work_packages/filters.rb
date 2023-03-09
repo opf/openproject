@@ -147,10 +147,8 @@ module Components
       def expect_no_filter_by(name, selector = nil)
         id = selector || name.downcase
 
-        retry_block do
-          expect(page).not_to have_select("operators-#{id}")
-          expect(page).not_to have_select("values-#{id}")
-        end
+        expect(page).not_to have_select("operators-#{id}")
+        expect(page).not_to have_select("values-#{id}")
       end
 
       def expect_filter_order(name, values, selector = nil)
