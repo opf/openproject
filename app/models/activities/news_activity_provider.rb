@@ -40,7 +40,7 @@ class Activities::NewsActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_title(event)
-    "#{I18n.t(:project_module_news)}: #{event['title']} "
+    "#{I18n.t(:project_module_news)}: #{event['title']}"
   end
 
   def event_type(_event)
