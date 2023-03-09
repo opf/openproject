@@ -48,6 +48,10 @@ class News < ApplicationRecord
 
   acts_as_watchable
 
+  register_journal_formatted_fields(:plaintext, 'title')
+  register_journal_formatted_fields(:plaintext, 'summary')
+  register_journal_formatted_fields(:diff, 'description')
+
   after_create :add_author_as_watcher
 
   scope :visible, ->(*args) do
