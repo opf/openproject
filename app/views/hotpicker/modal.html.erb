@@ -1,0 +1,20 @@
+<%= turbo_frame_tag "modal" do %>
+<form
+  class="spot-modal"
+  data-controller="datepicker"
+>
+  <div class="spot-modal--header">Datepicker</div>
+
+  <div class="spot-divider"></div>
+
+  <div class="spot-modal--body spot-container">
+    <div class="hotpicker--date-fields">
+      <input name="start"/>
+      <input name="end"/>
+      <input name="duration"/>
+    </div>
+    <div class="hotpicker--flatpickr">
+    </div>
+  </div>
+</form>
+<% end %>

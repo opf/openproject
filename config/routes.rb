@@ -577,6 +577,11 @@ OpenProject::Application.routes.draw do
     end
   end
   resources :hot_messages
+  resource :hotpicker, controller: :hotpicker do
+    get :index
+    get :modal
+  end
+
   # scope :notifications do
   #   get '(/*state)', to: 'angular#notifications_layout', as: :notifications_center
   # end
