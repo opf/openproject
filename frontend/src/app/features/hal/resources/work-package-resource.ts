@@ -35,7 +35,6 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
@@ -142,8 +141,6 @@ export class WorkPackageBaseResource extends HalResource {
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
 
   @InjectField() pathHelper:PathHelperService;
-
-  @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
 

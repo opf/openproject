@@ -34,7 +34,6 @@ import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 import {
   IHalErrorBase,
@@ -141,11 +140,11 @@ export class ToastService {
     return this.add(this.createToast(message, 'info'));
   }
 
-  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {
-    return this.add(this.createAttachmentUploadToast(message, uploads));
-  }
-
   public addUpload(message:string, uploads:[File, Observable<HttpEvent<unknown>>][]):IToast {
+    if (!uploads.length) {
+      throw new Error('Cannot create an upload toast without uploads!');
+    }
+
     const notification = this.add({
       data: uploads,
       type: 'upload',
@@ -185,17 +184,6 @@ export class ToastService {
         link: toast.link,
         data: toast.data,
       };
-  }
-
-  private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
-    if (!uploads.length) {
-      throw new Error('Cannot create an upload toast without uploads!');
-    }
-
-    const toast = this.createToast(message, 'upload');
-    toast.data = uploads;
-
-    return toast;
   }
 
   private createLoadingToast(message:IToast|string, observable:Observable<unknown>) {

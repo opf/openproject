@@ -76,7 +76,6 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import {
   RevitAddInSettingsButtonService,
 } from 'core-app/features/bim/revit_add_in/revit-add-in-settings-button.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openproject-enterprise.module';
 import { MainMenuToggleComponent } from 'core-app/core/main-menu/main-menu-toggle.component';
 import { MainMenuNavigationService } from 'core-app/core/main-menu/main-menu-navigation.service';
@@ -109,7 +108,6 @@ import {
   OpenProjectInAppNotificationsModule,
 } from 'core-app/features/in-app-notifications/in-app-notifications.module';
 import { OpenProjectBackupService } from './core/backup/op-backup.service';
-import { OpenProjectDirectFileUploadService } from './core/file-upload/op-direct-file-upload.service';
 import { OpenProjectStateModule } from 'core-app/core/state/openproject-state.module';
 import {
   OpenprojectContentLoaderModule,
@@ -239,8 +237,6 @@ export function initializeServices(injector:Injector) {
     },
     PaginationService,
     OpenProjectBackupService,
-    OpenProjectFileUploadService,
-    OpenProjectDirectFileUploadService,
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
   ],
