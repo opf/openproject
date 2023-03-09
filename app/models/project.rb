@@ -79,11 +79,13 @@ class Project < ApplicationRecord
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
   # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields,
-                          -> { order("#{CustomField.table_name}.position") },
-                          class_name: 'WorkPackageCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          association_foreign_key: 'custom_field_id'
+  has_many :custom_fields_projects,
+           dependent: :destroy
+  has_many :work_package_custom_fields,
+           -> { order("#{CustomField.table_name}.position") },
+           through: :custom_fields_projects,
+           class_name: 'WorkPackageCustomField',
+           source: :custom_field
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
