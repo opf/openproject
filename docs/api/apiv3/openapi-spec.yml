@@ -44,7 +44,7 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
+    in the [Collections Section](https://www.openproject.org/docs/api/collections/).
 
     ## Authentication
 
