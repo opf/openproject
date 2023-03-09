@@ -44,7 +44,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).not_to have_selector(selector)
       end
 
       def expect_text(text)

@@ -52,7 +52,7 @@ module Components
       end
 
       def expect_closed
-        page.raise_if_found(autocompleter_selector)
+        expect(page).not_to have_selector(autocompleter_selector)
       end
 
       def search(query)

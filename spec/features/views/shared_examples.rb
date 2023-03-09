@@ -22,14 +22,13 @@ shared_examples 'module specific query view management' do
 
       # Save as another query
       query_title.expect_changed
-      settings_menu.open_and_choose 'Save as ...'
-      fill_in 'save-query-name', with: 'My second query'
-      click_button 'Save'
-
+      settings_menu.open_and_save_query_as 'My second query'
       query_title.expect_not_changed
       query_title.expect_title 'My second query'
       query_menu.expect_menu_entry 'My second query'
       query_menu.expect_menu_entry 'My first query'
+
+      module_page.expect_and_dismiss_toaster
 
       # Rename a query
       settings_menu.open_and_choose 'Rename view ...'
