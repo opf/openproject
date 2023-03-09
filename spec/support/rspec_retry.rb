@@ -72,6 +72,6 @@ end
 def backtrace_up_to_spec_file(exception)
   exception.backtrace
     .filter { |line| line.start_with?(Rails.root.to_s) }
-    .take_while { |line| line.exclude?('/bin/rspec:') }
     .grep_v(%r[/spec/support/shared/with_(mail|direct_uploads)])
+    .grep_v(%r[#{Rails.root.join('bin')}])
 end
