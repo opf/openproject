@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::SetAttributesService < ::BaseServices::SetAttributes
+class Storages::FileLinks::SetAttributesService < BaseServices::SetAttributes
   def set_default_attributes(_params)
     model.creator ||= user
   end

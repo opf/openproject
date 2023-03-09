@@ -34,8 +34,7 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'New work package datepicker',
-         with_settings: { date_format: '%Y-%m-%d' },
-         js: true, selenium: true do
+         js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
   let(:project) { create(:project_with_types, public: true) }
   let(:user) { create(:admin) }
 

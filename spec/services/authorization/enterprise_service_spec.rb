@@ -58,7 +58,7 @@ describe Authorization::EnterpriseService do
       let(:expired) { true }
 
       it 'returns a false result' do
-        expect(result).to be_kind_of ServiceResult
+        expect(result).to be_a ServiceResult
         expect(result.result).to be_falsey
         expect(result.success?).to be_falsey
       end
@@ -83,7 +83,7 @@ describe Authorization::EnterpriseService do
           let(:action) { guarded_action }
 
           it 'returns a true result' do
-            expect(result).to be_kind_of ServiceResult
+            expect(result).to be_a ServiceResult
             expect(result.result).to be_truthy
             expect(result.success?).to be_truthy
           end

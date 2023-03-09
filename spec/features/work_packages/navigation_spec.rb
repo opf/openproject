@@ -173,7 +173,7 @@ describe 'Work package navigation', js: true, selenium: true do
     work_package.save!
     visit search_path(q: 'Foo', work_packages: 1, scope: :all)
 
-    table = Pages::EmbeddedWorkPackagesTable.new page.find('#content')
+    table = Pages::EmbeddedWorkPackagesTable.new page.find_by_id('content')
     table.expect_work_package_listed work_package
     full_page = table.open_full_screen_by_doubleclick work_package
 

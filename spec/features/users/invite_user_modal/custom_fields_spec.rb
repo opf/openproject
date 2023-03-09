@@ -36,8 +36,8 @@ describe 'Invite user modal custom fields', js: true do
   let(:principal) { build(:invited_user) }
   let(:modal) do
     Components::Users::InviteUserModal.new project:,
-                                             principal:,
-                                             role:
+                                           principal:,
+                                           role:
   end
   let!(:role) do
     create(:role,
@@ -101,7 +101,7 @@ describe 'Invite user modal custom fields', js: true do
       expect(page).to have_text "Multi list can't be blank."
 
       # Does not show the non req field
-      expect(page).to have_no_text non_req_cf.name
+      expect(page).not_to have_text non_req_cf.name
     end
 
     # Fill all fields

@@ -33,7 +33,7 @@ module Components
     end
 
     def expect_no_viewpoint_addable
-      expect(page).to have_no_selector('a.button', text: 'Viewpoint')
+      expect(page).not_to have_selector('a.button', text: 'Viewpoint')
     end
 
     def next_viewpoint

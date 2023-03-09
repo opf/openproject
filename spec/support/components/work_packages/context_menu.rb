@@ -52,7 +52,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).not_to have_selector(selector)
       end
 
       def choose(target)
@@ -62,7 +62,7 @@ module Components
       def expect_no_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_no_selector("#{selector} .menu-item", text:)
+          expect(page).not_to have_selector("#{selector} .menu-item", text:)
         end
       end
 

@@ -2,13 +2,12 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA remember cookie',
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: {
              active_strategies: [:developer],
              allow_remember_for_days: 30
            }
-         },
-         js: true do
+         } do
   let(:user_password) do
     "user!user!"
   end
@@ -52,7 +51,7 @@ describe 'Login with 2FA remember cookie',
           } do
     it 'does not show the save form' do
       first_login_step
-      expect(page).to have_no_selector('input#remember_me')
+      expect(page).not_to have_selector('input#remember_me')
     end
   end
 
@@ -63,7 +62,7 @@ describe 'Login with 2FA remember cookie',
 
       find('.two-factor-authentication--remove-remember-cookie-link').click
       expect(page).to have_selector('.flash.notice')
-      expect(page).to have_no_selector('.two-factor-authentication--remove-remember-cookie-link')
+      expect(page).not_to have_selector('.two-factor-authentication--remove-remember-cookie-link')
 
       # Log out and in again
       visit '/logout'

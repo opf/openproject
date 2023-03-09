@@ -109,7 +109,7 @@ describe LdapGroups::SynchronizedGroup do
 
       context 'when the service call fails for any reason' do
         let(:service) { instance_double(Groups::UpdateService) }
-        let(:failure_result) { ServiceResult.new(success: false, message: 'oh noes') }
+        let(:failure_result) { ServiceResult.failure(message: 'oh noes') }
 
         it 'does not commit the changes' do
           allow(Groups::UpdateService).to receive(:new).and_return(service)

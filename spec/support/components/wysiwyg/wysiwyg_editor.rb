@@ -51,7 +51,7 @@ module Components
     end
 
     def expect_no_button(label)
-      expect(container).to have_no_selector('.ck-button', visible: :all, text: label)
+      expect(container).not_to have_selector('.ck-button', visible: :all, text: label)
     end
 
     def expect_value(value)
@@ -60,7 +60,7 @@ module Components
 
     def expect_supports_no_macros
       expect(container)
-          .to have_no_selector('.ck-button', visible: :all, text: 'Macros')
+          .not_to have_selector('.ck-button', visible: :all, text: 'Macros')
     end
 
     def within_enabled_preview
@@ -94,7 +94,7 @@ module Components
         expect(page)
             .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        expect(page).to have_no_selector('op-toasters-upload-progress', wait: 5)
+        expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
 
         # Get the image uploaded last. As there is no way to distinguish between
         # two uploaded images, from the perspective of the user, we do it by getting

@@ -135,11 +135,11 @@ describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_ma
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
@@ -166,11 +166,11 @@ describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_ma
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)

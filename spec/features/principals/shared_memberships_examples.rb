@@ -73,8 +73,8 @@ shared_examples 'global user principal membership management flows' do |permissi
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).to have_no_selector('#membership_project_id option', text: project.name, visible: :all)
-        expect(page).to have_no_selector('#membership_project_id option', text: project2.name, visible: :all)
+        expect(page).not_to have_selector('#membership_project_id option', text: project.name, visible: :all)
+        expect(page).not_to have_selector('#membership_project_id option', text: project2.name, visible: :all)
       end
 
       it 'does not show the membership' do
@@ -87,10 +87,10 @@ shared_examples 'global user principal membership management flows' do |permissi
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).to have_no_selector('tr.member')
+        expect(page).not_to have_selector('tr.member')
         expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).to have_no_text project2.name
-        expect(page).to have_no_text project2.name
+        expect(page).not_to have_text project2.name
+        expect(page).not_to have_text project2.name
       end
     end
   end
@@ -107,10 +107,10 @@ shared_examples 'global user principal membership management flows' do |permissi
       principal_page.visit!
       principal_page.open_projects_tab!
 
-      expect(page).to have_no_selector('tr.member')
+      expect(page).not_to have_selector('tr.member')
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_no_text project.name
-      expect(page).to have_no_text project2.name
+      expect(page).not_to have_text project.name
+      expect(page).not_to have_text project2.name
     end
   end
 
@@ -120,7 +120,7 @@ shared_examples 'global user principal membership management flows' do |permissi
     it 'returns an error' do
       principal_page.visit!
       expect(page).to have_text 'You are not authorized to access this page.'
-      expect(page).to have_no_text principal.name
+      expect(page).not_to have_text principal.name
     end
   end
 end

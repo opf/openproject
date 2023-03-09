@@ -59,7 +59,6 @@ describe OpenProject::Configuration, :settings_reset do
     subject { described_class.cache_store_configuration }
 
     context 'without cache store already set' do
-
       context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
         it 'changes the cache store' do
           expect(subject).to eq([:bar])

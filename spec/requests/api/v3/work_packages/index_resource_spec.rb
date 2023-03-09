@@ -121,6 +121,7 @@ describe 'API v3 Work package resource',
 
       context 'with the user not allowed to see work packages in general' do
         let(:non_member_permissions) { [] }
+
         before { get path }
 
         it_behaves_like 'unauthorized access'

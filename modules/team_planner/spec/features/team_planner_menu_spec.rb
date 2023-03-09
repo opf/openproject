@@ -76,7 +76,7 @@ describe 'Team planner sidemenu', js: true do
           click_link 'Team planners'
         end
 
-        expect(page).to have_no_selector('[data-qa-selector="team-planner--create-button"]')
+        expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
       end
     end
 

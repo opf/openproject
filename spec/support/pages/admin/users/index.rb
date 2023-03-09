@@ -48,7 +48,7 @@ module Pages
 
         def expect_non_listed
           expect(page)
-            .to have_no_selector('tr.user')
+            .not_to have_selector('tr.user')
 
           expect(page)
             .to have_selector('tr.generic-table--empty-row', text: 'There is currently nothing to display.')

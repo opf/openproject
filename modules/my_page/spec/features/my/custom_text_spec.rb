@@ -101,7 +101,7 @@ describe 'Custom text widget on my page', js: true do
 
     within custom_text_widget.area do
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
-      expect(page).to have_no_selector('notifications-upload-progress')
+      expect(page).not_to have_selector('notifications-upload-progress')
 
       field.save!
 
@@ -109,7 +109,7 @@ describe 'Custom text widget on my page', js: true do
         .to have_selector('#content img', count: 1)
 
       expect(page)
-        .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        .not_to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
     end
 
     # ensure no one but the page's user can see the uploaded attachment

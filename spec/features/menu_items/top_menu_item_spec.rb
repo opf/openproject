@@ -138,7 +138,7 @@ describe 'Top menu items', js: true, selenium: true do
 
       it 'does not display new_project' do
         expect(page).to have_selector('a.button', exact_text: all_projects)
-        expect(page).to have_no_selector('a.button', exact_text: add_project)
+        expect(page).not_to have_selector('a.button', exact_text: add_project)
       end
     end
 
@@ -147,7 +147,7 @@ describe 'Top menu items', js: true, selenium: true do
       let(:open_menu) { false }
 
       it 'does not show the menu' do
-        expect(page).to have_no_selector('#projects-menu')
+        expect(page).not_to have_selector('#projects-menu')
       end
     end
   end

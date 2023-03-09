@@ -25,7 +25,6 @@ describe Ldap::SynchronizeUsersService do
 
     context 'when user sync status is enabled',
             with_config: { ldap_users_sync_status: true } do
-
       it 'updates the attributes of those users' do
         subject
 
@@ -156,5 +155,4 @@ describe Ldap::SynchronizeUsersService do
       end
     end
   end
-
 end

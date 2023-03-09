@@ -29,9 +29,7 @@
 require_relative '../../spec_helper'
 
 describe 'BIM Revit Add-in navigation spec',
-         with_config: { edition: 'bim' },
-         js: true,
-         driver: :chrome_revit_add_in do
+         driver: :chrome_revit_add_in, js: true, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do

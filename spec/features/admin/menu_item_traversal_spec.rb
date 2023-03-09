@@ -45,7 +45,7 @@ describe 'Menu item traversal' do
       # using `controller_name` in `menu_controller.rb` has broken this example,
       # due to the plugin controller also being named 'admin' thus falling back to 'admin#index' => overview selected
       expect(page).to have_selector('.plugin-webhooks-menu-item.selected', text: 'Webhooks', wait: 5)
-      expect(page).to have_no_selector('.admin-overview-menu-item.selected')
+      expect(page).not_to have_selector('.admin-overview-menu-item.selected')
     end
   end
 
@@ -71,7 +71,7 @@ describe 'Menu item traversal' do
 
         expect(current_url).to include link
         expect(page).to have_http_status(:ok)
-        expect(page).to have_no_text(I18n.t(:notice_not_authorized))
+        expect(page).not_to have_text(I18n.t(:notice_not_authorized))
         expect(page).to have_selector '#menu-sidebar .selected'
       }
     end

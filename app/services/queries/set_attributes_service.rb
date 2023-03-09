@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::SetAttributesService < ::BaseServices::SetAttributes
+class Queries::SetAttributesService < BaseServices::SetAttributes
   def set_attributes(params)
     set_ordered_work_packages params.delete(:ordered_work_packages)
     super

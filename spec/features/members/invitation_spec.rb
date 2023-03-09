@@ -86,7 +86,7 @@ describe 'invite user via email', js: true do
 
       retry_block do
         click_on 'Add member'
-        find('#members_add_form')
+        find_by_id('members_add_form')
       end
 
       members_page.search_and_select_principal! 'hugo@openproject.com',

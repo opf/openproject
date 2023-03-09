@@ -4,7 +4,7 @@ require 'googleauth'
 module Redmine
   module Gmail
     class << self
-      def check(gmail_options={}, options={})
+      def check(gmail_options = {}, options = {})
         credentials = gmail_options[:credentials] || ""
         username = gmail_options[:user_id] || ""
         query = gmail_options[:query] || ""
@@ -39,7 +39,7 @@ module Redmine
         message_error(message_id, gmail, gmail_options)
       end
 
-      def message_received(message_id, gmail, gmail_options)
+      def message_received(message_id, gmail, _gmail_options)
         log_debug { "Message #{message_id} successfully received" }
 
         modify_request = Google::Apis::GmailV1::ModifyThreadRequest.new(remove_label_ids: ['UNREAD'])

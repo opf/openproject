@@ -15,7 +15,7 @@ describe 'Watcher tab', js: true, selenium: true do
        add_work_package_watchers)
   end
 
-  let(:watch_button) { find '#watch-button' }
+  let(:watch_button) { find_by_id 'watch-button' }
   let(:watchers_tab) { find('.op-tab-row--link_selected', text: 'WATCHERS') }
 
   def expect_button_is_watching
@@ -34,7 +34,7 @@ describe 'Watcher tab', js: true, selenium: true do
     it 'watching the WP modifies the watcher list' do
       # Expect WP watch button is in not-watched state
       expect_button_is_not_watching
-      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-watcher-name"]')
       watch_button.click
 
       # Expect WP watch button causes watcher list to add user
@@ -44,7 +44,7 @@ describe 'Watcher tab', js: true, selenium: true do
       # Expect WP unwatch button causes watcher list to remove user
       watch_button.click
       expect_button_is_not_watching
-      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-watcher-name"]')
     end
   end
 
@@ -79,7 +79,7 @@ describe 'Watcher tab', js: true, selenium: true do
       tabs.expect_no_counter(watchers_tab)
 
       # Expect the removal of the user to toggle WP watch button
-      expect(page).to have_no_selector('[data-qa-selector="op-wp-watcher-name"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-watcher-name"]')
       expect_button_is_not_watching
     end
 
@@ -98,7 +98,7 @@ describe 'Watcher tab', js: true, selenium: true do
                                               results_selector: 'body'
 
         expect(target_dropdown).to have_selector(".ng-option", text: html_user.firstname)
-        expect(target_dropdown).to have_no_selector(".ng-option em")
+        expect(target_dropdown).not_to have_selector(".ng-option em")
       end
     end
 
@@ -158,7 +158,7 @@ describe 'Watcher tab', js: true, selenium: true do
                                             results_selector: 'body'
 
       expect(target_dropdown).to have_selector(".ng-option", text: user.name)
-      expect(target_dropdown).to have_no_selector(".ng-option", text: placeholder.name)
+      expect(target_dropdown).not_to have_selector(".ng-option", text: placeholder.name)
     end
   end
 end

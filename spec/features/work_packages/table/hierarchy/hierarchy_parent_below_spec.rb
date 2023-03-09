@@ -162,7 +162,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-icon')
     end
   end
 end

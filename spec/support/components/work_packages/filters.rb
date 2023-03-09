@@ -64,7 +64,7 @@ module Components
       end
 
       def quick_filter(text)
-        input = page.find('#filter-by-text-input')
+        input = page.find_by_id('filter-by-text-input')
         input.hover
         input.click
         SeleniumHubWaiter.wait

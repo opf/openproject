@@ -322,8 +322,7 @@ describe AccountController,
           end
 
           context 'with direct login and redirecting callback',
-                  with_settings: { login_required?: true },
-                  with_config: { omniauth_direct_login_provider: 'foo' } do
+                  with_config: { omniauth_direct_login_provider: 'foo' }, with_settings: { login_required?: true } do
             it 'will still call the callback' do
               # Set the previous session
               session[:foo] = 'bar'

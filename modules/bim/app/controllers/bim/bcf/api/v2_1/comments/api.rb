@@ -79,7 +79,7 @@ module Bim::Bcf::API::V2_1
           requires :comment_guid, type: String, desc: 'The comment\'s UUID'
         end
 
-        route_param :comment_guid, regexp: /\A[a-f0-9\-]+\z/ do
+        route_param :comment_guid, regexp: /\A[a-f0-9-]+\z/ do
           after_validation do
             @comment = all_comments.find_by!(uuid: declared_params[:comment_guid])
           end

@@ -93,7 +93,7 @@ describe 'Work Package cost fields', js: true do
     expect(page).to have_selector('#cost_entry_costs', text: '4.00 EUR')
 
     # Override costs
-    find('#cost_entry_costs').click
+    find_by_id('cost_entry_costs').click
     SeleniumHubWaiter.wait
     fill_in 'cost_entry_overridden_costs', with: '15.52'
 
@@ -130,7 +130,7 @@ describe 'Work Package cost fields', js: true do
       expect(page).to have_selector('#cost_entry_costs', text: '2,84 EUR')
 
       # Override costs
-      find('#cost_entry_costs').click
+      find_by_id('cost_entry_costs').click
       SeleniumHubWaiter.wait
       fill_in 'cost_entry_overridden_costs', with: '1.350,25'
 
@@ -150,7 +150,7 @@ describe 'Work Package cost fields', js: true do
 
       # Toggle the cost button
       SeleniumHubWaiter.wait
-      find('#cost_entry_costs').click
+      find_by_id('cost_entry_costs').click
 
       # Update the costs in german locale
       SeleniumHubWaiter.wait
@@ -183,7 +183,7 @@ describe 'Work Package cost fields', js: true do
       find('.menu-item', text: I18n.t(:button_log_costs)).click
 
       SeleniumHubWaiter.wait
-      expect(page).to have_no_selector('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
+      expect(page).not_to have_selector('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
       expect(page).to have_selector('#cost_entry_user_id option', text: user.name, visible: :all)
     end
   end

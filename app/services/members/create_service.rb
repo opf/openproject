@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::CreateService < ::BaseServices::Create
+class Members::CreateService < BaseServices::Create
   include Members::Concerns::NotificationSender
 
   around_call :post_process

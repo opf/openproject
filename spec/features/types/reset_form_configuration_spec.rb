@@ -71,8 +71,8 @@ describe 'Reset form configuration', js: true do
       # Wait for page reload
       SeleniumHubWaiter.wait
 
-      expect(page).to have_no_selector('.group-head', text: 'NEW GROUP')
-      expect(page).to have_no_selector('.group-head', text: 'OTHER')
+      expect(page).not_to have_selector('.group-head', text: 'NEW GROUP')
+      expect(page).not_to have_selector('.group-head', text: 'OTHER')
       type.reload
 
       expect(type.custom_field_ids).to be_empty

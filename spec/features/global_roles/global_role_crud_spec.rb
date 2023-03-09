@@ -44,7 +44,7 @@ describe 'Global role: Global role CRUD', js: true do
     # When I go to the new page of "Role"
     visit new_role_path
     # Then I should not see block with "#global_permissions"
-    expect(page).to have_no_selector('#global_permissions', visible: true)
+    expect(page).not_to have_selector('#global_permissions', visible: true)
     # When I check "Global Role"
     check 'Global Role'
     # Then I should see block with "#global_permissions"
@@ -54,7 +54,7 @@ describe 'Global role: Global role CRUD', js: true do
     # And I should see "Glob test"
     expect(page).to have_text 'Permission Glob Test'
     # And I should not see "Issues can be assigned to this role"
-    expect(page).to have_no_text 'Issues can be assigned to this role'
+    expect(page).not_to have_text 'Issues can be assigned to this role'
     # When I fill in "Name" with "Manager"
     fill_in 'Name', with: 'Manager'
     # And I click on "Create"

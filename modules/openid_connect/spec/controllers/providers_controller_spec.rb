@@ -45,7 +45,6 @@ describe OpenIDConnect::ProvidersController do
   end
 
   context 'without an EE token' do
-
     it 'renders upsale' do
       get :index
       expect(response).to have_http_status(:ok)

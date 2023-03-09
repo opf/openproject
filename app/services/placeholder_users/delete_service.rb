@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class PlaceholderUsers::DeleteService < ::BaseServices::Delete
+class PlaceholderUsers::DeleteService < BaseServices::Delete
   def destroy(placeholder)
     placeholder.locked!
     ::Principals::DeleteJob.perform_later(placeholder)

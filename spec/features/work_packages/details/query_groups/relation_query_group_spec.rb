@@ -178,8 +178,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
         full_wp.ensure_page_loaded
 
         # Will first try to load the query, and then hide it.
-        expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_selector('.work-packages-embedded-view--container .op-toast.-error')
+        expect(page).not_to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).not_to have_selector('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end

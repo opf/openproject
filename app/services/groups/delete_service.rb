@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Groups::DeleteService < ::BaseServices::Delete
+class Groups::DeleteService < BaseServices::Delete
   protected
 
   def destroy(group)

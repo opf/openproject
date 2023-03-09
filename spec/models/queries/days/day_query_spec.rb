@@ -67,8 +67,8 @@ describe Queries::Days::DayQuery do
       it 'is the same as handwriting the query' do
         # Expectation has to be weirdly specific to the logic of Queries::Operators::DateRangeClauses
         expected_scope = base_scope.where("days.date > ? AND days.date <= ?",
-                                    (from - 1.day).end_of_day,
-                                    to.end_of_day)
+                                          (from - 1.day).end_of_day,
+                                          to.end_of_day)
 
         unless working.nil?
           expected_scope = expected_scope.where("days.working IN ('#{working}')")

@@ -30,15 +30,14 @@ namespace :ldap_groups do
   desc 'Synchronize groups and their users from the LDAP auth source.' \
        'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
-    ::LdapGroups::SynchronizationService.synchronize!
+    LdapGroups::SynchronizationService.synchronize!
   end
 
   desc 'Print all members of groups tied to a synchronized group that are not derived from LDAP'
   task print_unsynced_members: :environment do
-    ::LdapGroups::SynchronizedGroup
+    LdapGroups::SynchronizedGroup
       .includes(:group)
       .find_each do |sync|
-
       group = sync.group
       unsynced_logins = User
         .where(id: group.user_ids)

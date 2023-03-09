@@ -74,8 +74,8 @@ describe 'onboarding tour for new users', js: true do
       end
 
       it 'when the welcome block does not include the demo projects' do
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
       end
     end
 
@@ -133,14 +133,14 @@ describe 'onboarding tour for new users', js: true do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
       end
 
       it 'and I continue the tutorial' do

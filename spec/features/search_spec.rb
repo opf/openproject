@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail: false do
+describe 'Search', js: true, with_mail: false, with_settings: { per_page_options: '5' } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   shared_let(:admin) { create(:admin) }
@@ -263,12 +263,12 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
                               'subject')
         table.expect_work_package_listed(work_packages.last)
         filters.remove_filter('subject')
-        page.find('#filter-by-text-input').set(work_packages[5].subject)
+        page.find_by_id('filter-by-text-input').set(work_packages[5].subject)
         table.expect_work_package_subject(work_packages[5].subject)
         table.ensure_work_package_not_listed!(work_packages.last)
 
         # clearing the text filter and searching by a just a custom field works
-        page.find('#filter-by-text-input').set('')
+        page.find_by_id('filter-by-text-input').set('')
         filters.add_filter_by(custom_field_string.name,
                               'is',
                               [custom_field_string_value],
@@ -402,7 +402,7 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
           .to have_link(searched_for_project.name)
 
         expect(page)
-          .to have_no_link(other_project.name)
+          .not_to have_link(other_project.name)
       end
     end
   end

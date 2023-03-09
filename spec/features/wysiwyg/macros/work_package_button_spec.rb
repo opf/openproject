@@ -63,7 +63,7 @@ describe 'Wysiwyg work package button spec',
 
           # Cancel editing
           find('.spot-modal--cancel-button').click
-          expect(editable).to have_no_selector('.macro.-create_work_package_link')
+          expect(editable).not_to have_selector('.macro.-create_work_package_link')
 
           editor.insert_macro  'Insert create work package button'
           select 'MyTaskName', from: 'selected-type'

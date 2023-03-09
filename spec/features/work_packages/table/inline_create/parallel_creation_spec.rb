@@ -59,7 +59,7 @@ describe 'Parallel work package creation spec', js: true do
 
     # There should be one row, and no open inline create row
     expect(page).to have_selector('.wp--row', count: 1)
-    expect(page).to have_no_selector('.wp-inline-create-row')
+    expect(page).not_to have_selector('.wp-inline-create-row')
 
     wp_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -97,7 +97,7 @@ describe 'Parallel work package creation spec', js: true do
     )
     wp_table.dismiss_toaster!
     expect(page).to have_selector('.wp--row', count: 2)
-    expect(page).to have_no_selector('.wp-inline-create-row')
+    expect(page).not_to have_selector('.wp-inline-create-row')
 
     # Get the last work package
     wp2 = WorkPackage.last

@@ -39,7 +39,7 @@ describe 'Work Package table configuration modal columns spec', js: true do
 
       expect(page).to have_selector('.wp-table--table-header', text: 'ID')
       expect(page).to have_selector('.wp-table--table-header', text: 'PROJECT')
-      expect(page).to have_no_selector('.wp-table--table-header', text: 'SUBJECT')
+      expect(page).not_to have_selector('.wp-table--table-header', text: 'SUBJECT')
     end
   end
 

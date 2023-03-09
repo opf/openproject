@@ -66,7 +66,7 @@ describe 'Projects autocomplete page', js: true do
     ]
 
     names.map do |name|
-      identifier = name.gsub(/[ \-]+/, "-").downcase
+      identifier = name.gsub(/[ -]+/, "-").downcase
 
       create(:project, name:, identifier:)
     end
@@ -111,7 +111,7 @@ describe 'Projects autocomplete page', js: true do
     # Expect highlights
     within(top_menu.search_results) do
       expect(page).to have_selector('.op-search-highlight', text: '<strong')
-      expect(page).to have_no_selector('strong')
+      expect(page).not_to have_selector('strong')
     end
 
     # Expect fuzzy matches for plain

@@ -126,7 +126,7 @@ describe 'Cost report calculations', js: true do
 
       report_page.switch_to_type 'Translations'
       expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
     end
   end
 
@@ -141,7 +141,7 @@ describe 'Cost report calculations', js: true do
       expect(page).not_to have_content '5.00 hours'
       expect(page).not_to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
-      expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
     end
   end
 end

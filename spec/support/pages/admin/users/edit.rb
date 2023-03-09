@@ -81,7 +81,7 @@ module Pages
         end
 
         def expect_no_membership(project_name)
-          expect(page).to have_no_selector('tr', text: project_name)
+          expect(page).not_to have_selector('tr', text: project_name)
         end
 
         def expect_roles(project_name, roles)

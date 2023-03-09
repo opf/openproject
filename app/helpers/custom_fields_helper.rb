@@ -158,7 +158,7 @@ module CustomFieldsHelper
       angular_component_tag 'op-modal-single-date-picker',
                             inputs: {
                               id: field_id,
-                              name: field_name,
+                              name: field_name
                             }
     when 'text'
       styled_text_area_tag(field_name, '', id: field_id, rows: 3, with_text_formatting: true)

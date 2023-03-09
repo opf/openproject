@@ -65,6 +65,8 @@ class VersionsController < ApplicationController
     @version = @project.versions.build
   end
 
+  def edit; end
+
   def create
     attributes = permitted_params
                  .version
@@ -76,8 +78,6 @@ class VersionsController < ApplicationController
 
     render_cu(call, :notice_successful_create, 'new')
   end
-
-  def edit; end
 
   def update
     attributes = permitted_params

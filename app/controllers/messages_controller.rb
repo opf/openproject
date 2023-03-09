@@ -70,6 +70,13 @@ class MessagesController < ApplicationController
       .result
   end
 
+  # Edit a message
+  def edit
+    return render_403 unless @message.editable_by?(User.current)
+
+    @message.attributes = permitted_params.message(@message)
+  end
+
   # Create a new topic
   def create
     call = create_message(@forum)
@@ -95,13 +102,6 @@ class MessagesController < ApplicationController
       call_hook(:controller_messages_reply_after_save, params:, message: @reply)
     end
     redirect_to topic_path(@topic, r: @reply)
-  end
-
-  # Edit a message
-  def edit
-    return render_403 unless @message.editable_by?(User.current)
-
-    @message.attributes = permitted_params.message(@message)
   end
 
   # Edit a message

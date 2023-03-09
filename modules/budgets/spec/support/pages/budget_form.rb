@@ -84,7 +84,7 @@ module Pages
 
     # Submit the costs form
     def submit_form!
-      find('#budget-table--submit-button').click
+      find_by_id('budget-table--submit-button').click
     end
 
     ##

@@ -112,7 +112,7 @@ describe 'Custom fields reporting', js: true do
       # Update filter to value the work package has
       select = find(custom_field_selector)
       select.find('option', text: 'First option').select_option
-      find('#query-icon-apply-button').click
+      find_by_id('query-icon-apply-button').click
 
       # Expect row of work package
       within('#result-table') do

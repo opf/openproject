@@ -65,7 +65,6 @@ module API
                render_nil: false,
                writable: false
 
-
       class_attribute :to_eager_load
       class_attribute :checked_permissions
 

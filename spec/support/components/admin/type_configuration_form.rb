@@ -50,7 +50,7 @@ module Components
       end
 
       def inactive_group
-        page.find '#type-form-conf-inactive-group'
+        page.find_by_id 'type-form-conf-inactive-group'
       end
 
       def inactive_drop
@@ -58,7 +58,7 @@ module Components
       end
 
       def expect_empty
-        expect(page).to have_no_selector('#draggable-groups .group-head')
+        expect(page).not_to have_selector('#draggable-groups .group-head')
       end
 
       def find_group(name)
@@ -206,7 +206,7 @@ module Components
 
         container.find('.delete-group').click
 
-        expect(page).to have_no_selector('.group-head', text: name.upcase)
+        expect(page).not_to have_selector('.group-head', text: name.upcase)
       end
 
       def expect_no_attribute(attribute, group)
