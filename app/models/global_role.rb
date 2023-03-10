@@ -26,4 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class GlobalRole < Role; end
+class GlobalRole < Role
+  def self.givable
+    where(builtin: NON_BUILTIN)
+      .where(type: 'GlobalRole')
+      .order(Arel.sql('position'))
+  end
+end
