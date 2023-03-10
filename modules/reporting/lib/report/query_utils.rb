@@ -155,10 +155,8 @@ module Report::QueryUtils
   # @param [Hash] options Condition => Result.
   # @return [String] Case statement.
   def switch(options)
-    desc = "#{__method__} #{options.inspect[1..-2]}".gsub(/(Cost|Time)Entry\([^)]*\)/, '\1Entry')
     options = options.with_indifferent_access
     else_part = options.delete :else
-    "-- #{desc}\n\t" \
     "CASE #{options.map do |k, v|
       "\n\t\tWHEN #{field_name_for k}\n\t\t" \
         "THEN #{field_name_for v}"
