@@ -29,27 +29,13 @@
 
 module Calendar
   class IcalResponseService < ::BaseServices::BaseCallable
-    
+
+    ICAL_CACHE_EXPIRES_IN = 0.minute # cache disabled for now by setting to 0.minute
+
     def perform(ical_token:, query_id:)
-      # TODO: simple time based caching -> recreate ics only every x minute(s)
-      ical_string = resolve_from_cache(ical_token, query_id)
+      ical_string = resolve_from_cache_or_regenerate(ical_token, query_id)
 
       if ical_string.present?
-        ServiceResult.success(result: ical_string)
-        return
-      end
-
-      # if not resolved from cache, proceed:
-      user = resolve_user_by_token(ical_token)
-
-      query = resolve_and_authorize_query(user, query_id)
-
-      work_packages = resolve_work_packages(query)
-
-      ical_string = create_ical_string(work_packages)
-
-      if ical_string.present?
-        # TODO: save in cache
         ServiceResult.success(result: ical_string)
       else
         ServiceResult.failure
@@ -58,8 +44,26 @@ module Calendar
 
     protected
 
-    def resolve_from_cache(ical_token, query_id)
-      # not implemented yet
+    def cache_key(ical_token, query_id)
+      "ical-response-#{query_id}-#{ical_token}"
+    end
+
+    def resolve_from_cache_or_regenerate(ical_token, query_id)
+      OpenProject::Cache.fetch(
+        cache_key(ical_token, query_id), 
+        expires_in: ICAL_CACHE_EXPIRES_IN
+      ) do
+        regenerate_ical_string(ical_token, query_id)
+      end
+    end
+
+    def regenerate_ical_string(ical_token, query_id)
+      user = resolve_user_by_token(ical_token)
+      query = resolve_and_authorize_query(user, query_id)
+      work_packages = resolve_work_packages(query)
+      ical_string = create_ical_string(work_packages)
+
+      ical_string
     end
 
     def resolve_user_by_token(ical_token)
