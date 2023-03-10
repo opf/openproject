@@ -29,7 +29,7 @@ describe 'Work Package table configuration modal', js: true do
     find('.work-package-table--container th #subject').click
 
     # Open insert columns entry
-    find('#column-context-menu .menu-item', text: 'Insert columns ...').click
+    find('#column-context-menu .menu-item', text: 'Insert columns').click
 
     # Expect active tab is columns
     expect(page).to have_selector('.op-tab-row--link_selected', text: 'COLUMNS')
