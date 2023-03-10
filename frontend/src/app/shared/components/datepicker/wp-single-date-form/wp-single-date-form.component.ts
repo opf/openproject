@@ -137,6 +137,9 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
   ngOnInit():void {
     this.dateModalRelations.setChangeset(this.changeset as WorkPackageChangeset);
     this.dateModalScheduling.setChangeset(this.changeset as WorkPackageChangeset);
+    this.scheduleManually = !!this.changeset.value('scheduleManually');
+    this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
+
     if (!moment(this.value).isValid()) {
       this.value = '';
       this.date = '';
@@ -202,6 +205,9 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
 
   doSave($event:Event):void {
     $event.preventDefault();
+    // Apply the changed scheduling mode if any
+    this.changeset.setValue('scheduleManually', this.scheduleManually);
+
     // Apply include NWD
     this.changeset.setValue('ignoreNonWorkingDays', this.ignoreNonWorkingDays);
 
