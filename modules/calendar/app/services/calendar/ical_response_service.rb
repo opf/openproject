@@ -61,7 +61,7 @@ module Calendar
       user = resolve_user_by_token(ical_token)
       query = resolve_and_authorize_query(user, query_id)
       work_packages = resolve_work_packages(query)
-      ical_string = create_ical_string(work_packages)
+      ical_string = create_ical_string(work_packages, query.name)
 
       ical_string
     end
@@ -94,9 +94,9 @@ module Calendar
       work_packages
     end
 
-    def create_ical_string(work_packages)
+    def create_ical_string(work_packages, calendar_name)
       call = ::Calendar::CreateIcalService.new().call(
-        work_packages: work_packages
+        work_packages: work_packages, calendar_name: calendar_name
       )
       ical_string = call.result if call.success?
 

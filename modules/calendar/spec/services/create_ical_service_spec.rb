@@ -60,7 +60,8 @@ describe Calendar::CreateIcalService, type: :model do
       work_package_with_start_and_due_date,
       work_package_with_due_date_and_assignee
     ]
-  end 
+  end
+  let(:query_name) { "Query Name" }
   
   let(:instance) do
     described_class.new()
@@ -74,7 +75,12 @@ describe Calendar::CreateIcalService, type: :model do
       Timecop.freeze(freezed_date_time)
     end
 
-    subject { instance.call(work_packages: work_packages) } 
+    subject do 
+      instance.call(
+        work_packages: work_packages, 
+        calendar_name: query_name
+      )
+    end 
 
     it 'which contains all required ical fields in the correct format and order' do
 
@@ -83,13 +89,13 @@ BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//OpenProject GmbH//OpenProject Core Project//EN
 CALSCALE:GREGORIAN
-X-WR-CALNAME:OpenProject Calendar
+X-WR-CALNAME:#{query_name}
 BEGIN:VEVENT
 DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_due_date.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
 DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\nWork package description: #{work_package_with_due_date.description}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n #{work_package_with_due_date.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_due_date.name}
@@ -99,7 +105,7 @@ DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_start_date.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
 DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\nWork package description: #{work_package_with_start_date.description}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n #{work_package_with_start_date.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_start_date.name}
@@ -109,7 +115,7 @@ DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_start_and_due_date.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
 DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\nWork package description: #{work_package_with_start_and_due_date.description}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n #{work_package_with_start_and_due_date.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_start_and_due_date.name}
@@ -119,7 +125,7 @@ DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
 UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
 DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
 DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\nWork package description: #{work_package_with_due_date_and_assignee.description}
+DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n #{work_package_with_due_date_and_assignee.description}
 LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
 ORGANIZER:Bob Bobbit
 SUMMARY:#{work_package_with_due_date_and_assignee.name}

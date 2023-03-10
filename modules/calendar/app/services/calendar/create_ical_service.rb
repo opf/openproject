@@ -32,19 +32,19 @@ module Calendar
   class CreateIcalService < ::BaseServices::BaseCallable
     include OpenProject::StaticRouting::UrlHelpers
     
-    def perform(work_packages:)
-      ical_string = create_ical_string(work_packages)
+    def perform(work_packages:, calendar_name: "OpenProject Calendar")
+      ical_string = create_ical_string(work_packages, calendar_name)
       
       ServiceResult.success(result: ical_string)
     end
 
     protected
 
-    def create_ical_string(work_packages)
+    def create_ical_string(work_packages, calendar_name)
       calendar = Icalendar::Calendar.new
 
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
-      calendar.x_wr_calname = "OpenProject Calendar" # TODO: Use query name instead
+      calendar.x_wr_calname = calendar_name
 
       work_packages&.each do |work_package|
         next if work_package.start_date.nil? && work_package.due_date.nil?
@@ -127,7 +127,7 @@ module Calendar
       assignee = "Assignee: #{work_package.assigned_to&.name}"
       priority = "Priority: #{priority_emoji(work_package)}#{work_package.priority&.name}"
       unless work_package.description.blank?
-        description = "Work package description: #{work_package.description&.truncate(250)}"
+        description = "\nDescription:\n #{work_package.description&.truncate(250)}"
       end
 
       [
