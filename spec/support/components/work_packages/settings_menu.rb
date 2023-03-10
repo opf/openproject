@@ -39,7 +39,7 @@ module Components
       end
 
       def open_and_save_query_as(name)
-        open_and_choose('Save as ...')
+        open_and_choose('Save as')
         within_modal_fill_in_and_save(name:)
       end
 

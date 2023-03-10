@@ -65,7 +65,7 @@ describe 'work package export' do
   def export!(expect_success = true)
     work_packages_page.ensure_loaded
 
-    settings_menu.open_and_choose 'Export ...'
+    settings_menu.open_and_choose 'Export'
     click_on export_type
 
     # Expect to get a response regarding queuing
@@ -253,7 +253,7 @@ describe 'work package export' do
       end
 
       it 'shows an xml with work packages' do
-        settings_menu.open_and_choose 'Export ...'
+        settings_menu.open_and_choose 'Export'
 
         # The feed is opened in a new tab
         new_window = window_opened_by { click_on export_type }

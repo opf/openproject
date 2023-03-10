@@ -31,7 +31,7 @@ shared_examples 'module specific query view management' do
       module_page.expect_and_dismiss_toaster
 
       # Rename a query
-      settings_menu.open_and_choose 'Rename view ...'
+      settings_menu.open_and_choose 'Rename view'
       expect(page).to have_focus_on('.editable-toolbar-title--input')
       page.driver.browser.switch_to.active_element.send_keys('My second query (renamed)')
       page.driver.browser.switch_to.active_element.send_keys(:return)
