@@ -54,8 +54,9 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   public icalUrl: string;
 
   public text = {
-    label_ical_sharing: 'Share calendar', // TODO: translate 
-    description_ical_sharing: 'You can share and import this calendar by using the following iCalendar URL:', // TODO: translate 
+    label_ical_sharing: 'Share iCalendar', // TODO: translate 
+    description_ical_sharing_1: 'You can use the', // TODO: translate 
+    description_ical_sharing_2: 'to import or subscribe to this calendar in your favourite calendar client and view up-to-date work package information from there.', // TODO: translate 
     button_copy: 'Copy URL', // TODO: translate
     copy_success_text: 'URL copied to clipboard', // TODO: translate
     button_cancel: this.I18n.t('js.button_cancel'),

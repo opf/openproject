@@ -73,9 +73,9 @@ describe 'Calendar sharing via ical', js: true do
 
       #   # expect disabled sharing menu item
       #   within "#settingsDropdown" do
-      #     # expect(page).to have_button("Share calendar ...", disabled: true) # disabled selector not working
-      #     expect(page).to have_selector(".menu-item.inactive", text: "Share calendar ...")
-      #     page.click_button("Share calendar ...")
+      #     # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
+      #     expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
+      #     page.click_button("Share iCalendar ...")
 
       #     # modal should not be shown
       #     expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
@@ -105,9 +105,9 @@ describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share calendar ...", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item", text: "Share calendar ...")
-          page.click_button("Share calendar ...")
+          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item", text: "Share iCalendar ...")
+          page.click_button("Share iCalendar ...")
           
         end
 
