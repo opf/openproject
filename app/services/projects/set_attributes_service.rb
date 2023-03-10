@@ -65,7 +65,10 @@ module Projects
     def set_default_active_work_package_custom_fields(provided)
       return if provided
 
-      model.work_package_custom_fields = WorkPackageCustomField.joins(:types).where(types: { id: model.type_ids })
+      model.work_package_custom_fields = WorkPackageCustomField
+        .joins(:types)
+        .where(types: { id: model.type_ids })
+        .distinct
     end
 
     def update_status(attributes)
