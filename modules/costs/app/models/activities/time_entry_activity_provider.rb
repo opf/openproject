@@ -51,7 +51,8 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
 
   def event_title(event)
     time_entry_object_name = event['work_package_id'].blank? ? event['project_name'] : work_package_title(event)
-    "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
+    # "#{l_hours(event['time_entry_hours'])} (#{time_entry_object_name})"
+    "#{time_entry_object_name}"
   end
 
   def event_type(_event)
@@ -65,7 +66,8 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_description(event)
-    event['time_entry_description']
+    event['time_entry_hours'] # => but needs to be in details
+    # event['time_entry_description']
   end
 
   def event_path(event)

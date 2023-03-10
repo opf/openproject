@@ -61,6 +61,27 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     end
   end
 
+  # def event_query_projection
+  #   case activity
+  #   when :meeting
+  #     [
+  #       activity_journal_projection_statement(:title, 'meeting_title'),
+  #       activity_journal_projection_statement(:start_time, 'meeting_start_time'),
+  #       activity_journal_projection_statement(:duration, 'meeting_duration'),
+  #       activity_journal_projection_statement(:project_id, 'project_id')
+  #     ]
+  #   else
+  #     [
+  #       projection_statement(meeting_contents_table, :type, 'meeting_content_type'),
+  #       projection_statement(meetings_table, :id, 'meeting_id'),
+  #       projection_statement(meetings_table, :title, 'meeting_title'),
+  #       projection_statement(meetings_table, :project_id, 'project_id'),
+  #       activity_journal_projection_statement(:start_time, 'meeting_start_time'),
+  #       activity_journal_projection_statement(:duration, 'meeting_duration'),
+  #     ]
+  #   end
+  # end
+
   def activitied_type
     activity == :meeting ? Meeting : MeetingContent
   end
@@ -118,6 +139,27 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
     end
   end
 
+  # def event_title(event)
+  #   binding.pry
+  #   case activity
+  #   when :meeting
+  #     start_time = if event['meeting_start_time'].is_a?(String)
+  #                    DateTime.parse(event['meeting_start_time'])
+  #                  else
+  #                    event['meeting_start_time']
+  #                  end
+  #     end_time = start_time + event['meeting_duration'].to_f.hours
+
+  #     fstart_with = format_date start_time
+  #     fstart_without = format_time start_time, false
+  #     fend_without = format_time end_time, false
+
+  #     "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
+  #   else
+  #     meeting_content_modifier(event)
+  #   end
+  # end
+
   def event_type(event)
     case activity
     when :meeting
@@ -152,4 +194,22 @@ class Activities::MeetingActivityProvider < Activities::BaseActivityProvider
   def activity_id(event)
     activity == :meeting ? event['journable_id'] : event['meeting_id']
   end
+
+  def meeting_content_modifier(event)
+    binding.pry
+    meeting = Meeting.find(event["meeting_id"])
+    start_time = meeting.start_time
+    start_time = if start_time.is_a?(String)
+                   DateTime.parse(start_time)
+                 else
+                   start_time
+                 end
+    end_time = start_time + meeting.duration.to_f.hours
+    fstart_with = format_date start_time
+    fstart_without = format_time start_time, false
+    fend_without = format_time end_time, false
+
+    "#{I18n.t(:label_meeting)}: #{event['meeting_title']} (#{fstart_with} #{fstart_without}-#{fend_without})"
+  end
 end
+

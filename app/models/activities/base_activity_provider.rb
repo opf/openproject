@@ -239,6 +239,7 @@ class Activities::BaseActivityProvider
   attr_accessor :activity
 
   def journals_with_data_query
+    # difference in raw data starts here => meeting vs meetingcontent which then doesn't allow event_query_projection to include more details such as meeting_start_time and meeting_duration
     join_activity_journals_table(journals_table)
       .where(journals_table[:journable_type].eq(activitied_type.name))
   end

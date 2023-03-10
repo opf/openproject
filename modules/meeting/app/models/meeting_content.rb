@@ -50,6 +50,9 @@ class MeetingContent < ApplicationRecord
                 title: Proc.new { |o| "#{o.class.model_name.human}: #{o.meeting.title}" },
                 url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
 
+  register_journal_formatted_fields(:plaintext, 'text')
+  # register_journal_formatted_fields(:plaintext, 'locked') # Not sure if this is needed or not, waiting on product => The problem is that 'locked' is detected as a detail for the journal, so an extra line is printed in the view as the journal.details.any? check returns true...
+
   def editable?
     true
   end
