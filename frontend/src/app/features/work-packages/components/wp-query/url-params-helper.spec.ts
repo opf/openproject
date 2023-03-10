@@ -113,7 +113,7 @@ describe('UrlParamsHelper', () => {
 
     it('should encode query to params JSON', () => {
       const encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      const expectedJSON = '{"c":["type","status","soße"],"hi":true,"g":"status","s":true,"tv":true,"tzl":"days","hl":"inline","hla":["a","b"],"t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}'
+      const expectedJSON = '{"c":["type","status","soße"],"hi":true,"g":"status","s":true,"tv":true,"tzl":"days","hl":"inline","hla":["a","b"],"t":"type:desc","f":[{"n":"soße","o":"=","v":["knoblauch"]},{"n":"created_at","o":"<t-","v":["5"]}],"pa":10,"pp":100}';
 
       expect(encodedJSON).toEqual(expectedJSON);
     });

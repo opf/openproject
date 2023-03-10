@@ -159,7 +159,7 @@ export class UrlParamsHelperService {
   private encodeHighlightedAttributes(query:QueryResource):Partial<QueryProps> {
     if (query.highlightingMode === 'inline') {
       if (Array.isArray(query.highlightedAttributes) && query.highlightedAttributes.length > 0) {
-        return { hla: query.highlightedAttributes.map((el) => this.idFromHref(el.href as string)) };
+        return { hla: query.highlightedAttributes.map((el) => idFromLink(el.href)) };
       }
     }
 
@@ -362,11 +362,7 @@ export class UrlParamsHelperService {
       return query.columns.map((column:any) => column.id || idFromLink(column.href));
     }
     if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => {
-        const id = column.href!;
-
-        return this.idFromHref(id);
-      });
+      return query._links.columns.map((column:HalLink) => idFromLink(column.href as string));
     }
   }
 
@@ -397,7 +393,7 @@ export class UrlParamsHelperService {
     filters.forEach((filter:QueryFilterInstanceResource) => {
       const id = this.buildV3GetFilterIdFromFilter(filter);
       const operator = this.buildV3GetOperatorIdFromFilter(filter) as FilterOperator;
-      const values = this.buildV3GetValuesFromFilter(filter)
+      const values = this.buildV3GetValuesFromFilter(filter);
 
       builder.add(id, operator, values);
     });
@@ -412,14 +408,14 @@ export class UrlParamsHelperService {
   public buildV3GetFilterIdFromFilter(filter:QueryFilterInstanceResource) {
     const href = filter.filter ? filter.filter.href : filter._links.filter.href;
 
-    return this.idFromHref(href);
+    return idFromLink(href as string);
   }
 
   public buildV3GetValuesFromFilter(filter:QueryFilterInstanceResource|QueryFilterResource) {
     if (filter.values) {
       return _.map(filter.values, (v:any) => this.queryFilterValueToParam(v));
     }
-    return _.map(filter._links.values, (v:any) => this.idFromHref(v.href));
+    return _.map(filter._links.values, (v:any) => idFromLink(v.href as string));
   }
 
   private buildV3GetOperatorIdFromFilter(filter:QueryFilterInstanceResource) {
@@ -428,7 +424,7 @@ export class UrlParamsHelperService {
     }
     const { href } = filter._links.operator;
 
-    return this.idFromHref(href);
+    return idFromLink(href as string);
   }
 
   private buildV3GetSortByFromQuery(query:QueryResource) {
@@ -437,19 +433,9 @@ export class UrlParamsHelperService {
       if (sort.id) {
         return sort.id;
       }
-      const href = sort.href!;
-
-      const id = this.idFromHref(href);
-
-      return id;
+      return idFromLink(sort.href);
     });
 
     return JSON.stringify(sortByIds.map((id:string) => id.split('-')));
-  }
-
-  private idFromHref(href:string) {
-    const id = href.substring(href.lastIndexOf('/') + 1, href.length);
-
-    return decodeURIComponent(id);
   }
 }
