@@ -60,7 +60,8 @@ ru:
           many: "Успешно создано %{count} ссылок на файл."
           other: "Успешно создано %{count} ссылок на файл."
         upload_error:
-          default: "Ваш файл (%{fileName}) не удалось загрузить из-за ошибки."
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
           403: >
             Ваш файл (%{fileName}) не удалось загрузить из-за системных ограничений. Пожалуйста, свяжитесь с вашим администратором для получения дополнительной информации.
           413: >

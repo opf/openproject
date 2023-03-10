@@ -56,7 +56,8 @@ de:
           one: "1 Dateiverknüpfung erfolgreich erstellt."
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         upload_error:
-          default: "Ihre Datei (%{fileName}) konnte aufgrund eines Fehlers nicht hochgeladen werden."
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
           403: >
             Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
           413: >

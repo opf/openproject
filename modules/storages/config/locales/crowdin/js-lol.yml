@@ -56,7 +56,8 @@ lol:
           one: "crwdns842643:1crwdne842643:1"
           other: "crwdns842643:5%{count}crwdne842643:5"
         upload_error:
-          default: "crwdns846079:0%{fileName}crwdne846079:0"
+          default: >
+            crwdns847215:0%{fileName}crwdne847215:0
           403: >
             crwdns846081:0%{fileName}crwdne846081:0
           413: >

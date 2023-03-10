@@ -56,7 +56,8 @@ ca:
           one: "1 enllaç de fitxer creat correctament."
           other: "%{count} enllaços de fitxer creat correctament."
         upload_error:
-          default: "El fitxer (%{fileName}) no s'ha pogut carregar a causa d'un error."
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
           403: >
             El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
           413: >
