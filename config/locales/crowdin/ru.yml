@@ -475,8 +475,8 @@ ru:
         roles: "Роль"
       project:
         active_value:
-          true: "разархивировано"
-          false: "архивировано"
+          true: "Разархивирован"
+          false: "Архивирован"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
@@ -488,7 +488,7 @@ ru:
         templated: "Проект шаблона"
         templated_value:
           true: "помечено как шаблон"
-          false: "снято с отметки как шаблон"
+          false: "снята отметка шаблона"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
