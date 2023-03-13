@@ -97,6 +97,22 @@ describe Timestamp do
         expect(subject.to_duration).to eq ActiveSupport::Duration.build(10)
         expect(subject.relative?).to be true
       end
+
+      {
+        'PT1H' => 'PT1H',
+        'PT0001H' => 'PT1H',
+        'PT0009H' => 'PT9H',
+        'PT-1H' => 'PT-1H',
+        '+PT1H' => 'PT1H',
+        '-PT1H' => 'PT-1H',
+        '-PT-1H' => 'PT1H',
+        '  PT1H  ' => 'PT1H',
+        '-P1M-1DT1H-02M' => 'P-1M1DT-1H2M'
+      }.each do |input, expected|
+        it "parses #{input.inspect} into #{expected.inspect}" do
+          expect(described_class.parse(input).to_s).to eq(expected)
+        end
+      end
     end
 
     describe "when providing a valid ISO8601 time" do
