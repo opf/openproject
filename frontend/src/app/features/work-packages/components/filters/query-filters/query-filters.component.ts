@@ -81,10 +81,11 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChan
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
   };
 
-  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
+  constructor(
+    readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpFiltersService:WorkPackageFiltersService,
     readonly I18n:I18nService,
-    ) {
+  ) {
     super();
   }
 
