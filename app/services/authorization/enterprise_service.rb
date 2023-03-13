@@ -30,7 +30,6 @@ class Authorization::EnterpriseService
   attr_accessor :token
 
   GUARDED_ACTIONS = %i(
-    attachment_filters
     attribute_help_texts
     board_view
     conditional_highlighting

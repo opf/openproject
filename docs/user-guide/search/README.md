@@ -38,6 +38,3 @@ The search bar of Openproject is configured to allow a full text search. This me
 
 The title and the description of a work package can also be found by [filtering by text](../work-packages/work-package-table-configuration/#filtering-by-text).
 Aside from full-text search, you can search work packages based on their attached file name or even within the content of an attachment.
-
-**Note** Full text search is an Enterprise add-on in OpenProject and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
-
