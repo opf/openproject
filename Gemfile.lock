@@ -520,6 +520,7 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
+    httpclient (2.8.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
