@@ -232,15 +232,9 @@ module Components
         retry_block do
           # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
-          if filter_element.has_selector?("[data-qa-selector='op-multi-date-picker']", wait: false)
-            datepicker = Components::WorkPackageDatepicker.new
-            datepicker.set_start_date(value[0])
-            datepicker.set_due_date(value[1])
-            datepicker.save!(text: I18n.t(:button_apply))
-          elsif filter_element.has_selector?("[data-qa-selector='op-single-date-picker']", wait: false)
-            datepicker = Components::Datepicker.new
-            datepicker.set_date(value[0])
-            datepicker.save!
+          if filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
+            input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
+            ensure_value_is_input_correctly input, value: Array(value).join(' - ')
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
             Array(value).each do |val|
               select_autocomplete filter_element.find("op-autocompleter"),
@@ -273,7 +267,7 @@ module Components
             value.each do |v|
               expect(page).to have_selector("#values-#{id} .ng-value-label", text: v)
             end
-          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-multi-date-picker']", wait: false)
+          elsif page.has_selector?("#filter_#{id} [data-qa-selector='op-basic-range-date-picker']", wait: false)
             expected_value =
               if value[1]
                 "#{value[0]} - #{value[1]}"
@@ -282,7 +276,7 @@ module Components
               else
                 "-"
               end
-            input = page.find("#filter_#{id} [data-qa-selector='op-multi-date-picker'] input")
+            input = page.find("#filter_#{id} [data-qa-selector='op-basic-range-date-picker']")
             expect(input.value).to eql(expected_value)
           else
             page.all('input').each_with_index do |input, index|
