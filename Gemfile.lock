@@ -520,7 +520,6 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
-    httpclient (2.8.3)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
@@ -707,10 +706,11 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (3.0.0)
       rack (>= 1.2.0)
-    rack-oauth2 (1.21.3)
+    rack-oauth2 (2.2.0)
       activesupport
       attr_required
-      httpclient
+      faraday (~> 2.0)
+      faraday-follow_redirects
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
     rack-protection (3.0.5)
