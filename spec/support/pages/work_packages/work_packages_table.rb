@@ -107,7 +107,7 @@ module Pages
       retry_block(args: { tries: 3, base_interval: 5 }) do
         within(table_container) do
           work_packages.each do |wp|
-            page.raise_if_found(".wp-row-#{wp.id} td.subject", text: wp.subject, wait: 1)
+            expect(page).not_to have_selector(".wp-row-#{wp.id} td.subject", text: wp.subject)
           end
         end
       end

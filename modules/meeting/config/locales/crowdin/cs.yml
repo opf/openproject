@@ -39,7 +39,7 @@ cs:
       meeting_minutes: "Zápis"
   activity:
     filter:
-      meeting: "Meetings"
+      meeting: "Schůzky"
   description_attended: "zúčastněn"
   description_invite: "pozván"
   events:

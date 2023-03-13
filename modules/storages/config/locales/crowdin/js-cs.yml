@@ -4,15 +4,15 @@ cs:
     storages:
       link_files_in_storage: "Prolinkovat soubory v"
       link_existing_files: "Link existing files"
-      upload_files: "Upload files"
+      upload_files: "Nahrát soubory"
       drop_files: "Drop files here to upload them to %{name}."
       drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} přihlášení"
       login_to: "Přihlásit se k %{storageType}"
       no_connection: "Žádné připojení %{storageType}"
       open_storage: "Otevřít %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Vyberte lokalitu"
+      choose_location: "Vyberte lokalitu"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -25,16 +25,16 @@ cs:
         not_logged_in: >
           Chcete-li přidat odkaz nebo zobrazit soubory související s tímto pracovním balíčkem, přihlaste se do %{storageType}.
       files:
-        already_existing_header: "This file already exists"
+        already_existing_header: "Tento soubor už existuje"
         already_existing_body: >
           A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        empty_folder: "This folder is empty."
+        empty_folder: "Tato složka je prázdná."
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
-        upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+        upload_keep_both: "Zachovat obojí"
+        upload_replace: "Nahradit"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
@@ -46,21 +46,22 @@ cs:
         remove_confirmation: >
           Jste si jisti, že chcete odlinkovat soubor od tohoto pracovního balíčku? Toto nemá vliv na původní soubor a odstraní pouze připojení k tomuto pracovnímu balíčku.
         remove_short: "Odstranit odkaz"
-        select: "Select files"
+        select: "Vybrat soubory"
         select_all: "Vybrat vše"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
+          zero: "Vyberte soubory, které chcete propojit"
+          one: "Propojit 1 Soubor"
           few: "Link %{count} files"
           many: "Link %{count} files"
           other: "Link %{count} files"
         success_create:
-          one: "Successfully created 1 file link."
+          one: "Odkaz na soubor byl úspěšně vytvořen."
           few: "Successfully created %{count} file links."
           many: "Successfully created %{count} file links."
           other: "Successfully created %{count} file links."
         upload_error:
-          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >

@@ -46,8 +46,8 @@ module API
           end
           private_class_method :index
 
-          def self.show(name)
-            define_singleton_method(name) { |id| build_path(name, id) }
+          def self.show(name, path = name)
+            define_singleton_method(name) { |id| build_path(path, id) }
           end
           private_class_method :show
 
@@ -394,6 +394,9 @@ module API
 
           index :role
           show :role
+
+          index :global_role, 'roles'
+          show :global_role, 'role'
 
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)

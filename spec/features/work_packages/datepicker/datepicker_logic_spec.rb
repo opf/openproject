@@ -981,6 +981,39 @@ describe 'Datepicker modal logic test cases (WP #43539)',
     end
   end
 
+  context 'when setting scheduleManually to true for a milestone' do
+    let(:date_attribute) { :date }
+    let(:work_package) { milestone_wp }
+    let(:current_attributes) do
+      {
+        start_date: '2022-06-20',
+        due_date: '2022-06-20',
+        schedule_manually: false
+      }
+    end
+
+    it 'allows to persist that value (Regression #46721)' do
+      datepicker.expect_milestone_date '2022-06-20'
+      datepicker.expect_scheduling_mode false
+
+      datepicker.toggle_scheduling_mode
+
+      datepicker.expect_scheduling_mode true
+      datepicker.expect_milestone_date '2022-06-20'
+
+      apply_and_expect_saved start_date: Date.parse('2022-06-20'),
+                             due_date: Date.parse('2022-06-20'),
+                             schedule_manually: true
+
+      date_field.activate!
+      date_field.expect_active!
+
+      datepicker.expect_visible
+      datepicker.expect_milestone_date '2022-06-20'
+      datepicker.expect_scheduling_mode true
+    end
+  end
+
   context 'when setting start and due date through today links' do
     let(:current_attributes) do
       {

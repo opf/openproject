@@ -34,14 +34,15 @@ describe CostQuery, reporting_query_helper: true do
   minimal_query
 
   describe '#chain' do
-    before do
+    around do |example|
       # FIXME: is there a better way to load all filter and groups?
       CostQuery::Filter.all && CostQuery::GroupBy.all
+      previous_chain_initializer = described_class.chain_initializer.dup
       described_class.chain_initializer.clear
-    end
-
-    after(:all) do
+      example.run
+    ensure
       described_class.chain_initializer.clear
+      described_class.chain_initializer.push(*previous_chain_initializer)
     end
 
     it "contains NoFilter" do

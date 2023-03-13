@@ -313,6 +313,10 @@ gem 'roar', '~> 1.2.0'
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'
 
+# Gmail API
+gem 'google-apis-gmail_v1', require: false
+gem 'googleauth', require: false
+
 # Required for contracts
 gem 'disposable', '~> 0.6.2'
 

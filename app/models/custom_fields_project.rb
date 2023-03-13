@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,27 +24,10 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-# Extending Capybara to check or raise for an element
-
-module Capybara
-  class Session
-    def raise_if_found(condition, *args, **kw_args)
-      raise_if_has_selector?(:has_selector?, condition, *args, **kw_args)
-    end
-
-    def raise_if_found_field(condition, *args, **kw_args)
-      raise_if_has_selector?(:has_field?, condition, *args, **kw_args)
-    end
-
-    def raise_if_found_select(condition, *args, **kw_args)
-      raise_if_has_selector?(:has_select?, condition, *args, **kw_args)
-    end
-
-    def raise_if_has_selector?(method, condition, *args, **kw_args)
-      found = public_send(method, condition, *args, **kw_args)
-      raise "Expected not to find field #{condition}" if found
-    end
-  end
+# Join table between to store the work package custom fields active in a project.
+class CustomFieldsProject < ApplicationRecord
+  belongs_to :project
+  belongs_to :custom_field
 end

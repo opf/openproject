@@ -147,7 +147,7 @@ describe 'filter work packages', js: true do
       filters.open_autocompleter :status
 
       expect(page).to have_selector('.ng-option', text: closed_status.name)
-      expect(page).to have_no_selector('.ng-option', text: status.name)
+      expect(page).not_to have_selector('.ng-option', text: status.name)
     end
   end
 

@@ -284,4 +284,33 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
         .to be_json_eql(expected_json)
     end
   end
+
+  context 'with a milestone typed work package' do
+    let(:type) { build_stubbed(:type_milestone) }
+    # On a milestone, both dates will be the same
+    let(:start_date) { due_date }
+    let(:attributes_changed_to_baseline) { %w[start_date] }
+
+    let(:expected_json) do
+      {
+        'date' => work_package.start_date,
+        '_meta' => {
+          'matchesFilters' => true,
+          'exists' => true,
+          'timestamp' => timestamp.to_s
+        },
+        '_links' => {
+          'self' => {
+            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            'title' => work_package.subject
+          }
+        }
+      }.to_json
+    end
+
+    it 'renders as expected' do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
 end

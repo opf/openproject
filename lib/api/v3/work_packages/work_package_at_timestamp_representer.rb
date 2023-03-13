@@ -40,6 +40,7 @@ module API
           subject
           start_date
           due_date
+          date
         ].freeze
 
         SUPPORTED_LINK_PROPERTIES = %w[
@@ -91,9 +92,11 @@ module API
           # * does not mess with `start_date` and `due_date`
           represented
             .attributes_changed_to_baseline
-            .map do |property|
+            .flat_map do |property|
             if property.ends_with?('_id')
               API::Utilities::PropertyNameConverter.from_ar_name(property)
+            elsif %w[start_date due_date].include?(property)
+              ['date', property]
             else
               property
             end

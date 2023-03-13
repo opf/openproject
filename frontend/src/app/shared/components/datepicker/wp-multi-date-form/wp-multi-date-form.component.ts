@@ -319,12 +319,12 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
       this.ignoreNonWorkingDays = !!this.changeset.value('ignoreNonWorkingDays');
     }
 
-    this.initializeDatepicker();
+    this.datePickerInstance?.datepickerInstance.redraw();
     this.cdRef.detectChanges();
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepicker();
+    this.datePickerInstance?.datepickerInstance.redraw();
 
     // Resent the current start and duration so that the end date is calculated
     if (!!this.dates.start && !!this.duration) {

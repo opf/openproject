@@ -38,8 +38,10 @@ describe Queries::WorkPackages::Filter::RoleFilter do
 
     describe '#available?' do
       it 'is true if any givable role exists' do
-        allow(Role)
-          .to receive_message_chain(:givable, :exists?)
+        allow(Role).to receive(:givable)
+        allow(Role.givable).to receive(:or).with(GlobalRole.givable)
+        allow(Role.givable.or(GlobalRole.givable))
+          .to receive(:exists?)
           .and_return true
 
         expect(instance).to be_available
@@ -56,8 +58,10 @@ describe Queries::WorkPackages::Filter::RoleFilter do
 
     describe '#allowed_values' do
       before do
-        allow(Role)
-          .to receive(:givable)
+        allow(Role).to receive(:givable)
+        allow(Role.givable)
+          .to receive(:or)
+          .with(GlobalRole.givable)
           .and_return [role]
       end
 
@@ -78,10 +82,11 @@ describe Queries::WorkPackages::Filter::RoleFilter do
       let(:role2) { build_stubbed(:role) }
 
       before do
-        allow(Role)
-          .to receive(:givable)
+        allow(Role).to receive(:givable)
+        allow(Role.givable)
+          .to receive(:or)
+          .with(GlobalRole.givable)
           .and_return([role, role2])
-
         instance.values = [role.id.to_s, role2.id.to_s]
       end
 

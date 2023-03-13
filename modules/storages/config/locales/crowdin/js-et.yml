@@ -56,7 +56,8 @@ et:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
         upload_error:
-          default: "Your file (%{fileName}) could not be uploaded due to an error."
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >

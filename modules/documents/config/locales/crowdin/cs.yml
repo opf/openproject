@@ -25,7 +25,7 @@ cs:
       document: "Dokument"
   activity:
     filter:
-      document: "Documents"
+      document: "Dokumenty"
   default_doc_category_tech: "Technická dokumentace"
   default_doc_category_user: "Dokumentace uživatele"
   enumeration_doc_categories: "Kategorie dokumentů"
