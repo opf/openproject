@@ -78,11 +78,21 @@ module Components
       end
 
       def expect_available_filter(name, present: true)
+        # Ng-select dropdown can optimize the available options. If the list is long enough,
+        # some filter options will not be rendered, thus the specs fail falsely.
+        # We narrow the filter list by searching for the filter, thus we can be sure the
+        # the option we are looking for is rendered.
+        input = page.find('.advanced-filters--add-filter-value input')
+        input.set name
+
         # The selector here is rather unspecific. Sometimes, we need ng-select to render the options outside of the
         # current element tree. However this means that the selector loses all feature specificity, as it's rendered
         # somewhere in the html body. This test assumes that only one ng-select can be opened at one time.
         # If you find errors with your specs related to the filter options, it might be coming from here.
         expect(page).to have_conditional_selector(present, '.ng-dropdown-panel .ng-option-label', text: name)
+
+        # Reset the filter search input
+        input.set ""
       end
 
       def expect_loaded
