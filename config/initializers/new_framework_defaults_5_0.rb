@@ -17,7 +17,7 @@ Rails.application.config.action_controller.per_form_csrf_tokens = true
 # https://guides.rubyonrails.org/configuring.html#config-action-controller-forgery-protection-origin-check
 # Enable origin-checking CSRF mitigation. Previous versions had false. Rails
 # 5.0+ default is true.
-# Rails.application.config.action_controller.forgery_protection_origin_check = true
+Rails.application.config.action_controller.forgery_protection_origin_check = true
 
 # https://guides.rubyonrails.org/configuring.html#activesupport-to-time-preserves-timezone
 # Make Ruby 2.4 preserve the timezone of the receiver when calling `to_time`.
