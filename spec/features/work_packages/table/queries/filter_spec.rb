@@ -388,9 +388,6 @@ describe 'filter work packages', js: true do
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-
       allow_any_instance_of(Plaintext::Resolver).to receive(:text).and_return('I am the first text $1.99.')
       wp_with_attachment_a
       ExtractFulltextJob.perform_now(attachment_a.id)

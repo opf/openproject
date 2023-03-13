@@ -30,11 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AttachmentFileNameFilter do
   if OpenProject::Database.allows_tsv?
-    before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-    end
-
     it_behaves_like 'basic query filter' do
       let(:type) { :text }
       let(:class_key) { :attachment_file_name }

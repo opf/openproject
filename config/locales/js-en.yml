@@ -323,8 +323,6 @@ en:
           one: "First sorting criteria"
           two: "Second sorting criteria"
           three: "Third sorting criteria"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"

@@ -362,8 +362,6 @@ describe 'Search', js: true, with_settings: { per_page_options: '5' }, with_mail
       let(:attachment_text) { "A text with the #{query} included" }
 
       it 'finds work packages with attachments' do
-        with_enterprise_token :attachment_filters
-
         global_search.search query
         global_search.submit_in_project_and_subproject_scope
 
