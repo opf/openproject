@@ -57,13 +57,14 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
-  constructor(readonly timezoneService:TimezoneService,
+  constructor(
+    readonly timezoneService:TimezoneService,
     readonly I18n:I18nService) {
     super();
   }
 
   public get value():(HalResource[]|string[]) {
-    return this.filter.values;
+    return this.filter.values || [];
   }
 
   public set value(val:(HalResource[]|string[])) {

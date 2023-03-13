@@ -1,8 +1,9 @@
-<op-multi-date-picker
+<op-basic-range-date-picker
   [id]="'values-' + filter.id"
   [name]="'v[' + filter.id + ']'"
   class="advanced-filters--date-field"
 
-  [(ngModel)]="value"
+  [value]="value"
+  (valueChange)="value = $event"
   [opAutofocus]="shouldFocus"
-></op-multi-date-picker>
+></op-basic-range-date-picker>
