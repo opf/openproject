@@ -49,7 +49,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
+import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -239,11 +239,9 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       return;
     }
 
-    const uploadFiles:IUploadFile[] = filesWithoutFolders.map((file) => ({ file }));
-
     this
       .attachmentsResourceService
-      .attachFiles(this.resource, uploadFiles)
+      .attachFiles(this.resource, filesWithoutFolders)
       .subscribe();
   }
 

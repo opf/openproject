@@ -126,15 +126,16 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
    * @param resource The HAL resource to attach the files to
    * @param files The upload files to be attached.
    */
-  attachFiles(resource:HalResource, files:IUploadFile[]):Observable<IAttachment[]> {
+  attachFiles(resource:HalResource, files:File[]):Observable<IAttachment[]> {
     const identifier = AttachmentsResourceService.getAttachmentsSelfLink(resource) || HAL_NEW_RESOURCE_ID;
     const href = this.getUploadTarget(resource);
+    const uploadFiles = files.map((file) => ({ file }));
 
     return this
       .addAttachments(
         identifier,
         href,
-        files,
+        uploadFiles,
       );
   }
 

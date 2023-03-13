@@ -41,8 +41,6 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
-import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
@@ -83,8 +81,6 @@ describe('WorkPackage', () => {
         WorkPackagesActivityService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
         ConfigurationService,
-        OpenProjectFileUploadService,
-        OpenProjectDirectFileUploadService,
         LoadingIndicatorService,
         PathHelperService,
         I18nService,
@@ -153,70 +149,6 @@ describe('WorkPackage', () => {
         isNew: true,
       };
       createWorkPackage();
-    });
-  });
-
-  describe('when using removeAttachment', () => {
-    let file:any;
-    let attachment:any;
-
-    beforeEach(() => {
-      file = {};
-      attachment = {
-        $isHal: true,
-        delete: () => undefined,
-      };
-
-      createWorkPackage();
-      workPackage.attachments.elements = [attachment];
-    });
-
-    describe('when the attachment is an attachment resource', () => {
-      beforeEach(() => {
-        attachment.delete = jasmine.createSpy('delete').and.returnValue(Promise.resolve());
-        spyOn(workPackage, 'updateAttachments');
-      });
-
-      it('should call its delete method', (done) => {
-        workPackage.removeAttachment(attachment).then(() => {
-          expect(attachment.delete).toHaveBeenCalled();
-          done();
-        });
-      });
-
-      describe('when the deletion gets resolved', () => {
-        it('should call updateAttachments()', (done) => {
-          workPackage.removeAttachment(attachment).then(() => {
-            expect(workPackage.updateAttachments).toHaveBeenCalled();
-            done();
-          });
-        });
-      });
-
-      describe('when an error occurs', () => {
-        let errorStub:jasmine.Spy;
-
-        beforeEach(() => {
-          attachment.delete = jasmine.createSpy('delete')
-            .and.returnValue(Promise.reject({ foo: 'bar' }));
-
-          errorStub = spyOn(halResourceNotification, 'handleRawError');
-        });
-
-        it('should call the handleRawError notification', (done) => {
-          workPackage.removeAttachment(attachment).then(() => {
-            expect(errorStub).toHaveBeenCalled();
-            done();
-          });
-        });
-
-        it('should not remove the attachment from the elements array', (done) => {
-          workPackage.removeAttachment(attachment).then(() => {
-            expect(workPackage.attachments.elements.length).toEqual(1);
-            done();
-          });
-        });
-      });
     });
   });
 });

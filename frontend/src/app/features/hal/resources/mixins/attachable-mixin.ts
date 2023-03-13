@@ -47,5 +47,18 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
     public get canAddAttachments():boolean {
       return !!((this as HalResource).$links as unknown&{ addAttachment?:HalLink }).addAttachment || isNewResource(this);
     }
+
+    /**
+     * Try to find an existing file's download URL given its filename
+     * @param file
+     */
+    public lookupDownloadLocationByName(file:string):string|null {
+      if (!(this.attachments && this.attachments.elements)) {
+        return null;
+      }
+
+      const match = this.attachments.elements.find((res:HalResource) => res.name === file);
+      return !match ? null : (match.staticDownloadLocation as HalLink)?.href;
+    }
   };
 }
