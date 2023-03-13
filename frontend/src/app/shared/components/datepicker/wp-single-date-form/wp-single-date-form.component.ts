@@ -183,7 +183,7 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
   }
 
   changeSchedulingMode():void {
-    this.initializeDatepicker();
+    this.datePickerInstance?.datepickerInstance.redraw();
     this.cdRef.detectChanges();
   }
 
@@ -199,7 +199,7 @@ export class OpWpSingleDateFormComponent extends UntilDestroyedMixin implements 
   }
 
   changeNonWorkingDays():void {
-    this.initializeDatepicker();
+    this.datePickerInstance?.datepickerInstance.redraw();
     this.cdRef.detectChanges();
   }
 

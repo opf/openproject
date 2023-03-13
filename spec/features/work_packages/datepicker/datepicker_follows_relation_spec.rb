@@ -35,51 +35,65 @@ describe 'Datepicker logic on follow relationships',
   shared_let(:user) { create(:admin) }
 
   shared_let(:type) { create(:type_bug) }
-  shared_let(:project) { create(:project, types: [type]) }
+  shared_let(:milestone_type) { create(:type_milestone) }
+  shared_let(:project) { create(:project, types: [milestone_type]) }
   shared_let(:predecessor) do
     create(:work_package,
            type:, project:,
            start_date: Date.parse('2023-02-01'),
            due_date: Date.parse('2023-02-05'))
   end
-  shared_let(:follower) { create(:work_package, type:, project:) }
 
-  shared_let(:relation) { create(:follows_relation, from: follower, to: predecessor) }
 
   let(:work_packages_page) { Pages::FullWorkPackage.new(follower) }
-  let(:date_field) { work_packages_page.edit_field(:combinedDate) }
   let(:datepicker) { date_field.datepicker }
 
-  before do
-    login_as(user)
+  shared_examples 'keeps the minimum date from the predecessor when toggling NWD' do
+    it 'keeps the minimum dates disabled' do
+      login_as(user)
 
-    work_packages_page.visit!
-    work_packages_page.ensure_page_loaded
+      work_packages_page.visit!
+      work_packages_page.ensure_page_loaded
 
-    date_field.activate!
-    date_field.expect_active!
-    # Wait for the datepicker to be initialized
-    datepicker.expect_visible
+      date_field.activate!
+      date_field.expect_active!
+      # Wait for the datepicker to be initialized
+      datepicker.expect_visible
+
+      datepicker.expect_ignore_non_working_days false
+      datepicker.expect_scheduling_mode false
+
+      datepicker.show_date '2023-02-05'
+      datepicker.expect_disabled Date.parse('2023-02-05')
+      datepicker.expect_disabled Date.parse('2023-02-04')
+      datepicker.expect_disabled Date.parse('2023-02-03')
+      datepicker.expect_disabled Date.parse('2023-02-02')
+      datepicker.expect_disabled Date.parse('2023-02-01')
+
+      datepicker.toggle_ignore_non_working_days
+      datepicker.expect_ignore_non_working_days true
+      datepicker.show_date '2023-02-05'
+      datepicker.expect_disabled Date.parse('2023-02-05')
+      datepicker.expect_disabled Date.parse('2023-02-04')
+      datepicker.expect_disabled Date.parse('2023-02-03')
+      datepicker.expect_disabled Date.parse('2023-02-02')
+      datepicker.expect_disabled Date.parse('2023-02-01')
+    end
   end
 
-  it 'keeps the minimum date from the predecessor when toggling NWD (Regression #46375)' do
-    datepicker.expect_ignore_non_working_days false
-    datepicker.expect_scheduling_mode false
+  context 'if the follower is a task' do
+    let!(:follower) { create(:work_package, type:, project:) }
+    let!(:relation) { create(:follows_relation, from: follower, to: predecessor) }
+    let(:date_field) { work_packages_page.edit_field(:combinedDate) }
 
-    datepicker.show_date '2023-02-05'
-    datepicker.expect_disabled Date.parse('2023-02-05')
-    datepicker.expect_disabled Date.parse('2023-02-04')
-    datepicker.expect_disabled Date.parse('2023-02-03')
-    datepicker.expect_disabled Date.parse('2023-02-02')
-    datepicker.expect_disabled Date.parse('2023-02-01')
+    it_behaves_like 'keeps the minimum date from the predecessor when toggling NWD'
+  end
 
-    datepicker.toggle_ignore_non_working_days
-    datepicker.expect_ignore_non_working_days true
-    datepicker.show_date '2023-02-05'
-    datepicker.expect_disabled Date.parse('2023-02-05')
-    datepicker.expect_disabled Date.parse('2023-02-04')
-    datepicker.expect_disabled Date.parse('2023-02-03')
-    datepicker.expect_disabled Date.parse('2023-02-02')
-    datepicker.expect_disabled Date.parse('2023-02-01')
+  context 'if the follower is a milestone' do
+    let!(:follower) { create(:work_package, type: milestone_type, project:) }
+    let!(:relation) { create(:follows_relation, from: follower, to: predecessor) }
+    let(:date_field) { work_packages_page.edit_field(:date) }
+
+    it_behaves_like 'keeps the minimum date from the predecessor when toggling NWD'
   end
 end
