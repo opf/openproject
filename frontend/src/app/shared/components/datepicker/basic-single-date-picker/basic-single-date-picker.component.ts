@@ -37,6 +37,7 @@ import {
   Injector,
   Input,
   OnDestroy,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -56,6 +57,7 @@ import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
 
@@ -73,7 +75,7 @@ export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
     },
   ],
 })
-export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, AfterViewInit, OnDestroy {
+export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
   @Output() valueChange = new EventEmitter();
 
   @Output() picked = new EventEmitter();
@@ -104,6 +106,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
 
   @ViewChild('input') input:ElementRef;
 
+  mobile = false;
+
   text = {
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
@@ -117,32 +121,32 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, A
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
+    readonly deviceService:DeviceService,
   ) {
     populateInputsFromDataset(this);
   }
 
+  ngOnInit() {
+    this.mobile = this.deviceService.isMobile;
+  }
+
   ngAfterViewInit():void {
-    this.initializeDatePicker();
+    if (!this.mobile) {
+      this.initializeDatePicker();
+    }
   }
 
   ngOnDestroy():void {
     this.datePickerInstance?.destroy();
   }
 
-  changeValueFromInput($event:KeyboardEvent) {
-    const value = ($event.target as HTMLInputElement).value;
+  changeValueFromInput(value:string) {
     if (validDate(value)) {
-      const dateString = this.timezoneService.formattedISODate(value);
-      this.datePickerInstance.setDates(dateString);
-      this.valueChange.emit(dateString);
-      this.onTouched(dateString);
-      this.onChange(dateString);
-      this.writeValue(dateString);
-    } else if (value === '') {
-      this.datePickerInstance.setDates('');
-      this.onTouched('');
-      this.onChange('');
+      this.onTouched(value);
+      this.onChange(value);
+      this.writeValue(value);
+      this.datePickerInstance?.setDates(value);
+      this.valueChange.emit(value);
     }
   }
 
