@@ -85,7 +85,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   @HostBinding('class.op-basic-range-datepicker_mobile') mobile = false;
 
-  @Output('valueChange') valueChange = new EventEmitter();
+  @Output() valueChange = new EventEmitter();
 
   private _value:string[] = [];
 

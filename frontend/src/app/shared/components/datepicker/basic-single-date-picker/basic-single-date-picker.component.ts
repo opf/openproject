@@ -56,7 +56,6 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const opBasicSingleDatePickerSelector = 'op-basic-single-date-picker';
@@ -141,11 +140,10 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   changeValueFromInput(value:string) {
-    this.onTouched(value);
-    this.onChange(value);
-    this.writeValue(value);
-
     if (validDate(value)) {
+      this.onTouched(value);
+      this.onChange(value);
+      this.writeValue(value);
       this.datePickerInstance?.setDates(value);
       this.valueChange.emit(value);
     }
