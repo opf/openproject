@@ -146,7 +146,7 @@ $datepicker--border-radius: 5px
         &.flatpickr-non-working-day_enabled
           @include non-working-day_enabled
 
-          &.selected
+          &.selected:not(.startRange, .endRange)
             border-radius: $datepicker--border-radius
 
         &.today
