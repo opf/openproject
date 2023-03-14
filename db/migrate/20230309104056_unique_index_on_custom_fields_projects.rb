@@ -62,6 +62,10 @@ class UniqueIndexOnCustomFieldsProjects < ActiveRecord::Migration[7.0]
       insertion AS (
         INSERT INTO
           custom_fields_projects
+          (
+            project_id,
+            custom_field_id
+          )
         SELECT
           project_id,
           custom_field_id
