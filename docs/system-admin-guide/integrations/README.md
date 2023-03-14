@@ -66,6 +66,10 @@ There is an integration between OpenProject and TimeCamp. We provide a [short in
 
 Currently, there is no direct integration between OpenProject and Timesheet. If you are looking for a time tracking tool with a simple push of a button, consider the integration with [Toggl](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
 
+## Time Tracker for OpenProject
+
+[Time Tracker](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your Open Project instance. We provide a [short instruction](../../user-guide/time-and-costs/time-tracking/tim-tracker-integration/) how to set it up and use it.  Please keep in mind that it is not developed by OpenProject and is not supported by us. 
+
 ## Toggl
 
 We do offer an integration between OpenProject and the time tracking app Toggl. Find out more [here](../../user-guide/time-and-costs/time-tracking/toggl-integration/).
