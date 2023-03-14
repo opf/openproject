@@ -26,9 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackageDateIndices < ActiveRecord::Migration[7.0]
-  def change
-    add_index :work_packages, :start_date
-    add_index :work_packages, :due_date
+class AddUpdateDeleteCascadeToWorkPackagesProjectId < ActiveRecord::Migration[7.0]
+  def up
+    remove_foreign_key :work_packages, :projects
+    add_foreign_key :work_packages, :projects, on_delete: :cascade, on_update: :cascade
+  end
+
+  def down
+    remove_foreign_key :work_packages, :projects
+    add_foreign_key :work_packages, :projects
   end
 end

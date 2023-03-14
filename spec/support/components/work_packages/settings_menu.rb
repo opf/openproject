@@ -52,7 +52,11 @@ module Components
 
       def open!
         click_on 'work-packages-settings-button'
-        expect_open
+        dropdown_menu
+      end
+
+      def dropdown_menu
+        page.find(selector)
       end
 
       def expect_open
