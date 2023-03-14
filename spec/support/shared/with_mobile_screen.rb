@@ -24,23 +24,23 @@
 #
 #  See COPYRIGHT and LICENSE files for more details.
 
-RSpec.configure do |config|
-  config.around :example, :with_screen_size do |example|
-    width_before = page.driver.browser.manage.window.size.width
-    height_before = page.driver.browser.manage.window.size.height
+shared_context 'with mobile screen size' do |width, height|
+  let!(:height_before) do
+    page.driver.browser.manage.window.size.height
+  end
+  let!(:width_before) do
+    page.driver.browser.manage.window.size.width
+  end
 
-    width, height = example.metadata[:with_screen_size]
+  before do
+    # Change browser size
+    page.driver.browser.manage.window.resize_to(width || 500, height || 1000)
 
-    begin
-      # Change browser size
-      page.driver.browser.manage.window.resize_to(width, height)
+    # Refresh the page
+    page.driver.browser.navigate.refresh
+  end
 
-      # Refresh the page
-      page.driver.browser.navigate.refresh
-
-      example.run
-    ensure
-      page.driver.browser.manage.window.resize_to(width_before, height_before)
-    end
+  after do
+    page.driver.browser.manage.window.resize_to(width_before, height_before)
   end
 end
