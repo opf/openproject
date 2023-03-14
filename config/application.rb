@@ -59,10 +59,10 @@ module OpenProject
     # https://guides.rubyonrails.org/configuring.html#versioned-default-values
     # for the default values associated with a particular version.
     #
-    # Currently, defaults from Rails 4.2 are applied. Goal is to reach 7.0
-    # defaults. Overridden defaults should be stored in specific initializers
-    # files. See https://community.openproject.org/wp/45463 for details.
-    # config.load_defaults 5.0
+    # Goal is to reach 7.0 defaults. Overridden defaults should be stored in
+    # specific initializers files. See
+    # https://community.openproject.org/wp/45463 for details.
+    config.load_defaults 5.0
 
     # Use new connection handling API. For most applications this won't have any
     # effect. For applications using multiple databases, this new API provides
