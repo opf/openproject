@@ -217,8 +217,8 @@ module Components
           # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
           if filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
-            input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
-            ensure_value_is_input_correctly input, value: Array(value).join(' - ')
+            date_input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
+            ensure_value_is_input_correctly date_input, value: Array(value).join(' - ')
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
             Array(value).each do |val|
               select_autocomplete filter_element.find("op-autocompleter"),
