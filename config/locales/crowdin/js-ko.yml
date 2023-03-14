@@ -294,8 +294,6 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -475,7 +473,7 @@ ko:
     label_watch_work_package: "작업 패키지 주시"
     label_watcher_added_successfully: "주시하는 사람이 추가되었습니다."
     label_watcher_deleted_successfully: "주시하는 사람이 삭제되었습니다."
-    label_work_package_details_you_are_here: "%{type} %{subject}에 대한 %{tab} 탭에 있습니다."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
@@ -588,9 +586,9 @@ ko:
         text_update_date: "%{date} -"
         total_count_warning: "%{newest_count} 개의 가장 최근 알림을 표시합니다. %{more_count} 개의 알림은 표시되지 않습니다."
         empty_state:
-          no_notification: "모두 확인하신 것 같습니다."
-          no_notification_with_current_project_filter: "선택한 프로젝트에 대한 모든 알림을 본 것 같습니다."
-          no_notification_with_current_filter: "%{filter} 필터에 대한 모든 알림을 본 것 같습니다."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "모든 활동 세부 정보를 보려면 알림을 클릭하세요."
         new_notifications:
           message: '새 알림이 있습니다.'
@@ -1002,7 +1000,7 @@ ko:
         move_column_left: "왼쪽으로 열 이동"
         move_column_right: "오른쪽으로 열 이동"
         hide_column: "열 숨기기"
-        insert_columns: "열 삽입..."
+        insert_columns: "Insert columns"
         filters: "필터"
         display_sums: "합계 표시"
         confirm_edit_cancel: "이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다."
@@ -1029,7 +1027,7 @@ ko:
         button: '이 작업 패키지 테이블 구성'
         choose_display_mode: '다음으로 작업 패키지 표시'
         modal_title: '작업 패키지 테이블 구성'
-        embedded_tab_disabled: "이 구성 탭은 사용자가 편집하고 있는 포함된 보기에서 사용할 수 없습니다."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "기본값"
         display_settings: '디스플레이 설정'
         default_mode: "플랫 목록"
@@ -1071,19 +1069,19 @@ ko:
         months: "개월"
     toolbar:
       settings:
-        configure_view: "보기 구성..."
-        columns: "열..."
-        sort_by: "정렬 기준..."
-        group_by: "그룹화 기준..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "합계 표시"
         display_hierarchy: "계층 보이기"
         hide_hierarchy: "계층 숨기기"
         hide_sums: "합계 숨기기"
         save: "저장"
-        save_as: "다른 이름으로 저장..."
-        export: "내보내기..."
-        visibility_settings: "표시 여부 설정..."
-        page_settings: "보기 이름 바꾸기..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "삭제"
       filter: "필터"
       unselected_title: "작업 패키지"

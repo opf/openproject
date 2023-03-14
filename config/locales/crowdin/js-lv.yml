@@ -294,8 +294,6 @@ lv:
           one: "Pirmais kārtošanas kritērijs"
           two: "Otrs kārtošanas kritērijs"
           three: "Trešais kārtošanas kritērijs"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -475,7 +473,7 @@ lv:
     label_watch_work_package: "Sekot pieteikumam"
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "Tu esi %{type} %{subject} %{tab} cilnē."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Pārtraukt sekošanu"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -590,9 +588,9 @@ lv:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1004,7 +1002,7 @@ lv:
         move_column_left: "Pārvietot kolonnu pa kreisi"
         move_column_right: "Pārvietot kolonnu pa labi"
         hide_column: "Paslēpt kolonu"
-        insert_columns: "Ievietot kolonnas..."
+        insert_columns: "Insert columns"
         filters: "Filtri"
         display_sums: "Display Sums"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1031,7 +1029,7 @@ lv:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1073,19 +1071,19 @@ lv:
         months: "months"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Kolonnas..."
-        sort_by: "Kārtot pēc..."
-        group_by: "Grupēt pēc..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Parādīt summas"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Hide sums"
         save: "Saglabāt"
-        save_as: "Saglabāt kā ..."
-        export: "Eksportēt..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Dzēst"
       filter: "Filtrēt"
       unselected_title: "Work package"

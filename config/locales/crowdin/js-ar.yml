@@ -294,8 +294,6 @@ ar:
           one: "أولاً يتم فرز المعايير"
           two: "ثانياً يتم فرز المعايير"
           three: "ثالثاً يتم فرز المعايير"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "لا"
     general_text_yes: "نعم"
     general_text_No: "لا"
@@ -475,7 +473,7 @@ ar:
     label_watch_work_package: "مراقبة مجموعة العمل"
     label_watcher_added_successfully: "تم إضافة المراقب بنجاح!"
     label_watcher_deleted_successfully: "تم حذف المراقب بنجاح!"
-    label_work_package_details_you_are_here: "أنت على%{tab} علامة تبويب ل %{type}%{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "وقْف المشاهدة"
     label_unwatch_work_package: "لا تراقب مجموعة العمل"
     label_uploaded_by: "تم التحميل بواسطة"
@@ -593,9 +591,9 @@ ar:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1007,7 +1005,7 @@ ar:
         move_column_left: "انقل العمود لليسار"
         move_column_right: "انقل العمود لليمين"
         hide_column: "إخفاء العمود"
-        insert_columns: "أدخِل أعمدة ..."
+        insert_columns: "Insert columns"
         filters: "عوامل التصفية"
         display_sums: "عرض المبالغ"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1034,7 +1032,7 @@ ar:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "الافتراضي"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1076,19 +1074,19 @@ ar:
         months: "أشهر"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "أعمدة..."
-        sort_by: "تم تصنيفه حسب..."
-        group_by: "تم تجميعه حسب..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "عرض المجاميع"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "إخفاء المجاميع"
         save: "حفظ"
-        save_as: "حفظ بشكل ..."
-        export: "تصدير ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "احذف"
       filter: "فلترة"
       unselected_title: "مجموعة العمل"

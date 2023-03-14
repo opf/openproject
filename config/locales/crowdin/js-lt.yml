@@ -294,8 +294,6 @@ lt:
           one: "Pirmasis rikiavimo kriterijus"
           two: "Antrasis rikiavimo kriterijus"
           three: "Trečiasis rikiavimo kriterijus"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "ne"
     general_text_yes: "taip"
     general_text_No: "Ne"
@@ -475,7 +473,7 @@ lt:
     label_watch_work_package: "Stebėti darbų paketą"
     label_watcher_added_successfully: "Stebėtojas sėkmingai pridėtas!"
     label_watcher_deleted_successfully: "Stebėtojas sėkmingai ištrintas!"
-    label_work_package_details_you_are_here: "Esate %{type} %{subject} %{tab} skirtuke."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
@@ -591,9 +589,9 @@ lt:
         text_update_date: "%{date} "
         total_count_warning: "Rodomi %{newest_count} paskutiniai pranešimai. Dar %{more_count} yra nerodomi."
         empty_state:
-          no_notification: "Panašu, kad jūs pilnai pasivijote."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Spauskite ant pranešimo, kad peržiūrėtumėte visas veiksmo detales."
         new_notifications:
           message: 'Yra naujų pranešimų.'
@@ -1005,7 +1003,7 @@ lt:
         move_column_left: "Perkelti stulpelį į kairę"
         move_column_right: "Perkelti stulpelį į dešinę"
         hide_column: "Slėpti stulpelį"
-        insert_columns: "Įterpti stulpelius ..."
+        insert_columns: "Insert columns"
         filters: "Filtrai"
         display_sums: "Rodyti suvestines"
         confirm_edit_cancel: "Ar tikrai norite atšaukti pavadinimo pakeitimus? Pavadinimas bus atstatytas į prieš tai buvusį tekstą."
@@ -1032,7 +1030,7 @@ lt:
         button: 'Konfigūruokite šią darbų paketo lentelę'
         choose_display_mode: 'Parodyti darbų paketą kaip'
         modal_title: 'Darbų paketų lentelės konfigūracija'
-        embedded_tab_disabled: "Ši konfigūracijos kortelė nerodoma įterpiamam vaizdui, kurį jūs redaguojate."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "numatytasis"
         display_settings: 'Rodymo nustatymai'
         default_mode: "Paprastas sąrašas"
@@ -1074,19 +1072,19 @@ lt:
         months: "mėnesiai"
     toolbar:
       settings:
-        configure_view: "Konfigūruoti vaizdą..."
-        columns: "Stulpeliai ..."
-        sort_by: "Rikiuoti pagal..."
-        group_by: "Grupuoti pagal ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Rodyti suvestines"
         display_hierarchy: "Rodyti hierarchiją"
         hide_hierarchy: "Slėpti hierarchiją"
         hide_sums: "Slėpti suvestines"
         save: "Įrašyti"
-        save_as: "Įrašyti kaip..."
-        export: "Eksportuoti ..."
-        visibility_settings: "Matomumo nustatymai..."
-        page_settings: "Pervardinti vaizdą ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Trinti"
       filter: "Filtras"
       unselected_title: "Darbų paketas"

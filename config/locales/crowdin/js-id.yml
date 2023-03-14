@@ -294,8 +294,6 @@ id:
           one: "Kriteria penyortiran pertama"
           two: "Kriteria penyortiran kedua"
           three: "Kriteria penyortiran ketiga"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "yes"
     general_text_No: "No"
@@ -475,7 +473,7 @@ id:
     label_watch_work_package: "Pantau Paket-Penugasan"
     label_watcher_added_successfully: "Pemantau telah ditambahkan!"
     label_watcher_deleted_successfully: "Pemantau telah dihapus!"
-    label_work_package_details_you_are_here: "Anda di tab %{tab} untuk %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Tidak pantau Paket-Penugasan"
     label_uploaded_by: "Diupload oleh"
@@ -588,9 +586,9 @@ id:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1002,7 +1000,7 @@ id:
         move_column_left: "Pindahkan kolom ke kiri"
         move_column_right: "Pindahkan kolom ke kanan"
         hide_column: "Sembunyikan kolom"
-        insert_columns: "Sisipkan kolom..."
+        insert_columns: "Insert columns"
         filters: "Filter"
         display_sums: "Tampilkan jumlah"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1029,7 +1027,7 @@ id:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1071,19 +1069,19 @@ id:
         months: "bulan"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Kolom..."
-        sort_by: "Urut berdasarkan..."
-        group_by: "Grup oleh..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Tampilkan jumlah"
         display_hierarchy: "Tampilkan hirarki"
         hide_hierarchy: "Sembunyikan hirarki"
         hide_sums: "Sembunyikan jumlah"
         save: "Simpan"
-        save_as: "Simpan sebagai..."
-        export: "Ekspor..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Hapus"
       filter: "Filter"
       unselected_title: "Paket-Penugasan"

@@ -292,8 +292,6 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns839573:0crwdne839573:0"
-      upsale_link: 'crwdns839469:0crwdne839469:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
     general_text_No: "crwdns787244:0crwdne787244:0"
@@ -473,7 +471,7 @@ lol:
     label_watch_work_package: "crwdns787562:0crwdne787562:0"
     label_watcher_added_successfully: "crwdns787564:0crwdne787564:0"
     label_watcher_deleted_successfully: "crwdns787566:0crwdne787566:0"
-    label_work_package_details_you_are_here: "crwdns787568:0%{tab}crwdnd787568:0%{type}crwdnd787568:0%{subject}crwdne787568:0"
+    label_work_package_details_you_are_here: "crwdns847263:0%{tab}crwdnd847263:0%{type}crwdnd847263:0%{subject}crwdne847263:0"
     label_unwatch: "crwdns787570:0crwdne787570:0"
     label_unwatch_work_package: "crwdns787572:0crwdne787572:0"
     label_uploaded_by: "crwdns787574:0crwdne787574:0"
@@ -587,9 +585,9 @@ lol:
         text_update_date: "crwdns787708:0%{date}crwdne787708:0"
         total_count_warning: "crwdns787710:0%{newest_count}crwdnd787710:0%{more_count}crwdne787710:0"
         empty_state:
-          no_notification: "crwdns787712:0crwdne787712:0"
-          no_notification_with_current_project_filter: "crwdns823056:0crwdne823056:0"
-          no_notification_with_current_filter: "crwdns823058:0%{filter}crwdne823058:0"
+          no_notification: "crwdns847265:0crwdne847265:0"
+          no_notification_with_current_project_filter: "crwdns847267:0crwdne847267:0"
+          no_notification_with_current_filter: "crwdns847269:0%{filter}crwdne847269:0"
           no_selection: "crwdns787716:0crwdne787716:0"
         new_notifications:
           message: 'crwdns787718:0crwdne787718:0'
@@ -1001,7 +999,7 @@ lol:
         move_column_left: "crwdns788358:0crwdne788358:0"
         move_column_right: "crwdns788360:0crwdne788360:0"
         hide_column: "crwdns788362:0crwdne788362:0"
-        insert_columns: "crwdns788364:0crwdne788364:0"
+        insert_columns: "crwdns847271:0crwdne847271:0"
         filters: "crwdns788366:0crwdne788366:0"
         display_sums: "crwdns788368:0crwdne788368:0"
         confirm_edit_cancel: "crwdns788370:0crwdne788370:0"
@@ -1028,7 +1026,7 @@ lol:
         button: 'crwdns788402:0crwdne788402:0'
         choose_display_mode: 'crwdns788404:0crwdne788404:0'
         modal_title: 'crwdns788406:0crwdne788406:0'
-        embedded_tab_disabled: "crwdns788408:0crwdne788408:0"
+        embedded_tab_disabled: "crwdns847273:0crwdne847273:0"
         default: "crwdns788410:0crwdne788410:0"
         display_settings: 'crwdns788412:0crwdne788412:0'
         default_mode: "crwdns788414:0crwdne788414:0"
@@ -1070,19 +1068,19 @@ lol:
         months: "crwdns788474:0crwdne788474:0"
     toolbar:
       settings:
-        configure_view: "crwdns788476:0crwdne788476:0"
-        columns: "crwdns788478:0crwdne788478:0"
-        sort_by: "crwdns788480:0crwdne788480:0"
-        group_by: "crwdns788482:0crwdne788482:0"
+        configure_view: "crwdns847275:0crwdne847275:0"
+        columns: "crwdns847277:0crwdne847277:0"
+        sort_by: "crwdns847279:0crwdne847279:0"
+        group_by: "crwdns847281:0crwdne847281:0"
         display_sums: "crwdns788484:0crwdne788484:0"
         display_hierarchy: "crwdns788486:0crwdne788486:0"
         hide_hierarchy: "crwdns788488:0crwdne788488:0"
         hide_sums: "crwdns788490:0crwdne788490:0"
         save: "crwdns788492:0crwdne788492:0"
-        save_as: "crwdns788494:0crwdne788494:0"
-        export: "crwdns788496:0crwdne788496:0"
-        visibility_settings: "crwdns788498:0crwdne788498:0"
-        page_settings: "crwdns788500:0crwdne788500:0"
+        save_as: "crwdns847283:0crwdne847283:0"
+        export: "crwdns847285:0crwdne847285:0"
+        visibility_settings: "crwdns847287:0crwdne847287:0"
+        page_settings: "crwdns847289:0crwdne847289:0"
         delete: "crwdns788502:0crwdne788502:0"
       filter: "crwdns788504:0crwdne788504:0"
       unselected_title: "crwdns788506:0crwdne788506:0"

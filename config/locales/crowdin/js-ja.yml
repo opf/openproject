@@ -295,8 +295,6 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -476,7 +474,7 @@ ja:
     label_watch_work_package: "作業項目をウォッチ"
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
     label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
-    label_work_package_details_you_are_here: "あなたは %{type} %{subject}で %{tab} タブにいます。"
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
@@ -589,9 +587,9 @@ ja:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1003,7 +1001,7 @@ ja:
         move_column_left: "列を左に移動"
         move_column_right: "列を右に移動"
         hide_column: "列を非表示"
-        insert_columns: "列の挿入."
+        insert_columns: "Insert columns"
         filters: "フィルタ"
         display_sums: "合計を表示"
         confirm_edit_cancel: "このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。"
@@ -1030,7 +1028,7 @@ ja:
         button: 'このワークパッケージテーブルを設定する'
         choose_display_mode: '作業項目を次のように表示する'
         modal_title: 'ワークパッケージ一覧の設定'
-        embedded_tab_disabled: "この設定タブは編集中の埋め込みビューでは使用できません。"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "デフォルト"
         display_settings: '表示設定'
         default_mode: "フラットリスト"
@@ -1072,19 +1070,19 @@ ja:
         months: "月"
     toolbar:
       settings:
-        configure_view: "表示設定..."
-        columns: "列..."
-        sort_by: "並べ替え..."
-        group_by: "グループ化..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "合計を表示"
         display_hierarchy: "階層を表示"
         hide_hierarchy: "階層を非表示"
         hide_sums: "合計の非表示"
         save: "保存"
-        save_as: "名前を付けて保存"
-        export: "出力..."
-        visibility_settings: "表示設定..."
-        page_settings: "ビューの名前を変更..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "削除"
       filter: "フィルタ"
       unselected_title: "ワーク パッケージ"

@@ -294,8 +294,6 @@ uk:
           one: "Перший критерій впорядкування"
           two: "Другий критерій впорядкування"
           three: "Третій критерій впорядкування"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "ні"
     general_text_yes: "так"
     general_text_No: "Ні"
@@ -475,7 +473,7 @@ uk:
     label_watch_work_package: "Спостерігати за робочим пакетом"
     label_watcher_added_successfully: "Спостерігач успішно доданий!"
     label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
-    label_work_package_details_you_are_here: "Ви знаходитесь на вкладці %{tab} для %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
@@ -591,9 +589,9 @@ uk:
         text_update_date: "%{date} –"
         total_count_warning: "Показано стільки останніх сповіщень: %{newest_count}. Ще %{more_count} не показано."
         empty_state:
-          no_notification: "Схоже, ви все прочитали."
-          no_notification_with_current_project_filter: "Схоже, ви переглянули всі сповіщення для вибраного проєкту."
-          no_notification_with_current_filter: "Схоже, ви переглянули всі сповіщення за фільтром %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Натисніть сповіщення, щоб переглянути всі дані про дію."
         new_notifications:
           message: 'Немає нових сповіщень.'
@@ -1005,7 +1003,7 @@ uk:
         move_column_left: "Перемістити стовпець ліворуч"
         move_column_right: "Перемістити стовпець праворуч"
         hide_column: "Приховати стовпчик"
-        insert_columns: "Вставити стовпці ..."
+        insert_columns: "Insert columns"
         filters: "Фільтри"
         display_sums: "Відображати суми"
         confirm_edit_cancel: "Дійсно скасувати редагування імені цього перегляду? Заголовок повернеться до попереднього значення."
@@ -1032,7 +1030,7 @@ uk:
         button: 'Налаштуйте цю таблицю робочих пакетів'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Конфігурація таблиці робочих пакетів'
-        embedded_tab_disabled: "Ця вкладка конфігурації недоступна для вбудованого вигляду, який ви редагуєте."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "типовий"
         display_settings: 'Параметри дисплея'
         default_mode: "Плоский список"
@@ -1074,19 +1072,19 @@ uk:
         months: "місяців"
     toolbar:
       settings:
-        configure_view: "Налаштувати перегляд ..."
-        columns: "Стовпці..."
-        sort_by: "Сортувати за ..."
-        group_by: "Групувати за ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Відображати суми"
         display_hierarchy: "Відображення ієрархії"
         hide_hierarchy: "Приховати ієрархію"
         hide_sums: "Приховати суми"
         save: "Зберегти"
-        save_as: "Зберегти як ..."
-        export: "Експортувати ..."
-        visibility_settings: "Налаштування видимості ..."
-        page_settings: "Перейменувати перегляд ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Видалити"
       filter: "Фільтр"
       unselected_title: "Пакет робіт"

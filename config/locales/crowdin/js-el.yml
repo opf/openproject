@@ -293,8 +293,6 @@ el:
           one: "Πρώτο κριτήριο ταξινόμησης"
           two: "Δεύτερο κριτήριο ταξινόμησης"
           three: "Τρίτο κριτήριο ταξινόμησης"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "όχι"
     general_text_yes: "ναι"
     general_text_No: "Όχι"
@@ -474,7 +472,7 @@ el:
     label_watch_work_package: "Παρακολούθηση πακέτου εργασίας"
     label_watcher_added_successfully: "Ο παρατηρητής προστέθηκε επιτυχώς!"
     label_watcher_deleted_successfully: "Ο παρατηρητής διαγράφηκε επιτυχώς!"
-    label_work_package_details_you_are_here: "Βρίσκεστε στην καρτέλα %{tab} για το %{type}%{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Αναίρεση παρακολούθησης"
     label_unwatch_work_package: "Αναίρεση παρακολούθησης πακέτου εργασίας"
     label_uploaded_by: "Μεταφορτώθηκε από"
@@ -588,9 +586,9 @@ el:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1002,7 +1000,7 @@ el:
         move_column_left: "Μετακίνηση στήλης αριστερά"
         move_column_right: "Μετακίνηση στήλης δεξιά"
         hide_column: "Απόκρυψη στήλης"
-        insert_columns: "Εισαγωγή στηλών ..."
+        insert_columns: "Insert columns"
         filters: "Φίλτρα"
         display_sums: "Εμφάνιση Αθροισμάτων"
         confirm_edit_cancel: "Είστε βέβαιοι ότι θέλετε να ακυρώσετε την επεξεργασία του ονόματος αυτής της προβολής; Ο τίτλος θα επανέλθει στην προηγούμενη τιμή του."
@@ -1029,7 +1027,7 @@ el:
         button: 'Διαμόρφωση αυτού του πίνακα πακέτων εργασίας'
         choose_display_mode: 'Εμφάνιση πακέτων εργασίας ως'
         modal_title: 'Διαμόρφωση του πίνακα πακέτων εργασίας'
-        embedded_tab_disabled: "Αυτή η καρτέλα διαμόρφωσης δεν είναι διαθέσιμη για την ενσωματωμένη προβολή που επεξεργάζεστε."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "προεπιλογή"
         display_settings: 'Ρυθμίσεις εμφάνισης'
         default_mode: "Επίπεδη λίστα"
@@ -1071,19 +1069,19 @@ el:
         months: "μήνες"
     toolbar:
       settings:
-        configure_view: "Διαμόρφωση προβολής ..."
-        columns: "Στήλες ..."
-        sort_by: "Ταξινόμηση κατά ..."
-        group_by: "Ομαδοποίηση κατά ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Εμφάνιση αθροισμάτων"
         display_hierarchy: "Εμφάνιση ιεραρχίας"
         hide_hierarchy: "Απόκρυψη ιεραρχίας"
         hide_sums: "Απόκρυψη αθροισμάτων"
         save: "Αποθήκευση"
-        save_as: "Αποθήκευση ως ..."
-        export: "Εξαγωγή ..."
-        visibility_settings: "Ρυθμίσεις ορατότητας ..."
-        page_settings: "Μετονομασία προβολής ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Διαγραφή"
       filter: "Φίλτρο"
       unselected_title: "Εργασία"

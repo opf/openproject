@@ -293,8 +293,6 @@ da:
           one: "Første sorteringskriterium"
           two: "Anden sorteringskriterier"
           three: "Tredje sorteringskriterium"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -474,7 +472,7 @@ da:
     label_watch_work_package: "Før tilsyn med arbejdspakke"
     label_watcher_added_successfully: "Tilsynsførende er nu tilføjet!"
     label_watcher_deleted_successfully: "Tilsynsførende er nu slettet!"
-    label_work_package_details_you_are_here: "Du er på fanen %{tab} for %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Stands tilsyn"
     label_unwatch_work_package: "Stands tilsyn med arbejdspakke"
     label_uploaded_by: "Lagt op af"
@@ -588,9 +586,9 @@ da:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1002,7 +1000,7 @@ da:
         move_column_left: "Flyt kolonne til venstre"
         move_column_right: "Flyt kolonne til højre"
         hide_column: "Gem kolonne"
-        insert_columns: "Indsæt kolonner..."
+        insert_columns: "Insert columns"
         filters: "Filtre"
         display_sums: "Vis totaler"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1029,7 +1027,7 @@ da:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "Forhåndsvalgt"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1071,19 +1069,19 @@ da:
         months: "måneder"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Kolonner..."
-        sort_by: "Sorter efter..."
-        group_by: "Gruppér efter..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Vis sammentællinger"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Skjul sammentællinger"
         save: "Gem"
-        save_as: "Gem som..."
-        export: "Eksporter..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Slet"
       filter: "Filter"
       unselected_title: "Arbejdspakke"

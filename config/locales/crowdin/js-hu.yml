@@ -294,8 +294,6 @@ hu:
           one: "Első rendezési feltétel"
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -475,7 +473,7 @@ hu:
     label_watch_work_package: "Megfigyelő munkacsomag"
     label_watcher_added_successfully: "Megfigyelő sikeresen hozzáadva!"
     label_watcher_deleted_successfully: "Megfigyelő sikeresen törölve!"
-    label_work_package_details_you_are_here: "Te a %{tab} lapon %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
@@ -589,9 +587,9 @@ hu:
         text_update_date: "%{date} szerint"
         total_count_warning: "A %{newest_count} legfrissebb értesítések megjelenítése. %{more_count} több nem jelenik meg.\n"
         empty_state:
-          no_notification: "Úgy tűnik, hogy teljesen naprakész."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'Új értesítések érkeztek.'
@@ -1003,7 +1001,7 @@ hu:
         move_column_left: "Oszlop mozgatása balra"
         move_column_right: "Oszlop mozgatása jobbra"
         hide_column: "Oszlop elrejtése"
-        insert_columns: "Oszlopok beszúrása..."
+        insert_columns: "Insert columns"
         filters: "Szürő"
         display_sums: "Megjelenitendő összegek"
         confirm_edit_cancel: "Biztosan meg kívánod szakítani a nézet nevének szerkesztését? Cím vissza lesz állítva a korábbi értékre."
@@ -1030,7 +1028,7 @@ hu:
         button: 'Ennek a feladatcsoportnak a beállítása'
         choose_display_mode: 'Feladatcsoportok megjelenése'
         modal_title: 'Feladatcsoport táblázat beállítás'
-        embedded_tab_disabled: "Ez a konfigurációs lap nem érhető el a szerkesztett beágyazott nézetben.\n"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "alapértelmezett"
         display_settings: 'Megjelenítési beállítások'
         default_mode: "Sima lista"
@@ -1072,19 +1070,19 @@ hu:
         months: "hónap"
     toolbar:
       settings:
-        configure_view: "Nézet beállítása"
-        columns: "Oszlopok..."
-        sort_by: "Rendezés..."
-        group_by: "Csoportosítás..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Megjelenítendő összegek"
         display_hierarchy: "Hierarchia megjelenítése"
         hide_hierarchy: "Hierarchia elrejtése"
         hide_sums: "Összegek elrejtése"
         save: "Mentés"
-        save_as: "Mentés másként ..."
-        export: "Exportálás..."
-        visibility_settings: "Láthatóság beállítások ..."
-        page_settings: "Nézet átnevezése ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Törlés"
       filter: "Szűrő"
       unselected_title: "Feladatcsoport"

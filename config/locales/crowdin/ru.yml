@@ -698,7 +698,7 @@ ru:
             read_ian:
               read_on_creation: 'невозможно установить истину при создании уведомления.'
             mail_reminder_sent:
-              set_on_creation: 'невозможно установить истину при создании уведомления.'
+              set_on_creation: 'не могут быть включены при создании уведомления.'
             reason:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
@@ -713,7 +713,7 @@ ru:
             base:
               unsupported_operator: "Оператор не поддерживается."
               invalid_values: "Недопустимое значение."
-              id_filter_required: "Требуется фильтр по 'Id'."
+              id_filter_required: "Требуется фильтр по 'id'."
         project:
           archived_ancestor: 'В проекте есть архивированный предок.'
           foreign_wps_reference_version: 'Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.'
@@ -732,13 +732,13 @@ ru:
             public:
               error_unauthorized: "- У пользователя нет прав для создания общедоступных представлений."
             group_by:
-              invalid: "Невозможно группировать по: %{value}"
+              invalid: "Невозможно cгруппировать по: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Недопустимый столбец в запросе: %{value}"
               format: "%{message}"
             sort_criteria:
-              invalid: "Невозможно сортировать по столбцу: %{value}"
+              invalid: "Невозможно отсортировать по столбцу: %{value}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -754,10 +754,10 @@ ru:
             circular_dependency: "Зацикливание зависимостей."
           attributes:
             to:
-              error_not_found: "рабочий пакет в позиции `до` не найден или не виден"
+              error_not_found: "рабочий пакет в позиции `до` не найден или не отображается"
               error_readonly: "в существующих отношениях связь `до` неизменна"
             from:
-              error_not_found: "рабочий пакет в позиции `от` не найден или не виден"
+              error_not_found: "рабочий пакет в позиции `от` не найден или не отображается"
               error_readonly: "в существующих отношениях связь `от` неизменна"
         repository:
           not_available: "SCM поставщик не доступен"
@@ -772,7 +772,7 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'По крайней мере один день недели должен быть определен как рабочий.'
+              working_days_are_missing: 'По крайней мере, один день недели должен быть определен как рабочий.'
               previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
@@ -854,10 +854,10 @@ ru:
               numeric: "цифры (например \"1\")"
               special: "спецсимволы (например, \"%\")"
               reused:
-                one: "использовалось ранее. Пожалуйста, укажите отличающееся от вашего последнего."
-                few: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
-                many: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
-                other: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
+                one: "уже использовался ранее. Пожалуйста, укажите другое значение."
+                few: "уже использовалось ранее. Пожалуйста, укажите другое значение."
+                many: "уже использовались ранее. Пожалуйста, укажите значения отличающиеся от %{count}."
+                other: "уже использовалось ранее. Пожалуйста, укажите значения отличающиеся от ваших последних %{count}."
               match:
                 confirm: "Подтвердите новый пароль."
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
@@ -880,10 +880,10 @@ ru:
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
-          one: "1 ошибка препятствует сохранению %{model}"
-          few: "%{count} ошибки препятствуют сохранению %{model}"
-          many: "%{count} ошибки препятствуют сохранению %{model}"
-          other: "%{count} ошибки препятствуют сохранению %{model}"
+          one: "1 ошибка не позволила сохранить эту %{model}"
+          few: "%{count} ошибки не позволили сохранить %{model}"
+          many: "%{count} ошибок не позволили сохранить %{model}"
+          other: "%{count} ошибки не позволили сохранить %{model}"
     models:
       attachment: "Файл"
       attribute_help_text: "Атрибут текста справки"
@@ -934,8 +934,8 @@ ru:
       news: "Новости"
       project_attribute: "Атрибуты проекта"
       subproject: "Включить подпроекты"
-      time_entry: "Потраченное время"
-      wiki_edit: "Вики"
+      time_entry: "Затраченное время"
+      wiki_edit: "Wiki"
       work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
@@ -958,7 +958,7 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_hours: "Планируемое время ожидания"
+    derived_estimated_hours: "Полученное время ожидания"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
@@ -982,7 +982,7 @@ ru:
     project: "Проект"
     responsible: "Подотчетный"
     role: "Роль"
-    roles: "Роль"
+    roles: "Роли"
     start_date: "Дата начала"
     status: "Статус"
     subject: "Тема"
@@ -1005,7 +1005,7 @@ ru:
     label_token_users: "Следующие пользователи имеют действительные маркеры резервного копирования"
     reset_token:
       action_create: Создать
-      action_reset: Сброс
+      action_reset: Сбросить
       heading_reset: "Сбросить маркер резервного копирования"
       heading_create: "Создать маркер резервного копирования"
       implications: >
@@ -1042,7 +1042,7 @@ ru:
   button_close: 'Закрыть'
   button_collapse_all: "Свернуть все"
   button_configure: "Настройка"
-  button_continue: "Далее"
+  button_continue: "Продолжить"
   button_copy: "Копировать"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
@@ -1155,7 +1155,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      default: "%м/%д/%Г"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1208,9 +1208,9 @@ ru:
         other: "менее %{count} минуты"
       less_than_x_seconds:
         one: "меньше секунды"
-        few: "меньше чем за %{count} секунды"
-        many: "меньше чем за %{count} секунды"
-        other: "меньше чем за %{count} секунды"
+        few: "менее %{count} секунд"
+        many: "менее %{count} секунд"
+        other: "менее %{count} секунд"
       over_x_years:
         one: "более года"
         few: "более %{count} лет"
@@ -1229,12 +1229,12 @@ ru:
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
-        many: "%{count} месяца"
+        many: "%{count} месяцев"
         other: "%{count} месяца"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
-        many: "%{count} секунды"
+        many: "%{count} секунд"
         other: "%{count} секунды"
     units:
       hour:
@@ -1327,7 +1327,7 @@ ru:
   description_toc_toggle: "Показать/скрыть оглавление"
   description_wiki_subpages_reassign: "Укажите новую родительскую страницу"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: LTR
+  direction: Слева направо
   ee:
     upsale:
       form_configuration:
@@ -1473,7 +1473,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Письма и уведомления"
+      mails_and_notifications: "Электронные письма и уведомления"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1563,10 +1563,10 @@ ru:
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
   label_blog: "Блог"
-  label_forums_locked: "Заблокировано"
+  label_forums_locked: "Заблокирован"
   label_forum_new: "Новый форум"
   label_forum_plural: "Форумы"
-  label_forum_sticky: "Стикер"
+  label_forum_sticky: "Прикреплено"
   label_boolean: "Логическое значение"
   label_branch: "Ветка"
   label_browse: "Обзор"
@@ -1620,7 +1620,7 @@ ru:
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
   label_custom_field_new: "Новое настраиваемое поле"
-  label_custom_field_plural: "Настраиваемые поля"
+  label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
   label_database_version: "Версия PostgreSQL"
@@ -2077,7 +2077,7 @@ ru:
       removed: 'Макроса больше не существует.'
     wiki_child_pages:
       errors:
-        page_not_found: "Не удается найти вики-страницу «%{name}»."
+        page_not_found: "Не удается найти WiKi-страницу «%{name}»."
     create_work_package_link:
       errors:
         no_project_context: 'Вызов макроса create_work_package_link из контекста за рамками проекта.'
@@ -2130,7 +2130,7 @@ ru:
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
-  mail_body_incoming_email_error: Не удалось обработать письмо, которое вы отправили в OpenProject.
+  mail_body_incoming_email_error: Электронное письмо, которое вы отправили в OpenProject, не может быть обработано.
   mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
   mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
@@ -2151,7 +2151,7 @@ ru:
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
-  mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
+  mail_subject_incoming_email_error: "Электронное письмо, которое вы отправили в OpenProject, не может быть обработано."
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"

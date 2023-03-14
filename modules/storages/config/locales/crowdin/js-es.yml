@@ -27,7 +27,7 @@ es:
       files:
         already_existing_header: "Este archivo ya existe"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+          Ya existe un archivo con el nombre "%{fileName}" en la ubicación donde está intentando subir este archivo. ¿Qué quiere hacer?
         directory_not_writeable: "No tiene permiso para añadir archivos en esta carpeta."
         dragging_many_files: "La carga a %{storageType} solo admite un archivo a la vez."
         empty_folder: "Esta carpeta está vacía."
@@ -57,7 +57,7 @@ es:
           other: "Se han creado correctamente %{count} enlaces de fichero."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
+            Su archivo (%{fileName}) no se pudo cargar. Por favor, contacte con su administrador para más información.
           403: >
             Su archivo (%{fileName}) no se pudo cargar debido a las restricciones del sistema. Por favor, contacte con su administrador para más información.
           413: >

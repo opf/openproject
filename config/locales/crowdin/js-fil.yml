@@ -294,8 +294,6 @@ fil:
           one: "Ang unang pamantayang pagkasunod-sunod"
           two: "Ang pangalawang pamantayang pagkasunod-sunod"
           three: "Ang pangatlong pamantayang pagkasunod-sunod"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "hindi"
     general_text_yes: "oo"
     general_text_No: "Hindi"
@@ -475,7 +473,7 @@ fil:
     label_watch_work_package: "Tingnan ang work package"
     label_watcher_added_successfully: "Ang mga manunuod ay matagunoay naidagdag!"
     label_watcher_deleted_successfully: "Ang manunuod ay matagumpay naibura!"
-    label_work_package_details_you_are_here: "Nasa ka tab ka ng %{tab} tab para sa %{type}%{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "I-unwatch"
     label_unwatch_work_package: "I-unwatch ang work package"
     label_uploaded_by: "Naka-upload sa pamamagitan ng"
@@ -589,9 +587,9 @@ fil:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1003,7 +1001,7 @@ fil:
         move_column_left: "Ilipat ang hanay sa kaliwa"
         move_column_right: "Ilipat ang hanay sa kanan"
         hide_column: "Itago ang mga hanay"
-        insert_columns: "Isingit ang mga hanay..."
+        insert_columns: "Insert columns"
         filters: "Mga nasala"
         display_sums: "Ipakita ang mga sum"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1030,7 +1028,7 @@ fil:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "pasadya"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1072,19 +1070,19 @@ fil:
         months: "mga buwan"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Mga hanay ..."
-        sort_by: "Ayusin sa ..."
-        group_by: "Grupohin sa ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Ipakita ang kabuuan"
         display_hierarchy: "Ipakita ang hierarchy"
         hide_hierarchy: "Itago anh hierarchy"
         hide_sums: "Itago ang kabuuan"
         save: "I-save"
-        save_as: "I-save bilang ..."
-        export: "I-export ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Burahin"
       filter: "Salain"
       unselected_title: "Work package"

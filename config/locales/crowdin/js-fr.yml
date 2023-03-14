@@ -294,8 +294,6 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Les filtres avancés vous permettent également de filtrer les noms de fichiers et le contenu des pièces jointes du lot de travaux. Veuillez passer à une offre payante pour utiliser cet add-on."
-      upsale_link: 'Version Entreprise'
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -475,7 +473,7 @@ fr:
     label_watch_work_package: "Suivre le lot de travaux"
     label_watcher_added_successfully: "Observateur ajouté avec succès !"
     label_watcher_deleted_successfully: "Observateur supprimé avec succès !"
-    label_work_package_details_you_are_here: "Vous êtes sur l'onglet %{tab} de %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
@@ -589,9 +587,9 @@ fr:
         text_update_date: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
-          no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_project_filter: "On dirait que vous êtes à jour dans le projet sélectionné."
-          no_notification_with_current_filter: "On dirait que vous êtes à jour pour le filtre %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
@@ -1003,7 +1001,7 @@ fr:
         move_column_left: "Déplacer la colonne de gauche"
         move_column_right: "Déplacer le colonne de droite"
         hide_column: "Masquer la colonne"
-        insert_columns: "Insérer des colonnes…"
+        insert_columns: "Insert columns"
         filters: "Filtres"
         display_sums: "Afficher les sommes"
         confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente."
@@ -1030,7 +1028,7 @@ fr:
         button: 'Configurer ce tableau du lot de travaux'
         choose_display_mode: 'Afficher les lots de travaux comme'
         modal_title: 'Configuration du tableau du lot de travaux'
-        embedded_tab_disabled: "Cet onglet de configuration n’est pas disponible pour la vue intégrée que vous êtes en train de modifier."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "défaut"
         display_settings: 'Paramètres d''affichage'
         default_mode: "Liste ombrée"
@@ -1072,19 +1070,19 @@ fr:
         months: "mois"
     toolbar:
       settings:
-        configure_view: "Configurer la vue..."
-        columns: "Colonnes…"
-        sort_by: "Trier par…"
-        group_by: "Grouper par…"
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Afficher les sommes"
         display_hierarchy: "Afficher la hiérarchie"
         hide_hierarchy: "Masquer la hiérarchie"
         hide_sums: "Masquer les sommes"
         save: "Enregistrer"
-        save_as: "Enregistrer sous…"
-        export: "Exporter…"
-        visibility_settings: "Paramètres de visibilité..."
-        page_settings: "Renommer la vue..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Supprimer"
       filter: "Filtrer"
       unselected_title: "Lot de travaux"

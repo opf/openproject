@@ -345,8 +345,8 @@ es:
       one: 'Un paquete de trabajo descendiente'
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
-      copy_failed: "The work packages could not be copied."
-      move_failed: "The work packages could not be moved."
+      copy_failed: "No se pudieron copiar los paquetes de trabajo."
+      move_failed: "No se pudieron mover los paquetes de trabajo."
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."

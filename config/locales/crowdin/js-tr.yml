@@ -293,8 +293,6 @@ tr:
           one: "İlk sıralama ölçütü"
           two: "İkinci sıralama ölçütü"
           three: "Üçüncü sıralama ölçütleri"
-      upsale_for_more: "Gelişmiş filtreler, iş paketi eklerinin dosya adları ve içeriği için de filtre uygulamanıza olanak tanır. Bu eklentiyi kullanmak için lütfen ücretli bir plana yükseltin."
-      upsale_link: 'Enterprise sürümü'
     general_text_no: "hayır"
     general_text_yes: "evet"
     general_text_No: "Hayır"
@@ -474,7 +472,7 @@ tr:
     label_watch_work_package: "İş paketini izle"
     label_watcher_added_successfully: "Takipçi başarıyla eklendi!"
     label_watcher_deleted_successfully: "Takipçi başarıyla silindi!"
-    label_work_package_details_you_are_here: "%{type} %{subject} için %{tab} sekmesindesiniz."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
@@ -588,9 +586,9 @@ tr:
         text_update_date: "%{date} tarafından"
         total_count_warning: "En yeni %{newest_count} bildirim gösteriliyor. %{more_count} tane daha görüntülenmiyor."
         empty_state:
-          no_notification: "Görünüşe göre yapacağınız bir şey kalmadı."
-          no_notification_with_current_project_filter: "Görünüşe göre seçili proje için yapacağınız bir şey kalmadı."
-          no_notification_with_current_filter: "Görünüşe göre %{filter} filtresi için yapacağınız bir şey kalmadı. "
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Tüm etkinlik ayrıntılarını görüntülemek için bir bildirime tıklayın."
         new_notifications:
           message: 'Yeni bildirimler var'
@@ -1002,7 +1000,7 @@ tr:
         move_column_left: "Sütunu sola taşı"
         move_column_right: "Sütunu sağa taşı"
         hide_column: "Sütunu gizle"
-        insert_columns: "Sütun ekle ..."
+        insert_columns: "Insert columns"
         filters: "Filtreler"
         display_sums: "Toplamları görüntüle"
         confirm_edit_cancel: "Bu görünümün adını düzenlemeyi iptal etmek istediğinizden emin misiniz? Başlık önceki değere ayarlanacaktır."
@@ -1029,7 +1027,7 @@ tr:
         button: 'Bu iş paketi tablosunu yapılandır'
         choose_display_mode: 'İş paketlerini farklı olarak göster'
         modal_title: 'İş paketi tablosu yapılandırma'
-        embedded_tab_disabled: "Bu yapılandırma sekmesi, düzenlemekte olduğunuz katıştırılmış görünüm için kullanılamaz."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "varsayılan"
         display_settings: 'Görünüm ayarları'
         default_mode: "Düz liste"
@@ -1071,19 +1069,19 @@ tr:
         months: "ay"
     toolbar:
       settings:
-        configure_view: "Görünümü yapılandır ..."
-        columns: "Sütunlar ..."
-        sort_by: "Şuna göre sırala ..."
-        group_by: "Gruplandır..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Toplamları görüntüle"
         display_hierarchy: "Hiyerarşiyi göster"
         hide_hierarchy: "Hiyerarşiyi gizle"
         hide_sums: "Toplamları gizle"
         save: "Kaydet"
-        save_as: "Farklı kaydet ..."
-        export: "Dışa aktar ..."
-        visibility_settings: "Görünürlük ayarları ..."
-        page_settings: "Görünümü yeniden adlandır ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Sil"
       filter: "Filtre"
       unselected_title: "İş paketi"

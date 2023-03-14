@@ -294,8 +294,6 @@ hr:
           one: "Prvi kriterijum sortiranja"
           two: "Drugi kriterijum sortiranja"
           three: "Treći kriterijum sortiranja"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "ne"
     general_text_yes: "da"
     general_text_No: "Ne"
@@ -475,7 +473,7 @@ hr:
     label_watch_work_package: "Nadgledaj radni paket"
     label_watcher_added_successfully: "Nadglednik uspješno dodan!"
     label_watcher_deleted_successfully: "Nadglednik uspješno izbrisan!"
-    label_work_package_details_you_are_here: "Trenutno se nalazite %{tab} kartici izbornika za %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Ne nadgledaj više"
     label_unwatch_work_package: "Ne nadgledaj radni paket"
     label_uploaded_by: "Dodao"
@@ -590,9 +588,9 @@ hr:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1004,7 +1002,7 @@ hr:
         move_column_left: "Premjesti stupac lijevo"
         move_column_right: "Premjesti stupac desno"
         hide_column: "Sakriti stupac"
-        insert_columns: "Umetni stupce ..."
+        insert_columns: "Insert columns"
         filters: "Filteri"
         display_sums: "Prikaži iznose"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1031,7 +1029,7 @@ hr:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "zadana"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1073,19 +1071,19 @@ hr:
         months: "mjeseci"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Stupci..."
-        sort_by: "Sortiraj po..."
-        group_by: "Grupiraj po ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Prikaži iznose"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Sakrij iznose"
         save: "Spremi"
-        save_as: "Spremi kao ..."
-        export: "Izvezi ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Obriši"
       filter: "Filter"
       unselected_title: "Radni paket"

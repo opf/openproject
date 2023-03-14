@@ -294,8 +294,6 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -475,7 +473,7 @@ it:
     label_watch_work_package: "Osserva macro-attività"
     label_watcher_added_successfully: "Osservatore aggiunto correttamente!"
     label_watcher_deleted_successfully: "Osservatore eliminato correttamente!"
-    label_work_package_details_you_are_here: "Sei nella scheda %{tab} per %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
@@ -589,9 +587,9 @@ it:
         text_update_date: "%{date} da"
         total_count_warning: "Mostrando le %{newest_count} notifiche più recenti. %{more_count} altre non vengono visualizzate."
         empty_state:
-          no_notification: "Sembra che siate tutti coinvolti."
-          no_notification_with_current_project_filter: "Sembra che siate tutti coinvolti nel progetto selezionato."
-          no_notification_with_current_filter: "A quanto pare ti piace molto il filtro %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Clicca su una notifica per visualizzare tutti i dettagli dell'attività."
         new_notifications:
           message: 'Ci sono nuove notifiche.'
@@ -1003,7 +1001,7 @@ it:
         move_column_left: "Spostare la colonna a sinistra"
         move_column_right: "Spostare la colonna a destra"
         hide_column: "Nascondi la colonna"
-        insert_columns: "Inserire colonne..."
+        insert_columns: "Insert columns"
         filters: "Filtri"
         display_sums: "Visualizza somme"
         confirm_edit_cancel: "Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente."
@@ -1030,7 +1028,7 @@ it:
         button: 'Configura questa tabella di macro-attività'
         choose_display_mode: 'Visualizza la macro-attività come'
         modal_title: 'Configurazione della tabella della macro-attività'
-        embedded_tab_disabled: "La scheda di configurazione non è disponibile per la visualizzazione incorporata che stai modificando."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "predefinito"
         display_settings: 'Impostazioni di visualizzazione'
         default_mode: "Elenco semplice"
@@ -1072,19 +1070,19 @@ it:
         months: "mesi"
     toolbar:
       settings:
-        configure_view: "Configura la vista..."
-        columns: "Colonne ..."
-        sort_by: "Ordina per ..."
-        group_by: "Raggruppa per..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Visualizza somme"
         display_hierarchy: "Visualizza gerarchia"
         hide_hierarchy: "Nascondi gerarchia"
         hide_sums: "Nascondi le somme"
         save: "Salva"
-        save_as: "Salva come …"
-        export: "Esporta ..."
-        visibility_settings: "Impostazioni di visibilità ..."
-        page_settings: "Rinomina vista..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Cancella"
       filter: "Filtro"
       unselected_title: "Macro-attività"

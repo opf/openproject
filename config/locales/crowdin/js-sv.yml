@@ -293,8 +293,6 @@ sv:
           one: "Första sorteringskriteriet"
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -474,7 +472,7 @@ sv:
     label_watch_work_package: "Bevaka arbetspaket"
     label_watcher_added_successfully: "Bevakare har lagts till!"
     label_watcher_deleted_successfully: "Bevakare har tagits bort!"
-    label_work_package_details_you_are_here: "Du är på fliken %{tab} för %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Sluta bevaka"
     label_unwatch_work_package: "Sluta bevaka arbetspaket"
     label_uploaded_by: "Uppladdad av"
@@ -588,9 +586,9 @@ sv:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1002,7 +1000,7 @@ sv:
         move_column_left: "Flytta kolumnen till vänster"
         move_column_right: "Flytta kolumnen till höger"
         hide_column: "Dölj kolumn"
-        insert_columns: "Infoga kolumner..."
+        insert_columns: "Insert columns"
         filters: "Filter"
         display_sums: "Visa summor"
         confirm_edit_cancel: "Är du säker på att du vill avbryta redigering av namnet på den här vyn? Titeln kommer att återställas till föregående värde."
@@ -1029,7 +1027,7 @@ sv:
         button: 'Konfigurera detta arbetspaket-tabell'
         choose_display_mode: 'Visa arbetspaket som'
         modal_title: 'Inställningar för arbetspaket-tabell'
-        embedded_tab_disabled: "Denna konfigurationsflik är inte tillgänglig för den inbyggda vyn du redigerar."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "standard"
         display_settings: 'Skärminställningar'
         default_mode: "Platt lista"
@@ -1071,19 +1069,19 @@ sv:
         months: "månader"
     toolbar:
       settings:
-        configure_view: "Konfigurera vy..."
-        columns: "Kolumner ..."
-        sort_by: "Sortera efter ..."
-        group_by: "Gruppera efter ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Visa summor"
         display_hierarchy: "Visa hierarki"
         hide_hierarchy: "Dölj hierarki"
         hide_sums: "Dölj summor"
         save: "Spara"
-        save_as: "Spara som ..."
-        export: "Exportera..."
-        visibility_settings: "Synlighetsinställningar..."
-        page_settings: "Byt namn på vyn ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Ta bort"
       filter: "Filter"
       unselected_title: "Arbetspaket"

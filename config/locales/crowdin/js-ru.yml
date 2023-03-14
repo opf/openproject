@@ -293,8 +293,6 @@ ru:
           one: "Первый критерий сортировки"
           two: "Второй критерий сортировки"
           three: "Третий критерий сортировки"
-      upsale_for_more: "Расширенные фильтры позволяют также фильтровать имена файлов и содержимое вложений пакета работ. Пожалуйста, перейдите на платный тарифный план, чтобы использовать это дополнение."
-      upsale_link: 'Корпоративная версия.'
     general_text_no: "нет"
     general_text_yes: "Да"
     general_text_No: "Нет"
@@ -474,7 +472,7 @@ ru:
     label_watch_work_package: "Наблюдать за пакетом работ"
     label_watcher_added_successfully: "Наблюдатель успешно добавлен!"
     label_watcher_deleted_successfully: "Наблюдатель успешно удален!"
-    label_work_package_details_you_are_here: "Вы находитесь на вкладке %{tab} для %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
@@ -590,9 +588,9 @@ ru:
         text_update_date: "%{date} от"
         total_count_warning: "Показаны %{newest_count} самые последние уведомления. Ещё %{more_count} не отображаются."
         empty_state:
-          no_notification: "Похоже, вы все сделали."
-          no_notification_with_current_project_filter: "Похоже, что вы добавили всех в выбранный проект."
-          no_notification_with_current_filter: "Похоже, фильтр %{filter} исключил все."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Нажмите на уведомление, чтобы просмотреть все детали."
         new_notifications:
           message: 'Есть новые уведомления.'
@@ -1004,7 +1002,7 @@ ru:
         move_column_left: "Переместить столбец влево"
         move_column_right: "Переместить столбец вправо"
         hide_column: "Скрыть столбец"
-        insert_columns: "Вставить столбцы..."
+        insert_columns: "Insert columns"
         filters: "Фильтры"
         display_sums: "Отображать Суммы"
         confirm_edit_cancel: "Уверены, что хотите отменить редактирование названия этого представления? Заголовку будет возвращено его прежнее название."
@@ -1031,7 +1029,7 @@ ru:
         button: 'Настроить эту таблицу пакета работ'
         choose_display_mode: 'Отображать пакеты работ как'
         modal_title: 'Конфигурация таблицы пакета работ'
-        embedded_tab_disabled: "Эта вкладка конфигурации не доступна для редактируемого вами встроенного представления."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "по умолчанию"
         display_settings: 'Настройки отображения'
         default_mode: "Простой список"
@@ -1073,19 +1071,19 @@ ru:
         months: "месяцев"
     toolbar:
       settings:
-        configure_view: "Настроить вид ..."
-        columns: "Столбцы..."
-        sort_by: "Сортировать по ..."
-        group_by: "Группировать по..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Отображать суммы"
         display_hierarchy: "Показать иерархию"
         hide_hierarchy: "Скрыть иерархию"
         hide_sums: "Скрыть суммы"
         save: "Сохранить"
-        save_as: "Сохранить как ..."
-        export: "Экспортировать ..."
-        visibility_settings: "Параметры видимости ..."
-        page_settings: "Переименовать представления..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Удалить"
       filter: "Фильтр"
       unselected_title: "Пакет работ"

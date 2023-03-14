@@ -80,7 +80,7 @@ de:
       buttons:
         upgrade: "Jetzt Upgrade durchführen"
         contact: "Kontaktieren Sie uns für eine Demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
       explanation:
@@ -317,7 +317,7 @@ de:
       settings: "Einstellungen"
       form_configuration: "Formularkonfiguration"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Mit der Enterprise Edition können Sie die Formularkonfiguration mit diesen zusätzlichen Add-ons anpassen: <br> <ul class="%{list_styling_class}"> <li><b>Neue Attributgruppen hinzufügen</b></li> <li><b>Attributgruppen umbenennen</b></li> </li> <li><b>Eine Tabelle mit verwandten Arbeitspaketen hinzufügen</b></li> </ul>
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
       edit_query: "Tabelle bearbeiten"
@@ -1293,11 +1293,11 @@ de:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Anpassen der Form-Konfiguration mit diesen zusätzlichen Add-ons:"
         add_groups: "Neue Attributgruppen hinzufügen"
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtern und Sortieren auf benutzerdefinierten Feldern ist ein Add-on der Enterprise Edition."
   enumeration_activities: "Aktivitäten für Zeiterfassung"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
@@ -2649,11 +2649,11 @@ de:
   text_custom_field_hint_activate_per_project_and_type: >
     Benutzerdefinierte Felder müssen jeweils in Arbeitspaket-Typ und Projekt aktiviert werden.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Add-ons für benutzerdefinierte Felder von Arbeitspaketen hinzu: <br> <ul> <li><b>Erlaubt Mehrfachauswahl für benutzerdefinierte Felder der Typenliste oder Benutzer</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Add-ons für die Statusfelder der Arbeitspakete hinzu: <br> <ul> <li><b>Erlaubt die Markierung von Arbeitspaketen als read-only für bestimmte Status</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_favicon_instructions: >

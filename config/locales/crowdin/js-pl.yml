@@ -294,8 +294,6 @@ pl:
           one: "Pierwsze kryterium sortowania"
           two: "Drugie kryterium sortowania"
           three: "Trzecie kryterium sortowania"
-      upsale_for_more: "Zaawansowane filtry umożliwiają również filtrowanie nazw plików i zawartości załączników pakietu roboczego. Ulepsz do płatnego planu, aby korzystać z tego dodatku."
-      upsale_link: 'Wersja Enterprise.'
     general_text_no: "nie"
     general_text_yes: "tak"
     general_text_No: "Nie"
@@ -475,7 +473,7 @@ pl:
     label_watch_work_package: "Obserwuj zadanie"
     label_watcher_added_successfully: "Obserwator dodany pomyślnie!"
     label_watcher_deleted_successfully: "Obserwator usunięty pomyślnie!"
-    label_work_package_details_you_are_here: "Jesteś na karcie %{tab} %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
@@ -591,9 +589,9 @@ pl:
         text_update_date: "%{date} dodał"
         total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
         empty_state:
-          no_notification: "Wygląda na to, że jesteś już na bieżąco."
-          no_notification_with_current_project_filter: "Wygląda na to, że wszystko jest na bieżąco w wybranym projekcie."
-          no_notification_with_current_filter: "Wygląda na to, że wszystko jest na bieżąco dla filtru: %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: 'Masz nowe powiadomienia.'
@@ -1005,7 +1003,7 @@ pl:
         move_column_left: "Przenieść kolumnę w lewo"
         move_column_right: "Przenieść kolumnę w prawo"
         hide_column: "Ukryj kolumnę"
-        insert_columns: "Wstaw kolumny ..."
+        insert_columns: "Insert columns"
         filters: "Filtry"
         display_sums: "Wyświetl sumy"
         confirm_edit_cancel: "Czy na pewno chcesz anulować edycję nazwy tego widoku? Przywrócona zostanie poprzednia wartość tytułu."
@@ -1032,7 +1030,7 @@ pl:
         button: 'Konfiguruj tę tabelę pakietów roboczych'
         choose_display_mode: 'Wyświetlaj pakiety robocze jako'
         modal_title: 'Konfiguracja tabeli pakietów roboczych'
-        embedded_tab_disabled: "Ta karta konfiguracji nie jest dostępna dla widoku osadzonego, który edytujesz."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "Domyślnie"
         display_settings: 'Ustawienia wyświetlania'
         default_mode: "Płaska lista"
@@ -1074,19 +1072,19 @@ pl:
         months: "miesiące"
     toolbar:
       settings:
-        configure_view: "Konfigurowanie widoku..."
-        columns: "Kolumny ..."
-        sort_by: "Sortuj według ..."
-        group_by: "Grupuj według ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Wyświetl sumy"
         display_hierarchy: "Wyświetl hierarchię"
         hide_hierarchy: "Ukryj hierarchię"
         hide_sums: "Ukryj sumy"
         save: "Zapisz"
-        save_as: "Zapisz jako ..."
-        export: "Eksportuj ..."
-        visibility_settings: "Ustawienia widoczności..."
-        page_settings: "Zmiana nazwy widoku..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Usuń"
       filter: "Filtr"
       unselected_title: "Zadanie"

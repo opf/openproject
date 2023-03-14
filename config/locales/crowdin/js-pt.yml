@@ -293,8 +293,6 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -474,7 +472,7 @@ pt:
     label_watch_work_package: "Observar pacote de trabalho"
     label_watcher_added_successfully: "Observador adicionado com sucesso!"
     label_watcher_deleted_successfully: "Observador excluído com sucesso!"
-    label_work_package_details_you_are_here: "Você está na aba %{tab} por %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Deixar de observar"
     label_unwatch_work_package: "Deixar de observar pacote de trabalho"
     label_uploaded_by: "Enviado por"
@@ -588,9 +586,9 @@ pt:
         text_update_date: "%{date} por"
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
-          no_notification: "Parece que você já está com tudo em dia."
-          no_notification_with_current_project_filter: "Parece que você já está totalmente atualizado com o projeto selecionado."
-          no_notification_with_current_filter: "Parece que você já está totalmente atualizado sobre o filtro %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: 'Há novas notificações.'
@@ -1002,7 +1000,7 @@ pt:
         move_column_left: "Mover coluna para esquerda"
         move_column_right: "Mover coluna para direita"
         hide_column: "Ocultar coluna"
-        insert_columns: "Inserir colunas..."
+        insert_columns: "Insert columns"
         filters: "Filtros"
         display_sums: "Mostrar somas"
         confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do nome desta visão? O título será definido novamente com o valor anterior."
@@ -1029,7 +1027,7 @@ pt:
         button: 'Configurar esta tabela de pacote de trabalho'
         choose_display_mode: 'Exibir pacotes de trabalho como'
         modal_title: 'Configuração de tabela de pacote de trabalho'
-        embedded_tab_disabled: "Esta aba de configuração não está disponível para a visão embutida que você está editando."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "padrão"
         display_settings: 'Configurações de exibição'
         default_mode: "Lista plana"
@@ -1071,19 +1069,19 @@ pt:
         months: "meses"
     toolbar:
       settings:
-        configure_view: "Configurar visualização..."
-        columns: "Colunas..."
-        sort_by: "Ordenar por..."
-        group_by: "Agrupar por..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Mostrar somas"
         display_hierarchy: "Exibir hierarquia"
         hide_hierarchy: "Ocultar hierarquia"
         hide_sums: "Ocultar somas"
         save: "Salvar"
-        save_as: "Salvar como ..."
-        export: "Exportar ..."
-        visibility_settings: "Configurações de visibilidade ..."
-        page_settings: "Renomear visualização..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Excluir"
       filter: "Filtro"
       unselected_title: "Pacote de trabalho"

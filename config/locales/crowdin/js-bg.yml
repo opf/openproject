@@ -294,8 +294,6 @@ bg:
           one: "Първи критерий за подреждане"
           two: "Втори критерий за подреждане"
           three: "Трети критерий за подреждане"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "Не"
     general_text_yes: "Да"
     general_text_No: "Не"
@@ -475,7 +473,7 @@ bg:
     label_watch_work_package: "Наблюдавай работния пакет"
     label_watcher_added_successfully: "Наблюдаващият е успешно добавен!"
     label_watcher_deleted_successfully: "Наблюдателят успешно е премахнат!"
-    label_work_package_details_you_are_here: "Вие сте на раздел %{tab} за %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Спри наблюдение"
     label_unwatch_work_package: "Ненаблюдаван работен пакет"
     label_uploaded_by: "Качено от"
@@ -589,9 +587,9 @@ bg:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1003,7 +1001,7 @@ bg:
         move_column_left: "Преместване на колона наляво"
         move_column_right: "Преместете колона надясно"
         hide_column: "Скрий колоната"
-        insert_columns: "Вмъкване на колони..."
+        insert_columns: "Insert columns"
         filters: "Филтри"
         display_sums: "Показване на суми"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1030,7 +1028,7 @@ bg:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1072,19 +1070,19 @@ bg:
         months: "месеци"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "Колони..."
-        sort_by: "Сортирай по..."
-        group_by: "Групиране по..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Показване на суми"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "Скрий суми"
         save: "Запази"
-        save_as: "Запиши като ..."
-        export: "Експортиране ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Изтрий"
       filter: "Филтър"
       unselected_title: "Работен пакет"

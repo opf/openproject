@@ -294,8 +294,6 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise Edice'
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -475,7 +473,7 @@ cs:
     label_watch_work_package: "Sledovat pracovní balíček"
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
-    label_work_package_details_you_are_here: "Jste na kartě %{tab} pro %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -591,9 +589,9 @@ cs:
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Vypadá to, že jste všechno dohnali..."
-          no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'
@@ -1005,7 +1003,7 @@ cs:
         move_column_left: "Přesunout sloupec vlevo"
         move_column_right: "Přesunout sloupec vpravo"
         hide_column: "Skrýt sloupec"
-        insert_columns: "Vložit sloupec ..."
+        insert_columns: "Insert columns"
         filters: "Filtry"
         display_sums: "Zobrazit součty"
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
@@ -1032,7 +1030,7 @@ cs:
         button: 'Konfigurovat tabulku pracovních balíčků'
         choose_display_mode: 'Zobrazit pracovní balíčky jako'
         modal_title: 'Konfigurace tabulky pracovních balíčků'
-        embedded_tab_disabled: "Tato karta konfigurace není k dispozici pro vložené zobrazení, které upravujete."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "výchozí"
         display_settings: 'Nastavení zobrazení'
         default_mode: "Plochý seznam"
@@ -1074,19 +1072,19 @@ cs:
         months: "mesice"
     toolbar:
       settings:
-        configure_view: "Nastavit zobrazení ..."
-        columns: "Sloupce ..."
-        sort_by: "Řadit podle ..."
-        group_by: "Seskupit podle ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Zobrazit součty"
         display_hierarchy: "Hierarchie zobrazení"
         hide_hierarchy: "Skrýt hierarchii"
         hide_sums: "Skrýt součty"
         save: "Uložit"
-        save_as: "Uložit jako..."
-        export: "Exportovat ..."
-        visibility_settings: "Viditelnost zobrazení"
-        page_settings: "Přejmenovat zobrazení..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Odstranit"
       filter: "Filtr"
       unselected_title: "Pracovní balíček"

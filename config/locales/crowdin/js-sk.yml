@@ -294,8 +294,6 @@ sk:
           one: "Prvé kritérium zoradenia"
           two: "Druhé kritérium zoradenia"
           three: "Tretie kritérium zoradenia"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "nie"
     general_text_yes: "áno"
     general_text_No: "Nie"
@@ -475,7 +473,7 @@ sk:
     label_watch_work_package: "Sleduj pracovný balíček"
     label_watcher_added_successfully: "Pozorovateľ úspešne pridaný!"
     label_watcher_deleted_successfully: "Pozorovateľ úspešne odstránený!"
-    label_work_package_details_you_are_here: "Nachádzate sa na záložke %{tab} pracovného balíčka %{subject} typu %{type}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Prestať pozorovať"
     label_unwatch_work_package: "Prestaň sledovať pracovný balíček"
     label_uploaded_by: "Nahral"
@@ -591,9 +589,9 @@ sk:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1005,7 +1003,7 @@ sk:
         move_column_left: "Presunúť stĺpec vľavo"
         move_column_right: "Premiestniť stĺpec vpravo"
         hide_column: "Skryť stĺpec"
-        insert_columns: "Vložiť stĺpce ..."
+        insert_columns: "Insert columns"
         filters: "Filtre"
         display_sums: "Zobraziť súčty"
         confirm_edit_cancel: "Naozaj chcete zrušiť premenovanie tohto zobrazenia? Názov sa obnoví na poslednú uloženú hodnotu."
@@ -1032,7 +1030,7 @@ sk:
         button: 'Konfigurovať tabuľku tohoto pracovného balíčka'
         choose_display_mode: 'Zobraziť pracovné balíčky ako'
         modal_title: 'Konfigurácia tabuľky pracovného balíčka'
-        embedded_tab_disabled: "Táto karta konfigurácie nie je k dispozícii pre vložené zobrazenie, ktoré upravujete."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "predvolené"
         display_settings: 'Zobraziť nastavenia'
         default_mode: "Plochý zoznam"
@@ -1074,19 +1072,19 @@ sk:
         months: "mesiace"
     toolbar:
       settings:
-        configure_view: "Konfigurovať zobrazenie..."
-        columns: "Stĺpce ..."
-        sort_by: "Zoradiť podľa ..."
-        group_by: "Zoskupiť podľa ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Zobraziť súčty"
         display_hierarchy: "Zobrazenie hierarchie"
         hide_hierarchy: "Skryť hierarchiu"
         hide_sums: "Skryť súčty"
         save: "Uložiť"
-        save_as: "Uložiť ako ..."
-        export: "Exportovať ..."
-        visibility_settings: "Nastavenia viditeľnosti ..."
-        page_settings: "Premenovať zobrazenie..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Odstrániť"
       filter: "Filtrovať"
       unselected_title: "Pracovný balíček"
