@@ -1,17 +1,17 @@
 # openproject-gitlab-integration
 
-## NEW VERSION 2.0.7 GA
+## NEW VERSION 2.0.8 GA
 
 Based on the current Github integration (OpenProject 12), this plugin offers the same functionalities as the current plugin for Github (and something else). This version includes changes to the DB and a new view similar to the current Github tab. Only the management of "pipelines" is pending an open issue in Gitlab (https://gitlab.com/gitlab-org/gitlab/-/issues/345028).
 
-<img width="562" src="https://user-images.githubusercontent.com/14983519/220770714-c06e9b5f-7f1f-40e2-9775-59b77a97d604.png">
+<img width="559" alt="preview" src="https://user-images.githubusercontent.com/14983519/225098893-a8753955-ef14-4494-b06b-673267cbda7e.png">
 
 This 2.x version includes a UI with all linked MRs, their status, their labels and the last pipeline *(pending the Gitlab issue)*.
 ## Introduction
 
 OpenProject module for integration with Gitlab:
-* Latest Gitlab release tested: **15.8.3**
-* Latest OpenProject release tested: **12.4.4** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
+* Latest Gitlab release tested: **15.9**
+* Latest OpenProject release tested: **12.4.5** (for OpenProject versions earlier than 12.2.0 use v2.0.5, and for version earlier than 12.1.0 use v2.0.4)
 
 This plugin is based on the current [plugin to integrate Github with OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/github-integration/).
 
