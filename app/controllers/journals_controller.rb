@@ -93,6 +93,7 @@ class JournalsController < ApplicationController
       case @journal.journable_type
       when 'WorkPackage' then :view_work_packages
       when 'Project' then :view_project
+      when 'WikiContent' then :view_wiki_edits
       end
     do_authorize(permission)
   end
@@ -103,7 +104,7 @@ class JournalsController < ApplicationController
 
   # Is this a valid field for diff'ing?
   def valid_field?
-    field_param == 'description'
+    field_param == 'description' || 'text'
   end
 
   def journals_index_title
