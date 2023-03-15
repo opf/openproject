@@ -64,7 +64,7 @@ describe Changeset do
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
-        assert_equal 'UTF-8', changeset.comments.encoding.to_s
+        expect(changeset.comments.encoding.to_s).to eq('UTF-8')
       end
     end
 
@@ -74,7 +74,7 @@ describe Changeset do
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
-        assert_equal 'UTF-8', changeset.comments.encoding.to_s
+        expect(changeset.comments.encoding.to_s).to eq('UTF-8')
       end
     end
   end
@@ -237,9 +237,9 @@ describe Changeset do
           expect(c.work_package_ids).to eq [work_package.id]
 
           time = TimeEntry.order(Arel.sql('id DESC')).first
-          assert_equal work_package.id, time.work_package_id
-          assert_equal work_package.project_id, time.project_id
-          assert_equal user.id, time.user_id
+          expect(work_package.id).to eq(time.work_package_id)
+          expect(work_package.project_id).to eq(time.project_id)
+          expect(user.id).to eq(time.user_id)
 
           expect(time.hours).to eq expected_hours
           expect(time.spent_on).to eq Date.yesterday

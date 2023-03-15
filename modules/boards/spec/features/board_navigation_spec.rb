@@ -166,7 +166,7 @@ describe 'Work Package boards spec', js: true do
 
     # Go to full view of WP
     split_view.switch_to_fullscreen
-    find('#action-show-more-dropdown-menu').click
+    find_by_id('action-show-more-dropdown-menu').click
     click_link(I18n.t('js.button_delete'))
 
     # Delete the WP

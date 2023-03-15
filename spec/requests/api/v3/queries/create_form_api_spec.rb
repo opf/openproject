@@ -32,13 +32,9 @@ describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project_with_types) }
-
   let(:parameters) { {} }
   let(:override_params) { {} }
   let(:form) { JSON.parse last_response.body }
-
   let(:static_columns_json) do
     %w(id project assignee author
        category createdAt dueDate estimatedTime
@@ -51,7 +47,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:custom_field_columns_json) do
     [
       {
@@ -60,7 +55,6 @@ describe "POST /api/v3/queries/form" do
       }
     ]
   end
-
   let(:relation_to_type_columns_json) do
     project.types.map do |type|
       {
@@ -69,7 +63,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:relation_of_type_columns_json) do
     Relation::TYPES.map do |_, value|
       {
@@ -78,7 +71,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:non_project_type_relation_column_json) do
     [
       {
@@ -87,13 +79,15 @@ describe "POST /api/v3/queries/form" do
       }
     ]
   end
-
   let(:additional_setup) {}
   let(:perform_request) do
     ->(*) {
       post path, parameters.merge(override_params).to_json
     }
   end
+
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   before do
     login_as(user)

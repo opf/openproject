@@ -77,7 +77,7 @@ describe 'inline create work package', js: true do
         )
 
         # Expect no inline create open
-        expect(page).to have_no_selector('.wp-inline-create-row')
+        expect(page).not_to have_selector('.wp-inline-create-row')
       end
     end
 

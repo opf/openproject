@@ -48,7 +48,7 @@ describe 'User avatar management', js: true do
 
     it 'does not render the user edit tab' do
       visit edit_user_path(user)
-      expect(page).to have_no_selector '#tab-avatar'
+      expect(page).not_to have_selector '#tab-avatar'
     end
   end
 end

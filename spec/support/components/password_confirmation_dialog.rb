@@ -47,7 +47,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector(selector)
+      expect(page).not_to have_selector(selector)
     end
 
     def submit_button
@@ -71,7 +71,7 @@ module Components
         expect(page).to have_selector('.flash.error',
                                       text: I18n.t(:notice_password_confirmation_failed))
       else
-        expect(page).to have_no_selector('.flash.error')
+        expect(page).not_to have_selector('.flash.error')
       end
     end
   end

@@ -53,8 +53,8 @@ shared_examples_for 'provides a single WP context menu' do
     expect(page).to have_selector('.inline-edit--container.subject input')
     expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
 
-    find('#work-packages--edit-actions-cancel').click
-    expect(page).to have_no_selector('.inline-edit--container.subject input')
+    find_by_id('work-packages--edit-actions-cancel').click
+    expect(page).not_to have_selector('.inline-edit--container.subject input')
 
     # Timeline actions only shown when open
     wp_timeline.expect_timeline!(open: false)

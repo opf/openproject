@@ -67,7 +67,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
     scroll_to_and_click relations_tab
     find('[data-qa-selector="op-wp-inline-create"]').click
     fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
-    find('#wp-new-inline-edit--field-subject').native.send_keys(:return)
+    find_by_id('wp-new-inline-edit--field-subject').native.send_keys(:return)
 
     # Expect CF value to be still visible
     wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')

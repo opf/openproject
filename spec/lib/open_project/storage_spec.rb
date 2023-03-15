@@ -67,7 +67,7 @@ describe OpenProject::Storage do
         entry = subject.values.first
         expect(entry[:labels]).to eq(['this is foobar'])
         expect(entry[:data]).not_to be_nil
-        expect(entry[:data][:free]).to be_kind_of(Integer)
+        expect(entry[:data][:free]).to be_a(Integer)
       end
     end
   end

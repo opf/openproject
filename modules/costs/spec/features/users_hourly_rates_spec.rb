@@ -73,7 +73,7 @@ describe 'hourly rates on user edit', js: true do
         expect(page).to have_text /rate history/i
         expect(page).to have_text I18n.t('no_results_title_text')
 
-        expect(page).to have_no_text 'Current rate'
+        expect(page).not_to have_text 'Current rate'
       end
     end
   end

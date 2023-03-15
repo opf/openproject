@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Roles::CreateService < ::BaseServices::Create
+class Roles::CreateService < BaseServices::Create
   include Roles::NotifyMixin
 
   private

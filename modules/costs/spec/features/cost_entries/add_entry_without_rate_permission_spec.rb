@@ -73,7 +73,7 @@ describe 'Create cost entry without rate permissions', js: true do
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_no_selector('#cost_entry_costs')
+    expect(page).not_to have_selector('#cost_entry_costs')
 
     click_on 'Save'
 

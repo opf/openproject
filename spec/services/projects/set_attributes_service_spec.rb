@@ -60,8 +60,7 @@ describe Projects::SetAttributesService, type: :model do
 
   describe 'call' do
     let(:call_attributes) do
-      {
-      }
+      {}
     end
 
     before do

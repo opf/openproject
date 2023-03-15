@@ -59,7 +59,7 @@ module Pages::Meetings
       users.each do |user|
         within(".meeting.details") do
           expect(page)
-            .to have_no_link(user.name)
+            .not_to have_link(user.name)
         end
       end
     end

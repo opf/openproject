@@ -89,7 +89,7 @@ module Components
       def expect_not_resizable
         within area do
           expect(page)
-            .to have_no_selector('.grid--area.-widgeted resizer')
+            .not_to have_selector('.grid--area.-widgeted resizer')
         end
       end
 
@@ -98,7 +98,7 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".grid--area-drag-handle")
+            .not_to have_selector(".grid--area-drag-handle")
         end
       end
 
@@ -114,7 +114,7 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".icon-show-more-horizontal")
+            .not_to have_selector(".icon-show-more-horizontal")
         end
       end
 
@@ -150,7 +150,7 @@ module Components
           page.find('.op-toast--close').click
         end
 
-        expect(page).to have_no_selector('.op-toast')
+        expect(page).not_to have_selector('.op-toast')
       end
     end
   end

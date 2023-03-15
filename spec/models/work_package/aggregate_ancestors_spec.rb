@@ -97,7 +97,7 @@ describe WorkPackage::Ancestors do
       let(:ids) { leaf_ids }
 
       it 'returns ancestors for the leaf in project 1' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(2)
 
         expect(subject[leaf.id]).to eq([root_work_package, intermediate])
@@ -109,7 +109,7 @@ describe WorkPackage::Ancestors do
       let(:ids) { intermediate_ids }
 
       it 'returns all ancestors in project 1' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(2)
 
         expect(subject[intermediate.id]).to eq([root_work_package])
@@ -129,7 +129,7 @@ describe WorkPackage::Ancestors do
         let(:ids) { leaf_ids }
 
         it 'returns all ancestors' do
-          expect(subject).to be_kind_of(Hash)
+          expect(subject).to be_a(Hash)
           expect(subject.keys.length).to eq(2)
 
           expect(subject[leaf.id]).to eq([root_work_package, intermediate])
@@ -151,7 +151,7 @@ describe WorkPackage::Ancestors do
       let(:ids) { leaf_ids }
 
       it 'returns no results for all ids' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(0)
       end
     end

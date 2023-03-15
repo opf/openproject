@@ -70,6 +70,8 @@ class NewsController < ApplicationController
     @news = News.new(project: @project, author: User.current)
   end
 
+  def edit; end
+
   def create
     @news = News.new(project: @project, author: User.current)
     @news.attributes = permitted_params.news
@@ -80,8 +82,6 @@ class NewsController < ApplicationController
       render action: 'new'
     end
   end
-
-  def edit; end
 
   def update
     @news.attributes = permitted_params.news

@@ -56,6 +56,7 @@ describe "updating a cost report's cost type", js: true do
     retry_block do
       cost_query = CostQuery.find_by!(name: 'My Query')
       raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+
       expect(page).to have_field('Labor', checked: true)
     end
 

@@ -1,10 +1,9 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management',
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
-         },
-         js: true do
+         } do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
   let(:other_user) { create(:user, login: 'bob') }
@@ -22,7 +21,7 @@ describe 'Admin 2FA management',
     visit edit_user_path(admin, tab: :two_factor_authentication)
     expect(page).to have_selector('.on-off-status.-disabled')
 
-    expect(page).to have_no_selector('.generic-table--empty-row', wait: 1)
+    expect(page).not_to have_selector('.generic-table--empty-row', wait: 1)
     page.find('.admin--edit-section a').click
 
     expect(page).to have_selector('.generic-table--empty-row')

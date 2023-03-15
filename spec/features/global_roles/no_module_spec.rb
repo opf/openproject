@@ -52,6 +52,6 @@ describe 'Global role: No module', js: true do
     visit project_settings_modules_path(project)
 
     expect(page).to have_text 'Activity'
-    expect(page).to have_no_text 'Foo'
+    expect(page).not_to have_text 'Foo'
   end
 end

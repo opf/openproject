@@ -38,7 +38,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.id      url_for(controller: '/homescreen', action: :index, only_path: false)
   xml.updated(updated_time.xmlschema)
   xml.author { xml.name Setting.app_title }
-  xml.generator(uri: OpenProject::Info.url) { xml.text! OpenProject::Info.app_name; }
+  xml.generator(uri: OpenProject::Info.url) { xml.text! OpenProject::Info.app_name }
   @items.each do |item|
     item_event = !first_item.nil? && first_item.respond_to?(:data) ? item.data : item
 

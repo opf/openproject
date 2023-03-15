@@ -78,8 +78,8 @@ module Pages
             expect(page).to have_selector(selector, count: 8)
           end
         else
-          expect(page).to have_no_selector(selector)
-          expect(page).to have_no_selector('[data-qa-selector="op-ifc-viewer--toolbar-container"]')
+          expect(page).not_to have_selector(selector)
+          expect(page).not_to have_selector('[data-qa-selector="op-ifc-viewer--toolbar-container"]')
         end
       end
 
@@ -107,7 +107,7 @@ module Pages
 
       def switch_view(value)
         retry_block do
-          page.find('#bcf-view-toggle-button').click
+          page.find_by_id('bcf-view-toggle-button').click
           within('#bcf-view-context-menu') do
             page.find('.menu-item', text: value, exact_text: true).click
           end
@@ -119,7 +119,7 @@ module Pages
       end
 
       def has_no_menu_item_with_text?(value)
-        expect(page).to have_no_selector('.menu-item', text: value)
+        expect(page).not_to have_selector('.menu-item', text: value)
       end
 
       private

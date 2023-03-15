@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Groups::CreateService < ::BaseServices::Create; end
+class Groups::CreateService < BaseServices::Create; end

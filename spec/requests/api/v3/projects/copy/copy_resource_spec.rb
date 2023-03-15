@@ -59,8 +59,7 @@ describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
   let(:path) { api_v3_paths.project_copy(source_project.id) }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do

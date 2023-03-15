@@ -26,7 +26,7 @@ describe 'My avatar management', js: true do
       expect(page).to have_text '[Error 404]'
 
       visit my_account_path
-      expect(page).to have_no_selector '.avatar-menu-item'
+      expect(page).not_to have_selector '.avatar-menu-item'
     end
   end
 end

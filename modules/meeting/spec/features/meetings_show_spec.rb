@@ -64,8 +64,8 @@ describe 'Meetings', js: true do
         expect(page).to have_selector('#meeting_agenda-text', text: 'foo')
 
         # May not edit
-        expect(page).to have_no_selector('#edit-meeting_agenda')
-        expect(page).to have_no_selector('.meeting_agenda', text: 'Edit')
+        expect(page).not_to have_selector('#edit-meeting_agenda')
+        expect(page).not_to have_selector('.meeting_agenda', text: 'Edit')
       end
 
       it 'can view history' do
@@ -76,7 +76,7 @@ describe 'Meetings', js: true do
         click_on 'History'
         SeleniumHubWaiter.wait
 
-        find('#version-1').click
+        find_by_id('version-1').click
         expect(page).to have_selector('.meeting_agenda', text: 'foo')
       end
 
@@ -99,7 +99,7 @@ describe 'Meetings', js: true do
         it 'can not edit the minutes' do
           visit meeting_path(meeting)
           click_link 'Minutes'
-          expect(page).to have_no_selector('.meeting_minutes', text: 'Edit')
+          expect(page).not_to have_selector('.meeting_minutes', text: 'Edit')
           expect(page).to have_selector('.meeting_minutes', text: 'There is currently nothing to display')
         end
       end
@@ -110,8 +110,8 @@ describe 'Meetings', js: true do
 
       it 'shows the minutes when visiting' do
         visit meeting_path(meeting)
-        expect(page).to have_no_selector('h2', text: 'Agenda')
-        expect(page).to have_no_selector('#edit-meeting_minutes')
+        expect(page).not_to have_selector('h2', text: 'Agenda')
+        expect(page).not_to have_selector('#edit-meeting_minutes')
         expect(page).to have_selector('h2', text: 'Minutes')
       end
 
@@ -122,7 +122,7 @@ describe 'Meetings', js: true do
           visit meeting_path(meeting)
           expect(page).to have_selector('#edit-meeting_minutes')
           expect(page).to have_selector('.meeting_minutes', text: 'Edit')
-          expect(page).to have_no_selector('.button', text: 'Close the meeting to begin the Minutes')
+          expect(page).not_to have_selector('.button', text: 'Close the meeting to begin the Minutes')
         end
       end
     end

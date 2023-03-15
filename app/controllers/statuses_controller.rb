@@ -44,6 +44,10 @@ class StatusesController < ApplicationController
     @status = Status.new
   end
 
+  def edit
+    @status = Status.find(params[:id])
+  end
+
   def create
     @status = Status.new(permitted_params.status)
     if @status.save
@@ -52,10 +56,6 @@ class StatusesController < ApplicationController
     else
       render action: 'new'
     end
-  end
-
-  def edit
-    @status = Status.find(params[:id])
   end
 
   def update

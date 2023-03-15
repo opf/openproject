@@ -63,7 +63,7 @@ module Pages
           click_wp_create_button
 
           expect(page)
-            .to have_no_selector('#types-context-menu .menu-item', text: type.name.upcase)
+            .not_to have_selector('#types-context-menu .menu-item', text: type.name.upcase)
         end
 
         private

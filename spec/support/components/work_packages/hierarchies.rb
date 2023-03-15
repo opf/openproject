@@ -62,7 +62,7 @@ module Components
       end
 
       def expect_no_hierarchies
-        expect(page).to have_no_selector('.wp-table--hierarchy-span')
+        expect(page).not_to have_selector('.wp-table--hierarchy-span')
       end
 
       alias_method :expect_mode_disabled, :expect_no_hierarchies
@@ -113,7 +113,7 @@ module Components
             expect(page).to have_selector("#{selector}#{collapsed_sel}")
           else
             expect(page).to have_selector(selector)
-            expect(page).to have_no_selector("#{selector}#{collapsed_sel}")
+            expect(page).not_to have_selector("#{selector}#{collapsed_sel}")
           end
         end
       end

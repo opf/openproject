@@ -60,12 +60,12 @@ describe 'Select work package card', js: true, selenium: true do
 
     it 'the split screen of the selected WP' do
       wp_card_view.select_work_package(work_package_2)
-      find('#work-packages-details-view-button').click
+      find_by_id('work-packages-details-view-button').click
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 
-      find('#work-packages-details-view-button').click
-      expect(page).to have_no_selector('.work-packages--details')
+      find_by_id('work-packages-details-view-button').click
+      expect(page).not_to have_selector('.work-packages--details')
     end
   end
 end

@@ -39,14 +39,14 @@ module OAuth
       @applications = ::Doorkeeper::Application.without_integration.includes(:owner).all
     end
 
-    def new; end
-
-    def edit; end
-
     def show
       @reveal_secret = flash[:reveal_secret]
       flash.delete :reveal_secret
     end
+
+    def new; end
+
+    def edit; end
 
     def create
       call = ::OAuth::PersistApplicationService.new(@application, user: current_user)

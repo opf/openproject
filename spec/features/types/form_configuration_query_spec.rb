@@ -98,7 +98,7 @@ describe 'form query configuration', js: true do
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
-      expect(query_group.attributes).to be_kind_of(Query)
+      expect(query_group.attributes).to be_a(Query)
       expect(query_group.key).to eq('Empty test')
     end
 
@@ -138,7 +138,7 @@ describe 'form query configuration', js: true do
         visit new_project_work_packages_path(project)
 
         wp_page.expect_no_group 'Subtasks'
-        expect(page).to have_no_text 'Subtasks'
+        expect(page).not_to have_text 'Subtasks'
       end
     end
 
@@ -274,7 +274,7 @@ describe 'form query configuration', js: true do
                                                      results_selector: '.ng-dropdown-panel-items'
 
         expect(results).to have_text "Unrelated task"
-        expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
+        expect(results).not_to have_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
         page.find('.wp-create-relation--cancel').click

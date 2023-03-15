@@ -67,7 +67,7 @@ describe 'OAuthClient callback endpoint' do
       .to receive(:access_token!).with(:body)
             .and_return(
               Rack::OAuth2::AccessToken::Bearer.new(access_token: 'xyzaccesstoken',
-                                                      refresh_token: 'xyzrefreshtoken')
+                                                    refresh_token: 'xyzrefreshtoken')
             )
     allow(rack_oauth2_client).to receive(:authorization_code=)
     set_cookie "oauth_state_asdf1234=#{redirect_uri}"

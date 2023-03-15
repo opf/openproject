@@ -33,7 +33,7 @@ describe 'Cost report showing my own times', js: true do
     let(:current_user) { user2 }
 
     it 'shows my time' do
-      expect(page).to have_no_selector('.report')
+      expect(page).not_to have_selector('.report')
       expect(page).to have_selector('.generic-table--no-results-title')
       expect(page).not_to have_text '10.0' # 1 EUR x 10
     end

@@ -109,8 +109,8 @@ describe 'Administrating memberships via the project settings', js: true do
       expect(members_page.contents('status', raw: true)).to eq %w(invited active active)
 
       # Cannot sort by group, roles or status
-      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'ROLES')
-      expect(page).to have_no_selector('.generic-table--sort-header a', text: 'GROUP')
+      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'ROLES')
+      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'GROUP')
     end
   end
 

@@ -88,7 +88,7 @@ describe "multi select custom values", js: true do
 
       expect(page).to have_text "groupfoo"
       expect(page).to have_text "PLACEHOLDER"
-      expect(page).to have_no_text "Da Real"
+      expect(page).not_to have_text "Da Real"
 
       work_package.reload
       cvs = work_package

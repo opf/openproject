@@ -110,7 +110,7 @@ describe 'description inplace editor', js: true, selenium: true do
     let(:role) { create(:role, permissions: %i(view_work_packages)) }
 
     it 'does not show the field' do
-      expect(page).to have_no_selector('.inline-edit--display-field.description.-editable')
+      expect(page).not_to have_selector('.inline-edit--display-field.description.-editable')
 
       field.display_element.click
       field.expect_inactive!

@@ -68,7 +68,7 @@ class ExportCardConfiguration < ApplicationRecord
 
     def validate(record)
       begin
-        if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
+        if record.rows.nil? || !YAML::load(record.rows).is_a?(Hash)
           record.errors.add(:rows, I18n.t('validation_error_yaml_is_badly_formed'))
           return false
         end

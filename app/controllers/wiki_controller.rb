@@ -83,37 +83,6 @@ class WikiController < ApplicationController
     @pages_by_parent_id = @pages.group_by(&:parent_id)
   end
 
-  def new; end
-
-  def new_child
-    find_existing_page
-    return if performed?
-
-    old_page = @page
-
-    build_wiki_page_and_content
-
-    @page.parent = old_page
-    render action: 'new'
-  end
-
-  def create
-    call = attachable_create_call ::WikiPages::CreateService,
-                                  args: permitted_params.wiki_page_with_content.to_h.merge(wiki: @wiki)
-
-    @page = call.result
-    @content = @page.content
-
-    if call.success?
-      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
-      flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to_show
-    else
-      @errors = call.errors
-      render action: 'new'
-    end
-  end
-
   # display a page (in editing mode if it doesn't exist)
   def show
     # Set the related page ID to make it the parent of new links
@@ -132,6 +101,20 @@ class WikiController < ApplicationController
     @editable = editable?
   end
 
+  def new; end
+
+  def new_child
+    find_existing_page
+    return if performed?
+
+    old_page = @page
+
+    build_wiki_page_and_content
+
+    @page.parent = old_page
+    render action: 'new'
+  end
+
   # edit an existing page or a new one
   def edit
     @page = @wiki.find_or_new_page(wiki_page_title)
@@ -146,6 +129,23 @@ class WikiController < ApplicationController
 
     # To prevent StaleObjectError exception when reverting to a previous version
     @content.lock_version = @page.content.lock_version
+  end
+
+  def create
+    call = attachable_create_call ::WikiPages::CreateService,
+                                  args: permitted_params.wiki_page_with_content.to_h.merge(wiki: @wiki)
+
+    @page = call.result
+    @content = @page.content
+
+    if call.success?
+      call_hook(:controller_wiki_edit_after_save, params:, page: @page)
+      flash[:notice] = I18n.t(:notice_successful_create)
+      redirect_to_show
+    else
+      @errors = call.errors
+      render action: 'new'
+    end
   end
 
   # Creates a new page or updates an existing one

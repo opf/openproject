@@ -19,7 +19,7 @@ describe 'LDAP group sync administration spec', js: true do
     let!(:auth_source) { create(:ldap_auth_source, name: 'ldap') }
 
     it 'allows synced group administration flow' do
-      expect(page).to have_no_selector('.upsale-notification')
+      expect(page).not_to have_selector('.upsale-notification')
 
       # Create group
       find('.button', text: I18n.t('ldap_groups.synchronized_groups.singular')).click

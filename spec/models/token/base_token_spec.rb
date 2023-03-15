@@ -35,7 +35,7 @@ describe Token::Base do
 
   it 'creates' do
     subject.save!
-    assert_equal 64, subject.value.length
+    expect(subject.value.length).to eq(64)
   end
 
   it 'create_should_remove_existing_tokenses' do

@@ -70,7 +70,7 @@ describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minut
   it 'adding, editing and history' do
     visit project_settings_modules_path(project)
 
-    expect(page).to have_no_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
+    expect(page).not_to have_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
 
     within '#content' do
       check 'Wiki'

@@ -133,7 +133,7 @@ module Pages
       if present
         expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
       else
-        expect(page).to have_no_selector('.fc-event', text: work_package.subject)
+        expect(page).not_to have_selector('.fc-event', text: work_package.subject)
       end
     end
 

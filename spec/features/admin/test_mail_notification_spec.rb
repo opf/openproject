@@ -45,6 +45,6 @@ describe 'Test mail notification', js: true do
 
     expected = "An error occurred while sending mail (#{error_message})"
     expect(page).to have_selector('.flash.error', text: expected)
-    expect(page).to have_no_selector('.flash.error strong')
+    expect(page).not_to have_selector('.flash.error strong')
   end
 end

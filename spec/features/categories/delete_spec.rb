@@ -55,7 +55,7 @@ describe 'Deletion', js: true do
   shared_examples_for 'deleted category' do
     it { expect(page).to have_selector('div.generic-table--no-results-container') }
 
-    it { expect(page).to have_no_selector(delete_button) }
+    it { expect(page).not_to have_selector(delete_button) }
   end
 
   describe 'w/o work package' do

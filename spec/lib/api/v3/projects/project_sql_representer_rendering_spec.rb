@@ -159,21 +159,21 @@ describe API::V3::Projects::ProjectSqlRepresenter, 'rendering' do
       it 'renders correctly' do
         expect(json)
           .to be_json_eql(
-                {
-                  _links: {
-                    ancestors: [
-                      {
-                        href: "/foobar/api/v3/projects/#{grandparent.id}",
-                        title: grandparent.name
-                      },
-                      {
-                        href: API::V3::URN_UNDISCLOSED,
-                        title: I18n.t(:'api_v3.undisclosed.ancestor')
-                      }
-                    ]
+            {
+              _links: {
+                ancestors: [
+                  {
+                    href: "/foobar/api/v3/projects/#{grandparent.id}",
+                    title: grandparent.name
+                  },
+                  {
+                    href: API::V3::URN_UNDISCLOSED,
+                    title: I18n.t(:'api_v3.undisclosed.ancestor')
                   }
-                }.to_json
-              )
+                ]
+              }
+            }.to_json
+          )
       end
     end
 

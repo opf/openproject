@@ -118,11 +118,11 @@ describe 'Arbitrary WorkPackage query table widget on my page', js: true, with_m
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       scroll_to_element(filter_area.area)
       within filter_area.area do
@@ -147,11 +147,11 @@ describe 'Arbitrary WorkPackage query table widget on my page', js: true, with_m
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       within filter_area.area do
         expect(page).to have_field('editable-toolbar-title', with: 'My WP Filter', wait: 10)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Workflows::BulkUpdateService < ::BaseServices::Update
+class Workflows::BulkUpdateService < BaseServices::Update
   def initialize(role:, type:)
     @role = role
     @type = type

@@ -48,13 +48,13 @@ describe 'Multi-value custom fields creation', js: true do
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     # Add new row
-    find('#add-custom-option').click
+    find_by_id('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
-    find('#add-custom-option').click
+    find_by_id('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'

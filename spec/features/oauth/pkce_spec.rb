@@ -94,7 +94,7 @@ describe 'OAuth authorization code flow with PKCE',
     find('input.button[value="Authorize"]').click
 
     # Expect auth token
-    code = find('#authorization_code').text
+    code = find_by_id('authorization_code').text
 
     # And also have a grant for this application
     user.oauth_grants.reload
