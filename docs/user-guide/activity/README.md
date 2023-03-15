@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Activity
+  title: Project Activity
   priority: 890
 description: Find out about the Activity within a project
 keywords: activity
@@ -14,7 +14,7 @@ OpenProject lets you view an overview of all recent changes within a project. Th
 - project attributes (name, description, custom fields..)
 - other modules (news, budget, wiki edits, forum messages, logged time...)
 
-> IMG
+![Project activity module](project-activity-overview.png)
 
 To view project activity, the **Activity** module must first be enabled.
 
@@ -22,7 +22,7 @@ To view project activity, the **Activity** module must first be enabled.
 
 Within a project, navigate to the **Project settings > Modules** page. Make sure the **Activity** module is enabled and click on the **Save** button at the bottom of the page.
 
-> IMG
+![Enable the Activity module](enable-activity-module.png)
 
 ### Viewing project activity
 
@@ -36,7 +36,7 @@ For each update concerning a work package, you will see:
 - the date and time of the (aggregated) changes
 - a list of attributes that were changed
 
-> IMG: An example of a work package update
+![Work package activity updates](project-activity-workpackge-attributes.png)
 
 Starting with version 12.5, the Activity module also lists changes to project attributes, including project custom fields. For each update, you will see:
 
@@ -45,7 +45,7 @@ Starting with version 12.5, the Activity module also lists changes to project at
 - the date and time of the (aggregated) changes
 - a list of attributes that were changed
 
-> IMG: An example of a project attribute update
+![Work package activity updates](project-activity-project-attributes.png)
 
 ### Filtering project activity
 
@@ -60,7 +60,7 @@ To filter the project activity list, use the filters on the sidebar. You may fil
 
 Additionally, you can choose to include or exclude updates concerning sub-projects. 
 
-> IMG: Filters
+![Project activity filters](project-activity-filter-list.png)
 
 ### How far back can I trace the project activities?
 

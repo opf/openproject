@@ -160,7 +160,7 @@ A **double click on a card** will open the work package's **fullscreen view.** T
 
 Clicking on **Open details view** (the blue "**i**") will open the work package's **[split screen view](../work-packages/work-package-views/#split-screen-view)**. You can close it by clicking on the **"x"** in its upper right corner.
 
-
+![Close split screen button](close-split-screen.png)
 
 ## Remove cards
 

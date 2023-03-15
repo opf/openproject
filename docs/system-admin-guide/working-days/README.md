@@ -14,7 +14,6 @@ To change this setting, navigate to **Administration → Working days**.
 > **Note:** By default, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working.
 
 ![The 'Working days' entry in Admin settings ](admin-working-days.png)
-> Update image
 
 To change this setting, unselect days that you would like to define as non-working, and select ones that you would like to consider working, and click on **Save**.
 
@@ -22,11 +21,15 @@ To change this setting, unselect days that you would like to define as non-worki
 
 You can also designate specific dates (such as national or local holidays) as non-working days. Work packages in regular scheduling mode will skip these days and they will not be included when calculating duration.
 
+![Add non-working day link](add-non-working-day-link.png)
+
 Click on **+ Non-working day** to add a new date to the list. In the date picker modal that appears, give this new non-working day a name and select the specific date you would like to add. Click on **Add**. This day will now be a non-working day for all users of the instance.
+
+![Add non-working day modal](add-working-day-modal.png)
 
 Click on **Apply changes** at the end of the page for the changes to take effect.
 
-> IMG
+![Apply changes button](apply-changes-button.png)
 
 ### Effect on scheduling
 
@@ -48,3 +51,4 @@ The non-working days defined here are coloured differently, generally with a dar
 
 
 
+###### 

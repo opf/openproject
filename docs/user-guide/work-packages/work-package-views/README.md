@@ -10,7 +10,7 @@ keywords: work packages views
 
 A list of work packages is considered a view. Each view is based on a set of filter criteria and displays all work packages that meet those criteria. Every project in OpenProject automatically has these default views:
 
-> **IMG**: Default views on the sidebar
+![A list of the default work package views](work-package-views-default.png)
 
 - **All open**: All open work packages ( that is, with statuses that are not defined as _closed_), sorted in ascending order of ID (lowest on top)
 - **Latest activity**: All work packages, open and closed, in descending order of last updated date (latest on top)
