@@ -37,6 +37,7 @@ import {
   HostBinding,
   Injector,
   Input,
+  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -46,14 +47,17 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { onDayCreate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
+import {
+  onDayCreate,
+  validDate,
+} from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
 import { debounce } from 'lodash';
-import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';
+import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const rangeSeparator = '-';
 
@@ -76,12 +80,12 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
     },
   ],
 })
-export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, AfterViewInit {
+export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   @HostBinding('class.op-basic-range-datepicker') className = true;
 
-  @Output('valueChange') valueChange = new EventEmitter();
+  @HostBinding('class.op-basic-range-datepicker_mobile') mobile = false;
 
-  public stringValue = '';
+  @Output() valueChange = new EventEmitter();
 
   private _value:string[] = [];
 
@@ -108,12 +112,15 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
 
   @ViewChild('input') input:ElementRef;
 
+  stringValue = '';
+
+  datePickerInstance:DatePicker;
+
   text = {
     date: this.I18n.t('js.work_packages.properties.date'),
     placeholder: this.I18n.t('js.placeholders.default'),
+    spacer: this.I18n.t('js.filter.value_spacer'),
   };
-
-  public datePickerInstance:DatePicker;
 
   constructor(
     readonly I18n:I18nService,
@@ -121,24 +128,36 @@ export class OpBasicRangeDatePickerComponent implements ControlValueAccessor, Af
     readonly injector:Injector,
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
-    readonly spotDropModalTeleportationService:SpotDropModalTeleportationService,
+    readonly deviceService:DeviceService,
   ) {
     populateInputsFromDataset(this);
   }
 
+  ngOnInit() {
+    this.mobile = this.deviceService.isMobile;
+  }
+
   ngAfterViewInit():void {
-    this.initializeDatePicker();
+    if (!this.mobile) {
+      this.initializeDatePicker();
+    }
   }
 
   changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
 
-  changeValueFromInput(value:string) {
-    const newDates = this.resolveDateStringToArray(value);
-    this.valueChange.emit(newDates);
+  changeValueFromInput(value:string|string[]) {
+    const newDates = (typeof value === 'string') ? this.resolveDateStringToArray(value) : value;
+
     this.onChange(newDates);
     this.onTouched(newDates);
     this.writeValue(newDates);
     this.cdRef.detectChanges();
+
+    if (newDates.find((el) => !validDate(el))) {
+      return;
+    }
+
+    this.valueChange.emit(newDates);
   }
 
   showDatePicker():void {

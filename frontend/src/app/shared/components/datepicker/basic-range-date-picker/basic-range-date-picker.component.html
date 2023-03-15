@@ -1,4 +1,5 @@
 <input
+  *ngIf="!mobile"
   #input
   type="text"
   class="spot-input op-basic-range-datepicker--input"
@@ -7,10 +8,44 @@
   [attr.data-value]="value"
   [id]="id"
   [name]="name"
-  [attr.name]="name"
   [required]="required"
   [disabled]="disabled"
   [ngModel]="stringValue"
   (ngModelChange)="changeValueFromInputDebounced($event)"
   (focus)="showDatePicker()"
 />
+<ng-container *ngIf="mobile">
+  <input
+    type="date"
+    class="spot-input"
+    data-qa-selector="op-basic-range-date-picker-start"
+    [ngClass]="inputClassNames"
+    id="{{ id }}-start"
+    name="{{ name }}-start"
+    [required]="required"
+    [disabled]="disabled"
+    [ngModel]="value[0] || ''"
+    (ngModelChange)="changeValueFromInputDebounced([$event, value[1] || ''])"
+  />
+  <span class="op-basic-range-datepicker--spacer" [textContent]="text.spacer"></span>
+  <input
+    type="date"
+    class="spot-input"
+    data-qa-selector="op-basic-range-date-picker-end"
+    [ngClass]="inputClassNames"
+    id="{{ id }}-end"
+    name="{{ name }}-end"
+    [required]="required"
+    [disabled]="disabled"
+    [ngModel]="value[1] || ''"
+    (ngModelChange)="changeValueFromInputDebounced([value[0] || '', $event])"
+  />
+  <input
+    type="hidden"
+    data-qa-selector="op-basic-range-date-picker--value"
+    [attr.data-value]="stringValue"
+    [id]="id"
+    [name]="name"
+    [ngModel]="stringValue"
+  />
+</ng-container>
