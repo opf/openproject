@@ -472,7 +472,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     void Promise.all([
       this.configuration.initialized,
       this.weekdayService.loadWeekdays().toPromise(),
-  ])
+    ])
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({
@@ -527,7 +527,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               const due = moment(resizeInfo.event.endStr).subtract(1, 'day').toDate();
               const start = moment(resizeInfo.event.startStr).toDate();
               const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
-              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due))) {
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due)
+              || this.workPackagesCalendar.isNonWorkingDay(start)|| this.workPackagesCalendar.isNonWorkingDay(due))) {
                 this.toastService.addError(this.text.cannot_drag_to_non_working_day);
                 resizeInfo?.revert();
                 return;
@@ -560,7 +561,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventDrop: (dropInfo:EventDropArg) => {
               const start = moment(dropInfo.event.startStr).toDate();
               const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
-              if (!wp.ignoreNonWorkingDays && this.weekdayService.isNonWorkingDay(start)) {
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(start))) {
                 this.toastService.addError(this.text.cannot_drag_to_non_working_day);
                 dropInfo?.revert();
                 return;
@@ -570,7 +571,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             eventReceive: async (dropInfo:EventReceiveArg) => {
               const start = moment(dropInfo.event.startStr).toDate();
               const wp = dropInfo.event.extendedProps.workPackage as WorkPackageResource;
-              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start))) {
+              if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(start))) {
                 this.toastService.addError(this.text.cannot_drag_to_non_working_day);
                 dropInfo?.revert();
                 return;
@@ -953,7 +954,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   private addBackgroundEventsForNonWorkingDays() {
     addBackgroundEvents(
       this.ucCalendar.getApi(),
-      (date) => this.weekdayService.isNonWorkingDay(date),
+      (date) => this.weekdayService.isNonWorkingDay(date)|| this.workPackagesCalendar.isNonWorkingDay(date),
     );
   }
 
