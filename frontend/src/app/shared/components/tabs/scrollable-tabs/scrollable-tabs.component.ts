@@ -15,6 +15,8 @@ import {
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import { trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
 import { RawParams, StateService } from '@uirouter/core';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -46,6 +48,8 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
 
   trackById = trackByProperty('id');
 
+  counters:Record<string, Observable<number>> = {};
+
   private container:Element;
 
   private pane:Element;
@@ -71,6 +75,18 @@ export class ScrollableTabsComponent implements AfterViewInit, OnChanges {
     if (this.pane) {
       this.updateScrollableArea();
     }
+  }
+
+  counter(tab:TabDefinition):Observable<number>|null {
+    if (!tab.counter) {
+      return null;
+    }
+
+    if (!this.counters[tab.id]) {
+      this.counters[tab.id] = tab.counter(this.injector).pipe(share());
+    }
+
+    return this.counters[tab.id];
   }
 
   private updateScrollableArea() {
