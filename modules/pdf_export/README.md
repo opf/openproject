@@ -14,10 +14,8 @@ The following sample YAML shows the required form and all of the available confi
 <pre>
 group1:
   has_border: false
-  height: 200
   rows:
     row1:
-      height: 50
       priority: 1
       columns:
         id:
@@ -51,7 +49,6 @@ group2:
   has_border: true
   rows:
     row1:
-      height: 80
       priority: 2
       columns:
         description:
