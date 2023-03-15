@@ -41,7 +41,7 @@ pt:
       material_budget_item: "Unidade"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Orçamentos"
   attributes:
     budget: "Orçamento"
   button_add_budget_item: "Adicionar custos planejados"
