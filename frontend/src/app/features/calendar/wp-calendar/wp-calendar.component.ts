@@ -380,6 +380,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     addBackgroundEvents(
       this.ucCalendar.getApi(),
       (date) => this.weekdayService.isNonWorkingDay(date) || this.workPackagesCalendar.isNonWorkingDay(date),
-    )
+    );
   }
 }
