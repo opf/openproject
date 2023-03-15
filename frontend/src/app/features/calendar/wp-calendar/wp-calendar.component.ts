@@ -81,9 +81,12 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import {
+  addBackgroundEvents,
+  removeBackgroundEvents,
+} from 'core-app/features/team-planner/team-planner/planner/background-events';
 
 @EffectHandler
 @Component({
@@ -249,7 +252,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           this.addBackgroundEventsForNonWorkingDays();
         }
       },
-      eventResizeStop: () => this.removeBackGroundEvents(),
+      eventResizeStop: () => removeBackgroundEvents(this.ucCalendar.getApi()),
       eventDragStart: (dragInfo:EventDragStartArg) => {
         const wp = dragInfo.event.extendedProps.workPackage as WorkPackageResource;
         if (!wp.ignoreNonWorkingDays) {
@@ -259,7 +262,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       eventDragStop: (dragInfo:EventDragStopArg) => {
         const { el } = dragInfo;
         el.style.removeProperty('pointer-events');
-        this.removeBackGroundEvents();
+        removeBackgroundEvents(this.ucCalendar.getApi());
       },
       eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
@@ -368,37 +371,15 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     );
   }
 
-  private removeBackGroundEvents() {
-    this
-      .ucCalendar
-      .getApi()
-      .getEvents()
-      .filter((el) => el.source?.id === 'background')
-      .forEach((el) => el.remove());
-  }
-
-  private addBackgroundEventsForNonWorkingDays() {
-    const api = this.ucCalendar.getApi();
-    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
-    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
-    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
-
-    while (currentStartDate.toString() !== currentEndDate.toString()) {
-      if (this.weekdayService.isNonWorkingDay(currentStartDate) || this.workPackagesCalendar.isNonWorkingDay(currentStartDate)) {
-        nonWorkingDays.push({
-          start: moment(currentStartDate).format('YYYY-MM-DD'),
-          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
-        });
-      }
-      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
-    }
-    nonWorkingDays.forEach((day) => {
-      api.addEvent({ ...day }, 'background');
-    });
-  }
-
   @EffectCallback(calendarRefreshRequest)
   reloadOnRefreshRequest():void {
     this.ucCalendar.getApi().refetchEvents();
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    addBackgroundEvents(
+      this.ucCalendar.getApi(),
+      (date) => this.weekdayService.isNonWorkingDay(date) || this.workPackagesCalendar.isNonWorkingDay(date),
+    )
   }
 }
