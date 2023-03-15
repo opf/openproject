@@ -125,8 +125,6 @@ export class ConfigurationService {
       .get()
       .toPromise()
       .then((configuration) => {
-        console.warn('set configuration');
-        console.warn(new Date().toISOString());
         this.configuration = configuration;
       });
   }

@@ -68,7 +68,7 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
   }
 
   ngOnInit() {
-    this.perPageOptions = this.paginationService.getPerPageOptions();
+    super.ngOnInit();
 
     this.wpTablePagination
       .live$()

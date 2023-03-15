@@ -52,10 +52,13 @@ function setupMocks(paginationService:PaginationService) {
     optionsTruncationSize: 6,
   };
 
+  // eslint-disable-next-line jasmine/no-unsafe-spy
   spyOn(paginationService, 'getMaxVisiblePageOptions').and.callFake(() => options.maxVisiblePageOptions);
 
+  // eslint-disable-next-line jasmine/no-unsafe-spy
   spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => options.optionsTruncationSize);
 
+  // eslint-disable-next-line jasmine/no-unsafe-spy
   spyOn(paginationService, 'getPaginationOptions').and.callFake(() => options);
 }
 

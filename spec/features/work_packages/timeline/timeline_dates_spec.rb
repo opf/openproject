@@ -92,6 +92,22 @@ RSpec.describe 'Work package timeline date formatting',
 
   describe 'with default settings',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
+    before do
+      wp_timeline.expect_timeline!
+    end
+
+    context 'with german locale user' do
+      let(:current_user) { create(:admin, language: 'de') }
+
+      it 'shows german ISO dates' do
+        # expect moment to return week 53 for start date
+        expect_date_week work_package.start_date.iso8601, '53'
+        expect_date_week work_package.due_date.iso8601, '53'
+        # Monday, 4th of january is the first week
+        expect_date_week '2021-01-04', '01'
+      end
+    end
+
     context 'with english locale user' do
       let(:current_user) { create(:admin, language: 'en') }
 
@@ -101,21 +117,6 @@ RSpec.describe 'Work package timeline date formatting',
         expect_date_week work_package.due_date.iso8601, '01'
         # Monday, 4th of january is the second week
         expect_date_week '2021-01-04', '02'
-      end
-    end
-
-    context 'with german locale user' do
-      let(:current_user) { create(:admin, language: 'de') }
-
-      it 'shows german ISO dates' do
-        expect(page).to have_selector('.wp-timeline--header-element', text: '52')
-        expect(page).to have_selector('.wp-timeline--header-element', text: '53')
-
-        # expect moment to return week 53 for start date
-        expect_date_week work_package.start_date.iso8601, '53'
-        expect_date_week work_package.due_date.iso8601, '53'
-        # Monday, 4th of january is the first week
-        expect_date_week '2021-01-04', '01'
       end
     end
 

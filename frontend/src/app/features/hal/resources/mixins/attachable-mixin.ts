@@ -60,5 +60,18 @@ export function Attachable<TBase extends Constructor<HalResource>>(Base:TBase) {
       const match = this.attachments.elements.find((res:HalResource) => res.name === file);
       return !match ? null : (match.staticDownloadLocation as HalLink)?.href;
     }
+
+    public $initialize(source:unknown) {
+      super.$initialize(source);
+
+      const attachments = this.attachments || { $source: {}, elements: [] };
+      this.attachments = new AttachmentCollectionResource(
+        this.injector,
+        attachments,
+        false,
+        this.halInitializer,
+        'HalResource',
+      );
+    }
   };
 }
