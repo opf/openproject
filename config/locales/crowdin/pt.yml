@@ -336,7 +336,7 @@ pt:
   wiki:
     page_not_editable_index: A página solicitada (ainda) não existe. Você foi redirecionado para o índice de todas as páginas wiki.
     no_results_title_text: Atualmente, não há páginas wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Isto imprimirá o conteúdo desta página wiki sem nenhuma barra de navegação.
     index:
       no_results_content_text: Adicionar uma nova página wiki
   work_flows:
@@ -347,8 +347,8 @@ pt:
       one: 'Um pacote de trabalho descendente'
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
-      copy_failed: "The work packages could not be copied."
-      move_failed: "The work packages could not be moved."
+      copy_failed: "Os pacotes de trabalho não puderam ser copiados."
+      move_failed: "Os pacotes de trabalho não puderam ser movidos."
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
       none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
@@ -377,7 +377,7 @@ pt:
   account:
     delete: "Excluir conta"
     delete_confirmation: "Tem certeza que deseja excluir a conta?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "A conta foi bloqueada e sua exclusão foi agendada. Observe que este processo ocorre em segundo plano. Pode levar alguns minutos até que o usuário seja totalmente excluído."
     deletion_info:
       data_consequences:
         other: "Os dados que o usuário criou (ex.: e-mail, preferências, pacotes de trabalho, páginas wiki) serão excluídos na medida do possível. Note, porém, que dados como pacotes de trabalho e páginas wiki não podem ser excluídos sem impactar o trabalho dos demais usuários. Estes dados serão reatribuídos a uma conta chamada \"Usuário excluído\". Como os dados de todas as contas excluídas serão reatribuídos a esta conta, não será possível distinguir os dados que o usuário criou dos dados de outra conta excluída."
@@ -473,15 +473,15 @@ pt:
         roles: "Papéis"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "Desarquivada"
+          false: "arquivado"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Visibilidade"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
         templated: "Projeto modelo"
         templated_value:
