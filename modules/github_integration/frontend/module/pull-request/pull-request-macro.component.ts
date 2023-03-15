@@ -42,6 +42,8 @@ import { Observable } from 'rxjs';
 
 export const githubPullRequestMacroSelector = 'macro.github_pull_request';
 
+export type PullRequestState = 'opened'|'closed'|'referenced'|'ready_for_review'|'merged'|'draft';
+
 @Component({
   selector: githubPullRequestMacroSelector,
   templateUrl: './pull-request-macro.component.html',
@@ -52,6 +54,8 @@ export const githubPullRequestMacroSelector = 'macro.github_pull_request';
 })
 export class PullRequestMacroComponent implements OnInit {
   @Input() pullRequestId:string;
+
+  @Input() pullRequestState:PullRequestState;
 
   pullRequest$:Observable<IGithubPullRequest>;
 
