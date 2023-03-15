@@ -9,7 +9,7 @@ keywords: working non-working days work week
 
 Administrators are able to define which days of the week are considered working days at an instance level. In other words, this setting defines what OpenProject should consider to be a normal work week when scheduling work packages.
 
-To change this setting, navigate to *Administration* → *Working days*.
+To change this setting, navigate to **Administration → Working days**.
 
 > **Note:** By default, the five days from Monday–Friday are considered working days, and Saturday and Sunday are considered non-working.
 

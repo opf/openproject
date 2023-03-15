@@ -26,7 +26,7 @@ Within a project, navigate to the **Project settings > Modules** page. Make sure
 
 ### Viewing project activity
 
-Click on the **Activity** option that is now visible in the sidebar of a project. This will show show you recent activity in the project, with the most recent changes at the top. 
+Click on the **Activity** option that is now visible in the sidebar of a project. This will show you recent activity in the project, with the most recent changes at the top. 
 
 For each update concerning a work package, you will see:
 
@@ -38,7 +38,7 @@ For each update concerning a work package, you will see:
 
 > IMG: An example of a work package update
 
-Starting version 12.5, the Activity module also lists changes to project attribuets, including project custom fields. For each update, you will see:
+Starting with version 12.5, the Activity module also lists changes to project attributes, including project custom fields. For each update, you will see:
 
 - the name of the project or sub-project
 - the user who was responsible for the change
@@ -49,7 +49,7 @@ Starting version 12.5, the Activity module also lists changes to project attribu
 
 ### Filtering project activity
 
-To filter the project activity list, use the filters on the sidebar. You may filter to show only on or a combination of changes concerning:
+To filter the project activity list, use the filters on the sidebar. You may filter to show only one or a combination of changes concerning:
 
 - Budgets
 - News

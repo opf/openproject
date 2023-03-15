@@ -38,14 +38,17 @@ To begin using this integration, you will need to first connect your OpenProject
    ![NC_login](1_0_01-Files_Tab-Log_in_error.png)
 
 2. You will see a Nextcloud screen asking you to log in before granting OpenProject access to your Nextcloud account. You will also see a security warning, but since you are indeed trying to connect the two accounts, you can safely ignore it. Click on **Log in** and enter your Nextcloud credentials.
-   ![NC_login_step2](login_nc_step2-1.png)
 
+   ![NC_login_step2](login_nc_step2-1.png)
+   
    ![NC_login_step2](login_nc_step2-2.png)
 
 3. Once you are logged in to Nextcloud, click on **Grant access** to confirm you want to give OpenProject access to your Nextcloud account.
+
    ![NC_login_step2](login_nc_step3.png)
 
 4. You will now will be redirected back to OpenProject, where you will also be asked to grant Nextcloud read and write access to your OpenProject account via the API. This is necessary for the integration to function. Click on **Authorize**.
+
    ![NC_login_step2](login_nc_step4.png)
 
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
