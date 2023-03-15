@@ -24,7 +24,10 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import {
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
@@ -38,6 +41,12 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GithubPullRequestResourceService } from './state/github-pull-request.service';
+import {
+  githubPullRequestMacroSelector,
+  PullRequestMacroComponent,
+} from './pull-request/pull-request-macro.component';
+import { HookService } from 'core-app/features/plugins/hook-service';
+import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
 
 export function workPackageGithubPrsCount(
   workPackage:WorkPackageResource,
@@ -77,6 +86,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     GitActionsMenuDirective,
     GitActionsMenuComponent,
     PullRequestComponent,
+    PullRequestMacroComponent,
   ],
   exports: [
     GitHubTabComponent,
@@ -84,10 +94,14 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabPrsComponent,
     GitActionsMenuDirective,
     GitActionsMenuComponent,
+    PullRequestMacroComponent,
   ],
 })
 export class PluginModule {
   constructor(injector:Injector) {
     initializeGithubIntegrationPlugin(injector);
+    DynamicBootstrapper.register(
+      { selector: githubPullRequestMacroSelector, cls: PullRequestMacroComponent, embeddable: true },
+    );
   }
 }

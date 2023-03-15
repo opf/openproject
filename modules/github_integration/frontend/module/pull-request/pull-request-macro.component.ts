@@ -28,88 +28,44 @@
 
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
-  HostBinding,
   Injector,
   Input,
+  OnInit,
 } from '@angular/core';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  AttributeModelLoaderService,
-  SupportedAttributeModels,
-} from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
-import { capitalize } from 'core-app/shared/helpers/string-helpers';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { IGithubPullRequest } from '../state/github-pull-request.model';
+import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
+import { Observable } from 'rxjs';
 
-export const githubPullRequestMacroSelector = 'macro.github-pull-request';
+export const githubPullRequestMacroSelector = 'macro.github_pull_request';
 
 @Component({
   selector: githubPullRequestMacroSelector,
   templateUrl: './pull-request-macro.component.html',
-  styleUrls: ['./pull-request-macro.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
   ],
 })
-export class PullRequestMacroComponent {
+export class PullRequestMacroComponent implements OnInit {
   @Input() pullRequestId:string;
+
+  pullRequest$:Observable<IGithubPullRequest>;
 
   constructor(
     readonly elementRef:ElementRef,
     readonly injector:Injector,
-    readonly resourceLoader:AttributeModelLoaderService,
-    readonly schemaCache:SchemaCacheService,
-    readonly displayField:DisplayFieldService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef) {
+    readonly pullRequests:GithubPullRequestResourceService,
+  ) {
     populateInputsFromDataset(this);
   }
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
-    const model:SupportedAttributeModels = element.dataset.model as any;
-    const id:string = element.dataset.id!;
-    const attributeName:string = element.dataset.attribute!;
-    this.attributeScope = capitalize(model);
-
-    this.loadResourceAttribute(model, id, attributeName);
-  }
-
-  private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string) {
-    let resource:HalResource|null;
-
-    try {
-      this.resource = resource = await this.resourceLoader.require(model, id);
-    } catch (e) {
-      console.error(`Failed to render macro ${e}`);
-      return this.markError(this.text.not_found);
-    }
-
-    if (!resource) {
-      this.markError(this.text.not_found);
-      return;
-    }
-
-    const schema = await this.schemaCache.ensureLoaded(resource);
-    this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
-    this.label = schema[this.attribute]?.name;
-
-    if (!this.label) {
-      this.markError(this.text.invalid_attribute(attributeName));
-    }
-
-    this.cdRef.detectChanges();
-  }
-
-  markError(message:string) {
-    this.error = this.I18n.t('js.editor.macro.error', { message });
-    this.cdRef.detectChanges();
+    this.pullRequest$ = this
+      .pullRequests
+      .requireSingle(this.pullRequestId);
   }
 }

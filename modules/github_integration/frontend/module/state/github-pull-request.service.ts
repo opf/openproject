@@ -28,48 +28,31 @@
 
 import { Injectable } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
-import { Observable } from 'rxjs';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import {
-  CollectionStore,
-  ResourceCollectionLoadOptions,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
 import { IGithubPullRequest } from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.model';
 import { GithubPullRequestsStore } from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.store';
 import { ID } from '@datorama/akita';
+import { ResourceStoreService, ResourceStore } from 'core-app/core/state/resource-store.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class GithubPullRequestResourceService extends ResourceCollectionService<IGithubPullRequest> {
-  ofWorkPackage(workPackage:WorkPackageResource) {
-    return this.requireEntity(`${workPackage.href as string}/github_pull_requests`);
+export class GithubPullRequestResourceService extends ResourceStoreService<IGithubPullRequest> {
+  ofWorkPackage(workPackage:WorkPackageResource):Observable<IGithubPullRequest[]> {
+    return this.requireCollection(`${workPackage.href as string}/github_pull_requests`);
   }
 
-  requireSingle(id:ID) {
+  requireSingle(id:ID):Observable<IGithubPullRequest> {
     return this.requireEntity(this.entityPath(id));
-  }
-
-  fetchCollection(
-    params:ApiV3ListParameters|string,
-    options:ResourceCollectionLoadOptions = { handleErrors: true },
-  ):Observable<IHALCollection<IGithubPullRequest>> {
-    if (typeof params !== 'string') {
-      throw new Error('Github PR service can only deal with string collection keys being their full paths')
-    }
-
-    return this.request(params, params, options);
   }
 
   protected basePath():string {
     return this.apiV3Service.github_pull_requests.path;
   }
 
-  protected entityPath(id:ID) {
+  protected entityPath(id:ID):string {
     return this.apiV3Service.github_pull_requests.id(id).path;
   }
 
-  protected createStore():CollectionStore<IGithubPullRequest> {
+  protected createStore():ResourceStore<IGithubPullRequest> {
     return new GithubPullRequestsStore();
   }
 }

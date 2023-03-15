@@ -32,6 +32,8 @@ module OpenProject::GithubIntegration
     # Handles GitHub pull request notifications.
     class PullRequest
       include OpenProject::GithubIntegration::NotificationHandler::Helper
+      include ActionView::Helpers::TagHelper
+      include ::AngularHelper
 
       COMMENT_ACTIONS = %w[
         closed
@@ -50,7 +52,7 @@ module OpenProject::GithubIntegration
         comment_on_referenced_work_packages(
           work_packages_to_comment_on(payload.action, pull_request, work_packages),
           github_system_user,
-          journal_entry(pull_request)
+          journal_entry(pull_request, payload)
         )
       end
 
@@ -73,8 +75,29 @@ module OpenProject::GithubIntegration
                                                                              work_packages:)
       end
 
-      def journal_entry(pull_request)
-        %(<macro class="github_pull_request" data-pull-request-id="#{pull_request.id}"></macro>)
+      def journal_entry(pull_request, payload)
+        angular_component_tag 'macro',
+                              class: 'github_pull_request',
+                              inputs: {
+                                pullRequestId: pull_request.id,
+                                pullRequestState: pull_request_state(payload)
+                              }
+      end
+
+      def pull_request_state(payload)
+        key = {
+          'opened' => 'opened',
+          'reopened' => 'opened',
+          'closed' => 'closed',
+          'edited' => 'referenced',
+          'referenced' => 'referenced',
+          'ready_for_review' => 'ready_for_review'
+        }[payload.action]
+
+        return 'merged' if key == 'closed' && payload.pull_request.merged
+        return 'draft' if key == 'open' && payload.pull_request.draft
+
+        key
       end
     end
   end

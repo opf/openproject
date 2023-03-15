@@ -1,0 +1,10 @@
+<ng-container *ngIf="(pullRequest$ | async) as pr; else loadingTemplate">
+  foo
+</ng-container>
+<ng-template #loadingTemplate>
+  <op-content-loader
+    viewBox="0 0 200 5"
+  >
+    <svg:rect x="0" y="0" width="100%" height="5" rx="1" />
+  </op-content-loader>
+</ng-template>
