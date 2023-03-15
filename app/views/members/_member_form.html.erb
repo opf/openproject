@@ -56,7 +56,15 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
       <div class="grid-content medium-8 small-12 -flex -with-button">
         <div class="form--field">
-          <%= styled_label_tag :member_role_ids, t(:label_role_search) %>
+          <%= styled_label_tag :member_role_ids do %>
+            <%= content_tag :span, t(:label_role_search) %>
+            <%= angular_component_tag 'attribute-help-text',
+                                      inputs: {
+                                        attribute: 'members',
+                                        attributeScope: 'Project'
+                                      }
+            %>
+          <% end %>
           <div class="form--field-container">
             <div class="form--select-container -auto">
               <% options = roles.collect { |obj| [obj.name, obj.id] } %>
