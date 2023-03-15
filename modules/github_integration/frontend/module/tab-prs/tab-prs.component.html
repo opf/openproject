@@ -1,0 +1,8 @@
+<ng-container *ngIf="(pullRequests$ | async)?.length === 0">
+  <p [innerHTML]="getEmptyText()"></p>
+</ng-container>
+
+<op-github-pull-request
+  *ngFor="let pullRequest of (pullRequests$ | async)"
+  [pullRequest]="pullRequest"
+></op-github-pull-request>

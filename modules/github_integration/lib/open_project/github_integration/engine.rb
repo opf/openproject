@@ -83,6 +83,10 @@ module OpenProject::GithubIntegration
       mount ::API::V3::GithubPullRequests::GithubPullRequestsByWorkPackageAPI
     end
 
+    add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::GithubPullRequests::GithubPullRequestsAPI
+    end
+
     config.to_prepare do
       # Register the cron job to clean up old github pull requests
       ::Cron::CronJob.register! ::Cron::ClearOldPullRequestsJob

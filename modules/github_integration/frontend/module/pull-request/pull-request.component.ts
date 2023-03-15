@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -26,24 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input } from '@angular/core';
-import { GithubCheckRunResource } from 'core-app/features/plugins/linked/openproject-github_integration/hal/resources/github-check-run-resource';
-import { IGithubPullRequestResource } from "core-app/features/plugins/linked/openproject-github_integration/typings";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
-import { I18nService } from "core-app/core/i18n/i18n.service";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  Input,
+} from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import {
+  IGithubCheckRunResource,
+  IGithubPullRequest,
+} from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.model';
 
 @Component({
-  selector: 'github-pull-request',
+  selector: 'op-github-pull-request',
   templateUrl: './pull-request.component.html',
   styleUrls: [
     './pull-request.component.sass',
     './pr-check.component.sass',
   ],
-  host: { class: 'op-pull-request' }
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class PullRequestComponent {
-  @Input() public pullRequest:IGithubPullRequestResource;
+  @HostBinding('class.op-pull-request') className = true;
+
+  @Input() public pullRequest:IGithubPullRequest;
 
   public text = {
     label_created_by: this.I18n.t('js.label_created_by'),
@@ -52,63 +61,64 @@ export class PullRequestComponent {
     label_actions: this.I18n.t('js.github_integration.github_actions'),
   };
 
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
+  constructor(
+    readonly PathHelper:PathHelperService,
+    readonly I18n:I18nService,
+  ) {
   }
 
   get state() {
     if (this.pullRequest.state === 'open') {
       return (this.pullRequest.draft ? 'draft' : 'open');
-    } else {
-      return(this.pullRequest.merged ? 'merged' : 'closed');
     }
+    return (this.pullRequest.merged ? 'merged' : 'closed');
   }
 
-  public checkRunStateText(checkRun:GithubCheckRunResource) {
+  public checkRunStateText(checkRun:IGithubCheckRunResource) {
     /* Github apps can *optionally* add an output object (and a title) which is the most relevant information to display.
        If that is not present, we can display the conclusion (which is present only on finished runs).
        If that is not present, we can always fall back to the status. */
-    return(checkRun.outputTitle || checkRun.conclusion || checkRun.status);
+    return (checkRun.outputTitle || checkRun.conclusion || checkRun.status);
   }
 
-  public checkRunState(checkRun:GithubCheckRunResource) {
-    return(checkRun.conclusion || checkRun.status);
+  public checkRunState(checkRun:IGithubCheckRunResource) {
+    return (checkRun.conclusion || checkRun.status);
   }
 
-  public checkRunStateIcon(checkRun:GithubCheckRunResource) {
+  public checkRunStateIcon(checkRun:IGithubCheckRunResource) {
     switch (this.checkRunState(checkRun)) {
       case 'success': {
-        return 'checkmark'
+        return 'checkmark';
       }
       case 'queued': {
-        return 'getting-started'
+        return 'getting-started';
       }
       case 'in_progress': {
-        return 'loading1'
+        return 'loading1';
       }
       case 'failure': {
-        return 'cancel'
+        return 'cancel';
       }
       case 'timed_out': {
-        return 'reminder'
+        return 'reminder';
       }
       case 'action_required': {
-        return 'warning'
+        return 'warning';
       }
       case 'stale': {
-        return 'not-supported'
+        return 'not-supported';
       }
       case 'skipped': {
-        return 'redo'
+        return 'redo';
       }
       case 'neutral': {
-        return 'minus1'
+        return 'minus1';
       }
       case 'cancelled': {
-        return 'minus1'
+        return 'minus1';
       }
       default: {
-        return 'not-supported'
+        return 'not-supported';
       }
     }
   }

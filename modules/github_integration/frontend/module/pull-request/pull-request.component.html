@@ -13,16 +13,16 @@
 <div class="op-pull-request--info">
   {{ text.label_created_by }}
   <img
+    *ngIf="pullRequest._embedded.githubUser"
     alt='PR author avatar'
     class='op-pull-request--avatar op-avatar op-avatar_mini'
-    [src]="pullRequest.githubUser.avatarUrl"
-    *ngIf="pullRequest.githubUser"
+    [src]="pullRequest._embedded.githubUser.avatarUrl"
   />
   <span class='op-pull-request--user'>
     <a
-      [href]="pullRequest.githubUser.htmlUrl"
-      [textContent]="pullRequest.githubUser.login"
-      *ngIf="pullRequest.githubUser"
+      *ngIf="pullRequest._embedded.githubUser"
+      [href]="pullRequest._embedded.githubUser.htmlUrl"
+      [textContent]="pullRequest._embedded.githubUser.login"
     ></a>.
   </span>
 
@@ -37,15 +37,22 @@
   {{state}}
 </span>
 
-<span class="op-pull-request--checks-label"  *ngIf="pullRequest.checkRuns?.length">{{ text.label_actions }}</span>
+<span class="op-pull-request--checks-label"
+      *ngIf="pullRequest._embedded.checkRuns?.length"
+      [textContent]="text.label_actions"
+></span>
 
-<ul [attr.aria-label]="text.label_actions" class='op-pull-request--checks' *ngIf="pullRequest.checkRuns?.length">
-  <li class='op-pr-check' *ngFor="let checkRun of pullRequest.checkRuns">
+<ul
+  *ngIf="pullRequest._embedded.checkRuns?.length"
+  [attr.aria-label]="text.label_actions"
+  class='op-pull-request--checks'
+>
+  <li class='op-pr-check' *ngFor="let checkRun of pullRequest._embedded.checkRuns">
     <span class='op-pr-check--state-icon' [ngClass]="'op-pr-check--state-icon_' + checkRunState(checkRun)">
       <op-icon icon-classes="icon-{{ checkRunStateIcon(checkRun) }}"
                [icon-title]="checkRunStateText(checkRun)"></op-icon>
     </span>
-    <span class='op-pr-check--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl" /></span>
+    <span class='op-pr-check--avatar'><img alt='app owner avatar' [src]="checkRun.appOwnerAvatarUrl"/></span>
 
     <span class='op-pr-check--info'>
       <span class='op-pr-check--name' [textContent]="checkRun.name"></span>

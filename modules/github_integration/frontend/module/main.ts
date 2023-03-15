@@ -33,19 +33,19 @@ import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabPrsComponent } from './tab-prs/tab-prs.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
-import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { GithubPullRequestResourceService } from './state/github-pull-request.service';
 
 export function workPackageGithubPrsCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
-  const githubPrsService = injector.get(WorkPackagesGithubPrsService);
+  const githubPrsService = injector.get(GithubPullRequestResourceService);
   return githubPrsService
-    .requireAndStream(workPackage)
+    .ofWorkPackage(workPackage)
     .pipe(
       map((prs) => prs.length),
     );
@@ -68,7 +68,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     OpenprojectTabsModule,
   ],
   providers: [
-    WorkPackagesGithubPrsService,
+    GithubPullRequestResourceService,
   ],
   declarations: [
     GitHubTabComponent,
