@@ -78,7 +78,6 @@ export class WorkPackagesListService {
   private queryLoading = this.queryRequests
     .values$()
     .pipe(
-      switchMap((q:QueryDefinition) => from(this.ensurePerPageKnown().then(() => q))),
       // Stream the query request, switchMap will call previous requests to be cancelled
       switchMap((q:QueryDefinition) => this.streamQueryRequest(q.queryParams, q.projectIdentifier)),
       // Map the observable from the stream to a new one that completes when states are loaded
@@ -409,13 +408,6 @@ export class WorkPackagesListService {
         })
         .catch(reject);
     });
-  }
-
-  private async ensurePerPageKnown() {
-    if (this.pagination.isPerPageKnown) {
-      return true;
-    }
-    return this.configuration.initialized;
   }
 
   private createQueryAndView(query:QueryResource, form:QueryFormResource|undefined) {

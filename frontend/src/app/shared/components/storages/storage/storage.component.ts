@@ -37,7 +37,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  HttpClient,
   HttpErrorResponse,
 } from '@angular/common/http';
 import {
@@ -213,7 +212,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   };
 
   constructor(
-    private readonly http:HttpClient,
     private readonly i18n:I18nService,
     private readonly cdRef:ChangeDetectorRef,
     private readonly toastService:ToastService,

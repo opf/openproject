@@ -56,7 +56,7 @@ function setupMocks(paginationService:PaginationService) {
 
   spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => options.optionsTruncationSize);
 
-  spyOn(paginationService, 'loadPaginationOptions').and.callFake(() => Promise.resolve(options));
+  spyOn(paginationService, 'getPaginationOptions').and.callFake(() => options);
 }
 
 function pageString(element:JQuery) {

@@ -135,6 +135,8 @@ export function initializeServices(injector:Injector) {
     PreviewTrigger.setupListener();
 
     keyboardShortcuts.register();
+
+    return injector.get(ConfigurationService).initialize();
   };
 }
 
