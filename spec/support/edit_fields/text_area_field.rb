@@ -7,7 +7,7 @@ class TextAreaField < EditField
 
   def expect_save_button(enabled: true)
     if enabled
-      expect(field_container).to have_no_selector("#{control_link}[disabled]")
+      expect(field_container).not_to have_selector("#{control_link}[disabled]")
     else
       expect(field_container).to have_selector("#{control_link}[disabled]")
     end

@@ -134,7 +134,7 @@ describe 'Create repository', js: true, selenium: true do
         expect(content[:style]).not_to match("display: none")
 
         find('input[type="radio"][value="managed"]').set(true)
-        content = find('#attributes-group--content-managed')
+        content = find_by_id('attributes-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to eql 'false'
         content = find("##{vendor}-managed", visible: false)

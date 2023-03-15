@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Attachments::DeleteService < ::BaseServices::Delete
+class Attachments::DeleteService < BaseServices::Delete
   include Attachments::TouchContainer
 
   def call(params = {})

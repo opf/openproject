@@ -45,7 +45,7 @@ namespace :ldap do
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
 
     logins = args.fetch(:logins, '').split(/\s*,\s*/)
-    ::Ldap::SynchronizeUsersService
+    Ldap::SynchronizeUsersService
       .new(ldap, logins)
       .call
   end
@@ -60,7 +60,7 @@ namespace :ldap do
     # Parse filter string if available
     filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
 
-    ::Ldap::ImportUsersFromFilterService
+    Ldap::ImportUsersFromFilterService
       .new(ldap, filter)
       .call
   end
@@ -75,7 +75,7 @@ namespace :ldap do
     puts "--> Reading username file #{file}"
     users = File.read(file).lines(chomp: true)
 
-    ::Ldap::ImportUsersFromListService
+    Ldap::ImportUsersFromListService
       .new(ldap, users)
       .call
   end

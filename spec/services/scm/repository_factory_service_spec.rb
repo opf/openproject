@@ -127,7 +127,7 @@ describe SCM::RepositoryFactoryService do
 
     it 'allows to persist a repository without URL' do
       expect(service.build_and_save).to be true
-      expect(service.repository).to be_kind_of(Repository::Subversion)
+      expect(service.repository).to be_a(Repository::Subversion)
     end
   end
 end

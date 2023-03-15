@@ -56,22 +56,22 @@ describe 'Calendar non working days', js: true do
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
 
       find('.fc-next-button').click
 
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
     end
   end
 

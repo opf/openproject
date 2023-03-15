@@ -118,12 +118,12 @@ module Pages
 
     def select_all_work_packages
       find('body').send_keys [:control, 'a']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def deselect_all_work_packages
       find('body').send_keys [:control, 'd']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def card(work_package)

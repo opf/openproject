@@ -136,7 +136,7 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.enable_hierarchy
 
       # Should not be marked as additional row (grey)
-      expect(page).to have_no_selector('.wp-table--hierarchy-aditional-row')
+      expect(page).not_to have_selector('.wp-table--hierarchy-aditional-row')
 
       hierarchy.expect_hierarchy_at(wp_root, wp_inter)
       hierarchy.expect_leaf_at(wp_leaf)

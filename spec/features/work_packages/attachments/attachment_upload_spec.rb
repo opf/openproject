@@ -132,7 +132,7 @@ describe 'Upload attachment to work package', js: true do
 
         sleep 2
 
-        scroll_to_and_click find('#work-packages--edit-actions-save')
+        scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
         new_page.expect_and_dismiss_toaster(
           message: 'Successful creation.'
@@ -152,7 +152,7 @@ describe 'Upload attachment to work package', js: true do
         subject = new_page.edit_field :subject
         subject.set_value 'A second task'
 
-        scroll_to_and_click find('#work-packages--edit-actions-save')
+        scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
         new_page.expect_toast(
           message: 'Successful creation.'
@@ -200,7 +200,7 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          scroll_to_and_click find('#work-packages--edit-actions-save')
+          scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
           wp_page.expect_toast(
             message: 'Successful creation.'
@@ -274,7 +274,7 @@ describe 'Upload attachment to work package', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)

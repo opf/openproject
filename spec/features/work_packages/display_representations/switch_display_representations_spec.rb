@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'Switching work package view',
-         with_ee: %i[conditional_highlighting],
-         js: true do
+         js: true, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

@@ -77,7 +77,7 @@ describe 'OAuth authorization code flow',
     find('input.button[value="Authorize"]').click
 
     # Expect auth token
-    code = find('#authorization_code').text
+    code = find_by_id('authorization_code').text
 
     # And also have a grant for this application
     user.oauth_grants.reload
@@ -103,7 +103,7 @@ describe 'OAuth authorization code flow',
 
     # Should be back on access_token path
     expect(page).to have_selector('.flash.notice')
-    expect(page).to have_no_selector("[id^=oauth-application-grant]")
+    expect(page).not_to have_selector("[id^=oauth-application-grant]")
 
     expect(page).to have_current_path /\/my\/access_token/
 

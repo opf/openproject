@@ -55,7 +55,7 @@ describe 'Cost report saving', js: true do
     end
 
     it 'cannot save reports' do
-      expect(page).to have_no_selector('.buttons', text: 'Save')
+      expect(page).not_to have_selector('.buttons', text: 'Save')
     end
   end
 end

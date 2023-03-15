@@ -138,7 +138,7 @@ describe 'Assigned to me embedded query on my page', js: true do
       .to have_selector('.subject', text: assigned_work_package.subject)
 
     expect(assigned_area.area)
-      .to have_no_selector('.subject', text: assigned_to_other_work_package.subject)
+      .not_to have_selector('.subject', text: assigned_to_other_work_package.subject)
 
     embedded_table.click_inline_create
 

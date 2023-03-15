@@ -63,7 +63,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)

@@ -244,7 +244,7 @@ describe 'Subproject action board', js: true do
 
       board_page.open_and_fill_add_list_modal subproject2.name
 
-      expect(page).to have_no_selector('.ng-option', text: subproject2.name)
+      expect(page).not_to have_selector('.ng-option', text: subproject2.name)
     end
   end
 end

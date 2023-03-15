@@ -26,5 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class PlaceholderUsers::UpdateService < ::BaseServices::Update
+class PlaceholderUsers::UpdateService < BaseServices::Update
 end

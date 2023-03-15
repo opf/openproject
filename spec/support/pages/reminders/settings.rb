@@ -112,7 +112,7 @@ module Pages
         if paused
           expect(page).to have_checked_field 'Temporarily pause daily email reminders'
         else
-          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
+          expect(page).not_to have_checked_field 'Temporarily pause daily email reminders'
         end
 
         if first && last

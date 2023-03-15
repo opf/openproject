@@ -76,7 +76,7 @@ module Components
 
     def expect_no_work_package_option(wp)
       expect(page)
-        .to have_no_selector('.global-search--option', text: wp.subject.to_s)
+        .not_to have_selector('.global-search--option', text: wp.subject.to_s)
     end
 
     def click_work_package(wp)

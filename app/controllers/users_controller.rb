@@ -82,6 +82,11 @@ class UsersController < ApplicationController
     @user = User.new(language: Setting.default_language)
   end
 
+  def edit
+    @membership ||= Member.new
+    @individual_principal = @user
+  end
+
   def create
     call = Users::CreateService
            .new(user: current_user)
@@ -96,11 +101,6 @@ class UsersController < ApplicationController
       @errors = call.errors
       render action: 'new'
     end
-  end
-
-  def edit
-    @membership ||= Member.new
-    @individual_principal = @user
   end
 
   def update

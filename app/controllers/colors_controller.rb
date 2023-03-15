@@ -53,6 +53,13 @@ class ColorsController < ApplicationController
     end
   end
 
+  def edit
+    @color = Color.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def create
     @color = Color.new(permitted_params.color)
 
@@ -62,13 +69,6 @@ class ColorsController < ApplicationController
     else
       flash.now[:error] = I18n.t('timelines.color_could_not_be_saved')
       render action: 'new'
-    end
-  end
-
-  def edit
-    @color = Color.find(params[:id])
-    respond_to do |format|
-      format.html
     end
   end
 

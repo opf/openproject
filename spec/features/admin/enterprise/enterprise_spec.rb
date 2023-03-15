@@ -43,8 +43,8 @@ describe 'Enterprise token', js: true do
     token
   end
 
-  let(:textarea) { find '#enterprise_token_encoded_token' }
-  let(:submit_button) { find '#token-submit-button' }
+  let(:textarea) { find_by_id 'enterprise_token_encoded_token' }
+  let(:submit_button) { find_by_id 'token-submit-button' }
 
   describe 'EnterpriseToken management' do
     before do
@@ -87,7 +87,7 @@ describe 'Enterprise token', js: true do
         expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
 
         # Expect section to be collapsed
-        expect(page).to have_no_selector('#token_encoded_token', visible: true)
+        expect(page).not_to have_selector('#token_encoded_token', visible: true)
 
         RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')

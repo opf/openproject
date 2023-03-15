@@ -163,10 +163,10 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'shows no links to create relations' do
         # No create buttons should exist
-        expect(page).to have_no_selector('.wp-relations-create-button')
+        expect(page).not_to have_selector('.wp-relations-create-button')
 
         # Test for add relation
-        expect(page).to have_no_selector('#relation--add-relation')
+        expect(page).not_to have_selector('#relation--add-relation')
       end
     end
 
@@ -184,7 +184,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         tabs.expect_counter(relations_tab, 1)
 
         relations.remove_relation(relatable)
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
 
         # If there are no relations, the counter badge should not be displayed
         tabs.expect_no_counter(relations_tab)
@@ -204,15 +204,15 @@ describe 'Work package relations tab', js: true, selenium: true do
         # Expect to have row
         relations.hover_action(relatable, :delete)
 
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
 
         # Back to split view
         page.execute_script('window.history.back()')
         work_packages_page.expect_subject
 
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
       it 'follows the relation links (Regression #26794)' do
@@ -274,7 +274,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         # Toggle to close
         relations.hover_action(relatable, :info)
-        expect(created_row).to have_no_selector('.wp-relation--description-read-value')
+        expect(created_row).not_to have_selector('.wp-relation--description-read-value')
       end
     end
   end

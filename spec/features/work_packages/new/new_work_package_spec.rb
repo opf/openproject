@@ -38,7 +38,7 @@ describe 'new work package', js: true do
   end
 
   def save_work_package!(expect_success = true)
-    scroll_to_and_click find('#work-packages--edit-actions-save')
+    scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
     if expect_success
       toaster.expect_success('Successful creation.')
@@ -242,7 +242,7 @@ describe 'new work package', js: true do
     end
 
     it 'reloads the table and selects the new work package' do
-      expect(page).to have_no_selector('.wp--row')
+      expect(page).not_to have_selector('.wp--row')
 
       create_work_package(type_task)
       expect(page).to have_selector(safeguard_selector, wait: 10)
@@ -327,7 +327,7 @@ describe 'new work package', js: true do
       click_on 'Cancel'
 
       wp_page.click_create_wp_button type_bug
-      expect(page).to have_no_selector('.ng-value', text: project.name)
+      expect(page).not_to have_selector('.ng-value', text: project.name)
 
       project_field.openSelectField
       project_field.set_value project.name
@@ -390,7 +390,7 @@ describe 'new work package', js: true do
         project_field.openSelectField
 
         expect(page).to have_selector('.ng-dropdown-panel .ng-option', text: project.name)
-        expect(page).to have_no_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
+        expect(page).not_to have_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
       end
     end
   end

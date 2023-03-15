@@ -103,7 +103,7 @@ describe CustomValue do
 
     it 'returns an empty placeholder' do
       expect(subject.custom_field).to be_nil
-      expect(subject.send(:strategy)).to be_kind_of CustomValue::EmptyStrategy
+      expect(subject.send(:strategy)).to be_a CustomValue::EmptyStrategy
       expect(subject.typed_value).to eq 'my value not found'
       expect(subject.formatted_value).to eq 'my value not found'
     end

@@ -51,7 +51,7 @@ describe 'Refreshing query menu item', js: true do
 
     # Publish query
     wp_table.click_setting_item I18n.t('js.toolbar.settings.visibility_settings')
-    find('#show-in-menu').set true
+    find_by_id('show-in-menu').set true
     find('.button', text: 'Save').click
 
     last_query = Query.last

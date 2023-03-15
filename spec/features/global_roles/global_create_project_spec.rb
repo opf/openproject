@@ -46,7 +46,7 @@ describe 'Global role: Global Create project', js: true do
     it 'does not show the global permission' do
       visit edit_role_path(role)
       expect(page).to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).to have_no_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Create project')
     end
   end
 
@@ -59,7 +59,7 @@ describe 'Global role: Global Create project', js: true do
 
     it 'does show the global permission' do
       visit edit_role_path(role)
-      expect(page).to have_no_selector('.form--label-with-check-box', text: 'Edit project')
+      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Edit project')
       expect(page).to have_selector('.form--label-with-check-box', text: 'Create project')
     end
   end
@@ -104,7 +104,7 @@ describe 'Global role: Global Create project', js: true do
       # And I go to the overall projects page
       visit projects_path
       # Then I should not see "Project" within ".toolbar-items"
-      expect(page).to have_no_selector('.button.-alt-highlight', text: 'Project')
+      expect(page).not_to have_selector('.button.-alt-highlight', text: 'Project')
     end
   end
 end

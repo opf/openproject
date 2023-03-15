@@ -44,7 +44,7 @@ module Pages::Meetings
 
     def expect_not_available_participant(user)
       expect(page)
-        .to have_no_field("#{user} invited")
+        .not_to have_field("#{user} invited")
     end
 
     def invite(user)

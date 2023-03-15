@@ -62,14 +62,14 @@ module Components
       page.find('.spot-modal-overlay').tap do |element|
         element.click(x: -((element.native.size.width / 2) - 10), y: -((element.native.size.height / 2) - 10))
       end
-      expect(page).to have_no_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
+      expect(page).not_to have_selector('[data-qa-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 
     def expect_edit(admin:)
       if admin
         expect(page).to have_selector('.help-text--edit-button')
       else
-        expect(page).to have_no_selector('.help-text--edit-button')
+        expect(page).not_to have_selector('.help-text--edit-button')
       end
     end
 

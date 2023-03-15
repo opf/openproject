@@ -330,8 +330,7 @@ describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
   shared_examples_for 'topics api write invalid parameters errors' do
     context 'without a title' do
       let(:params) do
-        {
-        }
+        {}
       end
 
       it_behaves_like 'bcf api unprocessable response' do

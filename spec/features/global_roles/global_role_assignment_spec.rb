@@ -61,7 +61,7 @@ describe 'Global role: Global role assignment', js: true do
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should see "global_role2" within "#available_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
+        expect(page).not_to have_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
 
@@ -80,8 +80,8 @@ describe 'Global role: Global role assignment', js: true do
 
       # Then I should see "global_role" within "#table_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
-        expect(page).to have_no_text 'global_role2'
+        expect(page).not_to have_text 'global_role1'
+        expect(page).not_to have_text 'global_role2'
       end
 
       # And I delete the assigned role "global_role"
@@ -92,13 +92,13 @@ describe 'Global role: Global role assignment', js: true do
 
       # Then I should see "global_role" within "#table_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role2'
+        expect(page).not_to have_text 'global_role2'
         expect(page).to have_text 'global_role1'
       end
       # And I should not see "global_role" within "#available_principal_roles"
       # And I should see "There is currently nothing to display"
       page.within('#table_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
+        expect(page).not_to have_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
     end

@@ -60,5 +60,5 @@ module OpenProject::TextFormatting
   end
 end
 
-OpenProject::TextFormatting::Formats.register_plain! ::OpenProject::TextFormatting::Formats::Plain::Format
-OpenProject::TextFormatting::Formats.register_rich! ::OpenProject::TextFormatting::Formats::Markdown::Format
+OpenProject::TextFormatting::Formats.register_plain! OpenProject::TextFormatting::Formats::Plain::Format
+OpenProject::TextFormatting::Formats.register_rich! OpenProject::TextFormatting::Formats::Markdown::Format

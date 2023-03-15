@@ -125,7 +125,7 @@ describe TimeEntry do
     end
 
     it 'returns the current costs depending on the number of hours' do
-      (0..100).each do |hours|
+      101.times do |hours|
         time_entry.hours = hours
         time_entry.save!
         expect(time_entry.costs).to eq(time_entry.rate.rate * hours)
@@ -206,7 +206,7 @@ describe TimeEntry do
     end
 
     it 'returns the current costs depending on the number of hours' do
-      (0..100).each do |hours|
+      101.times do |hours|
         @default_example.hours = hours
         @default_example.save!
         expect(@default_example.costs).to eq(@default_example.rate.rate * hours)

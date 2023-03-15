@@ -47,9 +47,9 @@ describe 'Work Package budget fields', js: true do
     create_page.visit!
 
     expect(page).to have_selector('.inline-edit--container.budget')
-    expect(page).to have_no_selector('.inline-edit--container.laborCosts')
-    expect(page).to have_no_selector('.inline-edit--container.materialCosts')
-    expect(page).to have_no_selector('.inline-edit--container.overallCosts')
+    expect(page).not_to have_selector('.inline-edit--container.laborCosts')
+    expect(page).not_to have_selector('.inline-edit--container.materialCosts')
+    expect(page).not_to have_selector('.inline-edit--container.overallCosts')
 
     field = create_page.edit_field(:budget)
     field.set_value budget.name

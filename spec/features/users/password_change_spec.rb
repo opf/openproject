@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'random password generation',
-         with_config: { session_store: :active_record_store },
-         js: true do
+         js: true, with_config: { session_store: :active_record_store } do
   shared_let(:admin) { create(:admin) }
 
   let(:auth_source) { build(:dummy_auth_source) }
@@ -131,10 +130,10 @@ describe 'random password generation',
       find('.form--check-box[value=special]').set true
 
       # Set min length to 4
-      find('#settings_password_min_length').set 4
+      find_by_id('settings_password_min_length').set 4
 
       # Set min classes to 3
-      find('#settings_password_min_adhered_rules').set 3
+      find_by_id('settings_password_min_adhered_rules').set 3
 
       scroll_to_and_click(find('.button', text: 'Save'))
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
@@ -181,12 +180,11 @@ describe 'random password generation',
     end
 
     context 'with 2 of lowercase, uppercase, and numeric characters',
-            with_settings: {
+            js: true, with_settings: {
               password_active_rules: %w(lowercase uppercase numeric),
               password_min_adhered_rules: 2,
               password_min_length: 4
-            },
-            js: true do
+            } do
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

@@ -81,10 +81,10 @@ describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
         expect(page).to have_selector 'td', text: query.name
 
         # Does not show the delete
-        expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+        expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Team planner'
+        expect(page).not_to have_selector '.button', text: 'Team planner'
       end
 
       context 'when the view is non-public' do
@@ -92,13 +92,13 @@ describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'
-          expect(page).to have_no_selector 'td', text: query.name
+          expect(page).not_to have_selector 'td', text: query.name
 
           # Does not show the delete
-          expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+          expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Team planner'
+          expect(page).not_to have_selector '.button', text: 'Team planner'
         end
       end
     end

@@ -38,8 +38,8 @@ describe 'Invite user modal subprojects', js: true do
   let(:global_permissions) { %i[] }
   let(:modal) do
     Components::Users::InviteUserModal.new project: subproject,
-                                             principal: invitable_user,
-                                             role:
+                                           principal: invitable_user,
+                                           role:
   end
   let!(:role) do
     create(:role,
@@ -90,7 +90,7 @@ describe 'Invite user modal subprojects', js: true do
 
       expect(page).to have_selector '.ng-dropdown-panel'
 
-      expect(page).to have_no_selector('.ng-dropdown-footer button', text: 'Invite')
+      expect(page).not_to have_selector('.ng-dropdown-footer button', text: 'Invite')
     end
   end
 end

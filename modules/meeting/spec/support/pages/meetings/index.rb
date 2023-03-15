@@ -69,7 +69,7 @@ module Pages::Meetings
       within '#content-wrapper' do
         meetings.each do |meeting|
           expect(page).not_to have_selector(".meeting",
-                                           text: meeting.title)
+                                            text: meeting.title)
         end
       end
     end

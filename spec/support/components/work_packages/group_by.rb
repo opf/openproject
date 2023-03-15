@@ -64,7 +64,7 @@ module Components
       end
 
       def expect_no_groups
-        expect(page).to have_no_selector('[data-qa-selector="op-group--value"]')
+        expect(page).not_to have_selector('[data-qa-selector="op-group--value"]')
       end
 
       def expect_not_grouped_by(name)

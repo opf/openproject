@@ -57,7 +57,7 @@ module Components
 
     def expect_no_work_package_types
       within_dropdown do
-        expect(page).to have_no_text 'Work packages'
+        expect(page).not_to have_text 'Work packages'
       end
     end
 
@@ -72,7 +72,7 @@ module Components
         if present
           expect(page).to have_link matcher
         else
-          expect(page).to have_no_link matcher
+          expect(page).not_to have_link matcher
         end
       end
     end

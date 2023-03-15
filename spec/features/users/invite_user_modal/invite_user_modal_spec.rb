@@ -36,9 +36,9 @@ describe 'Invite user modal', js: true do
   let(:global_permissions) { %i[] }
   let(:modal) do
     Components::Users::InviteUserModal.new project:,
-                                             principal:,
-                                             role:,
-                                             invite_message:
+                                           principal:,
+                                           role:,
+                                           invite_message:
   end
   let!(:role) do
     create(:role,
@@ -217,7 +217,7 @@ describe 'Invite user modal', js: true do
 
           it 'disables projects for which you do not have rights' do
             ngselect = modal.open_select_in_step '.ng-select-container'
-            expect(ngselect).to have_no_text archived_project
+            expect(ngselect).not_to have_text archived_project
           end
         end
       end
@@ -297,7 +297,7 @@ describe 'Invite user modal', js: true do
     it 'cannot add an existing user to the project' do
       assignee_field.activate!
 
-      expect(page).to have_no_selector('.ng-dropdown-footer', text: 'Invite')
+      expect(page).not_to have_selector('.ng-dropdown-footer', text: 'Invite')
     end
   end
 end

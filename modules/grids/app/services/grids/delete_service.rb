@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Grids::DeleteService < ::BaseServices::Delete; end
+class Grids::DeleteService < BaseServices::Delete; end

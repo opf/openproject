@@ -67,7 +67,7 @@ describe 'Boards enterprise spec', js: true do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query 'My board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
@@ -96,12 +96,12 @@ describe 'Boards enterprise spec', js: true do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query 'My board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
       board_page.expect_query 'Subproject board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
     end
   end
 end

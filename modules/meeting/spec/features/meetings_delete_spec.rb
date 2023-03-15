@@ -87,13 +87,13 @@ describe 'Meetings deletion' do
 
       click_link meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .not_to have_link 'Delete'
 
       visit meetings_path(project)
 
       click_link other_meeting.title
       expect(page)
-        .to have_no_link 'Delete'
+        .not_to have_link 'Delete'
     end
   end
 end

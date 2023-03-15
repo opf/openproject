@@ -66,7 +66,7 @@ describe 'Team planner split view navigation', js: true, with_ee: %i[team_planne
 
     # Expect clicking on a work package does not open the details
     page.find('[data-qa-selector="op-wp-single-card--content-subject"]', text: work_package1.subject).click
-    expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
+    expect(page).not_to have_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # Open split view through info icon
     split_view = team_planner.open_split_view_by_info_icon work_package1

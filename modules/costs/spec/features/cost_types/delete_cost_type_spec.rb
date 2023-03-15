@@ -53,7 +53,7 @@ describe 'deleting a cost type', js: true do
 
     SeleniumHubWaiter.wait
     # Show locked
-    find('#include_deleted').set true
+    find_by_id('include_deleted').set true
     click_on 'Apply'
 
     # Expect no results if not locked

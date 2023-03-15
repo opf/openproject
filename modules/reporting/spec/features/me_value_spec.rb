@@ -37,7 +37,7 @@ describe 'Cost report showing my own times', js: true do
       click_on 'Save'
       fill_in 'query_name', with: 'Query ME value'
       check 'query_is_public'
-      find('#query-icon-save-button').click
+      find_by_id('query-icon-save-button').click
 
       expect(page).to have_selector('.report', text: '10.00')
 
@@ -55,7 +55,7 @@ describe 'Cost report showing my own times', js: true do
 
       # Create and save cost report
       visit cost_report_path(report.id, project_id: project.identifier)
-      expect(page).to have_no_selector('.report', text: '10.00')
+      expect(page).not_to have_selector('.report', text: '10.00')
       expect(page).to have_selector('.report', text: '15.00')
 
       expect(page).to have_field(filter_selector, text: 'me')

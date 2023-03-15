@@ -89,13 +89,13 @@ describe 'Board management spec', js: true do
       page.find('.menu-item', text: 'Add new card').click
 
       board_page.within_list('List 2') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject = page.find_by_id('wp-new-inline-edit--field-subject')
         subject.set 'New card 1'
         subject.send_keys :enter
       end
 
       board_page.within_list('List 1') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject = page.find_by_id('wp-new-inline-edit--field-subject')
         subject.set 'New card 2'
         subject.send_keys :enter
       end

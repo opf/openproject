@@ -26,6 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Messages::CreateService < ::BaseServices::Create
+class Messages::CreateService < BaseServices::Create
   include Attachments::ReplaceAttachments
 end
