@@ -36,35 +36,15 @@ module Projects
     def execute(project:)
       @project = project
 
-      service_call = delete_project
+      service_call = ::Projects::DeleteService.new(user:, model: project).call
 
       if service_call.failure?
-        log_service_failure(service_call)
+        Rails.logger.error "Failed to delete project #{project} in background job: " \
+                           "#{service_call.message}"
       end
     rescue StandardError => e
-      log_standard_error(e)
-    end
-
-    private
-
-    def delete_project
-      ::Projects::DeleteService
-        .new(user:, model: project)
-        .call
-    end
-
-    def log_standard_error(e)
-      logger.error('Encountered an error when trying to delete project ' \
-                   "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
-    end
-
-    def log_service_failure(service_call)
-      logger.error "Failed to delete project #{project} in background job: " \
-                   "#{service_call.message}"
-    end
-
-    def logger
-      Delayed::Worker.logger
+      Rails.logger.error('Encountered an error when trying to delete project ' \
+                         "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
     end
   end
 end
