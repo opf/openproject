@@ -35,7 +35,7 @@ class WikiContent < ApplicationRecord
 
   acts_as_journalized
 
-  # register_journal_formatted_fields(:diff, 'text')
+  register_journal_formatted_fields(:diff, 'text')
 
   acts_as_event type: 'wiki-page',
                 title: Proc.new { |o|

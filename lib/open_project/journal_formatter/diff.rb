@@ -77,6 +77,18 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
              activity_page: options[:activity_page])
       .compact
 
+    # Condition needed
+
+    # binding.pry
+    # url_attr = default_attributes(options)
+    #   .merge(controller: '/wiki',
+    #          action: 'diff',
+    #          project_id: @journal.journable.project.identifier,
+    #          id: @journal.journable.page.slug,
+    #          version: @journal.version-1,
+    #          version_from: @journal.version)
+    #   .compact
+
     if options[:html]
       link_to(I18n.t(:label_details),
               url_attr,
@@ -85,6 +97,9 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
       url_for url_attr
     end
   end
+
+
+
 
   def default_attributes(options)
     if options[:only_path]
