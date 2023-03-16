@@ -25,7 +25,7 @@ ko:
       document: "문서"
   activity:
     filter:
-      document: "Documents"
+      document: "문서"
   default_doc_category_tech: "기술 설명서"
   default_doc_category_user: "사용자 설명서"
   enumeration_doc_categories: "문서 범주"

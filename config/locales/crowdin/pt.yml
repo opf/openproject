@@ -485,8 +485,8 @@ pt:
         queries: "Consultas"
         templated: "Projeto modelo"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marcado como modelo"
+          false: "não marcado como modelo"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
@@ -704,7 +704,7 @@ pt:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Já existe um dia não útil para %{value}"
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -717,7 +717,7 @@ pt:
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Você não possui as permissões necessárias para arquivar todos os subprojetos. Entre em contato com um administrador"
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -912,18 +912,18 @@ pt:
     field_erroneous_label: "Este campo é inválido: %{full_errors}\nPor favor, insira um valor válido."
   activity:
     item:
-      created_by_on: "created by %{user} on %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
-      parent_no_longer: "No longer subproject of"
+      created_by_on: "criado por %{user} em %{datetime}"
+      created_on: "criado em %{datetime}"
+      updated_by_on: "atualizado por %{user} em %{datetime}"
+      updated_on: "atualizado em %{datetime}"
+      parent_without_of: "Subprojeto"
+      parent_no_longer: "Não é mais um subprojeto de"
     filter:
-      changeset: "Changesets"
-      message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
+      changeset: "Cj de alterações"
+      message: "Fóruns"
+      news: "Notícias"
+      project_attribute: "Atributos do projeto"
+      subproject: "Incur subprojetos"
       time_entry: "Spent time"
       wiki_edit: "Wiki"
       work_package: "Work packages"

@@ -93,7 +93,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitzar"
+    button_update: "Actualitza"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -473,7 +473,7 @@ ca:
     label_watch_work_package: "Observar paquet de treball"
     label_watcher_added_successfully: "Observador afegit correctament!"
     label_watcher_deleted_successfully: "Observador eliminat correctament!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Estàs a la pestanya %{tab} per %{type} %{subject}."
     label_unwatch: "Deixa d'observar"
     label_unwatch_work_package: "Deixa d'observar el paquet de treball"
     label_uploaded_by: "Carregat per"
@@ -587,9 +587,9 @@ ca:
         text_update_date: "%{date} per"
         total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Sembla que ara mateix esteu al dia"
+          no_notification_with_current_project_filter: "Sembla que està tot enllestit per al projecte seleccionat."
+          no_notification_with_current_filter: "Sembla que ja ho has enllestit tot pel filtre %{filter}."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: 'No hi ha notificacions noves'
@@ -707,7 +707,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'estas segur?"
+    text_are_you_sure: "N'esteu segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     types:
       attribute_groups:
@@ -1001,7 +1001,7 @@ ca:
         move_column_left: "Moure la columna a l'esquerra"
         move_column_right: "Moure la columna a la dreta"
         hide_column: "Amagar columna"
-        insert_columns: "Insert columns"
+        insert_columns: "Insereix columnes"
         filters: "Filtres"
         display_sums: "Mostra les sumes"
         confirm_edit_cancel: "Estàs segur que vols cancel·lar l'edició del nom d'aquesta vista? El títol tornarà al valor anterior."
@@ -1028,7 +1028,7 @@ ca:
         button: 'Configura aquesta taula de paquets de treball'
         choose_display_mode: 'Mostra els paquets de treball com a'
         modal_title: 'Configuració de la taula de paquets de treball'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        embedded_tab_disabled: "Aquesta pestanya de configuració no està disponible per a la vista incrustada que estàs editant."
         default: "per defecte"
         display_settings: 'Configuració de visualització'
         default_mode: "Llista plana"
@@ -1070,19 +1070,19 @@ ca:
         months: "mesos"
     toolbar:
       settings:
-        configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        configure_view: "Configurar vista"
+        columns: "Columnes"
+        sort_by: "Ordenar per"
+        group_by: "Agrupar per"
         display_sums: "Mostra les sumes"
         display_hierarchy: "Mostra la jerarquia"
         hide_hierarchy: "Amaga la jerarquia"
         hide_sums: "Amaga les sumes"
         save: "Desa"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Desa com a"
+        export: "Exportar"
+        visibility_settings: "Configuració de visibilitat"
+        page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
       unselected_title: "Paquet de treball"
