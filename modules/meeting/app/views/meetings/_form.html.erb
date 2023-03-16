@@ -40,20 +40,18 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="form--field -required">
-    <label for="meeting-form-start-date" class="form--label"><%= Meeting.human_attribute_name(:start_date) %>
+    <label for="meeting_start_date" class="form--label"><%= Meeting.human_attribute_name(:start_date) %>
       <span class="hidden-for-sighted">
         <%= t(:label_start_date)%><%= t(:text_hint_date_format) %>
       </span>
     </label>
 
-    <div class="form--field-container">
-      <%= f.text_field :start_date,
-            id: 'meeting-form-start-date',
-            class: '-augmented-datepicker',
-            required: true,
-            size:     10,
-            no_label: true,
-            container_class: '-xslim' %>
+    <div class="form--field-container -visible-overflow">
+      <%= f.date_picker :start_date,
+                        id: 'meeting-form-start-date',
+                        required: true,
+                        no_label: true
+      %>
       <label for="meeting-form-start-time" class="hidden-for-sighted">
         <%= Meeting.human_attribute_name(:start_time) %>
         <label lang="en">

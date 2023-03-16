@@ -44,7 +44,7 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -119,6 +119,10 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
 
   @Input() public isInlineContext = false;
 
+  dataLoaded = false;
+
+  projects:IProjectAutocompleteItem[];
+
   // This function allows mapping of the results before they are fed to the tree
   // structuring and destructuring algorithms used internally the this component
   // to show the tree structure. By default it does not do much, but it is
@@ -169,7 +173,29 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     populateInputsFromDataset(this);
   }
 
+  matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {
+    let filtered:IProjectAutocompleteItem[];
+
+    if (matching === '' || !matching) {
+      filtered = elements;
+    } else {
+      const lowered = matching.toLowerCase();
+      filtered = elements.filter((el) => el.name.toLowerCase().includes(lowered));
+    }
+
+    return of(filtered);
+  }
+
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
+    if (this.dataLoaded === true) {
+      return this.matchingItems(this.projects, searchTerm).pipe(
+        map(this.mapResultsFn),
+        map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
+        map((projects) => buildTree(projects)),
+        map((projects) => recursiveSort(projects)),
+        map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
+      );
+    }
     return getPaginatedResults<IProject>(
       (params) => {
         const filters:ApiV3ListFilter[] = [...this.apiFilters];
@@ -208,7 +234,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           children: [],
         }))),
         map(this.mapResultsFn),
-        map((projects) => projects.sort((a, b) => a.ancestors.length - b.ancestors.length)),
+        map((projects) => { this.dataLoaded = true; this.projects = projects; return projects.sort((a, b) => a.ancestors.length - b.ancestors.length); }),
         map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),

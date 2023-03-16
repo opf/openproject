@@ -39,6 +39,9 @@ ru:
     models:
       budget: "Бюджет"
       material_budget_item: "Единица"
+  activity:
+    filter:
+      budget: "Бюджеты"
   attributes:
     budget: "Бюджет"
   button_add_budget_item: "Добавить запланированные расходы"

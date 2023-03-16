@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "set"
-
 class CostQuery::Filter < Report::Filter
   def self.all
     @all ||= super + Set[

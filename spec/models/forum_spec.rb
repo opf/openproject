@@ -38,7 +38,7 @@ describe Forum do
   end
 
   describe 'with forum present' do
-    let(:forum) { build :forum, name: 'Test forum', description: 'Whatever' }
+    let(:forum) { build(:forum, name: 'Test forum', description: 'Whatever') }
 
     it 'creates' do
       expect(forum.save).to be_truthy

@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'work_package'
 
 describe OAuth::GrantsController do
-  let(:user) { build_stubbed :user }
+  let(:user) { build_stubbed(:user) }
   let(:application_stub) { instance_double(Doorkeeper::Application, name: 'Foo', id: 1) }
 
   before do

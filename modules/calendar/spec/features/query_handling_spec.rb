@@ -40,7 +40,7 @@ describe 'Calendar query handling', js: true do
   end
 
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages
@@ -48,26 +48,26 @@ describe 'Calendar query handling', js: true do
              save_queries
              save_public_queries
              view_calendar
-           ]
+           ])
   end
 
   shared_let(:task) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A task for the user'
+           subject: 'A task for the user')
   end
   shared_let(:bug) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 1.day,
-           subject: 'A bug for the user'
+           subject: 'A bug for the user')
   end
 
   shared_let(:saved_query) do
@@ -114,7 +114,7 @@ describe 'Calendar query handling', js: true do
       filters.expect_filter_count("1")
       filters.open
 
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
 
       filters.expect_filter_count("2")
 
@@ -133,7 +133,7 @@ describe 'Calendar query handling', js: true do
 
       # Change filter
       filters.open
-      filters.add_filter_by('Type', 'is', [type_bug.name])
+      filters.add_filter_by('Type', 'is (OR)', [type_bug.name])
       filters.expect_filter_count("2")
 
       # Save current filters

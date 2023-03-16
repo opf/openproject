@@ -43,7 +43,7 @@ import {
 import {
   FilePickerModalComponent,
 } from 'core-app/shared/components/storages/file-picker-modal/file-picker-modal.component';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import {
   StorageFileListItemComponent,
@@ -54,13 +54,16 @@ import {
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
+import {
+  UploadConflictModalComponent,
+} from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
 
 @NgModule({
   imports: [
     CommonModule,
     IconModule,
     OpSpotModule,
-    OPSharedModule,
+    OpSharedModule,
   ],
   declarations: [
     StorageComponent,
@@ -71,6 +74,7 @@ import {
     StorageInformationComponent,
     StorageFileListItemComponent,
     SortFilesPipe,
+    UploadConflictModalComponent,
   ],
   exports: [
     StorageComponent,

@@ -1,13 +1,12 @@
 require_relative '../spec_helper'
 
 describe 'Admin 2FA management',
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
-         },
-         js: true do
+         } do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { 'admin!' * 4 }
-  let(:other_user) { create :user, login: 'bob' }
+  let(:other_user) { create(:user, login: 'bob') }
   let(:admin) do
     create(:admin,
            password: user_password,
@@ -22,7 +21,7 @@ describe 'Admin 2FA management',
     visit edit_user_path(admin, tab: :two_factor_authentication)
     expect(page).to have_selector('.on-off-status.-disabled')
 
-    expect(page).to have_no_selector('.generic-table--empty-row', wait: 1)
+    expect(page).not_to have_selector('.generic-table--empty-row', wait: 1)
     page.find('.admin--edit-section a').click
 
     expect(page).to have_selector('.generic-table--empty-row')
@@ -67,8 +66,8 @@ describe 'Admin 2FA management',
   end
 
   context 'with multiple devices registered' do
-    let!(:device1) { create :two_factor_authentication_device_sms, user: other_user }
-    let!(:device2) { create :two_factor_authentication_device_totp, user: other_user, default: false }
+    let!(:device1) { create(:two_factor_authentication_device_sms, user: other_user) }
+    let!(:device2) { create(:two_factor_authentication_device_totp, user: other_user, default: false) }
 
     it 'allows to delete all' do
       visit edit_user_path(other_user, tab: :two_factor_authentication)

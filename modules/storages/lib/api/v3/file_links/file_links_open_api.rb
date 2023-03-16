@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksOpenAPI < ::API::OpenProjectAPI
+class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
   helpers Storages::Peripherals::StorageUrlHelper
 
   resources :open do

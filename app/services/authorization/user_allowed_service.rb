@@ -36,7 +36,7 @@ class Authorization::UserAllowedService
 
   # Return true if the user is allowed to do the specified action on a specific context
   # Action can be:
-  # * a parameter-like Hash (eg. controller: '/projects', action: 'edit')
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
   # * a permission Symbol (eg. :edit_project)
   # Context can be:
   # * a project : returns true if user is allowed to do the specified action on this project

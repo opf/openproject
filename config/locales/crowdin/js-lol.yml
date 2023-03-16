@@ -251,6 +251,19 @@ lol:
             crwdns839571:0crwdne839571:0
           unlimited: "crwdns787192:0crwdne787192:0"
           you_contribute: "crwdns839467:0crwdne839467:0"
+      working_days:
+        calendar:
+          empty_state_header: "crwdns845451:0crwdne845451:0"
+          empty_state_description: 'crwdns845955:0crwdne845955:0'
+          new_date: 'crwdns845455:0crwdne845455:0'
+        add_non_working_day: "crwdns845747:0crwdne845747:0"
+        already_added_error: "crwdns845459:0crwdne845459:0"
+        change_button: "crwdns845461:0crwdne845461:0"
+        change_title: "crwdns845463:0crwdne845463:0"
+        removed_title: "crwdns845465:0crwdne845465:0"
+        change_description: "crwdns845467:0crwdne845467:0"
+        warning: >
+          crwdns845813:0crwdne845813:0
     custom_actions:
       date:
         specific: 'crwdns787196:0crwdne787196:0'
@@ -279,8 +292,6 @@ lol:
           one: "crwdns787230:0crwdne787230:0"
           two: "crwdns787232:0crwdne787232:0"
           three: "crwdns787234:0crwdne787234:0"
-      upsale_for_more: "crwdns839573:0crwdne839573:0"
-      upsale_link: 'crwdns839469:0crwdne839469:0'
     general_text_no: "crwdns787240:0crwdne787240:0"
     general_text_yes: "crwdns787242:0crwdne787242:0"
     general_text_No: "crwdns787244:0crwdne787244:0"
@@ -299,15 +310,11 @@ lol:
           learn_about: "crwdns787258:0crwdne787258:0"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: crwdns838609:0crwdne838609:0
+              learn_about_link: crwdns845735:0crwdne845735:0
               new_features_html: >
-                crwdns838887:0%{list_styling_class}crwdne838887:0
-            bim:
-              learn_about_link: crwdns838613:0crwdne838613:0
-              new_features_html: >
-                crwdns838889:0%{list_styling_class}crwdne838889:0
+                crwdns845737:0%{list_styling_class}crwdne845737:0
     label_activate: "crwdns787268:0crwdne787268:0"
     label_assignee: 'crwdns809580:0crwdne809580:0'
     label_add_column_after: "crwdns787270:0crwdne787270:0"
@@ -464,7 +471,7 @@ lol:
     label_watch_work_package: "crwdns787562:0crwdne787562:0"
     label_watcher_added_successfully: "crwdns787564:0crwdne787564:0"
     label_watcher_deleted_successfully: "crwdns787566:0crwdne787566:0"
-    label_work_package_details_you_are_here: "crwdns787568:0%{tab}crwdnd787568:0%{type}crwdnd787568:0%{subject}crwdne787568:0"
+    label_work_package_details_you_are_here: "crwdns847263:0%{tab}crwdnd847263:0%{type}crwdnd847263:0%{subject}crwdne847263:0"
     label_unwatch: "crwdns787570:0crwdne787570:0"
     label_unwatch_work_package: "crwdns787572:0crwdne787572:0"
     label_uploaded_by: "crwdns787574:0crwdne787574:0"
@@ -578,9 +585,9 @@ lol:
         text_update_date: "crwdns787708:0%{date}crwdne787708:0"
         total_count_warning: "crwdns787710:0%{newest_count}crwdnd787710:0%{more_count}crwdne787710:0"
         empty_state:
-          no_notification: "crwdns787712:0crwdne787712:0"
-          no_notification_with_current_project_filter: "crwdns823056:0crwdne823056:0"
-          no_notification_with_current_filter: "crwdns823058:0%{filter}crwdne823058:0"
+          no_notification: "crwdns847265:0crwdne847265:0"
+          no_notification_with_current_project_filter: "crwdns847267:0crwdne847267:0"
+          no_notification_with_current_filter: "crwdns847269:0%{filter}crwdne847269:0"
           no_selection: "crwdns787716:0crwdne787716:0"
         new_notifications:
           message: 'crwdns787718:0crwdne787718:0'
@@ -992,7 +999,7 @@ lol:
         move_column_left: "crwdns788358:0crwdne788358:0"
         move_column_right: "crwdns788360:0crwdne788360:0"
         hide_column: "crwdns788362:0crwdne788362:0"
-        insert_columns: "crwdns788364:0crwdne788364:0"
+        insert_columns: "crwdns847271:0crwdne847271:0"
         filters: "crwdns788366:0crwdne788366:0"
         display_sums: "crwdns788368:0crwdne788368:0"
         confirm_edit_cancel: "crwdns788370:0crwdne788370:0"
@@ -1019,7 +1026,7 @@ lol:
         button: 'crwdns788402:0crwdne788402:0'
         choose_display_mode: 'crwdns788404:0crwdne788404:0'
         modal_title: 'crwdns788406:0crwdne788406:0'
-        embedded_tab_disabled: "crwdns788408:0crwdne788408:0"
+        embedded_tab_disabled: "crwdns847273:0crwdne847273:0"
         default: "crwdns788410:0crwdne788410:0"
         display_settings: 'crwdns788412:0crwdne788412:0'
         default_mode: "crwdns788414:0crwdne788414:0"
@@ -1055,26 +1062,25 @@ lol:
         relations: crwdns788464:0crwdne788464:0
         watchers: crwdns788466:0crwdne788466:0
         files: crwdns807702:0crwdne807702:0
-        files_tab_migration_help: 'crwdns808154:0crwdne808154:0'
       time_relative:
         days: "crwdns788470:0crwdne788470:0"
         weeks: "crwdns788472:0crwdne788472:0"
         months: "crwdns788474:0crwdne788474:0"
     toolbar:
       settings:
-        configure_view: "crwdns788476:0crwdne788476:0"
-        columns: "crwdns788478:0crwdne788478:0"
-        sort_by: "crwdns788480:0crwdne788480:0"
-        group_by: "crwdns788482:0crwdne788482:0"
+        configure_view: "crwdns847275:0crwdne847275:0"
+        columns: "crwdns847277:0crwdne847277:0"
+        sort_by: "crwdns847279:0crwdne847279:0"
+        group_by: "crwdns847281:0crwdne847281:0"
         display_sums: "crwdns788484:0crwdne788484:0"
         display_hierarchy: "crwdns788486:0crwdne788486:0"
         hide_hierarchy: "crwdns788488:0crwdne788488:0"
         hide_sums: "crwdns788490:0crwdne788490:0"
         save: "crwdns788492:0crwdne788492:0"
-        save_as: "crwdns788494:0crwdne788494:0"
-        export: "crwdns788496:0crwdne788496:0"
-        visibility_settings: "crwdns788498:0crwdne788498:0"
-        page_settings: "crwdns788500:0crwdne788500:0"
+        save_as: "crwdns847283:0crwdne847283:0"
+        export: "crwdns847285:0crwdne847285:0"
+        visibility_settings: "crwdns847287:0crwdne847287:0"
+        page_settings: "crwdns847289:0crwdne847289:0"
         delete: "crwdns788502:0crwdne788502:0"
       filter: "crwdns788504:0crwdne788504:0"
       unselected_title: "crwdns788506:0crwdne788506:0"
@@ -1251,4 +1257,5 @@ lol:
       filter_chip:
         remove: 'crwdns788758:0crwdne788758:0'
       drop_modal:
+        focus_grab: 'crwdns845471:0crwdne845471:0'
         Close: 'crwdns788760:0crwdne788760:0'

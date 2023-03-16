@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Grids::SetAttributesService < ::BaseServices::SetAttributes
+class Grids::SetAttributesService < BaseServices::SetAttributes
   include Attachments::SetReplacements
 
   private

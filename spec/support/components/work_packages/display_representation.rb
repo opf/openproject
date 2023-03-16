@@ -56,7 +56,7 @@ module Components
 
       def expect_button(forbidden_text)
         expect(page).to have_button('wp-view-toggle-button', disabled: false)
-        expect(page).to have_no_selector('#wp-view-toggle-button', text: forbidden_text)
+        expect(page).not_to have_selector('#wp-view-toggle-button', text: forbidden_text)
       end
 
       def select_view(view_name)

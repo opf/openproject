@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Relations::DeleteService < ::BaseServices::Delete; end
+class Relations::DeleteService < BaseServices::Delete; end

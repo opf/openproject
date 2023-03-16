@@ -36,18 +36,20 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
+import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
-import { isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
   FilePickerBaseModalComponent,
 } from 'core-app/shared/components/storages/file-picker-base-modal.component.ts/file-picker-base-modal.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'file-picker-modal.component.html',
@@ -56,8 +58,10 @@ import {
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
+    content: {
+      empty: this.i18n.t('js.storages.files.empty_folder'),
+    },
     buttons: {
-      openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: (count:number):string => this.i18n.t('js.storages.file_links.selection', { count }),
       cancel: this.i18n.t('js.button_cancel'),
       selectAll: this.i18n.t('js.storages.file_links.select_all'),
@@ -75,6 +79,8 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     return this.selection.size;
   }
 
+  public showSelectAll = false;
+
   private readonly selection = new Set<string>();
 
   private readonly fileMap:Record<string, IStorageFile> = {};
@@ -88,6 +94,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
     private readonly i18n:I18nService,
     private readonly toastService:ToastService,
     private readonly timezoneService:TimezoneService,
+    private readonly configuration:ConfigurationService,
     private readonly fileLinksResourceService:FileLinksResourceService,
   ) {
     super(
@@ -97,6 +104,8 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       sortFilesPipe,
       storageFilesResourceService,
     );
+
+    this.showSelectAll = this.configuration.activeFeatureFlags.includes('storageFilePickingSelectAll');
   }
 
   public createSelectedFileLinks():void {
@@ -108,7 +117,7 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
       files,
     ).subscribe(
       (fileLinks) => { this.toastService.addSuccess(this.text.toast.successFileLinksCreated(fileLinks.count)); },
-      (error) => { this.toastService.addError(error); },
+      (error:HttpErrorResponse) => { this.toastService.addError(error); },
     );
 
     this.service.close();

@@ -29,12 +29,12 @@ require 'spec_helper'
 
 describe Attachment do
   let(:stubbed_author) { build_stubbed(:user) }
-  let(:author) { create :user }
+  let(:author) { create(:user) }
   let(:long_description) { 'a' * 300 }
-  let(:work_package) { create :work_package }
-  let(:stubbed_work_package) { build_stubbed :work_package }
-  let(:file) { create :uploaded_jpg, name: 'test.jpg' }
-  let(:second_file) { create :uploaded_jpg, name: 'test2.jpg' }
+  let(:work_package) { create(:work_package) }
+  let(:stubbed_work_package) { build_stubbed(:work_package) }
+  let(:file) { create(:uploaded_jpg, name: 'test.jpg') }
+  let(:second_file) { create(:uploaded_jpg, name: 'test2.jpg') }
   let(:container) { stubbed_work_package }
 
   let(:attachment) do
@@ -169,7 +169,7 @@ describe Attachment do
   end
 
   describe 'two attachments with same file name' do
-    let(:second_file) { create :uploaded_jpg, name: file.original_filename }
+    let(:second_file) { create(:uploaded_jpg, name: file.original_filename) }
 
     it 'does not interfere' do
       a1 = Attachment.create!(container: work_package,
@@ -211,7 +211,7 @@ describe Attachment do
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
   describe "#external_url", with_direct_uploads: true do
-    let(:author) { create :user }
+    let(:author) { create(:user) }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
     let(:text_path) { Rails.root.join("spec/fixtures/files/testfile.txt") }

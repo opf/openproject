@@ -52,7 +52,7 @@ module OpenProject
         guessers << Rouge::Guessers::Filename.new(filename) if filename.present?
 
         begin
-          Rouge::Lexer::guess guessers: guessers
+          Rouge::Lexer::guess(guessers:)
         rescue StandardError => e
           if !e.message.nil? && e.message == 'Ambiguous guess: can\'t decide between ["html", "xml"]'
             Rouge::Lexers::HTML.new

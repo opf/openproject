@@ -63,8 +63,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   let(:pr_html_url) { 'https://github.com/test_user/repo/pull/123' }
   let(:pr_number) { 123 }
   let(:repo_full_name) { 'test_user/repo' }
-  let(:github_system_user) { create :admin }
-  let(:work_package) { create :work_package }
+  let(:github_system_user) { create(:admin) }
+  let(:work_package) { create(:work_package) }
 
   before do
     allow(handler_instance)
@@ -125,8 +125,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when commented on a PR' do
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
-          " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
+          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -136,8 +136,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     context 'when we already have a GithubPullRequest for the commented PR' do
       let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
-          " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
+          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
       end
 
       before do
@@ -184,8 +184,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when editing a PR comment with a new work package reference' do
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
-          " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
+          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -195,8 +195,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     context 'when we already have a GithubPullRequest for the commented PR' do
       let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package" \
-          " in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
+          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
       end
 
       before do

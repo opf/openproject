@@ -34,10 +34,15 @@ module ConfirmationDialogHelper
     title: nil,
     text: nil,
     danger_zone: false,
+    show_list_data: false,
+    refresh_on_cancel: false,
+    list_title: nil,
+    warning_text: nil,
     button_continue: nil,
     button_cancel: nil,
     icon_continue: nil,
-    divider: nil
+    divider: nil,
+    passed_data: nil
   )
     {
       'augmented-confirm-dialog': {
@@ -49,6 +54,11 @@ module ConfirmationDialogHelper
         }.compact,
         dangerHighlighting: danger_zone,
         divideContent: divider,
+        listTitle: list_title,
+        warningText: warning_text,
+        passedData: passed_data,
+        showListData: show_list_data,
+        refreshOnCancel: refresh_on_cancel,
         icon: {
           continue: icon_continue
         }.compact

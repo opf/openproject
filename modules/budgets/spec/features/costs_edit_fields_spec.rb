@@ -33,8 +33,8 @@ describe 'Work Package budget fields', js: true do
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) { create(:project, types: [type_task]) }
-  let(:user) { create :admin }
-  let!(:budget) { create :budget, author: user, project: }
+  let(:user) { create(:admin) }
+  let!(:budget) { create(:budget, author: user, project:) }
 
   let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
   let(:view_page) { Pages::FullWorkPackage.new(project:) }
@@ -47,9 +47,9 @@ describe 'Work Package budget fields', js: true do
     create_page.visit!
 
     expect(page).to have_selector('.inline-edit--container.budget')
-    expect(page).to have_no_selector('.inline-edit--container.laborCosts')
-    expect(page).to have_no_selector('.inline-edit--container.materialCosts')
-    expect(page).to have_no_selector('.inline-edit--container.overallCosts')
+    expect(page).not_to have_selector('.inline-edit--container.laborCosts')
+    expect(page).not_to have_selector('.inline-edit--container.materialCosts')
+    expect(page).not_to have_selector('.inline-edit--container.overallCosts')
 
     field = create_page.edit_field(:budget)
     field.set_value budget.name

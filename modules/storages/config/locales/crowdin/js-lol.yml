@@ -25,16 +25,23 @@ lol:
         not_logged_in: >
           crwdns823108:0%{storageType}crwdne823108:0
       files:
-        directory_not_writeable: "crwdns844171:0crwdne844171:0"
+        already_existing_header: "crwdns846091:0crwdne846091:0"
+        already_existing_body: >
+          crwdns846209:0%{fileName}crwdne846209:0
+        directory_not_writeable: "crwdns846077:0crwdne846077:0"
         dragging_many_files: "crwdns844507:0%{storageType}crwdne844507:0"
+        empty_folder: "crwdns845473:0crwdne845473:0"
+        empty_folder_location_hint: "crwdns845475:0crwdne845475:0"
         file_not_selectable_location: "crwdns844779:0crwdne844779:0"
+        upload_keep_both: "crwdns846095:0crwdne846095:0"
+        upload_replace: "crwdns846097:0crwdne846097:0"
       file_links:
         empty: >
           crwdns842641:0%{storageType}crwdne842641:0
         download: "crwdns823110:0%{fileName}crwdne823110:0"
         no_permission: "crwdns823112:0crwdne823112:0"
-        open: 'crwdns823114:0crwdne823114:0'
-        open_location: 'crwdns823116:0crwdne823116:0'
+        open: "crwdns823114:0crwdne823114:0"
+        open_location: "crwdns823116:0crwdne823116:0"
         remove: "crwdns823118:0crwdne823118:0"
         remove_confirmation: >
           crwdns833338:0crwdne833338:0
@@ -48,7 +55,15 @@ lol:
         success_create:
           one: "crwdns842643:1crwdne842643:1"
           other: "crwdns842643:5%{count}crwdne842643:5"
-        upload_error: "crwdns844159:0%{fileName}crwdne844159:0"
+        upload_error:
+          default: >
+            crwdns847215:0%{fileName}crwdne847215:0
+          403: >
+            crwdns846081:0%{fileName}crwdne846081:0
+          413: >
+            crwdns846083:0%{fileName}crwdnd846083:0%{storageType}crwdnd846083:0%{storageType}crwdne846083:0
+          507: >
+            crwdns846085:0%{fileName}crwdne846085:0
         link_uploaded_file_error: >
           crwdns844161:0%{fileName}crwdnd844161:0%{workPackageId}crwdne844161:0
         not_allowed_tooltip: "crwdns833126:0crwdne833126:0"

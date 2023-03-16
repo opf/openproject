@@ -35,9 +35,27 @@
 
   @media #{$spot-mq-mobile}
     &.spot-modal
-      min-height: calc(100vh - 5rem)
+      min-height: calc(#{var(--app-height)} - 5rem)
 
   &--modal-body
     @media #{$spot-mq-desktop}
-      height: 50vh
+      height: calc(#{var(--app-height)} / 2)
       max-height: 32rem
+
+  &--empty
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    height: 100%
+    text-align: center
+
+    &-icon
+      width: 9.5rem
+      height: 9.5rem
+      font-size: 5.5rem
+      margin-bottom: $spot-spacing-0_25
+      color: $spot-color-basic-gray-4
+
+    &-sub-text
+      color: $spot-color-basic-gray-3

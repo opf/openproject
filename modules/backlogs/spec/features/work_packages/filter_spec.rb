@@ -43,8 +43,8 @@ describe 'Filter by backlog type', js: true do
     type
   end
 
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -83,7 +83,7 @@ describe 'Filter by backlog type', js: true do
   it 'allows filtering, saving and retaining the filter' do
     filters.open
 
-    filters.add_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.add_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
 
     wp_table.expect_work_package_listed work_package_with_story_type
     wp_table.ensure_work_package_not_listed! work_package_with_task_type
@@ -103,6 +103,6 @@ describe 'Filter by backlog type', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Backlog type', 'is', 'Story', 'backlogsWorkPackageType')
+    filters.expect_filter_by('Backlog type', 'is (OR)', 'Story', 'backlogsWorkPackageType')
   end
 end

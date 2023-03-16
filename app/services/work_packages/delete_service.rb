@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::DeleteService < ::BaseServices::Delete
+class WorkPackages::DeleteService < BaseServices::Delete
   include ::WorkPackages::Shared::UpdateAncestors
 
   private

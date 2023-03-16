@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Views::CreateService < ::BaseServices::Create; end
+class Views::CreateService < BaseServices::Create; end

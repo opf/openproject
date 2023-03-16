@@ -36,6 +36,10 @@ import {
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
+import {
+  DomSanitizer,
+  SafeHtml,
+} from '@angular/platform-browser';
 
 @Component({
   templateUrl: './job-status.modal.html',
@@ -75,6 +79,9 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
   /** Title to show */
   public title:string = this.text.title;
 
+  /** Additional html to render */
+  public htmlContent:SafeHtml|null = null;
+
   /** A link in case the job results in a download */
   public downloadHref:string|null = null;
 
@@ -88,6 +95,7 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
     readonly apiV3Service:ApiV3Service,
     readonly loadingIndicator:LoadingIndicatorService,
     readonly toastService:ToastService,
+    readonly sanitization:DomSanitizer,
     readonly httpClient:HttpClient) {
     super(locals, cdRef, elementRef);
 
@@ -153,10 +161,17 @@ export class JobStatusModalComponent extends OpModalComponent implements OnInit 
       this.title = body.payload.title || this.text.title;
       this.handleRedirect(body.payload);
       this.handleDownload(body.payload?.download);
+      this.handleHTML(body.payload?.html);
     }
 
     this.statusIcon = this.iconForStatus();
     this.cdRef.detectChanges();
+  }
+
+  private handleHTML(content?:string) {
+    if (content) {
+      this.htmlContent = this.sanitization.bypassSecurityTrustHtml(content);
+    }
   }
 
   private handleRedirect(payload:JobStatusInterface['payload']) {

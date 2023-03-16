@@ -1,13 +1,13 @@
 shared_context 'principal membership management context' do
   shared_let(:project) do
-    create :project,
+    create(:project,
            name: 'Project 1',
-           identifier: 'project1'
+           identifier: 'project1')
   end
-  shared_let(:project2) { create :project, name: 'Project 2', identifier: 'project2' }
+  shared_let(:project2) { create(:project, name: 'Project 2', identifier: 'project2') }
 
-  shared_let(:manager)   { create :role, name: 'Manager', permissions: %i[view_members manage_members] }
-  shared_let(:developer) { create :role, name: 'Developer' }
+  shared_let(:manager)   { create(:role, name: 'Manager', permissions: %i[view_members manage_members]) }
+  shared_let(:developer) { create(:role, name: 'Developer') }
 end
 
 shared_examples 'principal membership management flows' do
@@ -46,7 +46,7 @@ end
 
 shared_examples 'global user principal membership management flows' do |permission|
   context 'as global user' do
-    shared_let(:global_user) { create :user, global_permission: permission }
+    shared_let(:global_user) { create(:user, global_permission: permission) }
     shared_let(:project_members) { { global_user => manager } }
     current_user { global_user }
 
@@ -73,8 +73,8 @@ shared_examples 'global user principal membership management flows' do |permissi
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).to have_no_selector('#membership_project_id option', text: project.name, visible: :all)
-        expect(page).to have_no_selector('#membership_project_id option', text: project2.name, visible: :all)
+        expect(page).not_to have_selector('#membership_project_id option', text: project.name, visible: :all)
+        expect(page).not_to have_selector('#membership_project_id option', text: project2.name, visible: :all)
       end
 
       it 'does not show the membership' do
@@ -87,40 +87,40 @@ shared_examples 'global user principal membership management flows' do |permissi
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).to have_no_selector('tr.member')
+        expect(page).not_to have_selector('tr.member')
         expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).to have_no_text project2.name
-        expect(page).to have_no_text project2.name
+        expect(page).not_to have_text project2.name
+        expect(page).not_to have_text project2.name
       end
     end
   end
 
   context 'as user with global and project permissions, but not manage_members' do
     current_user do
-      create :user,
+      create(:user,
              global_permission: permission,
              member_in_project: project,
-             member_with_permissions: %i[view_work_packages]
+             member_with_permissions: %i[view_work_packages])
     end
 
     it 'does not allow to select that project' do
       principal_page.visit!
       principal_page.open_projects_tab!
 
-      expect(page).to have_no_selector('tr.member')
+      expect(page).not_to have_selector('tr.member')
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).to have_no_text project.name
-      expect(page).to have_no_text project2.name
+      expect(page).not_to have_text project.name
+      expect(page).not_to have_text project2.name
     end
   end
 
   context 'as user without global permission' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'returns an error' do
       principal_page.visit!
       expect(page).to have_text 'You are not authorized to access this page.'
-      expect(page).to have_no_text principal.name
+      expect(page).not_to have_text principal.name
     end
   end
 end

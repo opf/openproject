@@ -82,7 +82,7 @@ module Pages::Messages
       # For some reason, capybara will click on
       # the button to add another attachment when being told to click on "Submit".
       # Therefor, submitting by enter key.
-      subject_field = find('#reply_subject')
+      subject_field = find_by_id('reply_subject')
       subject_field.native.send_keys(:return)
 
       Message.last

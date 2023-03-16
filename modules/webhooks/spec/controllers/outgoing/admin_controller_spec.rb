@@ -29,14 +29,14 @@
 require 'spec_helper'
 
 describe Webhooks::Outgoing::AdminController do
-  let(:user) { build_stubbed :admin }
+  let(:user) { build_stubbed(:admin) }
 
   before do
     login_as user
   end
 
   context 'when not admin' do
-    let(:user) { build_stubbed :user }
+    let(:user) { build_stubbed(:user) }
 
     it 'renders 403' do
       get :index

@@ -13,7 +13,7 @@ describe 'new work package', js: true, with_mail: false do
     create(:project, types: [type_feature, type_task, type_bug], no_types: true)
   end
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:subject_field) { wp_page.edit_field :subject }
   let(:description_field) { wp_page.edit_field :description }
@@ -58,7 +58,7 @@ describe 'new work package', js: true, with_mail: false do
       sleep 1
     end
 
-    scroll_to_and_click find('#work-packages--edit-actions-save')
+    scroll_to_and_click find_by_id('work-packages--edit-actions-save')
     wp_page.expect_toast message: 'Successful creation.'
 
     expect(page).to have_selector('.inline-edit--display-field.description', text: 'Something different than the default.')

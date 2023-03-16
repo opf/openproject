@@ -45,8 +45,8 @@ describe API::V3::Views::ViewsAPI,
            user: permitted_user)
   end
   shared_let(:view) do
-    create :view_work_packages_table,
-           query: private_user_query
+    create(:view_work_packages_table,
+           query: private_user_query)
   end
 
   let(:send_request) do

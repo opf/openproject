@@ -99,7 +99,7 @@ describe AccountController,
   end
 
   context 'POST #login' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -190,7 +190,7 @@ describe AccountController,
 
       context 'with an auth source',
               with_settings: { self_registration: Setting::SelfRegistration.disabled } do
-        let(:auth_source) { create :ldap_auth_source }
+        let(:auth_source) { create(:ldap_auth_source) }
 
         it 'creates the user on the fly' do
           allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
@@ -281,7 +281,7 @@ describe AccountController,
     end
 
     context 'GET #logout' do
-      shared_let(:admin) { create :admin }
+      shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -292,7 +292,7 @@ describe AccountController,
       end
 
       context 'with a user with an SSO provider attached' do
-        let(:user) { build_stubbed :user, login: 'bob', identity_url: 'saml:foo' }
+        let(:user) { build_stubbed(:user, login: 'bob', identity_url: 'saml:foo') }
         let(:slo_callback) { nil }
         let(:sso_provider) do
           { name: 'saml',  single_sign_out_callback: slo_callback }
@@ -322,8 +322,7 @@ describe AccountController,
           end
 
           context 'with direct login and redirecting callback',
-                  with_settings: { login_required?: true },
-                  with_config: { omniauth_direct_login_provider: 'foo' } do
+                  with_config: { omniauth_direct_login_provider: 'foo' }, with_settings: { login_required?: true } do
             it 'will still call the callback' do
               # Set the previous session
               session[:foo] = 'bar'
@@ -405,7 +404,7 @@ describe AccountController,
 
     context 'with an auth source',
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
-      let(:auth_source) { create :ldap_auth_source }
+      let(:auth_source) { create(:ldap_auth_source) }
 
       let(:user_attributes) do
         {
@@ -584,7 +583,7 @@ describe AccountController,
 
     context 'with self registration off but an ongoing invitation activation',
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
-      let(:token) { create :invitation_token }
+      let(:token) { create(:invitation_token) }
 
       before do
         session[:invitation_token] = token.value
@@ -657,7 +656,7 @@ describe AccountController,
         end
 
         context "with user limit reached" do
-          let!(:admin) { create :admin }
+          let!(:admin) { create(:admin) }
 
           let(:params) do
             {
@@ -909,8 +908,8 @@ describe AccountController,
   end
 
   context 'POST activate' do
-    let!(:admin) { create :admin }
-    let(:user) { create :user, status: }
+    let!(:admin) { create(:admin) }
+    let(:user) { create(:user, status:) }
     let(:status) { -1 }
 
     let(:token) { Token::Invitation.create!(user_id: user.id) }
@@ -964,8 +963,8 @@ describe AccountController,
       }
     end
 
-    let(:auth_source) { create :ldap_auth_source }
-    let(:user) { create :user, status: 2, auth_source: }
+    let(:auth_source) { create(:ldap_auth_source) }
+    let(:user) { create(:user, status: 2, auth_source:) }
     let(:login) { user.login }
 
     before do
@@ -986,7 +985,7 @@ describe AccountController,
     end
 
     context "with an invalid user" do
-      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create(:user, mail: "login@DerpLAP.net") }
       let(:login) { 'foo' }
       let(:attrs) do
         { mail: duplicate.mail, login:, firstname: 'bla', lastname: 'bar' }
@@ -1007,7 +1006,7 @@ describe AccountController,
     end
 
     context "with a missing email" do
-      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create(:user, mail: "login@DerpLAP.net") }
       let(:login) { 'foo' }
       let(:attrs) do
         { login:, firstname: 'bla', lastname: 'bar' }
@@ -1073,13 +1072,13 @@ describe AccountController,
 
     context 'with an invited user' do
       it_behaves_like 'account activation' do
-        let(:user) { create :user, status: 4 }
+        let(:user) { create(:user, status: 4) }
       end
     end
 
     context 'with an registered user' do
       it_behaves_like 'account activation' do
-        let(:user) { create :user, status: 2 }
+        let(:user) { create(:user, status: 2) }
       end
     end
   end

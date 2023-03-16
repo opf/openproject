@@ -38,7 +38,7 @@ describe 'OpenProject include wiki page macro' do
   end
 
   let(:project) do
-    build_stubbed :project
+    build_stubbed(:project)
   end
 
   let(:input) {}

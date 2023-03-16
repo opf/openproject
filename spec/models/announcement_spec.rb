@@ -17,7 +17,7 @@ describe Announcement do
       end
 
       context 'WHEN an announcement exists' do
-        let!(:announcement) { create :announcement }
+        let!(:announcement) { create(:announcement) }
 
         it 'returns the true one announcement' do
           expect(Announcement.only_one).to eql announcement

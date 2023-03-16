@@ -282,7 +282,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed(:type, is_milestone: true) }
       let(:children) { [build_stubbed(:work_package)] }
 
       before do

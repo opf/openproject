@@ -349,6 +349,8 @@ lv:
       one: 'One descendant work package'
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -472,14 +474,24 @@ lv:
       member:
         roles: "Lomas"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikators"
         latest_activity_at: "Latest activity at"
         parent: "Apakšprojekts"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Vaicājumi"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Veidi"
         versions: "Versijas"
         work_packages: "Pieteikuma tipi"
-        templated: 'Template project'
       projects/status:
         code: 'Statuss'
         explanation: 'Status description'
@@ -905,8 +917,22 @@ lv:
     header_invalid_fields: "There were problems with the following fields:"
     field_erroneous_label: "Šis lauks nav derīgs: %{full_errors}\nLūdzu, ievadiet derīgu vērtību."
   activity:
-    created: "Created: %{title}"
-    updated: "Updated: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktīvs"
@@ -1042,6 +1068,7 @@ lv:
   button_reset: "Atjaunot"
   button_rollback: "Rollback to this version"
   button_save: "Saglabāt"
+  button_apply_changes: "Apply changes"
   button_save_back: "Saglabāt un atpakaļ"
   button_show: "Rādīt"
   button_sort: "Sort"
@@ -1361,6 +1388,7 @@ lv:
     work_package_note: 'Pieteikumam pievienotā piezīme'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1386,7 +1414,6 @@ lv:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Latviešu"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1772,6 +1799,10 @@ lv:
   label_not_contains: "doesn't contain"
   label_not_equals: "is not"
   label_on: " "
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Atvērt izvēlni"
   label_open_work_packages: "aktīvi"
   label_open_work_packages_plural: "aktīvi"
@@ -2673,12 +2704,13 @@ lv:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} nodzēsts (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label}, nomainīts uz %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2973,10 +3005,12 @@ lv:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

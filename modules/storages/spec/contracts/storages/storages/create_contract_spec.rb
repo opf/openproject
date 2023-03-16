@@ -38,9 +38,9 @@ describe Storages::Storages::CreateContract do
     let(:current_user) { create(:admin) }
     let(:storage) do
       Storages::Storage.new(name: storage_name,
-                              provider_type: storage_provider_type,
-                              host: storage_host,
-                              creator: storage_creator)
+                            provider_type: storage_provider_type,
+                            host: storage_host,
+                            creator: storage_creator)
     end
     let(:contract) { described_class.new(storage, current_user) }
 

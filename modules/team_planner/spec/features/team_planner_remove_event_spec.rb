@@ -33,44 +33,44 @@ require_relative '../support/components/add_existing_pane'
 describe 'Team planner remove event', js: true do
   include_context 'with team planner full access'
 
-  let!(:viewer_role) { create :existing_role, permissions: [:view_work_packages] }
+  let!(:viewer_role) { create(:existing_role, permissions: [:view_work_packages]) }
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_team_planner
-           ]
+           ])
   end
 
   let!(:removable_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Some task',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:non_removable_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Parent work package',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday),
            derived_start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
-           derived_due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           derived_due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:child_wp) do
-    create :work_package,
+    create(:work_package,
            parent: non_removable_wp,
            project:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   before do

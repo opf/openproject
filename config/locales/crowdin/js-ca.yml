@@ -252,6 +252,20 @@ ca:
             L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou Enterprise add-ons i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
           unlimited: "Il·limitat"
           you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribuiràs al seu desenvolupament, manteniment i millora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Dies no laborables"
+          empty_state_description: 'No hi ha cap dia no laborable especificat per aquest any. Fes clic al botó "+ Dies no laborables" de sota per afegir una data.'
+          new_date: '(nou)'
+        add_non_working_day: "Dia no laborable"
+        already_added_error: "Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data."
+        change_button: "Guarda i reprograma"
+        change_title: "Canvia els dies laborals"
+        removed_title: "Eliminaràs els següents dies de la llista de dies no laborals:"
+        change_description: "Canviar quins dies de la setmana són laborals i quins no pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància."
+        warning: >
+          Els canvis poden tardar un temps a ser aplicats. Et notificarem un cop s'hagin actualitzat tots els paquets de treball rellevants.
+          Estàs segur que vols continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -280,8 +294,6 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "Els filtres avançats et permeten també filtrar per noms de fitxer o contingut adjuntat en paquets de treball. Si us plau, actualitza a un pla de pagament per utilitzar aquest add-on."
-      upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -300,15 +312,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
+                Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -579,7 +587,7 @@ ca:
         text_update_date: "%{date} per"
         total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
-          no_notification: "Sembla que ja ho has enllestit tot."
+          no_notification: "Sembla que ara mateix esteu al dia"
           no_notification_with_current_project_filter: "Sembla que està tot enllestit per al projecte seleccionat."
           no_notification_with_current_filter: "Sembla que ja ho has enllestit tot pel filtre %{filter}."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
@@ -993,7 +1001,7 @@ ca:
         move_column_left: "Moure la columna a l'esquerra"
         move_column_right: "Moure la columna a la dreta"
         hide_column: "Amagar columna"
-        insert_columns: "Insereix columnes..."
+        insert_columns: "Insereix columnes"
         filters: "Filtres"
         display_sums: "Mostra les sumes"
         confirm_edit_cancel: "Estàs segur que vols cancel·lar l'edició del nom d'aquesta vista? El títol tornarà al valor anterior."
@@ -1056,26 +1064,25 @@ ca:
         relations: Relacions
         watchers: Observadors
         files: Fitxers
-        files_tab_migration_help: 'Ara pots adjuntar fitxers als paquets de treball via la nova pestanya:'
       time_relative:
         days: "dies"
         weeks: "setmanes"
         months: "mesos"
     toolbar:
       settings:
-        configure_view: "Configurar vista..."
-        columns: "Columnes..."
-        sort_by: "Ordenar per..."
-        group_by: "Agrupar per..."
+        configure_view: "Configurar vista"
+        columns: "Columnes"
+        sort_by: "Ordenar per"
+        group_by: "Agrupar per"
         display_sums: "Mostra les sumes"
         display_hierarchy: "Mostra la jerarquia"
         hide_hierarchy: "Amaga la jerarquia"
         hide_sums: "Amaga les sumes"
         save: "Desa"
-        save_as: "Desa com ..."
-        export: "Exporta..."
-        visibility_settings: "Configuració de visibilitat..."
-        page_settings: "Reanomena la vista..."
+        save_as: "Desa com a"
+        export: "Exportar"
+        visibility_settings: "Configuració de visibilitat"
+        page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
       unselected_title: "Paquet de treball"
@@ -1252,4 +1259,5 @@ ca:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l''element que ha activat la finestra emergent.'
         Close: 'Tanca'

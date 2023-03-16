@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Meetings close' do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -41,8 +41,8 @@ describe 'Meetings close' do
            member_with_permissions: permissions)
   end
 
-  let!(:meeting) { create :meeting, project:, title: 'Own awesome meeting!', author: user }
-  let!(:meeting_agenda) { create :meeting_agenda, meeting:, text: "asdf" }
+  let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
+  let!(:meeting_agenda) { create(:meeting_agenda, meeting:, text: "asdf") }
 
   before do
     login_as(user)
@@ -92,7 +92,7 @@ describe 'Meetings close' do
       visit meetings_path(project)
 
       expect(page)
-        .to have_no_link 'Close'
+        .not_to have_link 'Close'
     end
   end
 end

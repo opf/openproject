@@ -55,5 +55,10 @@ FactoryBot.define do
       journable_type { 'News' }
       data { build(:journal_message_journal) }
     end
+
+    factory :project_journal, class: 'Journal' do
+      journable factory: :project
+      data { build(:journal_project_journal) }
+    end
   end
 end

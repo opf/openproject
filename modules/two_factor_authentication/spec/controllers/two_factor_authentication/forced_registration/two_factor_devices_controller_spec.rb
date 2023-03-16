@@ -128,7 +128,7 @@ describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -139,7 +139,7 @@ describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController
         end
 
         describe 'with registered device' do
-          let!(:device) { create :two_factor_authentication_device_sms, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_sms, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -167,7 +167,7 @@ describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }

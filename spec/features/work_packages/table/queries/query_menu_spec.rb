@@ -29,35 +29,35 @@
 require 'spec_helper'
 
 describe 'Query menu item', js: true do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
-  current_user { create :admin }
+  current_user { create(:admin) }
 
   context 'when visiting the global work packages page' do
     let(:wp_table) { Pages::WorkPackagesTable.new }
     let(:project) { nil }
 
     let!(:global_public_view) do
-      create :view,
-             query: create(:query, project: nil, public: true, name: 'Global public')
+      create(:view,
+             query: create(:query, project: nil, public: true, name: 'Global public'))
     end
 
     let!(:global_my_view) do
-      create :view,
-             query: create(:query, project: nil, public: false, user: current_user, name: 'Global my view')
+      create(:view,
+             query: create(:query, project: nil, public: false, user: current_user, name: 'Global my view'))
     end
 
     let!(:global_other_view) do
-      create :view,
-             query: create(:query, project: nil, public: false, user: create(:user), name: 'Other user query')
+      create(:view,
+             query: create(:query, project: nil, public: false, user: create(:user), name: 'Other user query'))
     end
 
     let!(:project_view) do
-      create :view,
-             query: create(:query, project: create(:project), name: 'Project query')
+      create(:view,
+             query: create(:query, project: create(:project), name: 'Project query'))
     end
 
     it 'shows the query menu with queries stored for the global page' do
@@ -79,9 +79,9 @@ describe 'Query menu item', js: true do
   end
 
   context 'when filtering by version in project' do
-    let(:version) { create :version, project: }
-    let(:work_package_with_version) { create :work_package, project:, version: }
-    let(:work_package_without_version) { create :work_package, project: }
+    let(:version) { create(:version, project:) }
+    let(:work_package_with_version) { create(:work_package, project:, version:) }
+    let(:work_package_without_version) { create(:work_package, project:) }
 
     before do
       work_package_with_version
@@ -95,8 +95,8 @@ describe 'Query menu item', js: true do
       wp_table.click_setting_item 'Save as'
 
       fill_in 'save-query-name', with: 'Some query name'
-      find('#show-in-menu').set true
-      find('#show-public').set true
+      find_by_id('show-in-menu').set true
+      find_by_id('show-public').set true
 
       find('.button', text: 'Save').click
 
@@ -122,7 +122,7 @@ describe 'Query menu item', js: true do
 
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do
       filters.open
-      filters.add_filter_by('Version', 'is', version.name)
+      filters.add_filter_by('Version', 'is (OR)', version.name)
 
       wp_table.expect_work_package_listed work_package_with_version
       wp_table.ensure_work_package_not_listed! work_package_without_version
@@ -140,7 +140,7 @@ describe 'Query menu item', js: true do
 
       # Publish query
       wp_table.click_setting_item I18n.t('js.label_visibility_settings')
-      find('#show-in-menu').set true
+      find_by_id('show-in-menu').set true
       find('.button', text: 'Save').click
 
       wp_table.visit!
@@ -167,7 +167,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
 
       # Removing the filter and returning to query restores it
       filters.remove_filter 'version'
@@ -184,7 +184,7 @@ describe 'Query menu item', js: true do
 
       filters.expect_filter_count 2
       filters.open
-      filters.expect_filter_by('Version', 'is', version.name)
+      filters.expect_filter_by('Version', 'is (OR)', version.name)
     end
   end
 end

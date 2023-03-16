@@ -95,11 +95,6 @@ describe Queries::WorkPackages::Filter::SearchFilter do
   if OpenProject::Database.allows_tsv?
     context 'DB allows tsv' do
       context 'with EE' do
-        before do
-          allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-          allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-        end
-
         it_behaves_like 'subject, description, and comment filter'
 
         context 'WP with attachment' do

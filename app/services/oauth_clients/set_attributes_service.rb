@@ -27,5 +27,5 @@
 #++
 
 # See also: create_service.rb for comments
-class OAuthClients::SetAttributesService < ::BaseServices::SetAttributes
+class OAuthClients::SetAttributesService < BaseServices::SetAttributes
 end

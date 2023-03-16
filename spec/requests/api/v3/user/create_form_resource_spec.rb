@@ -44,7 +44,7 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   context 'with authorized user' do
-    shared_let(:current_user) { create :user, global_permission: :manage_user }
+    shared_let(:current_user) { create(:user, global_permission: :manage_user) }
 
     describe 'empty params' do
       let(:payload) do
@@ -184,7 +184,7 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
   end
 
   context 'with unauthorized user' do
-    shared_let(:current_user) { create :user }
+    shared_let(:current_user) { create(:user) }
     let(:payload) do
       {}
     end

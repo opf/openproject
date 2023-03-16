@@ -14,7 +14,7 @@ describe ApplicationRecord do
       end
     end
 
-    let!(:status) { create :status }
+    let!(:status) { create(:status) }
 
     def expect_matched_date(postgres_time, rails_time)
       # Rails uses timestamp without timezone for timestamp columns

@@ -41,7 +41,7 @@ describe 'Activity tab',
     note_journal.update(created_at: at, updated_at: at, user:)
   end
 
-  let(:project) { create :project_with_types, public: true }
+  let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) do
     work_package = create(:work_package,
                           project:,

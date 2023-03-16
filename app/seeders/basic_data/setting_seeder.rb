@@ -66,9 +66,11 @@ module BasicData
     private
 
     def seedable_setting_definitions
-      Setting.definitions
-             .select(&:writable?)
-             .reject { |definition| definition.value.nil? }
+      Settings::Definition
+        .all
+        .values
+        .select(&:writable?)
+        .reject { |definition| definition.value.nil? }
     end
 
     def settings_in_db

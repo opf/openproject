@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Help menu items' do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:help_item) { find('.op-app-help .op-app-menu--item-action') }
 
   before do
@@ -58,7 +58,7 @@ describe 'Help menu items' do
       visit home_path
 
       expect(help_item[:href]).to eq(custom_url)
-      expect(page).to have_no_selector('.op-app-help .op-app-menu--dropdown', visible: false)
+      expect(page).not_to have_selector('.op-app-help .op-app-menu--dropdown', visible: false)
     end
   end
 end

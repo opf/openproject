@@ -77,7 +77,7 @@ module Pages
 
     def expect_hidden_field(attribute)
       page.within(container) do
-        expect(page).to have_no_selector(".inline-edit--display-field.#{attribute}")
+        expect(page).not_to have_selector(".inline-edit--display-field.#{attribute}")
       end
     end
 
@@ -88,7 +88,7 @@ module Pages
     end
 
     def open_in_split_view
-      find('#work-packages-details-view-button').click
+      find_by_id('work-packages-details-view-button').click
     end
 
     def ensure_page_loaded
@@ -113,7 +113,7 @@ module Pages
     end
 
     def expect_no_group(name)
-      expect(page).to have_no_selector('.attributes-group--header-text', text: name.upcase)
+      expect(page).not_to have_selector('.attributes-group--header-text', text: name.upcase)
     end
 
     def expect_attributes(attribute_expectations)
@@ -174,7 +174,7 @@ module Pages
 
     def expect_no_custom_action(name)
       expect(page)
-        .to have_no_selector('.custom-action', text: name)
+        .not_to have_selector('.custom-action', text: name)
     end
 
     def expect_custom_action_order(*names)

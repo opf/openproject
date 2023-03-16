@@ -89,10 +89,10 @@ describe OpenProject::Bim::BcfXml::IssueWriter do
            markup:,
            vp_snapshot:)
   end
-  let(:priority) { create :priority_low }
+  let(:priority) { create(:priority_low) }
   let(:current_user) { create(:user) }
   let(:due_date) { DateTime.now }
-  let(:type) { create :type, name: 'Issue' }
+  let(:type) { create(:type, name: 'Issue') }
   let(:work_package) do
     create(:work_package,
            project_id: project.id,

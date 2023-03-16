@@ -30,11 +30,11 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 describe 'Query selection' do
-  let(:project) { create :project, identifier: 'test_project', public: false }
-  let(:role) { create :role, permissions: [:view_work_packages] }
+  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  let(:role) { create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    create :user, member_in_project: project,
-                  member_through_role: role
+    create(:user, member_in_project: project,
+                  member_through_role: role)
   end
 
   let(:default_status) { create(:default_status) }
@@ -83,7 +83,7 @@ describe 'Query selection' do
 
     it 'shows the saved filters', js: true do
       filters.open
-      filters.expect_filter_by 'Assignee', 'is', ['me']
+      filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
       filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
 
       expect(page).to have_selector('[data-qa-selector="wp-filter-button"] .badge', text: '2')

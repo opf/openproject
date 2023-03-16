@@ -171,7 +171,7 @@ describe 'Enterprise trial management',
     fill_in 'Last name', with: 'Bar'
     fill_in 'Email', with: mail
 
-    find('#trial-general-consent').check
+    find_by_id('trial-general-consent').check
   end
 
   it 'blocks the request assuming the mail was used' do
@@ -184,7 +184,7 @@ describe 'Enterprise trial management',
 
     expect(page).to have_selector('.-required-highlighting #trial-email')
     expect(page).to have_text('Each user can only create one trial.')
-    expect(page).to have_no_text 'email sent - waiting for confirmation'
+    expect(page).not_to have_text 'email sent - waiting for confirmation'
   end
 
   it 'blocks the request assuming the domain was used' do
@@ -197,7 +197,7 @@ describe 'Enterprise trial management',
 
     expect(page).to have_selector('.-required-highlighting #trial-domain-name')
     expect(page).to have_text('There can only be one active trial per domain.')
-    expect(page).to have_no_text 'email sent - waiting for confirmation'
+    expect(page).not_to have_text 'email sent - waiting for confirmation'
   end
 
   it 'shows an error in case of other errors' do
@@ -209,7 +209,7 @@ describe 'Enterprise trial management',
     find('.button:not(:disabled)', text: 'Submit').click
 
     expect(page).to have_text('Token version is invalid')
-    expect(page).to have_no_text 'email sent - waiting for confirmation'
+    expect(page).not_to have_text 'email sent - waiting for confirmation'
   end
 
   context 'with a waiting request pending' do

@@ -137,7 +137,7 @@ describe 'Projects custom fields', js: true do
     let(:float_field) { FormFields::InputFormField.new float_cf }
 
     context 'with english locale' do
-      let(:current_user) { create :admin, language: 'en' }
+      let(:current_user) { create(:admin, language: 'en') }
 
       it 'displays the float with english locale' do
         visit new_project_path
@@ -162,7 +162,7 @@ describe 'Projects custom fields', js: true do
 
     context 'with german locale',
             driver: :firefox_de do
-      let(:current_user) { create :admin, language: 'de' }
+      let(:current_user) { create(:admin, language: 'de') }
 
       it 'displays the float with german locale' do
         I18n.locale = :de
@@ -217,19 +217,19 @@ describe 'Projects custom fields', js: true do
     let(:cf_field) { FormFields::SelectFormField.new custom_field }
 
     # Create a second project for visible options
-    let!(:existing_project) { create :project }
+    let!(:existing_project) { create(:project) }
 
     # Assume one user is visible
-    let!(:invisible_user) { create :user, firstname: 'Invisible', lastname: 'User' }
-    let!(:visible_user) { create :user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project }
+    let!(:invisible_user) { create(:user, firstname: 'Invisible', lastname: 'User') }
+    let!(:visible_user) { create(:user, firstname: 'Visible', lastname: 'User', member_in_project: existing_project) }
 
-    let(:role) { create :role }
+    let(:role) { create(:role) }
 
     let(:modal) do
       Components::Users::InviteUserModal.new project:,
-                                               principal: invisible_user,
-                                               role:,
-                                               invite_message: 'you are invited'
+                                             principal: invisible_user,
+                                             role:,
+                                             invite_message: 'you are invited'
     end
 
     it 'allows setting a visible user CF (regression #26313)' do

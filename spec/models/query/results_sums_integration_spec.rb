@@ -145,9 +145,9 @@ describe Query::Results, 'sums' do
   end
   let(:group_by) { nil }
   let(:query) do
-    build :query,
+    build(:query,
           project:,
-          group_by:
+          group_by:)
   end
   let(:query_results) do
     Query::Results.new query

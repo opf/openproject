@@ -29,15 +29,15 @@
 require 'spec_helper'
 
 describe 'group show page' do
-  let!(:member) { create :user }
-  let!(:group) { create :group, lastname: "Bob's Team", members: [member] }
+  let!(:member) { create(:user) }
+  let!(:group) { create(:group, lastname: "Bob's Team", members: [member]) }
 
   before do
     login_as current_user
   end
 
   context 'as an admin' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
 
     it 'I can visit the group page' do
@@ -49,13 +49,13 @@ describe 'group show page' do
   end
 
   context 'as a regular user' do
-    let(:current_user) { create :user }
+    let(:current_user) { create(:user) }
 
     it 'I can visit the group page' do
       visit show_group_path(group)
       expect(page).to have_selector('h2', text: "Bob's Team")
-      expect(page).to have_no_selector('.toolbar-item')
-      expect(page).to have_no_selector('li', text: member.name)
+      expect(page).not_to have_selector('.toolbar-item')
+      expect(page).not_to have_selector('li', text: member.name)
     end
   end
 end

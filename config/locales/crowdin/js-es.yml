@@ -252,6 +252,20 @@ es:
             La edición Enterprise de OpenProject esta basada en la edición Community. Incluye Enterprise add-ons y soporte profesional dirigida principalmente a organizaciones con más de 10 usuarios que gestionen proyectos empresariales críticos con OpenProject.
           unlimited: "Ilimitado"
           you_contribute: "Los desarrolladores también tienen que pagar sus facturas. Al actualizar a edición Enterprise, apoyará el esfuerzo de la comunidad de código abierto y contribuirá a su desarrollo, mantenimiento y mejora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Días no laborables"
+          empty_state_description: 'No hay días no laborables específicos definidos para este año. Haga clic en "+ Día no laborable" abajo para añadir una fecha.'
+          new_date: '(nuevo)'
+        add_non_working_day: "Día no laborable"
+        already_added_error: "Ya existe un día no laborable para esta fecha. Solo puede haber un día no laborable creado para cada fecha."
+        change_button: "Guardar y reprogramar"
+        change_title: "Cambiar los días laborables"
+        removed_title: "Eliminará los siguientes días de la lista de días no laborables:"
+        change_description: "Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia."
+        warning: >
+          Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo relevantes hayan sido actualizados.
+          ¿Está seguro de que desea continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -280,8 +294,6 @@ es:
           one: "Primer criterio de ordenación"
           two: "Segundo criterio de ordenación"
           three: "Tercer criterio de ordenación"
-      upsale_for_more: "Los filtros avanzados te permiten también filtrar los nombres de los archivos y el contenido de los archivos adjuntos del paquete de trabajo. Por favor, actualice a un plan de pago para utilizar este add-on."
-      upsale_link: 'Edición Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -300,15 +312,11 @@ es:
           learn_about: "Más información sobre las nuevas funcionalidades"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Esta versión contiene nuevas mejoras y funcionalidades:<br> <ul class="%{list_styling_class}"> <li>Active alertas de notificación para fechas próximas y tareas vencidas.</li> <li>Hemos añadido la autenticación en dos fases (2FA) a la edición Community.</li> <li>También se ha añadido la opción para visualizar la semana laboral en el planificador de equipo.</li> <li>Ahora, se muestran hasta 3 personas en las tarjetas de notificación cuando hayan participado varias personas en los cambios.</li> </ul>
+                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Sube y vincula archivos de paquetes de trabajo su almacenamiento de archivos en Nextcloud.</li> <li>Seguimiento de los cambios del proyecto con la actividad del proyecto.</li> <li>Añadir días festivos públicos para toda la instancia (días no laborables).</li> <li>Archivar proyectos a pesar de no ser administrador.</li> <li>Nuevo filtro por defecto para paquetes de trabajo atrasados.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Asignado a'
     label_add_column_after: "Añadir columna a la derecha"
@@ -465,7 +473,7 @@ es:
     label_watch_work_package: "Observar paquetes de trabajo"
     label_watcher_added_successfully: "¡Observador agregado exitosamente!"
     label_watcher_deleted_successfully: "¡Observador borrado con éxito!"
-    label_work_package_details_you_are_here: "Te encuentras en la pestaña %{tab} para %{type}%{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
@@ -579,9 +587,9 @@ es:
         text_update_date: "%{date} por"
         total_count_warning: "Mostrando las %{newest_count} notificaciones más recientes. %{more_count} más no se muestran."
         empty_state:
-          no_notification: "Parece que ya estás al día."
-          no_notification_with_current_project_filter: "Parece que todo está listo con el proyecto seleccionado."
-          no_notification_with_current_filter: "Parece que todo está listo para el filtro %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Haga clic en una notificación para ver todos los detalles de la actividad."
         new_notifications:
           message: 'Hay nuevas notificaciones.'
@@ -993,7 +1001,7 @@ es:
         move_column_left: "Mover columna a la izquierda"
         move_column_right: "Mover columna a la derecha"
         hide_column: "Esconder columna"
-        insert_columns: "Insertar columnas..."
+        insert_columns: "Insert columns"
         filters: "Filtros"
         display_sums: "Mostrar sumas"
         confirm_edit_cancel: "¿Está seguro de que quiere cancelar la edición del nombre de esta vista? El título volverá a establecerse con el valor anterior."
@@ -1020,7 +1028,7 @@ es:
         button: 'Configurar esta tabla de paquetes de trabajo'
         choose_display_mode: 'Mostrar paquetes de trabajo como'
         modal_title: 'Configuración de tabla de paquetes de trabajo'
-        embedded_tab_disabled: "Esta pestaña de configuración no está disponible para la vista insertada que está editando."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "por defecto"
         display_settings: 'Configuración de visualización'
         default_mode: "Lista plana"
@@ -1056,26 +1064,25 @@ es:
         relations: Relaciones
         watchers: Observadores
         files: Archivos
-        files_tab_migration_help: 'Ahora puede adjuntar archivos a los paquetes de trabajo desde la nueva pestaña:'
       time_relative:
         days: "días"
         weeks: "semanas"
         months: "meses"
     toolbar:
       settings:
-        configure_view: "Configurar vista…"
-        columns: "Columnas ..."
-        sort_by: "Ordenado por ..."
-        group_by: "Agrupar por ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Mostrar sumas"
         display_hierarchy: "Mostrar jerarquía"
         hide_hierarchy: "Ocultar jerarquía"
         hide_sums: "Ocultar las sumas"
         save: "Guardar"
-        save_as: "Guardar como ..."
-        export: "Exportar ..."
-        visibility_settings: "Configuración de visibilidad …"
-        page_settings: "Cambiar nombre de vista …"
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Borrar"
       filter: "Filtro"
       unselected_title: "Paquete de trabajo"
@@ -1252,4 +1259,5 @@ es:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'Este es una ancla de enfoque para modales. Presione shift+tab para volver al elemento que activa el modal.'
         Close: 'Cerrar'

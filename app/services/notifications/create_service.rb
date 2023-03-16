@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Notifications::CreateService < ::BaseServices::Create
+class Notifications::CreateService < BaseServices::Create
   protected
 
   def persist(service_result)

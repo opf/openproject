@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Projects autocomplete page', js: true do
-  let!(:user) { create :user }
+  let!(:user) { create(:user) }
   let(:top_menu) { Components::Projects::TopMenu.new }
 
   let!(:project) do
@@ -66,19 +66,19 @@ describe 'Projects autocomplete page', js: true do
     ]
 
     names.map do |name|
-      identifier = name.gsub(/[ \-]+/, "-").downcase
+      identifier = name.gsub(/[ -]+/, "-").downcase
 
-      create :project, name:, identifier:
+      create(:project, name:, identifier:)
     end
   end
   let!(:non_member_project) do
-    create :project
+    create(:project)
   end
   let!(:public_project) do
-    create :public_project
+    create(:public_project)
   end
   # necessary to be able to see public projects
-  let!(:non_member_role) { create :non_member }
+  let!(:non_member_role) { create(:non_member) }
   # we only need the public permissions: view_project, :view_news
   let(:role) { create(:role, permissions: []) }
 
@@ -111,7 +111,7 @@ describe 'Projects autocomplete page', js: true do
     # Expect highlights
     within(top_menu.search_results) do
       expect(page).to have_selector('.op-search-highlight', text: '<strong')
-      expect(page).to have_no_selector('strong')
+      expect(page).not_to have_selector('strong')
     end
 
     # Expect fuzzy matches for plain

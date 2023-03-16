@@ -33,9 +33,13 @@ jobs:
           gem install brakeman
 
       - name: Scan
-        continue-on-error: true
         run: |
-          brakeman -i config/brakeman.ignore -f sarif -o output.sarif.json .
+          brakeman \
+            --ignore-config config/brakeman.ignore \
+            --no-exit-on-warn \
+            --no-exit-on-error \
+            --format sarif \
+            --output output.sarif.json
 
       - name: Upload SARIF
         uses: github/codeql-action/upload-sarif@v2

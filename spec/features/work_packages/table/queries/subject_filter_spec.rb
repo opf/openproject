@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe 'Work package filtering by subject', js: true do
-  let(:project) { create :project, public: true }
-  let(:admin) { create :admin }
+  let(:project) { create(:project, public: true) }
+  let(:admin) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
-  let!(:wp_match) { create :work_package, project:, subject: 'R#1234 Foobar' }
-  let!(:wp_nomatch) { create :work_package, project:, subject: 'R!1234 Foobar' }
+  let!(:wp_match) { create(:work_package, project:, subject: 'R#1234 Foobar') }
+  let!(:wp_nomatch) { create(:work_package, project:, subject: 'R!1234 Foobar') }
 
   before do
     login_as admin

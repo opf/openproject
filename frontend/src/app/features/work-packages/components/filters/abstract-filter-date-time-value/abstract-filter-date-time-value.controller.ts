@@ -37,8 +37,10 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 export abstract class AbstractDateTimeValueController extends UntilDestroyedMixin implements OnInit {
   public filter:QueryFilterInstanceResource;
 
-  constructor(protected I18n:I18nService,
-    protected timezoneService:TimezoneService) {
+  constructor(
+    protected I18n:I18nService,
+    protected timezoneService:TimezoneService,
+  ) {
     super();
   }
 

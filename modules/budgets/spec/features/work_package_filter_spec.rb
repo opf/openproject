@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Filter by budget', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -75,7 +75,7 @@ describe 'Filter by budget', js: true do
 
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by('Budget', 'is', budget.name)
+    filters.add_filter_by('Budget', 'is (OR)', budget.name)
 
     wp_table.expect_work_package_listed work_package_with_budget
     wp_table.ensure_work_package_not_listed! work_package_without_budget
@@ -97,6 +97,6 @@ describe 'Filter by budget', js: true do
 
     filters.open
 
-    filters.expect_filter_by('Budget', 'is', budget.name)
+    filters.expect_filter_by('Budget', 'is (OR)', budget.name)
   end
 end

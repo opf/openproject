@@ -35,7 +35,7 @@ require 'contracts/shared/model_contract_shared_context'
 describe OAuthClients::DeleteContract do
   include_context 'ModelContract shared context'
 
-  let(:oauth_client) { create :oauth_client }
+  let(:oauth_client) { create(:oauth_client) }
   let(:contract) { described_class.new(oauth_client, current_user) }
 
   # Generic checks that the contract is valid for valid admin, but invalid otherwise

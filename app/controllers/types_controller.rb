@@ -46,6 +46,19 @@ class TypesController < ApplicationController
     load_projects_and_types
   end
 
+  def edit
+    if params[:tab].blank?
+      redirect_to tab: :settings
+    else
+      type = ::Type
+             .includes(:projects,
+                       :custom_fields)
+             .find(params[:id])
+
+      render_edit_tab(type)
+    end
+  end
+
   def create
     CreateTypeService
       .new(current_user)
@@ -61,19 +74,6 @@ class TypesController < ApplicationController
         load_projects_and_types
         render action: 'new'
       end
-    end
-  end
-
-  def edit
-    if params[:tab].blank?
-      redirect_to tab: :settings
-    else
-      type = ::Type
-             .includes(:projects,
-                       :custom_fields)
-             .find(params[:id])
-
-      render_edit_tab(type)
     end
   end
 

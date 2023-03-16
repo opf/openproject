@@ -57,7 +57,7 @@ describe 'Cancel editing work package', js: true do
   end
 
   def expect_subject(val)
-    subject = page.find('#wp-new-inline-edit--field-subject')
+    subject = page.find_by_id('wp-new-inline-edit--field-subject')
     expect(subject.value).to eq(val)
   end
 
@@ -122,7 +122,7 @@ describe 'Cancel editing work package', js: true do
   it 'cancels the editing when clicking the button' do
     paths.each do |path|
       expect_active_edit(path)
-      find('#work-packages--edit-actions-cancel').click
+      find_by_id('work-packages--edit-actions-cancel').click
 
       expect(wp_page).not_to have_alert_dialog
     end
@@ -132,7 +132,7 @@ describe 'Cancel editing work package', js: true do
     # Start creating on split view
     expect_active_edit(new_split_work_packages_path)
 
-    find('#wp-new-inline-edit--field-subject').set 'foobar'
+    find_by_id('wp-new-inline-edit--field-subject').set 'foobar'
 
     # Expect editing works when moving to full screen
     find('.work-packages-show-view-button').click
@@ -149,7 +149,7 @@ describe 'Cancel editing work package', js: true do
     expect_subject('foobar')
 
     # Cancel edition
-    find('#work-packages--edit-actions-cancel').click
+    find_by_id('work-packages--edit-actions-cancel').click
     expect(wp_page).not_to have_alert_dialog
 
     # Visiting another page does not create alert
@@ -193,7 +193,7 @@ describe 'Cancel editing work package', js: true do
       wp_table.open_split_view(work_package2)
       expect(wp_page).not_to have_alert_dialog
 
-      expect(page).to have_no_selector('#wp-new-inline-edit--field-subject')
+      expect(page).not_to have_selector('#wp-new-inline-edit--field-subject')
       expect(page).to have_selector('.work-packages--details--subject', text: work_package2.subject)
 
       # Moving somewhere else

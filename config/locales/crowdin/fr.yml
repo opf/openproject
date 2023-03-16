@@ -348,6 +348,8 @@ fr:
       one: 'Un lot de travaux descendant'
       other: '%{count} lots de travaux descendants'
     bulk:
+      copy_failed: "Les lots de travaux n'ont pas pu être copiés."
+      move_failed: "Les lots de travaux n'ont pas pu être déplacés."
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
       none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
@@ -471,14 +473,24 @@ fr:
       member:
         roles: "Rôles"
       project:
+        active_value:
+          true: "désarchivé"
+          false: "archivé"
         identifier: "Identifiant"
         latest_activity_at: "Dernière activité à"
         parent: "Sous-projet de"
+        public_value:
+          title: "Visibilité"
+          true: "public"
+          false: "privé"
         queries: "Requêtes"
+        templated: "Modèle de projet"
+        templated_value:
+          true: "marqué comme modèle"
+          false: "non marqué comme modèle"
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Modèle de projet'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -900,8 +912,22 @@ fr:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
   activity:
-    created: "Créé : %{title}"
-    updated: "Mis à jour : %{title}"
+    item:
+      created_by_on: "créé par %{user} le %{datetime}"
+      created_on: "créé le %{datetime}"
+      updated_by_on: "mis à jour par %{user} le %{datetime}"
+      updated_on: "mis à jour le %{datetime}"
+      parent_without_of: "Sous-projet"
+      parent_no_longer: "Plus de sous-projet de"
+    filter:
+      changeset: "Révisions"
+      message: "Forums"
+      news: "Actualités"
+      project_attribute: "Attributs du projet"
+      subproject: "Inclure les sous-projets"
+      time_entry: "Temps passé"
+      wiki_edit: "Wiki"
+      work_package: "Lots de travaux"
   #common attributes of all models
   attributes:
     active: "Actif"
@@ -1037,6 +1063,7 @@ fr:
   button_reset: "Réinitialiser"
   button_rollback: "Revenir à cette version"
   button_save: "Enregistrer"
+  button_apply_changes: "Appliquer les modifications"
   button_save_back: "Enregistrer et revenir"
   button_show: "Afficher"
   button_sort: "Trier"
@@ -1345,6 +1372,7 @@ fr:
     work_package_note: 'Note de Lot de Travaux ajoutée'
     title:
       project: "Projet : %{name}"
+      subproject: "Sous-projet : %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1370,7 +1398,6 @@ fr:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "1"
-  general_lang_name: "Français"
   general_pdf_encoding: "ISO-8859-15"
   general_text_no: "non"
   general_text_yes: "oui"
@@ -1756,6 +1783,10 @@ fr:
   label_not_contains: "ne contient pas"
   label_not_equals: "n'est pas"
   label_on: "le"
+  label_operator_all: "n'est pas vide"
+  label_operator_none: "est vide"
+  label_operator_equals_or: "est (OU)"
+  label_operator_equals_all: "est (ET)"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -2659,12 +2690,13 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_changed_html: "%{label} changé de %{old} %{linebreak}<strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2956,10 +2988,12 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+    instance_wide_info: >
+      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:

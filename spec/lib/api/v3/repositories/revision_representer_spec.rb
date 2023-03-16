@@ -33,8 +33,8 @@ describe API::V3::Repositories::RevisionRepresenter do
 
   let(:representer) { described_class.new(revision, current_user: double('current_user')) }
 
-  let(:project) { build :project }
-  let(:repository) { build :repository_subversion, project: }
+  let(:project) { build(:project) }
+  let(:repository) { build(:repository_subversion, project:) }
   let(:revision) do
     build(:changeset,
           id: 42,

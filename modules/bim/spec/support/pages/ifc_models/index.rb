@@ -57,7 +57,7 @@ module Pages
 
           visit!
         else
-          expect(page).to have_no_selector('.button.-alt-highlight', text: 'IFC model')
+          expect(page).not_to have_selector('.button.-alt-highlight', text: 'IFC model')
         end
       end
 

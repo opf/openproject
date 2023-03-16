@@ -2,9 +2,9 @@ require 'spec_helper'
 require 'spreadsheet'
 
 describe XlsExport::WorkPackage::Exporter::XLS do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
   let(:column_names) { %w[type id subject status assigned_to priority] }
   let(:query) do
@@ -39,19 +39,19 @@ describe XlsExport::WorkPackage::Exporter::XLS do
   context 'with relations' do
     let(:options) { { show_relations: true } }
 
-    let(:parent) { create :work_package, project:, subject: 'Parent' }
+    let(:parent) { create(:work_package, project:, subject: 'Parent') }
     let(:child_1) do
-      create :work_package, parent:, project:, subject: 'Child 1'
+      create(:work_package, parent:, project:, subject: 'Child 1')
     end
     let(:child_2) do
-      create :work_package, parent:, project:, subject: 'Child 2'
+      create(:work_package, parent:, project:, subject: 'Child 2')
     end
 
-    let(:single) { create :work_package, project:, subject: 'Single' }
-    let(:followed) { create :work_package, project:, subject: 'Followed' }
+    let(:single) { create(:work_package, project:, subject: 'Single') }
+    let(:followed) { create(:work_package, project:, subject: 'Followed') }
 
     let(:child_2_child) do
-      create :work_package, parent: child_2, project:, subject: "Child 2's child"
+      create(:work_package, parent: child_2, project:, subject: "Child 2's child")
     end
 
     let(:relation) do
@@ -151,7 +151,7 @@ describe XlsExport::WorkPackage::Exporter::XLS do
     end
 
     context 'with someone who may not see related work packages' do
-      let(:current_user) { create :user }
+      let(:current_user) { create(:user) }
 
       it 'exports no information without visibility' do
         expect(sheet.rows.length).to eq(2)

@@ -2,49 +2,49 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report calculations', js: true do
-  let(:project) { create :project }
-  let(:admin) { create :admin }
+  let(:project) { create(:project) }
+  let(:admin) { create(:admin) }
 
   let!(:permissions) { %i(view_cost_entries view_own_cost_entries) }
-  let!(:role) { create :role, permissions: }
+  let!(:role) { create(:role, permissions:) }
   let!(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
-  let(:work_package) { create :work_package, project: }
-  let!(:hourly_rate_admin) { create :default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago }
-  let!(:hourly_rate_user) { create :default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago }
+  let(:work_package) { create(:work_package, project:) }
+  let!(:hourly_rate_admin) { create(:default_hourly_rate, user: admin, rate: 1.00, valid_from: 1.year.ago) }
+  let!(:hourly_rate_user) { create(:default_hourly_rate, user:, rate: 1.00, valid_from: 1.year.ago) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 
   let!(:time_entry_user) do
-    create :time_entry,
+    create(:time_entry,
            user: admin,
            work_package:,
            project:,
-           hours: 10
+           hours: 10)
   end
   let!(:time_entry_admin) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package:,
            project:,
-           hours: 5
+           hours: 5)
   end
   let!(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate, cost_type: type, rate: 7.00
+    type = create(:cost_type, name: 'Translations')
+    create(:cost_rate, cost_type: type, rate: 7.00)
     type
   end
   let!(:cost_entry_user) do
-    create :cost_entry,
+    create(:cost_entry,
            work_package:,
            project:,
            units: 3.00,
            cost_type:,
-           user:
+           user:)
   end
 
   before do
@@ -126,7 +126,7 @@ describe 'Cost report calculations', js: true do
 
       report_page.switch_to_type 'Translations'
       expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
     end
   end
 
@@ -141,7 +141,7 @@ describe 'Cost report calculations', js: true do
       expect(page).not_to have_content '5.00 hours'
       expect(page).not_to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
-      expect(page).to have_no_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
     end
   end
 end

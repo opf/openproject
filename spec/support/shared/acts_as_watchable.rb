@@ -101,7 +101,7 @@ MESSAGE
   shared_context 'anonymous role has the permission to watch' do
     let(:anonymous_role) do
       permissions = is_public_permission ? [] : [watch_permission]
-      build :anonymous_role, permissions:
+      build(:anonymous_role, permissions:)
     end
 
     before do

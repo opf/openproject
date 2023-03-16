@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe WorkPackage do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
 
   let(:custom_field) do
     create(
@@ -52,7 +52,7 @@ describe WorkPackage do
   end
 
   let(:work_package) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.reload
     wp.custom_field_values = {
       custom_field.id => custom_values
@@ -70,7 +70,7 @@ describe WorkPackage do
   end
 
   context 'when value not present' do
-    let(:work_package) { create :work_package, project:, type: }
+    let(:work_package) { create(:work_package, project:, type:) }
 
     it 'returns nil properly' do
       expect(values).to be_nil

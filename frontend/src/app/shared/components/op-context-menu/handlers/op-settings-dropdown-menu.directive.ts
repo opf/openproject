@@ -63,8 +63,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
 
   private loadingPromise:PromiseLike<any>;
 
-  private focusAfterClose = true;
-
   constructor(readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
     readonly opModalService:OpModalService,
@@ -130,8 +128,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     return position;
   }
 
-  public onClose() {
-    if (this.focusAfterClose) {
+  public onClose(focus:boolean) {
+    if (focus) {
       this.afterFocusOn.focus();
     }
   }
@@ -226,7 +224,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-edit',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowQueryAction($event, 'update')) {
-            this.focusAfterClose = false;
             jQuery(`${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
           }
 

@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::UpdateService < ::BaseServices::Update; end
+class Queries::UpdateService < BaseServices::Update; end

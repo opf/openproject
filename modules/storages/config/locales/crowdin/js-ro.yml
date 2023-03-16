@@ -25,16 +25,23 @@ ro:
         not_logged_in: >
           Pentru a adăuga un link, vezi sau încarcă fișiere legate de acest pachet de lucru, te rugăm să te autentifici la %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        already_existing_header: "Acest fișier există deja"
+        already_existing_body: >
+          Un fișier cu numele "%{fileName}" există deja în locația în care încercați să încărcați acest fișier. Ce ai vrea să faci?
+        directory_not_writeable: "Nu aveţi permisiunea de a adăuga fişiere în acest folder."
+        dragging_many_files: "Încărcarea către %{storageType} suportă doar un singur fișier simultan."
+        empty_folder: "Acest director este gol."
+        empty_folder_location_hint: "Faceţi clic pe butonul de mai jos pentru a încărca fişierul în această locaţie."
+        file_not_selectable_location: "Selectarea unui fișier nu este posibilă în procesul de alegere a unei locații."
+        upload_keep_both: "Păstrați ambele"
+        upload_replace: "Înlocuiește"
       file_links:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
         download: "Descarcă %{fileName}"
         no_permission: "Nu aveți permisiunea de a vedea acest fișier."
-        open: 'Deschide fişierul pe stocare'
-        open_location: 'Deschide fișierul în locație'
+        open: "Deschide fişierul pe stocare"
+        open_location: "Deschide fișierul în locație"
         remove: "Elimină link-ul fișierului"
         remove_confirmation: >
           Sigur doriți să deconectați fișierul de la acest pachet de lucru? Deconectarea nu afectează fișierul original și doar elimină conexiunea la acest pachet de lucru.
@@ -50,9 +57,17 @@ ro:
           one: "A creat cu succes 1 legătură de fișier."
           few: "A creat cu succes %{count} legături de fișiere."
           other: "A creat cu succes %{count} de legături de fișiere."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
+          403: >
+            Fişierul (%{fileName}) nu a putut fi încărcat din cauza restricţiilor de sistem. Vă rugăm să contactaţi administratorul pentru mai multe informaţii.
+          413: >
+            Fișierul tău (%{fileName}) este mai mare decât ce poate încărca OpenProject la %{storageType}. Îl puteţi încărca direct la %{storageType} înainte şi apoi să legaţi fişierul.
+          507: >
+            Fişierul (%{fileName}) este mai mare decât cota de stocare permisă. Contactaţi administratorul pentru a modifica această cotă.
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          A apărut o eroare la conectarea fișierului încărcat recent '%{fileName}' la pachetul de lucru %{workPackageId}.
         not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

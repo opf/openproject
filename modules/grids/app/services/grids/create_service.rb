@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Grids::CreateService < ::BaseServices::Create
+class Grids::CreateService < BaseServices::Create
   include ::Shared::ServiceContext
 
   protected

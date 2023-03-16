@@ -31,18 +31,18 @@ require 'spec_helper'
 describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
-  let(:project) { create :project, types: [type] }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, types: [type]) }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
   let(:type) do
-    create :type_with_relation_query_group,
-           relation_filter: relation_type
+    create(:type_with_relation_query_group,
+           relation_filter: relation_type)
   end
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
-           type:
+           type:)
   end
   let!(:related_work_package) do
     create(:work_package,
@@ -121,7 +121,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     let(:type) do
-      create :type_with_relation_query_group, relation_filter: relation_type
+      create(:type_with_relation_query_group, relation_filter: relation_type)
     end
     let(:query_text) { 'Embedded Table for follows'.upcase }
 
@@ -178,8 +178,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
         full_wp.ensure_page_loaded
 
         # Will first try to load the query, and then hide it.
-        expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_selector('.work-packages-embedded-view--container .op-toast.-error')
+        expect(page).not_to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).not_to have_selector('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end
@@ -188,8 +188,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_type) { :follows }
     let(:relation_target) { work_package }
     let!(:independent_work_package) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
 
     before do

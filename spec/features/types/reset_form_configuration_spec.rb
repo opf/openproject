@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Reset form configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
+  let(:project) { create(:project, types: [type]) }
   let(:form) { Components::Admin::TypeConfigurationForm.new }
   let(:dialog) { Components::ConfirmationDialog.new }
 
@@ -71,8 +71,8 @@ describe 'Reset form configuration', js: true do
       # Wait for page reload
       SeleniumHubWaiter.wait
 
-      expect(page).to have_no_selector('.group-head', text: 'NEW GROUP')
-      expect(page).to have_no_selector('.group-head', text: 'OTHER')
+      expect(page).not_to have_selector('.group-head', text: 'NEW GROUP')
+      expect(page).not_to have_selector('.group-head', text: 'OTHER')
       type.reload
 
       expect(type.custom_field_ids).to be_empty

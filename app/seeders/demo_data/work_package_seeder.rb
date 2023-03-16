@@ -83,7 +83,7 @@ module DemoData
       description = link_children description, work_package
       description = with_references description, project
 
-      work_package.update description: description
+      work_package.update(description:)
 
       work_package
     end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Attribute help texts', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -139,7 +139,7 @@ describe 'Attribute help texts', js: true do
         # Create new, status is now blocked
         page.find('.attribute-help-texts--create-button').click
         expect(page).to have_selector('#attribute_help_text_attribute_name option', text: 'Assignee')
-        expect(page).to have_no_selector('#attribute_help_text_attribute_name option', text: 'Status')
+        expect(page).not_to have_selector('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy

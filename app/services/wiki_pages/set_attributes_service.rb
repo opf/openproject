@@ -33,7 +33,7 @@
 # In the long run, those two should probably be unified on the data layer as well.
 #
 # Attributes for both the page as well as for the content are accepted.
-class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
+class WikiPages::SetAttributesService < BaseServices::SetAttributes
   include Attachments::SetReplacements
 
   private

@@ -54,7 +54,7 @@ describe Queries::UpdateContract do
     end
 
     context 'when user is someone else' do
-      let(:user) { build_stubbed :user }
+      let(:user) { build_stubbed(:user) }
       let(:permissions) { %i(save_queries) }
 
       it_behaves_like 'contract user is unauthorized'

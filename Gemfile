@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.0'
+ruby '~> 3.2.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -38,8 +38,6 @@ gem 'rails', '~> 7.0', '>= 7.0.3.1'
 gem 'responders', '~> 3.0'
 
 gem 'ffi', '~> 1.15'
-
-gem 'mail', '~> 2.8.0'
 
 gem 'rdoc', '>= 2.4.2'
 
@@ -90,7 +88,7 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 4.0.0'
+gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
 gem 'sanitize', '~> 6.0.1'
 # HTML autolinking for mails and urls (replaces autolink)
@@ -106,6 +104,8 @@ gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
 gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
+
+gem 'mail', '>= 2.8.1'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
@@ -175,7 +175,7 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
-gem 'puma', '~> 6.0'
+gem 'puma', '~> 6.1'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
@@ -195,7 +195,7 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.11.0', require: false
+gem 'ruby-progressbar', '~> 1.12.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
@@ -204,6 +204,8 @@ gem 'validate_url'
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'view_component'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.0.0'
@@ -211,7 +213,7 @@ group :test do
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.1.0'
+  gem 'test-prof', '~> 1.2.0'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
@@ -265,6 +267,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
@@ -297,7 +301,6 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.4.0'
-  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false
@@ -309,6 +312,10 @@ gem 'roar', '~> 1.2.0'
 
 # CORS for API
 gem 'rack-cors', '~> 1.1.1'
+
+# Gmail API
+gem 'google-apis-gmail_v1', require: false
+gem 'googleauth', require: false
 
 # Required for contracts
 gem 'disposable', '~> 0.6.2'

@@ -29,7 +29,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
 import { FormsModule } from '@angular/forms';
@@ -73,7 +73,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     FormsModule,
     DragDropModule,
 
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectModalModule,
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,

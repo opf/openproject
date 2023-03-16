@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe MenuItem do
   describe 'validations' do
-    let(:item) { build :menu_item }
+    let(:item) { build(:menu_item) }
 
     it 'requires a title' do
       item.title = nil
@@ -45,9 +45,9 @@ describe MenuItem do
     end
 
     describe 'scoped uniqueness of title' do
-      let!(:item) { create :menu_item }
-      let(:another_item) { build :menu_item, title: item.title }
-      let(:wiki_menu_item) { build :wiki_menu_item, title: item.title }
+      let!(:item) { create(:menu_item) }
+      let(:another_item) { build(:menu_item, title: item.title) }
+      let(:wiki_menu_item) { build(:wiki_menu_item, title: item.title) }
 
       it 'does not allow for duplicate titles' do
         expect(another_item).not_to be_valid

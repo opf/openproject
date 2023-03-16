@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TimeEntries::CreateService < ::BaseServices::Create
+class TimeEntries::CreateService < BaseServices::Create
   def after_perform(call)
     OpenProject::Notifications.send(
       OpenProject::Events::TIME_ENTRY_CREATED,

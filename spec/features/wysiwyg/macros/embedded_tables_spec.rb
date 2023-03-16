@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
-  let(:type_task) { create :type_task }
-  let(:type_bug) { create :type_bug }
+  let(:type_task) { create(:type_task) }
+  let(:type_bug) { create(:type_bug) }
   let(:project) do
     create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end
@@ -62,7 +62,7 @@ describe 'Wysiwyg embedded work package tables',
           modal.expect_open
           modal.switch_to 'Filters'
           filters.expect_filter_count 2
-          filters.add_filter_by('Type', 'is', type_task.name)
+          filters.add_filter_by('Type', 'is (OR)', type_task.name)
 
           modal.switch_to 'Columns'
           columns.assume_opened

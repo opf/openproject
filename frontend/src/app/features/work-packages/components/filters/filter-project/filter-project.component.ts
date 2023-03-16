@@ -78,7 +78,7 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
       return;
     }
 
-    if (!val) {
+    if (!val || (val && val.length === 0)) {
       this.filter.values.length = 0;
       this.filterChanged.emit(this.filter);
       return;

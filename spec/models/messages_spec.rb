@@ -50,7 +50,7 @@ describe Message do
   end
 
   describe 'with forum' do
-    shared_let(:forum) { create :forum }
+    shared_let(:forum) { create(:forum) }
     let(:message) do
       build(:message, forum:, subject: 'Test message', content: 'Test message content')
     end
@@ -71,9 +71,9 @@ describe Message do
     end
 
     context 'with previous message' do
-      let(:topic) { create :message }
+      let(:topic) { create(:message) }
       let(:reply) do
-        create :message, forum:, subject: 'Test reply', parent: topic
+        create(:message, forum:, subject: 'Test reply', parent: topic)
       end
 
       it 'replies' do
@@ -97,9 +97,9 @@ describe Message do
     end
 
     describe 'moving' do
-      let!(:forum1) { create :forum }
-      let!(:forum2) { create :forum }
-      let!(:message) { create :message, forum: forum1 }
+      let!(:forum1) { create(:forum) }
+      let!(:forum2) { create(:forum) }
+      let!(:message) { create(:message, forum: forum1) }
 
       it 'movings message should update counters' do
         expect do
@@ -136,7 +136,7 @@ describe Message do
 
     describe 'with reply set' do
       let!(:reply) do
-        create :message, forum: message.forum, parent: message
+        create(:message, forum: message.forum, parent: message)
       end
 
       it 'destroys topic' do

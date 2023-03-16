@@ -1,7 +1,7 @@
 <form
   name="sendUserInviteForm"
   (submit)="onSubmit($event)"
-  class="op-ium-summary"
+  class="op-ium-summary spot-modal"
 >
   <div class="spot-modal--header">{{text.title()}}</div>
 
@@ -48,6 +48,7 @@
         (click)="close.emit()"
       >{{ text.cancelButton }}</button>
       <button
+        type="submit"
         class="button button_no-margin -highlight spot-action-bar--action"
       >{{ text.nextButton() }}</button>
     </div>

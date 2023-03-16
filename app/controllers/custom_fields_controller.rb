@@ -51,6 +51,8 @@ class CustomFieldsController < ApplicationController
     end
   end
 
+  def edit; end
+
   def create
     call = ::CustomFields::CreateService
       .new(user: current_user)
@@ -65,8 +67,6 @@ class CustomFieldsController < ApplicationController
       render action: 'new'
     end
   end
-
-  def edit; end
 
   def update
     perform_update(get_custom_field_params)

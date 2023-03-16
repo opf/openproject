@@ -33,7 +33,7 @@ describe 'bcf export',
          with_config: { edition: 'bim' } do
   let(:status) { create(:status, name: 'New', is_default: true) }
   let(:closed_status) { create(:closed_status, name: 'Closed') }
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
 
   let!(:open_work_package) { create(:work_package, project:, subject: 'Open WP', status:) }
   let!(:closed_work_package) { create(:work_package, project:, subject: 'Closed WP', status: closed_status) }
@@ -51,9 +51,9 @@ describe 'bcf export',
   end
 
   let(:current_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
 
   let!(:model) do

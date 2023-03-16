@@ -4,7 +4,6 @@
 ></div>
 <op-ium-project-selection
   *ngIf="!loading && step === Steps.ProjectSelection"
-  class="spot-modal"
   [project]="project"
   [type]="type"
   (save)="onProjectSelectionSave($event)"
@@ -17,7 +16,6 @@
 
 <op-ium-principal
   *ngIf="!loading && step === Steps.Principal"
-  class="spot-modal"
   [project]="project"
   [roleData]="role"
   [messageData]="message"
@@ -34,7 +32,6 @@
 
 <op-ium-summary
   *ngIf="!loading && step === Steps.Summary"
-  class="spot-modal"
   [project]="project"
   [principalData]="principalData"
   [type]="type"

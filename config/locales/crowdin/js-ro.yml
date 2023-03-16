@@ -251,6 +251,20 @@ ro:
             Ediția OpenProject Enterprise se bazează pe ediția Community. Aceasta include add-on-uri Enterprise și asistență profesională, destinate în principal organizațiilor cu peste 10 utilizatori care gestionează proiecte esențiale pentru afaceri cu OpenProject.
           unlimited: "Nelimitat"
           you_contribute: "Dezvoltatorii trebuie să își plătească și ei facturile. Prin actualizarea la Enterprise edition, veți sprijini acest efort al comunității open source și veți contribui la dezvoltarea, întreținerea și îmbunătățirea continuă a acestuia."
+      working_days:
+        calendar:
+          empty_state_header: "Zile nelucrătoare"
+          empty_state_description: 'Nu sunt definite zile non-lucrătoare specifice pentru acest an. Faceţi clic pe "+ zi nelucrătoare" de mai jos pentru a adăuga o dată.'
+          new_date: '(nou)'
+        add_non_working_day: "Zi nelucrătoare"
+        already_added_error: "O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică."
+        change_button: "Salvează și reprogramează"
+        change_title: "Modificarea zilelor lucrătoare"
+        removed_title: "Veţi elimina următoarele zile din lista de zile nelucrătoare:"
+        change_description: "Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz."
+        warning: >
+          Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate.
+          Ești sigur că vrei să continui?
     custom_actions:
       date:
         specific: 'pe'
@@ -279,8 +293,6 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Filtrele avansate vă permit să filtrați, de asemenea, numele fișierelor și conținutul atașamentelor pachetelor de lucru. Vă rugăm să treceți la un plan plătit pentru a utiliza acest supliment."
-      upsale_link: 'Ediția Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -299,15 +311,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Versiunea conține diverse funcții noi și îmbunătățiri: <br> <ul class="%{list_styling_class}"> <li>Activează alertele cu privire la data notificării pentru datele viitoare și sarcinile restante.</li> <li>Eliberăm autentificarea cu doi factori (2FA) pentru ediția Comunității.</li> <li>Opțiunea de afișare a săptămânii de lucru este acum adăugată și planificatorului de echipă.</li> <li> Listează până la 3 persoane pe cardul de notificare atunci când mai multe persoane au fost implicate în schimbări.</li> </ul>
+                Versiunea conţine diverse caracteristici noi şi îmbunătăţiri: <br> <ul class="%{list_styling_class}"> <li>Încărcaţi şi conectaţi fişiere din pachetele de lucru la spaţiul de stocare al fişierului Nextcloud.</li> <li>Monitorizarea schimbărilor de proiect în urmărirea activității proiectului.</li> <li>Adaugă sărbători publice pentru o anumită instanță (zile nelucrătoare).</li> <li>Proiecte arhivate altele decât administratorii.</li> <li>Un filtru nou implicit pentru pachetele de lucru restante.</li> </ul>
     label_activate: "Activare"
     label_assignee: 'Executant'
     label_add_column_after: "Adauga o coloana dupa"
@@ -464,7 +472,7 @@ ro:
     label_watch_work_package: "Urmăriți pachetul de lucru"
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
-    label_work_package_details_you_are_here: "Esti în secțiunea %{tab} din %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
@@ -477,7 +485,7 @@ ro:
     label_drop_files: "Aruncați fișierele aici pentru a atașa fișiere."
     label_drop_or_click_files: "Lăsați fișierele aici pentru a atașa fișiere."
     label_drop_folders_hint: Nu puteți încărca dosare ca atașament. Vă rugăm să selectați fișiere individuale.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Atașare fișiere"
     label_formattable_attachment_hint: "Atașați și legați fișiere prin plasarea în acest câmp sau prin lipirea din clipboard."
     label_remove_file: "Ştergere %{fileName}"
     label_remove_watcher: "Eliminare observator %{name}"
@@ -579,9 +587,9 @@ ro:
         text_update_date: "%{date} de"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
-          no_notification: "Se pare că toţi sunteţi prinşi."
-          no_notification_with_current_project_filter: "Se pare că toți sunteți prinși de proiectul selectat."
-          no_notification_with_current_filter: "Se pare că toți sunteți prinși pentru filtrul %{filter}."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: 'Există notificări noi.'
@@ -657,7 +665,7 @@ ro:
     project:
       required_outside_context: >
         Vă rugăm să alegeți un proiect în care să creați pachetul de lucru pentru a vedea toate atributele. Puteți selecta numai proiectele care au tipul de mai sus activat.
-      details_activity: 'Project details activity'
+      details_activity: 'Activitate detalii proiect'
       context: 'Contextul proiectului'
       work_package_belongs_to: 'Acest pachet de lucru face parte din proiectul %{projectname}.'
       click_to_switch_context: 'Deschide pachetul de lucru din acel proiect.'
@@ -993,7 +1001,7 @@ ro:
         move_column_left: "Mutați coloana la stânga"
         move_column_right: "Mutați coloana la dreapta"
         hide_column: "Ascundere coloana"
-        insert_columns: "Inserare coloane..."
+        insert_columns: "Insert columns"
         filters: "Filtre"
         display_sums: "Afişare totaluri"
         confirm_edit_cancel: "Sunteți sigur că doriți să anulați editarea numelui acestei vizualizări? Titlul va fi setat la valoarea anterioară."
@@ -1020,7 +1028,7 @@ ro:
         button: 'Configurați acest tabel al pachetului de lucru'
         choose_display_mode: 'Afișare pachete de lucru din subproiecte pe pagina proiectului principal'
         modal_title: 'Configurația tabelului pachetului de lucru'
-        embedded_tab_disabled: "Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editați."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "implicit"
         display_settings: 'Setări afișare'
         default_mode: "Listă"
@@ -1056,26 +1064,25 @@ ro:
         relations: Relații
         watchers: Observatori
         files: Fişiere
-        files_tab_migration_help: 'Acum puteți atașa fișiere la pachetele de lucru prin intermediul noii file:'
       time_relative:
         days: "zile"
         weeks: "săptămâni"
         months: "luni"
     toolbar:
       settings:
-        configure_view: "Configurare"
-        columns: "Coloane..."
-        sort_by: "Sortare după..."
-        group_by: "Grupare după..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Afişare totaluri"
         display_hierarchy: "Afișați ierarhia"
         hide_hierarchy: "Ascundeți ierarhia"
         hide_sums: "Ascundere totaluri"
         save: "Salvare"
-        save_as: "Salvare ca ..."
-        export: "Exportare ..."
-        visibility_settings: "Setări Vizibilitate Profil"
-        page_settings: "Redenumire"
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Ștergere"
       filter: "Filtrare"
       unselected_title: "Pachet de lucru"
@@ -1254,4 +1261,5 @@ ro:
       filter_chip:
         remove: 'Eliminare'
       drop_modal:
+        focus_grab: 'Aceasta este o ancoră de focalizare pentru modalități. Apăsați shift+tab pentru a reveni la elementul de declanșare modal.'
         Close: 'Închide'

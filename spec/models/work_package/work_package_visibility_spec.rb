@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'WorkPackage-Visibility' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:anonymous) { create(:anonymous) }
   let(:user) { create(:user) }
   let(:public_project) { create(:project, public: true) }

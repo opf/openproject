@@ -85,8 +85,8 @@ describe 'OAuth applications management', js: true do
     SeleniumHubWaiter.wait
     find('td a', text: 'My API application').click
 
-    expect(page).to have_no_selector('.attributes-key-value--key', text: 'Client secret')
-    expect(page).to have_no_selector('.attributes-key-value--value code')
+    expect(page).not_to have_selector('.attributes-key-value--key', text: 'Client secret')
+    expect(page).not_to have_selector('.attributes-key-value--value code')
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
 

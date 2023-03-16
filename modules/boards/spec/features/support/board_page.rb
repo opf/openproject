@@ -83,7 +83,7 @@ module Pages
       # Add item in dropdown
       page.find('.menu-item', text: 'Add new card').click
 
-      subject = page.find('#wp-new-inline-edit--field-subject')
+      subject = page.find_by_id('wp-new-inline-edit--field-subject')
       subject.set card_title
       subject.send_keys :enter
 
@@ -126,7 +126,7 @@ module Pages
                                             query: work_package.subject,
                                             results_selector: '.work-packages-partitioned-query-space--container')
 
-      expect(target_dropdown).to have_no_selector('.ui-menu-item', text: work_package.subject)
+      expect(target_dropdown).not_to have_selector('.ui-menu-item', text: work_package.subject)
     end
 
     ##
@@ -202,7 +202,7 @@ module Pages
     end
 
     def expect_not_changed
-      expect(page).to have_no_selector('.editable-toolbar-title--save')
+      expect(page).not_to have_selector('.editable-toolbar-title--save')
     end
 
     def expect_list(name)
@@ -214,7 +214,7 @@ module Pages
     end
 
     def expect_empty
-      expect(page).to have_no_selector('.boards-list--item', wait: 10)
+      expect(page).not_to have_selector('.boards-list--item', wait: 10)
     end
 
     def remove_list(name)
@@ -223,7 +223,7 @@ module Pages
       accept_alert_dialog!
       expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
-      expect(page).to have_no_selector list_selector(name)
+      expect(page).not_to have_selector list_selector(name)
     end
 
     def click_list_dropdown(list_name, action)

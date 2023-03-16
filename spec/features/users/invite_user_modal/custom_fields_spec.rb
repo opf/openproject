@@ -29,32 +29,32 @@
 require 'spec_helper'
 
 describe 'Invite user modal custom fields', js: true do
-  shared_let(:project) { create :project }
+  shared_let(:project) { create(:project) }
 
   let(:permissions) { %i[view_project manage_members] }
   let(:global_permissions) { %i[manage_user] }
-  let(:principal) { build :invited_user }
+  let(:principal) { build(:invited_user) }
   let(:modal) do
     Components::Users::InviteUserModal.new project:,
-                                             principal:,
-                                             role:
+                                           principal:,
+                                           role:
   end
   let!(:role) do
-    create :role,
+    create(:role,
            name: 'Member',
-           permissions:
+           permissions:)
   end
 
-  let!(:boolean_cf) { create :boolean_user_custom_field, name: 'bool', is_required: true }
-  let!(:integer_cf) { create :integer_user_custom_field, name: 'int', is_required: true }
-  let!(:text_cf) { create :text_user_custom_field, name: 'Text', is_required: true }
-  let!(:string_cf) { create :string_user_custom_field, name: 'String', is_required: true }
+  let!(:boolean_cf) { create(:boolean_user_custom_field, name: 'bool', is_required: true) }
+  let!(:integer_cf) { create(:integer_user_custom_field, name: 'int', is_required: true) }
+  let!(:text_cf) { create(:text_user_custom_field, name: 'Text', is_required: true) }
+  let!(:string_cf) { create(:string_user_custom_field, name: 'String', is_required: true) }
   # TODO float not supported yet
   # let!(:float_cf) { create :float_user_custom_field, name: 'Float', is_required: true }
-  let!(:list_cf) { create :list_user_custom_field, name: 'List', is_required: true }
-  let!(:list_multi_cf) { create :list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true }
+  let!(:list_cf) { create(:list_user_custom_field, name: 'List', is_required: true) }
+  let!(:list_multi_cf) { create(:list_user_custom_field, name: 'Multi list', multi_value: true, is_required: true) }
 
-  let!(:non_req_cf) { create :string_user_custom_field, name: 'non req', is_required: false }
+  let!(:non_req_cf) { create(:string_user_custom_field, name: 'non req', is_required: false) }
 
   let(:boolean_field) { FormFields::InputFormField.new boolean_cf }
   let(:integer_field) { FormFields::InputFormField.new integer_cf }
@@ -68,11 +68,11 @@ describe 'Invite user modal custom fields', js: true do
   let(:quick_add) { Components::QuickAddMenu.new }
 
   current_user do
-    create :user,
+    create(:user,
            :skip_validations,
            member_in_project: project,
            member_through_role: role,
-           global_permissions:
+           global_permissions:)
   end
 
   it 'shows the required fields during the principal step' do
@@ -101,7 +101,7 @@ describe 'Invite user modal custom fields', js: true do
       expect(page).to have_text "Multi list can't be blank."
 
       # Does not show the non req field
-      expect(page).to have_no_text non_req_cf.name
+      expect(page).not_to have_text non_req_cf.name
     end
 
     # Fill all fields

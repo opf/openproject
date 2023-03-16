@@ -47,7 +47,7 @@ import { WorkPackageCommentFieldComponent } from 'core-app/features/work-package
 import { ProjectEditFieldComponent } from './field-types/project-edit-field.component';
 import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { UserEditFieldComponent } from './field-types/user-edit-field.component';
-import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.compontent';
+import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return ():void => {

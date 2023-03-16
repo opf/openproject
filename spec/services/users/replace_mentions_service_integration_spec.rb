@@ -34,7 +34,7 @@ describe Users::ReplaceMentionsService, 'integration' do
   shared_let(:other_user) { create(:user, firstname: 'Frank', lastname: 'Herbert') }
   shared_let(:user) { create(:user, firstname: 'Isaac', lastname: 'Asimov') }
   shared_let(:group) { create(:group, lastname: 'Sci-Fi') }
-  shared_let(:to_user) { create :user, firstname: 'Philip K.', lastname: 'Dick' }
+  shared_let(:to_user) { create(:user, firstname: 'Philip K.', lastname: 'Dick') }
 
   let(:instance) do
     described_class.new
@@ -342,7 +342,9 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for journal notes' do
-    it_behaves_like 'rewritten mention', :journal, :notes
+    it_behaves_like 'rewritten mention', :journal, :notes do
+      let(:additional_properties) { { data_id: 5, data_type: 'Foobar' } }
+    end
   end
 
   context 'for comment comments' do
@@ -357,7 +359,12 @@ describe Users::ReplaceMentionsService, 'integration' do
 
   context 'for customizable_journal value' do
     it_behaves_like 'rewritten mention', :journal_customizable_journal, :value do
-      let(:additional_properties) { { journal: create(:journal), custom_field: create(:text_wp_custom_field) } }
+      let(:additional_properties) do
+        {
+          journal: create(:journal, data_id: 5, data_type: 'Foobar'),
+          custom_field: create(:text_wp_custom_field)
+        }
+      end
     end
   end
 

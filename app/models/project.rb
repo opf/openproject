@@ -79,11 +79,13 @@ class Project < ApplicationRecord
   has_many :changesets, through: :repository
   has_one :wiki, dependent: :destroy
   # Custom field for the project's work_packages
-  has_and_belongs_to_many :work_package_custom_fields,
-                          -> { order("#{CustomField.table_name}.position") },
-                          class_name: 'WorkPackageCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
-                          association_foreign_key: 'custom_field_id'
+  has_many :custom_fields_projects,
+           dependent: :destroy
+  has_many :work_package_custom_fields,
+           -> { order("#{CustomField.table_name}.position") },
+           through: :custom_fields_projects,
+           class_name: 'WorkPackageCustomField',
+           source: :custom_field
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
@@ -103,6 +105,15 @@ class Project < ApplicationRecord
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_at
+
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:subproject_named_association, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
 
@@ -210,8 +221,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages

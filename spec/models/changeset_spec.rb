@@ -64,7 +64,7 @@ describe Changeset do
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
-        assert_equal 'UTF-8', changeset.comments.encoding.to_s
+        expect(changeset.comments.encoding.to_s).to eq('UTF-8')
       end
     end
 
@@ -74,7 +74,7 @@ describe Changeset do
       expect(changeset.comments).to eq ''
 
       if changeset.comments.respond_to?(:force_encoding)
-        assert_equal 'UTF-8', changeset.comments.encoding.to_s
+        expect(changeset.comments.encoding.to_s).to eq('UTF-8')
       end
     end
   end
@@ -100,44 +100,28 @@ describe Changeset do
   end
 
   describe 'mapping' do
-    let!(:user) { create :user, login: 'jsmith', mail: 'jsmith@somenet.foo' }
+    let!(:user) { create(:user, login: 'jsmith', mail: 'jsmith@somenet.foo') }
     let!(:repository) { create(:repository_subversion) }
 
-    it 'manuals user mapping' do
-      c = Changeset.create! repository: repository,
-                            committer: 'foo',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by foo.'
+    it 'supports manual user mapping with repository.committer_ids' do
+      c = create(:changeset, repository:, committer: 'foo')
 
       expect(c.user).to be_nil
       repository.committer_ids = { 'foo' => user.id }
       expect(c.reload.user).to eq user
 
       # committer is now mapped
-      c = Changeset.create! repository: repository,
-                            committer: 'foo',
-                            committed_on: Time.now,
-                            revision: 101,
-                            comments: 'Another commit by foo.'
+      c = create(:changeset, repository:, committer: 'foo')
       expect(c.user).to eq user
     end
 
-    it 'autoes user mapping by username' do
-      c = Changeset.create! repository: repository,
-                            committer: 'jsmith',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by john.'
+    it 'maps user automatically when username matches' do
+      c = create(:changeset, repository:, committer: user.login)
       expect(c.user).to eq user
     end
 
-    it 'autoes user mapping by email' do
-      c = Changeset.create! repository: repository,
-                            committer: 'john <jsmith@somenet.foo>',
-                            committed_on: Time.now,
-                            revision: 100,
-                            comments: 'Committed by john.'
+    it 'maps user automatically when email matches' do
+      c = create(:changeset, repository:, committer: "john <#{user.mail}>")
 
       expect(c.user).to eq user
     end
@@ -150,18 +134,18 @@ describe Changeset do
              commit_fix_keywords: 'fixes , closes',
              default_language: 'en'
            } do
-    let!(:user) { create :admin, login: 'dlopper' }
-    let!(:open_status) { create :status }
-    let!(:closed_status) { create :closed_status }
+    let!(:user) { create(:admin, login: 'dlopper') }
+    let!(:open_status) { create(:status) }
+    let!(:closed_status) { create(:closed_status) }
 
-    let!(:other_work_package) { create :work_package, status: open_status }
+    let!(:other_work_package) { create(:work_package, status: open_status) }
     let(:comments) { "Some fix made, fixes ##{work_package.id} and fixes ##{other_work_package.id}" }
 
     with_virtual_subversion_repository do
       let!(:work_package) do
-        create :work_package,
+        create(:work_package,
                project: repository.project,
-               status: open_status
+               status: open_status)
       end
       let(:changeset) do
         create(:changeset,
@@ -213,7 +197,7 @@ describe Changeset do
     end
 
     describe 'with timelogs' do
-      let!(:activity) { create :activity, is_default: true }
+      let!(:activity) { create(:activity, is_default: true) }
 
       before do
         repository.project.enabled_module_names += ['costs']
@@ -239,21 +223,23 @@ describe Changeset do
           '0,75' => 0.75,
           '1,25h' => 1.25
         }.each do |syntax, expected_hours|
-          c = Changeset.new repository: repository,
-                            committed_on: 24.hours.ago,
-                            comments: "Worked on this work_package ##{work_package.id} @#{syntax}",
-                            revision: '520',
-                            user: user
+          c = build(:changeset,
+                    repository:,
+                    committed_on: 24.hours.ago,
+                    commit_date: Date.yesterday,
+                    comments: "Worked on this work_package ##{work_package.id} @#{syntax}",
+                    revision: '520',
+                    user:)
 
           expect { c.scan_comment_for_work_package_ids }
-            .to change { TimeEntry.count }.by(1)
+            .to change(TimeEntry, :count).by(1)
 
           expect(c.work_package_ids).to eq [work_package.id]
 
           time = TimeEntry.order(Arel.sql('id DESC')).first
-          assert_equal work_package.id, time.work_package_id
-          assert_equal work_package.project_id, time.project_id
-          assert_equal user.id, time.user_id
+          expect(work_package.id).to eq(time.work_package_id)
+          expect(work_package.project_id).to eq(time.project_id)
+          expect(user.id).to eq(time.user_id)
 
           expect(time.hours).to eq expected_hours
           expect(time.spent_on).to eq Date.yesterday
@@ -264,7 +250,7 @@ describe Changeset do
       end
 
       context 'with a second work package' do
-        let!(:work_package2) { create :work_package, project: repository.project, status: open_status }
+        let!(:work_package2) { create(:work_package, project: repository.project, status: open_status) }
 
         it 'refs keywords closing with timelog' do
           allow(Setting).to receive(:commit_fix_status_id).and_return closed_status.id
@@ -272,14 +258,14 @@ describe Changeset do
           allow(Setting).to receive(:commit_fix_keywords).and_return 'fixes , closes'
           allow(Setting).to receive(:commit_logtime_enabled?).and_return true
 
-          c = Changeset.new repository: repository,
-                            committed_on: Time.now,
-                            comments: "This is a comment. Fixes ##{work_package.id} @4.5, ##{work_package2.id} @1",
-                            revision: '520',
-                            user: user
+          c = build(:changeset,
+                    repository:,
+                    comments: "This is a comment. Fixes ##{work_package.id} @4.5, ##{work_package2.id} @1",
+                    revision: '520',
+                    user:)
 
           expect { c.scan_comment_for_work_package_ids }
-            .to change { TimeEntry.count }.by(2)
+            .to change(TimeEntry, :count).by(2)
 
           expect(c.work_package_ids).to match_array [work_package.id, work_package2.id]
 
@@ -319,8 +305,8 @@ describe Changeset do
     end
 
     describe 'with work package in parent project' do
-      let(:parent) { create :project }
-      let!(:work_package) { create :work_package, project: parent, status: open_status }
+      let(:parent) { create(:project) }
+      let!(:work_package) { create(:work_package, project: parent, status: open_status) }
 
       before do
         repository.project.parent = parent
@@ -344,8 +330,8 @@ describe Changeset do
     end
 
     describe 'with work package in sub project' do
-      let(:sub) { create :project }
-      let!(:work_package) { create :work_package, project: sub, status: open_status }
+      let(:sub) { create(:project) }
+      let!(:work_package) { create(:work_package, project: sub, status: open_status) }
 
       before do
         sub.parent = repository.project

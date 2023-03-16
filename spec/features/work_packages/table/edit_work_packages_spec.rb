@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
-                           edit_work_packages]
+                           edit_work_packages])
   end
   let(:manager) do
-    create :user,
+    create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: manager_role
+           member_through_role: manager_role)
   end
-  let(:type) { create :type }
-  let(:status1) { create :status }
-  let(:status2) { create :status }
+  let(:type) { create(:type) }
+  let(:status1) { create(:status) }
+  let(:status2) { create(:status) }
 
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
@@ -29,14 +29,14 @@ describe 'Inline editing work packages', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status1,
            new_status: status2,
-           role: manager_role
+           role: manager_role)
   end
-  let(:version) { create :version, project: }
-  let(:category) { create :category, project: }
+  let(:version) { create(:version, project:) }
+  let(:category) { create(:category, project:) }
 
   before do
     login_as(manager)

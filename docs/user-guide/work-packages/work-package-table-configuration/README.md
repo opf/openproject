@@ -110,7 +110,7 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
-### Advanced filters (Enterprise add-on)
+### Advanced filters
 
 With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
 

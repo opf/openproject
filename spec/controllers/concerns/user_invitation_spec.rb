@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe UserInvitation do
   describe '.reinvite_user' do
-    let(:user) { create :invited_user }
-    let!(:token) { create :invitation_token, user: }
+    let(:user) { create(:invited_user) }
+    let!(:token) { create(:invitation_token, user:) }
 
     it 'notifies listeners of the re-invite' do
       expect(OpenProject::Notifications).to receive(:send) do |event, _new_token|

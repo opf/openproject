@@ -25,7 +25,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 
 import { Injector, NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
 import { GitHubTabComponent } from './github-tab/github-tab.component';
@@ -64,7 +64,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
 
 @NgModule({
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectTabsModule,
   ],
   providers: [

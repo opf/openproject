@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::DeleteService < ::BaseServices::Delete
+class Members::DeleteService < BaseServices::Delete
   include Members::Concerns::CleanedUp
 
   protected

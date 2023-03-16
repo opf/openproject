@@ -164,7 +164,8 @@ class BaseTypeService
   def set_active_custom_fields
     new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
     type.custom_field_ids = active_custom_field_ids
-    set_active_custom_fields_for_projects(type.projects, new_cf_ids_to_add)
+    set_active_custom_fields_for_projects(type.projects,
+                                          new_cf_ids_to_add)
   end
 
   def active_custom_field_ids
@@ -183,7 +184,14 @@ class BaseTypeService
   end
 
   def set_active_custom_fields_for_projects(projects, custom_field_ids)
-    projects.each { |p| p.work_package_custom_field_ids |= custom_field_ids }
+    values = projects
+               .to_a
+               .product(custom_field_ids)
+               .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
+
+    return if values.empty?
+
+    CustomFieldsProject.insert_all(values)
   end
 
   def set_active_custom_fields_for_project_ids(project_ids)

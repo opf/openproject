@@ -2,11 +2,11 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../shared_examples')
 
 describe User do
-  let(:user) { build :user }
+  let(:user) { build(:user) }
 
   include_examples "there are users with and without avatars"
 
-  specify { expect(user.attachments).to all be_a_kind_of Attachment }
+  specify { expect(user.attachments).to all be_a Attachment }
 
   describe "#local_avatar_attachment" do
     subject { user.local_avatar_attachment }
@@ -14,7 +14,7 @@ describe User do
     context "WHEN user has an avatar" do
       let(:user) { user_with_avatar }
 
-      it { is_expected.to be_a_kind_of Attachment }
+      it { is_expected.to be_a Attachment }
     end
 
     context "WHEN user has no avatar" do

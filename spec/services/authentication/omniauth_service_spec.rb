@@ -87,7 +87,7 @@ describe Authentication::OmniauthService do
     let(:call) { instance.call }
 
     context 'with an active found user' do
-      let(:user) { build_stubbed :user }
+      let(:user) { build_stubbed(:user) }
 
       before do
         expect(instance).to receive(:find_existing_user).and_return(user)
@@ -131,7 +131,7 @@ describe Authentication::OmniauthService do
 
     context 'with an active user remapped',
             with_settings: { oauth_allow_remapping_of_existing_users?: true } do
-      let(:user) { build_stubbed :user, identity_url: 'foo' }
+      let(:user) { build_stubbed(:user, identity_url: 'foo') }
 
       before do
         # Regular find

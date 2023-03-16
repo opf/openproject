@@ -336,7 +336,7 @@ pt:
   wiki:
     page_not_editable_index: A página solicitada (ainda) não existe. Você foi redirecionado para o índice de todas as páginas wiki.
     no_results_title_text: Atualmente, não há páginas wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Isto imprimirá o conteúdo desta página wiki sem nenhuma barra de navegação.
     index:
       no_results_content_text: Adicionar uma nova página wiki
   work_flows:
@@ -347,6 +347,8 @@ pt:
       one: 'Um pacote de trabalho descendente'
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
+      copy_failed: "Os pacotes de trabalho não puderam ser copiados."
+      move_failed: "Os pacotes de trabalho não puderam ser movidos."
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
       none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
@@ -375,7 +377,7 @@ pt:
   account:
     delete: "Excluir conta"
     delete_confirmation: "Tem certeza que deseja excluir a conta?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "A conta foi bloqueada e sua exclusão foi agendada. Observe que este processo ocorre em segundo plano. Pode levar alguns minutos até que o usuário seja totalmente excluído."
     deletion_info:
       data_consequences:
         other: "Os dados que o usuário criou (ex.: e-mail, preferências, pacotes de trabalho, páginas wiki) serão excluídos na medida do possível. Note, porém, que dados como pacotes de trabalho e páginas wiki não podem ser excluídos sem impactar o trabalho dos demais usuários. Estes dados serão reatribuídos a uma conta chamada \"Usuário excluído\". Como os dados de todas as contas excluídas serão reatribuídos a esta conta, não será possível distinguir os dados que o usuário criou dos dados de outra conta excluída."
@@ -470,14 +472,24 @@ pt:
       member:
         roles: "Papéis"
       project:
+        active_value:
+          true: "Desarquivada"
+          false: "arquivado"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
+        public_value:
+          title: "Visibilidade"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
+        templated: "Projeto modelo"
+        templated_value:
+          true: "marcado como modelo"
+          false: "não marcado como modelo"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
-        templated: 'Projeto modelo'
       projects/status:
         code: 'Situação'
         explanation: 'Descrição da situação'
@@ -692,7 +704,7 @@ pt:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Já existe um dia não útil para %{value}"
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -705,7 +717,7 @@ pt:
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Você não possui as permissões necessárias para arquivar todos os subprojetos. Entre em contato com um administrador"
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -899,8 +911,22 @@ pt:
     header_invalid_fields: "Existem problemas com os seguintes campos:"
     field_erroneous_label: "Este campo é inválido: %{full_errors}\nPor favor, insira um valor válido."
   activity:
-    created: "Criado: %{title}"
-    updated: "Atualizado: %{title}"
+    item:
+      created_by_on: "criado por %{user} em %{datetime}"
+      created_on: "criado em %{datetime}"
+      updated_by_on: "atualizado por %{user} em %{datetime}"
+      updated_on: "atualizado em %{datetime}"
+      parent_without_of: "Subprojeto"
+      parent_no_longer: "Não é mais um subprojeto de"
+    filter:
+      changeset: "Cj de alterações"
+      message: "Fóruns"
+      news: "Notícias"
+      project_attribute: "Atributos do projeto"
+      subproject: "Incur subprojetos"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Ativo"
@@ -1036,6 +1062,7 @@ pt:
   button_reset: "Reiniciar"
   button_rollback: "Retornar para esta versão"
   button_save: "Salvar"
+  button_apply_changes: "Apply changes"
   button_save_back: "Salvar e voltar"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1344,6 +1371,7 @@ pt:
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
@@ -1369,7 +1397,6 @@ pt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Português (Brasil)"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "não"
   general_text_yes: "sim"
@@ -1755,6 +1782,10 @@ pt:
   label_not_contains: "não contém"
   label_not_equals: "não é"
   label_on: "ligado"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -2656,12 +2687,13 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} excluído (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2953,10 +2985,12 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Defina os dias úteis da semana</b><br/> Dias não-úteis serão ignorados ao planejar os pacotes de trabalho e são excluídos ao calcular a duração. Esta opção pode ser anulada em um nível de pacote de trabalho.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Alterar dias úteis"
     warning: >
-      Alterar que dias da semana são considerados dias úteis pode afetar os dias de início e conclusão de todos os pacotes de trabalho em todos os projetos nesta instância.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:

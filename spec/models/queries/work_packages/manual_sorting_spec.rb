@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe Query, "manual sorting " do
-  shared_let(:user) { create :admin }
-  shared_let(:project) { create :project }
-  shared_let(:query) { create :query, user:, project: }
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project) }
+  shared_let(:query) { create(:query, user:, project:) }
   shared_let(:wp_1) do
     User.execute_as user do
-      create :work_package, project:
+      create(:work_package, project:)
     end
   end
   shared_let(:wp_2) do
     User.execute_as user do
-      create :work_package, project:
+      create(:work_package, project:)
     end
   end
 
@@ -66,7 +66,7 @@ describe Query, "manual sorting " do
   end
 
   describe 'with a second query on the same work package' do
-    let(:query2) { create :query, user:, project: }
+    let(:query2) { create(:query, user:, project:) }
 
     before do
       OrderedWorkPackage.create(query:, work_package: wp_1, position: 0)
