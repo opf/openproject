@@ -22,7 +22,7 @@ The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses th
 IMAP:
 
 ```bash
-openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
+openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true ssl_verification=true allow_override=type,project project=test_project
 ```
 
 Gmail:
@@ -35,7 +35,8 @@ openproject run bundle exec rake redmine:email:receive_gmail credentials='/path/
 
 The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/prod/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
 
-- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
+- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL (defaults to true)
+- `IMAP_SSL_VERIFICATION` set to true or false depending on whether the SSL certificate should be verified (defaults to true)
 - `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
 - `IMAP_USERNAME` and `IMAP_PASSWORD`
 
