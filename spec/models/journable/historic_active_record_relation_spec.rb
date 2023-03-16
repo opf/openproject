@@ -431,6 +431,27 @@ describe Journable::HistoricActiveRecordRelation do
         expect(subject).to include work_package
       end
     end
+
+    describe "using an initial scope with a include(:project)" do
+      # This is used in a work package query with timestamps.
+      let(:relation) do
+        WorkPackage
+          .includes(:project)
+          .where(projects: { id: project.id })
+      end
+
+      it "joins the projects table" do
+        sql = subject.to_sql.tr('"', '')
+        expect(sql).to include \
+          "LEFT OUTER JOIN projects ON projects.id = journables.project_id"
+        expect(sql).to include \
+          "WHERE projects.id = #{project.id}"
+      end
+
+      it "returns the requested work package" do
+        expect(subject).to include work_package
+      end
+    end
   end
 
   describe "#first" do
