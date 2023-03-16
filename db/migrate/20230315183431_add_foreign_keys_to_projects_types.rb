@@ -25,8 +25,18 @@
 #++
 
 class AddForeignKeysToProjectsTypes < ActiveRecord::Migration[7.0]
-  def change
+  def up
+    execute <<~SQL.squish
+      DELETE FROM projects_types
+        WHERE type_id NOT IN (SELECT id FROM types) OR
+              project_id NOT IN (SELECT id FROM projects)
+    SQL
     add_foreign_key :projects_types, :types, on_delete: :cascade, on_update: :cascade
     add_foreign_key :projects_types, :projects, on_delete: :cascade, on_update: :cascade
+  end
+
+  def down
+    remove_foreign_key :projects_types, :types
+    remove_foreign_key :projects_types, :projects
   end
 end
