@@ -1,4 +1,3 @@
-#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,25 +25,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class DeleteProjectJob < UserJob
-    queue_with_priority :below_normal
-    include OpenProject::LocaleHelper
-
-    attr_reader :project
-
-    def execute(project:)
-      @project = project
-
-      service_call = ::Projects::DeleteService.new(user:, model: project).call
-
-      if service_call.failure?
-        OpenProject.logger.error("Failed to delete project #{project} in background job: " \
-                                 "#{service_call.message}")
-      end
-    rescue StandardError => e
-      OpenProject.logger.error('Encountered an error when trying to delete project ' \
-                               "'#{project}' : #{e.message} #{e.backtrace.join("\n")}")
-    end
+class AddForeignKeysToWorkflows < ActiveRecord::Migration[7.0]
+  def change
+    add_foreign_key :workflows, :types, on_delete: :cascade, on_update: :cascade
+    add_foreign_key :workflows, :statuses, column: 'old_status_id', on_delete: :cascade, on_update: :cascade
+    add_foreign_key :workflows, :statuses, column: 'new_status_id', on_delete: :cascade, on_update: :cascade
+    add_foreign_key :workflows, :roles, on_delete: :cascade, on_update: :cascade
   end
 end

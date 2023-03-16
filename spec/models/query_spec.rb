@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Query do
   let(:query) { build(:query) }
-  let(:project) { build_stubbed(:project) }
+  let(:project) { create(:project) }
   let(:relation_columns_allowed) { true }
   let(:conditional_highlighting_allowed) { true }
 
@@ -233,7 +233,7 @@ describe Query do
     end
 
     context 'results caching' do
-      let(:project2) { build_stubbed(:project) }
+      let(:project2) { create(:project) }
 
       it 'does not call the db twice' do
         query.project = project
