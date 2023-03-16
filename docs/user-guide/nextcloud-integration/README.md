@@ -69,7 +69,6 @@ The following video gives you a short overview of how to use this integration:
 In addition to listing files attached to a work package, the **Files** tab now also shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
 
-> IMG: Update images
 
 ![Empty_status_files](1_0_00-No_files_linked.png)
 
