@@ -3,11 +3,11 @@ require 'features/page_objects/notification'
 
 describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
-    create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
+    create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
 
   let(:dev) do
-    create :user, member_in_project: project, member_through_role: role
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:project) { create(:project) }
@@ -63,7 +63,7 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
       expect(page).not_to have_selector('op-toasters-upload-progress')
       expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)

@@ -5,7 +5,7 @@ class SpentTimeEditField < EditField
     if visible
       expect(page).to have_selector("#{@selector} #{display_selector} #{icon}")
     else
-      expect(page).to have_no_selector("#{@selector} #{display_selector} #{icon}")
+      expect(page).not_to have_selector("#{@selector} #{display_selector} #{icon}")
     end
   end
 

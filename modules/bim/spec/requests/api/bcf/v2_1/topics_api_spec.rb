@@ -330,8 +330,7 @@ describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
   shared_examples_for 'topics api write invalid parameters errors' do
     context 'without a title' do
       let(:params) do
-        {
-        }
+        {}
       end
 
       it_behaves_like 'bcf api unprocessable response' do
@@ -642,7 +641,7 @@ describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
 
     context 'with an existing work package' do
       let!(:existing_work_package) do
-        create :work_package, author: assignee, assigned_to: assignee, project:
+        create(:work_package, author: assignee, assigned_to: assignee, project:)
       end
 
       let(:params) do
@@ -701,7 +700,7 @@ describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
       end
 
       context 'with a work package in another project' do
-        let!(:foreign_work_package) { create :work_package }
+        let!(:foreign_work_package) { create(:work_package) }
 
         let(:params) do
           {

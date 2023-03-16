@@ -31,7 +31,7 @@ require 'spec_helper'
 describe Type do
   let(:type) { build(:type) }
 
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     # Clear up the request store cache for all_work_package_attributes

@@ -29,5 +29,5 @@
 require 'core_extensions/string'
 require 'core_extensions/time_with_zone'
 
-::String.prepend CoreExtensions::String
-::ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone
+String.prepend CoreExtensions::String
+ActiveSupport::TimeWithZone.include CoreExtensions::TimeWithZone

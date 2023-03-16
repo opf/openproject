@@ -35,7 +35,7 @@ class WorkPackages::BulkController < ApplicationController
   include RelationsHelper
   include QueriesHelper
 
-  include WorkPackages::FlashBulkError
+  include WorkPackages::BulkErrorMessage
 
   def edit
     setup_edit
@@ -50,7 +50,7 @@ class WorkPackages::BulkController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
       redirect_back_or_default(controller: '/work_packages', action: :index, project_id: @project)
     else
-      error_flash(@work_packages, @call)
+      flash[:error] = bulk_error_message(@work_packages, @call)
       setup_edit
       render action: :edit
     end
@@ -86,7 +86,7 @@ class WorkPackages::BulkController < ApplicationController
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
     @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
-    @assignables = @responsibles = possible_assignees
+    @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map(&:types).inject(&:&)
   end
 
@@ -99,12 +99,6 @@ class WorkPackages::BulkController < ApplicationController
     rescue ::ActiveRecord::RecordNotFound
       # raised by #reload if work package no longer exists
       # nothing to do, work package was already deleted (eg. by a parent)
-    end
-  end
-
-  def possible_assignees
-    @projects.inject(Principal.all) do |scope, project|
-      scope.where(id: Principal.possible_assignee(project))
     end
   end
 

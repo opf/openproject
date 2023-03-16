@@ -31,36 +31,36 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
-  let!(:closed_status) { create :status, is_closed: true }
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
+  let!(:closed_status) { create(:status, is_closed: true) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
            status: open_status,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
            status: closed_status,
-           responsible: user
+           responsible: user)
   end
   let!(:other_project_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
            status: open_status,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -119,7 +119,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_ma
       filter_area.configure_wp_table
       modal.switch_to('Filters')
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by('Type', 'is (OR)', type.name)
       modal.save
 
       filter_area.configure_wp_table

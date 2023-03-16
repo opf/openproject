@@ -62,7 +62,7 @@ cs:
           status: Stav
           version: Verze
           subproject: Podprojekt
-          subtasks: Parent-child
+          subtasks: rodič-potomek
           basic: Základní
         select_attribute: "Atribut akce"
       add_list_modal:

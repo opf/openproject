@@ -29,9 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package timeline date formatting',
-               with_settings: { date_format: '%Y-%m-%d' },
-               js: true,
-               selenium: true do
+               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type) { create(:type_bug, color: create(:color_green)) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:start_date) { Date.parse('2020-12-31') }
@@ -39,30 +37,30 @@ RSpec.describe 'Work package timeline date formatting',
   shared_let(:duration) { due_date - start_date + 1 }
 
   shared_let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            start_date:,
            due_date:,
            duration:,
-           subject: 'My subject'
+           subject: 'My subject')
   end
 
   shared_let(:work_package_with_non_working_days) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            duration: 5,
-           subject: 'My Subject 2'
+           subject: 'My Subject 2')
   end
 
   shared_let(:work_package_without_non_working_days) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            duration: 5,
            ignore_non_working_days: true,
-           subject: 'Work Package ignoring non working days'
+           subject: 'Work Package ignoring non working days')
   end
 
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
@@ -95,7 +93,7 @@ RSpec.describe 'Work package timeline date formatting',
   describe 'with default settings',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
     context 'with english locale user' do
-      let(:current_user) { create :admin, language: 'en' }
+      let(:current_user) { create(:admin, language: 'en') }
 
       it 'shows english ISO dates' do
         # expect moment to return week 01 for start date
@@ -107,7 +105,7 @@ RSpec.describe 'Work package timeline date formatting',
     end
 
     context 'with german locale user' do
-      let(:current_user) { create :admin, language: 'de' }
+      let(:current_user) { create(:admin, language: 'de') }
 
       it 'shows german ISO dates' do
         expect(page).to have_selector('.wp-timeline--header-element', text: '52')
@@ -122,28 +120,32 @@ RSpec.describe 'Work package timeline date formatting',
     end
 
     context 'with weekdays defined' do
-      let(:current_user) { create :admin, language: 'en' }
+      let(:current_user) { create(:admin, language: 'en') }
 
       shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
+      shared_let(:non_working_day) do
+        create(:non_working_day,
+               date: '28-12-2020')
+      end
 
       it 'shows them as disabled' do
         expect_date_week work_package.start_date.iso8601, '01'
 
         expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_27-12-2020"]')
         expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_2-1-2021"]')
+        expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
 
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
       end
     end
   end
 
   describe 'with US/CA settings',
            with_settings: { start_of_week: '7', first_week_of_year: '1' } do
-    let(:current_user) { create :admin }
+    let(:current_user) { create(:admin) }
 
     it 'shows english ISO dates' do
       expect(page).to have_selector('.wp-timeline--header-element', text: '01')
@@ -168,8 +170,13 @@ RSpec.describe 'Work package timeline date formatting',
 
   describe 'setting dates' do
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
-    let(:current_user) { create :admin }
+    let(:current_user) { create(:admin) }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
+
+    shared_let(:non_working_day) do
+      create(:non_working_day,
+             date: '06-01-2021')
+    end
 
     shared_examples "sets dates, duration and displays bar" do
       it 'sets dates, duration and duration bar' do
@@ -224,7 +231,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
           let(:expected_start_date) { Date.parse('2021-01-04') }
           let(:expected_due_date) { Date.parse('2021-01-08') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -237,7 +244,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-11') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -250,7 +257,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration }
           let(:expected_start_date) { Date.parse('2021-01-04') }
           let(:expected_due_date) { Date.parse('2021-01-08') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -263,7 +270,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 2 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-11') }
-          let(:expected_duration) { 5 }
+          let(:expected_duration) { 4 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end
@@ -276,7 +283,7 @@ RSpec.describe 'Work package timeline date formatting',
           let(:expected_bar_duration) { work_package_with_non_working_days.duration + 3 }
           let(:expected_start_date) { Date.parse('2021-01-05') }
           let(:expected_due_date) { Date.parse('2021-01-12') }
-          let(:expected_duration) { 6 }
+          let(:expected_duration) { 5 }
           let(:expected_label) { work_package_with_non_working_days.subject }
         end
       end

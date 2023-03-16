@@ -46,8 +46,8 @@ module API
           end
           private_class_method :index
 
-          def self.show(name)
-            define_singleton_method(name) { |id| build_path(name, id) }
+          def self.show(name, path = name)
+            define_singleton_method(name) { |id| build_path(path, id) }
           end
           private_class_method :show
 
@@ -395,6 +395,9 @@ module API
           index :role
           show :role
 
+          index :global_role, 'roles'
+          show :global_role, 'role'
+
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)
           end
@@ -488,6 +491,13 @@ module API
 
           resources :work_package, except: :schema
 
+          def self.work_package(id, timestamps: nil)
+            "#{root}/work_packages/#{id}" + \
+            if (param_value = timestamps_to_param_value(timestamps)).present? && Array(timestamps).any?(&:historic?)
+              "?#{{ timestamps: param_value }.to_query}"
+            end.to_s
+          end
+
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
           end
@@ -540,14 +550,22 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
+          def self.timestamps_to_param_value(timestamps)
+            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute.iso8601 }.join(",")
+          end
+
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil,
+                            select: nil, timestamps: nil)
+            timestamps = timestamps_to_param_value(timestamps)
+
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
               offset:,
-              select:
+              select:,
+              timestamps:
             }.compact_blank
 
             if query_params.any?

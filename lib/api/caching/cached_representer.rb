@@ -141,7 +141,7 @@ module API
           super(href, options.except(:cache_if, :uncacheable))
         end
 
-        # Overriding Roar::Hypbermedia#combile_links_for
+        # Overriding Roar::Hypermedia#combile_links_for
         # to remove all uncacheable links if the caching_state is set to :cacheable
         def compile_links_for(configs, *args)
           current_configs = case caching_state

@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe 'form configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: }
+  let(:project) { create(:project, types: [type]) }
+  let(:category) { create(:category, project:) }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            done_ratio: 10,
-           category:
+           category:)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -82,7 +82,7 @@ describe 'form configuration', js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).to have_no_selector('.group-head', text: 'WHATEVER')
+        expect(page).not_to have_selector('.group-head', text: 'WHATEVER')
         form.expect_group('details', 'Details')
         form.expect_attribute(key: :assignee)
       end
@@ -118,7 +118,7 @@ describe 'form configuration', js: true do
         wp_page.expect_hidden_field(:done_ratio)
 
         groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq ['FILES']
+        expect(groups).to eq []
         expect(page)
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end
@@ -162,7 +162,7 @@ describe 'form configuration', js: true do
         input.set('FOOBAR')
         input.send_keys(:escape)
         expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
-        expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
+        expect(page).not_to have_selector('.group-edit-handler', text: 'FOOBAR')
 
         # Create new group
         form.add_attribute_group('New Group')
@@ -240,7 +240,7 @@ describe 'form configuration', js: true do
           expect(page).to have_selector('.inline-edit--container.estimatedTime')
         end
 
-        find('#work-packages--edit-actions-cancel').click
+        find_by_id('work-packages--edit-actions-cancel').click
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
       end
@@ -351,9 +351,9 @@ describe 'form configuration', js: true do
 
       context 'if active in project' do
         let(:project) do
-          create :project,
+          create(:project,
                  types: [type],
-                 work_package_custom_fields: custom_fields
+                 work_package_custom_fields: custom_fields)
         end
 
         it 'can be added to type and is visible' do

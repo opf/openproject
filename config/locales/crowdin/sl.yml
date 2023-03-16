@@ -347,6 +347,8 @@ sl:
       few: '% {count} padajočih delovnega paketa'
       other: '% {count} padajočih delovnega paketa'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Naslednjih delovnih paketov ni bilo mogoče shraniti"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -470,14 +472,24 @@ sl:
       member:
         roles: "Vloge"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikator "
         latest_activity_at: "Zadnja aktivnost ob"
         parent: "Podprojekt od"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Poizvedbe"
+        templated: "Vzorčni projekt"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipi"
         versions: "Različice"
         work_packages: "zahtevki"
-        templated: 'Vzorčni projekt'
       projects/status:
         code: 'Stanje'
         explanation: 'Opis stanja'
@@ -907,8 +919,22 @@ sl:
     header_invalid_fields: "Težave so bile na naslednjih področjih:"
     field_erroneous_label: "To polje je neveljavno: %{full_errors}\nProsimo vnesite veljavno vrednost."
   activity:
-    created: "Ustvarjeno: %{title}"
-    updated: "Posodobljeno: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktivno"
@@ -1044,6 +1070,7 @@ sl:
   button_reset: "Ponastavi"
   button_rollback: "Povrni na to verzijo"
   button_save: "Shrani"
+  button_apply_changes: "Apply changes"
   button_save_back: "Shrani in nazaj"
   button_show: "Pokaži"
   button_sort: "Razvrsti"
@@ -1376,6 +1403,7 @@ sl:
     work_package_note: 'Dodana opomba o delovnem paketu'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Izvoz delovnih paketov\n"
     succeeded: "Izvoz uspešno zaključen."
@@ -1401,7 +1429,6 @@ sl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Slovenščina"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "da"
@@ -1787,6 +1814,10 @@ sl:
   label_not_contains: "ne vsebuje"
   label_not_equals: "ni"
   label_on: "vključeno"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Odpri meni"
   label_open_work_packages: "odpri"
   label_open_work_packages_plural: "odpri"
@@ -1828,6 +1859,7 @@ sl:
   label_product_version: "Različica izdelka"
   label_professional_support: "Strokovna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Skupno število projektov"
   label_project_copy_notifications: "Med kopijo projekta pošljite obvestila po e-pošti"
@@ -2692,12 +2724,13 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
   text_journal_changed_with_diff: "%{label} spremenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} izbrisan (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastavljeno na %{value}"
   text_journal_set_with_diff: "%{label} nastavljen (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2994,15 +3027,20 @@ sl:
       title: "Izbriši delovni paket"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ničesar za predogled"
   api_v3:
     attributes:

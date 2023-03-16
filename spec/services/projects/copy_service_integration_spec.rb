@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe Projects::CopyService, 'integration', type: :model do
-  shared_let(:status_locked) { create :status, is_readonly: true }
-  shared_let(:source) { create :project, enabled_module_names: %w[wiki work_package_tracking] }
-  shared_let(:source_wp) { create :work_package, project: source, subject: 'source wp' }
+  shared_let(:status_locked) { create(:status, is_readonly: true) }
+  shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
+  shared_let(:source_wp) { create(:work_package, project: source, subject: 'source wp') }
   shared_let(:source_wp_locked) do
-    create :work_package, project: source, subject: 'source wp locked', status: status_locked
+    create(:work_package, project: source, subject: 'source wp locked', status: status_locked)
   end
-  shared_let(:source_query) { create :query, project: source, name: 'My query' }
-  shared_let(:source_view) { create :view_work_packages_table, query: source_query }
-  shared_let(:source_category) { create :category, project: source, name: 'Stock management' }
-  shared_let(:source_version) { create :version, project: source, name: 'Version A' }
+  shared_let(:source_query) { create(:query, project: source, name: 'My query') }
+  shared_let(:source_view) { create(:view_work_packages_table, query: source_query) }
+  shared_let(:source_category) { create(:category, project: source, name: 'Stock management') }
+  shared_let(:source_version) { create(:version, project: source, name: 'Version A') }
   shared_let(:source_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki) }
   shared_let(:source_child_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
   shared_let(:source_forum) { create(:forum, project: source) }
@@ -57,11 +57,12 @@ describe Projects::CopyService, 'integration', type: :model do
     { name: 'Some name', identifier: 'some-identifier' }
   end
   let(:params) do
-    { target_project_params:, only: only_args }
+    { target_project_params:, only: only_args, send_notifications: }
   end
-  let(:role) { create :role, permissions: %i[copy_projects view_work_packages work_package_assigned] }
+  let(:send_notifications) { true }
+  let(:role) { create(:role, permissions: %i[copy_projects view_work_packages work_package_assigned]) }
 
-  shared_let(:new_project_role) { create :role, permissions: %i[] }
+  shared_let(:new_project_role) { create(:role, permissions: %i[]) }
 
   before do
     with_enterprise_token(:readonly_work_packages)
@@ -203,10 +204,10 @@ describe Projects::CopyService, 'integration', type: :model do
     context 'with group memberships' do
       let(:only_args) { %w[members] }
 
-      let!(:user) { create :user }
+      let!(:user) { create(:user) }
       let!(:another_role) { create(:role) }
       let!(:group) do
-        create :group, members: [user]
+        create(:group, members: [user])
       end
 
       it 'will copy them as well' do
@@ -469,7 +470,7 @@ describe Projects::CopyService, 'integration', type: :model do
         end
 
         context 'if one work package is a cross project reference' do
-          let(:other_project) { create :project }
+          let(:other_project) { create(:project) }
           let(:only_args) { %w[work_packages queries] }
 
           before do
@@ -608,8 +609,14 @@ describe Projects::CopyService, 'integration', type: :model do
       end
 
       describe 'assigned_to' do
+        let(:assigned_user) do
+          create(:user,
+                 member_in_project: source,
+                 member_through_role: role)
+        end
+
         before do
-          work_package.update_column(:assigned_to_id, current_user.id)
+          work_package.update_column(:assigned_to_id, assigned_user.id)
         end
 
         context 'with the members being copied' do
@@ -617,9 +624,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
           it 'copies the assigned_to' do
             expect(subject).to be_success
-            expect(project_copy.users).to include current_user
             expect(project_copy.work_packages[0].assigned_to)
-              .to eql current_user
+              .to eql assigned_user
+            # The assignee of the new work package receives a notification
+            expect { perform_enqueued_jobs }
+              .to change(Notification.where(recipient: assigned_user), :count)
+                    .from(0)
+                    .to(1)
           end
         end
 
@@ -630,13 +641,22 @@ describe Projects::CopyService, 'integration', type: :model do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].assigned_to)
               .to be_nil
+            # No notification is sent out
+            expect { perform_enqueued_jobs }
+              .not_to change(Notification.where(recipient: assigned_user), :count)
           end
         end
       end
 
       describe 'responsible' do
+        let(:responsible_user) do
+          create(:user,
+                 member_in_project: source,
+                 member_through_role: role)
+        end
+
         before do
-          work_package.update_column(:responsible_id, current_user.id)
+          work_package.update_column(:responsible_id, responsible_user.id)
         end
 
         context 'with the members being copied' do
@@ -644,9 +664,13 @@ describe Projects::CopyService, 'integration', type: :model do
 
           it 'copies the responsible' do
             expect(subject).to be_success
-            expect(project_copy.users).to include current_user
             expect(project_copy.work_packages[0].responsible)
-              .to eql current_user
+              .to eql responsible_user
+            # The responsible of the new work package receives a notification
+            expect { perform_enqueued_jobs }
+              .to change(Notification.where(recipient: responsible_user), :count)
+                    .from(0)
+                    .to(1)
           end
         end
 
@@ -657,6 +681,9 @@ describe Projects::CopyService, 'integration', type: :model do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].responsible)
               .to be_nil
+            # No notification is sent out
+            expect { perform_enqueued_jobs }
+              .not_to change(Notification.where(recipient: responsible_user), :count)
           end
         end
       end
@@ -739,7 +766,7 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(subject).to be_success
 
           cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
-          expect(cv).to be_kind_of Array
+          expect(cv).to be_a Array
           expect(cv.count).to eq 2
           expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
         end

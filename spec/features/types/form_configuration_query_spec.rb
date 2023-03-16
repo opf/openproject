@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'form query configuration', js: true do
-  shared_let(:admin) { create :admin }
-  let(:type_bug) { create :type_bug }
-  let(:type_task) { create :type_task }
+  shared_let(:admin) { create(:admin) }
+  let(:type_bug) { create(:type_bug) }
+  let(:type_task) { create(:type_task) }
 
-  let(:project) { create :project, types: [type_bug, type_task] }
-  let(:other_project) { create :project, types: [type_task] }
+  let(:project) { create(:project, types: [type_bug, type_task]) }
+  let(:other_project) { create(:project, types: [type_task]) }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -62,19 +62,19 @@ describe 'form query configuration', js: true do
     relation
   end
   let!(:related_task) do
-    create :work_package, project:, type: type_task
+    create(:work_package, project:, type: type_task)
   end
   let!(:unrelated_task) do
-    create :work_package, subject: 'Unrelated task', type: type_task, project:
+    create(:work_package, subject: 'Unrelated task', type: type_task, project:)
   end
   let!(:unrelated_bug) do
-    create :work_package, subject: 'Unrelated bug', type: type_bug, project:
+    create(:work_package, subject: 'Unrelated bug', type: type_bug, project:)
   end
   let!(:related_task_other_project) do
-    create :work_package, project: other_project, type: type_task
+    create(:work_package, project: other_project, type: type_task)
   end
   let!(:related_bug) do
-    create :work_package, project:, type: type_bug
+    create(:work_package, project:, type: type_bug)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
@@ -98,7 +98,7 @@ describe 'form query configuration', js: true do
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
-      expect(query_group.attributes).to be_kind_of(Query)
+      expect(query_group.attributes).to be_a(Query)
       expect(query_group.key).to eq('Empty test')
     end
 
@@ -138,12 +138,12 @@ describe 'form query configuration', js: true do
         visit new_project_work_packages_path(project)
 
         wp_page.expect_no_group 'Subtasks'
-        expect(page).to have_no_text 'Subtasks'
+        expect(page).not_to have_text 'Subtasks'
       end
     end
 
     context 'with an archived project' do
-      let!(:archived) { create :project, name: 'To be archived' }
+      let!(:archived) { create(:project, name: 'To be archived') }
 
       it 'uses the valid subset of the query (Regression #40324)' do
         form.add_query_group('Archived project', :children)
@@ -152,7 +152,7 @@ describe 'form query configuration', js: true do
         # Select the soon archived project
         modal.switch_to 'Filters'
         filters.expect_filter_count 1
-        filters.add_filter_by('Project', 'is', archived.name)
+        filters.add_filter_by('Project', 'is (OR)', archived.name)
         filters.expect_filter_count 2
         filters.save
 
@@ -250,7 +250,7 @@ describe 'form query configuration', js: true do
         modal.switch_to 'Filters'
         # the templated filter should be hidden in the Filters tab
         filters.expect_filter_count 1
-        filters.add_filter_by('Type', 'is', type_task.name)
+        filters.add_filter_by('Type', 'is (OR)', type_task.name)
         filters.save
 
         form.save_changes
@@ -274,7 +274,7 @@ describe 'form query configuration', js: true do
                                                      results_selector: '.ng-dropdown-panel-items'
 
         expect(results).to have_text "Unrelated task"
-        expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
+        expect(results).not_to have_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
         page.find('.wp-create-relation--cancel').click
@@ -292,7 +292,7 @@ describe 'form query configuration', js: true do
         modal.expect_open
         modal.switch_to 'Filters'
         filters.expect_filter_count 2
-        filters.expect_filter_by 'Type', 'is', type_task.name
+        filters.expect_filter_by 'Type', 'is (OR)', type_task.name
 
         # Remove the filter again
         filters.remove_filter 'type'

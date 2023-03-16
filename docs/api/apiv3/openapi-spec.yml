@@ -44,7 +44,7 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
+    in the [Collections Section](https://www.openproject.org/docs/api/collections/).
 
     ## Authentication
 
@@ -363,6 +363,8 @@ paths:
     "$ref": "./paths/storage.yml"
   "/api/v3/storages/{id}/files":
     "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files/prepare_upload":
+    "$ref": "./paths/storage_files_prepare_upload.yml"
   "/api/v3/storages/{id}/oauth_client_credentials":
     "$ref": "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/time_entries":
@@ -439,8 +441,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/update_file_links":
-    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -584,8 +584,6 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-    FileCollectionModel:
-      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -750,8 +748,12 @@ components:
       "$ref": "./components/schemas/statuses_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
-    StorageFileLocationModel:
-      "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageFilesModel:
+      "$ref": "./components/schemas/storage_files_model.yml"
+    StorageFileUploadPreparationModel:
+      "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
+    StorageFileUploadLinkModel:
+      "$ref": "./components/schemas/storage_file_upload_link_model.yml"
     StorageReadModel:
       "$ref": "./components/schemas/storage_read_model.yml"
     StorageWriteModel:
@@ -760,24 +762,14 @@ components:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
-    Time_entry_create_form:
-      "$ref": "./components/schemas/time_entry_create_form.yml"
-    Time_entry_update_form:
-      "$ref": "./components/schemas/time_entry_update_form.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
       "$ref": "./components/schemas/types_model.yml"
     Types_by_ProjectModel:
       "$ref": "./components/schemas/types_by_project_model.yml"
-    Unlock_user:
-      "$ref": "./components/schemas/unlock_user.yml"
     Unstar_QueryModel:
       "$ref": "./components/schemas/unstar_query_model.yml"
-    Update_User:
-      "$ref": "./components/schemas/update_user.yml"
-    Update_group:
-      "$ref": "./components/schemas/update_group.yml"
     UserCollectionModel:
       "$ref": "./components/schemas/user_collection_model.yml"
     UserCreateModel:
@@ -848,6 +840,7 @@ tags:
   - "$ref": "./tags/basic_objects.yml"
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/baseline_comparisons.yml"
   - "$ref": "./tags/forms.yml"
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"

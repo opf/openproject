@@ -41,8 +41,8 @@ module OpenProject::Storages
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer 'openproject_storages.feature_decisions' do
-      OpenProject::FeatureDecisions.add :storage_file_linking
-      OpenProject::FeatureDecisions.add :storage_file_upload
+      OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :legacy_upload_preparation
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -161,5 +161,7 @@ module OpenProject::Storages
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::FileLinks::WorkPackagesFileLinksAPI
     end
+
+    add_cron_jobs { CleanupUncontaineredFileLinksJob }
   end
 end

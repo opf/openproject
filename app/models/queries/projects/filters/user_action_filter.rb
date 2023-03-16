@@ -44,9 +44,9 @@ module Queries
                                 .where(principal: User.current)
                                 .reselect(:context_id)
 
-          sql_operator = if operator_class == ::Queries::Operators::Equals
+          sql_operator = if operator_class <= ::Queries::Operators::Equals
                            "IN"
-                         elsif operator_class == ::Queries::Operators::NotEquals
+                         elsif operator_class <= ::Queries::Operators::NotEquals
                            "NOT IN"
                          else
                            raise ArgumentError

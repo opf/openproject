@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Project context switching spec', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -28,6 +28,6 @@ describe 'Project context switching spec', js: true do
 
     link.click
     wp_page.ensure_page_loaded
-    expect(page).to have_no_selector('.attributes-group.-project-context')
+    expect(page).not_to have_selector('.attributes-group.-project-context')
   end
 end

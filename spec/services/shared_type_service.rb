@@ -27,9 +27,9 @@
 #++
 
 shared_context 'with custom field params' do
-  let(:cf1) { create :work_package_custom_field, field_format: 'text' }
-  let(:cf2) { create :work_package_custom_field, field_format: 'text' }
-  let!(:cf3) { create :work_package_custom_field, field_format: 'text' }
+  let(:cf1) { create(:work_package_custom_field, field_format: 'text') }
+  let(:cf2) { create(:work_package_custom_field, field_format: 'text') }
+  let!(:cf3) { create(:work_package_custom_field, field_format: 'text') }
 
   let(:attribute_groups) do
     {
@@ -188,7 +188,7 @@ shared_examples_for 'type service' do
       end
 
       context 'when a project is being set on the type' do
-        let(:projects) { create_list :project, 2 }
+        let(:projects) { create_list(:project, 2) }
         let(:active_project) { projects.first }
         let(:project_ids) { { project_ids: [*projects.map { |p| p.id.to_s }, ""] } }
         let(:params) do

@@ -35,8 +35,6 @@ module Queries::Operators
       # code expects strings (e.g. for quoting), but ints would work as well: unify them here
       values = values.map(&:to_s)
 
-      sql = ''
-
       if values.present?
         "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
           values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'

@@ -4,14 +4,6 @@
 >
   <div class="spot-modal--header">
     <span class="spot-modal--header-title">{{text.header}}</span>
-    <button
-      type="button"
-      class="button button_no-margin spot-modal--header-button"
-      (click)="openStorageLocation()"
-    >
-      <span>{{text.buttons.openStorage()}}</span>
-      <span class="spot-icon spot-icon_external-link"></span>
-    </button>
   </div>
 
   <div class="spot-divider"></div>
@@ -21,6 +13,7 @@
 
     <ng-container *ngIf="(loading$ | async) === false; else loadingTemplate">
       <ul
+        *ngIf="(listItems$ | async).length > 0; else emptyTemplate"
         class="spot-list spot-list_compact op-file-list op-file-picker--scrollable-content"
         data-qa-selector="op-files-picker-modal--file-list"
       >
@@ -36,6 +29,14 @@
 
     <ng-template #loadingTemplate>
       <op-loading-file-list class="spot-body-big"></op-loading-file-list>
+    </ng-template>
+
+    <ng-template #emptyTemplate>
+      <div class="spot-body-big spot-body-big_bold op-file-picker--empty">
+        <span class="spot-icon spot-icon_folder-open op-file-picker--empty-icon"></span>
+        <span [textContent]="text.content.empty"></span>
+        <span class="spot-body-small op-file-picker--empty-sub-text" [textContent]="text.content.emptyHint"></span>
+      </div>
     </ng-template>
   </div>
 

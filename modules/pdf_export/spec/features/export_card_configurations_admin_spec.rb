@@ -28,11 +28,11 @@
 require 'spec_helper'
 
 describe "export card configurations Admin", js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
-  let!(:config1) { create :export_card_configuration }
-  let!(:config_default) { create :default_export_card_configuration }
-  let!(:config_active) { create :active_export_card_configuration }
+  let!(:config1) { create(:export_card_configuration) }
+  let!(:config_default) { create(:default_export_card_configuration) }
+  let!(:config_active) { create(:active_export_card_configuration) }
 
   before do
     login_as user

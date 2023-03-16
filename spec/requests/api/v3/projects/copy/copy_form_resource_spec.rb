@@ -40,23 +40,22 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
   end
 
   shared_let(:source_project) do
-    create :project,
+    create(:project,
            custom_field_values: {
              text_custom_field.id => 'source text',
              list_custom_field.id => list_custom_field.custom_options.last.id
-           }
+           })
   end
 
   shared_let(:current_user) do
-    create :user,
+    create(:user,
            member_in_project: source_project,
-           member_with_permissions: %i[copy_projects view_project view_work_packages]
+           member_with_permissions: %i[copy_projects view_project view_work_packages])
   end
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do
@@ -112,12 +111,12 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
       {
         name: 'My copied project',
         identifier: 'foobar',
-        "customField#{text_custom_field.id}": {
+        text_custom_field.attribute_name(:camel_case) => {
           raw: "CF text"
         },
         statusExplanation: { raw: "A magic dwells in each beginning." },
         _links: {
-          "customField#{list_custom_field.id}": {
+          list_custom_field.attribute_name(:camel_case) => {
             href: api_v3_paths.custom_option(list_custom_field.custom_options.first.id)
           },
           status: {
@@ -197,7 +196,7 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
       it 'returns it as false' do
         expect(response.body)
-          .to be_json_eql(true.to_json)
+          .to be_json_eql(false.to_json)
                 .at_path("_embedded/payload/_meta/sendNotifications")
       end
     end
@@ -237,9 +236,9 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   context 'without the necessary permission' do
     let(:current_user) do
-      create :user,
+      create(:user,
              member_in_project: source_project,
-             member_with_permissions: %i[view_project view_work_packages]
+             member_with_permissions: %i[view_project view_work_packages])
     end
 
     it 'returns 403 Not Authorized' do

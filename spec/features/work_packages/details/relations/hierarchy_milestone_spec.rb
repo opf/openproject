@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'work package hierarchies for milestones', js: true, selenium: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let(:work_package) { create(:work_package, project:, type:) }
@@ -50,9 +50,9 @@ describe 'work package hierarchies for milestones', js: true, selenium: true do
 
   it 'does not provide links to add children or existing children (Regression #28745)' do
     within('.wp-relations--children') do
-      expect(page).to have_no_text('Add existing child')
-      expect(page).to have_no_text('Create new child')
-      expect(page).to have_no_selector('wp-inline-create--add-link')
+      expect(page).not_to have_text('Add existing child')
+      expect(page).not_to have_text('Create new child')
+      expect(page).not_to have_selector('wp-inline-create--add-link')
     end
   end
 end

@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let!(:type) { create :type, name: 'MyTaskName' }
+  let!(:type) { create(:type, name: 'MyTaskName') }
   let(:project) do
-    create :valid_project,
+    create(:valid_project,
            identifier: 'my-project',
            enabled_module_names: %w[wiki work_package_tracking],
            name: 'My project name',
-           types: [type]
+           types: [type])
   end
 
   let(:editor) { Components::WysiwygEditor.new }
@@ -63,7 +63,7 @@ describe 'Wysiwyg work package button spec',
 
           # Cancel editing
           find('.spot-modal--cancel-button').click
-          expect(editable).to have_no_selector('.macro.-create_work_package_link')
+          expect(editable).not_to have_selector('.macro.-create_work_package_link')
 
           editor.insert_macro  'Insert create work package button'
           select 'MyTaskName', from: 'selected-type'

@@ -50,7 +50,7 @@ module Bim::Bcf::API::V2_1
                      })
                 .mount
 
-        route_param :viewpoint_uuid, regexp: /\A[a-f0-9\-]+\z/ do
+        route_param :viewpoint_uuid, regexp: /\A[a-f0-9-]+\z/ do
           %i[/ selection coloring visibility].each do |key|
             namespace = key == :/ ? :Full : key.to_s.camelize
 

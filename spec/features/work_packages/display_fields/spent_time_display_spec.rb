@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Logging time within the work package view', js: true do
-  shared_let(:project) { create :project }
-  shared_let(:admin) { create :admin }
-  shared_let(:work_package) { create :work_package, project: }
-  shared_let(:activity) { create :time_entry_activity, project: }
+  shared_let(:project) { create(:project) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:activity) { create(:time_entry_activity, project:) }
 
   let(:user) { admin }
 
@@ -42,15 +42,21 @@ describe 'Logging time within the work package view', js: true do
 
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
 
-  def log_time_via_modal(user_field_visible: true, log_for_user: nil)
+  def log_time_via_modal(user_field_visible: true, log_for_user: nil, date: Time.zone.today)
     time_logging_modal.is_visible true
 
     # the fields are visible
-    time_logging_modal.has_field_with_value 'spent_on', Date.today.strftime("%Y-%m-%d")
+    time_logging_modal.has_field_with_value 'spent_on', Time.zone.today.strftime("%Y-%m-%d")
     time_logging_modal.shows_field 'work_package', false
     time_logging_modal.shows_field 'user', user_field_visible
 
+    # Update the fields
     time_logging_modal.update_field 'activity', activity.name
+
+    Components::BasicDatepicker.update_field(
+      "##{time_logging_modal.field_identifier('spent_on')}",
+      date.strftime("%Y-%m-%d")
+    )
 
     if log_for_user
       time_logging_modal.update_field 'user', log_for_user.name
@@ -74,11 +80,21 @@ describe 'Logging time within the work package view', js: true do
     it 'shows a logging button within the display field and can log time via a modal' do
       # click on button opens modal
       spent_time_field.open_time_log_modal
-
-      log_time_via_modal
+      expect do
+        log_time_via_modal(date: Date.yesterday)
+      end.to change(TimeEntry, :count).by(1)
 
       # the value is updated automatically
       spent_time_field.expect_display_value '1 h'
+
+      TimeEntry.last.tap do |te|
+        expect(te.work_package).to eq(work_package)
+        expect(te.project).to eq(project)
+        expect(te.activity).to eq(activity)
+        expect(te.user).to eq(user)
+        expect(te.spent_on).to eq(Date.yesterday)
+        expect(te.hours).to eq(1)
+      end
     end
 
     context 'with another user in the project' do
@@ -117,7 +133,7 @@ describe 'Logging time within the work package view', js: true do
     end
 
     context 'with a user with non-one unit numbers', with_settings: { available_languages: %w[en ja] } do
-      let(:user) { create :admin, language: 'ja' }
+      let(:user) { create(:admin, language: 'ja') }
 
       before do
         I18n.locale = 'ja'
@@ -181,8 +197,8 @@ describe 'Logging time within the work package view', js: true do
 
   context 'when in the table' do
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-    let(:second_work_package) { create :work_package, project: }
-    let(:query) { create :public_query, project:, column_names: ['subject', 'spent_hours'] }
+    let(:second_work_package) { create(:work_package, project:) }
+    let(:query) { create(:public_query, project:, column_names: ['subject', 'spent_hours']) }
 
     before do
       work_package

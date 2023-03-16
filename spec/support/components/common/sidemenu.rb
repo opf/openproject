@@ -38,7 +38,7 @@ module Components
       end
 
       def expect_item_not_visible(item)
-        expect(page).to have_no_selector(item_selector, text: item)
+        expect(page).not_to have_selector(item_selector, text: item)
       end
 
       def expect_item_with_count(item, count)
@@ -60,7 +60,7 @@ module Components
       end
 
       def finished_loading
-        expect(page).to have_no_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
+        expect(page).not_to have_selector('[data-qa-selector="op-ian-center--loading-indicator"]')
       end
 
       private
@@ -70,7 +70,7 @@ module Components
       end
 
       def expect_no_count
-        expect(page).to have_no_selector('.op-bubble')
+        expect(page).not_to have_selector('.op-bubble')
       end
 
       def item_action_selector(item)

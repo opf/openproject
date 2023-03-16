@@ -31,62 +31,61 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Work package calendar widget on dashboard',
-         with_mail: false,
-         js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+         js: true, with_mail: false do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:spanning_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Spanning work package',
            project:,
            start_date: Date.today - 8.days,
            due_date: Date.today + 8.days,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:starting_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Starting work package',
            project:,
            start_date: Date.today,
            due_date: Date.today + 8.days,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:ending_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Ending work package',
            project:,
            start_date: Date.today - 8.days,
            due_date: Date.today,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:outdated_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Outdated work package',
            project:,
            start_date: Date.today - 9.days,
            due_date: Date.today - 7.days,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_project_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Other project work package',
            project: other_project,
            start_date: Date.today - 9.days,
            due_date: Date.today + 7.days,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -135,10 +134,10 @@ describe 'Work package calendar widget on dashboard',
         .to have_selector('.fc-event-title', text: ending_work_package.subject)
 
       expect(page)
-        .to have_no_selector('.fc-event-title', text: outdated_work_package.subject)
+        .not_to have_selector('.fc-event-title', text: outdated_work_package.subject)
 
       expect(page)
-        .to have_no_selector('.fc-event-title', text: other_project_work_package.subject)
+        .not_to have_selector('.fc-event-title', text: other_project_work_package.subject)
     end
   end
 end

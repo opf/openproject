@@ -29,27 +29,27 @@
 require 'spec_helper'
 
 describe 'Show the date of a Work Package', js: true do
-  let(:project) { create :project }
-  let(:admin) { create :admin }
+  let(:project) { create(:project) }
+  let(:admin) { create(:admin) }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            due_date: Date.yesterday,
            type:,
-           status: open_status
+           status: open_status)
   end
 
-  let(:open_status) { create :default_status }
-  let(:closed_status) { create :closed_status }
+  let(:open_status) { create(:default_status) }
+  let(:closed_status) { create(:closed_status) }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
-  let(:type) { create :type }
+  let(:type) { create(:type) }
   let!(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: open_status,
-           new_status: closed_status
+           new_status: closed_status)
   end
 
   context 'with an overdue date' do

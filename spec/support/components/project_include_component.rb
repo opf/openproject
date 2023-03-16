@@ -89,7 +89,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector("[data-qa-selector='project-include-list']")
+      expect(page).not_to have_selector("[data-qa-selector='project-include-list']")
     end
 
     def click_button(text)
@@ -103,11 +103,11 @@ module Components
     end
 
     def body_element
-      page.find(selector + ' .spot-drop-modal--body')
+      page.find(body_selector)
     end
 
     def body_selector
-      selector + ' .spot-drop-modal--body'
+      '.spot-drop-modal-portal .spot-drop-modal--body'
     end
 
     def selector
@@ -115,7 +115,7 @@ module Components
     end
 
     def no_loading_indicator
-      expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+      expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
     end
   end
 end

@@ -224,19 +224,19 @@ ko:
           status_label: "상태:"
           status_confirmed: "확인됨"
           status_waiting: "이메일 전송됨 - 인증을 기다리는 중"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "무료로 Enterprise Edition 14일 테스트"
+          quick_overview: "OpenProject Enterprise Edition으로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올 수 있습니다."
         upsale:
           become_hero: "영웅이 되세요!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title}은(는) Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> 추가 기능입니다."
           upgrade_info: "활성화하고 팀에서 사용하려면 유료 플랜으로 업그레이드하세요."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Enterprise on-premises Edition의 장점은 무엇입니까?"
             high_security: "보안 기능"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "SSO(SAML, OpenID Connect, CAS), LDAP 그룹."
             installation: "설치 지원"
             installation_text: "숙련된 소프트웨어 엔지니어들이 사용자 고유 인프라에서 완전한 설치 및 설정 프로세스를 안내해줍니다."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Enterprise 추가 기능"
             premium_features_text: "민첩한 보드, 사용자 지정 테마 및 로고, 그래프, 인텔리전트 워크플로와 사용자 지정 작업, 작업 패키지 첨부 파일 및 다중 선택 사용자 지정 필드에 대한 전체 텍스트 검색."
             professional_support: "전문적 지원"
             professional_support_text: "비즈니스 크리티컬 환경에서의 OpenProject 실행에 대한 전문 지식을 갖춘 선임 지원 엔지니어가 신뢰할 수 있는 뛰어난 지원을 제공합니다."
@@ -249,9 +249,23 @@ ko:
           link_quote: "견적 받기"
           more_info: "자세한 정보"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            OpenProject Enterprise Edition은 Community Edition 위에서 빌드됩니다. OpenProject로 비즈니스 크리티컬 프로젝트를 관리하는 사용자가 10명이 넘는 조직을 주로 타겟으로 하는 Enterprise 추가 기능과 전문 지원이 제공됩니다.
           unlimited: "무제한"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "개발자도 요금을 지불해야 합니다. Enterprise Edition으로 업그레이드하면 오픈 소스 커뮤니티의 이러한 노력을 지원하고 개발, 유지 관리 및 지속적인 개선에 기여할 수 있습니다."
+      working_days:
+        calendar:
+          empty_state_header: "휴무일"
+          empty_state_description: '올해 특정 휴무일이 정의되지 않았습니다. 날짜를 추가하려면 아래의 "+ 휴무일"을 클릭하세요.'
+          new_date: '(신규)'
+        add_non_working_day: "휴무일"
+        already_added_error: "이 날짜의 휴무일이 이미 존재합니다. 고유한 날짜 각각에 대해 하나의 휴무일만 생성할 수 있습니다."
+        change_button: "저장하고 다시 예약"
+        change_title: "근무일 변경"
+        removed_title: "휴무일 목록에서 다음 날짜를 제거합니다."
+        change_description: "근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다."
+        warning: >
+          변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지가 업데이트되면 알림이 전송됩니다.
+          계속하시겠습니까?
     custom_actions:
       date:
         specific: '에'
@@ -280,8 +294,6 @@ ko:
           one: "첫 번째 정렬 기준"
           two: "두 번째 정렬 기준"
           three: "세 번째 정렬 기준"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "아니요"
     general_text_yes: "예"
     general_text_No: "아니요"
@@ -300,15 +312,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>작업 패키지의 파일을 Nextcloud 파일 저장소에 업로드하고 연결합니다.</li> <li>프로젝트 활동 추적을 통해 프로젝트 변경 사항을 추적합니다.</li> <li>인스턴스 전체 공휴일(휴무일)을 추가합니다.</li> <li>비관리자가 프로젝트를 보관합니다.</li> <li>기한이 지난 작업 패키지에 대한 새로운 기본 필터.</li> </ul>
     label_activate: "활성화"
     label_assignee: '담당자'
     label_add_column_after: "다음 뒤에 열 추가"
@@ -400,7 +408,7 @@ ko:
     label_no_data: "표시할 데이터가 없습니다."
     label_no_due_date: "완료 날짜 없음"
     label_no_start_date: "시작일이 지정되지 않음"
-    label_no_date: "no date"
+    label_no_date: "날짜 없음"
     label_no_value: "값 없음"
     label_none: "없음"
     label_not_contains: "포함하지 않음"
@@ -475,10 +483,10 @@ ko:
     label_custom_queries: "비공개"
     label_columns: "컬럼"
     label_attachments: 첨부 파일
-    label_drop_files: "Drop files here to attach files."
-    label_drop_or_click_files: "Drop files here or click to attach files."
+    label_drop_files: "파일을 여기에 놓아 첨부하세요."
+    label_drop_or_click_files: "파일을 여기에 놓거나 클릭하여 첨부하세요."
     label_drop_folders_hint: 폴더를 첨부 파일로 업로드할 수 없습니다. 단일 파일을 선택하세요.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "파일 첨부"
     label_formattable_attachment_hint: "이 필드에 놓거나 클립보드에서 붙여넣어 파일을 첨부하고 연결하세요."
     label_remove_file: "%{fileName} 삭제"
     label_remove_watcher: "관찰자 %{name} 제거"
@@ -571,7 +579,7 @@ ko:
         and_more_users:
           other: '외 %{count}건'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you.'
+          at_all: '나와 관련된 활동이 있으면 새 알림이 여기에 표시됩니다.'
           with_current_filter: '현재 이 보기에는 알림이 없습니다.'
         mark_all_read: '모두 읽은 상태로 표시'
         mark_as_read: '읽음으로 표시'
@@ -594,7 +602,7 @@ ko:
         watched: '주시자'
         date_alert: '날짜 경보'
       settings:
-        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        change_notification_settings: '중요 업데이트를 놓치지 않도록 <a target="_blank" href="%{url}">알림 설정</a>을 수정할 수 있습니다.'
         title: "알림 설정"
         notify_me: "알림 받기"
         reminders:
@@ -624,18 +632,18 @@ ko:
         global:
           immediately:
             title: '참여'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: '귀하가 참여하고 있는 작업 패키지의 모든 활동에 대한 알림(담당자, 책임자 또는 주시자).'
           delayed:
             title: '참여하지 않음'
-            description: 'Additional notifications for activities in all projects.'
+            description: '모든 프로젝트의 활동에 대한 추가 알림.'
           date_alerts:
             title: '날짜 경보'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: '귀하가 참여하고 있는 오픈 작업 패키지에 대한 중요 날짜가 다가올 때 자동 알림(담당자, 책임자 또는 주시자).'
             teaser_text: '날짜 경보를 사용하면, 중요 마감일을 놓치거나 잊지 않도록 향후 시작 날짜 또는 종료 날짜에 대한 알림을 받게 됩니다.'
-          overdue: When overdue
+          overdue: 기한이 지난 경우
         project_specific:
           title: '프로젝트별 알림 설정'
-          description: 'These project-specific settings override default settings above.'
+          description: '이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.'
           add: '프로젝트에 대한 설정 추가'
           already_selected: '이 프로젝트는 이미 선택되었습니다.'
           remove: '프로젝트 설정 제거'
@@ -656,6 +664,7 @@ ko:
     project:
       required_outside_context: >
         모든 특성을 보려면 작업 패키지를 만들 프로젝트를 선택하십시오. 위 유형이 활성화된 프로젝트만 선택할 수 있습니다.
+      details_activity: '프로젝트 세부 정보 활동'
       context: '프로젝트 컨텍스트'
       work_package_belongs_to: '이 작업 패키지는 프로젝트 %{projectname}에 속합니다.'
       click_to_switch_context: '해당 프로젝트에서 이 작업 패키지를 여세요.'
@@ -706,8 +715,8 @@ ko:
         reset_title: "구성 양식 초기화"
         confirm_reset: >
           경고: 양식 구성을 재설정하시겠습니까? 그러면 특성이 기본 그룹으로 재설정되고, 모든 사용자 지정 필드가 비활성화됩니다.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Enterprise on-premises Edition으로 업그레이드"
+        upgrade_to_ee_text: "와우! 만약 이 추가 기능이 필요하다면 여러분은 진짜 프로입니다! Enterprise Edition 고객이 되어서 OpenSource 개발자들을 지원할 생각이 있으신가요?"
         more_information: "더보기"
         nevermind: "신경쓰지 마세요"
       edit:
@@ -854,7 +863,7 @@ ko:
       zooms: "확대 수준"
       outlines: "계층 수준"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Enterprise Edition 추가 기능'
     wiki_formatting:
       strong: "굵게"
       italic: "기울임꼴"
@@ -991,7 +1000,7 @@ ko:
         move_column_left: "왼쪽으로 열 이동"
         move_column_right: "오른쪽으로 열 이동"
         hide_column: "열 숨기기"
-        insert_columns: "열 삽입..."
+        insert_columns: "열 삽입"
         filters: "필터"
         display_sums: "합계 표시"
         confirm_edit_cancel: "이 보기 이름 편집을 취소하시겠습니까? 제목이 이전 값으로 다시 설정됩니다."
@@ -1045,7 +1054,7 @@ ko:
         upsale:
           attribute_highlighting: '나머지 작업 중에 확연히 두드러지는 특정 작업 패키지가 필요합니까?'
           relation_columns: '작업 패키지 목록에서 관계를 표시해야 합니까?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Enterprise Edition을 체크아웃하세요.'
         relation_filters:
           filter_work_packages_by_relation_type: '관계 유형별 작업 패키지 필터링'
       tabs:
@@ -1054,26 +1063,25 @@ ko:
         relations: 관계
         watchers: 주시자
         files: 파일
-        files_tab_migration_help: '이제 새로운 탭을 통해 작업 패키지에 파일을 첨부할 수 있습니다.'
       time_relative:
         days: "일"
         weeks: "주"
         months: "개월"
     toolbar:
       settings:
-        configure_view: "보기 구성..."
-        columns: "열..."
-        sort_by: "정렬 기준..."
-        group_by: "그룹화 기준..."
+        configure_view: "보기 구성"
+        columns: "열"
+        sort_by: "정렬 기준"
+        group_by: "그룹화 기준"
         display_sums: "합계 표시"
         display_hierarchy: "계층 보이기"
         hide_hierarchy: "계층 숨기기"
         hide_sums: "합계 숨기기"
         save: "저장"
-        save_as: "다른 이름으로 저장..."
-        export: "내보내기..."
-        visibility_settings: "표시 여부 설정..."
-        page_settings: "보기 이름 바꾸기..."
+        save_as: "다른 이름으로 저장"
+        export: "내보내기"
+        visibility_settings: "표시 여부 설정"
+        page_settings: "보기 이름 바꾸기"
         delete: "삭제"
       filter: "필터"
       unselected_title: "작업 패키지"
@@ -1187,9 +1195,9 @@ ko:
           description: '선택한 프로젝트 내 할당된 역할을 토대로 하는 권한'
         placeholder:
           title: '플레이스홀더 사용자'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: '플레이스홀더 사용자(Enterprise Edition 전용 추가 기능)'
           description: '프로젝트에 대한 접근 권한이 없으며 이메일이 보내지지 않았습니다.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: '프로젝트에 대한 접근 권한이 없으며 이메일이 전송되지 않았습니다.<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a>에 대해 알아 보세요.'
       principal:
         label:
           name_or_email: '이름 또는 이메일 주소'
@@ -1248,4 +1256,5 @@ ko:
       filter_chip:
         remove: '제거'
       drop_modal:
+        focus_grab: '모달용 포커스 앵커입니다. 모달 트리거 요소로 돌아가려면 shift+tab을 누르세요.'
         Close: '닫기'

@@ -93,7 +93,7 @@ vi:
     button_save: "Lưu"
     button_settings: "Cài đặt"
     button_uncheck_all: "Bỏ chọn tất cả"
-    button_update: "Cập Nhật"
+    button_update: "Cập nhật"
     button_export-pdf: "Tải PDF"
     button_export-atom: "Tải về Atom"
     button_create: "Tạo mới"
@@ -251,6 +251,20 @@ vi:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'lúc'
@@ -279,8 +293,6 @@ vi:
           one: "Tiêu chí phân loại đầu tiên"
           two: "Tiêu chí phân loại thứ hai"
           three: "Tiêu chí phân loại thứ ba"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"
@@ -299,15 +311,11 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activate"
     label_assignee: 'Assignee'
     label_add_column_after: "Thêm cột phía sau"
@@ -464,7 +472,7 @@ vi:
     label_watch_work_package: "Xem gói công việc"
     label_watcher_added_successfully: "Đã thêm nhận xét thành công."
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Ngừng theo dõi"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -577,9 +585,9 @@ vi:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -655,6 +663,7 @@ vi:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
@@ -990,7 +999,7 @@ vi:
         move_column_left: "Move column left"
         move_column_right: "Move column right"
         hide_column: "Ẩn cột"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Insert columns"
         filters: "Bộ lọc"
         display_sums: "Hiển thị tổng"
         confirm_edit_cancel: "Bạn có chắc bạn muốn hủy bỏ chỉnh sửa tên của trình bày này? Tiêu đề sẽ được đặt trở về giá trị trước đó."
@@ -1017,7 +1026,7 @@ vi:
         button: 'Cấu hình bảng gói công việc này'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Bảng cấu hình gói công việc'
-        embedded_tab_disabled: "Trang cấu hình này không tồn tại đối với chế độ xem mà bạn đang soạn thảo."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Cài đặt hiển thị'
         default_mode: "Flat list"
@@ -1053,26 +1062,25 @@ vi:
         relations: Relations
         watchers: Watchers
         files: Tập tin
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "ngày"
         weeks: "weeks"
         months: "months"
     toolbar:
       settings:
-        configure_view: "Định cấu hình chế độ xem..."
-        columns: "Cột..."
-        sort_by: "Sắp xếp theo..."
-        group_by: "Nhóm theo..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Hiển thị tổng"
         display_hierarchy: "Hiển thị phân cấp"
         hide_hierarchy: "Ẩn phân cấp"
         hide_sums: "Ẩn tổng"
         save: "Lưu"
-        save_as: "Lưu duới dạng..."
-        export: "Xuất..."
-        visibility_settings: "Cài đặt hiển thị..."
-        page_settings: "Đổi tên chế độ hiển thị..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Xoá"
       filter: "Bộ lọc"
       unselected_title: "Work Package"
@@ -1247,4 +1255,5 @@ vi:
       filter_chip:
         remove: 'Xoá'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Đóng'

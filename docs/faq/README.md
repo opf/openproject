@@ -185,8 +185,16 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 
 ### Does OpenProject offer resource management?
 
-You can [set up budgets](../user-guide/budgets), [set an Estimated time](../user-guide/work-packages/edit-work-package/) for a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person, yet.
+You can [set up budgets](../user-guide/budgets), [set an Estimated time](../user-guide/work-packages/edit-work-package/) for a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
 Additional resource management features will be added within the next years. You can find the road-map for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
+More infomation regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
+
+### Does OpenProject offer portfolio management?
+
+For portfolio management or custom reporting, you can use either the project list, or the global work package table. Both views can be used to create optimal reports via filtering, sorting and other configuration options. 
+
+For more information on portfolio management options in OpenProject please refer to this [Use Case](../use-cases/portfolio-management).
+
 
 ### Is there an organizational chart in OpenProject?
 

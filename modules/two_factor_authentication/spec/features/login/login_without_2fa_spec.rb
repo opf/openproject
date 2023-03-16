@@ -1,8 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with no required OTP', with_config: { '2fa': { active_strategies: [:developer] } },
-                                       js: true do
+describe 'Login with no required OTP', js: true, with_config: { '2fa': { active_strategies: [:developer] } } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
@@ -12,7 +11,7 @@ describe 'Login with no required OTP', with_config: { '2fa': { active_strategies
   end
 
   context 'non-default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: false }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: false) }
 
     it_behaves_like 'login without 2FA'
   end

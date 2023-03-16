@@ -12,7 +12,6 @@
       'spot-list--item-action_disabled': project.disabled,
       'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
-    [title]="project.name"
     [href]="extendedProjectUrl(project.id)"
     [attr.data-list-selector]="projectListActionIdentifier"
     [attr.data-project-id]="project.id"
@@ -25,7 +24,6 @@
   </a>
   <span
     *ngIf="project.disabled"
-    [title]="project.name"
     class="spot-list--item-action spot-list--item-action_disabled"
     [ngClass]="{
       'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id

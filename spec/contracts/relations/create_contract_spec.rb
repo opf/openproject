@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Relations::CreateContract do
-  let(:from) { build_stubbed :work_package }
-  let(:to) { build_stubbed :work_package }
-  let(:user) { build_stubbed :admin }
+  let(:from) { build_stubbed(:work_package) }
+  let(:to) { build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:admin) }
 
   let(:relation) do
     Relation.new from:, to:, relation_type: "follows", delay: 42

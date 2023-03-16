@@ -44,7 +44,7 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
   subject(:response) { last_response }
 
   context 'with authorized user' do
-    shared_let(:current_user) { create :user, global_permission: :manage_user }
+    shared_let(:current_user) { create(:user, global_permission: :manage_user) }
 
     describe 'empty params' do
       let(:payload) do
@@ -139,9 +139,9 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
         {
           email: 'cfuser@example.com',
           status: 'invited',
-          "customField#{custom_field.id}": "A custom value",
+          custom_field.attribute_name(:camel_case) => "A custom value",
           _links: {
-            "customField#{list_custom_field.id}": {
+            list_custom_field.attribute_name(:camel_case) => {
               href: custom_option_href
             }
           }
@@ -184,7 +184,7 @@ describe API::V3::Users::CreateFormAPI, content_type: :json do
   end
 
   context 'with unauthorized user' do
-    shared_let(:current_user) { create :user }
+    shared_let(:current_user) { create(:user) }
     let(:payload) do
       {}
     end

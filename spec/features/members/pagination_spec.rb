@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'members pagination', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:project) do
-    create :project,
+    create(:project,
            name: 'Project 1',
            identifier: 'project1',
-           members: project_members
+           members: project_members)
   end
   let(:project_members) do
     {
@@ -43,12 +43,12 @@ describe 'members pagination', js: true do
     }
   end
 
-  let!(:peter) { create :user, firstname: 'Peter', lastname: 'Pan' }
-  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:alice) { create :user, firstname: 'Alice', lastname: 'Alison' }
+  let!(:peter) { create(:user, firstname: 'Peter', lastname: 'Pan') }
+  let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
+  let(:alice) { create(:user, firstname: 'Alice', lastname: 'Alison') }
 
-  let(:manager)   { create :role, name: 'Manager' }
-  let(:developer) { create :role, name: 'Developer' }
+  let(:manager)   { create(:role, name: 'Manager') }
+  let(:developer) { create(:role, name: 'Developer') }
 
   let(:members_page) { Pages::Members.new project.identifier }
 

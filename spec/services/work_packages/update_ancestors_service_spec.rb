@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:estimated_hours) { [nil, nil, nil] }
   let(:done_ratios) { [0, 0, 0] }
   let(:statuses) { %i(open open open) }
-  let(:open_status) { create :status }
-  let(:closed_status) { create :closed_status }
+  let(:open_status) { create(:status) }
+  let(:closed_status) { create(:closed_status) }
   let(:aggregate_done_ratio) { 0.0 }
   let(:ignore_non_working_days) { [false, false, false] }
 
@@ -68,15 +68,15 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
       let(:children) do
         (statuses.size - 1).downto(0).map do |i|
-          create :work_package,
+          create(:work_package,
                  parent:,
                  status: statuses[i] == :open ? open_status : closed_status,
                  estimated_hours: estimated_hours[i],
                  done_ratio: done_ratios[i],
-                 ignore_non_working_days:
+                 ignore_non_working_days:)
         end
       end
-      let(:parent) { create :work_package, status: open_status }
+      let(:parent) { create(:work_package, status: open_status) }
 
       subject do
         # In the call we only use estimated_hours (instead of also adding
@@ -214,23 +214,23 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       let(:sibling_estimated_hours) { 7.0 }
 
       let!(:grandparent) do
-        create :work_package
+        create(:work_package)
       end
       let!(:parent) do
-        create :work_package,
-               parent: grandparent
+        create(:work_package,
+               parent: grandparent)
       end
       let!(:sibling) do
-        create :work_package,
+        create(:work_package,
                parent:,
                status: sibling_status,
                estimated_hours: sibling_estimated_hours,
-               done_ratio: sibling_done_ratio
+               done_ratio: sibling_done_ratio)
       end
 
       let!(:work_package) do
-        create :work_package,
-               parent:
+        create(:work_package,
+               parent:)
       end
 
       subject do
@@ -284,17 +284,17 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       let(:estimated_hours) { 7.0 }
 
       let!(:grandparent) do
-        create :work_package
+        create(:work_package)
       end
       let!(:parent) do
-        create :work_package,
-               parent: grandparent
+        create(:work_package,
+               parent: grandparent)
       end
       let!(:work_package) do
-        create :work_package,
+        create(:work_package,
                status:,
                estimated_hours:,
-               done_ratio:
+               done_ratio:)
       end
 
       shared_examples_for 'updates the attributes within the new hierarchy' do
@@ -370,26 +370,26 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
       let(:estimated_hours) { 7.0 }
 
       let!(:grandparent) do
-        create :work_package,
+        create(:work_package,
                derived_estimated_hours: estimated_hours,
-               done_ratio:
+               done_ratio:)
       end
       let!(:old_parent) do
-        create :work_package,
+        create(:work_package,
                parent: grandparent,
                derived_estimated_hours: estimated_hours,
-               done_ratio:
+               done_ratio:)
       end
       let!(:new_parent) do
-        create :work_package,
-               parent: grandparent
+        create(:work_package,
+               parent: grandparent)
       end
       let!(:work_package) do
-        create :work_package,
+        create(:work_package,
                parent: old_parent,
                status:,
                estimated_hours:,
-               done_ratio:
+               done_ratio:)
       end
 
       subject do
@@ -441,26 +441,26 @@ describe WorkPackages::UpdateAncestorsService, type: :model, with_mail: false do
 
   describe 'ignore_non_working_days propagation' do
     shared_let(:grandgrandparent) do
-      create :work_package,
-             subject: 'grandgrandparent'
+      create(:work_package,
+             subject: 'grandgrandparent')
     end
     shared_let(:grandparent) do
-      create :work_package,
+      create(:work_package,
              subject: 'grandparent',
-             parent: grandgrandparent
+             parent: grandgrandparent)
     end
     shared_let(:parent) do
-      create :work_package,
+      create(:work_package,
              subject: 'parent',
-             parent: grandparent
+             parent: grandparent)
     end
     shared_let(:sibling) do
-      create :work_package,
+      create(:work_package,
              subject: 'sibling',
-             parent:
+             parent:)
     end
     shared_let(:work_package) do
-      create :work_package
+      create(:work_package)
     end
 
     subject do

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe OpenIDConnect::ProvidersController do
-  let(:user) { build_stubbed :admin }
+  let(:user) { build_stubbed(:admin) }
 
   let(:valid_params) do
     {
@@ -45,7 +45,6 @@ describe OpenIDConnect::ProvidersController do
   end
 
   context 'without an EE token' do
-
     it 'renders upsale' do
       get :index
       expect(response).to have_http_status(:ok)

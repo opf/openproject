@@ -44,8 +44,8 @@ describe 'Version action board', js: true do
            member_through_role: role_board_manager)
   end
   let(:type) { create(:type_standard) }
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
   let(:role) { create(:role, permissions:) }
   let(:role_board_manager) { create(:role, permissions: permissions_board_manager) }
 
@@ -61,14 +61,14 @@ describe 'Version action board', js: true do
     %i[show_board_views manage_board_views view_work_packages manage_public_queries]
   end
 
-  let!(:open_version) { create :version, project:, name: 'Open version' }
-  let!(:other_version) { create :version, project:, name: 'A second version' }
-  let!(:different_project_version_) { create :version, project: second_project, name: 'Version of another project' }
-  let!(:shared_version) { create :version, project: second_project, name: 'Shared version', sharing: 'system' }
-  let!(:closed_version) { create :version, project:, status: 'closed', name: 'Closed version' }
+  let!(:open_version) { create(:version, project:, name: 'Open version') }
+  let!(:other_version) { create(:version, project:, name: 'A second version') }
+  let!(:different_project_version_) { create(:version, project: second_project, name: 'Version of another project') }
+  let!(:shared_version) { create(:version, project: second_project, name: 'Shared version', sharing: 'system') }
+  let!(:closed_version) { create(:version, project:, status: 'closed', name: 'Closed version') }
 
-  let!(:work_package) { create :work_package, project:, subject: 'Foo', version: open_version }
-  let!(:closed_version_wp) { create :work_package, project:, subject: 'Closed', version: closed_version }
+  let!(:work_package) { create(:work_package, project:, subject: 'Foo', version: open_version) }
+  let!(:closed_version_wp) { create(:work_package, project:, subject: 'Closed', version: closed_version) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
   def create_new_version_board
@@ -254,7 +254,7 @@ describe 'Version action board', js: true do
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).to have_no_selector('[data-qa-selector="op-version-board-header"].-closed')
+      expect(page).not_to have_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
@@ -330,7 +330,7 @@ describe 'Version action board', js: true do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).to have_no_selector('[data-qa-selector="op-wp-single-card"].-draggable')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-single-card"].-draggable')
     end
   end
 

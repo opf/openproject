@@ -36,25 +36,25 @@ describe 'Create cost entry without rate permissions', js: true do
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
                            log_costs
                            view_cost_entries
-                           work_package_assigned]
+                           work_package_assigned])
   end
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   shared_let(:cost_type) do
-    type = create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
-    create :cost_rate, cost_type: type, rate: 1.00
+    type = create(:cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural')
+    create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
 
-  shared_let(:work_package) { create :work_package, project:, status:, type: type_task }
+  shared_let(:work_package) { create(:work_package, project:, status:, type: type_task) }
   shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
   before do
@@ -73,7 +73,7 @@ describe 'Create cost entry without rate permissions', js: true do
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_no_selector('#cost_entry_costs')
+    expect(page).not_to have_selector('#cost_entry_costs')
 
     click_on 'Save'
 

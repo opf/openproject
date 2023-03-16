@@ -137,13 +137,13 @@ module OpenProject::TextFormatting
                 "##{title}" # used for single-file wiki export
               else
                 wiki_page_id = wiki_page.nil? ? WikiPage.slug(page) : wiki_page.slug
-                url_for only_path: context[:only_path],
+                url_for(only_path: context[:only_path],
                         controller: '/wiki',
                         action: 'show',
                         project_id: project.identifier,
                         title: wiki_page.nil? ? wiki_title.strip : nil,
                         id: wiki_page_id,
-                        anchor: anchor
+                        anchor:)
               end
 
         link_to h(wiki_title),

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:user) do
     create(:user,
@@ -37,7 +37,7 @@ describe 'Meetings', js: true do
            member_through_role: role)
   end
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
+  let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
 
   before do
     login_as(user)
@@ -56,16 +56,16 @@ describe 'Meetings', js: true do
     end
 
     context 'with an open agenda' do
-      let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-      let(:agenda_update) { create :meeting_agenda, meeting:, text: 'bla' }
+      let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo') }
+      let(:agenda_update) { create(:meeting_agenda, meeting:, text: 'bla') }
 
       it 'shows the agenda' do
         visit meeting_path(meeting)
         expect(page).to have_selector('#meeting_agenda-text', text: 'foo')
 
         # May not edit
-        expect(page).to have_no_selector('#edit-meeting_agenda')
-        expect(page).to have_no_selector('.meeting_agenda', text: 'Edit')
+        expect(page).not_to have_selector('#edit-meeting_agenda')
+        expect(page).not_to have_selector('.meeting_agenda', text: 'Edit')
       end
 
       it 'can view history' do
@@ -76,7 +76,7 @@ describe 'Meetings', js: true do
         click_on 'History'
         SeleniumHubWaiter.wait
 
-        find('#version-1').click
+        find_by_id('version-1').click
         expect(page).to have_selector('.meeting_agenda', text: 'foo')
       end
 
@@ -99,19 +99,19 @@ describe 'Meetings', js: true do
         it 'can not edit the minutes' do
           visit meeting_path(meeting)
           click_link 'Minutes'
-          expect(page).to have_no_selector('.meeting_minutes', text: 'Edit')
+          expect(page).not_to have_selector('.meeting_minutes', text: 'Edit')
           expect(page).to have_selector('.meeting_minutes', text: 'There is currently nothing to display')
         end
       end
     end
 
     context 'with a locked agenda' do
-      let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo', locked: true }
+      let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo', locked: true) }
 
       it 'shows the minutes when visiting' do
         visit meeting_path(meeting)
-        expect(page).to have_no_selector('h2', text: 'Agenda')
-        expect(page).to have_no_selector('#edit-meeting_minutes')
+        expect(page).not_to have_selector('h2', text: 'Agenda')
+        expect(page).not_to have_selector('#edit-meeting_minutes')
         expect(page).to have_selector('h2', text: 'Minutes')
       end
 
@@ -122,7 +122,7 @@ describe 'Meetings', js: true do
           visit meeting_path(meeting)
           expect(page).to have_selector('#edit-meeting_minutes')
           expect(page).to have_selector('.meeting_minutes', text: 'Edit')
-          expect(page).to have_no_selector('.button', text: 'Close the meeting to begin the Minutes')
+          expect(page).not_to have_selector('.button', text: 'Close the meeting to begin the Minutes')
         end
       end
     end

@@ -31,8 +31,8 @@ require 'spec_helper'
 describe VersionsHelper do
   include ApplicationHelper
 
-  let(:test_project) { build_stubbed :valid_project }
-  let(:version) { build_stubbed :version, project: test_project }
+  let(:test_project) { build_stubbed(:valid_project) }
+  let(:version) { build_stubbed(:version, project: test_project) }
 
   describe '#format_version_name' do
     context 'a version' do
@@ -47,7 +47,7 @@ describe VersionsHelper do
     end
 
     context 'a system version' do
-      let(:version) { build_stubbed :version, project: test_project, sharing: 'system' }
+      let(:version) { build_stubbed(:version, project: test_project, sharing: 'system') }
 
       it 'can be formatted' do
         expect(format_version_name(version)).to eq("#{test_project.name} - #{version.name}")

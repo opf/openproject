@@ -49,7 +49,7 @@ describe WorkPackages::UpdateContract do
       add_work_package_notes
     ]
   end
-  let(:role) { create :role, permissions: }
+  let(:role) { create(:role, permissions:) }
   let(:changed_values) { [] }
 
   subject(:contract) { described_class.new(work_package, current_user) }

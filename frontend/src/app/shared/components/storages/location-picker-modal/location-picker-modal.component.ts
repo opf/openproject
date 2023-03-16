@@ -27,7 +27,11 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
 } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,8 +58,11 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
 
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
+    content: {
+      empty: this.i18n.t('js.storages.files.empty_folder'),
+      emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
+    },
     buttons: {
-      openStorage: ():string => this.i18n.t('js.storages.open_storage', { storageType: this.locals.storageTypeName as string }),
       submit: this.i18n.t('js.storages.choose_location'),
       submitEmptySelection: this.i18n.t('js.storages.file_links.selection_none'),
       cancel: this.i18n.t('js.button_cancel'),
@@ -63,8 +70,17 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
     },
     tooltip: {
       directory_not_writeable: this.i18n.t('js.storages.files.directory_not_writeable'),
+      file_not_selectable: this.i18n.t('js.storages.files.file_not_selectable_location'),
     },
   };
+
+  public get location():string {
+    return this.currentDirectory.id as string;
+  }
+
+  public get filesAtLocation():IStorageFile[] {
+    return this.storageFiles$.getValue();
+  }
 
   public get canChooseLocation():boolean {
     if (!this.currentDirectory) {
@@ -104,12 +120,23 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
       !isDirectory(file),
       index === 0,
       this.enterDirectoryCallback(file),
-      this.isDirectoryWithoutWritePermission(file) ? this.text.tooltip.directory_not_writeable : undefined,
+      this.isConstrained(file),
+      this.tooltip(file),
       undefined,
     );
   }
 
-  private isDirectoryWithoutWritePermission(file:IStorageFile):boolean {
-    return isDirectory(file) && !file.permissions.some((permission) => permission === 'writeable');
+  private isConstrained(file:IStorageFile):boolean {
+    return !file.permissions.some((permission) => permission === 'writeable');
+  }
+
+  private tooltip(file:IStorageFile):string|undefined {
+    if (isDirectory(file)) {
+      return file.permissions.some((permission) => permission === 'writeable')
+        ? undefined
+        : this.text.tooltip.directory_not_writeable;
+    }
+
+    return this.text.tooltip.file_not_selectable;
   }
 }

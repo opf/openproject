@@ -147,7 +147,7 @@ describe 'Project details widget on dashboard', js: true do
            .to have_content("#{user_cf.name}\n#{other_user.name.split.map(&:first).join}\n#{other_user.name}")
 
         # The fields are not editable
-        field = EditField.new dashboard_page, "customField#{bool_cf.id}"
+        field = EditField.new dashboard_page, bool_cf.attribute_name(:camel_case)
         field.expect_read_only
         field.activate! expect_open: false
       end
@@ -158,16 +158,16 @@ describe 'Project details widget on dashboard', js: true do
     let(:current_user) { editing_user }
 
     it 'can edit the custom fields' do
-      int_field = EditField.new dashboard_page, "customField#{int_cf.id}"
+      int_field = EditField.new dashboard_page, int_cf.attribute_name(:camel_case)
       change_cf_value int_field, "5", "3"
 
-      string_field = EditField.new dashboard_page, "customField#{string_cf.id}"
+      string_field = EditField.new dashboard_page, string_cf.attribute_name(:camel_case)
       change_cf_value string_field, 'Some small text', 'Some new text'
 
-      text_field = TextEditorField.new dashboard_page, "customField#{text_cf.id}"
+      text_field = TextEditorField.new dashboard_page, text_cf.attribute_name(:camel_case)
       change_cf_value text_field, 'Some long text', 'Some very long text'
 
-      user_field = SelectField.new dashboard_page, "customField#{user_cf.id}"
+      user_field = SelectField.new dashboard_page, user_cf.attribute_name(:camel_case)
       change_cf_value user_field, other_user.name, editing_user.name
     end
   end

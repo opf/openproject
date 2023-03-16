@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'group memberships through groups page', js: true do
-  shared_let(:admin) { create :admin }
-  let!(:group) { create :group, lastname: "Bob's Team" }
+  shared_let(:admin) { create(:admin) }
+  let!(:group) { create(:group, lastname: "Bob's Team") }
 
   let(:groups_page) { Pages::Groups.new }
 

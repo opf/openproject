@@ -52,6 +52,23 @@ module Queries::Filters::Shared
 
       protected
 
+      def condition
+        return super unless customized_strategy?
+
+        customized_model = custom_field_context.model
+
+        operator_strategy.sql_for_customized(
+          values_replaced,
+          Arel.sql(customized_model.name),
+          Arel.sql("#{customized_model.table_name}.id")
+        )
+      end
+
+      def customized_strategy?
+        operator_strategy == Queries::Operators::CustomFields::EqualsAll ||
+          operator_strategy == Queries::Operators::CustomFields::NotEqualsAll
+      end
+
       def type_strategy_class
         ::Queries::Filters::Strategies::CfListOptional
       end

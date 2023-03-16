@@ -184,11 +184,15 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#files_query' do
-    let(:xml) { create(:webdav_data) }
+    let(:parent) { '' }
+    let(:root_path) { '' }
+    let(:xml) { create(:webdav_data, parent_path: parent, root_path:) }
+    let(:url) { "https://example.com#{root_path}" }
+    let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id.gsub(' ', '%20')}#{parent}" }
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      stub_request(:propfind, "#{url}/remote.php/dav/files/#{origin_user_id}")
+      stub_request(:propfind, request_url)
         .to_return(status: 207, body: xml, headers: {})
     end
 
@@ -200,7 +204,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result.size).to eq(5)
+              expect(result.result.files.size).to eq(4)
+              expect(result.result.parent).not_to be_nil
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -215,9 +220,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[1].name).to eq('Folder1')
-              expect(result.result[1].mime_type).to eq('application/x-op-directory')
-              expect(result.result[1].id).to eq('11')
+              expect(result.result.files[0].name).to eq('Folder1')
+              expect(result.result.files[0].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[0].id).to eq('11')
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -233,13 +238,13 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               result = query.call(nil)
               expect(result).to be_success
 
-              expect(result.result[1].mime_type).to eq('application/x-op-directory')
-              expect(result.result[1].permissions).to include(:readable)
-              expect(result.result[1].permissions).to include(:writeable)
+              expect(result.result.files[0].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[0].permissions).to include(:readable)
+              expect(result.result.files[0].permissions).to include(:writeable)
 
-              expect(result.result[2].mime_type).to eq('application/x-op-directory')
-              expect(result.result[2].permissions).to include(:readable)
-              expect(result.result[2].permissions).not_to include(:writeable)
+              expect(result.result.files[1].mime_type).to eq('application/x-op-directory')
+              expect(result.result.files[1].permissions).to include(:readable)
+              expect(result.result.files[1].permissions).not_to include(:writeable)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -255,13 +260,13 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               result = query.call(nil)
               expect(result).to be_success
 
-              expect(result.result[3].mime_type).to eq('text/markdown')
-              expect(result.result[3].permissions).to include(:readable)
-              expect(result.result[3].permissions).to include(:writeable)
+              expect(result.result.files[2].mime_type).to eq('text/markdown')
+              expect(result.result.files[2].permissions).to include(:readable)
+              expect(result.result.files[2].permissions).to include(:writeable)
 
-              expect(result.result[4].mime_type).to eq('application/pdf')
-              expect(result.result[4].permissions).to include(:readable)
-              expect(result.result[4].permissions).not_to include(:writeable)
+              expect(result.result.files[3].mime_type).to eq('application/pdf')
+              expect(result.result.files[3].permissions).to include(:readable)
+              expect(result.result.files[3].permissions).not_to include(:writeable)
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -276,9 +281,9 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               result = query.call(nil)
               expect(result).to be_success
-              expect(result.result[3].name).to eq('README.md')
-              expect(result.result[3].mime_type).to eq('text/markdown')
-              expect(result.result[3].id).to eq('12')
+              expect(result.result.files[2].name).to eq('README.md')
+              expect(result.result.files[2].mime_type).to eq('text/markdown')
+              expect(result.result.files[2].id).to eq('12')
             end,
             on_failure: ->(error) do
               raise "Files query could not be created: #{error}"
@@ -286,19 +291,73 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
           )
       end
 
-      describe 'with parent query parameter' do
-        let(:parent) { '/Photos/Birds' }
-        let(:request_url) { "#{url}/remote.php/dav/files/#{origin_user_id}#{parent}" }
-
-        before do
-          stub_request(:propfind, request_url).to_return(status: 207, body: xml, headers: {})
-        end
+      describe 'with origin user id containing whitespaces' do
+        let(:origin_user_id) { 'my user' }
+        let(:xml) { create(:webdav_data, origin_user_id:) }
 
         it do
           subject
             .files_query(user:)
             .match(
-              on_success: ->(query) { query.call(parent) },
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result.files[0].location).to eq('/Folder1')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with parent query parameter' do
+        let(:parent) { '/Photos/Birds' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with storage running on a sub path' do
+        let(:root_path) { '/storage' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(nil)
+                expect(result.result.files[2].location).to eq('/README.md')
+              },
+              on_failure: ->(error) { raise "Files query could not be created: #{error}" }
+            )
+
+          assert_requested(:propfind, request_url)
+        end
+      end
+
+      describe 'with storage running on a sub path and with parent parameter' do
+        let(:root_path) { '/storage' }
+        let(:parent) { '/Photos/Birds' }
+
+        it do
+          subject
+            .files_query(user:)
+            .match(
+              on_success: ->(query) {
+                result = query.call(parent)
+                expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
+              },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
 
@@ -356,6 +415,99 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   describe '#upload_link_query' do
+    let(:query_payload) { Struct.new(:parent).new(42) }
+    let(:upload_token) { 'valid-token' }
+
+    before do
+      allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+      stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token")
+        .with(body: { folder_id: query_payload.parent })
+        .to_return(
+          status: 200,
+          body: {
+            token: upload_token,
+            expires_on: 1673883865
+          }.to_json
+        )
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'must return an upload link URL' do
+        subject
+          .upload_link_query(user:)
+          .match(
+            on_success: ->(query) do
+              query.call(query_payload).match(
+                on_success: ->(link) {
+                  expect(link.destination.path).to be_eql("/apps/integration_openproject/direct-upload/#{upload_token}")
+                  expect(link.destination.host).to be_eql(URI(url).host)
+                  expect(link.destination.scheme).to be_eql(URI(url).scheme)
+                  expect(link.destination.user).to be_nil
+                  expect(link.destination.password).to be_nil
+                  expect(link.method).to eq(:post)
+                },
+                on_failure: ->(error) {
+                  raise "Files query could not be executed: #{error}"
+                }
+              )
+            end,
+            on_failure: ->(error) do
+              raise "Files query could not be created: #{error}"
+            end
+          )
+      end
+    end
+
+    describe 'with not supported storage type selected' do
+      before do
+        allow(storage).to receive(:provider_type).and_return('not_supported_storage_type'.freeze)
+      end
+
+      it 'must raise ArgumentError' do
+        expect { subject.upload_link_query(user:) }.to raise_error(ArgumentError)
+      end
+    end
+
+    describe 'with missing OAuth token' do
+      before do
+        allow(connection_manager).to receive(:get_access_token).and_return(ServiceResult.failure)
+      end
+
+      it 'must return ":not_authorized" ServiceResult' do
+        expect(subject.upload_link_query(user:)).to be_failure
+      end
+    end
+
+    shared_examples_for 'outbound is failing' do |code, symbol|
+      describe "with outbound request returning #{code}" do
+        before do
+          stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token").to_return(status: code)
+        end
+
+        it "must return :#{symbol} ServiceResult" do
+          subject
+            .upload_link_query(user:)
+            .match(
+              on_success: ->(query) do
+                result = query.call(query_payload)
+                expect(result).to be_failure
+                expect(result.errors.code).to be(symbol)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
+      end
+    end
+
+    include_examples 'outbound is failing', 400, :error
+    include_examples 'outbound is failing', 401, :not_authorized
+    include_examples 'outbound is failing', 404, :not_found
+    include_examples 'outbound is failing', 500, :error
+  end
+
+  describe '#legacy_upload_link_query', with_flag: { legacy_upload_preparation: true } do
     let(:query_payload) do
       Struct.new(:fileName, :parent).new("ape.png", "/Pictures")
     end
@@ -397,7 +549,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     describe 'with Nextcloud storage type selected' do
       it 'must return an upload link URL' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               query.call(query_payload).match(
@@ -407,6 +559,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
                   expect(link.destination.scheme).to be_eql(URI(url).scheme)
                   expect(link.destination.user).not_to be_nil
                   expect(link.destination.password).not_to be_nil
+                  expect(link.method).to eq(:put)
                 },
                 on_failure: ->(error) {
                   raise "Files query could not be executed: #{error}"
@@ -426,7 +579,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'must raise ArgumentError' do
-        expect { subject.download_link_query(user:) }.to raise_error(ArgumentError)
+        expect { subject.upload_link_query(user:) }.to raise_error(ArgumentError)
       end
     end
 
@@ -436,7 +589,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       end
 
       it 'must return ":not_authorized" ServiceResult' do
-        expect(subject.download_link_query(user:)).to be_failure
+        expect(subject.upload_link_query(user:)).to be_failure
       end
     end
 
@@ -457,7 +610,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -480,7 +633,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
       it 'must return :not_authorized ServiceResult' do
         subject
-          .upload_link_query(user:, finalize_url: nil)
+          .upload_link_query(user:)
           .match(
             on_success: ->(query) do
               result = query.call(query_payload)
@@ -502,7 +655,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
         it "must return :#{symbol} ServiceResult" do
           subject
-            .upload_link_query(user:, finalize_url: nil)
+            .upload_link_query(user:)
             .match(
               on_success: ->(query) do
                 result = query.call(query_payload)

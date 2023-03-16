@@ -65,7 +65,7 @@ module OpenProject
                              content: 'test content',
                              binary: false)
 
-      tmp = create_temp_file name: name, content: content, binary: binary
+      tmp = create_temp_file(name:, content:, binary:)
       build_uploaded_file tmp, content_type, binary:
     end
   end

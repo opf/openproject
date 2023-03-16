@@ -39,7 +39,7 @@ describe I18n, 'pluralization', type: :helper do
       allow(I18n.backend)
         .to(receive(:lookup))
         .with(:sl, :label_x_projects, any_args)
-        .and_return({ one: "1 projekt", other: "%{count} projektov", zero: "Brez projektov" })
+        .and_return({ one: "1 projekt", other: "%<count>s projektov", zero: "Brez projektov" })
     end
 
     it 'allows to pluralize without exceptions (Regression #37607)', :aggregate_failures do

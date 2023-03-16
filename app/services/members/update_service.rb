@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::UpdateService < ::BaseServices::Update
+class Members::UpdateService < BaseServices::Update
   include Members::Concerns::CleanedUp
   include Members::Concerns::NotificationSender
 

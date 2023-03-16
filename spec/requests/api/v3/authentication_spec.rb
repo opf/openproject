@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe API::V3 do
   let(:resource) { "/api/v3/projects" }
-  let(:user) { create :user }
+  let(:user) { create(:user) }
 
   describe 'oauth' do
     let(:oauth_access_token) { '' }
@@ -44,7 +44,7 @@ describe API::V3 do
     end
 
     context 'with a valid access token' do
-      let(:token) { create :oauth_access_token, resource_owner: user }
+      let(:token) { create(:oauth_access_token, resource_owner: user) }
       let(:oauth_access_token) { token.plaintext_token }
 
       it 'authenticates successfully' do
@@ -61,7 +61,7 @@ describe API::V3 do
     end
 
     context 'with an expired access token' do
-      let(:token) { create :oauth_access_token, resource_owner: user, revoked_at: DateTime.now }
+      let(:token) { create(:oauth_access_token, resource_owner: user, revoked_at: DateTime.now) }
       let(:oauth_access_token) { token.plaintext_token }
 
       it 'returns unauthorized' do
@@ -230,7 +230,7 @@ describe API::V3 do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key) { create :api_token }
+          let(:api_key) { create(:api_token) }
 
           let(:username) { 'apikey' }
           let(:password) { api_key.plain_value }
@@ -241,7 +241,7 @@ describe API::V3 do
       end
 
       describe 'user basic auth' do
-        let(:api_key) { create :api_token }
+        let(:api_key) { create(:api_token) }
 
         let(:username) { 'apikey' }
         let(:password) { api_key.plain_value }
@@ -262,8 +262,8 @@ describe API::V3 do
           let(:username) { 'hancholo' }
           let(:password) { 'olooleol' }
 
-          let(:api_user) { create :user, login: 'user_account' }
-          let(:api_key) { create :api_token, user: api_user }
+          let(:api_user) { create(:user, login: 'user_account') }
+          let(:api_key) { create(:api_token, user: api_user) }
 
           before do
             config = { user: 'global_account', password: 'global_password' }

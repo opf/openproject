@@ -7,7 +7,7 @@ ca:
       label_unnamed_list: 'Llista sense nom'
       label_board_type: 'Tipus de taulell'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'T''agradaria automatitzar els teus processos de treball amb taulells? Els taulells avançats són un add-on de l''edició Enterprise. Si us plau, actualitza a un pla de pagament.'
         upgrade: 'Actualitzeu ara'
       lists:
         delete: 'Suprimeix la llista'
@@ -62,7 +62,7 @@ ca:
           status: Estat
           version: Versió
           subproject: Subprojecte
-          subtasks: Parent-child
+          subtasks: Pare-fill
           basic: Bàsic
         select_attribute: "Atribut d'acció"
       add_list_modal:

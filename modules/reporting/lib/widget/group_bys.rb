@@ -30,6 +30,7 @@ class Widget::GroupBys < Widget::Base
   def render_options(group_by_ary)
     group_by_ary.sort_by(&:label).map do |group_by|
       next unless group_by.selectable?
+
       label_text = CGI::escapeHTML(h(group_by.label)).to_s
       option_tags = { value: group_by.underscore_name, 'data-label': label_text }
       option_tags[:title] = label_text if group_by.label.length > 40

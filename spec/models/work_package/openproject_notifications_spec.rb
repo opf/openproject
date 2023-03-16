@@ -32,14 +32,14 @@ require 'spec_helper'
 # Tests that email notifications will be sent upon creating or changing a work package.
 describe WorkPackage, with_settings: { journal_aggregation_time_minutes: 0 } do
   describe 'OpenProject notifications' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
-    let(:project) { create :project }
+    let(:project) { create(:project) }
     let(:work_package) do
-      create :work_package,
+      create(:work_package,
              author: admin,
              subject: 'I can see you',
-             project:
+             project:)
     end
 
     let(:journal_ids) { [] }

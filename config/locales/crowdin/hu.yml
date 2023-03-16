@@ -345,6 +345,8 @@ hu:
       one: 'Egy leszármazott feladatcsoport'
       other: '%{count} munkacsomag leszármazottai'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Az alábbi munkacsomagot nem lehet elmenteni:"
       none_could_be_saved: "%{total} munkacsomag közül egyik sem frissíthető."
       x_out_of_y_could_be_saved: "%{total} munkacsomag közül %{success} frissítése sikeres, %{failing} pedig sikertelen."
@@ -468,14 +470,24 @@ hu:
       member:
         roles: "Szerepkörök"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Azonosító"
         latest_activity_at: "Legújabb tevékenység ekkor"
         parent: "Alprojekt"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Lekérdezések"
+        templated: "Példa projekt"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Típus"
         versions: "Verzió"
         work_packages: "Feladatcsoportok"
-        templated: 'Példa projekt'
       projects/status:
         code: 'Állapot'
         explanation: 'Állapot leírása'
@@ -897,8 +909,22 @@ hu:
     header_invalid_fields: "Problémák merültek fel az alábbi mezőkkel:"
     field_erroneous_label: "Ez a mező érvénytelen: %{full_errors} kérjük, adjon meg egy érvényes értéket."
   activity:
-    created: "Létrehozva: %{title}"
-    updated: "Frissítve: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "aktív"
@@ -1034,6 +1060,7 @@ hu:
   button_reset: "Visszaállít, reset"
   button_rollback: "Visszaállitás erre a verzióra"
   button_save: "Mentés"
+  button_apply_changes: "Apply changes"
   button_save_back: "Mentés és vissza"
   button_show: "Mutat"
   button_sort: "Rendez"
@@ -1342,6 +1369,7 @@ hu:
     work_package_note: 'A feladatcsoport jegyzet hozzáadva'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Munkacsomagok exportálása"
     succeeded: "Az exportálás sikeresen végetért."
@@ -1367,7 +1395,6 @@ hu:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Magyar"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nem"
   general_text_yes: "igen"
@@ -1753,6 +1780,10 @@ hu:
   label_not_contains: "nem tartalmaz"
   label_not_equals: "nem"
   label_on: "be"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Menü megnyitása"
   label_open_work_packages: "nyitott"
   label_open_work_packages_plural: "nyitott"
@@ -1794,6 +1825,7 @@ hu:
   label_product_version: "Termékverzió"
   label_professional_support: "Szakmai támogatás"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "A projektek teljes száma"
   label_project_copy_notifications: "E-mail értesítéseket küld a projekt másolás során"
@@ -2654,12 +2686,13 @@ hu:
   text_work_packages_destroy_confirmation: "Biztosan törli a kijelölt feladatcsoportot?"
   text_work_packages_ref_in_commit_messages: "Viszonyítandó és elintézendő feladatcsoportok a véglegesítési üzenetekben"
   text_journal_added: "%{label} %{value} hozzáadva"
-  text_journal_changed_html: "%{label} megváltoztatva %{old} %{linebreak} <strong>, új érték: </strong> %{new}\n"
   text_journal_changed_plain: "%{label} megváltozott %{old} %{linebreak}-tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
   text_journal_deleted: "%{label} törölve (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} törölt (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} beállított %{value}"
   text_journal_set_with_diff: "%{label} beállított (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2952,15 +2985,20 @@ hu:
       title: "Munkacsomag törlése"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nincs előnézet"
   api_v3:
     attributes:

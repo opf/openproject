@@ -33,16 +33,16 @@ class TestRepresenter < API::Decorators::Single
 end
 
 describe API::V3::Principals::PrincipalRepresenterFactory do
-  let(:current_user) { build_stubbed :user }
+  let(:current_user) { build_stubbed(:user) }
 
   let(:represented) do
     OpenStruct.new(association_id: 5, association: principal)
   end
   let(:principal) { nil }
-  let(:user) { build_stubbed :user }
-  let(:group) { build_stubbed :group }
-  let(:placeholder) { build_stubbed :placeholder_user }
-  let(:deleted) { build_stubbed :deleted_user }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:placeholder) { build_stubbed(:placeholder_user) }
+  let(:deleted) { build_stubbed(:deleted_user) }
 
   describe '.create' do
     subject { described_class.create principal, current_user: }

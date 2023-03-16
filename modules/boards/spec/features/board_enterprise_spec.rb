@@ -34,12 +34,12 @@ describe 'Boards enterprise spec', js: true do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
-  shared_let(:priority) { create :default_priority }
-  shared_let(:status) { create :default_status }
+  shared_let(:priority) { create(:default_priority) }
+  shared_let(:status) { create(:default_status) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  shared_let(:manual_board) { create :board_grid_with_query, name: 'My board', project: }
+  shared_let(:manual_board) { create(:board_grid_with_query, name: 'My board', project:) }
   shared_let(:action_board) do
     create(:subproject_board,
            name: 'Subproject board',
@@ -67,7 +67,7 @@ describe 'Boards enterprise spec', js: true do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query 'My board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
@@ -96,12 +96,12 @@ describe 'Boards enterprise spec', js: true do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query 'My board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
       board_page.expect_query 'Subproject board'
-      expect(page).to have_no_selector '[data-qa-selector="op-enterprise-banner"]'
+      expect(page).not_to have_selector '[data-qa-selector="op-enterprise-banner"]'
     end
   end
 end

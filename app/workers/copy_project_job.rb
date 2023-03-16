@@ -154,7 +154,7 @@ class CopyProjectJob < ApplicationJob
   end
 
   def copy_project_params
-    params = { target_project_params: }
+    params = { target_project_params:, send_notifications: send_mails }
     params[:only] = associations_to_copy if associations_to_copy.present?
 
     params

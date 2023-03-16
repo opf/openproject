@@ -50,9 +50,9 @@ describe Admin::Settings::WorkingDaysSettingsController do
 
   describe 'update' do
     let(:working_days) { [*'1'..'7'] }
-    let(:non_working_days) { {} }
+    let(:non_working_days_attributes) { {} }
     let(:params) do
-      { settings: { working_days:, non_working_days: } }
+      { settings: { working_days:, non_working_days_attributes: } }
     end
 
     subject { patch 'update', params: }
@@ -65,7 +65,7 @@ describe Admin::Settings::WorkingDaysSettingsController do
     end
 
     context 'with non_working_days' do
-      let(:non_working_days) do
+      let(:non_working_days_attributes) do
         { '0' => { 'name' => 'Christmas Eve', 'date' => '2022-12-24' } }
       end
 
@@ -84,7 +84,7 @@ describe Admin::Settings::WorkingDaysSettingsController do
 
     context 'when fails with a duplicate entry' do
       let(:nwd_to_delete) { create(:non_working_day, name: 'NWD to delete') }
-      let(:non_working_days) do
+      let(:non_working_days_attributes) do
         {
           '0' => { 'name' => 'Christmas Eve', 'date' => '2022-12-24' },
           '1' => { 'name' => 'Christmas Eve2', 'date' => '2022-12-24' },
@@ -102,9 +102,9 @@ describe Admin::Settings::WorkingDaysSettingsController do
       it 'sets the @modified_non_working_days variable' do
         subject
         expect(assigns(:modified_non_working_days)).to contain_exactly(
-          have_attributes(name: 'Christmas Eve', date: Date.parse('2022-12-24')),
-          have_attributes(name: 'Christmas Eve2', date: Date.parse('2022-12-24')),
-          have_attributes(nwd_to_delete.slice(:id, :name, :date))
+          hash_including('name' => 'Christmas Eve', 'date' => '2022-12-24'),
+          hash_including('name' => 'Christmas Eve2', 'date' => '2022-12-24'),
+          hash_including(nwd_to_delete.as_json(only: %i[id name date]).merge('_destroy' => true))
         )
       end
 

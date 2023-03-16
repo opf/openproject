@@ -157,7 +157,7 @@ describe Burndown do
           let!(:stories) do
             stories = []
 
-            (0..9).each do |i|
+            10.times do |i|
               stories[i] = create(:story, subject: "Story #{i}",
                                           project:,
                                           version:,
@@ -181,7 +181,7 @@ describe Burndown do
 
             describe 'WITH 5 stories having been reduced to 0 story points, one story per day' do
               before do
-                (0..4).each do |i|
+                5.times do |i|
                   set_attribute_journalized stories[i], :story_points=, nil, version.start_date + i.days + 1.hour
                 end
               end

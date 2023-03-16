@@ -3,19 +3,19 @@ require 'features/page_objects/notification'
 
 describe 'edit work package', js: true do
   let(:current_user) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages assign_versions] }
 
   let(:cf_all) do
-    create :work_package_custom_field, is_for_all: true, field_format: 'text'
+    create(:work_package_custom_field, is_for_all: true, field_format: 'text')
   end
 
-  let(:type) { create :type, custom_fields: [cf_all] }
+  let(:type) { create(:type, custom_fields: [cf_all]) }
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
     create(:work_package,
@@ -27,7 +27,7 @@ describe 'edit work package', js: true do
   let(:status) { work_package.status }
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:version) { create :version, project: }
+  let(:version) { create(:version, project:) }
 
   def visit!
     wp_page.visit!

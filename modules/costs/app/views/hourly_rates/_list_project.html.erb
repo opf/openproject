@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
   current_rate = if @all_rates
                    at_date_in_project_with_ancestors(Date.today, all_rates, project)
                  else
-                   current_rate = @user.current_rate(project)
+                   @user.current_rate(project)
                  end
 %>
 <div class="user-rate-history-list">

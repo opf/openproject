@@ -30,6 +30,7 @@ class WikiContent < ApplicationRecord
   extend DeprecatedAlias
 
   belongs_to :page, class_name: 'WikiPage'
+  has_one :project, through: :page
   belongs_to :author, class_name: 'User'
 
   acts_as_journalized
@@ -51,8 +52,6 @@ class WikiContent < ApplicationRecord
   def visible?(user = User.current)
     page.visible?(user)
   end
-
-  delegate :project, to: :page
 
   def attachments
     page.nil? ? [] : page.attachments

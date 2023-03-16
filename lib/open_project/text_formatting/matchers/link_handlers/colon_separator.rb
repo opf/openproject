@@ -30,7 +30,7 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class ColonSeparator < Base
       def self.allowed_prefixes
-        %w(commit source export version project user attachment document meeting)
+        %w(commit source export version project user attachment document meeting view)
       end
 
       ##
@@ -168,6 +168,16 @@ module OpenProject::TextFormatting::Matchers
           link_to meeting.title,
                   { only_path: context[:only_path], controller: '/meetings', action: 'show', id: meeting.id },
                   class: 'meeting'
+        end
+      end
+
+      # view is the user-facing name of work package queries
+      # query is the technical/internal name of the concept
+      def render_view
+        if oid == 'default'
+          link_to 'Work packages',
+                  { controller: 'work_packages', action: 'index', project_id: project.id },
+                  class: 'query'
         end
       end
     end

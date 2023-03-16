@@ -34,7 +34,7 @@ describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field!(custom_field:)
 
     allow(WorkPackageCustomField)
       .to receive(:find_by)
@@ -131,7 +131,7 @@ describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
             let(:filter) { custom_field_filter }
 
             it_behaves_like 'links to and embeds allowed values directly' do
-              let(:hrefs) { [api_v3_paths.query_filter("customField#{custom_field.id}")] }
+              let(:hrefs) { [api_v3_paths.query_filter(custom_field.attribute_name(:camel_case))] }
             end
           end
         end

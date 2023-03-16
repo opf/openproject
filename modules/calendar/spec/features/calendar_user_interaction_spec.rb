@@ -33,19 +33,19 @@ describe 'Calendar drag&dop and resizing', js: true do
   include_context 'with calendar full access'
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_calendar
-           ]
+           ])
   end
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   before do

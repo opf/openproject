@@ -32,18 +32,18 @@ describe MeetingMailer do
   shared_let(:role) { create(:role, permissions: [:view_meetings]) }
   shared_let(:project) { create(:project, name: 'My project') }
   shared_let(:author) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_through_role: role,
-           preferences: { time_zone: 'Europe/Berlin' }
+           preferences: { time_zone: 'Europe/Berlin' })
   end
   shared_let(:watcher1) { create(:user, member_in_project: project, member_through_role: role) }
   shared_let(:watcher2) { create(:user, member_in_project: project, member_through_role: role) }
 
   let(:meeting) do
-    create :meeting,
+    create(:meeting,
            author:,
-           project:
+           project:)
   end
   let(:meeting_agenda) do
     create(:meeting_agenda, meeting:)
@@ -98,10 +98,10 @@ describe MeetingMailer do
 
     context 'when the meeting time results in another date' do
       let(:meeting) do
-        create :meeting,
+        create(:meeting,
                author:,
                project:,
-               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc)
       end
 
       describe 'it renders november 9th for Berlin zone' do
@@ -131,12 +131,12 @@ describe MeetingMailer do
 
   describe 'icalendar' do
     let(:meeting) do
-      create :meeting,
+      create(:meeting,
              author:,
              project:,
              title: 'Important meeting',
              start_time: "2021-01-19T10:00:00Z".to_time(:utc),
-             duration: 1.0
+             duration: 1.0)
     end
     let(:mail) { described_class.icalendar_notification meeting_agenda, 'meeting_agenda', author }
 
@@ -208,10 +208,10 @@ describe MeetingMailer do
 
     context 'when the meeting time results in another date' do
       let(:meeting) do
-        create :meeting,
+        create(:meeting,
                author:,
                project:,
-               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc
+               start_time: '2021-11-09T23:00:00 +0100'.to_datetime.utc)
       end
 
       describe 'it renders november 9th for Berlin zone' do

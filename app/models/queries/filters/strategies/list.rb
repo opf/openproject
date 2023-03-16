@@ -34,6 +34,13 @@ module Queries::Filters::Strategies
     self.supported_operators = ['=', '!']
     self.default_operator = '='
 
+    def operator_map
+      super_value = super.dup
+      super_value['='] = ::Queries::Operators::EqualsOr
+
+      super_value
+    end
+
     def validate
       # TODO: the -1 is a special value that exists for historical reasons
       # so one can send the operator '=' and the values ['-1']

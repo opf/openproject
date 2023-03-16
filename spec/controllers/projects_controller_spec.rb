@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe ProjectsController do
-  shared_let(:admin) { create :admin }
-  let(:non_member) { create :non_member }
+  shared_let(:admin) { create(:admin) }
+  let(:non_member) { create(:non_member) }
 
   before do
     allow(controller).to receive(:set_localization)
@@ -46,7 +46,7 @@ describe ProjectsController do
     end
 
     context 'by non-admin user with add_project permission' do
-      let(:non_member_user) { create :user }
+      let(:non_member_user) { create(:user) }
 
       before do
         non_member.add_permission! :add_project
@@ -160,7 +160,7 @@ describe ProjectsController do
   end
 
   describe 'with an existing project' do
-    let(:project) { create :project, identifier: 'blog' }
+    let(:project) { create(:project, identifier: 'blog') }
 
     it 'gets destroy info' do
       get :destroy_info, params: { id: project.id }
@@ -172,7 +172,7 @@ describe ProjectsController do
   end
 
   describe '#copy' do
-    let(:project) { create :project, identifier: 'blog' }
+    let(:project) { create(:project, identifier: 'blog') }
 
     it "renders 'copy'" do
       get 'copy', params: { id: project.id }
@@ -181,7 +181,7 @@ describe ProjectsController do
     end
 
     context 'as non authorized user' do
-      let(:user) { build_stubbed :user }
+      let(:user) { build_stubbed(:user) }
 
       before do
         login_as user

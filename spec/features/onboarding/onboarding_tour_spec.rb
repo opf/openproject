@@ -29,16 +29,16 @@
 require 'spec_helper'
 
 describe 'onboarding tour for new users', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) do
-    create :project, name: 'Demo project', identifier: 'demo-project', public: true,
-                     enabled_module_names: %w[work_package_tracking wiki]
+    create(:project, name: 'Demo project', identifier: 'demo-project', public: true,
+                     enabled_module_names: %w[work_package_tracking wiki])
   end
   let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
 
   let(:scrum_project) do
-    create :project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
-                     enabled_module_names: %w[work_package_tracking]
+    create(:project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
+                     enabled_module_names: %w[work_package_tracking])
   end
   let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
 
@@ -74,8 +74,8 @@ describe 'onboarding tour for new users', js: true do
       end
 
       it 'when the welcome block does not include the demo projects' do
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
       end
     end
 
@@ -96,8 +96,9 @@ describe 'onboarding tour for new users', js: true do
         visit home_path first_time_user: true
         expect(page).to have_text 'Please select your language'
 
-        # Cancel language selection
-        page.find('.spot-modal-overlay').click(x: -400, y: 1)
+        # Selenium's click doesn't properly fire a mousedown event, so we trigger both explicitly
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('mousedown'));")
+        page.execute_script("document.querySelector('.spot-modal-overlay').dispatchEvent(new Event('click'));")
 
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
@@ -132,14 +133,14 @@ describe 'onboarding tour for new users', js: true do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_no_selector '.enjoyhint_next_btn'
+        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).not_to have_selector '.enjoyhint_next_btn'
       end
 
       it 'and I continue the tutorial' do
@@ -159,8 +160,8 @@ describe 'onboarding tour for new users', js: true do
 
   context 'with a new user who is not allowed to see the parts of the tour' do
     # necessary to be able to see public projects
-    let(:non_member_role) { create :non_member, permissions: [:view_work_packages] }
-    let(:non_member_user) { create :user }
+    let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
+    let(:non_member_user) { create(:user) }
 
     before do
       allow(Setting).to receive(:demo_projects_available).and_return(true)

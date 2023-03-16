@@ -46,7 +46,7 @@ module Pages
     end
 
     def set_name(name)
-      find("#custom_field_name").set name
+      find_by_id('custom_field_name').set name
     end
 
     def set_default_value(value)
@@ -54,7 +54,7 @@ module Pages
     end
 
     def set_all_projects(value)
-      find('#custom_field_is_for_all').set value
+      find_by_id('custom_field_is_for_all').set value
     end
 
     def has_form_element?(name)

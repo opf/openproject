@@ -2,20 +2,20 @@ require 'spec_helper'
 
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
-                           edit_work_packages]
+                           edit_work_packages])
   end
   let(:manager) do
-    create :user,
+    create(:user,
            firstname: 'Manager',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: manager_role
+           member_through_role: manager_role)
   end
-  let(:type) { create :type }
-  let(:status1) { create :status }
-  let(:status2) { create :status }
+  let(:type) { create(:type) }
+  let(:status1) { create(:status) }
+  let(:status2) { create(:status) }
 
   let(:project) { create(:project, types: [type]) }
   let(:work_package) do
@@ -29,14 +29,14 @@ describe 'Inline editing work packages', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status1,
            new_status: status2,
-           role: manager_role
+           role: manager_role)
   end
-  let(:version) { create :version, project: }
-  let(:category) { create :category, project: }
+  let(:version) { create(:version, project:) }
+  let(:category) { create(:category, project:) }
 
   before do
     login_as(manager)
@@ -177,10 +177,10 @@ describe 'Inline editing work packages', js: true do
       expect(page).to have_selector('th a', text: cf_text_name.upcase)
       expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-container.-error', count: 2)
 
-      cf_text = wp_table.edit_field(work_package, "customField#{custom_fields.last.id}")
+      cf_text = wp_table.edit_field(work_package, custom_fields.last.attribute_name(:camel_case))
       cf_text.update('my custom text', expect_failure: true)
 
-      cf_list = wp_table.edit_field(work_package, "customField#{custom_fields.first.id}")
+      cf_list = wp_table.edit_field(work_package, custom_fields.first.attribute_name(:camel_case))
       cf_list.field_type = 'create-autocompleter'
       cf_list.openSelectField
       cf_list.set_value('bar')

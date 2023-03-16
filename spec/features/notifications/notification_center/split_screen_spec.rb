@@ -5,29 +5,29 @@ describe "Split screen in the notification center", js: true do
   let(:center) { Pages::Notifications::Center.new }
   let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
 
-  shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: }
-  shared_let(:second_work_package) { create :work_package, project: }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:second_work_package) { create(:work_package, project:) }
 
   shared_let(:recipient) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages])
   end
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: work_package,
-           journal: work_package.journals.last
+           journal: work_package.journals.last)
   end
 
   shared_let(:second_notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: second_work_package,
-           journal: second_work_package.journals.last
+           journal: second_work_package.journals.last)
   end
 
   describe 'basic use case' do

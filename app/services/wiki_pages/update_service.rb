@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WikiPages::UpdateService < ::BaseServices::Update
+class WikiPages::UpdateService < BaseServices::Update
   include Attachments::ReplaceAttachments
 
   protected

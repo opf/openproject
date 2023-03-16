@@ -30,13 +30,13 @@ require 'spec_helper'
 
 describe WorkPackage do
   describe '#journal' do
-    let(:type) { create :type }
+    let(:type) { create(:type) }
     let(:project) do
-      create :project,
-             types: [type]
+      create(:project,
+             types: [type])
     end
-    let(:status) { create :default_status }
-    let(:priority) { create :priority }
+    let(:status) { create(:default_status) }
+    let(:priority) { create(:priority) }
     let!(:work_package) do
       User.execute_as current_user do
         create(:work_package,
@@ -155,9 +155,9 @@ describe WorkPackage do
                type:,
                priority:)
       end
-      let(:type2) { create :type }
-      let(:status2) { create :status }
-      let(:priority2) { create :priority }
+      let(:type2) { create(:type) }
+      let(:status2) { create(:status) }
+      let(:priority2) { create(:priority) }
 
       before do
         project.types << type2
@@ -283,7 +283,7 @@ describe WorkPackage do
     end
 
     describe 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:attachment) { build :attachment }
+      let(:attachment) { build(:attachment) }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
@@ -305,11 +305,11 @@ describe WorkPackage do
     end
 
     describe 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:custom_field) { create :work_package_custom_field }
+      let(:custom_field) { create(:work_package_custom_field) }
       let(:custom_value) do
-        build :custom_value,
+        build(:custom_value,
               value: 'false',
-              custom_field:
+              custom_field:)
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -388,16 +388,16 @@ describe WorkPackage do
 
       context 'when custom value did not exist before' do
         let(:custom_field) do
-          create :work_package_custom_field,
+          create(:work_package_custom_field,
                  is_required: false,
                  field_format: 'list',
-                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7'])
         end
         let(:custom_value) do
-          create :custom_value,
+          create(:custom_value,
                  value: '',
                  customized: work_package,
-                 custom_field:
+                 custom_field:)
         end
 
         describe 'empty values are recognized as unchanged' do
@@ -537,16 +537,16 @@ describe WorkPackage do
 
           context 'when adding another change with a customized work package' do
             let(:custom_field) do
-              create :work_package_custom_field,
+              create(:work_package_custom_field,
                      is_required: false,
                      field_format: 'list',
-                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7'])
             end
             let(:custom_value) do
-              create :custom_value,
+              create(:custom_value,
                      value: custom_field.custom_options.find { |co| co.value == '1' }.try(:id),
                      customized: work_package,
-                     custom_field:
+                     custom_field:)
             end
 
             before do

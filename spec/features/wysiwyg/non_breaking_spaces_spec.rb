@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg &nbsp; behavior',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }

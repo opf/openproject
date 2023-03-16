@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
          js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
 
   let(:wiki_page) do
-    page = build :wiki_page_with_content
+    page = build(:wiki_page_with_content)
     page.content.text = <<~MARKDOWN
       1. Step 1
          *Expected Results:* Expected 1
@@ -61,7 +61,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   it 'shows the list correctly' do
     editor.in_editor do |_container, editable|
       expect(editable).to have_selector('ol li', count: 3)
-      expect(editable).to have_no_selector('ol li p')
+      expect(editable).not_to have_selector('ol li p')
     end
   end
 end

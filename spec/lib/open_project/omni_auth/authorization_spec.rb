@@ -31,7 +31,7 @@ require 'spec_helper'
 describe OpenProject::OmniAuth::Authorization do
   describe '.after_login!' do
     let(:auth_hash) { Struct.new(:uid).new 'bar' }
-    let(:user)  { create :user, mail: 'foo@bar.de' }
+    let(:user)  { create(:user, mail: 'foo@bar.de') }
     let(:state) { Struct.new(:number, :user_email, :uid).new 0, nil, nil }
     let(:collector) { [] }
     let!(:existing_callbacks) { OpenProject::OmniAuth::Authorization.after_login_callbacks.dup }

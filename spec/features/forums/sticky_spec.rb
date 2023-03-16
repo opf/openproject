@@ -32,25 +32,25 @@ describe 'sticky messages' do
   let(:forum) { create(:forum) }
 
   let!(:message1) do
-    create :message, forum: forum, created_at: Time.now - 1.minute do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 1.minute)
+    create(:message, forum:, created_at: 1.minute.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 1.minute.ago)
     end
   end
   let!(:message2) do
-    create :message, forum: forum, created_at: Time.now - 2.minutes do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 2.minutes)
+    create(:message, forum:, created_at: 2.minutes.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 2.minutes.ago)
     end
   end
   let!(:message3) do
-    create :message, forum: forum, created_at: Time.now - 3.minutes do |message|
-      Message.where(id: message.id).update_all(updated_at: Time.now - 3.minutes)
+    create(:message, forum:, created_at: 3.minutes.ago) do |message|
+      Message.where(id: message.id).update_all(updated_at: 3.minutes.ago)
     end
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: forum.project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:role) { create(:role, permissions: [:edit_messages]) }
 

@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe 'users/show' do
-  let(:project)    { create :valid_project }
-  let(:user)       { create :admin, member_in_project: project }
-  let(:custom_field) { create :text_user_custom_field }
+  let(:project)    { create(:valid_project) }
+  let(:user)       { create(:admin, member_in_project: project) }
+  let(:custom_field) { create(:text_user_custom_field) }
   let(:visibility_custom_value) do
     create(:principal_custom_value,
            customized: user,
@@ -45,7 +45,7 @@ describe 'users/show' do
 
     assign(:user, user)
     assign(:memberships, user.memberships)
-    assign(:events_by_day, [])
+    assign(:events, [])
   end
 
   it 'renders the visible custom values' do

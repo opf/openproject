@@ -70,7 +70,7 @@ module API
         def initialize(attachment, current_user:, embed_links: false)
           super
 
-          fog_hash = DirectFogUploader.direct_fog_hash attachment: attachment
+          fog_hash = DirectFogUploader.direct_fog_hash(attachment:)
 
           @form_url = fog_hash[:uri]
           @form_fields = fog_hash.except :uri

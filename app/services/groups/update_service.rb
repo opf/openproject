@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Groups::UpdateService < ::BaseServices::Update
+class Groups::UpdateService < BaseServices::Update
   protected
 
   def persist(call)

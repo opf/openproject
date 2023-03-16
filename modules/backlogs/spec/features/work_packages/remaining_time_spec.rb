@@ -43,16 +43,16 @@ describe 'Work packages remaining time', js: true do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let(:status) { create :default_status }
+  let(:status) { create(:default_status) }
   let(:story_type) { create(:type_feature) }
   let(:task_type) { create(:type_feature) }
 
   let(:work_package) do
-    create :story,
+    create(:story,
            type: task_type,
            author: current_user,
            project:,
-           status:
+           status:)
   end
 
   it 'can set and edit the remaining time in hours (Regression #43549)' do

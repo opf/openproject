@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TimeEntries::DeleteService < ::BaseServices::Delete; end
+class TimeEntries::DeleteService < BaseServices::Delete; end

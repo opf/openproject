@@ -46,8 +46,8 @@ class Report::SqlStatement
       yield second
     end
 
-    def gsub(*args, &)
-      to_s.gsub(*args, &)
+    def gsub(...)
+      to_s.gsub(...)
     end
   end
 
@@ -296,7 +296,7 @@ class Report::SqlStatement
     "#<SqlStatement: #{to_s.inspect}>"
   end
 
-  def gsub(*args, &)
-    to_s.gsub(*args, &)
+  def gsub(...)
+    to_s.gsub(...)
   end
 end

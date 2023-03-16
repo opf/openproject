@@ -5,8 +5,8 @@ de:
       link_files_in_storage: "Verknüpfen Sie Dateien in %{storageType}"
       link_existing_files: "Vorhandene Dateien verknüpfen"
       upload_files: "Dateien hochladen"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      drop_files: "Dateien hier ablegen, um sie auf %{name} hochzuladen."
+      drop_or_click_files: "Dateien hier ablegen oder anklicken, um sie auf %{name} hochzuladen."
       login: "%{storageType} Login"
       login_to: "Bei %{storageType} anmelden"
       no_connection: "Keine %{storageType} Verbindung"
@@ -25,14 +25,23 @@ de:
         not_logged_in: >
           Um einen Link hinzuzufügen, mit diesem Arbeitspaket verknüpfte Dateien zu sehen oder hochzuladen, melden Sie sich bitte bei %{storageType} an.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        already_existing_header: "Diese Datei existiert bereits"
+        already_existing_body: >
+          Eine Datei mit dem Namen „%{fileName}“ existiert bereits an dem Ort, an dem Sie versuchen, diese Datei hochzuladen. Was möchten Sie tun?
+        directory_not_writeable: "Sie haben keine Berechtigung, Dateien zu diesem Ordner hinzuzufügen."
+        dragging_many_files: "Das Hochladen auf %{storageType} unterstützt nur eine Datei auf einmal."
+        empty_folder: "Dieser Ordner ist leer."
+        empty_folder_location_hint: "Klicken Sie auf die Schaltfläche unten, um die Datei an diesen Ort hochzuladen."
+        file_not_selectable_location: "Die Auswahl einer Datei ist nicht möglich, wenn Sie einen Speicherort auswählen."
+        upload_keep_both: "Beide behalten"
+        upload_replace: "Ersetzen"
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          Derzeit gibt es keine verknüpften Dateien zu diesem Arbeitspaket. Starten Sie die Verknüpfung von Dateien mit der unten stehenden Aktion oder über %{storageType}.
         download: "%{fileName} herunterladen"
         no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
-        open: 'Datei im Speicher öffnen'
-        open_location: 'Datei am Speicherort öffnen'
+        open: "Datei im Speicher öffnen"
+        open_location: "Datei am Speicherort öffnen"
         remove: "Datei-Link entfernen"
         remove_confirmation: >
           Sind Sie sicher, dass Sie die Verknüpfung der Datei aus diesem Arbeitspaket entfernen möchten? Das Entfernen der Verknüpfung wirkt sich nicht auf die Originaldatei aus und entfernt nur die Verbindung zu diesem Arbeitspaket.
@@ -44,11 +53,19 @@ de:
           one: "Eine Datei verknüpfen"
           other: "%{count} Dateien verknüpfen"
         success_create:
-          one: "Successfully created 1 file link."
-          other: "Successfully created %{count} file links."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+          one: "1 Dateiverknüpfung erfolgreich erstellt."
+          other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
+        upload_error:
+          default: >
+            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
+          403: >
+            Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
+          413: >
+            Ihre Datei (%{fileName}) ist größer als das, was OpenProject zu %{storageType} hochladen kann. Sie können sie zuerst direkt auf %{storageType} hochladen und dann die Datei verlinken.
+          507: >
+            Ihre Datei (%{fileName}) ist größer als das Speicherkontingent erlaubt. Kontaktieren Sie Ihren Administrator, um dieses Kontingent zu ändern.
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
         not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

@@ -66,8 +66,8 @@ namespace :scm do
       end
 
       unless Dir.exist?(managed)
-        warn "WARNING: Managed repository path set to '#{managed}'," \
-             " but does not exist for SCM vendor #{vendor}!"
+        warn "WARNING: Managed repository path set to '#{managed}', " \
+             "but does not exist for SCM vendor #{vendor}!"
         next
       end
 

@@ -27,16 +27,31 @@
 #++
 
 # Extending Capybara to allow a flagged check for has_selector to avoid
-# lots of if/else
+# lots of if/else. Extension is available for both the `Capybara::Session`
+# and `Capybara::Node::Matchers`, thus the matcher can be used on both on the
+# `page` or any element (Capybara::Node::Element).
+#   - expect(page).to have_conditional_selector(...)
+#   - expect(input).to have_conditional_selector(...)
+
+module Capybara
+  module Node
+    module Matchers
+      def has_conditional_selector?(condition, *args, **kw_args)
+        if condition
+          has_selector? *args, **kw_args
+        else
+          has_no_selector? *args, **kw_args
+        end
+      end
+    end
+  end
+end
 
 module Capybara
   class Session
-    def has_conditional_selector?(condition, *args, **kw_args)
-      if condition
-        has_selector? *args, **kw_args
-      else
-        has_no_selector? *args, **kw_args
-      end
+    def has_conditional_selector?(...)
+      @touched = true
+      current_scope.has_conditional_selector?(...)
     end
   end
 end

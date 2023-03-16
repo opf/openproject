@@ -30,11 +30,6 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AttachmentContentFilter do
   if OpenProject::Database.allows_tsv?
-    before do
-      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
-    end
-
     context 'WP with attachment' do
       let(:context) { nil }
       let(:value) { 'ipsum' }

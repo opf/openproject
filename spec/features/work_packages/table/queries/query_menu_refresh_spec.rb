@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Refreshing query menu item', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-  let(:work_package) { create :work_package, project: }
-  let(:other_work_package) { create :work_package, project: }
+  let(:work_package) { create(:work_package, project:) }
+  let(:other_work_package) { create(:work_package, project:) }
 
   before do
     login_as(user)
@@ -51,7 +51,7 @@ describe 'Refreshing query menu item', js: true do
 
     # Publish query
     wp_table.click_setting_item I18n.t('js.toolbar.settings.visibility_settings')
-    find('#show-in-menu').set true
+    find_by_id('show-in-menu').set true
     find('.button', text: 'Save').click
 
     last_query = Query.last

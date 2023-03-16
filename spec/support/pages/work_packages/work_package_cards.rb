@@ -80,7 +80,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from: from, to: to, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
+      drag_and_drop_list(from:, to:, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
     end
 
     def select_work_package(work_package)
@@ -118,12 +118,12 @@ module Pages
 
     def select_all_work_packages
       find('body').send_keys [:control, 'a']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def deselect_all_work_packages
       find('body').send_keys [:control, 'd']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def card(work_package)

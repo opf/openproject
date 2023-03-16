@@ -45,9 +45,9 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI do
   end
 
   context 'with a type filter present' do
-    let(:type) { create :type }
+    let(:type) { create(:type) }
     let(:type_id) { type.id }
-    let(:project_with_type) { create :project, types: [type] }
+    let(:project_with_type) { create(:project, types: [type]) }
     let(:member) do
       create(:member, principal: current_user, project: project_with_type, roles: [add_role])
     end

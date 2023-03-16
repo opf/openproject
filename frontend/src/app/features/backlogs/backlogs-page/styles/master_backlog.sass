@@ -283,6 +283,11 @@
       .velocity, .add_new_story
         display: none
   .backlog .sprint.editing
+    .editors
+      display: flex
+      align-items: center
+      flex-direction: row-reverse
+
     .editor
       font-size: 0.9rem
       line-height: 1.5rem
@@ -291,10 +296,11 @@
       padding: 0
 
       &.name
-        min-width: 15em
-        width: calc(100% - 2 * 85px - 10px)
-      &.start_date, &.effective_date
-        width: 85px
+        flex-basis: 15em
+      &.start_date,
+      &.effective_date
+        margin-left: 0.5em
+        flex-basis: 12.5em
 
   .stories .story.editing
     >

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe OpenProject::Bim::BcfXml::IssueReader do
   let(:absolute_file_path) { "63E78882-7C6A-4BF7-8982-FC478AFB9C97/markup.bcf" }
-  let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
+  let(:type) { create(:type, name: 'Issue', is_standard: true, is_default: true) }
   let(:project) do
     create(:project,
            identifier: 'bim_project',
@@ -48,7 +48,7 @@ describe OpenProject::Bim::BcfXml::IssueReader do
            role: manage_bcf_role,
            type:)
   end
-  let(:priority) { create :default_priority }
+  let(:priority) { create(:default_priority) }
   let(:bcf_manager_member) do
     create(:member,
            project:,

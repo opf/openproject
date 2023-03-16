@@ -90,6 +90,13 @@ module OpenProject
       link_to(h(text), url_opts, html_options)
     end
 
+    # Generates a link to a query
+    def link_to_query(query, options = {}, html_options = nil)
+      text = h(query.name)
+      url = project_work_packages_url([query.project.id], only_path: options.delete(:only_path) { true }, query_id: query.id)
+      link_to(text, url, html_options)
+    end
+
     # Generates a link to a message
     def link_to_message(message, options = {}, html_options = nil)
       link_to(

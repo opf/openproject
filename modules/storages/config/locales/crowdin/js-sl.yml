@@ -25,14 +25,23 @@ sl:
         not_logged_in: >
           To add a link, see or upload files related to this work package, please login to %{storageType}.
       files:
-        directory_not_writeable: "You do not have to permission to add files to this folder."
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "You do not have permission to add files to this folder."
+        dragging_many_files: "The upload to %{storageType} supports only one file at once."
+        empty_folder: "This folder is empty."
+        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Download %{fileName}"
         no_permission: "You have no permission to see this file."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
+        open: "Open file on storage"
+        open_location: "Open file in location"
         remove: "Remove file link"
         remove_confirmation: >
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
@@ -50,7 +59,15 @@ sl:
           two: "Successfully created %{count} file links."
           few: "Successfully created %{count} file links."
           other: "Successfully created %{count} file links."
-        upload_error: "An error occurred uploading the file '%{fileName}'."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         not_allowed_tooltip: "Please log in to Nextcloud to access this file"

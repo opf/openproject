@@ -45,14 +45,14 @@ class CustomActionsController < ApplicationController
     @custom_action = CustomAction.new
   end
 
+  def edit; end
+
   def create
     CustomActions::CreateService
       .new(user: current_user)
       .call(attributes: permitted_params.custom_action.to_h,
             &index_or_render(:new))
   end
-
-  def edit; end
 
   def update
     CustomActions::UpdateService

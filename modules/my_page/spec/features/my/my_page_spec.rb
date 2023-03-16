@@ -31,20 +31,20 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 describe 'My page', js: true do
-  let!(:type) { create :type }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+  let!(:type) { create(:type) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:created_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           author: user
+           author: user)
   end
   let!(:assigned_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           assigned_to: user
+           assigned_to: user)
   end
 
   let(:user) do

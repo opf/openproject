@@ -55,7 +55,7 @@ module Pages
     end
 
     def open_filters!
-      find('#filter-member-button').click
+      find_by_id('filter-member-button').click
     end
 
     def search_for_name(name)

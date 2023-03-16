@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Ldap::SynchronizationJob, type: :model do
-  let!(:auth_source) { create :ldap_auth_source }
+  let!(:auth_source) { create(:ldap_auth_source) }
 
   let(:job) { described_class.new }
   let(:service) { instance_double(Ldap::SynchronizeUsersService) }

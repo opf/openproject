@@ -34,7 +34,7 @@ describe 'Work Package boards sorting spec', js: true do
   let(:admin) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let!(:status) { create :default_status }
+  let!(:status) { create(:default_status) }
   let(:version) { @version ||= create(:version, project:) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
 

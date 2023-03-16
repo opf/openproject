@@ -59,9 +59,10 @@ RB.Sprint = (function ($) {
     },
 
     saveDirectives: function () {
-      var j = this.$,
-          data = j.find('.editor').serialize() + "&_method=put",
-          url = RB.urlFor('update_sprint', { id: this.getID() });
+      const wrapper = this.$;
+      const editor = wrapper.find('.editor');
+      const data = editor.serialize() + "&_method=put";
+      const url = RB.urlFor('update_sprint', { id: this.getID() });
 
       return {
         url : url,

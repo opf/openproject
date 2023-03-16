@@ -350,6 +350,8 @@ sk:
       many: '%{count} podradené pracovné balíčky'
       other: '%{count} podradené pracovné balíčky'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nasledujúce pracovné balíčky sa nepodarilo uložiť:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -473,14 +475,24 @@ sk:
       member:
         roles: "Roly"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikátor"
         latest_activity_at: "Posledná aktivita v"
         parent: "podprojekt projektu"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Požiadavky"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
-        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -910,8 +922,22 @@ sk:
     header_invalid_fields: "Nastali problémy s nasledujúcimi poliami:"
     field_erroneous_label: "Toto pole je neplatné: %{full_errors}. Prosím zadajte platnú hodnotu."
   activity:
-    created: "Vytvoril: %{title}"
-    updated: "Aktualizované: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktívny"
@@ -1047,6 +1073,7 @@ sk:
   button_reset: "Vynulovať"
   button_rollback: "Vrátenie k tejto verzii"
   button_save: "Uložiť"
+  button_apply_changes: "Apply changes"
   button_save_back: "Uloženie a návrat"
   button_show: "Ukázať"
   button_sort: "Zoradiť"
@@ -1379,6 +1406,7 @@ sk:
     work_package_note: 'Poznámka pracovného balíčka pridaná'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."
@@ -1404,7 +1432,6 @@ sk:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Slovenčina"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nie"
   general_text_yes: "áno"
@@ -1790,6 +1817,10 @@ sk:
   label_not_contains: "neobsahuje"
   label_not_equals: "nie je"
   label_on: "dňa"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otvorte menu"
   label_open_work_packages: "otvorené"
   label_open_work_packages_plural: "otvorené"
@@ -1831,6 +1862,7 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
@@ -2695,12 +2727,13 @@ sk:
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
   text_journal_changed_with_diff: "%{label} zmenený (%{link})"
   text_journal_deleted: "%{label} odstránený (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} odstránený (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2997,15 +3030,20 @@ sk:
       title: "Odstrániť pracovný balík"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:

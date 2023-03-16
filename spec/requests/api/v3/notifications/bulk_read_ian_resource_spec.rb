@@ -32,17 +32,17 @@ describe API::V3::Notifications::NotificationsAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create :project }
+  shared_let(:project) { create(:project) }
 
-  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
-  shared_let(:other_recipient) { create :user }
+  shared_let(:recipient) { create(:user, member_in_project: project, member_with_permissions: %i[view_work_packages]) }
+  shared_let(:other_recipient) { create(:user) }
 
-  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:notification1) { create :notification, recipient:, project:, resource: work_package }
-  shared_let(:notification2) { create :notification, recipient:, project:, resource: work_package }
-  shared_let(:notification3) { create :notification, recipient:, project:, resource: work_package }
-  shared_let(:other_user_notification) { create :notification, recipient: other_recipient }
+  shared_let(:notification1) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:notification2) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:notification3) { create(:notification, recipient:, project:, resource: work_package) }
+  shared_let(:other_user_notification) { create(:notification, recipient: other_recipient) }
 
   let(:filters) { nil }
 

@@ -31,37 +31,37 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 describe 'Deleting time entries', js: true do
   let(:project) { work_package.project }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
                            delete_work_packages
                            edit_cost_entries
-                           view_cost_entries]
+                           view_cost_entries])
   end
-  let(:work_package) { create :work_package }
+  let(:work_package) { create(:work_package) }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate,
+    type = create(:cost_type, name: 'Translations')
+    create(:cost_rate,
            cost_type: type,
-           rate: 7.00
+           rate: 7.00)
     type
   end
   let(:budget) do
     create(:budget, project:)
   end
-  let(:other_work_package) { create :work_package, project:, budget: }
+  let(:other_work_package) { create(:work_package, project:, budget:) }
   let(:cost_entry) do
-    create :cost_entry,
+    create(:cost_entry,
            work_package:,
            project:,
            units: 2.00,
            cost_type:,
-           user:
+           user:)
   end
 
   it 'allows to move the time entry to a different work package' do
@@ -75,7 +75,7 @@ describe 'Deleting time entries', js: true do
     wp_page.visit!
 
     SeleniumHubWaiter.wait
-    find('#action-show-more-dropdown-menu').click
+    find_by_id('action-show-more-dropdown-menu').click
 
     click_link(I18n.t('js.button_delete'))
 

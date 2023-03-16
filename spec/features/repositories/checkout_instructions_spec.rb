@@ -68,7 +68,7 @@ describe 'Create repository', js: true do
 
       expect(page).to have_selector('#repository--checkout-instructions')
 
-      button = find('#repository--checkout-instructions-toggle')
+      button = find_by_id('repository--checkout-instructions-toggle')
       button.click
 
       expect(page).not_to have_selector('#repository--checkout-instructions')

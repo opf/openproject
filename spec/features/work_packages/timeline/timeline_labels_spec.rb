@@ -29,30 +29,28 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package timeline labels',
-               with_settings: { date_format: '%Y-%m-%d' },
-               js: true,
-               selenium: true do
+               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
   let(:user) { create(:admin) }
   let(:today) { Time.zone.today }
   let(:tomorrow) { Time.zone.tomorrow }
   let(:future) { Time.zone.today + 5 }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            assigned_to: user,
            start_date: today,
            due_date: tomorrow,
            subject: 'My subject',
-           custom_field_values: { custom_field.id => custom_value_for('onions') }
+           custom_field_values: { custom_field.id => custom_value_for('onions') })
   end
   let(:milestone_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: milestone_type,
            start_date: future,
            due_date: future,
-           subject: 'My milestone'
+           subject: 'My milestone')
   end
   let(:type) { create(:type_bug) }
   let(:milestone_type) { create(:type, is_milestone: true) }

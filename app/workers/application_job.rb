@@ -28,7 +28,7 @@
 
 require 'active_job'
 
-class ApplicationJob < ::ActiveJob::Base
+class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
 
   ##

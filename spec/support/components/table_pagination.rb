@@ -42,7 +42,7 @@ module Components
     def expect_no_per_page_options
       within_pagination do
         expect(page)
-          .to have_no_selector('.op-pagination--options')
+          .not_to have_selector('.op-pagination--options')
       end
     end
 

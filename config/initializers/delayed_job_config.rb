@@ -42,3 +42,14 @@ end
 # Do not retry jobs from delayed_job
 # instead use 'retry_on' activejob functionality
 Delayed::Worker.max_attempts = 1
+
+# Remember DJ id in the payload object
+class Delayed::ProviderJobIdPlugin < Delayed::Plugin
+  callbacks do |lifecycle|
+    lifecycle.before(:invoke_job) do |job|
+      job.payload_object.job_data['provider_job_id'] = job.id if job.payload_object.respond_to?(:job_data)
+    end
+  end
+end
+
+Delayed::Worker.plugins << Delayed::ProviderJobIdPlugin

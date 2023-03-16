@@ -81,10 +81,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   public readonly loading$ = new BehaviorSubject<boolean>(true);
 
-  public get location():string {
-    return this.currentDirectory.location;
-  }
-
   protected constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly elementRef:ElementRef,
@@ -100,8 +96,8 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
     this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storageLink, '/'))
-      .subscribe((files) => {
-        const root = files.find((file) => file.name === '/');
+      .subscribe((storageFiles) => {
+        const root = storageFiles.parent;
         if (root === undefined) {
           throw new Error('Collection does not contain a root directory!');
         }
@@ -116,7 +112,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           }],
         );
 
-        this.storageFiles$.next(files.filter((file) => file.name !== '/'));
+        this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
   }
@@ -125,10 +121,6 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     super.ngOnDestroy();
 
     this.storageFilesResourceService.reset();
-  }
-
-  public openStorageLocation():void {
-    window.open(this.locals.storageLocation as string, '_blank');
   }
 
   protected abstract storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem;
@@ -161,7 +153,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storageLink, directory.location))
-      .pipe(map((files) => files.filter((file) => file.name !== this.currentDirectory.name)))
+      .pipe(map((storageFiles) => storageFiles.files.filter((file) => file.name !== this.currentDirectory.name)))
       .subscribe((files) => {
         this.storageFiles$.next(files);
         this.loading$.next(false);

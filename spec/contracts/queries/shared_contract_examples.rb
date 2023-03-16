@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'contracts/shared/model_contract_shared_context'
 
 shared_context 'with queries contract' do
-  let(:project) { build_stubbed :project }
+  let(:project) { build_stubbed(:project) }
   let(:query) do
     build_stubbed(:query, project:, public:, user:)
   end

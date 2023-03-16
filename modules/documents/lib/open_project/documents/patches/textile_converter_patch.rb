@@ -37,6 +37,6 @@ module OpenProject::Documents::Patches
   end
 end
 
-::OpenProject::TextFormatting::Formats::Markdown::TextileConverter.prepend(
-  ::OpenProject::Documents::Patches::TextileConverterPatch
+OpenProject::TextFormatting::Formats::Markdown::TextileConverter.prepend(
+  OpenProject::Documents::Patches::TextileConverterPatch
 )

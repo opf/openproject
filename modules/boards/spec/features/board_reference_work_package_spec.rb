@@ -38,7 +38,7 @@ describe 'Board reference work package spec', js: true do
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
-  let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
+  let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -54,11 +54,11 @@ describe 'Board reference work package spec', js: true do
       assign_versions
     ]
   end
-  let(:board_view) { create :board_grid_with_query, project: }
+  let(:board_view) { create(:board_grid_with_query, project:) }
 
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
-  let!(:version) { create :version, name: 'Foo version', project: }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
+  let!(:version) { create(:version, name: 'Foo version', project:) }
 
   before do
     with_enterprise_token :board_view
@@ -76,7 +76,7 @@ describe 'Board reference work package spec', js: true do
 
     # Filter for Version
     filters.open
-    filters.add_filter_by('Version', 'is', version.name)
+    filters.add_filter_by('Version', 'is (OR)', version.name)
     sleep 2
 
     # Reference an existing work package
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'is not empty', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

@@ -270,6 +270,42 @@ OPENPROJECT_OPENID__CONNECT_KEYCLOAK_END__SESSION__ENDPOINT="http://<Hostname of
 
 
 
+### Azure with Microsoft Graph API
+
+The Azure integration for OpenProject uses the previous userinfo endpoints, which for some tenants results in not being able to access the user's email attribute. [See this bug report for more information](https://community.openproject.org/wp/45832). While our UI is still being extended to accept the new endpoints, you can manually configure Azure like follows.
+
+
+
+**What you need from Azure**
+
+Use our [Azure Active Directory guide](../../../system-admin-guide/authentication/openid-providers/#azure-active-directory) to create the OpenProject client and note down these values
+
+-  The Client ID you set up for OpenProject  (assumed to be `https://<OpenProject hostname>`)
+- The client secret
+- The tenant's UUID ([Please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc) for more information on the tenant value)
+
+
+
+#### Setting up OpenProject for Keycloak integration
+
+In OpenProject, these are the variables you will need to set. Please refer to the above documentation for the different ways you can configure these variables:
+
+```
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_DISPLAY__NAME="Azure"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_HOST="login.microsoftonline.com"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_IDENTIFIER="https://<Your OpenProject hostname>"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_SECRET="<client secret>"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_AUTHORIZATION__ENDPOINT="https://login.microsoftonline.com/%3CUUID%3E/oauth2/v2.0/authorize"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_TOKEN__ENDPOINT="https://login.microsoftonline.com/%3CUUID%3E/oauth2/v2.0/token"
+openproject config:set OPENPROJECT_OPENID__CONNECT_AZURE_USERINFO__ENDPOINT="https://graph.microsoft.com/oidc/userinfo"
+```
+
+
+
+Restart your OpenProject server and test the login button to see if it works.
+
+
+
 ## Troubleshooting
 
 **Q: After clicking on a provider badge, I am redirected to a signup form that says a user already exists with that login.**

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe DesignColor do
   let(:default_primary) { OpenProject::CustomStyles::Design.variables['primary-color'] }
-  let(:primary_color) { create :'design_color_primary-color' }
+  let(:primary_color) { create(:'design_color_primary-color') }
 
   describe "#setables" do
     it "returns an Array of instances" do

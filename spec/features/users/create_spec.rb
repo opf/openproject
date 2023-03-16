@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe 'create users', selenium: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let!(:auth_source) { create :dummy_auth_source }
+  let!(:auth_source) { create(:dummy_auth_source) }
   let(:new_user_page) { Pages::NewUser.new }
   let(:mail) do
     ActionMailer::Base.deliveries.last
@@ -144,7 +144,7 @@ describe 'create users', selenium: true do
   end
 
   context 'as global user' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
     let(:current_user) { global_manage_user }
 
     context 'with internal authentication' do

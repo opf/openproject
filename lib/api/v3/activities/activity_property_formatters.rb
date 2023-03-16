@@ -37,8 +37,9 @@ module API
         end
 
         def formatted_details(journal)
-          details = render_details(journal, no_html: true)
-          html_details = render_details(journal)
+          activity_page = "work_packages/#{journal.journable.id}"
+          details = render_details(journal, html: false)
+          html_details = render_details(journal, activity_page:)
 
           details
             .zip(html_details)
@@ -47,10 +48,10 @@ module API
 
         private
 
-        def render_details(journal, no_html: false)
+        def render_details(journal, html: true, activity_page: nil)
           journal
             .details
-            .map { |d| journal.render_detail(d, no_html:) }
+            .map { |d| journal.render_detail(d, html:, activity_page:) }
             .compact
         end
 

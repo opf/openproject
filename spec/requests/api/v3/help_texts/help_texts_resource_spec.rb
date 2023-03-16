@@ -46,7 +46,7 @@ describe 'API v3 Help texts resource' do
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
 
-    custom_field = create :text_wp_custom_field
+    custom_field = create(:text_wp_custom_field)
 
     [
       create(:work_package_help_text, attribute_name: 'assignee'),

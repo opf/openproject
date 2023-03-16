@@ -69,11 +69,11 @@ describe VersionsController do
     end
 
     context 'with showing selected types' do
-      let(:type_a) { create :type }
-      let(:type_b) { create :type }
+      let(:type_a) { create(:type) }
+      let(:type_b) { create(:type) }
 
-      let(:wp_a) { create :work_package, type: type_a, project:, version: version1 }
-      let(:wp_b) { create :work_package, type: type_b, project:, version: version1 }
+      let(:wp_a) { create(:work_package, type: type_a, project:, version: version1) }
+      let(:wp_b) { create(:work_package, type: type_b, project:, version: version1) }
 
       before do
         project.types = [type_a, type_b]

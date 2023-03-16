@@ -54,7 +54,7 @@ describe Version do
 
     let(:version) { create(:version, project_id: project.id, name: 'Version') }
 
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
     def move_to_project(work_package, project)
       WorkPackages::UpdateService

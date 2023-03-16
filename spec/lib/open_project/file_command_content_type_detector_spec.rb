@@ -62,7 +62,7 @@ describe OpenProject::FileCommandContentTypeDetector do
     tempfile.write('This is a file.')
     tempfile.rewind
 
-    assert_equal 'text/plain', OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect
+    expect(OpenProject::FileCommandContentTypeDetector.new(tempfile.path).detect).to eq('text/plain')
 
     tempfile.close
   end
@@ -70,13 +70,11 @@ describe OpenProject::FileCommandContentTypeDetector do
   it 'returns a sensible default when the file command is missing' do
     allow(Open3).to receive(:capture2).and_raise 'o noes!'
     @filename = '/path/to/something'
-    assert_equal 'application/binary',
-                 OpenProject::FileCommandContentTypeDetector.new(@filename).detect
+    expect(OpenProject::FileCommandContentTypeDetector.new(@filename).detect).to eq('application/binary')
   end
 
   it 'returns a sensible default on the odd chance that run returns nil' do
     allow(Open3).to receive(:capture2).and_return [nil, 0]
-    assert_equal 'application/binary',
-                 OpenProject::FileCommandContentTypeDetector.new('windows').detect
+    expect(OpenProject::FileCommandContentTypeDetector.new('windows').detect).to eq('application/binary')
   end
 end

@@ -39,6 +39,9 @@ ro:
     models:
       budget: "Buget"
       material_budget_item: "Unitate"
+  activity:
+    filter:
+      budget: "Bugete"
   attributes:
     budget: "Buget"
   button_add_budget_item: "Adăugați costurile planificate"

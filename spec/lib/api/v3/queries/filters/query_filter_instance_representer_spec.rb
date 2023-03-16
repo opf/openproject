@@ -65,7 +65,7 @@ describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       it_behaves_like 'has a titled link' do
         let(:link) { 'operator' }
         let(:href) { api_v3_paths.query_operator(CGI.escape('=')) }
-        let(:title) { 'is' }
+        let(:title) { 'is (OR)' }
       end
 
       it_behaves_like 'has an untitled link' do
@@ -142,10 +142,10 @@ describe API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a subproject filter value_objects' do
-      shared_let(:admin) { create :admin }
+      shared_let(:admin) { create(:admin) }
 
-      let(:project) { create :project }
-      let(:subproject) { create :project, parent: project }
+      let(:project) { create(:project) }
+      let(:subproject) { create(:project, parent: project) }
       let(:filter) do
         subproject
         project.reload

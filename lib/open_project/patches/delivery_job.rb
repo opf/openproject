@@ -37,4 +37,4 @@ module OpenProject
   end
 end
 
-ActionMailer::MailDeliveryJob.include ::JobStatus::ApplicationJobWithStatus
+ActionMailer::MailDeliveryJob.include JobStatus::ApplicationJobWithStatus

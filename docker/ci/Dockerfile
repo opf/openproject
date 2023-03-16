@@ -1,4 +1,4 @@
-FROM ruby:3.2.0-buster
+FROM ruby:3.2.1-buster
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION="16.17.0"
@@ -27,7 +27,7 @@ RUN for url in $CHROME_SOURCE_URL; do \
 
 ENV CI=true
 ENV RAILS_ENV=test
-ENV BUNDLER_VERSION="2.4.1"
+ENV BUNDLER_VERSION="2.4.7"
 ENV BUNDLE_WITHOUT="development:production:docker"
 ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
 ENV CAPYBARA_DYNAMIC_BIND_IP=1

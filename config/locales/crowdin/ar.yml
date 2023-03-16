@@ -352,6 +352,8 @@ ar:
       many: '%{count} work package descendants'
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -475,14 +477,24 @@ ar:
       member:
         roles: "دور"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "المعرّف"
         latest_activity_at: "آخر نشاط في"
         parent: "المشروع الفرعي من"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "الاستفسارات"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "الأنواع"
         versions: "الإصدارات"
         work_packages: "مجموعات العمل"
-        templated: 'Template project'
       projects/status:
         code: 'الحالة'
         explanation: 'Status description'
@@ -920,8 +932,22 @@ ar:
     header_invalid_fields: "كان هناك مشاكل في المجالات التالية:"
     field_erroneous_label: "هذا الحقل غير صالح: %{full_errors} الرجاء إدخال قيمة صحيحة."
   activity:
-    created: "الإنشاء: %{title}"
-    updated: "التحديث: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "مفعّل"
@@ -1057,6 +1083,7 @@ ar:
   button_reset: "إعادة تعيين"
   button_rollback: "العودة إلى هذا الإصدار"
   button_save: "حفظ"
+  button_apply_changes: "Apply changes"
   button_save_back: "حفظ والعودة"
   button_show: "إظهار"
   button_sort: "فرز"
@@ -1412,6 +1439,7 @@ ar:
     work_package_note: 'لم يتم اضافة مجموعة العمل'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1437,7 +1465,6 @@ ar:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "اَللُّغَةُ اَلْعَرَبِيَّة"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "لا"
   general_text_yes: "نعم"
@@ -1823,6 +1850,10 @@ ar:
   label_not_contains: "لا يحتوي على"
   label_not_equals: "ليس"
   label_on: "في"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "فتح القائمة"
   label_open_work_packages: "افتح"
   label_open_work_packages_plural: "افتح"
@@ -1864,6 +1895,7 @@ ar:
   label_product_version: "إصدار المنتج"
   label_professional_support: "الدعم الفني"
   label_profile: "الصفحة الشخصية"
+  label_project_activity: "Project activity"
   label_project_attribute_plural: "Project attributes"
   label_project_count: "العدد الإجمالي للمشاريع"
   label_project_copy_notifications: "إرسال إشعارات البريد الالكتروني أثناء نسخ المشروع"
@@ -2727,12 +2759,13 @@ ar:
   text_work_packages_destroy_confirmation: "هل أنت متأكد من أنك تريد حذف العناصر المحددة؟"
   text_work_packages_ref_in_commit_messages: "تحديد المراجع وتثبيت مجموعات العمل في رسائل commit"
   text_journal_added: "%{value} %{label} أضيف"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} تم تحديثه"
   text_journal_changed_with_diff: "%{label} تغير (%{link})"
   text_journal_deleted: "%{label} تم حذفه (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} تم حذفه (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} تعيين إلى %{value}"
   text_journal_set_with_diff: "%{label} تم تعيينه إلى (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -3033,15 +3066,20 @@ ar:
       title: "حذف حزمة العمل"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "لا شيء للمعاينة"
   api_v3:
     attributes:

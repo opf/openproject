@@ -6,7 +6,8 @@
   tabindex="0"
   cdkFocusInitial
   cdkTrapFocus
-  (click)="close($event, false)"
+  [cdkTrapFocusAutoCapture]="true"
+  (mousedown)="close($event, false)"
 >
   <button
     type="button"

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg escaping HTML entities (Regression #28906)',
          js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
 
@@ -45,8 +45,8 @@ describe 'Wysiwyg escaping HTML entities (Regression #28906)',
                                    :enter,
                                    '\<u>foo\</u>'
 
-      expect(editable).to have_no_selector('node')
-      expect(editable).to have_no_selector('u')
+      expect(editable).not_to have_selector('node')
+      expect(editable).not_to have_selector('u')
     end
 
     # Save wiki page
@@ -56,8 +56,8 @@ describe 'Wysiwyg escaping HTML entities (Regression #28906)',
 
     within('#content') do
       expect(page).to have_selector('p', text: '<node foo="bar" />')
-      expect(page).to have_no_selector('u')
-      expect(page).to have_no_selector('node')
+      expect(page).not_to have_selector('u')
+      expect(page).not_to have_selector('node')
     end
 
     text = WikiContent.last.text

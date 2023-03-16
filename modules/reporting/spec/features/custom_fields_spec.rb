@@ -29,32 +29,32 @@
 require 'spec_helper'
 
 describe 'Custom fields reporting', js: true do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
-           custom_values: initial_custom_values
+           custom_values: initial_custom_values)
   end
 
   let!(:time_entry1) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package:,
            project:,
-           hours: 10
+           hours: 10)
   end
 
   let!(:time_entry2) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package:,
            project:,
-           hours: 2.50
+           hours: 2.50)
   end
 
   def custom_value_for(cf, str)
@@ -79,9 +79,9 @@ describe 'Custom fields reporting', js: true do
     # Have a second work package in the test that will have no values
     # as this caused problems with casting the nil value of the custom value to 0.
     let!(:work_package2) do
-      create :work_package,
+      create(:work_package,
              project:,
-             type:
+             type:)
     end
 
     before do
@@ -112,7 +112,7 @@ describe 'Custom fields reporting', js: true do
       # Update filter to value the work package has
       select = find(custom_field_selector)
       select.find('option', text: 'First option').select_option
-      find('#query-icon-apply-button').click
+      find_by_id('query-icon-apply-button').click
 
       # Expect row of work package
       within('#result-table') do
@@ -159,17 +159,17 @@ describe 'Custom fields reporting', js: true do
       end
 
       let!(:work_package2) do
-        create :work_package,
+        create(:work_package,
                project:,
-               custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') }
+               custom_values: { custom_field_2.id => custom_value_for(custom_field_2, 'A') })
       end
 
       let!(:time_entry1) do
-        create :time_entry,
+        create(:time_entry,
                user:,
                work_package: work_package2,
                project:,
-               hours: 10
+               hours: 10)
       end
 
       before do

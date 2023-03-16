@@ -33,26 +33,26 @@ describe 'team planner onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   let(:demo_project) do
-    create :project,
+    create(:project,
            name: 'Demo project',
            identifier: 'demo-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki team_planner_view]
+           enabled_module_names: %w[work_package_tracking wiki team_planner_view])
   end
   let(:scrum_project) do
-    create :project,
+    create(:project,
            name: 'Scrum project',
            identifier: 'your-scrum-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki]
+           enabled_module_names: %w[work_package_tracking wiki])
   end
 
   let(:user) do
-    create :admin,
+    create(:admin,
            member_in_project: demo_project,
            member_with_permissions: %w[view_work_packages edit_work_packages add_work_packages
                                        view_team_planner manage_team_planner save_queries manage_public_queries
-                                       work_package_assigned]
+                                       work_package_assigned])
   end
 
   let!(:wp1) do
@@ -64,12 +64,12 @@ describe 'team planner onboarding tour', js: true do
   end
   let!(:wp2) { create(:work_package, project: scrum_project) }
 
-  let(:query) { create :query, user:, project: demo_project, public: true, name: 'Team planner' }
+  let(:query) { create(:query, user:, project: demo_project, public: true, name: 'Team planner') }
   let(:team_plan) do
-    create :view_team_planner,
+    create(:view_team_planner,
            query:,
            assignees: [user],
-           projects: [demo_project, scrum_project]
+           projects: [demo_project, scrum_project])
   end
 
   before do

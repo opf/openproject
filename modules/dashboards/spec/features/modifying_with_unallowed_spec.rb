@@ -32,7 +32,7 @@ require_relative '../support/pages/dashboard'
 
 describe 'Modifying a dashboard which already has widgets for which permissions are lacking', js: true do
   let!(:project) do
-    create :project
+    create(:project)
   end
 
   let(:permissions) do
@@ -50,8 +50,8 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     Pages::Dashboard.new(project)
   end
   let!(:news) do
-    create :news,
-           project:
+    create(:news,
+           project:)
   end
 
   before do
@@ -90,6 +90,6 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     dashboard_page.visit!
 
     expect(page)
-      .to have_no_selector('.grid--area.-widgeted:nth-of-type(2)')
+      .not_to have_selector('.grid--area.-widgeted:nth-of-type(2)')
   end
 end

@@ -430,7 +430,7 @@ describe OpenProject::SCM::Adapters::Git do
         describe '.annotate' do
           it 'annotates a regular file' do
             annotate = adapter.annotate('sources/watchers_controller.rb')
-            expect(annotate).to be_kind_of(OpenProject::SCM::Adapters::Annotate)
+            expect(annotate).to be_a(OpenProject::SCM::Adapters::Annotate)
             expect(annotate.lines.length).to eq(41)
             expect(annotate.lines[4].strip).to eq('# This program is free software; ' \
                                                   'you can redistribute it and/or')
