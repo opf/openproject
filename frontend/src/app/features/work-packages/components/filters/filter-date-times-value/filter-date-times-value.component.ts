@@ -70,22 +70,21 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     super(I18n, timezoneService);
   }
 
+  public get value():string[] {
+    return (this.filter.values as string[]) || [];
+  }
+
+  public set value(val:string[]) {
+    this.filter.values = val;
+    this.filterChanged.emit(this.filter);
+  }
+
   public get begin():HalResource|string {
     return this.filter.values[0];
   }
 
-  public set begin(val) {
-    this.filter.values[0] = val || '';
-    this.filterChanged.emit(this.filter);
-  }
-
   public get end() {
     return this.filter.values[1];
-  }
-
-  public set end(val) {
-    this.filter.values[1] = val || '';
-    this.filterChanged.emit(this.filter);
   }
 
   public get lowerBoundary():Moment|null {
