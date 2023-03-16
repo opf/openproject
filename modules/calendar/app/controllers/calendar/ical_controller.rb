@@ -41,12 +41,8 @@ module ::Calendar
       end
 
       if call.present? && call.success?
-        # # respond_to do |format|
-        # #   format.ics do
-            send_data call.result, filename: "openproject_calendar_#{DateTime.now.to_i}.ics"
-        # #   end
-        # # end
-        # render plain: call.result#, mime_type: Mime::Type.lookup("text/calendar")
+        send_data call.result, filename: "openproject_calendar_#{DateTime.now.to_i}.ics"
+        # render plain: call.result # TODO: remove this, it's just handy for development debugging
       else
         render_404
       end
