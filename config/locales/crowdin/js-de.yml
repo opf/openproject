@@ -472,7 +472,7 @@ de:
     label_watch_work_package: "Arbeitspaket beobachten"
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -586,9 +586,9 @@ de:
         text_update_date: "%{date} von"
         total_count_warning: "Zeige die %{newest_count} neuesten Benachrichtigungen. %{more_count} weitere werden nicht angezeigt."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Alle Benachrichtungen abgearbeitet"
+          no_notification_with_current_project_filter: "Sieht so aus, als ob Sie in dem ausgewählten Projekt mit allem auf dem Laufenden sind.\n"
+          no_notification_with_current_filter: "Sieht so aus, als ob Sie bei %{filter} mit allem auf dem Laufenden sind."
           no_selection: "Auf eine Benachrichtigung klicken, um alle Aktivitätsdetails anzuzeigen."
         new_notifications:
           message: 'Es gibt neue Benachrichtigungen.'
@@ -1000,7 +1000,7 @@ de:
         move_column_left: "Spalte nach links verschieben"
         move_column_right: "Spalte nach rechts verschieben"
         hide_column: "Spalte ausblenden"
-        insert_columns: "Insert columns"
+        insert_columns: "Spalten einfügen"
         filters: "Filter"
         display_sums: "Summen anzeigen"
         confirm_edit_cancel: "Sind Sie sicher, dass Sie die Umbenennung dieser Ansicht abbrechen wollen? Der Titel wird zum letzten gespeicherten Wert zurückgesetzt."
@@ -1027,7 +1027,7 @@ de:
         button: 'Konfigurieren Sie diese Arbeitspaket-Tabelle'
         choose_display_mode: 'Arbeitspakete anzeigen als'
         modal_title: 'Konfiguration der Arbeitspaket-Tabelle'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        embedded_tab_disabled: "Dieser Reiter ist in der eingebetteten Ansicht, die Sie bearbeiten, nicht verfübar."
         default: "Standard"
         display_settings: 'Anzeigeeinstellungen'
         default_mode: "Flache Liste"
@@ -1069,19 +1069,19 @@ de:
         months: "Monaten"
     toolbar:
       settings:
-        configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        configure_view: "Ansicht konfigurieren"
+        columns: "Spalten"
+        sort_by: "Sortieren nach"
+        group_by: "Gruppieren nach"
         display_sums: "Summen anzeigen"
         display_hierarchy: "Hierarchie anzeigen"
         hide_hierarchy: "Hierarchie verbergen"
         hide_sums: "Summen nicht anzeigen"
         save: "Speichern"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Speichern unter"
+        export: "Exportieren"
+        visibility_settings: "Sichtbarkeits-Einstellungen"
+        page_settings: "Ansicht umbenennen"
         delete: "Löschen"
       filter: "Filter"
       unselected_title: "Arbeitspaket"
