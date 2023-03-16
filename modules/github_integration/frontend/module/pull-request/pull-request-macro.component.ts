@@ -39,14 +39,16 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 import { IGithubPullRequest } from '../state/github-pull-request.model';
 import { GithubPullRequestResourceService } from '../state/github-pull-request.service';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PullRequestState } from './pull-request-state.component';
 
 export const githubPullRequestMacroSelector = 'macro.github_pull_request';
-
-export type PullRequestState = 'opened'|'closed'|'referenced'|'ready_for_review'|'merged'|'draft';
 
 @Component({
   selector: githubPullRequestMacroSelector,
   templateUrl: './pull-request-macro.component.html',
+  styleUrls: ['./pull-request-macro.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     HalResourceEditingService,
@@ -59,10 +61,13 @@ export class PullRequestMacroComponent implements OnInit {
 
   pullRequest$:Observable<IGithubPullRequest>;
 
+  displayText$:Observable<string>;
+
   constructor(
     readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly pullRequests:GithubPullRequestResourceService,
+    readonly I18n:I18nService,
   ) {
     populateInputsFromDataset(this);
   }
@@ -71,5 +76,40 @@ export class PullRequestMacroComponent implements OnInit {
     this.pullRequest$ = this
       .pullRequests
       .requireSingle(this.pullRequestId);
+
+    this.displayText$ = this
+      .pullRequest$
+      .pipe(
+        map((pr) => this.buildText(pr)),
+      );
+  }
+
+  private buildText(pr:IGithubPullRequest):string {
+    const githubUserLink = this.htmlLink(pr._embedded.githubUser.htmlUrl, pr._embedded.githubUser.login);
+    const repositoryLink = this.htmlLink(pr.repositoryHtmlUrl, pr.repository);
+    const prLink = this.htmlLink(pr.htmlUrl, pr.title);
+
+    const message = this.pullRequestState === 'referenced' ? 'referenced_message' : 'message';
+    return this.I18n.t(
+      `js.github_integration.pull_requests.${message}`,
+      {
+        pr_number: pr.number,
+        pr_link: prLink,
+        repository_link: repositoryLink,
+        pr_state: this.I18n.t(
+          `js.github_integration.pull_requests.states.${this.pullRequestState}`,
+          { defaultValue: this.pullRequestState || '(unknown state)' },
+        ),
+        github_user_link: githubUserLink,
+      },
+    );
+  }
+
+  private htmlLink(href:string, title:string):string {
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = title;
+
+    return link.outerHTML;
   }
 }

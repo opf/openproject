@@ -32,10 +32,10 @@
   </span>.
 </div>
 
-<span class='op-pull-request--state' [ngClass]="'op-pull-request--state_' + state">
-  <op-icon icon-classes="button--icon icon-merge-branch"></op-icon>
-  {{state}}
-</span>
+<op-github-pull-request-state
+  class='op-pull-request--state'
+  [state]="state">
+</op-github-pull-request-state>
 
 <span class="op-pull-request--checks-label"
       *ngIf="pullRequest._embedded.checkRuns?.length"

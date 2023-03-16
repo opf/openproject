@@ -67,7 +67,7 @@ export class PullRequestComponent {
   ) {
   }
 
-  get state() {
+  get state():string {
     if (this.pullRequest.state === 'open') {
       return (this.pullRequest.draft ? 'draft' : 'open');
     }

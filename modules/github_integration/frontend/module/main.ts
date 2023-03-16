@@ -45,8 +45,8 @@ import {
   githubPullRequestMacroSelector,
   PullRequestMacroComponent,
 } from './pull-request/pull-request-macro.component';
-import { HookService } from 'core-app/features/plugins/hook-service';
 import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
+import { PullRequestStateComponent } from './pull-request/pull-request-state.component';
 
 export function workPackageGithubPrsCount(
   workPackage:WorkPackageResource,
@@ -87,6 +87,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     GitActionsMenuComponent,
     PullRequestComponent,
     PullRequestMacroComponent,
+    PullRequestStateComponent,
   ],
   exports: [
     GitHubTabComponent,

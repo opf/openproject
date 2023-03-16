@@ -1,6 +1,13 @@
-<ng-container *ngIf="(pullRequest$ | async) as pr; else loadingTemplate">
-  foo
-</ng-container>
+<div
+  class="op-pull-request-macro"
+  *ngIf="(pullRequest$ | async) as pr; else loadingTemplate">
+  <op-github-pull-request-state
+    class="op-pull-request-macro--state"
+    [small]="true"
+    [state]="pullRequestState"
+  ></op-github-pull-request-state>
+  <span [innerHTML]="displayText$ | async"></span>
+</div>
 <ng-template #loadingTemplate>
   <op-content-loader
     viewBox="0 0 200 5"

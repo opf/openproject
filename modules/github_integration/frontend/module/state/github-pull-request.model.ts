@@ -36,9 +36,9 @@ export interface IGithubPullRequestResourceLinks extends IHalResourceLinks {
 }
 
 export interface IGithubPullRequestResourceEmbedded {
-  githubUser?:IGithubUserResource;
+  githubUser:IGithubUserResource;
   mergedBy?:IGithubUserResource;
-  checkRuns?:IGithubCheckRunResource[];
+  checkRuns:IGithubCheckRunResource[];
 }
 
 export interface IGithubPullRequest {
@@ -55,15 +55,16 @@ export interface IGithubPullRequest {
   deletionsCount?:number;
   draft?:boolean;
   githubUpdatedAt?:string;
-  htmlUrl?:string;
+  htmlUrl:string;
   labels?:string[];
   merged?:boolean;
   mergedAt?:string;
   number?:number;
-  repository?:string;
+  repository:string;
+  repositoryHtmlUrl:string;
   reviewCommentsCount?:number;
   state?:string;
-  title?:string;
+  title:string;
   updatedAt?:string;
 
   _links:IGithubPullRequestResourceLinks;
