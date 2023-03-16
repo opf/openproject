@@ -37,7 +37,27 @@ describe 'Calendar sharing via ical', js: true do
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
-             view_work_packages view_calendar manage_calendar save_queries manage_public_queries share_calendars
+             view_work_packages
+             edit_work_packages
+             save_queries
+             save_public_queries
+             view_calendar
+             manage_calendars
+             share_calendars
+           ]
+  end
+
+  let!(:user_without_sharing_permission) do
+    create :user,
+           firstname: 'Bernd',
+           member_in_project: project,
+           member_with_permissions: %w[
+             view_work_packages
+             edit_work_packages
+             save_queries
+             save_public_queries
+             view_calendar
+             manage_calendars
            ]
   end
 
@@ -60,28 +80,28 @@ describe 'Calendar sharing via ical', js: true do
 
     context 'on not persisted calendar query' do
 
-      # it 'shows disabled sharing menu item' do
-      #   visit project_calendars_path(project)
+      it 'shows disabled sharing menu item' do
+        visit project_calendars_path(project)
 
-      #   click_link "Create new calendar"
+        click_link "Create new calendar"
 
-      #   # wait for settings button to become visible
-      #   expect(page).to have_selector("#work-packages-settings-button")
+        # wait for settings button to become visible
+        expect(page).to have_selector("#work-packages-settings-button")
 
-      #   # click on settings button
-      #   page.find("#work-packages-settings-button").click
+        # click on settings button
+        page.find("#work-packages-settings-button").click
 
-      #   # expect disabled sharing menu item
-      #   within "#settingsDropdown" do
-      #     # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
-      #     expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
-      #     page.click_button("Share iCalendar ...")
+        # expect disabled sharing menu item
+        within "#settingsDropdown" do
+          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
+          page.click_button("Share iCalendar ...")
 
-      #     # modal should not be shown
-      #     expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
-      #   end
+          # modal should not be shown
+          expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
+        end
 
-      # end
+      end
     end
 
     context 'on persisted calendar query' do
@@ -111,9 +131,54 @@ describe 'Calendar sharing via ical', js: true do
           
         end
 
-        expect(page).to have_selector('.spot-modal--header', text: "Share calendar")
+        expect(page).to have_selector('.spot-modal--header', text: "Share iCalendar")
+        expect(page).to have_xpath('//a[contains(@href, "/ical?ical_token=")]')
+
+        click_button "Copy URL"
+
+        # Not working in test env, probably due to missing clipboard permissions of the headless browser
+        # expect(page).to have_content("URL copied to clipboard")
+
+        # TODO: Not able to test if the URL was actuall copied to the clipboard
+        # Tried following without success
+        # https://copyprogramming.com/howto/emulating-a-clipboard-copy-paste-with-selinum-capybara
+      end
+    end
+
+  end
+
+  context 'user without sufficient permissions' do
+
+    before do
+      login_as user_without_sharing_permission
+      calendar.visit!
+    end
+
+    context 'on persisted calendar query' do
+
+      it 'shows disabled sharing menu item' do
+        visit project_calendars_path(project)
+
+        click_link "Create new calendar"
+
+        # wait for settings button to become visible
+        expect(page).to have_selector("#work-packages-settings-button")
+
+        # click on settings button
+        page.find("#work-packages-settings-button").click
+
+        # expect disabled sharing menu item
+        within "#settingsDropdown" do
+          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
+          page.click_button("Share iCalendar ...")
+
+          # modal should not be shown
+          expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
+        end
 
       end
+
     end
 
   end
