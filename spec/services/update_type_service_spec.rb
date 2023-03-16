@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'services/shared_type_service'
 
 describe UpdateTypeService do
-  let(:type) { build_stubbed(:type) }
+  let(:type) { create(:type) }
   let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(type, user) }
