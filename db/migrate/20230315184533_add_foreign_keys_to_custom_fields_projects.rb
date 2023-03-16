@@ -27,8 +27,18 @@
 #++
 
 class AddForeignKeysToCustomFieldsProjects < ActiveRecord::Migration[7.0]
-  def change
+  def up
+    execute <<~SQL.squish
+      DELETE FROM custom_fields_projects
+        WHERE custom_field_id NOT IN (SELECT id FROM custom_fields) OR
+              project_id NOT IN (SELECT id FROM projects)
+    SQL
     add_foreign_key :custom_fields_projects, :custom_fields, on_delete: :cascade, on_update: :cascade
     add_foreign_key :custom_fields_projects, :projects, on_delete: :cascade, on_update: :cascade
+  end
+
+  def down
+    remove_foreign_key :custom_fields_projects, :custom_fields
+    remove_foreign_key :custom_fields_projects, :projects
   end
 end

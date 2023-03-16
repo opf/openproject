@@ -26,10 +26,20 @@
 #++
 
 class AddForeignKeysToWorkflows < ActiveRecord::Migration[7.0]
-  def change
+  def up
+    Workflow.where.not(type: Type.all).destroy_all
     add_foreign_key :workflows, :types, on_delete: :cascade, on_update: :cascade
+    Workflow.where.not(old_status_id: Status.all).or(Workflow.where.not(new_status_id: Status.all)).destroy_all
     add_foreign_key :workflows, :statuses, column: 'old_status_id', on_delete: :cascade, on_update: :cascade
     add_foreign_key :workflows, :statuses, column: 'new_status_id', on_delete: :cascade, on_update: :cascade
+    Workflow.where.not(type: Role.all).destroy_all
     add_foreign_key :workflows, :roles, on_delete: :cascade, on_update: :cascade
+  end
+
+  def down
+    remove_foreign_key :workflows, :types
+    remove_foreign_key :workflows, :statuses
+    remove_foreign_key :workflows, :statuses
+    remove_foreign_key :workflows, :roles
   end
 end

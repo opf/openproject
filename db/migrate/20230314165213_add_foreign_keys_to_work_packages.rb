@@ -27,8 +27,15 @@
 #++
 
 class AddForeignKeysToWorkPackages < ActiveRecord::Migration[7.0]
-  def change
+  def up
+    WorkPackage.where.not(type: Type.all).destroy_all
     add_foreign_key :work_packages, :types, on_delete: :cascade, on_update: :cascade
+    WorkPackage.where.not(type: Status.all).destroy_all
     add_foreign_key :work_packages, :statuses, on_delete: :cascade, on_update: :cascade
+  end
+
+  def down
+    remove_foreign_key :work_packages, :types
+    remove_foreign_key :work_packages, :statuses
   end
 end
