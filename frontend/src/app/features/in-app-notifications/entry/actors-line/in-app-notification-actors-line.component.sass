@@ -7,13 +7,13 @@
   align-items: center
   color: var(--gray-dark)
 
-  &--line
-    vertical-align: baseline
-
   &--date
     @include text-shortener
     max-width: 100%
-    line-height: 16px
+    line-height: 1rem
 
   &--container
     @include text-shortener
+    display: flex
+    white-space: pre-wrap
+    line-height: 1rem

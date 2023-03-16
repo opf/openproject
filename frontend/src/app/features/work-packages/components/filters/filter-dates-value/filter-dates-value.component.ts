@@ -27,7 +27,12 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Component, HostBinding, Input, Output } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import * as moment from 'moment';
@@ -59,7 +64,8 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
 
   constructor(
     readonly timezoneService:TimezoneService,
-    readonly I18n:I18nService) {
+    readonly I18n:I18nService,
+  ) {
     super();
   }
 
@@ -70,28 +76,5 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   public set value(val:(HalResource[]|string[])) {
     this.filter.values = val;
     this.filterChanged.emit(this.filter);
-  }
-
-  public get begin():any {
-    return this.filter.values[0];
-  }
-
-  public get end():HalResource|string {
-    return this.filter.values[1];
-  }
-
-  public parser(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      return data;
-    }
-    return null;
-  }
-
-  public formatter(data:any) {
-    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-      const d = this.timezoneService.parseDate(data);
-      return this.timezoneService.formattedISODate(d);
-    }
-    return null;
   }
 }

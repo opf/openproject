@@ -1,23 +1,13 @@
-<op-basic-single-date-picker
-  (valueChange)="begin = isoDateParser($event)"
-  [value]="isoDateFormatter(begin)"
+<op-basic-range-date-picker
+  [id]="'values-' + filter.id"
+  [name]="'v[' + filter.id + ']'"
+  class="advanced-filters--date-field"
+
+  [value]="value"
+  (valueChange)="value = $event"
   [opAutofocus]="shouldFocus"
-  required="true"
-  [id]="'values-' + filter.id + '-begin'"
-  [name]="'v[' + filter.id + ']-begin'"
-  classes="advanced-filters--date-field"
-></op-basic-single-date-picker>
+></op-basic-range-date-picker>
 
-<span class="advanced-filters--affix" [textContent]="text.spacer">
-</span>
-
-<op-basic-single-date-picker
-  (valueChange)="end = isoDateParser($event)"
-  [value]="isoDateFormatter(end)"
-  [id]="'values-' + filter.id + '-end'"
-  [name]="'v[' + filter.id + ']-end'"
-  classes="advanced-filters--date-field"
-></op-basic-single-date-picker>
 
 <span
   class="advanced-filters--tooltip-trigger -multiline"
