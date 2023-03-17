@@ -46,6 +46,7 @@ describe 'mobile date filter work packages',
     target.native.clear
     page.execute_script('arguments[0].value = arguments[1];', target.native, value)
     page.execute_script('arguments[0].dispatchEvent(new Event("input"));', target.native) if fire_change
+    sleep 1
   end
 
   before do
@@ -61,12 +62,9 @@ describe 'mobile date filter work packages',
       start_field = find('[data-qa-selector="op-basic-range-date-picker-start"]')
       end_field = find('[data-qa-selector="op-basic-range-date-picker-end"]')
 
-      native_input(start_field, 1.day.ago.to_date.iso8601, fire_change: false)
+      native_input(start_field, 1.day.ago.to_date.iso8601)
+      loading_indicator_saveguard
       native_input(end_field, Date.current.iso8601)
-
-
-      # wait for debounce
-      sleep 1
 
       loading_indicator_saveguard
       wp_cards.expect_work_package_listed work_package_with_due_date
