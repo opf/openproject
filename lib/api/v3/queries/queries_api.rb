@@ -165,7 +165,7 @@ module API
 
                 # currently the generated URL points to controller action in calendar module
                 # correct approach? or should it be implemented as a API here?
-                call = ::Calendar::GenerateIcalUrl.new().call(
+                call = ::Calendar::GenerateIcalUrl.new.call(
                   user: current_user,
                   query_id: @query.id,
                   project_id: @query.project_id

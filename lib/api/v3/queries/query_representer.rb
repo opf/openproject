@@ -146,7 +146,7 @@ module API
             method: :delete
           }
         end
-        
+
         link :shareCalendars do
           next if represented.new_record? ||
                   !allowed_to?(:share_via_ical)

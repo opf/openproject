@@ -315,11 +315,11 @@ describe MyController do
       # in this context all ical tokens of a user should be reverted at once
       # this invalidates all previously generated ical urls, which is the intention
       context 'with existing keys' do
-        let!(:key_1) { Token::Ical.create user: }
-        let!(:key_2) { Token::Ical.create user: }
+        let!(:key1) { Token::Ical.create user: }
+        let!(:key2) { Token::Ical.create user: }
 
         it 'revokes all existing keys' do
-          expect(Token::Ical.where(user_id: user.id)).to contain_exactly(key_1, key_2)
+          expect(Token::Ical.where(user_id: user.id)).to contain_exactly(key1, key2)
 
           post :revoke_all_ical_tokens
 

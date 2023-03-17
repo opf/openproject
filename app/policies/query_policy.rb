@@ -120,7 +120,7 @@ class QueryPolicy < BasePolicy
 
     @manage_public_queries_cache[query.project]
   end
-  
+
   def share_via_ical_allowed?(query)
     @share_via_ical_cache ||= Hash.new do |hash, project|
       hash[project] = user.allowed_to?(:share_calendars, project, global: project.nil?)

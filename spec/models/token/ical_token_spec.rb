@@ -34,9 +34,8 @@ describe Token::Ical do
   subject { described_class.new user: }
 
   describe 'behaves like Token::HashedToken' do
-
     it 'inherits from Token::HashedToken' do
-      expect(described_class).to be < Token::HashedToken 
+      expect(described_class).to be < Token::HashedToken
     end
 
     # following code is copy pasted from hashed_token_spec
@@ -70,27 +69,26 @@ describe Token::Ical do
       end
 
       it 'finds using the plaintext value' do
+        # rubocop:disable Rails/DynamicFindBy
         expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
         expect(described_class.find_by_plaintext_value('foobar')).to be_nil
+        # rubocop:enable Rails/DynamicFindBy
       end
     end
-
   end
 
   describe 'in contrast to HashedToken' do
-
     it 'a user can have N ical tokens' do
       # Every time an ical url is generated, a new ical token will be generated for this url as well
       # the existing ical tokens (and thus urls) should still be valid
       # until the user decides to revert all existing ical tokens (and urls)
       # therefore a user needs to be allowed to have N ical token
-      ical_token_1 = described_class.create user: user
-      ical_token_2 = described_class.create user: user
+      ical_token1 = described_class.create(user:)
+      ical_token2 = described_class.create(user:)
 
-      expect(Token::Ical.where(user_id: user.id)).to contain_exactly(
-        ical_token_1, ical_token_2
+      expect(described_class.where(user_id: user.id)).to contain_exactly(
+        ical_token1, ical_token2
       )
     end
-
   end
 end
