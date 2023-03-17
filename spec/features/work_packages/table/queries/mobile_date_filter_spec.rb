@@ -28,7 +28,8 @@
 
 require 'spec_helper'
 
-describe 'mobile date filter work packages', js: true do
+describe 'mobile date filter work packages',
+         js: true do
   shared_let(:user) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -40,6 +41,12 @@ describe 'mobile date filter work packages', js: true do
   current_user { user }
 
   include_context 'with mobile screen size'
+
+  def native_input(target, value, fire_change: true)
+    target.native.clear
+    page.execute_script('arguments[0].value = arguments[1];', target.native, value)
+    page.execute_script('arguments[0].dispatchEvent(new Event("input"));', target.native) if fire_change
+  end
 
   before do
     wp_table.visit!
@@ -54,11 +61,12 @@ describe 'mobile date filter work packages', js: true do
       start_field = find('[data-qa-selector="op-basic-range-date-picker-start"]')
       end_field = find('[data-qa-selector="op-basic-range-date-picker-end"]')
 
-      start_field.native.clear
-      end_field.native.clear
+      native_input(start_field, 1.day.ago.to_date.iso8601, fire_change: false)
+      native_input(end_field, Date.current.iso8601)
 
-      start_field.set 1.day.ago.strftime('%m/%d/%Y')
-      end_field.set Date.current.strftime('%m/%d/%Y')
+
+      # wait for debounce
+      sleep 1
 
       loading_indicator_saveguard
       wp_cards.expect_work_package_listed work_package_with_due_date
@@ -82,10 +90,12 @@ describe 'mobile date filter work packages', js: true do
       date_field = find_field 'values-dueDate'
       expect(date_field['type']).to eq 'date'
 
-      date_field.native.clear
-      date_field.set Date.current.strftime('%m/%d/%Y')
+      native_input(date_field, Date.current.iso8601)
+      # wait for debounce
+      sleep 1
 
       loading_indicator_saveguard
+
       wp_cards.expect_work_package_listed work_package_with_due_date
       wp_cards.expect_work_package_not_listed work_package_without_due_date
 
