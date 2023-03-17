@@ -924,9 +924,9 @@ pt:
       news: "Notícias"
       project_attribute: "Atributos do projeto"
       subproject: "Incur subprojetos"
-      time_entry: "Spent time"
+      time_entry: "Tempo gasto"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Pacotes de trabalho"
   #common attributes of all models
   attributes:
     active: "Ativo"
@@ -1062,7 +1062,7 @@ pt:
   button_reset: "Reiniciar"
   button_rollback: "Retornar para esta versão"
   button_save: "Salvar"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Aplicar as alterações"
   button_save_back: "Salvar e voltar"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1361,7 +1361,7 @@ pt:
     changeset: 'Conjunto de alterações editadas'
     message: Mensagem editada
     news: Notícias
-    project_attributes: 'Project attributes edited'
+    project_attributes: 'Atributos do projeto editado'
     projects: 'Project edited'
     reply: Respondida
     time_entry: 'Registro de tempo editado'
