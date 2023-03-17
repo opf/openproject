@@ -3,7 +3,7 @@ title: OpenProject 12.5.0
 sidebar_navigation:
     title: 12.5.0
 release_version: 12.5.0
-release_date: 2023-03-14
+release_date: 2023-03-20
 ---
 
 # OpenProject 12.5.0
@@ -52,7 +52,7 @@ To save the files you uploaded to the currently folder in Nextcloud, click on th
 
 ![openproject-nextcloud-upload](openproject-nextcloud-upload.gif)
 
-### Upload fiels during creation of a new work package
+### Upload files during creation of a new work package
 
 If you create a new work package in OpenProject and want to add a file to the work package, you can now upload or link files from Nextcloud directly.
 
@@ -64,7 +64,7 @@ Thereby, it gives you two options on the Files tab: Upload a new file or link an
 
 The **Files** tab shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in Nextcloud or remove the link.
 
-Please note: Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. Upploading a new file with the same name will ask you to either overwrite the existing one in Nextcloud or create an additional copy next to it.
+Please note: Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. Uploading a new file with the same name will ask you to either overwrite the existing one in Nextcloud or create an additional copy next to it.
 
 ## Setting public holidays as non-working days
 
@@ -74,7 +74,7 @@ With OpenProject 12.5 you can now add additional non-working days to take into a
 
 ![Non-working-days-holidays](Non-working-days-holidays.png)
 
-**Please note**: These additional non-working days will be set instance-wide, for all projects. And need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additonal non-working days, you will be asked if a re-scheduling of work packages should be done.
+**Please note**: These additional non-working days will be set instance-wide, for all projects. And need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additional non-working days, you will be asked if a re-scheduling of work packages should be done.
 
 ## Track project changes
 
@@ -100,7 +100,7 @@ If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print
 
 ## Advanced search for work package attachment or content for the Community
 
-With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only fulltext search but also to [filter and search for work packages attachments and content of the attachments](../user-guide/work-packages/work-package-table-configuration#filter-for-attachment-file-name-and-content).
+With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../user-guide/work-packages/work-package-table-configuration#filter-for-attachment-file-name-and-content).
 
 ![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
 
@@ -215,7 +215,7 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 - Epic: Show changes of project attributes in project activity view \[[#43852](https://community.openproject.com/wp/43852)\]
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.com/wp/44297)\]
 
-#### Contributions
+#### Credits and contributions
 A very special thank you goes to the following sponsors for features and improvements of this release:
 
 - **The City of Cologne** for having sponsored the feature of tracking project activities.
