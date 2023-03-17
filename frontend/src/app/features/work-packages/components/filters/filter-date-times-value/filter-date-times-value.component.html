@@ -1,5 +1,5 @@
 <op-basic-single-date-picker
-  (valueChange)="begin = isoDateParser($event)"
+  (valueChange)="parseBegin($event)"
   [value]="isoDateFormatter(begin)"
   [opAutofocus]="shouldFocus"
   required="true"
@@ -12,7 +12,7 @@
 </span>
 
 <op-basic-single-date-picker
-  (valueChange)="end = isoDateParser($event)"
+  (valueChange)="parseEnd($event)"
   [value]="isoDateFormatter(end)"
   [id]="'values-' + filter.id + '-end'"
   [name]="'v[' + filter.id + ']-end'"

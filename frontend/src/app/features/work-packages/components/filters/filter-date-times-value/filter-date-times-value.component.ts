@@ -41,6 +41,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
+import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   selector: 'op-filter-date-times-value',
@@ -100,5 +101,33 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       return this.timezoneService.parseDatetime(this.end.toString());
     }
     return null;
+  }
+
+  public parseBegin(date:string|null) {
+    if (date && validDate(date)) {
+      const parsed = this
+        .timezoneService
+        .parseISODatetime(date)
+        .utc()
+        .startOf('day');
+
+      this.begin = this.timezoneService.formattedISODateTime(parsed);
+    }
+  }
+
+  public parseEnd(date:string|null) {
+    if (date && validDate(date)) {
+      const parsed = this
+        .timezoneService
+        .parseISODatetime(date)
+        .utc()
+        .endOf('day');
+
+      this.end = this.timezoneService.formattedISODateTime(parsed);
+    }
+  }
+
+  public formatter(data:string[]):string[] {
+    return data.map((date) => this.isoDateFormatter(date));
   }
 }
