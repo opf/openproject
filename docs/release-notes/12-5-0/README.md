@@ -11,10 +11,107 @@ release_date: 2023-03-14
 Release date: 2023-03-20
 
 We released [OpenProject 12.5.0](https://community.openproject.com/versions/1611).
-The release contains several bug fixes and we recommend updating to the newest version.
+This new release is again packed with many new collaboration features, improvements and bug fixes.
+The release will bring the anticipated collaboration features for the **Nextcloud integration to the OpenProject side**. Nextcloud and OpenProject now offer mutual customers a way to manage their projects and share files seamlessly and without disruption.
 
-<!--more-->
-#### Bug fixes and changes
+Moreover, with OpenProject 12.5, the system administrator can **set additional non-working days** on an instance level, such as public holidays. Also, we are happy to **publish another Enterprise add-on**: The Advanced search functionality not only supports full text search but also enables users to search for work package attachments or content. It is now a part of the free-of-charge Community version.
+
+## Upload files to Nextcloud while working in OpenProject
+
+OpenProject 12.5 launches the next step for the OpenProject and Nextcloud integration. It is now possible to upload new files and link them directly from a work package in OpenProject to your Nextcloud file storage. The close connection of work packages with project-related files combines the advantages of both open source systems.
+
+Different use cases are covered for uploading and linking files directly from within a work package.
+
+### Link an existing Nextcloud file or folder to an OpenProject work package
+
+If you want to link an existing project related file or folder from Nextcloud to an OpenProject work package, you can now do it directly within the work package in OpenProject.
+
+To do so, start by clicking on **Link existing file** underneath the My Nextcloud files box.
+
+![openproject-nextcloud-files-link](openproject-nextcloud-files-link.png)
+
+### New file picker in OpenProject
+
+A new file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see. You choose the respective file or folder from Nextcloud via the file picker.
+
+![openproject-nextcloud-files-picker](openproject-nextcloud-files-picker.png)
+
+To link a certain file or folder with this work package, click on the checkbox to the left of each item. Once you have selected the file(s) or folder(s) you wish to link to the work package, click on the **Link files** button. The number on the button will represent the number of files/folders you have selected.
+
+### Upload a new file while working in OpenProject
+
+It is now possible to upload a new file from your device directly to Nextcloud from within an OpenProject work package.
+
+In this case, the file you want to link has not yet been uploaded to Nextcloud. Hence, click on the **Upload files** link. You will then be prompted to select a file (or multiple files) on your computer that you want to upload to Nextcloud.
+
+Alternatively, you can also simply drag a file or folder on your computer to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
+
+Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
+
+To save the files you uploaded to the currently folder in Nextcloud, click on the **Choose location** button.
+
+![openproject-nextcloud-upload](openproject-nextcloud-upload.gif)
+
+### Upload fiels during creation of a new work package
+
+If you create a new work package in OpenProject and want to add a file to the work package, you can now upload or link files from Nextcloud directly.
+
+Thereby, it gives you two options on the Files tab: Upload a new file or link an existing file from Nextcloud, as described above.
+
+![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
+
+### More options for linked Nextcloud files in an OpenProject work package
+
+The **Files** tab shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in Nextcloud or remove the link.
+
+Please note: Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. Upploading a new file with the same name will ask you to either overwrite the existing one in Nextcloud or create an additional copy next to it.
+
+## Setting public holidays as non-working days
+
+In OpenProject you can define working days and non-working days of the week. At an instance level you set which days of the week are considered working days.
+
+With OpenProject 12.5 you can now add additional non-working days to take into account e.g. public holidays or other days in your organization that nobody works on. Consequently, work packages cannot end or start on these dates and these days do not count towards the duration of a work package.
+
+![Non-working-days-holidays](Non-working-days-holidays.png)
+
+**Please note**: These additional non-working days will be set instance-wide, for all projects. And need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additonal non-working days, you will be asked if a re-scheduling of work packages should be done.
+
+## Track project changes
+
+From OpenProject 12.5 the Activity view will now include the tracking of changes of project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the extended menu of a project and then choosing project activity.
+
+![project-list-activity](project-list-activity.png)
+
+Also, you can see the project activity in your Activity module within a project and filter for the required information.
+
+![project-activity-tracking](project-activity-tracking.png)
+
+## New default filter for overdue work packages
+
+We added a default filter **Overdue** in the work package list so that you can quickly see which of your work packages are overdue and need your attention.
+
+![work-package-filter-overdue](work-package-filter-overdue.png)
+
+## Printing Wikis
+
+If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print function has been added to the **More** menu at the top right in your Wiki.
+
+![wiki print function](openproject-print-wiki.png)
+
+## Advanced search for work package attachment or content for the Community
+
+With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only fulltext search but also to [filter and search for work packages attachments and content of the attachments](../user-guide/work-packages/work-package-table-configuration#filter-for-attachment-file-name-and-content).
+
+![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
+
+## Further improvements, changes, and bug fixes
+
+- Extend the data model and the API to save and query historic values of work packages as a foundation for baseline comparisons.
+- The default work package filter “Latest Activity” also includes rejected, closed and on hold work packages.
+- Archive projects can now be done by non-admins.
+- The number of GitHub pull requests will be shown on the work package tab.
+
+### List of all bug fixes and changes
 
 - Changed: Archive project via project settings by non admins \[[#3897](https://community.openproject.com/wp/3897)\]
 - Changed: Change filter for default view: Latest activity \[[#29086](https://community.openproject.com/wp/29086)\]
@@ -119,8 +216,9 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.com/wp/44297)\]
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A very special thank you goes to the following sponsors for features and improvements of this release:
 
-Special thanks for reporting and finding bugs go to
+- **The City of Cologne** for having sponsored the feature of tracking project activities.
+- **Autoliv** for having sponsored the API changes, i.e. extending the data model and the API to save and query historic values of work packages as a foundation for the upcoming baseline comparisons.
 
-M V, Sven Kunze, Rince wind, Christina Vechkanova, Johannes Frenck, Marc Burk, Jörg Nold, Nidhin Manoharan, Jörg Mollowitz, Benjamin Rönnau, Harald Herz
+A very big thank you to M V, Sven Kunze, Rince wind, Christina Vechkanova, Johannes Frenck, Marc Burk, Jörg Nold, Nidhin Manoharan, Jörg Mollowitz, Benjamin Rönnau, Harald Herz for finding and reporting bugs.
