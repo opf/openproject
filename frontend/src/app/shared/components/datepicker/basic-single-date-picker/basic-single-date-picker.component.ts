@@ -141,11 +141,10 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   changeValueFromInput(value:string) {
-    this.onTouched(value);
-    this.onChange(value);
-    this.writeValue(value);
-
     if (validDate(value)) {
+      this.onTouched(value);
+      this.onChange(value);
+      this.writeValue(value);
       this.datePickerInstance?.setDates(value);
       this.valueChange.emit(value);
     }

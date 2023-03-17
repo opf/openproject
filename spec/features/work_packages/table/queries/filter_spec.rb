@@ -497,16 +497,14 @@ describe 'filter work packages', js: true do
              subject: 'Created today',
              project:,
              created_at: Time.current.change(hour: 12),
-             updated_at: Time.current.change(hour: 12),
-             )
+             updated_at: Time.current.change(hour: 12))
     end
     shared_let(:wp_updated_5d_ago) do
       create(:work_package,
              subject: 'Created 5d ago',
              project:,
              created_at: 5.days.ago,
-             updated_at: 5.days.ago,
-      )
+             updated_at: 5.days.ago)
     end
 
     it 'filters on date by created_at (Regression #28459)' do
@@ -554,13 +552,140 @@ describe 'filter work packages', js: true do
 
       filters.add_filter_by 'Updated',
                             'between',
-                            [1.day.ago.iso8601, Date.current.iso8601],
+                            [1.day.ago.to_date.iso8601, Date.current.iso8601],
                             'updatedAt'
 
       loading_indicator_saveguard
 
       wp_table.expect_work_package_listed wp_updated_today
       wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+
+      wp_table.save_as('Some query name')
+
+      filters.remove_filter 'updatedAt'
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      last_query = Query.last
+      date_filter = last_query.filters.last
+      expect(date_filter.values)
+        .to eq [1.day.ago.utc.beginning_of_day.iso8601, Time.current.utc.end_of_day.iso8601]
+
+      wp_table.visit_query(last_query)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today
+      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+
+      filters.open
+
+      filters.expect_filter_by 'Updated on',
+                               'between',
+                               [1.day.ago.to_date.iso8601, Date.current.iso8601],
+                               'updatedAt'
+    end
+
+    it 'filters between date by updated_at (lower boundary only)' do
+      wp_table.visit!
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      filters.open
+
+      filters.add_filter_by 'Updated',
+                            'between',
+                            [1.day.ago.to_date.iso8601],
+                            'updatedAt'
+
+      loading_indicator_saveguard
+
+      wp_table.expect_work_package_listed wp_updated_today
+      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+
+      wp_table.save_as('Some query name')
+
+      filters.remove_filter 'updatedAt'
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      filters.add_filter_by 'Updated',
+                            'between',
+                            [6.days.ago.to_date.iso8601],
+                            'updatedAt'
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      last_query = Query.last
+      date_filter = last_query.filters.last
+      expect(date_filter.values)
+        .to eq [1.day.ago.utc.beginning_of_day.iso8601]
+
+      wp_table.visit_query(last_query)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today
+      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+
+      filters.open
+
+      filters.expect_filter_by 'Updated on',
+                               'between',
+                               [1.day.ago.to_date.iso8601, ''],
+                               'updatedAt'
+    end
+
+    it 'filters between date by updated_at (upper boundary only)' do
+      wp_table.visit!
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      filters.open
+
+      filters.add_filter_by 'Updated',
+                            'between',
+                            [nil, 1.day.ago.to_date.iso8601],
+                            'updatedAt'
+
+      loading_indicator_saveguard
+
+      wp_table.expect_work_package_listed wp_updated_5d_ago
+      wp_table.ensure_work_package_not_listed! wp_updated_today
+
+      wp_table.save_as('Some query name')
+
+      filters.remove_filter 'updatedAt'
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+
+      filters.add_filter_by 'Updated',
+                            'between',
+                            [nil, 6.days.ago.to_date.iso8601],
+                            'updatedAt'
+
+      loading_indicator_saveguard
+      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago, wp_updated_today
+
+      last_query = Query.last
+      date_filter = last_query.filters.last
+      expect(date_filter.values)
+        .to eq ['', 1.day.ago.utc.end_of_day.iso8601]
+
+      wp_table.visit_query(last_query)
+
+      loading_indicator_saveguard
+      wp_table.expect_work_package_listed wp_updated_5d_ago
+      wp_table.ensure_work_package_not_listed! wp_updated_today
+
+      filters.open
+
+      filters.expect_filter_by 'Updated on',
+                               'between',
+                               ['', 1.day.ago.to_date.iso8601],
+                               'updatedAt'
     end
   end
 

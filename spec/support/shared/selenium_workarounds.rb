@@ -43,6 +43,6 @@ module SeleniumWorkarounds
       break if correctly_set
     end
 
-    raise "Found value #{found_value}, but expected #{value}." unless correctly_set
+    raise "Found value #{input.value}, but expected #{value}." unless correctly_set
   end
 end
