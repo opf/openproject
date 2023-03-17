@@ -113,7 +113,6 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       const parsed = this
         .timezoneService
         .parseISODatetime(date)
-        .utc()
         .startOf('day');
 
       this.begin = this.timezoneService.formattedISODateTime(parsed);
@@ -131,7 +130,6 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       const parsed = this
         .timezoneService
         .parseISODatetime(date)
-        .utc()
         .endOf('day');
 
       this.end = this.timezoneService.formattedISODateTime(parsed);
