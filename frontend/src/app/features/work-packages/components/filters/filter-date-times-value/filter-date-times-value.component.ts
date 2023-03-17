@@ -26,11 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Moment } from 'moment';
 import {
-  HostBinding,
   Component,
+  HostBinding,
   Input,
   OnInit,
   Output,

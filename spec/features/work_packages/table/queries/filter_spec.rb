@@ -497,16 +497,14 @@ describe 'filter work packages', js: true do
              subject: 'Created today',
              project:,
              created_at: Time.current.change(hour: 12),
-             updated_at: Time.current.change(hour: 12),
-             )
+             updated_at: Time.current.change(hour: 12))
     end
     shared_let(:wp_updated_5d_ago) do
       create(:work_package,
              subject: 'Created 5d ago',
              project:,
              created_at: 5.days.ago,
-             updated_at: 5.days.ago,
-             )
+             updated_at: 5.days.ago)
     end
 
     it 'filters on date by created_at (Regression #28459)' do
@@ -614,7 +612,7 @@ describe 'filter work packages', js: true do
 
       filters.add_filter_by 'Updated',
                             'between',
-                            [6.day.ago.to_date.iso8601],
+                            [6.days.ago.to_date.iso8601],
                             'updatedAt'
 
       loading_indicator_saveguard
@@ -665,7 +663,7 @@ describe 'filter work packages', js: true do
 
       filters.add_filter_by 'Updated',
                             'between',
-                            [nil, 6.day.ago.to_date.iso8601],
+                            [nil, 6.days.ago.to_date.iso8601],
                             'updatedAt'
 
       loading_indicator_saveguard

@@ -226,10 +226,10 @@ module Components
         retry_block do
           # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
-          if operator == 'between'
-            insert_two_single_dates(id, value)
-          elsif filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
+          if filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
             insert_date_range(filter_element, value)
+          elsif operator == 'between'
+            insert_two_single_dates(id, value)
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
             insert_autocomplete_item(filter_element, value)
           else
