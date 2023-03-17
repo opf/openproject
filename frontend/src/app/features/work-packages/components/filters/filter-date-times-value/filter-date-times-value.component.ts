@@ -71,21 +71,21 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     super(I18n, timezoneService);
   }
 
-  public get begin():HalResource|string {
-    return this.filter.values[0];
+  public get begin():string {
+    return (this.filter.values[0] || '') as string;
   }
 
-  public set begin(val) {
+  public set begin(val:string) {
     this.filter.values[0] = val || '';
     this.filterChanged.emit(this.filter);
   }
 
-  public get end() {
-    return this.filter.values[1];
+  public get end():string {
+    return (this.filter.values[1] || '') as string;
   }
 
-  public set end(val) {
-    this.filter.values[1] = val || '';
+  public set end(val:string) {
+    this.filter.values = [this.begin, val || ''] as string[];
     this.filterChanged.emit(this.filter);
   }
 

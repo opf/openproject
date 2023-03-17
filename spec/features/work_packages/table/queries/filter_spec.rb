@@ -674,13 +674,13 @@ describe 'filter work packages', js: true do
       last_query = Query.last
       date_filter = last_query.filters.last
       expect(date_filter.values)
-        .to eq [nil, 1.day.ago.utc.beginning_of_day.iso8601]
+        .to eq ['', 1.day.ago.utc.end_of_day.iso8601]
 
       wp_table.visit_query(last_query)
 
       loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today
-      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+      wp_table.expect_work_package_listed wp_updated_5d_ago
+      wp_table.ensure_work_package_not_listed! wp_updated_today
 
       filters.open
 
