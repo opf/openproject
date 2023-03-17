@@ -103,7 +103,13 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   }
 
   public parseBegin(date:string|null) {
-    if (date && validDate(date)) {
+    if (date === null || !validDate(date)) {
+      return;
+    }
+
+    if (date === '') {
+      this.begin = date;
+    } else {
       const parsed = this
         .timezoneService
         .parseISODatetime(date)
@@ -115,7 +121,13 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
   }
 
   public parseEnd(date:string|null) {
-    if (date && validDate(date)) {
+    if (date === null || !validDate(date)) {
+      return;
+    }
+
+    if (date === '') {
+      this.end = date;
+    } else {
       const parsed = this
         .timezoneService
         .parseISODatetime(date)
