@@ -3,8 +3,8 @@
   [name]="'v[' + filter.id + ']'"
   class="advanced-filters--date-field"
 
-  [value]="value"
-  (valueChange)="value = $event"
+  (valueChange)="value = parser($event)"
+  [value]="formatter(value)"
   [opAutofocus]="shouldFocus"
 ></op-basic-range-date-picker>
 

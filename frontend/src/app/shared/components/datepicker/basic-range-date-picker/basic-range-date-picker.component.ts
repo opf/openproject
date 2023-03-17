@@ -143,7 +143,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     }
   }
 
-  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 16);
+  changeValueFromInputDebounced = debounce(this.changeValueFromInput.bind(this), 250);
 
   changeValueFromInput(value:string|string[]) {
     const newDates = (typeof value === 'string') ? this.resolveDateStringToArray(value) : value;

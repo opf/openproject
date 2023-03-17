@@ -100,4 +100,20 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     }
     return null;
   }
+
+  public parser(data:string[]):string[] {
+    if (data.length === 2) {
+      let [start, end] = data.map((el) => this.timezoneService.parseISODatetime(el));
+      start = start.startOf('day');
+      end = end.endOf('day');
+
+      return [start, end].map((el) => this.timezoneService.formattedISODateTime(el));
+    }
+
+    return data.map((date) => this.isoDateParser(date));
+  }
+
+  public formatter(data:string[]):string[] {
+    return data.map((date) => this.isoDateFormatter(date));
+  }
 }
