@@ -28,17 +28,16 @@
 
 module Calendar
   class ResolveAndAuthorizeQueryService < ::BaseServices::BaseCallable
-    
     def perform(user:, query_id:)
       query = Query
         .visible(user) # authorization
         .find(query_id)
 
-      # TODO: 
+      # TODO:
       # Is this the correct way of unscoping the calendar view state
       # in order to get all workpackages from the query?
       query.filters = query.filters
-        .reject {  |filter| filter.name == :dates_interval }
+        .reject { |filter| filter.name == :dates_interval }
 
       sharing_permitted = QueryPolicy.new(user).allowed?(
         query, :share_via_ical
@@ -51,6 +50,5 @@ module Calendar
         raise ActiveRecord::RecordNotFound
       end
     end
-
   end
 end

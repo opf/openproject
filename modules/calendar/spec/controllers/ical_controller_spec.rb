@@ -30,17 +30,17 @@ require 'spec_helper'
 
 describe Calendar::IcalController do
   let(:project) { create(:project) }
-  let(:user) do 
+  let(:user) do
     create(:user,
-      member_in_project: project,
-      member_with_permissions: sufficient_permissions)
+           member_in_project: project,
+           member_with_permissions: sufficient_permissions)
   end
   let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
   let(:valid_ical_token_value) { Token::Ical.create_and_return_value user }
   let(:query) do
     create(:query,
-           project: project,
-           user: user,
+           project:,
+           user:,
            public: false)
   end
 
@@ -57,29 +57,26 @@ describe Calendar::IcalController do
       if expected == :failure
         it { is_expected.not_to be_successful }
       end
-
     end
 
     context 'with valid params' do
-      
       before do
-        get :ical, params: { 
-          project_id: project.id, 
-          id: query.id, 
-          ical_token: valid_ical_token_value }
-
+        get :ical, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: valid_ical_token_value
+        }
       end
 
       it_behaves_like 'ical#ical', :success
     end
 
     context 'with invalid token' do
-      
       before do
-        get :ical, params: { 
-          project_id: project.id, 
-          id: query.id, 
-          ical_token: SecureRandom.hex 
+        get :ical, params: {
+          project_id: project.id,
+          id: query.id,
+          ical_token: SecureRandom.hex
         }
       end
 
@@ -87,25 +84,23 @@ describe Calendar::IcalController do
     end
 
     context 'with invalid query' do
-      
       before do
-        get :ical, params: { 
-          project_id: project.id, 
-          id: SecureRandom.hex, 
-          ical_token: valid_ical_token_value 
+        get :ical, params: {
+          project_id: project.id,
+          id: SecureRandom.hex,
+          ical_token: valid_ical_token_value
         }
       end
 
       it_behaves_like 'ical#ical', :failure
     end
-    
+
     context 'with invalid project' do
-      
       before do
-        get :ical, params: { 
-          project_id: SecureRandom.hex, 
-          id: query.id, 
-          ical_token: valid_ical_token_value 
+        get :ical, params: {
+          project_id: SecureRandom.hex,
+          id: query.id,
+          ical_token: valid_ical_token_value
         }
       end
 

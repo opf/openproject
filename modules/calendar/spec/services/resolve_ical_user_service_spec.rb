@@ -32,13 +32,12 @@ describe Calendar::ResolveIcalUserService, type: :model do
   let(:user) { create(:user) }
   let(:valid_ical_token_value) { Token::Ical.create_and_return_value user }
   let(:invalid_ical_token_value) { valid_ical_token_value[0..-2] }
-  
+
   let(:instance) do
-    described_class.new()
+    described_class.new
   end
 
-  context 'resolves a user by a given valid ical token value' do
-
+  context 'for a given valid ical token value' do
     subject { instance.call(ical_token: valid_ical_token_value) }
 
     it 'resolves the user as result' do
@@ -50,27 +49,21 @@ describe Calendar::ResolveIcalUserService, type: :model do
       expect(subject)
         .to be_success
     end
-
   end
 
-  context 'handles error when given ical token value is invalid' do
-
+  context 'when given ical token value is invalid' do
     subject { instance.call(ical_token: invalid_ical_token_value) }
 
     it 'raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
 
-  context 'handles error when no ical token value is given' do
-
+  context 'when no ical token value is given' do
     subject { instance.call(ical_token: nil) }
 
     it 'raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-    
   end
-
 end

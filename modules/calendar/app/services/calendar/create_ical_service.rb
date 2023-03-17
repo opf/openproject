@@ -31,10 +31,10 @@ require 'icalendar'
 module Calendar
   class CreateIcalService < ::BaseServices::BaseCallable
     include OpenProject::StaticRouting::UrlHelpers
-    
+
     def perform(work_packages:, calendar_name: "OpenProject Calendar")
       ical_string = create_ical_string(work_packages, calendar_name)
-      
+
       ServiceResult.success(result: ical_string)
     end
 
@@ -50,6 +50,7 @@ module Calendar
         next if work_package.start_date.nil? && work_package.due_date.nil?
 
         event = create_event(work_package)
+        event = add_attendee_value(event, work_package)
 
         calendar.add_event(event)
       end
@@ -59,27 +60,45 @@ module Calendar
 
     def create_event(work_package)
       event = Icalendar::Event.new
-      event.uid = "#{work_package.id}@#{host}"
-      # event.attendee = [work_package.assigned_to&.name] # causing thunderbird error "id is null"
-      event.attendee = [work_package.assigned_to&.name] if work_package.assigned_to.present?
-      event.organizer = work_package.author&.name
-      event.summary = work_package.name
-      event.dtstart = Icalendar::Values::Date.new(start_date(work_package))
-      event.dtend = Icalendar::Values::Date.new(due_date(work_package))
-      event.location = work_package_url(work_package)
+      event.uid = event_uid_value(work_package)
+      event.organizer = organizer_value(work_package)
+      event.summary = summary_value(work_package)
+      event.dtstart = dtstart_value(work_package)
+      event.dtend = dtend_value(work_package)
+      event.location = location_value(work_package)
       event.description = description_value(work_package)
 
       event
     end
-    
-    def start_date(work_package)
-      if work_package.start_date.present?
-        work_package.start_date
-      else
-        work_package.due_date
-      end
+
+    def event_uid_value(work_package)
+      "#{work_package.id}@#{host}"
     end
-    
+
+    def attendee_value(work_package)
+      [work_package.assigned_to&.name]
+    end
+
+    def organizer_value(work_package)
+      work_package.author&.name
+    end
+
+    def summary_value(work_package)
+      work_package.name
+    end
+
+    def dtstart_value(work_package)
+      Icalendar::Values::Date.new(start_date(work_package))
+    end
+
+    def start_date(work_package)
+      (work_package.start_date.presence || work_package.due_date)
+    end
+
+    def dtend_value(work_package)
+      Icalendar::Values::Date.new(due_date(work_package))
+    end
+
     def due_date(work_package)
       if work_package.due_date.present?
         work_package.due_date + 1.day
@@ -88,14 +107,14 @@ module Calendar
       end
     end
 
-    def work_package_url(work_package)
+    def location_value(work_package)
       url_for(
         controller: :work_packages,
         action: :show,
         id: work_package.id,
         only_path: false,
-        protocol: protocol,
-        host: host
+        protocol:,
+        host:
       )
     end
 
@@ -126,9 +145,7 @@ module Calendar
       status = "Status: #{work_package.status&.name}"
       assignee = "Assignee: #{work_package.assigned_to&.name}"
       priority = "Priority: #{priority_emoji(work_package)}#{work_package.priority&.name}"
-      unless work_package.description.blank?
-        description = "\nDescription:\n #{work_package.description&.truncate(250)}"
-      end
+      description = truncated_work_package_description_value(work_package)
 
       [
         project, type, status, assignee, priority, description
@@ -139,11 +156,23 @@ module Calendar
       # TODO: Differentiate emoji based on type
       # "🟩"
     end
-    
+
     def priority_emoji(work_package)
       # TODO: Differentiate emoji based on priority
       # "🟢"
     end
 
+    def truncated_work_package_description_value(work_package)
+      if work_package.description.present?
+        "\nDescription:\n #{work_package.description&.truncate(250)}"
+      end
+    end
+
+    def add_attendee_value(event, work_package)
+      # event.attendee = [work_package.assigned_to&.name] # causing thunderbird error "id is null"
+      event.attendee = attendee_value(work_package) if work_package.assigned_to.present?
+
+      event
+    end
   end
 end

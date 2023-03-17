@@ -26,11 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-
 module Calendar
   class IcalResponseService < ::BaseServices::BaseCallable
-
-    ICAL_CACHE_EXPIRES_IN = 0.minute # cache disabled for now by setting to 0.minute
+    ICAL_CACHE_EXPIRES_IN = 0.minutes # cache disabled for now by setting to 0.minute
 
     def perform(ical_token:, query_id:)
       ical_string = resolve_from_cache_or_regenerate(ical_token, query_id)
@@ -50,7 +48,7 @@ module Calendar
 
     def resolve_from_cache_or_regenerate(ical_token, query_id)
       OpenProject::Cache.fetch(
-        cache_key(ical_token, query_id), 
+        cache_key(ical_token, query_id),
         expires_in: ICAL_CACHE_EXPIRES_IN
       ) do
         regenerate_ical_string(ical_token, query_id)
@@ -61,14 +59,12 @@ module Calendar
       user = resolve_user_by_token(ical_token)
       query = resolve_and_authorize_query(user, query_id)
       work_packages = resolve_work_packages(query)
-      ical_string = create_ical_string(work_packages, query.name)
-
-      ical_string
+      create_ical_string(work_packages, query.name)
     end
 
     def resolve_user_by_token(ical_token)
-      call = ::Calendar::ResolveIcalUserService.new().call(
-        ical_token: ical_token
+      call = ::Calendar::ResolveIcalUserService.new.call(
+        ical_token:
       )
       user = call.result if call.success?
 
@@ -76,9 +72,9 @@ module Calendar
     end
 
     def resolve_and_authorize_query(user, query_id)
-      call = ::Calendar::ResolveAndAuthorizeQueryService.new().call(
-        user: user,
-        query_id: query_id
+      call = ::Calendar::ResolveAndAuthorizeQueryService.new.call(
+        user:,
+        query_id:
       )
       query = call.result if call.success?
 
@@ -86,8 +82,8 @@ module Calendar
     end
 
     def resolve_work_packages(query)
-      call = ::Calendar::ResolveWorkPackagesService.new().call(
-        query: query
+      call = ::Calendar::ResolveWorkPackagesService.new.call(
+        query:
       )
       work_packages = call.result if call.success?
 
@@ -95,13 +91,12 @@ module Calendar
     end
 
     def create_ical_string(work_packages, calendar_name)
-      call = ::Calendar::CreateIcalService.new().call(
-        work_packages: work_packages, calendar_name: calendar_name
+      call = ::Calendar::CreateIcalService.new.call(
+        work_packages:, calendar_name:
       )
       ical_string = call.result if call.success?
 
       ical_string
     end
-   
   end
 end

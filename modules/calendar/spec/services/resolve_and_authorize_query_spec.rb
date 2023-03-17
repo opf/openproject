@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
-  let(:user_1) do
+  let(:user1) do
     create(:user,
            member_in_project: project,
            member_with_permissions: sufficient_permissions)
   end
-  let(:user_2_without_permission) do
+  let(:user2_without_permission) do
     create(:user,
            member_in_project: project,
            member_with_permissions: insufficient_permissions)
   end
-  let(:user_3_not_member) do
+  let(:user3_not_member) do
     create(:user,
            member_in_project: nil)
   end
@@ -48,24 +48,23 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
   let(:project) { create(:project) }
   let(:query) do
     create(:query,
-           project: project,
-           user: user_1,
+           project:,
+           user: user1,
            public: false)
   end
-  
+
   let(:instance) do
-    described_class.new()
+    described_class.new
   end
 
-  context 'resolves a query by a given query id if authenticated and permitted to share via ical url' do
-
+  context 'if authenticated and permitted to share via ical url' do
     before do
-      login_as(user_1)
+      login_as(user1)
     end
 
-    subject { instance.call(user: user_1, query_id: query.id) } 
+    subject { instance.call(user: user1, query_id: query.id) }
 
-    it 'returns query as result ' do
+    it 'resolves a query by a given query id and returns query as result' do
       expect(subject.result)
         .to eq query
     end
@@ -74,55 +73,53 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
       expect(subject)
         .to be_success
     end
-
   end
-  
-  context 'does not a query by a given query id if not authenticated' do
 
+  context 'if not authenticated' do
     before do
-      login_as(user_2_without_permission)
+      login_as(user2_without_permission)
     end
 
-    subject { instance.call(user: user_2_without_permission, query_id: query.id) } 
+    subject { instance.call(user: user2_without_permission, query_id: query.id) }
 
-    it 'raises ActiveRecord::RecordNotFound' do
+    it 'does not resolve a query by a given query id and raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
-  
-  context 'does not resolve a query by a given query id if not member of project' do
 
+  context 'if not member of project' do
     before do
-      login_as(user_3_not_member)
+      login_as(user3_not_member)
     end
 
-    subject { instance.call(user: user_3_not_member, query_id: query.id) } 
+    subject { instance.call(user: user3_not_member, query_id: query.id) }
 
-    it 'raises ActiveRecord::RecordNotFound' do
+    it 'does not resolve a query by a given query id and raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
 
-  context 'does not resolve query id is' do
-
+  context 'if query id is invalid' do
     before do
-      login_as(user_1)
+      login_as(user1)
     end
 
-    subject { instance.call(user: user_1, query_id: SecureRandom.hex) } 
+    subject { instance.call(user: user1, query_id: SecureRandom.hex) }
 
-    it 'invalid and raises ActiveRecord::RecordNotFound' do
+    it 'does not resolve query and raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
-    subject { instance.call(user: user_1, query_id: nil) } 
-
-    it 'nil and raises ActiveRecord::RecordNotFound' do
-      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-    end
-
   end
 
+  context 'if query id is nil' do
+    before do
+      login_as(user1)
+    end
+
+    subject { instance.call(user: user1, query_id: nil) }
+
+    it 'does not resolve query and raises ActiveRecord::RecordNotFound' do
+      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end

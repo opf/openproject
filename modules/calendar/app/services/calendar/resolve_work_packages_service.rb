@@ -28,25 +28,23 @@
 
 module Calendar
   class ResolveWorkPackagesService < ::BaseServices::BaseCallable
-    
     def perform(query:)
-      unless(
-        query.nil? || 
+      unless
+        query.nil? ||
         query.results.nil?
-      )
+
         # TODO: check if the includes makes sense here in order to avoid n+1 queries
         work_packages = query.results.work_packages.includes(
           :project, :assigned_to, :author, :priority, :status
         )
       end
 
-      unless work_packages.nil?
-        ServiceResult.success(result: work_packages)
+      if work_packages.nil?
+        # TODO: raise specific error
+        raise ActiveRecord::RecordNotFound
       else
-       # TODO: raise specific error
-       raise ActiveRecord::RecordNotFound
+        ServiceResult.success(result: work_packages)
       end
     end
-
   end
 end

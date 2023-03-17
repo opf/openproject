@@ -28,10 +28,9 @@
 
 module ::Calendar
   class IcalController < ApplicationController
-
     def ical
       begin
-        call = ::Calendar::IcalResponseService.new().call(
+        call = ::Calendar::IcalResponseService.new.call(
           ical_token: params[:ical_token],
           query_id: params[:id]
         )
@@ -47,6 +46,5 @@ module ::Calendar
         render_404
       end
     end
-
   end
 end

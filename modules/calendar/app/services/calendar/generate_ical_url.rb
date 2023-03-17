@@ -29,11 +29,11 @@
 module Calendar
   class GenerateIcalUrl < ::BaseServices::BaseCallable
     include OpenProject::StaticRouting::UrlHelpers
-    
+
     def perform(user:, query_id:, project_id:)
       new_ical_token = create_ical_token(user)
       new_ical_url = create_ical_url(query_id, project_id, new_ical_token)
-      
+
       ServiceResult.success(result: new_ical_url)
     end
 
@@ -48,13 +48,14 @@ module Calendar
         controller: "calendar/ical",
         action: :ical,
         id: query_id,
-        project_id: project_id,
-        ical_token: ical_token,
+        project_id:,
+        ical_token:,
         only_path: false,
-        protocol: protocol,
-        host: host
+        protocol:,
+        host:
       )
     end
+
     # implementation taken from application_mailer
     def host
       if OpenProject::Configuration.rails_relative_url_root.blank?
@@ -74,6 +75,5 @@ module Calendar
     # def controller
     #   nil
     # end
-
   end
 end

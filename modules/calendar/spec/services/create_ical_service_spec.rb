@@ -29,30 +29,29 @@
 require 'spec_helper'
 
 describe Calendar::CreateIcalService, type: :model do
-
   let(:project) { create(:project) }
   let(:user) { create(:user) }
 
-  let(:work_package_without_dates) do 
-    create(:work_package, project: project) 
+  let(:work_package_without_dates) do
+    create(:work_package, project:)
   end
-  let(:work_package_with_due_date) do 
-    create(:work_package, project: project, 
-      due_date: Date.today+7.days) 
+  let(:work_package_with_due_date) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today + 7.days)
   end
-  let(:work_package_with_start_date) do 
-    create(:work_package, project: project, 
-      start_date: Date.today+14.days) 
+  let(:work_package_with_start_date) do
+    create(:work_package, project:,
+                          start_date: Time.zone.today + 14.days)
   end
-  let(:work_package_with_start_and_due_date) do 
-    create(:work_package, project: project, 
-      start_date: Date.tomorrow, due_date: Date.today+7.days) 
+  let(:work_package_with_start_and_due_date) do
+    create(:work_package, project:,
+                          start_date: Date.tomorrow, due_date: Time.zone.today + 7.days)
   end
-  let(:work_package_with_due_date_and_assignee) do 
-    create(:work_package, project: project, 
-      due_date: Date.today+30.days, assigned_to: user ) 
+  let(:work_package_with_due_date_and_assignee) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today + 30.days, assigned_to: user)
   end
-  let(:work_packages) do 
+  let(:work_packages) do
     [
       work_package_without_dates,
       work_package_with_due_date,
@@ -62,91 +61,87 @@ describe Calendar::CreateIcalService, type: :model do
     ]
   end
   let(:query_name) { "Query Name" }
-  
+
   let(:instance) do
-    described_class.new()
+    described_class.new
   end
 
   let(:freezed_date_time) { DateTime.now }
 
-  context 'converts work_packages to an ical string' do
-
-    before(:each) do
-      Timecop.freeze(freezed_date_time)
-    end
-
-    subject do 
-      instance.call(
-        work_packages: work_packages, 
-        calendar_name: query_name
-      )
-    end 
-
-    it 'which contains all required ical fields in the correct format and order' do
-
-      expected_ical_string = <<-EOICAL.gsub("\r ", "").gsub("\r", "")
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//OpenProject GmbH//OpenProject Core Project//EN
-CALSCALE:GREGORIAN
-X-WR-CALNAME:#{query_name}
-BEGIN:VEVENT
-DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
-UID:#{work_package_with_due_date.id}@localhost:3000
-DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
-DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n #{work_package_with_due_date.description}
-LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
-ORGANIZER:Bob Bobbit
-SUMMARY:#{work_package_with_due_date.name}
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
-UID:#{work_package_with_start_date.id}@localhost:3000
-DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
-DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n #{work_package_with_start_date.description}
-LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
-ORGANIZER:Bob Bobbit
-SUMMARY:#{work_package_with_start_date.name}
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
-UID:#{work_package_with_start_and_due_date.id}@localhost:3000
-DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
-DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n #{work_package_with_start_and_due_date.description}
-LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
-ORGANIZER:Bob Bobbit
-SUMMARY:#{work_package_with_start_and_due_date.name}
-END:VEVENT
-BEGIN:VEVENT
-DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
-UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
-DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
-DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date+1.day).strftime('%Y%m%d')}
-DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n #{work_package_with_due_date_and_assignee.description}
-LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
-ORGANIZER:Bob Bobbit
-SUMMARY:#{work_package_with_due_date_and_assignee.name}
-ATTENDEE:#{work_package_with_due_date_and_assignee.assigned_to.name}
-END:VEVENT
-END:VCALENDAR
-      EOICAL
-
-      expect(subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n"))
-        .to eql(expected_ical_string)
-    end
-
-    it 'is a success' do
-      expect(subject)
-        .to be_success
-    end
-
-    after(:each) do
-      Timecop.return
-    end
-
+  before do
+    Timecop.freeze(freezed_date_time)
   end
 
+  subject do
+    instance.call(
+      work_packages:,
+      calendar_name: query_name
+    )
+  end
+
+  after do
+    Timecop.return
+  end
+
+  # rubocop:disable RSpec/ExampleLength
+  it 'converts work_packages to an ical string which contains all required ical fields in the correct format and order' do
+    expected_ical_string = <<~EOICAL.gsub("\r ", "").gsub("\r", "")
+      BEGIN:VCALENDAR
+      VERSION:2.0
+      PRODID:-//OpenProject GmbH//OpenProject Core Project//EN
+      CALSCALE:GREGORIAN
+      X-WR-CALNAME:#{query_name}
+      BEGIN:VEVENT
+      DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+      UID:#{work_package_with_due_date.id}@localhost:3000
+      DTSTART;VALUE=DATE:#{work_package_with_due_date.due_date.strftime('%Y%m%d')}
+      DTEND;VALUE=DATE:#{(work_package_with_due_date.due_date + 1.day).strftime('%Y%m%d')}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_due_date.priority.name}\n\nDescription:\n #{work_package_with_due_date.description}
+      LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date.id}
+      ORGANIZER:Bob Bobbit
+      SUMMARY:#{work_package_with_due_date.name}
+      END:VEVENT
+      BEGIN:VEVENT
+      DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+      UID:#{work_package_with_start_date.id}@localhost:3000
+      DTSTART;VALUE=DATE:#{work_package_with_start_date.start_date.strftime('%Y%m%d')}
+      DTEND;VALUE=DATE:#{(work_package_with_start_date.start_date + 1.day).strftime('%Y%m%d')}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_date.priority.name}\n\nDescription:\n #{work_package_with_start_date.description}
+      LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_date.id}
+      ORGANIZER:Bob Bobbit
+      SUMMARY:#{work_package_with_start_date.name}
+      END:VEVENT
+      BEGIN:VEVENT
+      DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+      UID:#{work_package_with_start_and_due_date.id}@localhost:3000
+      DTSTART;VALUE=DATE:#{work_package_with_start_and_due_date.start_date.strftime('%Y%m%d')}
+      DTEND;VALUE=DATE:#{(work_package_with_start_and_due_date.due_date + 1.day).strftime('%Y%m%d')}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_start_and_due_date.status.name}\nAssignee: \nPriority: #{work_package_with_start_and_due_date.priority.name}\n\nDescription:\n #{work_package_with_start_and_due_date.description}
+      LOCATION:http://localhost:3000/work_packages/#{work_package_with_start_and_due_date.id}
+      ORGANIZER:Bob Bobbit
+      SUMMARY:#{work_package_with_start_and_due_date.name}
+      END:VEVENT
+      BEGIN:VEVENT
+      DTSTAMP:#{freezed_date_time.strftime('%Y%m%dT%H%M%S')}Z
+      UID:#{work_package_with_due_date_and_assignee.id}@localhost:3000
+      DTSTART;VALUE=DATE:#{work_package_with_due_date_and_assignee.due_date.strftime('%Y%m%d')}
+      DTEND;VALUE=DATE:#{(work_package_with_due_date_and_assignee.due_date + 1.day).strftime('%Y%m%d')}
+      DESCRIPTION:Project: #{project.name}\nType: None\nStatus: #{work_package_with_due_date_and_assignee.status.name}\nAssignee: #{work_package_with_due_date_and_assignee.assigned_to.name}\nPriority: #{work_package_with_due_date_and_assignee.priority.name}\n\nDescription:\n #{work_package_with_due_date_and_assignee.description}
+      LOCATION:http://localhost:3000/work_packages/#{work_package_with_due_date_and_assignee.id}
+      ORGANIZER:Bob Bobbit
+      SUMMARY:#{work_package_with_due_date_and_assignee.name}
+      ATTENDEE:#{work_package_with_due_date_and_assignee.assigned_to.name}
+      END:VEVENT
+      END:VCALENDAR
+    EOICAL
+
+    expect(subject.result.gsub("\r\n ", "").gsub("\r", "").gsub("\\n", "\n"))
+      .to eql(expected_ical_string)
+  end
+  # rubocop:enable RSpec/ExampleLength
+
+  it 'is a success' do
+    expect(subject)
+      .to be_success
+  end
 end

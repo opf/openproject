@@ -29,34 +29,33 @@
 require 'spec_helper'
 
 describe Calendar::ResolveWorkPackagesService, type: :model do
-  let(:user_1) do
+  let(:user1) do
     create(:user,
            member_in_project: project,
            member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages] }
-  let(:project) { create(:project, work_packages: [work_package_1]) }
-  let(:work_package_1) { create(:work_package) }
+  let(:project) { create(:project, work_packages: [work_package1]) }
+  let(:work_package1) { create(:work_package) }
   let(:query) do
     create(:query,
-           project: project,
-           user: user_1,
+           project:,
+           user: user1,
            public: false)
   end
-  
+
   let(:instance) do
-    described_class.new()
+    described_class.new
   end
 
-  context 'resolves work_packages of a query' do
-
+  context 'for a valid query' do
     before do
-      login_as(user_1)
+      login_as(user1)
     end
 
-    subject { instance.call(query: query) } 
+    subject { instance.call(query:) }
 
-    it 'returns work_packages of query as result ' do
+    it 'returns work_packages of query as result' do
       expect(subject.result)
         .to match_array(query.results.work_packages)
     end
@@ -65,21 +64,17 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
       expect(subject)
         .to be_success
     end
-
   end
 
-  context 'does not resolve work_packages if query is' do
-
+  context 'if query is nil' do
     before do
-      login_as(user_1)
+      login_as(user1)
     end
 
-    subject { instance.call(query: nil) } 
+    subject { instance.call(query: nil) }
 
-    it 'nil and raises ActiveRecord::RecordNotFound' do
+    it 'does not resolve work_packages and raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
-
   end
-
 end

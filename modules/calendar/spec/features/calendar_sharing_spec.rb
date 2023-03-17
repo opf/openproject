@@ -33,7 +33,7 @@ describe 'Calendar sharing via ical', js: true do
   include_context 'with calendar full access'
 
   let!(:user_with_sharing_permission) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
@@ -44,11 +44,11 @@ describe 'Calendar sharing via ical', js: true do
              view_calendar
              manage_calendars
              share_calendars
-           ]
+           ])
   end
 
   let!(:user_without_sharing_permission) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
@@ -58,7 +58,7 @@ describe 'Calendar sharing via ical', js: true do
              save_public_queries
              view_calendar
              manage_calendars
-           ]
+           ])
   end
 
   let(:saved_query) do
@@ -68,8 +68,7 @@ describe 'Calendar sharing via ical', js: true do
            public: false)
   end
 
-  context 'user with sufficient permissions' do
-
+  context 'with sufficient permissions' do
     # TODO: save_queries permission is mandatory to see settings button used for sharing option
     # does that make sense? the sharing feature therefore has an implicit dependency on this permission
 
@@ -79,7 +78,6 @@ describe 'Calendar sharing via ical', js: true do
     end
 
     context 'on not persisted calendar query' do
-
       it 'shows disabled sharing menu item' do
         visit project_calendars_path(project)
 
@@ -89,23 +87,21 @@ describe 'Calendar sharing via ical', js: true do
         expect(page).to have_selector("#work-packages-settings-button")
 
         # click on settings button
-        page.find("#work-packages-settings-button").click
+        page.find_by_id('work-packages-settings-button').click
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
-          page.click_button("Share iCalendar ...")
+          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar")
+          page.click_button("Share iCalendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Share iCalendar")
         end
-
       end
     end
 
     context 'on persisted calendar query' do
-
       it 'shows sharing menu item and sharing modal if clicked' do
         saved_query
 
@@ -121,14 +117,13 @@ describe 'Calendar sharing via ical', js: true do
         expect(page).to have_selector("#work-packages-settings-button")
 
         # click on settings button
-        page.find("#work-packages-settings-button").click
+        page.find_by_id('work-packages-settings-button').click
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item", text: "Share iCalendar ...")
-          page.click_button("Share iCalendar ...")
-          
+          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item", text: "Share iCalendar")
+          page.click_button("Share iCalendar")
         end
 
         expect(page).to have_selector('.spot-modal--header', text: "Share iCalendar")
@@ -144,18 +139,15 @@ describe 'Calendar sharing via ical', js: true do
         # https://copyprogramming.com/howto/emulating-a-clipboard-copy-paste-with-selinum-capybara
       end
     end
-
   end
 
-  context 'user without sufficient permissions' do
-
+  context 'without sufficient permissions' do
     before do
       login_as user_without_sharing_permission
       calendar.visit!
     end
 
     context 'on persisted calendar query' do
-
       it 'shows disabled sharing menu item' do
         visit project_calendars_path(project)
 
@@ -165,22 +157,18 @@ describe 'Calendar sharing via ical', js: true do
         expect(page).to have_selector("#work-packages-settings-button")
 
         # click on settings button
-        page.find("#work-packages-settings-button").click
+        page.find_by_id('work-packages-settings-button').click
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar ...", disabled: true) # disabled selector not working
-          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar ...")
-          page.click_button("Share iCalendar ...")
+          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
+          expect(page).to have_selector(".menu-item.inactive", text: "Share iCalendar")
+          page.click_button("Share iCalendar")
 
           # modal should not be shown
-          expect(page).not_to have_selector('.spot-modal--header', text: "Share calendar")
+          expect(page).not_to have_selector('.spot-modal--header', text: "Share iCalendar")
         end
-
       end
-
     end
-
   end
-
 end

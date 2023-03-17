@@ -28,13 +28,14 @@
 
 module Calendar
   class ResolveIcalUserService < ::BaseServices::BaseCallable
-    
     def perform(ical_token:)
       if ical_token.blank?
         raise ActiveRecord::RecordNotFound
       end
-      
+
+      # rubocop:disable Rails/DynamicFindBy
       token = Token::Ical.find_by_plaintext_value(ical_token)
+      # rubocop:enable Rails/DynamicFindBy
 
       if token.present?
         user = token.user
@@ -42,12 +43,11 @@ module Calendar
         # TODO: required for internal query scoping?
         # TODO: does that have any security implications?
         User.current = user
-      
+
         ServiceResult.success(result: user)
       else
         raise ActiveRecord::RecordNotFound
       end
     end
-
   end
 end
