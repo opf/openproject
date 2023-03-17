@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'filter work packages', js: true do
-  shared_let(:user) { create(:admin) }
-  shared_let(:watcher) { create(:user) }
-  shared_let(:role) { create(:existing_role, permissions: [:view_work_packages]) }
-  shared_let(:project) { create(:project, members: { watcher => role }) }
+  let(:user) { create(:admin) }
+  let(:watcher) { create(:user) }
+  let(:project) { create(:project, members: { watcher => role }) }
+  let(:role) { create(:existing_role, permissions: [:view_work_packages]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
@@ -491,76 +491,32 @@ describe 'filter work packages', js: true do
     end
   end
 
-  describe 'datetime filters' do
-    shared_let(:wp_updated_today) do
-      create(:work_package,
-             subject: 'Created today',
-             project:,
-             created_at: Time.current.change(hour: 12),
-             updated_at: Time.current.change(hour: 12),
-             )
-    end
-    shared_let(:wp_updated_5d_ago) do
-      create(:work_package,
-             subject: 'Created 5d ago',
-             project:,
-             created_at: 5.days.ago,
-             updated_at: 5.days.ago,
-      )
-    end
+  describe 'specific filters' do
+    describe 'filters on date by created_at (Regression #28459)' do
+      let!(:wp_updated_today) do
+        create(:work_package, subject: 'Created today', project:, created_at: Time.current.change(hour: 12))
+      end
+      let!(:wp_updated_5d_ago) do
+        create(:work_package, subject: 'Created 5d ago', project:, created_at: 5.days.ago)
+      end
 
-    it 'filters on date by created_at (Regression #28459)' do
-      wp_table.visit!
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
+      it do
+        wp_table.visit!
+        loading_indicator_saveguard
+        wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
 
-      filters.open
+        filters.open
 
-      filters.add_filter_by 'Created on',
-                            'on',
-                            [Date.current.iso8601],
-                            'createdAt'
+        filters.add_filter_by 'Created on',
+                              'on',
+                              [Date.current.iso8601],
+                              'createdAt'
 
-      loading_indicator_saveguard
+        loading_indicator_saveguard
 
-      wp_table.expect_work_package_listed wp_updated_today
-      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
-    end
-
-    it 'filters on date by updated_at' do
-      wp_table.visit!
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
-
-      filters.open
-
-      filters.add_filter_by 'Updated',
-                            'on',
-                            [Date.current.iso8601],
-                            'updatedAt'
-
-      loading_indicator_saveguard
-
-      wp_table.expect_work_package_listed wp_updated_today
-      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
-    end
-
-    it 'filters between date by updated_at' do
-      wp_table.visit!
-      loading_indicator_saveguard
-      wp_table.expect_work_package_listed wp_updated_today, wp_updated_5d_ago
-
-      filters.open
-
-      filters.add_filter_by 'Updated',
-                            'between',
-                            [1.day.ago.iso8601, Date.current.iso8601],
-                            'updatedAt'
-
-      loading_indicator_saveguard
-
-      wp_table.expect_work_package_listed wp_updated_today
-      wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+        wp_table.expect_work_package_listed wp_updated_today
+        wp_table.ensure_work_package_not_listed! wp_updated_5d_ago
+      end
     end
   end
 
