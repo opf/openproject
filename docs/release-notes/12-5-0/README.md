@@ -26,7 +26,7 @@ Different use cases are covered for uploading and linking files directly from wi
 
 If you want to link an existing project related file or folder from Nextcloud to an OpenProject work package, you can now do it directly within the work package in OpenProject.
 
-To do so, start by clicking on **Link existing file** underneath the My Nextcloud files box.
+To do so, start by clicking on **Link existing files** underneath the section of your Nextcloud file storage.
 
 ![openproject-nextcloud-files-link](openproject-nextcloud-files-link.png)
 
@@ -48,7 +48,7 @@ Alternatively, you can also simply drag a file or folder on your computer to thi
 
 Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
 
-To save the files you uploaded to the currently folder in Nextcloud, click on the **Choose location** button.
+To save the files you uploaded to the current folder in Nextcloud, click on the **Choose location** button.
 
 ![openproject-nextcloud-upload](openproject-nextcloud-upload.gif)
 
@@ -56,7 +56,7 @@ To save the files you uploaded to the currently folder in Nextcloud, click on th
 
 If you create a new work package in OpenProject and want to add a file to the work package, you can now upload or link files from Nextcloud directly.
 
-Thereby, it gives you two options on the Files tab: Upload a new file or link an existing file from Nextcloud, as described above.
+Thereby, it gives you two options: Upload a new file or link an existing file from Nextcloud, as described above.
 
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
@@ -68,21 +68,21 @@ Please note: Removing the link from within a work package in OpenProject will no
 
 ## Setting public holidays as non-working days
 
-In OpenProject you can define working days and non-working days of the week. At an instance level you set which days of the week are considered working days.
+In OpenProject you can define working days and non-working days of the week. On an instance level you set which days of the week are considered working days.
 
-With OpenProject 12.5 you can now add additional non-working days to take into account e.g. public holidays or other days in your organization that nobody works on. Consequently, work packages cannot end or start on these dates and these days do not count towards the duration of a work package.
+With OpenProject 12.5 you can now add additional non-working days to take into account e.g. public holidays or closures. Consequently, work packages cannot start or end on these dates and these days do not count towards the duration of a work package.
 
 ![Non-working-days-holidays](Non-working-days-holidays.png)
 
-**Please note**: These additional non-working days will be set instance-wide, for all projects. And need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additional non-working days, you will be asked if a re-scheduling of work packages should be done.
+**Please note**: These additional non-working days will be set instance-wide, for all projects. They need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additional non-working days, you will be asked if you want to re-schedule your work packages.
 
 ## Track project changes
 
-From OpenProject 12.5 the Activity view will now include the tracking of changes of project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the extended menu of a project and then choosing project activity.
+From OpenProject 12.5 the Activities will now include the changes of project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the extended menu of a project and then choosing project activity.
 
 ![project-list-activity](project-list-activity.png)
 
-Also, you can see the project activity in your Activity module within a project and filter for the required information.
+Also, you can see the project activity in your Activity module within a project and filter for the required information to track project changes.
 
 ![project-activity-tracking](project-activity-tracking.png)
 
@@ -98,7 +98,7 @@ If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print
 
 ![wiki print function](openproject-print-wiki.png)
 
-## Advanced search for work package attachment or content for the Community
+## Advanced search for work package attachment or content released for the Community
 
 With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../user-guide/work-packages/work-package-table-configuration#filter-for-attachment-file-name-and-content).
 
