@@ -530,7 +530,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.6.2)
+    irb (1.6.3)
       reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
