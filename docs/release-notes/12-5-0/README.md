@@ -32,7 +32,7 @@ To do so, start by clicking on **Link existing files** underneath the section of
 
 ### New file picker in OpenProject
 
-A new file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see. You choose the respective file or folder from Nextcloud via the file picker.
+A new file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see. You can choose the respective file or folder from Nextcloud via the file picker.
 
 ![openproject-nextcloud-files-picker](openproject-nextcloud-files-picker.png)
 
@@ -56,7 +56,7 @@ To save the files you uploaded to the current folder in Nextcloud, click on the 
 
 If you create a new work package in OpenProject and want to add a file to the work package, you can now upload or link files from Nextcloud directly.
 
-Thereby, it gives you two options: Upload a new file or link an existing file from Nextcloud, as described above.
+Thereby, it gives you two options: upload a new file or link an existing file from Nextcloud, as described above.
 
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
@@ -218,7 +218,9 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 #### Credits and contributions
 A very special thank you goes to the following sponsors for features and improvements of this release:
 
-- **The City of Cologne** for having sponsored the feature of tracking project activities.
+- **The City of Cologne** for having sponsored the tracking of project changes, adding additional non-working days, and parts of the Nextcloud integration.
 - **Autoliv** for having sponsored the API changes, i.e. extending the data model and the API to save and query historic values of work packages as a foundation for the upcoming baseline comparisons.
 
 A very big thank you to M V, Sven Kunze, Rince wind, Christina Vechkanova, Johannes Frenck, Marc Burk, Jörg Nold, Nidhin Manoharan, Jörg Mollowitz, Benjamin Rönnau, Harald Herz for finding and reporting bugs.
+
+And of course, a very big thank you to the **Nextcloud** team for this amazing collaboration. 
