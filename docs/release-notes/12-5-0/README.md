@@ -10,15 +10,16 @@ release_date: 2023-03-20
 
 Release date: 2023-03-20
 
-We released [OpenProject 12.5.0](https://community.openproject.com/versions/1611).
-This new release is again packed with many new collaboration features, improvements and bug fixes.
-The release will bring the anticipated collaboration features for the **Nextcloud integration to the OpenProject side**. Nextcloud and OpenProject now offer mutual customers a way to manage their projects and share files seamlessly and without disruption.
+We have released [OpenProject 12.5.0](https://community.openproject.com/versions/1611).
 
-Moreover, with OpenProject 12.5, the system administrator can **set additional non-working days** on an instance level, such as public holidays. Also, we are happy to **publish another Enterprise add-on**: The Advanced search functionality not only supports full text search but also enables users to search for work package attachments or content. It is now a part of the free-of-charge Community version.
+This new release is again packed with many new collaboration features, improvements and bug fixes.
+Version 12.5 brings the anticipated collaboration features for the **Nextcloud integration to the OpenProject side**. Nextcloud and OpenProject now offer users of both services a way to manage their projects and share files seamlessly and without disruption.
+
+OpenProject 12.5 now also lets system administrator **define additional non-working days** on an instance level, such as public holidays. We are also happy to **release another Enterprise add-on** to the free-of-charge Community version: The advanced search functionality not only supports full text search but also enables users to search for work package attachments or content. 
 
 ## Upload files to Nextcloud while working in OpenProject
 
-OpenProject 12.5 launches the next step for the OpenProject and Nextcloud integration. It is now possible to upload new files and link them directly from a work package in OpenProject to your Nextcloud file storage. The close connection of work packages with project-related files combines the advantages of both open source systems.
+OpenProject 12.5 launches the next step for the integration between OpenProject and Nextcloud. It is now possible to upload new files to Nextcloud and link them directly to a with package all from within OpenProject. The close connection of work packages with project-related files combines the advantages of both open source systems.
 
 Different use cases are covered for uploading and linking files directly from within a work package.
 
@@ -30,77 +31,75 @@ To do so, start by clicking on **Link existing files** underneath the section of
 
 ![openproject-nextcloud-files-link](openproject-nextcloud-files-link.png)
 
-### New file picker in OpenProject
+### A new file picker in OpenProject
 
-A new file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see. You can choose the respective file or folder from Nextcloud via the file picker.
+A new file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see.
 
 ![openproject-nextcloud-files-picker](openproject-nextcloud-files-picker.png)
 
-To link a certain file or folder with this work package, click on the checkbox to the left of each item. Once you have selected the file(s) or folder(s) you wish to link to the work package, click on the **Link files** button. The number on the button will represent the number of files/folders you have selected.
+To link a certain file or folder with this work package, click on the checkbox to the left of each item. Once you have selected the relevant file(s) or folder(s), click on the **Link files** button. The number on the button will represent the number of files/folders you have selected.
 
-### Upload a new file while working in OpenProject
+### Upload a new file to Nextcloud directly from OpenProject
 
 It is now possible to upload a new file from your device directly to Nextcloud from within an OpenProject work package.
 
-In this case, the file you want to link has not yet been uploaded to Nextcloud. Hence, click on the **Upload files** link. You will then be prompted to select a file (or multiple files) on your computer that you want to upload to Nextcloud.
+Click on the **Upload files** link. You will be prompted to select a file (or multiple files) on your computer that you want to upload to Nextcloud and link the the current work package, in one action.
 
 Alternatively, you can also simply drag a file or folder on your computer to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
 
-Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored.
-
-To save the files you uploaded to the current folder in Nextcloud, click on the **Choose location** button.
+Once you have selected or dropped the files you would like to upload, simply select a folder on Nextcloud in which they should be stored and click the **Choose location** button.
 
 ![openproject-nextcloud-upload](openproject-nextcloud-upload.gif)
 
-### Upload files during creation of a new work package
+### Upload files during when creating new work package
 
-If you create a new work package in OpenProject and want to add a file to the work package, you can now upload or link files from Nextcloud directly.
+The ability to upload new files to Nextcloud directly from OpenProject or link existing files to work packages is not reserved only for existing work packages. You can now do both also when creating a new work package.
 
-Thereby, it gives you two options: upload a new file or link an existing file from Nextcloud, as described above.
+
 
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
-### More options for linked Nextcloud files in an OpenProject work package
+### More options for linked Nextcloud files in an OpenProject
 
 The **Files** tab shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in Nextcloud or remove the link.
 
-Please note: Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. Uploading a new file with the same name will ask you to either overwrite the existing one in Nextcloud or create an additional copy next to it.
+**Please note:** Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. When uploading a new file with the same name, you will be asked if want to either overwrite the existing one in Nextcloud or create an additional copy of to it.
 
 ## Setting public holidays as non-working days
 
-In OpenProject you can define working days and non-working days of the week. On an instance level you set which days of the week are considered working days.
+OpenProject already let administrators set the work week at an instance-level by letting them define the working and non-working days of the week. 
 
-With OpenProject 12.5 you can now add additional non-working days to take into account e.g. public holidays or closures. Consequently, work packages cannot start or end on these dates and these days do not count towards the duration of a work package.
+With OpenProject 12.5, administrators you can now also define additional individual non-working days of the year. This can be useful to program in public holidays or closures. Work packages cannot then start or end on these days and these days do not count towards the duration of a work package. (A user can nevertheless turn the 'Working days only' switch off at a work package level and schedule on non-working days if needed).
 
 ![Non-working-days-holidays](Non-working-days-holidays.png)
 
-**Please note**: These additional non-working days will be set instance-wide, for all projects. They need to be set for every year, e.g. Christmas day has to be set for 2023, 2024 etc. if applicable. If you add additional non-working days, you will be asked if you want to re-schedule your work packages.
+**Please note**: These additional non-working days are set at an instance level and affect all work packages in all projects. Adding additional non-working days can therefore affect and reschedule a large number of work packages in the instance (except those for which the 'Working days only' switch is turned off). Individual non-working days and are also tied to a specific year. Recurring holidays like Christmas have to be set separately for each year. 
 
-## Track project changes
+## View project activity
 
-From OpenProject 12.5 the Activities will now include the changes of project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the extended menu of a project and then choosing project activity.
+Starting with OpenProject 12.5, the Activities module (if enabled) will now include the changes to project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the more menu of a particular project and then choosing *Project activity*.
 
 ![project-list-activity](project-list-activity.png)
 
-Also, you can see the project activity in your Activity module within a project and filter for the required information to track project changes.
+You can also access project activity by clicking on *Activity* on the project sidebar menu and using the filters at the bottom of the sidebar to filter for the attributes you wish to view.
 
 ![project-activity-tracking](project-activity-tracking.png)
 
 ## New default filter for overdue work packages
 
-We added a default filter **Overdue** in the work package list so that you can quickly see which of your work packages are overdue and need your attention.
+We have added a new default filter **Overdue**  to the work package module so that you can quickly see which of your work packages are overdue and need attention.
 
 ![work-package-filter-overdue](work-package-filter-overdue.png)
 
 ## Printing Wikis
 
-If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print function has been added to the **More** menu at the top right in your Wiki.
+If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print function has been added to the **More** menu at the top right corner of your Wiki.
 
 ![wiki print function](openproject-print-wiki.png)
 
-## Advanced search for work package attachment or content released for the Community
+## Advanced search for work package attachment or content released to the community
 
-With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../../user-guide/work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).
+With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released to the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../../user-guide/work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).
 
 ![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
 
