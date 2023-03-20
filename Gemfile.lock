@@ -684,7 +684,7 @@ GEM
     psych (5.1.0)
       stringio
     public_suffix (5.0.1)
-    puffing-billy (3.0.4)
+    puffing-billy (3.1.0)
       addressable (~> 2.5)
       em-http-request (~> 1.1, >= 1.1.0)
       em-synchrony
@@ -1078,7 +1078,7 @@ DEPENDENCIES
   pry-byebug (~> 3.10.0)
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
-  puffing-billy (~> 3.0.0)
+  puffing-billy (~> 3.1.0)
   puma (~> 6.1)
   puma-plugin-statsd (~> 2.0)
   rack-attack (~> 6.6.0)
