@@ -42,8 +42,17 @@ describe OpenProject::JournalFormatter::Diff do
 
   describe 'for WorkPackages' do
     let(:id) { 1 }
+    let(:work_package) { create(:work_package) }
     let(:journal) do
-      OpenStruct.new(id:, journable: WorkPackage.new) # rubocop:disable Style/OpenStructUse
+      create(:work_package_journal,
+             journable_id: work_package.id,
+             created_at: 3.days.ago.to_date.to_fs(:db),
+             version: Journal.maximum(:version) + 1,
+             data: build(:journal_work_package_journal,
+                         subject: work_package.subject,
+                         status_id: work_package.status_id,
+                         type_id: work_package.type_id,
+                         project_id: work_package.project_id))
     end
     let(:instance) { klass.new(journal) }
     let(:key) { 'description' }
