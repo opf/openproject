@@ -54,7 +54,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     label = label(key, html: options[:html])
 
     if value.blank?
-      I18n.t(:text_journal_deleted_withs_diff, label:, link:)
+      I18n.t(:text_journal_deleted_with_diff, label:, link:)
     elsif old_value.present?
       I18n.t(:text_journal_changed_with_diff, label:, link:)
     else
