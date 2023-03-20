@@ -48,7 +48,3 @@ We only recommend changing this setting if you are absolutely sure and you are a
 ### Effect on calendars
 
 The non-working days defined here are coloured differently, generally with a darker background colour, on the [work package date picker](../../user-guide/work-packages/set-change-dates/#working-days-and-duration), [Gantt chart](../../user-guide/gantt-chart/) and the [Team planner](../../user-guide/team-planner/) and [calendar](../../user-guide/calendar/) modules.
-
-
-
-###### 
