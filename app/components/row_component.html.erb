@@ -26,9 +26,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<% html_title t(:label_administration), t(:label_enumerations) %>
-<%= toolbar title: t(:label_enumerations) %>
-<% Enumeration.subclasses.each do |klass| %>
-  <h3 class="-no-border"><%= t(klass::OptionName) %></h3>
-  <%= render(::Enumerations::TableComponent.new(rows: klass.shared)) %>
-<% end %>
+
+<tr>
+  <% columns.each do |column| %>
+    <td class="<%= column_css_class(column) %>">
+      <%= column_value(column) %>
+    </td>
+  <% end %>
+  <td class="buttons">
+    <% button_links.each do |link| %>
+      <%= link %>
+    <% end %>
+  </td>
+</tr>
