@@ -100,7 +100,7 @@ If you want to print your Wiki, with OpenProject 12.5 you can now do so. A print
 
 ## Advanced search for work package attachment or content released for the Community
 
-With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../user-guide/work-packages/work-package-table-configuration#filter-for-attachment-file-name-and-content).
+With OpenProject 12.5, we are happy to announce that another Enterprise add-on was released for the free-of-charge Community version. The advanced filters enable not only full text search but also to [filter and search for work packages attachments and content of the attachments](../../user-guide/work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).
 
 ![openproject-search-work-package-attachments](openproject-search-work-package-attachments.png)
 
