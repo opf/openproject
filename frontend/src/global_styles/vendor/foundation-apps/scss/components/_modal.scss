@@ -31,7 +31,7 @@ $modal-overlay-background: rgba(#333, 0.7) !default;
   background: $modal-background;
   flex: 0 0 auto;
   width: 100%;
-  height: 100vh;
+  height: var(--app-height);
   max-height: 100%;
   overflow: hidden;
   padding: $global-padding;

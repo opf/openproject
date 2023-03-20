@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-describe 'API v3 file links resource', type: :request do
+describe 'API v3 file links resource' do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }
@@ -42,7 +42,8 @@ describe 'API v3 file links resource', type: :request do
   let(:work_package) { create(:work_package, author: current_user, project:) }
   let(:another_work_package) { create(:work_package, author: current_user, project:) }
 
-  let(:storage) { create(:storage, creator: current_user) }
+  let(:oauth_application) { create(:oauth_application) }
+  let(:storage) { create(:storage, creator: current_user, oauth_application:) }
   let(:another_storage) { create(:storage, creator: current_user) }
 
   let(:oauth_client) { create(:oauth_client, integration: storage) }
@@ -63,31 +64,101 @@ describe 'API v3 file links resource', type: :request do
     create(:file_link, creator: current_user, container: work_package, storage: another_storage)
   end
 
-  let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-  let(:sync_service) { instance_double(::Storages::FileLinkSyncService) }
+  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:sync_service) { instance_double(Storages::FileLinkSyncService) }
 
   subject(:response) { last_response }
 
   before do
     # Mock ConnectionManager to behave as if connected
-    allow(::OAuthClients::ConnectionManager)
+    allow(OAuthClients::ConnectionManager)
       .to receive(:new).and_return(connection_manager)
     allow(connection_manager)
       .to receive(:get_access_token)
-      .and_return(ServiceResult.success(result: oauth_client_token))
+            .and_return(ServiceResult.success(result: oauth_client_token))
     allow(connection_manager)
       .to receive(:authorization_state).and_return(:connected)
     allow(connection_manager)
       .to receive(:get_authorization_uri).and_return('https://example.com/authorize')
 
     # Mock FileLinkSyncService as if Nextcloud would respond positively
-    allow(::Storages::FileLinkSyncService)
+    allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
       ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
     end
 
     login_as current_user
+  end
+
+  describe 'POST /api/v3/file_links' do
+    let(:path) { '/api/v3/file_links' }
+    let(:permissions) { %i(manage_file_links) }
+    let(:storage_url) { storage.host }
+    let(:params) do
+      {
+        _type: "Collection",
+        _embedded: {
+          elements: embedded_elements
+        }
+      }
+    end
+    let(:embedded_elements) do
+      [
+        {
+          originData: {
+            id: 5503,
+            name: "logo.png",
+            mimeType: "image/png",
+            createdAt: "2021-12-19T09:42:10.170Z",
+            lastModifiedAt: "2021-12-20T14:00:13.987Z",
+            createdByName: "Luke Skywalker",
+            lastModifiedByName: "Anakin Skywalker"
+          },
+          _links: {
+            storageUrl: {
+              href: storage_url
+            }
+          }
+        },
+        build(:file_link_element, storage_url:)
+      ]
+    end
+
+    before do
+      header 'Content-Type', 'application/json'
+      post path, params.to_json
+    end
+
+    context 'when all embedded file link elements are valid' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'FileLink' do
+        let(:elements) { Storages::FileLink.all.order(id: :asc) }
+        let(:expected_status_code) { 201 }
+      end
+
+      it 'creates corresponding FileLink records', :aggregate_failures do
+        expect(Storages::FileLink.count).to eq 2
+        Storages::FileLink.find_each.with_index do |file_link, i|
+          unset_keys = %w[container_id container_type]
+          set_keys = (file_link.attributes.keys - unset_keys)
+          set_keys.each do |key|
+            expect(file_link.attributes[key]).not_to(
+              be_nil,
+              "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
+            )
+          end
+          unset_keys.each do |key|
+            expect(file_link.attributes[key]).to be_nil
+          end
+        end
+      end
+
+      it 'does not provide a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(
+          'urn:openproject-org:api:v3:file_links:no_link_provided'.to_json
+        ).at_path('_links/self/href')
+      end
+    end
   end
 
   describe 'GET /api/v3/work_packages/:work_package_id/file_links' do
@@ -212,6 +283,10 @@ describe 'API v3 file links resource', type: :request do
                                  "expected attribute #{key.inspect} of FileLink ##{i + 1} to be set.\ngot nil."
           end
         end
+      end
+
+      it 'provides a link to the collection of created file links' do
+        expect(response.body).to be_json_eql(path.to_json).at_path('_links/self/href')
       end
     end
 
@@ -404,6 +479,12 @@ describe 'API v3 file links resource', type: :request do
 
       it_behaves_like 'not found'
     end
+
+    context 'if file link does not have a container.' do
+      let(:file_link) { create(:file_link) }
+
+      it_behaves_like 'not found'
+    end
   end
 
   describe 'DELETE /api/v3/file_links/:file_link_id' do
@@ -417,7 +498,7 @@ describe 'API v3 file links resource', type: :request do
 
     it 'is successful' do
       expect(subject.status).to be 204
-      expect(::Storages::FileLink.exists?(id: file_link.id)).to be false
+      expect(Storages::FileLink.exists?(id: file_link.id)).to be false
     end
 
     context 'if user has no view permissions' do
@@ -472,62 +553,111 @@ describe 'API v3 file links resource', type: :request do
   end
 
   describe 'GET /api/v3/file_links/:file_link_id/download' do
-    let(:connection_manager) { instance_double(::OAuthClients::ConnectionManager) }
-    let(:request_factory) { instance_double(Storages::Peripherals::StorageRequests) }
-    let(:access_token_result) { ServiceResult.success(result: create(:oauth_client_token)) }
     let(:path) { api_v3_paths.file_link_download(file_link.id) }
-    let(:download_response) { instance_double(RestClient::Response) }
-    let(:download_command_result) { ServiceResult.success(result: download_response) }
-    let(:response_body) { { ocs: { data: { url: 'https://starkiller.nextcloud.com/direct/xyz' } } }.to_json }
+    let(:url) { 'https://starkiller.nextcloud.com/direct/xyz' }
 
-    before do
-      allow(connection_manager).to receive(:get_access_token).and_return(access_token_result)
-      allow(::OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      allow(request_factory).to receive(:download_command).and_return(->(*) { download_command_result })
-      allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(request_factory)
-      allow(download_response).to receive(:body).and_return(response_body)
+    describe 'with successful response' do
+      before do
+        storage_requests = instance_double(Storages::Peripherals::StorageRequests)
+        download_link_query = Proc.new do
+          ServiceResult.success(result: url)
+        end
+        allow(storage_requests).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
 
-      get path
+        get path
+      end
+
+      it 'responds successfully' do
+        expect(subject.status).to be(303)
+        expect(subject.location).to be(url)
+      end
     end
 
-    it 'is successful' do
-      expect(subject.status).to be 303
+    describe 'with download link query creation failed' do
+      let(:storage_requests) { instance_double(Storages::Peripherals::StorageRequests) }
+
+      before do
+        allow(Storages::Peripherals::StorageRequests).to receive(:new).and_return(storage_requests)
+      end
+
+      describe 'due to authorization failure' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_authorized,
+              errors: Storages::StorageError.new(code: :not_authorized)
+            )
+          )
+          get path
+        end
+
+        it { expect(subject.status).to be(500) }
+      end
+
+      describe 'due to internal error' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :error,
+              errors: Storages::StorageError.new(code: :error)
+            )
+          )
+          get path
+        end
+
+        it { expect(subject.status).to be(500) }
+      end
+
+      describe 'due to not found' do
+        before do
+          allow(storage_requests).to receive(:download_link_query).and_return(
+            ServiceResult.failure(
+              result: :not_found,
+              errors: Storages::StorageError.new(code: :not_found)
+            )
+          )
+          get path
+        end
+
+        it { expect(subject.status).to be(404) }
+      end
     end
 
-    context 'if storage origin returns unexpected response body' do
-      let(:response_body) { 'the force is not strong in this one ...' }
+    describe 'with query failed' do
+      let(:download_link_query) do
+        Struct.new('DownloadLinkQuery', :error) do
+          def query(_)
+            ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
+          end
+        end.new(error)
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.response.unexpected')
-    end
+      before do
+        storage_queries = instance_double(Storages::Peripherals::StorageInteraction::StorageQueries)
+        allow(storage_queries).to receive(:download_link_query).and_return(ServiceResult.success(result: download_link_query))
+        allow(Storages::Peripherals::StorageInteraction::StorageQueries).to receive(:new).and_return(storage_queries)
 
-    context 'if storage origin returns empty response body' do
-      let(:response_body) { '' }
+        get path
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.failed_authorization')
-    end
+      describe 'due to authorization failure' do
+        let(:error) { :not_authorized }
 
-    context 'if no access token is available' do
-      let(:access_token_result) { ServiceResult.failure }
+        it { expect(subject.status).to be(500) }
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.missing_authorization')
-    end
+      describe 'due to internal error' do
+        let(:error) { :error }
 
-    context 'if outbound request returns with failure (token expired or revoked)' do
-      let(:download_command_result) { ServiceResult.failure(result: I18n.t('http.request.failed_authorization')) }
+        it { expect(subject.status).to be(500) }
+      end
 
-      it_behaves_like 'error response',
-                      500,
-                      'InternalServerError',
-                      I18n.t('http.request.failed_authorization')
+      describe 'due to not found' do
+        let(:error) { :not_found }
+
+        it { expect(subject.status).to be(404) }
+      end
     end
   end
 end

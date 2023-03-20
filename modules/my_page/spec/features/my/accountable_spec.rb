@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,32 +30,32 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Accountable widget on my page', type: :feature, js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+describe 'Accountable widget on my page', js: true do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:accountable_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:accountable_by_other_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: other_user
+           responsible: other_user)
   end
   let!(:accountable_but_invisible_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let(:other_user) do
     create(:user)
@@ -114,9 +114,9 @@ describe 'Accountable widget on my page', type: :feature, js: true do
       .to have_selector('.subject', text: accountable_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_by_other_work_package.subject)
+      .not_to have_selector('.subject', text: accountable_by_other_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_but_invisible_work_package.subject)
+      .not_to have_selector('.subject', text: accountable_but_invisible_work_package.subject)
   end
 end

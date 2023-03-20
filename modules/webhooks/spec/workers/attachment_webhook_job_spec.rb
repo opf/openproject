@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe AttachmentWebhookJob, type: :job, webmock: true do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:project) { create :project, name: 'Foo Bar' }
-  shared_let(:container) { create :work_package, project: }
-  shared_let(:attachment) { create :attachment, container: }
-  shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
+  shared_let(:project) { create(:project, name: 'Foo Bar') }
+  shared_let(:container) { create(:work_package, project:) }
+  shared_let(:attachment) { create(:attachment, container:) }
+  shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
   let(:event) { "attachment:created" }
   let(:job) { described_class.perform_now(webhook.id, attachment, event) }
   let(:stubbed_url) { request_url }
@@ -76,7 +76,7 @@ describe AttachmentWebhookJob, type: :job, webmock: true do
   end
 
   before do
-    allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
+    allow(Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
     login_as user
     stub
   end
@@ -101,7 +101,7 @@ describe AttachmentWebhookJob, type: :job, webmock: true do
     end
 
     context 'with uncontainered' do
-      shared_let(:attachment) { create :attachment, container: nil }
+      shared_let(:attachment) { create(:attachment, container: nil) }
 
       it 'does requests even if project nil' do
         allow(webhook)

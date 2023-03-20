@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Test mail notification', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+describe 'Test mail notification', js: true do
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as(admin)
@@ -45,6 +45,6 @@ describe 'Test mail notification', type: :feature, js: true do
 
     expected = "An error occurred while sending mail (#{error_message})"
     expect(page).to have_selector('.flash.error', text: expected)
-    expect(page).to have_no_selector('.flash.error strong')
+    expect(page).not_to have_selector('.flash.error strong')
   end
 end

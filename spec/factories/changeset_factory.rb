@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,13 @@
 FactoryBot.define do
   factory :changeset do
     sequence(:revision) { |n| n.to_s }
-    committed_on { Time.now }
-    commit_date { Date.today }
+    committed_on { Time.current }
+    commit_date { Date.current }
+
+    after(:build, :create) do |changeset, evaluator|
+      next if evaluator.overrides?(:project)
+
+      changeset.project ||= changeset.repository&.project
+    end
   end
 end

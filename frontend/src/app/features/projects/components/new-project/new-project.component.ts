@@ -3,7 +3,7 @@ import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { IDynamicFieldGroupConfig, IOPFormlyFieldSettings } from 'core-app/shared/components/dynamic-forms/typings';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -64,8 +64,8 @@ export class NewProjectComponent extends UntilDestroyedMixin implements OnInit {
       map((response) => response.elements.map((el:HalResource) => ({ href: el.href, name: el.name }))),
     );
 
-  templateForm = new FormGroup({
-    template: new FormControl(),
+  templateForm = new UntypedFormGroup({
+    template: new UntypedFormControl(),
   });
 
   get templateControl() {

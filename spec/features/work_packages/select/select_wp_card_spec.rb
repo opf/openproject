@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe 'Select work package card', type: :feature, js: true, selenium: true do
+describe 'Select work package card', js: true, selenium: true do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
   let(:work_package_2) { create(:work_package, project:) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:wp_card_view) { ::Pages::WorkPackageCards.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
 
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as(user)
@@ -60,12 +60,12 @@ describe 'Select work package card', type: :feature, js: true, selenium: true do
 
     it 'the split screen of the selected WP' do
       wp_card_view.select_work_package(work_package_2)
-      find('#work-packages-details-view-button').click
+      find_by_id('work-packages-details-view-button').click
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 
-      find('#work-packages-details-view-button').click
-      expect(page).to have_no_selector('.work-packages--details')
+      find_by_id('work-packages-details-view-button').click
+      expect(page).not_to have_selector('.work-packages--details')
     end
   end
 end

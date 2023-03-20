@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,17 +30,17 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'My page documents widget', type: :feature, js: true do
-  let!(:project) { create :project }
-  let!(:other_project) { create :project }
+describe 'My page documents widget', js: true do
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
   let!(:visible_document) do
-    create :document,
+    create(:document,
            project:,
-           description: 'blubs'
+           description: 'blubs')
   end
   let!(:invisible_document) do
-    create :document,
-           project: other_project
+    create(:document,
+           project: other_project)
   end
   let(:other_user) do
     create(:user)

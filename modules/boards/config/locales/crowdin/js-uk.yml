@@ -7,7 +7,7 @@ uk:
       label_unnamed_list: 'Список без назви'
       label_board_type: 'Тип дошки'
       upsale:
-        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+        teaser_text: 'Хочете автоматизувати робочі процеси за допомогою дощок? Поліпшені дошки – це доповнення версії Enterprise. Перейдіть на платний план.'
         upgrade: 'Купити зараз'
       lists:
         delete: 'Вилучити список'
@@ -62,7 +62,7 @@ uk:
           status: Статус
           version: Версія
           subproject: Підпроект
-          subtasks: Parent-child
+          subtasks: Батьківські й дочірні елементи
           basic: Базовий
         select_attribute: "Атрибут дії"
       add_list_modal:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 User avatar resource', type: :request, content_type: :json do
+describe 'API v3 User avatar resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -92,7 +92,7 @@ describe 'API v3 User avatar resource', type: :request, content_type: :json do
       let(:local_avatars) { true }
 
       let(:other_user) do
-        u = create :user
+        u = create(:user)
         u.attachments = [build(:avatar_attachment, author: u)]
         u
       end

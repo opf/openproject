@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,7 +90,7 @@ module Components
       def add_relation(type:, to:)
         # Open create form
         SeleniumHubWaiter.wait
-        find('#relation--add-relation').click
+        find_by_id('relation--add-relation').click
 
         # Select relation type
         container = find('.wp-relations-create--form', wait: 10)
@@ -131,7 +131,7 @@ module Components
       end
 
       def expect_no_relation(relatable)
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
       def add_parent(query, work_package)
@@ -155,7 +155,7 @@ module Components
       end
 
       def expect_no_parent
-        expect(page).to have_no_selector '[data-qa-selector="op-wp-breadcrumb-parent"]', wait: 10
+        expect(page).not_to have_selector '[data-qa-selector="op-wp-breadcrumb-parent"]', wait: 10
       end
 
       def remove_parent
@@ -206,7 +206,7 @@ module Components
         page.within('wp-relations-tab .work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
-          expect(page).to have_no_selector(row)
+          expect(page).not_to have_selector(row)
         end
       end
 

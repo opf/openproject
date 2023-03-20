@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,11 @@ describe Projects::ReorderHierarchyJob, type: :model do
   shared_let(:parent_project_a) { create(:project, name: 'ParentA') }
   shared_let(:parent_project_b) { create(:project, name: 'ParentB') }
 
-  shared_let(:child_a) { create :project, name: 'A', parent: parent_project_a }
-  shared_let(:child_b) { create :project, name: 'B', parent: parent_project_b }
-  shared_let(:child_c) { create :project, name: 'C', parent: parent_project_a }
-  shared_let(:child_d) { create :project, name: 'D', parent: parent_project_b }
-  shared_let(:child_f) { create :project, name: 'F', parent: parent_project_a }
+  shared_let(:child_a) { create(:project, name: 'A', parent: parent_project_a) }
+  shared_let(:child_b) { create(:project, name: 'B', parent: parent_project_b) }
+  shared_let(:child_c) { create(:project, name: 'C', parent: parent_project_a) }
+  shared_let(:child_d) { create(:project, name: 'D', parent: parent_project_b) }
+  shared_let(:child_f) { create(:project, name: 'F', parent: parent_project_a) }
 
   let(:ordered) { Project.all.reorder(:lft) }
 

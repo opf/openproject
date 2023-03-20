@@ -1,14 +1,14 @@
 require 'spec_helper'
 
-describe ::Recaptcha::AdminController, type: :controller do
-  let(:user) { build_stubbed :admin }
+describe Recaptcha::AdminController do
+  let(:user) { build_stubbed(:admin) }
 
   before do
     login_as user
   end
 
   describe 'as non admin' do
-    let(:user) { build_stubbed :user }
+    let(:user) { build_stubbed(:user) }
 
     it 'does not allow access' do
       get :show

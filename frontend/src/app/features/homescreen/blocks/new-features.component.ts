@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,12 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 
 export const homescreenNewFeaturesBlockSelector = 'homescreen-new-features-block';
+
 // The key used in the I18n files to distinguish between versions.
-const OpVersionI18n = '12_4';
+const OpVersionI18n = '12_5';
+
+/** Update the teaser image to the next version */
+const featureTeaserImage = '12_5_features.svg';
 
 @Component({
   template: `
@@ -65,7 +69,11 @@ const OpVersionI18n = '12_4';
 export class HomescreenNewFeaturesBlockComponent {
   public isStandardEdition:boolean;
 
-  new_features_image = imagePath('12_4_features.png');
+  /** Set to true if BIM has it's own changes */
+  hasBimChanges = false;
+
+  /** Update the feature image appropriately */
+  new_features_image = imagePath(featureTeaserImage);
 
   public text = {
     newFeatures: this.i18n.t('js.label_new_features'),
@@ -89,8 +97,18 @@ export class HomescreenNewFeaturesBlockComponent {
     return this.translated('new_features_html');
   }
 
+  private get translatedEdition():string {
+    if (this.hasBimChanges && !this.isStandardEdition) {
+      return 'bim';
+    }
+
+    return 'standard';
+  }
+
   private translated(key:string):string {
-    return this.i18n.t(`js.homescreen.blocks.new_features.${OpVersionI18n}.${this.isStandardEdition ? 'standard' : 'bim'}.${key}`,
-      { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi });
+    return this.i18n.t(
+      `js.homescreen.blocks.new_features.${OpVersionI18n}.${this.translatedEdition}.${key}`,
+      { list_styling_class: 'widget-box--arrow-links', bcf_api_link: BcfRestApi },
+    );
   }
 }

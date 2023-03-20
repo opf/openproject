@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,21 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-describe ::OAuthClients::CreateService, type: :model do
+describe OAuthClients::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
     let(:factory) { :oauth_client }
+
+    context 'if another oauth client for the given integration exists' do
+      let(:storage) { create(:storage) }
+      let!(:existing_client) { create(:oauth_client, integration: storage) }
+      let!(:model_instance) { build_stubbed(:oauth_client, integration: storage) }
+      let(:call_attributes) { { name: 'Death Star', integration: storage } }
+
+      it 'overwrites the existing oauth client' do
+        # Test setup still returns success, but `subject` must be initialized
+        expect(subject).to be_success
+        expect(OAuthClient.where(id: existing_client.id)).not_to exist
+      end
+    end
   end
 end

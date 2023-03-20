@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CustomValue::ListStrategy do
   let(:instance) { described_class.new(custom_value) }
-  let(:custom_field) { create :list_wp_custom_field }
+  let(:custom_field) { create(:list_wp_custom_field) }
   let(:custom_value) do
     double("CustomField", value:, custom_field:, customized:)
   end

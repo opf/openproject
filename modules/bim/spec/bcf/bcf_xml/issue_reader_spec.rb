@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::OpenProject::Bim::BcfXml::IssueReader do
+describe OpenProject::Bim::BcfXml::IssueReader do
   let(:absolute_file_path) { "63E78882-7C6A-4BF7-8982-FC478AFB9C97/markup.bcf" }
-  let(:type) { create :type, name: 'Issue', is_standard: true, is_default: true }
+  let(:type) { create(:type, name: 'Issue', is_standard: true, is_default: true) }
   let(:project) do
     create(:project,
            identifier: 'bim_project',
@@ -48,7 +48,7 @@ describe ::OpenProject::Bim::BcfXml::IssueReader do
            role: manage_bcf_role,
            type:)
   end
-  let(:priority) { create :default_priority }
+  let(:priority) { create(:default_priority) }
   let(:bcf_manager_member) do
     create(:member,
            project:,

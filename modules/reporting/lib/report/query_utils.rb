@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,20 +123,17 @@ module Report::QueryUtils
   #   field_name_for nil                            # => 'NULL'
   #   field_name_for 'foo'                          # => 'foo'
   #   field_name_for [Issue, 'project_id']          # => 'issues.project_id'
-  #   field_name_for [:issue, 'project_id'], :entry # => 'issues.project_id'
-  #   field_name_for 'project_id', :entry           # => 'entries.project_id'
+  #   field_name_for [:issue, 'project_id']         # => 'issues.project_id'
   #
   # @param [Array, Object] arg Object to generate field name for.
   # @param [Object, optional] default_table Table name to use if no table name is given.
   # @return [String] Field name.
-  def field_name_for(arg, default_table = nil)
+  def field_name_for(arg)
     return 'NULL' unless arg
-    return field_name_for(arg.keys.first, default_table) if arg.is_a? Hash
-    return arg if arg.is_a? String and arg =~ /\.| |\(.*\)/
-    return (table_name_for(arg.first || default_table) + '.') << arg.last.to_s if arg.is_a? Array and arg.size == 2
-    return arg.to_s unless default_table
+    return field_name_for(arg.keys.first) if arg.is_a? Hash
+    return "#{table_name_for(arg.first)}.#{arg.last}" if arg.is_a? Array and arg.size == 2
 
-    field_name_for [default_table, arg]
+    arg.to_s
   end
 
   ##
@@ -158,10 +155,8 @@ module Report::QueryUtils
   # @param [Hash] options Condition => Result.
   # @return [String] Case statement.
   def switch(options)
-    desc = "#{__method__} #{options.inspect[1..-2]}".gsub(/(Cost|Time)Entry\([^)]*\)/, '\1Entry')
     options = options.with_indifferent_access
     else_part = options.delete :else
-    "-- #{desc}\n\t" \
     "CASE #{options.map do |k, v|
       "\n\t\tWHEN #{field_name_for k}\n\t\t" \
         "THEN #{field_name_for v}"
@@ -211,9 +206,7 @@ module Report::QueryUtils
     "#{safe_value}::#{type}"
   end
 
-  def iso_year_week(field, default_table = nil)
-    field_name = field_name_for(field, default_table)
-
+  def iso_year_week(field_name)
     "(EXTRACT(isoyear from #{field_name})*100 + \n\t\t" \
       "EXTRACT(week from #{field_name} - \n\t\t" \
       "(EXTRACT(dow FROM #{field_name})::int+6)%7))"

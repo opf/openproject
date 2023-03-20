@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController do
+describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController do
   let(:user) { create(:user, login: 'foobar') }
   let(:logged_in_user) { User.anonymous }
   let(:active_strategies) { [] }
@@ -128,7 +128,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -139,7 +139,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
         end
 
         describe 'with registered device' do
-          let!(:device) { create :two_factor_authentication_device_sms, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_sms, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -148,7 +148,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
           end
 
           it 'redirects to failure path if token request failed' do
-            allow_any_instance_of(::TwoFactorAuthentication::TokenService)
+            allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:request)
               .and_return(ServiceResult.failure)
 
@@ -167,7 +167,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }
@@ -186,7 +186,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
           end
 
           it 'activates the device when entered correctly' do
-            allow_any_instance_of(::TwoFactorAuthentication::TokenService)
+            allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:verify)
               .with('1234')
               .and_return(ServiceResult.success)

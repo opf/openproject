@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe AttributeHelpTextsController, type: :controller do
-  let(:user) { build_stubbed :admin }
-  let(:model) { build :work_package_help_text }
+describe AttributeHelpTextsController do
+  let(:user) { build_stubbed(:admin) }
+  let(:model) { build(:work_package_help_text) }
   let(:enterprise_token) { true }
 
   let(:find_expectation) do

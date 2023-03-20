@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -48,7 +48,7 @@ ru:
         main-menu-hover-font-color: "Шрифт главного меню при наведении"
         main-menu-border-color: "Граница главного меню"
       custom_colors: "Настроить цвета"
-      customize: "Настройте свой OpenProject своими логотипом и цветами."
+      customize: "Установите в вашем OpenProject свой логотип и цвета."
       enterprise_notice: "В качестве особого \"Спасибо!\" за их финансовый вклад в разработку OpenProject, это крошечное дополнение доступно только для подписчиков службы поддержки Корпоративной версии."
       enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
@@ -57,10 +57,10 @@ ru:
         content-link-color: "Цвет шрифта большинства ссылок."
         primary-color: "Основной цвет."
         primary-color-dark: "Для эффекта наведения обычно используется более темная версия основного цвета."
-        header-item-bg-hover-color: "Цвет фона в заголовках интерактивных элементов под курсором мыши."
+        header-item-bg-hover-color: "Цвет фона в заголовках интерактивных элементов при наведении мыши."
         header-item-font-color: "Цвет шрифта в заголовках интерактивных элементов."
-        header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов под курсором мыши."
-        header-border-bottom-color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите любой линии."
+        header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов при наведении мыши."
+        header-border-bottom-color: "Тонкая линия под заголовком. Оставьте это поле пустым, если вы не хотите какой-либо линии."
         main-menu-bg-color: "Цвет фона меню слева."
       theme_warning: Изменение темы перезапишет ваш пользовательский стиль. Дизайн будет утерян. Вы уверены, что хотите продолжить?
     enterprise:
@@ -79,12 +79,12 @@ ru:
       get_quote: 'Рассчитать стоимость'
       buttons:
         upgrade: "Обновить сейчас"
-        contact: "Свяжитесь с нами для опробирования"
+        contact: "Свяжитесь с нами для демо"
       enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_enterprise-addons'></span> дополнением."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
       explanation:
-        text: "Личные действия пользователя (напр. обновление пакета работ дважды) агрегируются в одно действие, если их разница во времени не больше указанной. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
+        text: "Личные действия пользователя (например, обновление пакета работ дважды) агрегируются в одно действие, если их разница во времени не больше указанной. Они будут отображаться как одно действие внутри приложения. Это также задерживает уведомление на такое же количество времени, уменьшая количество отправляемых писем и также повлияет на %{webhook_link} задержки."
         link: "вебхук"
   announcements:
     show_until: Показать до
@@ -148,7 +148,7 @@ ru:
       Следующие поля связаны с тем, как пользователи создаются в OpenProject из LDAP записей, и
       какие атрибуты LDAP используются для определения атрибутов пользователя OpenProject (сопоставление атрибутов).
     tls_mode:
-      plain: 'Ничего'
+      plain: 'Пусто'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
       plain_description: "Открывает незашифрованное соединение с сервером LDAP. Не рекомендуется для производства."
@@ -182,7 +182,7 @@ ru:
     execute: 'Выполнить %{name}'
     upsale:
       title: 'Настраиваемые действия'
-      description: 'Пользовательские действия сводятся к одному клику по ярлыку набора заранее определенных действий, которые вы можете сделать доступными для определенных пакетов работ на основе статуса, роли, типа или проекта.'
+      description: 'Пользовательские действия сводятся к одному клику по кнопке для совершения заранее определенных действий, которые вы можете сделать доступными для пакетов работ на основании статуса, роли, типа или проекта.'
   custom_fields:
     text_add_new_custom_field: >
       Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
@@ -219,8 +219,8 @@ ru:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
       members: 'Участники проекта'
       overviews: 'Обзор проекта'
-      queries: 'Пакеты работ: сохраненные виды'
-      wiki_page_attachments: 'Вики-страницы: вложения'
+      queries: 'Пакеты работ: сохраненные представления'
+      wiki_page_attachments: 'Wiki страницы: вложения'
       work_package_attachments: 'Пакеты работ: вложения'
       work_package_categories: 'Пакеты работ: категории'
       work_package_file_links: 'Пакеты работ: ссылки на файлы'
@@ -318,7 +318,7 @@ ru:
       no_results_title_text: В данный момент типы отсутствуют.
       no_results_content_text: Создать новый тип
     edit:
-      settings: "Параметры"
+      settings: "Настройки"
       form_configuration: "Настройка форм"
       more_info_text_html: >
         Корпоративная редакция позволяет настроить конфигурацию форм с этими дополнительными возможностями: <br> <ul class="%{list_styling_class}"> <li><b>Добавить новые группы атрибутов</b></li> <li><b>Переименовать группы атрибутов</b></li> </ul>
@@ -336,6 +336,7 @@ ru:
   wiki:
     page_not_editable_index: Запрошенная страница (пока) не существует. Вы были перенаправлены на индекс всех вики-страниц.
     no_results_title_text: На данный момент wiki-страницы отсутствуют.
+    print_hint: Это позволит напечатать содержимое этой страницы wiki без каких-либо навигационных меню.
     index:
       no_results_content_text: Добавить новую wiki-страницу
   work_flows:
@@ -348,11 +349,13 @@ ru:
       many: 'Пакетов работ, являющихся потомками: %{count}'
       other: 'Пакетов работ, являющихся потомками: %{count}'
     bulk:
+      copy_failed: "Пакеты работ не могут быть скопированы."
+      move_failed: "Пакеты работ не могут быть перемещены."
       could_not_be_saved: "Не удалось сохранить следующие пакеты работ:"
       none_could_be_saved: "Ни один из пакетов работ %{total} не может быть обновлен."
-      x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлено, в то время как %{success} может."
+      x_out_of_y_could_be_saved: "%{failing} из %{total} пакетов работ не может быть обновлен, в то время как %{success} может."
       selected_because_descendants: "В то время как выбрано %{selected} пакетов работ, в общей сложности затрагиваются %{total} пакетов работ, включая дочерние."
-      descendant: "дочерний выбранного"
+      descendant: "дочерний рабочий пакет выбранного элемента"
     move:
       no_common_statuses_exists: "Статус не доступен для всех выбранных пакетов работ. Их статус изменен быть не может."
       unsupported_for_multiple_projects: 'Массовое перемещение/копирование не поддерживается при работе с пакетами из нескольких проектов'
@@ -369,14 +372,14 @@ ru:
         priority:
           no_results_title_text: В данный момент приоритеты не установлены.
         type:
-          no_results_title_text: На данный момент доступных типов нет.
+          no_results_title_text: На данный момент доступных типов рабочих пакетов нет.
         version:
           no_results_title_text: На данный момент этапы отсутствуют.
   label_invitation: Приглашение
   account:
     delete: "Удалить учётную запись"
     delete_confirmation: "Вы уверены, что хотите удалить учетную запись?"
-    deleted: "Учетная запись успешно удалена"
+    deletion_pending: "Учетная запись была заблокирована и была запланирована к удалению. Заметьте, что этот процесс происходит в фоновом режиме. Это может занять несколько минут, пока пользователь не будет полностью удален."
     deletion_info:
       data_consequences:
         other: "Данные, созданные пользователем (адрес электронной почты, предпочтения, пакеты работ, wiki-записи) полностью не удаляются. Рабочие пакеты, wiki-записи и пр. могут влиять на работы других пользователей, поэтому такие данные не удаляются, а закрепляются за другой, специальной учетной записью, именуемой «Удаленный пользователь». После такого переназначения определить кому принадлежали эти данные ранее становиться невозможно."
@@ -392,7 +395,7 @@ ru:
         other: "Введите логин %{name} для проверки удаления. После, вам будет предложено подтвердить свой пароль."
         self: "Введите ваш логин %{name} для проверки удаления. После, вам будет предложено подтвердить свой пароль."
     error_inactive_activation_by_mail: >
-      Ваша учетная запись не была активирована. Для активации перейдите по ссылке, высланной вам по электронной почте.
+      Ваша учетная запись не была активирована. Для активации перейдите по ссылке, направленной вам по электронной почте.
     error_inactive_manual_activation: >
       Ваша учетная запись не была активирована. Пожалуйста, подождите пока администратор активирует Вашу учетную запись.
     error_self_registration_disabled: >
@@ -471,14 +474,24 @@ ru:
       member:
         roles: "Роль"
       project:
+        active_value:
+          true: "Разархивирован"
+          false: "Архивирован"
         identifier: "Идентификатор"
         latest_activity_at: "Последняя активность"
         parent: "Подпроект"
+        public_value:
+          title: "Видимость"
+          true: "публичный"
+          false: "приватный"
         queries: "Запросы"
+        templated: "Проект шаблона"
+        templated_value:
+          true: "помечено как шаблон"
+          false: "снята отметка шаблона"
         types: "Типы"
         versions: "Этапы"
         work_packages: "Задачи"
-        templated: 'Проект шаблона'
       projects/status:
         code: 'Статус'
         explanation: 'Описание статуса'
@@ -685,21 +698,28 @@ ru:
             read_ian:
               read_on_creation: 'невозможно установить истину при создании уведомления.'
             mail_reminder_sent:
-              set_on_creation: 'невозможно установить истину при создании уведомления.'
+              set_on_creation: 'не могут быть включены при создании уведомления.'
             reason:
               no_notification_reason: 'не может быть пустым, так как IAN выбран как канал.'
             reason_mail_digest:
               no_notification_reason: 'не может быть пустым, так как почтовый дайджест выбран как канал.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Для %{value} уже существует нерабочий день."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
               unsupported_operator: "Оператор не поддерживается."
               invalid_values: "Недопустимое значение."
-              id_filter_required: "Требуется фильтр по 'Id'."
+              id_filter_required: "Требуется фильтр по 'id'."
         project:
           archived_ancestor: 'В проекте есть архивированный предок.'
           foreign_wps_reference_version: 'Комплексы работ в проектах, не расположенных по убыванию, ссылаются на версии проекта или его производных.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "У вас нет разрешений, необходимых для архивирования всех подпроектов. Обратитесь к администратору."
             types:
               in_use_by_work_packages: "всё ещё используются в пакетах работ: %{types}"
             enabled_modules:
@@ -712,13 +732,13 @@ ru:
             public:
               error_unauthorized: "- У пользователя нет прав для создания общедоступных представлений."
             group_by:
-              invalid: "Невозможно группировать по: %{value}"
+              invalid: "Невозможно cгруппировать по: %{value}"
               format: "%{message}"
             column_names:
               invalid: "Недопустимый столбец в запросе: %{value}"
               format: "%{message}"
             sort_criteria:
-              invalid: "Невозможно сортировать по столбцу: %{value}"
+              invalid: "Невозможно отсортировать по столбцу: %{value}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -734,10 +754,10 @@ ru:
             circular_dependency: "Зацикливание зависимостей."
           attributes:
             to:
-              error_not_found: "рабочий пакет в позиции `до` не найден или не виден"
+              error_not_found: "рабочий пакет в позиции `до` не найден или не отображается"
               error_readonly: "в существующих отношениях связь `до` неизменна"
             from:
-              error_not_found: "рабочий пакет в позиции `от` не найден или не виден"
+              error_not_found: "рабочий пакет в позиции `от` не найден или не отображается"
               error_readonly: "в существующих отношениях связь `от` неизменна"
         repository:
           not_available: "SCM поставщик не доступен"
@@ -752,7 +772,7 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: 'По крайней мере один день недели должен быть определен как рабочий.'
+              working_days_are_missing: 'По крайней мере, один день недели должен быть определен как рабочий.'
               previous_working_day_changes_unprocessed: 'Предыдущие изменения конфигурации рабочих дней еще не были применены.'
         time_entry:
           attributes:
@@ -765,14 +785,14 @@ ru:
             daily_reminders:
               full_hour: "может быть настроен только на доставку в полный час."
             notification_settings:
-              only_one_global_setting: 'Должен быть только один глобальный параметр уведомлений.'
+              only_one_global_setting: 'Должна быть только одна глобальная настройка уведомлений.'
               email_alerts_global: 'Настройки уведомлений по электронной почте можно установить только глобально.'
               format: "%{message}"
-              wrong_date: 'Неправильное значение для даты начала, даты окончания или просроченной даты.'
+              wrong_date: 'Неправильное значение для даты начала, даты окончания или даты просрочки.'
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "не разрешено просматривать этот ресурс."
+              not_allowed_to_view: "у Вас нет разрешений для просматра этого ресурса."
               locked: "заблокирован."
         wiki_page:
           attributes:
@@ -784,21 +804,21 @@ ru:
             assigned_to:
               format: "%{message}"
             due_date:
-              not_start_date: "не указана дата начала, хотя это необходимо для контрольных точек"
-              cannot_be_null: "не может быть установлен в null как дата начала и продолжительность известны."
+              not_start_date: "не совпадает с датой начала, хотя это требуется для вех."
+              cannot_be_null: "не может быть нулевым, поскольку известны дата начала и продолжительность."
             duration:
-              larger_than_dates: "больше, чем интервал между началом и датой окончания."
-              smaller_than_dates: "меньше интервала между началом и датой окончания."
-              not_available_for_milestones: "не доступен для пакетов работ с контрольными точками."
-              cannot_be_null: "не может быть установлен в null как дата начала и дата окончания известны."
+              larger_than_dates: "больше, чем интервал между датой начала и датой окончания."
+              smaller_than_dates: "меньше интервала между датой начала и датой окончания."
+              not_available_for_milestones: "не доступен для пакетов работ с типом Веха."
+              cannot_be_null: "не может быть нулевым, поскольку известны дата начала и дата окончания."
             parent:
-              cannot_be_milestone: "не может служить контрольной точкой."
+              cannot_be_milestone: "не может быть вехой"
               cannot_be_self_assigned: "не может быть присвоено самому себе."
               cannot_be_in_another_project: "не может быть в другом проекте."
-              not_a_valid_parent: "неверно."
+              not_a_valid_parent: "имеет неверное значение."
             start_date:
               violates_relationships: "может быть установлено лишь в %{soonest_start} или позднее и без нарушения взаимосвязи рабочих пакетов."
-              cannot_be_null: "не может быть установлен в null как дата окончания и продолжительность известны."
+              cannot_be_null: "не может быть нулевым, поскольку известны дата окончания и продолжительность."
             status_id:
               status_transition_invalid: "недопустимо, так как  для текущих ролей пользователя нет правильного перехода от старого этапа к новому."
               status_invalid_in_type: "недопустимо, так как текущего статуса в этом типе нет."
@@ -823,7 +843,7 @@ ru:
         user:
           attributes:
             base:
-              user_limit_reached: "Достигнут лимит пользователей. В текущем плане аккаунтов больше нет."
+              user_limit_reached: "Достигнут лимит пользователей. В текущем тарифном плане аккаунтов больше нет."
             password_confirmation:
               confirmation: "Подтверждение пароля не совпадает с паролем."
               format: "%{message}"
@@ -834,10 +854,10 @@ ru:
               numeric: "цифры (например \"1\")"
               special: "спецсимволы (например, \"%\")"
               reused:
-                one: "использовалось ранее. Пожалуйста, укажите отличающееся от вашего последнего."
-                few: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
-                many: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
-                other: "использовалось ранее. Пожалуйста, укажите отличающееся от ваших последних %{count}."
+                one: "уже использовался ранее. Пожалуйста, укажите другое значение."
+                few: "уже использовалось ранее. Пожалуйста, укажите другое значение."
+                many: "уже использовались ранее. Пожалуйста, укажите значения отличающиеся от %{count}."
+                other: "уже использовалось ранее. Пожалуйста, укажите значения отличающиеся от ваших последних %{count}."
               match:
                 confirm: "Подтвердите новый пароль."
                 description: "«Подтвержденный пароль» должен совпадать с введенным «новым паролем»."
@@ -860,10 +880,10 @@ ru:
       template:
         body: "Пожалуйста, проверьте следующие поля:"
         header:
-          one: "1 ошибка препятствует сохранению %{model}"
-          few: "%{count} ошибки препятствуют сохранению %{model}"
-          many: "%{count} ошибки препятствуют сохранению %{model}"
-          other: "%{count} ошибки препятствуют сохранению %{model}"
+          one: "1 ошибка не позволила сохранить эту %{model}"
+          few: "%{count} ошибки не позволили сохранить %{model}"
+          many: "%{count} ошибок не позволили сохранить %{model}"
+          other: "%{count} ошибки не позволили сохранить %{model}"
     models:
       attachment: "Файл"
       attribute_help_text: "Атрибут текста справки"
@@ -901,8 +921,22 @@ ru:
     header_invalid_fields: "Были проблемы со следующими полями:"
     field_erroneous_label: "Значение этого поля неверно: %{full_errors}. Пожалуйста, введите верное значение."
   activity:
-    created: "Создано: %{title}"
-    updated: "Обновлено: %{title}"
+    item:
+      created_by_on: "создано %{user} %{datetime}"
+      created_on: "создано %{datetime}"
+      updated_by_on: "обновлено %{user} %{datetime}"
+      updated_on: "обновлено %{datetime}"
+      parent_without_of: "Подпроект"
+      parent_no_longer: "Больше не подпроект"
+    filter:
+      changeset: "Наборы изменений"
+      message: "Форумы"
+      news: "Новости"
+      project_attribute: "Атрибуты проекта"
+      subproject: "Включить подпроекты"
+      time_entry: "Затраченное время"
+      wiki_edit: "Wiki"
+      work_package: "Пакеты работ"
   #common attributes of all models
   attributes:
     active: "Активно"
@@ -924,7 +958,7 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_hours: "Планируемое время ожидания"
+    derived_estimated_hours: "Полученное время ожидания"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
@@ -948,7 +982,7 @@ ru:
     project: "Проект"
     responsible: "Подотчетный"
     role: "Роль"
-    roles: "Роль"
+    roles: "Роли"
     start_date: "Дата начала"
     status: "Статус"
     subject: "Тема"
@@ -971,7 +1005,7 @@ ru:
     label_token_users: "Следующие пользователи имеют действительные маркеры резервного копирования"
     reset_token:
       action_create: Создать
-      action_reset: Сброс
+      action_reset: Сбросить
       heading_reset: "Сбросить маркер резервного копирования"
       heading_create: "Создать маркер резервного копирования"
       implications: >
@@ -1008,7 +1042,7 @@ ru:
   button_close: 'Закрыть'
   button_collapse_all: "Свернуть все"
   button_configure: "Настройка"
-  button_continue: "Далее"
+  button_continue: "Продолжить"
   button_copy: "Копировать"
   button_copy_and_follow: "Скопировать и продолжить"
   button_create: "Создать"
@@ -1038,6 +1072,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
+  button_apply_changes: "Применить изменения"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
   button_sort: "Сортировать"
@@ -1120,7 +1155,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%m/%d/%Y"
+      default: "%м/%д/%Г"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1173,9 +1208,9 @@ ru:
         other: "менее %{count} минуты"
       less_than_x_seconds:
         one: "меньше секунды"
-        few: "меньше чем за %{count} секунды"
-        many: "меньше чем за %{count} секунды"
-        other: "меньше чем за %{count} секунды"
+        few: "менее %{count} секунд"
+        many: "менее %{count} секунд"
+        other: "менее %{count} секунд"
       over_x_years:
         one: "более года"
         few: "более %{count} лет"
@@ -1194,12 +1229,12 @@ ru:
       x_months:
         one: "1 месяц"
         few: "%{count} месяца"
-        many: "%{count} месяца"
+        many: "%{count} месяцев"
         other: "%{count} месяца"
       x_seconds:
         one: "1 секунда"
         few: "%{count} секунды"
-        many: "%{count} секунды"
+        many: "%{count} секунд"
         other: "%{count} секунды"
     units:
       hour:
@@ -1292,7 +1327,7 @@ ru:
   description_toc_toggle: "Показать/скрыть оглавление"
   description_wiki_subpages_reassign: "Укажите новую родительскую страницу"
   #Text direction: Left-to-Right (ltr) or Right-to-Left (rtl)
-  direction: LTR
+  direction: Слева направо
   ee:
     upsale:
       form_configuration:
@@ -1357,16 +1392,20 @@ ru:
   error_external_authentication_failed: "Произошла ошибка во время внешней аутентификации. Пожалуйста, попробуйте еще раз."
   error_attribute_not_highlightable: "Атрибуты не выделяются: %{attributes}"
   events:
-    project: 'Проект отредактирован'
     changeset: 'Набор изменений отредактирован'
     message: Сообщение отредактировано
     news: Новости
+    project_attributes: 'Атрибуты проекта изменены'
+    projects: 'Проект отредактирован'
     reply: Отвечено
     time_entry: 'Время подключения отредактировано'
     wiki_page: 'Wiki-страница отредактирована'
     work_package_closed: 'Комплекс работ закрыт'
     work_package_edit: 'Пакет работ отредактирован'
     work_package_note: 'Добавлено примечание к пакету работ'
+    title:
+      project: "Проект: %{name}"
+      subproject: "Подпроект: %{name}"
   export:
     your_work_packages_export: "Экспорт ваших пакетов работ"
     succeeded: "Экспорт успешно завершен."
@@ -1392,7 +1431,6 @@ ru:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Русский"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "нет"
   general_text_yes: "Да"
@@ -1435,7 +1473,7 @@ ru:
   menus:
     admin:
       mail_notification: "Уведомления по электронной почте"
-      mails_and_notifications: "Письма и уведомления"
+      mails_and_notifications: "Электронные письма и уведомления"
       aggregation: 'Агрегация'
       api_and_webhooks: "API и вебхуки"
     quick_add:
@@ -1525,10 +1563,10 @@ ru:
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
   label_blog: "Блог"
-  label_forums_locked: "Заблокировано"
+  label_forums_locked: "Заблокирован"
   label_forum_new: "Новый форум"
   label_forum_plural: "Форумы"
-  label_forum_sticky: "Стикер"
+  label_forum_sticky: "Прикреплено"
   label_boolean: "Логическое значение"
   label_branch: "Ветка"
   label_browse: "Обзор"
@@ -1582,7 +1620,7 @@ ru:
   label_current_version: "Текущий этап"
   label_custom_field_add_no_type: "Добавьте это поле в тип комплекса работ"
   label_custom_field_new: "Новое настраиваемое поле"
-  label_custom_field_plural: "Настраиваемые поля"
+  label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
   label_database_version: "Версия PostgreSQL"
@@ -1778,9 +1816,13 @@ ru:
   label_not_contains: "не содержит"
   label_not_equals: "не"
   label_on: "на"
+  label_operator_all: "не пусто"
+  label_operator_none: "пусто"
+  label_operator_equals_or: "ИЛИ"
+  label_operator_equals_all: "И"
   label_open_menu: "Открыть меню"
   label_open_work_packages: "открыто"
-  label_open_work_packages_plural: "открыто"
+  label_open_work_packages_plural: "открыт"
   label_openproject_website: "OpenProject веб-сайт"
   label_optional_description: "Описание"
   label_options: "Параметры"
@@ -1819,6 +1861,8 @@ ru:
   label_product_version: "Версия продукта"
   label_professional_support: "Профессиональная поддержка"
   label_profile: "Профиль"
+  label_project_activity: "Деятельность"
+  label_project_attribute_plural: "Атрибуты проекта"
   label_project_count: "Общее количество проектов"
   label_project_copy_notifications: "Уведомлять по электронной почте по ходу копирования проекта"
   label_project_latest: "Последние проекты"
@@ -1874,13 +1918,13 @@ ru:
   label_roadmap_overdue: "%{value} запаздывание"
   label_role_and_permissions: "Роли и разрешения"
   label_role_new: "Новая роль"
-  label_role_plural: "Роль"
+  label_role_plural: "Роли"
   label_role_search: "Назначить роль для новых участников"
   label_scm: "SCM"
   label_search: "Поиск"
   label_send_information: "Отправить сведения об учетной записи"
   label_send_test_email: "Отправить тестовое сообщение"
-  label_setting_plural: "Параметры"
+  label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
   label_sort: "Сортировать"
@@ -1970,7 +2014,7 @@ ru:
   label_wiki_page_attachments: "Вложения вики-страницы"
   label_wiki_page_id: "ID Wiki-страницы"
   label_wiki_navigation: "Навигация по wiki"
-  label_wiki_page: "Wiki-страница"
+  label_wiki_page: "Wiki страница"
   label_wiki_page_plural: "Wiki-страницы"
   label_wiki_show_index_page_link: "Показать пункт подменю «Содержание»"
   label_wiki_show_menu_item: "Показать как меню в навигации по проекту"
@@ -2033,7 +2077,7 @@ ru:
       removed: 'Макроса больше не существует.'
     wiki_child_pages:
       errors:
-        page_not_found: "Не удается найти вики-страницу «%{name}»."
+        page_not_found: "Не удается найти WiKi-страницу «%{name}»."
     create_work_package_link:
       errors:
         no_project_context: 'Вызов макроса create_work_package_link из контекста за рамками проекта.'
@@ -2086,7 +2130,7 @@ ru:
   mail_body_backup_token_info: Предыдущий маркер больше не действителен.
   mail_body_backup_waiting_period: Новый маркер будет действителен через %{hours} часов.
   mail_body_backup_token_warning: Если это не так, войдите в OpenProject и сбросьте его снова немедленно.
-  mail_body_incoming_email_error: Не удалось обработать письмо, которое вы отправили в OpenProject.
+  mail_body_incoming_email_error: Электронное письмо, которое вы отправили в OpenProject, не может быть обработано.
   mail_body_incoming_email_error_in_reply_to: "%{received_at} %{from_email} написал"
   mail_body_incoming_email_error_logs: "Журналы"
   mail_body_lost_password: "Чтобы изменить пароль, щёлкните по следующей ссылке:"
@@ -2107,11 +2151,9 @@ ru:
   mail_subject_account_activation_request: "Запрос на активацию учетной записи %{value}"
   mail_subject_backup_ready: "Ваша резервная копия готова"
   mail_subject_backup_token_reset: "Сброс маркера резервного копирования"
-  mail_subject_incoming_email_error: "Письмо отправлено на OpenProject не может быть обработано"
+  mail_subject_incoming_email_error: "Электронное письмо, которое вы отправили в OpenProject, не может быть обработано."
   mail_subject_lost_password: "Ваш пароль %{value}"
   mail_subject_register: "Активация вашей учетной записи %{value}"
-  mail_subject_reminder: "%{count}  пакет(-ов) работ на  следующие %{days}"
-  mail_subject_group_reminder: "В группе \"%{group}\" есть комплексы работ (%{count}), срок выполнения которых истекает в следующие %{days} дн."
   mail_subject_wiki_content_added: "'%{id}' wiki-страница добавлена"
   mail_subject_wiki_content_updated: "'%{id}' wiki страница была обновлена"
   mail_member_added_project:
@@ -2246,6 +2288,7 @@ ru:
   permission_add_work_packages: "Добавление пакетов работ"
   permission_add_messages: "Написать сообщения"
   permission_add_project: "Создать проект"
+  permission_archive_project: "Архивировать проект"
   permission_manage_user: "Создание и редактирование пользователей"
   permission_manage_placeholder_user: "Создавать, редактировать и удалять пользователей-заполнителей"
   permission_add_subprojects: "Создать подпроект"
@@ -2681,12 +2724,13 @@ ru:
   text_work_packages_destroy_confirmation: "Вы уверены, что хотите удалить выбранные пакет(-ы) работ?"
   text_work_packages_ref_in_commit_messages: "Привязка и фиксация пакетов работ в сообщениях коммитов"
   text_journal_added: "%{label} %{value} добавлено"
-  text_journal_changed_html: "%{label} изменено с %{old} %{linebreak}<strong>на</strong> %{new}"
   text_journal_changed_plain: "%{label} изменено с %{old} %{linebreak}на %{new}"
   text_journal_changed_no_detail: "%{label} обновлено"
   text_journal_changed_with_diff: "%{label} изменена (%{link})"
   text_journal_deleted: "%{label} удалена (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} удалена (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} присвоено значение %{value}"
   text_journal_set_with_diff: "%{label} установлена (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2922,13 +2966,13 @@ ru:
     blocked_num_failed_logins:
       one: "временно заблокирован (одна неудачная попытка авторизации)"
       few: "временно заблокирован (%{count} неудачные попытки авторизации)"
-      many: "временно заблокирован (%{count} неудачные попытки авторизации)"
+      many: "временно заблокирован (%{count} неудачных попыток авторизации)"
       other: "временно заблокирован (%{count} неудачные попытки авторизации)"
     confirm_status_change: "Вы собираетесь изменить статус '%{name}'. Хотите продолжить?"
     deleted: "Удалённый пользователь"
     error_status_change_failed: "Изменение статуса пользователя не удалось из-за следующей ошибки: %{errors}"
     invite: Пригласить пользователя по электронной почте
-    invited: приглашено
+    invited: приглашен
     lock: "Заблокировать"
     locked: "Заблокирован"
     no_login: "Этот пользователь для входа использет логин и пароль. Т.к.  аутентификация по паролю отключена, войти он не может."
@@ -2982,20 +3026,25 @@ ru:
       title: "Удалить пакет работ"
   working_days:
     info: >
-      <b>Определить рабочие дни недели</b><br/> Нерабочие дни пропускаются при планировании пакетов работ и исключаются при расчете продолжительности. Это можно переопределить на уровне рабочих пакетов.
+      <b>Определить дни, которые считаются частью рабочей недели</b><br/> Невыбранные дни пропускаются при планировании пактов работ (и не включаются в подсчет дней). Они могут быть переопределены на уровне пакетов работ.
+    instance_wide_info: >
+      <b>Конкретные нерабочие дни (праздничные дни и выходные)</b><br/> Даты, добавленные в список ниже, считаются нерабочими и не участвуют в планировании пакетов работ.
     change_button: "Изменить рабочие дни"
     warning: >
-      Изменение дней недели, считающихся рабочими днями, может повлиять на начало и завершение всех пакетов работ во всех проектах в данной системе.
+      Изменение того, какие дни недели считаются рабочими или нерабочими, может повлиять на дни начала и окончания всех рабочих пакетов во всех проектах в данной системе. <br/> Пожалуйста, обратите внимание, что изменения вступят в силу после того, как вы нажмете на кнопку применить.
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:
-        working: "%{day} сейчас работает"
-        non_working: "%{day} теперь не работает"
+        working: "%{day} сейчас рабочий"
+        non_working: "%{day} теперь нерабочий"
+      dates:
+        working: "%{date} сейчас рабочий"
+        non_working: "%{day} теперь нерабочий"
   nothing_to_preview: "Нет ничего для предосмотра"
   api_v3:
     attributes:
       lock_version: "Блокировать этап"
-      property: 'Свойства'
+      property: 'Свойство'
     errors:
       code_400: "Неверный запрос: %{message}"
       code_401: "Вам нужно пройти проверку подлинности для доступа к этому ресурсу."
@@ -3009,7 +3058,7 @@ ru:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
         date: "ГГГГ-мм-дд (только для даты ISO 8601)"
-        datetime: "ГГГГ-ММ-Дтч:мм:сс[.lll][+чч:мм] (любой совместимый ISO 8601 datetime)"
+        datetime: "ГГГГ-ММ-Дтч:мм:сс[.lll][+чч:мм] (любой совместимый ISO 8601 формат времени)"
         duration: "ISO 8601 продолжительность"
       invalid_content_type: "Ожидаемый CONTENT-TYPE должен быть быть «%{content_type}», но получил «%{actual}»."
       invalid_format: "Недопустимый формат свойства «%{property}»: ожидаемый формат «%{expected_format}», но получил «%{actual}»."
@@ -3045,7 +3094,7 @@ ru:
       schema: 'Схема'
     undisclosed:
       parent: Неизвестные - выбранный родитель невидим из-за отсутствия разрешений.
-      ancestor: Неизвестные - предок невидим ввиду отсутствия разрешений.
+      ancestor: Неизвестный - выбранный родитель невидим из-за отсутствия разрешений.
   doorkeeper:
     pre_authorization:
       status: 'Предавторизация'
@@ -3057,7 +3106,7 @@ ru:
         invalid_request:
           unknown: 'В запросе нет обязательного параметра, значение параметра не поддерживается или не соответствует требованиям.'
           missing_param: 'Отсутствует обязательный параметр: %{value}.'
-          request_not_authorized: 'Запрос должен быть авторизован. Обязательный параметр для авторизации запроса отсутствует или недействителен.'
+          request_not_authorized: 'Запрос должен быть авторизован. Обязательный параметр для запроса авторизации отсутствует или недействителен.'
         invalid_redirect_uri: "Запрашиваемый редирект uri является неверным или не соответствует URI перенаправления клиента."
         unauthorized_client: 'Клиент не уполномочен выполнить этот запрос с помощью этого метода.'
         access_denied: 'Владелец ресурса или сервер авторизации отклонил запрос.'
@@ -3083,7 +3132,7 @@ ru:
         revoke:
           unauthorized: "Вы не авторизованы для отзыва этого токена."
         forbidden_token:
-          missing_scope: 'Доступ к этому ресурсу требует области "%{oauth_scopes}".'
+          missing_scope: 'Для доступа к этому ресурсу требуется область "%{oauth_scopes}".'
   unsupported_browser:
     title: "Ваш браузер устарел и не поддерживается."
     message: "На этой странице вы рискуете столкнуться с ошибками и обедненным опытом."

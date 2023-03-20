@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Status, type: :model do
+describe Projects::Status do
   let(:project) { create(:project) }
 
   let(:explanation) { 'some explanation' }
@@ -78,7 +78,7 @@ describe Projects::Status, type: :model do
     end
 
     it 'cannot be one already having a status' do
-      described_class.create! explanation: 'some other explanation', code: :off_track, project: project
+      described_class.create!(explanation: 'some other explanation', code: :off_track, project:)
 
       expect(instance)
         .to be_invalid

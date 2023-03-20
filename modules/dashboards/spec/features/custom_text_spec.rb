@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,10 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project description widget on dashboard', type: :feature, js: true do
-  let!(:type) { create :type_task, name: 'Task' }
+describe 'Project description widget on dashboard', js: true do
+  let!(:type) { create(:type_task, name: 'Task') }
   let!(:project) do
-    create :project, types: [type]
+    create(:project, types: [type])
   end
 
   let(:permissions) do
@@ -52,8 +52,8 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do
@@ -137,7 +137,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
 
       within custom_text_widget.area do
         expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
-        expect(page).to have_no_selector('notifications-upload-progress')
+        expect(page).not_to have_selector('notifications-upload-progress')
 
         field.save!
       end
@@ -149,7 +149,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_selector('#content img', count: 1)
 
         expect(page)
-          .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+          .not_to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
       end
     end
   end
@@ -175,7 +175,7 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
           .to have_content(dashboard.widgets.first.options[:text])
 
         expect(page)
-          .to have_no_selector('.inplace-editing--container')
+          .not_to have_selector('.inplace-editing--container')
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,8 +32,8 @@ describe BackupJob, type: :model do
   shared_examples "it creates a backup" do |opts = {}|
     let(:job) { BackupJob.new }
 
-    let(:previous_backup) { create :backup }
-    let(:backup) { create :backup }
+    let(:previous_backup) { create(:backup) }
+    let(:backup) { create(:backup) }
     let(:status) { :in_queue }
     let(:job_id) { 42 }
 
@@ -59,7 +59,7 @@ describe BackupJob, type: :model do
 
     let(:arguments) { [{ backup:, user:, **opts.except(:remote_storage) }] }
 
-    let(:user) { create :admin }
+    let(:user) { create(:admin) }
 
     before do
       previous_backup
@@ -123,8 +123,8 @@ describe BackupJob, type: :model do
     context "with a successful database dump" do
       let(:db_dump_success) { true }
 
-      let!(:attachment) { create :attachment }
-      let!(:pending_direct_upload) { create :pending_direct_upload }
+      let!(:attachment) { create(:attachment) }
+      let!(:pending_direct_upload) { create(:pending_direct_upload) }
       let(:stored_backup) { Attachment.where(container_type: "Export").last }
       let(:backup_files) { Zip::File.open(stored_backup.file.path) { |zip| zip.entries.map(&:name) } }
 

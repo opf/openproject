@@ -1,13 +1,11 @@
 require_relative '../spec_helper'
 
 describe 'Password change with OTP',
-         type: :feature,
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: {
              'active_strategies' => [:developer]
            }
-         },
-         js: true do
+         } do
   let(:user_password) { 'boB&' * 4 }
   let(:new_user_password) { '%obB' * 4 }
   let(:user) do
@@ -28,7 +26,7 @@ describe 'Password change with OTP',
 
     sms_token = nil
     # rubocop:disable RSpec/AnyInstance
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
       .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end
@@ -60,7 +58,7 @@ describe 'Password change with OTP',
     end
 
     context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
       it 'requires the password change after expired' do
         expect(user.current_password).not_to be_expired
@@ -108,7 +106,7 @@ describe 'Password change with OTP',
     end
 
     context 'when device present' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
       it 'requires the password change' do
         handle_password_change

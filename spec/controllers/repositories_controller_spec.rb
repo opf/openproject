@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe RepositoriesController, type: :controller do
+describe RepositoriesController do
   let(:project) do
     project = create(:project)
     allow(Project).to receive(:find).and_return(project)
@@ -328,7 +328,7 @@ describe RepositoriesController, type: :controller do
     describe '#show' do
       it 'redirects to login while preserving the path' do
         params = { repo_path: 'aDir/within/aDir', rev: '42', project_id: project.id }
-        get :show, params: params
+        get(:show, params:)
 
         expect(response)
           .to redirect_to signin_path(back_url: show_revisions_path_project_repository_url(params))

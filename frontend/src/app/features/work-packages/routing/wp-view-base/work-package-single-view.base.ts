@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import {
-  switchMap,
+  switchMap, take,
 } from 'rxjs/operators';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -61,11 +61,12 @@ import { FileLinksResourceService } from 'core-app/core/state/file-links/file-li
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   @InjectField() states:States;
 
-  @InjectField() I18n!:I18nService;
+  @InjectField() i18n:I18nService;
 
   @InjectField() keepTab:KeepTabService;
 
@@ -101,8 +102,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @InjectField() readonly storeService:WpSingleViewService;
 
-  public text:any = {};
-
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;
 
@@ -114,10 +113,11 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   public displayNotificationsButton$:Observable<boolean>;
 
-  constructor(public injector:Injector,
-    protected workPackageId:string) {
+  constructor(
+    public injector:Injector,
+    protected workPackageId:string,
+  ) {
     super();
-    this.initializeTexts();
   }
 
   /**
@@ -146,16 +146,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
   }
 
   /**
-   * Provide static translations
-   */
-  protected initializeTexts():void {
-    this.text.tabs = {};
-    ['overview', 'activity', 'relations', 'watchers'].forEach((tab) => {
-      this.text.tabs[tab] = this.I18n.t(`js.work_packages.tabs.${tab}`);
-    });
-  }
-
-  /**
    * Initialize controller after workPackage resource has been loaded.
    */
   protected init():void {
@@ -174,9 +164,12 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // the work package resource from split view.
     this.projectsResourceService
       .update((this.workPackage.$links.project as HalResource).href as string)
-      .subscribe(() => {}, (error) => {
-        this.toastService.addError(error);
-      });
+      .subscribe(
+        () => {},
+        (error:HttpErrorResponse) => {
+          this.toastService.addError(error);
+        },
+      );
 
     this.displayNotificationsButton$ = this.storeService.hasNotifications$;
     this.storeService.setFilters(this.workPackage.id as string);
@@ -200,16 +193,16 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
         .pipe(
           this.untilDestroyed(),
           switchMap(() => this.projectsResourceService.lookup((this.workPackage.project as unknown&{ id:string }).id)),
+          take(1),
         )
         .subscribe(
           (project) => {
             if (project._links.storages) {
-              this.storages.updateCollection(project._links.self.href, project._links.storages);
+              this.storages.updateCollection(project._links.self.href, project._links.storages).subscribe();
             }
           },
-          (error) => {
+          (error:HttpErrorResponse) => {
             this.toastService.addError(error);
-            throw error;
           },
         );
     }
@@ -230,8 +223,8 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Recompute the current tab focus label
    */
   public updateFocusAnchorLabel(tabName:string):string {
-    this.focusAnchorLabel = this.I18n.t('js.label_work_package_details_you_are_here', {
-      tab: this.I18n.t(`js.work_packages.tabs.${tabName}`),
+    this.focusAnchorLabel = this.i18n.t('js.label_work_package_details_you_are_here', {
+      tab: this.i18n.t(`js.work_packages.tabs.${tabName}`),
       type: this.workPackage.type.name,
       subject: this.workPackage.subject,
     });

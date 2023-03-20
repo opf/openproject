@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,9 +31,9 @@ require 'spec_helper'
 describe Groups::UpdateRolesService, 'integration', type: :model do
   subject(:service_call) { instance.call(member:, message:, send_notifications:) }
 
-  let(:project) { create :project }
-  let(:role) { create :role }
-  let(:current_user) { create :admin }
+  let(:project) { create(:project) }
+  let(:role) { create(:role) }
+  let(:current_user) { create(:admin) }
   let(:roles) { [role] }
 
   let!(:group) do
@@ -44,12 +44,12 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
              principal: group,
              roles:)
 
-      ::Groups::CreateInheritedRolesService
+      Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
         .call(user_ids: users.map(&:id), send_notifications: false)
     end
   end
-  let(:users) { create_list :user, 2 }
+  let(:users) { create_list(:user, 2) }
   let(:member) { Member.find_by(principal: group) }
   let(:message) { "Some message" }
   let(:send_notifications) { true }
@@ -132,7 +132,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
   end
 
   context 'with global membership' do
-    let(:role) { create :global_role }
+    let(:role) { create(:global_role) }
     let!(:group) do
       create(:group,
              members: users).tap do |group|
@@ -140,7 +140,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles:)
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id))
       end
@@ -429,7 +429,7 @@ describe Groups::UpdateRolesService, 'integration', type: :model do
                principal: group,
                roles: [other_role])
 
-        ::Groups::CreateInheritedRolesService
+        Groups::CreateInheritedRolesService
           .new(group, current_user: User.system, contract_class: EmptyContract)
           .call(user_ids: users.map(&:id), send_notifications: false)
       end

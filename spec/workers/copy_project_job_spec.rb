@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -119,7 +119,7 @@ describe CopyProjectJob, type: :model do
       project = create(:project)
 
       # add invalid repo
-      repository = Repository::Git.new scm_type: :existing, project: project
+      repository = Repository::Git.new(scm_type: :existing, project:)
       repository.save!(validate: false)
       project.reload
       project

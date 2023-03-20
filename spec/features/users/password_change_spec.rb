@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,14 @@
 require 'spec_helper'
 
 describe 'random password generation',
-         with_config: { session_store: :active_record_store },
-         type: :feature,
-         js: true do
-  shared_let(:admin) { create :admin }
+         js: true, with_config: { session_store: :active_record_store } do
+  shared_let(:admin) { create(:admin) }
 
-  let(:auth_source) { build :dummy_auth_source }
+  let(:auth_source) { build(:dummy_auth_source) }
   let(:old_password) { 'old_Password!123' }
   let(:new_password) { 'new_Password!123' }
-  let(:user) { create :user, password: old_password, password_confirmation: old_password }
-  let(:user_page) { ::Pages::Admin::Users::Edit.new(user.id) }
+  let(:user) { create(:user, password: old_password, password_confirmation: old_password) }
+  let(:user_page) { Pages::Admin::Users::Edit.new(user.id) }
 
   describe 'as admin user' do
     before do
@@ -88,16 +86,16 @@ describe 'random password generation',
       fill_in 'new_password_confirmation', with: new_password
 
       # Expect other sessions to be deleted
-      session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
+      session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
       session.save
 
-      expect(::Sessions::UserSession.for_user(user.id).count).to be >= 1
+      expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
       expect(page).to have_selector('.flash.info', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
-      expect(::Sessions::UserSession.find_by(session_id: 'other')).to be_nil
+      expect(Sessions::UserSession.find_by(session_id: 'other')).to be_nil
 
       # Logout and sign in with outdated password
       visit signout_path
@@ -132,10 +130,10 @@ describe 'random password generation',
       find('.form--check-box[value=special]').set true
 
       # Set min length to 4
-      find('#settings_password_min_length').set 4
+      find_by_id('settings_password_min_length').set 4
 
       # Set min classes to 3
-      find('#settings_password_min_adhered_rules').set 3
+      find_by_id('settings_password_min_adhered_rules').set 3
 
       scroll_to_and_click(find('.button', text: 'Save'))
       expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
@@ -173,7 +171,7 @@ describe 'random password generation',
   end
 
   context 'as a user on his my page' do
-    let(:user_page) { ::Pages::My::PasswordPage.new }
+    let(:user_page) { Pages::My::PasswordPage.new }
     let(:third_password) { 'third_Password!123' }
 
     before do
@@ -182,12 +180,11 @@ describe 'random password generation',
     end
 
     context 'with 2 of lowercase, uppercase, and numeric characters',
-            with_settings: {
+            js: true, with_settings: {
               password_active_rules: %w(lowercase uppercase numeric),
               password_min_adhered_rules: 2,
               password_min_length: 4
-            },
-            js: true do
+            } do
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

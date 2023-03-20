@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe MenuItem, type: :model do
+describe MenuItem do
   describe 'validations' do
-    let(:item) { build :menu_item }
+    let(:item) { build(:menu_item) }
 
     it 'requires a title' do
       item.title = nil
@@ -45,9 +45,9 @@ describe MenuItem, type: :model do
     end
 
     describe 'scoped uniqueness of title' do
-      let!(:item) { create :menu_item }
-      let(:another_item) { build :menu_item, title: item.title }
-      let(:wiki_menu_item) { build :wiki_menu_item, title: item.title }
+      let!(:item) { create(:menu_item) }
+      let(:another_item) { build(:menu_item, title: item.title) }
+      let(:wiki_menu_item) { build(:wiki_menu_item, title: item.title) }
 
       it 'does not allow for duplicate titles' do
         expect(another_item).not_to be_valid

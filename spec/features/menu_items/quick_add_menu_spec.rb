@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe 'Quick-add menu', js: true, selenium: true do
-  let(:quick_add) { ::Components::QuickAddMenu.new }
+  let(:quick_add) { Components::QuickAddMenu.new }
 
   context 'as a logged in user with add_project permission' do
-    current_user { create :user, global_permission: %i[add_project] }
+    current_user { create(:user, global_permission: %i[add_project]) }
 
     it 'shows the add project option' do
       visit home_path
@@ -48,13 +48,13 @@ describe 'Quick-add menu', js: true, selenium: true do
     end
 
     context 'with an existing project' do
-      let(:project) { create :project }
-      let(:field) { ::FormFields::SelectFormField.new :parent }
+      let(:project) { create(:project) }
+      let(:field) { FormFields::SelectFormField.new :parent }
 
       current_user do
-        create :user,
+        create(:user,
                member_in_project: project,
-               member_with_permissions: %i[add_subprojects]
+               member_with_permissions: %i[add_subprojects])
       end
 
       it 'moves to a form with parent_id set' do
@@ -73,13 +73,13 @@ describe 'Quick-add menu', js: true, selenium: true do
   end
 
   context 'with current user as member with permission :manage_members in one project' do
-    let!(:project) { create :project }
-    let(:invite_modal) { ::Components::Users::InviteUserModal.new project:, role: nil, principal: nil }
+    let!(:project) { create(:project) }
+    let(:invite_modal) { Components::Users::InviteUserModal.new project:, role: nil, principal: nil }
 
     current_user do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_with_permissions: %i[manage_members]
+             member_with_permissions: %i[manage_members])
     end
 
     it 'shows the user invite screen' do
@@ -97,28 +97,28 @@ describe 'Quick-add menu', js: true, selenium: true do
   end
 
   context 'with a project with one of three work package types' do
-    let!(:type_bug) { create :type_bug }
-    let!(:other_type) { create :type_task }
-    let!(:other_project_type) { create :type }
+    let!(:type_bug) { create(:type_bug) }
+    let!(:other_type) { create(:type_task) }
+    let!(:other_project_type) { create(:type) }
     let!(:add_role) { create(:role, permissions: %i[add_work_packages]) }
     let!(:read_role) { create(:role, permissions: %i[view_work_packages]) }
     let!(:project_with_permission) do
-      create :project,
+      create(:project,
              types: [type_bug],
-             members: { current_user => add_role }
+             members: { current_user => add_role })
     end
     let!(:other_project_with_permission) do
-      create :project,
+      create(:project,
              types: [other_project_type],
-             members: { current_user => add_role }
+             members: { current_user => add_role })
     end
     let!(:project_without_permission) do
-      create :project,
+      create(:project,
              types: [other_type],
-             members: { current_user => read_role }
+             members: { current_user => read_role })
     end
 
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'shows only the project types within a project and only those types in projects the user can add work packages in' do
       visit project_path(project_with_permission)
@@ -153,7 +153,7 @@ describe 'Quick-add menu', js: true, selenium: true do
   end
 
   context 'as a logged in user with no permissions' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'does not show the quick add menu on the home screen' do
       visit home_path
@@ -164,7 +164,7 @@ describe 'Quick-add menu', js: true, selenium: true do
   context 'as an anonymous user', with_settings: { login_required: true } do
     current_user do
       create(:anonymous_role, permissions: %i[add_work_packages])
-      create :anonymous
+      create(:anonymous)
     end
 
     it 'does not show the quick add menu on the home screen' do

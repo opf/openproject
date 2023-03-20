@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-describe 'project export', type: :feature, js: true do
-  shared_let(:important_project) { create :project, name: 'Important schedule plan' }
-  shared_let(:party_project) { create :project, name: 'Christmas party' }
+describe 'project export', js: true do
+  shared_let(:important_project) { create(:project, name: 'Important schedule plan') }
+  shared_let(:party_project) { create(:project, name: 'Christmas party') }
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_projects: [important_project, party_project],
-           member_with_permissions: %w[view_project edit_project view_work_packages]
+           member_with_permissions: %w[view_project edit_project view_work_packages])
   end
 
-  let(:index_page) { ::Pages::Projects::Index.new }
+  let(:index_page) { Pages::Projects::Index.new }
 
   let(:current_user) { user }
 
@@ -100,7 +100,7 @@ describe 'project export', type: :feature, js: true do
 
         click_on 'Apply'
         expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        expect(page).not_to have_text(party_project.name)
 
         export!
 

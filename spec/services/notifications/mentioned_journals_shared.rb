@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 
 shared_context 'with a mentioned work package being updated again' do
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
   let(:work_package) do
     create(:work_package, project:).tap do |wp|
@@ -39,11 +39,11 @@ shared_context 'with a mentioned work package being updated again' do
   end
 
   let(:role) do
-    create :role, permissions: %w[view_work_packages edit_work_packages]
+    create(:role, permissions: %w[view_work_packages edit_work_packages])
   end
 
   let(:recipient) do
-    create :user,
+    create(:user,
            preferences: {
              immediate_reminders: {
                mentioned: true
@@ -56,12 +56,12 @@ shared_context 'with a mentioned work package being updated again' do
                    responsible: true)
            ],
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:actor) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let(:comment) do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner create new work package', type: :feature, js: true do
+describe 'Team planner create new work package', js: true do
   include_context 'with team planner full access'
 
-  let(:type_task) { create :type_task }
-  let!(:status) { create :default_status }
-  let!(:priority) { create :default_priority }
+  let(:type_task) { create(:type_task) }
+  let!(:status) { create(:default_status) }
+  let!(:priority) { create(:default_priority) }
 
   before do
     with_enterprise_token(:team_planner_view)
@@ -90,7 +90,7 @@ describe 'Team planner create new work package', type: :feature, js: true do
 
   context 'with multiple users added' do
     let!(:other_user) do
-      create :user,
+      create(:user,
              firstname: 'Other',
              lastname: 'User',
              member_in_project: project,
@@ -99,11 +99,11 @@ describe 'Team planner create new work package', type: :feature, js: true do
                view_team_planner manage_team_planner
                save_queries manage_public_queries
                work_package_assigned
-             ]
+             ])
     end
 
     let!(:third_user) do
-      create :user,
+      create(:user,
              firstname: 'Other',
              lastname: 'User',
              member_in_project: project,
@@ -112,7 +112,7 @@ describe 'Team planner create new work package', type: :feature, js: true do
                view_team_planner manage_team_planner
                save_queries manage_public_queries
                work_package_assigned
-             ]
+             ])
     end
 
     before do

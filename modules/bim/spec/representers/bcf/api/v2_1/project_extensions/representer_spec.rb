@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 require_relative '../shared_examples'
 
 describe Bim::Bcf::API::V2_1::ProjectExtensions::Representer, 'rendering' do
-  let(:type_task) { build_stubbed :type_task, name: 'My BCF type' }
+  let(:type_task) { build_stubbed(:type_task, name: 'My BCF type') }
   let(:status) { build_stubbed(:status) }
   let(:user) { build_stubbed(:user) }
   let(:project) do

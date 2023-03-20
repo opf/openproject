@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe MembersController, type: :controller do
-  shared_let(:admin) { create :admin }
+describe MembersController do
+  shared_let(:admin) { create(:admin) }
   let(:user) { create(:user) }
   let(:project) { create(:project, identifier: 'pet_project') }
   let(:role) { create(:role) }
@@ -44,7 +44,7 @@ describe MembersController, type: :controller do
   end
 
   describe 'create' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
 
     before do
@@ -75,7 +75,7 @@ describe MembersController, type: :controller do
   end
 
   describe 'update' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
     let(:role_1) { create(:role) }
     let(:role_2) { create(:role) }
@@ -122,14 +122,14 @@ describe MembersController, type: :controller do
       end
 
       it 'is success' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response).to be_successful
       end
     end
 
     describe 'WHEN the user is not authorized' do
       it 'is forbidden' do
-        post :autocomplete_for_member, xhr: true, params: params
+        post(:autocomplete_for_member, xhr: true, params:)
         expect(response.response_code).to eq(403)
       end
     end

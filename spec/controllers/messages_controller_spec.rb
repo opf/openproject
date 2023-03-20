@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MessagesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe MessagesController, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) { create(:user) }
   let(:project) { create(:project) }
   let(:role) { create(:role) }
@@ -52,7 +52,7 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
     context 'public project' do
       let(:user) { User.anonymous }
       let(:project) { create(:public_project) }
-      let!(:message) { create :message, forum: }
+      let!(:message) { create(:message, forum:) }
 
       it 'renders the show template' do
         get :show, params: { project_id: project.id, id: message.id }
@@ -67,8 +67,8 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   end
 
   describe '#update' do
-    let(:message) { create :message, forum: }
-    let(:other_forum) { create :forum, project: }
+    let(:message) { create(:message, forum:) }
+    let(:other_forum) { create(:forum, project:) }
 
     before do
       role.add_permission!(:edit_messages) and user.reload
@@ -97,7 +97,7 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
 
         context 'journal' do
           before do
-            put :update, params: params
+            put(:update, params:)
 
             message.reload
           end
@@ -156,7 +156,7 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
   end
 
   describe 'quote' do
-    let(:message) { create :message, content: 'foo', subject: 'subject', forum: }
+    let(:message) { create(:message, content: 'foo', subject: 'subject', forum:) }
 
     context 'when allowed' do
       let(:user) { create(:admin) }
@@ -170,6 +170,15 @@ describe MessagesController, type: :controller, with_settings: { journal_aggrega
 
         expect(response).to be_successful
         expect(response.body).to eq '{"subject":"RE: subject","content":" wrote:\n\u003e foo\n\n"}'
+      end
+
+      it 'escapes HTML in quoted message author' do
+        user.update!(firstname: 'Hello', lastname: '<b>world</b>')
+        message.update!(author: user)
+        get :quote, params: { forum_id: forum.id, id: message.id }, format: :json
+
+        expect(response).to be_successful
+        expect(response.parsed_body["content"]).to eq "Hello &lt;b&gt;world&lt;/b&gt; wrote:\n> foo\n\n"
       end
     end
   end

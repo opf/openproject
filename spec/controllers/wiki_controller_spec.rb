@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe WikiController, type: :controller do
-  shared_let(:admin) { create :admin }
+describe WikiController do
+  shared_let(:admin) { create(:admin) }
 
   shared_let(:project) do
     create(:project).tap(&:reload)
@@ -84,7 +84,7 @@ describe WikiController, type: :controller do
         get_page
 
         expect(assigns[:page]).to be_new_record
-        expect(assigns[:page]).to be_kind_of WikiPage
+        expect(assigns[:page]).to be_a WikiPage
         expect(assigns[:page].wiki).to eq(project.wiki)
       end
 
@@ -92,7 +92,7 @@ describe WikiController, type: :controller do
         get_page
 
         expect(assigns[:content]).to be_new_record
-        expect(assigns[:content]).to be_kind_of WikiContent
+        expect(assigns[:content]).to be_a WikiContent
         expect(assigns[:content].page).to eq(assigns[:page])
       end
 
@@ -494,7 +494,7 @@ describe WikiController, type: :controller do
       end
 
       subject do
-        delete :destroy, params: params
+        delete(:destroy, params:)
 
         response
       end

@@ -12,7 +12,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
   let(:auth_source) do
-    create :ldap_auth_source,
+    create(:ldap_auth_source,
            port: ParallelHelper.port_for_ldap.to_s,
            account: 'uid=admin,ou=system',
            account_password: 'secret',
@@ -22,33 +22,33 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
            attr_login: 'uid',
            attr_firstname: 'givenName',
            attr_lastname: 'sn',
-           attr_mail: 'mail'
+           attr_mail: 'mail')
   end
 
   let(:onthefly_register) { false }
   let(:sync_users) { false }
   let(:ldap_filter) { nil }
 
-  let(:user_aa729) { create :user, login: 'aa729', auth_source: }
-  let(:user_bb459) { create :user, login: 'bb459', auth_source: }
-  let(:user_cc414) { create :user, login: 'cc414', auth_source: }
+  let(:user_aa729) { create(:user, login: 'aa729', auth_source:) }
+  let(:user_bb459) { create(:user, login: 'bb459', auth_source:) }
+  let(:user_cc414) { create(:user, login: 'cc414', auth_source:) }
 
-  let(:group_foo) { create :group, lastname: 'foo_internal' }
-  let(:group_bar) { create :group, lastname: 'bar' }
+  let(:group_foo) { create(:group, lastname: 'foo_internal') }
+  let(:group_bar) { create(:group, lastname: 'bar') }
 
   let(:synced_foo) do
-    create :ldap_synchronized_group,
+    create(:ldap_synchronized_group,
            dn: 'cn=foo,ou=groups,dc=example,dc=com',
            group: group_foo,
            sync_users:,
-           auth_source:
+           auth_source:)
   end
   let(:synced_bar) do
-    create :ldap_synchronized_group,
+    create(:ldap_synchronized_group,
            dn: 'cn=bar,ou=groups,dc=example,dc=com',
            group: group_bar,
            sync_users:,
-           auth_source:
+           auth_source:)
   end
 
   subject do
@@ -132,17 +132,17 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
           it 'removes all memberships after removing synced group' do
             synced_foo_id = synced_foo.id
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
             synced_foo.destroy
 
             expect { group_foo.reload }.not_to raise_error
 
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end
 
           it 'removes all memberships and groups after removing auth source' do
             expect { auth_source.destroy! }
-              .to change { ::LdapGroups::Membership.count }.from(4).to(0)
+              .to change { LdapGroups::Membership.count }.from(4).to(0)
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect { synced_bar.reload }.to raise_error ActiveRecord::RecordNotFound
@@ -150,14 +150,14 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
           it 'removes all memberships and groups after removing actual group' do
             synced_foo_id = synced_foo.id
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id).count).to eq(1)
             group_foo.destroy
 
             expect { synced_foo.reload }.to raise_error ActiveRecord::RecordNotFound
             expect(group_bar.users)
               .to match_array([user_aa729.reload, user_bb459.reload, user_cc414.reload])
 
-            expect(::LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
+            expect(LdapGroups::Membership.where(group_id: synced_foo_id)).to be_empty
           end
         end
       end
@@ -277,7 +277,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
     end
 
     context 'foo group exists' do
-      let(:group_foo) { create :group, lastname: 'foo_internal', members: user_aa729 }
+      let(:group_foo) { create(:group, lastname: 'foo_internal', members: user_aa729) }
 
       before do
         group_foo
@@ -302,9 +302,9 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   describe 'removing memberships' do
     context 'with a user in a group thats not in ldap' do
-      let(:group_foo) { create :group, lastname: 'foo_internal', members: [user_cc414, user_aa729] }
-      let(:manager) { create :role, name: 'Manager' }
-      let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] } }
+      let(:group_foo) { create(:group, lastname: 'foo_internal', members: [user_cc414, user_aa729]) }
+      let(:manager) { create(:role, name: 'Manager') }
+      let(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: { group_foo => [manager] }) }
 
       before do
         project
@@ -332,7 +332,7 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
   end
 
   context 'with invalid connection' do
-    let(:auth_source) { create :ldap_auth_source }
+    let(:auth_source) { create(:ldap_auth_source) }
 
     before do
       synced_foo
@@ -350,12 +350,12 @@ describe LdapGroups::SynchronizeGroupsService, with_ee: %i[ldap_groups] do
 
   context 'with invalid base' do
     let(:synced_foo) do
-      create :ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
-                                       auth_source:
+      create(:ldap_synchronized_group, dn: 'cn=foo,ou=invalid,dc=example,dc=com', group: group_foo,
+                                       auth_source:)
     end
     let(:synced_bar) do
-      create :ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
-                                       auth_source:
+      create(:ldap_synchronized_group, dn: 'cn=bar,ou=invalid,dc=example,dc=com', group: group_bar,
+                                       auth_source:)
     end
 
     context 'when one synced group exists' do

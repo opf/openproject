@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,11 @@
 require 'spec_helper'
 require_relative './delete_resource_examples'
 
-describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-         'delete',
-         type: :request do
+describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
+         'delete' do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create :placeholder_user, name: 'foo' }
+  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -50,31 +49,31 @@ describe ::API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   end
 
   context 'when admin' do
-    let(:user) { build_stubbed :admin }
+    let(:user) { build_stubbed(:admin) }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when locked admin' do
-    let(:user) { build_stubbed :admin, status: Principal.statuses[:locked] }
+    let(:user) { build_stubbed(:admin, status: Principal.statuses[:locked]) }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when non-admin' do
-    let(:user) { build_stubbed :user, admin: false }
+    let(:user) { build_stubbed(:user, admin: false) }
 
     it_behaves_like 'deletion is not allowed'
   end
 
   context 'when user with manage_user permission' do
-    let(:user) { create :user, global_permission: %[manage_placeholder_user] }
+    let(:user) { create(:user, global_permission: %[manage_placeholder_user]) }
 
     it_behaves_like 'deletion allowed'
   end
 
   context 'when anonymous user' do
-    let(:user) { create :anonymous }
+    let(:user) { create(:anonymous) }
 
     it_behaves_like 'deletion is not allowed'
   end

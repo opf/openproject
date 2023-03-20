@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,12 +30,11 @@ module RequiresAdminGuard
   extend ActiveSupport::Concern
 
   included do
-    validate { validate_admin_only(user, errors) }
+    validate :validate_admin_only
   end
 
-  module_function
-
-  def validate_admin_only(user, errors)
+  # Adds an error if user is archived or not an admin.
+  def validate_admin_only
     unless user.admin? && user.active?
       errors.add :base, :error_unauthorized
     end

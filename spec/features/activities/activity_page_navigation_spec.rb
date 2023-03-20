@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe 'Activity page navigation' do
     expect(page)
       .to have_link(text: /#{subproject_older_work_package.subject}/)
 
-    uncheck 'Subprojects'
+    uncheck 'Include subprojects'
     click_button 'Apply'
 
     # Still on the same page. Filters applied. subproject work package created
@@ -80,9 +80,9 @@ describe 'Activity page navigation' do
       aggregate_failures do
         # Subprojects is initially checked or not depending on a setting
         if Setting.display_subprojects_work_packages?
-          expect(page).to have_checked_field('Subprojects')
+          expect(page).to have_checked_field('Include subprojects')
         else
-          expect(page).to have_unchecked_field('Subprojects')
+          expect(page).to have_unchecked_field('Include subprojects')
         end
 
         # work packages for both projects are visible
@@ -92,11 +92,11 @@ describe 'Activity page navigation' do
           .to have_link(text: /#{subproject_work_package.subject}/)
       end
 
-      uncheck 'Subprojects'
+      uncheck 'Include subprojects'
       click_button 'Apply'
 
       aggregate_failures do
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
         # work packages for subproject is not visible anymore
@@ -108,7 +108,7 @@ describe 'Activity page navigation' do
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_older_work_package.subject}/)
 
@@ -121,7 +121,7 @@ describe 'Activity page navigation' do
 
       aggregate_failures do
         # Subprojects should still be unchecked, bug #45348
-        expect(page).to have_unchecked_field('Subprojects')
+        expect(page).to have_unchecked_field('Include subprojects')
         expect(page)
           .to have_link(text: /#{project_work_package.subject}/)
 
@@ -138,5 +138,42 @@ describe 'Activity page navigation' do
 
   context 'with subprojects NOT included by default', with_setting: { display_subprojects_work_packages: false } do
     include_examples 'subprojects checkbox state is preserved'
+  end
+
+  context 'when navigating to a diff' do
+    before do
+      project_work_package.update(description: 'New work package description')
+    end
+
+    def assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+      visit(activity_page)
+      activity_page_url = page.current_url
+
+      expect(page).to have_link(text: 'Details')
+      expect(page.text).to include("Description changed (Details)")
+      click_link('Details')
+
+      # on diff page, click the back button
+      expect(page).to have_link(text: 'Back')
+      click_link('Back')
+
+      expect(page.current_url).to eq(activity_page_url)
+    end
+
+    it 'Back button navigates to the previously seen activity page' do
+      [
+        activities_path,
+        project_activities_path(project),
+        user_path(user)
+      ].each do |activity_page|
+        assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+      end
+    end
+
+    # work package activity page is rendered by Angular, so it needs js: true
+    it 'Back button navigates to the previously seen work package page', js: true do
+      activity_page = work_package_path(project_work_package)
+      assert_navigating_to_diff_page_and_back_comes_back_to_the_same_page(activity_page)
+    end
   end
 end

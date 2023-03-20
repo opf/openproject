@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -128,8 +128,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   context 'with a closed action' do
     let(:action) { 'closed' }
     let(:comment) do
-      "**PR Closed:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-        " has been closed by [test_user](github.com/test_user).\n"
+      "**PR Closed:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo) " \
+        "has been closed by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -140,8 +140,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'closed' }
     let(:pr_merged) { true }
     let(:comment) do
-      "**PR Merged:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-        " has been merged by [test_user](github.com/test_user).\n"
+      "**PR Merged:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo) " \
+        "has been merged by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -171,8 +171,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   context 'with an edited action' do
     let(:action) { 'edited' }
     let(:comment) do
-      "**Referenced in PR:** [test_user](github.com/test_user) referenced this work package" \
-        " in Pull request 1 [A PR title](http://pr.url) on [test_user/repo](github.com/test_user/repo).\n"
+      "**Referenced in PR:** [test_user](github.com/test_user) referenced this work package " \
+        "in Pull request 1 [A PR title](http://pr.url) on [test_user/repo](github.com/test_user/repo).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -241,8 +241,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   context 'with an opened action' do
     let(:action) { 'opened' }
     let(:comment) do
-      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-        " has been opened by [test_user](github.com/test_user).\n"
+      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo) " \
+        "has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -253,8 +253,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
     let(:action) { 'opened' }
     let(:pr_draft) { true }
     let(:comment) do
-      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-        " has been opened by [test_user](github.com/test_user).\n"
+      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo) " \
+        "has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -264,8 +264,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   context 'with a ready_for_review action' do
     let(:action) { 'ready_for_review' }
     let(:comment) do
-      "**PR Ready for Review:** Pull request 1 [A PR title](http://pr.url)" \
-        " for [test_user/repo](github.com/test_user/repo) was marked as ready for review by [test_user](github.com/test_user).\n"
+      "**PR Ready for Review:** Pull request 1 [A PR title](http://pr.url) " \
+        "for [test_user/repo](github.com/test_user/repo) was marked as ready for review by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'
@@ -275,8 +275,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::PullRequest do
   context 'with a reopened action' do
     let(:action) { 'reopened' }
     let(:comment) do
-      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo)" \
-        " has been opened by [test_user](github.com/test_user).\n"
+      "**PR Opened:** Pull request 1 [A PR title](http://pr.url) for [test_user/repo](github.com/test_user/repo) " \
+        "has been opened by [test_user](github.com/test_user).\n"
     end
 
     it_behaves_like 'adding a comment'

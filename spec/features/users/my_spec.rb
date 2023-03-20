@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@
 require 'spec_helper'
 
 describe 'my',
-         type: :feature,
-         with_config: { session_store: :active_record_store },
-         js: true do
+         js: true, with_config: { session_store: :active_record_store } do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,
@@ -48,7 +46,7 @@ describe 'my',
     expect(page).to have_content I18n.t(:notice_account_other_session_expired)
 
     # expect session to be removed
-    expect(::Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 0
+    expect(Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 0
 
     user.reload
     expect(user.mail).to eq 'foo@mail.com'
@@ -59,15 +57,15 @@ describe 'my',
     login_as(user)
 
     # Create dangling session
-    session = ::Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
+    session = Sessions::SqlBypass.new data: { user_id: user.id }, session_id: 'other'
     session.save
 
-    expect(::Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 1
+    expect(Sessions::UserSession.for_user(user).where(session_id: 'other').count).to eq 1
   end
 
   context 'user' do
     describe '#account' do
-      let(:dialog) { ::Components::PasswordConfirmationDialog.new }
+      let(:dialog) { Components::PasswordConfirmationDialog.new }
 
       before do
         visit my_account_path
@@ -100,7 +98,7 @@ describe 'my',
         end
 
         context 'as admin' do
-          shared_let(:admin) { create :admin }
+          shared_let(:admin) { create(:admin) }
           let(:user) { admin }
 
           it 'requires the password' do

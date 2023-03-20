@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Multi-value custom fields creation', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+describe 'Multi-value custom fields creation', js: true do
+  shared_let(:admin) { create(:admin) }
 
   before do
     login_as(admin)
@@ -48,13 +48,13 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     # Add new row
-    find('#add-custom-option').click
+    find_by_id('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
-    find('#add-custom-option').click
+    find_by_id('add-custom-option').click
     SeleniumHubWaiter.wait
     expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'

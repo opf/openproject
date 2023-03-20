@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,16 @@
 require_relative '../spec_helper'
 
 describe 'model viewer',
-         with_config: { edition: 'bim' },
-         type: :feature,
-         js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+         js: true, with_config: { edition: 'bim' } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
   let(:role) { create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages]) }
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let!(:model) do
@@ -50,8 +48,8 @@ describe 'model viewer',
   end
 
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
+  let(:model_tree) { Components::XeokitModelTree.new }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
 
   context 'with all permissions' do
     describe 'showing a model' do
@@ -105,9 +103,9 @@ describe 'model viewer',
   context 'with only viewing permissions' do
     let(:view_role) { create(:role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: view_role
+             member_through_role: view_role)
     end
 
     before do
@@ -127,9 +125,9 @@ describe 'model viewer',
   context 'without any permissions' do
     let(:no_permissions_role) { create(:role, permissions: %i[]) }
     let(:user_without_permissions) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: no_permissions_role
+             member_through_role: no_permissions_role)
     end
 
     before do

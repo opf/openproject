@@ -64,8 +64,8 @@ describe "Notification center sidemenu",
     [notification, notification2, notification3, notification4, notification5]
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:side_menu) { Components::Notifications::Sidemenu.new }
 
   before do
     notifications
@@ -127,7 +127,7 @@ describe "Notification center sidemenu",
     # Empty filter sets have a separate message
     side_menu.click_item 'Watcher'
     side_menu.finished_loading
-    expect(page).to have_text "Looks like you're all caught up for Watcher filter"
+    expect(page).to have_text "Looks like you are all caught up for Watcher filter"
 
     # Marking all as read
     side_menu.click_item 'Inbox'

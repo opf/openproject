@@ -26,5 +26,5 @@
 
 # Not that at the time of writing, the usually used UpdateContract does not exist.
 # Currently, this is only used internally, without user input, so it is safe to hand the EmptyContract in.
-class Notifications::UpdateService < ::BaseServices::Update
+class Notifications::UpdateService < BaseServices::Update
 end

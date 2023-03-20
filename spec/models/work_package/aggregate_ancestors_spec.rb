@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,35 +28,35 @@
 
 require 'spec_helper'
 
-describe WorkPackage::Ancestors, type: :model do
+describe WorkPackage::Ancestors do
   let(:user) { create(:user) }
-  let(:project) { create :project }
-  let(:project2) { create :project }
+  let(:project) { create(:project) }
+  let(:project2) { create(:project) }
 
   let!(:root_work_package) do
-    create :work_package,
-           project:
+    create(:work_package,
+           project:)
   end
 
   let!(:intermediate) do
-    create :work_package,
+    create(:work_package,
            parent: root_work_package,
-           project:
+           project:)
   end
   let!(:intermediate_project2) do
-    create :work_package,
+    create(:work_package,
            parent: root_work_package,
-           project: project2
+           project: project2)
   end
   let!(:leaf) do
-    create :work_package,
+    create(:work_package,
            parent: intermediate,
-           project:
+           project:)
   end
   let!(:leaf_project2) do
-    create :work_package,
+    create(:work_package,
            parent: intermediate_project2,
-           project:
+           project:)
   end
 
   let(:view_role) do
@@ -72,7 +72,7 @@ describe WorkPackage::Ancestors, type: :model do
   let(:leaf_ids) { [leaf.id, leaf_project2.id] }
   let(:intermediate_ids) { [intermediate.id, intermediate_project2.id] }
 
-  subject { ::WorkPackage.aggregate_ancestors(ids, user) }
+  subject { WorkPackage.aggregate_ancestors(ids, user) }
 
   before do
     allow(Setting).to receive(:cross_project_work_package_relations?).and_return(true)
@@ -81,10 +81,10 @@ describe WorkPackage::Ancestors, type: :model do
 
   context 'with permission in the first project' do
     before do
-      create :member,
+      create(:member,
              user:,
              project:,
-             roles: [view_role]
+             roles: [view_role])
     end
 
     describe 'fetching from db' do
@@ -97,7 +97,7 @@ describe WorkPackage::Ancestors, type: :model do
       let(:ids) { leaf_ids }
 
       it 'returns ancestors for the leaf in project 1' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(2)
 
         expect(subject[leaf.id]).to eq([root_work_package, intermediate])
@@ -109,7 +109,7 @@ describe WorkPackage::Ancestors, type: :model do
       let(:ids) { intermediate_ids }
 
       it 'returns all ancestors in project 1' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(2)
 
         expect(subject[intermediate.id]).to eq([root_work_package])
@@ -119,17 +119,17 @@ describe WorkPackage::Ancestors, type: :model do
 
     context 'and permission in second project' do
       before do
-        create :member,
+        create(:member,
                user:,
                project: project2,
-               roles: [view_role]
+               roles: [view_role])
       end
 
       describe 'leaf ids' do
         let(:ids) { leaf_ids }
 
         it 'returns all ancestors' do
-          expect(subject).to be_kind_of(Hash)
+          expect(subject).to be_a(Hash)
           expect(subject.keys.length).to eq(2)
 
           expect(subject[leaf.id]).to eq([root_work_package, intermediate])
@@ -141,17 +141,17 @@ describe WorkPackage::Ancestors, type: :model do
 
   context 'no permissions' do
     before do
-      create :member,
+      create(:member,
              user:,
              project:,
-             roles: [none_role]
+             roles: [none_role])
     end
 
     describe 'leaf ids' do
       let(:ids) { leaf_ids }
 
       it 'returns no results for all ids' do
-        expect(subject).to be_kind_of(Hash)
+        expect(subject).to be_a(Hash)
         expect(subject.keys.length).to eq(0)
       end
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe CustomAction, type: :model do
-  let(:stubbed_instance) { build_stubbed :custom_action }
-  let(:instance) { create :custom_action, name: 'zzzzzzzzz' }
-  let(:other_instance) { create :custom_action, name: 'aaaaa' }
+describe CustomAction do
+  let(:stubbed_instance) { build_stubbed(:custom_action) }
+  let(:instance) { create(:custom_action, name: 'zzzzzzzzz') }
+  let(:other_instance) { create(:custom_action, name: 'aaaaa') }
 
   describe '#name' do
     it 'can be set and read' do

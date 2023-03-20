@@ -3,23 +3,23 @@ require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type) { create(:type_standard, custom_fields:) }
   let(:project) do
-    create :project,
+    create(:project,
            types: [type],
-           work_package_custom_fields: custom_fields
+           work_package_custom_fields: custom_fields)
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            type:,
            project:,
-           custom_values: initial_custom_values
+           custom_values: initial_custom_values)
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
-  let(:property_name) { "customField#{custom_field.id}" }
+  let(:property_name) { custom_field.attribute_name(:camel_case) }
   let(:field) { wp_page.edit_field(property_name) }
 
   before do
@@ -188,7 +188,7 @@ describe 'custom field inplace editor', js: true do
         field.save!
 
         work_package.reload
-        expect(work_package.send("custom_field_#{custom_field.id}")).to eq 123
+        expect(work_package.send(custom_field.attribute_getter)).to eq 123
       end
     end
   end
@@ -201,7 +201,7 @@ describe 'custom field inplace editor', js: true do
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
 
     context 'with zero value' do
-      let(:user) { create :admin, language: 'en' }
+      let(:user) { create(:admin, language: 'en') }
       let(:initial_custom_values) { { custom_field.id => 0 } }
 
       it 'displays the zero (Regression #37157)' do
@@ -210,7 +210,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     context 'with english locale' do
-      let(:user) { create :admin, language: 'en' }
+      let(:user) { create(:admin, language: 'en') }
 
       it 'displays the float with english locale and allows editing' do
         field.expect_state_text '123.5'
@@ -224,7 +224,7 @@ describe 'custom field inplace editor', js: true do
 
     context 'with german locale',
             driver: :firefox_de do
-      let(:user) { create :admin, language: 'de' }
+      let(:user) { create(:admin, language: 'de') }
 
       it 'displays the float with german locale and allows editing' do
         field.expect_state_text '123,5'
@@ -234,32 +234,6 @@ describe 'custom field inplace editor', js: true do
         work_package.reload
         expect(work_package.custom_value_for(custom_field.id).typed_value).to eq 10000.55
       end
-    end
-  end
-
-  describe 'date type' do
-    let(:custom_field) do
-      create(:date_wp_custom_field, args.merge(name: 'MyDate'))
-    end
-    let(:args) { {} }
-    let(:initial_custom_values) { {} }
-
-    it 'can set and clear the date (Regression #36727)' do
-      field.expect_state_text '-'
-      field.update '2021-03-30'
-      field.expect_state_text '03/30/2021'
-
-      work_package.reload
-      expect(work_package.custom_value_for(custom_field.id).formatted_value).to eq '03/30/2021'
-
-      field.activate!
-      field.clear with_backspace: true
-      field.submit_by_enter
-
-      field.expect_state_text '-'
-
-      work_package.reload
-      expect(work_package.custom_value_for(custom_field.id).value).to be_nil
     end
   end
 end

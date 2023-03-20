@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 
 require_relative '../support/pages/meetings/index'
 
-describe 'Meetings', type: :feature do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
-  let(:other_project) { create :project, enabled_module_names: %w[meetings] }
+describe 'Meetings' do
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
+  let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:role, permissions:) }
   let(:permissions) { %i(view_meetings) }
   let(:user) do
@@ -47,16 +47,16 @@ describe 'Meetings', type: :feature do
   end
 
   let(:meeting) do
-    create :meeting, project:, title: 'Awesome meeting today!', start_time: Time.now
+    create(:meeting, project:, title: 'Awesome meeting today!', start_time: Time.current)
   end
   let(:tomorrows_meeting) do
-    create :meeting, project:, title: 'Awesome meeting tomorrow!', start_time: Time.now + 1.day
+    create(:meeting, project:, title: 'Awesome meeting tomorrow!', start_time: 1.day.from_now)
   end
   let(:yesterdays_meeting) do
-    create :meeting, project:, title: 'Awesome meeting yesterday!', start_time: Time.now - 1.day
+    create(:meeting, project:, title: 'Awesome meeting yesterday!', start_time: 1.day.ago)
   end
   let!(:other_project_meeting) do
-    create :meeting, project: other_project, title: 'Awesome other project meeting!'
+    create(:meeting, project: other_project, title: 'Awesome other project meeting!')
   end
   let(:meetings_page) { Pages::Meetings::Index.new(project) }
 
@@ -64,7 +64,7 @@ describe 'Meetings', type: :feature do
     login_as(user)
   end
 
-  it 'visting page via menu with no meetings' do
+  it 'visiting page via menu with no meetings' do
     meetings_page.navigate_by_menu
 
     meetings_page.expect_no_meetings_listed

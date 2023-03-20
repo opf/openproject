@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe CustomStyle, type: :model do
+RSpec.describe CustomStyle do
   describe "#current" do
     subject { CustomStyle.current }
 
@@ -38,7 +38,7 @@ RSpec.describe CustomStyle, type: :model do
       end
 
       it 'deletes the file' do
-        expect(File.exists?(file_path)).to be false
+        expect(File.exist?(file_path)).to be false
       end
 
       it 'clears the file mount column' do

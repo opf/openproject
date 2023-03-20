@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'work package type mgmt', type: :feature, js: true do
+describe 'Projects', 'work package type mgmt', js: true do
   current_user { create(:user, member_in_project: project, member_with_permissions: %i[edit_project manage_types]) }
 
   let(:phase_type)     { create(:type, name: 'Phase', is_default: true) }

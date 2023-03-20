@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,34 +30,34 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Assigned to me embedded query on my page', type: :feature, js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+describe 'Assigned to me embedded query on my page', js: true do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:assigned_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Assigned to me',
            type:,
            author: user,
-           assigned_to: user
+           assigned_to: user)
   end
   let!(:assigned_work_package_2) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'My task 2',
            type:,
            author: user,
-           assigned_to: user
+           assigned_to: user)
   end
   let!(:assigned_to_other_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Not assigned to me',
            type:,
            author: user,
-           assigned_to: other_user
+           assigned_to: other_user)
   end
   let(:other_user) do
     create(:user)
@@ -79,19 +79,19 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
   let(:assigned_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)') }
   let(:created_area) { Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(assigned_area.area) }
-  let(:hierarchies) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
 
   current_user { user }
 
   context 'with parent work package' do
     let!(:assigned_work_package_child) do
-      create :work_package,
+      create(:work_package,
              subject: 'Child',
              parent: assigned_work_package,
              project:,
              type:,
              author: user,
-             assigned_to: user
+             assigned_to: user)
     end
 
     it 'can toggle hierarchy mode in embedded tables (Regression test #29578)' do
@@ -138,7 +138,7 @@ describe 'Assigned to me embedded query on my page', type: :feature, js: true do
       .to have_selector('.subject', text: assigned_work_package.subject)
 
     expect(assigned_area.area)
-      .to have_no_selector('.subject', text: assigned_to_other_work_package.subject)
+      .not_to have_selector('.subject', text: assigned_to_other_work_package.subject)
 
     embedded_table.click_inline_create
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Pause reminder settings", type: :feature, js: true do
+describe "Pause reminder settings", js: true do
   shared_examples 'pause reminder settings' do
     let(:first) { Time.zone.today.beginning_of_month }
     let(:last) { (Time.zone.today.beginning_of_month + 10.days) }
@@ -14,9 +14,9 @@ describe "Pause reminder settings", type: :feature, js: true do
       # By default the pause reminder is unchecked
       reminders_settings_page.expect_paused false
 
-      reminders_settings_page.set_paused true,
-                                         first: first,
-                                         last: last
+      reminders_settings_page.set_paused(true,
+                                         first:,
+                                         last:)
 
       sleep 2
 
@@ -26,9 +26,9 @@ describe "Pause reminder settings", type: :feature, js: true do
 
       reminders_settings_page.reload!
 
-      reminders_settings_page.expect_paused true,
-                                            first: first,
-                                            last: last
+      reminders_settings_page.expect_paused(true,
+                                            first:,
+                                            last:)
 
       pref.reload
       expect(pref.pause_reminders[:enabled]).to be true
@@ -42,7 +42,7 @@ describe "Pause reminder settings", type: :feature, js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      create :user
+      create(:user)
     end
 
     it_behaves_like 'pause reminder settings'
@@ -51,11 +51,11 @@ describe "Pause reminder settings", type: :feature, js: true do
   context 'with the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
     let(:pref) { other_user.pref }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
     it_behaves_like 'pause reminder settings'

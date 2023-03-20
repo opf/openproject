@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= I18n.t(:label_general) %></legend>
   <div class="form--field -required">
+    <%= f.hidden_field :provider_type %>
     <%= f.select :provider_type,
                  ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{provider_type}.name"), provider_type] },
                  {

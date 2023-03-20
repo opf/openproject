@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Authentication Stages', type: :feature do
+describe 'Authentication Stages' do
   let(:language) { 'en' }
   let(:user_password) { 'bob' * 4 }
   let(:user) do
@@ -60,7 +60,7 @@ describe 'Authentication Stages', type: :feature do
 
   def expect_not_logged_in
     visit my_account_path
-    expect(page).to have_no_selector('.form--field-container', text: user.login)
+    expect(page).not_to have_selector('.form--field-container', text: user.login)
   end
 
   context 'when disabled' do
@@ -68,7 +68,7 @@ describe 'Authentication Stages', type: :feature do
 
     it 'does not show consent' do
       login_with user.login, user_password
-      expect(page).to have_no_selector('.account-consent')
+      expect(page).not_to have_selector('.account-consent')
       expect_logged_in
     end
 
@@ -77,7 +77,7 @@ describe 'Authentication Stages', type: :feature do
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
-      expect(page).to have_no_selector('.account-consent')
+      expect(page).not_to have_selector('.account-consent')
 
       expect_logged_in
       cookies = Capybara.current_session.driver.request.cookies
@@ -95,7 +95,7 @@ describe 'Authentication Stages', type: :feature do
         .at_least(:once)
         .with('Instance is configured to require consent, but no consent_info has been set.')
       login_with user.login, user_password
-      expect(page).to have_no_selector('.account-consent')
+      expect(page).not_to have_selector('.account-consent')
       expect_logged_in
     end
   end
@@ -155,7 +155,7 @@ describe 'Authentication Stages', type: :feature do
 
       # Update consent date
       visit admin_settings_users_path
-      find("#toggle_consent_time").set(true)
+      find_by_id('toggle_consent_time').set(true)
 
       click_on 'Save'
       expect(page).to have_selector('.flash.notice')

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,21 +28,21 @@
 
 require 'spec_helper'
 
-class TestRepresenter < ::API::Decorators::Single
+class TestRepresenter < API::Decorators::Single
   include ::API::Decorators::LinkedResource
 end
 
-describe ::API::V3::Principals::PrincipalRepresenterFactory do
-  let(:current_user) { build_stubbed :user }
+describe API::V3::Principals::PrincipalRepresenterFactory do
+  let(:current_user) { build_stubbed(:user) }
 
   let(:represented) do
     OpenStruct.new(association_id: 5, association: principal)
   end
   let(:principal) { nil }
-  let(:user) { build_stubbed :user }
-  let(:group) { build_stubbed :group }
-  let(:placeholder) { build_stubbed :placeholder_user }
-  let(:deleted) { build_stubbed :deleted_user }
+  let(:user) { build_stubbed(:user) }
+  let(:group) { build_stubbed(:group) }
+  let(:placeholder) { build_stubbed(:placeholder_user) }
+  let(:deleted) { build_stubbed(:deleted_user) }
 
   describe '.create' do
     subject { described_class.create principal, current_user: }
@@ -51,7 +51,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
       let(:principal) { user }
 
       it 'returns a user representer' do
-        expect(subject).to be_a ::API::V3::Users::UserRepresenter
+        expect(subject).to be_a API::V3::Users::UserRepresenter
       end
     end
 
@@ -59,7 +59,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
       let(:principal) { group }
 
       it 'returns a group representer' do
-        expect(subject).to be_a ::API::V3::Groups::GroupRepresenter
+        expect(subject).to be_a API::V3::Groups::GroupRepresenter
       end
     end
 
@@ -67,7 +67,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
       let(:principal) { placeholder }
 
       it 'returns a user representer' do
-        expect(subject).to be_a ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
+        expect(subject).to be_a API::V3::PlaceholderUsers::PlaceholderUserRepresenter
       end
     end
 
@@ -75,7 +75,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
       let(:principal) { deleted }
 
       it 'returns a user representer' do
-        expect(subject).to be_a ::API::V3::Users::UserRepresenter
+        expect(subject).to be_a API::V3::Users::UserRepresenter
       end
     end
   end
@@ -138,7 +138,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
 
       it 'returns a user representer' do
         expect(getter)
-          .to be_a ::API::V3::Users::UserRepresenter
+          .to be_a API::V3::Users::UserRepresenter
       end
     end
 
@@ -147,7 +147,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
 
       it 'renders a group representer' do
         expect(getter)
-          .to be_a ::API::V3::Groups::GroupRepresenter
+          .to be_a API::V3::Groups::GroupRepresenter
       end
     end
 
@@ -156,7 +156,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
 
       it 'renders a placeholder representer' do
         expect(getter)
-          .to be_a ::API::V3::PlaceholderUsers::PlaceholderUserRepresenter
+          .to be_a API::V3::PlaceholderUsers::PlaceholderUserRepresenter
       end
     end
 
@@ -165,7 +165,7 @@ describe ::API::V3::Principals::PrincipalRepresenterFactory do
 
       it 'renders a user representer' do
         expect(getter)
-          .to be_a ::API::V3::Users::UserRepresenter
+          .to be_a API::V3::Users::UserRepresenter
       end
     end
 

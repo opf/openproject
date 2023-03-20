@@ -1,34 +1,34 @@
 require 'spec_helper'
 
-describe "Notification center navigation", type: :feature, js: true do
+describe "Notification center navigation", js: true do
   shared_association_default(:project) { create(:project) }
 
-  shared_let(:work_package) { create :work_package, project: }
-  shared_let(:second_work_package) { create :work_package, project: }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:second_work_package) { create(:work_package, project:) }
   shared_let(:recipient) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages])
   end
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: work_package,
-           journal: work_package.journals.last
+           journal: work_package.journals.last)
   end
 
   shared_let(:second_notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: second_work_package,
-           journal: second_work_package.journals.last
+           journal: second_work_package.journals.last)
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
-  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
+  let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
 
   current_user { recipient }
 

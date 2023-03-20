@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ module Pages
     ##
     # Adds planned unit costs with the default cost type.
     def add_unit_costs!(num_units, comment: nil)
-      edit_unit_costs! unit_rows, units: num_units, comment: comment, type: 'new'
+      edit_unit_costs! unit_rows, units: num_units, comment:, type: 'new'
       add_unit_costs_row!
     end
 
@@ -84,7 +84,7 @@ module Pages
 
     # Submit the costs form
     def submit_form!
-      find('#budget-table--submit-button').click
+      find_by_id('budget-table--submit-button').click
     end
 
     ##

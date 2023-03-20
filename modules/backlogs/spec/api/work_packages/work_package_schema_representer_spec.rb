@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
+describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   let(:custom_field) { build(:custom_field) }
   let(:work_package) { build_stubbed(:work_package, type: build_stubbed(:type)) }
   let(:current_user) do
@@ -43,7 +43,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
   let(:schema) do
-    ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
+    API::V3::WorkPackages::Schema::SpecificWorkPackageSchema.new(work_package:)
   end
   let(:representer) { described_class.create(schema, self_link: nil, current_user:) }
 
@@ -127,7 +127,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     context 'remainingTime not writable' do
       before do
         allow(schema).to receive(:writable?).and_call_original
-        allow(schema).to receive(:writable?).with(:remaining_time).and_return(false)
+        allow(schema).to receive(:writable?).with('remaining_hours').and_return(false)
       end
 
       it_behaves_like 'has basic schema properties' do

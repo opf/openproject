@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@
 
 require 'spec_helper'
 
-describe Projects::Activity, type: :model do
-  let(:project) do
-    create(:project)
+describe Projects::Activity, 'core' do
+  shared_let(:project) do
+    create(:project, :updated_a_long_time_ago)
   end
 
-  let(:initial_time) { Time.now }
+  let(:initial_time) { Time.current }
 
   let(:work_package) do
     create(:work_package,
@@ -123,66 +123,75 @@ describe Projects::Activity, type: :model do
 
   describe '.with_latest_activity' do
     it 'is the latest work_package update' do
-      work_package.update_attribute(:updated_at, initial_time - 10.seconds)
-      work_package2.update_attribute(:updated_at, initial_time - 20.seconds)
+      work_package.update(updated_at: initial_time - 10.seconds)
+      work_package2.update(updated_at: initial_time - 20.seconds)
       work_package.reload
       work_package2.reload
 
-      expect(latest_activity).to eql work_package.updated_at
+      # there is a loss of precision for timestamps stored in database
+      expect(latest_activity).to be_within(0.00001).of(work_package.updated_at)
     end
 
     it 'is the latest wiki_contents update' do
-      wiki_content.update_attribute(:updated_at, initial_time - 10.seconds)
-      wiki_content2.update_attribute(:updated_at, initial_time - 20.seconds)
+      wiki_content.update(updated_at: initial_time - 10.seconds)
+      wiki_content2.update(updated_at: initial_time - 20.seconds)
       wiki_content.reload
       wiki_content2.reload
 
-      expect(latest_activity).to eql wiki_content.updated_at
+      expect(latest_activity).to be_within(0.00001).of(wiki_content.updated_at)
     end
 
     it 'is the latest news update' do
-      news.update_attribute(:updated_at, initial_time - 10.seconds)
-      news2.update_attribute(:updated_at, initial_time - 20.seconds)
+      news.update(updated_at: initial_time - 10.seconds)
+      news2.update(updated_at: initial_time - 20.seconds)
       news.reload
       news2.reload
 
-      expect(latest_activity).to eql news.updated_at
+      expect(latest_activity).to be_within(0.00001).of(news.updated_at)
     end
 
     it 'is the latest changeset update' do
-      changeset.update_attribute(:committed_on, initial_time - 10.seconds)
-      changeset2.update_attribute(:committed_on, initial_time - 20.seconds)
+      changeset.update(committed_on: initial_time - 10.seconds)
+      changeset2.update(committed_on: initial_time - 20.seconds)
       changeset.reload
       changeset2.reload
 
-      expect(latest_activity).to eql changeset.committed_on
+      expect(latest_activity).to be_within(0.00001).of(changeset.committed_on)
     end
 
     it 'is the latest message update' do
-      message.update_attribute(:updated_at, initial_time - 10.seconds)
-      message2.update_attribute(:updated_at, initial_time - 20.seconds)
+      message.update(updated_at: initial_time - 10.seconds)
+      message2.update(updated_at: initial_time - 20.seconds)
       message.reload
       message2.reload
 
-      expect(latest_activity).to eql message.updated_at
+      expect(latest_activity).to be_within(0.00001).of(message.updated_at)
     end
 
     it 'is the latest time_entry update' do
-      work_package.update_attribute(:updated_at, initial_time - 60.seconds)
-      time_entry.update_attribute(:updated_at, initial_time - 10.seconds)
-      time_entry2.update_attribute(:updated_at, initial_time - 20.seconds)
+      work_package.update(updated_at: initial_time - 60.seconds)
+      time_entry.update(updated_at: initial_time - 10.seconds)
+      time_entry2.update(updated_at: initial_time - 20.seconds)
       time_entry.reload
       time_entry2.reload
 
-      expect(latest_activity).to eql time_entry.updated_at
+      expect(latest_activity).to be_within(0.00001).of(time_entry.updated_at)
+    end
+
+    it 'is the latest project update' do
+      work_package.update(updated_at: initial_time - 60.seconds)
+      project.update(updated_at: initial_time - 10.seconds)
+
+      expect(latest_activity).to be_within(0.00001).of(project.updated_at)
     end
 
     it 'takes the time stamp of the latest activity across models' do
-      work_package.update_attribute(:updated_at, initial_time - 10.seconds)
-      wiki_content.update_attribute(:updated_at, initial_time - 20.seconds)
-      news.update_attribute(:updated_at, initial_time - 30.seconds)
-      changeset.update_attribute(:committed_on, initial_time - 40.seconds)
-      message.update_attribute(:updated_at, initial_time - 50.seconds)
+      work_package.update(updated_at: initial_time - 10.seconds)
+      wiki_content.update(updated_at: initial_time - 20.seconds)
+      news.update(updated_at: initial_time - 30.seconds)
+      changeset.update(committed_on: initial_time - 40.seconds)
+      message.update(updated_at: initial_time - 50.seconds)
+      project.update(updated_at: initial_time - 60.seconds)
 
       work_package.reload
       wiki_content.reload
@@ -196,52 +205,69 @@ describe Projects::Activity, type: :model do
       # news
       # changeset
       # message
+      # project
 
-      expect(latest_activity).to eql work_package.updated_at
+      expect(latest_activity).to be_within(0.00001).of(work_package.updated_at)
 
-      work_package.update_attribute(:updated_at, message.updated_at - 10.seconds)
+      work_package.update(updated_at: project.updated_at - 10.seconds)
 
       # Order:
       # wiki_content
       # news
       # changeset
       # message
+      # project
       # work_package
 
-      expect(latest_activity).to eql wiki_content.updated_at
+      expect(latest_activity).to be_within(0.00001).of(wiki_content.updated_at)
 
-      wiki_content.update_attribute(:updated_at, work_package.updated_at - 10.seconds)
+      wiki_content.update(updated_at: work_package.updated_at - 10.seconds)
 
       # Order:
       # news
       # changeset
       # message
+      # project
       # work_package
       # wiki_content
 
-      expect(latest_activity).to eql news.updated_at
+      expect(latest_activity).to be_within(0.00001).of(news.updated_at)
 
-      news.update_attribute(:updated_at, wiki_content.updated_at - 10.seconds)
+      news.update(updated_at: wiki_content.updated_at - 10.seconds)
 
       # Order:
       # changeset
       # message
+      # project
       # work_package
       # wiki_content
       # news
 
-      expect(latest_activity).to eql changeset.committed_on
+      expect(latest_activity).to be_within(0.00001).of(changeset.committed_on)
 
-      changeset.update_attribute(:committed_on, news.updated_at - 10.seconds)
+      changeset.update(committed_on: news.updated_at - 10.seconds)
 
       # Order:
       # message
+      # project
       # work_package
       # wiki_content
       # news
       # changeset
 
-      expect(latest_activity).to eql message.updated_at
+      expect(latest_activity).to be_within(0.00001).of(message.updated_at)
+
+      message.update(updated_at: changeset.committed_on - 10.seconds)
+
+      # Order:
+      # project
+      # work_package
+      # wiki_content
+      # news
+      # changeset
+      # message
+
+      expect(latest_activity).to be_within(0.00001).of(project.updated_at)
     end
   end
 end

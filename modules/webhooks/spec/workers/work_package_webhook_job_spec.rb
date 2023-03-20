@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe WorkPackageWebhookJob, type: :model, webmock: true do
-  shared_let(:user) { create :admin }
+  shared_let(:user) { create(:admin) }
   shared_let(:title) { "Some workpackage subject" }
   shared_let(:request_url) { "http://example.net/test/42" }
-  shared_let(:work_package) { create :work_package, subject: title }
-  shared_let(:webhook) { create :webhook, all_projects: true, url: request_url, secret: nil }
+  shared_let(:work_package) { create(:work_package, subject: title) }
+  shared_let(:webhook) { create(:webhook, all_projects: true, url: request_url, secret: nil) }
 
   shared_examples "a work package webhook call" do
     let(:event) { "work_package:created" }
@@ -73,7 +73,7 @@ describe WorkPackageWebhookJob, type: :model, webmock: true do
     subject { job }
 
     before do
-      allow(::Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
+      allow(Webhooks::Webhook).to receive(:find).with(webhook.id).and_return(webhook)
       login_as user
       stub
     end

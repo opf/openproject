@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require 'spec_helper'
 
-describe 'deleting a cost type', type: :feature, js: true do
-  let!(:user) { create :admin }
+describe 'deleting a cost type', js: true do
+  let!(:user) { create(:admin) }
   let!(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate, cost_type: type, rate: 1.00
+    type = create(:cost_type, name: 'Translations')
+    create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
 
@@ -53,7 +53,7 @@ describe 'deleting a cost type', type: :feature, js: true do
 
     SeleniumHubWaiter.wait
     # Show locked
-    find('#include_deleted').set true
+    find_by_id('include_deleted').set true
     click_on 'Apply'
 
     # Expect no results if not locked

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,13 @@ require 'spec_helper'
 require_module_spec_helper
 
 describe 'API v3 work packages resource with filters for linked storage file',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links) }
 
-  let(:role1) { create :role, permissions: file_link_permissions }
-  let(:role2) { create :role, permissions: file_link_permissions }
+  let(:role1) { create(:role, permissions: file_link_permissions) }
+  let(:role2) { create(:role, permissions: file_link_permissions) }
 
   let(:current_user) { create(:user) }
   let(:project1) { create(:project, members: { current_user => role1 }) }
@@ -106,7 +105,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create :role, permissions: %i(view_work_packages) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 1, 1, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1] }
@@ -164,7 +163,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role1) { create :role, permissions: %i(view_work_packages) }
+        let(:role1) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }
@@ -206,7 +205,7 @@ describe 'API v3 work packages resource with filters for linked storage file',
       end
 
       context 'if one project has not sufficient permissions' do
-        let(:role2) { create :role, permissions: %i(view_work_packages) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages)) }
 
         it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [] }

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,45 +27,79 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-
+import { combineLatest, Observable } from 'rxjs';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
-import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
+  filter, map, take, tap,
+} from 'rxjs/operators';
+
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import { StorageFilesStore } from 'core-app/core/state/storage-files/storage-files.store';
-import { insertCollectionIntoState } from 'core-app/core/state/collection-store';
+import { IUploadLink } from 'core-app/core/state/storage-files/upload-link.model';
+import { IPrepareUploadLink } from 'core-app/core/state/storages/storage.model';
+import { IStorageFiles } from 'core-app/core/state/storage-files/storage-files.model';
+import { HttpClient } from '@angular/common/http';
+import { ID, QueryEntity } from '@datorama/akita';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
+import isDefinedEntity from 'core-app/core/state/is-defined-entity';
 
 @Injectable()
-export class StorageFilesResourceService extends ResourceCollectionService<IStorageFile> {
-  protected createStore():CollectionStore<IStorageFile> {
-    return new StorageFilesStore();
-  }
+export class StorageFilesResourceService {
+  private readonly store:StorageFilesStore = new StorageFilesStore();
 
-  files(link:IHalResourceLink):Observable<IStorageFile[]> {
-    if (this.collectionExists(link.href)) {
-      return this.collection(link.href);
+  private readonly query = new QueryEntity(this.store);
+
+  constructor(private readonly httpClient:HttpClient) {}
+
+  files(link:IHalResourceLink):Observable<IStorageFiles> {
+    const value = this.store.getValue().files[link.href];
+    if (value !== undefined) {
+      return combineLatest([this.lookupMany(value.files), this.lookup(value.parent)])
+        .pipe(
+          map(([files, parent]):IStorageFiles => ({
+            files, parent, _type: 'StorageFiles', _links: { self: link },
+          })),
+          take(1),
+        );
     }
 
-    return this.http
-      .get<IHALCollection<IStorageFile>>(link.href)
-      .pipe(
-        tap((collection) => {
-          insertCollectionIntoState(this.store, collection, link.href);
-        }),
-        map((collection) => collection._embedded.elements),
-      );
+    return this.httpClient
+      .get<IStorageFiles>(link.href)
+      .pipe(tap((storageFiles) => this.insert(storageFiles, link.href)));
+  }
+
+  uploadLink(link:IPrepareUploadLink):Observable<IUploadLink> {
+    return this.httpClient.request<IUploadLink>(link.method, link.href, { body: link.payload });
   }
 
   reset():void {
     this.store.reset();
   }
 
-  protected basePath():string {
-    return this.apiV3Service.storages.files.path;
+  private lookup(id:ID):Observable<IStorageFile> {
+    return this
+      .query
+      .selectEntity(id)
+      .pipe(filter(isDefinedEntity));
+  }
+
+  private lookupMany(ids:ID[]):Observable<IStorageFile[]> {
+    return this.query.selectMany(ids);
+  }
+
+  private insert(storageFiles:IStorageFiles, link:string):void {
+    this.store.upsertMany([...storageFiles.files, storageFiles.parent]);
+
+    const fileIds = storageFiles.files.map((file) => file.id);
+    const parentId = storageFiles.parent.id;
+
+    this.store.update(({ files }) => ({
+      files: {
+        ...files,
+        [link]: {
+          files: fileIds,
+          parent: parentId,
+        },
+      },
+    }));
   }
 }

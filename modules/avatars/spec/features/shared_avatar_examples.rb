@@ -28,8 +28,8 @@ shared_examples 'avatar management' do
       expect(page).to have_selector('.avatars--current-gravatar')
 
       # Local not rendered
-      expect(page).to have_no_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_no_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).not_to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
+      expect(page).not_to have_selector('.avatars--current-local-avatar', text: 'none')
     end
   end
 
@@ -42,10 +42,10 @@ shared_examples 'avatar management' do
       expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
 
       # Gravatars not rendered
-      expect(page).to have_no_selector('.form--fieldset-legend', text: 'GRAVATAR')
+      expect(page).not_to have_selector('.form--fieldset-legend', text: 'GRAVATAR')
 
       # Attach a new invalid image
-      find('#avatar_file_input').set ::UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
+      find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
 
       # Expect error
       expect(page).to have_selector('.form--label.-error')
@@ -54,11 +54,11 @@ shared_examples 'avatar management' do
       # Attach new image
       visit avatar_management_path
       expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
-      find('#avatar_file_input').set ::UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
+      find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
 
       # Expect not error, since ng-file-upload resizes the image
-      expect(page).to have_no_selector('.form--label.-error')
-      expect(page).to have_no_selector('.avatars--error-pane span')
+      expect(page).not_to have_selector('.form--label.-error')
+      expect(page).not_to have_selector('.avatars--error-pane span')
 
       # Expect preview
       expect(page).to have_selector('.preview img')

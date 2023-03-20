@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 describe Relations::CreateContract do
-  let(:from) { build_stubbed :work_package }
-  let(:to) { build_stubbed :work_package }
-  let(:user) { build_stubbed :admin }
+  let(:from) { build_stubbed(:work_package) }
+  let(:to) { build_stubbed(:work_package) }
+  let(:user) { build_stubbed(:admin) }
 
   let(:relation) do
     Relation.new from:, to:, relation_type: "follows", delay: 42

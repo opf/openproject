@@ -2,11 +2,9 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login by switching 2FA device',
-         type: :feature,
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => %i[developer totp] }
-         },
-         js: true do
+         } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
@@ -16,8 +14,8 @@ describe 'Login by switching 2FA device',
   end
 
   context 'with two default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
-    let!(:device2) { create :two_factor_authentication_device_totp, user:, active: true, default: false }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
+    let!(:device2) { create(:two_factor_authentication_device_totp, user:, active: true, default: false) }
 
     it 'requests a 2FA and allows switching' do
       first_login_step
@@ -26,7 +24,7 @@ describe 'Login by switching 2FA device',
 
       SeleniumHubWaiter.wait
       # Toggle device to TOTP
-      find('#toggle_resend_form').click
+      find_by_id('toggle_resend_form').click
 
       SeleniumHubWaiter.wait
       find(".button--link[value='#{device2.redacted_identifier}']").click

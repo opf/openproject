@@ -192,7 +192,7 @@ module OpenProject::Bim::BcfXml
 
           # Save the viewpoint as json
           json_viewpoint: viewpoint_as_json(vp[:uuid], read_entry(vp[:viewpoint])),
-          viewpoint_name: vp[:viewpoint],
+          viewpoint_name: vp[:viewpoint]
         )
 
         # Save the snapshot as file attachment

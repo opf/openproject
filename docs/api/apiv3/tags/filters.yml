@@ -86,6 +86,7 @@ description: |-
   | Symbol | Description of filtered properties                           | Values array contains      |
   | ------ | ------------------------------------------------------------ | -------------------------- |
   | `=`    | are equal to one of the given value(s)                       | At least one typed value   |
+  | `&=`   | are containing all of the given value(s)                     | At least one typed value   |
   | `!`    | are not equal one of the given value(s)                      | At least one typed value   |
   | `>=`   | are greater or equal than the given value                    | One numerical value        |
   | `<=`   | are lesser or equal than the given value                     | One numerical value        |

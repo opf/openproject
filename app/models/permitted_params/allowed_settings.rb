@@ -20,7 +20,7 @@ class PermittedParams
     module_function
 
     def all
-      keys = Setting.definitions.map(&:name)
+      keys = Settings::Definition.all.keys
 
       restrictions.select(&:applicable?).each do |restriction|
         restricted_keys = restriction.restricted_keys
@@ -40,7 +40,7 @@ class PermittedParams
     end
 
     def init!
-      password_keys = %w(
+      password_keys = %i(
         password_min_length
         password_active_rules
         password_min_adhered_rules
@@ -55,7 +55,7 @@ class PermittedParams
       )
 
       add_restriction!(
-        keys: %w(registration_footer),
+        keys: %i(registration_footer),
         condition: -> { OpenProject::Configuration.registration_footer.present? }
       )
     end

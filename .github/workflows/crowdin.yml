@@ -25,8 +25,7 @@ jobs:
           exit 1
         fi
 
-        echo "::set-output name=branch::${BRANCH}"
-        echo "::set-output name=crowdin_release_branch::release"
+        echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
 
   crowdin:
     permissions:
@@ -42,7 +41,7 @@ jobs:
           - dev
           - "${{ needs.setup.outputs.latest_release_branch }}"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
@@ -54,9 +53,9 @@ jobs:
         run: |
           echo "Setting crowdin branch from $BRANCH"
           if [ "$BRANCH" = "dev" ]; then
-            echo "::set-output name=crowdin_branch::dev"
+            echo "crowdin_branch=dev" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=crowdin_branch::release"
+            echo "crowdin_branch=release" >> $GITHUB_OUTPUT
           fi
       - name: "Updating translations"
         uses: crowdin/github-action@1.4.4
@@ -74,7 +73,7 @@ jobs:
           OPENPROJECT_CROWDIN_API_KEY: ${{ secrets.OPENPROJECT_CROWDINV2_API_KEY }}
       - name: "Fixing translation names"
         run: |
-          ruby script/crowdin/fix_locale_keys.rb
+          ruby script/i18n/fix_crowdin_translation_filenames.rb
       - name: "Commit translations"
         run: |
           git config user.name "OpenProject Actions CI"

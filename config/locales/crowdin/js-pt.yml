@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -223,19 +223,19 @@ pt:
           status_label: "Situação:"
           status_confirmed: "confirmado"
           status_waiting: "e-mail enviado - aguardando confirmação"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Teste a edição Enterprise gratuitamente por 14 dias"
+          quick_overview: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject edição Enterprise."
         upsale:
           become_hero: "Torne-se um herói!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} é um complemento Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
           upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Quais os benefícios da edição Enterprise Edition local?"
             high_security: "Recursos de segurança"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Logon único (SAML, OpenID Connect, CAS), grupos LDAP."
             installation: "Suporte à instalação"
             installation_text: "Engenheiros de software experientes darão orientações durante todo o processo de instalação e configuração em sua própria infraestrutura."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Complementos Enterprise"
             premium_features_text: "Painéis práticos, gráficos de temas e logotipos personalizados, fluxos de trabalho inteligentes com ações personalizadas, pesquisa de texto completo para anexos em pacotes de trabalho e campos personalizados de multi-seleção."
             professional_support: "Suporte profissional"
             professional_support_text: "Receba suporte confiável de alto nível de engenheiros sênior, com conhecimento especializado sobre a gestão do OpenProject em ambientes de negócios críticos."
@@ -248,9 +248,23 @@ pt:
           link_quote: "Solicitar uma cotação"
           more_info: "Mais informações"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            A edição OpenProject Enterprise foi desenvolvida a partir do edição Community. Ela conta com complementos Enterprise e suporte profissional, com foco principal em organizações com mais de 10 usuários que gerenciam projetos de negócios críticos com o OpenProject.
           unlimited: "Ilimitado"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Os desenvolvedores também têm contas a pagar. Ao atualizar para a edição Entreprise, você dará suporte a este esforço da comunidade de código aberto e contribuirá para o seu desenvolvimento, manutenção e melhoria contínua."
+      working_days:
+        calendar:
+          empty_state_header: "Dias não úteis"
+          empty_state_description: 'Não há dias não-úteis definidos para este ano. Clique em "+ Dia não útil" abaixo para adicionar uma data'
+          new_date: '(novo)'
+        add_non_working_day: "Dia não útil"
+        already_added_error: "Já existe um dia não útil para esta data. Só pode haver um dia não útil criado para cada data única."
+        change_button: "Salvar e reagendar"
+        change_title: "Alterar dias úteis"
+        removed_title: "Você removerá os seguintes dias da lista de dias não úteis:"
+        change_description: "Alterar os dias da semana que são considerados dias úteis ou não úteis pode afetar os dias de início e de término de todos os pacotes de trabalho em todos os projetos nesta instância."
+        warning: >
+          As alterações podem demorar algum tempo para entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
+          Tem a certeza de que deseja continuar?
     custom_actions:
       date:
         specific: 'ligado'
@@ -279,8 +293,6 @@ pt:
           one: "Primeiro critério de ordenação"
           two: "Segundo critério de ordenação"
           three: "Terceiro critério de ordenação"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "não"
     general_text_yes: "sim"
     general_text_No: "Não"
@@ -299,15 +311,11 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                A versão contém vários recursos novos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Carregue e vincule arquivos de pacotes de trabalho a seu armazenamento de arquivos Nextcloud.</li> <li>Acompanhamento de alterações de projeto com controle da atividade do projeto.</li> <li>Adicione feriados públicos em toda a instância (dias não úteis).</li> <li>Arquive projetos por são administradores.</li > <li>Novo filtro padrão para pacotes de trabalho vencidos.</li> </ul>
     label_activate: "Ativar"
     label_assignee: 'Atribuído para'
     label_add_column_after: "Adicionar coluna depois"
@@ -399,7 +407,7 @@ pt:
     label_no_data: "Sem dados para exibir"
     label_no_due_date: "sem data de conclusão"
     label_no_start_date: "nenhuma data de início"
-    label_no_date: "no date"
+    label_no_date: "sem data"
     label_no_value: "Nenhum valor"
     label_none: "nenhum"
     label_not_contains: "não contém"
@@ -474,10 +482,10 @@ pt:
     label_custom_queries: "Privado"
     label_columns: "Colunas"
     label_attachments: Anexos
-    label_drop_files: Solte os arquivos aqui
-    label_drop_files_hint: ou clique para adicionar arquivos
+    label_drop_files: "Solte os arquivos aqui para anexá-los."
+    label_drop_or_click_files: "Solte aqui arquivos ou clique para anexá-los."
     label_drop_folders_hint: Você não pode enviar pastas como anexo. Por favor, selecione arquivos individuais.
-    label_add_attachments: "Adicionar anexos"
+    label_add_attachments: "Anexar arquivos"
     label_formattable_attachment_hint: "Anexe e vincule arquivos soltando neste campo ou colando da área de transferência."
     label_remove_file: "Excluir %{fileName}"
     label_remove_watcher: "Remover observador %{name}"
@@ -571,7 +579,7 @@ pt:
           one: 'e 1 outro'
           other: 'e %{count} outros'
         no_results:
-          at_all: 'Novas notificações aparecerão aqui quando houver atividades que você tenha interesse, enquanto isso, você também pode visualizar e modificar suas configurações de notificação para configurar quando ser notificado. '
+          at_all: 'Novas notificações aparecerão aqui quando houver atividade de seu interesse.'
           with_current_filter: 'Não há notificações nesta visualização no momento'
         mark_all_read: 'Marcar tudo como lido'
         mark_as_read: 'Marcar como lido'
@@ -579,8 +587,8 @@ pt:
         total_count_warning: "Mostrando as %{newest_count} notificações mais recentes. Outras %{more_count} não são exibidas."
         empty_state:
           no_notification: "Parece que você já está com tudo em dia."
-          no_notification_with_current_project_filter: "Parece que você já está totalmente atualizado com o projeto selecionado."
-          no_notification_with_current_filter: "Parece que você já está totalmente atualizado sobre o filtro %{filter}."
+          no_notification_with_current_project_filter: "Parece que você já está com tudo me dia para o projeto selecionado."
+          no_notification_with_current_filter: "Parece que você já está com tudo em dia para o filtro %{filter}."
           no_selection: "Clique em uma notificação para visualizar todos os detalhes da atividade."
         new_notifications:
           message: 'Há novas notificações.'
@@ -594,7 +602,7 @@ pt:
         watched: 'Observador'
         date_alert: 'Alerta de data'
       settings:
-        change_notification_settings: 'Para visualizar e alterar suas configurações de notificação, <a target="_blank" href="%{url}">clique aqui</a>'
+        change_notification_settings: 'Você pode modificar suas <a target="_blank" href="%{url}">configurações de notificação</a> para se certificar de nunca perder nenhuma atualização importante.'
         title: "Configurações de notificação"
         notify_me: "Notifique-me"
         reminders:
@@ -624,18 +632,18 @@ pt:
         global:
           immediately:
             title: 'Participando'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Notificações para todas as atividades nos pacotes de trabalho que você está envolvido (cessionário, responsável ou observador).'
           delayed:
             title: 'Não participando'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Notificações adicionais para atividades em todos os projetos'
           date_alerts:
             title: 'Alertas de data'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Notificações automáticas quando datas importantes estiverem se aproximando para pacotes de trabalho abertos que você esteja envolvido (cessionário, responsável ou observador).'
             teaser_text: 'Com os alertas de data, você receberá uma notificação das futuras datas de início e conclusão, assim você nunca perderá ou esquecerá prazos importante. '
-          overdue: When overdue
+          overdue: Quando vencido
         project_specific:
           title: 'Configurações de notificação específicas de projetos'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Essas configurações específicas de projeto substituem as configurações padrão acima'
           add: 'Adicionar configuração para o projeto'
           already_selected: 'Este projeto já está selecionado'
           remove: 'Remover configurações de projeto'
@@ -656,6 +664,7 @@ pt:
     project:
       required_outside_context: >
         Por favor, escolha o projeto onde vai criar o pacote de trabalho para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
+      details_activity: 'Atividade de detalhes do projeto'
       context: 'Contexto do projeto'
       work_package_belongs_to: 'Este pacote de trabalho pertence ao projeto %{projectname}.'
       click_to_switch_context: 'Abra esse pacote de trabalho nesse projeto.'
@@ -706,8 +715,8 @@ pt:
         reset_title: "Voltar para a configuração padrão do formulário"
         confirm_reset: >
           Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Atualizar para a edição Enterprise local"
+        upgrade_to_ee_text: "Uau! Se você precisa deste complemento, é porque é um super profissional! Gostaria de mostrar seu suporte aos desenvolvedores de código aberto tornando-se um cliente da edição Enterprise?"
         more_information: "Mais informações"
         nevermind: "Deixa pra lá"
       edit:
@@ -854,7 +863,7 @@ pt:
       zooms: "Nível de zoom"
       outlines: "Nível de hierarquia"
     upsale:
-      ee_only: 'Enterprise edition add-on'
+      ee_only: 'Complemento da edição Enterprise'
     wiki_formatting:
       strong: "Negrito"
       italic: "Itálico"
@@ -991,7 +1000,7 @@ pt:
         move_column_left: "Mover coluna para esquerda"
         move_column_right: "Mover coluna para direita"
         hide_column: "Ocultar coluna"
-        insert_columns: "Inserir colunas..."
+        insert_columns: "Inserir colunas"
         filters: "Filtros"
         display_sums: "Mostrar somas"
         confirm_edit_cancel: "Tem certeza que deseja cancelar a edição do nome desta visão? O título será definido novamente com o valor anterior."
@@ -1018,7 +1027,7 @@ pt:
         button: 'Configurar esta tabela de pacote de trabalho'
         choose_display_mode: 'Exibir pacotes de trabalho como'
         modal_title: 'Configuração de tabela de pacote de trabalho'
-        embedded_tab_disabled: "Esta aba de configuração não está disponível para a visão embutida que você está editando."
+        embedded_tab_disabled: "Esta aba de configuração não está disponível para a exibição incorporada que você está editando."
         default: "padrão"
         display_settings: 'Configurações de exibição'
         default_mode: "Lista plana"
@@ -1045,7 +1054,7 @@ pt:
         upsale:
           attribute_highlighting: 'Precisa de certos pacotes de trabalho para se destacar da massa?'
           relation_columns: 'Precisa ver as relações na lista de pacotes de trabalho?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Confira a edição Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrar pacotes de trabalho por tipo de relação'
       tabs:
@@ -1054,26 +1063,25 @@ pt:
         relations: Relações
         watchers: Observadores
         files: Arquivos
-        files_tab_migration_help: 'Agora você pode anexar arquivos a pacotes de trabalho por meio da nova aba:'
       time_relative:
         days: "dias"
         weeks: "semanas"
         months: "meses"
     toolbar:
       settings:
-        configure_view: "Configurar visualização..."
-        columns: "Colunas..."
-        sort_by: "Ordenar por..."
-        group_by: "Agrupar por..."
+        configure_view: "Configurar exibição"
+        columns: "Colunas"
+        sort_by: "Ordenar por"
+        group_by: "Agrupar por"
         display_sums: "Mostrar somas"
         display_hierarchy: "Exibir hierarquia"
         hide_hierarchy: "Ocultar hierarquia"
         hide_sums: "Ocultar somas"
         save: "Salvar"
-        save_as: "Salvar como ..."
-        export: "Exportar ..."
-        visibility_settings: "Configurações de visibilidade ..."
-        page_settings: "Renomear visualização..."
+        save_as: "Salvar como"
+        export: "Exportar"
+        visibility_settings: "Configurações de visibilidade"
+        page_settings: "Renomear exibição"
         delete: "Excluir"
       filter: "Filtro"
       unselected_title: "Pacote de trabalho"
@@ -1189,9 +1197,9 @@ pt:
           description: 'Permissões baseadas no papel atribuído no projeto selecionado'
         placeholder:
           title: 'Usuário do espaço reservado'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Usuário do espaço reservado (complemento apenas da edição Enterprise)'
           description: 'Não possui acesso ao projeto e nenhum e-mail é enviado.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Não possui acesso ao projeto e nenhum e-mail é enviado. <br>Confira a <a href="%{eeHref}" target="_blank">edição Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nome ou endereço de e-mail'
@@ -1250,4 +1258,5 @@ pt:
       filter_chip:
         remove: 'Remover'
       drop_modal:
+        focus_grab: 'Esta é uma âncora de foco para modais. Pressione Shift+tab para voltar ao elemento trigger modal.'
         Close: 'Fechar'

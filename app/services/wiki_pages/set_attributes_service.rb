@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@
 # In the long run, those two should probably be unified on the data layer as well.
 #
 # Attributes for both the page as well as for the content are accepted.
-class WikiPages::SetAttributesService < ::BaseServices::SetAttributes
+class WikiPages::SetAttributesService < BaseServices::SetAttributes
   include Attachments::SetReplacements
 
   private

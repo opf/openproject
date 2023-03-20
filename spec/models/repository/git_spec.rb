@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Repository::Git, type: :model do
+describe Repository::Git do
   let(:encoding) { 'UTF-8' }
   let(:instance) { build(:repository_git, path_encoding: encoding) }
   let(:adapter) { instance.scm }
@@ -80,7 +80,7 @@ describe Repository::Git, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { build :project }
+      let(:project) { build(:project) }
       let(:identifier) { project.identifier + '.git' }
 
       it 'is manageable' do
@@ -124,8 +124,8 @@ describe Repository::Git, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { build :project }
-        let(:project) { build :project, parent: }
+        let(:parent) { build(:project) }
+        let(:project) { build(:project, parent:) }
 
         before do
           instance.project = project
@@ -412,7 +412,7 @@ describe Repository::Git, type: :model do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(30.days.ago, 1.day.from_now)
+          fetcher.events(from: 30.days.ago, to: 1.day.from_now)
         end
 
         it 'activitieses' do

@@ -25,9 +25,6 @@
       cursor: pointer
       scroll-margin-top: $spot-spacing-5
 
-      > *:first-child
-        flex-shrink: 0
-
       &:focus
         @include spot-focus
 
@@ -47,7 +44,7 @@
         color: $spot-color-basic-gray-3
         background-color: $spot-color-basic-gray-6
 
-      &_link
+      &_link:not(&_disabled)
         color: var(--content-link-color)
 
     &-floating-wrapper

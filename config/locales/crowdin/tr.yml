@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -336,6 +336,7 @@ tr:
   wiki:
     page_not_editable_index: İstenen sayfa mevcut değil (henüz). Tüm wiki sayfalarının dizinine yönlendirildiniz.
     no_results_title_text: Şu anda wiki sayfası bulunmuyor.
+    print_hint: Bu, bu wiki sayfasının içeriğini herhangi bir gezinme çubuğu olmadan yazdıracaktır.
     index:
       no_results_content_text: Yeni wiki sayfası Ekle
   work_flows:
@@ -346,6 +347,8 @@ tr:
       one: 'Bir soydan iş paketi'
       other: '%{count} Bir soydan iş paketi'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
       none_could_be_saved: "%{total} iş paketlerinin hiçbiri güncellenemedi."
       x_out_of_y_could_be_saved: "%{total} iş paketinden %{failing} tanesi güncellenemezken %{success} güncellenebildi."
@@ -374,7 +377,7 @@ tr:
   account:
     delete: "Hesabı sil"
     delete_confirmation: "Hesabını silmek istediğinden emin misin?"
-    deleted: "Hesap başarıyla silindi"
+    deletion_pending: "Hesap kilitlendi ve silinmek üzere planlandı. Bu işlemin arka planda gerçekleştiğini unutmayın. Kullanıcının tamamen silinmesi birkaç dakika sürebilir."
     deletion_info:
       data_consequences:
         other: "Kullanıcının oluşturduğu (ör. E-posta, tercihler, iş paketleri, wiki girdileri) mümkün olduğunca silinen verilerden. Bununla birlikte, iş paketleri ve wiki girdileri gibi veriler, diğer kullanıcıların çalışmalarını engellemeden silinemez. Bu tür veriler, \"Silinmiş kullanıcı\" adı verilen bir hesaba yeniden atanır. Her silinen hesabın verileri bu hesaba yeniden atandığından, kullanıcının oluşturduğu verileri başka bir silinen hesabın verilerinden ayırt etmek mümkün olmayacaktır."
@@ -469,14 +472,24 @@ tr:
       member:
         roles: "Yetkiler"
       project:
+        active_value:
+          true: "arşivden çıkartıldı"
+          false: "arşivlendi"
         identifier: "Tanımlayıcı"
         latest_activity_at: "Son etkinlik zamanı"
         parent: "Alt Proje"
+        public_value:
+          title: "Görünürlük"
+          true: "genel"
+          false: "özel"
         queries: "Sorgular"
+        templated: "Şablon projesi"
+        templated_value:
+          true: "şablon olarak kaydedildi"
+          false: "şablon olarak işaretlenmemiş"
         types: "Türler"
         versions: "Sürümler"
         work_packages: "İş Paketleri"
-        templated: 'Şablon projesi'
       projects/status:
         code: 'Durum'
         explanation: 'Durum tanımlaması'
@@ -688,6 +701,11 @@ tr:
               no_notification_reason: 'Kanal olarak IAN seçildiği için boş bırakılamaz.'
             reason_mail_digest:
               no_notification_reason: 'Kanal olarak posta özeti seçildiğinden boş bırakılamaz.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "%{value} için çalışma dışı bir gün zaten var."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,6 +716,8 @@ tr:
           archived_ancestor: 'Projenin arşivlenmiş bir atası var.'
           foreign_wps_reference_version: 'Soyundan gelmeyen projelerdeki iş paketleri, projenin veya soyundan gelenlerin referans versiyonlarını referans alır.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Tüm alt projeleri arşivlemek için gereken izinlere sahip değilsiniz. Lütfen bir yönetici ile iletişime geçin."
             types:
               in_use_by_work_packages: "hala iş paketleri tarafından kullanılmaktadır:%{types}"
             enabled_modules:
@@ -891,8 +911,22 @@ tr:
     header_invalid_fields: "Aşağıdaki alanları ile ilgili sorunlar oluştu:"
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
-    created: "Oluşturuldu: %{title}"
-    updated: "Güncellendi: %{title}"
+    item:
+      created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
+      created_on: "Oluşturulma tarihi: {dateTime}"
+      updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
+      updated_on: "Güncellenme tarihi: {dateTime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Değişiklik Listeleri"
+      message: "Forumlar"
+      news: "Haberler"
+      project_attribute: "Proje öznitelikleri"
+      subproject: "Alt proje dahil"
+      time_entry: "Harcanan zaman"
+      wiki_edit: "Rehber"
+      work_package: "İş paketleri"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1028,6 +1062,7 @@ tr:
   button_reset: "Sıfırla"
   button_rollback: "Bu sürüme geri al"
   button_save: "Kaydet"
+  button_apply_changes: "Değişiklikleri uygula"
   button_save_back: "Kaydet ve geri dön"
   button_show: "Göster"
   button_sort: "Sırala"
@@ -1323,16 +1358,20 @@ tr:
   error_external_authentication_failed: "Harici kimlik doğrulama sırasında bir hata oluştu. Lütfen tekrar deneyin."
   error_attribute_not_highlightable: "Nitelikler vurgulanmıyor: %{attributes}"
   events:
-    project: 'Proje düzenlendi'
     changeset: 'Değişiklikler düzenlendi'
     message: Mesaj düzenlendi
     news: Haberler
+    project_attributes: 'Proje öznitelikleri düzenlendi'
+    projects: 'Proje düzenlendi'
     reply: Yanıtlandı
     time_entry: 'Timelog düzenlendi'
     wiki_page: 'Viki sayfası düzenlendi'
     work_package_closed: 'İş Paketi kapandı'
     work_package_edit: 'İş Paketi düzenlendi'
     work_package_note: 'İk Paketi notu eklendi'
+    title:
+      project: "Proje: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "İş paketleri dışa aktarma"
     succeeded: "Dışa aktarma başarıyla tamamlandı."
@@ -1358,7 +1397,6 @@ tr:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Türkçe"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hayır"
   general_text_yes: "evet"
@@ -1744,6 +1782,10 @@ tr:
   label_not_contains: "içermiyor"
   label_not_equals: "değildir"
   label_on: "açık"
+  label_operator_all: "boş değil"
+  label_operator_none: "boş"
+  label_operator_equals_or: "(VEYA) dır"
+  label_operator_equals_all: "(VE) dir"
   label_open_menu: "Menüyü Aç"
   label_open_work_packages: "açık"
   label_open_work_packages_plural: "açık"
@@ -1785,6 +1827,8 @@ tr:
   label_product_version: "Ürün sürümü"
   label_professional_support: "Profesyonel destek"
   label_profile: "Profil"
+  label_project_activity: "Proje etkinliği"
+  label_project_attribute_plural: "Proje öznitelikleri"
   label_project_count: "Toplam proje sayısı"
   label_project_copy_notifications: "Proje kopyalaması esnasında bilgilendirme e-postaları gönder"
   label_project_latest: "Son projeler"
@@ -2073,8 +2117,6 @@ tr:
   mail_subject_incoming_email_error: "OpenProject'e gönderdiğiniz bir e-posta işlenemedi"
   mail_subject_lost_password: "Sizin %{value} parola"
   mail_subject_register: "İşletme %{value} hesap etkinleştirme"
-  mail_subject_reminder: "%{days} günde %{count} iş paketi(ler) geçecek"
-  mail_subject_group_reminder: "Bir sonraki %{days} günden itibaren \"%{group}\" %{count} iş paketi / grupları için"
   mail_subject_wiki_content_added: "'%{id}' viki sayfası eklendi"
   mail_subject_wiki_content_updated: "'%{id}' viki sayfası güncellendi"
   mail_member_added_project:
@@ -2206,6 +2248,7 @@ tr:
   permission_add_work_packages: "İş paketi eklemek"
   permission_add_messages: "İleti göndermek"
   permission_add_project: "Proje oluşturmak"
+  permission_archive_project: "Projeyi arşivle"
   permission_manage_user: "Kullanıcılar oluştur ve düzenle"
   permission_manage_placeholder_user: "Yer tutucu kullanıcıları oluşturun, düzenleyin ve silin"
   permission_add_subprojects: "Alt proje oluşturmak"
@@ -2643,12 +2686,13 @@ tr:
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
-  text_journal_changed_html: "%{label}, %{old} %{linebreak} %{new}<strong>olarak</strong> değiştirildi"
   text_journal_changed_plain: "%{label}, %{old} %{linebreak} iken %{new} olarak değiştirildi"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"
@@ -2940,15 +2984,20 @@ tr:
       title: "İş paketini sil"
   working_days:
     info: >
-      <b>Haftanın çalışma günlerini tanımlayın</b><br/> Çalışma paketleri planlanırken çalışılmayan günler atlanır ve süre hesaplanırken hariç tutulur. Bu, iş paketi düzeyinde geçersiz kılınabilir.
+      <b>Çalışma haftasının bir parçası olarak kabul edilen günleri tanımlayın</b><br/> Seçilmeyen günler, iş paketleri planlanırken atlanır (ve gün sayısına dahil edilmez). Bunlar, iş paketi düzeyinde geçersiz kılınabilir.
+    instance_wide_info: >
+      <b>Belirli çalışılmayan günler (tatiller ve kapalı günler)</b><br/> Aşağıdaki listeye eklenen tarihler, çalışılmayan tarihler olarak kabul edilir ve iş paketleri planlanırken atlanır.
     change_button: "İş günlerini değiştir"
     warning: >
-      Haftanın hangi günlerinin iş günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir.
+      Haftanın hangi günlerinin iş günü veya tatil günü olarak kabul edileceğini değiştirmek, bu durumda tüm projelerdeki tüm iş paketlerinin başlangıç ve bitiş günlerini etkileyebilir. <br/> Değişikliklerin yalnızca siz değişiklikleri kaydet düğmesine tıkladıktan sonra uygulanacağını lütfen unutmayın.
     journal_note:
       changed: _**Çalışma günleri** değişti (%{changes})._
       days:
         working: "%{day} artık çalışma günü"
         non_working: "%{day} artık çalışılmayan gün"
+      dates:
+        working: "%{day} artık çalışma günü"
+        non_working: "%{date} artık çalışılmayan tarih"
   nothing_to_preview: "Önizlenecek bir şey yok"
   api_v3:
     attributes:

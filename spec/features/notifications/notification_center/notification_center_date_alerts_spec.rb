@@ -22,7 +22,14 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
   def create_alertable(**attributes)
     attributes = attributes.reverse_merge(assigned_to: user, project:)
-    create(:work_package, **attributes)
+    work_package = create(:work_package, **attributes)
+
+    # TimeCop sets the current time to 1:04h below. To be compatible to historic searches,
+    # we need to pretend that the journal records have been created before that time.
+    # https://github.com/opf/openproject/pull/11678#issuecomment-1328011996
+    #
+    work_package.journals.update_all created_at: Time.zone.now.change(hour: 0, minute: 0)
+    work_package
   end
 
   # notification will be created by the job because `overdue: 1` in user notifications settings
@@ -151,10 +158,10 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
            project:)
   end
 
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:side_menu) { ::Components::Notifications::Sidemenu.new }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:side_menu) { Components::Notifications::Sidemenu.new }
   let(:toaster) { PageObjects::Notifications.new(page) }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(notification_wp_due_today) }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(notification_wp_due_today) }
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
@@ -228,7 +235,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
       # Opening a date alert opens in overview
       center.click_item notification_wp_start_past
-      split_screen = ::Pages::SplitWorkPackage.new wp_start_past
+      split_screen = Pages::SplitWorkPackage.new wp_start_past
       split_screen.expect_tab :overview
 
       # We expect no badge count
@@ -236,7 +243,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
       # The same is true for the mention item that is opened in date alerts filter
       center.click_item notification_wp_double_date_alert
-      split_screen = ::Pages::SplitWorkPackage.new wp_double_notification
+      split_screen = Pages::SplitWorkPackage.new wp_double_notification
       split_screen.expect_tab :overview
 
       # We expect one badge

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,9 +61,9 @@ module Pages
           work_package_prioritized
           work_package_scheduled
         ].each do |type|
-          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") do |checkbox|
+          expect(page).to have_selector("input[type='checkbox'][data-qa-global-notification-type='#{type}']") { |checkbox|
             checkbox.checked? == setting[type]
-          end
+          }
         end
       end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -817,7 +817,7 @@ describe Notifications::CreateFromModelService,
           end
         end
 
-        context "when the added text contains a user mention tag in one way" do
+        context "when the added text contains a user mention tag with the attributes in one order" do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-id="#{recipient.id}" data-type="user" data-text="@#{recipient.name}">@#{recipient.name}</mention>
@@ -836,7 +836,7 @@ describe Notifications::CreateFromModelService,
           end
         end
 
-        context "when the added text contains a user mention tag in the other way" do
+        context "when the added text contains a user mention tag with the attributes in another order" do
           let(:note) do
             <<~NOTE
               Hello <mention class="mention" data-type="user" data-id="#{recipient.id}" data-text="@#{recipient.name}">@#{recipient.name}</mention>
@@ -1035,6 +1035,80 @@ describe Notifications::CreateFromModelService,
                 mail_reminder_sent: false
               }
             end
+          end
+        end
+      end
+
+      context 'with users and groups' do
+        let(:group_role) { create(:role, permissions: %i[view_work_packages]) }
+        let(:group) do
+          create(:group, members: recipient) do |group|
+            Members::CreateService
+              .new(user: User.system, contract_class: EmptyContract)
+              .call(project:, principal: group, roles: [group_role])
+          end
+        end
+        let(:other_recipient) do
+          create(:user,
+                 member_in_project: project,
+                 member_with_permissions: permissions,
+                 notification_settings: [build(:notification_setting, **notification_settings_all_true)])
+        end
+        let(:notification_group_recipient) { build_stubbed(:notification, recipient:) }
+        let(:notification_other_recipient) { build_stubbed(:notification, recipient: other_recipient) }
+
+        context 'with two tag based mention in the same line' do
+          let(:note) do
+            <<~NOTE.squish
+              Hello
+              <mention class="mention"
+                       data-id="#{group.id}"
+                       data-type="group"
+                       data-text="@#{group.name}">@#{group.name}
+              </mention>
+              <mention class="mention"
+                       data-id="#{other_recipient.id}"
+                       data-type="user"
+                       data-text="@#{other_recipient.name}">@#{other_recipient.name}
+              </mention>,
+              check this.
+            NOTE
+          end
+
+          let(:notification_channel_reasons) do
+            {
+              read_ian: false,
+              reason: :mentioned,
+              mail_alert_sent: false,
+              mail_reminder_sent: false
+            }
+          end
+
+          it 'creates two notification and returns them' do
+            notifications_service = instance_double(Notifications::CreateService)
+
+            allow(Notifications::CreateService)
+              .to receive(:new)
+                    .with(user: author)
+                    .and_return(notifications_service)
+
+            allow(notifications_service)
+              .to receive(:call) do |args|
+              if args[:recipient_id] == recipient.id &&
+                args.slice(*notification_channel_reasons.keys) == notification_channel_reasons
+                ServiceResult.success(result: notification_group_recipient)
+              elsif args[:recipient_id] == other_recipient.id &&
+                args.slice(*notification_channel_reasons.keys) == notification_channel_reasons
+                ServiceResult.success(result: notification_other_recipient)
+              else
+                expect(true)
+                  .to be(false),
+                      "Notification::CreateService received unexpected args: #{args.inspect}"
+              end
+            end
+
+            expect(call.all_results)
+              .to match_array([notification_group_recipient, notification_other_recipient])
           end
         end
       end

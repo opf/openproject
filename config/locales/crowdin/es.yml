@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -334,6 +334,7 @@ es:
   wiki:
     page_not_editable_index: La página solicitada no existe (todavía). Has sido redirigido al inicio las páginas de la wiki.
     no_results_title_text: Actualmente no hay paginas de wiki.
+    print_hint: Esto imprimirá el contenido de esta página wiki sin ninguna barra de navegación.
     index:
       no_results_content_text: Añadir una nueva página wiki
   work_flows:
@@ -344,6 +345,8 @@ es:
       one: 'Un paquete de trabajo descendiente'
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
+      copy_failed: "No se pudieron copiar los paquetes de trabajo."
+      move_failed: "No se pudieron mover los paquetes de trabajo."
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
@@ -372,7 +375,7 @@ es:
   account:
     delete: "Borrar cuenta"
     delete_confirmation: "¿Está seguro que desea eliminar la cuenta?"
-    deleted: "Cuenta eliminada con éxito"
+    deletion_pending: "La cuenta ha sido bloqueada y está programada para su eliminación. Tenga en cuenta que este proceso tiene lugar en segundo plano. Puede tardar un tiempo hasta que el usuario se borre por completo."
     deletion_info:
       data_consequences:
         other: "De los datos del usuario creado (por ejemplo correo electrónico, preferencias, paquetes de trabajo, entradas wiki) serán eliminados, en la medida de lo posible. Sin embargo, tenga en cuenta que no se pueden eliminar datos como entradas wiki y paquetes de trabajo sin obstaculizar el trabajo de los demás usuarios. Dichos datos, por lo tanto, serán reasignados a una cuenta denominada \"Usuarios Eliminados\". Como los datos de cada cuenta borrada son reasignados al eliminarla, no será posible distinguir los datos del usuario creado a partir de los datos de otra cuenta eliminada."
@@ -467,14 +470,24 @@ es:
       member:
         roles: "Perfiles"
       project:
+        active_value:
+          true: "desarchivado"
+          false: "archivado"
         identifier: "Identificador"
         latest_activity_at: "Última actividad en"
         parent: "Subproyecto de"
+        public_value:
+          title: "Visibilidad"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
+        templated: "Plantilla del proyecto"
+        templated_value:
+          true: "marcar como plantilla"
+          false: "desmarcar como plantilla"
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
-        templated: 'Plantilla del proyecto'
       projects/status:
         code: 'Estado'
         explanation: 'Descripción del estado'
@@ -686,6 +699,11 @@ es:
               no_notification_reason: 'no puede estar en blanco, ya que se han elegido las notificaciones en la aplicación como un canal.'
             reason_mail_digest:
               no_notification_reason: 'no puede estar en blanco, ya que se ha elegido el resumen de correo como un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Ya existe un día no laboral para %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +714,8 @@ es:
           archived_ancestor: 'El proyecto tiene un antecesor archivado.'
           foreign_wps_reference_version: 'Los paquetes de trabajo en los proyectos no descendientes hacen referencia a versiones del proyecto o a sus descendientes.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "No tiene los permisos necesarios para archivar todos los subproyectos. Por favor, póngase en contacto con un administrador."
             types:
               in_use_by_work_packages: "todavia en uso por los paquetes de trabajo: %{types}"
             enabled_modules:
@@ -889,8 +909,22 @@ es:
     header_invalid_fields: "Hubo problemas con los siguientes campos:"
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
-    created: "Creado: %{title}"
-    updated: "Actualizado: %{title}"
+    item:
+      created_by_on: "creado por %{user} el %{datetime}"
+      created_on: "creado el %{datetime}"
+      updated_by_on: "actualizado por %{user} el %{datetime}"
+      updated_on: "actualizado el %{datetime}"
+      parent_without_of: "Subproyecto"
+      parent_no_longer: "Ya no es subproyecto de"
+    filter:
+      changeset: "Conjuntos de cambios"
+      message: "Foros"
+      news: "Noticias"
+      project_attribute: "Atributos del proyecto"
+      subproject: "Incluir subproyectos"
+      time_entry: "Tiempo empleado"
+      wiki_edit: "Wiki"
+      work_package: "Paquetes de trabajo"
   #common attributes of all models
   attributes:
     active: "Activo"
@@ -1026,6 +1060,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
+  button_apply_changes: "Aplicar cambios"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1321,16 +1356,20 @@ es:
   error_external_authentication_failed: "Se produjo un error durante la autenticación externa. Vuelva a intentarlo."
   error_attribute_not_highlightable: "Atributos que no pueden resaltarse: %{attributes}"
   events:
-    project: 'Proyecto editado'
     changeset: 'Set de cambios editado'
     message: Mensaje editado
     news: Noticias
+    project_attributes: 'Atributos del proyecto editados'
+    projects: 'Proyecto editado'
     reply: Respondió
     time_entry: 'Tiempo de ingreso editado'
     wiki_page: 'Página wiki editada'
     work_package_closed: 'Paquete de trabajo cerrada'
     work_package_edit: 'Paquete de trabajo editado'
     work_package_note: 'Nota de paquete de trabajo añadido'
+    title:
+      project: "Proyecto: %{name}"
+      subproject: "Subproyecto: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
@@ -1356,7 +1395,6 @@ es:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Español"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1742,6 +1780,10 @@ es:
   label_not_contains: "no contiene"
   label_not_equals: "no es"
   label_on: "en"
+  label_operator_all: "no está vacío"
+  label_operator_none: "está vacío"
+  label_operator_equals_or: "es (OR)"
+  label_operator_equals_all: "es (AND)"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
   label_open_work_packages_plural: "abierto"
@@ -1783,6 +1825,8 @@ es:
   label_product_version: "Versión del producto"
   label_professional_support: "Soporte profesional"
   label_profile: "Perfil"
+  label_project_activity: "Actividad del proyecto"
+  label_project_attribute_plural: "Atributos del proyecto"
   label_project_count: "Número total de proyectos"
   label_project_copy_notifications: "Enviar notificaciones por correo electrónico durante la copia del proyecto"
   label_project_latest: "Últimos proyectos"
@@ -2072,8 +2116,6 @@ es:
   mail_subject_incoming_email_error: "Un correo electrónico que enviaste a OpenProject no pudo ser procesado."
   mail_subject_lost_password: "Su contraseña %{value}"
   mail_subject_register: "La activación de la cuenta %{value}"
-  mail_subject_reminder: "%{count} paquete(s) de trabajo pendientes en los siguientes %{days} dias"
-  mail_subject_group_reminder: "Para el grupo “%{group}”, hay %{count} paquete(s) de trabajo que vencerá(n) en los próximos %{days} días"
   mail_subject_wiki_content_added: "'%{id}' wiki página ha sido agregada"
   mail_subject_wiki_content_updated: "'%{id}' wiki página ha sido actualizada"
   mail_member_added_project:
@@ -2206,6 +2248,7 @@ es:
   permission_add_work_packages: "Añadir paquetes de trabajo"
   permission_add_messages: "Publicar mensajes"
   permission_add_project: "Crear proyecto"
+  permission_archive_project: "Archivar proyecto"
   permission_manage_user: "Crear y editar usuarios"
   permission_manage_placeholder_user: "Crear, editar y eliminar usuarios de marcador de posición"
   permission_add_subprojects: "Crear subproyectos"
@@ -2643,12 +2686,13 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
-  text_journal_changed_html: "%{label} se cambió de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2940,13 +2984,18 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Defina los días laborables de la semana</b><br/> Los días no laborables se omiten al planificar los paquetes de trabajo y se excluyen al calcular la duración. Esto se puede anular a nivel de paquete de trabajo.
+      <b>Definir los días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no se incluyen en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
+    instance_wide_info: >
+      <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Cambiar qué días de la semana se consideran laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia.
+      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:
+        working: "%{day} es ahora laboral"
+        non_working: "%{day} es ahora no laboral"
+      dates:
         working: "%{day} es ahora laboral"
         non_working: "%{day} es ahora no laboral"
   nothing_to_preview: "Nada para previsualizar"

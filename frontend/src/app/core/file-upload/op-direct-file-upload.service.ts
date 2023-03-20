@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,16 +26,17 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { getType } from 'mime';
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpResponse } from '@angular/common/http';
 import { from, Observable, of } from 'rxjs';
 import { share, switchMap } from 'rxjs/operators';
+
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { getType } from 'mime';
+import { EXTERNAL_REQUEST_HEADER } from 'core-app/features/hal/http/openproject-header-interceptor';
 import {
   OpenProjectFileUploadService, UploadBlob, UploadFile, UploadInProgress,
 } from './op-file-upload.service';
-import { EXTERNAL_REQUEST_HEADER } from "core-app/features/hal/http/openproject-header-interceptor";
 
 interface PrepareUploadResult {
   url:string;
@@ -53,25 +54,22 @@ interface PrepareUploadResult {
 export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadService {
   /**
    * Upload a single file, get an UploadResult observable
-   * @param {string} url
-   * @param {UploadFile} file
-   * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'text') {
+  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post') {
     const observable = from(this.getDirectUploadFormFrom(url, file))
       .pipe(
-        switchMap(this.uploadToExternal(file, method, responseType)),
+        switchMap(this.uploadToExternal(file, method)),
         share(),
       );
 
     return [file, observable] as UploadInProgress;
   }
 
-  private uploadToExternal(file:UploadFile|UploadBlob, method:string, responseType:string):(result:PrepareUploadResult) => Observable<HttpEvent<unknown>> {
+  private uploadToExternal(file:UploadFile|UploadBlob, method:string):(result:PrepareUploadResult) => Observable<HttpEvent<unknown>> {
     return (result) => {
       result.form.append('file', file, file.customName || file.name);
 
-      return this.http.request<HalResource>(
+      return this.http.request(
         method,
         result.url,
         {
@@ -83,7 +81,7 @@ export class OpenProjectDirectFileUploadService extends OpenProjectFileUploadSer
           headers: {
             [EXTERNAL_REQUEST_HEADER]: 'true',
           },
-          responseType: responseType as 'json',
+          responseType: 'text',
           // Subscribe to progress events. subscribe() will fire multiple times!
           reportProgress: true,
         },

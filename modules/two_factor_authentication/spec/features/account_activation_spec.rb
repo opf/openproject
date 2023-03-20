@@ -2,13 +2,12 @@ require_relative '../spec_helper'
 require_relative './shared_2fa_examples'
 
 describe 'activating an invited account',
-         type: :feature,
          js: true,
          with_settings: {
            plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
          } do
   let(:user) do
-    user = build :user, first_login: true
+    user = build(:user, first_login: true)
     UserInvitation.invite_user! user
 
     user
@@ -39,12 +38,12 @@ describe 'activating an invited account',
   end
 
   context 'when not enforced, but device present' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
     it 'requests a OTP' do
       sms_token = nil
       # rubocop:disable RSpec/AnyInstance
-      allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+      allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
           .to receive(:create_mobile_otp).and_wrap_original do |m|
         sms_token = m.call
       end

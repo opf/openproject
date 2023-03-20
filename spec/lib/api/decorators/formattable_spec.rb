@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::Decorators::Formattable do
+describe API::Decorators::Formattable do
   let(:represented) { 'A **raw** string!' }
 
   subject { described_class.new(represented).to_json }
@@ -46,7 +46,7 @@ describe ::API::Decorators::Formattable do
   end
 
   context 'when passing an object context' do
-    let(:object) { build_stubbed :work_package }
+    let(:object) { build_stubbed(:work_package) }
 
     subject { described_class.new(represented, object:) }
 

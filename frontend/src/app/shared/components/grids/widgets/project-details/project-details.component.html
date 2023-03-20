@@ -2,10 +2,10 @@
     [name]="widgetName"
     [editable]="isEditable">
 
-  <widget-menu
-      slot="menu"
-      [resource]="resource">
-  </widget-menu>
+  <op-widget-project-details-menu
+    slot="menu"
+    [resource]="resource">
+  </op-widget-project-details-menu>
 </widget-header>
 
 <div class="grid--widget-content">
@@ -19,9 +19,10 @@
                                [attributeScope]="'Project'"></attribute-help-text>
         </div>
         <div class="attributes-map--value">
-          <op-editable-attribute-field [resource]="project"
-                                    [fieldName]="cf.key">
-          </op-editable-attribute-field>
+          <op-editable-attribute-field
+            [resource]="project"
+            [fieldName]="cf.key"
+          ></op-editable-attribute-field>
         </div>
       </ng-container>
     </div>

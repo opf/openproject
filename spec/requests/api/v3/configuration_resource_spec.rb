@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Configuration resource', type: :request do
+describe 'API v3 Configuration resource' do
   include Rack::Test::Methods
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:user) { create(:user) }
   let(:configuration_path) { api_v3_paths.configuration }
@@ -70,9 +70,7 @@ describe 'API v3 Configuration resource', type: :request do
         .not_to have_json_path('_embedded/user_preferences')
     end
 
-    context 'with feature flags' do
-      include_context 'with clean setting definitions'
-
+    context 'with feature flags', :settings_reset do
       before do
         stub_const('ENV',
                    'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe ::Webhooks::Outgoing::AdminController, type: :controller do
-  let(:user) { build_stubbed :admin }
+describe Webhooks::Outgoing::AdminController do
+  let(:user) { build_stubbed(:admin) }
 
   before do
     login_as user
   end
 
   context 'when not admin' do
-    let(:user) { build_stubbed :user }
+    let(:user) { build_stubbed(:user) }
 
     it 'renders 403' do
       get :index
@@ -71,7 +71,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   end
 
   describe '#create' do
-    let(:service) { double(::Webhooks::Outgoing::UpdateWebhookService) }
+    let(:service) { double(Webhooks::Outgoing::UpdateWebhookService) }
     let(:webhook_params) do
       {
         name: 'foo',
@@ -88,7 +88,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
     describe 'Calling the service' do
       before do
-        expect(::Webhooks::Outgoing::UpdateWebhookService)
+        expect(Webhooks::Outgoing::UpdateWebhookService)
           .to receive(:new)
           .and_return service
 
@@ -122,9 +122,9 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   describe '#edit' do
     context 'when found' do
       before do
-        expect(::Webhooks::Webhook)
+        expect(Webhooks::Webhook)
           .to receive(:find)
-          .and_return(double(::Webhooks::Webhook))
+          .and_return(double(Webhooks::Webhook))
       end
 
       it 'renders the edit page' do
@@ -145,7 +145,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   end
 
   describe '#update' do
-    let(:service) { double(::Webhooks::Outgoing::UpdateWebhookService) }
+    let(:service) { double(Webhooks::Outgoing::UpdateWebhookService) }
     let(:webhook_params) do
       {
         name: 'foo',
@@ -162,14 +162,14 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
     end
 
     describe 'Calling the service' do
-      let(:webhook) { double(::Webhooks::Webhook) }
+      let(:webhook) { double(Webhooks::Webhook) }
 
       before do
-        allow(::Webhooks::Webhook)
+        allow(Webhooks::Webhook)
           .to receive(:find)
           .and_return(webhook)
 
-        expect(::Webhooks::Outgoing::UpdateWebhookService)
+        expect(Webhooks::Outgoing::UpdateWebhookService)
           .to receive(:new)
           .and_return service
 
@@ -201,11 +201,11 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:webhook) { double(::Webhooks::Webhook) }
+    let(:webhook) { double(Webhooks::Webhook) }
 
     context 'when found' do
       before do
-        expect(::Webhooks::Webhook)
+        expect(Webhooks::Webhook)
           .to receive(:find)
           .and_return(webhook)
 

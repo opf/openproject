@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,7 @@ class UsersController < ApplicationController
   before_action :authorize_for_user, only: [:destroy]
   before_action :check_if_deletion_allowed, only: %i[deletion_info
                                                      destroy]
+  before_action :set_current_activity_page, only: [:show]
 
   # Password confirmation helpers and actions
   include PasswordConfirmation
@@ -61,12 +62,6 @@ class UsersController < ApplicationController
     @groups = Group.all.sort
     @status = Users::UserFilterCell.status_param params
     @users = Users::UserFilterCell.filter params
-
-    respond_to do |format|
-      format.html do
-        render layout: !request.xhr?
-      end
-    end
   end
 
   def show
@@ -75,23 +70,21 @@ class UsersController < ApplicationController
                         .where.not(project_id: nil)
                         .visible(current_user)
 
-    events = Activities::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
-    @events_by_day = events.group_by { |e| e.event_datetime.to_date }
-
-    if !current_user.allowed_to_globally?(:manage_user) &&
-       (!(@user.active? ||
-       @user.registered?) ||
-       (@user != User.current && @memberships.empty? && events.empty?))
-      render_404
+    if can_show_user?
+      @events = events
+      render layout: 'no_menu'
     else
-      respond_to do |format|
-        format.html { render layout: 'no_menu' }
-      end
+      render_404
     end
   end
 
   def new
     @user = User.new(language: Setting.default_language)
+  end
+
+  def edit
+    @membership ||= Member.new
+    @individual_principal = @user
   end
 
   def create
@@ -108,11 +101,6 @@ class UsersController < ApplicationController
       @errors = call.errors
       render action: 'new'
     end
-  end
-
-  def edit
-    @membership ||= Member.new
-    @individual_principal = @user
   end
 
   def update
@@ -228,7 +216,7 @@ class UsersController < ApplicationController
 
     Users::DeleteService.new(model: @user, user: User.current).call
 
-    flash[:notice] = I18n.t('account.deleted')
+    flash[:notice] = I18n.t('account.deletion_pending')
 
     respond_to do |format|
       format.html do
@@ -242,6 +230,18 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def can_show_user?
+    return true if current_user.allowed_to_globally?(:manage_user)
+    return true if @user == User.current
+
+    (@user.active? || @user.registered?) \
+    && (@memberships.present? || events.present?)
+  end
+
+  def events
+    @events ||= Activities::Fetcher.new(User.current, author: @user).events(limit: 10)
+  end
 
   def find_user
     if params[:id] == 'current' || params['id'].nil?
@@ -272,6 +272,10 @@ class UsersController < ApplicationController
 
   def check_if_deletion_allowed
     render_404 unless Users::DeleteContract.deletion_allowed? @user, User.current
+  end
+
+  def set_current_activity_page
+    @activity_page = "users/#{@user.id}"
   end
 
   def my_or_admin_layout

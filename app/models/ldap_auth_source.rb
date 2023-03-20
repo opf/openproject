@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +36,11 @@ class LdapAuthSource < AuthSource
   }.freeze, _default: :start_tls
   validates :tls_mode, inclusion: { in: tls_modes.keys }
 
-  validates_presence_of :host, :port, :attr_login
-  validates_length_of :name, :host, maximum: 60, allow_nil: true
-  validates_length_of :account, :account_password, :base_dn, maximum: 255, allow_nil: true
-  validates_length_of :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin, maximum: 30, allow_nil: true
-  validates_numericality_of :port, only_integer: true
+  validates :host, :port, :attr_login, presence: true
+  validates :name, :host, length: { maximum: 60, allow_nil: true }
+  validates :account, :account_password, :base_dn, length: { maximum: 255, allow_nil: true }
+  validates :attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin, length: { maximum: 30, allow_nil: true }
+  validates :port, numericality: { only_integer: true }
 
   validate :validate_filter_string
   validate :validate_tls_certificate_string, if: -> { tls_certificate_string.present? }
@@ -163,7 +163,7 @@ class LdapAuthSource < AuthSource
 
   def strip_ldap_attributes
     %i[attr_login attr_firstname attr_lastname attr_mail attr_admin].each do |attr|
-      write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
+      self[attr] = self[attr].strip unless self[attr].nil?
     end
   end
 
@@ -231,7 +231,7 @@ class LdapAuthSource < AuthSource
     end
 
     ldap_con.search(base: base_dn,
-                    filter: filter,
+                    filter:,
                     attributes: search_attributes) do |entry|
       attrs =
         if onthefly_register?
@@ -247,7 +247,7 @@ class LdapAuthSource < AuthSource
   end
 
   def self.get_attr(entry, attr_name)
-    if !attr_name.blank?
+    if attr_name.present?
       entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
     end
   end

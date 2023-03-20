@@ -13,9 +13,10 @@ import {
 import { GlobalI18n } from 'core-app/core/i18n/i18n.service';
 import { I18nShim } from './test/i18n-shim';
 
-require('expose-loader?_!lodash');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access no-explicit-any
+(window as any).global = window;
 
-declare const require:any;
+require('expose-loader?_!lodash');
 declare global {
   export interface Window {
     I18n:GlobalI18n;
@@ -29,9 +30,7 @@ window.I18n = new I18nShim();
 getTestBed().initTestEnvironment(
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting(),
+  {
+    teardown: { destroyAfterEach: false },
+  },
 );
-
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().map(context);

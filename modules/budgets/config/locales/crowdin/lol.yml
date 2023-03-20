@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -39,6 +39,9 @@ lol:
     models:
       budget: "crwdns546705:0crwdne546705:0"
       material_budget_item: "crwdns546707:0crwdne546707:0"
+  activity:
+    filter:
+      budget: "crwdns848077:0crwdne848077:0"
   attributes:
     budget: "crwdns546709:0crwdne546709:0"
   button_add_budget_item: "crwdns546711:0crwdne546711:0"

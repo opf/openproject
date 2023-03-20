@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'OAuth applications management', type: :feature, js: true do
+describe 'OAuth applications management', js: true do
   let(:admin) { create(:admin) }
 
   before do
@@ -85,8 +85,8 @@ describe 'OAuth applications management', type: :feature, js: true do
     SeleniumHubWaiter.wait
     find('td a', text: 'My API application').click
 
-    expect(page).to have_no_selector('.attributes-key-value--key', text: 'Client secret')
-    expect(page).to have_no_selector('.attributes-key-value--value code')
+    expect(page).not_to have_selector('.attributes-key-value--key', text: 'Client secret')
+    expect(page).not_to have_selector('.attributes-key-value--value code')
     expect(page).to have_selector('.attributes-key-value--key', text: 'Client ID')
     expect(page).to have_selector('.attributes-key-value--value', text: "urn:ietf:wg:oauth:2.0:oob")
 

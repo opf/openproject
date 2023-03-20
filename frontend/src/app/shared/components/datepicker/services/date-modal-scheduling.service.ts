@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,25 +27,26 @@
 //++
 
 import {
-  Inject,
   Injectable,
 } from '@angular/core';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { DateModalRelationsService } from 'core-app/shared/components/datepicker/services/date-modal-relations.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
 
 @Injectable()
 export class DateModalSchedulingService {
-  private changeset:WorkPackageChangeset = this.locals.changeset as WorkPackageChangeset;
+  private changeset:WorkPackageChangeset;
 
-  scheduleManually = !!this.changeset.value('scheduleManually');
+  scheduleManually = false;
 
   constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     readonly dateModalRelations:DateModalRelationsService,
   ) {}
+
+  setChangeset(changeset:WorkPackageChangeset) {
+    this.changeset = changeset;
+    this.scheduleManually = !!this.changeset.value('scheduleManually');
+  }
 
   /**
    * Returns whether the user can alter the dates of the work package.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,8 +37,7 @@ module OpenProject::Bim
     register 'openproject-bim',
              author_url: 'https://www.openproject.org',
              settings: {
-               default: {
-               }
+               default: {}
              } do
       project_module(:bim,
                      dependencies: :work_package_tracking,
@@ -199,7 +198,6 @@ module OpenProject::Bim
       Mime::Type.register "application/octet-stream", :bcfzip unless Mime::Type.lookup_by_extension(:bcfzip)
     end
 
-    # rubocop:disable Naming/VariableNumber
     config.to_prepare do
       Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
@@ -214,8 +212,6 @@ module OpenProject::Bim
         %i[oauth session]
       end
     end
-    # rubocop:enable Naming/VariableNumber
-
     config.to_prepare do
       ::Exports::Register.register do
         list ::WorkPackage, OpenProject::Bim::BcfXml::Exporter

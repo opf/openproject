@@ -1,5 +1,5 @@
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2020 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,11 @@
 // ++
 
 import {
-  ChangeDetectionStrategy, Component, OnInit, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { OpCkeditorComponent } from 'core-app/shared/components/editor/components/ckeditor/op-ckeditor.component';
@@ -40,7 +44,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
   templateUrl: './formattable-edit-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit {
+export class FormattableEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
   public readonly field = this;
 
   // Detect when inner component could not be initialized
@@ -52,6 +56,8 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   public isPreview = false;
 
   public previewHtml = '';
+
+  private cancelled = false;
 
   public text:Record<string, string> = {};
 
@@ -75,6 +81,18 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name }),
     };
+  }
+
+  ngOnDestroy():void {
+    super.ngOnDestroy();
+
+    if (!this.cancelled) {
+      try {
+        this.rawValue = this.editor?.getRawData();
+      } catch (e) {
+        console.error(`Failed to save CKEditor state on destroy: ${e as string}.`);
+      }
+    }
   }
 
   public onCkeditorSetup(editor:ICKEditorInstance):void {
@@ -106,6 +124,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
       });
 
     return false;
+  }
+
+  public handleUserCancel():void {
+    this.cancelled = true;
+    this.handler.handleUserCancel();
   }
 
   private get previewContext() {

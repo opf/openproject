@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -263,7 +263,7 @@ describe OpenProject::Hook do
       WorkPackageMailer.watcher_changed(work_package, user, author, :added).deliver_now
       mail2 = ActionMailer::Base.deliveries.last
 
-      assert_equal comparison_mail.text_part.body.encoded, mail2.text_part.body.encoded
+      expect(comparison_mail.text_part.body.encoded).to eq(mail2.text_part.body.encoded)
     end
   end
 end

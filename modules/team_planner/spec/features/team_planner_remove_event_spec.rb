@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,47 +30,47 @@ require 'spec_helper'
 require_relative './shared_context'
 require_relative '../support/components/add_existing_pane'
 
-describe 'Team planner remove event', type: :feature, js: true do
+describe 'Team planner remove event', js: true do
   include_context 'with team planner full access'
 
-  let!(:viewer_role) { create :existing_role, permissions: [:view_work_packages] }
+  let!(:viewer_role) { create(:existing_role, permissions: [:view_work_packages]) }
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_team_planner
-           ]
+           ])
   end
 
   let!(:removable_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Some task',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:non_removable_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            subject: 'Parent work package',
            assigned_to: other_user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday),
            derived_start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
-           derived_due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           derived_due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:child_wp) do
-    create :work_package,
+    create(:work_package,
            parent: non_removable_wp,
            project:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:wednesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   before do
@@ -92,7 +92,7 @@ describe 'Team planner remove event', type: :feature, js: true do
   end
 
   context 'with the add existing open searching for the task' do
-    let(:add_existing_pane) { ::Components::AddExistingPane.new }
+    let(:add_existing_pane) { Components::AddExistingPane.new }
 
     it 'the removed task shows up again' do
       # Open the left hand pane

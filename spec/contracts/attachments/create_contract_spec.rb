@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,14 +32,14 @@ require 'contracts/shared/model_contract_shared_context'
 describe Attachments::CreateContract do
   include_context 'ModelContract shared context'
 
-  let(:current_user) { build_stubbed :user }
+  let(:current_user) { build_stubbed(:user) }
   let(:model) do
-    build :attachment,
+    build(:attachment,
           container:,
           content_type:,
           file:,
           filename:,
-          author: current_user
+          author: current_user)
   end
   let(:contract) { described_class.new model, user, options: contract_options }
   let(:contract_options) { {} }
@@ -70,7 +70,7 @@ describe Attachments::CreateContract do
   end
 
   context 'with a user that is not the author' do
-    let(:user) { build_stubbed :user }
+    let(:user) { build_stubbed(:user) }
 
     it_behaves_like 'contract is invalid', author: :invalid
   end
@@ -80,7 +80,7 @@ describe Attachments::CreateContract do
   end
 
   context 'with a container' do
-    let(:container) { build_stubbed :work_package }
+    let(:container) { build_stubbed(:work_package) }
 
     before do
       allow(container)

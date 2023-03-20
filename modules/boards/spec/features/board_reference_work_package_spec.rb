@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Board reference work package spec', type: :feature, js: true do
+describe 'Board reference work package spec', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -38,10 +38,10 @@ describe 'Board reference work package spec', type: :feature, js: true do
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
-  let!(:work_package) { create :work_package, version:, subject: 'Foo', project: }
+  let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   let(:permissions) do
     %i[
@@ -54,11 +54,11 @@ describe 'Board reference work package spec', type: :feature, js: true do
       assign_versions
     ]
   end
-  let(:board_view) { create :board_grid_with_query, project: }
+  let(:board_view) { create(:board_grid_with_query, project:) }
 
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
-  let!(:version) { create :version, name: 'Foo version', project: }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
+  let!(:version) { create(:version, name: 'Foo version', project:) }
 
   before do
     with_enterprise_token :board_view
@@ -76,7 +76,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
     # Filter for Version
     filters.open
-    filters.add_filter_by('Version', 'is', version.name)
+    filters.add_filter_by('Version', 'is (OR)', version.name)
     sleep 2
 
     # Reference an existing work package
@@ -119,7 +119,7 @@ describe 'Board reference work package spec', type: :feature, js: true do
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('subproject', 'all', nil, 'subprojectId')
+      filters.add_filter_by('subproject', 'is not empty', nil, 'subprojectId')
       sleep 2
 
       # Reference an existing work package

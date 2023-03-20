@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,8 +81,7 @@ class Project < ApplicationRecord
   # Custom field for the project's work_packages
   has_and_belongs_to_many :work_package_custom_fields,
                           -> { order("#{CustomField.table_name}.position") },
-                          class_name: 'WorkPackageCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
@@ -96,11 +95,22 @@ class Project < ApplicationRecord
                      project_key: 'id',
                      permission: nil
 
+  acts_as_journalized
+
   # Necessary for acts_as_searchable which depends on the event_datetime method for sorting
   acts_as_event title: Proc.new { |o| "#{Project.model_name.human}: #{o.name}" },
                 url: Proc.new { |o| { controller: 'overviews/overviews', action: 'show', project_id: o } },
                 author: nil,
                 datetime: :created_at
+
+  register_journal_formatted_fields(:active_status, 'active')
+  register_journal_formatted_fields(:template, 'templated')
+  register_journal_formatted_fields(:plaintext, 'identifier')
+  register_journal_formatted_fields(:plaintext, 'name')
+  register_journal_formatted_fields(:diff, 'description')
+  register_journal_formatted_fields(:visibility, 'public')
+  register_journal_formatted_fields(:subproject_named_association, 'parent_id')
+  register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
 
@@ -160,6 +170,10 @@ class Project < ApplicationRecord
     !active?
   end
 
+  def being_archived?
+    (active == false) && (active_was == true)
+  end
+
   def copy_allowed?
     User.current.allowed_to?(:copy_projects, self)
   end
@@ -204,8 +218,14 @@ class Project < ApplicationRecord
     projects_table = Project.arel_table
 
     stmt = projects_table[:id].eq(id)
-    stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt))) if with_subprojects
+    if with_subprojects && has_subprojects?
+      stmt = stmt.or(projects_table[:lft].gt(lft).and(projects_table[:rgt].lt(rgt)))
+    end
     stmt
+  end
+
+  def has_subprojects?
+    !leaf?
   end
 
   def types_used_by_work_packages
@@ -296,7 +316,7 @@ class Project < ApplicationRecord
   end
 
   def enabled_module_names=(module_names)
-    if module_names&.is_a?(Array)
+    if module_names.is_a?(Array)
       module_names = module_names.map(&:to_s).compact_blank
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
@@ -401,9 +421,9 @@ class Project < ApplicationRecord
   end
 
   def allowed_actions
-    @actions_allowed ||= allowed_permissions
-                           .map { |permission| OpenProject::AccessControl.allowed_actions(permission) }
-                           .flatten
+    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+      OpenProject::AccessControl.allowed_actions(permission)
+    end
   end
 
   def remove_white_spaces_from_project_name

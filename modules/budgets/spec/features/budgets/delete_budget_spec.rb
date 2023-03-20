@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,17 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper.rb")
 
-describe 'Deleting a budget', type: :feature, js: true do
-  let(:project) { create :project, enabled_module_names: %i[budgets costs] }
-  let(:user) { create :admin }
+describe 'Deleting a budget', js: true do
+  let(:project) { create(:project, enabled_module_names: %i[budgets costs]) }
+  let(:user) { create(:admin) }
   let(:budget_subject) { "A budget subject" }
   let(:budget_description) { "A budget description" }
   let!(:budget) do
-    create :budget,
+    create(:budget,
            subject: budget_subject,
            description: budget_description,
            author: user,
-           project:
+           project:)
   end
 
   let(:budget_page) { Pages::EditBudget.new budget.id }
@@ -60,8 +60,8 @@ describe 'Deleting a budget', type: :feature, js: true do
   end
 
   context 'when WPs are assigned to this budget' do
-    let(:wp1) { create :work_package, project:, budget: }
-    let(:wp2) { create :work_package, project:, budget: }
+    let(:wp1) { create(:work_package, project:, budget:) }
+    let(:wp2) { create(:work_package, project:, budget:) }
     let(:budget_destroy_info_page) { Pages::DestroyInfo.new budget }
 
     before do
@@ -100,11 +100,11 @@ describe 'Deleting a budget', type: :feature, js: true do
 
     context 'with another budget to assign to' do
       let(:budget2) do
-        create :budget,
+        create(:budget,
                subject: 'Another budget',
                description: budget_description,
                author: user,
-               project:
+               project:)
       end
 
       before do

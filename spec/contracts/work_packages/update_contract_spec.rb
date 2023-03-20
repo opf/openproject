@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:work_package_project) do
-    build_stubbed(:project, public: false).tap do |p|
+    create(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)
@@ -56,7 +56,7 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:type) { build_stubbed(:type) }
+  let(:type) { create(:type) }
   let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
@@ -282,7 +282,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed(:type, is_milestone: true) }
       let(:children) { [build_stubbed(:work_package)] }
 
       before do
@@ -419,7 +419,7 @@ describe WorkPackages::UpdateContract do
 
         shared_examples_for 'custom_field readonly errors' do
           it 'adds an error to the written custom field attribute' do
-            expect(contract.errors.symbols_for(:"custom_field_#{cf1.id}"))
+            expect(contract.errors.symbols_for(cf1.attribute_name.to_sym))
               .to include(:error_readonly)
           end
 

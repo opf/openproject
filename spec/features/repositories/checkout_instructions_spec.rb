@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Create repository', type: :feature, js: true do
+describe 'Create repository', js: true do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:enabled_scms) { %w[git] }
@@ -68,7 +68,7 @@ describe 'Create repository', type: :feature, js: true do
 
       expect(page).to have_selector('#repository--checkout-instructions')
 
-      button = find('#repository--checkout-instructions-toggle')
+      button = find_by_id('repository--checkout-instructions-toggle')
       button.click
 
       expect(page).not_to have_selector('#repository--checkout-instructions')

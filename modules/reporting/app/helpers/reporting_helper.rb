@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -142,7 +142,7 @@ module ReportingHelper
     case key.to_sym
     when :work_package_id, :tweek, :tmonth, :week  then value.to_i
     when :spent_on                                 then value.to_date.mjd
-    else h(field_representation_map(key, value).gsub(/<\/?[^>]*>/, ''))
+    else strip_tags(field_representation_map(key, value))
     end
   end
 

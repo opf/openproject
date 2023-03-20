@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,7 +32,7 @@ require 'webmock/rspec'
 describe OAuthClients::ConnectionManager, type: :model do
   let(:user) { create(:user) }
   let(:host) { "https://example.org" }
-  let(:provider_type) { ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+  let(:provider_type) { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
   let(:storage) { create(:storage, provider_type:, host: "#{host}/") }
   let(:scope) { [:all] } # OAuth2 resources to access, specific to provider
   let(:oauth_client) do
@@ -142,7 +142,7 @@ describe OAuthClients::ConnectionManager, type: :model do
   # The callback endpoint calls `code_to_token(code)` with the code
   # received and exchanges the code for a bearer+refresh token
   # using a HTTP request.
-  describe '#code_to_token' do
+  describe '#code_to_token', webmock: true do
     let(:code) { "7kRGJ...jG3KZ" }
 
     subject { instance.code_to_token(code) }
@@ -158,19 +158,19 @@ describe OAuthClients::ConnectionManager, type: :model do
           user_id: "admin"
         }.to_json
         stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 200, body: response_body)
+          .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
-      it 'returns a valid ClientToken object', webmock: true do
+      it 'returns a valid ClientToken object' do
         expect(subject.success).to be_truthy
         expect(subject.result).to be_a OAuthClientToken
       end
     end
 
-    context 'with known error', webmock: true do
+    context 'with known error' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: error_message }.to_json)
+          .to_return(status: 400, body: { error: error_message }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       shared_examples 'OAuth2 error response' do
@@ -195,10 +195,10 @@ describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with known reply invalid_grant', webmock: true do
+    context 'with known reply invalid_grant' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: "invalid_grant" }.to_json)
+          .to_return(status: 400, body: { error: "invalid_grant" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       it 'returns a specific error message' do
@@ -209,10 +209,10 @@ describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with unknown reply', webmock: true do
+    context 'with unknown reply' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-          .to_return(status: 400, body: { error: "invalid_requesttt" }.to_json)
+          .to_return(status: 400, body: { error: "invalid_requesttt" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
       end
 
       it 'returns an unspecific error message' do
@@ -223,7 +223,7 @@ describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with reply including JSON syntax error', webmock: true do
+    context 'with reply including JSON syntax error' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(
@@ -235,13 +235,13 @@ describe OAuthClients::ConnectionManager, type: :model do
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to eq 'Unknown :: some: very, invalid> <json}'
+        expect(subject.result).to eq "unexpected token at 'some: very, invalid> <json}'"
         expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_error')
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
-    context 'with 500 reply without body', webmock: true do
+    context 'with 500 reply without body' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
           .to_return(status: 500)
@@ -255,29 +255,42 @@ describe OAuthClients::ConnectionManager, type: :model do
       end
     end
 
-    context 'with bad HTTP response', webmock: true do
+    context 'when something is wrong with connection' do
       before do
-        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Net::HTTPBadResponse)
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::ConnectionFailed)
       end
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq("Exception from WebMock")
         expect(subject.errors[:base].count).to be(1)
         expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
 
-    context 'with timeout returns internal error', webmock: true do
+    context 'when something is wrong with SSL' do
+      before do
+        stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_raise(Faraday::SSLError)
+      end
+
+      it 'returns an unspecific error message' do
+        expect(subject.success).to be_falsey
+        expect(subject.result).to eq("Exception from WebMock")
+        expect(subject.errors[:base].count).to be(1)
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
+      end
+    end
+
+    context 'with timeout returns internal error' do
       before do
         stub_request(:post, File.join(host, '/index.php/apps/oauth2/api/v1/token')).to_timeout
       end
 
       it 'returns an unspecific error message' do
         expect(subject.success).to be_falsey
-        expect(subject.result).to be_nil
+        expect(subject.result).to eq("execution expired")
         expect(subject.errors[:base].count).to be(1)
-        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_standard_error')
+        expect(subject.errors[:base].first).to include I18n.t('oauth_client.errors.oauth_returned_http_error')
       end
     end
   end
@@ -312,7 +325,7 @@ describe OAuthClients::ConnectionManager, type: :model do
               user_id: "admin"
             }.to_json
             stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-              .to_return(status: 200, body: response_body)
+              .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
           it 'returns a valid ClientToken object', webmock: true do
@@ -335,7 +348,7 @@ describe OAuthClients::ConnectionManager, type: :model do
               user_id: "admin"
             }.to_json
             stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-              .to_return(status: 200, body: response_body)
+              .to_return(status: 200, body: response_body, headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
           it 'returns dependent error from model validation', webmock: true do
@@ -349,7 +362,7 @@ describe OAuthClients::ConnectionManager, type: :model do
         context 'with server error from OAuth2 provider' do
           before do
             stub_request(:any, File.join(host, '/index.php/apps/oauth2/api/v1/token'))
-              .to_return(status: 400, body: { error: "invalid_request" }.to_json)
+              .to_return(status: 400, body: { error: "invalid_request" }.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
           end
 
           it 'returns a server error', webmock: true do
@@ -368,7 +381,7 @@ describe OAuthClients::ConnectionManager, type: :model do
 
           it 'returns a valid ClientToken object', webmock: true do
             expect(subject.success).to be_falsey
-            expect(subject.result).to be_nil
+            expect(subject.result).to eq("execution expired")
             expect(subject.errors.size).to be(1)
           end
         end
@@ -378,7 +391,7 @@ describe OAuthClients::ConnectionManager, type: :model do
                 use_transactional_fixtures: false,
                 webmock: true do
           after do
-            ::Storages::Storage.destroy_all
+            Storages::Storage.destroy_all
             User.destroy_all
             OAuthClientToken.destroy_all
             OAuthClient.destroy_all
@@ -396,8 +409,8 @@ describe OAuthClients::ConnectionManager, type: :model do
             response_body2[:access_token] = "differ...RYvRH"
             request_url = File.join(host, '/index.php/apps/oauth2/api/v1/token')
             stub_request(:any, request_url).to_return(
-              { status: 200, body: response_body1.to_json },
-              { status: 200, body: response_body2.to_json }
+              { status: 200, body: response_body1.to_json, headers: { "content-type" => "application/json; charset=utf-8" } },
+              { status: 200, body: response_body2.to_json, headers: { "content-type" => "application/json; charset=utf-8" } }
             )
 
             result1 = nil
@@ -433,8 +446,8 @@ describe OAuthClients::ConnectionManager, type: :model do
             response_body2[:access_token] = "differ...RYvRH"
             request_url = File.join(host, '/index.php/apps/oauth2/api/v1/token')
             stub_request(:any, request_url)
-              .to_return(status: 200, body: response_body1.to_json).then
-              .to_return(status: 200, body: response_body2.to_json)
+              .to_return(status: 200, body: response_body1.to_json, headers: { "content-type" => "application/json; charset=utf-8" }).then
+              .to_return(status: 200, body: response_body2.to_json, headers: { "content-type" => "application/json; charset=utf-8" })
 
             result1 = nil
             result2 = nil
@@ -486,7 +499,7 @@ describe OAuthClients::ConnectionManager, type: :model do
       context 'with access token valid' do
         context 'without other errors or exceptions' do
           before do
-            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
               .to_return(status: 200)
           end
 
@@ -497,7 +510,7 @@ describe OAuthClients::ConnectionManager, type: :model do
 
         context 'with some other error or exception' do
           before do
-            stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+            stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
               .to_timeout
           end
 
@@ -512,7 +525,7 @@ describe OAuthClients::ConnectionManager, type: :model do
         let(:refresh_service_result) { ServiceResult.success }
 
         before do
-          stub_request(:get, File.join(host, ::OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
+          stub_request(:get, File.join(host, OAuthClients::ConnectionManager::AUTHORIZATION_CHECK_PATH))
             .to_return(status: 401) # 401 unauthorized
           allow(instance).to receive(:refresh_token).and_return(refresh_service_result)
         end

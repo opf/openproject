@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,7 +84,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def prepare_batch!
-    total_wp_count = query.results.work_package_count
+    total_wp_count = query.results.work_packages.count
     @work_packages_per_batch = 100
     @batches_count = total_wp_count.fdiv(@work_packages_per_batch).ceil
     @batch_files = []

@@ -1,0 +1,60 @@
+# Schema: NonWorkingDayCollectionModel
+---
+allOf:
+  - $ref: './collection_model.yml'
+  - type: object
+    required:
+      - _links
+      - _embedded
+    properties:
+      _links:
+        type: object
+        required:
+          - self
+        properties:
+          self:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  This non working days collection
+
+                  **Resource**: NonWorkingDayCollectionModel
+      _embedded:
+        type: object
+        required:
+          - elements
+        properties:
+          elements:
+            type: array
+            description: |-
+              The array of non working days. Each day has a name and a date.
+            items:
+              $ref: './non_working_day_model.yml'
+
+example:
+  _type: Collection
+  total: 2
+  count: 2
+  _links:
+    self:
+      href: '/api/v3/non_working?filters=[{"interval":{"operator":"<>d","values":["2022-04-29","2022-12-24"]}}]'
+  _embedded:
+    elements:
+      - _type: NonWorkingDay
+        date: '2022-12-24'
+        name: 'Christmas Evening'
+        _links:
+          self:
+            href: /api/v3/days/non_working/2022-04-24
+          weekday:
+            href: /api/v3/days/week/6
+            title: Saturday
+      - _type: NonWorkingDay
+        date: '2022-05-01'
+        name: 'Labour day'
+        _links:
+          self:
+            href: /api/v3/days/non_working/2022-05-01
+          weekday:
+            href: /api/v3/days/week/7
+            title: Sunday

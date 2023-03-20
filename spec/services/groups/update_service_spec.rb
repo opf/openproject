@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ describe Groups::UpdateService, type: :model do
 
           expect(add_users_service)
             .to have_received(:call)
-            .with(ids: [new_group_user.user_id], send_notifications: true)
+            .with(ids: [new_group_user.user_id])
         end
       end
 
@@ -94,7 +94,7 @@ describe Groups::UpdateService, type: :model do
 
           expect(add_users_service)
             .to have_received(:call)
-            .with(ids: [new_group_user.user_id], send_notifications: true)
+            .with(ids: [new_group_user.user_id])
         end
       end
 

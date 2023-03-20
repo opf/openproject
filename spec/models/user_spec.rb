@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -429,7 +429,7 @@ describe User do
 
     it {
       expect(user.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
-                                                     count: Setting.password_min_length.to_i)
+                                                       count: Setting.password_min_length.to_i)
     }
   end
 

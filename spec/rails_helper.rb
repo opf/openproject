@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,6 +41,15 @@ require "test_prof/recipes/rspec/factory_default"
 # https://github.com/paper-trail-gem/paper_trail#7b-rspec
 require 'paper_trail/frameworks/rspec'
 
+# Add rubocop rspec helpers for our cop tests. It needs to be done before RSpec
+# requires all files so that the CopHelper module does not hide some let
+# definitions.
+#
+# Ideally we should move our cops to their own gem.
+require 'rubocop'
+require 'rubocop/rspec/shared_contexts'
+require 'rubocop/rspec/support'
+
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
 # run as spec files by default. This means that files in spec/support that end
@@ -74,7 +83,7 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root}/spec/fixtures"
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
@@ -85,8 +94,8 @@ RSpec.configure do |config|
   # Add job helper
   # Only the ActiveJob::TestHelper is actually used but it in turn requires
   # e.g. assert_nothing_raised
-  config.include ::ActiveSupport::Testing::Assertions
-  config.include ::ActiveJob::TestHelper
+  config.include ActiveSupport::Testing::Assertions
+  config.include ActiveJob::TestHelper
 
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
 

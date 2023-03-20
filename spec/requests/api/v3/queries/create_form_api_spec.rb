@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,13 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form", type: :request do
+describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  let(:user) { create(:admin) }
-  let!(:project) { create(:project_with_types) }
-
   let(:parameters) { {} }
   let(:override_params) { {} }
   let(:form) { JSON.parse last_response.body }
-
   let(:static_columns_json) do
     %w(id project assignee author
        category createdAt dueDate estimatedTime
@@ -51,7 +47,6 @@ describe "POST /api/v3/queries/form", type: :request do
       }
     end
   end
-
   let(:custom_field_columns_json) do
     [
       {
@@ -60,7 +55,6 @@ describe "POST /api/v3/queries/form", type: :request do
       }
     ]
   end
-
   let(:relation_to_type_columns_json) do
     project.types.map do |type|
       {
@@ -69,7 +63,6 @@ describe "POST /api/v3/queries/form", type: :request do
       }
     end
   end
-
   let(:relation_of_type_columns_json) do
     Relation::TYPES.map do |_, value|
       {
@@ -78,7 +71,6 @@ describe "POST /api/v3/queries/form", type: :request do
       }
     end
   end
-
   let(:non_project_type_relation_column_json) do
     [
       {
@@ -87,13 +79,15 @@ describe "POST /api/v3/queries/form", type: :request do
       }
     ]
   end
-
   let(:additional_setup) {}
   let(:perform_request) do
     ->(*) {
       post path, parameters.merge(override_params).to_json
     }
   end
+
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   before do
     login_as(user)
@@ -331,7 +325,7 @@ describe "POST /api/v3/queries/form", type: :request do
   end
 
   describe 'with all parameters given' do
-    let(:status) { create :status }
+    let(:status) { create(:status) }
 
     let(:parameters) do
       {
@@ -416,7 +410,7 @@ describe "POST /api/v3/queries/form", type: :request do
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
-              "title" => 'is'
+              "title" => 'is (OR)'
             },
             "values" => [
               {
@@ -556,7 +550,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       it "rejects the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))
@@ -580,7 +574,7 @@ describe "POST /api/v3/queries/form", type: :request do
     let(:path_with_cf) do
       uri = Addressable::URI.parse(path)
       uri.query = {
-        filters: [{ "customField#{custom_field.id}": { operator: "=", values: ["ABC"] } }]
+        filters: [{ custom_field.attribute_name(:camel_case) => { operator: "=", values: ["ABC"] } }]
       }.to_query
 
       uri.to_s

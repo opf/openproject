@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,11 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../constants/open_project/project_activity'
+require_relative '../constants/open_project/project_latest_activity'
 
 Rails.application.reloader.to_prepare do
   OpenProject::Activity.map do |activity|
     activity.register :work_packages, class_name: '::Activities::WorkPackageActivityProvider'
+    activity.register :project_attributes, class_name: 'Activities::ProjectActivityProvider',
+                                           default: false
     activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
     activity.register :news, class_name: 'Activities::NewsActivityProvider',
                              default: false
@@ -40,21 +42,20 @@ Rails.application.reloader.to_prepare do
                                  default: false
   end
 
-  OpenProject::ProjectActivity.register on: 'WorkPackage',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'WorkPackage'
 
-  OpenProject::ProjectActivity.register on: 'News',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'Project',
+                                              project_id_attribute: :id
 
-  OpenProject::ProjectActivity.register on: 'Changeset',
-                                        chain: 'Repository',
-                                        attribute: :committed_on
+  OpenProject::ProjectLatestActivity.register on: 'Changeset',
+                                              chain: 'Repository',
+                                              attribute: :committed_on
 
-  OpenProject::ProjectActivity.register on: 'WikiContent',
-                                        chain: %w(Wiki WikiPage),
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'News'
 
-  OpenProject::ProjectActivity.register on: 'Message',
-                                        chain: 'Forum',
-                                        attribute: :updated_at
+  OpenProject::ProjectLatestActivity.register on: 'WikiContent',
+                                              chain: %w(Wiki WikiPage)
+
+  OpenProject::ProjectLatestActivity.register on: 'Message',
+                                              chain: 'Forum'
 end

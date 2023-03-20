@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,14 +51,14 @@ shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:project) do
     create(:project, members: { other_user => role }).tap do |p|
       p.description = "The description of the project"
-      p.send(:"custom_field_#{int_cf.id}=", 5)
-      p.send(:"custom_field_#{bool_cf.id}=", true)
-      p.send(:"custom_field_#{version_cf.id}=", system_version)
-      p.send(:"custom_field_#{float_cf.id}=", 4.5)
-      p.send(:"custom_field_#{text_cf.id}=", 'Some **long** text')
-      p.send(:"custom_field_#{string_cf.id}=", 'Some small text')
-      p.send(:"custom_field_#{date_cf.id}=", Time.zone.today)
-      p.send(:"custom_field_#{user_cf.id}=", other_user)
+      p.send(int_cf.attribute_setter, 5)
+      p.send(bool_cf.attribute_setter, true)
+      p.send(version_cf.attribute_setter, system_version)
+      p.send(float_cf.attribute_setter, 4.5)
+      p.send(text_cf.attribute_setter, 'Some **long** text')
+      p.send(string_cf.attribute_setter, 'Some small text')
+      p.send(date_cf.attribute_setter, Time.zone.today)
+      p.send(user_cf.attribute_setter, other_user)
 
       p.build_status(code: :off_track)
 
