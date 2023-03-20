@@ -50,7 +50,7 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_title(event)
-    "#{I18n.t(:project_module_wiki)} ##{event['version']}: #{event['wiki_title']}"
+    "#{I18n.t(:project_module_wiki)}: #{event['wiki_title']}"
   end
 
   def event_type(_event)
