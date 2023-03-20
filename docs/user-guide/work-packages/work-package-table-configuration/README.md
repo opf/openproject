@@ -68,14 +68,14 @@ Also, you can filter by [custom fields](../../../system-admin-guide/custom-field
 > **Good to know**: Filtering a work packages list will temporarily change the default work package type and default status to the values used in the filters to make newly created work packages visible in the list.
 
 
-### Filtering by text
+### Filter by text
 If you want to search for specific text in the subject, description or comments of a work package, type in the **Filter by text** the expression you want to filter for.
 
 The results will be displayed accordingly in the work package list.
 
 ![filter-text](filter-text.png)
 
-### Filtering for a work package's children
+### Filter for a work package's children
 
 If you want to only show work package with specific parents (e.g. all work packages belonging to a specific phase of your project) you can use the filter "Parent". Enter all required work packages and press Enter. This will show the selected work package(s) and its/their children. 
 If you only select work packages without children, no work packages will be shown at all.
@@ -84,20 +84,21 @@ If you only select work packages without children, no work packages will be show
 
 ### Include/exclude work packages from a specific project or subproject
 
-It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** dialog, where you can select/unselect the appropriate projects and sub-projects. To automatically include all subprojects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
+It is possible to display the work packages from more than one project. To include, or exclude such work packages, use the **Include projects** button on top of the work packages list view, where you can select/unselect the appropriate projects and sub-projects you want to add.
+To automatically include all sub-projects for each project you chose to select, check the **Include all sub-projects** box at the bottom of the dialog.
 
 ![work-package-filter-include-projects](work-package-filter-include-projects.png)
 
 To view all work packages across all projects you could select everything, or use the [global work package list](../../projects/#global-work-packages-list).
 
-### Filtering by ID or work package name
+### Filter by ID or work package name
 
 If you want to [create a work package view](#save-work-package-views) with only specific work packages you can use the filter "ID". By entering the ID or subject of work packages you can select them. 
 Another use case would be to *exclude* specific work packages (e.g. you want to display all milestones but one). Therefore, use the "is not" option next to the filter's name on the left.
 
 ![filtering-by-work-package-id](filtering-by-work-package-id.png)
 
-### Filtering for assignees or assigned groups
+### Filter for assignees or assigned groups
 
 There are several options to filter for the assignee of a work package. You can choose one of these filters:
 
@@ -110,9 +111,9 @@ There are several options to filter for the assignee of a work package. You can 
 
 ![assignee-or-assignee-group-filter](assignee-or-assignee-group-filter.png)
 
-### Advanced filters (Enterprise add-on)
+### Filter for attachment file name and content
 
-With the advanced filter you can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
+You can run a full text search and filter and search not only headings and text contents but also file names or file contents of attached documents to work packages.
 
 Use the filter "Attachment content" or "Attachment file name" to filter attached documents in the work package table.
 
@@ -120,7 +121,7 @@ Use the filter "Attachment content" or "Attachment file name" to filter attached
 
 
 
-For both the file name and the content, you can then differentiate the filtering with the "includes" and "does not include" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it. 
+For both the file name and the content, you can then differentiate the filtering with the "contains" and "does not contain" options for selected keywords and text passages. To do this, please enter the corresponding text in the field next to it. 
 
 
 
@@ -138,8 +139,6 @@ By default, the work package list will be sorted by work package ID.
 <div class="glossary">
 The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject. 
 </div>
-
-
 To sort the work package list view, open the [work package table configuration](#work-package-table-configuration) and select the tab **Sort by**. You can sort by up to three attributes, either ascending or descending.
 
 ![work-package-table-configuration](work-package-table-configuration-4874227.png)

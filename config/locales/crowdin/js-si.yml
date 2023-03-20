@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -252,6 +252,20 @@ si:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'මත'
@@ -280,8 +294,6 @@ si:
           one: "පළමු තෝරා බේරා ගැනීමේ නිර්ණායක"
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -300,15 +312,11 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "සක්රිය කරන්න"
     label_assignee: 'Assignee'
     label_add_column_after: "පසු තීරුව එකතු කරන්න"
@@ -465,7 +473,7 @@ si:
     label_watch_work_package: "වැඩ පැකේජය නරඹන්න"
     label_watcher_added_successfully: "මුරකරු සාර්ථකව එකතු කළා!"
     label_watcher_deleted_successfully: "මුරකරු සාර්ථකව මකා දමන ලදි!"
-    label_work_package_details_you_are_here: "ඔබ %{type} %{subject}සඳහා %{tab} ටැබ් එකේ ඉන්නේ."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
@@ -475,10 +483,10 @@ si:
     label_custom_queries: "Private"
     label_columns: "තීරු"
     label_attachments: ඇමුණුම්
-    label_drop_files: ගොනු මෙහි අතහැර
-    label_drop_files_hint: හෝ ගොනු එකතු කිරීමට ක්ලික් කරන්න
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: ඔබට ෆෝල්ඩර ඇමුණුමක් ලෙස උඩුගත කළ නොහැක. කරුණාකර තනි ගොනු තෝරන්න.
-    label_add_attachments: "ඇමුණුම් එකතු කරන්න"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "අමුණන්න සහ සම්බන්ධ ගොනු මෙම ක්ෂේත්රය මත අතහැර, හෝ පසුරු පුවරුවේ සිට ඇලවීම."
     label_remove_file: "%{fileName}මකන්න"
     label_remove_watcher: "මුරකරු ඉවත් කරන්න %{name}"
@@ -572,16 +580,16 @@ si:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -595,7 +603,7 @@ si:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
         reminders:
@@ -657,6 +665,7 @@ si:
     project:
       required_outside_context: >
         කරුණාකර සියලු ගුණාංග බැලීමට වැඩ පැකේජය නිර්මාණය කිරීම සඳහා ව්යාපෘතියක් තෝරන්න. ඔබට තෝරා ගත හැක්කේ ඉහත ආකාරයේ සක්රිය කර ඇති ව්යාපෘති පමණි.
+      details_activity: 'Project details activity'
       context: 'ව්යාපෘති සන්දර්භය'
       work_package_belongs_to: 'මෙම වැඩ පැකේජය ව්යාපෘතියට අයත් වේ %{projectname}.'
       click_to_switch_context: 'එම ව්යාපෘතියේ මෙම වැඩ පැකේජය විවෘත කරන්න.'
@@ -992,7 +1001,7 @@ si:
         move_column_left: "තීරුව වමට ගෙනයන්න"
         move_column_right: "තීරුව දකුණට ගෙනයන්න"
         hide_column: "තීරුව සඟවන්න"
-        insert_columns: "තීරු ඇතුල් කරන්න..."
+        insert_columns: "Insert columns"
         filters: "පෙරහන්"
         display_sums: "සංදර්ශකය"
         confirm_edit_cancel: "ඔබට මෙම දර්ශනයේ නම සංස්කරණය කිරීම අවලංගු කිරීමට අවශ්ය බව ඔබට විශ්වාසද? මාතෘකාව පෙර වටිනාකමට නැවත සකසනු ඇත."
@@ -1019,7 +1028,7 @@ si:
         button: 'මෙම වැඩ පැකේජ වගුව සකසන්න'
         choose_display_mode: 'වැඩ පැකේජ ලෙස පෙන්වන්න'
         modal_title: 'වැඩ පැකේජය වගු වින්යාසය'
-        embedded_tab_disabled: "ඔබ සංස්කරණය කරන්නේ කාවැද්දූ දර්ශනය සඳහා මෙම වින්යාස පටිත්ත ලබා ගත නොහැක."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "පෙරනිමි"
         display_settings: 'දර්ශන සැකසුම්'
         default_mode: "පැතලි ලැයිස්තුව"
@@ -1055,26 +1064,25 @@ si:
         relations: සබඳතා
         watchers: මුරකරුවන්
         files: ගොනු
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "දින"
         weeks: "සති"
         months: "මාස"
     toolbar:
       settings:
-        configure_view: "දැක්ම සකසන්න..."
-        columns: "තීරු..."
-        sort_by: "විසින් වර්ග කරන්න..."
-        group_by: "කණ්ඩායම විසින්..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "සංදර්ශකය"
         display_hierarchy: "ධූරාවලිය පෙන්වන්න"
         hide_hierarchy: "ධූරාවලිය සඟවන්න"
         hide_sums: "සඟවන්න"
         save: "සුරකින්න"
-        save_as: "ලෙස සුරකින්න..."
-        export: "අපනයන..."
-        visibility_settings: "දෘශ්යතා සැකසුම්..."
-        page_settings: "දැක්ම නැවත නම් කරන්න..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "මකන්න"
       filter: "පෙරහන්"
       unselected_title: "වැඩ පැකේජය"
@@ -1251,4 +1259,5 @@ si:
       filter_chip:
         remove: 'ඉවත් කරන්න'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'වසන්න'

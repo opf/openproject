@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -230,10 +230,27 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # Authorize the user for the requested action
-  def authorize(ctrl = params[:controller], action = params[:action], global = false)
+  # Authorize the user for the requested controller action.
+  # To be used in before_action hooks
+  def authorize(ctrl = params[:controller], action = params[:action])
+    do_authorize({ controller: ctrl, action: }, global: false)
+  end
+
+  # Authorize the user for the requested controller action outside a project
+  # To be used in before_action hooks
+  def authorize_global
+    action = { controller: params[:controller], action: params[:action] }
+    do_authorize(action, global: true)
+  end
+
+  # Deny access if user is not allowed to do the specified action.
+  #
+  # Action can be:
+  # * a parameter-like Hash (eg. { controller: '/projects', action: 'edit' })
+  # * a permission Symbol (eg. :edit_project)
+  def do_authorize(action, global: false)
     context = @project || @projects
-    is_authorized = User.current.allowed_to?({ controller: ctrl, action: }, context, global:)
+    is_authorized = User.current.allowed_to?(action, context, global:)
 
     unless is_authorized
       if @project&.archived?
@@ -243,11 +260,6 @@ class ApplicationController < ActionController::Base
       end
     end
     is_authorized
-  end
-
-  # Authorize the user for the requested action outside a project
-  def authorize_global(ctrl = params[:controller], action = params[:action], global = true)
-    authorize(ctrl, action, global)
   end
 
   # Find project of id params[:id]

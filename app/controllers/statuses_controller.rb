@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,6 +44,10 @@ class StatusesController < ApplicationController
     @status = Status.new
   end
 
+  def edit
+    @status = Status.find(params[:id])
+  end
+
   def create
     @status = Status.new(permitted_params.status)
     if @status.save
@@ -52,10 +56,6 @@ class StatusesController < ApplicationController
     else
       render action: 'new'
     end
-  end
-
-  def edit
-    @status = Status.find(params[:id])
   end
 
   def update

@@ -1,3 +1,31 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2023 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -39,13 +67,7 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   loading$ = this.storeService.loading$;
 
-  private totalCount$ = this.bellService.unread$;
-
-  noResultText$ = this
-    .totalCount$
-    .pipe(
-      map((count:number) => (count > 0 ? this.text.no_results.with_current_filter : this.text.no_results.at_all)),
-    );
+  totalCount$ = this.bellService.unread$;
 
   totalCountWarning$ = this
     .storeService
@@ -59,8 +81,6 @@ export class InAppNotificationCenterComponent implements OnInit {
     );
 
   stateChanged$ = this.storeService.stateChanged$;
-
-  originalOrder = ():number => 0;
 
   reasonMenuItems = [
     {
@@ -109,7 +129,10 @@ export class InAppNotificationCenterComponent implements OnInit {
     title: this.I18n.t('js.notifications.title'),
     button_close: this.I18n.t('js.button_close'),
     no_results: {
-      at_all: this.I18n.t('js.notifications.center.no_results.at_all'),
+      at_all: this.I18n.t(
+        'js.notifications.center.no_results.at_all',
+        { url: this.pathService.myNotificationsSettingsPath() },
+      ),
       with_current_filter: this.I18n.t('js.notifications.center.no_results.with_current_filter'),
     },
   };
@@ -135,8 +158,8 @@ export class InAppNotificationCenterComponent implements OnInit {
     });
   }
 
-  noNotificationText(hasNotifications:boolean, totalNotifications:number):string {
-    if (!(!hasNotifications && totalNotifications > 0)) {
+  noNotificationText(hasNotifications:boolean):string {
+    if (!hasNotifications) {
       return this.text.no_notification;
     }
     return (this.uiRouterGlobals.params.filter === 'project' ? this.text.no_notification_with_current_filter_project : this.text.no_notification_with_current_filter);

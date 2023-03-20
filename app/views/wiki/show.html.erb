@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,11 @@ See COPYRIGHT and LICENSE files for more details.
 <% title "#{t(:project_module_wiki)} | #{title}" %>
 <% @formatted_text = format_text (@content || @page.content), :text, attachments: @page.attachments  %>
 <% description strip_tags(@formatted_text) %>
+
+<% content_for :header_tags do %>
+  <meta name="required_script" content="print_handler" />
+<% end %>
+
 
 <%= toolbar title: title, html: {class: '-with-dropdown'} do %>
   <% if @editable %>
@@ -97,6 +102,9 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
       <%= li_unless_nil(link_to_if_authorized(t(:label_history), {action: 'history', id: @page}, class: 'icon-context icon-activity-history')) %>
       <%= li_unless_nil(link_to_if_authorized(t(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
+      <li>
+        <%= link_to t(:button_print), '', title: t('wiki.print_hint'), class: 'icon-context icon-print op-wiki-context-print' %>
+      </li>
       <% if User.current.allowed_to?(:export_wiki_pages, @project) %>
         <section data-augmented-model-wrapper
                  data-modal-class-name="wiki-export---modal">

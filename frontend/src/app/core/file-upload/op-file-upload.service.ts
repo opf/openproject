@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,10 @@
 
 import { Injectable } from '@angular/core';
 import {
-  HttpClient, HttpEvent, HttpEventType, HttpResponse,
+  HttpClient,
+  HttpEvent,
+  HttpEventType,
+  HttpResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map, share } from 'rxjs/operators';
@@ -61,22 +64,22 @@ export interface MappedUploadResult {
 
 @Injectable()
 export class OpenProjectFileUploadService {
-  constructor(protected http:HttpClient,
-    protected halResource:HalResourceService) {
-  }
+  constructor(
+    protected readonly http:HttpClient,
+    protected readonly halResource:HalResourceService,
+  ) { }
 
   /**
    * Upload multiple files and return a promise for each uploading file and a single promise for all processed uploads
    * with their accessible URLs returned.
-   * @param {string} url
-   * @param {UploadFile[]} files
-   * @param {string} method
-   * @returns {Promise<{response:HalResource; uploadUrl:any}[]>}
    */
-  public uploadAndMapResponse(url:string, files:UploadFile[], method = 'post') {
+  public uploadAndMapResponse(url:string, files:UploadFile[]):MappedUploadResult {
     const { uploads, finished } = this.upload(url, files);
     const mapped = finished
-      .then((result:HalResource[]) => result.map((el:HalResource) => ({ response: el, uploadUrl: el.staticDownloadLocation.href }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
+      .then((result:HalResource[]) => result.map((element:HalResource) => ({
+        response: element,
+        uploadUrl: (element.staticDownloadLocation as unknown&{ href:string }).href,
+      }))) as Promise<{ response:HalResource, uploadUrl:string }[]>;
 
     return { uploads, finished: mapped } as MappedUploadResult;
   }
@@ -95,11 +98,13 @@ export class OpenProjectFileUploadService {
 
   /**
    * Upload a single file, get an UploadResult observable
-   * @param {string} url
-   * @param {UploadFile} file
-   * @param {string} method
    */
-  public uploadSingle(url:string, file:UploadFile|UploadBlob, method = 'post', responseType:'text'|'json' = 'json') {
+  public uploadSingle(
+    url:string,
+    file:UploadFile|UploadBlob,
+    method = 'post',
+    responseType:'json'|'text' = 'json',
+  ):UploadInProgress {
     const formData = new FormData();
     const metadata = {
       description: file.description,
@@ -115,9 +120,7 @@ export class OpenProjectFileUploadService {
     // Add the file
     formData.append('file', file, metadata.fileName);
 
-    const observable = this
-      .http
-      .request<HalResource>(
+    const observable = this.http.request(
       method,
       url,
       {
@@ -125,14 +128,11 @@ export class OpenProjectFileUploadService {
         // Observe the response, not the body
         observe: 'events',
         withCredentials: true,
-        responseType: responseType as any,
+        responseType,
         // Subscribe to progress events. subscribe() will fire multiple times!
         reportProgress: true,
       },
-    )
-      .pipe(
-        share(),
-      );
+    ).pipe(share());
 
     return [file, observable] as UploadInProgress;
   }

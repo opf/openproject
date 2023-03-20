@@ -1,27 +1,28 @@
-<div id="div-values-{{filter.id}}" class="inline-label">
-  <op-single-date-picker (changed)="begin = isoDateParser($event)"
-                  [initialDate]="isoDateFormatter(begin)"
-                  [opAutofocus]="shouldFocus"
-                  required="true"
-                  [id]="'values-' + filter.id + '-begin'"
-                  [name]="'v[' + filter.id + ']-begin'"
-                  classes="advanced-filters--date-field"
-                  size="10">
-  </op-single-date-picker>
+<op-basic-single-date-picker
+  (valueChange)="parseBegin($event)"
+  [value]="isoDateFormatter(begin)"
+  [opAutofocus]="shouldFocus"
+  required="true"
+  [id]="'values-' + filter.id + '-begin'"
+  [name]="'v[' + filter.id + ']-begin'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
 
-  <span class="advanced-filters--affix" [textContent]="text.spacer">
-  </span>
+<span class="advanced-filters--affix" [textContent]="text.spacer">
+</span>
 
-  <op-single-date-picker (changed)="end = isoDateParser($event)"
-                  [initialDate]="isoDateFormatter(end)"
-                  [id]="'values-' + filter.id + '-end'"
-                  [name]="'v[' + filter.id + ']-end'"
-                  classes="advanced-filters--date-field"
-                  size="10">
-  </op-single-date-picker>
-  <span class="advanced-filters--tooltip-trigger -multiline"
-        *ngIf="isTimeZoneDifferent"
-        [attr.data-tooltip]="timeZoneText">
-    <op-icon icon-classes="icon icon-warning"></op-icon>
-  </span>
-</div>
+<op-basic-single-date-picker
+  (valueChange)="parseEnd($event)"
+  [value]="isoDateFormatter(end)"
+  [id]="'values-' + filter.id + '-end'"
+  [name]="'v[' + filter.id + ']-end'"
+  classes="advanced-filters--date-field"
+></op-basic-single-date-picker>
+
+<span
+  class="advanced-filters--tooltip-trigger -multiline"
+  *ngIf="isTimeZoneDifferent"
+  [attr.data-tooltip]="timeZoneText"
+>
+  <span class="spot-icon spot-icon_warning"></span>
+</span>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module MailNotificationHelper
     color_id = selected_color(type)
     if color_id
       color = Color.find(color_id)
-      return color.super_bright? ? darken_color(color.hexcode, 0.75) : color.hexcode
+      return color.super_bright? ? color.darken(0.75) : color.hexcode
     end
 
     default_fallback

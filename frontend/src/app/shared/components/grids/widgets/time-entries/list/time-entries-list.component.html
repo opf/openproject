@@ -92,7 +92,9 @@
           <td class="buttons">
             <a *ngIf="item.entry && item.entry.updateImmediately"
                (click)="editTimeEntry(item.entry)"
-               [title]="text.edit">
+               [title]="text.edit"
+               attr.data-qa-selector="edit-time-entry-{{ item.entry.id }}"
+            >
               <op-icon icon-classes="icon-context icon-edit"></op-icon>
             </a>
             <a *ngIf="item.entry && item.entry.delete"

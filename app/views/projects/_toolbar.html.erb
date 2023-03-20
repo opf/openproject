@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </li>
   <% end %>
-  <% if User.current.admin? %>
+  <% if User.current.allowed_to?(:archive_project, @project) %>
     <li class="toolbar-item hidden-for-mobile">
       <%= link_to(project_archive_path(@project, status: '', name: @project.name),
                   data: { confirm: t('project.archive.are_you_sure', name: @project.name) },
@@ -64,6 +64,8 @@ See COPYRIGHT and LICENSE files for more details.
         <span class="button--text"><%= t(:button_archive) %></span>
       <% end %>
     </li>
+  <% end %>
+  <% if User.current.admin? %>
     <li class="toolbar-item hidden-for-mobile">
       <% label = @project.templated ? 'remove_from_templates' : 'make_template' %>
       <%= link_to(project_templated_path(@project),

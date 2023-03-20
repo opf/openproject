@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,27 +37,22 @@ class ::Query::Results
     self.query = query
   end
 
-  # Returns the work package count
-  def work_package_count
-    work_package_scope
-      .joins(all_filter_joins)
-      .includes(:project)
-      .where(query.statement)
-      .references(:projects)
-      .count
-  rescue ::ActiveRecord::StatementInvalid => e
-    raise ::Query::StatementInvalid.new(e.message)
-  end
-
   # Returns the work packages adhering to the filters and ordered by the provided criteria (grouping and sorting)
   def work_packages
-    work_package_scope
-      .where(query.statement)
-      .includes(all_includes)
-      .joins(all_joins)
-      .order(order_option)
-      .references(:projects)
-      .order(sort_criteria_array)
+    if query.historic?
+      sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    else
+      sorted_work_packages_matching_the_filters_today
+    end
+  end
+
+  def sorted_work_packages_matching_the_filters_today
+    sorted_work_packages.merge(filtered_work_packages)
+  end
+
+  def sorted_work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    sorted_work_packages
+      .where(id: work_packages_matching_the_filters_at_any_of_the_given_timestamps)
   end
 
   def order_option
@@ -72,19 +67,47 @@ class ::Query::Results
 
   private
 
+  # For filtering on historic data, this returns the work packages
+  # matching the filters for any of the timestamps provided in the query.
+  #
+  def work_packages_matching_the_filters_at_any_of_the_given_timestamps
+    query.timestamps.collect do |timestamp|
+      WorkPackage.where(id: filtered_work_packages.at_timestamp(timestamp))
+    end.reduce(:or)
+  end
+
+  # Returns an active-record relation that applies the filters to find the matching
+  # work packages.
+  #
+  # This can be chained with `.at_timestamp(...)` in order to search historic data
+  # as required for the baseline-comparison feature.
+  #
+  # https://community.openproject.org/projects/openproject/work_packages/26448
+  #
+  def filtered_work_packages
+    work_package_scope
+      .joins(all_filter_joins)
+      .where(query.statement)
+  end
+
+  def sorted_work_packages
+    work_package_scope
+      .joins(sort_criteria_joins)
+      .order(order_option)
+      .order(sort_criteria_array)
+  end
+
   def work_package_scope
     WorkPackage
       .visible
       .merge(filter_merges)
+      .includes(all_includes)
+      .references(:projects)
   end
 
   def all_includes
     (%i(project) +
       includes_for_columns(include_columns)).uniq
-  end
-
-  def all_joins
-    sort_criteria_joins + all_filter_joins
   end
 
   def includes_for_columns(column_names)

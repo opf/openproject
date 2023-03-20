@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,8 +60,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   private form:QueryFormResource;
 
   private loadingPromise:PromiseLike<any>;
-
-  private focusAfterClose = true;
 
   constructor(readonly elementRef:ElementRef,
     readonly opContextMenu:OPContextMenuService,
@@ -128,8 +126,8 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
     return position;
   }
 
-  public onClose() {
-    if (this.focusAfterClose) {
+  public onClose(focus:boolean) {
+    if (focus) {
       this.afterFocusOn.focus();
     }
   }
@@ -224,7 +222,6 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
         icon: 'icon-edit',
         onClick: ($event:JQuery.TriggeredEvent) => {
           if (this.allowQueryAction($event, 'update')) {
-            this.focusAfterClose = false;
             jQuery(`${selectableTitleIdentifier}`).trigger(triggerEditingEvent);
           }
 

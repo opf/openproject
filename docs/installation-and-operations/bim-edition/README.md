@@ -11,7 +11,7 @@ sidebar_navigation:
 For installing the OpenProject BIM edition please follow the general [system requirements](../system-requirements/) and [installation guidelines](../installation/packaged/).
 Under [Step 1](../installation/packaged/#step-1-select-your-openproject-edition) please select OpenProject BIM.
 
-## Changing to OpenProject BIM edition 
+## Changing to OpenProject BIM edition
 
 An existing OpenProject on-premises (self hosted) installation can easily be switched to the BIM Edition. The BIM Edition extends the capabilities of a normal OpenProject installation with special features for the construction industry.
 
@@ -29,8 +29,8 @@ Now that your OpenProject instance is up to date, you can _reconfigure_ it to be
 On the command line of your server run the following command. It will open a wizard that
 guides you through through the most important installation settings of your instance.
 On the first screen it will ask you to select the edition. Please select _bim_ and click _next_.
-You can keep the screens that follow just as they are. You don't need to change any setting. 
-Your current settings will be preselected for you. You can simply click "next" in every step 
+You can keep the screens that follow just as they are. You don't need to change any setting.
+Your current settings will be preselected for you. You can simply click "next" in every step
 until the end of the wizard. Finally, this will also
 trigger the installation of the necessary libraries and tools for 3D model conversion.
 
@@ -40,14 +40,14 @@ Congratulations, you've successfully switched to the BIM Edition. However, for t
 experience you might consider also the next configuration.
 
 You can check that all tools for the IFC model conversion were installed by going to
-_-> Administration -> Information_ and check that _IFC conversion pipeline available_ 
+_-> Administration -> Information_ and check that _IFC conversion pipeline available_
 has a check icon (✓) to the right.
 
 ### Activating the BCF module per default for every new project (optional)
 
 You can enable the BCF module per default for all new projects in the future.
 
-Go to _-> Administration -> System settings -> Projects_ and within the section 
+Go to _-> Administration -> System settings -> Projects_ and within the section
 _Settings for new projects_ activate the checkbox for _BCF_.
 
 ### Add typical work package types and statuses for BCF management (optional)
@@ -57,7 +57,7 @@ installation.
 
 In freshly created OpenProject BIM instances those types are already present. However,
 as you have just switched from a normal OpenProject installation you will need to create
-those work package types by hand. Please find detailed instructions on how to add work 
+those work package types by hand. Please find detailed instructions on how to add work
 package types in [Manage Work Package Types](../../system-admin-guide/manage-work-packages/work-package-types/).
 
 You might consider adding the following typical work package types:
@@ -76,7 +76,7 @@ We recommend that each type has the following status options:
 
 ### Activating the "OpenProject BIM" theme (optional)
 
-OpenProject installations with a valid Enterprise on-premises edition token can switch to the BIM 
+OpenProject installations with a valid Enterprise on-premises edition token can switch to the BIM
 theme.
 
 Go to _-> Administration -> Design_ and from the _Themes_ drop down menu choose _OpenProject BIM_.
@@ -98,15 +98,14 @@ x-op-app: &app
   <<: *image
   <<: *restart_policy
   environment:
-    RAILS_CACHE_STORE: "memcache"
     OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
-    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     OPENPROJECT_EDITION: "bim"
+    OPENPROJECT_RAILS__CACHE__STORE: "memcache"
+    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
     DATABASE_URL: "postgres://postgres:p4ssw0rd@db/openproject"
     USE_PUMA: "true"
     # set to true to enable the email receiving feature. See ./docker/cron for more options
     IMAP_ENABLED: "${IMAP_ENABLED:-false}"
 ```
 
-Note: If the current Docker installation does not yet hold important information it is recommended to simply create all docker containers from scratch as the seeded data such as themes, types, and demo projects are different in the BIM edition. The demo data gets seeded only at the very first time run of the container. The Docker volumes are required to be removed e.g. by issuing `docker-compose down --volumes` 
-
+Note: If the current Docker installation does not yet hold important information it is recommended to simply create all docker containers from scratch as the seeded data such as themes, types, and demo projects are different in the BIM edition. The demo data gets seeded only at the very first time run of the container. The Docker volumes are required to be removed e.g. by issuing `docker-compose down --volumes`

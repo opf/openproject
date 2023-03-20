@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,6 +88,13 @@ module OpenProject
       url_opts = { controller: '/repositories', action: 'revision', project_id: project, rev: }
       html_options = { title: I18n.t(:label_revision_id, value: format_revision(revision)) }.merge(options)
       link_to(h(text), url_opts, html_options)
+    end
+
+    # Generates a link to a query
+    def link_to_query(query, options = {}, html_options = nil)
+      text = h(query.name)
+      url = project_work_packages_url([query.project.id], only_path: options.delete(:only_path) { true }, query_id: query.id)
+      link_to(text, url, html_options)
     end
 
     # Generates a link to a message

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,11 +35,17 @@ Rails.application.reloader.to_prepare do
                      global: true,
                      contract_actions: { projects: %i[create] }
 
+      map.permission :archive_project,
+                     {
+                       'projects/archive': %i[create]
+                     },
+                     require: :member
+
       map.permission :create_backup,
                      {
-                     admin: %i[index],
-                     'admin/backups': %i[delete_token perform_token_reset reset_token show]
-                   },
+                       admin: %i[index],
+                       'admin/backups': %i[delete_token perform_token_reset reset_token show]
+                     },
                      require: :loggedin,
                      global: true,
                      enabled: -> { OpenProject::Configuration.backup_enabled? }
@@ -65,8 +71,7 @@ Rails.application.reloader.to_prepare do
                      contract_actions: { placeholder_users: %i[create read update] }
 
       map.permission :view_project,
-                     { projects: [:show],
-                       activities: [:index] },
+                     { projects: [:show] },
                      public: true
 
       map.permission :search_project,
@@ -134,7 +139,7 @@ Rails.application.reloader.to_prepare do
       wpt.permission :view_work_packages,
                      {
                        versions: %i[index show status_by],
-                       journals: %i[index diff],
+                       journals: %i[index],
                        work_packages: %i[show index],
                        work_packages_api: [:get],
                        'work_packages/reports': %i[report report_details]
@@ -356,6 +361,11 @@ Rails.application.reloader.to_prepare do
                        require: :loggedin
     end
 
-    map.project_module :activity
+    map.project_module :activity do
+      map.permission :view_project_activity,
+                     { activities: [:index] },
+                     public: true,
+                     contract_actions: { activities: %i[read] }
+    end
   end
 end

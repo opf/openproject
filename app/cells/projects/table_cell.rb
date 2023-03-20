@@ -88,7 +88,7 @@ module Projects
 
     def custom_field_columns
       project_custom_fields.values.map do |custom_field|
-        [:"cf_#{custom_field.id}", { caption: custom_field.name, custom_field: true }]
+        [custom_field.column_name.to_sym, { caption: custom_field.name, custom_field: true }]
       end
     end
 
@@ -97,7 +97,7 @@ module Projects
         fields = ProjectCustomField.visible(current_user).order(:position)
 
         fields
-          .index_by { |cf| :"cf_#{cf.id}" }
+          .index_by { |cf| cf.column_name.to_sym }
       end
     end
   end

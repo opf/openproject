@@ -1,4 +1,4 @@
-class ErrorsController < ::ActionController::Base
+class ErrorsController < ActionController::Base
   include ErrorsHelper
   include OpenProjectErrorHelper
   include Accounts::CurrentUser
@@ -21,7 +21,7 @@ class ErrorsController < ::ActionController::Base
 
   def error_options
     {
-      exception: request.env["action_dispatch.exception"] || request.env["sentry.rescued_exception"]
+      exception: request.env["action_dispatch.exception"]
     }.compact
   end
 

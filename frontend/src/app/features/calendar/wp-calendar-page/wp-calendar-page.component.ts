@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,10 @@ import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packa
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
+import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
+import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
   templateUrl: '../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -57,6 +61,8 @@ import { OpProjectIncludeComponent } from 'core-app/shared/components/project-in
   ],
 })
 export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePageComponent {
+  @InjectField(ActionsService) actions$:ActionsService;
+
   @ViewChild(WorkPackagesCalendarComponent, { static: true }) calendarElement:WorkPackagesCalendarComponent;
 
   text = {
@@ -129,5 +135,12 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
    */
   protected loadInitialQuery():void {
     // We never load the initial query as the calendar service does all that.
+  }
+
+  /**
+   * Instead of refreshing the query space diretly, send an effect so fullcalendar can reload individually
+   */
+  refresh(visibly = false, _firstPage = false):void {
+    this.actions$.dispatch(calendarRefreshRequest({ showLoading: visibly }));
   }
 }

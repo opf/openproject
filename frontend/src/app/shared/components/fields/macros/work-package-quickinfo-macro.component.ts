@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ export class WorkPackageQuickinfoMacroComponent {
   /** Work package to be shown */
   workPackage$:Observable<WorkPackageResource>;
 
-  dateDisplayField = CombinedDateDisplayField;
+  combinedDateDisplayField = CombinedDateDisplayField;
 
   workPackageLink:string;
 
@@ -99,7 +99,7 @@ export class WorkPackageQuickinfoMacroComponent {
       .id(id)
       .get()
       .pipe(
-        tap({ error: (e) => this.markError(this.text.not_found) }),
+        tap({ error: (_e) => this.markError(this.text.not_found) }),
       );
   }
 

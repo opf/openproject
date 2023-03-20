@@ -7,7 +7,6 @@ module Copy
         Attachment
           .where(container_type:, container_id: from_id)
           .find_each do |source|
-
           copy = Attachment
                    .new(attachment_copy_attributes(source, to_id))
           source.file.copy_to(copy)

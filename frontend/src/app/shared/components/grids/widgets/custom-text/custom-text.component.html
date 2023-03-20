@@ -22,19 +22,28 @@
 
 <div class="grid--widget-content -custom-text -allow-inner-overflow">
   <div class="inline-edit--container inplace-edit">
-    <edit-form-portal *ngIf="active"
-                      [schemaInput]="schema"
-                      [changeInput]="changeset"
-                      [editFieldHandler]="handler">
-    </edit-form-portal>
-    <attachments *ngIf="active"
-                 [resource]="resource.grid"
-                 data-allow-uploading="true">
-    </attachments>
+    <edit-form-portal
+      *ngIf="active"
+      [schemaInput]="schema"
+      [changeInput]="changeset"
+      [editFieldHandler]="handler"
+    ></edit-form-portal>
 
-    <div *ngIf="!active"
-         class="inplace-edit--read wiki -no-label"
-         [ngClass]="{'inline-edit--container': isTextEditable}">
+    <fieldset
+      *ngIf="active"
+      class="form--fieldset"
+    >
+      <legend class="form--fieldset-legend">
+        {{ text.attachments }}
+      </legend>
+      <op-attachments [resource]="resource.grid"></op-attachments>
+    </fieldset>
+
+    <div
+      *ngIf="!active"
+      class="inplace-edit--read wiki -no-label"
+      [ngClass]="{'inline-edit--container': isTextEditable}"
+    >
       <button
         type="button"
         *ngIf="isTextEditable"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ module ColorsHelper
       options[:data] = {
         color: c.hexcode,
         bright: c.bright?,
+        dark: c.dark?,
         background: c.contrasting_color(light_color: 'transparent')
       }
       options[:selected] = true if c.id == colored_thing.color_id
@@ -47,15 +48,6 @@ module ColorsHelper
 
   def selected_color(colored_thing)
     colored_thing.color_id
-  end
-
-  def darken_color(hex_color, amount = 0.4)
-    hex_color = hex_color.delete('#')
-    rgb = hex_color.scan(/../).map(&:hex)
-    rgb[0] = (rgb[0].to_i * amount).round
-    rgb[1] = (rgb[1].to_i * amount).round
-    rgb[2] = (rgb[2].to_i * amount).round
-    "#%02x%02x%02x" % rgb
   end
 
   def colored_text(color)

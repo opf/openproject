@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -252,6 +252,20 @@ fr:
             La version Entreprise d'OpenProject s'appuie sur la version Community. Elle comprend des add-ons Entreprise et un support professionnel principalement destiné aux organisations comptant plus de 10 utilisateurs gérant des projets critiques avec OpenProject.
           unlimited: "Illimité"
           you_contribute: "Les développeurs aussi ont besoin de payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
+      working_days:
+        calendar:
+          empty_state_header: "Jours non travaillés"
+          empty_state_description: 'Aucun jour de travail spécifique n''est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.'
+          new_date: '(nouveau)'
+        add_non_working_day: "Jour non travaillé"
+        already_added_error: "Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique."
+        change_button: "Enregistrer et reprogrammer"
+        change_title: "Changer les jours travaillés"
+        removed_title: "Vous supprimerez les jours suivants de la liste des jours non travaillés :"
+        change_description: "La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas."
+        warning: >
+          Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
+          Voulez-vous continuer ?
     custom_actions:
       date:
         specific: 'le'
@@ -280,8 +294,6 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Les filtres avancés vous permettent également de filtrer les noms de fichiers et le contenu des pièces jointes du lot de travaux. Veuillez passer à une offre payante pour utiliser cet add-on."
-      upsale_link: 'Version Entreprise'
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -300,15 +312,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Activer les alertes de notification pour les dates à venir et les tâches en retard.</li> <li>Nous publions l'authentification à deux facteurs (2FA) pour l'édition Communautaire.</li> <li>L'option d'affichage de la semaine de travail est maintenant également ajoutée au planificateur de l'équipe.</li> <li>Listez jusqu'à 3 personnes dans une carte de notification lorsque plusieurs personnes ont été impliquées dans les changements.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Téléversez et liez des fichiers depuis des lots de travaux vers votre espace de stockage Nextcloud.</li> <li>Suivez les modifications du projet avec le suivi des activités du projet.</li> <li>Ajoutez des jours fériés à l'échelle de l'instance (jours non travaillés)</li> <li>Projets d'archives par les non-administrateurs.</li> <li>Nouveau filtre par défaut pour les lots de travaux en retard.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -475,10 +483,10 @@ fr:
     label_custom_queries: "Privé"
     label_columns: "Colonnes"
     label_attachments: Fichiers
-    label_drop_files: Déposez des fichiers ici
-    label_drop_files_hint: ou cliquez pour ajouter des fichiers
+    label_drop_files: "Déposez des fichiers ici pour joindre des fichiers."
+    label_drop_or_click_files: "Déposez des fichiers ici ou cliquez pour joindre des fichiers."
     label_drop_folders_hint: Vous ne pouvez pas télécharger les dossiers en pièce jointe. S’il vous plaît sélectionnez des fichiers seuls.
-    label_add_attachments: "Ajouter pièces jointes"
+    label_add_attachments: "Joindre fichiers"
     label_formattable_attachment_hint: "Insérer des fichiers en les glissant sur ce champ, ou en les collant depuis le presse-papiers."
     label_remove_file: "Supprimer %{fileName}"
     label_remove_watcher: "Retirer l'observateur %{name}"
@@ -572,16 +580,16 @@ fr:
           one: 'et 1 autre'
           other: 'et %{count} autres'
         no_results:
-          at_all: 'De nouvelles notifications apparaîtront ici quand il y a des activités qui vous concernent, en attendant, vous pouvez également afficher et modifier vos paramètres de notification pour configurer quand être notifié.'
+          at_all: 'Les nouvelles notifications apparaîtront ici lorsqu''il y a une activité qui vous concerne.'
           with_current_filter: 'Il n''y a pas de notifications dans cette vue pour le moment'
         mark_all_read: 'Tout marquer comme lu'
         mark_as_read: 'Marquer comme lu'
         text_update_date: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
-          no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_project_filter: "On dirait que vous êtes à jour dans le projet sélectionné."
-          no_notification_with_current_filter: "On dirait que vous êtes à jour pour le filtre %{filter}."
+          no_notification: "Il semble que vous êtes à jour."
+          no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
+          no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
@@ -595,7 +603,7 @@ fr:
         watched: 'Observateur'
         date_alert: 'Alarmes'
       settings:
-        change_notification_settings: 'Pour afficher et modifier vos paramètres de notification, <a target="_blank" href="%{url}">cliquez ici</a>'
+        change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
         notify_me: "M'alerter"
         reminders:
@@ -657,6 +665,7 @@ fr:
     project:
       required_outside_context: >
         Veuillez choisir un projet pour créer le lot de travaux et voir tous les attributs. Vous pouvez seulement sélectionner des projets ayant le type ci-dessus activé.
+      details_activity: 'Activité des détails du projet'
       context: 'Contexte du projet'
       work_package_belongs_to: 'Ce lot de travaux appartient au projet %{projectname}.'
       click_to_switch_context: 'Ouvrir ce lot de travaux dans ce projet.'
@@ -992,7 +1001,7 @@ fr:
         move_column_left: "Déplacer la colonne de gauche"
         move_column_right: "Déplacer le colonne de droite"
         hide_column: "Masquer la colonne"
-        insert_columns: "Insérer des colonnes…"
+        insert_columns: "Insérer des colonnes"
         filters: "Filtres"
         display_sums: "Afficher les sommes"
         confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente."
@@ -1019,7 +1028,7 @@ fr:
         button: 'Configurer ce tableau du lot de travaux'
         choose_display_mode: 'Afficher les lots de travaux comme'
         modal_title: 'Configuration du tableau du lot de travaux'
-        embedded_tab_disabled: "Cet onglet de configuration n’est pas disponible pour la vue intégrée que vous êtes en train de modifier."
+        embedded_tab_disabled: "Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier."
         default: "défaut"
         display_settings: 'Paramètres d''affichage'
         default_mode: "Liste ombrée"
@@ -1055,26 +1064,25 @@ fr:
         relations: Relations
         watchers: Observateurs
         files: Fichiers
-        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
         months: "mois"
     toolbar:
       settings:
-        configure_view: "Configurer la vue..."
-        columns: "Colonnes…"
-        sort_by: "Trier par…"
-        group_by: "Grouper par…"
+        configure_view: "Configurer la vue"
+        columns: "Colonnes"
+        sort_by: "Trier par"
+        group_by: "Grouper par"
         display_sums: "Afficher les sommes"
         display_hierarchy: "Afficher la hiérarchie"
         hide_hierarchy: "Masquer la hiérarchie"
         hide_sums: "Masquer les sommes"
         save: "Enregistrer"
-        save_as: "Enregistrer sous…"
-        export: "Exporter…"
-        visibility_settings: "Paramètres de visibilité..."
-        page_settings: "Renommer la vue..."
+        save_as: "Enregistrer sous"
+        export: "Exporter"
+        visibility_settings: "Paramètres de visibilité"
+        page_settings: "Renommer la vue"
         delete: "Supprimer"
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
@@ -1251,4 +1259,5 @@ fr:
       filter_chip:
         remove: 'Supprimer'
       drop_modal:
+        focus_grab: 'Il s''agit d''une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l''élément de déclenchement modal.'
         Close: 'Fermer'

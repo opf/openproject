@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,6 +67,11 @@ class PlaceholderUsersController < ApplicationController
       .result
   end
 
+  def edit
+    @membership ||= Member.new
+    @individual_principal = @placeholder_user
+  end
+
   def create
     service = PlaceholderUsers::CreateService.new(user: User.current)
     service_result = service.call(permitted_params.placeholder_user)
@@ -87,11 +92,6 @@ class PlaceholderUsersController < ApplicationController
         end
       end
     end
-  end
-
-  def edit
-    @membership ||= Member.new
-    @individual_principal = @placeholder_user
   end
 
   def update

@@ -1,13 +1,20 @@
 .spot-tooltip
+  $hover-animation-distance: 10px
+
   position: relative
   display: inline-flex
 
   &--body
     @include spot-z-index("tooltip", 1)
     pointer-events: none
-    opacity: 0
-    width: calc(100% - #{$spot-spacing-2})
-    left: $spot-spacing-1
+    // This keeps the element rendered in the DOM and thus readable by screen readers
+    opacity: 0.001
+    width: 80%
+
+    transition-property: transform, opacity
+    transition-timing-function: ease
+    transition-duration: 0.2s
+    transition-delay: 0.2s
 
     position: absolute
     height: auto
@@ -15,6 +22,7 @@
     box-shadow: $spot-shadow-light-low
     background: $spot-color-basic-gray-1
     color: $spot-color-basic-white
+    border-radius: 5px
 
     display: flex
     flex-direction: column
@@ -33,15 +41,17 @@
     &_bottom-left
       top: 100%
       left: $spot-spacing-1
+      transform: translateY(-$hover-animation-distance)
 
     &_bottom-center
       top: 100%
       left: 50%
-      transform: translateX(-50%)
+      transform: translateX(-50%) translateY(-$hover-animation-distance)
 
     &_bottom-right
       top: 100%
       right: $spot-spacing-1
+      transform: translateY(-$hover-animation-distance)
 
     &_right-top
       left: 100%
@@ -57,15 +67,17 @@
     &_top-left
       bottom: 100%
       left: $spot-spacing-1
+      transform: translateY($hover-animation-distance)
 
     &_top-center
       bottom: 100%
       left: 50%
-      transform: translateX(-50%)
+      transform: translateX(-50%) translateY($hover-animation-distance)
 
     &_top-right
       bottom: 100%
       right: $spot-spacing-1
+      transform: translateY($hover-animation-distance)
 
     .spot-body-small
       &:first-child
@@ -76,6 +88,16 @@
 
   &:hover &--body
     opacity: 1
+
+  &:hover &--body_top-left,
+  &:hover &--body_top-right,
+  &:hover &--body_bottom-left,
+  &:hover &--body_bottom-right
+    transform: translateY(0)
+
+  &:hover &--body_top-center,
+  &:hover &--body_bottom-center
+      transform: translateX(-50%) translateY(0)
 
   &_light &--body
     color: $spot-color-basic-gray-1

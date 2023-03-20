@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,6 @@
 import {
   Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -80,6 +79,10 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public macros:boolean;
 
+  public text = {
+    attachments: this.I18n.t('js.label_attachments'),
+  };
+
   // Reference to the actual ckeditor instance component
   @ViewChild(OpCkeditorComponent, { static: true }) private ckEditorInstance:OpCkeditorComponent;
 
@@ -87,13 +90,14 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   private isEditing = false;
 
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    protected elementRef:ElementRef,
     protected pathHelper:PathHelperService,
     protected halResourceService:HalResourceService,
     protected Notifications:ToastService,
     protected I18n:I18nService,
     protected states:States,
-    protected ConfigurationService:ConfigurationService) {
+  ) {
     super();
   }
 
@@ -150,7 +154,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
     // Listen for form submission to set textarea content
     this.formElement.on('submit.ckeditor change.ckeditor', () => {
       try {
-        this.wrappedTextArea.val(this.ckEditorInstance.getRawData());
+        const data = this.ckEditorInstance.getRawData();
+        this.wrappedTextArea.val(data);
       } catch (e) {
         console.error(`Failed to save CKEditor body to textarea: ${e}.`);
         this.Notifications.addError(e || this.I18n.t('js.error.internal'));
