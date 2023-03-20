@@ -195,7 +195,7 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.12.0', require: false
+gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
@@ -242,7 +242,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.0.0'
+  gem 'puffing-billy', '~> 3.1.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -326,7 +326,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.9.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
