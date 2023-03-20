@@ -26,7 +26,6 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
   Component,
   HostBinding,
@@ -69,12 +68,35 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
     super();
   }
 
-  public get value():(HalResource[]|string[]) {
-    return this.filter.values || [];
+  public get value():string[] {
+    return (this.filter.values || []) as string[];
   }
 
-  public set value(val:(HalResource[]|string[])) {
+  public set value(val:string[]) {
     this.filter.values = val;
     this.filterChanged.emit(this.filter);
+  }
+
+  public get begin():string {
+    return (this.filter.values[0] || '') as string;
+  }
+
+  public get end():string {
+    return (this.filter.values[1] || '') as string;
+  }
+
+  public parser(data:string):string|null {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      return data;
+    }
+    return null;
+  }
+
+  public formatter(data:string):string|null {
+    if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+      const d = this.timezoneService.parseDate(data);
+      return this.timezoneService.formattedISODate(d);
+    }
+    return null;
   }
 }

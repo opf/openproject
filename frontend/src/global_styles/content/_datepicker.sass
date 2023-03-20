@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-$datepicker--border-radius: 5px
+$datepicker--selected-border-radius: 5px
 
 @mixin disabled-day
   background: $spot-color-basic-white
@@ -137,7 +137,7 @@ $datepicker--border-radius: 5px
         height: 30px
         line-height: 28px
         margin: 0
-        border-radius: $datepicker--border-radius
+        border-radius: 0
         box-shadow: none !important
 
         &.flatpickr-non-working-day
@@ -146,13 +146,17 @@ $datepicker--border-radius: 5px
         &.flatpickr-non-working-day_enabled
           @include non-working-day_enabled
 
-          &.selected:not(.startRange, .endRange)
-            border-radius: $datepicker--border-radius
-
-        &.today
+        &.today:not(.selected, .inRange, .startRange, .endRange)
           background: $spot-color-indication-current-date
           border-color: $spot-color-indication-current-date
-          border-radius: $datepicker--border-radius
+          border-radius: 0
+
+          &:hover
+            color: $spot-color-basic-gray-1 !important
+            border-color: #e6e6e6 !important
+
+        &.selected:not(.startRange, .endRange)
+          border-radius: $datepicker--selected-border-radius
 
         &.selected,
         &.startRange,
@@ -162,13 +166,13 @@ $datepicker--border-radius: 5px
           color: $spot-color-basic-white
 
         &.startRange
-          border-radius: $datepicker--border-radius 0 0 $datepicker--border-radius
+          border-radius: $datepicker--selected-border-radius 0 0 $datepicker--selected-border-radius
 
         &.endRange
-          border-radius: 0 $datepicker--border-radius $datepicker--border-radius 0
+          border-radius: 0 $datepicker--selected-border-radius $datepicker--selected-border-radius 0
 
         &.endRange.startRange
-          border-radius: $datepicker--border-radius
+          border-radius: $datepicker--selected-border-radius
 
         &.inRange
           background: var(--primary-color--minor3)
