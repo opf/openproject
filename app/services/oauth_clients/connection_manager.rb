@@ -198,23 +198,20 @@ module OAuthClients
     # Calls client.access_token!
     # Convert the various exceptions into user-friendly error strings.
     def request_new_token(options = {})
-      rack_access_token = rack_oauth_client(options).access_token!(:body)
+      rack_access_token = rack_oauth_client(options)
+                            .access_token!(:body) # Rack::OAuth2::AccessToken
 
       ServiceResult.success(result: rack_access_token)
-    rescue Rack::OAuth2::Client::Error => e
+    rescue Rack::OAuth2::Client::Error => e # Handle Rack::OAuth2 specific errors
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
-    rescue Faraday::TimeoutError,
-           Faraday::ConnectionFailed,
-           Faraday::ParsingError,
-           Faraday::SSLError => e
+    rescue Timeout::Error, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
+           Errno::EINVAL, Errno::ENETUNREACH, Errno::ECONNRESET, Errno::ECONNREFUSED, JSON::ParserError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
       )
     rescue StandardError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
-        e.message
+        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
 
