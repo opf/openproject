@@ -76,12 +76,12 @@ describe 'Wiki activities' do
     click_button 'Apply'
 
     expect(page)
-      .to have_link('Wiki #1: My page')
+      .to have_link('Wiki: My page')
 
     expect(page)
-      .to have_link('Wiki #2: My page')
+      .to have_link('Wiki: My page')
 
-    click_link('Wiki #2: My page')
+    click_link('Wiki: My page')
 
     expect(page)
       .to have_current_path(project_wiki_path(project.id, 'my-page', version: 2))
