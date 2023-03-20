@@ -215,7 +215,7 @@ With OpenProject 12.5, we are happy to announce that another Enterprise add-on w
 - Epic: Show changes of project attributes in project activity view \[[#43852](https://community.openproject.com/wp/43852)\]
 - Epic: Cross-application main menu for dPhoenixSuite/Sovereign Administrative Work Place  \[[#44297](https://community.openproject.com/wp/44297)\]
 
-#### Credits and contributions
+## Credits and contributions
 A very special thank you goes to the following sponsors for features and improvements of this release:
 
 - **The City of Cologne** for having sponsored the tracking of project changes, adding additional non-working days, and parts of the Nextcloud integration.
