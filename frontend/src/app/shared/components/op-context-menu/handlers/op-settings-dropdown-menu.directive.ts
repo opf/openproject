@@ -57,6 +57,7 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
   @Input('opSettingsContextMenu-query') public query:QueryResource;
 
   @Input() public hideTableOptions:boolean;
+
   @Input() public showCalendarSharingOption:boolean;
 
   private form:QueryFormResource;
@@ -315,11 +316,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       {
         // Calendar sharing modal
         hidden: !this.showCalendarSharingOption,
-        disabled: this.authorisationService.cannot('query', 'shareCalendars'),
+        disabled: this.authorisationService.cannot('query', 'getIcalUrl'),
         linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
         icon: 'icon-link', // TODO: find sharing icons
-        onClick: ($event:JQuery.TriggeredEvent) => {
-          if (this.authorisationService.can('query', 'shareCalendars')) {
+        onClick: () => {
+          if (this.authorisationService.can('query', 'getIcalUrl')) {
             this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
           }
 

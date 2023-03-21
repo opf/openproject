@@ -147,7 +147,7 @@ module API
           }
         end
 
-        link :shareCalendars do
+        link :getIcalUrl do
           next if represented.new_record? ||
                   !allowed_to?(:share_via_ical)
 

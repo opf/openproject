@@ -112,7 +112,7 @@ export class WorkPackagesCalendarPageComponent extends PartitionedQuerySpacePage
       show: ():boolean => this.authorisationService.can('query', 'updateImmediately'),
       inputs: {
         hideTableOptions: true,
-        showCalendarSharingOption: true
+        showCalendarSharingOption: true,
       },
     },
   ];

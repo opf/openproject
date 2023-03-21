@@ -29,13 +29,12 @@
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
-  ChangeDetectorRef, Component, ElementRef, Inject, OnInit, resolveForwardRef,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -44,24 +43,23 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   templateUrl: './query-get-ical-url.modal.html',
-  styleUrls: ['./query-get-ical-url.modal.sass']
+  styleUrls: ['./query-get-ical-url.modal.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryGetIcalUrlModalComponent extends OpModalComponent implements OnInit {
-  public query:QueryResource;
-
   public isBusy = false;
 
-  public icalUrl: string;
+  public icalUrl:string;
 
   public text = {
-    label_ical_sharing: this.I18n.t('js.ical_sharing_modal.title'), 
+    label_ical_sharing: this.I18n.t('js.ical_sharing_modal.title'),
     description_ical_sharing_1: this.I18n.t('js.ical_sharing_modal.description_1'),
     description_ical_sharing_2: this.I18n.t('js.ical_sharing_modal.description_2'),
     ical_sharing_warning: this.I18n.t('js.ical_sharing_modal.warning'),
     button_copy: this.I18n.t('js.ical_sharing_modal.copy_url_label'),
     copy_success_text: this.I18n.t('js.ical_sharing_modal.copy_url_success_text'),
     button_cancel: this.I18n.t('js.button_cancel'),
-    close_popup: this.I18n.t('js.close_popup_title')
+    close_popup: this.I18n.t('js.close_popup_title'),
   };
 
   constructor(
@@ -74,7 +72,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     readonly wpListService:WorkPackagesListService,
     readonly halNotification:HalResourceNotificationService,
     readonly toastService:ToastService,
-    protected apiV3Service:ApiV3Service
+    protected apiV3Service:ApiV3Service,
   ) {
     super(locals, cdRef, elementRef);
   }
@@ -82,34 +80,40 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   ngOnInit():void {
     super.ngOnInit();
 
-    this.query = this.querySpace.query.value!;
+    const query = this.querySpace.query.value;
+
+    if (!query) {
+      return;
+    }
+
+    const promise = this
+      .apiV3Service
+      .queries
+      .getIcalUrl(query);
 
     this.isBusy = true;
 
-    this
-      .query
-      .shareCalendars()
+    void promise
       .then((response:HalResource) => {
-        this.icalUrl = response.icalUrl;
+        this.icalUrl = String(response.icalUrl);
         this.isBusy = false;
-        this.cdRef.detectChanges(); 
-        // or would that be better?
+        this.cdRef.detectChanges();
+        // TODO: or would that be better?
         // this.ngZone.run(() => {
         //   this.icalUrl = response.icalUrl;
         //   this.isBusy = false;
         // });
-      })
+      });
   }
 
-  public copyUrl($event:Event):void {
+  public copyUrl():void {
     if (this.isBusy) {
       return;
     }
 
-    navigator.clipboard.writeText(this.icalUrl)
+    void navigator.clipboard.writeText(this.icalUrl)
       .then(() => {
         this.toastService.addSuccess(this.text.copy_success_text);
-      })
-
+      });
   }
 }
