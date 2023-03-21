@@ -1,6 +1,6 @@
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
-<Meta title="Date picker/Common elements" />
+<Meta title="Patterns/Date Picker (1): Common elements" />
 
 # Date picker: Common elements
 
@@ -93,13 +93,13 @@ Mini days are set in Caption/Regular.
 
 - **Regular** days are the default state and cover the vast majority of cases.
     - Enabled: *Grey 1* text on *White* background.
-    	- On Hover: Grey 1 text on *Primary/Light* background.
+    	- On Hover: add stroke, 1px, Grey 3 (not-rounded)
     - Disabled: *Grey 3* text on *White* background.
         - Used when certain dates that are restricted by relations.
 - **A non-working day** can be a weekend or one that's individually-defined in the admin settings:
     - Enabled: *Grey 1* text on *Grey 6* background
         - Used when the "Working days only" switch is OFF.
-		- On Hover: Grey 1 text on *Primary/Light* background.
+		- On Hover: add stroke, 1px, Grey 3 (not-rounded)
     - Disabled: *Grey 3* text on *Grey 6* background.
         - Default state, when the "Working days only" switch is ON.
 - **Selected-start, select-end or selected-single** indicate the start and finish dates of a range, or the selected date for a single date.
@@ -117,7 +117,7 @@ Mini days are set in Caption/Regular.
         - Used when the selected range spans non-working days that are not included (Working days only switch is ON).
 - **Today** indicates today's date.
     - Enabled: *Grey 1* text on *Indication*/*Current* background.
-		- On Hover: Grey 1 text on *Primary/Light* background.
+		- On Hover: add stroke, 1px, Grey 3 (not-rounded)
     - Disabled: *Grey 3* text on *Indication*/*Current* background.
         - Used when today falls on a non-working day and "Working days only" switch is ON.
 
