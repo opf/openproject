@@ -21,6 +21,8 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
+    env:
+      RUBY_GC_HEAP_INIT_SLOTS: 100000
     steps:
       - name: Checkout
         uses: actions/checkout@v3
