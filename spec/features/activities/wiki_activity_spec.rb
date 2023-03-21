@@ -81,7 +81,8 @@ describe 'Wiki activities' do
     expect(page)
       .to have_link('Wiki: My page')
 
-    click_link('Wiki: My page')
+    # Click on the second wiki activity item
+    find(:xpath, "(//a[text()='Wiki: My page'])[1]").click
 
     expect(page)
       .to have_current_path(project_wiki_path(project.id, 'my-page', version: 2))
