@@ -27,7 +27,6 @@
 #++
 
 module WorkPackage::PDFExport::OverviewTable
-
   def write_work_packages_overview!(work_packages)
     if query.grouped?
       write_grouped!(work_packages)
@@ -44,7 +43,8 @@ module WorkPackage::PDFExport::OverviewTable
     groups = {}
     work_packages.each do |work_package|
       group = query.group_by_column.value(work_package)
-      groups[group] = (groups[group] || []).concat([work_package])
+      groups[group] = groups[group] || []
+      groups[group].push work_package
     end
     groups.each do |group, grouped_work_packages|
       write_group!(group, grouped_work_packages, get_group_sums(group))
@@ -88,12 +88,14 @@ module WorkPackage::PDFExport::OverviewTable
 
   def write_table!(work_packages, sums)
     rows = build_table_rows(work_packages, sums)
-    pdf_table_auto_widths(rows, table_column_widths,
-                          { header: true, cell_style: overview_table_cell_style.merge({ inline_format: true }) },
-                          query.grouped?) do |table|
+    pdf_table_auto_widths(rows, table_column_widths, table_options, query.grouped?) do |table|
       format_header_cells table.cells.columns(0..-1).rows(0)
       format_sum_cells table.cells.columns(0..-1).rows(-1) if query.display_sums?
     end
+  end
+
+  def table_options
+    { header: true, cell_style: overview_table_cell_style.merge({ inline_format: true }) }
   end
 
   def format_header_cells(header_cells)
@@ -117,7 +119,7 @@ module WorkPackage::PDFExport::OverviewTable
     cell.size = style[:size]
   end
 
-  def get_total_sums()
+  def get_total_sums
     query.results.all_total_sums if query.display_sums?
   end
 
@@ -182,8 +184,6 @@ module WorkPackage::PDFExport::OverviewTable
       padding_left: 5,
       padding_right: 5,
       padding_top: 0,
-      padding_bottom: 4
-    }
+      padding_bottom: 4 }
   end
-
 end

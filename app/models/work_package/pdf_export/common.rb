@@ -138,7 +138,7 @@ module WorkPackage::PDFExport::Common
     "<link anchor=\"#{anchor}\">#{caption}</link>"
   end
 
-  def pdf_table_auto_widths(data, column_widths, options = {}, force_fixed_columns, &)
+  def pdf_table_auto_widths(data, column_widths, options, force_fixed_columns, &)
     return pdf.table(data, options.merge({ column_widths: }), &) if force_fixed_columns
 
     begin
@@ -178,5 +178,4 @@ module WorkPackage::PDFExport::Common
   def with_attachments?
     options[:show_attachments]
   end
-
 end

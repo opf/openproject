@@ -113,7 +113,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_footers!
-    date_string = format_date(Date.today)
+    date_string = format_date(Time.zone.today)
     title_string = heading
     title_string_width = pdf.width_of(title_string, page_footer_style)
 

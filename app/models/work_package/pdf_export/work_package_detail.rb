@@ -27,7 +27,6 @@
 #++
 
 module WorkPackage::PDFExport::WorkPackageDetail
-
   def write_work_packages_details!(work_packages)
     work_packages.each_with_index do |work_package, index|
       write_detail!(work_package, [index + 1])
@@ -195,5 +194,4 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def description_header_style
     { size: 11, styles: [:bold] }
   end
-
 end
