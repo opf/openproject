@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'mini_magick'
+
 module WorkPackage::PDFExport::Attachments
   ##
   # Creates cells for each attachment of the work package

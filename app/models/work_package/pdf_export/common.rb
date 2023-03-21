@@ -54,7 +54,7 @@ module WorkPackage::PDFExport::Common
 
   def success(content)
     ::Exports::Result
-      .new format: :csv,
+      .new format: :pdf,
            title:,
            content:,
            mime_type: 'application/pdf'
@@ -88,4 +88,95 @@ module WorkPackage::PDFExport::Common
   def position_diff(position_a, position_b)
     position_a.y - position_b.y + ((position_b.page - position_a.page) * pdf.bounds.height)
   end
+
+  def with_margin(opts, &)
+    with_vertical_margin(opts) do
+      pdf.indent(opts[:margin_left] || 0, opts[:margin_right] || 0, &)
+    end
+  end
+
+  def with_vertical_margin(opts)
+    pdf.move_down(opts[:margin_top]) if opts.key?(:margin_top)
+    yield
+    pdf.move_down(opts[:margin_bottom]) if opts.key?(:margin_bottom)
+  end
+
+  def write_optional_page_break(threshold)
+    space_from_bottom = pdf.y - pdf.bounds.bottom
+    if space_from_bottom < threshold
+      pdf.start_new_page
+    end
+  end
+
+  def get_column_value(work_package, column)
+    formatter = formatter_for(column)
+    formatter.format(work_package)
+  end
+
+  def get_column_value_cell(work_package, column)
+    value = ERB::Util.html_escape(get_column_value(work_package, column))
+    return get_id_column_cell(work_package, value) if column == :id
+    return get_subject_column_cell(work_package, value) if with_descriptions? && column == :subject
+
+    value
+  end
+
+  def get_id_column_cell(work_package, value)
+    href = url_helpers.work_package_url(work_package)
+    make_link_href_cell(href, value)
+  end
+
+  def get_subject_column_cell(work_package, value)
+    make_link_anchor_cell(work_package.id, value)
+  end
+
+  def make_link_href_cell(href, caption)
+    "<link href='#{href}'>#{caption}</link>"
+  end
+
+  def make_link_anchor_cell(anchor, caption)
+    "<link anchor=\"#{anchor}\">#{caption}</link>"
+  end
+
+  def pdf_table_auto_widths(data, column_widths, options = {}, force_fixed_columns, &)
+    return pdf.table(data, options.merge({ column_widths: }), &) if force_fixed_columns
+
+    begin
+      pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
+    rescue Prawn::Errors::CannotFit
+      pdf.table(data, options.merge({ column_widths: }), &)
+    end
+  end
+
+  def text_column?(column)
+    column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
+      %w(string text).include?(column.custom_field.field_format)
+  end
+
+  def url_helpers
+    @url_helpers ||= OpenProject::StaticRouting::StaticUrlHelpers.new
+  end
+
+  def api_url_helpers
+    API::V3::Utilities::PathHelper::ApiV3Path
+  end
+
+  def make_group_label(group)
+    if group.blank?
+      I18n.t(:label_none_parentheses)
+    elsif group.is_a? Array
+      group.join(', ')
+    else
+      group.to_s
+    end
+  end
+
+  def with_descriptions?
+    options[:show_descriptions]
+  end
+
+  def with_attachments?
+    options[:show_attachments]
+  end
+
 end
