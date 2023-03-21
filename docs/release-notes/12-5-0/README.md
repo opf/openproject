@@ -19,7 +19,7 @@ OpenProject 12.5 now also lets system administrator **define additional non-work
 
 ## Upload files to Nextcloud while working in OpenProject
 
-OpenProject 12.5 launches the next step for the integration between OpenProject and Nextcloud. It is now possible to upload new files to Nextcloud and link them directly to a with package all from within OpenProject. The close connection of work packages with project-related files combines the advantages of both open source systems.
+OpenProject 12.5 launches the next step for the integration between OpenProject and Nextcloud. It is now possible to upload new files to Nextcloud and link them directly to a work package all from within OpenProject. The close connection of work packages with project-related files combines the advantages of both open source systems.
 
 Different use cases are covered for uploading and linking files directly from within a work package.
 
@@ -59,17 +59,17 @@ The ability to upload new files to Nextcloud directly from OpenProject or link e
 
 ![openproject-nextcloud-upload-files-empty-status](openproject-nextcloud-upload-files-empty-status.png)
 
-### More options for linked Nextcloud files in an OpenProject
+### More options for linked Nextcloud files in OpenProject
 
 The **Files** tab shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to open or download the file, show the containing folder in Nextcloud or remove the link.
 
-**Please note:** Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. When uploading a new file with the same name, you will be asked if want to either overwrite the existing one in Nextcloud or create an additional copy of to it.
+**Please note:** Removing the link from within a work package in OpenProject will not delete the file or folder in Nextcloud. When uploading a new file with the same name, you will be asked if you want to either overwrite the existing one in Nextcloud or create an additional copy of it.
 
 ## Setting public holidays as non-working days
 
-OpenProject already let administrators set the work week at an instance-level by letting them define the working and non-working days of the week. 
+OpenProject already lets administrators set the work week at an instance-level by letting them define the working and non-working days of the week.
 
-With OpenProject 12.5, administrators you can now also define additional individual non-working days of the year. This can be useful to program in public holidays or closures. Work packages cannot then start or end on these days and these days do not count towards the duration of a work package. (A user can nevertheless turn the 'Working days only' switch off at a work package level and schedule on non-working days if needed).
+With OpenProject 12.5, administrators can now also define additional individual non-working days of the year. This can be useful to program in public holidays or closures. Work packages cannot then start or end on these days and these days do not count towards the duration of a work package. (A user can nevertheless turn the 'Working days only' switch off at a work package level and schedule on non-working days if needed).
 
 ![Non-working-days-holidays](Non-working-days-holidays.png)
 
@@ -77,7 +77,7 @@ With OpenProject 12.5, administrators you can now also define additional individ
 
 ## View project activity
 
-Starting with OpenProject 12.5, the Activities module (if enabled) will now include the changes to project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the more menu of a particular project and then choosing *Project activity*.
+Starting with OpenProject 12.5, the Activities module (if enabled) will now include the changes to project attributes and project custom fields. You can directly open the project activity view from the Project list by clicking on the *More* menu of a particular project and then choosing *Project activity*.
 
 ![project-list-activity](project-list-activity.png)
 
