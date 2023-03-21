@@ -69,24 +69,7 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
   end
 
   def link(key, options)
-    url_attr = if key.to_s == 'description'
-      default_attributes(options)
-      .merge(controller: '/journals',
-             action: 'diff',
-             id: @journal.id,
-             field: key.downcase,
-             activity_page: options[:activity_page])
-      .compact
-    else
-      default_attributes(options)
-      .merge(controller: '/wiki',
-             action: 'diff',
-             project_id: @journal.journable.project.identifier,
-             id: @journal.journable.page.slug,
-             version: @journal.version-1,
-             version_from: @journal.version)
-      .compact
-    end
+    url_attr = url_attr(key, options)
 
     if options[:html]
       link_to(I18n.t(:label_details),
@@ -95,6 +78,29 @@ class OpenProject::JournalFormatter::Diff < JournalFormatter::Base
     else
       url_for url_attr
     end
+  end
+
+  def url_attr(key, options)
+    journable = @journal.journable
+    version = @journal.version
+
+    if key.to_s == 'description'
+      default_attributes(options)
+      .merge(controller: '/journals',
+             action: 'diff',
+             id: @journal.id,
+             field: key.downcase,
+             activity_page: options[:activity_page])
+    else
+      default_attributes(options)
+      .merge(controller: '/wiki',
+             action: 'diff',
+             project_id: journable.project.identifier,
+             id: journable.page.slug,
+             version: version - 1,
+             version_from: version)
+    end
+    .compact
   end
 
   def default_attributes(options)
