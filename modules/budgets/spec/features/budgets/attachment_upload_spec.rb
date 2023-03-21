@@ -101,6 +101,8 @@ describe 'Upload attachment to budget', js: true do
       click_on "Update"
     end
 
+    # Wait for page load
+    expect(page).to have_selector('[data-qa-selector="op-attachments"]')
     script = <<~JS
       const event = new DragEvent('dragenter');
       document.body.dispatchEvent(event);
