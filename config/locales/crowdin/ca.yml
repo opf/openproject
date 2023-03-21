@@ -1296,7 +1296,7 @@ ca:
       form_configuration:
         description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
         add_groups: "Afegir un nou atribut de grups"
-        rename_groups: "Canviar de nom atribut de grups"
+        rename_groups: "Reanomena els atributs de grups"
       project_filters:
         description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"

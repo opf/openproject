@@ -587,9 +587,9 @@ ca:
         text_update_date: "%{date} per"
         total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
-          no_notification: "Sembla que ara mateix esteu al dia"
-          no_notification_with_current_project_filter: "Sembla que està tot enllestit per al projecte seleccionat."
-          no_notification_with_current_filter: "Sembla que ja ho has enllestit tot pel filtre %{filter}."
+          no_notification: "Sembla que ja estàs al dia."
+          no_notification_with_current_project_filter: "Sembla que ja estàs al dia per al projecte seleccionat."
+          no_notification_with_current_filter: "Sembla que ja estàs al dia pel filtre %{filter}."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: 'No hi ha notificacions noves'
@@ -1072,7 +1072,7 @@ ca:
       settings:
         configure_view: "Configurar vista"
         columns: "Columnes"
-        sort_by: "Ordenar per"
+        sort_by: "Ordena per"
         group_by: "Agrupar per"
         display_sums: "Mostra les sumes"
         display_hierarchy: "Mostra la jerarquia"
@@ -1080,7 +1080,7 @@ ca:
         hide_sums: "Amaga les sumes"
         save: "Desa"
         save_as: "Desa com a"
-        export: "Exportar"
+        export: "Exporta"
         visibility_settings: "Configuració de visibilitat"
         page_settings: "Reanomena la vista"
         delete: "Elimina"

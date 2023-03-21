@@ -45,7 +45,7 @@ export abstract class AbstractDateTimeValueController extends UntilDestroyedMixi
   }
 
   ngOnInit() {
-    _.remove(this.filter.values as string[], (value) => !this.timezoneService.isValidISODateTime(value));
+    _.remove(this.filter.values as string[], (value) => !(value === '' || this.timezoneService.isValidISODateTime(value)));
   }
 
   public abstract get lowerBoundary():Moment|null;

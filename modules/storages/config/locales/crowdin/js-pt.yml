@@ -4,15 +4,15 @@ pt:
     storages:
       link_files_in_storage: "Vincular arquivos em %{storageType}"
       link_existing_files: "Vincular arquivos existentes"
-      upload_files: "Upload files"
-      drop_files: "Drop files here to upload them to %{name}."
-      drop_or_click_files: "Drop files here or click to upload them to %{name}."
+      upload_files: "Anexar arquivos"
+      drop_files: "Solte os arquivos aqui para enviá-los para %{name}."
+      drop_or_click_files: "Solte os arquivos aqui ou clique para carregá-los para %{name}."
       login: "Início de sessão de %{storageType}"
       login_to: "Iniciar sessão em %{storageType}"
       no_connection: "Sem conexão de %{storageType}"
       open_storage: "Abrir %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "Selecionar localização"
+      choose_location: "Escolher localização"
       types:
         nextcloud: "Nextcloud"
       information:
@@ -25,19 +25,19 @@ pt:
         not_logged_in: >
           Para adicionar um link, visualizar ou enviar arquivos relacionados a este pacote de trabalho, inicie sessão em %{storageType}
       files:
-        already_existing_header: "This file already exists"
+        already_existing_header: "Este arquivo já existe"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
-        directory_not_writeable: "You do not have permission to add files to this folder."
-        dragging_many_files: "The upload to %{storageType} supports only one file at once."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
-        file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
-        upload_keep_both: "Keep both"
-        upload_replace: "Replace"
+          Já existe um arquivo com o nome "%{fileName}" na localização para onde você está tentando enviar este arquivo. O que você deseja fazer?
+        directory_not_writeable: "Você não possui permissão para adicionar arquivos a esta pasta."
+        dragging_many_files: "O carregamento para %{storageType} só dá suporte a um arquivo por vez."
+        empty_folder: "Esta pasta está vazia."
+        empty_folder_location_hint: "Clique no botão abaixo para carregar o arquivo para esta localização."
+        file_not_selectable_location: "Não é possível selecionar um arquivo no processo de escolha de uma localização."
+        upload_keep_both: "Manter ambos"
+        upload_replace: "Substituir"
       file_links:
         empty: >
-          Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
+          Atualmente não há arquivos vinculados a este pacote de trabalho. Vincule os seus primeiros arquivos através da ação abaixo ou a partir de %{storageType}.
         download: "Baixar %{fileName}"
         no_permission: "Você não possui permissão para visualizar este arquivo."
         open: "Abrir arquivo no armazenamento"
@@ -49,23 +49,23 @@ pt:
         select: "Selecionar arquivos"
         select_all: "Selecionar tudo"
         selection:
-          zero: "Select files to link"
-          one: "Link 1 file"
-          other: "Link %{count} files"
+          zero: "Selecione arquivos para vincular"
+          one: "Vincular 1 arquivo"
+          other: "Vincular %{count} arquivos"
         success_create:
-          one: "Successfully created 1 file link."
-          other: "Successfully created %{count} file links."
+          one: "Criou com sucesso 1 vínculo do arquivo."
+          other: "Criou com sucesso %{count} vínculos do arquivo."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
+            Não foi possível carregar seu arquivo (%{fileName}). Entre em contato com seu administrador para obter mais informações.
           403: >
-            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+            Não foi possível carregar seu arquivo (%{fileName}) devido a restrições do sistema. Entre em contato com o seu administrador para obter mais informações.
           413: >
-            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+            Seu arquivo (%{fileName}) é maior do que o limite que o OpenProject pode carregar para %{storageType}. Você pode carregar diretamente para %{storageType} primeiro e depois vincular o arquivo.
           507: >
-            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+            Seu arquivo (%{fileName}) é maior que o permitido pela cota de armazenamento. Entre em contato com seu administrador para modificar esta cota.
         link_uploaded_file_error: >
-          An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
+          Ocorreu um erro ao vincular o arquivo recém-carregado '%{fileName}' para o pacote de trabalho %{workPackageId}
         not_allowed_tooltip: "Faça o login no Nextcloud para acessar este arquivo"
         already_linked_file: "Este arquivo já está vinculado a este pacote de trabalho."
         already_linked_directory: "Este diretório já está vinculado a este pacote de trabalho."

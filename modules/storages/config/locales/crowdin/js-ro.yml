@@ -59,7 +59,7 @@ ro:
           other: "A creat cu succes %{count} de legături de fișiere."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please contact your administrator for more information.
+            Fișierul dumneavoastră (%{fileName}) nu a putut fi încărcat. Vă rugăm să contactați administratorul dumneavoastră pentru mai multe informații.
           403: >
             Fişierul (%{fileName}) nu a putut fi încărcat din cauza restricţiilor de sistem. Vă rugăm să contactaţi administratorul pentru mai multe informaţii.
           413: >
