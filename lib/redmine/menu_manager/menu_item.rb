@@ -71,6 +71,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @badge = options[:badge]
     @engine = options[:engine]
     @allow_deeplink = options[:allow_deeplink]
+    @external_link = !!options[:external_link]
     super @name.to_sym
   end
 
@@ -135,6 +136,10 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
 
   def allow_deeplink=(allow_deeplink)
     @allow_deeplink = allow_deeplink
+  end
+
+  def external_link?
+    @external_link
   end
 
   def html_options(options = {})

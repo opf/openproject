@@ -65,10 +65,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  current_menu_item :index do
-    :list_projects
-  end
-
   def new
     render layout: 'no_menu'
   end

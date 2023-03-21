@@ -45,6 +45,7 @@ module Redmine::MenuManager::MenuHelper
       nil
     elsif menu == :project_menu && project && project.persisted?
       build_wiki_menus(project)
+      build_storages_menu(project)
       render_menu(:project_menu, project)
     elsif menu == :wp_query_menu
       render_menu(:application_menu, project)
@@ -55,9 +56,8 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu(menu, project = nil)
     links = []
-
+    @menu = menu
     menu_items = first_level_menu_items_for(menu, project) do |node|
-      @menu = menu
       links << render_menu_node(node, project)
     end
 
@@ -164,17 +164,18 @@ module Redmine::MenuManager::MenuHelper
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
-    link_text << op_icon(item.icon(project)) if item.icon(project).present?
+    link_text << spot_icon(item.icon) if item.icon(project).present?
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
-      title_text = ''.html_safe + caption + badge_for(item)
+      title_text = ''.html_safe + content_tag(:span, caption) + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (' '.html_safe + spot_icon('enterprise-addons'))
+        title_text << (''.html_safe + spot_icon('enterprise-addons'))
+      elsif item.icon_after.present?
+        title_text << (''.html_safe + spot_icon(item.icon_after))
       end
       title_text
     end
-    link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
@@ -198,6 +199,26 @@ module Redmine::MenuManager::MenuHelper
   end
 
   private
+
+  def build_storages_menu(project)
+    if project.enabled_module_names.include?('storages') &&
+       current_user.allowed_to?(:view_file_links, project)
+      storages = project.storages
+      Redmine::MenuManager.loose(:project_menu) do |project_menu|
+        storages.each do |s|
+          project_menu.push(
+            :"storage_#{s.id}",
+            s.host,
+            caption: s.name,
+            before: :members,
+            icon: "nextcloud-circle",
+            icon_after: "external-link",
+            external_link: true
+          )
+        end
+      end
+    end
+  end
 
   # Returns a list of unattached children menu items
   def render_unattached_children_menu(node, project)
@@ -322,7 +343,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def allowed_project_node?(node, project, user)
-    if node_action_allowed?(node, project, user)
+    if node_action_allowed?(node, project, user) || node.external_link?
       true
     elsif node.allow_deeplink?
       node.children.any? do |child|
