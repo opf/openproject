@@ -55,7 +55,7 @@ ko:
           other: "%{count}개 파일 링크를 생성했습니다."
         upload_error:
           default: >
-            파일(%{fileName})을 업로드할 수 없습니다. 자세한 내용은 관리자에게 문의하세요.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             시스템 제한으로 인해 파일(%{fileName})을 업로드할 수 없습니다. 자세한 내용은 관리자에게 문의하세요.
           413: >

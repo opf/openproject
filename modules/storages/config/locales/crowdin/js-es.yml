@@ -57,7 +57,7 @@ es:
           other: "Se han creado correctamente %{count} enlaces de fichero."
         upload_error:
           default: >
-            Su archivo (%{fileName}) no se pudo cargar. Por favor, contacte con su administrador para más información.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             Su archivo (%{fileName}) no se pudo cargar debido a las restricciones del sistema. Por favor, contacte con su administrador para más información.
           413: >
