@@ -28,61 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Abstract view component. Subclass this for a concrete table.
-class TableComponent < ViewComponent::Base
-  attr_reader :rows
-
-  def initialize(rows:)
-    super()
-    @rows = rows
-  end
-
-  class << self
-    # Declares columns shown in the table.
-    #
-    # Use it in subclasses like so:
-    #
-    #     columns :name, :description, :sort
-    #
-    # When table is sortable, the column names are used by sort logic. It means
-    # these names will be used directly in the generated SQL queries.
-    def columns(*names)
-      return Array(@columns) if names.empty?
-
-      @columns = names.map(&:to_sym)
+module CustomActions
+  class RowComponent < ::RowComponent
+    def action
+      row
     end
-  end
 
-  def row_class
-    mod = self.class.name.deconstantize.presence || "Table"
+    def name
+      link_to action.name, edit_custom_action_path(action)
+    end
 
-    "#{mod}::RowComponent".constantize
-  rescue NameError
-    raise(
-      NameError,
-      "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
-      "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
-    )
-  end
+    delegate :description, to: :action
 
-  def columns
-    self.class.columns
-  end
+    def sort
+      helpers.reorder_links('custom_action', { action: 'update', id: action }, method: :put)
+    end
 
-  def render_row(row)
-    render(row_class.new(row:, table: self))
-  end
+    def button_links
+      [
+        edit_link,
+        delete_link
+      ]
+    end
 
-  def inline_create_link
-    nil
-  end
+    def edit_link
+      link_to(
+        helpers.op_icon('icon icon-edit'),
+        helpers.edit_custom_action_path(action),
+        title: t(:button_edit)
+      )
+    end
 
-  def sortable?
-    false
-  end
-
-  def empty_row_message
-    I18n.t :no_results_title_text
+    def delete_link
+      link_to(
+        helpers.op_icon('icon icon-delete'),
+        helpers.custom_action_path(action),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
+    end
   end
 end
