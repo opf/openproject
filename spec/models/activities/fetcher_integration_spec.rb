@@ -60,9 +60,9 @@ describe Activities::Fetcher, 'integration' do
     context 'for global activities' do
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget] }
 
-      it 'finds events of all type' do
+      it 'finds events of all types except budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
+          .to match_array(activities.map(&:id).excluding(budget.id))
       end
 
       context 'if lacking permissions' do
@@ -99,7 +99,7 @@ describe Activities::Fetcher, 'integration' do
         end
       end
 
-      context 'if scope includes budgets' do
+      context 'if scope is set to only budgets' do
         before do
           options[:scope] = %w(budgets)
         end
@@ -115,9 +115,9 @@ describe Activities::Fetcher, 'integration' do
       let(:options) { { project: } }
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget] }
 
-      it 'finds events of all type' do
+      it 'finds events of all types excluding budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
+          .to match_array(activities.map(&:id).excluding(budget.id))
       end
 
       context 'if lacking permissions' do
@@ -154,7 +154,7 @@ describe Activities::Fetcher, 'integration' do
         end
       end
 
-      context 'if scope includes budgets' do
+      context 'if scope is set to only budgets' do
         before do
           options[:scope] = %w(budgets)
         end
@@ -256,9 +256,9 @@ describe Activities::Fetcher, 'integration' do
         [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget]
       end
 
-      it 'finds events of all type' do
+      it 'finds events of all types except budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id))
+          .to match_array(activities.map(&:id).excluding(budget.id))
       end
 
       context 'for a different user' do
@@ -305,7 +305,7 @@ describe Activities::Fetcher, 'integration' do
         end
       end
 
-      context 'if scope includes budgets' do
+      context 'if scope is set to only budgets' do
         before do
           options[:scope] = %w(budgets)
         end
