@@ -39,7 +39,7 @@ describe 'Upload attachment to wiki page', js: true do
   let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
-  let(:wiki_page_content) { project.wiki.pages.first.content.text }
+  let(:wiki_page_content) { project.wiki.pages.first.text }
 
   before do
     login_as(user)

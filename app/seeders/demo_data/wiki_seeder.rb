@@ -61,15 +61,12 @@ module DemoData
       wiki_page = WikiPage.create!(
         wiki: project.wiki,
         title: data[:title],
-        parent:
-      )
-
-      print_status '.'
-      WikiContent.create!(
-        page: wiki_page,
+        parent:,
         author: user,
         text: data[:content]
       )
+
+      print_status '.'
 
       if data[:children]
         Array(data[:children]).each do |child_data|

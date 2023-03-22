@@ -43,19 +43,19 @@ describe 'Wysiwyg child pages spec',
   let(:wiki_page) do
     create(:wiki_page,
            title: 'Test',
-           content: build(:wiki_content, text: '# My page'))
+           text: '# My page')
   end
 
   let(:parent_page) do
     create(:wiki_page,
            title: 'Parent page',
-           content: build(:wiki_content, text: '# parent page'))
+           text: '# parent page')
   end
 
   let(:child_page) do
     create(:wiki_page,
            title: 'Child page',
-           content: build(:wiki_content, text: '# child page'))
+           text: '# child page')
   end
 
   before do

@@ -62,7 +62,7 @@ class Journal < ApplicationRecord
   # logs like the history on issue#show
   scope :changing, -> { where(['version > 1']) }
 
-  scope :for_wiki_content, -> { where(journable_type: "WikiContent") }
+  scope :for_wiki_page, -> { where(journable_type: "WikiPage") }
   scope :for_work_package, -> { where(journable_type: "WorkPackage") }
 
   # In conjunction with the included Comparable module, allows comparison of journal records

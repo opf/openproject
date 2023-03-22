@@ -41,12 +41,12 @@ FactoryBot.define do
       end
     end
 
-    factory :wiki_content_journal, class: 'Journal' do
-      journable_type { 'WikiContent' }
-      data { build(:journal_wiki_content_journal) }
+    factory :wiki_page_journal, class: 'Journal' do
+      journable_type { 'WikiPage' }
+      data { build(:journal_wiki_page_journal) }
 
       callback(:after_stub) do |journal, options|
-        journal.journable ||= options.journable || build_stubbed(:wiki_content)
+        journal.journable ||= options.journable || build_stubbed(:wiki_page)
       end
     end
 

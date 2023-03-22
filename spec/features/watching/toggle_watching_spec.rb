@@ -36,7 +36,7 @@ describe 'Toggle watching', js: true do
   let(:forum) { create(:forum, project:) }
   let(:message) { create(:message, forum:) }
   let(:wiki) { project.wiki }
-  let(:wiki_page) { create(:wiki_page_with_content, wiki:) }
+  let(:wiki_page) { create(:wiki_page, wiki:) }
 
   before do
     allow(User).to receive(:current).and_return user

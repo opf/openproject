@@ -44,21 +44,15 @@ describe 'Disabled activity' do
   let!(:work_package2) { create(:work_package, project: project2) }
   let!(:work_package3) { create(:work_package, project: project3) }
   let!(:wiki_page1) do
-    create(:wiki_page, wiki: project1.wiki) do |page|
-      create(:wiki_content, page:)
-    end
+    create(:wiki_page, wiki: project1.wiki)
   end
   let!(:wiki_page2) do
-    create(:wiki_page, wiki: project2.wiki) do |page|
-      create(:wiki_content, page:)
-    end
+    create(:wiki_page, wiki: project2.wiki)
   end
   let!(:wiki_page3) do
     wiki = create(:wiki, project: project3)
 
-    create(:wiki_page, wiki:) do |page|
-      create(:wiki_content, page:)
-    end
+    create(:wiki_page, wiki:)
   end
 
   before do

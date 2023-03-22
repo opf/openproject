@@ -26,46 +26,56 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WikiContent < ApplicationRecord
-  extend DeprecatedAlias
+class Activities::WikiPageActivityProvider < Activities::BaseActivityProvider
+  activity_provider_for type: 'wiki_edits',
+                        permission: :view_wiki_edits
 
-  belongs_to :page, class_name: 'WikiPage'
-  has_one :project, through: :page
-  belongs_to :author, class_name: 'User'
-
-  acts_as_journalized
-
-  register_journal_formatted_fields(:wiki_diff, 'text')
-
-  acts_as_event type: 'wiki-page',
-                title: Proc.new { |o|
-                  "#{I18n.t(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"
-                },
-                url: Proc.new { |o|
-                  {
-                    controller: '/wiki',
-                    action: 'show',
-                    id: o.journal.journable.page,
-                    project_id: o.journal.journable.page.wiki.project,
-                    version: o.journal.journable.version
-                  }
-                }
-
-  def visible?(user = User.current)
-    page.visible?(user)
+  def extend_event_query(query)
+    query.join(wiki_pages_table).on(journals_table[:journable_id].eq(wiki_pages_table[:id]))
+    query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
   end
 
-  def attachments
-    page.nil? ? [] : page.attachments
+  def event_query_projection
+    [
+      projection_statement(wikis_table, :project_id, 'project_id'),
+      projection_statement(wiki_pages_table, :title, 'wiki_title'),
+      projection_statement(wiki_pages_table, :slug, 'wiki_slug')
+    ]
   end
 
-  def text=(value)
-    super value.presence || ''
+  def projects_reference_table
+    wikis_table
   end
 
-  deprecated_alias :versions, :journals
+  protected
 
-  def version
-    last_journal.nil? ? 0 : last_journal.version
+  def event_title(event)
+    "#{I18n.t(:project_module_wiki)}: #{event['wiki_title']}"
+  end
+
+  def event_type(_event)
+    'wiki-page'
+  end
+
+  def event_path(event)
+    url_helpers.project_wiki_path(*url_helper_parameter(event))
+  end
+
+  def event_url(event)
+    url_helpers.project_wiki_url(*url_helper_parameter(event))
+  end
+
+  private
+
+  def wiki_pages_table
+    @wiki_pages_table ||= WikiPage.arel_table
+  end
+
+  def wikis_table
+    @wikis_table ||= Wiki.arel_table
+  end
+
+  def url_helper_parameter(event)
+    [event['project_id'], event['wiki_slug']]
   end
 end

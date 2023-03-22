@@ -60,7 +60,7 @@ describe 'Wysiwyg escaping HTML entities (Regression #28906)',
       expect(page).not_to have_selector('node')
     end
 
-    text = WikiContent.last.text
+    text = WikiPage.last.text
     expect(text).to include "&lt;node foo=&quot;bar&quot; /&gt;"
     expect(text).to include "\\\\&lt;u&gt;foo\\\\&lt;/u&gt;"
     expect(text).not_to include '<node>'

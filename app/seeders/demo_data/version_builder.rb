@@ -66,11 +66,12 @@ module DemoData
 
     def set_wiki!(version, config)
       version.wiki_page_title = config[:title]
-      page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
 
-      content = with_references config[:content], project
       Journal::NotificationConfiguration.with false do
-        WikiContent.create! page:, author: User.admin.first, text: content
+        WikiPage.create! wiki: version.project.wiki,
+                         title: version.wiki_page_title,
+                         author: User.admin.first,
+                         text: with_references(config[:content], project)
       end
 
       version.save!
