@@ -37,7 +37,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_detail!(work_package, level_path)
     # TODO: move page break threshold const to style settings and implement conditional break with height measuring
-    write_optional_page_break(300)
+    write_optional_page_break(200)
     with_margin(work_package_detail_margins_style) do
       write_work_package_subject! work_package, level_path
       write_attributes_table! work_package
@@ -129,8 +129,8 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def configure_markup(work_package)
     # configure prawn markup gem in context of our work package
     images_enabled = options[:show_attachments] && work_package.attachments.exists?
-    pdf.font work_package_detail_font_style
     pdf.markup_options = {
+      text: work_package_detail_font_style,
       image: {
         loader: ->(src) {
           images_enabled ? attachment_image_filepath(work_package, src) : nil
