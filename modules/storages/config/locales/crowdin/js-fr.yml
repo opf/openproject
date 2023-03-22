@@ -57,7 +57,7 @@ fr:
           other: "%{count} liens de fichier ont été créés avec succès."
         upload_error:
           default: >
-            Votre fichier (%{fileName}) n'a pas pu être téléversé. Veuillez contacter votre administrateur pour obtenir plus d'informations.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             Votre fichier (%{fileName}) n'a pas pu être téléversé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d'informations.
           413: >

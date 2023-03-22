@@ -57,7 +57,7 @@ ca:
           other: "%{count} enllaços de fitxer creat correctament."
         upload_error:
           default: >
-            El fitxer (%{fileName}) no s'ha pogut carregar. Si us plau, contacta el teu administrador per a més informació.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
           413: >
