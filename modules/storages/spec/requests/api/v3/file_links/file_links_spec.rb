@@ -620,7 +620,13 @@ describe 'API v3 file links resource' do
           get path
         end
 
-        it { expect(subject.status).to be(404) }
+        it 'fails with outbound request failure' do
+          expect(subject.status).to be(500)
+
+          body = JSON.parse(subject.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequestFailure')
+        end
       end
     end
 
@@ -656,7 +662,13 @@ describe 'API v3 file links resource' do
       describe 'due to not found' do
         let(:error) { :not_found }
 
-        it { expect(subject.status).to be(404) }
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequestFailure')
+        end
       end
     end
   end
