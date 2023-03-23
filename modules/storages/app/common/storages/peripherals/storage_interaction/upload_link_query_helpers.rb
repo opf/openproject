@@ -26,18 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Acts
-  module Journalized
-    class JournalObjectCache
-      def fetch(klass, id, &)
-        @cache ||= Hash.new do |klass_hash, klass_key|
-          klass_hash[klass_key] = Hash.new do |id_hash, id_key|
-            id_hash[id_key] = yield klass_key, id_key
-          end
-        end
+module Storages::Peripherals::StorageInteraction
+  module UploadLinkQueryHelpers
+    using Storages::Peripherals::ServiceResultRefinements
 
-        @cache[klass][id]
+    def validate_request_body(body)
+      case body.transform_keys(&:to_sym)
+      in { projectId: project_id, fileName: file_name, parent: parent }
+        authorize(:manage_file_links, context: Project.find(project_id))
+        ServiceResult.success(result: { fileName: file_name, parent: }.transform_keys(&:to_s))
+      else
+        ServiceResult.failure(
+          errors: Storages::StorageError.new(code: :bad_request, log_message: 'Request body malformed!')
+        )
       end
+    end
+
+    def upload_link_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .upload_link_query(user:)
+    end
+
+    def execute_upload_link_query(request_body)
+      ->(query) { validate_request_body(request_body) >> query }
     end
   end
 end

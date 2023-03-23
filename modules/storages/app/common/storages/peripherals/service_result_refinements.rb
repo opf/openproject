@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,22 @@ module Storages::Peripherals
         if success?
           on_success.call(result)
         else
-          on_failure.call(result)
+          on_failure.call(errors)
         end
+      end
+
+      def bind
+        return self if failure?
+
+        yield result
+      end
+
+      def >>(other)
+        unless other.respond_to?(:call)
+          raise TypeError, "Expected an object responding to 'call', got #{other.class.name}."
+        end
+
+        bind(&other)
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,22 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction
-  class NextcloudStorageQuery
-    def initialize(base_uri:, token:, with_refreshed_token:)
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+    def initialize(base_uri:, token:, retry_proc:)
+      super()
       @uri = base_uri
       @token = token
-      @with_refreshed_token = with_refreshed_token
-      @base_path = "/remote.php/dav/files/#{token.origin_user_id}"
+      @retry_proc = retry_proc
+      @base_path = File.join(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
     end
 
-    def files(parent)
+    def query(parent)
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
-      result = @with_refreshed_token.call(@token) do |token|
+      result = @retry_proc.call(@token) do |token|
         response = http.propfind(
-          "#{@base_path}#{parent}",
+          "#{@base_path}#{requested_folder(parent)}",
           requested_properties,
           {
             'Depth' => '1',
@@ -57,6 +58,17 @@ module Storages::Peripherals::StorageInteraction
 
     private
 
+    def escape_whitespace(value)
+      value.gsub(' ', '%20')
+    end
+
+    def requested_folder(folder)
+      return '' if folder.nil?
+
+      escape_whitespace(folder)
+    end
+
+    # rubocop:disable Metrics/AbcSize
     def requested_properties
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].propfind(
@@ -68,35 +80,50 @@ module Storages::Peripherals::StorageInteraction
             xml['oc'].size
             xml['d'].getcontenttype
             xml['d'].getlastmodified
+            xml['oc'].permissions
             xml['oc'].send('owner-display-name')
           end
         end
       end.to_xml
     end
+    # rubocop:enable Metrics/AbcSize
 
     def error(response)
       case response
       when Net::HTTPNotFound
-        ServiceResult.failure(result: :not_found)
+        error_result(:not_found)
       when Net::HTTPUnauthorized
-        ServiceResult.failure(result: :not_authorized)
+        error_result(:not_authorized)
       else
-        ServiceResult.failure(result: :error)
+        error_result(:error)
       end
+    end
+
+    def error_result(code, log_message = nil, data = nil)
+      ServiceResult.failure(
+        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
+        errors: Storages::StorageError.new(code:, log_message:, data:)
+      )
     end
 
     def storage_files(response)
       response.map do |xml|
-        Nokogiri::XML(xml)
-          .xpath('//d:response')
-          .drop(1) # drop current directory
-          .map { |file_element| storage_file(file_element) }
+        a = Nokogiri::XML(xml)
+              .xpath('//d:response')
+              .to_a
+
+        parent, *files =
+          a.map do |file_element|
+            storage_file(file_element)
+          end
+
+        ::Storages::StorageFiles.new(files, parent)
       end
     end
 
     def storage_file(file_element)
       location = name(file_element)
-      name = CGI.unescape(location.split('/').last)
+      name = location == '/' ? location : CGI.unescape(location.split('/').last)
 
       ::Storages::StorageFile.new(
         id(file_element),
@@ -107,7 +134,8 @@ module Storages::Peripherals::StorageInteraction
         last_modified_at(file_element),
         created_by(file_element),
         nil,
-        location
+        location,
+        permissions(file_element)
       )
     end
 
@@ -126,10 +154,11 @@ module Storages::Peripherals::StorageInteraction
 
       return nil if texts.empty?
 
-      texts
-        .first
-        .delete_prefix(@base_path)
-        .delete_suffix('/')
+      element_name = texts.first.delete_prefix(@base_path)
+
+      return element_name if element_name == '/'
+
+      element_name.delete_suffix('/')
     end
 
     def size(element)
@@ -161,6 +190,22 @@ module Storages::Peripherals::StorageInteraction
         .map(&:inner_text)
         .reject(&:empty?)
         .first
+    end
+
+    def permissions(element)
+      permissions_string =
+        element
+          .xpath('.//oc:permissions')
+          .map(&:inner_text)
+          .reject(&:empty?)
+          .first
+
+      # Nextcloud Dav permissions:
+      # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php
+      result = []
+      result << :readable if permissions_string.include?('G')
+      result << :writeable if %w[CK W].reduce(false) { |s, v| s || permissions_string.include?(v) }
+      result
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,14 +114,6 @@ module OpenProject
           end
           TRUE_VALUES.include? self[definition.name]
         end
-      end
-
-      # Filters a hash with String keys by a key prefix and removes the prefix from the keys
-      def settings_of_prefix(prefix)
-        Settings::Definition
-          .all_of_prefix(prefix)
-          .to_h { |setting| [setting.name.delete_prefix(prefix), setting.value] }
-          .symbolize_keys!
       end
     end
   end

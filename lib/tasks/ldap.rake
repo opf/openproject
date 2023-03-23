@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ namespace :ldap do
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
 
     logins = args.fetch(:logins, '').split(/\s*,\s*/)
-    ::Ldap::SynchronizeUsersService
+    Ldap::SynchronizeUsersService
       .new(ldap, logins)
       .call
   end
@@ -60,7 +60,7 @@ namespace :ldap do
     # Parse filter string if available
     filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
 
-    ::Ldap::ImportUsersFromFilterService
+    Ldap::ImportUsersFromFilterService
       .new(ldap, filter)
       .call
   end
@@ -75,7 +75,7 @@ namespace :ldap do
     puts "--> Reading username file #{file}"
     users = File.read(file).lines(chomp: true)
 
-    ::Ldap::ImportUsersFromListService
+    Ldap::ImportUsersFromListService
       .new(ldap, users)
       .call
   end

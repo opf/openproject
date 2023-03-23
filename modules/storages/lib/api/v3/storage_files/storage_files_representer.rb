@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-namespace :sample_data do
-  desc 'Create the given number of fake projects'
-  task :projects, [:nr_of_projects] => :environment do |_task, args|
-    require 'faker'
-
-    puts "Creating #{args[:nr_of_projects]} fake projects"
-
-    args[:nr_of_projects].to_i.times do |i|
-      project = Project.create(name: Faker::Commerce.product_name,
-                               identifier: "#{Faker::Code.isbn}-#{i}",
-                               description: Faker::Lorem.paragraph(5),
-                               types: Type.all,
-                               is_public: true)
-
-      puts "created: #{project.name}"
+module API::V3::StorageFiles
+  class StorageFilesRepresenter < ::API::Decorators::Single
+    link :self do
+      { href: "#{::API::V3::URN_PREFIX}storages:storage_files:no_link_provided" }
     end
 
-    puts "#{args[:nr_of_projects]} fake projects created"
+    collection :files,
+               getter: ->(*) do
+                 represented.files.map { |file| API::V3::StorageFiles::StorageFileRepresenter.new(file, current_user:) }
+               end,
+               exec_context: :decorator
+
+    property :parent,
+             getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, current_user:) },
+             exec_context: :decorator
+
+    def _type
+      'StorageFiles'
+    end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,12 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class JournalDetail
-  attr_reader :prop_key, :value, :old_value
+class Storages::UploadLink
+  attr_reader :destination, :method
 
-  def initialize(prop_key, old_value, value)
-    @prop_key = prop_key
-    @old_value = old_value
-    @value = value
+  def initialize(destination = '', method = :post)
+    @destination = destination
+    @method = method
   end
 end

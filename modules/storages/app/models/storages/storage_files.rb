@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,23 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-desc <<~END_DESC
-    Send reminders about issues due in the next days.
-  #{'  '}
-    Available options:
-      * days     => number of days to remind about (defaults to 7)
-      * type     => id of type (defaults to all type)
-      * project  => id or identifier of project (defaults to all projects)
-      * users    => comma separated list of user ids who should be reminded
-  #{'  '}
-    Example:
-      rake redmine:send_reminders days=7 users="1,23, 56" RAILS_ENV="production"
-END_DESC
+class Storages::StorageFiles
+  attr_reader :files, :parent
 
-namespace :redmine do
-  task send_reminders: :environment do
-    reminder = OpenProject::Reminders::DueIssuesReminder.new(days: ENV.fetch('days', nil), project_id: ENV.fetch('project', nil),
-                                                             type_id: ENV.fetch('type', nil), user_ids: ENV['users'].to_s.split(',').map(&:to_i))
-    reminder.remind_users
+  def initialize(files, parent = nil)
+    @files = files
+    @parent = parent
   end
 end
