@@ -886,7 +886,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.1)
-    stackprof (0.2.23)
+    stackprof (0.2.24)
     stringex (2.8.5)
     stringio (3.0.5)
     structured_warnings (0.4.0)
