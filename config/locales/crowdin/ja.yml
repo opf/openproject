@@ -137,7 +137,7 @@ ja:
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
     connection_encryption: '接続の暗号化'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTLSオプション'
     system_account: 'システムアカウント'
     system_account_legend: |
       OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
@@ -1420,7 +1420,7 @@ ja:
     admin:
       mail_notification: "電子メールの通知"
       mails_and_notifications: "Emails and notification"
-      aggregation: 'Aggregation'
+      aggregation: '集計'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
@@ -2263,8 +2263,8 @@ ja:
   permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "作業時間の記録"
+  permission_log_time: "他のユーザーの作業時間"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
@@ -2940,7 +2940,7 @@ ja:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS モードのセットアップが一致しません'
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
