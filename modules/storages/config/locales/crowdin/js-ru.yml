@@ -61,7 +61,7 @@ ru:
           other: "Успешно создано %{count} ссылок на файл."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Ваш файл (%{fileName}) не может быть загружен. Пожалуйста, проверьте, что установлена последняя версия приложения Nextcloud "OpenProject Integration", и свяжитесь с вашим администратором для получения дополнительной информации.
           403: >
             Ваш файл (%{fileName}) не удалось загрузить из-за системных ограничений. Пожалуйста, свяжитесь с вашим администратором для получения дополнительной информации.
           413: >
