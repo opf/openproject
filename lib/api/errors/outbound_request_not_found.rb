@@ -28,12 +28,12 @@
 
 module API
   module Errors
-    class OutboundRequestFailure < ErrorBase
-      identifier 'OutboundRequestFailure'.freeze
+    class OutboundRequestNotFound < ErrorBase
+      identifier 'OutboundRequest:NotFound'.freeze
       code 500
 
-      def initialize(status_code)
-        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code:)
+      def initialize
+        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404)
       end
     end
   end

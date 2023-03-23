@@ -33,7 +33,7 @@ module Storages::Peripherals
 
       case error.code
       when :not_found
-        raise API::Errors::OutboundRequestFailure.new(404)
+        raise API::Errors::OutboundRequestNotFound.new
       when :bad_request
         raise API::Errors::BadRequest.new(error.log_message)
       else
