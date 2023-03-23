@@ -68,6 +68,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def configure_page_size
     pdf.options[:page_size] = 'EXECUTIVE' # TODO: 'A4'?
     pdf.options[:page_layout] = with_descriptions? ? :portrait : :landscape
+    pdf.options[:top_margin] = page_top_margin
+    pdf.options[:bottom_margin] = page_bottom_margin
   end
 
   def render_work_packages(work_packages, filename: "pdf_export")
@@ -79,6 +81,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
     yield if block_given?
 
+    write_logo!
+    write_headers!
     write_footers!
 
     file = Tempfile.new(filename)
@@ -112,6 +116,30 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     end
   end
 
+  def write_logo!
+    image_file = Rails.root.join("app/assets/images/logo_openproject.png")
+    image_obj, image_info = pdf.build_image_object(image_file)
+    scale = [logo_height / image_info.height.to_f, 1].min
+    pdf.repeat :all do
+      top = pdf.bounds.top + page_header_top + (logo_height / 2)
+      pdf.embed_image image_obj, image_info, { at: [0, top], scale: }
+    end
+  end
+
+  def write_headers!
+    user = User.current
+    return if user.nil?
+
+    user_string = "#{user.firstname} #{user.lastname}"
+    user_string_width = pdf.width_of(user_string, page_header_style)
+    pdf.repeat :all do
+      top = pdf.bounds.top + logo_height
+      left = pdf.bounds.right - user_string_width
+      opts = page_footer_style.merge({ at: [left, top] })
+      pdf.draw_text user_string, opts
+    end
+  end
+
   def write_footers!
     date_string = format_date(Time.zone.today)
     title_string = heading
@@ -121,14 +149,38 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
       page_string = pdf.page_number.to_s
       page_string_width = pdf.width_of(page_string, page_footer_style)
 
-      pdf.draw_text date_string, page_footer_style.merge({ at: [pdf.bounds.left, 0] })
-      pdf.draw_text page_string, page_footer_style.merge({ at: [(pdf.bounds.width - page_string_width) / 2, 0] })
-      pdf.draw_text title_string, page_footer_style.merge({ at: [pdf.bounds.right - title_string_width, 0] })
+      pdf.draw_text date_string, page_footer_style.merge({ at: [pdf.bounds.left, -page_footer_top] })
+      pdf.draw_text page_string, page_footer_style.merge({ at: [(pdf.bounds.width - page_string_width) / 2, -page_footer_top] })
+      pdf.draw_text title_string, page_footer_style.merge({ at: [pdf.bounds.right - title_string_width, -page_footer_top] })
     end
+  end
+
+  def page_header_top
+    20
+  end
+
+  def page_bottom_margin
+    60
+  end
+
+  def page_footer_top
+    30
+  end
+
+  def logo_height
+    20
+  end
+
+  def page_top_margin
+    60
   end
 
   def page_heading_style
     { size: 14, styles: [:bold] }
+  end
+
+  def page_header_style
+    { size: 8, style: :normal }
   end
 
   def page_footer_style
