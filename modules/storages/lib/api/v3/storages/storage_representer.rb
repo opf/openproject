@@ -180,10 +180,22 @@ module API::V3::Storages
 
     private
 
+    def storage_projects(storage)
+      storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))
+    end
+
+    def project_folders(storage)
+      storage_projects(storage).map(&:projects_storages).flatten.map do |ps|
+        {
+          project_id: ps.project_id,
+          project_folder_id: ps.project_folder_id,
+          project_folder_mode: ps.project_folder_mode
+        }
+      end
+    end
+
     def storage_projects_ids(storage)
-      storage.projects
-        .merge(Project.allowed_to(current_user, :manage_file_links))
-        .pluck(:id)
+      storage_projects(storage).pluck(:id)
     end
 
     def authorization_state
