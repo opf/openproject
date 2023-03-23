@@ -625,7 +625,7 @@ describe 'API v3 file links resource' do
 
           body = JSON.parse(subject.body)
           expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequestFailure')
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
         end
       end
     end
@@ -667,7 +667,7 @@ describe 'API v3 file links resource' do
 
           body = JSON.parse(last_response.body)
           expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
-          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequestFailure')
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
         end
       end
     end
