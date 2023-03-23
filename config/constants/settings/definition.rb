@@ -1000,9 +1000,9 @@ module Settings
       },
       work_package_list_default_highlighting_mode: {
         format: :string,
-        default: -> 'inline',
+        default: 'inline',
         allowed: -> { Query::QUERY_HIGHLIGHTING_MODES },
-        writable: -> true
+        writable: true
       },
       work_package_list_default_columns: {
         default: %w[id subject type status assigned_to priority],
