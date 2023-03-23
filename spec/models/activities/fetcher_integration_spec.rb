@@ -62,7 +62,7 @@ describe Activities::Fetcher, 'integration' do
 
       it 'finds events of all types except budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id).excluding(budget.id))
+          .to match_array(activities.excluding(budget).map(&:id))
       end
 
       context 'if lacking permissions' do
@@ -117,7 +117,7 @@ describe Activities::Fetcher, 'integration' do
 
       it 'finds events of all types excluding budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id).excluding(budget.id))
+          .to match_array(activities.excluding(budget).map(&:id))
       end
 
       context 'if lacking permissions' do
@@ -258,7 +258,7 @@ describe Activities::Fetcher, 'integration' do
 
       it 'finds events of all types except budgets' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.map(&:id).excluding(budget.id))
+          .to match_array(activities.excluding(budget).map(&:id))
       end
 
       context 'for a different user' do
