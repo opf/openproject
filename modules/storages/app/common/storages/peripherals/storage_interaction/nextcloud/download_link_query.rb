@@ -28,13 +28,14 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+    include API::V3::Utilities::PathHelper
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(base_uri:, token:, retry_proc:)
       super()
 
       @base_uri = base_uri
-      @uri = URI::join(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
+      @uri = api_v3_paths.join_uri_path(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
       @token = token
       @retry_proc = retry_proc
     end
@@ -47,6 +48,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     def outbound_response(file_link)
       @retry_proc.call(@token) do |token|
         begin
@@ -71,17 +73,18 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           response = error(:error, 'Outbound request failed!')
         end
 
-        response
-          .bind do |r|
-            # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-            if r.body.blank?
-              error(:not_authorized, 'Outbound request not authorized!')
-            else
-              ServiceResult.success(result: r)
-            end
+        response.bind do |r|
+          # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
+          if r.body.blank?
+            error(:not_authorized, 'Outbound request not authorized!')
+          else
+            ServiceResult.success(result: r)
           end
+        end
       end
     end
+
+    # rubocop:enable Metrics/AbcSize
 
     def error(code, log_message = nil, data = nil)
       ServiceResult.failure(
@@ -91,7 +94,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def download_link(token, origin_name)
-      URI::join(@base_uri, "/index.php/apps/integration_openproject/direct/#{token}/#{CGI.escape(origin_name)}")
+      api_v3_paths.join_uri_path(@base_uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))
     end
 
     def direct_download_token(body:)

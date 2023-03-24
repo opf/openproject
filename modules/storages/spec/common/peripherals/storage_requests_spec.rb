@@ -74,7 +74,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
     let(:download_token) { "8dM3dC9iy1N74F5AJ0ClnjSF4dWTxfymVy1HTXBh8rbZVM81CpcBJaIYZvmR" }
     let(:uri) do
-      URI::join(url, "/index.php/apps/integration_openproject/direct/#{download_token}/#{CGI.escape(file_link.origin_name)}")
+      "#{url}/index.php/apps/integration_openproject/direct/#{download_token}/#{CGI.escape(file_link.origin_name)}"
     end
     let(:json) do
       {
@@ -111,6 +111,25 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               raise "Files query could not be created: #{error}"
             end
           )
+      end
+
+      context 'if Nextcloud is running on a sub path' do
+        let(:url) { 'https://example.com/html' }
+
+        it 'must return a download link URL' do
+          subject
+            .download_link_query(user:)
+            .match(
+              on_success: ->(query) do
+                result = query.call(file_link)
+                expect(result).to be_success
+                expect(result.result).to be_eql(uri)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
       end
     end
 
@@ -513,7 +532,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     let(:uri) do
-      URI::join(url, "/public.php/webdav/#{query_payload[:fileName]}")
+      "#{url}/public.php/webdav/#{query_payload[:fileName]}"
     end
 
     let(:share_id) { 37 }
