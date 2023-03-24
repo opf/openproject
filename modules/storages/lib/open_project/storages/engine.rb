@@ -85,6 +85,23 @@ module OpenProject::Storages
            { controller: '/storages/admin/projects_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
+
+      dynamic_menu :project_menu do |menu, project|
+        if project.present? && project.enabled_module_names.include?('storages') &&
+           User.current.allowed_to?(:view_file_links, project)
+          project.storages.each do |s|
+            menu.push(
+              :"storage_#{s.id}",
+              s.host,
+              caption: s.name,
+              before: :members,
+              icon: "nextcloud-circle",
+              icon_after: "external-link",
+              external_link: true
+            )
+          end
+        end
+      end
     end
 
     patch_with_namespace :Principals, :ReplaceReferencesService

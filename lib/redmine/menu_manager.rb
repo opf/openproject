@@ -39,7 +39,7 @@ module Redmine::MenuManager
     current_queue.push menu_builder
   end
 
-  def self.items(menu_name)
+  def self.items(menu_name, project = nil)
     items = {}
 
     mapper = Mapper.new(menu_name.to_sym, items)
@@ -49,7 +49,7 @@ module Redmine::MenuManager
     @temp_menu_builder_queues = {}
 
     potential_items.each do |menu_builder|
-      menu_builder.call(mapper)
+      menu_builder.call(mapper, project)
     end
 
     items[menu_name.to_sym] || Redmine::MenuManager::TreeNode.new(:root, {})

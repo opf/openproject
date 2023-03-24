@@ -45,7 +45,6 @@ module Redmine::MenuManager::MenuHelper
       nil
     elsif menu == :project_menu && project && project.persisted?
       build_wiki_menus(project)
-      build_storages_menu(project)
       render_menu(:project_menu, project)
     elsif menu == :wp_query_menu
       render_menu(:application_menu, project)
@@ -195,30 +194,10 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def first_level_menu_items_for(menu, project = nil, &)
-    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &)
+    menu_items_for(Redmine::MenuManager.items(menu, project).root.children, menu, project, &)
   end
 
   private
-
-  def build_storages_menu(project)
-    if project.enabled_module_names.include?('storages') &&
-       current_user.allowed_to?(:view_file_links, project)
-      storages = project.storages
-      Redmine::MenuManager.loose(:project_menu) do |project_menu|
-        storages.each do |s|
-          project_menu.push(
-            :"storage_#{s.id}",
-            s.host,
-            caption: s.name,
-            before: :members,
-            icon: "nextcloud-circle",
-            icon_after: "external-link",
-            external_link: true
-          )
-        end
-      end
-    end
-  end
 
   # Returns a list of unattached children menu items
   def render_unattached_children_menu(node, project)
@@ -262,7 +241,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def all_menu_items_for(menu, project = nil)
-    menu_items_for(Redmine::MenuManager.items(menu).root, menu, project)
+    menu_items_for(Redmine::MenuManager.items(menu, project).root, menu, project)
   end
 
   def node_or_children_selected?(node)
