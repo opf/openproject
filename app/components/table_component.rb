@@ -66,25 +66,7 @@ class TableComponent < ViewComponent::Base
     false
   end
 
-  # ##
-  # # An array listing each column and its respective options.
-  # #
-  # # @return Array<Array>
-  # def headers
-  #   columns.map { |name| [name.to_s, {}] }
-  # end
-
   def empty_row_message
     I18n.t :no_results_title_text
   end
-
-  # # required by the sort helper
-
-  # delegate :controller_name, to: :controller
-
-  # delegate :action_name, to: :controller
-
-  # def options
-  #   super
-  # end
 end
