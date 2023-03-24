@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { BcfThumbnailDisplayField } from 'core-app/features/bim/bcf/fields/display/bcf-thumbnail-field.module';
@@ -64,7 +64,7 @@ export const viewerBridgeServiceFactory = (injector:Injector) => {
 
 @NgModule({
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     NgxGalleryModule,
   ],
   providers: [

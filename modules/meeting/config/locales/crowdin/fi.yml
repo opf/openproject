@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -37,6 +37,9 @@ fi:
     models:
       meeting_agenda: "Esityslista"
       meeting_minutes: "Pöytäkirja"
+  activity:
+    filter:
+      meeting: "Meetings"
   description_attended: "osallistunut"
   description_invite: "kutsuttu"
   events:
@@ -82,7 +85,7 @@ fi:
   text_duration_in_hours: "Keston tunteina"
   text_in_hours: "tuntia"
   text_meeting_agenda_for_meeting: 'kokouksen "%{meeting}" esityslista'
-  text_meeting_closing_are_you_sure: "Haluatko varmasti sulkea tapahtuman?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
   text_meeting_agenda_open_are_you_sure: "Tämä korvaa kaikki muutokset pöytäkirjassa! Haluatko jatkaa?"
   text_meeting_minutes_for_meeting: 'kokouksen "%{meeting}" pöytäkirja'
   text_review_meeting_agenda: "%{author} on tehnyt %{link} tarkasteltavaksi."

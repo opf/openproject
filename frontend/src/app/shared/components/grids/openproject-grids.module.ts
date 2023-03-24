@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -29,10 +29,9 @@
 import { Injector, NgModule } from '@angular/core';
 import { DynamicModule } from 'ng-dynamic-component';
 import { HookService } from 'core-app/features/plugins/hook-service';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpenprojectCalendarModule } from 'core-app/features/calendar/openproject-calendar.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
@@ -58,6 +57,7 @@ import { WidgetWpOverviewComponent } from 'core-app/shared/components/grids/widg
 import { WidgetCustomTextComponent } from 'core-app/shared/components/grids/widgets/custom-text/custom-text.component';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { WidgetProjectDetailsComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details.component';
+import { WidgetProjectDetailsMenuComponent } from 'core-app/shared/components/grids/widgets/project-details/project-details-menu.component';
 import { WidgetTimeEntriesProjectComponent } from 'core-app/shared/components/grids/widgets/time-entries/project/time-entries-project.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
@@ -70,11 +70,10 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
 
 @NgModule({
   imports: [
-    BrowserModule,
     FormsModule,
     DragDropModule,
 
-    OPSharedModule,
+    OpSharedModule,
     OpenprojectModalModule,
     OpenprojectWorkPackagesModule,
     OpenprojectWorkPackageGraphsModule,
@@ -128,6 +127,7 @@ import { TimeEntriesCurrentUserConfigurationModalComponent } from './widgets/tim
     WidgetTimeEntriesProjectComponent,
 
     // Widget menus
+    WidgetProjectDetailsMenuComponent,
     WidgetMenuComponent,
     WidgetWpTableMenuComponent,
     WidgetWpGraphMenuComponent,

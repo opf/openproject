@@ -1,0 +1,143 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2023 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+@import "helpers"
+
+.op-file-section
+  display: flex
+  flex-direction: column
+  position: relative
+
+  &--actions
+    @include spot-body-small
+    margin-top: $spot-spacing-0_75
+
+    > :not(:last-child)
+      margin-right: $spot-spacing-0_5
+
+  &--drop-box
+    @include unset-button-styles
+    display: flex
+    position: relative
+    justify-content: center
+    align-items: center
+    width: 100%
+    margin-top: $spot-spacing-0_25
+    padding: 20px
+    cursor: pointer
+    color: var(--light-gray)
+    background: rgba($spot-color-basic-white, 0.9)
+
+    &::after
+      display: block
+      content: ''
+      position: absolute
+      top: 0
+      height: 100%
+      left: 0
+      width: 100%
+      border: 2px dashed $spot-color-basic-gray-4
+
+    &_float
+      display: none
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      z-index: 1
+      background: transparent
+
+      &::after,
+      &::before
+        display: block
+        content: ''
+        position: absolute
+
+      &::before
+        top: 0
+        height: 100%
+        left: 0
+        width: 100%
+
+        background: rgba($spot-color-basic-white, 0.9)
+        z-index: -2
+
+      &::after
+        z-index: -1
+        top: $spot-spacing-0_5
+        height: calc(100% - #{$spot-spacing-1})
+        left: $spot-spacing-0_5
+        width: calc(100% - #{$spot-spacing-1})
+        border: 2px dashed $spot-color-basic-gray-4
+
+    &_dragging
+      display: flex
+
+    &_dragging-over
+      color: $spot-color-main
+
+      &::before
+        background: rgba($spot-color-main-light, 0.9)
+
+      &::after
+        border: 2px dashed $spot-color-main
+
+    &_dragging-over:not(#{&}_float)
+      background: rgba($spot-color-main-light, 0.9)
+
+      &::after
+        top: $spot-spacing-0_5
+        height: calc(100% - #{$spot-spacing-1})
+        left: $spot-spacing-0_5
+        width: calc(100% - #{$spot-spacing-1})
+        border: 2px dashed $spot-color-main
+
+    &_dragging-over &-text
+      color: $spot-color-main
+
+    &-text
+      cursor: pointer
+      color: $spot-color-basic-gray-3
+      font-size: 0.9rem
+      font-weight: bold
+      line-height: 1.4
+      margin: 0 0 0 $spot-spacing-0_75
+      text-align: left
+
+    &-icon
+      font-size: $spot-spacing-3
+
+  &--list_dragging
+    min-height: $spot-spacing-4
+
+  &--empty-list-hint
+    @include spot-body-small($style: italic)
+
+    margin-top: $spot-spacing-0_75
+    color: $spot-color-basic-gray-3

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,6 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   def extend_event_query(query)
     query.join(work_packages_table).on(activity_journals_table[:work_package_id].eq(work_packages_table[:id]))
     query.join(types_table).on(work_packages_table[:type_id].eq(types_table[:id]))
-    query.join(statuses_table).on(work_packages_table[:status_id].eq(statuses_table[:id]))
   end
 
   def event_query_projection
@@ -44,8 +43,6 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
       activity_journal_projection_statement(:work_package_id, 'work_package_id'),
       projection_statement(projects_table, :name, 'project_name'),
       projection_statement(work_packages_table, :subject, 'work_package_subject'),
-      projection_statement(statuses_table, :name, 'status_name'),
-      projection_statement(statuses_table, :is_closed, 'status_closed'),
       projection_statement(types_table, :name, 'type_name')
     ]
   end
@@ -64,9 +61,7 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   def work_package_title(event)
     Activities::WorkPackageActivityProvider.work_package_title(event['work_package_id'],
                                                                event['work_package_subject'],
-                                                               event['type_name'],
-                                                               event['status_name'],
-                                                               event['is_standard'])
+                                                               event['type_name'])
   end
 
   def event_description(event)
@@ -83,10 +78,6 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
 
   def types_table
     @types_table = Type.arel_table
-  end
-
-  def statuses_table
-    @statuses_table = Status.arel_table
   end
 
   def work_packages_table

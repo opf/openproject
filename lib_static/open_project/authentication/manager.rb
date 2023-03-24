@@ -1,5 +1,3 @@
-require 'set'
-
 module OpenProject
   module Authentication
     class Manager < Warden::Manager

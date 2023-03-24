@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -335,6 +335,7 @@ hi:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Add a new wiki page
   work_flows:
@@ -345,6 +346,8 @@ hi:
       one: 'एक वंशज काम पैकेज'
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -373,7 +376,7 @@ hi:
   account:
     delete: "खाता हटाएं"
     delete_confirmation: "आप सुनिश्चित करें कि आप खाता हटाना चाहते हैं ?"
-    deleted: "खाता सफलतापूर्वक हटा दिया गया"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Of the data the user created (e.g. email, preferences, work packages, wiki entries) as much as possible will be deleted. Note however, that data like work packages and wiki entries can not be deleted without impeding the work of the other users. Such data is hence reassigned to an account called \"Deleted user\". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account."
@@ -468,14 +471,24 @@ hi:
       member:
         roles: "भूमिकाएं"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "पहचानकर्ता"
         latest_activity_at: "Latest activity at"
         parent: "परियोजना की उपपरियोजना"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "पूछताछ"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "प्रकार"
         versions: "संस्करण"
         work_packages: "कार्य पैकेज"
-        templated: 'Template project'
       projects/status:
         code: 'अवस्था'
         explanation: 'Status description'
@@ -687,6 +700,11 @@ hi:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -697,6 +715,8 @@ hi:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -890,8 +910,22 @@ hi:
     header_invalid_fields: "निम्न फ़ील्ड्स के साथ समस्याएं थीं:"
     field_erroneous_label: "This field is invalid: %{full_errors}\nPlease enter a valid value."
   activity:
-    created: "रचना: %{title}"
-    updated: "अद्यततन: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "सक्रिय"
@@ -1027,6 +1061,7 @@ hi:
   button_reset: "रीसेट करें"
   button_rollback: "इस संस्करण के लिए रोलबैक"
   button_save: "सहेजें"
+  button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "दिखाएँ"
   button_sort: "क्रम में लगायें"
@@ -1322,16 +1357,20 @@ hi:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "गुण हाइलाइट नहीं करने लायक: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Changeset edited'
     message: Message edited
     news: नया
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Replied
     time_entry: 'Timelog edited'
     wiki_page: 'Wiki page edited'
     work_package_closed: 'Work Package closed'
     work_package_edit: 'Work Package edited'
     work_package_note: 'Work Package note added'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1357,7 +1396,6 @@ hi:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "हिन्दी"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1743,6 +1781,10 @@ hi:
   label_not_contains: "शामिल नहीं है"
   label_not_equals: "नहीं है"
   label_on: "पर"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "मेनू खोलें"
   label_open_work_packages: "खोलें"
   label_open_work_packages_plural: "खोलें"
@@ -1784,6 +1826,8 @@ hi:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "प्रोफ़ाइल"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Total number of projects"
   label_project_copy_notifications: "प्रोजेक्ट प्रतिलिपी के दौरान ईमेल सूचनाएँ भेजें"
   label_project_latest: "नवीनतम परियोजनाएं"
@@ -2073,8 +2117,6 @@ hi:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Your %{value} password"
   mail_subject_register: "Your %{value} account activation"
-  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
   mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
   mail_member_added_project:
@@ -2208,6 +2250,7 @@ hi:
   permission_add_work_packages: "Add work packages"
   permission_add_messages: "Post messages"
   permission_add_project: "Create project"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Create subprojects"
@@ -2645,12 +2688,13 @@ hi:
   text_work_packages_destroy_confirmation: "Are you sure you want to delete the selected work package(s)?"
   text_work_packages_ref_in_commit_messages: "Referencing and fixing work packages in commit messages"
   text_journal_added: "%{label} %{value} added"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2943,15 +2987,20 @@ hi:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nothing to preview"
   api_v3:
     attributes:

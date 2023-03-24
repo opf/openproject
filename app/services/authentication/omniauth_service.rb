@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -191,13 +191,23 @@ module Authentication
     end
 
     def activate_user!
-      if user.new_record? || user.invited?
+      if activatable?
         ::Users::RegisterUserService
           .new(user)
           .call
       else
         ServiceResult.success(result: user)
       end
+    end
+
+    ##
+    # Determines if the given user is activatable on the fly, that is:
+    #
+    # 1. The user has just been initialized by us
+    # 2. The user has been invited
+    # 3. The user had been registered manually (e.g., through a previous self-registration setting)
+    def activatable?
+      user.new_record? || user.invited? || user.registered?
     end
 
     ##
@@ -221,7 +231,7 @@ module Authentication
 
       # Remove any nil values to avoid
       # overriding existing attributes
-      attribute_map.compact!
+      attribute_map.compact_blank!
 
       Rails.logger.debug { "Mapped auth_hash user attributes #{attribute_map.inspect}" }
       attribute_map

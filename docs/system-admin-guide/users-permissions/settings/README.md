@@ -12,7 +12,7 @@ The user settings sections covers general settings, such as the default language
 
 User settings are accessible by administrators from the OpenProject **Administration**.
 
-![user and permissions settings](openproject_admin_guide_user_settings.png)
+![user and permissions settings](Openproject_system_guide_user_settings.png)
 
 | Topic                                       | Content                    |
 | ------------------------------------------- | -------------------------- |
@@ -22,7 +22,7 @@ User settings are accessible by administrators from the OpenProject **Administra
 
 ## Default preferences
 
-![image-20191104163417641](image-20191104163417641.png)
+![image-20191104163417641](Openproject_system_guide_default_preferences.png)
 
 The **Default preferences** section covers default user settings.
 
@@ -36,7 +36,7 @@ These settings can be changed by users in their **My Account** page later on.
 
 ## User deletion
 
-![image-20191104163546817](image-20191104163546817.png)
+![image-20191104163546817](Openproject_system_guide_deletion_settings.png)
 
 In the **User deletion** section you can determine who should be able to delete user accounts.
 
@@ -48,7 +48,7 @@ If you want to prevent users from deleting their own accounts, it is recommended
 
 ## User consent
 
-![image-20191104163858457](image-20191104163858457.png)
+![openproject_system_guide_user_consent](openproject_system_guide_user_consent.png)
 
 Data privacy and security is a priority in OpenProject. In order to comply with GDPR regulation, a consent form can be configured in OpenProject. When the option **Consent required** is checked, a user consent form is shown for users when they sign into OpenProject for the first time.
 

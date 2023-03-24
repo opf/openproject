@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,11 +40,11 @@ export const customDateActionAdminSelector = 'custom-date-action-admin';
 export class CustomDateActionAdminComponent implements OnInit {
   public valueVisible = false;
 
-  public fieldName:string;
+  public fieldName:string = '';
 
-  public fieldValue:string;
+  public fieldValue:string = '';
 
-  public visibleValue:string;
+  public visibleValue:string = '';
 
   public selectedOperator:any;
 
@@ -68,8 +68,8 @@ export class CustomDateActionAdminComponent implements OnInit {
   // cannot use $onInit as it would be called before the operators gets filled
   public ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;
-    this.fieldName = element.dataset.fieldName!;
-    this.fieldValue = element.dataset.fieldValue!;
+    this.fieldName = element.dataset.fieldName! || '';
+    this.fieldValue = element.dataset.fieldValue! || '';
 
     if (this.fieldValue === this.currentFieldValue) {
       this.selectedOperator = this.operators[1];

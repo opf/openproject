@@ -11,6 +11,8 @@
   > .spot-body-small,
   > .spot-caption,
   > .spot-divider,
+  > .spot-selector-field,
+  > .spot-form-field,
   > .spot-text-field
     margin: $spot-spacing-1 $spot-spacing-1 0
 
@@ -19,6 +21,18 @@
 
     &:last-child
       margin-bottom: $spot-spacing-1
+
+  > .spot-container
+    margin: 0
+    margin-top: $spot-spacing-1
+
+  > .spot-container:first-child,
+  > .cdk-focus-trap-anchor:first-child + .spot-container
+      margin-top: $spot-spacing-0_5
+
+  > .spot-action-bar
+    &:not(:first-child)
+      margin-top: $spot-spacing-0_5
 
   > .spot-list
     margin: $spot-spacing-1 0

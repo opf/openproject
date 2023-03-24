@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -336,6 +336,7 @@ sv:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Det finns för närvarande inga wiki-sidor.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Lägg till en ny wiki-sida
   work_flows:
@@ -346,6 +347,8 @@ sv:
       one: 'Ett underliggande arbetspaket'
       other: '%{count} underliggande arbetspaket'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Följande arbetspaket kunde inte sparas:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -374,7 +377,7 @@ sv:
   account:
     delete: "Ta bort konto"
     delete_confirmation: "Är du säker du vill ta bort kontot?"
-    deleted: "Kontot har tagits bort"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Det mesta av informationen som användaren skapat (t.ex. e-post och inställningar) kommer att raderas. Information som exempelvis arbetspaket och wiki-poster kan dock inte raderas eftersom detta skulle påverka andra användares arbete, så detta kommer istället att tilldelas ett konto som heter \"Raderad användare\". Eftersom information från alla raderade konton överförs till detta konto kommer det inte längre vara möjligt att se vem som skapat vad."
@@ -469,14 +472,24 @@ sv:
       member:
         roles: "Roll"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifierare"
         latest_activity_at: "Senaste aktivitet vid"
         parent: "Delprojekt under"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Frågor"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
@@ -688,6 +701,11 @@ sv:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,6 +716,8 @@ sv:
           archived_ancestor: 'Projektet har en arkiverad förfader.'
           foreign_wps_reference_version: 'Arbetspaket i icke efterkommande projekt referensversioner av projektet eller dess efterkommande.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "används fortfarande av arbetspaket: %{types}"
             enabled_modules:
@@ -891,8 +911,22 @@ sv:
     header_invalid_fields: "Det fanns problem med följande fält:"
     field_erroneous_label: "Det här fältet är ogiltigt: %{full_errors}\nVänligen ange ett giltigt värde."
   activity:
-    created: "Skapad: %{title}"
-    updated: "Uppdaterad: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1028,6 +1062,7 @@ sv:
   button_reset: "Återställ"
   button_rollback: "Återgå till denna version"
   button_save: "Spara"
+  button_apply_changes: "Apply changes"
   button_save_back: "Spara och återgå"
   button_show: "Visa"
   button_sort: "Sortera"
@@ -1323,16 +1358,20 @@ sv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
-    project: 'Projektet redigerades'
     changeset: 'Uppdatering redigerades'
     message: Meddelande redigerades
     news: Nyheter
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Svarade
     time_entry: 'Tidrapport redigerades'
     wiki_page: 'Wiki-sida redigerades'
     work_package_closed: 'Arbetspaket stängdes'
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1358,7 +1397,6 @@ sv:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Svenska"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nej"
   general_text_yes: "ja"
@@ -1744,6 +1782,10 @@ sv:
   label_not_contains: "innehåller inte"
   label_not_equals: "är inte"
   label_on: "på"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Öppna meny"
   label_open_work_packages: "öppna"
   label_open_work_packages_plural: "öppna"
@@ -1785,6 +1827,8 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -2074,8 +2118,6 @@ sv:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbetspaket förfaller inom de %{days} dagarna"
-  mail_subject_group_reminder: "För grupp \"%{group}\" %{count} arbetspaket som ska läggas till under de kommande %{days} dagarna"
   mail_subject_wiki_content_added: "'%{id}' wiki-sida har lagts till"
   mail_subject_wiki_content_updated: "'%{id}' wiki-sidan har uppdaterats"
   mail_member_added_project:
@@ -2209,6 +2251,7 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"
@@ -2644,12 +2687,13 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2941,15 +2985,20 @@ sv:
       title: "Radera arbetspaketet"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ingenting att förhandsgranska"
   api_v3:
     attributes:

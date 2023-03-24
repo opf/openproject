@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -35,10 +35,7 @@ import {
   combineLatest,
   Observable,
 } from 'rxjs';
-import {
-  catchError,
-  map,
-} from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -47,13 +44,11 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Component({
   selector: 'op-files-tab',
-  templateUrl: './op-files-tab.html',
+  templateUrl: './op-files-tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFilesTabComponent implements OnInit {
@@ -63,14 +58,13 @@ export class WorkPackageFilesTabComponent implements OnInit {
     attachments: {
       label: this.i18n.t('js.label_attachments'),
     },
-    file_links: {
-      label: this.i18n.t('js.label_nextcloud'),
-    },
   };
 
   showAttachmentHeader$:Observable<boolean>;
 
   storages$:Observable<IStorage[]>;
+
+  allowManageFileLinks$:Observable<boolean>;
 
   constructor(
     private readonly i18n:I18nService,
@@ -78,8 +72,6 @@ export class WorkPackageFilesTabComponent implements OnInit {
     private readonly currentUserService:CurrentUserService,
     private readonly projectsResourceService:ProjectsResourceService,
     private readonly storagesResourceService:StoragesResourceService,
-    private readonly apiV3:ApiV3Service,
-    private readonly toast:ToastService,
   ) { }
 
   ngOnInit():void {
@@ -92,13 +84,11 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
     this.storages$ = this
       .storagesResourceService
-      .collection(project.href as string)
-      .pipe(
-        catchError((error) => {
-          this.toast.addError(error);
-          throw error;
-        }),
-      );
+      .collection(project.href as string);
+
+    this.allowManageFileLinks$ = this
+      .currentUserService
+      .hasCapabilities$('file_links/manage', (this.workPackage.project as unknown&{ id:string }).id);
 
     this.showAttachmentHeader$ = combineLatest(
       [

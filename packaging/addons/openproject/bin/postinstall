@@ -63,16 +63,19 @@ rake_commands="db:migrate db:seed"
 # set rails_cache_store
 memcached_servers="$(${CLI} config:get MEMCACHED_SERVERS || echo "")"
 if [ -z "$memcached_servers" ]; then
-  ${CLI} config:set RAILS_CACHE_STORE=file_store
+  ${CLI} config:set OPENPROJECT_RAILS__CACHE__STORE=file_store
 else
-  ${CLI} config:set RAILS_CACHE_STORE=memcache
+  ${CLI} config:set OPENPROJECT_RAILS__CACHE__STORE=memcache
 fi
 
+${CLI} config:unset RAILS_CACHE_STORE
+
 # create attachments folder
-attachments_path=$(${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
+attachments_path=$(${CLI} config:get OPENPROJECT_ATTACHMENTS__STORAGE__PATH || ${CLI} config:get ATTACHMENTS_STORAGE_PATH || echo "/var/db/${APP_NAME}/files")
 mkdir -p "${attachments_path}"
 chown ${APP_USER}.${APP_GROUP} "${attachments_path}"
-${CLI} config:set ATTACHMENTS_STORAGE_PATH="${attachments_path}"
+${CLI} config:set OPENPROJECT_ATTACHMENTS__STORAGE__PATH="${attachments_path}"
+${CLI} config:unset ATTACHMENTS_STORAGE_PATH
 
 # set web host
 ${CLI} config:set HOST=127.0.0.1

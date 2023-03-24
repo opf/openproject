@@ -27,7 +27,7 @@ Click the green **+ Group** button to create a new group.
 
 Give a name for your new group, which must be unique, and click the blue **Create** button.
 
-![new group](image-20200115164328352.png)
+![new group](openproject_system_guide_new_group.png)
 
 ## Add users to a group, edit or remove groups
 

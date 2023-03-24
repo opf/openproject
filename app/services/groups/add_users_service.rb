@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,8 +54,7 @@ module Groups
         .new(model, current_user: user, contract_class:)
         .call(
           user_ids: params[:ids],
-          message: params[:message],
-          send_notifications: params.fetch(:send_notifications, true)
+          message: params[:message]
         )
 
       call

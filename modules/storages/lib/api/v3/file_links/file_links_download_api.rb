@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,17 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
-  helpers Storages::Peripherals::StorageUrlHelper
+class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
+  using Storages::Peripherals::ServiceResultRefinements
+  helpers Storages::Peripherals::StorageUrlHelper, Storages::Peripherals::StorageErrorHelper
 
   resources :download do
     get do
-      download_url = make_download_url file_link: @file_link, user: User.current
-
-      raise API::Errors::InternalError.new(download_url.result) if download_url.failure?
-
-      redirect download_url.result, body: "The requested resource can be downloaded from #{download_url.result}"
-      status 303
+      Storages::Peripherals::StorageRequests
+        .new(storage: @file_link.storage)
+        .download_link_query(user: User.current)
+        .match(
+          on_success: ->(download_link_query) {
+            download_link_query
+              .call(@file_link)
+              .match(
+                on_success: ->(url) do
+                  redirect(url, body: "The requested resource can be downloaded from #{url}")
+                  status(303)
+                end,
+                on_failure: ->(error) { raise_error(error) }
+              )
+          },
+          on_failure: ->(error) { raise_error(error) }
+        )
     end
   end
 end

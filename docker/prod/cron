@@ -3,6 +3,7 @@
 set -e
 
 IMAP_SSL=${IMAP_SSL:="true"}
+IMAP_SSL_VERIFICATION=${IMAP_SSL_VERIFICATION:="true"}
 IMAP_PORT=${IMAP_PORT:="993"}
 IMAP_ENABLED="${IMAP_ENABLED:="true"}"
 IMAP_CHECK_INTERVAL="${IMAP_CHECK_INTERVAL:=600}"
@@ -15,6 +16,7 @@ while true; do
 			username="${IMAP_USERNAME}" \
 			password="${IMAP_PASSWORD}" \
 			ssl=${IMAP_SSL} \
+			ssl_verification=${IMAP_SSL_VERIFICATION} \
 			port=${IMAP_PORT} \
 			unknown_user="${IMAP_UNKNOWN_USER}" \
 			no_permission_check="${IMAP_NO_PERMISSION_CHECK}" \

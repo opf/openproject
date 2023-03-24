@@ -6,6 +6,7 @@
   position: relative
   display: flex
   flex-direction: column
+  overflow: hidden
   align-items: stretch
   background: white
   pointer-events: all
@@ -14,16 +15,15 @@
   width: 40rem
 
   max-width: calc(100vw - 2rem)
-  max-height: calc(100vh - 2rem)
+  max-height: calc(#{var(--app-height)} - 2rem)
 
-  overflow-y: auto
-
-  @media (max-width: 680px)
+  @media #{$spot-mq-mobile}
     width: calc(100vw - 2rem)
-    max-height: calc(100vh - 5rem)
+    max-height: calc(#{var(--app-height)} - 5rem)
+    overflow-y: auto
 
     @media (max-height: 480px)
-      max-height: calc(100vh - 2rem)
+      max-height: calc(#{var(--app-height)} - 2rem)
       max-width: calc(100vw - 6rem)
 
   &_wide
@@ -47,6 +47,9 @@
       margin-right: $spot-spacing-0-5
       font-size: 1rem
 
+    &-button
+      font-weight: normal
+
     &-title
       flex-grow: 1
 
@@ -67,9 +70,12 @@
     flex-shrink: 1
     overflow-y: auto
 
+    &_no-scroll
+      overflow: visible
+
     &:focus
       outline-style: none
 
   &--cancel-button
-    @media (max-width: 680px)
+    @media #{$spot-mq-drop-modal-full-screen}
       display: none

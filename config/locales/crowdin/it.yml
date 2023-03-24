@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ it:
         main-menu-border-color: "Bordo del menu principale"
       custom_colors: "Colori personalizzati"
       customize: "Personalizza la tua installazione OpenProject con il tuo logo e i tuoi colori."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Questa piccola aggiunta è disponibile solo per chi si è iscritto alla Enterprise Edition come speciale ringraziamento per il contributo finanziario allo sviluppo di OpenProject."
       enterprise_more_info: "Nota: il logo utilizzato sarà accessibile al pubblico."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
@@ -70,9 +70,9 @@ it:
         text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
-      order: "Order Enterprise on-premises edition"
+      order: "Ordina l'edizione Enterprise on-premises"
       paste: "Incolla il tuo token di assistenza per Enterprise Edition"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: 'Inizia la prova gratuita'
       book_now: 'Prenota ora'
@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "è un'<span class='spot-icon spot-icon_enterprise-addons'></span>aggiunta Enterprise."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -319,7 +319,7 @@ it:
       settings: "Impostazioni"
       form_configuration: "Configurazione del modulo"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        L'edizione Enterprise ti consente di personalizzare la configurazione dei moduli con queste aggiunte: <br> <ul class="%{list_styling_class}"> <li><b>Aggiungi nuovi gruppi di attributi</b></li> <li><b >Rinomina gruppi di attributi</b></li> <li><b>Aggiungi una tabella di macro-attività correlate</b></li> </ul>
       projects: "Progetti"
       enabled_projects: "Progetti abilitati"
       edit_query: "Modificare la Tabella"
@@ -334,6 +334,7 @@ it:
   wiki:
     page_not_editable_index: La pagina richiesta non esiste (ancora). Sei stato reindirizzato all'indice di tutte le pagine wiki.
     no_results_title_text: Al momento non vi sono pagine wiki.
+    print_hint: Questo stamperà il contenuto di questa pagina della wiki senza alcuna barra di navigazione.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
   work_flows:
@@ -344,6 +345,8 @@ it:
       one: 'Una macro-attività discendente'
       other: '%{count} macro-attività discendenti'
     bulk:
+      copy_failed: "Le macro-attività non possono essere aggiornate."
+      move_failed: "Le macro-attività non possono essere spostate."
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
@@ -372,7 +375,7 @@ it:
   account:
     delete: "Cancella account"
     delete_confirmation: "Sei davvero sicuro di voler cancellare questo account?"
-    deleted: "Account cancellato con successo"
+    deletion_pending: "Il profilo è stato bloccato e ne è stata pianificata l'eliminazione. Nota che questo processo avviene in background. Potrebbe volerci un po', prima della completa eliminazione dell'utente."
     deletion_info:
       data_consequences:
         other: "I dati creati dall'utente (ad esempio posta elettronica, preferenze, macro-attività, voci wiki) verranno eliminati completamente se possibile. Si noti, tuttavia, che alcuni tipi di dati, come ad esempio i pacchetti di lavoro e le voci wiki, non possono essere eliminati senza creare un ostacolo per il lavoro di altri utenti. La proprietà di tali dati sarà pertanto trasferita ad un account generico chiamato \"Deleted user\". Visto che i dati di tutti gli account eliminati vengono riassegnati a questo stesso account, non sarà più possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato."
@@ -467,14 +470,24 @@ it:
       member:
         roles: "Ruoli"
       project:
+        active_value:
+          true: "Rimosso dall'archivio"
+          false: "archiviato"
         identifier: "Identificatore"
         latest_activity_at: "Ultima attività alle"
         parent: "Sotto-progetto di"
+        public_value:
+          title: "Visibilità"
+          true: "pubblico"
+          false: "privato"
         queries: "Interrogazioni"
+        templated: "Progetto modello"
+        templated_value:
+          true: "contrassegnato come modello"
+          false: "non contrassegnato come modello"
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -634,7 +647,7 @@ it:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Il certificato SSL fornito non è valido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -686,6 +699,11 @@ it:
               no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un giorno non lavorativo esiste già per %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -696,6 +714,8 @@ it:
           archived_ancestor: 'Il progetto ha un antenato archiviato.'
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Non hai le autorizzazioni necessarie ad archiviare tutti i progetti secondari. Sei pregato di contattare un amministratore."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -889,8 +909,22 @@ it:
     header_invalid_fields: "Ci sono stati dei problemi con i seguenti campi:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
-    created: "Creato: %{title}"
-    updated: "Aggiornato: %{title}"
+    item:
+      created_by_on: "creato da %{user} il %{datetime}"
+      created_on: "creato il %{datetime}"
+      updated_by_on: "aggiornato da %{user} il %{datetime}"
+      updated_on: "aggiornato il %{datetime}"
+      parent_without_of: "Sottoprogetto"
+      parent_no_longer: "Non più sottoprogetto di"
+    filter:
+      changeset: "Insiemi di modifiche"
+      message: "Forum"
+      news: "Notizie"
+      project_attribute: "Attributi del progetto"
+      subproject: "Includi sottoprogetti"
+      time_entry: "Tempo trascorso"
+      wiki_edit: "Wiki"
+      work_package: "Macro-attività"
   #common attributes of all models
   attributes:
     active: "Attivo"
@@ -1026,6 +1060,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_apply_changes: "Applica modifiche"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
   button_sort: "Ordina"
@@ -1260,11 +1295,11 @@ it:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalizza la configurazione del modulo con le seguenti aggiunte:"
         add_groups: "Aggiunta di gruppi di proprietà"
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Le opzioni di filtraggio e ordinamento dei campi personalizzati sono disponibili nella versione Enterprise."
   enumeration_activities: "Attività di monitoraggio dei tempi"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
@@ -1321,16 +1356,20 @@ it:
   error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
-    project: 'Progetto modificato'
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
+    project_attributes: 'Attributi del progetto modificati'
+    projects: 'Progetto modificato'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
     work_package_closed: 'Macro-attività chiusa'
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
+    title:
+      project: "Progetto: %{name}"
+      subproject: "Sottoprogetto: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1356,7 +1395,6 @@ it:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Italiano"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "si"
@@ -1742,6 +1780,10 @@ it:
   label_not_contains: "non contiene"
   label_not_equals: "non è"
   label_on: "il"
+  label_operator_all: "non è vuoto"
+  label_operator_none: "è vuoto"
+  label_operator_equals_or: "è (OR)"
+  label_operator_equals_all: "è (AND)"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
   label_open_work_packages_plural: "aperte"
@@ -1783,6 +1825,8 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_activity: "Attività del progetto"
+  label_project_attribute_plural: "Attributi del progetto"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2072,8 +2116,6 @@ it:
   mail_subject_incoming_email_error: "Impossibile elaborare un'email inviata a OpenProject"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
-  mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
-  mail_subject_group_reminder: "Per il gruppo \"%{group}\" ci sono %{count} macro-attività in scadenza nei prossimi %{days} giorni"
   mail_subject_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta"
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
   mail_member_added_project:
@@ -2207,6 +2249,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_archive_project: "Archivia progetto"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"
@@ -2608,11 +2651,11 @@ it:
   text_custom_field_hint_activate_per_project_and_type: >
     I campi personalizzati devono essere attivati per ogni tipo di macro-attività e per ogni progetto.
   text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati delle macro-attività: <br> <ul> <li><b>Selezione multipla per i campi personalizzati di tipo Elenco o Utente</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi degli stati delle macro-attività: <br> <ul> <li><b>Possibilità di contrassegnare le macro-attività come di sola lettura per stati specifici</b></li> </ul >
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati dei progetti: <br> <ul> <li><b>Aggiungere campi personalizzati per i progetti all'elenco dei progetti per creare una visualizzazione del portfolio di progetti</b></li> < /ul>
   text_custom_logo_instructions: >
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
   text_custom_favicon_instructions: >
@@ -2644,12 +2687,13 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2914,7 +2958,7 @@ it:
   warning_user_limit_reached: >
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano dell'edizione Enterprise e aggiungere ulteriori utenti.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2942,15 +2986,20 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+      <b>Definisci i giorni considerati parte della settimana lavorativa</b><br/> I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
+    instance_wide_info: >
+      <b>Giorni non lavorativi specifici (festivi e di chiusura)</b><br/> Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
+      La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
         working: "%{day} ora è lavorativo"
         non_working: "%{day} ora non è lavorativo"
+      dates:
+        working: "%{date} è ora lavorativo"
+        non_working: "%{date} è ora non lavorativo"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:

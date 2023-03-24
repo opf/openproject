@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,10 @@ module Projects
     def set_default_active_work_package_custom_fields(provided)
       return if provided
 
-      model.work_package_custom_fields = WorkPackageCustomField.joins(:types).where(types: { id: model.type_ids })
+      model.work_package_custom_fields = WorkPackageCustomField
+        .joins(:types)
+        .where(types: { id: model.type_ids })
+        .distinct
     end
 
     def update_status(attributes)

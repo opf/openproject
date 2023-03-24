@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,22 +41,22 @@ module OpenProject::TextFormatting::Formats::Markdown
     end
 
     def filters
-      %i[
-        setting_macros
-        markdown
-        sanitization
-        task_list
-        table_of_contents
-        macro
-        mention
-        pattern_matcher
-        syntax_highlight
-        attachment
-        relative_link
-        link_attribute
-        figure_wrapped
-        bem_css
-        autolink
+      [
+        OpenProject::TextFormatting::Filters::SettingMacrosFilter,
+        OpenProject::TextFormatting::Filters::MarkdownFilter,
+        OpenProject::TextFormatting::Filters::SanitizationFilter,
+        OpenProject::TextFormatting::Filters::TaskListFilter,
+        OpenProject::TextFormatting::Filters::TableOfContentsFilter,
+        OpenProject::TextFormatting::Filters::MacroFilter,
+        OpenProject::TextFormatting::Filters::MentionFilter,
+        OpenProject::TextFormatting::Filters::PatternMatcherFilter,
+        OpenProject::TextFormatting::Filters::SyntaxHighlightFilter,
+        OpenProject::TextFormatting::Filters::AttachmentFilter,
+        OpenProject::TextFormatting::Filters::RelativeLinkFilter,
+        OpenProject::TextFormatting::Filters::LinkAttributeFilter,
+        OpenProject::TextFormatting::Filters::FigureWrappedFilter,
+        OpenProject::TextFormatting::Filters::BemCssFilter,
+        OpenProject::TextFormatting::Filters::AutolinkFilter
       ]
     end
 

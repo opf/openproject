@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -252,6 +252,20 @@ ar:
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'في'
@@ -280,8 +294,6 @@ ar:
           one: "أولاً يتم فرز المعايير"
           two: "ثانياً يتم فرز المعايير"
           three: "ثالثاً يتم فرز المعايير"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "لا"
     general_text_yes: "نعم"
     general_text_No: "لا"
@@ -300,15 +312,11 @@ ar:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Activate notification date alerts for upcoming dates and overdue tasks.</li> <li>We release two-factor authentication (2FA) for the Community edition.</li> <li>The work week display option is now also added to the team planner.</li> <li>List up to 3 people in a notification card when multiple people were involved in the changes.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "تفعيل"
     label_assignee: 'Assignee'
     label_add_column_after: "Add column after"
@@ -465,7 +473,7 @@ ar:
     label_watch_work_package: "مراقبة مجموعة العمل"
     label_watcher_added_successfully: "تم إضافة المراقب بنجاح!"
     label_watcher_deleted_successfully: "تم حذف المراقب بنجاح!"
-    label_work_package_details_you_are_here: "أنت على%{tab} علامة تبويب ل %{type}%{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "وقْف المشاهدة"
     label_unwatch_work_package: "لا تراقب مجموعة العمل"
     label_uploaded_by: "تم التحميل بواسطة"
@@ -475,10 +483,10 @@ ar:
     label_custom_queries: "Private"
     label_columns: "الأعمدة"
     label_attachments: المرفقات
-    label_drop_files: إسقاط الملفات هنا
-    label_drop_files_hint: أو اضغط لإضافة ملفات
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "إضافة مرفقات"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
     label_remove_file: "حذف%{fileName}"
     label_remove_watcher: "حذف المراقب %{name}"
@@ -576,16 +584,16 @@ ar:
           many: 'and %{count} others'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -599,7 +607,7 @@ ar:
         watched: 'Watcher'
         date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
         reminders:
@@ -661,6 +669,7 @@ ar:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Project context'
       work_package_belongs_to: 'This work package belongs to project %{projectname}.'
       click_to_switch_context: 'Open this work package in that project.'
@@ -996,7 +1005,7 @@ ar:
         move_column_left: "انقل العمود لليسار"
         move_column_right: "انقل العمود لليمين"
         hide_column: "إخفاء العمود"
-        insert_columns: "أدخِل أعمدة ..."
+        insert_columns: "Insert columns"
         filters: "عوامل التصفية"
         display_sums: "عرض المبالغ"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1023,7 +1032,7 @@ ar:
         button: 'Configure this work package table'
         choose_display_mode: 'Display work packages as'
         modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "الافتراضي"
         display_settings: 'Display settings'
         default_mode: "Flat list"
@@ -1059,26 +1068,25 @@ ar:
         relations: صِلات
         watchers: المشاهدون
         files: الملفّات
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "أيام"
         weeks: "أسابيع"
         months: "أشهر"
     toolbar:
       settings:
-        configure_view: "Configure view ..."
-        columns: "أعمدة..."
-        sort_by: "تم تصنيفه حسب..."
-        group_by: "تم تجميعه حسب..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "عرض المجاميع"
         display_hierarchy: "Display hierarchy"
         hide_hierarchy: "Hide hierarchy"
         hide_sums: "إخفاء المجاميع"
         save: "حفظ"
-        save_as: "حفظ بشكل ..."
-        export: "تصدير ..."
-        visibility_settings: "Visibility settings ..."
-        page_settings: "Rename view ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "احذف"
       filter: "فلترة"
       unselected_title: "مجموعة العمل"
@@ -1261,4 +1269,5 @@ ar:
       filter_chip:
         remove: 'إزالة'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'أغلِق'

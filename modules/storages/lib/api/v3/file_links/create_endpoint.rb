@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,18 +65,14 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
   def present_success(request, service_call)
     render_representer.create(
       service_call.all_results,
-      self_link: request.api_v3_paths.file_links(request.work_package.id),
+      self_link: self_link(request),
       current_user: request.current_user
     )
   end
 
   private
 
-  def params_modifier
-    ->(params) do
-      params[:container_id] = work_package.id
-      params[:container_type] = work_package.class.name
-      params
-    end
+  def self_link(_request)
+    "#{::API::V3::URN_PREFIX}file_links:no_link_provided"
   end
 end

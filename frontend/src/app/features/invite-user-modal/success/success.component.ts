@@ -4,7 +4,9 @@ import {
   EventEmitter,
   Output,
   ElementRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
@@ -15,6 +17,7 @@ import { PrincipalType } from '../invite-user.component';
   selector: 'op-ium-success',
   templateUrl: './success.component.html',
   styleUrls: ['./success.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessComponent {
   @Input() principal:HalResource;

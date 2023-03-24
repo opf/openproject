@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -53,12 +53,23 @@ describe('shows edition-specific content', () => {
   });
 
   it('should render bim text for bim edition', fakeAsync(() => {
+    app.hasBimChanges = true;
     app.isStandardEdition = false;
 
     fixture.detectChanges();
 
     // checking for missing translation key as translations are not loaded in specs
     expect(element.nativeElement.textContent).toContain('.bim.new_features_html');
+  }));
+
+  it('should render standard text for bim edition if disabled', fakeAsync(() => {
+    app.hasBimChanges = false;
+    app.isStandardEdition = false;
+
+    fixture.detectChanges();
+
+    // checking for missing translation key as translations are not loaded in specs
+    expect(element.nativeElement.textContent).toContain('.standard.new_features_html');
   }));
 
   it('should render standard text for standard edition', fakeAsync(() => {

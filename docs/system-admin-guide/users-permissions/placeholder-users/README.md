@@ -54,7 +54,7 @@ You will then be asked to type in the placeholder user name to confirm the delet
 To add a new placeholder, user click on **+ Placeholder user** in the upper right corner of the [placeholder user list](#placeholder-user-list).
 Enter a name and click on **Create** to save or on **Create and continue** to save and create another placeholder user.
 
-![create-new-placeholder-user](image-20210305171333274.png)
+![create-new-placeholder-user](openrpoject_system_guide_new_placeholder_user.png)
 
 It is not possible to create two placeholder users with the exact same name.
 
@@ -76,7 +76,7 @@ To change a placeholder user's role in a project or to remove it from the projec
 
 If you edit the placeholder user's role(s) don't forget to use the **Change** button to save your changes.
 
-![save-role-placeholder-user](openproject-system-guide-ph-user-change-button.png)
+![save-role-placeholder-user](open_project_user_guide_change_project.png)
 
 **Note**: You can also use a project's [member list](../../../user-guide/members) to manage a placeholder user's participation in a project.
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,6 @@ namespace 'environment' do
 
   desc 'Eager load the application (only applicable in dev mode)'
   task eager_load: :environment do
-    ::Zeitwerk::Loader.eager_load_all if Rails.env.development?
+    Zeitwerk::Loader.eager_load_all if Rails.env.development?
   end
 end

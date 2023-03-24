@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -43,6 +43,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { BackRoutingService } from 'core-app/features/work-packages/components/back-routing/back-routing.service';
 import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-view-base/state/wp-single-view.service';
+import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 
 @Component({
   templateUrl: './wp-split-view.html',
@@ -50,6 +51,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
   selector: 'op-wp-split-view',
   providers: [
     WpSingleViewService,
+    CommentService,
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
   ],
 })

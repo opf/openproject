@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -337,6 +337,7 @@ zh-TW:
   wiki:
     page_not_editable_index: 本頁不存在,重新導至wiki目錄頁。
     no_results_title_text: 目前沒有 wiki 頁面
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: 新增一個 wiki 頁面
   work_flows:
@@ -346,6 +347,8 @@ zh-TW:
     x_descendants:
       other: '%{count} 個子工作項目'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "以下文檔無法被保存"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -374,7 +377,7 @@ zh-TW:
   account:
     delete: "刪除帳號"
     delete_confirmation: "您確定要刪除這個帳號嗎？"
-    deleted: "成功刪除帳號"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "您創建的資料 （例如電子郵件、 我的最愛、 工作項目，維基條目） 一樣可能會被刪除。但是請注意像工作項目和維基條目的資料刪除可能導致阻礙其他使用者的工作。這種資料因此重新分配到稱為\"刪除使用者\"的帳戶。由每筆被刪除而分配到這帳戶將不可能再從刪除帳戶中分配資料給你創建。"
@@ -469,14 +472,24 @@ zh-TW:
       member:
         roles: "角色"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別碼"
         latest_activity_at: "最新活動"
         parent: "上層專案"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "查詢"
+        templated: "範本專案"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "類型"
         versions: "版本"
         work_packages: "工作項目"
-        templated: '範本專案'
       projects/status:
         code: '狀態'
         explanation: '狀態描述'
@@ -688,6 +701,11 @@ zh-TW:
               no_notification_reason: '當 IAN 被選為管道時不能為空'
             reason_mail_digest:
               no_notification_reason: '當郵件摘要被選為管道時不能為空'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -698,6 +716,8 @@ zh-TW:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "%{types} 仍在被工作項目使用中"
             enabled_modules:
@@ -887,8 +907,22 @@ zh-TW:
     header_invalid_fields: "以下的欄位有問題:"
     field_erroneous_label: "此欄位不正確: %{full_errors}\n請輸入一個有效的值！"
   activity:
-    created: "建立：%{title}"
-    updated: "更新：%{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "啟用"
@@ -1024,6 +1058,7 @@ zh-TW:
   button_reset: "重置"
   button_rollback: "回復到此版本"
   button_save: "儲存"
+  button_apply_changes: "Apply changes"
   button_save_back: "儲存並返回"
   button_show: "顯示"
   button_sort: "排序"
@@ -1307,16 +1342,20 @@ zh-TW:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "無法凸顯的屬性: %{attributes}"
   events:
-    project: '專案已編輯'
     changeset: '已編輯變更'
     message: 訊息已編輯
     news: 新知
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 已回覆
     time_entry: '已編輯時間日誌'
     wiki_page: '維基頁面已編輯'
     work_package_closed: '工作項目關閉'
     work_package_edit: '工作項目已編輯'
     work_package_note: '工作項目註記已新增'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "輸出工作列表"
     succeeded: "輸出完成"
@@ -1342,7 +1381,6 @@ zh-TW:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "星期日"
-  general_lang_name: "台灣正體"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "否"
   general_text_yes: "是"
@@ -1728,6 +1766,10 @@ zh-TW:
   label_not_contains: "不包含"
   label_not_equals: "不是"
   label_on: "開啟"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "開啟選單"
   label_open_work_packages: "打開"
   label_open_work_packages_plural: "打開"
@@ -1769,6 +1811,8 @@ zh-TW:
   label_product_version: "產品版本"
   label_professional_support: "專業支援"
   label_profile: "Profile"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "專案總數"
   label_project_copy_notifications: "在專案複製期間發送電子郵件通知"
   label_project_latest: "最新的專案"
@@ -2057,8 +2101,6 @@ zh-TW:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "你的 %{value} 密碼"
   mail_subject_register: "你的帳號 %{value} 啟用"
-  mail_subject_reminder: "%{count} 個工作項目將在 %{days} 天後到期"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Wiki 頁面 '%{id}' 已經被增加"
   mail_subject_wiki_content_updated: "Wiki 頁面 '%{id}' 已經被更新"
   mail_member_added_project:
@@ -2190,6 +2232,7 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "建立子專案"
@@ -2627,12 +2670,13 @@ zh-TW:
   text_work_packages_destroy_confirmation: "你確定要刪除選定的工作項目嗎？"
   text_work_packages_ref_in_commit_messages: "在提交訊息中引用和修復工作項目"
   text_journal_added: "%{label} %{value} 已增加"
-  text_journal_changed_html: "%{label} 從 %{old} %{linebreak}<strong> 改為</strong> %{new}"
   text_journal_changed_plain: "%{label} 從 %{old} %{linebreak} 改為 %{new}"
   text_journal_changed_no_detail: "%{label} 已更新"
   text_journal_changed_with_diff: "%{label} 已改變 (%{link})"
   text_journal_deleted: "%{label}已刪除 (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2923,15 +2967,20 @@ zh-TW:
       title: "刪除工作項目"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "沒有內容可預覽"
   api_v3:
     attributes:

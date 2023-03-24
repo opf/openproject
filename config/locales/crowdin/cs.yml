@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -64,11 +64,11 @@ cs:
         main-menu-bg-color: "Barva pozadí levého menu."
       theme_warning: Změna motivu přepíše váš vlastní styl. Vzhled pak bude ztracen. Jste si jisti, že chcete pokračovat?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      upgrade_to_ee: "Upgradovat na Enterprise Edici"
       add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
         text: "Are you sure you want to remove the current Enterprise edition token used?"
-        title: "Delete token"
+        title: "Odstranit Token"
       replace_token: "Nahradit aktuální podpůrný token"
       order: "Order Enterprise on-premises edition"
       paste: "Paste your Enterprise edition support token"
@@ -219,8 +219,8 @@ cs:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
       members: 'Project members'
-      overviews: 'Project overview'
-      queries: 'Work packages: saved views'
+      overviews: 'Přehled projektu'
+      queries: 'Pracovní balíčky: uložené zobrazení'
       wiki_page_attachments: 'Wiki pages: attachments'
       work_package_attachments: 'Work packages: attachments'
       work_package_categories: 'Work packages: categories'
@@ -337,6 +337,7 @@ cs:
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Přidat novou wiki stránku
   work_flows:
@@ -349,6 +350,8 @@ cs:
       many: '%{count} potomků pracovního balíčku'
       other: '%{count} potomků pracovního balíčku'
     bulk:
+      copy_failed: "Pracovní balíčky nelze kopírovat."
+      move_failed: "Pracovní balíčky nelze přesunout."
       could_not_be_saved: "Následující pracovní balíčky nelze uložit:"
       none_could_be_saved: "Žádný z %{total} pracovních balíčků nemohl být aktualizován."
       x_out_of_y_could_be_saved: "%{failing} z pracovních balíčků %{total} nemohl být aktualizován, zatímco %{success} může."
@@ -377,7 +380,7 @@ cs:
   account:
     delete: "Odstranit účet"
     delete_confirmation: "Jste si jisti, že chcete odstranit tento účet?"
-    deleted: "Účet úspěšně odstraněn"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu."
@@ -472,14 +475,24 @@ cs:
       member:
         roles: "Role"
       project:
+        active_value:
+          true: "odarchivováno"
+          false: "archivováno"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
         parent: "Nadřazený projekt"
+        public_value:
+          title: "Viditelnost"
+          true: "veřejný"
+          false: "soukromý"
         queries: "Dotazy"
+        templated: "Projektová šablona"
+        templated_value:
+          true: "označeno jako šablona"
+          false: "odznačeno jako šablona"
         types: "Typy"
         versions: "Verze"
         work_packages: "Pracovní balíčky"
-        templated: 'Projektová šablona'
       projects/status:
         code: 'Stav'
         explanation: 'Popis stavu'
@@ -691,6 +704,11 @@ cs:
               no_notification_reason: 'nemůže být prázdné, protože IAN je vybrán jako kanál.'
             reason_mail_digest:
               no_notification_reason: 'nemůže být prázdné, protože poštovní digest je vybrán jako kanál.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -701,6 +719,8 @@ cs:
           archived_ancestor: 'Projekt má archivovaného předka.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "stále používáno pracovními balíčky: %{types}"
             enabled_modules:
@@ -774,7 +794,7 @@ cs:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              locked: "je uzamčen."
         wiki_page:
           attributes:
             slug:
@@ -902,8 +922,22 @@ cs:
     header_invalid_fields: "Nastaly prolémy v následujících polích:"
     field_erroneous_label: "Toto pole je neplatné: %{full_errors}\nProsím zadejte platnou hodnotu."
   activity:
-    created: "Vytvořeno: %{title}"
-    updated: "Aktualizováno: %{title}"
+    item:
+      created_by_on: "vytvořil %{user} dne %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Podprojekt"
+      parent_no_longer: "Již není podprojekt projektu"
+    filter:
+      changeset: "Changesets"
+      message: "Fóra"
+      news: "Novinky"
+      project_attribute: "Atributy projektu"
+      subproject: "Zahrnout podprojekty"
+      time_entry: "Strávený čas"
+      wiki_edit: "Wiki"
+      work_package: "Pracovní balíčky"
   #common attributes of all models
   attributes:
     active: "Aktivní"
@@ -1039,6 +1073,7 @@ cs:
   button_reset: "Obnovit"
   button_rollback: "Obnovit tuto verzi"
   button_save: "Uložit"
+  button_apply_changes: "Použít změny"
   button_save_back: "Uložit a odejít"
   button_show: "Zobrazit"
   button_sort: "Řadit"
@@ -1358,16 +1393,20 @@ cs:
   error_external_authentication_failed: "Vyskytla sa chyba během externí autentifikace. Prosím zkuste to znova."
   error_attribute_not_highlightable: "Atribut není zvýrazněn: %{attributes}"
   events:
-    project: 'Projekt upraven'
     changeset: 'Sada změn upravena'
     message: Zpráva upravena
     news: Novinky
+    project_attributes: 'Atributy projektu upraveny'
+    projects: 'Projekt upraven'
     reply: Zodpovězeno
     time_entry: 'Časový záznam změněn'
     wiki_page: 'Wiki stránka upravena'
     work_package_closed: 'Pracovní balíček uzavřen'
     work_package_edit: 'Pracovní balíček upraven'
     work_package_note: 'Poznámka k pracovnímu balíčku přidána'
+    title:
+      project: "Projekt {name}"
+      subproject: "Podprojekt: %{name}"
   export:
     your_work_packages_export: "Export pracovních balíčků"
     succeeded: "Export úspěšně dokončen."
@@ -1393,7 +1432,6 @@ cs:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Česky"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "ano"
@@ -1411,10 +1449,10 @@ cs:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Upgradovat na Enterprise Edici"
         more_info: "Více informací"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Upgradovat na Enterprise Edici"
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
@@ -1630,7 +1668,7 @@ cs:
   label_enumerations: "Číselníky"
   label_enterprise: "Podniky"
   label_enterprise_active_users: "%{current}/%{limit} rezervováno aktivních uživatelů"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edice"
   label_environment: "Prostředí"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1779,6 +1817,10 @@ cs:
   label_not_contains: "neobsahuje"
   label_not_equals: "není"
   label_on: "zapnuto"
+  label_operator_all: "není prázdný"
+  label_operator_none: "je prázdný"
+  label_operator_equals_or: "je (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"
@@ -1820,6 +1862,8 @@ cs:
   label_product_version: "Verze produktu"
   label_professional_support: "Profesionální podpora"
   label_profile: "Profil"
+  label_project_activity: "Aktivita projektu"
+  label_project_attribute_plural: "Atributy projektu"
   label_project_count: "Celkový počet projektů"
   label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
@@ -2056,7 +2100,7 @@ cs:
       center: 'Centrum notifikací'
       see_in_center: 'Zobrazit komentář v oznamovacím centru'
       settings: 'Změnit nastavení e-mailu'
-    salutation: 'Hello %{user}'
+    salutation: 'Ahoj %{user}!'
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
       login_to_see_all: 'Přihlaste se pro zobrazení všech notifikací.'
@@ -2111,8 +2155,6 @@ cs:
   mail_subject_incoming_email_error: "E-mail odeslaný na OpenProject nelze zpracovat"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivace vašeho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovních balíčků s termínem do dalších %{days} dnů"
-  mail_subject_group_reminder: "Pro skupinu \"%{group}\" %{count} pracovních balíčků splatných během následujících %{days} dnů"
   mail_subject_wiki_content_added: "'%{id}' wiki stránka byla přidána"
   mail_subject_wiki_content_updated: "'%{id}' wiki stránka byla aktualizována"
   mail_member_added_project:
@@ -2247,6 +2289,7 @@ cs:
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
   permission_add_project: "Vytvořit projekt"
+  permission_archive_project: "Archivovat projekt"
   permission_manage_user: "Vytvořit a upravit uživatele"
   permission_manage_placeholder_user: "Vytvořit, upravit a odstranit placeholder uživatele"
   permission_add_subprojects: "Vytvořit podprojekty"
@@ -2632,7 +2675,7 @@ cs:
   text_access_token_hint: "Přístupové tokeny vám umožňují udělit externím aplikacím přístup ke zdrojům v OpenProject."
   text_analyze: "Další analýza: %{subject}"
   text_are_you_sure: "Jste si jisti?"
-  text_are_you_sure_continue: "Are you sure you want to continue?"
+  text_are_you_sure_continue: "Jste si jisti, že chcete pokračovat?"
   text_are_you_sure_with_children: "Smazat pracovní balíček a všechny podřízené pracovní balíčky?"
   text_assign_to_project: "Přiřadit k projektu"
   text_form_configuration: >
@@ -2684,12 +2727,13 @@ cs:
   text_work_packages_destroy_confirmation: "Jste si jisti, že chcete odstranit vybrané pracovní balíčky?"
   text_work_packages_ref_in_commit_messages: "Odkazování a opravování pracovních balíčků ve zprávách commitu"
   text_journal_added: "%{label} %{value} přidán"
-  text_journal_changed_html: "%{label} se změnil z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} se změnil z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} aktualizován"
   text_journal_changed_with_diff: "%{label} změněn (%{link})"
   text_journal_deleted: "%{label} smazán (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} smazán (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2985,20 +3029,25 @@ cs:
       title: "Odstranit pracovní balíček"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
-    change_button: "Change working days"
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+    change_button: "Změnit pracovní dny"
     warning: >
-      Změna, těch dnů v týdnu, které jsou považovány za pracovní dny, může ovlivnit datum zahájení a datum ukončení všech pracovních balíčků ve všech projektech v této instanci.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nic pro náhled"
   api_v3:
     attributes:
       lock_version: "Uzamknout verzi"
-      property: 'Property'
+      property: 'Vlastnost'
     errors:
       code_400: "Špatný požadavek: %{message}"
       code_401: "Pro přístup k tomuto prostředku musíte být přihlášeni."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,10 +64,10 @@ class Meeting < ApplicationRecord
                 author: Proc.new(&:user),
                 description: ''
 
-  register_on_journal_formatter(:plaintext, 'title')
-  register_on_journal_formatter(:fraction, 'duration')
-  register_on_journal_formatter(:datetime, 'start_time')
-  register_on_journal_formatter(:plaintext, 'location')
+  register_journal_formatted_fields(:plaintext, 'title')
+  register_journal_formatted_fields(:fraction, 'duration')
+  register_journal_formatted_fields(:datetime, 'start_time')
+  register_journal_formatted_fields(:plaintext, 'location')
 
   accepts_nested_attributes_for :participants, allow_destroy: true
 

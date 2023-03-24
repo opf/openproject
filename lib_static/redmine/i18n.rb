@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,8 +38,8 @@ module Redmine
     end
 
     def self.all_languages
-      @@all_languages ||= Dir.glob(Rails.root.join('config/locales/**/*.yml'))
-          .map { |f| File.basename(f).split('.').first }
+      @@all_languages ||= Rails.root.glob('config/locales/**/*.yml')
+          .map { |f| f.basename.to_s.split('.').first }
           .reject! { |l| /\Ajs-/.match(l.to_s) }
           .uniq
           .map(&:to_sym)
@@ -60,10 +60,6 @@ module Redmine
     rescue StandardError => e
       Rails.logger.error("Failed to localize float number #{number}: #{e}")
       ('%.2f' % hours.to_f)
-    end
-
-    def ll(lang, str, value = nil)
-      ::I18n.t(str.to_s, value:, locale: lang.to_s.gsub(%r{(.+)-(.+)$}) { "#{$1}-#{$2.upcase}" })
     end
 
     def format_date(date)
@@ -186,7 +182,7 @@ module Redmine
     end
 
     # Collects all translations for ActiveRecord attributes
-    def all_attribute_translations(locale = current_locale)
+    def all_attribute_translations(locale)
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= begin
         general_attributes = ::I18n.t('attributes', locale:)

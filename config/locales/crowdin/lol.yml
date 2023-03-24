@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -319,6 +319,7 @@ lol:
   wiki:
     page_not_editable_index: crwdns796672:0crwdne796672:0
     no_results_title_text: crwdns796674:0crwdne796674:0
+    print_hint: crwdns847917:0crwdne847917:0
     index:
       no_results_content_text: crwdns796676:0crwdne796676:0
   work_flows:
@@ -329,6 +330,8 @@ lol:
       one: 'crwdns796680:1crwdne796680:1'
       other: 'crwdns796680:5%{count}crwdne796680:5'
     bulk:
+      copy_failed: "crwdns847919:0crwdne847919:0"
+      move_failed: "crwdns847921:0crwdne847921:0"
       could_not_be_saved: "crwdns796682:0crwdne796682:0"
       none_could_be_saved: "crwdns796684:0%{total}crwdne796684:0"
       x_out_of_y_could_be_saved: "crwdns796686:0%{failing}crwdnd796686:0%{total}crwdnd796686:0%{success}crwdne796686:0"
@@ -357,7 +360,7 @@ lol:
   account:
     delete: "crwdns796712:0crwdne796712:0"
     delete_confirmation: "crwdns796714:0crwdne796714:0"
-    deleted: "crwdns796716:0crwdne796716:0"
+    deletion_pending: "crwdns847923:0crwdne847923:0"
     deletion_info:
       data_consequences:
         other: "crwdns796718:0crwdne796718:0"
@@ -452,14 +455,24 @@ lol:
       member:
         roles: "crwdns796850:0crwdne796850:0"
       project:
+        active_value:
+          true: "crwdns847925:0crwdne847925:0"
+          false: "crwdns847927:0crwdne847927:0"
         identifier: "crwdns796852:0crwdne796852:0"
         latest_activity_at: "crwdns796854:0crwdne796854:0"
         parent: "crwdns796856:0crwdne796856:0"
+        public_value:
+          title: "crwdns847929:0crwdne847929:0"
+          true: "crwdns847931:0crwdne847931:0"
+          false: "crwdns847933:0crwdne847933:0"
         queries: "crwdns796858:0crwdne796858:0"
+        templated: "crwdns796866:0crwdne796866:0"
+        templated_value:
+          true: "crwdns847935:0crwdne847935:0"
+          false: "crwdns847937:0crwdne847937:0"
         types: "crwdns796860:0crwdne796860:0"
         versions: "crwdns796862:0crwdne796862:0"
         work_packages: "crwdns796864:0crwdne796864:0"
-        templated: 'crwdns796866:0crwdne796866:0'
       projects/status:
         code: 'crwdns796868:0crwdne796868:0'
         explanation: 'crwdns796870:0crwdne796870:0'
@@ -671,6 +684,11 @@ lol:
               no_notification_reason: 'crwdns797174:0crwdne797174:0'
             reason_mail_digest:
               no_notification_reason: 'crwdns797176:0crwdne797176:0'
+        non_working_day:
+          attributes:
+            date:
+              taken: "crwdns847939:0%{value}crwdne847939:0"
+              format: "crwdns847941:0%{message}crwdne847941:0"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -681,6 +699,8 @@ lol:
           archived_ancestor: 'crwdns797190:0crwdne797190:0'
           foreign_wps_reference_version: 'crwdns797192:0crwdne797192:0'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "crwdns847943:0crwdne847943:0"
             types:
               in_use_by_work_packages: "crwdns797194:0%{types}crwdne797194:0"
             enabled_modules:
@@ -874,8 +894,22 @@ lol:
     header_invalid_fields: "crwdns797384:0crwdne797384:0"
     field_erroneous_label: "crwdns797386:0%{full_errors}crwdne797386:0"
   activity:
-    created: "crwdns797388:0%{title}crwdne797388:0"
-    updated: "crwdns797390:0%{title}crwdne797390:0"
+    item:
+      created_by_on: "crwdns847945:0%{user}crwdnd847945:0%{datetime}crwdne847945:0"
+      created_on: "crwdns847947:0%{datetime}crwdne847947:0"
+      updated_by_on: "crwdns847949:0%{user}crwdnd847949:0%{datetime}crwdne847949:0"
+      updated_on: "crwdns847951:0%{datetime}crwdne847951:0"
+      parent_without_of: "crwdns847953:0crwdne847953:0"
+      parent_no_longer: "crwdns847955:0crwdne847955:0"
+    filter:
+      changeset: "crwdns847957:0crwdne847957:0"
+      message: "crwdns847959:0crwdne847959:0"
+      news: "crwdns847961:0crwdne847961:0"
+      project_attribute: "crwdns847963:0crwdne847963:0"
+      subproject: "crwdns847965:0crwdne847965:0"
+      time_entry: "crwdns847967:0crwdne847967:0"
+      wiki_edit: "crwdns847969:0crwdne847969:0"
+      work_package: "crwdns847971:0crwdne847971:0"
   #common attributes of all models
   attributes:
     active: "crwdns797392:0crwdne797392:0"
@@ -1011,6 +1045,7 @@ lol:
   button_reset: "crwdns797636:0crwdne797636:0"
   button_rollback: "crwdns797638:0crwdne797638:0"
   button_save: "crwdns797640:0crwdne797640:0"
+  button_apply_changes: "crwdns847973:0crwdne847973:0"
   button_save_back: "crwdns797642:0crwdne797642:0"
   button_show: "crwdns797644:0crwdne797644:0"
   button_sort: "crwdns797646:0crwdne797646:0"
@@ -1306,16 +1341,20 @@ lol:
   error_external_authentication_failed: "crwdns798118:0crwdne798118:0"
   error_attribute_not_highlightable: "crwdns798120:0%{attributes}crwdne798120:0"
   events:
-    project: 'crwdns798122:0crwdne798122:0'
     changeset: 'crwdns798124:0crwdne798124:0'
     message: crwdns798126:0crwdne798126:0
     news: crwdns798128:0crwdne798128:0
+    project_attributes: 'crwdns847975:0crwdne847975:0'
+    projects: 'crwdns847977:0crwdne847977:0'
     reply: crwdns798130:0crwdne798130:0
     time_entry: 'crwdns798132:0crwdne798132:0'
     wiki_page: 'crwdns798134:0crwdne798134:0'
     work_package_closed: 'crwdns798136:0crwdne798136:0'
     work_package_edit: 'crwdns798138:0crwdne798138:0'
     work_package_note: 'crwdns798140:0crwdne798140:0'
+    title:
+      project: "crwdns847979:0%{name}crwdne847979:0"
+      subproject: "crwdns847981:0%{name}crwdne847981:0"
   export:
     your_work_packages_export: "crwdns798142:0crwdne798142:0"
     succeeded: "crwdns798144:0crwdne798144:0"
@@ -1341,7 +1380,6 @@ lol:
   general_csv_encoding: "crwdns798176:0crwdne798176:0"
   general_csv_separator: "crwdns798178:0crwdne798178:0"
   general_first_day_of_week: "crwdns798180:0crwdne798180:0"
-  general_lang_name: "crwdns798182:0crwdne798182:0"
   general_pdf_encoding: "crwdns798184:0crwdne798184:0"
   general_text_no: "crwdns798186:0crwdne798186:0"
   general_text_yes: "crwdns798188:0crwdne798188:0"
@@ -1722,6 +1760,10 @@ lol:
   label_not_contains: "crwdns798884:0crwdne798884:0"
   label_not_equals: "crwdns798886:0crwdne798886:0"
   label_on: "crwdns798888:0crwdne798888:0"
+  label_operator_all: "crwdns847983:0crwdne847983:0"
+  label_operator_none: "crwdns847985:0crwdne847985:0"
+  label_operator_equals_or: "crwdns847987:0crwdne847987:0"
+  label_operator_equals_all: "crwdns847989:0crwdne847989:0"
   label_open_menu: "crwdns798890:0crwdne798890:0"
   label_open_work_packages: "crwdns798892:0crwdne798892:0"
   label_open_work_packages_plural: "crwdns798894:0crwdne798894:0"
@@ -1763,6 +1805,8 @@ lol:
   label_product_version: "crwdns798966:0crwdne798966:0"
   label_professional_support: "crwdns798968:0crwdne798968:0"
   label_profile: "crwdns798970:0crwdne798970:0"
+  label_project_activity: "crwdns847991:0crwdne847991:0"
+  label_project_attribute_plural: "crwdns847993:0crwdne847993:0"
   label_project_count: "crwdns798974:0crwdne798974:0"
   label_project_copy_notifications: "crwdns798976:0crwdne798976:0"
   label_project_latest: "crwdns798978:0crwdne798978:0"
@@ -2049,8 +2093,6 @@ lol:
   mail_subject_incoming_email_error: "crwdns823926:0crwdne823926:0"
   mail_subject_lost_password: "crwdns799484:0%{value}crwdne799484:0"
   mail_subject_register: "crwdns799486:0%{value}crwdne799486:0"
-  mail_subject_reminder: "crwdns799488:0%{count}crwdnd799488:0%{days}crwdne799488:0"
-  mail_subject_group_reminder: "crwdns799490:0%{group}crwdnd799490:0%{count}crwdnd799490:0%{days}crwdne799490:0"
   mail_subject_wiki_content_added: "crwdns799492:0%{id}crwdne799492:0"
   mail_subject_wiki_content_updated: "crwdns799494:0%{id}crwdne799494:0"
   mail_member_added_project:
@@ -2181,6 +2223,7 @@ lol:
   permission_add_work_packages: "crwdns799694:0crwdne799694:0"
   permission_add_messages: "crwdns799696:0crwdne799696:0"
   permission_add_project: "crwdns799698:0crwdne799698:0"
+  permission_archive_project: "crwdns847995:0crwdne847995:0"
   permission_manage_user: "crwdns799700:0crwdne799700:0"
   permission_manage_placeholder_user: "crwdns799702:0crwdne799702:0"
   permission_add_subprojects: "crwdns799704:0crwdne799704:0"
@@ -2616,12 +2659,13 @@ lol:
   text_work_packages_destroy_confirmation: "crwdns800434:0crwdne800434:0"
   text_work_packages_ref_in_commit_messages: "crwdns800436:0crwdne800436:0"
   text_journal_added: "crwdns800438:0%{label}crwdnd800438:0%{value}crwdne800438:0"
-  text_journal_changed_html: "crwdns800442:0%{label}crwdnd800442:0%{old}crwdnd800442:0%{linebreak}crwdnd800442:0%{new}crwdne800442:0"
   text_journal_changed_plain: "crwdns800444:0%{label}crwdnd800444:0%{old}crwdnd800444:0%{linebreak}crwdnd800444:0%{new}crwdne800444:0"
   text_journal_changed_no_detail: "crwdns800446:0%{label}crwdne800446:0"
   text_journal_changed_with_diff: "crwdns800448:0%{label}crwdnd800448:0%{link}crwdne800448:0"
   text_journal_deleted: "crwdns800450:0%{label}crwdnd800450:0%{old}crwdne800450:0"
+  text_journal_deleted_subproject: "crwdns847997:0%{label}crwdnd847997:0%{old}crwdne847997:0"
   text_journal_deleted_with_diff: "crwdns800452:0%{label}crwdnd800452:0%{link}crwdne800452:0"
+  text_journal_of: "crwdns847999:0%{label}crwdnd847999:0%{value}crwdne847999:0"
   text_journal_set_to: "crwdns800454:0%{label}crwdnd800454:0%{value}crwdne800454:0"
   text_journal_set_with_diff: "crwdns800456:0%{label}crwdnd800456:0%{link}crwdne800456:0"
   text_journal_label_value: "crwdns800458:0%{label}crwdnd800458:0%{value}crwdne800458:0"
@@ -2913,15 +2957,20 @@ lol:
       title: "crwdns800942:0crwdne800942:0"
   working_days:
     info: >
-      crwdns834546:0crwdne834546:0
+      crwdns848001:0crwdne848001:0
+    instance_wide_info: >
+      crwdns848003:0crwdne848003:0
     change_button: "crwdns834548:0crwdne834548:0"
     warning: >
-      crwdns834550:0crwdne834550:0
+      crwdns848005:0crwdne848005:0
     journal_note:
       changed: crwdns834552:0%{changes}crwdne834552:0
       days:
         working: "crwdns834554:0%{day}crwdne834554:0"
         non_working: "crwdns834556:0%{day}crwdne834556:0"
+      dates:
+        working: "crwdns848007:0%{date}crwdne848007:0"
+        non_working: "crwdns848009:0%{date}crwdne848009:0"
   nothing_to_preview: "crwdns800944:0crwdne800944:0"
   api_v3:
     attributes:

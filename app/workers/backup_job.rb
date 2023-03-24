@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'tempfile'
 require 'zip'
 
-class BackupJob < ::ApplicationJob
+class BackupJob < ApplicationJob
   queue_with_priority :above_normal
 
   attr_reader :backup, :user
@@ -64,7 +64,7 @@ class BackupJob < ::ApplicationJob
       db_dump_file_name:
     )
 
-    store_backup file_name, backup: backup, user: user
+    store_backup(file_name, backup:, user:)
     cleanup_previous_backups!
 
     notify_backup_ready!
