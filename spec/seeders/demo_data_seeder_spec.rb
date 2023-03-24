@@ -50,6 +50,7 @@ describe RootSeeder,
     expect(Projects::Status.count).to eq 2
     expect(Role.where(type: 'Role').count).to eq 5
     expect(GlobalRole.count).to eq 1
+    expect(Grids::Overview.count).to eq 2
 
     perform_enqueued_jobs
 

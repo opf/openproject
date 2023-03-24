@@ -32,6 +32,10 @@ describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
+  before do
+    allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
+  end
+
   it 'create the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
@@ -46,6 +50,7 @@ describe RootSeeder,
     expect(IssuePriority.count).to eq 4
     expect(Projects::Status.count).to eq 4
     expect(Bim::IfcModels::IfcModel.count).to eq 3
+    expect(Grids::Overview.count).to eq 4
 
     perform_enqueued_jobs
 

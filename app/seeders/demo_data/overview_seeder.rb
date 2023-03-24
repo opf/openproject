@@ -33,7 +33,7 @@ module DemoData
         .map { |_key, project| project[:identifier] }
 
       identifiers
-        .all? { |ident| Project.where(identifier: ident).exists? }
+        .all? { |ident| Project.exists?(identifier: ident) }
     end
 
     def build_widget(overview, widget_config)
@@ -58,7 +58,7 @@ module DemoData
     end
 
     def attachment_path(file_name)
-      ::Overviews::Engine.root.join(
+      Rails.root.join(
         "config/locales/media/#{I18n.locale}/#{file_name}"
       )
     end
