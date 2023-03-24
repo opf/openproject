@@ -8,7 +8,7 @@ ENV USER=dev
 RUN useradd -d /home/$USER -m $USER -s /bin/bash
 WORKDIR /home/$USER
 
-RUN curl --retry 10 --output /tmp/node.tar.gz --silent --show-error https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
+RUN curl --http1.1 --retry 10 --output /tmp/node.tar.gz --silent --show-error https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
   && tar xzf /tmp/node.tar.gz --directory /usr/local --strip-components=1 \
   && rm -f /tmp/node.tar.gz
 
