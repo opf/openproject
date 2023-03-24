@@ -105,12 +105,6 @@ class ProjectsController < ApplicationController
     render_404
   end
 
-  def redirect_work_packages_or_overview
-    return if redirect_to_project_menu_item(@project, :work_packages)
-
-    redirect_to project_overview_path(@project)
-  end
-
   def hide_project_in_layout
     @project = nil
   end
