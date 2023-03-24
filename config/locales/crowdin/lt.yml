@@ -229,6 +229,7 @@ lt:
       failed_text: "Projekto %{name} užsakytas naikinimas nepavyko. Projektas liko suarchyvuotas."
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."

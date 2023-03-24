@@ -232,6 +232,7 @@ ne:
       failed_text: "परियोजना '%{name}' मेटाउने अनुरोध असफल भयो। परियोजना संग्रहित अवस्थामा छ।"
       completed: "परियोजना '%{name}' मेटाउने कार्य पुरा भयो"
       completed_text: "परियोजना '%{name}' मेट्ने अनुरोध पुरा भयो।"
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."

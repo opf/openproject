@@ -231,6 +231,7 @@ hu:
       failed_text: "A projekt%{name} törlése sikertelen. A projekt archiválva van."
       completed: "A projekt %{name} törlölve"
       completed_text: "A projekt%{name} törlése sikeres."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
       open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"

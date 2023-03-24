@@ -231,6 +231,7 @@ ru:
       failed_text: "Запрос на удаление проекта %{name} не удался. Проект был оставлен в архиве."
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Открыть в виде диаграммы Ганта'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Ганта, фильтрующего пакеты работ, видимых на этой странице."

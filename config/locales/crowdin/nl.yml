@@ -229,6 +229,7 @@ nl:
       failed_text: "Het verzoek om het project %{name} verwijderen is mislukt. Het project is gearchiveerd gebleven."
       completed: "Verwijderen van project %{name} is gelukt"
       completed_text: "Het verzoek om het verwijderen van project '%{name}' is voltooid."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open als Gantt weergave'
       open_as_gantt_title: "Gebruik deze knop om een Gantt-weergave te genereren die werkpakketten filtert voor de projecten die op deze pagina zichtbaar zijn."

@@ -230,6 +230,7 @@ ja:
       failed_text: "プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。"
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"

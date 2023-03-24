@@ -231,6 +231,7 @@ sl:
       failed_text: "Zahteva za izbris projekta %{name} ni uspela. Projekt je ostal arhiviran."
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Odpri kot gantogram'
       open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."

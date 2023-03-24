@@ -220,6 +220,7 @@ lol:
       failed_text: "crwdns796558:0%{name}crwdne796558:0"
       completed: "crwdns796560:0%{name}crwdne796560:0"
       completed_text: "crwdns796562:0%{name}crwdne796562:0"
+      completed_text_children: "crwdns850271:0crwdne850271:0"
     index:
       open_as_gantt: 'crwdns796564:0crwdne796564:0'
       open_as_gantt_title: "crwdns796566:0crwdne796566:0"
