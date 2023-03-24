@@ -36,14 +36,14 @@ describe API::V3::StorageFiles::StorageFilesRepresenter do
   let(:parent) do
     Storages::StorageFile.new(
       23,
-      '/',
+      'Documents',
       2048,
       'application/x-op-directory',
       created_at,
       last_modified_at,
       'admin',
       'admin',
-      '/',
+      '/Documents',
       %i[readable writeable]
     )
   end
@@ -58,13 +58,28 @@ describe API::V3::StorageFiles::StorageFilesRepresenter do
       last_modified_at,
       'admin',
       'admin',
-      '/readme.md',
+      '/Documents/readme.md',
+      %i[readable writeable]
+    )
+  end
+
+  let(:ancestor) do
+    Storages::StorageFile.new(
+      47,
+      '/',
+      4096,
+      'application/x-op-directory',
+      created_at,
+      last_modified_at,
+      'admin',
+      'admin',
+      '/',
       %i[readable writeable]
     )
   end
 
   let(:files) do
-    Storages::StorageFiles.new([file], parent)
+    Storages::StorageFiles.new([file], parent, [ancestor])
   end
 
   let(:representer) { described_class.new(files, current_user: user) }
@@ -78,6 +93,11 @@ describe API::V3::StorageFiles::StorageFilesRepresenter do
 
     it_behaves_like 'collection', :files do
       let(:value) { files.files }
+      let(:element_decorator) { API::V3::StorageFiles::StorageFileRepresenter }
+    end
+
+    it_behaves_like 'collection', :ancestors do
+      let(:value) { files.ancestors }
       let(:element_decorator) { API::V3::StorageFiles::StorageFileRepresenter }
     end
 
