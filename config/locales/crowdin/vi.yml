@@ -234,6 +234,7 @@ vi:
       failed_text: "Yêu cầu xóa dự án %{name} đã thất bại. Dự án đã được lưu trữ."
       completed: "Đã xóa dự án %{name}"
       completed_text: "Yêu cầu xóa dự án '%{name}' đã được hoàn thành."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."

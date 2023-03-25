@@ -232,6 +232,7 @@ eo:
       failed_text: "La peto por forigi la projekton %{name} malsukcesis. La projekto estis arkivita."
       completed: "Forigo de la projekto %{name} estis kompletigita"
       completed_text: "La peto por forigi la projekton %{name} estis kompletigita."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."

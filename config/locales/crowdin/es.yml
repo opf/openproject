@@ -229,6 +229,7 @@ es:
       failed_text: "La petición de borrado del proyecto %{name} ha fallado. El proyecto ha sido archivado."
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Abrir como diagrama de Gantt'
       open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."

@@ -232,6 +232,7 @@ sk:
       failed_text: "Požiadavka na odstránenie projektu %{name} zlyhala. Projekt zostal archivovaný."
       completed: "Odstránenie projektu %{name} dokončené"
       completed_text: "Požiadavka na odstránenie projektu '%{name}' bola ukončená."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
