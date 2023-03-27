@@ -420,7 +420,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token")
+      stub_request(:post, "#{url}/index.php/apps/integration_openproject/direct-upload-token")
         .with(body: { folder_id: query_payload.parent })
         .to_return(
           status: 200,
@@ -439,7 +439,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               query.call(query_payload).match(
                 on_success: ->(link) {
-                  expect(link.destination.path).to be_eql("/apps/integration_openproject/direct-upload/#{upload_token}")
+                  expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
                   expect(link.destination.host).to be_eql(URI(url).host)
                   expect(link.destination.scheme).to be_eql(URI(url).scheme)
                   expect(link.destination.user).to be_nil
@@ -481,7 +481,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     shared_examples_for 'outbound is failing' do |code, symbol|
       describe "with outbound request returning #{code}" do
         before do
-          stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token").to_return(status: code)
+          stub_request(:post, "#{url}/index.php/apps/integration_openproject/direct-upload-token").to_return(status: code)
         end
 
         it "must return :#{symbol} ServiceResult" do
