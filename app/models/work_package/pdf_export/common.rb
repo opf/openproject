@@ -143,6 +143,34 @@ module WorkPackage::PDFExport::Common
     "<link anchor=\"#{anchor}\">#{caption}</link>"
   end
 
+  def align_to_left_position(text, align, style)
+    text_width = pdf.width_of(text, style)
+    if align == :right
+      pdf.bounds.right - text_width
+    elsif align == :center
+      (pdf.bounds.width - text_width) / 2
+    else
+      pdf.bounds.left
+    end
+  end
+
+  def draw_repeating_text(text, align, top, style)
+    left = align_to_left_position(text, align, style)
+    opts = style.merge({ at: [left, top] })
+    pdf.repeat :all do
+      pdf.draw_text text, opts
+    end
+  end
+
+  def draw_repeating_dynamic_text(align, top, style)
+    pdf.repeat :all do
+      text = yield
+      left = align_to_left_position(text, align, style)
+      opts = style.merge({ at: [left, top] })
+      pdf.draw_text text, opts
+    end
+  end
+
   def pdf_table_auto_widths(data, column_widths, options, force_fixed_columns, &)
     return pdf.table(data, options.merge({ column_widths: }), &) if force_fixed_columns
 

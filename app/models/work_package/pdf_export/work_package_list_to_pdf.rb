@@ -140,7 +140,6 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_after_pages!
-    write_logo!
     write_headers!
     write_footers!
   end
@@ -197,41 +196,33 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_headers!
-    user = User.current
-    return if user.nil?
+    write_logo!
+    write_header_user!(User.current) unless User.current.nil?
+  end
 
-    user_string = "#{user.firstname} #{user.lastname}"
-    user_string_width = pdf.width_of(user_string, page_header_style)
-    pdf.repeat :all do
-      top = pdf.bounds.top + logo_height
-      left = pdf.bounds.right - user_string_width
-      opts = page_footer_style.merge({ at: [left, top] })
-      pdf.draw_text user_string, opts
-    end
+  def write_header_user!(user)
+    draw_repeating_text("#{user.firstname} #{user.lastname}",
+                        :right, pdf.bounds.top + logo_height, page_header_style)
   end
 
   def write_footers!
-    write_footer_fixed!
-    write_footer_dynamic!
+    write_footer_date!
+    write_footer_page_nr!
+    write_footer_title!
   end
 
-  def write_footer_dynamic!
-    pdf.repeat :all, dynamic: true do
-      page_string = (pdf.page_number + @page_count).to_s
-      page_string_width = pdf.width_of(page_string, page_footer_style)
-      style = page_footer_style.merge({ at: [(pdf.bounds.width - page_string_width) / 2, -page_footer_top] })
-      pdf.draw_text page_string, style
+  def write_footer_page_nr!
+    draw_repeating_dynamic_text(:center, -page_footer_top, page_footer_style) do
+      (pdf.page_number + @page_count).to_s
     end
   end
 
-  def write_footer_fixed!
-    date_string = format_date(Time.zone.today)
-    title_string = heading
-    title_string_width = pdf.width_of(title_string, page_footer_style)
-    pdf.repeat :all do
-      pdf.draw_text date_string, page_footer_style.merge({ at: [pdf.bounds.left, -page_footer_top] })
-      pdf.draw_text title_string, page_footer_style.merge({ at: [pdf.bounds.right - title_string_width, -page_footer_top] })
-    end
+  def write_footer_title!
+    draw_repeating_text(heading, :right, -page_footer_top, page_footer_style)
+  end
+
+  def write_footer_date!
+    draw_repeating_text(format_date(Time.zone.today), :left, -page_footer_top, page_footer_style)
   end
 
   def page_header_top
