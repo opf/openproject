@@ -57,7 +57,6 @@ module Activities
         else
           OpenProject::Activity.available_event_types.to_a
         end
-      .excluding('budgets')
     end
 
     # Returns an array of events for the given date range
