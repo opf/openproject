@@ -26,46 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WikiContent < ApplicationRecord
-  extend DeprecatedAlias
+class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::Diff
+  private
 
-  belongs_to :page, class_name: 'WikiPage'
-  has_one :project, through: :page
-  belongs_to :author, class_name: 'User'
+  def url_attr(_key, options)
+    journable = @journal.journable
+    version = @journal.version
 
-  acts_as_journalized
-
-  register_journal_formatted_fields(:wiki_diff, 'text')
-
-  acts_as_event type: 'wiki-page',
-                title: Proc.new { |o|
-                  "#{I18n.t(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"
-                },
-                url: Proc.new { |o|
-                  {
-                    controller: '/wiki',
-                    action: 'show',
-                    id: o.journal.journable.page,
-                    project_id: o.journal.journable.page.wiki.project,
-                    version: o.journal.journable.version
-                  }
-                }
-
-  def visible?(user = User.current)
-    page.visible?(user)
-  end
-
-  def attachments
-    page.nil? ? [] : page.attachments
-  end
-
-  def text=(value)
-    super value.presence || ''
-  end
-
-  deprecated_alias :versions, :journals
-
-  def version
-    last_journal.nil? ? 0 : last_journal.version
+    default_attributes(options)
+    .merge(controller: '/wiki',
+           action: 'diff',
+           project_id: journable.project.identifier,
+           id: journable.page.slug,
+           version: version - 1,
+           version_from: version)
+    .compact
   end
 end
