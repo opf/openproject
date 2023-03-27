@@ -114,11 +114,16 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_column_value_cell(work_package, column)
-    value = ERB::Util.html_escape(get_column_value(work_package, column))
+    value = escape_tags(get_column_value(work_package, column))
     return get_id_column_cell(work_package, value) if column == :id
     return get_subject_column_cell(work_package, value) if with_descriptions? && column == :subject
 
     value
+  end
+
+  def escape_tags(value)
+    # only disable html tags, but do not replace html entities
+    value.gsub('<', '&lt;').gsub('>', '&gt;')
   end
 
   def get_id_column_cell(work_package, value)

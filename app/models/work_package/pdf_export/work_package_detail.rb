@@ -60,14 +60,14 @@ module WorkPackage::PDFExport::WorkPackageDetail
     with_margin(attributes_table_margins_style) do
       pdf.table(
         rows, column_widths: attributes_table_column_widths,
-              cell_style: attributes_table_cell_style.merge({ inline_format: true })
+        cell_style: attributes_table_cell_style.merge({ inline_format: true })
       )
     end
   end
 
   def attributes_table_column_widths
     # calculate fixed work package attribute table columns width
-    widths = [1.0, 2.0, 1.0, 2.0] # label | value | label | value
+    widths = [1.5, 2.0, 1.5, 2.0] # label | value | label | value
     ratio = pdf.bounds.width / widths.sum
     widths.map { |w| w * ratio }
   end
@@ -78,7 +78,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
       id
       updated_at
       type
-      started_at
+      created_at
       status
       due_date
       version
@@ -98,9 +98,9 @@ module WorkPackage::PDFExport::WorkPackageDetail
     # get work package attribute table cell data: [label, value]
     return ['', ''] if attribute.nil?
 
-    label = WorkPackage.human_attribute_name(attribute) || ''
+    label = (WorkPackage.human_attribute_name(attribute) || '').upcase
     [
-      pdf.make_cell(label.upcase, attributes_table_label_font_style),
+      pdf.make_cell(label, attributes_table_label_font_style),
       get_column_value_cell(work_package, attribute.to_sym)
     ]
   end
