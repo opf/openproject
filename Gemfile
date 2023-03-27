@@ -151,6 +151,7 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
+gem "hexapdf", "~> 0.32.0"
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1

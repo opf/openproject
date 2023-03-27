@@ -27,9 +27,9 @@
 #++
 
 module WorkPackage::PDFExport::WorkPackageDetail
-  def write_work_packages_details!(work_packages)
-    work_packages.each_with_index do |work_package, index|
-      write_detail!(work_package, [index + 1])
+  def write_work_packages_details!(work_packages, id_wp_meta_map)
+    work_packages.each do |work_package|
+      write_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
     end
   end
 
@@ -60,7 +60,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
     with_margin(attributes_table_margins_style) do
       pdf.table(
         rows, column_widths: attributes_table_column_widths,
-        cell_style: attributes_table_cell_style.merge({ inline_format: true })
+              cell_style: attributes_table_cell_style.merge({ inline_format: true })
       )
     end
   end
@@ -108,6 +108,8 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def write_description!(work_package)
     return if work_package.description.blank?
 
+    # TODO: move page break threshold const to style settings and implement conditional break with height measuring
+    write_optional_page_break(100)
     write_description_label!
     write_description_content! work_package
   end

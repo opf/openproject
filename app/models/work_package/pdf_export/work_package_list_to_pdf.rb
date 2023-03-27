@@ -26,6 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Exporter for work package table.
+#
+# It can optionally export a work package details list with
+# - title
+# - attribute table
+# - description with optional embedded images
+#
+# When exporting with embedded images then the memory consumption can quickly
+# grow beyond limits. Therefore we create multiple smaller PDFs that we finally
+# merge do one file.
+
+require 'hexapdf'
+require 'open3'
+
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Attachments
@@ -42,8 +56,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def initialize(object, options = {})
     super
 
-    @cell_padding = options.delete(:cell_padding)
-    @start_page_count = 0
+    @page_count = 0
+    @work_packages_per_batch = 100
     setup_page!
   end
 
@@ -62,10 +76,10 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def setup_page!
     self.pdf = get_pdf(current_language)
 
-    configure_page_size
+    configure_page_size!
   end
 
-  def configure_page_size
+  def configure_page_size!
     pdf.options[:page_size] = 'EXECUTIVE' # TODO: 'A4'?
     pdf.options[:page_layout] = with_descriptions? ? :portrait : :landscape
     pdf.options[:top_margin] = page_top_margin
@@ -73,24 +87,75 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def render_work_packages(work_packages, filename: "pdf_export")
-    @resized_image_paths = []
-
+    @id_wp_meta_map = build_meta_infos_map(work_packages)
     write_title!
     write_work_packages_overview! work_packages
-    write_work_packages_details! work_packages if with_descriptions?
+    if should_be_batched?(work_packages)
+      render_batched(work_packages, filename)
+    else
+      render_pdf(work_packages, filename)
+    end
+  end
 
-    yield if block_given?
+  def render_batched(work_packages, filename)
+    @batches_count = work_packages.length.fdiv(@work_packages_per_batch).ceil
+    batch_files = []
+    (1..@batches_count).each do |batch_index|
+      batch_work_packages = work_packages.paginate(page: batch_index, per_page: @work_packages_per_batch)
+      batch_files.push render_pdf(batch_work_packages, "pdf_batch_#{batch_index}.pdf")
+      setup_page!
+    end
+    merge_batched_pdfs(batch_files, filename)
+  end
 
+  def merge_batched_pdfs(batch_files, filename)
+    return batch_files[0] if batch_files.length == 1
+
+    merged_pdf = Tempfile.new(filename)
+
+    # TODO: Also possible, use the hexapdf cli that comes with the gem
+    # Open3.capture2e("hexapdf", 'merge', '--force', *batch_files.map(&:path), merged_pdf.path)
+
+    # TODO: All internal link annotions are not copied over on merging, is there a way to preserve them?
+    target = HexaPDF::Document.new
+    batch_files.each do |batch_file|
+      pdf = HexaPDF::Document.open(batch_file.path)
+      pdf.pages.each { |page| target.pages << target.import(page) }
+    end
+    target.write(merged_pdf.path, optimize: true)
+
+    merged_pdf
+  end
+
+  def render_pdf(work_packages, filename)
+    @resized_image_paths = []
+    write_work_packages_details!(work_packages, @id_wp_meta_map) if with_descriptions?
+    write_after_pages!
+    file = Tempfile.new(filename)
+    pdf.render_file(file.path)
+    @page_count += pdf.page_count
+    delete_all_resized_images
+    file.close
+    file
+  end
+
+  def write_after_pages!
     write_logo!
     write_headers!
     write_footers!
+  end
 
-    file = Tempfile.new(filename)
-    pdf.render_file(file.path)
+  def build_meta_infos_map(work_packages)
+    result = {}
+    # TODO: Auto-numbering and hierarchy level informations
+    work_packages.each_with_index do |work_package, index|
+      result[work_package.id] = { level_path: [index + 1], level: 0 }
+    end
+    result
+  end
 
-    delete_all_resized_images
-
-    file
+  def should_be_batched?(work_packages)
+    with_descriptions? && with_attachments? && (work_packages.length > @work_packages_per_batch)
   end
 
   def project
@@ -146,7 +211,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     title_string_width = pdf.width_of(title_string, page_footer_style)
 
     pdf.repeat :all, dynamic: true do
-      page_string = pdf.page_number.to_s
+      page_string = (pdf.page_number + @page_count).to_s
       page_string_width = pdf.width_of(page_string, page_footer_style)
 
       pdf.draw_text date_string, page_footer_style.merge({ at: [pdf.bounds.left, -page_footer_top] })
@@ -186,5 +251,4 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def page_footer_style
     { size: 8, style: :normal }
   end
-
 end
