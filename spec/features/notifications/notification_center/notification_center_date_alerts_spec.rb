@@ -177,6 +177,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
                                    .new([timezone_time('1:00', time_zone)])
     travel_to(timezone_time('1:04', time_zone))
     create_date_alerts_service.call
+    travel_back
   end
 
   before do
