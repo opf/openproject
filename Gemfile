@@ -208,7 +208,7 @@ gem 'view_component'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 2.0.0'
+  gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
