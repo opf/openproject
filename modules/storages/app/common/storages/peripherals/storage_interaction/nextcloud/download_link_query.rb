@@ -52,7 +52,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def outbound_response(file_link)
       @retry_proc.call(@token) do |token|
         begin
-          response = ServiceResult.success(
+          service_result = ServiceResult.success(
             result: RestClient.post(
               @uri.to_s,
               { fileId: file_link.origin_id },
@@ -64,21 +64,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             )
           )
         rescue RestClient::Unauthorized => e
-          response = error(:not_authorized, 'Outbound request not authorized!', e.response)
+          service_result = error(:not_authorized, 'Outbound request not authorized!', e.response)
         rescue RestClient::NotFound => e
-          response = error(:not_found, 'Outbound request destination not found!', e.response)
+          service_result = error(:not_found, 'Outbound request destination not found!', e.response)
         rescue RestClient::ExceptionWithResponse => e
-          response = error(:error, 'Outbound request failed!', e.response)
+          service_result = error(:error, 'Outbound request failed!', e.response)
         rescue StandardError
-          response = error(:error, 'Outbound request failed!')
+          service_result = error(:error, 'Outbound request failed!')
         end
 
-        response.bind do |r|
+        service_result.bind do |response|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-          if r.body.blank?
+          if response.body.blank?
             error(:not_authorized, 'Outbound request not authorized!')
           else
-            ServiceResult.success(result: r)
+            ServiceResult.success(result: response)
           end
         end
       end
