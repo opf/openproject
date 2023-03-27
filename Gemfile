@@ -311,7 +311,7 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 1.1.1'
+gem 'rack-cors', '~> 2.0.0'
 
 # Gmail API
 gem 'google-apis-gmail_v1', require: false
