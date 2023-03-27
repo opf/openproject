@@ -22,4 +22,5 @@ export interface IFormattable {
   format:FormattableFormat;
   raw:string;
   html:string;
+  isPublic: boolean;
 }

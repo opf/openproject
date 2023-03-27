@@ -26,30 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Create journal for the given user and note.
-# Does not change the work package itself.
-
-class AddWorkPackageNoteService
-  include Contracted
-  attr_accessor :user, :work_package
-
-  def initialize(user:, work_package:)
-    self.user = user
-    self.work_package = work_package
-    self.contract_class = WorkPackages::CreateNoteContract
-  end
-
-  def call(notes, is_public: true, send_notifications: nil)
-    Journal::NotificationConfiguration.with send_notifications do
-      work_package.add_journal(user, notes, is_public)
-
-      success, errors = validate_and_yield(work_package, user) do
-        work_package.save_journals
-      end
-
-      journal = work_package.journals.last if success
-      ServiceResult.new(success:, result: journal, errors:)
-    end
+class AddColumnIsPublicJournal < ActiveRecord::Migration[7.0]
+  def change
+    add_column :journals, :is_public, :boolean, default: true, null: false
   end
 end

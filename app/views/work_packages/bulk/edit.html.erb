@@ -181,12 +181,22 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
       </div>
     </fieldset>
-    <fieldset class="form--fieldset">
-      <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
-      <%= label_tag 'work_package_journal_notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
-      <%= styled_text_area_tag 'work_package[journal_notes]', @notes, class: 'wiki-edit', with_text_formatting: true %>
-      <p><%= send_notification_option %></p>
-    </fieldset>
+    <% if User.current.allowed_to?(:add_private_comment, @project) || User.current.allowed_to?(:add_work_package_notes, @project) %>
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
+        <%= label_tag 'work_package_journal_notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+        <%= styled_text_area_tag 'work_package[journal_notes]', 
+            @notes, 
+            class: 'wiki-edit', 
+            with_text_formatting: true,
+            data: {
+              has_private_right: User.current.allowed_to?(:add_private_comment, @project),
+              has_public_right: User.current.allowed_to?(:add_work_package_notes, @project)
+            }
+          %>
+        <p><%= send_notification_option %></p>
+      </fieldset>
+    <% end %>
   </section>
   <p><%= styled_button_tag t(:button_submit), class: '-highlight -with-icon icon-checkmark' %></p>
 <% end %>

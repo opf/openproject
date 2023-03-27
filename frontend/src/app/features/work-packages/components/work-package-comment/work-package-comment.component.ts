@@ -102,7 +102,7 @@ export class WorkPackageCommentComponent extends WorkPackageCommentFieldHandler 
   public ngOnInit():void {
     super.ngOnInit();
 
-    this.canAddComment = !!this.workPackage.addComment;
+    this.canAddComment = !!this.workPackage.addComment || !!this.workPackage.privateComment;
     this.showAbove = this.configurationService.commentsSortedInDescendingOrder();
 
     this.commentService.draft$

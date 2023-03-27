@@ -58,6 +58,13 @@ module API
                getter: ->(*) { to_html },
                writable: false,
                render_nil: true
+      property :is_public,
+               exec_context: :decorator,
+               getter: ->(*) {
+                @object.respond_to?(:is_public) && @object.is_public
+               },
+               writable: false,
+               render_nil: true
 
       def to_html
         format_text(raw_text, format: @format, object: @object)

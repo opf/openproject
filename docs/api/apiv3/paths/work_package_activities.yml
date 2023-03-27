@@ -30,6 +30,7 @@ get:
                       format: markdown
                       html: "<p>Lorem ipsum dolor sit amet.</p>"
                       raw: Lorem ipsum dolor sit amet.
+                      isPublic: true
                     createdAt: '2014-05-21T08:51:20Z'
                     updatedAt: '2014-05-21T09:14:02Z'
                     details: []
@@ -103,6 +104,15 @@ post:
     schema:
       default: true
       type: boolean
+  - description: |-
+    Indicates if the activity is public or private, it is mainly used for the comment in the work package.
+  example: false
+  in: query
+  name: isPrivate
+  required: false
+  schema:
+    default: false
+    type: boolean
   responses:
     '201':
       description: Created
@@ -156,6 +166,7 @@ post:
           example:
             comment:
               raw: I think this is awesome!
+              isPrivate: true
           properties:
             comment:
               properties:

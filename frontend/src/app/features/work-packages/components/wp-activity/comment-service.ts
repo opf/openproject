@@ -50,25 +50,32 @@ export class CommentService {
   ) {
   }
 
-  public createComment(workPackage:WorkPackageResource, comment:{ raw:string }) {
-    return workPackage.addComment(
+  public createComment(workPackage:WorkPackageResource, comment:{ raw:string, isPrivate:boolean }) {
+    if (!!workPackage.addComment) {
+      return workPackage.addComment(
+        { comment },
+        { 'Content-Type': 'application/json; charset=UTF-8' },
+      ).catch((error:any) => this.errorAndReject(error, workPackage));
+    }
+
+    return workPackage.privateComment(
       { comment },
       { 'Content-Type': 'application/json; charset=UTF-8' },
     )
       .catch((error:any) => this.errorAndReject(error, workPackage));
   }
 
-  public updateComment(activity:HalResource, comment:string) {
+  public updateComment(activity:HalResource, comment:string, isPrivate: boolean) {
     const options = {
       ajax: {
         method: 'PATCH',
-        data: JSON.stringify({ comment }),
+        data: JSON.stringify({ comment, isPrivate  }),
         contentType: 'application/json; charset=utf-8',
       },
     };
 
     return activity.update(
-      { comment },
+      { comment, isPrivate },
       { 'Content-Type': 'application/json; charset=UTF-8' },
     ).then((activity:HalResource) => {
       this.toastService.addSuccess(

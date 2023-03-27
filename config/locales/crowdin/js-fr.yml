@@ -134,6 +134,7 @@ fr:
       source_code: 'Basculer en mode source Markdown'
       error_saving_failed: 'L''enregistrement du document a échoué en raison de l''erreur suivante: %{error}'
       ckeditor_error: 'Une erreur s''est produite dans CKEditor'
+      private_note: 'Note privée'
       mode:
         manual: 'Basculer en mode source Markdown'
         wysiwyg: 'Basculer vers l''éditeur WYSIWYG'

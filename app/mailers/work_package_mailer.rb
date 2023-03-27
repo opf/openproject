@@ -57,6 +57,7 @@ class WorkPackageMailer < ApplicationMailer
       @work_package = work_package
       @watcher_changer = watcher_changer
       @action = action
+      @user = user
 
       set_work_package_headers(work_package)
       message_id work_package, user

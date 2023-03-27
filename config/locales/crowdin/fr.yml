@@ -2250,6 +2250,7 @@ fr:
     welcome: "Bienvenue sur %{app_title}"
     select_language: "Veuillez sélectionner votre langue"
   permission_add_work_package_notes: "Ajouter des notes"
+  permission_add_private_comment: "Voir et ajouter des notes privées"
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"

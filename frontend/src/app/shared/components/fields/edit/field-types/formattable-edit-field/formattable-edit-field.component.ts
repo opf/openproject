@@ -105,6 +105,7 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     return this.editor
       .getTransformedContent()
       .then((val) => {
+        this.isPrivate = this.editor.isPrivate;
         this.rawValue = val;
       });
   }
@@ -115,6 +116,13 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
     if (this.rawValue !== value) {
       this.rawValue = value;
     }
+  }
+  
+  public get isPrivate():boolean {
+    if (this.value && Object.keys(this.value).includes("isPrivate")) {
+      return this.value.isPrivate;
+    }
+    return true;
   }
 
   public handleUserSubmit():boolean {
@@ -151,7 +159,11 @@ export class FormattableEditFieldComponent extends EditFieldComponent implements
   }
 
   public set rawValue(val:string) {
-    this.value = { raw: val };
+    this.value = { raw: val, isPrivate: this.isPrivate };
+  }
+
+  public set isPrivate(val:boolean) {
+    this.value['isPrivate'] = val;
   }
 
   public isEmpty():boolean {

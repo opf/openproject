@@ -48,9 +48,9 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '')
+    def call(notes: '', is_public: true)
       Journal.transaction do
-        journal = create_journal(notes)
+        journal = create_journal(notes, is_public)
 
         if journal
           reload_journals
@@ -75,12 +75,13 @@ module Journals
       end
     end
 
-    def create_journal(notes)
+    def create_journal(notes, is_public)
+      is_public = true if is_public.nil?
       predecessor = aggregatable_predecessor(notes)
 
       log_journal_creation(predecessor)
 
-      create_sql = create_journal_sql(predecessor, notes)
+      create_sql = create_journal_sql(predecessor, notes, is_public)
 
       # We need to ensure that the result is genuine. Otherwise,
       # calling the service repeatedly for the same journable
@@ -145,7 +146,7 @@ module Journals
     #
     # If a journal is created, all entries in the custom_values table associated to the journable are recreated as entries
     # in the customizable_journals table. Again, newlines are normalized.
-    def create_journal_sql(predecessor, notes)
+    def create_journal_sql(predecessor, notes, is_public)
       <<~SQL
         WITH cleanup_predecessor_data AS (
           #{cleanup_predecessor_data(predecessor)}
@@ -163,7 +164,7 @@ module Journals
         ), insert_data AS (
           #{insert_data_sql(notes, predecessor)}
         ), inserted_journal AS (
-          #{update_or_insert_journal_sql(predecessor, notes)}
+          #{update_or_insert_journal_sql(predecessor, notes, is_public)}
         ), insert_attachable AS (
           #{insert_attachable_sql}
         ), insert_customizable AS (
@@ -210,15 +211,15 @@ module Journals
                column => predecessor.send(referenced_id)
     end
 
-    def update_or_insert_journal_sql(predecessor, notes)
+    def update_or_insert_journal_sql(predecessor, notes, is_public)
       if predecessor
-        update_journal_sql(predecessor, notes)
+        update_journal_sql(predecessor, notes, is_public)
       else
-        insert_journal_sql(notes)
+        insert_journal_sql(notes, is_public)
       end
     end
 
-    def update_journal_sql(predecessor, notes)
+    def update_journal_sql(predecessor, notes, is_public)
       # If there is a predecessor, we don't want to create a new one, we simply rewrite it.
       # The original data of that predecessor (data e.g. work_package_journals, customizable_journals, attachable_journals)
       # has been deleted before but the notes need to taken over and the timestamps updated as if the
@@ -231,6 +232,7 @@ module Journals
           journals
         SET
           notes = :notes,
+          is_public = :is_public,
           updated_at = #{timestamp_sql},
           data_id = insert_data.id
         FROM insert_data
@@ -241,10 +243,11 @@ module Journals
 
       sanitize(journal_sql,
                notes: notes.presence || predecessor.notes,
+               is_public: is_public,
                predecessor_id: predecessor.id)
     end
 
-    def insert_journal_sql(notes)
+    def insert_journal_sql(notes, is_public)
       journal_sql = <<~SQL
         INSERT INTO
           journals (
@@ -256,7 +259,8 @@ module Journals
             created_at,
             updated_at,
             data_id,
-            data_type
+            data_type,
+            is_public
           )
         SELECT
           :journable_id,
@@ -267,7 +271,8 @@ module Journals
           #{journal_timestamp_sql(notes, ':created_at')},
           #{journal_timestamp_sql(notes, ':updated_at')},
           insert_data.id,
-          :data_type
+          :data_type,
+          :is_public
         FROM max_journals, insert_data
         RETURNING *
       SQL
@@ -279,7 +284,8 @@ module Journals
                user_id: user.id,
                created_at: journable_timestamp,
                updated_at: journable_timestamp,
-               data_type: journable.class.journal_class.name)
+               data_type: journable.class.journal_class.name,
+               is_public:)
     end
 
     def insert_data_sql(notes, predecessor)

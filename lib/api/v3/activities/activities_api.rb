@@ -53,7 +53,10 @@ module API
                                                                api_name: 'Activity',
                                                                instance_generator: ->(*) { @activity },
                                                                params_modifier: ->(*) {
-                                                                 { notes: declared_params[:comment] }
+                                                                { 
+                                                                  notes: declared_params[:comment], 
+                                                                  is_public: !params[:isPrivate] 
+                                                                 }
                                                                })
                                                           .mount
           end

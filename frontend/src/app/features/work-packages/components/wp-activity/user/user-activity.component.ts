@@ -39,6 +39,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageCommentFieldHandler } from 'core-app/features/work-packages/components/work-package-comment/work-package-comment-field-handler';
@@ -109,12 +110,19 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     readonly ConfigurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
+    readonly authorisation:AuthorisationService,
     readonly I18n:I18nService,
     readonly ngZone:NgZone,
     readonly deviceService:DeviceService,
     protected appRef:ApplicationRef) {
     super(elementRef, injector);
   }
+
+  public get canPrivateComment() {
+    return this.activity.comment.isPublic || this.authorisation.can('work_package', 'privateComment');
+  }
+
+  isPrivate:string;
 
   public ngOnInit() {
     super.ngOnInit();
@@ -124,10 +132,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.isComment = this.activity._type === 'Activity::Comment';
     this.isBcfComment = this.activity._type === 'Activity::BcfComment';
 
+    this.isPrivate = this.activity.comment.isPublic ? "" : "op-user-activity--private";
     this.$element = jQuery(this.elementRef.nativeElement);
     this.reset();
     this.userCanEdit = !!this.activity.update;
-    this.userCanQuote = !!this.workPackage.addComment;
+    this.userCanQuote = !!this.workPackage.addComment || !!this.workPackage.privateComment;
 
     this.$element.bind('focusin', this.focus.bind(this));
     this.$element.bind('focusout', this.blur.bind(this));
@@ -170,7 +179,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
   }
 
   public activate() {
-    super.activate(this.activity.comment.raw);
+    super.activate(this.activity.comment.raw, this.activity.comment.isPublic);
     this.cdRef.detectChanges();
   }
 
@@ -197,8 +206,11 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     this.inFlight = true;
 
     await this.onSubmit();
-    return this.commentService.updateComment(this.activity, this.rawComment || '')
-      .then((newActivity:HalResource) => {
+    return this.commentService.updateComment(
+      this.activity, 
+      this.rawComment || '', 
+      this.commentValue.isPrivate
+    ).then((newActivity:HalResource) => {
         this.activity = newActivity;
         this.updateCommentText();
         this.wpLinkedActivities.require(this.workPackage, true);

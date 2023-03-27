@@ -53,10 +53,23 @@ module API
               raise ::API::Errors::NotFound.new
             end
 
+            private_comment = params[:comment][:isPrivate]
+            can_add_private = current_user.allowed_to?(:add_private_comment, @work_package.project)
+            can_add_public = current_user.allowed_to?(:add_work_package_notes, @work_package.project)
+
+            if private_comment.present? && !can_add_private
+              private_comment = false
+            end
+
+            if can_add_private && !can_add_public
+              private_comment = true
+            end
+
             result = AddWorkPackageNoteService
                        .new(user: current_user,
                             work_package: @work_package)
                        .call(params[:comment][:raw],
+                             is_public: !private_comment,
                              send_notifications: !(params.has_key?(:notify) && params[:notify] == 'false'))
 
             if result.success?

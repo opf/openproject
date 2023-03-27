@@ -155,6 +155,7 @@ en:
       source_code: 'Toggle Markdown source mode'
       error_saving_failed: 'Saving the document failed with the following error: %{error}'
       ckeditor_error: 'An error occurred within CKEditor'
+      private_note: 'Private note'
       mode:
         manual: 'Switch to Markdown source'
         wysiwyg: 'Switch to WYSIWYG editor'
