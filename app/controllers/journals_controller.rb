@@ -104,8 +104,7 @@ class JournalsController < ApplicationController
 
   # Is this a valid field for diff'ing?
   def valid_field?
-    field_param == 'description' || field_param == 'text'
-  end
+    field_param == 'description'
 
   def journals_index_title
     subject = @project ? @project.name : Setting.app_title
