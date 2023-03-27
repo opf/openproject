@@ -182,13 +182,18 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_logo!
-    image_file = Rails.root.join("app/assets/images/logo_openproject.png")
-    image_obj, image_info = pdf.build_image_object(image_file)
-    scale = [logo_height / image_info.height.to_f, 1].min
+    image_obj, image_info, scale = logo_pdf_image
     pdf.repeat :all do
       top = pdf.bounds.top + page_header_top + (logo_height / 2)
       pdf.embed_image image_obj, image_info, { at: [0, top], scale: }
     end
+  end
+
+  def logo_pdf_image
+    image_file = Rails.root.join("app/assets/images/logo_openproject.png")
+    image_obj, image_info = pdf.build_image_object(image_file)
+    scale = [logo_height / image_info.height.to_f, 1].min
+    [image_obj, image_info, scale]
   end
 
   def write_headers!
@@ -206,16 +211,25 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def write_footers!
-    date_string = format_date(Time.zone.today)
-    title_string = heading
-    title_string_width = pdf.width_of(title_string, page_footer_style)
+    write_footer_fixed!
+    write_footer_dynamic!
+  end
 
+  def write_footer_dynamic!
     pdf.repeat :all, dynamic: true do
       page_string = (pdf.page_number + @page_count).to_s
       page_string_width = pdf.width_of(page_string, page_footer_style)
+      style = page_footer_style.merge({ at: [(pdf.bounds.width - page_string_width) / 2, -page_footer_top] })
+      pdf.draw_text page_string, style
+    end
+  end
 
+  def write_footer_fixed!
+    date_string = format_date(Time.zone.today)
+    title_string = heading
+    title_string_width = pdf.width_of(title_string, page_footer_style)
+    pdf.repeat :all do
       pdf.draw_text date_string, page_footer_style.merge({ at: [pdf.bounds.left, -page_footer_top] })
-      pdf.draw_text page_string, page_footer_style.merge({ at: [(pdf.bounds.width - page_string_width) / 2, -page_footer_top] })
       pdf.draw_text title_string, page_footer_style.merge({ at: [pdf.bounds.right - title_string_width, -page_footer_top] })
     end
   end
