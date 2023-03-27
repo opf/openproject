@@ -129,15 +129,16 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def configure_markup(work_package)
     # configure prawn markup gem in context of our work package
     images_enabled = options[:show_attachments] && work_package.attachments.exists?
-    pdf.markup_options = {
-      text: work_package_detail_font_style,
-      image: {
-        loader: ->(src) {
-          images_enabled ? attachment_image_filepath(work_package, src) : nil
-        },
-        placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
+    pdf.markup_options = work_package_detail_markup_options_style.merge(
+      {
+        image: {
+          loader: ->(src) {
+            images_enabled ? attachment_image_filepath(work_package, src) : nil
+          },
+          placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
+        }
       }
-    }
+    )
   end
 
   def attachment_image_filepath(work_package, src)
@@ -151,6 +152,40 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def attachment_by_api_content_src(work_package, src)
     # find attachment by api-path
     work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
+  end
+
+  def work_package_detail_markup_options_style
+    { text: work_package_detail_font_style,
+      heading1: work_package_detail_h1_style,
+      heading2: work_package_detail_h2_style,
+      heading3: work_package_detail_h3_style,
+      heading4: work_package_detail_h4_style,
+      heading5: work_package_detail_h5_style,
+      heading6: work_package_detail_h6_style }
+  end
+
+  def work_package_detail_h1_style
+    { size: 10, styles: [:bold] }
+  end
+
+  def work_package_detail_h2_style
+    { size: 10, styles: [:bold] }
+  end
+
+  def work_package_detail_h3_style
+    { size: 9, styles: [:bold] }
+  end
+
+  def work_package_detail_h4_style
+    { size: 8, styles: [:bold] }
+  end
+
+  def work_package_detail_h5_style
+    { size: 8, styles: [:bold] }
+  end
+
+  def work_package_detail_h6_style
+    { size: 10, styles: [:bold] }
   end
 
   def work_package_detail_margins_style
@@ -170,7 +205,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def attributes_table_margins_style
-    { margin_top: 4 }
+    { margin_top: 4, margin_bottom: 2 }
   end
 
   def attributes_table_label_font_style
