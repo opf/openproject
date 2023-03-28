@@ -30,8 +30,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
-    URI_TOKEN_REQUEST = 'apps/integration_openproject/direct-upload-token'.freeze
-    URI_UPLOAD_BASE_PATH = 'apps/integration_openproject/direct-upload'.freeze
+    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
+    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'.freeze
 
     def initialize(base_uri:, token:, retry_proc:)
       super()
