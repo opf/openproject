@@ -17,7 +17,7 @@
       <span class="form--field-instructions">
       <%= "#{t("storages.instructions.copy_from")}: " %>
         <%= link_to "#{t("storages.instructions.#{@storage.provider_type}.integration")}",
-                    URI::join(@storage.host, "settings/admin/openproject").to_s,
+                    File.join(@storage.host, "settings/admin/openproject").to_s,
                     target: "_blank" %>
     </span>
     </div>
@@ -30,7 +30,7 @@
       <span class="form--field-instructions">
       <%= "#{t("storages.instructions.copy_from")}: " %>
         <%= link_to "#{t("storages.instructions.#{@storage.provider_type}.integration")}",
-                    URI::join(@storage.host, "settings/admin/openproject").to_s,
+                    File.join(@storage.host, "settings/admin/openproject").to_s,
                     target: "blank" %>
     </span>
     </div>
