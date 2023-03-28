@@ -26,15 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, Component, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component, ViewEncapsulation,
+} from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import * as SwaggerUI from 'swagger-ui';
+// @ts-ignore
+import SwaggerUI from 'swagger-ui';
 
 @Component({
   selector: 'op-api-docs',
   styleUrls: ['./swagger-ui.component.sass'],
   templateUrl: './swagger-ui.component.html',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SwaggerUIComponent implements AfterViewInit {
   constructor(private pathHelperService:PathHelperService) {
@@ -45,6 +49,7 @@ export class SwaggerUIComponent implements AfterViewInit {
       dom_id: '#swagger',
       url: this.pathHelperService.api.v3.openApiSpecPath,
       filter: true,
+      // @ts-ignore
       requestInterceptor: (req) => {
         if (!req.loadSpec) {
           // required to make session-based authentication work for POST requests with APIv3
