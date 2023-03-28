@@ -28,61 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Abstract view component. Subclass this for a concrete table.
-class TableComponent < ViewComponent::Base
-  attr_reader :rows
+module CustomActions
+  class TableComponent < ::TableComponent
+    columns :name,
+            :description,
+            :sort
 
-  def initialize(rows:)
-    super()
-    @rows = rows
-  end
-
-  class << self
-    # Declares columns shown in the table.
-    #
-    # Use it in subclasses like so:
-    #
-    #     columns :name, :description, :sort
-    #
-    # When table is sortable, the column names are used by sort logic. It means
-    # these names will be used directly in the generated SQL queries.
-    def columns(*names)
-      return Array(@columns) if names.empty?
-
-      @columns = names.map(&:to_sym)
+    def headers
+      [
+        ['name', { caption: CustomAction.human_attribute_name(:name) }],
+        ['description', { caption: CustomAction.human_attribute_name(:description) }],
+        ['sort', { caption: I18n.t(:label_sort) }]
+      ]
     end
-  end
 
-  def row_class
-    mod = self.class.name.deconstantize.presence || "Table"
-
-    "#{mod}::RowComponent".constantize
-  rescue NameError
-    raise(
-      NameError,
-      "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
-      "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
-    )
-  end
-
-  def columns
-    self.class.columns
-  end
-
-  def render_row(row)
-    render(row_class.new(row:, table: self))
-  end
-
-  def inline_create_link
-    nil
-  end
-
-  def sortable?
-    false
-  end
-
-  def empty_row_message
-    I18n.t :no_results_title_text
+    def inline_create_link
+      link_to new_custom_action_path,
+              aria: { label: t('custom_actions.new') },
+              class: 'wp-inline-create--add-link',
+              title: t('custom_actions.new') do
+        helpers.op_icon('icon icon-add')
+      end
+    end
   end
 end
