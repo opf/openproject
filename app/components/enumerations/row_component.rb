@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module Enumerations
+  class RowComponent < ::RowComponent
+    def enumeration
+      row
+    end
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
-      end
+    def name
+      link_to enumeration.name, edit_enumeration_path(enumeration)
+    end
+
+    def is_default # rubocop:disable Naming/PredicateName
+      checkmark(enumeration.is_default?)
+    end
+
+    def color
+      helpers.icon_for_color enumeration.color
+    end
+
+    def active
+      checkmark(enumeration.active?)
+    end
+
+    def sort
+      helpers.reorder_links('enumeration', { action: 'update', id: enumeration }, method: :put)
+    end
+
+    def button_links
+      [
+        delete_link
+      ]
+    end
+
+    def delete_link
+      helpers.link_to(
+        helpers.op_icon('icon icon-delete'),
+        helpers.enumeration_path(enumeration),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module CustomActions
+  class RowComponent < ::RowComponent
+    def action
+      row
+    end
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
-      end
+    def name
+      link_to action.name, edit_custom_action_path(action)
+    end
+
+    delegate :description, to: :action
+
+    def sort
+      helpers.reorder_links('custom_action', { action: 'update', id: action }, method: :put)
+    end
+
+    def button_links
+      [
+        edit_link,
+        delete_link
+      ]
+    end
+
+    def edit_link
+      link_to(
+        helpers.op_icon('icon icon-edit'),
+        helpers.edit_custom_action_path(action),
+        title: t(:button_edit)
+      )
+    end
+
+    def delete_link
+      link_to(
+        helpers.op_icon('icon icon-delete'),
+        helpers.custom_action_path(action),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
     end
   end
 end

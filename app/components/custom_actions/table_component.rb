@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,18 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module CustomActions
+  class TableComponent < ::TableComponent
+    columns :name,
+            :description,
+            :sort
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
+    def headers
+      [
+        ['name', { caption: CustomAction.human_attribute_name(:name) }],
+        ['description', { caption: CustomAction.human_attribute_name(:description) }],
+        ['sort', { caption: I18n.t(:label_sort) }]
+      ]
+    end
+
+    def inline_create_link
+      link_to new_custom_action_path,
+              aria: { label: t('custom_actions.new') },
+              class: 'wp-inline-create--add-link',
+              title: t('custom_actions.new') do
+        helpers.op_icon('icon icon-add')
       end
     end
   end

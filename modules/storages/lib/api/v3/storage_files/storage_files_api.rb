@@ -37,12 +37,7 @@ module API::V3::StorageFiles
       get do
         (files_query(@storage, current_user) >> execute_files_query(params[:parent]))
           .match(
-            on_success: ->(files) do
-              API::V3::StorageFiles::StorageFilesRepresenter.new(
-                files,
-                current_user:
-              )
-            end,
+            on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, current_user:) },
             on_failure: ->(error) { raise_error(error) }
           )
       end

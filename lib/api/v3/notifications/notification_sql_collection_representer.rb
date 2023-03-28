@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,21 +24,12 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
-
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
-      end
+module API
+  module V3
+    module Notifications
+      class NotificationSqlCollectionRepresenter < API::Decorators::SqlCollectionRepresenter; end
     end
   end
 end

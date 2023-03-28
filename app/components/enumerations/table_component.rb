@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,18 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+module Enumerations
+  class TableComponent < ::TableComponent
+    def columns
+      %i[name is_default active sort].tap do |default|
+        if with_colors
+          default.insert 3, :color
+        end
+      end
+    end
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
+    def headers
+      [
+        ['name', { caption: Enumeration.human_attribute_name(:name) }],
+        ['is_default', { caption: Enumeration.human_attribute_name(:is_default) }],
+        ['active', { caption: Enumeration.human_attribute_name(:active) }],
+        ['sort', { caption: I18n.t(:label_sort) }]
+      ].tap do |default|
+        if with_colors
+          default.insert 3, ['color', { caption: Enumeration.human_attribute_name(:color) }]
+        end
+      end
+    end
+
+    def with_colors
+      rows.colored?
+    end
+
+    def inline_create_link
+      link_to new_enumeration_path(type: rows.name),
+              aria: { label: t(:label_enumeration_new) },
+              class: 'wp-inline-create--add-link',
+              data: { 'qa-selector': "create-enumeration-#{rows.name.underscore.dasherize}" },
+              title: t(:label_enumeration_new) do
+        helpers.op_icon('icon icon-add')
       end
     end
   end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,19 +28,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals
-  module StorageErrorHelper
-    def raise_error(error)
-      Rails.logger.error(error)
+##
+# Abstract view component. Subclass this for a concrete table row.
+class RowComponent < ViewComponent::Base
+  attr_reader :row, :table
 
-      case error.code
-      when :not_found
-        raise API::Errors::OutboundRequestNotFound.new
-      when :bad_request
-        raise API::Errors::BadRequest.new(error.log_message)
-      else
-        raise API::Errors::InternalError.new
-      end
+  def initialize(row:, table:)
+    super()
+    @row = row
+    @table = table
+  end
+
+  delegate :columns, to: :table
+
+  def column_value(column)
+    send(column)
+  end
+
+  def column_css_class(column)
+    column_css_classes[column]
+  end
+
+  def column_css_classes
+    @column_css_classes ||= columns.to_h { |name| [name, name] }
+  end
+
+  def button_links
+    []
+  end
+
+  def checkmark(condition)
+    if condition
+      helpers.op_icon 'icon icon-checkmark'
     end
   end
 end

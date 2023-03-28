@@ -74,7 +74,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
     let(:download_token) { "8dM3dC9iy1N74F5AJ0ClnjSF4dWTxfymVy1HTXBh8rbZVM81CpcBJaIYZvmR" }
     let(:uri) do
-      URI::join(url, "/index.php/apps/integration_openproject/direct/#{download_token}/#{CGI.escape(file_link.origin_name)}")
+      "#{url}/index.php/apps/integration_openproject/direct/#{download_token}/#{CGI.escape(file_link.origin_name)}"
     end
     let(:json) do
       {
@@ -111,6 +111,25 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               raise "Files query could not be created: #{error}"
             end
           )
+      end
+
+      context 'if Nextcloud is running on a sub path' do
+        let(:url) { 'https://example.com/html' }
+
+        it 'must return a download link URL' do
+          subject
+            .download_link_query(user:)
+            .match(
+              on_success: ->(query) do
+                result = query.call(file_link)
+                expect(result).to be_success
+                expect(result.result).to be_eql(uri)
+              end,
+              on_failure: ->(error) do
+                raise "Files query could not be created: #{error}"
+              end
+            )
+        end
       end
     end
 
@@ -420,7 +439,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
 
     before do
       allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-      stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token")
+      stub_request(:post, "#{url}/index.php/apps/integration_openproject/direct-upload-token")
         .with(body: { folder_id: query_payload.parent })
         .to_return(
           status: 200,
@@ -439,7 +458,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
             on_success: ->(query) do
               query.call(query_payload).match(
                 on_success: ->(link) {
-                  expect(link.destination.path).to be_eql("/apps/integration_openproject/direct-upload/#{upload_token}")
+                  expect(link.destination.path).to be_eql("/index.php/apps/integration_openproject/direct-upload/#{upload_token}")
                   expect(link.destination.host).to be_eql(URI(url).host)
                   expect(link.destination.scheme).to be_eql(URI(url).scheme)
                   expect(link.destination.user).to be_nil
@@ -481,7 +500,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     shared_examples_for 'outbound is failing' do |code, symbol|
       describe "with outbound request returning #{code}" do
         before do
-          stub_request(:post, "#{url}/apps/integration_openproject/direct-upload-token").to_return(status: code)
+          stub_request(:post, "#{url}/index.php/apps/integration_openproject/direct-upload-token").to_return(status: code)
         end
 
         it "must return :#{symbol} ServiceResult" do
@@ -513,7 +532,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     end
 
     let(:uri) do
-      URI::join(url, "/public.php/webdav/#{query_payload[:fileName]}")
+      "#{url}/public.php/webdav/#{query_payload[:fileName]}"
     end
 
     let(:share_id) { 37 }
