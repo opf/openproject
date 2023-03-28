@@ -24,18 +24,8 @@ properties:
   ancestors:
     type: array
     items:
-      type: object
-      description: List of ancestors of the parent directory. Can be empty, if parent directory was root directory.
-      required:
-        - name
-        - location
-      properties:
-        name:
-          type: string
-          description: The name of the ancestor file in storage
-        location:
-          type: string
-          description: Location identification for file in storage
+      $ref: './storage_file_model.yml'
+    description: List of ancestors of the parent directory. Can be empty, if parent directory was root directory.
   _links:
     type: object
     required:
@@ -90,6 +80,7 @@ example:
     _links:
       self:
         href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+  ancestors: []
   _links:
     self:
       href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
