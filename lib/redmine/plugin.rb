@@ -260,7 +260,7 @@ module Redmine # :nodoc:
     end
     alias :add_menu_item :menu
 
-    def dynamic_menu(menu_name, &)
+    def configure_menu(menu_name, &)
       Redmine::MenuManager.map(menu_name, &)
     end
 

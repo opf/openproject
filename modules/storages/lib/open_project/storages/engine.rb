@@ -86,16 +86,17 @@ module OpenProject::Storages
            caption: :project_module_storages,
            parent: :settings
 
-      dynamic_menu :project_menu do |menu, project|
-        if project.present? && project.enabled_module_names.include?('storages') &&
+      configure_menu :project_menu do |menu, project|
+        if project.present? &&
+           User.current.logged? &&
            User.current.allowed_to?(:view_file_links, project)
-          project.storages.each do |s|
+          project.storages.each do |storage|
             menu.push(
-              :"storage_#{s.id}",
-              s.host,
-              caption: s.name,
+              :"storage_#{storage.id}",
+              storage.host,
+              caption: storage.name,
               before: :members,
-              icon: "nextcloud-circle",
+              icon: "#{storage.provider_type}-circle",
               icon_after: "external-link",
               external_link: true
             )
