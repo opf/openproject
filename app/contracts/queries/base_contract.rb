@@ -47,6 +47,7 @@ module Queries
 
     attribute :column_names # => columns
     attribute :filters
+    attribute :timestamps
 
     attribute :sort_criteria # => sortBy
     attribute :group_by # => groupBy

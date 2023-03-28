@@ -32,6 +32,9 @@ module Query::Timestamps
   included do
     serialize :timestamps, Array
 
+    validates :timestamps, length: { maximum: 2 }
+    validate :timestamps_are_parsable
+
     # Returns the timestamps the query should be evaluated at.
     #
     # In the database, the timestamps are stored as ISO8601 strings.
@@ -56,6 +59,16 @@ module Query::Timestamps
     #
     def historic?
       timestamps != [Timestamp.now]
+    end
+
+    private
+
+    def timestamps_are_parsable
+      invalid_timestamps = timestamps.reject(&:valid?)
+
+      if invalid_timestamps.any?
+        errors.add :timestamps, :invalid, values: invalid_timestamps.join(", ")
+      end
     end
   end
 end

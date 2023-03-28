@@ -35,6 +35,7 @@ describe "POST /api/v3/queries/form" do
   let(:user) { create(:admin) }
   let(:role) { create(:existing_role, permissions:) }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
+  let(:timestamps) { [1.week.ago.iso8601, "P0D"] }
 
   let!(:project) { create(:project_with_types, members: { user => role }) }
 
@@ -315,6 +316,7 @@ describe "POST /api/v3/queries/form" do
         name: "Some Query",
         public: true,
         sums: true,
+        timestamps:,
         showHierarchies: false,
         filters: [
           {
@@ -432,6 +434,10 @@ describe "POST /api/v3/queries/form" do
       expect(form.dig("_embedded", "payload", "_links", "sortBy")).to eq sort_by
     end
 
+    it 'has the timestamps set' do
+      expect(form.dig("_embedded", "payload", "timestamps")).to eq timestamps
+    end
+
     context "with the project referred to by its identifier" do
       let(:override_params) do
         links = parameters[:_links]
@@ -513,6 +519,41 @@ describe "POST /api/v3/queries/form" do
       it "returns a validation error" do
         expect(form.dig("_embedded", "validationErrors", "sortBy", "message"))
           .to eq "Can't sort by column: spent_hours"
+      end
+    end
+
+    context 'with invalid timestamps' do
+      context 'when one timestamp cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid"
+        end
+      end
+
+      context 'when both timestamps cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'invalid2'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid, invalid2"
+        end
+      end
+
+      context 'when there are too many values' do
+        let(:override_params) do
+          { timestamps: [2.weeks.ago.iso8601, 1.week.ago.iso8601, "P0D"] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps are too long (maximum is 2 values)."
+        end
       end
     end
 

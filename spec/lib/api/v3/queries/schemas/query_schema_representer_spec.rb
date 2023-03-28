@@ -274,6 +274,18 @@ describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
         end
       end
 
+      describe 'timestamps' do
+        let(:path) { 'timestamps' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { '[]Timestamp' }
+          let(:name) { Query.human_attribute_name('timestamps') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+      end
+
       describe 'show hierarchies' do
         let(:path) { 'showHierarchies' }
 

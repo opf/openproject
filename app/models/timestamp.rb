@@ -140,6 +140,12 @@ class Timestamp
     self != Timestamp.now
   end
 
+  def valid?
+    self.class.parse(iso8601)
+  rescue StandardError
+    false
+  end
+
   delegate :hash, to: :iso8601
 
   class Exception < StandardError; end
