@@ -28,23 +28,16 @@
 
 module WorkPackage::PDFExport::Markdown
 
-  def write_markdown!(work_package, markdown, label)
-    return if markdown.blank?
-
-    # TODO: move page break threshold const to style settings and implement conditional break with height measuring
-    write_optional_page_break(100)
-    write_label! label
+  def write_markdown!(work_package, markdown)
     write_content! work_package, markdown
   end
 
-  def write_label!(label)
-    with_margin(label_margins_style) do
-      pdf.formatted_text([label_style.merge({ text: label })])
-    end
-  end
+  private
 
   def write_content!(work_package, markdown)
     configure_markup work_package
+    #CommonMarker.render_doc(content, CM_PARSE_OPTIONS, CM_EXTENSIONS)
+
     markup = format_text(markdown, object: work_package, format: :html)
                .gsub('class="op-uc-image"', 'style="width:100"') # TODO: this is a workaround image formatting
     pdf.markup markup
@@ -86,15 +79,6 @@ module WorkPackage::PDFExport::Markdown
       heading5: markup_h5_style,
       heading6: markup_h6_style }
   end
-
-  def label_margins_style
-    { margin_top: 8, margin_bottom: 4 }
-  end
-
-  def label_style
-    { size: 11, styles: [:bold] }
-  end
-
 
   def markup_h1_style
     { size: 10, styles: [:bold] }

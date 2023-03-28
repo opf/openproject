@@ -27,7 +27,7 @@
 #++
 
 module WorkPackage::PDFExport::WorkPackageDetail
-  include WorkPackage::PDFExport::Markdown
+  include WorkPackage::PDFExport::MarkdownField
 
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
@@ -110,14 +110,14 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_description!(work_package)
-    write_markdown!(work_package, work_package.description, WorkPackage.human_attribute_name(:description))
+    write_markdown_field!(work_package, work_package.description, WorkPackage.human_attribute_name(:description))
   end
 
   def write_custom_fields!(work_package)
     work_package.custom_field_values
                 .select { |cv| cv.custom_field.formattable? }
                 .each do |custom_value|
-      write_markdown!(work_package, custom_value.value, custom_value.custom_field.name)
+      write_markdown_field!(work_package, custom_value.value, custom_value.custom_field.name)
     end
   end
 
