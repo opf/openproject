@@ -545,7 +545,7 @@
                 ps = s.datapoints.pointsize;
                 points = s.datapoints.points;
 
-                insertSteps = s.lines.show && s.lines.steps;
+                let insertSteps = s.lines.show && s.lines.steps;
                 s.xaxis.used = s.yaxis.used = true;
                 
                 for (j = k = 0; j < data.length; ++j, k += ps) {
@@ -1004,7 +1004,7 @@
                 setRange(axis);
             });
 
-            allocatedAxes = $.grep(axes, function (axis) { return axis.reserveSpace; });
+            let allocatedAxes = $.grep(axes, function (axis) { return axis.reserveSpace; });
 
             plotOffset.left = plotOffset.right = plotOffset.top = plotOffset.bottom = 0;
             if (options.grid.show) {
