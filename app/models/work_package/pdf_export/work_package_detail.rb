@@ -27,6 +27,8 @@
 #++
 
 module WorkPackage::PDFExport::WorkPackageDetail
+  include WorkPackage::PDFExport::Markdown
+
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
       write_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
@@ -38,20 +40,21 @@ module WorkPackage::PDFExport::WorkPackageDetail
   def write_detail!(work_package, level_path)
     # TODO: move page break threshold const to style settings and implement conditional break with height measuring
     write_optional_page_break(200)
-    with_margin(work_package_detail_margins_style) do
+    with_margin(detail_margins_style) do
       write_work_package_subject! work_package, level_path
       write_attributes_table! work_package
       write_description! work_package
+      write_custom_fields! work_package
     end
   end
 
   def write_work_package_subject!(work_package, level_path)
-    with_margin(work_package_subject_margins_style) do
+    with_margin(subject_margins_style) do
       pdf_dest = pdf.dest_xyz(0, pdf.y)
       pdf.add_dest(work_package.id.to_s, pdf_dest)
       title = get_column_value work_package, :subject
       opts = { text: "#{level_path.join('.')}.  #{title}" }
-      pdf.formatted_text([work_package_subject_style.merge(opts)])
+      pdf.formatted_text([subject_font_style.merge(opts)])
     end
   end
 
@@ -59,8 +62,9 @@ module WorkPackage::PDFExport::WorkPackageDetail
     rows = build_attributes_table_rows work_package
     with_margin(attributes_table_margins_style) do
       pdf.table(
-        rows, column_widths: attributes_table_column_widths,
-              cell_style: attributes_table_cell_style.merge({ inline_format: true })
+        rows,
+        column_widths: attributes_table_column_widths,
+        cell_style: attributes_table_cell_style.merge({ inline_format: true })
       )
     end
   end
@@ -106,103 +110,26 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_description!(work_package)
-    return if work_package.description.blank?
-
-    # TODO: move page break threshold const to style settings and implement conditional break with height measuring
-    write_optional_page_break(100)
-    write_description_label!
-    write_description_content! work_package
+    write_markdown!(work_package, work_package.description, WorkPackage.human_attribute_name(:description))
   end
 
-  def write_description_label!
-    label = WorkPackage.human_attribute_name(:description)
-    with_margin(description_header_margins_style) do
-      pdf.formatted_text([description_header_style.merge({ text: label })])
+  def write_custom_fields!(work_package)
+    work_package.custom_field_values
+                .select { |cv| cv.custom_field.formattable? }
+                .each do |custom_value|
+      write_markdown!(work_package, custom_value.value, custom_value.custom_field.name)
     end
   end
 
-  def write_description_content!(work_package)
-    configure_markup work_package
-    markup = format_text(work_package.description, object: work_package, format: :html)
-               .gsub('class="op-uc-image"', 'style="width:100"') # TODO: this is a workaround image formatting
-    pdf.markup markup
-  end
-
-  def configure_markup(work_package)
-    # configure prawn markup gem in context of our work package
-    images_enabled = options[:show_attachments] && work_package.attachments.exists?
-    pdf.markup_options = work_package_detail_markup_options_style.merge(
-      {
-        image: {
-          loader: ->(src) {
-            images_enabled ? attachment_image_filepath(work_package, src) : nil
-          },
-          placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
-        }
-      }
-    )
-  end
-
-  def attachment_image_filepath(work_package, src)
-    # images are embedded into markup with the api-path as img.src
-    attachment = attachment_by_api_content_src(work_package, src)
-    return nil if attachment.nil? || attachment.file.local_file.nil? || !pdf_embeddable?(attachment)
-
-    resize_image(attachment.file.local_file.path)
-  end
-
-  def attachment_by_api_content_src(work_package, src)
-    # find attachment by api-path
-    work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
-  end
-
-  def work_package_detail_markup_options_style
-    { text: work_package_detail_font_style,
-      heading1: work_package_detail_h1_style,
-      heading2: work_package_detail_h2_style,
-      heading3: work_package_detail_h3_style,
-      heading4: work_package_detail_h4_style,
-      heading5: work_package_detail_h5_style,
-      heading6: work_package_detail_h6_style }
-  end
-
-  def work_package_detail_h1_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def work_package_detail_h2_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def work_package_detail_h3_style
-    { size: 9, styles: [:bold] }
-  end
-
-  def work_package_detail_h4_style
-    { size: 8, styles: [:bold] }
-  end
-
-  def work_package_detail_h5_style
-    { size: 8, styles: [:bold] }
-  end
-
-  def work_package_detail_h6_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def work_package_detail_margins_style
+  def detail_margins_style
     { margin_top: 20 }
   end
 
-  def work_package_detail_font_style
-    { style: :normal, size: 9 }
-  end
-
-  def work_package_subject_margins_style
+  def subject_margins_style
     {}
   end
 
-  def work_package_subject_style
+  def subject_font_style
     { size: 14, styles: [:bold] }
   end
 
@@ -224,11 +151,4 @@ module WorkPackage::PDFExport::WorkPackageDetail
       padding_bottom: 4 }
   end
 
-  def description_header_margins_style
-    { margin_top: 8, margin_bottom: 4 }
-  end
-
-  def description_header_style
-    { size: 11, styles: [:bold] }
-  end
 end
