@@ -103,6 +103,7 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenprojectModalModule } from './components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { OpShowChangesComponent } from './components/show-changes/show-changes.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -212,6 +213,8 @@ export function bootstrapModule(injector:Injector):void {
 
     ViewSelectComponent,
 
+    OpShowChangesComponent,
+
     // Date pickers
     OpWpSingleDateFormComponent,
     OpModalSingleDatePickerComponent,
@@ -282,6 +285,8 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     OpNonWorkingDaysListComponent,
+
+    OpShowChangesComponent,
 
     // Date pickers
     OpWpSingleDateFormComponent,
