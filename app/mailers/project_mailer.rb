@@ -27,13 +27,14 @@
 #++
 
 class ProjectMailer < ApplicationMailer
-  def delete_project_completed(project, user:)
+  def delete_project_completed(project, user:, dependent_projects: [])
     open_project_headers Project: project.identifier,
                          Author: user.login
 
     message_id project, user
     with_locale_for(user) do
       @project = project
+      @dependent_projects = dependent_projects
       mail to: user.mail, subject: I18n.t('projects.delete.completed', name: project.name)
     end
   end

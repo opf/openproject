@@ -28,12 +28,14 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+    include API::V3::Utilities::PathHelper
+
     def initialize(base_uri:, token:, retry_proc:)
       super()
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = File.join(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
+      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
     end
 
     def query(parent)

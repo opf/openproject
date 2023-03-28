@@ -232,6 +232,7 @@ bg:
       failed_text: "The request to delete project %{name} has failed. The project was left archived."
       completed: "Deletion of project %{name} completed"
       completed_text: "The request to delete project '%{name}' has been completed."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Отваря се като изглед на Гант'
       open_as_gantt_title: "Използвайте този бутон, за да генерирате изглед на Гант, който филтрира работни пакети за проектите, видими на тази страница."

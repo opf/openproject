@@ -71,8 +71,8 @@ sv:
       text_2fa_enabled: 'Vid varje inloggning, kommer användaren att uppmanas att ange en OTP-token från hans eller hennes 2FA standardenhet.'
       text_2fa_disabled: "Användaren ställde inte in en 2FA enhet genom sidan 'Mitt konto'"
     upsale:
-      title: 'Two-factor authentication'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      title: 'Tvåfaktorsautentisering'
+      description: 'Strenghten säkerheten för din OpenProject instans genom att erbjuda (eller genomdriva) tvåfaktorsautentisering till alla projektmedlemmar.'
     backup_codes:
       none_found: Inga reservkoder finns för detta konto.
       singular: Reservkod

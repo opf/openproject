@@ -232,6 +232,7 @@
       failed_text: "Forespørselen om å slette prosjektet %{name} mislyktes. Prosjektet ble satt som arkivert."
       completed: "Sletting av prosjektet %{name} er fullført"
       completed_text: "Forespørselen om å slette prosjektet '%{name}' er fullført."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."

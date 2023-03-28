@@ -1,5 +1,6 @@
 class FillProjectJournalsWithExistingData < ActiveRecord::Migration[7.0]
   def up
+    make_sure_journals_notes_is_nullable
     # On some user instances, invalid custom values were encountered. Those
     # custom_values belonged to projects which had been deleted in the meantime.
     delete_invalid_custom_values
@@ -11,6 +12,10 @@ class FillProjectJournalsWithExistingData < ActiveRecord::Migration[7.0]
   end
 
   private
+
+  def make_sure_journals_notes_is_nullable
+    change_column_null(:journals, :notes, true)
+  end
 
   def create_journal_entries_for_projects
     sql = <<~SQL.squish
