@@ -1,0 +1,20 @@
+@import '../../../spot/styles/sass/variables'
+
+.op-show-changes-modal
+
+  &--header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    margin: $spot-spacing-1 $spot-spacing-1 0 $spot-spacing-1
+    width: 265px
+    color: $spot-color-basic-gray-2
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      width: 300px
+      max-height: 70vh
