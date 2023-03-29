@@ -45,27 +45,6 @@ module DemoData
       Group.count.zero?
     end
 
-    def add_projects_to_groups
-      groups = demo_data_for('groups')
-      if groups.present?
-        groups.each do |group_attr|
-          if group_attr[:projects].present?
-            group = Group.find_by(lastname: group_attr[:name])
-            group_attr[:projects].each do |project_attr|
-              project = Project.find(project_attr[:name])
-              role = Role.find_by(name: project_attr[:role])
-
-              Member.create!(
-                project:,
-                principal: group,
-                roles: [role]
-              )
-            end
-          end
-        end
-      end
-    end
-
     private
 
     def seed_groups

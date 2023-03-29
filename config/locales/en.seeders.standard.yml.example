@@ -59,9 +59,6 @@ en:
                 query_name: My cool query
         groups:
           - name: 'Project Admins'
-            projects:
-              - name: 'demo-project'
-                role: 'Project admin'
         welcome:
           title: "Welcome to OpenProject!"
           text: |
