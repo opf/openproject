@@ -224,16 +224,16 @@ pl:
           status_label: "Stan:"
           status_confirmed: "potwierdzony"
           status_waiting: "wysłano wiadomość e-mail — oczekiwanie na potwierdzenie"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Testuj wersję Enterprise przez 14 dni za darmo"
+          quick_overview: "Zapoznaj się z krótkim omówieniem zarządzania projektami i pracy zespołowej w OpenProject w wersji Enterprise."
         upsale:
           become_hero: "Zostań bohaterem!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "Funkcja %{feature_title} to <span class='spot-icon spot-icon_enterprise-addons'></span> dodatek wersji Enterprise."
           upgrade_info: "Aby ją aktywować i zacząć korzystać z niej w zespole, przejdź na plan płatny."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Jakie są korzyści z rozwiązania lokalnego wersji Enterprise?"
             high_security: "Funkcje zabezpieczeń"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Pojedyncze logowanie (SAML, OpenID Connect, CAS), grupy LDAP."
             installation: "Pomoc w instalacji"
             installation_text: "Doświadczeni inżynierowie oprogramowania prowadzą Cię przez cały proces instalacji i konfiguracji w Twojej własnej infrastrukturze."
             premium_features: "Dodatki dla Enterprise"
@@ -255,17 +255,17 @@ pl:
       working_days:
         calendar:
           empty_state_header: "Dni nierobocze"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          empty_state_description: 'Dla tego roku nie zdefiniowano żadnych określonych dni nieroboczych. Kliknij poniższy przycisk „+ Dzień nieroboczy”, aby dodać datę.'
           new_date: '(nowe)'
         add_non_working_day: "Dzień nieroboczy"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        already_added_error: "Dzień nieroboczy dla tej daty już istnieje. Można utworzyć tylko jeden dzień nieroboczy dla każdej unikalnej daty."
         change_button: "Zapisz i zmień harmonogram"
         change_title: "Zmień dni robocze"
         removed_title: "Z listy dni nieroboczych usuniesz następujące dni:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        change_description: "Zmiana dni tygodnia, które są uważane za dni robocze lub nierobocze może wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
-          Are you sure you want to continue?
+          Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze zostaną zaktualizowane, otrzymasz powiadomienie.
+          Czy na pewno chcesz kontynuować?
     custom_actions:
       date:
         specific: 'wł'
@@ -316,7 +316,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Prześlij pliki z pakietów roboczych do magazynu plików Nextcloud i powiąż je.</li> <li>Monitoruj zmiany w projekcie poprzez śledzenie działań związanych z projektem.</li> <li>Dodaj popularne dni wolne od pracy (dni nierobocze).</li> <li>Archiwizuj projekty użytkowników innych niż administratorzy.</li> <li>Nowy domyślny filtr zaległych pakietów roboczych.</li> </ul>
     label_activate: "Aktywuj"
     label_assignee: 'Przypisana osoba'
     label_add_column_after: "Dodaj kolumnę po"
@@ -473,7 +473,7 @@ pl:
     label_watch_work_package: "Obserwuj zadanie"
     label_watcher_added_successfully: "Obserwator dodany pomyślnie!"
     label_watcher_deleted_successfully: "Obserwator usunięty pomyślnie!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Jesteś na karcie %{tab}, %{type} %{subject}."
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
@@ -589,9 +589,9 @@ pl:
         text_update_date: "%{date} dodał"
         total_count_warning: "Wyświetlono najnowsze powiadomienia: %{newest_count}. Nie wyświetlono %{more_count}."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Wygląda na to, że jesteś już na bieżąco."
+          no_notification_with_current_project_filter: "Wygląda na to, że wszystko jest na bieżąco w wybranym projekcie."
+          no_notification_with_current_filter: "Wygląda na to, że wszystko jest na bieżąco dla filtru: %{filter}."
           no_selection: "Kliknij powiadomienie, aby wyświetlić wszystkie szczegóły aktywności."
         new_notifications:
           message: 'Masz nowe powiadomienia.'
@@ -635,18 +635,18 @@ pl:
         global:
           immediately:
             title: 'Uczestnictwo'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Powiadomienia dotyczące wszystkich działań w pakietach roboczych, do których Cię zaangażowano (jako osobę przypisaną, odpowiedzialną lub obserwator)'
           delayed:
             title: 'Brak uczestnictwa'
-            description: 'Additional notifications for activities in all projects.'
+            description: 'Dodatkowe powiadomienia dotyczące działań we wszystkich projektach'
           date_alerts:
             title: 'Data ostrzeżeń'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Automatyczne powiadomienia, gdy zbliżają się ważne daty otwartych pakietów roboczych, do których Cię zaangażowano (jako osobę: przypisaną, odpowiedzialną lub obserwatora)'
             teaser_text: 'Dzięki alertom dotyczącym dat będziesz otrzymywać powiadomienia o zbliżających się terminach rozpoczęcia lub zakończenia pracy, dzięki czemu nigdy nie przegapisz ani nie zapomnisz ważnego terminu.'
           overdue: Po upływie terminu
         project_specific:
           title: 'Ustawienia powiadomień dla danego projektu'
-          description: 'These project-specific settings override default settings above.'
+          description: 'Te ustawienia dla danego projektu zastępują powyższe ustawienia domyślne.'
           add: 'Dodaj ustawienie dla projektu'
           already_selected: 'Ten projekt jest już wybrany'
           remove: 'Usuń ustawienia projektu'
@@ -718,8 +718,8 @@ pl:
         reset_title: "Zresetuj konfigurację formularza"
         confirm_reset: >
           Ostrzeżenie: czy na pewno chcesz zresetować konfigurację formularza? Przywróci to atrybuty do ich grupy domyślnej i wyłączy WSZYSTKIE pola niestandardowe.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Zaktualizuj do wersji Enterprise On-Premises"
+        upgrade_to_ee_text: "Znakomicie! Jeśli potrzebujesz tego dodatku, jesteś superprofesjonalistą! Może wesprzesz nas jako deweloperów OpenSource, zostając nabywcą wersji Enterprise?"
         more_information: "Więcej informacji"
         nevermind: "Nieważne"
       edit:
@@ -1003,7 +1003,7 @@ pl:
         move_column_left: "Przenieść kolumnę w lewo"
         move_column_right: "Przenieść kolumnę w prawo"
         hide_column: "Ukryj kolumnę"
-        insert_columns: "Insert columns"
+        insert_columns: "Wstaw kolumny"
         filters: "Filtry"
         display_sums: "Wyświetl sumy"
         confirm_edit_cancel: "Czy na pewno chcesz anulować edycję nazwy tego widoku? Przywrócona zostanie poprzednia wartość tytułu."
@@ -1030,7 +1030,7 @@ pl:
         button: 'Konfiguruj tę tabelę pakietów roboczych'
         choose_display_mode: 'Wyświetlaj pakiety robocze jako'
         modal_title: 'Konfiguracja tabeli pakietów roboczych'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        embedded_tab_disabled: "Ta karta konfiguracji nie jest dostępna dla widoku osadzonego, który edytujesz."
         default: "Domyślnie"
         display_settings: 'Ustawienia wyświetlania'
         default_mode: "Płaska lista"
@@ -1072,19 +1072,19 @@ pl:
         months: "miesiące"
     toolbar:
       settings:
-        configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        configure_view: "Konfiguruj widok"
+        columns: "Kolumny"
+        sort_by: "Sortuj według"
+        group_by: "Grupuj według"
         display_sums: "Wyświetl sumy"
         display_hierarchy: "Wyświetl hierarchię"
         hide_hierarchy: "Ukryj hierarchię"
         hide_sums: "Ukryj sumy"
         save: "Zapisz"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Zapisz jako"
+        export: "Eksportuj"
+        visibility_settings: "Ustawienia widoczności"
+        page_settings: "Zmień nazwę widoku"
         delete: "Usuń"
       filter: "Filtr"
       unselected_title: "Zadanie"
@@ -1204,7 +1204,7 @@ pl:
           description: 'Uprawnienia na podstawie przypisanej roli w wybranym projekcie'
         placeholder:
           title: 'Użytkownik zastępczy'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Użytkownik zastępczy (dodatek dostępny tylko w wersji Enterprise)'
           description: 'Nie ma dostępu do projektu i nie są wysyłane żadne wiadomości e-mail.'
           description_no_ee: 'Nie ma dostępu do projektu i żadne wiadomości e-mail nie są wysyłane. <br>Sprawdź <a href="%{eeHref}" target="_blank">wersję Enterprise</a>'
       principal:
@@ -1265,5 +1265,5 @@ pl:
       filter_chip:
         remove: 'Usuń'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'To jest kotwica fokusu okien modalnych. Naciśnij klawisze Shift+Tab, aby wrócić do elementu wyzwalającego okna modalne.'
         Close: 'Zamknij'

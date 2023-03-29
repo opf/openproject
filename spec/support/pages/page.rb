@@ -114,9 +114,9 @@ module Pages
 
     def expect_no_toaster(type: :success, message: nil)
       if type.nil?
-        expect(page).to have_no_selector(".op-toast")
+        expect(page).not_to have_selector(".op-toast")
       else
-        expect(page).to have_no_selector(".op-toast.-#{type}", text: message)
+        expect(page).not_to have_selector(".op-toast.-#{type}", text: message)
       end
     end
 

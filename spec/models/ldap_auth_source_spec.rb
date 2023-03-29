@@ -31,14 +31,14 @@ require 'spec_helper'
 describe LdapAuthSource do
   it 'creates' do
     a = described_class.new(name: 'My LDAP', host: 'ldap.example.net', port: 389, base_dn: 'dc=example,dc=net',
-                           attr_login: 'sAMAccountName')
+                            attr_login: 'sAMAccountName')
     expect(a.save).to be true
   end
 
   it 'strips ldap attributes' do
     a = described_class.new(name: 'My LDAP', host: 'ldap.example.net', port: 389,
                             base_dn: 'dc=example,dc=net', attr_login: 'sAMAccountName',
-                           attr_firstname: 'givenName ')
+                            attr_firstname: 'givenName ')
     expect(a.save).to be true
     expect(a.reload.attr_firstname).to eq 'givenName'
   end
@@ -253,13 +253,13 @@ describe LdapAuthSource do
 
         it 'maps for the admin user in ldap', :aggregate_failures do
           admin_attributes = ldap.find_user('ldap_admin')
-          expect(admin_attributes).to be_kind_of Hash
+          expect(admin_attributes).to be_a Hash
           expect(admin_attributes[:firstname]).to eq 'LDAP'
           expect(admin_attributes[:lastname]).to eq 'Adminuser'
           expect(admin_attributes[:admin]).to eq true
 
           admin_attributes = ldap.find_user('bb459')
-          expect(admin_attributes).to be_kind_of Hash
+          expect(admin_attributes).to be_a Hash
           expect(admin_attributes[:firstname]).to eq 'Belle'
           expect(admin_attributes[:lastname]).to eq 'Baldwin'
           expect(admin_attributes[:admin]).to eq false
@@ -271,7 +271,7 @@ describe LdapAuthSource do
       context 'with a valid LDAP user' do
         it 'returns the user attributes' do
           attributes = ldap.authenticate('bb459', 'niwdlab')
-          expect(attributes).to be_kind_of Hash
+          expect(attributes).to be_a Hash
           expect(attributes[:firstname]).to eq 'Belle'
           expect(attributes[:lastname]).to eq 'Baldwin'
           expect(attributes[:mail]).to eq 'belle@example.org'

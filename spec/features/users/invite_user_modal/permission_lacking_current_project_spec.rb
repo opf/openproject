@@ -31,8 +31,8 @@ require 'spec_helper'
 describe 'Inviting user in project the current user is lacking permission in', js: true do
   let(:modal) do
     Components::Users::InviteUserModal.new project: invite_project,
-                                             principal: other_user,
-                                             role: view_role
+                                           principal: other_user,
+                                           role: view_role
   end
   let(:quick_add) { Components::QuickAddMenu.new }
 

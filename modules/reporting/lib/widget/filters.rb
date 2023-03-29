@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters < ::Widget::Base
+class Widget::Filters < Widget::Base
   def render
     spacer = content_tag :li, '', class: 'advanced-filters--spacer hide-when-print'
 

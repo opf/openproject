@@ -123,7 +123,7 @@ module Components
 
         set_operator(name, operator, selector)
 
-        set_value(id, value) unless value.nil?
+        set_value(id, value, operator) unless value.nil?
 
         close_autocompleter(id)
       end
@@ -167,27 +167,11 @@ module Components
       end
 
       def expect_autocomplete_value(id, value)
-        # wait for filter to be present
-        filter_element = page.find("#filter_#{id}")
-        if page.has_selector?("#filter_#{id} .ng-select-container")
-          Array(value).each do |val|
-            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
-                                           query: val,
-                                           results_selector: '.ng-dropdown-panel-items'
-            expect(dropdown).to have_selector('.ng-option', text: val)
-          end
-        end
+        autocomplete_dropdown_value(id:, value:)
       end
 
       def expect_missing_autocomplete_value(id, value)
-        if page.has_selector?("#filter_#{id} .ng-select-container")
-          Array(value).each do |val|
-            dropdown = search_autocomplete page.find("#filter_#{id} op-autocompleter"),
-                                           query: val,
-                                           results_selector: '.ng-dropdown-panel-items'
-            expect(dropdown).not_to have_selector('.ng-option', text: val)
-          end
-        end
+        autocomplete_dropdown_value(id:, value:, present: false)
       end
 
       def expect_no_filter_by(name, selector = nil)
@@ -238,26 +222,62 @@ module Components
         '.work-packages--filters-optional-container'
       end
 
-      def set_value(id, value)
+      def set_value(id, value, operator)
         retry_block do
           # wait for filter to be present
           filter_element = page.find("#filter_#{id}")
           if filter_element.has_selector?("[data-qa-selector='op-basic-range-date-picker']", wait: false)
-            input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
-            ensure_value_is_input_correctly input, value: Array(value).join(' - ')
+            insert_date_range(filter_element, value)
+          elsif operator == 'between'
+            insert_two_single_dates(id, value)
           elsif filter_element.has_selector?(".ng-select-container", wait: false)
-            Array(value).each do |val|
-              select_autocomplete filter_element.find("op-autocompleter"),
-                                  query: val,
-                                  results_selector: '.ng-dropdown-panel-items'
-            end
+            insert_autocomplete_item(filter_element, value)
           else
-            within_values(id) do
-              page.all('input').each_with_index do |input, index|
-                # Wait a bit to insert the values
-                ensure_value_is_input_correctly input, value: value[index]
-              end
-            end
+            insert_plain_value(id, value)
+          end
+        end
+      end
+
+      def insert_autocomplete_item(filter_element, value)
+        Array(value).each do |val|
+          select_autocomplete filter_element.find("op-autocompleter"),
+                              query: val,
+                              results_selector: '.ng-dropdown-panel-items'
+        end
+      end
+
+      def insert_plain_value(id, value)
+        within_values(id) do
+          page.all('input').each_with_index do |input, index|
+            # Wait a bit to insert the values
+            ensure_value_is_input_correctly input, value: value[index]
+          end
+        end
+      end
+
+      def insert_two_single_dates(id, value)
+        fill_in("values-#{id}-begin", with: value[0]) if value[0]
+        sleep 1
+        loading_indicator_saveguard
+        fill_in("values-#{id}-end", with: value[1]) if value[1]
+        sleep 1
+        loading_indicator_saveguard
+      end
+
+      def insert_date_range(filter_element, value)
+        date_input = filter_element.find("[data-qa-selector='op-basic-range-date-picker']")
+        ensure_value_is_input_correctly date_input, value: Array(value).join(' - ')
+      end
+
+      def autocomplete_dropdown_value(id:, value:, present: true)
+        filter_element = page.find("#filter_#{id}")
+
+        if filter_element.has_selector?(".ng-select-container", wait: false)
+          Array(value).each do |val|
+            dropdown = search_autocomplete filter_element.find("op-autocompleter"),
+                                           query: val,
+                                           results_selector: '.ng-dropdown-panel-items'
+            expect(dropdown).to have_conditional_selector(present, '.ng-option', text: val)
           end
         end
       end

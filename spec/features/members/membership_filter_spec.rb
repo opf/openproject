@@ -65,19 +65,19 @@ describe 'group memberships through groups page', js: true do
 
     members_page.search_for_name 'pan'
     members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
 
     members_page.search_for_name '@example'
     members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
 
     members_page.search_for_name '@example.org'
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
   end
 end

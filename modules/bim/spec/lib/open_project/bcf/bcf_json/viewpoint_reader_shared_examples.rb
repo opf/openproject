@@ -50,15 +50,15 @@ end
 shared_examples 'has camera' do |camera_type|
   it 'has a camera object' do
     # camera xyz floats
-    expect(subject.dig(camera_type)).to be_kind_of(Hash)
-    expect(subject.dig(camera_type, 'field_of_view')).to be_kind_of(Numeric) if camera_type == 'perspective_camera'
-    expect(subject.dig(camera_type, 'view_to_world_scale')).to be_kind_of(Numeric) if camera_type == 'orthogonal_camera'
+    expect(subject.dig(camera_type)).to be_a(Hash)
+    expect(subject.dig(camera_type, 'field_of_view')).to be_a(Numeric) if camera_type == 'perspective_camera'
+    expect(subject.dig(camera_type, 'view_to_world_scale')).to be_a(Numeric) if camera_type == 'orthogonal_camera'
 
     %w[camera_view_point camera_direction camera_up_vector].each do |key|
       camera_vp = subject.dig(camera_type, key)
-      expect(camera_vp).to be_kind_of(Hash)
+      expect(camera_vp).to be_a(Hash)
       expect(camera_vp.keys).to contain_exactly 'x', 'y', 'z'
-      expect(camera_vp.values).to all(be_kind_of(Numeric))
+      expect(camera_vp.values).to all(be_a(Numeric))
     end
   end
 end
@@ -66,15 +66,15 @@ end
 shared_examples 'has lines' do
   it 'has a lines entry' do
     lines = subject['lines']
-    expect(lines).to be_kind_of(Array)
+    expect(lines).to be_a(Array)
 
     lines.each do |line|
-      expect(line).to be_kind_of(Hash)
+      expect(line).to be_a(Hash)
       expect(line.keys).to contain_exactly 'start_point', 'end_point'
       expect(line['start_point'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(line['start_point'].values).to all(be_kind_of(Numeric))
+      expect(line['start_point'].values).to all(be_a(Numeric))
       expect(line['end_point'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(line['end_point'].values).to all(be_kind_of(Numeric))
+      expect(line['end_point'].values).to all(be_a(Numeric))
     end
   end
 end
@@ -82,15 +82,15 @@ end
 shared_examples 'has clipping planes' do
   it 'has a lines entry' do
     clipping_planes = subject['clipping_planes']
-    expect(clipping_planes).to be_kind_of(Array)
+    expect(clipping_planes).to be_a(Array)
 
     clipping_planes.each do |plane|
-      expect(plane).to be_kind_of(Hash)
+      expect(plane).to be_a(Hash)
       expect(plane.keys).to contain_exactly 'location', 'direction'
       expect(plane['location'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(plane['location'].values).to all(be_kind_of(Numeric))
+      expect(plane['location'].values).to all(be_a(Numeric))
       expect(plane['direction'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(plane['direction'].values).to all(be_kind_of(Numeric))
+      expect(plane['direction'].values).to all(be_a(Numeric))
     end
   end
 end
@@ -98,18 +98,18 @@ end
 shared_examples 'has bitmaps' do
   it 'has a bitmaps entry' do
     bitmaps = subject['bitmaps']
-    expect(bitmaps).to be_kind_of(Array)
+    expect(bitmaps).to be_a(Array)
 
     bitmaps.each do |bitmap|
-      expect(bitmap).to be_kind_of(Hash)
+      expect(bitmap).to be_a(Hash)
       expect(bitmap.keys).to contain_exactly 'bitmap_type', 'bitmap_data', 'location', 'normal', 'up', 'height'
       expect(bitmap['location'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['location'].values).to all(be_kind_of(Numeric))
+      expect(bitmap['location'].values).to all(be_a(Numeric))
       expect(bitmap['normal'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['normal'].values).to all(be_kind_of(Numeric))
+      expect(bitmap['normal'].values).to all(be_a(Numeric))
       expect(bitmap['up'].keys).to contain_exactly 'x', 'y', 'z'
-      expect(bitmap['up'].values).to all(be_kind_of(Numeric))
-      expect(bitmap['height']).to be_kind_of(Numeric)
+      expect(bitmap['up'].values).to all(be_a(Numeric))
+      expect(bitmap['height']).to be_a(Numeric)
     end
   end
 end
@@ -117,10 +117,10 @@ end
 shared_examples 'has components selection' do
   it 'has components selections' do
     selection = subject.dig('components', 'selection')
-    expect(selection).to be_kind_of(Array)
+    expect(selection).to be_a(Array)
 
     selection.each do |item|
-      expect(item).to be_kind_of(Hash)
+      expect(item).to be_a(Hash)
       expect(item.keys).to include 'ifc_guid'
 
       # Has only allowed keys
@@ -132,16 +132,16 @@ end
 shared_examples 'has components coloring' do
   it 'has components coloring' do
     coloring = subject.dig('components', 'coloring')
-    expect(coloring).to be_kind_of(Array)
+    expect(coloring).to be_a(Array)
 
     coloring.each do |item|
-      expect(item).to be_kind_of(Hash)
+      expect(item).to be_a(Hash)
       expect(item.keys).to include 'color', 'components'
       expect(item['color']).to match /\A#[a-f0-9]{6}\Z/i
-      expect(item['components']).to be_kind_of(Array)
+      expect(item['components']).to be_a(Array)
 
       item['components'].each do |component|
-        expect(component).to be_kind_of(Hash)
+        expect(component).to be_a(Hash)
         expect(component.keys).to include 'ifc_guid'
       end
     end
@@ -151,17 +151,17 @@ end
 shared_examples 'has components visibility' do
   it 'has components visibility' do
     visibility = subject.dig('components', 'visibility')
-    expect(visibility).to be_kind_of(Hash)
+    expect(visibility).to be_a(Hash)
     expect(visibility.keys - %w[default_visibility exceptions view_setup_hints]).to be_empty
 
     expect(visibility['default_visibility']).to be_boolean
     Array(visibility['exceptions']).each do |item|
-      expect(item).to be_kind_of(Hash)
+      expect(item).to be_a(Hash)
       expect(item.keys).to include 'ifc_guid'
     end
 
     hints = visibility['view_setup_hints']
-    expect(hints).to be_kind_of(Hash)
+    expect(hints).to be_a(Hash)
     expect(hints.keys).to contain_exactly 'spaces_visible', 'space_boundaries_visible', 'openings_visible'
     expect(hints.values).to all(be_boolean)
   end

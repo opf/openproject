@@ -55,16 +55,16 @@ describe BaseServices::BaseCallable, type: :model do
     let(:result_state) { subject.state }
 
     it 'is returned from the call', :aggregate_failures do
-      expect(result_state).to be_kind_of(Shared::ServiceState)
+      expect(result_state).to be_a(Shared::ServiceState)
       expect(result_state.test).to eq 'foo'
-      expect(subject).to be_kind_of ServiceResult
+      expect(subject).to be_a ServiceResult
     end
 
     describe 'with state already passed into the service' do
       let(:instance) { test_service.new.with_state(bar: 'some value') }
 
       it 'keeps that value', :aggregate_failures do
-        expect(result_state).to be_kind_of(Shared::ServiceState)
+        expect(result_state).to be_a(Shared::ServiceState)
         expect(result_state.test).to eq 'foo'
         expect(result_state.bar).to eq 'some value'
       end

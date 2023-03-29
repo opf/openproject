@@ -92,7 +92,7 @@ describe 'Meetings close' do
       visit meetings_path(project)
 
       expect(page)
-        .to have_no_link 'Close'
+        .not_to have_link 'Close'
     end
   end
 end

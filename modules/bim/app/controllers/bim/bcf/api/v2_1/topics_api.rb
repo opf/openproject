@@ -81,7 +81,7 @@ module Bim::Bcf::API::V2_1
                   })
              .mount
 
-      route_param :topic_uuid, regexp: /\A[a-f0-9\-]+\z/ do
+      route_param :topic_uuid, regexp: /\A[a-f0-9-]+\z/ do
         after_validation do
           @issue = topics.find_by!(uuid: params[:topic_uuid])
         end

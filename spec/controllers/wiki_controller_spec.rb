@@ -84,7 +84,7 @@ describe WikiController do
         get_page
 
         expect(assigns[:page]).to be_new_record
-        expect(assigns[:page]).to be_kind_of WikiPage
+        expect(assigns[:page]).to be_a WikiPage
         expect(assigns[:page].wiki).to eq(project.wiki)
       end
 
@@ -92,7 +92,7 @@ describe WikiController do
         get_page
 
         expect(assigns[:content]).to be_new_record
-        expect(assigns[:content]).to be_kind_of WikiContent
+        expect(assigns[:content]).to be_a WikiContent
         expect(assigns[:content].page).to eq(assigns[:page])
       end
 

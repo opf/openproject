@@ -36,6 +36,6 @@ namespace 'openproject:cron' do
   # making sure cron jobs are scheduled. See lib/tasks/delayed_job.rake.
   desc 'Ensure the cron-like background jobs are actively scheduled'
   task schedule: [:environment] do
-    ::Cron::CronJob.schedule_registered_jobs!
+    Cron::CronJob.schedule_registered_jobs!
   end
 end

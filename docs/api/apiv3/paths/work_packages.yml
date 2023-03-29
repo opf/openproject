@@ -125,7 +125,7 @@ get:
       schema:
         type: string
     - description: |-
-        In order to perform a [baseline comparison](/docs/api/baseline_comparisons), you may provide one or several timestamps
+        In order to perform a [baseline comparison](/docs/api/baseline-comparisons), you may provide one or several timestamps
         in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative. Usually, the first timestamp
         is the baseline date, the last timestamp is the current date.
       example: '2022-01-01T00:00:00Z,PT0S'

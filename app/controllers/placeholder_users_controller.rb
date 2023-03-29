@@ -68,6 +68,11 @@ class PlaceholderUsersController < ApplicationController
       .result
   end
 
+  def edit
+    @membership ||= Member.new
+    @individual_principal = @placeholder_user
+  end
+
   def create
     service = PlaceholderUsers::CreateService.new(user: User.current)
     service_result = service.call(permitted_params.placeholder_user)
@@ -88,11 +93,6 @@ class PlaceholderUsersController < ApplicationController
         end
       end
     end
-  end
-
-  def edit
-    @membership ||= Member.new
-    @individual_principal = @placeholder_user
   end
 
   def update

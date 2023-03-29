@@ -69,7 +69,7 @@ gem 'addressable', '~> 2.8.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2022.1'
+gem 'tzinfo-data', '~> 1.2023.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -195,7 +195,7 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.12.0', require: false
+gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
@@ -208,7 +208,7 @@ gem 'view_component'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 2.0.0'
+  gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
@@ -242,7 +242,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.0.0'
+  gem 'puffing-billy', '~> 3.1.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -311,7 +311,7 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 1.1.1'
+gem 'rack-cors', '~> 2.0.0'
 
 # Gmail API
 gem 'google-apis-gmail_v1', require: false
@@ -326,7 +326,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.9.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.

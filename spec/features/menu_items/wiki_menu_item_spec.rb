@@ -150,7 +150,7 @@ describe 'Wiki menu items' do
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
-      .to have_no_selector('.main-item-wrapper', text: 'Custom page name')
+      .not_to have_selector('.main-item-wrapper', text: 'Custom page name')
 
     # deleting the page will remove the menu item
     visit project_wiki_path(project, wiki_page)
@@ -183,7 +183,7 @@ describe 'Wiki menu items' do
     click_button 'Save'
 
     expect(page)
-      .to have_no_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
+      .not_to have_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
 
     expect(page)
       .to have_selector('.main-menu--children-menu-header', text: another_wiki_page.title)

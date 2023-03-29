@@ -114,9 +114,9 @@ describe 'Accountable widget on my page', js: true do
       .to have_selector('.subject', text: accountable_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_by_other_work_package.subject)
+      .not_to have_selector('.subject', text: accountable_by_other_work_package.subject)
 
     expect(accountable_area.area)
-      .to have_no_selector('.subject', text: accountable_but_invisible_work_package.subject)
+      .not_to have_selector('.subject', text: accountable_but_invisible_work_package.subject)
   end
 end

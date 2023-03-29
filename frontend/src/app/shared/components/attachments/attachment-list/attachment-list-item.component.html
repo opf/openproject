@@ -1,7 +1,7 @@
 <div class="spot-list--item-floating-wrapper op-file-list--item-floating-wrapper">
   <a
     class="spot-list--item-action spot-list--item-action_link op-file-list--item-action"
-    [href]="attachment._links.staticDownloadLocation.href"
+    [href]="attachment._links.originOpen?.href || attachment._links.staticDownloadLocation.href"
     target="_blank"
     (dragstart)="setDragData($event)"
   >
@@ -28,10 +28,18 @@
     ></div>
   </a>
   <div
-    *ngIf="!!this.attachment._links.delete"
     class="spot-list--item-floating-actions op-file-list--item-floating-actions hidden-for-mobile"
   >
+    <a
+      *ngIf="!!attachment._links.originOpen"
+      class="spot-link"
+      [href]="attachment._links.staticDownloadLocation.href"
+      target="_blank"
+    >
+      <span class="spot-icon spot-icon_download-arrow"></span>
+    </a>
     <button
+      *ngIf="!!attachment._links.delete"
       type="button"
       class="spot-link"
       [title]="deleteIconTitle"

@@ -61,7 +61,7 @@ describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
   it 'shows the list correctly' do
     editor.in_editor do |_container, editable|
       expect(editable).to have_selector('ol li', count: 3)
-      expect(editable).to have_no_selector('ol li p')
+      expect(editable).not_to have_selector('ol li p')
     end
   end
 end

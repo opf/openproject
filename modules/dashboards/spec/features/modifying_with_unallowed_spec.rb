@@ -90,6 +90,6 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     dashboard_page.visit!
 
     expect(page)
-      .to have_no_selector('.grid--area.-widgeted:nth-of-type(2)')
+      .not_to have_selector('.grid--area.-widgeted:nth-of-type(2)')
   end
 end

@@ -108,14 +108,13 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
     relation = substitute_database_table_in_where_clause(relation)
     relation = add_timestamp_condition(relation)
     relation = add_join_on_journables_table_with_created_at_column(relation)
+    relation = add_join_projects_on_journables(relation)
     relation = select_columns_from_the_appropriate_tables(relation)
 
     # Based on the previous modifications, build the algebra object.
-    @arel = relation.call_original_build_arel(aliases)
-    @arel = modify_order_clauses(@arel)
-    @arel = modify_joins(@arel)
-
-    @arel
+    arel = relation.call_original_build_arel(aliases)
+    arel = modify_order_clauses(arel)
+    modify_joins(arel)
   end
 
   def call_original_build_arel(aliases = nil)
@@ -221,8 +220,30 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   #
   def add_join_on_journables_table_with_created_at_column(relation)
     relation \
-        .joins("INNER JOIN (SELECT id, created_at FROM \"#{model.table_name}\") AS journables " \
+        .joins("INNER JOIN (SELECT id, created_at#{', project_id' if include_projects?(relation)} " \
+               "FROM \"#{model.table_name}\") AS journables " \
                "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
+  end
+
+  # Join the projects table on journables if :project is in the includes.
+  # It is needed when projects are filtered by id, and has to be done manually
+  # as eager_loading is disabled.
+  # Does not work yet for other includes.
+  #
+  def add_join_projects_on_journables(relation)
+    if include_projects?(relation)
+      relation
+        .except(:includes, :eager_load, :preload)
+        .joins('LEFT OUTER JOIN "projects" ' \
+               'ON "projects"."id" = "journables"."project_id"')
+    else
+      relation
+    end
+  end
+
+  def include_projects?(relation)
+    include_values = relation.values.fetch(:includes, [])
+    include_values.include?(:project)
   end
 
   # Gather the columns we need in our model from the different tables in the sql query:

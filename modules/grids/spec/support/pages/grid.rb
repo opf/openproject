@@ -42,7 +42,7 @@ module Pages
 
     def expect_no_help_mode
       expect(page)
-        .to have_no_selector('.toolbar-item .icon-add')
+        .not_to have_selector('.toolbar-item .icon-add')
     end
 
     def expect_unable_to_add_widget(row_number, column_number, location, name = nil)
@@ -91,7 +91,7 @@ module Pages
       area.hover
 
       expect(area)
-        .to have_no_selector('.grid--widget-add')
+        .not_to have_selector('.grid--widget-add')
     end
 
     def expect_specific_widget_unaddable(row_number, column_number, location, name)

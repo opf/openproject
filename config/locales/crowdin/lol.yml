@@ -220,6 +220,7 @@ lol:
       failed_text: "crwdns494935:0%{name}crwdne494935:0"
       completed: "crwdns494937:0%{name}crwdne494937:0"
       completed_text: "crwdns494939:0%{name}crwdne494939:0"
+      completed_text_children: "crwdns850293:0crwdne850293:0"
     index:
       open_as_gantt: 'crwdns494941:0crwdne494941:0'
       open_as_gantt_title: "crwdns494943:0crwdne494943:0"
@@ -2985,6 +2986,7 @@ lol:
       code_409: "crwdns499787:0crwdne499787:0"
       code_429: "crwdns499789:0crwdne499789:0"
       code_500: "crwdns499791:0crwdne499791:0"
+      code_500_outbound_request_failure: "crwdns850301:0%{status_code}crwdne850301:0"
       not_found:
         work_package: "crwdns499793:0crwdne499793:0"
       expected:

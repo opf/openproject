@@ -100,7 +100,7 @@ describe 'project export', js: true do
 
         click_on 'Apply'
         expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        expect(page).not_to have_text(party_project.name)
 
         export!
 

@@ -28,6 +28,6 @@ describe 'Project context switching spec', js: true do
 
     link.click
     wp_page.ensure_page_loaded
-    expect(page).to have_no_selector('.attributes-group.-project-context')
+    expect(page).not_to have_selector('.attributes-group.-project-context')
   end
 end

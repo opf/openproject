@@ -63,8 +63,7 @@ describe API::V3::Projects::UpdateFormAPI, content_type: :json do
   let(:parent_project_permissions) { [:add_subprojects] }
   let(:path) { api_v3_paths.project_form(project.id) }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do

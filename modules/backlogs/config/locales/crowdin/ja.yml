@@ -137,7 +137,7 @@ ja:
   label_wiki: "Wiki"
   permission_view_master_backlog: "マスター バックログの表示"
   permission_view_taskboards: "かんばんの表示"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "完了ステータスを選択"
   permission_update_sprints: "スプリントの更新"
   points_accepted: "進行中のポイント"
   points_committed: "承認されたポイント"

@@ -54,8 +54,7 @@ describe API::V3::Projects::CreateFormAPI, content_type: :json do
   let(:permissions) { [:add_project] }
   let(:path) { api_v3_paths.create_project_form }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do

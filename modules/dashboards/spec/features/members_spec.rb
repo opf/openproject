@@ -126,7 +126,7 @@ describe 'Members widget on dashboard', js: true do
 
     within members_area.area do
       expect(page)
-        .to have_no_link('Member')
+        .not_to have_link('Member')
     end
 
     # A user without view permission will not see any members
@@ -144,10 +144,10 @@ describe 'Members widget on dashboard', js: true do
         .to have_content('No visible members')
 
       expect(page)
-        .to have_no_link('Member')
+        .not_to have_link('Member')
 
       expect(page)
-        .to have_no_link('View all members')
+        .not_to have_link('View all members')
     end
   end
 end

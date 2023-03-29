@@ -766,7 +766,7 @@ describe Projects::CopyService, 'integration', type: :model do
           expect(subject).to be_success
 
           cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
-          expect(cv).to be_kind_of Array
+          expect(cv).to be_a Array
           expect(cv.count).to eq 2
           expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
         end

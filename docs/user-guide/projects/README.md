@@ -141,7 +141,7 @@ Then click the blue **Copy** button.
 
 In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
 
-**Note**: This option is only available for Administrators.
+> **Note**: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _Archive project_ permission for that role via the [Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/) page in the administrator settings.
 
 ![project settings archive project](project-settings-archive-project.png)
 

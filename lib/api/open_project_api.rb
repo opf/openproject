@@ -61,6 +61,6 @@ Grape::DSL::Routing::ClassMethods.module_eval do
   end
 
   def patches
-    ::Constants::APIPatchRegistry.patches_for(base)
+    Constants::APIPatchRegistry.patches_for(base)
   end
 end

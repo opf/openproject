@@ -193,7 +193,7 @@ describe 'My page time entries current user widget spec', js: true, with_mail: f
     time_logging_modal.work_package_field.autocomplete work_package.subject, select: false
 
     expect(page).to have_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: work_package.subject)
-    expect(page).to have_no_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: other_work_package.subject)
+    expect(page).not_to have_selector('[data-qa-selector="op-autocompleter-item-subject"]', text: other_work_package.subject)
 
     time_logging_modal.update_work_package_field other_work_package.subject
 

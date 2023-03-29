@@ -254,7 +254,7 @@ describe 'Version action board', js: true do
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).to have_no_selector('[data-qa-selector="op-version-board-header"].-closed')
+      expect(page).not_to have_selector('[data-qa-selector="op-version-board-header"].-closed')
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
@@ -330,7 +330,7 @@ describe 'Version action board', js: true do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).to have_no_selector('[data-qa-selector="op-wp-single-card"].-draggable')
+      expect(page).not_to have_selector('[data-qa-selector="op-wp-single-card"].-draggable')
     end
   end
 

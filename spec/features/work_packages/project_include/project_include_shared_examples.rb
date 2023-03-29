@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-shared_examples 'has a project include dropdown', type: :feature, js: true do
+shared_examples 'has a project include dropdown', js: true, type: :feature do
   let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do
@@ -459,6 +459,6 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle!
     dropdown.expect_open
     dropdown.search 'Nonexistent'
-    expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+    expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
   end
 end

@@ -186,7 +186,7 @@ shared_examples 'it supports direct uploads' do
   end
 end
 
-shared_examples 'an APIv3 attachment resource', type: :request, content_type: :json do |include_by_container = true|
+shared_examples 'an APIv3 attachment resource', content_type: :json, type: :request do |include_by_container = true|
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
   include FileHelpers

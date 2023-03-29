@@ -95,8 +95,8 @@ describe 'Query menu item', js: true do
       wp_table.click_setting_item 'Save as'
 
       fill_in 'save-query-name', with: 'Some query name'
-      find('#show-in-menu').set true
-      find('#show-public').set true
+      find_by_id('show-in-menu').set true
+      find_by_id('show-public').set true
 
       find('.button', text: 'Save').click
 
@@ -140,7 +140,7 @@ describe 'Query menu item', js: true do
 
       # Publish query
       wp_table.click_setting_item I18n.t('js.label_visibility_settings')
-      find('#show-in-menu').set true
+      find_by_id('show-in-menu').set true
       find('.button', text: 'Save').click
 
       wp_table.visit!

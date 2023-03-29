@@ -29,9 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package timeline date formatting',
-               with_settings: { date_format: '%Y-%m-%d' },
-               js: true,
-               selenium: true do
+               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type) { create(:type_bug, color: create(:color_green)) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:start_date) { Date.parse('2020-12-31') }
@@ -137,10 +135,10 @@ RSpec.describe 'Work package timeline date formatting',
         expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_2-1-2021"]')
         expect(page).to have_selector('[data-qa-selector="wp-timeline--non-working-day_28-12-2020"]')
 
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
-        expect(page).to have_no_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_29-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_30-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_31-12-2020"]')
+        expect(page).not_to have_selector('[data-qa-selector="wp-timeline--non-working-day_1-1-2021"]')
       end
     end
   end

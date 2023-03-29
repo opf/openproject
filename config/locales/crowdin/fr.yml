@@ -232,6 +232,7 @@ fr:
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
@@ -348,8 +349,8 @@ fr:
       one: 'Un lot de travaux descendant'
       other: '%{count} lots de travaux descendants'
     bulk:
-      copy_failed: "The work packages could not be copied."
-      move_failed: "The work packages could not be moved."
+      copy_failed: "Les lots de travaux n'ont pas pu être copiés."
+      move_failed: "Les lots de travaux n'ont pas pu être déplacés."
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
       none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
@@ -474,20 +475,20 @@ fr:
         roles: "Rôles"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "désarchivé"
+          false: "archivé"
         identifier: "Identifiant"
         latest_activity_at: "Dernière activité à"
         parent: "Sous-projet de"
         public_value:
-          title: "Visibility"
+          title: "Visibilité"
           true: "public"
-          false: "private"
+          false: "privé"
         queries: "Requêtes"
         templated: "Modèle de projet"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marqué comme modèle"
+          false: "non marqué comme modèle"
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
@@ -913,21 +914,21 @@ fr:
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
   activity:
     item:
-      created_by_on: "created by %{user} on %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
-      parent_without_of: "Subproject"
-      parent_no_longer: "No longer subproject of"
+      created_by_on: "créé par %{user} le %{datetime}"
+      created_on: "créé le %{datetime}"
+      updated_by_on: "mis à jour par %{user} le %{datetime}"
+      updated_on: "mis à jour le %{datetime}"
+      parent_without_of: "Sous-projet"
+      parent_no_longer: "Plus de sous-projet de"
     filter:
-      changeset: "Changesets"
+      changeset: "Révisions"
       message: "Forums"
-      news: "News"
-      project_attribute: "Project attributes"
-      subproject: "Include subprojects"
-      time_entry: "Spent time"
+      news: "Actualités"
+      project_attribute: "Attributs du projet"
+      subproject: "Inclure les sous-projets"
+      time_entry: "Temps passé"
       wiki_edit: "Wiki"
-      work_package: "Work packages"
+      work_package: "Lots de travaux"
   #common attributes of all models
   attributes:
     active: "Actif"
@@ -1372,7 +1373,7 @@ fr:
     work_package_note: 'Note de Lot de Travaux ajoutée'
     title:
       project: "Projet : %{name}"
-      subproject: "Subproject: %{name}"
+      subproject: "Sous-projet : %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1785,8 +1786,8 @@ fr:
   label_on: "le"
   label_operator_all: "n'est pas vide"
   label_operator_none: "est vide"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_equals_or: "est (OU)"
+  label_operator_equals_all: "est (ET)"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -2988,12 +2989,12 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:
@@ -3016,6 +3017,7 @@ fr:
       code_409: "Impossible de mettre à jour la ressource en raison de modifications conflictuelles."
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:

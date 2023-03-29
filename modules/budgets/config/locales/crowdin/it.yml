@@ -41,7 +41,7 @@ it:
       material_budget_item: "Unità"
   activity:
     filter:
-      budget: "Budgets"
+      budget: "Budget"
   attributes:
     budget: "Bilancio"
   button_add_budget_item: "Aggiungi costi pianificati"

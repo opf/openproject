@@ -105,13 +105,13 @@ describe 'Select work package row', js: true, selenium: true do
   def check_all
     find('body').send_keys [:control, 'a']
     expect_row_checked(1, 2, 3)
-    expect(page).to have_no_selector '#work-package-context-menu'
+    expect(page).not_to have_selector '#work-package-context-menu'
   end
 
   def uncheck_all
     find('body').send_keys [:control, 'd']
     expect_row_unchecked(1, 2, 3)
-    expect(page).to have_no_selector '#work-package-context-menu'
+    expect(page).not_to have_selector '#work-package-context-menu'
   end
 
   it 'handles selection flows' do
@@ -216,12 +216,12 @@ describe 'Select work package row', js: true, selenium: true do
     end
 
     it do
-      find('#work-packages-details-view-button').click
+      find_by_id('work-packages-details-view-button').click
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 
-      find('#work-packages-details-view-button').click
-      expect(page).to have_no_selector('.work-packages--details')
+      find_by_id('work-packages-details-view-button').click
+      expect(page).not_to have_selector('.work-packages--details')
     end
   end
 end

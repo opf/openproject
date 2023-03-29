@@ -55,8 +55,7 @@ describe API::V3::Projects::Copy::CreateFormAPI, content_type: :json do
 
   let(:path) { api_v3_paths.project_copy_form(source_project.id) }
   let(:params) do
-    {
-    }
+    {}
   end
 
   before do

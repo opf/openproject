@@ -37,11 +37,11 @@ describe 'Zen mode', js: true do
 
   it 'hides menus' do
     wp_page.expect_no_zen_mode
-    wp_page.page.find('#work-packages-zen-mode-toggle-button').click
+    wp_page.page.find_by_id('work-packages-zen-mode-toggle-button').click
     wp_page.expect_zen_mode
     wp_page.go_back
     wp_page.expect_zen_mode
-    wp_page.page.find('#work-packages-zen-mode-toggle-button').click
+    wp_page.page.find_by_id('work-packages-zen-mode-toggle-button').click
     wp_page.expect_no_zen_mode
   end
 end

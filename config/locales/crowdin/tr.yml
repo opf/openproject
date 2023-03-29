@@ -232,6 +232,7 @@ tr:
       failed_text: "%{name} projesini silme isteği başarısız oldu. Proje arşivlendi."
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt görünümü olarak aç'
       open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
@@ -3012,6 +3013,7 @@ tr:
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
       code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Aradığınız çalışma paketi bulunamadı veya silinmiş."
       expected:

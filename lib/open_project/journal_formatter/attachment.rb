@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::Attachment < ::JournalFormatter::Base
+class OpenProject::JournalFormatter::Attachment < JournalFormatter::Base
   include ApplicationHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::ObjectLinking

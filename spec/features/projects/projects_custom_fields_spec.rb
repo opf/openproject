@@ -227,9 +227,9 @@ describe 'Projects custom fields', js: true do
 
     let(:modal) do
       Components::Users::InviteUserModal.new project:,
-                                               principal: invisible_user,
-                                               role:,
-                                               invite_message: 'you are invited'
+                                             principal: invisible_user,
+                                             role:,
+                                             invite_message: 'you are invited'
     end
 
     it 'allows setting a visible user CF (regression #26313)' do

@@ -482,7 +482,7 @@ describe UsersController do
         perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.last
         refute_nil mail
-        assert_equal [registered_user.mail], mail.to
+        expect([registered_user.mail]).to eq(mail.to)
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
                                                    locale: 'de'))

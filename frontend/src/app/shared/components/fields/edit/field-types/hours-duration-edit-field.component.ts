@@ -35,7 +35,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 @Component({
   template: `
     <input type="number"
-           step="0.25"
+           step="any"
            class="inline-edit--field op-input"
            #input
            [attr.aria-required]="required"

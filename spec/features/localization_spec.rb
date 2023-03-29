@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 describe 'Localization', with_settings: { login_required?: false,
-                                                          available_languages: %i[de en],
-                                                          default_language: 'en' } do
+                                          available_languages: %i[de en],
+                                          default_language: 'en' } do
   it 'set localization' do
     Capybara.current_session.driver.header('Accept-Language', 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3')
 

@@ -472,7 +472,7 @@ ro:
     label_watch_work_package: "Urmăriți pachetul de lucru"
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "Sunteți pe fila %{tab} pentru %{type} %{subject}."
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
@@ -587,9 +587,9 @@ ro:
         text_update_date: "%{date} de"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
-          no_notification: "Looks like you are all caught up."
-          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification: "Se pare că v-ați pus la punct."
+          no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
+          no_notification_with_current_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: 'Există notificări noi.'
@@ -1001,7 +1001,7 @@ ro:
         move_column_left: "Mutați coloana la stânga"
         move_column_right: "Mutați coloana la dreapta"
         hide_column: "Ascundere coloana"
-        insert_columns: "Insert columns"
+        insert_columns: "Inserare coloane"
         filters: "Filtre"
         display_sums: "Afişare totaluri"
         confirm_edit_cancel: "Sunteți sigur că doriți să anulați editarea numelui acestei vizualizări? Titlul va fi setat la valoarea anterioară."
@@ -1028,7 +1028,7 @@ ro:
         button: 'Configurați acest tabel al pachetului de lucru'
         choose_display_mode: 'Afișare pachete de lucru din subproiecte pe pagina proiectului principal'
         modal_title: 'Configurația tabelului pachetului de lucru'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        embedded_tab_disabled: "Această filă de configurare nu este disponibilă pentru vizualizarea încorporată pe care o editați."
         default: "implicit"
         display_settings: 'Setări afișare'
         default_mode: "Listă"
@@ -1070,19 +1070,19 @@ ro:
         months: "luni"
     toolbar:
       settings:
-        configure_view: "Configure view"
-        columns: "Columns"
-        sort_by: "Sort by"
-        group_by: "Group by"
+        configure_view: "Configurați vizualizarea"
+        columns: "Coloane"
+        sort_by: "Sortare după"
+        group_by: "Grupare după"
         display_sums: "Afişare totaluri"
         display_hierarchy: "Afișați ierarhia"
         hide_hierarchy: "Ascundeți ierarhia"
         hide_sums: "Ascundere totaluri"
         save: "Salvare"
-        save_as: "Save as"
-        export: "Export"
-        visibility_settings: "Visibility settings"
-        page_settings: "Rename view"
+        save_as: "Salvare ca"
+        export: "Exportare"
+        visibility_settings: "Setări de vizibilitate"
+        page_settings: "Redenumire"
         delete: "Ștergere"
       filter: "Filtrare"
       unselected_title: "Pachet de lucru"

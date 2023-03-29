@@ -50,7 +50,7 @@ describe 'Meeting search', js: true do
                           wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
-      expect(page.find('#search-results')).to have_text(meeting.title)
+      expect(page.find_by_id('search-results')).to have_text(meeting.title)
     end
   end
 end

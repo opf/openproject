@@ -42,4 +42,9 @@ class Storages::ProjectStorage < ApplicationRecord
 
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
+
+  enum project_folder_mode: {
+    inactive: 'inactive',
+    manual: 'manual'
+  }, _prefix: 'project_folder'
 end

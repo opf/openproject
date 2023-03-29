@@ -41,7 +41,7 @@ module OpenProject
           # Reads the configuration for this strategy from OpenProject's `configuration.yml`.
           def config
             ['scm', vendor].inject(OpenProject::Configuration) do |acc, key|
-              HashWithIndifferentAccess.new acc[key]
+              ActiveSupport::HashWithIndifferentAccess.new acc[key]
             end
           end
         end

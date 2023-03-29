@@ -55,7 +55,7 @@ export class OPContextMenuService {
     // Listen to keyups on window to close context menus
     jQuery(window).on('keydown', (evt:JQuery.TriggeredEvent) => {
       if (this.active && evt.which === KeyCodes.ESCAPE) {
-        this.close();
+        this.close(true);
       }
 
       return true;
@@ -102,7 +102,7 @@ export class OPContextMenuService {
   /**
    * Closes all currently open context menus.
    */
-  public close():void {
+  public close(focus = false):void {
     if (this.isOpening) {
       return;
     }
@@ -110,7 +110,7 @@ export class OPContextMenuService {
     // Detach any component currently in the portal
     this.bodyPortalHost.detach();
     this.portalHostElement.style.display = 'none';
-    this.active?.onClose();
+    this.active?.onClose(focus);
     this.active = null;
   }
 

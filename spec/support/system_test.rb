@@ -7,7 +7,7 @@ RSpec.configure do |config|
 
   ##
   # Use selenium-backed firefox driver for JS tests
-  config.before(:each, type: :system, js: true) do
+  config.before(:each, js: true, type: :system) do
     driven_by :selenium
   end
 end

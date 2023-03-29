@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe 'Switching work package view',
-         with_ee: %i[conditional_highlighting],
-         js: true do
+         js: true, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -111,24 +110,9 @@ describe 'Switching work package view',
   end
 
   context 'switching to mobile card view' do
-    let!(:height_before) do
-      page.driver.browser.manage.window.size.height
-    end
-    let!(:width_before) do
-      page.driver.browser.manage.window.size.width
-    end
-
-    after do
-      page.driver.browser.manage.window.resize_to(width_before, height_before)
-    end
+    include_context 'with mobile screen size'
 
     it 'can switch the representation automatically on mobile after a refresh' do
-      # Change browser size to mobile
-      page.driver.browser.manage.window.resize_to(679, 1080)
-
-      # Expect the representation to switch to card on mobile
-      page.driver.browser.navigate.refresh
-
       # It shows the elements as cards
       cards.expect_work_package_listed wp_1, wp_2
 

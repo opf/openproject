@@ -191,8 +191,8 @@ describe Repository::Subversion do
 
         # with limit
         changesets = instance.latest_changesets('', nil, 2)
-        assert_equal 2, changesets.size
-        assert_equal instance.latest_changesets('', nil).to_a.slice(0, 2), changesets
+        expect(changesets.size).to eq(2)
+        expect(instance.latest_changesets('', nil).to_a.slice(0, 2)).to eq(changesets)
 
         # with path
         changesets = instance.latest_changesets('subversion_test/folder', nil)
@@ -272,7 +272,7 @@ describe Repository::Subversion do
           if s1.respond_to?(:force_encoding)
             s1.force_encoding('ISO-8859-1')
             s2.force_encoding('UTF-8')
-            assert_equal s1.encode('UTF-8'), s2
+            expect(s1.encode('UTF-8')).to eq(s2)
           end
           c = Changeset.new(repository: instance,
                             comments: s2,

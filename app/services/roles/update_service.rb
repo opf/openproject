@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Roles::UpdateService < ::BaseServices::Update
+class Roles::UpdateService < BaseServices::Update
   include Roles::NotifyMixin
 
   private

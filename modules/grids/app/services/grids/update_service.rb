@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Grids::UpdateService < ::BaseServices::Update
+class Grids::UpdateService < BaseServices::Update
   protected
 
   def perform(attributes)

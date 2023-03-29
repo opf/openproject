@@ -163,7 +163,7 @@ describe CostEntry do
         end
 
         it 'updates costs' do
-          (0..5).each do |units|
+          6.times do |units|
             cost_entry.units = units
             cost_entry.save!
             expect(cost_entry.costs).to eq(first_rate.rate * units)

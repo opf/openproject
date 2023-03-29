@@ -207,17 +207,17 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
         it 'shows no links to create relations' do
           # No create buttons should exist
-          expect(page).to have_no_selector('.wp-relations-create-button')
+          expect(page).not_to have_selector('.wp-relations-create-button')
 
           # Test for add relation
-          expect(page).to have_no_selector('#relation--add-relation')
+          expect(page).not_to have_selector('#relation--add-relation')
 
           # Test for add parent
-          expect(page).to have_no_selector('.wp-relation--parent-change')
+          expect(page).not_to have_selector('.wp-relation--parent-change')
 
           # Test for add children
-          expect(page).to have_no_selector('#hierarchy--add-existing-child')
-          expect(page).to have_no_selector('#hierarchy--add-new-child')
+          expect(page).not_to have_selector('#hierarchy--add-existing-child')
+          expect(page).not_to have_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
           expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: parent.subject)

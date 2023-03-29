@@ -51,7 +51,7 @@ module OpenProject
           def self.openproject_config
             config = OpenProject::Configuration
             %w(authentication global_basic_auth).inject(config) do |acc, key|
-              HashWithIndifferentAccess.new acc[key]
+              ActiveSupport::HashWithIndifferentAccess.new acc[key]
             end
           end
 

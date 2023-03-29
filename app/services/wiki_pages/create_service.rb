@@ -26,6 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WikiPages::CreateService < ::BaseServices::Create
+class WikiPages::CreateService < BaseServices::Create
   include Attachments::ReplaceAttachments
 end

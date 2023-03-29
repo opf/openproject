@@ -26,5 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class PlaceholderUsers::CreateService < ::BaseServices::Create
+class PlaceholderUsers::CreateService < BaseServices::Create
 end

@@ -91,9 +91,9 @@ describe 'Work package calendars', js: true do
     expect(page)
       .to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
 
     filters.expect_filter_count 1
 
@@ -106,7 +106,7 @@ describe 'Work package calendars', js: true do
 
     # non matching work packages are no longer displayed
     expect(page)
-      .to have_no_selector '.fc-event-title', text: current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: current_work_package.subject
     expect(page)
       .to have_selector '.fc-event-title', text: another_current_work_package.subject
 
@@ -117,11 +117,11 @@ describe 'Work package calendars', js: true do
     find('.fc-next-button').click
 
     expect(page)
-      .to have_no_selector '.fc-event-title', text: current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
       .to have_selector '.fc-event-title', text: another_future_work_package.subject
 
@@ -129,9 +129,9 @@ describe 'Work package calendars', js: true do
     filters.remove_filter 'subject'
 
     expect(page)
-      .to have_no_selector '.fc-event-title', text: current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
       .to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
@@ -147,17 +147,17 @@ describe 'Work package calendars', js: true do
     expect(page)
       .to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
 
     # open the page via the url should show the next month again
     visit future_url
 
     expect(page)
-      .to have_no_selector '.fc-event-title', text: current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_current_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
       .to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
@@ -171,9 +171,9 @@ describe 'Work package calendars', js: true do
     expect(page)
       .to have_selector '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_no_selector '.fc-event-title', text: another_future_work_package.subject
+      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
 
     # click goes to work package split screen
     page.find('.fc-event-title', text: current_work_package.subject).click

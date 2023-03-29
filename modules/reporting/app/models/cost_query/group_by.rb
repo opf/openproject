@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "set"
-
 class CostQuery::GroupBy < Report::GroupBy
   def self.all
     @all ||= super + Set[

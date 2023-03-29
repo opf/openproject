@@ -66,7 +66,7 @@ describe 'Empty backlogs project',
 
     it 'onlies show a no results box' do
       expect(page).to have_selector '.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title)
-      expect(page).to have_no_selector '.generic-table--no-results-description'
+      expect(page).not_to have_selector '.generic-table--no-results-description'
     end
   end
 end
