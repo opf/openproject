@@ -85,7 +85,7 @@ describe 'Wiki activities' do
     find(:xpath, "(//a[text()='Wiki: My page'])[1]").click
 
     expect(page)
-      .to have_current_path(project_wiki_path(project.id, 'my-page', version: 2))
+      .to have_current_path(project_wiki_path(project.id, 'my-page'))
 
     # disable the wiki module
 
