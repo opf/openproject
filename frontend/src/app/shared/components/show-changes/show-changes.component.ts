@@ -51,9 +51,41 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     header_description: this.I18n.t('js.show_changes.header_description'),
     clear: this.I18n.t('js.show_changes.clear'),
     apply: this.I18n.t('js.show_changes.apply'),
+    Show_changes_since: this.I18n.t('js.show_changes.Show_changes_since'),
   };
 
   public opened = false;
+
+  public showChangesAvailableValues = [
+    {
+      value: '0',
+      title: this.I18n.t('js.show_changes.drop_down.none'),
+    },
+    {
+      value: '1',
+      title: this.I18n.t('js.show_changes.drop_down.yesterday'),
+    },
+    {
+      value: '2',
+      title: this.I18n.t('js.show_changes.drop_down.last_working_day'),
+    },
+    {
+      value: '3',
+      title: this.I18n.t('js.show_changes.drop_down.last_week'),
+    },
+    {
+      value: '4',
+      title: this.I18n.t('js.show_changes.drop_down.last_month'),
+    },
+    {
+      value: '5',
+      title: this.I18n.t('js.show_changes.drop_down.a_specific_date'),
+    },
+    {
+      value: '6',
+      title: this.I18n.t('js.show_changes.drop_down.between_two_specific_dates'),
+    },
+  ];
 
   public query$ = this.wpTableFilters.querySpace.query.values$();
 
