@@ -84,7 +84,6 @@ module DemoData
     def project_data_seeders(project, key)
       seeders = [
         DemoData::WikiSeeder,
-        DemoData::CustomFieldSeeder,
         DemoData::WorkPackageSeeder,
         DemoData::WorkPackageBoardSeeder
       ]
