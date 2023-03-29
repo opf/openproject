@@ -49,7 +49,7 @@ describe OpenProject::JournalFormatter::Diff do
   end
   let(:journal) do
     build_stubbed(:work_package_journal,
-                  journable_id: work_package.id,
+                  journable: work_package,
                   created_at: 3.days.ago.to_date.to_fs(:db),
                   version: 1,
                   data: build(:journal_work_package_journal,
@@ -61,18 +61,18 @@ describe OpenProject::JournalFormatter::Diff do
   let(:instance) { klass.new(journal) }
   let(:key) { 'description' }
 
-  let(:url) do
+  let(:path) do
     url_helper.diff_journal_path(id: journal.id,
                                  field: key.downcase)
   end
-  let(:full_url) do
+  let(:url) do
     url_helper.diff_journal_url(id: journal.id,
                                 field: key.downcase,
                                 protocol: Setting.protocol,
                                 host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
-  let(:full_url_link) { link_to(I18n.t(:label_details), full_url, class: 'description-details') }
+  let(:link) { link_to(I18n.t(:label_details), path, class: 'description-details') }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
 
   describe '#render' do
     describe 'WITH the first value being nil, and the second a string' do
@@ -129,7 +129,7 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_set_with_diff,
                label: key.camelize,
-               link: url)
+               link: path)
       end
 
       it { expect(instance.render(key, [nil, 'new value'], html: false)).to eq(expected) }
@@ -140,7 +140,7 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: key.camelize,
-               link: url)
+               link: path)
       end
 
       it { expect(instance.render(key, ['old value', 'new value'], html: false)).to eq(expected) }
@@ -161,7 +161,7 @@ describe OpenProject::JournalFormatter::Diff do
       let(:expected) do
         I18n.t(:text_journal_deleted_with_diff,
                label: key.camelize,
-               link: url)
+               link: path)
       end
 
       it { expect(instance.render(key, ['old_value', nil], html: false)).to eq(expected) }
