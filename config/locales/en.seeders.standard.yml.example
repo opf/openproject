@@ -29,14 +29,6 @@ en:
   seeders:
     standard:
       demo_data:
-        attribute_help_texts:
-          - attribute_name: 'assignee'
-            help_text: |
-              ### Tasks of an assignee
-
-              * Doing the job
-              * Tracking the time
-              * Update ticket status
         default_description_for_types:
           - type: :default_type_bug
             description: |
