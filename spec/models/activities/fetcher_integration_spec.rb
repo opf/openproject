@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Activities::Fetcher, 'integration' do
   shared_let(:user) { create(:user) }
-  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits view_budgets] }
+  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
   shared_let(:role) { create(:role, permissions:) }
   # execute as user so that the user is the author of the project, and the
   # project create event will be displayed in user activities
@@ -48,7 +48,6 @@ describe Activities::Fetcher, 'integration' do
     let(:time_entry) { create(:time_entry, project:, work_package:, user: event_user) }
     let(:repository) { create(:repository_subversion, project:) }
     let(:changeset) { create(:changeset, committer: event_user.login, repository:) }
-    let(:budget) { create(:budget, project:, author: event_user) }
     let(:wiki) { create(:wiki, project:) }
     let(:wiki_page) do
       content = build(:wiki_content, page: nil, author: event_user, text: 'some text')
@@ -58,11 +57,11 @@ describe Activities::Fetcher, 'integration' do
     subject { instance.events(from: 30.days.ago, to: 1.day.from_now) }
 
     context 'for global activities' do
-      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget] }
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
-      it 'finds events of all types except budgets' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.excluding(budget).map(&:id))
+          .to match_array(activities.map(&:id))
       end
 
       context 'if lacking permissions' do
@@ -96,28 +95,17 @@ describe Activities::Fetcher, 'integration' do
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
             .to match_array([message.id, time_entry.id])
-        end
-      end
-
-      context 'if scope is set to only budgets' do
-        before do
-          options[:scope] = %w(budgets)
-        end
-
-        it 'finds no budget activity items' do
-          expect(subject.map(&:journable_id))
-          .to be_empty
         end
       end
     end
 
     context 'for activities in a project' do
       let(:options) { { project: } }
-      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget] }
+      let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
-      it 'finds events of all types excluding budgets' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.excluding(budget).map(&:id))
+          .to match_array(activities.map(&:id))
       end
 
       context 'if lacking permissions' do
@@ -151,17 +139,6 @@ describe Activities::Fetcher, 'integration' do
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
             .to match_array([message.id, time_entry.id])
-        end
-      end
-
-      context 'if scope is set to only budgets' do
-        before do
-          options[:scope] = %w(budgets)
-        end
-
-        it 'finds no budget activity items' do
-          expect(subject.map(&:journable_id))
-          .to be_empty
         end
       end
     end
@@ -253,12 +230,12 @@ describe Activities::Fetcher, 'integration' do
       let!(:activities) do
         # Login to have all the journals created as the user
         login_as(user)
-        [project, work_package, message, news, time_entry, changeset, wiki_page.content, budget]
+        [project, work_package, message, news, time_entry, changeset, wiki_page.content]
       end
 
-      it 'finds events of all types except budgets' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
-          .to match_array(activities.excluding(budget).map(&:id))
+          .to match_array(activities.map(&:id))
       end
 
       context 'for a different user' do
@@ -302,17 +279,6 @@ describe Activities::Fetcher, 'integration' do
         it 'finds only events matching the scope' do
           expect(subject.map(&:journable_id))
             .to match_array([message.id, time_entry.id])
-        end
-      end
-
-      context 'if scope is set to only budgets' do
-        before do
-          options[:scope] = %w(budgets)
-        end
-
-        it 'finds no budget activity items' do
-          expect(subject.map(&:journable_id))
-          .to be_empty
         end
       end
     end
