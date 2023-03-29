@@ -3058,6 +3058,7 @@ cs:
       code_409: "Zdroj nelze aktualizovat kvůli konfliktním změnám."
       code_429: "Příliš mnoho dotazů, zkuste to znovu později"
       code_500: "Došlo k vnitřní chybě."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
       expected:

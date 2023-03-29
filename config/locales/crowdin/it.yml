@@ -3015,6 +3015,7 @@ it:
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
       code_429: "Troppe richieste. Sei pregato di riprovare più tardi."
       code_500: "Si è verificato un errore interno."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:

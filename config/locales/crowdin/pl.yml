@@ -3054,6 +3054,7 @@ pl:
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:

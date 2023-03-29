@@ -2998,6 +2998,7 @@ vi:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Quá nhiều yêu cầu. Vui lòng thử lại sau."
       code_500: "Lỗi nội bộ đã xảy ra."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

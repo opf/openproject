@@ -3018,6 +3018,7 @@ fa:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "درخواست ها بسیار زیاد است. لطفاً بعداً دوباره امتحان کنید."
       code_500: "یک خطای داخلی رخ داد."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

@@ -3059,6 +3059,7 @@ sk:
       code_409: "Nepodarilo sa aktualizovať zdroj kvôli konfliktným úpravám."
       code_429: "Too many requests. Please try again later."
       code_500: "Vyskytla sa vnútorná chyba."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

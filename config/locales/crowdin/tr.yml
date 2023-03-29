@@ -3013,6 +3013,7 @@ tr:
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
       code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Aradığınız çalışma paketi bulunamadı veya silinmiş."
       expected:

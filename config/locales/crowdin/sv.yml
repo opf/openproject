@@ -3014,6 +3014,7 @@ sv:
       code_409: "Kunde inte uppdatera resursen på grund av motstridiga ändringar."
       code_429: "Too many requests. Please try again later."
       code_500: "Ett internt fel har inträffat."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

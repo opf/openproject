@@ -88,6 +88,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def error(response)
@@ -119,17 +120,41 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             storage_file(file_element)
           end
 
-        ::Storages::StorageFiles.new(files, parent)
+        ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
       end
     end
 
+    def ancestors(parent_location)
+      path = parent_location.split('/')
+      return [] if path.count == 0
+
+      path.take(path.count - 1).reduce([]) do |list, item|
+        last = list.last
+        prefix = last.nil? || last.location[-1] != '/' ? '/' : ''
+        location = "#{last&.location}#{prefix}#{item}"
+        list.append(::Storages::StorageFile.new(nil,
+                                                name(location),
+                                                nil,
+                                                nil,
+                                                nil,
+                                                nil,
+                                                nil,
+                                                nil,
+                                                location,
+                                                nil))
+      end
+    end
+
+    def name(location)
+      location == '/' ? location : CGI.unescape(location.split('/').last)
+    end
+
     def storage_file(file_element)
-      location = name(file_element)
-      name = location == '/' ? location : CGI.unescape(location.split('/').last)
+      location = location(file_element)
 
       ::Storages::StorageFile.new(
         id(file_element),
-        name,
+        name(location),
         size(file_element),
         mime_type(file_element),
         nil,
@@ -149,7 +174,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .first
     end
 
-    def name(element)
+    def location(element)
       texts = element
                 .xpath('d:href')
                 .map(&:inner_text)

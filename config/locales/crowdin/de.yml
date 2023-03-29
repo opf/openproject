@@ -3012,6 +3012,7 @@ de:
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
       code_429: "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
       code_500: "Ein interner Fehler ist aufgetreten."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht."
       expected:

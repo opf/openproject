@@ -3014,6 +3014,7 @@ pt:
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:

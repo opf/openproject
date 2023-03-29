@@ -224,6 +224,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               result = query.call(nil)
               expect(result).to be_success
               expect(result.result.files.size).to eq(4)
+              expect(result.result.ancestors.size).to eq(0)
               expect(result.result.parent).not_to be_nil
             end,
             on_failure: ->(error) do
@@ -339,6 +340,8 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
               on_success: ->(query) {
                 result = query.call(parent)
                 expect(result.result.files[2].location).to eq('/Photos/Birds/README.md')
+                expect(result.result.ancestors[0].location).to eq('/')
+                expect(result.result.ancestors[1].location).to eq('/Photos')
               },
               on_failure: ->(error) { raise "Files query could not be created: #{error}" }
             )
