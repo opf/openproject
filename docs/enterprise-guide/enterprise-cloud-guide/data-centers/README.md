@@ -14,8 +14,6 @@ There are three choices: Germany, Europe and the USA.
 
 You can make that choice when creating an 
 
-## Information Security and Compliance
-
 ### Hosting infrastructure
 
 OpenProject cloud environment is hosted on a logically isolated virtual cloud at Amazon Web Services with all services being located in Europe. AWS is a [GDPR compliant](https://aws.amazon.com/compliance/gdpr-center/) cloud infrastructure provider [with extensive security and compliance programs](https://aws.amazon.com/security/) as well as unparalleled access control mechanisms to ensure data privacy. Employed facilities are compliant with the ISO 27001 and 27018 standards.
