@@ -49,7 +49,8 @@ describe OpenProject::JournalFormatter::WikiDiff do
   end
   let(:wiki_journal) do
     build_stubbed(:wiki_content_journal,
-                  journable: wiki_content)
+                  journable: wiki_content,
+                  version: 1)
   end
   let(:wiki_instance) { klass.new(wiki_journal) }
   let(:wiki_key) { 'text' }
