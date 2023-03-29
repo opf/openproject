@@ -42,6 +42,12 @@ module API::V3::StorageFiles
              getter: ->(*) { API::V3::StorageFiles::StorageFileRepresenter.new(represented.parent, current_user:) },
              exec_context: :decorator
 
+    collection :ancestors,
+               getter: ->(*) do
+                 represented.ancestors.map { |file| API::V3::StorageFiles::StorageFileRepresenter.new(file, current_user:) }
+               end,
+               exec_context: :decorator
+
     def _type
       'StorageFiles'
     end

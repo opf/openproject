@@ -71,7 +71,8 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
                                     'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
         ],
         Storages::StorageFile.new(32, '/', 4096 * 2, 'application/x-op-directory', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable]),
+        []
       )
     end
 
@@ -97,6 +98,8 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       it { is_expected.to be_json_eql(response.parent.id.to_json).at_path('parent/id') }
       it { is_expected.to be_json_eql(response.parent.name.to_json).at_path('parent/name') }
+
+      it { is_expected.to be_json_eql(response.ancestors.to_json).at_path('ancestors') }
     end
 
     describe 'with files query creation failed' do
