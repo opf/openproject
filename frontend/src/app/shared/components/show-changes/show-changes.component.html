@@ -27,6 +27,19 @@
       (submit)="onSubmit($event)"
       class="spot-container op-show-changes-modal--body"
     >
+      <spot-form-field
+      [label]="text.Show_changes_since"> 
+
+        <select
+          slot="input">
+          <option
+            *ngFor="let availableValue of showChangesAvailableValues"
+            [value]="availableValue.value">
+            {{availableValue.title}}
+          </option>
+        </select>
+      </spot-form-field>
+
       <div class="spot-action-bar">
   
         <div class="spot-action-bar--right">
