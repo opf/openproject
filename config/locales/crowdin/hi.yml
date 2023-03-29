@@ -3016,6 +3016,7 @@ hi:
       code_409: "विरोधी संशोधनों के कारण संसाधन का सम्पादन न हो सका ।"
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

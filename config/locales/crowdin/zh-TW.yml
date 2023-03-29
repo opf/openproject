@@ -2996,6 +2996,7 @@ zh-TW:
       code_409: "由於修改衝突, 無法更新資源。"
       code_429: "Too many requests. Please try again later."
       code_500: "發生內部錯誤。"
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

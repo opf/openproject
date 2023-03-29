@@ -3013,6 +3013,7 @@ nl:
       code_409: "De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen."
       code_429: "Te veel verzoeken. Probeer het later opnieuw."
       code_500: "Een interne fout is opgetreden."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Het werkpakket dat u zoekt kan niet gevonden of verwijderd worden."
       expected:
