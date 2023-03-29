@@ -28,9 +28,10 @@
       class="spot-container op-show-changes-modal--body"
     >
       <spot-form-field
-      [label]="text.Show_changes_since"> 
+      [label]="text.show_changes_since"> 
 
         <select
+        (change)="valueSelected($event.target.value)"
           slot="input">
           <option
             *ngFor="let availableValue of showChangesAvailableValues"
@@ -38,6 +39,25 @@
             {{availableValue.title}}
           </option>
         </select>
+      </spot-form-field>
+
+
+      <spot-form-field
+      [label]="text.time"
+      *ngIf="filterSelected"
+      class="op-show-changes-modal--time"> 
+
+       <input
+          slot="input"
+          id="appt-time"
+          type="time"
+          name="appt-time" 
+          class="op-show-changes-modal--time-input"/>
+          <div
+          slot="action"
+          class="op-show-changes-modal--time-help"
+        >
+        </div>
       </spot-form-field>
 
       <div class="spot-action-bar">

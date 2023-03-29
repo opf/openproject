@@ -1345,7 +1345,8 @@ en:
       clear: 'Clear'
       apply: 'Apply'
       header_description: 'View changes made to work packages in the current view within a time period.'
-      Show_changes_since: 'Show changes since'
+      show_changes_since: 'Show changes since'
+      time: 'Time'
       drop_down:
         none: '-'
         yesterday: 'yesterday'

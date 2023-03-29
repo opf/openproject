@@ -51,10 +51,13 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     header_description: this.I18n.t('js.show_changes.header_description'),
     clear: this.I18n.t('js.show_changes.clear'),
     apply: this.I18n.t('js.show_changes.apply'),
-    Show_changes_since: this.I18n.t('js.show_changes.Show_changes_since'),
+    show_changes_since: this.I18n.t('js.show_changes.show_changes_since'),
+    time: this.I18n.t('js.show_changes.time'),
   };
 
   public opened = false;
+
+  public filterSelected = false;
 
   public showChangesAvailableValues = [
     {
@@ -112,5 +115,13 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
 
   public close():void {
     this.opened = false;
+  }
+
+  public valueSelected(value:string):void {
+    if (value !== '0') {
+      this.filterSelected = true;
+    } else {
+      this.filterSelected = false;
+    }
   }
 }
