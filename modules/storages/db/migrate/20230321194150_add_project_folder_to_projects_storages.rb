@@ -28,7 +28,9 @@
 
 class AddProjectFolderToProjectsStorages < ActiveRecord::Migration[7.0]
   def up
-    create_enum :project_folder_modes, %w[inactive manual]
+    execute <<-SQL.squish
+      CREATE TYPE project_folder_modes AS ENUM ('inactive', 'manual');
+    SQL
 
     change_table :projects_storages do |table|
       table.string :project_folder_id
@@ -41,7 +43,7 @@ class AddProjectFolderToProjectsStorages < ActiveRecord::Migration[7.0]
     remove_column :projects_storages, :project_folder_mode
 
     execute <<-SQL.squish
-          drop type project_folder_modes;
+      DROP TYPE project_folder_modes;
     SQL
   end
 end
