@@ -60,14 +60,12 @@ describe DemoData::WorkPackageSeeder do
       subject: "Some subject",
       status: "default_status_new",
       type: "default_type_task"
-    }.merge(attributes)
+    }.merge(attributes).deep_stringify_keys
   end
 
   before do
-    work_package_seeder = described_class.new(project, "dummy-project")
-    allow(work_package_seeder)
-      .to receive(:project_data_for).with('dummy-project', 'work_packages')
-          .and_return(work_packages_data)
+    seed_data = SeedData.new('dummy-project', { 'work_packages' => work_packages_data })
+    work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
   end
 

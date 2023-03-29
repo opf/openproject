@@ -27,46 +27,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class ProjectSeeder < Seeder
+    attr_reader :seed_data
+
+    def initialize(seed_data)
+      super()
+      @seed_data = seed_data
+    end
+
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
       puts ' ↳ Updating settings'
       seed_settings
 
-      seed_projects = demo_data_for('projects').keys
-
-      seed_projects.each do |key|
-        puts " ↳ Creating #{key} project..."
-
-        puts '   -Creating/Resetting project'
-        project = reset_project key
-
-        puts '   -Setting project status.'
-        set_project_status(project, key)
-
-        puts '   -Setting members.'
-        set_members(project)
-
-        puts '   -Creating news.'
-        seed_news(project, key)
-
-        puts '   -Assigning types.'
-        set_types(project, key)
-
-        puts '   -Creating categories'
-        seed_categories(project, key)
-
-        puts '   -Creating versions.'
-        seed_versions(project, key)
-
-        puts '   -Creating queries.'
-        seed_queries(project, key)
-
-        project_data_seeders(project, key).each do |seeder|
-          puts "   -#{seeder.class.name.demodulize}"
-          seeder.seed!
-        end
-
+      seed_data.each_data('projects') do |project_data|
+        seed_project(project_data)
         Setting.demo_projects_available = true
       end
 
@@ -74,18 +49,51 @@ module DemoData
       set_form_configuration
     end
 
+    def seed_project(project_data)
+      puts " ↳ Creating #{project_data.key} project..."
+
+      puts '   -Creating/Resetting project'
+      project = reset_project(project_data)
+
+      puts '   -Setting project status.'
+      set_project_status(project, project_data)
+
+      puts '   -Setting members.'
+      set_members(project)
+
+      puts '   -Creating news.'
+      seed_news(project, project_data)
+
+      puts '   -Assigning types.'
+      set_types(project, project_data)
+
+      puts '   -Creating categories'
+      seed_categories(project, project_data)
+
+      puts '   -Creating versions.'
+      seed_versions(project, project_data)
+
+      puts '   -Creating queries.'
+      seed_queries(project, project_data)
+
+      project_data_seeders(project, project_data).each do |seeder|
+        puts "   -#{seeder.class.name.demodulize}"
+        seeder.seed!
+      end
+    end
+
     def applicable?
       Project.count.zero?
     end
 
-    def project_data_seeders(project, key)
+    def project_data_seeders(project, project_data)
       seeders = [
         DemoData::WikiSeeder,
         DemoData::WorkPackageSeeder,
         DemoData::WorkPackageBoardSeeder
       ]
 
-      seeders.map { |seeder| seeder.new project, key }
+      seeders.map { |seeder| seeder.new(project, project_data) }
     end
 
     def seed_settings
@@ -97,34 +105,34 @@ module DemoData
     end
 
     def seedable_welcome_settings
-      welcome = demo_data_for('welcome')
+      welcome = seed_data.lookup('welcome')
       return {} if welcome.blank?
 
       {
-        welcome_title: welcome[:title],
-        welcome_text: welcome[:text],
+        welcome_title: welcome.lookup('title'),
+        welcome_text: welcome.lookup('text'),
         welcome_on_homescreen: 1
       }
     end
 
-    def reset_project(key)
-      delete_project(key)
-      create_project(key)
+    def reset_project(data)
+      delete_project(data)
+      create_project(data)
     end
 
-    def create_project(key)
-      Project.create! project_data(key)
+    def create_project(project_data)
+      Project.create! project_data(project_data)
     end
 
-    def delete_project(key)
-      if delete_me = find_project(key)
+    def delete_project(data)
+      if delete_me = find_project(data)
         delete_me.destroy
       end
     end
 
-    def set_project_status(project, key)
-      status_code = project_data_for(key, 'status.code')
-      status_explanation = project_data_for(key, 'status.description')
+    def set_project_status(project, project_data)
+      status_code = project_data.lookup('status.code')
+      status_explanation = project_data.lookup('status.description')
 
       if status_code || status_explanation
         Projects::Status.create!(
@@ -136,8 +144,8 @@ module DemoData
     end
 
     def set_members(project)
-      role = Role.find_by(name: translate_with_base_url(:default_role_project_admin))
-      user = User.user.admin.first
+      role = Role.find_by(name: I18n.t(:default_role_project_admin))
+      user = User.admin.first
 
       Member.create!(
         project:,
@@ -152,35 +160,39 @@ module DemoData
       end
     end
 
-    def set_types(project, key)
+    def set_types(project, project_data)
       project.types.clear
-      Array(project_data_for(key, 'types')).each do |type_name|
-        type = Type.find_by(name: translate_with_base_url(type_name))
+      Array(project_data.lookup('types')).each do |type_name|
+        type = Type.find_by(name: I18n.t(type_name))
         project.types << type
       end
     end
 
-    def seed_categories(project, key)
-      Array(project_data_for(key, 'categories')).each do |cat_name|
+    def seed_categories(project, project_data)
+      Array(project_data.lookup('categories')).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
-    def seed_news(project, key)
+    def seed_news(project, project_data)
       user = User.admin.first
-      Array(project_data_for(key, 'news')).each do |news|
-        News.create! project:, author: user, title: news[:title], summary: news[:summary], description: news[:description]
+      project_data.each('news') do |news|
+        News.create!(project:,
+                     author: user,
+                     title: news['title'],
+                     summary: news['summary'],
+                     description: news['description'])
       end
     end
 
-    def seed_queries(project, key)
-      Array(project_data_for(key, 'queries')).each do |config|
+    def seed_queries(project, project_data)
+      Array(project_data.lookup('queries')).each do |config|
         QueryBuilder.new(config, project).create!
       end
     end
 
-    def seed_versions(project, key)
-      version_data = Array(project_data_for(key, 'versions'))
+    def seed_versions(project, project_data)
+      version_data = Array(project_data.lookup('versions'))
 
       version_data.each do |attributes|
         VersionBuilder.new(attributes, project).create!
@@ -198,50 +210,26 @@ module DemoData
     module Data
       module_function
 
-      def project_data(key)
+      def project_data(project_data)
         {
-          name: project_name(key),
-          identifier: project_identifier(key),
-          description: project_description(key),
-          enabled_module_names: project_modules(key),
-          types: project_types,
-          parent_id: parent_project_id(key)
+          name: project_data.lookup('name'),
+          identifier: project_data.lookup('identifier'),
+          description: project_data.lookup('description'),
+          enabled_module_names: project_data.lookup('modules'),
+          types: Type.all,
+          parent: parent_project(project_data)
         }
       end
 
-      def parent_project_id(key)
-        parent_project(key).try(:id)
-      end
-
-      def parent_project(key)
-        identifier = project_data_for(key, 'parent')
-        return nil unless identifier.present?
+      def parent_project(project_data)
+        identifier = project_data.lookup('parent')
+        return nil if identifier.blank?
 
         Project.find_by(identifier:)
       end
 
-      def project_name(key)
-        project_data_for(key, 'name')
-      end
-
-      def project_identifier(key)
-        project_data_for(key, 'identifier')
-      end
-
-      def project_description(key)
-        project_data_for(key, 'description')
-      end
-
-      def project_types
-        Type.all
-      end
-
-      def project_modules(key)
-        project_data_for(key, 'modules')
-      end
-
-      def find_project(key)
-        Project.find_by(identifier: project_identifier(key))
+      def find_project(data)
+        Project.find_by(identifier: data.lookup('identifier'))
       end
     end
 

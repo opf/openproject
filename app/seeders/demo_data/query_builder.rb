@@ -29,7 +29,8 @@ module DemoData
     attr_reader :config, :project
 
     def initialize(config, project)
-      @config = config
+      super()
+      @config = config.with_indifferent_access
       @project = project
     end
 
@@ -147,7 +148,7 @@ module DemoData
 
     def set_type_filter!(filters)
       types = Type
-                .where(name: Array(config[:type]).map { |name| translate_with_base_url(name) })
+                .where(name: Array(config[:type]).map { |name| I18n.t(name) })
                 .pluck(:id)
 
       if types.any?

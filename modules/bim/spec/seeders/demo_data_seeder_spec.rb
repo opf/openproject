@@ -36,7 +36,7 @@ describe RootSeeder,
     allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
   end
 
-  it 'create the demo data' do
+  it 'creates the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 
     expect(User.not_builtin.where(admin: true).count).to eq 1
@@ -51,6 +51,7 @@ describe RootSeeder,
     expect(Projects::Status.count).to eq 4
     expect(Bim::IfcModels::IfcModel.count).to eq 3
     expect(Grids::Overview.count).to eq 4
+    expect(Boards::Grid.count).to eq 2
 
     perform_enqueued_jobs
 

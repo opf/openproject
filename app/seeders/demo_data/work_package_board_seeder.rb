@@ -27,45 +27,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageBoardSeeder < Seeder
-    attr_accessor :project, :key
+    attr_reader :project, :project_data
 
     include ::DemoData::References
 
-    def initialize(project, key)
-      self.project = project
-      self.key = key
+    def initialize(project, project_data)
+      super()
+      @project = project
+      @project_data = project_data
     end
 
     def seed_data!
       # Seed only for those projects that provide a `kanban` key, i.e. 'demo-project' in standard edition.
-      if project_has_data_for?(key, 'boards.kanban')
+      if board_data = project_data.lookup('boards.kanban')
         print_status '    ↳ Creating demo status board' do
-          seed_kanban_board
+          seed_kanban_board(board_data)
         end
       end
 
-      if project_has_data_for?(key, 'boards.basic')
+      if board_data = project_data.lookup('boards.basic')
         print_status '    ↳ Creating demo basic board' do
-          seed_basic_board
+          seed_basic_board(board_data)
         end
       end
 
-      if project_has_data_for?(key, 'boards.parent_child')
+      if board_data = project_data.lookup('boards.parent_child')
         print_status '    ↳ Creating demo parent child board' do
-          seed_parent_child_board
+          seed_parent_child_board(board_data)
         end
       end
     end
 
     private
 
-    def seed_kanban_board
+    def seed_kanban_board(board_data)
       board = ::Boards::Grid.new(project:)
 
-      board.name = project_data_for(key, 'boards.kanban.name')
+      board.name = board_data.lookup('name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
 
-      set_board_filters(board)
+      set_board_filters(board, board_data)
 
       board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
@@ -83,15 +84,15 @@ module DemoData
       Setting.boards_demo_data_available = 'true'
     end
 
-    def set_board_filters(board)
-      if project_data_for(key, 'boards.kanban.filters').present?
-        filters_conf = project_data_for(key, 'boards.kanban.filters')
-        board.options[:filters] = []
-        filters_conf.each do |filter|
-          if filter[:type]
-            type = Type.find_by(name: translate_with_base_url(filter[:type]))
-            board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
-          end
+    def set_board_filters(board, board_data)
+      filters_conf = board_data.lookup('filters')
+      return if filters_conf.blank?
+
+      board.options[:filters] = []
+      filters_conf.each do |filter|
+        if filter['type']
+          type = Type.find_by(name: I18n.t(filter['type']))
+          board.options[:filters] << { type: { operator: '=', values: [type.id.to_s] } }
         end
       end
     end
@@ -123,9 +124,9 @@ module DemoData
       end
     end
 
-    def seed_basic_board
+    def seed_basic_board(board_data)
       board = ::Boards::Grid.new(project:)
-      board.name = project_data_for(key, 'boards.basic.name')
+      board.name = board_data.lookup('name')
       board.options = { 'highlightingMode' => 'priority' }
 
       board.widgets = seed_basic_board_queries.each_with_index.map do |query, i|
@@ -198,10 +199,10 @@ module DemoData
       ]
     end
 
-    def seed_parent_child_board
+    def seed_parent_child_board(board_data)
       board = ::Boards::Grid.new(project:)
 
-      board.name = project_data_for(key, 'boards.parent_child.name')
+      board.name = board_data.lookup('name')
       board.options = { 'type' => 'action', 'attribute' => 'subtasks' }
 
       board.widgets = seed_parent_child_board_queries.each_with_index.map do |query, i|

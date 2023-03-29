@@ -7,17 +7,19 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     def seed_data!
       super
 
-      if OpenProject::Configuration.bim? && project_has_data_for?(key, 'boards.bcf')
+      return unless OpenProject::Configuration.bim?
+
+      if board_data = project_data.lookup('boards.bcf')
         print_status '    ↳ Creating demo BCF board' do
-          seed_bcf_board
+          seed_bcf_board(board_data)
         end
       end
     end
 
-    def seed_bcf_board
+    def seed_bcf_board(board_data)
       board = ::Boards::Grid.new(project:)
 
-      board.name = project_data_for(key, 'boards.bcf.name')
+      board.name = board_data.lookup('name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' }
 
       board.widgets = seed_bcf_board_queries.each_with_index.map do |query, i|

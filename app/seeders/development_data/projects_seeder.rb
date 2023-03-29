@@ -68,16 +68,16 @@ module DevelopmentData
 
     def set_members(projects)
       %w(reader member project_admin).each do |id|
-        user = User.find_by!(login: id)
+        principal = User.find_by!(login: id)
         role = Role.find_by!(name: I18n.t("default_role_#{id}"))
 
-        projects.each { |p| Member.create! project: p, user:, roles: [role] }
+        projects.each { |p| Member.create! project: p, principal:, roles: [role] }
       end
     end
 
     def seed_versions(projects)
       projects.each do |p|
-        version_data = project_data_for('scrum-project', 'versions')
+        version_data = demo_data_for('projects.scrum-project.versions')
         if version_data.is_a? Array
           version_data.each do |attributes|
             p.versions.create!(

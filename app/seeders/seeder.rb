@@ -72,14 +72,6 @@ class Seeder
     edition_data_for("demo_data.#{key}")
   end
 
-  def project_data_for(project, key)
-    demo_data_for "projects.#{project}.#{key}"
-  end
-
-  def project_has_data_for?(project, key)
-    I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
-  end
-
   def without_notifications(&)
     Journal::NotificationConfiguration.with(false, &)
   end

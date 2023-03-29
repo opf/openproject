@@ -36,7 +36,7 @@ describe RootSeeder,
     allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
   end
 
-  it 'creates the demo data' do
+  it 'creates the demo data' do # rubocop:disable RSpec/MultipleExpectations
     expect { described_class.new.do_seed! }.not_to raise_error
 
     expect(User.where(admin: true).count).to eq 1
@@ -51,10 +51,30 @@ describe RootSeeder,
     expect(Role.where(type: 'Role').count).to eq 5
     expect(GlobalRole.count).to eq 1
     expect(Grids::Overview.count).to eq 2
+    expect(Version.count).to eq 4
+    expect(VersionSetting.count).to eq 4
+    expect(Boards::Grid.count).to eq 5
+    expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
 
     perform_enqueued_jobs
 
     expect(ActionMailer::Base.deliveries)
       .to be_empty
+  end
+
+  context 'with development data' do
+    it 'creates the demo data' do
+      expect { described_class.new(seed_development_data: true).do_seed! }.not_to raise_error
+
+      # two admins: one with :en locale, one with :de locale
+      expect(User.not_builtin.where(admin: true).count).to eq 2
+      # 4 additional projects
+      expect(Project.count).to eq 6
+
+      perform_enqueued_jobs
+
+      expect(ActionMailer::Base.deliveries)
+        .to be_empty
+    end
   end
 end

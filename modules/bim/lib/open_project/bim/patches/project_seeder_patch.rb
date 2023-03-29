@@ -4,13 +4,13 @@ module OpenProject::Bim::Patches::ProjectSeederPatch
   end
 
   module InstanceMethods
-    def project_data_seeders(project, key)
+    def project_data_seeders(project, project_data)
       data = super
 
       if OpenProject::Configuration.bim?
         [
-          ::Bim::DemoData::BcfXmlSeeder.new(project, key),
-          ::Bim::DemoData::IfcModelSeeder.new(project, key)
+          ::Bim::DemoData::BcfXmlSeeder.new(project, project_data),
+          ::Bim::DemoData::IfcModelSeeder.new(project, project_data)
         ] + data
       else
         data

@@ -26,17 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WikiSeeder < Seeder
-    attr_reader :project, :key
+    attr_reader :project, :project_data
 
-    def initialize(project, key)
+    def initialize(project, project_data)
+      super()
       @project = project
-      @key = key
+      @project_data = project_data
     end
 
     def seed_data!
-      text = project_data_for(key, 'wiki')
+      text = project_data.lookup('wiki')
 
-      return if text.is_a?(String) && text.start_with?("translation missing")
+      return if text.blank?
 
       user = User.admin.first
 

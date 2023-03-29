@@ -27,7 +27,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class GlobalQuerySeeder < Seeder
-    def initialize; end
+    attr_reader :seed_data
+
+    def initialize(seed_data)
+      super()
+      @seed_data = seed_data
+    end
 
     def seed_data!
       print_status '    ↳ Creating global queries' do
@@ -38,7 +43,7 @@ module DemoData
     private
 
     def seed_global_queries
-      Array(demo_data_for('global_queries')).each do |config|
+      seed_data.each('global_queries') do |config|
         DemoData::QueryBuilder.new(config, nil).create!
       end
     end

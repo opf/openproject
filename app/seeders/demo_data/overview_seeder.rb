@@ -2,17 +2,25 @@ module DemoData
   class OverviewSeeder < Seeder
     include ::DemoData::References
 
+    attr_reader :seed_data
+
+    def initialize(seed_data)
+      super()
+      @seed_data = seed_data
+    end
+
     def seed_data!
       puts "*** Seeding Overview"
 
-      Array(demo_data_for('projects')).each do |(_key, project_config)|
-        next unless overview_config(project_config)
+      seed_data.each_data('projects') do |project_data|
+        overview_data = overview_data(project_data)
+        next unless overview_data
 
-        puts "   -Creating overview for #{project_config[:name]}"
+        puts "   -Creating overview for #{project_data.lookup('name')}"
 
-        overview = overview_from_config(project_config)
+        overview = create_overview(overview_data, project_data)
 
-        overview_config(project_config)[:widgets].each do |widget_config|
+        overview_data.each('widgets') do |widget_config|
           build_widget(overview, widget_config)
         end
 
@@ -29,29 +37,30 @@ module DemoData
     private
 
     def demo_projects_exist?
-      identifiers = Array(demo_data_for('projects'))
-        .map { |_key, project| project[:identifier] }
+      identifiers = []
+      seed_data.each_data('projects') do |project_data|
+        identifiers << project_data.lookup('identifier')
+      end
 
-      identifiers
-        .all? { |ident| Project.exists?(identifier: ident) }
+      identifiers.all? { |identifier| Project.exists?(identifier:) }
     end
 
     def build_widget(overview, widget_config)
       create_attachments!(overview, widget_config)
 
-      widget_options = widget_config[:options]
+      widget_options = widget_config['options']
 
       text_with_references(overview, widget_options)
       query_id_references(overview, widget_options)
 
-      overview.widgets.build(widget_config.except(:attachments))
+      overview.widgets.build(widget_config.except('attachments'))
     end
 
     def create_attachments!(overview, attributes)
-      Array(attributes[:attachments]).each do |file_name|
+      Array(attributes['attachments']).each do |file_name|
         attachment = overview.attachments.build
         attachment.author = User.admin.first
-        attachment.file = File.new attachment_path(file_name)
+        attachment.file = File.new(attachment_path(file_name))
 
         attachment.save!
       end
@@ -63,33 +72,32 @@ module DemoData
       )
     end
 
-    def project_from_config(config)
-      Project.find_by! identifier: config[:identifier]
+    def find_project(project_data)
+      Project.find_by!(identifier: project_data.lookup('identifier'))
     end
 
-    def overview_from_config(project_config)
-      params = overview_config(project_config)
-               .slice(:row_count, :column_count)
-               .merge(project: project_from_config(project_config))
-
-      Grids::Overview
-        .create(params)
+    def create_overview(overview_data, project_data)
+      Grids::Overview.create(
+        row_count: overview_data.lookup('row_count'),
+        column_count: overview_data.lookup('column_count'),
+        project: find_project(project_data)
+      )
     end
 
-    def overview_config(project_config)
-      project_config[:'project-overview']
+    def overview_data(project_data)
+      project_data.lookup('project-overview')
     end
 
     def text_with_references(overview, widget_options)
-      if widget_options && widget_options[:text]
-        widget_options[:text] = with_references(widget_options[:text], overview.project)
-        widget_options[:text] = link_attachments(widget_options[:text], overview.attachments)
+      if widget_options && widget_options['text']
+        widget_options['text'] = with_references(widget_options['text'], overview.project)
+        widget_options['text'] = link_attachments(widget_options['text'], overview.attachments)
       end
     end
 
     def query_id_references(overview, widget_options)
-      if widget_options && widget_options[:queryId]
-        widget_options[:queryId] = with_references(widget_options[:queryId], overview.project)
+      if widget_options && widget_options['queryId']
+        widget_options['queryId'] = with_references(widget_options['queryId'], overview.project)
       end
     end
 

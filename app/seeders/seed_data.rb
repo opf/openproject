@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,39 +26,58 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GroupSeeder < Seeder
-    include ::DemoData::References
+#++
 
-    attr_reader :user, :seed_data
+class SeedData
+  attr_reader :path
 
-    def initialize(seed_data)
-      super()
-      @seed_data = seed_data
-      @user = User.admin.first
+  def initialize(path, data)
+    @path = path
+    @data = data.deep_stringify_keys
+  end
+
+  def key
+    @key ||= path.split('.').last
+  end
+
+  def lookup(path)
+    keys = path.to_s.split('.')
+    case result = @data.dig(*keys)
+    when Hash
+      result_path = [self.path, path].join('.')
+      SeedData.new(result_path, result)
+    else
+      result
     end
+  end
 
-    def seed_data!
-      print_status '    ↳ Creating groups' do
-        seed_groups
+  def each(path, &block)
+    keys = path.to_s.split('.')
+    result = @data.dig(*keys)
+
+    case result
+    when Array
+      result.each(&block)
+    when Hash
+      result.each do |item_key, item_data|
+        item_path = [self.path, path, item_key].join('.')
+        block.(SeedData.new(item_path, item_data))
       end
     end
+  end
 
-    def applicable?
-      Group.count.zero?
+  def each_data(path)
+    keys = path.to_s.split('.')
+    result = @data.dig(*keys)
+    return if result.nil?
+
+    result.each do |item_key, item_data|
+      item_path = [self.path, path, item_key].join('.')
+      yield SeedData.new(item_path, item_data)
     end
+  end
 
-    private
-
-    def seed_groups
-      seed_data.each('groups') do |group_data|
-        print_status '.'
-        create_group group_data['name']
-      end
-    end
-
-    def create_group(name)
-      Group.create lastname: name
-    end
+  def exists?(key)
+    lookup(key).present?
   end
 end
