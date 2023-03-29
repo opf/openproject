@@ -42,6 +42,16 @@ module API::V3::StorageFiles
           )
       end
 
+      route_param :file_id, type: String, desc: 'Storage file id' do
+        get do
+          (file_query(@storage, current_user) >> execute_files_query(params[:file_id]))
+            .match(
+              on_success: ->(storage_file) { API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, current_user:) },
+              on_failure: ->(error) { raise_error(error) }
+            )
+        end
+      end
+
       post :prepare_upload do
         (upload_link_query(@storage, current_user) >> execute_upload_link_query(request_body))
           .match(
