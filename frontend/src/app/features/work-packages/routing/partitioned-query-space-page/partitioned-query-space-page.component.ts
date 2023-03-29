@@ -48,6 +48,7 @@ import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/in
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UIRouterGlobals } from '@uirouter/core';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -82,6 +83,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() opModalService:OpModalService;
 
   @InjectField() uiRouterGlobals:UIRouterGlobals;
+
+  @InjectField() configuration:ConfigurationService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
