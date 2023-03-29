@@ -29,6 +29,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     include API::V3::Utilities::PathHelper
+    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
