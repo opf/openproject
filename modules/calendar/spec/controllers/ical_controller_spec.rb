@@ -47,8 +47,8 @@ describe Calendar::IcalController do
   # the ical urls are intended to be used without a logged in user from a calendar client app
   # before { login_as(user) }
 
-  describe '#ical' do
-    shared_examples_for 'ical#ical' do |expected|
+  describe '#show' do
+    shared_examples_for 'ical#show' do |expected|
       subject { response }
 
       if expected == :success
@@ -61,43 +61,43 @@ describe Calendar::IcalController do
 
     context 'with valid params' do
       before do
-        get :ical, params: {
+        get :show, params: {
           project_id: project.id,
           id: query.id,
           ical_token: valid_ical_token_value
         }
       end
 
-      it_behaves_like 'ical#ical', :success
+      it_behaves_like 'ical#show', :success
     end
 
     context 'with invalid token' do
       before do
-        get :ical, params: {
+        get :show, params: {
           project_id: project.id,
           id: query.id,
           ical_token: SecureRandom.hex
         }
       end
 
-      it_behaves_like 'ical#ical', :failure
+      it_behaves_like 'ical#show', :failure
     end
 
     context 'with invalid query' do
       before do
-        get :ical, params: {
+        get :show, params: {
           project_id: project.id,
           id: SecureRandom.hex,
           ical_token: valid_ical_token_value
         }
       end
 
-      it_behaves_like 'ical#ical', :failure
+      it_behaves_like 'ical#show', :failure
     end
 
     context 'with invalid project' do
       before do
-        get :ical, params: {
+        get :show, params: {
           project_id: SecureRandom.hex,
           id: query.id,
           ical_token: valid_ical_token_value
@@ -106,7 +106,7 @@ describe Calendar::IcalController do
 
       # TODO: the project id is actually irrelevant - the query id is enough
       # should the project id still be used in the ical url anyways?
-      it_behaves_like 'ical#ical', :success
+      it_behaves_like 'ical#show', :success
     end
   end
 end

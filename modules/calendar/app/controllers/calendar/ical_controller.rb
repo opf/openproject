@@ -28,7 +28,7 @@
 
 module ::Calendar
   class IcalController < ApplicationController
-    def ical
+    def show
       begin
         call = ::Calendar::IcalResponseService.new.call(
           ical_token: params[:ical_token],
