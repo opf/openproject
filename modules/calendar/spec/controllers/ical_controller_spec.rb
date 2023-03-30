@@ -36,7 +36,7 @@ describe Calendar::IcalController do
            member_with_permissions: sufficient_permissions)
   end
   let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
-  let(:valid_ical_token_value) { Token::Ical.create_and_return_value user }
+  let(:valid_ical_token_value) { Token::ICal.create_and_return_value user }
   let(:query) do
     create(:query,
            project:,

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Token::Ical do
+describe Token::ICal do
   let(:user) { build(:user) }
 
   subject { described_class.new user: }

@@ -27,7 +27,7 @@
 #++
 
 module Token
-  class Ical < HashedToken
+  class ICal < HashedToken
     # Prevent deleting previous tokens
     # Every time an ical url is generated, a new ical token will be generated for this url as well
     # the existing ical tokens (and thus urls) should still be valid

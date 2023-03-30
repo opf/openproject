@@ -153,22 +153,27 @@ describe 'my',
 
     it 'in Access Tokens they can see if Ical tokens exists' do
       visit my_access_token_path
-      expect(page).not_to have_content 'iCalendar'
+      within(:xpath, "//tr[contains(.,'iCalendar')]") do
+        expect(page).to have_content 'iCalendar access key(s) not present'
+      end
 
-      new_ical_token = Token::Ical.create(user:)
+      new_ical_token = Token::ICal.create(user:)
 
       visit my_access_token_path
-      expect(page).to have_content 'iCalendar'
+
+      expect(page).not_to have_content 'iCalendar access key(s) not present'
 
       within(:xpath, "//tr[contains(.,'iCalendar')]") do
+        expect(page).to have_content "#{I18n.l(new_ical_token.created_at, format: :time)} (latest)"
         expect(page).to have_content "#{I18n.l(new_ical_token.created_at, format: :time)} (latest)"
       end
 
       Timecop.travel(1.minute.from_now) do
-        another_new_ical_token = Token::Ical.create(user:)
+        another_new_ical_token = Token::ICal.create(user:)
 
         visit my_access_token_path
-        expect(page).to have_content 'iCalendar'
+
+        expect(page).not_to have_content 'iCalendar access key(s) not present'
 
         within(:xpath, "//tr[contains(.,'iCalendar')]") do
           expect(page).not_to have_content "#{I18n.l(new_ical_token.created_at, format: :time)} (latest)"
@@ -179,7 +184,7 @@ describe 'my',
 
     it 'in Access Tokens they can revoke all existing Ical tokens' do
       2.times do
-        Token::Ical.create(user:)
+        Token::ICal.create(user:)
       end
 
       visit my_access_token_path
@@ -191,9 +196,9 @@ describe 'my',
 
       expect(page).to have_content 'All iCalendar tokens have been revoked.'
 
-      expect(page).not_to have_xpath "//tr[contains(.,'iCalendar')]"
+      expect(page).to have_content 'iCalendar access key(s) not present'
 
-      expect(Token::Ical.where(user_id: user.id).count).to eq 0
+      expect(user.ical_tokens.count).to eq 0
     end
   end
 end

@@ -36,6 +36,7 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
+  before_action :set_ical_tokens, only: %i[access_token]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -130,7 +131,7 @@ class MyController < ApplicationController
   end
 
   def revoke_all_ical_tokens
-    Token::Ical.where(user: current_user).destroy_all
+    current_user.ical_tokens.destroy_all
     flash[:info] = t('my.access_token.notice_ical_tokens_reverted')
   rescue StandardError => e
     Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
@@ -175,7 +176,7 @@ class MyController < ApplicationController
   helper_method :has_tokens?
 
   def has_tokens?
-    Setting.feeds_enabled? || Setting.rest_api_enabled? || Token::Ical.where(user: current_user).any?
+    Setting.feeds_enabled? || Setting.rest_api_enabled? || current_user.ical_tokens.any?
   end
 
   def user_params
@@ -199,5 +200,9 @@ class MyController < ApplicationController
 
   def get_current_layout
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+  end
+
+  def set_ical_tokens
+    @ical_tokens = current_user.ical_tokens
   end
 end

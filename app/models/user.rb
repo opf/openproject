@@ -54,6 +54,12 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
+
+  # everytime a user subscribes to a calendar, a new ical_token is generated
+  # unlike on other token types, all previously generated ical_tokens are kept
+  # in order to keep all previously generated ical urls valid and usable
+  has_many :ical_tokens, class_name: '::Token::ICal', dependent: :destroy
+
   belongs_to :auth_source
 
   # Authorized OAuth grants

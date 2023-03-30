@@ -20,6 +20,8 @@ OpenProject::Inflector.rule do |basename, abspath|
     "#{default_inflect($1, abspath)}API"
   when 'api'
     'API'
+  when 'ical'
+    'ICal'
   when /\Aar_(.*)\z/
     "AR#{default_inflect($1, abspath)}"
   when /\Aoauth_(.*)\z/

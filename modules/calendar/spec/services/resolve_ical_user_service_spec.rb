@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Calendar::ResolveIcalUserService, type: :model do
   let(:user) { create(:user) }
-  let(:valid_ical_token_value) { Token::Ical.create_and_return_value user }
+  let(:valid_ical_token_value) { Token::ICal.create_and_return_value user }
   let(:invalid_ical_token_value) { valid_ical_token_value[0..-2] }
 
   let(:instance) do

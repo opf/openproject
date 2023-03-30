@@ -300,7 +300,7 @@ en:
       notice_reset_token: "A new %{type} token has been generated. Your access token is:"
       token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
-      notice_ical_tokens_reverted: All iCalendar tokens have been revoked. All previously used iCalendar URLs are now invaild.
+      notice_ical_tokens_reverted: All iCalendar tokens have been revoked. All previously used iCalendar URLs are now invalid.
 
   news:
     index:
@@ -1589,6 +1589,8 @@ en:
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
+  label_ical_access_key_not_present: "iCalendar access key(s) not present."
+  label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke_all: "Revoke all"
   label_applied_status: "Applied status"

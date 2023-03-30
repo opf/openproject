@@ -681,6 +681,34 @@ describe User do
         .to eq 64
     end
   end
+  
+  describe '#ical_tokens' do
+    let(:user) { create(:user) }
+
+    it 'are not present by default' do
+      expect(user.ical_tokens)
+        .to be_empty
+    end
+
+    it 'returns all existing ical tokens from this user' do
+      ical_token1 = Token::ICal.create(user:)
+      ical_token2 = Token::ICal.create(user:)
+
+      expect(user.ical_tokens).to contain_exactly(
+        ical_token1, ical_token2
+      )
+    end
+
+    it 'are destroyed when the user is destroyed' do
+      Token::ICal.create(user:)
+      Token::ICal.create(user:)
+
+      user.destroy
+
+      expect(Token::ICal.all).to be_empty
+    end
+
+  end
 
   describe '.newest' do
     let!(:anonymous) { described_class.anonymous }

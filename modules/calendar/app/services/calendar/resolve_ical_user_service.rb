@@ -34,7 +34,7 @@ module Calendar
       end
 
       # rubocop:disable Rails/DynamicFindBy
-      token = Token::Ical.find_by_plaintext_value(ical_token)
+      token = Token::ICal.find_by_plaintext_value(ical_token)
       # rubocop:enable Rails/DynamicFindBy
 
       if token.present?

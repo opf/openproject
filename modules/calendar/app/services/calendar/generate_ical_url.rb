@@ -40,7 +40,7 @@ module Calendar
     protected
 
     def create_ical_token(user)
-      Token::Ical.create_and_return_value(user)
+      Token::ICal.create_and_return_value(user)
     end
 
     def create_ical_url(query_id, project_id, ical_token)

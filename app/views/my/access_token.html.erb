@@ -109,12 +109,12 @@ See COPYRIGHT and LICENSE files for more details.
               </tr>
             <% end %>
           <% end %>
-          <% if Token::Ical.where(user: current_user).any? %>
+          <% if @ical_tokens.any? %>
             <tr>
               <td><%= t(:label_ical_access_key_type) %></td>
               <td>
-                <span title="<%= format_time(Token::Ical.where(user: current_user).last.created_at) %>">
-                  <%= format_time(Token::Ical.where(user: current_user).last.created_at.to_s) %> (<%= t(:label_ical_access_key_latest) %>)
+                <span title="<%= format_time(@ical_tokens.last.created_at) %>">
+                  <%= format_time(@ical_tokens.last.created_at.to_s) %> (<%= t(:label_ical_access_key_latest) %>)
                 </span>
               </td>
               <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
@@ -124,6 +124,16 @@ See COPYRIGHT and LICENSE files for more details.
                             method: :delete,
                             class: 'icon icon-delete' %>
               </td>
+            </tr>
+          <% else %>
+            <tr>
+              <td><%= t(:label_ical_access_key_type) %></td>
+              <td>
+                <%= t(:label_ical_access_key_not_present) %>
+                <%= t(:label_ical_access_key_generation_hint) %>
+              </td>
+              <td></td>
+              <td></td>
             </tr>
           <% end %>
           <% if Setting.rest_api_enabled? %>
