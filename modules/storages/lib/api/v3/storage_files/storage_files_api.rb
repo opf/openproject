@@ -37,7 +37,7 @@ module API::V3::StorageFiles
       get do
         (files_query(@storage, current_user) >> execute_files_query(params[:parent]))
           .match(
-            on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, current_user:) },
+            on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
           )
       end
@@ -46,7 +46,9 @@ module API::V3::StorageFiles
         get do
           (file_query(@storage, current_user) >> execute_files_query(params[:file_id]))
             .match(
-              on_success: ->(storage_file) { API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, current_user:) },
+              on_success: ->(storage_file) {
+                API::V3::StorageFiles::StorageFileRepresenter.new(storage_file, @storage, current_user:)
+              },
               on_failure: ->(error) { raise_error(error) }
             )
         end
