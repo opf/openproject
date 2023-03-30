@@ -32,8 +32,8 @@ module Token
     # Every time an ical url is generated, a new ical token will be generated for this url as well
     # the existing ical tokens (and thus urls) should still be valid
     # until the user decides to revert all existing ical tokens (and urls)
-    def delete_previous_token
-      nil
+    def single_value?
+      false
     end
   end
 end
