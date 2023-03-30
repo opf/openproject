@@ -1,18 +1,39 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2012-2023 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
 # Purpose: Defines a table with the list of Storages::Storage
 # objects in the global admin section of OpenProject
 # Used by: the admin list of all storages in the system
 # (storages/app/views/storages/admin/index.html.erb)
-# Reference: https://trailblazer.to/2.0/gems/cells.html
-# See also: storage_row_cell.rb with the row model of the table
-module Storages
-  class StoragesTableCell < ::TableCell
+# See also: row_component.rb defining the rows of the table
+module Storages::Admin
+  class TableComponent < ::TableComponent
     include ::IconsHelper # Global helper for icons, defines op_icon(...)
-
-    class << self
-      def row_class
-        ::Storages::StoragesRowCell
-      end
-    end
 
     # Defines the list of columns in the table using symbols.
     # These symbols are used below to define header (top of the table)
@@ -24,12 +45,12 @@ module Storages
       %i[created_at asc]
     end
 
-    # Should RubyCell show ^/v icons in the header to allow custom sorting?
+    # Should the TableComponent show ^/v icons in the header to allow custom sorting?
     def sortable?
       false
     end
 
-    # Used by: app/cells/views/table/show.erb and
+    # Used by: app/components/table_component.html.erb
     # Purpose: return the link to be used to create the storage
     def inline_create_link
       link_to(new_admin_settings_storage_path,

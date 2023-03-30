@@ -26,43 +26,54 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines how to format the cells within a table row of ProjectStorages
-# associated with a project
-module Storages::ProjectsStorages
+# Purpose: Defines the row model for the table of Storage objects
+# Used by: Storages table in table_component.rb
+module Storages::Admin
   class RowComponent < ::RowComponent
-    include ::IconsHelper
-    include ::AvatarHelper
-    include ::Redmine::I18n
-    def project_storage
+    include ::IconsHelper # Global helper for icons, defines op_icon and icon_wrapper?
+    include ::AvatarHelper # Global helper for avatar (image of a user)
+    include ::Redmine::I18n # Internationalization support (defines I18n.t(...) translation)
+    include ::ApplicationHelper # For `accesskey` method
+
+    def storage
       row
     end
 
-    delegate :created_at, to: :project_storage
+    delegate :created_at, to: :storage
 
     def name
-      project_storage.storage.name
+      link_to storage.name, admin_settings_storage_path(storage)
     end
 
-    def provider_type
-      project_storage.storage.provider_type
-    end
+    # Delegate delegates the execution of certain methods to :storage.
+    # https://www.rubydoc.info/gems/activesupport/Module:delegate
+    delegate :host, to: :storage
+    delegate :provider_type, to: :storage
 
     def creator
-      icon = avatar project_storage.creator, size: :mini
-      icon + project_storage.creator.name
+      icon = avatar storage.creator, size: :mini
+      icon + storage.creator.name
     end
 
     def button_links
-      [delete_link]
+      [edit_link, delete_link]
     end
 
     def delete_link
       link_to '',
-              project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              admin_settings_storage_path(storage),
               class: 'icon icon-delete',
-              data: { confirm: I18n.t('storages.delete_warning.project_storage') },
+              data: { confirm: I18n.t('storages.delete_warning.storage') },
               title: I18n.t(:button_delete),
               method: :delete
+    end
+
+    def edit_link
+      link_to '',
+              edit_admin_settings_storage_path(storage),
+              class: 'icon icon-edit',
+              accesskey: accesskey(:edit),
+              title: I18n.t(:button_edit)
     end
   end
 end

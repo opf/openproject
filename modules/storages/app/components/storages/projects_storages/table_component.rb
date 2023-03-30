@@ -26,11 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on RubyCell for listing the
+# Purpose: Defines a table based on TableComponent for listing the
 # Storages::ProjectStorage per project in the projects' settings
 # page.
-# See for comments: storage_table_cell.rb
-# See also: project_storages_row_cell.rb, which contains a method
+# See also: row_component.rb, which contains a method
 # for every "column" defined below.
 module Storages::ProjectsStorages
   class TableComponent < ::TableComponent
