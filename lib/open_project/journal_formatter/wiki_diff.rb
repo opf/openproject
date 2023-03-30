@@ -26,24 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class AddProjectFolderToProjectsStorages < ActiveRecord::Migration[7.0]
-  def up
-    execute <<-SQL.squish
-      CREATE TYPE project_folder_modes AS ENUM ('inactive', 'manual');
-    SQL
+class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::Diff
+  private
 
-    change_table :projects_storages do |table|
-      table.string :project_folder_id
-      table.enum :project_folder_mode, enum_type: :project_folder_modes, default: :inactive, null: false
-    end
-  end
+  def url_attr(_key, options)
+    journable = @journal.journable
+    version = @journal.version
 
-  def down
-    remove_column :projects_storages, :project_folder_id
-    remove_column :projects_storages, :project_folder_mode
-
-    execute <<-SQL.squish
-      DROP TYPE project_folder_modes;
-    SQL
+    default_attributes(options)
+    .merge(controller: '/wiki',
+           action: 'diff',
+           project_id: journable.project.identifier,
+           id: journable.page.slug,
+           version: version - 1,
+           version_from: version)
+    .compact
   end
 end
