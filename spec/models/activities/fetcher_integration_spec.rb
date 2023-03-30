@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Activities::Fetcher, 'integration' do
   shared_let(:user) { create(:user) }
-  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits view_budgets] }
+  shared_let(:permissions) { %i[view_work_packages view_time_entries view_changesets view_wiki_edits] }
   shared_let(:role) { create(:role, permissions:) }
   # execute as user so that the user is the author of the project, and the
   # project create event will be displayed in user activities
