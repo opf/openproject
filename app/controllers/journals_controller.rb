@@ -93,7 +93,6 @@ class JournalsController < ApplicationController
       case @journal.journable_type
       when 'WorkPackage' then :view_work_packages
       when 'Project' then :view_project
-      when 'WikiContent' then :view_wiki_edits
       end
     do_authorize(permission)
   end
