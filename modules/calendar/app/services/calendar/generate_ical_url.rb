@@ -28,7 +28,6 @@
 
 module Calendar
   class GenerateIcalUrl < ::BaseServices::BaseCallable
-    include OpenProject::StaticRouting::UrlHelpers
 
     def perform(user:, query_id:, project_id:)
       new_ical_token = create_ical_token(user)
@@ -44,36 +43,12 @@ module Calendar
     end
 
     def create_ical_url(query_id, project_id, ical_token)
-      url_for(
-        controller: "calendar/ical",
-        action: :ical,
-        id: query_id,
-        project_id:,
-        ical_token:,
-        only_path: false,
-        protocol:,
-        host:
-      )
+      OpenProject::StaticRouting::StaticRouter.new.url_helpers
+        .ical_project_calendar_url(
+          id: query_id,
+          project_id:,
+          ical_token:
+        )
     end
-
-    # implementation taken from application_mailer
-    def host
-      if OpenProject::Configuration.rails_relative_url_root.blank?
-        Setting.host_name
-      else
-        Setting.host_name.to_s.gsub(%r{/.*\z}, '')
-      end
-    end
-
-    # implementation taken from application_mailer
-    def protocol
-      Setting.protocol
-    end
-
-    # # url_for wants to access the controller method, which we do not have in our service class.
-    # # see: http://stackoverflow.com/questions/3659455/is-there-a-new-syntax-for-url-for-in-rails-3
-    # def controller
-    #   nil
-    # end
   end
 end
