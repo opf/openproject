@@ -56,10 +56,11 @@ module Calendar
     end
 
     def regenerate_ical_string(ical_token, query_id)
-      user = resolve_user_by_token(ical_token)
-      query = resolve_and_authorize_query(user, query_id)
-      work_packages = resolve_work_packages(query)
-      create_ical_string(work_packages, query.name)
+      User.execute_as(resolve_user_by_token(ical_token)) do
+        query = resolve_and_authorize_query(User.current, query_id)
+        work_packages = resolve_work_packages(query)
+        create_ical_string(work_packages, query.name)
+      end
     end
 
     def resolve_user_by_token(ical_token)

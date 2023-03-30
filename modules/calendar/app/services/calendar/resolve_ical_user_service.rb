@@ -39,11 +39,6 @@ module Calendar
 
       if token.present?
         user = token.user
-        # Setting the current user to the one resolved via ical_token
-        # TODO: required for internal query scoping?
-        # TODO: does that have any security implications?
-        User.current = user
-
         ServiceResult.success(result: user)
       else
         raise ActiveRecord::RecordNotFound
