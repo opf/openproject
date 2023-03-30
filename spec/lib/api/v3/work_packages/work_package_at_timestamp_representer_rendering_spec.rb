@@ -89,6 +89,7 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
   let(:exists_at_timestamp) { true }
   let(:with_query) { true }
   let(:matches_filters_at_timestamp) { true }
+  let(:exists_at_current_timestamp) { true }
 
   let(:model) do
     work_package.tap do |model|
@@ -108,6 +109,9 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
       allow(model)
         .to receive(:matches_filters_at_timestamp?)
               .and_return(matches_filters_at_timestamp)
+      allow(model)
+        .to receive(:exists_at_current_timestamp?)
+              .and_return(exists_at_current_timestamp)
     end
   end
 
@@ -300,6 +304,63 @@ describe API::V3::WorkPackages::WorkPackageAtTimestampRepresenter, 'rendering' d
           'timestamp' => timestamp.to_s
         },
         '_links' => {
+          'self' => {
+            'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
+            'title' => work_package.subject
+          }
+        }
+      }.to_json
+    end
+
+    it 'renders as expected' do
+      expect(subject)
+        .to be_json_eql(expected_json)
+    end
+  end
+
+  context 'with only one attribute changed to baseline but with the work package not existing (not visible) at current time' do
+    let(:attributes_changed_to_baseline) { %w[start_date] }
+    let(:exists_at_current_timestamp) { false }
+
+    let(:expected_json) do
+      {
+        'subject' => work_package.subject,
+        'startDate' => work_package.start_date,
+        'dueDate' => work_package.due_date,
+        '_meta' => {
+          'matchesFilters' => true,
+          'exists' => true,
+          'timestamp' => timestamp.to_s
+        },
+        '_links' => {
+          'assignee' => {
+            'href' => api_v3_paths.user(assigned_to.id),
+            'title' => assigned_to.name
+          },
+          'responsible' => {
+            'href' => api_v3_paths.user(responsible.id),
+            'title' => responsible.name
+          },
+          'project' => {
+            'href' => api_v3_paths.project(project.id),
+            'title' => project.name
+          },
+          'status' => {
+            'href' => api_v3_paths.status(status.id),
+            'title' => status.name
+          },
+          'type' => {
+            'href' => api_v3_paths.type(type.id),
+            'title' => type.name
+          },
+          'priority' => {
+            'href' => api_v3_paths.priority(priority.id),
+            'title' => priority.name
+          },
+          'version' => {
+            'href' => api_v3_paths.version(version.id),
+            'title' => version.name
+          },
           'self' => {
             'href' => api_v3_paths.work_package(work_package.id, timestamps: timestamp),
             'title' => work_package.subject

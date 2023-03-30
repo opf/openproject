@@ -36,8 +36,9 @@ describe Query::Results,
   let(:pre_historic_time) { historic_time - 1.day }
   let(:recent_time) { 1.hour.ago }
   let!(:work_package) do
-    new_work_package = create(:work_package, description: "This is the original description of the work package",
-                                             project: project1)
+    new_work_package = create(:work_package,
+                              description: "This is the original description of the work package",
+                              project: project_with_member)
     new_work_package.update_columns created_at: historic_time
     new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
     new_work_package.reload
@@ -48,8 +49,9 @@ describe Query::Results,
   end
 
   let!(:work_package2) do
-    new_work_package = create(:work_package, description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-                                             project: project1)
+    new_work_package = create(:work_package,
+                              description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+                              project: project_with_member)
     new_work_package.update_columns created_at: historic_time
     new_work_package.journals.first.update_columns created_at: historic_time, updated_at: historic_time
     new_work_package.reload
@@ -59,13 +61,21 @@ describe Query::Results,
     new_work_package
   end
 
-  let(:project1) { create(:project) }
+  let(:project_with_member) { create(:project) }
+  let(:project_without_member) { create(:project) }
+
   let(:user1) do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: project1,
+           member_in_project: project_with_member,
            member_with_permissions: %i[view_work_packages view_file_links])
+  end
+
+  def move_work_package_to_project(work_package, project, time)
+    work_package.update project:, updated_at: time
+    work_package.journals.last.update_columns(created_at: time, updated_at: time)
+    work_package.reload
   end
 
   describe "[prelims]" do
@@ -221,7 +231,7 @@ describe Query::Results,
         end
       end
       let(:file_link1) { create(:file_link, creator: user1, container: work_package, storage: storage1) }
-      let(:project_storage1) { create(:project_storage, project: project1, storage: storage1) }
+      let(:project_storage1) { create(:project_storage, project: project_with_member, storage: storage1) }
 
       before do
         project_storage1
@@ -238,8 +248,7 @@ describe Query::Results,
 
       describe "when having second reference to the same external file" do
         let(:storage2) { create(:storage, creator: user1) }
-        let(:project_storage2) { create(:project_storage, project: project2, storage: storage2) }
-        let(:project2) { create(:project) }
+        let(:project_storage2) { create(:project_storage, project: project_without_member, storage: storage2) }
         let(:file_link2) do
           create(:file_link, creator: user1, container: work_package, storage: storage2, origin_id: file_link1.origin_id)
         end
@@ -256,6 +265,91 @@ describe Query::Results,
         it "includes the work package only once" do
           expect(subject.uniq).to eq subject
         end
+      end
+    end
+
+    context 'when the work package is moved to a project the user has no permissions in' do
+      current_user { user1 }
+
+      let(:query) do
+        build(:query, user: user1, project: nil).tap do |query|
+          query.filters.clear
+          query.timestamps = [historic_time, Time.zone.now]
+        end
+      end
+
+      before do
+        move_work_package_to_project(work_package, project_without_member, 3.minutes.ago)
+      end
+
+      it "includes the work package (since the user was able to see it)" do
+        expect(subject).to include work_package
+      end
+    end
+
+    context 'when the work package is moved to a project the user has no permissions in ' \
+            'and also has no permission in the old project' do
+      current_user { user1 }
+
+      let(:query) do
+        build(:query, user: user1, project: nil).tap do |query|
+          query.filters.clear
+          query.timestamps = [historic_time, Time.zone.now]
+        end
+      end
+
+      before do
+        move_work_package_to_project(work_package, project_without_member, 3.minutes.ago)
+        project_with_member.members.destroy_all
+      end
+
+      it "does not include the work package" do
+        expect(subject).not_to include work_package
+      end
+    end
+
+    context 'when the work package is moved to a project the user has permissions in ' \
+            'and looses permission in the former project' do
+      current_user { user1 }
+
+      let(:query) do
+        build(:query, user: user1, project: nil).tap do |query|
+          query.filters.clear
+          query.timestamps = [historic_time, Time.zone.now]
+        end
+      end
+
+      before do
+        move_work_package_to_project(work_package, project_without_member, 3.minutes.ago)
+        create(:member,
+               principal: user1,
+               project: project_without_member,
+               roles: [create(:role, permissions: %w[view_work_packages])])
+        project_with_member.members.destroy_all
+      end
+
+      it "includes the work package" do
+        expect(subject).to include work_package
+      end
+    end
+
+    context 'when the work package is moved to a project the user has no permissions in' \
+            'and the comparison time is after the move' do
+      current_user { user1 }
+
+      let(:query) do
+        build(:query, user: user1, project: nil).tap do |query|
+          query.filters.clear
+          query.timestamps = [2.minutes.ago, Time.zone.now]
+        end
+      end
+
+      before do
+        move_work_package_to_project(work_package, project_without_member, 3.minutes.ago)
+      end
+
+      it "does not include the work package since the user is not allowed to see the work package at the timestamps" do
+        expect(subject).not_to include work_package
       end
     end
   end

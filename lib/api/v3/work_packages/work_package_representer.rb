@@ -26,10 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# rubocop:disable Lint/SymbolConversion
-#   because some of the json attributes are written in 'singleQuotes' instead of symbols
-#   for better reading.
-
 module API
   module V3
     module WorkPackages
@@ -41,6 +37,7 @@ module API
         include ::API::V3::Attachments::AttachableRepresenterMixin
         include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
+        include TimestampedRepresenter
 
         cached_representer key_parts: %i(project),
                            disabled: false
@@ -330,29 +327,6 @@ module API
           end
         end
 
-        property :_meta,
-                 if: ->(*) {
-                   timestamps_active?
-                 },
-                 getter: ->(*) {
-                   {
-                     # This meta property states whether the work package exists at time.
-                     # https://github.com/opf/openproject/pull/11783#issuecomment-1374897874
-                     'exists': represented.exists_at_timestamp?,
-
-                     # This meta property holds the timestamp of the data of the work package.
-                     #
-                     'timestamp': timestamps.last.to_s,
-
-                     # This meta property states whether the attributes of the work package at the
-                     # timestamp match the filters of the query.
-                     # https://github.com/opf/openproject/pull/11783
-                     'matchesFilters': represented.with_query? ? represented.matches_filters_at_timestamp? : nil
-                   }.compact
-                 },
-                 uncacheable: true,
-                 exec_context: :decorator
-
         property :id,
                  render_nil: true
 
@@ -473,21 +447,6 @@ module API
                  getter: ->(*) do
                    status_id && status.is_readonly?
                  end
-
-        property :attributes_by_timestamp,
-                 if: ->(*) {
-                   timestamps_active?
-                 },
-                 getter: ->(*) do
-                   represented.at_timestamps.map do |work_package_at_timestamp|
-                     API::V3::WorkPackages::WorkPackageAtTimestampRepresenter
-                       .create(work_package_at_timestamp,
-                               current_user:)
-                   end
-                 end,
-                 embedded: true,
-                 uncacheable: true,
-                 exec_context: :decorator
 
         associated_resource :category
 
@@ -708,5 +667,3 @@ module API
     end
   end
 end
-
-# rubocop:enable Lint/SymbolConversion

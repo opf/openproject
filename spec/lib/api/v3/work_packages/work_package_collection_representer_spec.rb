@@ -47,6 +47,8 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:embed_schemas) { false }
   let(:timestamps) { nil }
   let(:query) { nil }
+  # nil in this context means "don't care". The user will be allowed any action
+  let(:permissions) { nil }
 
   let(:representer) do
     described_class.new(
@@ -66,10 +68,13 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   end
   let(:collection_inner_type) { 'WorkPackage' }
 
+  current_user { user }
+
   before do
     allow(user)
-      .to receive(:allowed_to?)
-      .and_return(true)
+      .to receive(:allowed_to?) do |permission|
+      permissions.nil? || permissions.include?(permission)
+    end
 
     create_list(:work_package, total)
   end
@@ -248,6 +253,29 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
 
         it 'has no link to set the custom fields for that project' do
           expect(collection).not_to have_json_path('_links/customFields')
+        end
+      end
+    end
+  end
+
+  describe '_embedded' do
+    describe 'elements' do
+      context 'for a work package that is not visible' do
+        let(:total) { 1 }
+        let(:permissions) { [] }
+
+        it 'renders a reduced WorkPackage element' do
+          expect(collection)
+            .to be_json_eql(
+              {
+                _type: 'WorkPackage',
+                _links: {
+                  self: {
+                    href: api_v3_paths.work_package(work_packages.first.id)
+                  }
+                }
+              }.to_json
+            ).at_path('_embedded/elements/0')
         end
       end
     end
@@ -503,7 +531,6 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   end
 
   context 'when passing timestamps' do
-    let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
     let(:work_package) do
       new_work_package = create(:work_package, subject: "The current work package", project:)
       new_work_package.update_columns created_at: baseline_time - 1.day
@@ -521,6 +548,13 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
     let(:baseline_time) { "2022-01-01".to_time }
     let(:project) { create(:project) }
+    let(:current_user) do
+      create(:user,
+             firstname: 'user',
+             lastname: '1',
+             member_in_project: project,
+             member_with_permissions: %i[view_work_packages])
+    end
 
     def create_journal(journable:, version:, timestamp:, attributes: {})
       work_package_attributes = work_package.attributes.except("id")
@@ -620,19 +654,11 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     context 'when passing a query' do
       let(:search_term) { 'original' }
       let(:query) do
-        login_as(current_user)
         build(:query, user: current_user, project: nil).tap do |query|
           query.filters.clear
           query.add_filter 'subject', '~', search_term
           query.timestamps = timestamps
         end
-      end
-      let(:current_user) do
-        create(:user,
-               firstname: 'user',
-               lastname: '1',
-               member_in_project: project,
-               member_with_permissions: %i[view_work_packages view_file_links])
       end
 
       context 'with baseline and current timestamps', with_flag: { show_changes: true } do

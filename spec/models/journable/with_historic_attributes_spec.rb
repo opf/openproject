@@ -34,8 +34,11 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
   shared_let(:baseline_time) { "2022-01-01".to_time }
   shared_let(:created_at) { baseline_time - 1.day }
 
+  shared_let(:project) { create(:project) }
   shared_let(:work_package1) do
-    new_work_package = create(:work_package, subject: "The current work package 1")
+    new_work_package = create(:work_package,
+                              subject: "The current work package 1",
+                              project:)
     new_work_package.update_columns(created_at:)
     new_work_package
   end
@@ -44,18 +47,18 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
     create_journal(journable: work_package1,
                    timestamp: created_at,
                    version: 1,
-                   attributes: { subject: "The original work package 1" })
+                   attributes: { subject: "The original work package 1", project: })
   end
-  shared_let(:current_journal_wp2) do
+  shared_let(:current_journal_wp1) do
     create_journal(journable: work_package1,
                    timestamp: 1.day.ago,
                    version: 2,
-                   attributes: { subject: "The current work package 1" })
+                   attributes: { subject: "The current work package 1", project: })
   end
 
   shared_let(:work_package2) do
     new_work_package = create(:work_package,
-                              project: work_package1.project,
+                              project:,
                               subject: "The current work package 2",
                               start_date: created_at - 3.days)
     new_work_package.update_columns(created_at:)
@@ -67,25 +70,26 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
                    timestamp: created_at,
                    version: 1,
                    attributes: { start_date: created_at - 5.days,
-                                 subject: "The original work package 2" })
+                                 subject: "The original work package 2",
+                                 project: })
   end
   shared_let(:current_journal_wp2) do
     create_journal(journable: work_package2,
                    timestamp: 1.day.ago,
                    version: 2,
                    attributes: { start_date: created_at - 3.days,
-                                 subject: "The current work package 2" })
+                                 subject: "The current work package 2",
+                                 project: })
   end
 
   let(:user1) do
     create(:user,
            firstname: 'user',
            lastname: '1',
-           member_in_project: work_package1.project,
+           member_in_project: project,
            member_with_permissions: %i[view_work_packages view_file_links])
   end
   let(:build_query) do
-    login_as(user1)
     build(:query, user: nil, project: nil).tap do |query|
       query.filters.clear
       query.add_filter 'subject', '~', search_term
@@ -95,6 +99,8 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
   let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
   let(:query) { nil }
   let(:include_only_changed_attributes) { nil }
+
+  current_user { user1 }
 
   def create_journal(journable:, version:, timestamp:, attributes: {})
     work_package_attributes = journable.attributes.except("id")
@@ -316,6 +322,33 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
         expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
       end
 
+      context 'with the work package not being visible currently' do
+        let(:other_project) { create(:project) }
+
+        before do
+          current_journal_wp1.data.update_column(:project_id, other_project.id)
+          work_package1.update_column(:project_id, other_project.id)
+        end
+
+        it "reports the work package to only exist in former times" do
+          expect(subject.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+          expect(subject.exists_at_timestamps).not_to include Timestamp.parse("PT0S")
+        end
+      end
+
+      context 'with the work package not having been visible before but being visible now' do
+        let(:other_project) { create(:project) }
+
+        before do
+          original_journal_wp1.data.update_column(:project_id, other_project.id)
+        end
+
+        it "reports the work package to not exist at that point in time" do
+          expect(subject.exists_at_timestamps).to include Timestamp.parse("2022-01-01T00:00:00Z")
+          expect(subject.exists_at_timestamps).to include Timestamp.parse("PT0S")
+        end
+      end
+
       describe "when providing a query" do
         let(:query) { build_query }
         let(:search_term) { "original" }
@@ -362,6 +395,69 @@ describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
 
         it "does not include the timestamp in the exists_at_timestamps array" do
           expect(subject.exists_at_timestamps).not_to include Timestamp.parse("2021-01-01T00:00:00Z")
+        end
+      end
+    end
+  end
+
+  describe '#at_timestamp' do
+    context "with a single work package" do
+      let(:work_packages) { work_package1 }
+
+      it "returns the journable at a former time it existed with the attributes set to the former values" do
+        expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).attributes.slice('subject', 'id'))
+                      .to eq('subject' => "The original work package 1",
+                             'id' => work_package1.id)
+      end
+
+      it "returns the journable at the current time" do
+        expect(subject.at_timestamp(Timestamp.parse("PT0S")).attributes.slice('subject', 'id'))
+          .to eq('subject' => "The current work package 1",
+                 'id' => work_package1.id)
+      end
+
+      it "returns nil for a time it did not exist yet" do
+        expect(subject.at_timestamp(Timestamp.parse("2021-01-01T00:00:00Z")))
+          .to be_nil
+      end
+
+      context 'with the work package not being visible currently' do
+        let(:other_project) { create(:project) }
+
+        before do
+          current_journal_wp1.data.update_column(:project_id, other_project.id)
+          work_package1.update_column(:project_id, other_project.id)
+        end
+
+        it "returns the journable at a former time it existed with the attributes set to the former values" do
+          expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).attributes.slice('subject', 'id'))
+            .to eq('subject' => "The original work package 1",
+                   'id' => work_package1.id)
+        end
+
+        it "returns nil at the current time" do
+          expect(subject.at_timestamp(Timestamp.parse("PT0S")))
+            .to be_nil
+        end
+      end
+
+      context 'with the work package not having been visible before but being visible now' do
+        let(:other_project) { create(:project) }
+
+        before do
+          original_journal_wp1.data.update_column(:project_id, other_project.id)
+        end
+
+        it "returns the journable at a former time it existed (and was invisible) with the attributes set to the former values" do
+          expect(subject.at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")).attributes.slice('subject', 'id'))
+            .to eq('subject' => "The original work package 1",
+                   'id' => work_package1.id)
+        end
+
+        it "returns the journable at the current time" do
+          expect(subject.at_timestamp(Timestamp.parse("PT0S")).attributes.slice('subject', 'id'))
+            .to eq('subject' => "The current work package 1",
+                   'id' => work_package1.id)
         end
       end
     end
