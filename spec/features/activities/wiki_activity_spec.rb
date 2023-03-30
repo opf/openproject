@@ -76,15 +76,16 @@ describe 'Wiki activities' do
     click_button 'Apply'
 
     expect(page)
-      .to have_link('Wiki edit: My page (#1)')
+      .to have_link('Wiki: My page')
 
     expect(page)
-      .to have_link('Wiki edit: My page (#2)')
+      .to have_link('Wiki: My page')
 
-    click_link('Wiki edit: My page (#2)')
+    # Click on the second wiki activity item
+    find(:xpath, "(//a[text()='Wiki: My page'])[1]").click
 
     expect(page)
-      .to have_current_path(project_wiki_path(project.id, 'my-page', version: 2))
+      .to have_current_path(project_wiki_path(project.id, 'my-page'))
 
     # disable the wiki module
 

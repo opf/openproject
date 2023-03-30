@@ -26,43 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :journal do
-    user factory: :user
-    created_at { Time.zone.now }
-    sequence(:version, 1)
+class OpenProject::JournalFormatter::WikiDiff < OpenProject::JournalFormatter::Diff
+  private
 
-    factory :work_package_journal, class: 'Journal' do
-      journable_type { 'WorkPackage' }
-      data { build(:journal_work_package_journal) }
+  def url_attr(_key, options)
+    journable = @journal.journable
+    version = @journal.version
 
-      callback(:after_stub) do |journal, options|
-        journal.journable ||= options.journable || build_stubbed(:work_package)
-      end
-    end
-
-    factory :wiki_content_journal, class: 'Journal' do
-      journable_type { 'WikiContent' }
-      data { build(:journal_wiki_content_journal) }
-
-      callback(:after_stub) do |journal, options|
-        journal.journable ||= options.journable || build_stubbed(:wiki_content)
-      end
-    end
-
-    factory :message_journal, class: 'Journal' do
-      journable_type { 'Message' }
-      data { build(:journal_message_journal) }
-    end
-
-    factory :news_journal, class: 'Journal' do
-      journable_type { 'News' }
-      data { build(:journal_message_journal) }
-    end
-
-    factory :project_journal, class: 'Journal' do
-      journable factory: :project
-      data { build(:journal_project_journal) }
-    end
+    default_attributes(options)
+    .merge(controller: '/wiki',
+           action: 'diff',
+           project_id: journable.project.identifier,
+           id: journable.page.slug,
+           version: version - 1,
+           version_from: version)
+    .compact
   end
 end
