@@ -32,17 +32,14 @@
 # See for comments: storage_table_cell.rb
 # See also: project_storages_row_cell.rb, which contains a method
 # for every "column" defined below.
-module Storages
-  class ProjectsStoragesTableCell < ::TableCell
+module Storages::ProjectsStorages
+  class TableComponent < ::TableComponent
     include ::IconsHelper
 
-    class << self
-      def row_class
-        ::Storages::ProjectsStoragesRowCell
-      end
-    end
-
-    columns :name, :provider_type, :creator, :created_at
+    columns :name,
+            :provider_type,
+            :creator,
+            :created_at
 
     def initial_sort
       %i[created_at asc]
