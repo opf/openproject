@@ -3055,7 +3055,7 @@ ru:
       code_409: "Не удалось обновить ресурс из-за конфликтующих изменений."
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:
