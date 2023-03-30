@@ -73,6 +73,7 @@ describe Calendar::CreateIcalService, type: :model do
   end
 
   subject do
+    # TODO: fix test, the service is now expecting an AR Relation rather than an array for work_packages
     instance.call(
       work_packages:,
       calendar_name: query_name
