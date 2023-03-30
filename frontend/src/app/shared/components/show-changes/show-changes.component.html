@@ -49,17 +49,28 @@
 
        <input
           slot="input"
-          id="appt-time"
           type="time"
-          name="appt-time" 
           class="op-show-changes-modal--time-input"/>
+
           <div
-          slot="input"
-          class="op-show-changes-modal--time-help spot-body-small"
-        >
-          <span class="">CERT</span>
-          <span class="spot-icon spot-icon_help1"></span>
-        </div>
+            slot="input"
+            class="op-show-changes-modal--time-help spot-body-small"
+          >
+            <span class="">CERT</span>
+
+            <spot-tooltip
+            class="op-show-changes-modal--time-tooltip"
+            [alignment]="tooltipPosition"
+            [disabled]="false"
+            [light]="true">
+        
+              <span class="spot-icon spot-icon_help1" slot="trigger"></span>
+            
+              <span slot="body" class="spot-body-small op-show-changes-modal--time-tooltip-body">{{ text.help_description }}</span>
+       
+            </spot-tooltip>
+          </div>
+
       </spot-form-field>
 
       <div class="spot-action-bar">

@@ -1346,6 +1346,7 @@ en:
       apply: 'Apply'
       header_description: 'View changes made to work packages in the current view within a time period.'
       show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
       time: 'Time'
       drop_down:
         none: '-'

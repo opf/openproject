@@ -36,6 +36,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   selector: 'op-show-changes',
@@ -53,11 +54,14 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     apply: this.I18n.t('js.show_changes.apply'),
     show_changes_since: this.I18n.t('js.show_changes.show_changes_since'),
     time: this.I18n.t('js.show_changes.time'),
+    help_description: this.I18n.t('js.show_changes.help_description'),
   };
 
   public opened = false;
 
   public filterSelected = false;
+
+  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
 
   public showChangesAvailableValues = [
     {
