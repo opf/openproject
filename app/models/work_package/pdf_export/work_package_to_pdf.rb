@@ -164,7 +164,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def write_title!
     pdf.title = heading
-    pdf.font style: :bold, size: 11
+    pdf.apply_font style: :bold, size: 11
     pdf.text "#{heading}: #{work_package.subject}"
     pdf.move_down 20
   end
@@ -188,7 +188,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     # Render plain custom values
     make_plain_custom_fields { |row| data << row }
 
-    pdf.font style: :normal, size: 9
+    pdf.apply_font style: :normal, size: 9
     pdf.table(data, column_widths:)
 
     # Render formattable custom values
@@ -209,7 +209,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     if show_changesets?
       newline!
 
-      pdf.font style: :bold, size: 9
+      pdf.apply_font style: :bold, size: 9
       pdf.text I18n.t(:label_associated_revisions)
       pdf.stroke do
         pdf.horizontal_rule
@@ -217,12 +217,12 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
       newline!
 
       work_package.changesets.each do |changeset|
-        pdf.font style: :bold, size: 8
+        pdf.apply_font style: :bold, size: 8
         pdf.text(format_time(changeset.committed_on) + ' - ' + changeset.author.to_s)
         newline!
 
         if changeset.comments.present?
-          pdf.font style: :normal, size: 8
+          pdf.apply_font style: :normal, size: 8
           pdf.text changeset.comments.to_s
         end
 
@@ -234,7 +234,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def write_history!
     pdf.move_down(pdf.font_size * 2)
 
-    pdf.font style: :bold, size: 9
+    pdf.apply_font style: :bold, size: 9
     pdf.text I18n.t(:label_history)
     pdf.stroke do
       pdf.horizontal_rule
@@ -245,11 +245,11 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
       next if journal.initial?
 
-      pdf.font style: :bold, size: 8
+      pdf.apply_font style: :bold, size: 8
       pdf.text(format_time(journal.created_at) + ' - ' + journal.user.name)
       newline!
 
-      pdf.font style: :italic, size: 8
+      pdf.apply_font style: :italic, size: 8
       journal.details.each do |detail|
         text = journal
           .render_detail(detail, html: false, only_path: false)
@@ -262,7 +262,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
       if journal.notes?
         newline! unless journal.details.empty?
 
-        pdf.font style: :normal, size: 8
+        pdf.apply_font style: :normal, size: 8
 
         pdf.markup(format_text(journal.notes.to_s, object: work_package, format: :html))
       end
@@ -275,14 +275,14 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     if work_package.attachments.any?
       pdf.move_down(pdf.font_size * 2)
 
-      pdf.font style: :bold, size: 9
+      pdf.apply_font style: :bold, size: 9
       pdf.text I18n.t(:label_attachment_plural)
       pdf.stroke do
         pdf.horizontal_rule
       end
       newline!
 
-      pdf.font style: :normal, size: 8
+      pdf.apply_font style: :normal, size: 8
 
       data = work_package.attachments.map do |attachment|
         [

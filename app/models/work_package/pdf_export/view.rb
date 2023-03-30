@@ -87,7 +87,7 @@ class WorkPackage::PDFExport::View
     info[:Title]
   end
 
-  def font(name: nil, style: nil, size: nil)
+  def apply_font(name: nil, style: nil, size: nil)
     name ||= document.font.basename.split('-').first # e.g. NotoSans-Bold => NotoSans
     font_opts = {}
     font_opts[:style] = style if style
