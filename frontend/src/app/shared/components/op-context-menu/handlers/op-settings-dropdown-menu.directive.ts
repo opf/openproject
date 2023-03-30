@@ -316,11 +316,11 @@ export class OpSettingsMenuDirective extends OpContextMenuTrigger {
       {
         // Calendar sharing modal
         hidden: !this.showCalendarSharingOption,
-        disabled: this.authorisationService.cannot('query', 'getIcalUrl'),
+        disabled: this.authorisationService.cannot('query', 'icalUrl'),
         linkText: this.I18n.t('js.toolbar.settings.share_calendar'),
         icon: 'icon-link', // TODO: find sharing icons
         onClick: () => {
-          if (this.authorisationService.can('query', 'getIcalUrl')) {
+          if (this.authorisationService.can('query', 'icalUrl')) {
             this.opModalService.show(QueryGetIcalUrlModalComponent, this.injector);
           }
 

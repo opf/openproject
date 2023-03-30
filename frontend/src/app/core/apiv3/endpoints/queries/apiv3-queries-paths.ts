@@ -139,6 +139,6 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    * @param query
    */
   public getIcalUrl(query:QueryResource):Promise<unknown> {
-    return query.getIcalUrl();
+    return query.icalUrl();
   }
 }

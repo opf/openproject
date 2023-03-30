@@ -147,12 +147,12 @@ module API
           }
         end
 
-        link :getIcalUrl do
+        link :icalUrl do
           next if represented.new_record? ||
                   !allowed_to?(:share_via_ical)
 
           {
-            href: api_v3_paths.query_create_ical_url(represented.id),
+            href: api_v3_paths.query_ical_url(represented.id),
             method: :post
           }
         end

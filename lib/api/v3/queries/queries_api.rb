@@ -159,7 +159,7 @@ module API
                        .mount
             end
 
-            namespace :create_ical_url do
+            namespace :ical_url do
               post do
                 authorize_by_policy(:share_via_ical)
 
@@ -171,8 +171,22 @@ module API
                   project_id: @query.project_id
                 )
 
+                # TODO: use representer in order to properly generate following response
+                # TODO: write test for this
                 {
-                  icalUrl: call.result
+                  "_type": "QueryICalUrl",
+                  "_links": {
+                    "self": {
+                      "href": api_v3_paths.query_ical_url(@query.id)
+                    },
+                    "query": {
+                      "href": api_v3_paths.query(@query.id)
+                    },
+                    "icalUrl": {
+                      "href": call.result,
+                      "format": "text/calendar"
+                    }
+                  } 
                 }
               end
             end

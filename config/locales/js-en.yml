@@ -358,11 +358,14 @@ en:
 
     ical_sharing_modal:
       title: "Share iCalendar"
-      description_1: "You can use the"
-      description_2: "to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
+      inital_setup_error_message: "An error occured while fetching data"
+      inital_setup_error_message: "An error occured while fetching data"
+      description: "You can use the iCalendar URL to import or subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "You can also share this URL with external users. However, anyone with this link  will be able to view work package details without an account or password."
       copy_url_label: "Copy URL"
+      ical_generation_error_text: "An error occured while generating the iCal URL"
       copy_url_success_text: "URL copied to clipboard"
+      copy_url_error_text: "couldn't be copied to clipboard"
 
     label_activate: "Activate"
     label_assignee: 'Assignee'

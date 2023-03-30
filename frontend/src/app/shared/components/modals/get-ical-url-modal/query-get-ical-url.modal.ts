@@ -40,6 +40,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   templateUrl: './query-get-ical-url.modal.html',
@@ -47,14 +49,13 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryGetIcalUrlModalComponent extends OpModalComponent implements OnInit {
-  public isBusy = false;
+  public query:QueryResource;
 
-  public icalUrl:string;
+  public isBusy = false;
 
   public text = {
     label_ical_sharing: this.I18n.t('js.ical_sharing_modal.title'),
-    description_ical_sharing_1: this.I18n.t('js.ical_sharing_modal.description_1'),
-    description_ical_sharing_2: this.I18n.t('js.ical_sharing_modal.description_2'),
+    description_ical_sharing: this.I18n.t('js.ical_sharing_modal.description'),
     ical_sharing_warning: this.I18n.t('js.ical_sharing_modal.warning'),
     button_copy: this.I18n.t('js.ical_sharing_modal.copy_url_label'),
     copy_success_text: this.I18n.t('js.ical_sharing_modal.copy_url_success_text'),
@@ -80,40 +81,60 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   ngOnInit():void {
     super.ngOnInit();
 
-    const query = this.querySpace.query.value;
+    this.query = this.querySpace.query.value!;
 
-    if (!query) {
-      return;
+    // TODO: I'm not sure if this is an error we actually need to catch
+    if (!this.query) {
+      this.toastService.addError(
+      this.I18n.t('js.ical_sharing_modal.inital_setup_error_message')
+      );
+      // without timeout the modal backdrop is not removed
+      setTimeout(() => {
+        this.closeMe();
+      }, 10);
     }
-
-    const promise = this
-      .apiV3Service
-      .queries
-      .getIcalUrl(query);
-
-    this.isBusy = true;
-
-    void promise
-      .then((response:HalResource) => {
-        this.icalUrl = String(response.icalUrl);
-        this.isBusy = false;
-        this.cdRef.detectChanges();
-        // TODO: or would that be better?
-        // this.ngZone.run(() => {
-        //   this.icalUrl = response.icalUrl;
-        //   this.isBusy = false;
-        // });
-      });
   }
 
-  public copyUrl():void {
+  public copyUrlAndCloseModal(url:string):void {
+    void navigator.clipboard.writeText(url)
+      .then(() => {
+        this.toastService.addSuccess(this.text.copy_success_text);
+        this.closeMe();
+      })
+      .catch(() => {
+        // e.g. browser permission errors
+        this.toastService.addError(
+          url + " " + this.I18n.t('js.ical_sharing_modal.copy_url_error_text')
+        );
+      });
+  }
+  
+  public generateAndCopyUrl():void {
     if (this.isBusy) {
       return;
     }
 
-    void navigator.clipboard.writeText(this.icalUrl)
-      .then(() => {
-        this.toastService.addSuccess(this.text.copy_success_text);
+    let icalUrl = "";
+
+    this.isBusy = true;
+
+    const promise = this
+      .apiV3Service
+      .queries
+      .getIcalUrl(this.query);
+
+    void promise
+      .then((response:HalResource) => {
+        icalUrl = String(response.icalUrl.href);
+        this.copyUrlAndCloseModal(icalUrl);
+      })
+      .catch(() => {
+        this.isBusy = false;
+        this.cdRef.detectChanges();
+
+        this.toastService.addError(
+          this.I18n.t('js.ical_sharing_modal.ical_generation_error_text')
+        );
       });
   }
 }

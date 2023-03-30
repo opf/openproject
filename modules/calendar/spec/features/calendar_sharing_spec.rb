@@ -121,13 +121,11 @@ describe 'Calendar sharing via ical', js: true do
 
         # expect disabled sharing menu item
         within "#settingsDropdown" do
-          # expect(page).to have_button("Share iCalendar", disabled: true) # disabled selector not working
           expect(page).to have_selector(".menu-item", text: "Share iCalendar")
           page.click_button("Share iCalendar")
         end
 
         expect(page).to have_selector('.spot-modal--header', text: "Share iCalendar")
-        expect(page).to have_xpath('//a[contains(@href, "/ical?ical_token=")]')
 
         click_button "Copy URL"
 
