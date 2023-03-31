@@ -121,4 +121,8 @@ RSpec.describe Activities::ItemComponent, type: :component do
       expect(page).not_to have_css('.op-activity-list--item-detail')
     end
   end
+
+  context 'for TimeEntry activites' do
+    # TO DO
+  end
 end
