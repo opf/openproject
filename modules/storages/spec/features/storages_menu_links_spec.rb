@@ -58,7 +58,7 @@ describe 'Project menu', js: true do
     end
   end
 
-  context 'when user is logged in without permissions to see storage links' do
+  context 'when user is logged in with permissions to see storage links' do
     let(:permissions) { %i[view_file_links] }
 
     before { login_as(user) }
