@@ -199,14 +199,6 @@ module DemoData
       ]
     end
 
-    def seed_board(project)
-      Forum.create!(
-        project:,
-        name: demo_data_for('board.name'),
-        description: demo_data_for('board.description')
-      )
-    end
-
     module Data
       module_function
 
