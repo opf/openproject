@@ -26,51 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on RubyCell for listing the
-# Storages::ProjectStorage per project in the projects' settings
-# page.
-# See for comments: storage_table_cell.rb
-# See also: project_storages_row_cell.rb, which contains a method
-# for every "column" defined below.
-module Storages
-  class ProjectsStoragesTableCell < ::TableCell
+# Purpose: Defines how to format the cells within a table row of ProjectStorages
+# associated with a project
+module Storages::ProjectsStorages
+  class RowComponent < ::RowComponent
     include ::IconsHelper
-
-    class << self
-      def row_class
-        ::Storages::ProjectsStoragesRowCell
-      end
+    include ::AvatarHelper
+    include ::Redmine::I18n
+    def project_storage
+      row
     end
 
-    columns :name, :provider_type, :creator, :created_at
+    delegate :created_at, to: :project_storage
 
-    def initial_sort
-      %i[created_at asc]
+    def name
+      project_storage.storage.name
     end
 
-    def sortable?
-      false
+    def provider_type
+      project_storage.storage.provider_type
     end
 
-    def inline_create_link
-      link_to(new_project_settings_projects_storage_path,
-              class: 'wp-inline-create--add-link',
-              title: I18n.t('storages.label_new_storage')) do
-        op_icon('icon icon-add')
-      end
+    def creator
+      icon = avatar project_storage.creator, size: :mini
+      icon + project_storage.creator.name
     end
 
-    def empty_row_message
-      I18n.t 'storages.no_results'
+    def button_links
+      [delete_link]
     end
 
-    def headers
-      [
-        ['name', { caption: ::Storages::Storage.human_attribute_name(:name) }],
-        ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
-        ['creator', { caption: I18n.t('storages.label_creator') }],
-        ['created_at', { caption: ::Storages::ProjectStorage.human_attribute_name(:created_at) }]
-      ]
+    def delete_link
+      link_to '',
+              project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              class: 'icon icon-delete',
+              data: { confirm: I18n.t('storages.delete_warning.project_storage') },
+              title: I18n.t(:button_delete),
+              method: :delete
     end
   end
 end
