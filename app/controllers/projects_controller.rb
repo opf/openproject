@@ -65,10 +65,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  current_menu_item :index do
-    :list_projects
-  end
-
   def new
     render layout: 'no_menu'
   end
@@ -107,12 +103,6 @@ class ProjectsController < ApplicationController
     authorize
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def redirect_work_packages_or_overview
-    return if redirect_to_project_menu_item(@project, :work_packages)
-
-    redirect_to project_overview_path(@project)
   end
 
   def hide_project_in_layout
