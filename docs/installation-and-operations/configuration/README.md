@@ -8,7 +8,7 @@ sidebar_navigation:
 
 
 
-OpenProject can be configured either via environment variables. These are often helpful for automatically deploying production systems.
+OpenProject can be configured via environment variables. These are often helpful for automatically deploying production systems.
 
 > **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
 
