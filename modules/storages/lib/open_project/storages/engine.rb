@@ -98,7 +98,7 @@ module OpenProject::Storages
               before: :members,
               icon: "#{storage.provider_type}-circle",
               icon_after: "external-link",
-              external_link: true
+              skip_permissions_check: true
             )
           end
         end

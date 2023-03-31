@@ -334,7 +334,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_action_allowed?(node, project, user)
-    return true if node.external_link?
+    return true if node.skip_permissions_check?
 
     url = node.url(project)
     return true unless url
