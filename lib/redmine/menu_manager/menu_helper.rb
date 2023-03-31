@@ -322,7 +322,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def allowed_project_node?(node, project, user)
-    if node_action_allowed?(node, project, user) || node.external_link?
+    if node_action_allowed?(node, project, user)
       true
     elsif node.allow_deeplink?
       node.children.any? do |child|
@@ -334,6 +334,8 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_action_allowed?(node, project, user)
+    return true if node.external_link?
+
     url = node.url(project)
     return true unless url
 
