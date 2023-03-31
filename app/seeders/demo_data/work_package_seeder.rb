@@ -51,7 +51,6 @@ module DemoData
 
     def seed_demo_work_packages
       project_data.each('work_packages') do |attributes|
-        print_status '.'
         create_or_update_work_package(attributes)
       end
     end
@@ -88,7 +87,6 @@ module DemoData
 
     def create_children!(work_package, attributes)
       Array(attributes['children']).each do |child_attributes|
-        print_status '.'
         child = create_work_package child_attributes
 
         child.parent = work_package

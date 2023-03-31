@@ -61,7 +61,6 @@ module DemoData
         parent:
       )
 
-      print_status '.'
       WikiContent.create!(
         page: wiki_page,
         author: user,

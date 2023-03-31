@@ -50,7 +50,6 @@ module DemoData
 
     def seed_groups
       seed_data.each('groups') do |group_data|
-        print_status '.'
         create_group group_data['name']
       end
     end
