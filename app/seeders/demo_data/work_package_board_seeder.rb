@@ -43,6 +43,7 @@ module DemoData
         print_status '    ↳ Creating demo status board' do
           seed_kanban_board(board_data)
         end
+        Setting.boards_demo_data_available = 'true'
       end
 
       if board_data = project_data.lookup('boards.basic')
@@ -55,33 +56,35 @@ module DemoData
         print_status '    ↳ Creating demo parent child board' do
           seed_parent_child_board(board_data)
         end
+        Setting.boards_demo_data_available = 'true'
       end
     end
 
     private
 
     def seed_kanban_board(board_data)
-      board = ::Boards::Grid.new(project:)
-
-      board.name = board_data.lookup('name')
-      board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' }
-
+      widgets = seed_kanban_board_widgets
+      board =
+        ::Boards::Grid.new(
+          project:,
+          name: board_data.lookup('name'),
+          options: { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'priority' },
+          widgets:,
+          column_count: widgets.count,
+          row_count: 1
+        )
       set_board_filters(board, board_data)
+      board.save!
+    end
 
-      board.widgets = seed_kanban_board_queries.each_with_index.map do |query, i|
+    def seed_kanban_board_widgets
+      seed_kanban_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
                                      filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
                           identifier: 'work_package_query'
       end
-
-      board.column_count = board.widgets.count
-      board.row_count = 1
-
-      board.save!
-
-      Setting.boards_demo_data_available = 'true'
     end
 
     def set_board_filters(board, board_data)
@@ -123,22 +126,27 @@ module DemoData
     end
 
     def seed_basic_board(board_data)
-      board = ::Boards::Grid.new(project:)
-      board.name = board_data.lookup('name')
-      board.options = { 'highlightingMode' => 'priority' }
+      widgets = seed_basic_board_widgets
+      board =
+        ::Boards::Grid.new(
+          project:,
+          name: board_data.lookup('name'),
+          options: { 'highlightingMode' => 'priority' },
+          widgets:,
+          column_count: widgets.count,
+          row_count: 1
+        )
+      board.save!
+    end
 
-      board.widgets = seed_basic_board_queries.each_with_index.map do |query, i|
+    def seed_basic_board_widgets
+      seed_basic_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
                                      filters: [{ manualSort: { operator: 'ow', values: [] } }] },
                           identifier: 'work_package_query'
       end
-
-      board.column_count = board.widgets.count
-      board.row_count = 1
-
-      board.save!
     end
 
     def seed_basic_board_queries
@@ -196,25 +204,27 @@ module DemoData
     end
 
     def seed_parent_child_board(board_data)
-      board = ::Boards::Grid.new(project:)
+      widgets = seed_parent_child_board_widgets
+      board =
+        ::Boards::Grid.new(
+          project:,
+          name: board_data.lookup('name'),
+          options: { 'type' => 'action', 'attribute' => 'subtasks' },
+          widgets:,
+          column_count: widgets.count,
+          row_count: 1
+        )
+      board.save!
+    end
 
-      board.name = board_data.lookup('name')
-      board.options = { 'type' => 'action', 'attribute' => 'subtasks' }
-
-      board.widgets = seed_parent_child_board_queries.each_with_index.map do |query, i|
+    def seed_parent_child_board_widgets
+      seed_parent_child_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
                                      filters: [{ parent: { operator: '=', values: query.filters[1].values } }] },
                           identifier: 'work_package_query'
       end
-
-      board.column_count = board.widgets.count
-      board.row_count = 1
-
-      board.save!
-
-      Setting.boards_demo_data_available = 'true'
     end
 
     def seed_parent_child_board_queries

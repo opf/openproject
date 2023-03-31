@@ -50,50 +50,21 @@ module DemoData
     end
 
     def seed_project(project_data)
-      print_status " ↳ Creating #{project_data.key} project..."
+      print_status " ↳ Creating project: #{project_data.lookup('name')}"
 
-      print_status '   -Creating/Resetting project'
       project = reset_project(project_data)
-
-      print_status '   -Setting project status.'
       set_project_status(project, project_data)
-
-      print_status '   -Setting members.'
       set_members(project)
-
-      print_status '   -Creating news.'
       seed_news(project, project_data)
-
-      print_status '   -Assigning types.'
       set_types(project, project_data)
-
-      print_status '   -Creating categories'
       seed_categories(project, project_data)
-
-      print_status '   -Creating versions.'
       seed_versions(project, project_data)
-
-      print_status '   -Creating queries.'
       seed_queries(project, project_data)
-
-      project_data_seeders(project, project_data).each do |seeder|
-        print_status "   -#{seeder.class.name.demodulize}"
-        seeder.seed!
-      end
+      seed_project_content(project, project_data)
     end
 
     def applicable?
       Project.count.zero?
-    end
-
-    def project_data_seeders(project, project_data)
-      seeders = [
-        DemoData::WikiSeeder,
-        DemoData::WorkPackageSeeder,
-        DemoData::WorkPackageBoardSeeder
-      ]
-
-      seeders.map { |seeder| seeder.new(project, project_data) }
     end
 
     def seed_settings
@@ -116,6 +87,7 @@ module DemoData
     end
 
     def reset_project(data)
+      print_status '   -Creating/Resetting project'
       delete_project(data)
       create_project(data)
     end
@@ -131,6 +103,8 @@ module DemoData
     end
 
     def set_project_status(project, project_data)
+      print_status '   -Setting project status.'
+
       status_code = project_data.lookup('status.code')
       status_explanation = project_data.lookup('status.description')
 
@@ -144,6 +118,8 @@ module DemoData
     end
 
     def set_members(project)
+      print_status '   -Setting members.'
+
       role = Role.find_by(name: I18n.t(:default_role_project_admin))
 
       Member.create!(
@@ -160,6 +136,8 @@ module DemoData
     end
 
     def set_types(project, project_data)
+      print_status '   -Assigning types.'
+
       project.types.clear
       Array(project_data.lookup('types')).each do |type_name|
         type = Type.find_by(name: I18n.t(type_name))
@@ -168,12 +146,16 @@ module DemoData
     end
 
     def seed_categories(project, project_data)
+      print_status '   -Creating categories'
+
       Array(project_data.lookup('categories')).each do |cat_name|
         project.categories.create name: cat_name
       end
     end
 
     def seed_news(project, project_data)
+      print_status '   -Creating news.'
+
       project_data.each('news') do |news|
         News.create!(project:,
                      author: user,
@@ -184,17 +166,37 @@ module DemoData
     end
 
     def seed_queries(project, project_data)
+      print_status '   -Creating queries.'
+
       Array(project_data.lookup('queries')).each do |config|
         QueryBuilder.new(config, project:, user:).create!
       end
     end
 
     def seed_versions(project, project_data)
-      version_data = Array(project_data.lookup('versions'))
+      print_status '   -Creating versions.'
 
-      version_data.each do |attributes|
+      project_data.each('versions') do |attributes|
         VersionBuilder.new(attributes, project:, user:).create!
       end
+    end
+
+    def seed_project_content(project, project_data)
+      project_content_seeder_classes.each do |seeder_class|
+        print_status "   -#{seeder_class.name.demodulize}"
+
+        seeder = seeder_class.new(project, project_data)
+        seeder.seed!
+      end
+    end
+
+    # override to add additional seeders
+    def project_content_seeder_classes
+      [
+        DemoData::WikiSeeder,
+        DemoData::WorkPackageSeeder,
+        DemoData::WorkPackageBoardSeeder
+      ]
     end
 
     def seed_board(project)

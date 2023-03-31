@@ -12,30 +12,33 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
       if board_data = project_data.lookup('boards.bcf')
         print_status '    ↳ Creating demo BCF board' do
           seed_bcf_board(board_data)
+          Setting.boards_demo_data_available = 'true'
         end
       end
     end
 
     def seed_bcf_board(board_data)
-      board = ::Boards::Grid.new(project:)
+      widgets = seed_bcf_board_widgets
+      board =
+        ::Boards::Grid.new(
+          project:,
+          name: board_data.lookup('name'),
+          options: { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' },
+          widgets:,
+          column_count: widgets.count,
+          row_count: 1
+        )
+      board.save!
+    end
 
-      board.name = board_data.lookup('name')
-      board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' }
-
-      board.widgets = seed_bcf_board_queries.each_with_index.map do |query, i|
+    def seed_bcf_board_widgets
+      seed_bcf_board_queries.each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
                                      filters: [{ status: { operator: '=', values: query.filters[0].values } }] },
                           identifier: 'work_package_query'
       end
-
-      board.column_count = board.widgets.count
-      board.row_count = 1
-
-      board.save!
-
-      Setting.boards_demo_data_available = 'true'
     end
 
     def seed_bcf_board_queries
