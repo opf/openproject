@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -25,20 +27,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
-  class BasicDataSeeder < ::BasicDataSeeder
-    def data_seeder_classes
-      [
-        ::BasicData::BuiltinUsersSeeder,
-        ::BasicData::BuiltinRolesSeeder,
-        ::BasicData::RoleSeeder,
-        ::StandardSeeder::BasicData::ActivitySeeder,
-        ::BasicData::ColorSeeder,
-        ::BasicData::ColorSchemeSeeder,
-        ::StandardSeeder::BasicData::WorkflowSeeder,
-        ::StandardSeeder::BasicData::PrioritySeeder,
-        ::BasicData::SettingSeeder
-      ]
+
+require 'spec_helper'
+
+RSpec.describe Seeder do
+  subject(:seeder) { described_class.new }
+
+  describe '#user' do
+    it 'returns the admin created from the seeding' do
+      expect(seeder.user).to be_nil
+      AdminUserSeeder.new.seed!
+      expect(seeder.user).to be_a(User)
+    end
+
+    it 'does not return the system user' do
+      expect { User.system }.to change { User.admin.count }.by(1)
+      expect(seeder.user).to be_nil
     end
   end
 end

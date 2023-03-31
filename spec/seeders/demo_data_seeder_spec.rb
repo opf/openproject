@@ -35,7 +35,11 @@ describe RootSeeder,
   it 'creates the demo data' do # rubocop:disable RSpec/MultipleExpectations
     expect { described_class.new.do_seed! }.not_to raise_error
 
-    expect(User.where(admin: true).count).to eq 1
+    # the system user
+    expect(SystemUser.where(admin: true).count).to eq 1
+    # an admin user
+    expect(User.not_builtin.where(admin: true).count).to eq 1
+
     expect(Project.count).to eq 2
     expect(WorkPackage.count).to eq 36
     expect(Wiki.count).to eq 2

@@ -26,12 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class QueryBuilder < ::Seeder
-    attr_reader :config, :project
+    attr_reader :config, :project, :user
 
-    def initialize(config, project)
+    def initialize(config, project:, user:)
       super()
       @config = config.with_indifferent_access
       @project = project
+      @user = user
     end
 
     def create!
@@ -49,7 +50,7 @@ module DemoData
     def base_attributes
       {
         name: config[:name],
-        user: User.admin.user.first,
+        user:,
         public: config.fetch(:public, true),
         starred: config.fetch(:starred, false),
         show_hierarchies: config.fetch(:hierarchy, false),

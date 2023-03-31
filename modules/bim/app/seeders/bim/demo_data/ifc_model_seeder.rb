@@ -51,8 +51,6 @@ module Bim
       private
 
       def seed_model(model)
-        user = User.admin.first
-
         xkt_data = get_xkt_file(model['file'])
 
         if xkt_data.nil?

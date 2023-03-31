@@ -28,11 +28,12 @@ module DemoData
   class VersionBuilder
     include ::DemoData::References
 
-    attr_reader :config, :project
+    attr_reader :config, :project, :user
 
-    def initialize(config, project)
+    def initialize(config, project:, user:)
       @config = config
       @project = project
+      @user = user
     end
 
     def create!
@@ -70,7 +71,7 @@ module DemoData
 
       content = with_references config['content'], project
       Journal::NotificationConfiguration.with false do
-        WikiContent.create! page:, author: User.admin.first, text: content
+        WikiContent.create! page:, author: user, text: content
       end
 
       version.save!

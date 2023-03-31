@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
-    attr_reader :project, :user, :statuses, :repository,
+    attr_reader :project, :statuses, :repository,
                 :types, :project_data
 
     include ::DemoData::References
@@ -35,7 +35,6 @@ module DemoData
       super()
       @project = project
       @project_data = project_data
-      @user = User.admin.first
       @statuses = Status.all
       @repository = Repository.first
       @types = project.types.all.reject(&:is_milestone?)

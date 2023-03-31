@@ -65,6 +65,11 @@ class Seeder
     "Skipping #{self.class.name}"
   end
 
+  # The user being the author of all data created during seeding.
+  def user
+    @user ||= User.not_builtin.admin.first
+  end
+
   protected
 
   def print_status(message)

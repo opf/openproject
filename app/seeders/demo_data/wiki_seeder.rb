@@ -39,8 +39,6 @@ module DemoData
 
       return if text.blank?
 
-      user = User.admin.first
-
       if text.is_a? String
         text = [{ title: "Wiki", content: text }]
       end

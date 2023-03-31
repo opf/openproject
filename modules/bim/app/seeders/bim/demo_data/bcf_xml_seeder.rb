@@ -40,8 +40,6 @@ module Bim
         filename = project_data.lookup('bcf_xml_file')
         return if filename.blank?
 
-        user = User.admin.active.first
-
         print_status '    ↳ Import BCF XML file'
 
         import_options = {

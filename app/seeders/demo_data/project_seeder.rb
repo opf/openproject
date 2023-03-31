@@ -145,7 +145,6 @@ module DemoData
 
     def set_members(project)
       role = Role.find_by(name: I18n.t(:default_role_project_admin))
-      user = User.admin.first
 
       Member.create!(
         project:,
@@ -175,7 +174,6 @@ module DemoData
     end
 
     def seed_news(project, project_data)
-      user = User.admin.first
       project_data.each('news') do |news|
         News.create!(project:,
                      author: user,
@@ -187,7 +185,7 @@ module DemoData
 
     def seed_queries(project, project_data)
       Array(project_data.lookup('queries')).each do |config|
-        QueryBuilder.new(config, project).create!
+        QueryBuilder.new(config, project:, user:).create!
       end
     end
 
@@ -195,7 +193,7 @@ module DemoData
       version_data = Array(project_data.lookup('versions'))
 
       version_data.each do |attributes|
-        VersionBuilder.new(attributes, project).create!
+        VersionBuilder.new(attributes, project:, user:).create!
       end
     end
 

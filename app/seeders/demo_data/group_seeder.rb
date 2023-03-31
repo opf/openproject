@@ -29,12 +29,11 @@ module DemoData
   class GroupSeeder < Seeder
     include ::DemoData::References
 
-    attr_reader :user, :seed_data
+    attr_reader :seed_data
 
     def initialize(seed_data)
       super()
       @seed_data = seed_data
-      @user = User.admin.first
     end
 
     def seed_data!

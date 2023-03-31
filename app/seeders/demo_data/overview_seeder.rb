@@ -59,7 +59,7 @@ module DemoData
     def create_attachments!(overview, attributes)
       Array(attributes['attachments']).each do |file_name|
         attachment = overview.attachments.build
-        attachment.author = User.admin.first
+        attachment.author = user
         attachment.file = File.new(attachment_path(file_name))
 
         attachment.save!

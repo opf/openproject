@@ -44,7 +44,7 @@ module DemoData
 
     def seed_global_queries
       seed_data.each('global_queries') do |config|
-        DemoData::QueryBuilder.new(config, nil).create!
+        DemoData::QueryBuilder.new(config, project: nil, user:).create!
       end
     end
   end

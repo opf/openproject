@@ -39,7 +39,6 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     end
 
     def seed_bcf_board_queries
-      admin = User.admin.first
       status_names = ['New', 'In progress', 'Resolved', 'Closed']
       statuses = Status.where(name: status_names).to_a
 
@@ -48,7 +47,7 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
       end
 
       statuses.to_a.map do |status|
-        Query.new_default(project:, user: admin).tap do |query|
+        Query.new_default(project:, user:).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
 
