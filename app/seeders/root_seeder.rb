@@ -55,10 +55,10 @@ class RootSeeder < Seeder
       # Basic data needs be seeded before anything else.
       seed_basic_data
 
-      puts '*** Seeding admin user'
+      print_status '*** Seeding admin user'
       AdminUserSeeder.new.seed!
 
-      puts '*** Seeding demo data'
+      print_status '*** Seeding demo data'
       DemoDataSeeder.new.seed!
 
       if seed_development_data?
@@ -66,7 +66,7 @@ class RootSeeder < Seeder
       end
 
       rails_engines.each do |engine|
-        puts "*** Loading #{engine.engine_name} seed data"
+        print_status "*** Loading #{engine.engine_name} seed data"
         engine.load_seed
       end
     end
@@ -106,7 +106,7 @@ class RootSeeder < Seeder
 
     if all_languages.include?(desired_lang)
       I18n.locale = desired_lang
-      puts "*** Seeding for locale: '#{I18n.locale}'"
+      print_status "*** Seeding for locale: '#{I18n.locale}'"
     else
       raise "Locale #{desired_lang} is not supported"
     end
@@ -123,7 +123,7 @@ class RootSeeder < Seeder
   private
 
   def seed_development_data
-    puts '*** Seeding development data'
+    print_status '*** Seeding development data'
     require 'factory_bot'
     # Load FactoryBot factories
     begin
@@ -136,7 +136,7 @@ class RootSeeder < Seeder
   end
 
   def seed_basic_data
-    puts "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
+    print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
     ::StandardSeeder::BasicDataSeeder.new.seed!
   end
 end

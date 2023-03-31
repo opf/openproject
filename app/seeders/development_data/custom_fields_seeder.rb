@@ -34,8 +34,6 @@ module DevelopmentData
         print_status "\n    ↳ Creating types for linking CFs"
         create_types!(cfs)
       end
-
-      puts
     end
 
     def all_cfs

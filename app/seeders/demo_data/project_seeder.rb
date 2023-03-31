@@ -37,7 +37,7 @@ module DemoData
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
-      puts ' ↳ Updating settings'
+      print_status ' ↳ Updating settings'
       seed_settings
 
       seed_data.each_data('projects') do |project_data|
@@ -45,39 +45,39 @@ module DemoData
         Setting.demo_projects_available = true
       end
 
-      puts ' ↳ Update form configuration with global queries'
+      print_status ' ↳ Update form configuration with global queries'
       set_form_configuration
     end
 
     def seed_project(project_data)
-      puts " ↳ Creating #{project_data.key} project..."
+      print_status " ↳ Creating #{project_data.key} project..."
 
-      puts '   -Creating/Resetting project'
+      print_status '   -Creating/Resetting project'
       project = reset_project(project_data)
 
-      puts '   -Setting project status.'
+      print_status '   -Setting project status.'
       set_project_status(project, project_data)
 
-      puts '   -Setting members.'
+      print_status '   -Setting members.'
       set_members(project)
 
-      puts '   -Creating news.'
+      print_status '   -Creating news.'
       seed_news(project, project_data)
 
-      puts '   -Assigning types.'
+      print_status '   -Assigning types.'
       set_types(project, project_data)
 
-      puts '   -Creating categories'
+      print_status '   -Creating categories'
       seed_categories(project, project_data)
 
-      puts '   -Creating versions.'
+      print_status '   -Creating versions.'
       seed_versions(project, project_data)
 
-      puts '   -Creating queries.'
+      print_status '   -Creating queries.'
       seed_queries(project, project_data)
 
       project_data_seeders(project, project_data).each do |seeder|
-        puts "   -#{seeder.class.name.demodulize}"
+        print_status "   -#{seeder.class.name.demodulize}"
         seeder.seed!
       end
     end

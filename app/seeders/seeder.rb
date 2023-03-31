@@ -27,13 +27,29 @@
 #++
 
 class Seeder
+  class << self
+    attr_writer :logger
+
+    def logger
+      @logger ||= Rails.logger
+    end
+
+    def log_to_stdout!
+      @logger = Logger.new($stdout)
+      @logger.level = Logger::DEBUG
+      @logger.formatter = proc do |_severity, _datetime, _prog_name, msg|
+        "#{msg}\n"
+      end
+    end
+  end
+
   def seed!
     if applicable?
       without_notifications do
         seed_data!
       end
     else
-      Rails.logger.debug { "   *** #{not_applicable_message}" }
+      Seeder.logger.debug { "   *** #{not_applicable_message}" }
     end
   end
 
@@ -52,9 +68,13 @@ class Seeder
   protected
 
   def print_status(message)
-    Rails.logger.info message
+    Seeder.logger.info message
 
     yield if block_given?
+  end
+
+  def print_error(message)
+    Seeder.logger.error message
   end
 
   ##

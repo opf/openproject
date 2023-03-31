@@ -32,10 +32,6 @@ describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  before do
-    allow($stdout).to receive(:puts) { |msg| Rails.logger.info(msg) }
-  end
-
   it 'creates the demo data' do
     expect { described_class.new.do_seed! }.not_to raise_error
 

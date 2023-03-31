@@ -28,18 +28,18 @@ module DevelopmentData
   class ProjectsSeeder < Seeder
     def seed_data!
       # We are relying on the default_projects_modules setting to set the desired project modules
-      puts ' ↳ Creating development projects...'
+      print_status ' ↳ Creating development projects...'
 
-      puts '   -Creating/Resetting development projects'
+      print_status '   -Creating/Resetting development projects'
       projects = reset_projects
 
-      puts '   -Setting members.'
+      print_status '   -Setting members.'
       set_members(projects)
 
-      puts '   -Creating versions.'
+      print_status '   -Creating versions.'
       seed_versions(projects)
 
-      puts '   -Linking custom fields.'
+      print_status '   -Linking custom fields.'
 
       link_custom_fields(projects.detect { |p| p.identifier == 'dev-custom-fields' })
     end

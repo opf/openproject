@@ -10,13 +10,13 @@ module DemoData
     end
 
     def seed_data!
-      puts "*** Seeding Overview"
+      print_status "*** Seeding Overview"
 
       seed_data.each_data('projects') do |project_data|
         overview_data = overview_data(project_data)
         next unless overview_data
 
-        puts "   -Creating overview for #{project_data.lookup('name')}"
+        print_status "   -Creating overview for #{project_data.lookup('name')}"
 
         overview = create_overview(overview_data, project_data)
 

@@ -54,8 +54,6 @@ module DemoData
           user:
         )
       end
-
-      puts
     end
 
     def create_wiki_page!(data, project:, user:, parent: nil)

@@ -59,19 +59,19 @@ module BasicData
       end
 
       if Type.where(is_standard: false).any? || Status.any? || Workflow.any?
-        puts '   *** Skipping types, statuses and workflows as there are already some configured'
+        print_status '   *** Skipping types, statuses and workflows as there are already some configured'
       elsif Role.where(name: I18n.t(:default_role_member)).empty? ||
             Role.where(name: I18n.t(:default_role_project_admin)).empty?
 
-        puts '   *** Skipping types, statuses and workflows as the required roles do not exist'
+        print_status '   *** Skipping types, statuses and workflows as the required roles do not exist'
       else
         member = Role.where(name: I18n.t(:default_role_member)).first
         manager = Role.where(name: I18n.t(:default_role_project_admin)).first
 
-        puts '   ↳ Types'
+        print_status '   ↳ Types'
         type_seeder_class.new.seed!
 
-        puts '   ↳ Statuses'
+        print_status '   ↳ Statuses'
         status_seeder_class.new.seed!
 
         # Workflow - Each type has its own workflow
