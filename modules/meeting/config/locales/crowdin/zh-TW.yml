@@ -85,7 +85,7 @@ zh-TW:
   text_duration_in_hours: "持續時間 (小時)"
   text_in_hours: "在一小時內"
   text_meeting_agenda_for_meeting: '%{meeting} 的會議大綱'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: '%{meeting} 的會議記錄'
   text_review_meeting_agenda: "%{author} 已經放上 %{link} 來審閱"
