@@ -27,13 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class GlobalQuerySeeder < Seeder
-    attr_reader :seed_data
-
-    def initialize(seed_data)
-      super()
-      @seed_data = seed_data
-    end
-
     def seed_data!
       print_status '    ↳ Creating global queries' do
         seed_global_queries

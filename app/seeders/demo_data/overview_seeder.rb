@@ -2,13 +2,6 @@ module DemoData
   class OverviewSeeder < Seeder
     include ::DemoData::References
 
-    attr_reader :seed_data
-
-    def initialize(seed_data)
-      super()
-      @seed_data = seed_data
-    end
-
     def seed_data!
       print_status "*** Seeding Overview"
 

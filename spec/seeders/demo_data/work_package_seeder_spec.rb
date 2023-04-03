@@ -69,11 +69,6 @@ describe DemoData::WorkPackageSeeder do
     work_package_seeder.seed!
   end
 
-  # available for debugging purposes, to see what real world data looks like
-  def real_work_package_data
-    seeder.send(:translate_with_base_url, "seeders.standard.demo_data.projects.demo-project.work_packages")
-  end
-
   context 'with work package data with start: 0' do
     let(:work_packages_data) do
       [

@@ -76,16 +76,16 @@ module DevelopmentData
     end
 
     def seed_versions(projects)
-      projects.each do |p|
-        version_data = demo_data_for('projects.scrum-project.versions')
-        if version_data.is_a? Array
-          version_data.each do |attributes|
-            p.versions.create!(
-              name: attributes[:name],
-              status: attributes[:status],
-              sharing: attributes[:sharing]
-            )
-          end
+      version_data = seed_data.lookup('projects.scrum-project.versions')
+      return unless version_data.is_a? Array
+
+      projects.each do |project|
+        version_data.each do |attributes|
+          project.versions.create!(
+            name: attributes['name'],
+            status: attributes['status'],
+            sharing: attributes['sharing']
+          )
         end
       end
     end

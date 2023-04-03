@@ -7,7 +7,7 @@ module OpenProject::Bim::Patches::RootSeederPatch
     def seed_basic_data
       if OpenProject::Configuration.bim?
         print_status "*** Seeding basic data for bim edition"
-        ::Bim::BasicDataSeeder.new.seed!
+        ::Bim::BasicDataSeeder.new(seed_data).seed!
       else
         super
       end

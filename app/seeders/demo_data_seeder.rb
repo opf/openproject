@@ -25,12 +25,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 class DemoDataSeeder < CompositeSeeder
-  def data_seeders
-    data_seeder_classes.map do |data_seeder_class|
-      data_seeder_class.new(seed_data)
-    end
-  end
-
   def data_seeder_classes
     [
       DemoData::GroupSeeder,
@@ -42,11 +36,5 @@ class DemoDataSeeder < CompositeSeeder
 
   def namespace
     'DemoData'
-  end
-
-  private
-
-  def seed_data
-    @seed_data ||= SeedData.new("demo_data", edition_data_for("demo_data"))
   end
 end

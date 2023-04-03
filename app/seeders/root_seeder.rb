@@ -33,6 +33,7 @@ class RootSeeder < Seeder
   include Redmine::I18n
 
   def initialize(seed_development_data: Rails.env.development?)
+    super()
     require 'basic_data_seeder'
     require 'demo_data_seeder'
     require 'development_data_seeder'
@@ -54,22 +55,20 @@ class RootSeeder < Seeder
     ActiveRecord::Base.transaction do
       # Basic data needs be seeded before anything else.
       seed_basic_data
-
-      print_status '*** Seeding admin user'
-      AdminUserSeeder.new.seed!
-
-      print_status '*** Seeding demo data'
-      DemoDataSeeder.new.seed!
-
-      if seed_development_data?
-        seed_development_data
-      end
-
-      rails_engines.each do |engine|
-        print_status "*** Loading #{engine.engine_name} seed data"
-        engine.load_seed
-      end
+      seed_admin_user
+      seed_demo_data
+      seed_development_data if seed_development_data?
+      seed_plugins_data
     end
+  end
+
+  def seed_data
+    edition = OpenProject::Configuration['edition']
+    # Translate the given string with the fixed interpolation for base_url
+    # Deep interpolation is required in order for interpolations on hashes to work!
+    # TODO: can we inline the base_url inside the string to avoid interpolation?
+    data = I18n.t("seeders.#{edition}.demo_data", deep_interpolation: true, base_url: "{{opSetting:base_url}}")
+    @seed_data ||= SeedData.new("demo_data", data)
   end
 
   def seed_development_data?
@@ -122,6 +121,21 @@ class RootSeeder < Seeder
 
   private
 
+  def seed_basic_data
+    print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
+    ::Standard::BasicDataSeeder.new(seed_data).seed!
+  end
+
+  def seed_admin_user
+    print_status '*** Seeding admin user'
+    AdminUserSeeder.new(seed_data).seed!
+  end
+
+  def seed_demo_data
+    print_status '*** Seeding demo data'
+    DemoDataSeeder.new(seed_data).seed!
+  end
+
   def seed_development_data
     print_status '*** Seeding development data'
     require 'factory_bot'
@@ -132,11 +146,13 @@ class RootSeeder < Seeder
       raise e unless e.message.downcase.include? "factory already registered"
     end
 
-    DevelopmentDataSeeder.new.seed!
+    DevelopmentDataSeeder.new(seed_data).seed!
   end
 
-  def seed_basic_data
-    print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
-    ::Standard::BasicDataSeeder.new.seed!
+  def seed_plugins_data
+    rails_engines.each do |engine|
+      print_status "*** Loading #{engine.engine_name} seed data"
+      engine.load_seed
+    end
   end
 end

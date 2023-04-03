@@ -27,13 +27,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class ProjectSeeder < Seeder
-    attr_reader :seed_data
-
-    def initialize(seed_data)
-      super()
-      @seed_data = seed_data
-    end
-
     # Careful: The seeding recreates the seeded project before it runs, so any changes
     # on the seeded project will be lost.
     def seed_data!
@@ -131,7 +124,7 @@ module DemoData
 
     def set_form_configuration
       Type.all.each do |type|
-        BasicData::TypeSeeder.new.set_attribute_groups_for_type(type)
+        BasicData::TypeSeeder.new(seed_data).set_attribute_groups_for_type(type)
       end
     end
 

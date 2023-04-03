@@ -44,7 +44,7 @@ class CompositeSeeder < Seeder
   end
 
   def data_seeders
-    data_seeder_classes.map(&:new)
+    instantiate(data_seeder_classes)
   end
 
   def data_seeder_classes
@@ -52,7 +52,7 @@ class CompositeSeeder < Seeder
   end
 
   def discovered_seeders
-    discovered_seeder_classes.map(&:new)
+    instantiate(discovered_seeder_classes)
   end
 
   ##
@@ -80,5 +80,9 @@ class CompositeSeeder < Seeder
 
   def seeder_name(seeder)
     seeder.class.name.split('::').without(namespace).join('::')
+  end
+
+  def instantiate(seeder_classes)
+    seeder_classes.map { |seeder_class| seeder_class.new(seed_data) }
   end
 end

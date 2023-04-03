@@ -95,12 +95,12 @@ module BasicData
 
     def seed_statuses
       print_status '   ↳ Statuses'
-      status_seeder_class.new.seed!
+      status_seeder_class.new(seed_data).seed!
     end
 
     def seed_types
       print_status '   ↳ Types'
-      type_seeder_class.new.seed!
+      type_seeder_class.new(seed_data).seed!
     end
 
     def seed_workflows
