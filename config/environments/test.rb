@@ -67,6 +67,9 @@ OpenProject::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  # Silence deprecations early on for testing on CI
+  deprecators.silenced = ENV['CI'].present?
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation =
     if ENV['CI']
