@@ -283,6 +283,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
           storageLink: this.storage._links.self,
           addFileLinksHref: this.addFileLinksHref,
           collectionKey: this.collectionKey,
+          location: '/',
           fileLinks,
         };
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
@@ -317,6 +318,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       storageType: this.storage._links.type.href,
       storageName: this.storage.name,
       storageLink: this.storage._links.self,
+      location: '/',
     };
 
     return this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
