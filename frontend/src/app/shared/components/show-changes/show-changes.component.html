@@ -30,15 +30,19 @@
       <spot-form-field
       [label]="text.show_changes_since"> 
 
+      <div slot="input">
         <select
         (change)="valueSelected($event.target.value)"
-          slot="input">
+          >
           <option
             *ngFor="let availableValue of showChangesAvailableValues"
             [value]="availableValue.value">
             {{availableValue.title}}
           </option>
         </select>
+        <span
+        >  {{ dropDownDescription }} </span>
+      </div>
       </spot-form-field>
 
 

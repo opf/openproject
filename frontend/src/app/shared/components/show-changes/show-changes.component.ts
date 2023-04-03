@@ -59,6 +59,8 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
 
   public opened = false;
 
+  public dropDownDescription = '';
+
   public filterSelected = false;
 
   public tooltipPosition = SpotDropAlignmentOption.BottomRight;
@@ -121,11 +123,47 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     this.opened = false;
   }
 
+  public yesterdayDate():string {
+    const today = new Date();
+
+    today.setDate(today.getDate() - 1);
+    return moment(today).format('ddd, YYYY-MM-DD');
+  }
+
+  public lastMonthDate():string {
+    const today = new Date();
+
+    today.setMonth(today.getMonth() - 1);
+    return moment(today).format('ddd, YYYY-MM-DD');
+  }
+
+  public lastweekDate():string {
+    const today = new Date();
+
+    today.setDate(today.getDate() - 7);
+    return moment(today).format('ddd, YYYY-MM-DD');
+  }
+
   public valueSelected(value:string):void {
     if (value !== '0') {
       this.filterSelected = true;
+      switch (value) {
+        case '1':
+          this.dropDownDescription = this.yesterdayDate();
+          break;
+        case '3':
+          this.dropDownDescription = this.lastweekDate();
+          break;
+        case '4':
+          this.dropDownDescription = this.lastMonthDate();
+          break;
+        default:
+          this.dropDownDescription = '';
+          break;
+      }
     } else {
       this.filterSelected = false;
+      this.dropDownDescription = '';
     }
   }
 }
