@@ -76,6 +76,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: OpShowChangesComponent,
       show: () => this.configuration.activeFeatureFlags.includes('showChanges'),
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: WorkPackageFilterButtonComponent,
