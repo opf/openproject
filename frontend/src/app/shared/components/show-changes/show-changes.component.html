@@ -84,6 +84,7 @@
             {{ text.clear }}
           </button>
           <button
+            [disabled] ="!filterSelected"
             class="button -highlight spot-action-bar--action"
           >
             {{ text.apply }}
