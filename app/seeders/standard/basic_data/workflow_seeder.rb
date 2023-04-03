@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
+module Standard
   module BasicData
     class WorkflowSeeder < ::BasicData::WorkflowSeeder
       def workflows
@@ -63,11 +63,11 @@ module StandardSeeder
       end
 
       def type_seeder_class
-        ::StandardSeeder::BasicData::TypeSeeder
+        ::Standard::BasicData::TypeSeeder
       end
 
       def status_seeder_class
-        ::StandardSeeder::BasicData::StatusSeeder
+        ::Standard::BasicData::StatusSeeder
       end
     end
   end

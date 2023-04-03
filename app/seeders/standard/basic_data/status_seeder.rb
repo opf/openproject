@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-module StandardSeeder
+module Standard
   module BasicData
     class StatusSeeder < ::BasicData::StatusSeeder
       def data

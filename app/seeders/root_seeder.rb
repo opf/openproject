@@ -137,6 +137,6 @@ class RootSeeder < Seeder
 
   def seed_basic_data
     print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"
-    ::StandardSeeder::BasicDataSeeder.new.seed!
+    ::Standard::BasicDataSeeder.new.seed!
   end
 end

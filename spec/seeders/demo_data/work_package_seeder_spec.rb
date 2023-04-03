@@ -37,13 +37,13 @@ describe DemoData::WorkPackageSeeder do
       BasicData::ColorSchemeSeeder,
 
       # Status records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::StatusSeeder,
+      Standard::BasicData::StatusSeeder,
 
       # Type records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::TypeSeeder,
+      Standard::BasicData::TypeSeeder,
 
       # IssuePriority records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::PrioritySeeder,
+      Standard::BasicData::PrioritySeeder,
 
       # User admin needed by WorkPackageSeeder
       AdminUserSeeder
