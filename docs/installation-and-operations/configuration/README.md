@@ -338,7 +338,7 @@ rake attachments:copy_to[file]
 
 ### direct uploads
 
-> **NOTE**: This only works for S3 right now. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
+> **NOTE**: This only works for AWS S3 or S3-compatible storages<sup>\*</sup>. When using fog with another provider this configuration will be `false`. The same goes for when no fog storage is configured, or when the `use_iam_profile` option is used in the fog credentials when using S3.
 
 When using fog attachments uploaded in the frontend will be posted directly to the cloud rather than going through the OpenProject servers. This allows large attachments to be uploaded without the need to increase the `client_max_body_size` for the proxy in front of OpenProject. Also it prevents web processes from being blocked through long uploads.
 
@@ -348,6 +348,15 @@ If, for what ever reason, this is undesirable, you can disable this option. In t
 
 ```yaml
 OPENPROJECT_DIRECT__UPLOADS="false"
+```
+
+\* If not using AWS S3, you will have to explicitly configure `remote_storage_upload_host` and `remote_storage_download_host`.
+
+Here is what it would look like if we were to configure the default for AWS S3:
+
+```yaml
+OPENPROJECT_REMOTE__STORAGE__UPLOAD__HOST=mybucket.s3.amazonaws.com
+OPENPROJECT_REMOTE__STORAGE__DOWNLOAD__HOST=mybucket.s3.eu-west.amazonaws.com"
 ```
 
 ### fog download url expires in

@@ -728,6 +728,16 @@ module Settings
         },
         writable: false
       },
+      remote_storage_upload_host: {
+        format: :string,
+        default: nil,
+        writable: false
+      },
+      remote_storage_download_host: {
+        format: :string,
+        default: nil,
+        writable: false
+      },
       report_incoming_email_errors: {
         description: 'Respond to incoming mails with error details',
         default: true
