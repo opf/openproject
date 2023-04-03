@@ -42,10 +42,6 @@ en:
             public: false
         type_configuration:
           - type: :default_type_bug
-            description: |
-              ### Steps to reproduce
-
-              ### Actual behavior
             form_configuration:
               - group_name: Custom query
                 query_name: My cool query

@@ -58,7 +58,7 @@ module BasicData
           color_id: colors.fetch(color_name),
           is_in_roadmap:,
           is_milestone:,
-          description: type_description(type_name)
+          description: ''
         }
       end
     end
@@ -69,18 +69,6 @@ module BasicData
 
     def type_table
       raise NotImplementedError
-    end
-
-    def type_description(type_name)
-      return '' if demo_data_for('type_configuration').nil?
-
-      demo_data_for('type_configuration').each do |entry|
-        if entry[:type] && I18n.t(entry[:type]) === I18n.t(type_name)
-          return entry[:description] || ''
-        else
-          return ''
-        end
-      end
     end
 
     def set_attribute_groups_for_type(type)
