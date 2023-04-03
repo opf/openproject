@@ -71,6 +71,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @badge = options[:badge]
     @engine = options[:engine]
     @allow_deeplink = options[:allow_deeplink]
+    @skip_permissions_check = !!options[:skip_permissions_check]
     super @name.to_sym
   end
 
@@ -135,6 +136,10 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
 
   def allow_deeplink=(allow_deeplink)
     @allow_deeplink = allow_deeplink
+  end
+
+  def skip_permissions_check?
+    @skip_permissions_check
   end
 
   def html_options(options = {})

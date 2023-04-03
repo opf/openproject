@@ -26,36 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::BudgetActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'budgets',
-                        permission: :view_budgets
+# Purpose: Defines how to format the cells within a table row of ProjectStorages
+# associated with a project
+module Storages::ProjectsStorages
+  class RowComponent < ::RowComponent
+    include ::IconsHelper
+    include ::AvatarHelper
+    include ::Redmine::I18n
+    def project_storage
+      row
+    end
 
-  def event_query_projection
-    [
-      activity_journal_projection_statement(:subject, 'budget_subject'),
-      activity_journal_projection_statement(:project_id, 'project_id')
-    ]
-  end
+    delegate :created_at, to: :project_storage
 
-  def event_type(_event)
-    'budget'
-  end
+    def name
+      project_storage.storage.name
+    end
 
-  def event_title(event)
-    "#{I18n.t(:label_budget)} ##{event['journable_id']}: #{event['budget_subject']}"
-  end
+    def provider_type
+      project_storage.storage.provider_type
+    end
 
-  def event_path(event)
-    url_helpers.budget_path(url_helper_parameter(event))
-  end
+    def creator
+      icon = avatar project_storage.creator, size: :mini
+      icon + project_storage.creator.name
+    end
 
-  def event_url(event)
-    url_helpers.budget_url(url_helper_parameter(event))
-  end
+    def button_links
+      [delete_link]
+    end
 
-  private
-
-  def url_helper_parameter(event)
-    event['journable_id']
+    def delete_link
+      link_to '',
+              project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              class: 'icon icon-delete',
+              data: { confirm: I18n.t('storages.delete_warning.project_storage') },
+              title: I18n.t(:button_delete),
+              method: :delete
+    end
   end
 end
