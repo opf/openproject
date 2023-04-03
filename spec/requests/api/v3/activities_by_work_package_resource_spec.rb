@@ -75,6 +75,14 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI do
         end
       end
 
+      shared_context 'create private activity' do
+        before do
+          header "Content-Type", "application/json"
+          post api_v3_paths.work_package_activities(work_package.id),
+               { comment: { raw: comment, isPrivate: true } }.to_json
+        end
+      end
+
       it_behaves_like 'safeguarded API' do
         let(:permissions) { %i(view_work_packages) }
 
@@ -103,6 +111,38 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI do
           expect(last_response.body)
             .to be_json_eql("Subject can't be blank.".to_json)
             .at_path('message')
+        end
+      end
+
+      context 'not allowed to post private' do
+        include_context 'create activity'
+
+        it 'create public activity' do
+          expect(last_response.body)
+            .to be_json_eql(true.to_json)
+            .at_path('comment/isPublic')
+        end
+      end
+
+      context 'not allowed to post private but try anyway' do
+        include_context 'create private activity'
+
+        it 'create public activity' do
+          expect(last_response.body)
+            .to be_json_eql(true.to_json)
+            .at_path('comment/isPublic')
+        end
+      end
+
+      context 'allowed to post private activity' do
+        let(:permissions) { %i(view_work_packages add_work_package_notes add_private_comment) }
+
+        include_context 'create private activity'
+
+        it 'create private activity' do
+          expect(last_response.body)
+            .to be_json_eql(false.to_json)
+            .at_path('comment/isPublic')
         end
       end
     end
