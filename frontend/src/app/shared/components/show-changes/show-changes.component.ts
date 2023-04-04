@@ -42,6 +42,8 @@ import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { take } from 'rxjs/operators';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   selector: 'op-show-changes',
@@ -60,6 +62,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     show_changes_since: this.I18n.t('js.show_changes.show_changes_since'),
     time: this.I18n.t('js.show_changes.time'),
     help_description: this.I18n.t('js.show_changes.help_description'),
+    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
   };
 
   public opened = false;
@@ -69,6 +72,8 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
   public nonWorkingDays:IDay[] = [];
 
   public filterSelected = false;
+
+  public selectedDate = '';
 
   public tooltipPosition = SpotDropAlignmentOption.BottomRight;
 
@@ -111,6 +116,8 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     readonly halResourceService:HalResourceService,
     private weekdaysService:WeekdayService,
     private daysService:DayResourceService,
+    readonly timezoneService:TimezoneService,
+    private configuration:ConfigurationService,
   ) {
     super();
   }
@@ -140,6 +147,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     const today = new Date();
 
     today.setDate(today.getDate() - 1);
+    this.selectedDate = moment(today).format('YYYY-MM-DD');
     return moment(today).format('ddd, YYYY-MM-DD');
   }
 
@@ -147,6 +155,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     const today = new Date();
 
     today.setMonth(today.getMonth() - 1);
+    this.selectedDate = moment(today).format('YYYY-MM-DD');
     return moment(today).format('ddd, YYYY-MM-DD');
   }
 
@@ -154,6 +163,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     const today = new Date();
 
     today.setDate(today.getDate() - 7);
+    this.selectedDate = moment(today).format('YYYY-MM-DD');
     return moment(today).format('ddd, YYYY-MM-DD');
   }
 
@@ -182,6 +192,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     while (lastWorkingDay === '') {
       if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
         lastWorkingDay = moment(yesterday).format('ddd, YYYY-MM-DD');
+        this.selectedDate = moment(yesterday).format('YYYY-MM-DD');
         break;
       } else {
         yesterday.setDate(yesterday.getDate() - 1);
@@ -192,7 +203,11 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     return lastWorkingDay;
   }
 
-  public valueSelected(value:string):void {
+  public timeChange(value:any):void {
+
+  }
+
+  public filterChange(value:string):void {
     if (value !== '0') {
       this.filterSelected = true;
       switch (value) {

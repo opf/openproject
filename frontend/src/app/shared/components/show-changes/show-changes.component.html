@@ -32,7 +32,7 @@
 
       <div slot="input">
         <select class="op-show-changes-modal--filter"
-        (change)="valueSelected($event.target.value)"
+        (change)="filterChange($event.target.value)"
           >
           <option
             *ngFor="let availableValue of showChangesAvailableValues"
@@ -53,6 +53,7 @@
 
        <input
           slot="input"
+          (change)="timeChange($event.target.value)"
           type="time"
           class="op-show-changes-modal--time-input"/>
 
@@ -60,7 +61,7 @@
             slot="input"
             class="op-show-changes-modal--time-help spot-body-small"
           >
-            <span class="">CERT</span>
+            <span class="">{{text.timeZone}}</span>
 
             <spot-tooltip
             class="op-show-changes-modal--time-tooltip"
