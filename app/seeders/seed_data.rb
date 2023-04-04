@@ -29,55 +29,43 @@
 #++
 
 class SeedData
-  attr_reader :path
-
-  def initialize(path, data)
-    @path = path
+  def initialize(data)
     @data = data.deep_stringify_keys
   end
 
-  def key
-    @key ||= path.split('.').last
-  end
-
   def lookup(path)
-    keys = path.to_s.split('.')
-    case result = @data.dig(*keys)
+    case sub_data = fetch(path)
     when Hash
-      result_path = [self.path, path].join('.')
-      SeedData.new(result_path, result)
+      SeedData.new(sub_data)
     else
-      result
+      sub_data
     end
   end
 
-  def each(path, &block)
-    keys = path.to_s.split('.')
-    result = @data.dig(*keys)
-
-    case result
-    when Array
-      result.each(&block)
-    when Hash
-      result.each do |item_key, item_data|
-        item_path = [self.path, path, item_key].join('.')
-        block.(SeedData.new(item_path, item_data))
-      end
+  def each(path, &)
+    case sub_data = fetch(path)
+    when nil
+      nil
+    when Enumerable
+      sub_data.each(&)
+    else
+      raise ArgumentError, "expected an Enumerable at path #{path}, got #{sub_data.class}"
     end
   end
 
   def each_data(path)
-    keys = path.to_s.split('.')
-    result = @data.dig(*keys)
-    return if result.nil?
+    sub_data = fetch(path)
+    return if sub_data.nil?
 
-    result.each do |item_key, item_data|
-      item_path = [self.path, path, item_key].join('.')
-      yield SeedData.new(item_path, item_data)
+    sub_data.each_value do |item_data|
+      yield SeedData.new(item_data)
     end
   end
 
-  def exists?(key)
-    lookup(key).present?
+  private
+
+  def fetch(path)
+    keys = path.to_s.split('.')
+    @data.dig(*keys)
   end
 end

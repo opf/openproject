@@ -68,7 +68,7 @@ class RootSeeder < Seeder
     # Deep interpolation is required in order for interpolations on hashes to work!
     # TODO: can we inline the base_url inside the string to avoid interpolation?
     data = I18n.t("seeders.#{edition}.demo_data", deep_interpolation: true, base_url: "{{opSetting:base_url}}")
-    @seed_data ||= SeedData.new("demo_data", data)
+    @seed_data ||= SeedData.new(data)
   end
 
   def seed_development_data?

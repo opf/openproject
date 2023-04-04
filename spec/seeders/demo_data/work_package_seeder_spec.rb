@@ -64,7 +64,7 @@ describe DemoData::WorkPackageSeeder do
   end
 
   before do
-    seed_data = SeedData.new('dummy-project', { 'work_packages' => work_packages_data })
+    seed_data = SeedData.new('work_packages' => work_packages_data)
     work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
   end

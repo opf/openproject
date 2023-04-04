@@ -28,12 +28,11 @@
 module Bim
   module DemoData
     class IfcModelSeeder < ::Seeder
-      attr_reader :project, :key, :project_data
+      attr_reader :project, :project_data
 
       def initialize(project, project_data)
         super()
         @project = project
-        @key = project_data.key
         @project_data = project_data
       end
 
