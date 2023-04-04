@@ -64,10 +64,7 @@ class RootSeeder < Seeder
 
   def seed_data
     edition = OpenProject::Configuration['edition']
-    # Translate the given string with the fixed interpolation for base_url
-    # Deep interpolation is required in order for interpolations on hashes to work!
-    # TODO: can we inline the base_url inside the string to avoid interpolation?
-    data = I18n.t("seeders.#{edition}.demo_data", deep_interpolation: true, base_url: "{{opSetting:base_url}}")
+    data = I18n.t("seeders.#{edition}.demo_data")
     @seed_data ||= SeedData.new(data)
   end
 

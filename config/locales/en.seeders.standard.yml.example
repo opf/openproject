@@ -60,7 +60,7 @@ en:
               description: Everything is behind the deadline. We will never make it.
             description: >
               **This is a demo project**. You can edit the description in
-              the [Project settings -> Description](%{base_url}/projects/demo-project/settings).
+              the [Project settings -> Description]({{opSetting:base_url}}/projects/demo-project/settings).
             timeline:
               name: Timeline
             modules:
@@ -111,7 +111,7 @@ en:
                 children:
                   - subject: Create a new project
                     description: |
-                      Please [create a new project](%{base_url}/projects/new) from the project drop down menu in the left hand header navigation.
+                      Please [create a new project]({{opSetting:base_url}}/projects/new) from the project drop down menu in the left hand header navigation.
                     status: :default_status_in_progress
                     type: :default_type_task
                     start: 0
