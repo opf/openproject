@@ -27,6 +27,7 @@
 //++
 
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
@@ -37,6 +38,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { WeekdayService } from 'core-app/core/days/weekday.service';
+import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { IDay } from 'core-app/core/state/days/day.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'op-show-changes',
@@ -44,7 +49,7 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
   templateUrl: './show-changes.component.html',
   styleUrls: ['./show-changes.component.sass'],
 })
-export class OpShowChangesComponent extends UntilDestroyedMixin {
+export class OpShowChangesComponent extends UntilDestroyedMixin implements AfterViewInit {
   @HostBinding('class.op-show-changes') className = true;
 
   public text = {
@@ -60,6 +65,8 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
   public opened = false;
 
   public dropDownDescription = '';
+
+  public nonWorkingDays:IDay[] = [];
 
   public filterSelected = false;
 
@@ -102,8 +109,14 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     readonly I18n:I18nService,
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly halResourceService:HalResourceService,
+    private weekdaysService:WeekdayService,
+    private daysService:DayResourceService,
   ) {
     super();
+  }
+
+  async ngAfterViewInit():Promise<void> {
+    await this.requireNonWorkingDaysOfTwoYears();
   }
 
   public toggleOpen():void {
@@ -144,12 +157,50 @@ export class OpShowChangesComponent extends UntilDestroyedMixin {
     return moment(today).format('ddd, YYYY-MM-DD');
   }
 
+  async requireNonWorkingDaysOfTwoYears() {
+    const today = new Date();
+    const lastYear = new Date(today);
+    lastYear.setFullYear(today.getFullYear() - 1);
+    this.nonWorkingDays = await this
+      .daysService
+      .requireNonWorkingYears$(lastYear, today)
+      .pipe(take(1))
+      .toPromise();
+  }
+
+  isNonWorkingDay(date:Date|string):boolean {
+    const formatted = moment(date).format('YYYY-MM-DD');
+    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
+  }
+
+  public lastWorkingDate():string {
+    const today = new Date();
+    const yesterday = new Date(today);
+    let lastWorkingDay = '';
+
+    yesterday.setDate(today.getDate() - 1);
+    while (lastWorkingDay === '') {
+      if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
+        lastWorkingDay = moment(yesterday).format('ddd, YYYY-MM-DD');
+        break;
+      } else {
+        yesterday.setDate(yesterday.getDate() - 1);
+        continue;
+      }
+    }
+
+    return lastWorkingDay;
+  }
+
   public valueSelected(value:string):void {
     if (value !== '0') {
       this.filterSelected = true;
       switch (value) {
         case '1':
           this.dropDownDescription = this.yesterdayDate();
+          break;
+        case '2':
+          this.dropDownDescription=this.lastWorkingDate();
           break;
         case '3':
           this.dropDownDescription = this.lastweekDate();
