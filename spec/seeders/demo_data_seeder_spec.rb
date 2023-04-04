@@ -32,49 +32,87 @@ describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  it 'creates the demo data' do # rubocop:disable RSpec/MultipleExpectations
-    expect { described_class.new.do_seed! }.not_to raise_error
-
-    # the system user
-    expect(SystemUser.where(admin: true).count).to eq 1
-    # an admin user
-    expect(User.not_builtin.where(admin: true).count).to eq 1
-
-    expect(Project.count).to eq 2
-    expect(WorkPackage.count).to eq 36
-    expect(Wiki.count).to eq 2
-    expect(Query.having_views.count).to eq 8
-    expect(View.where(type: 'work_packages_table').count).to eq 7
-    expect(View.where(type: 'team_planner').count).to eq 1
-    expect(Query.count).to eq 26
-    expect(Projects::Status.count).to eq 2
-    expect(Role.where(type: 'Role').count).to eq 5
-    expect(GlobalRole.count).to eq 1
-    expect(Grids::Overview.count).to eq 2
-    expect(Version.count).to eq 4
-    expect(VersionSetting.count).to eq 4
-    expect(Boards::Grid.count).to eq 5
-    expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
-
-    perform_enqueued_jobs
-
-    expect(ActionMailer::Base.deliveries)
-      .to be_empty
-  end
-
-  context 'with development data' do
-    it 'creates the demo data' do
-      expect { described_class.new(seed_development_data: true).do_seed! }.not_to raise_error
-
-      # two admins: one with :en locale, one with :de locale
-      expect(User.not_builtin.where(admin: true).count).to eq 2
-      # 4 additional projects
-      expect(Project.count).to eq 6
-
+  shared_examples 'no email deliveries' do
+    it 'does not perform any email deliveries' do
       perform_enqueued_jobs
 
       expect(ActionMailer::Base.deliveries)
         .to be_empty
     end
+  end
+
+  describe 'demo data' do
+    before_all do
+      described_class.new.do_seed!
+    end
+
+    it 'creates the system user' do
+      expect(SystemUser.where(admin: true).count).to eq 1
+    end
+
+    it 'creates an admin user' do
+      expect(User.not_builtin.where(admin: true).count).to eq 1
+    end
+
+    it 'creates the demo data' do
+      expect(Project.count).to eq 2
+      expect(WorkPackage.count).to eq 36
+      expect(Wiki.count).to eq 2
+      expect(Query.having_views.count).to eq 8
+      expect(View.where(type: 'work_packages_table').count).to eq 7
+      expect(View.where(type: 'team_planner').count).to eq 1
+      expect(Query.count).to eq 26
+      expect(Projects::Status.count).to eq 2
+      expect(Role.where(type: 'Role').count).to eq 5
+      expect(GlobalRole.count).to eq 1
+      expect(Grids::Overview.count).to eq 2
+      expect(Version.count).to eq 4
+      expect(VersionSetting.count).to eq 4
+      expect(Boards::Grid.count).to eq 5
+      expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
+    end
+
+    include_examples 'no email deliveries'
+
+    context 'when run a second time' do
+      before_all do
+        described_class.new.do_seed!
+      end
+
+      it 'does not create additional data' do
+        expect(Project.count).to eq 2
+        expect(WorkPackage.count).to eq 36
+        expect(Wiki.count).to eq 2
+        expect(Query.having_views.count).to eq 8
+        expect(View.where(type: 'work_packages_table').count).to eq 7
+        expect(View.where(type: 'team_planner').count).to eq 1
+        expect(Query.count).to eq 26
+        expect(Projects::Status.count).to eq 2
+        expect(Role.where(type: 'Role').count).to eq 5
+        expect(GlobalRole.count).to eq 1
+        expect(Grids::Overview.count).to eq 2
+        expect(Version.count).to eq 4
+        expect(VersionSetting.count).to eq 4
+        expect(Boards::Grid.count).to eq 5
+      end
+    end
+  end
+
+  describe 'demo data with development data' do
+    before_all do
+      described_class.new(seed_development_data: true).do_seed!
+    end
+
+    it 'creates 1 additional admin user with German locale' do
+      admins = User.not_builtin.where(admin: true)
+      expect(admins.count).to eq 2
+      expect(admins.pluck(:language)).to match_array(%w[en de])
+    end
+
+    it 'creates 4 additional projects for development' do
+      expect(Project.count).to eq 6
+    end
+
+    include_examples 'no email deliveries'
   end
 end
