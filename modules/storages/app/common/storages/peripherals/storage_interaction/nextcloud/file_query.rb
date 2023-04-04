@@ -44,7 +44,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def query(file_id)
       file_info(file_id) >>
-        method(:to_storage_file)
+        method(:storage_file)
     end
 
     private
@@ -82,7 +82,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:enable Metrics/AbcSize
 
-    def to_storage_file(file_info_response)
+    # rubocop:disable Metrics/AbcSize
+    def storage_file(file_info_response)
       data = file_info_response.ocs.data
       storage_file = ::Storages::StorageFile.new(data.id,
                                                  data.name,
@@ -92,9 +93,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                                                  Time.zone.at(data.mtime),
                                                  data.owner_name,
                                                  data.modifier_name,
-                                                 nil,
-                                                 nil)
+                                                 location(data.path),
+                                                 data.dav_permissions)
       ServiceResult.success(result: storage_file)
+    end
+
+    # rubocop:enable Metrics/AbcSize
+
+    def location(files_path)
+      prefix = 'files/'
+      idx = files_path.rindex(prefix)
+      return '/' if idx == nil
+
+      idx += prefix.length - 1
+
+      files_path[idx..]
     end
   end
 end
