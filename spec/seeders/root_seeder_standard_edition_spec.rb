@@ -43,7 +43,7 @@ describe RootSeeder,
 
   describe 'demo data' do
     before_all do
-      described_class.new.do_seed!
+      described_class.new.seed_data!
     end
 
     it 'creates the system user' do
@@ -76,7 +76,7 @@ describe RootSeeder,
 
     context 'when run a second time' do
       before_all do
-        described_class.new.do_seed!
+        described_class.new.seed_data!
       end
 
       it 'does not create additional data' do
@@ -100,7 +100,7 @@ describe RootSeeder,
 
   describe 'demo data with development data' do
     before_all do
-      described_class.new(seed_development_data: true).do_seed!
+      described_class.new(seed_development_data: true).seed_data!
     end
 
     it 'creates 1 additional admin user with German locale' do

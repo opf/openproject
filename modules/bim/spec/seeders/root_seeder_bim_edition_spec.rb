@@ -33,7 +33,7 @@ describe RootSeeder,
          with_config: { edition: 'bim' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
   it 'creates the demo data' do
-    expect { described_class.new.do_seed! }.not_to raise_error
+    expect { described_class.new.seed_data! }.not_to raise_error
 
     expect(User.not_builtin.where(admin: true).count).to eq 1
     expect(Project.count).to eq 4
