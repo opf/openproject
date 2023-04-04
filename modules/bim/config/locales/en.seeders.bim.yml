@@ -379,7 +379,7 @@ en:
                 :duration: 1
               - :start: 7
                 :subject: Basic evaluation
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -406,14 +406,14 @@ en:
                     :description: |-
                       ## Goal
 
-                      *   Create a usefull overview of the results
+                      *   Create a useful overview of the results
                       *   Check what has been done and summarize the results
                       *   Communicate all the relevant results with the customer
                       *   Identify the fundamental boundary conditions of the project
 
                       ## Description
 
-                      *   Each topic gets its own overview which will be used as a catalouge of results
+                      *   Each topic gets its own overview which will be used as a catalogue of results
                       *   This overview informs all participants about the decisions made
                       *   ...
                     :status: default_status_new
@@ -425,7 +425,7 @@ en:
                         :type: follows
                   - :start: 21
                     :subject: End of basic evaluation
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
                     :type: default_type_milestone
@@ -441,7 +441,7 @@ en:
                     :type: follows
               - :start: 22
                 :subject: Preliminary planning
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -451,14 +451,14 @@ en:
                     :description: |-
                       ## Goal
 
-                      *   Create a usefull overview of the results
+                      *   Create a useful overview of the results
                       *   Check what has been done and summarize the results
                       *   Communicate all the relevant results with the customer
                       *   Identify the fundamental boundary conditions of the project
 
                       ## Description
 
-                      *   Each topic gets its own overview which will be used as a catalouge of results
+                      *   Each topic gets its own overview which will be used as a catalogue of results
                       *   This overview informs all participants about the decisions made
                       *   ...
                     :status: default_status_new
@@ -473,14 +473,14 @@ en:
                     :description: |-
                       ## Goal
 
-                      *   Create a usefull overview of the results
+                      *   Create a useful overview of the results
                       *   Check what has been done and summarize the results
                       *   Communicate all the relevant results with the customer
                       *   Identify the fundamental boundary conditions of the project
 
                       ## Description
 
-                      *   Each topic gets its own overview which will be used as a catalouge of results
+                      *   Each topic gets its own overview which will be used as a catalogue of results
                       *   This overview informs all participants about the decisions made
                       *   ...
                     :status: default_status_new
@@ -494,7 +494,7 @@ en:
                 :duration: 17
               - :start: 42
                 :subject: Passing of preliminary planning
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_milestone
@@ -505,7 +505,7 @@ en:
                     :type: follows
               - :start: 44
                 :subject: Design planning
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -533,7 +533,7 @@ en:
                         :type: follows
                   - :start: 90
                     :subject: Design freeze
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
                     :type: default_type_milestone
@@ -778,7 +778,7 @@ en:
                     text: |
                       We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                      This demo project offers roles, workflows and work packages that are specificialized for BIM.
+                      This demo project offers roles, workflows and work packages that are specialized for BIM.
 
                       _Try the following steps:_
 
@@ -838,8 +838,8 @@ en:
                 :assigned_to: BIM Managers
                 :duration: 1
               - :start: 15
-                :subject: Project preperation
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :subject: Project preparation
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -889,7 +889,7 @@ en:
                         :type: follows
                   - :start: 52
                     :subject: Completion of the BIM execution plan
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: seeders.bim.default_status_resolved
                     :type: default_type_milestone
@@ -901,19 +901,19 @@ en:
                 :assigned_to: BIM Managers
                 :duration: 37
               - :start: 53
-                :subject: End of preperation phase
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :subject: End of preparation phase
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_milestone
                 :assigned_to: BIM Managers
                 :duration: 1
                 :relations:
-                  - :to: Project preperation
+                  - :to: Project preparation
                     :type: follows
               - :start: 54
                 :subject: Creating initial BIM model
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -936,7 +936,7 @@ en:
                     :assigned_to: BIM Modellers
                     :duration: 7
                     :relations:
-                      - :to: End of preperation phase
+                      - :to: End of preparation phase
                         :type: follows
                   - :start: 62
                     :subject: Initial, internal model check and revising
@@ -958,7 +958,7 @@ en:
                         :type: follows
                   - :start: 65
                     :subject: Submitting initial BIM model
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
                     :type: default_type_milestone
@@ -974,7 +974,7 @@ en:
                     :type: follows
               - :start: 66
                 :subject: Modelling, first cycle
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -1037,7 +1037,7 @@ en:
                         :type: follows
                   - :start: 76
                     :subject: Submitting BIM model
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
                     :type: default_type_milestone
@@ -1053,7 +1053,7 @@ en:
                     :type: follows
               - :start: 77
                 :subject: Coordination, first cycle
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -1084,7 +1084,7 @@ en:
                     :duration: 4
                   - :start: 82
                     :subject: Finishing coordination, first cycle
-                    :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                    :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                       and &quot;Request&quot;, thus represents a general note.
                     :status: default_status_new
                     :type: default_type_milestone
@@ -1110,7 +1110,7 @@ en:
                     :type: follows
               - :start: 84
                 :subject: Modelling & coordinating, ... cycle
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -1131,7 +1131,7 @@ en:
                     :type: follows
               - :start: 86
                 :subject: Modelling & coordinating n-th cycle
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_phase
@@ -1142,7 +1142,7 @@ en:
                     :type: follows
               - :start: 87
                 :subject: Finishing modelling & coordinating, n-th cycle
-                :description: This type is hierarchicaly a parent of the types &quot;Clash&quot;
+                :description: This type is hierarchically a parent of the types &quot;Clash&quot;
                   and &quot;Request&quot;, thus represents a general note.
                 :status: default_status_new
                 :type: default_type_milestone
