@@ -31,7 +31,7 @@
       [label]="text.show_changes_since"> 
 
       <div slot="input">
-        <select
+        <select class="op-show-changes-modal--filter"
         (change)="valueSelected($event.target.value)"
           >
           <option
@@ -40,7 +40,7 @@
             {{availableValue.title}}
           </option>
         </select>
-        <span
+        <span class="op-show-changes-modal--filter-description"
         >  {{ dropDownDescription }} </span>
       </div>
       </spot-form-field>
