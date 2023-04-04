@@ -349,7 +349,7 @@ en:
 
                     * Divided into two additional time boxes of 4 h:
 
-                        * The Product Owner presents the team the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                        * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
                         * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
@@ -367,7 +367,7 @@ en:
 
                     ### Sprint Review meeting
 
-                    _Please document here topcis to the Sprint Review meeting_
+                    _Please document here topics to the Sprint Review meeting_
 
                     * Time boxed (4 h).
                     * A maximum of one hour of preparation time per person.
@@ -379,7 +379,7 @@ en:
 
                     ### Sprint Retrospective
 
-                    _Please document here topcis to the Sprint Retrospective meeting_
+                    _Please document here topics to the Sprint Retrospective meeting_
 
                     * Time boxed (3 h).
                     * After Sprint Review, will be moderated by Scrum Master.
@@ -671,7 +671,7 @@ en:
 
               * Divided into two additional time boxes of 4 h:
 
-                  * The Product Owner presents the team the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities and explanes the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team committs to the discussed delivery.
+                  * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
                   * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
@@ -689,7 +689,7 @@ en:
 
               ### Sprint Review meeting
 
-              _Please document here topcis to the Sprint Review meeting_
+              _Please document here topics to the Sprint Review meeting_
 
               * Time boxed (4 h).
               * A maximum of one hour of preparation time per person.
@@ -701,7 +701,7 @@ en:
 
               ### Sprint Retrospective
 
-              _Please document here topcis to the Sprint Retrospective meeting_
+              _Please document here topics to the Sprint Retrospective meeting_
 
               * Time boxed (3 h).
               * After Sprint Review, will be moderated by Scrum Master.
