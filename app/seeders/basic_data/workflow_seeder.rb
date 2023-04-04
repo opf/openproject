@@ -111,11 +111,11 @@ module BasicData
       workflows.each do |type_id, statuses_for_type|
         statuses_for_type.each do |old_status|
           statuses_for_type.each do |new_status|
-            [manager.id, member.id].each do |role_id|
+            [manager, member].each do |role|
               Workflow.create type_id:,
-                              role_id:,
-                              old_status_id: old_status.id,
-                              new_status_id: new_status.id
+                              role:,
+                              old_status:,
+                              new_status:
             end
           end
         end
