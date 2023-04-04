@@ -94,24 +94,13 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   ngOnInit():void {
     super.ngOnInit();
 
+    const location = this.locals.location as string || '/';
+
     this.storageFilesResourceService
-      .files(makeFilesCollectionLink(this.storageLink, '/'))
+      .files(makeFilesCollectionLink(this.storageLink, location))
       .subscribe((storageFiles) => {
-        const root = storageFiles.parent;
-        if (root === undefined) {
-          throw new Error('Collection does not contain a root directory!');
-        }
-
-        this.currentDirectory = root;
-
-        this.breadcrumbs = new BreadcrumbsContent(
-          [{
-            text: this.locals.storageName as string,
-            icon: getIconForStorageType(this.locals.storageType as string),
-            navigate: () => this.changeLevel(root, this.breadcrumbs.crumbs.slice(0, 1)),
-          }],
-        );
-
+        this.currentDirectory = storageFiles.parent;
+        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
         this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
@@ -130,37 +119,35 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       return () => {};
     }
 
-    return () => {
-      const crumbs = this.breadcrumbs.crumbs;
-      const end = crumbs.length + 1;
-      const newCrumb:Breadcrumb = {
-        text: directory.name,
-        // The navigate-callback needs to slice the future breadcrumb, which contains the new crumb itself.
-        // Therefore, we need the closure in here.
-        navigate: () => this.changeLevel(directory, this.breadcrumbs.crumbs.slice(0, end)),
-      };
-      this.changeLevel(directory, crumbs.concat(newCrumb));
-    };
+    return () => this.changeLevel(directory);
   }
 
-  protected changeLevel(directory:IStorageFile, crumbs:Breadcrumb[]):void {
-    this.currentDirectory = directory;
-
+  protected changeLevel(ancestor:IStorageFile):void {
     this.cancelCurrentLoading();
-
     this.loading$.next(true);
-    this.breadcrumbs = new BreadcrumbsContent(crumbs);
 
     this.loadingSubscription = this.storageFilesResourceService
-      .files(makeFilesCollectionLink(this.storageLink, directory.location))
-      .pipe(map((storageFiles) => storageFiles.files.filter((file) => file.name !== this.currentDirectory.name)))
-      .subscribe((files) => {
-        this.storageFiles$.next(files);
+      .files(makeFilesCollectionLink(this.storageLink, ancestor.location))
+      .subscribe((storageFiles) => {
+        this.currentDirectory = storageFiles.parent;
+        this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
+        this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
   }
 
   private cancelCurrentLoading():void {
     this.loadingSubscription?.unsubscribe();
+  }
+
+  private makeBreadcrumbs(ancestors:IStorageFile[], parent:IStorageFile):BreadcrumbsContent {
+    const crumbs = ancestors.concat(parent).map((ancestor):Breadcrumb => {
+      const isRoot = ancestor.location === '/';
+      const icon = isRoot ? getIconForStorageType(this.locals.storageType as string) : undefined;
+      const text = isRoot ? this.locals.storageName as string : ancestor.name;
+      return { icon, text, navigate: () => this.changeLevel(ancestor) };
+    });
+
+    return new BreadcrumbsContent(crumbs);
   }
 }
