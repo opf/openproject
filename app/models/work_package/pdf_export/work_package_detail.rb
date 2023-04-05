@@ -150,5 +150,4 @@ module WorkPackage::PDFExport::WorkPackageDetail
       padding_top: 0,
       padding_bottom: 4 }
   end
-
 end

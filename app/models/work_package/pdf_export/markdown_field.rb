@@ -53,5 +53,4 @@ module WorkPackage::PDFExport::MarkdownField
   def label_style
     { size: 11, styles: [:bold] }
   end
-
 end

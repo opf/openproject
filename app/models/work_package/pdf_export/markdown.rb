@@ -106,6 +106,7 @@ module WorkPackage::PDFExport::Markdown
   private
 
   def styling_yml
+    # rubocop:disable Naming/VariableNumber
     {
       header: {
         size: 8,
@@ -194,6 +195,7 @@ module WorkPackage::PDFExport::Markdown
         }
       }
     }
+    # rubocop:enable Naming/VariableNumber
   end
 
   def attachment_image_filepath(work_package, src)
