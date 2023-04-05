@@ -26,35 +26,174 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require 'md_to_pdf/core'
+
 module WorkPackage::PDFExport::Markdown
+  class MD2PDF
+    include MarkdownToPDF::Core
+
+    def initialize(styling_yml)
+      @styles = MarkdownToPDF::Styles.new(styling_yml)
+      # @hyphens = Hyphen.new('en', false)
+    end
+
+    def draw_markdown(markdown, pdf, image_loader)
+      @pdf = pdf
+      @image_loader = image_loader
+      cm_extentions = %i[autolink strikethrough table tagfilter tasklist]
+      cm_parse_option = %i[FOOTNOTES SMART LIBERAL_HTML_TAG STRIKETHROUGH_DOUBLE_TILDE UNSAFE VALIDATE_UTF8]
+      root = CommonMarker.render_doc(markdown, cm_parse_option, cm_extentions)
+      begin
+        draw_node(root, pdf_root_options(@styles.page))
+      rescue StandardError => e
+        Rails.logger.error "Failed to draw markdown pdf: #{e}"
+      end
+    end
+
+    def image_url_to_local_file(url, _node)
+      return nil if url.blank? || @image_loader.nil?
+
+      @image_loader.call(url)
+    end
+
+    def hyphenate(text)
+      text # @hyphens.hyphenate(text)
+    end
+
+    def auto_generate_header_ids?
+      false
+    end
+
+    def handle_unknown_inline_html_tag(tag, _node, opts)
+      result = []
+      case tag.name
+      when 'mention'
+        # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
+        text = tag.attr('data-text')
+        result.push(text_hash(text, opts)) if text.present?
+      when 'span'
+        text = tag.text
+        result.push(text_hash(text, opts)) if text.present?
+      else
+        result.push(text_hash(tag.to_s, opts))
+      end
+      [result, opts]
+    end
+
+    def handle_unknown_html_tag(tag, node, opts)
+      case tag.name
+      when 'figure', 'div', 'p'
+        # nop, but scan children [true, ...]
+      else
+        draw_formatted_text([text_hash(tag.to_s, opts)], opts, node)
+        return [false, opts]
+      end
+      [true, opts]
+    end
+
+    def warn(text, element, node)
+      Rails.logger.warn "PDF-Export: #{text}\nGot #{element} at #{node.sourcepos.inspect}\n\n"
+    end
+  end
 
   def write_markdown!(work_package, markdown)
-    write_content! work_package, markdown
+    md2pdf = MD2PDF.new(styling_yml)
+    md2pdf.draw_markdown(markdown, pdf, ->(src) {
+      with_attachments? ? attachment_image_filepath(work_package, src) : nil
+    })
   end
 
   private
 
-  def write_content!(work_package, markdown)
-    configure_markup work_package
-    #CommonMarker.render_doc(content, CM_PARSE_OPTIONS, CM_EXTENSIONS)
-
-    markup = format_text(markdown, object: work_package, format: :html)
-               .gsub('class="op-uc-image"', 'style="width:100"') # TODO: this is a workaround image formatting
-    pdf.markup markup
-  end
-
-  def configure_markup(work_package)
-    # configure prawn markup gem in context of our work package
-    pdf.markup_options = markup_options.merge(
-      {
-        image: {
-          loader: ->(src) {
-            with_attachments? ? attachment_image_filepath(work_package, src) : nil
-          },
-          placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
+  def styling_yml
+    {
+      header: {
+        size: 8,
+        styles: [:bold]
+      },
+      header_1: {
+        size: 10
+      },
+      header_2: {
+        size: 10
+      },
+      header_3: {
+        size: 9
+      },
+      page: {
+        size: 10,
+        leading: 3
+      },
+      paragraph: {
+        align: 'left'
+      },
+      unordered_list: {
+        spacing: 1
+      },
+      unordered_list_point: {
+        spacing: 4
+      },
+      ordered_list: {
+        spacing: 1
+      },
+      ordered_list_point: {
+        spacing: 4
+      },
+      task_list: {
+        spacing: 1
+      },
+      task_list_point: {
+        spacing: 4,
+        checked: '☑', # fallback font is needed
+        unchecked: '☐' # fallback font is needed
+      },
+      link: {
+        styles: ['underline']
+      },
+      code: {
+        color: '880000',
+        size: 9,
+        font: 'SpaceMono'
+      },
+      blockquote: {
+        background_color: 'f4f9ff',
+        size: 10,
+        styles: ['italic'],
+        color: '0f3b66',
+        border_color: 'b8d6f4',
+        border_width: 1,
+        padding: 4,
+        padding_left: 6,
+        margin_top: 4,
+        margin_bottom: 4,
+        no_border_left: false,
+        no_border_right: true,
+        no_border_bottom: true,
+        no_border_top: true
+      },
+      codeblock: {
+        background_color: 'F5F5F5',
+        color: '880000',
+        padding: '3mm',
+        size: 8,
+        margin_top: '2mm',
+        margin_bottom: '2mm',
+        font: 'SpaceMono'
+      },
+      table: {
+        auto_width: true,
+        header: {
+          size: 9,
+          styles: ['bold'],
+          background_color: 'F0F0F0'
+        },
+        cell: {
+          size: 9,
+          border_width: '0.25mm',
+          padding: 5
         }
       }
-    )
+    }
   end
 
   def attachment_image_filepath(work_package, src)
@@ -69,43 +208,4 @@ module WorkPackage::PDFExport::Markdown
     # find attachment by api-path
     work_package.attachments.detect { |a| api_url_helpers.attachment_content(a.id) == src }
   end
-
-  def markup_options
-    { text: markup_font_style,
-      heading1: markup_h1_style,
-      heading2: markup_h2_style,
-      heading3: markup_h3_style,
-      heading4: markup_h4_style,
-      heading5: markup_h5_style,
-      heading6: markup_h6_style }
-  end
-
-  def markup_h1_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def markup_h2_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def markup_h3_style
-    { size: 9, styles: [:bold] }
-  end
-
-  def markup_h4_style
-    { size: 8, styles: [:bold] }
-  end
-
-  def markup_h5_style
-    { size: 8, styles: [:bold] }
-  end
-
-  def markup_h6_style
-    { size: 10, styles: [:bold] }
-  end
-
-  def markup_font_style
-    { style: :normal, size: 9 }
-  end
-
 end
