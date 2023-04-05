@@ -455,6 +455,14 @@ describe "POST /api/v3/queries/form" do
       expect(form.dig("_embedded", "payload", "timestamps")).to eq timestamps
     end
 
+    context 'with one timestamp is present only' do
+      let(:timestamps) { "PT0S" }
+
+      it 'has the timestamp set' do
+        expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+      end
+    end
+
     context "with the project referred to by its identifier" do
       let(:override_params) do
         links = parameters[:_links]
@@ -474,7 +482,7 @@ describe "POST /api/v3/queries/form" do
     end
 
     context "with groupBy specified as a GET parameter" do
-      let(:path) { api_v3_paths.create_query_form + "?groupBy=author" }
+      let(:path) { "#{api_v3_paths.create_query_form}?groupBy=author" }
       let(:override_params) do
         links = parameters[:_links]
 
@@ -575,17 +583,6 @@ describe "POST /api/v3/queries/form" do
         it "returns a validation error" do
           expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
             .to eq "Timestamps contain invalid values: invalid, invalid2"
-        end
-      end
-
-      context 'when there are too many values' do
-        let(:override_params) do
-          { timestamps: [2.weeks.ago.iso8601, 1.week.ago.iso8601, "P0D"] }
-        end
-
-        it "returns a validation error" do
-          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
-            .to eq "Timestamps are too long (maximum is 2 values)."
         end
       end
     end

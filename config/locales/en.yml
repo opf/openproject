@@ -810,7 +810,6 @@ en:
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
-              too_long: "Timestamps are too long (maximum is %{count} values)."
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
