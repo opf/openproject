@@ -30,6 +30,7 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
+gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'

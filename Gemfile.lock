@@ -641,6 +641,7 @@ GEM
     openproject-token (2.2.0)
       activemodel
     os (1.1.4)
+    ox (2.14.14)
     paper_trail (12.3.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
@@ -1071,6 +1072,7 @@ DEPENDENCIES
   openproject-webhooks!
   openproject-xls_export!
   overviews!
+  ox
   paper_trail (~> 12.3)
   parallel_tests (~> 4.0)
   pg (~> 1.4.0)

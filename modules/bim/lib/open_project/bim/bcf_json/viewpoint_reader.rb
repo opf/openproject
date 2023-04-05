@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bigdecimal'
 
 module OpenProject::Bim
@@ -26,8 +28,7 @@ module OpenProject::Bim
       # Retrieve the viewpoint hash without root node, if any.
       def viewpoint_hash
         @viewpoint_hash ||= begin
-          # Load from XML using activesupport
-          hash = Hash.from_xml(xml)
+          hash = FasterConverter.xml_to_hash(xml)
           hash = hash[ROOT_NODE] if hash[ROOT_NODE]
 
           # Perform destructive transformations
