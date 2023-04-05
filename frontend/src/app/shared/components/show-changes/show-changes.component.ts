@@ -66,6 +66,8 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
 
   public filterSelected = false;
 
+  public timeZoneSelected = false;
+
   public daysNumber = 0;
 
   public tooltipPosition = SpotDropAlignmentOption.BottomRight;
@@ -213,7 +215,9 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
   }
 
   public timeChange(value:string):void {
-    if (this.configuration.isTimezoneSet()) {
+    const timeZone = this.configuration.isTimezoneSet();
+    if (timeZone) {
+      this.timeZoneSelected = true;
       const dateTime= `${this.selectedDate}  ${value}`;
       this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
     }
