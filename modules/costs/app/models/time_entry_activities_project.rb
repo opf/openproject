@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TimeEntryActivitiesProject < ActiveRecord::Base
+class TimeEntryActivitiesProject < ApplicationRecord
   belongs_to :project
   belongs_to :activity, class_name: 'TimeEntryActivity'
 end
