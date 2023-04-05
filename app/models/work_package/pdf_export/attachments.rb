@@ -66,7 +66,7 @@ module WorkPackage::PDFExport::Attachments
   def resize_image(file_path)
     resized_file_path = extend_file_name_in_path(file_path, '__x325')
     image = MiniMagick::Image.open(file_path)
-    image.resize("x325")
+    image.resize("x325>")
     image.write(resized_file_path)
 
     @resized_image_paths << resized_file_path

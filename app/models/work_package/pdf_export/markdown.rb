@@ -172,6 +172,9 @@ module WorkPackage::PDFExport::Markdown
         no_border_bottom: true,
         no_border_top: true
       },
+      image: {
+        align: 'left'
+      },
       codeblock: {
         background_color: 'F5F5F5',
         color: '880000',

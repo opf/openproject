@@ -1,7 +1,7 @@
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 777d9fa14c2e0581a3b272bacf81d64b3e6e050d
-  ref: 777d9fa14c2e0581a3b272bacf81d64b3e6e050d
+  revision: 88eda1608248e556c0d6fa5fb5d858510292fe28
+  ref: 88eda1608248e556c0d6fa5fb5d858510292fe28
   specs:
     md_to_pdf (0.0.15)
       commonmarker (~> 0.23.6)
