@@ -74,7 +74,9 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EventViewLookupService } from 'core-app/features/team-planner/team-planner/planner/event-view-lookup.service';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
@@ -88,14 +90,18 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
-import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import {
+  KeepTabService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import {
@@ -469,10 +475,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   private initializeCalendar() {
-    void Promise.all([
-      this.configuration.initialized,
-      this.weekdayService.loadWeekdays().toPromise(),
-    ])
+    void this.weekdayService.loadWeekdays()
+      .toPromise()
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions({

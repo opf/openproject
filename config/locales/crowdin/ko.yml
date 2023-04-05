@@ -232,6 +232,7 @@ ko:
       failed_text: "프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다."
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt 보기로 열기'
       open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
@@ -2992,6 +2993,7 @@ ko:
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:

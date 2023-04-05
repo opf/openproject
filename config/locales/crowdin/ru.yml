@@ -231,6 +231,7 @@ ru:
       failed_text: "Запрос на удаление проекта %{name} не удался. Проект был оставлен в архиве."
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
+      completed_text_children: "Кроме того, были удалены следующие подпроекты:"
     index:
       open_as_gantt: 'Открыть в виде диаграммы Ганта'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Ганта, фильтрующего пакеты работ, видимых на этой странице."
@@ -1155,7 +1156,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%м/%д/%Г"
+      default: "%d.%m.%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -3054,6 +3055,7 @@ ru:
       code_409: "Не удалось обновить ресурс из-за конфликтующих изменений."
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
+      code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:

@@ -32,13 +32,6 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import {
-  IToast,
-  ToastService,
-  ToastType,
-} from './toast.service';
-import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
 import {
   BehaviorSubject,
   Observable,
@@ -48,6 +41,9 @@ import {
   timeout,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IToast, ToastService, ToastType } from 'core-app/shared/components/toaster/toast.service';
 
 @Component({
   templateUrl: './toast.component.html',
@@ -73,8 +69,10 @@ export class ToastComponent implements OnInit {
 
   public loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(readonly I18n:I18nService,
-    readonly toastService:ToastService) {
+  constructor(
+    readonly I18n:I18nService,
+    readonly toastService:ToastService,
+  ) {
   }
 
   ngOnInit():void {
@@ -83,7 +81,7 @@ export class ToastComponent implements OnInit {
     this.removable = !['upload', 'loading'].includes(this.type);
 
     if (this.type === 'upload') {
-      const data = this.data as UploadInProgress[];
+      const data = this.data as [File, Observable<unknown>];
       this.removable = false;
       this.canBeHidden = data && data.length > 5;
     }
@@ -128,7 +126,7 @@ export class ToastComponent implements OnInit {
   }
 
   public get uploadText():string {
-    return this.I18n.t('js.label_upload_counter',
-      { done: this.uploadCount, count: (this.data as UploadInProgress[]).length });
+    const count = (this.data as unknown[]).length;
+    return this.I18n.t('js.label_upload_counter', { done: this.uploadCount, count });
   }
 }

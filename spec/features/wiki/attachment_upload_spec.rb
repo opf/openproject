@@ -78,7 +78,7 @@ describe 'Upload attachment to wiki page', js: true do
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
-      expect(container).to have_selector('img[src^="/api/v3/attachments/"]')
+      expect(container).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
       expect(container).not_to have_selector('img[src="image.png"]')
 
       container.find('img[src^="/api/v3/attachments/"]', match: :first).click

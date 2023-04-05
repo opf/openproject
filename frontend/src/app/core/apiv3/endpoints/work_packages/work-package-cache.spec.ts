@@ -40,8 +40,6 @@ import { WorkPackagesActivityService } from 'core-app/features/work-packages/com
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageCache } from 'core-app/core/apiv3/endpoints/work_packages/work-package.cache';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
-import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
@@ -73,8 +71,6 @@ describe('WorkPackageCache', () => {
         { provide: ToastService, useValue: {} },
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} },
-        { provide: OpenProjectFileUploadService, useValue: {} },
-        { provide: OpenProjectDirectFileUploadService, useValue: {} },
       ],
     });
 

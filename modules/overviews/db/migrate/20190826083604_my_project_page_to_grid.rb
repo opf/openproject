@@ -1,4 +1,5 @@
 class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
+  # rubocop:disable Rails/ApplicationRecord
   class MyPageEntry < ActiveRecord::Base
     self.table_name = 'my_projects_overviews'
 
@@ -8,6 +9,7 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
 
     belongs_to :project
   end
+  # rubocop:enable Rails/ApplicationRecord
 
   def up
     return unless applicable?

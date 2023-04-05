@@ -232,6 +232,7 @@ fr:
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
@@ -3016,6 +3017,7 @@ fr:
       code_409: "Impossible de mettre à jour la ressource en raison de modifications conflictuelles."
       code_429: "Trop de demandes, Veuillez réessayer ultérieurement."
       code_500: "Une erreur interne s'est produite."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Le lot de travaux que vous cherchez est introuvable ou a été supprimé."
       expected:

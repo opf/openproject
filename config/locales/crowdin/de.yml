@@ -229,6 +229,7 @@ de:
       failed_text: "Die Anfrage zum Löschen des Projekts %{name} ist fehlgeschlagen. Das Projekt wurde archiviert."
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Als Gantt-Ansicht öffnen'
       open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
@@ -3011,6 +3012,7 @@ de:
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
       code_429: "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
       code_500: "Ein interner Fehler ist aufgetreten."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht."
       expected:

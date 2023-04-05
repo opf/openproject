@@ -61,7 +61,7 @@ pl:
           other: "Pomyślnie utworzono %{count} połączeń plików."
         upload_error:
           default: >
-            Nie można przesłać pliku (%{fileName}). Aby uzyskać więcej informacji, skontaktuj się z administratorem.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
           413: >

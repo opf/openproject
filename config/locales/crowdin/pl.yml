@@ -229,6 +229,7 @@ pl:
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
@@ -920,7 +921,7 @@ pl:
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
     item:
-      created_by_on: "utworzone %{date} przez %{user}"
+      created_by_on: "utworzone %{datetime} przez %{user}"
       created_on: "utworzono %{datetime}"
       updated_by_on: "zaktualizowane przez %{user} dnia %{datetime}"
       updated_on: "zaktualizowano %{datetime}"
@@ -3038,7 +3039,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{date} jest teraz wolnym od pracy"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
@@ -3053,6 +3054,7 @@ pl:
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:

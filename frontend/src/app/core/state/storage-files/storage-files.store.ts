@@ -33,6 +33,7 @@ import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.mod
 
 export interface IStorageFilesResponse {
   files:ID[];
+  ancestors:ID[];
   parent:ID;
 }
 

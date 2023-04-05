@@ -341,6 +341,25 @@ describe API::V3::Notifications::NotificationsAPI,
 
       it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
     end
+
+    context 'when signaling' do
+      let(:select) { 'total,count' }
+      let(:send_request) do
+        get api_v3_paths.path_for :notifications, select:
+      end
+
+      let(:expected) do
+        {
+          total: 2,
+          count: 2
+        }
+      end
+
+      it 'is the reduced set of properties of the embedded elements' do
+        expect(last_response.body)
+          .to be_json_eql(expected.to_json)
+      end
+    end
   end
 
   describe 'admin user' do

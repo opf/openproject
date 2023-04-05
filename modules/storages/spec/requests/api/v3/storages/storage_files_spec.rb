@@ -71,7 +71,8 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
                                     'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
         ],
         Storages::StorageFile.new(32, '/', 4096 * 2, 'application/x-op-directory', DateTime.now, DateTime.now,
-                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable])
+                                  'Obi-Wan Kenobi', 'Obi-Wan Kenobi', '/', %i[readable writeable]),
+        []
       )
     end
 
@@ -97,6 +98,8 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
 
       it { is_expected.to be_json_eql(response.parent.id.to_json).at_path('parent/id') }
       it { is_expected.to be_json_eql(response.parent.name.to_json).at_path('parent/name') }
+
+      it { is_expected.to be_json_eql(response.ancestors.to_json).at_path('ancestors') }
     end
 
     describe 'with files query creation failed' do
@@ -142,7 +145,13 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
           )
         end
 
-        it { expect(last_response.status).to be(404) }
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
+        end
       end
     end
 
@@ -179,7 +188,13 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
       describe 'due to not found' do
         let(:error) { :not_found }
 
-        it { expect(last_response.status).to be(404) }
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
+        end
       end
     end
   end
@@ -260,7 +275,13 @@ describe 'API v3 storage files', content_type: :json, webmock: true do
           )
         end
 
-        it { expect(last_response.status).to be(404) }
+        it 'fails with outbound request failure' do
+          expect(last_response.status).to be(500)
+
+          body = JSON.parse(last_response.body)
+          expect(body['message']).to eq(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 404))
+          expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
+        end
       end
     end
   end

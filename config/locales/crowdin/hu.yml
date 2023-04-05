@@ -231,6 +231,7 @@ hu:
       failed_text: "A projekt%{name} törlése sikertelen. A projekt archiválva van."
       completed: "A projekt %{name} törlölve"
       completed_text: "A projekt%{name} törlése sikeres."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
       open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
@@ -3013,6 +3014,7 @@ hu:
       code_409: "Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt."
       code_429: "Túl sok próbálkozás, próbáld meg később"
       code_500: "Belső hiba történt."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "A keresett munkacsomag nem található, vagy törölve lett."
       expected:

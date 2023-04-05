@@ -231,6 +231,7 @@ sl:
       failed_text: "Zahteva za izbris projekta %{name} ni uspela. Projekt je ostal arhiviran."
       completed: "Projekt %{name} izbrisan"
       completed_text: "Zahteva za izbris projekta '%{name}' je zaključena."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Odpri kot gantogram'
       open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."
@@ -3055,6 +3056,7 @@ sl:
       code_409: "Vira ni bilo mogoče posodobiti zaradi nasprotujočih si sprememb."
       code_429: "Preveč zahtev. Prosimo, poskusite kasneje."
       code_500: "Prišlo je do notranje napake."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,51 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Purpose: Defines a table based on RubyCell for listing the
-# Storages::ProjectStorage per project in the projects' settings
-# page.
-# See for comments: storage_table_cell.rb
-# See also: project_storages_row_cell.rb, which contains a method
-# for every "column" defined below.
-module Storages
-  class ProjectsStoragesTableCell < ::TableCell
-    include ::IconsHelper
-
-    class << self
-      def row_class
-        ::Storages::ProjectsStoragesRowCell
-      end
+module Enumerations
+  class RowComponent < ::RowComponent
+    def enumeration
+      row
     end
 
-    columns :name, :provider_type, :creator, :created_at
-
-    def initial_sort
-      %i[created_at asc]
+    def name
+      link_to enumeration.name, edit_enumeration_path(enumeration)
     end
 
-    def sortable?
-      false
+    def is_default # rubocop:disable Naming/PredicateName
+      checkmark(enumeration.is_default?)
     end
 
-    def inline_create_link
-      link_to(new_project_settings_projects_storage_path,
-              class: 'wp-inline-create--add-link',
-              title: I18n.t('storages.label_new_storage')) do
-        op_icon('icon icon-add')
-      end
+    def color
+      helpers.icon_for_color enumeration.color
     end
 
-    def empty_row_message
-      I18n.t 'storages.no_results'
+    def active
+      checkmark(enumeration.active?)
     end
 
-    def headers
+    def sort
+      helpers.reorder_links('enumeration', { action: 'update', id: enumeration }, method: :put)
+    end
+
+    def button_links
       [
-        ['name', { caption: ::Storages::Storage.human_attribute_name(:name) }],
-        ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
-        ['creator', { caption: I18n.t('storages.label_creator') }],
-        ['created_at', { caption: ::Storages::ProjectStorage.human_attribute_name(:created_at) }]
+        delete_link
       ]
+    end
+
+    def delete_link
+      helpers.link_to(
+        helpers.op_icon('icon icon-delete'),
+        helpers.enumeration_path(enumeration),
+        method: :delete,
+        data: { confirm: I18n.t(:text_are_you_sure) },
+        title: t(:button_delete)
+      )
     end
   end
 end

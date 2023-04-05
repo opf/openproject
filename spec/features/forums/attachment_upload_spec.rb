@@ -56,6 +56,7 @@ describe 'Upload attachment to forum message', js: true do
     create_page.set_subject 'A new message'
 
     # adding an image
+    sleep 20
     editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
     expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')

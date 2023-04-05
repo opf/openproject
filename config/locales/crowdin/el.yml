@@ -228,6 +228,7 @@ el:
       failed_text: "Το αίτημα για διαγραφή του έργου %{name} απέτυχε. Το έργο παρέμεινε αρχειοθετημένο."
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Άνοιγμα ως προβολή Gantt'
       open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
@@ -3011,6 +3012,7 @@ el:
       code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
       code_429: "Πάρα πολλά αιτήματα. Παρακαλώ δοκιμάστε ξανά αργότερα."
       code_500: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

@@ -50,7 +50,7 @@ describe 'Top menu items', js: true, selenium: true do
     within '.op-app-menu--dropdown[aria-expanded=true]' do
       expect(page).not_to have_selector('[style~=overflow]')
 
-      page.find_link(title).find('span').click
+      page.click_link(title)
     end
   end
 

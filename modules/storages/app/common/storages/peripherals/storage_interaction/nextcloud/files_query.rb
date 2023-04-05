@@ -28,12 +28,14 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+    include API::V3::Utilities::PathHelper
+
     def initialize(base_uri:, token:, retry_proc:)
       super()
       @uri = base_uri
       @token = token
       @retry_proc = retry_proc
-      @base_path = File.join(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
+      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(token.origin_user_id))
     end
 
     def query(parent)
@@ -86,6 +88,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
     end
+
     # rubocop:enable Metrics/AbcSize
 
     def error(response)
@@ -117,17 +120,47 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             storage_file(file_element)
           end
 
-        ::Storages::StorageFiles.new(files, parent)
+        ::Storages::StorageFiles.new(files, parent, ancestors(parent.location))
       end
     end
 
+    def ancestors(parent_location)
+      path = parent_location.split('/')
+      return [] if path.count == 0
+
+      path.take(path.count - 1).reduce([]) do |list, item|
+        last = list.last
+        prefix = last.nil? || last.location[-1] != '/' ? '/' : ''
+        location = "#{last&.location}#{prefix}#{item}"
+        list.append(forge_ancestor(location))
+      end
+    end
+
+    # The ancestors are simply derived objects from the parents location string. Until we have real information
+    # from the nextcloud API about the path to the parent, we need to derive name, location and forge an ID.
+    def forge_ancestor(location)
+      ::Storages::StorageFile.new(Digest::SHA256.hexdigest(location),
+                                  name(location),
+                                  nil,
+                                  nil,
+                                  nil,
+                                  nil,
+                                  nil,
+                                  nil,
+                                  location,
+                                  nil)
+    end
+
+    def name(location)
+      location == '/' ? location : CGI.unescape(location.split('/').last)
+    end
+
     def storage_file(file_element)
-      location = name(file_element)
-      name = location == '/' ? location : CGI.unescape(location.split('/').last)
+      location = location(file_element)
 
       ::Storages::StorageFile.new(
         id(file_element),
-        name,
+        name(location),
         size(file_element),
         mime_type(file_element),
         nil,
@@ -147,7 +180,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .first
     end
 
-    def name(element)
+    def location(element)
       texts = element
                 .xpath('d:href')
                 .map(&:inner_text)
