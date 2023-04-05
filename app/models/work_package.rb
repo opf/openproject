@@ -49,11 +49,11 @@ class WorkPackage < ApplicationRecord
   belongs_to :type
   belongs_to :status, class_name: 'Status'
   belongs_to :author, class_name: 'User'
-  belongs_to :assigned_to, class_name: 'Principal'
-  belongs_to :responsible, class_name: 'Principal'
-  belongs_to :version
+  belongs_to :assigned_to, class_name: 'Principal', optional: true
+  belongs_to :responsible, class_name: 'Principal', optional: true
+  belongs_to :version, optional: true
   belongs_to :priority, class_name: 'IssuePriority'
-  belongs_to :category, class_name: 'Category'
+  belongs_to :category, class_name: 'Category', optional: true
 
   has_many :time_entries, dependent: :delete_all
 

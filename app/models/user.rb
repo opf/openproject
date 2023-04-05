@@ -54,7 +54,7 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
-  belongs_to :auth_source
+  belongs_to :auth_source, optional: true
 
   # Authorized OAuth grants
   has_many :oauth_grants,
@@ -547,6 +547,7 @@ class User < Principal
           u.mail = ''
           u.status = User.statuses[:active]
         end).save
+
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
       anonymous_user
