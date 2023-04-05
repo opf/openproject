@@ -40,9 +40,10 @@
             {{availableValue.title}}
           </option>
         </select>
-        <span class="op-show-changes-modal--filter-description"
-        >  {{ dropDownDescription }} </span>
+        
       </div>
+      <span slot="description"
+        >  {{ dropDownDescription }} </span>
       </spot-form-field>
 
 
@@ -56,7 +57,7 @@
           (change)="timeChange($event.target.value)"
           type="time"
           class="op-show-changes-modal--time-input"/>
-
+      
           <div
             slot="input"
             class="op-show-changes-modal--time-help spot-body-small"
@@ -76,6 +77,8 @@
             </spot-tooltip>
           </div>
 
+          <span slot="description"
+          [textContent]="text.time_description()"></span>
       </spot-form-field>
 
       <div class="spot-action-bar">

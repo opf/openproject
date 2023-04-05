@@ -54,6 +54,22 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 export class OpShowChangesComponent extends UntilDestroyedMixin implements AfterViewInit {
   @HostBinding('class.op-show-changes') className = true;
 
+  public opened = false;
+
+  public dropDownDescription = '';
+
+  public nonWorkingDays:IDay[] = [];
+
+  public selectedDate = '';
+
+  public selectedTimezoneFormattedTime = '';
+
+  public filterSelected = false;
+
+  public daysNumber = 0;
+
+  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
+
   public text = {
     toggle_title: this.I18n.t('js.show_changes.toggle_title'),
     header_description: this.I18n.t('js.show_changes.header_description'),
@@ -62,20 +78,9 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     show_changes_since: this.I18n.t('js.show_changes.show_changes_since'),
     time: this.I18n.t('js.show_changes.time'),
     help_description: this.I18n.t('js.show_changes.help_description'),
-    timeZone: this.configuration.isTimezoneSet() ? this.configuration.timezone() : 'local',
+    timeZone: this.configuration.isTimezoneSet() ? moment().tz(this.configuration.timezone()).zoneAbbr() : 'local',
+    time_description: () => this.I18n.t('js.show_changes.time_description', { time: this.selectedTimezoneFormattedTime, days: this.daysNumber }),
   };
-
-  public opened = false;
-
-  public dropDownDescription = '';
-
-  public nonWorkingDays:IDay[] = [];
-
-  public filterSelected = false;
-
-  public selectedDate = '';
-
-  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
 
   public showChangesAvailableValues = [
     {
@@ -145,6 +150,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
 
   public yesterdayDate():string {
     const today = new Date();
+    this.daysNumber = -1;
 
     today.setDate(today.getDate() - 1);
     this.selectedDate = moment(today).format('YYYY-MM-DD');
@@ -153,15 +159,17 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
 
   public lastMonthDate():string {
     const today = new Date();
+    const lastMonthDate = new Date(today);
 
-    today.setMonth(today.getMonth() - 1);
-    this.selectedDate = moment(today).format('YYYY-MM-DD');
+    lastMonthDate.setMonth(today.getMonth() - 1);
+    this.selectedDate = moment(lastMonthDate).format('YYYY-MM-DD');
+    this.daysNumber = moment(lastMonthDate).diff(moment(today), 'days');
     return moment(today).format('ddd, YYYY-MM-DD');
   }
 
   public lastweekDate():string {
     const today = new Date();
-
+    this.daysNumber = -7;
     today.setDate(today.getDate() - 7);
     this.selectedDate = moment(today).format('YYYY-MM-DD');
     return moment(today).format('ddd, YYYY-MM-DD');
@@ -193,6 +201,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
       if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
         lastWorkingDay = moment(yesterday).format('ddd, YYYY-MM-DD');
         this.selectedDate = moment(yesterday).format('YYYY-MM-DD');
+        this.daysNumber = moment(yesterday).diff(moment(today), 'days');
         break;
       } else {
         yesterday.setDate(yesterday.getDate() - 1);
@@ -203,8 +212,11 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     return lastWorkingDay;
   }
 
-  public timeChange(value:any):void {
-
+  public timeChange(value:string):void {
+    if (this.configuration.isTimezoneSet()) {
+      const dateTime= `${this.selectedDate}  ${value}`;
+      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
+    }
   }
 
   public filterChange(value:string):void {
