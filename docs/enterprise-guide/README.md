@@ -14,6 +14,12 @@ Welcome to the OpenProject **Enterprise guide**.
 
 The OpenProject Enterprise editions (cloud and on-premises) contain all OpenProject Community features plus the additional OpenProject [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons), as well as professional [support](https://www.openproject.org/pricing/#support).
 
+This video (english only) provides an overview of the [Enterprise add-ons](https://www.openproject.org/enterprise-edition/#enterprise-add-ons. 
+
+```
+![OpenProject Enterprise add-ons](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Enterprise-add-ons.mp4)
+```
+
 Find a detailed feature comparison [here](https://www.openproject.org/pricing/#features).
 
 
@@ -40,4 +46,3 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Enterprise on-premises trial](./enterprise-on-premises-guide/enterprise-on-premises-trial/)      | Can I test the Enterprise on-premises edition for free?                      |
 | [Activate Enterprise on-premises](./enterprise-on-premises-guide/activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
 | [Support](./enterprise-on-premises-guide/support)                                                 | How can I get support or installation support?                               |
-
