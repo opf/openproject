@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -25,29 +25,46 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import { OpenProjectFileUploadService, UploadFile } from "core-app/core/file-upload/op-file-upload.service";
-import { resizeFile } from "core-app/shared/helpers/images/resizer";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { ToastService } from "core-app/shared/components/toaster/toast.service";
+
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+
+import { resizeFile } from 'core-app/shared/helpers/images/resizer';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { OpUploadService } from 'core-app/core/upload/upload.service';
+
+import { AvatarUploadFile, AvatarUploadService } from '../avatar-upload.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'avatar-upload-form',
-  templateUrl: './avatar-upload-form.html'
+  templateUrl: './avatar-upload-form.html',
+  providers: [{ provide: OpUploadService, useClass: AvatarUploadService }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarUploadFormComponent implements OnInit {
-  // Form targets
   public form:any;
+
   public target:string;
+
   public method:string;
 
-  // File
-  public avatarFile:any;
-  public avatarPreviewUrl:any;
+  public avatarFile:File;
+
+  public avatarPreviewUrl:string;
+
   public busy = false;
+
   public fileInvalid = false;
 
-  @ViewChild('avatarFilePicker', { static: true }) public avatarFilePicker:ElementRef;
+  @ViewChild('avatarFilePicker', { static: true }) public avatarFilePicker:ElementRef<HTMLInputElement>;
 
   // Text
   public text = {
@@ -57,68 +74,70 @@ export class AvatarUploadFormComponent implements OnInit {
     wrong_file_format: this.I18n.t('js.avatars.wrong_file_format'),
     button_update: this.I18n.t('js.button_update'),
     uploading: this.I18n.t('js.avatars.uploading_avatar'),
-    preview: this.I18n.t('js.label_preview')
+    preview: this.I18n.t('js.label_preview'),
   };
 
-  public constructor(protected I18n:I18nService,
-                     protected elementRef:ElementRef,
-                     protected toastService:ToastService,
-                     protected opFileUpload:OpenProjectFileUploadService) {
-  }
+  public constructor(
+    protected I18n:I18nService,
+    protected elementRef:ElementRef,
+    protected cdRef:ChangeDetectorRef,
+    protected toastService:ToastService,
+    protected uploadService:OpUploadService,
+  ) { }
 
   public ngOnInit() {
-    const element = this.elementRef.nativeElement;
-    this.target = element.getAttribute('target');
-    this.method = element.getAttribute('method');
+    const element = this.elementRef.nativeElement as HTMLElement;
+    this.target = element.getAttribute('target') || '';
+    this.method = element.getAttribute('method') || '';
   }
 
   public onFilePickerChanged(_evt:Event) {
-    const files:UploadFile[] = Array.from(this.avatarFilePicker.nativeElement.files);
-    if (files.length === 0) {
+    const fileList = this.avatarFilePicker.nativeElement.files;
+    if (fileList === null || fileList.length === 0) {
       return;
     }
 
-    const file = files[0];
+    const file = fileList[0];
     if (['image/jpeg', 'image/png', 'image/gif'].indexOf(file.type) === -1) {
       this.fileInvalid = true;
+      this.cdRef.detectChanges();
       return;
     }
 
-    resizeFile(128, file).then(([dataURL, blob]) => {
+    void resizeFile(128, file).then(([dataURL, blob]) => {
       // Create resized file
-      blob.name = file.name;
-      this.avatarFile = blob;
+      this.avatarFile = new File([blob], file.name);
       this.avatarPreviewUrl = dataURL;
+      this.fileInvalid = false;
+      this.cdRef.detectChanges();
     });
   }
 
-  public uploadAvatar(evt:Event) {
-    evt.preventDefault();
+  public uploadAvatar(event:Event) {
+    event.preventDefault();
     this.busy = true;
-    const upload = this.opFileUpload.uploadSingle(this.target, this.avatarFile, this.method, 'text');
-    this.toastService.addAttachmentUpload(this.text.uploading, [upload]);
+    const uploadFile:AvatarUploadFile = { file: this.avatarFile, method: this.method };
+    const observable = this.uploadService.upload<string>(this.target, [uploadFile])[0];
+    this.toastService.addUpload(this.text.uploading, [[this.avatarFile, observable]]);
 
-    upload[1].subscribe(
-      (evt:any) => {
-        switch (evt.type) {
-        case 0: // Sent
-          return;
-
-        case 4:
-          this.avatarFile.progress = 100;
-          this.busy = false;
-          window.location.reload();
-          return;
-
-        default:
+    observable.subscribe(
+      (ev) => {
+        switch (ev.type) {
+          case 0:
+            // Sent
+            break;
+          case 4:
+            this.busy = false;
+            window.location.reload();
+            break;
+          default:
           // Sent or unknown event
-          return;
         }
       },
-      (error:any) => {
+      (error:HttpErrorResponse) => {
         this.toastService.addError(error);
         this.busy = false;
-      }
+      },
     );
   }
 }

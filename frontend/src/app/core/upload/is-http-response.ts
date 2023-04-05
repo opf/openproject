@@ -26,15 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { HttpEvent, HttpEventType, HttpResponse } from '@angular/common/http';
 
-export interface WikiPageResourceLinks {
-  addAttachment(attachment:HalResource):Promise<any>;
+export default function isHttpResponse<T>(event:HttpEvent<T>):event is HttpResponse<T> {
+  return event.type === HttpEventType.Response;
 }
-
-class WikiPageBaseResource extends HalResource {
-  public $links:WikiPageResourceLinks;
-}
-
-export const WikiPageResource = Attachable(WikiPageBaseResource);
