@@ -32,5 +32,7 @@ FactoryBot.define do
     creator factory: :user
     storage factory: :storage
     project factory: :project
+    project_folder_id { 'some_folder' }
+    project_folder_mode { 'manual' }
   end
 end

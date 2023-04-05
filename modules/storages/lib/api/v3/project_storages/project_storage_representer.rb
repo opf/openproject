@@ -31,6 +31,8 @@ module API::V3::ProjectStorages
     include API::Decorators::DateProperty
     include API::Decorators::LinkedResource
 
+    defaults render_nil: true
+
     self_link(title: false)
 
     property :id
