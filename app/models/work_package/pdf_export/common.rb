@@ -156,6 +156,13 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def measure_text_width(text, opts)
+    @pdf.save_font do
+      @pdf.font(opts[:font], opts)
+      @pdf.width_of(text, opts)
+    end
+  end
+
   def text_column?(column)
     column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
       %w(string text).include?(column.custom_field.field_format)

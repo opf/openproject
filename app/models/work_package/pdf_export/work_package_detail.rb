@@ -54,11 +54,16 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_package_subject!(work_package, level_path)
     with_margin(subject_margins_style) do
+
       pdf_dest = pdf.dest_xyz(0, pdf.y)
       pdf.add_dest(work_package.id.to_s, pdf_dest)
+
+      level_string = level_path.empty? ? '' : "#{level_path.join('.')}. "
+      level_string_width = measure_text_width(level_string, subject_font_style)
       title = get_column_value work_package, :subject
-      opts = { text: "#{level_path.join('.')}.  #{title}" }
-      pdf.formatted_text([subject_font_style.merge(opts)])
+
+      @pdf.float { @pdf.formatted_text([subject_font_style.merge({ text: level_string })]) }
+      @pdf.indent(level_string_width) { pdf.formatted_text([subject_font_style.merge({ text: title })]) }
     end
   end
 

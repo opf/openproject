@@ -138,11 +138,32 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     write_footers!
   end
 
+  def build_meta_infos_map_node(node, level_path, level)
+    node[:level_path] = level_path
+    node[:level] = level
+    index = 1
+    node[:children].each do |sub|
+      build_meta_infos_map_node(sub, level_path + [index], level + 1)
+      index += 1
+    end
+  end
+
   def build_meta_infos_map(work_packages)
     result = {}
-    # TODO: Auto-numbering and hierarchy level informations
-    work_packages.each_with_index do |work_package, index|
-      result[work_package.id] = { level_path: [index + 1], level: 0 }
+    work_packages.each do |work_package|
+      result[work_package.id] = { level_path: [], level: 0, children: [] }
+    end
+    work_packages.reject { |wp| wp.parent_id.nil? }.each do |work_package|
+      parent = result[work_package.parent_id]
+      result[work_package.id][:parent] = parent
+      parent[:children].push(result[work_package.id]) if parent
+    end
+    index = 1
+    result.each_value do |node|
+      if node[:parent].nil?
+        build_meta_infos_map_node(node, [index], 0)
+        index += 1
+      end
     end
     result
   end
