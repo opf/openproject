@@ -1,6 +1,50 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
 
-<Meta title="Patterns/Date Picker (2): Basic" />
+import { I18nService } from '../app/core/i18n/i18n.service';
+import { I18nServiceShim } from '../app/core/i18n/i18n.service.shim';
+
+import { WeekdayService } from '../app/core/days/weekday.service';
+import { WeekdayServiceShim } from '../app/core/days/weekday.service.shim';
+
+import { DayResourceService } from '../app/core/state/days/day.service';
+import { DayResourceServiceShim } from '../app/core/state/days/day.service.shim';
+
+import { States } from '../app/core/states/states.service';
+import { OpBasicDatePickerModule } from '../app/shared/components/datepicker/basic-datepicker.module';
+
+import { OpBasicSingleDatePickerComponent } from '../app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component.ts'
+import { OpBasicRangeDatePickerComponent } from '../app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component.ts'
+
+import { SbDatePickerBasicExample } from './DatePickerBasic.example';
+import { SbDatePickerBasicPrefilledExample } from './DatePickerBasicPrefilled.example';
+import { SbDatePickerRangePrefilledExample } from './DatePickerRangePrefilled.example';
+
+<Meta
+  title="Patterns/Date Picker"
+  decorators={[
+    moduleMetadata({
+      providers: [      
+        { provide: States, useValue: new States() },
+        {
+          provide: I18nService,
+          useFactory: () => new I18nServiceShim(),
+        },
+        {
+          provide: WeekdayService,
+          useFactory: () => new WeekdayServiceShim(),
+        },
+        {
+          provide: DayResourceService,
+          useFactory: () => new DayResourceServiceShim(),
+        },
+      ],
+      imports: [
+        OpBasicDatePickerModule,
+      ],
+    }),
+  ]}
+/>
 
 # Basic Date Picker 
 
@@ -8,7 +52,11 @@ Basic date pickers are attached to existing date input fields and is displayed a
 
 Unlike the Work package and Modal variants, the basic date picker does not trap focus and as such does not allow for any keyboard navigation.
 
-> **Example**: An example of a basic date picker (with input field)
+<Canvas>
+  <Story name="Single">
+    {{ component: SbDatePickerBasicExample }}
+  </Story>
+</Canvas>
 
 ## Sub-variants
 
@@ -18,13 +66,21 @@ The structure is very basic and consists only of one mini calendar. There are tw
 
 **Single** allows picking just one date (2023-02-09)
 
-> **Example**: An example of a basic range date picker (with date pre-filled in the attached date input field)
+<Canvas>
+  <Story name="Single with prefilled prefilled">
+    {{ component: SbDatePickerBasicPrefilledExample }}
+  </Story>
+</Canvas>
 
 ### Range
 
 **Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months.
 
-> **Example**: An example of a basic range date picker (with date pre-filled in the attached date input field).
+<Canvas>
+  <Story name="Range with prefilled prefilled">
+    {{ component: SbDatePickerRangePrefilledExample }}
+  </Story>
+</Canvas>
 
 ## Mobile
 
@@ -45,7 +101,7 @@ _To be completed_
 
 This date picker is used in:
 
-**Single:**
+### Single date picker
 
 - Log time
 - Log unit costs
@@ -60,6 +116,10 @@ This date picker is used in:
 - Budget forms
 - Dynamic forms
 
-**Range:**
+<ArgsTable of={OpBasicSingleDatePickerComponent} />
+
+### Range date picker
 
 - Pause date reminders
+
+<ArgsTable of={OpBasicRangeDatePickerComponent} />
