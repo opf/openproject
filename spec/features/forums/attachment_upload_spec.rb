@@ -116,6 +116,7 @@ describe 'Upload attachment to forum message', js: true do
       click_on "Edit"
     end
 
+    page.find("[data-qa-selector='op-attachments']") # wait for attachments element to be displayed before starting drag and drop
     script = <<~JS
       const event = new DragEvent('dragenter');
       document.body.dispatchEvent(event);
