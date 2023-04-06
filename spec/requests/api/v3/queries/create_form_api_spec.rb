@@ -575,6 +575,17 @@ describe "POST /api/v3/queries/form" do
         end
       end
 
+      context 'when one timestamp cannot be parsed (malformed)' do
+        let(:override_params) do
+          { timestamps: ['2022-03-02 invalid string 20:45:56Z', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: 2022-03-02 invalid string 20:45:56Z"
+        end
+      end
+
       context 'when both timestamps cannot be parsed' do
         let(:override_params) do
           { timestamps: ['invalid', 'invalid2'] }
