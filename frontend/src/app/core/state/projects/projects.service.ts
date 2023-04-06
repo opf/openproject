@@ -31,13 +31,13 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IProject } from './project.model';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
 
 @Injectable()
-export class ProjectsResourceService extends ResourceCollectionService<IProject> {
+export class ProjectsResourceService extends ResourceStoreService<IProject> {
   update(link:string):Observable<IProject> {
     return this.http.get<IProject>(link)
       .pipe(
@@ -47,14 +47,11 @@ export class ProjectsResourceService extends ResourceCollectionService<IProject>
       );
   }
 
-  protected createStore():CollectionStore<IProject> {
+  protected createStore():ResourceStore<IProject> {
     return new ProjectsStore();
   }
 
   protected basePath():string {
-    return this
-      .apiV3Service
-      .projects
-      .path;
+    return this.apiV3Service.projects.path;
   }
 }
