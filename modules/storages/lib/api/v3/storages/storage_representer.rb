@@ -148,6 +148,10 @@ module API::V3::Storages
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
 
+    link :projectStorages do
+      { href: "#{api_v3_paths.project_storages}?filters=[{\"storageId\":{\"operator\":\"=\",\"values\":[\"#{represented.id}\"]}}]" }
+    end
+
     associated_resource :oauth_application,
                         skip_render: ->(*) { !current_user.admin? },
                         getter: ->(*) {
