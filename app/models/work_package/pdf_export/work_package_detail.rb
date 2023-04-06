@@ -28,7 +28,6 @@
 
 module WorkPackage::PDFExport::WorkPackageDetail
   include WorkPackage::PDFExport::MarkdownField
-
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
       write_work_package_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
@@ -54,17 +53,20 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_package_subject!(work_package, level_path)
     with_margin(subject_margins_style) do
-
-      pdf_dest = pdf.dest_xyz(0, pdf.y)
-      pdf.add_dest(work_package.id.to_s, pdf_dest)
-
-      level_string = level_path.empty? ? '' : "#{level_path.join('.')}. "
-      level_string_width = measure_text_width(level_string, subject_font_style)
+      link_target_at_current_y(work_package.id)
+      level_string_width = write_work_package_level!(level_path)
       title = get_column_value work_package, :subject
-
-      @pdf.float { @pdf.formatted_text([subject_font_style.merge({ text: level_string })]) }
       @pdf.indent(level_string_width) { pdf.formatted_text([subject_font_style.merge({ text: title })]) }
     end
+  end
+
+  def write_work_package_level!(level_path)
+    return 0 if level_path.empty?
+
+    level_string = "#{level_path.join('.')}. "
+    level_string_width = measure_text_width(level_string, subject_font_style)
+    @pdf.float { @pdf.formatted_text([subject_font_style.merge({ text: level_string })]) }
+    level_string_width
   end
 
   def write_attributes_table!(work_package)

@@ -129,6 +129,11 @@ module WorkPackage::PDFExport::Common
     end
   end
 
+  def link_target_at_current_y(id)
+    pdf_dest = pdf.dest_xyz(0, pdf.y)
+    pdf.add_dest(id.to_s, pdf_dest)
+  end
+
   def draw_repeating_text(text, align, top, style)
     left = align_to_left_position(text, align, style)
     opts = style.merge({ at: [left, top] })

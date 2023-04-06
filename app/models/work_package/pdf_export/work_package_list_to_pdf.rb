@@ -138,34 +138,41 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
     write_footers!
   end
 
-  def build_meta_infos_map_node(node, level_path, level)
+  def init_meta_infos_map_nodes(work_packages)
+    infos_map = {}
+    work_packages.each do |work_package|
+      infos_map[work_package.id] = { level_path: [], level: 0, children: [] }
+    end
+    infos_map
+  end
+
+  def link_meta_infos_map_nodes(infos_map, work_packages)
+    work_packages.reject { |wp| wp.parent_id.nil? }.each do |work_package|
+      parent = infos_map[work_package.parent_id]
+      infos_map[work_package.id][:parent] = parent
+      parent[:children].push(infos_map[work_package.id]) if parent
+    end
+    infos_map
+  end
+
+  def fill_meta_infos_map_nodes(node, level_path)
     node[:level_path] = level_path
-    node[:level] = level
     index = 1
     node[:children].each do |sub|
-      build_meta_infos_map_node(sub, level_path + [index], level + 1)
+      fill_meta_infos_map_nodes(sub, level_path + [index])
       index += 1
     end
   end
 
   def build_meta_infos_map(work_packages)
-    result = {}
-    work_packages.each do |work_package|
-      result[work_package.id] = { level_path: [], level: 0, children: [] }
-    end
-    work_packages.reject { |wp| wp.parent_id.nil? }.each do |work_package|
-      parent = result[work_package.parent_id]
-      result[work_package.id][:parent] = parent
-      parent[:children].push(result[work_package.id]) if parent
-    end
-    index = 1
-    result.each_value do |node|
-      if node[:parent].nil?
-        build_meta_infos_map_node(node, [index], 0)
-        index += 1
-      end
-    end
-    result
+    # build a quick access map for the hierarchy tree
+    infos_map = init_meta_infos_map_nodes work_packages
+    # connect parent and children (only wp available in the query)
+    infos_map = link_meta_infos_map_nodes infos_map, work_packages
+    # recursive travers creating level index path e.g. [1, 2, 1] from root nodes
+    root_nodes = infos_map.values.select { |node| node[:parent].nil? }
+    fill_meta_infos_map_nodes({ children: root_nodes }, [])
+    infos_map
   end
 
   def should_be_batched?(work_packages)
