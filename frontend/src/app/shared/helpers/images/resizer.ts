@@ -1,5 +1,3 @@
-import { UploadBlob } from 'core-app/core/file-upload/op-file-upload.service';
-
 function dataURItoBlob(dataURI:string) {
   const bytes = dataURI.split(',')[0].indexOf('base64') >= 0
     ? atob(dataURI.split(',')[1])
@@ -20,7 +18,7 @@ function dataURItoBlob(dataURI:string) {
  * @param {maxSize} Max width or height
  * @param {HTMLImageElement} Input image
  */
-export function resizeImage(maxSize:number, image:HTMLImageElement):[string, UploadBlob] {
+export function resizeImage(maxSize:number, image:HTMLImageElement):[string, Blob] {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d')!;
 
@@ -47,16 +45,16 @@ export function resizeImage(maxSize:number, image:HTMLImageElement):[string, Upl
 /**
  * Resize a file input to the given max dimension, returning the data URL and a blob
  *
- * @param {maxSize} Max width or height
- * @param {File} Input file
+ * @param maxSize Max width or height
+ * @param file Input file
  */
-export function resizeFile(maxSize:number, file:File):Promise<[string, UploadBlob]> {
+export function resizeFile(maxSize:number, file:File):Promise<[string, Blob]> {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onload = (readerEvent:any) => {
+    reader.onload = (readerEvent:ProgressEvent<FileReader>) => {
       const image = new Image();
       image.onload = () => resolve(resizeImage(maxSize, image));
-      image.src = readerEvent.target.result;
+      image.src = readerEvent.target?.result as string;
     };
     reader.readAsDataURL(file);
   });

@@ -57,7 +57,7 @@ class NotificationSetting < ApplicationRecord
     ]
   end
 
-  belongs_to :project
+  belongs_to :project, optional: true
   belongs_to :user
 
   include Scopes::Scoped

@@ -37,10 +37,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  HttpClient,
   HttpErrorResponse,
-  HttpEventType,
-  HttpResponse,
 } from '@angular/common/http';
 import {
   BehaviorSubject,
@@ -73,7 +70,6 @@ import {
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { StorageActionButton } from 'core-app/shared/components/storages/storage-information/storage-action-button';
 import {
   StorageInformationBox,
@@ -97,12 +93,15 @@ import {
   UploadConflictModalComponent,
 } from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
 import {
+  NextcloudFileUploadResponse,
   NextcloudUploadFile,
   NextcloudUploadService,
 } from 'core-app/shared/components/storages/upload/nextcloud-upload.service';
-import { FileUploadResponse, LocationData, UploadData } from 'core-app/shared/components/storages/storage/interfaces';
+import { LocationData, UploadData } from 'core-app/shared/components/storages/storage/interfaces';
 import isNotNull from 'core-app/core/state/is-not-null';
 import compareId from 'core-app/core/state/compare-id';
+import isHttpResponse from 'core-app/core/upload/is-http-response';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   selector: 'op-storage',
@@ -213,7 +212,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   };
 
   constructor(
-    private readonly http:HttpClient,
     private readonly i18n:I18nService,
     private readonly cdRef:ChangeDetectorRef,
     private readonly toastService:ToastService,
@@ -403,16 +401,16 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     }
   }
 
-  private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<FileUploadResponse> {
+  private uploadAndNotify(link:IUploadLink, file:File, overwrite:boolean|null):Observable<NextcloudFileUploadResponse> {
     const { href } = link._links.destination;
     const uploadFiles:NextcloudUploadFile[] = [{ file, overwrite }];
-    const observable = this.uploadService.upload<FileUploadResponse>(href, uploadFiles)[0];
+    const observable = this.uploadService.upload<NextcloudFileUploadResponse>(href, uploadFiles)[0];
     this.toastService.addUpload(this.text.toast.uploadingLabel, [[file, observable]]);
 
     return observable
       .pipe(
-        filter((ev) => ev.type === HttpEventType.Response),
-        map((ev:HttpResponse<FileUploadResponse>) => ev.body),
+        filter(isHttpResponse),
+        map((ev) => ev.body),
         map((data) => {
           if (data === null) {
             throw new Error('Upload data is null.');
@@ -423,7 +421,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       );
   }
 
-  private createFileLinkData(file:File, response:FileUploadResponse):Observable<IFileLinkOriginData|null> {
+  private createFileLinkData(file:File, response:NextcloudFileUploadResponse):Observable<IFileLinkOriginData|null> {
     return this.fileLinks$
       .pipe(
         take(1),

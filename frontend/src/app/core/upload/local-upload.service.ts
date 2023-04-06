@@ -26,15 +26,50 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { Observable } from 'rxjs';
+import { share } from 'rxjs/operators';
+import { HttpClient, HttpEvent } from '@angular/common/http';
 
-export interface WikiPageResourceLinks {
-  addAttachment(attachment:HalResource):Promise<any>;
+import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
+
+export interface AttachmentUploadFile extends IUploadFile {
+  description?:string;
 }
 
-class WikiPageBaseResource extends HalResource {
-  public $links:WikiPageResourceLinks;
-}
+export class LocalUploadService extends OpUploadService {
+  constructor(
+    private readonly http:HttpClient,
+  ) {
+    super();
+  }
 
-export const WikiPageResource = Attachable(WikiPageBaseResource);
+  public upload<T>(
+    href:string,
+    uploadFiles:AttachmentUploadFile[],
+  ):Observable<HttpEvent<T>>[] {
+    return uploadFiles.map((file) => this.uploadSingle(href, file));
+  }
+
+  private uploadSingle<T>(href:string, uploadFile:AttachmentUploadFile):Observable<HttpEvent<T>> {
+    const body = new FormData();
+    const metadata = {
+      description: uploadFile.description,
+      fileName: uploadFile.file.name,
+    };
+
+    body.append('metadata', JSON.stringify(metadata));
+    body.append('file', uploadFile.file, metadata.fileName);
+
+    return this.http.request<T>(
+      'post',
+      href,
+      {
+        body,
+        observe: 'events',
+        withCredentials: true,
+        responseType: 'json',
+        reportProgress: true,
+      },
+    ).pipe(share());
+  }
+}

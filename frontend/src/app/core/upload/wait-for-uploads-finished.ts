@@ -26,15 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
+import { forkJoin, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { HttpEvent, HttpResponse } from '@angular/common/http';
 
-export interface WikiPageResourceLinks {
-  addAttachment(attachment:HalResource):Promise<any>;
+import isHttpResponse from 'core-app/core/upload/is-http-response';
+
+export default function waitForUploadsFinished<T>(uploads:Observable<HttpEvent<T>>[]):Observable<HttpResponse<T>[]> {
+  return forkJoin(
+    uploads.map((o) => o.pipe(filter(isHttpResponse))),
+  );
 }
-
-class WikiPageBaseResource extends HalResource {
-  public $links:WikiPageResourceLinks;
-}
-
-export const WikiPageResource = Attachable(WikiPageBaseResource);
