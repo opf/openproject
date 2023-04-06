@@ -29,7 +29,11 @@
 import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { from, Observable, of } from 'rxjs';
+import {
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   groupBy,
   mergeMap,
@@ -38,17 +42,26 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import {
+  IFileLink,
+  IFileLinkOriginData,
+} from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
-import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
-import { CollectionStore, ResourceCollectionService } from 'core-app/core/state/resource-collection.service';
+import {
+  insertCollectionIntoState,
+  removeEntityFromCollectionAndState,
+} from 'core-app/core/state/resource-store';
+import {
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
-export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
-  protected createStore():CollectionStore<IFileLink> {
+export class FileLinksResourceService extends ResourceStoreService<IFileLink> {
+  protected createStore():ResourceStore<IFileLink> {
     return new FileLinksStore();
   }
 
