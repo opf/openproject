@@ -90,6 +90,21 @@ module Storages::Peripherals::StorageInteraction
       end
     end
 
+    def file_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
+          ::Storages::Peripherals::StorageInteraction::Nextcloud::FileQuery.new(
+            base_uri: @uri,
+            token:,
+            retry_proc: with_refreshed_token_proc
+          )
+        end
+      else
+        raise ArgumentError
+      end
+    end
+
     private
 
     def retry_with_refreshed_token
