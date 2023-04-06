@@ -7,7 +7,7 @@ es:
       label_unnamed_list: 'Lista sin nombre'
       label_board_type: 'Tipo de panel'
       upsale:
-        teaser_text: '¿Quieres automatizar tus flujos de trabajo con Paneles? Los paneles avanzados son una característica de la versión Enterprise. Por favor, actualice a un plan de pago.'
+        teaser_text: '¿Quieres automatizar tus flujos de trabajo con Paneles? Los paneles avanzados son un add-on de la edición Enterprise. Por favor, actualice a un plan de pago.'
         upgrade: 'Actualizar ahora'
       lists:
         delete: 'Eliminar lista'
@@ -62,7 +62,7 @@ es:
           status: Estado
           version: Versión
           subproject: Subproyecto
-          subtasks: Principal-secundaria
+          subtasks: Padre-hijo
           basic: Básico
         select_attribute: "Atributo de acción"
       add_list_modal:

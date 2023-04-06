@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,9 +30,9 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Modifying a dashboard which already has widgets for which permissions are lacking', type: :feature, js: true do
+describe 'Modifying a dashboard which already has widgets for which permissions are lacking', js: true do
   let!(:project) do
-    create :project
+    create(:project)
   end
 
   let(:permissions) do
@@ -50,8 +50,8 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     Pages::Dashboard.new(project)
   end
   let!(:news) do
-    create :news,
-           project:
+    create(:news,
+           project:)
   end
 
   before do
@@ -90,6 +90,6 @@ describe 'Modifying a dashboard which already has widgets for which permissions 
     dashboard_page.visit!
 
     expect(page)
-      .to have_no_selector('.grid--area.-widgeted:nth-of-type(2)')
+      .not_to have_selector('.grid--area.-widgeted:nth-of-type(2)')
   end
 end

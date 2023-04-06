@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Document do
-  let(:documentation_category) { create :document_category, name: 'User documentation' }
-  let(:project)                { create :project }
+  let(:documentation_category) { create(:document_category, name: 'User documentation') }
+  let(:project)                { create(:project) }
   let(:user)                   { create(:user) }
   let(:admin)                  { create(:admin) }
 
@@ -55,7 +55,7 @@ describe Document do
     end
 
     it "sets a default-category, if none is given" do
-      default_category = create :document_category, name: 'Technical documentation', is_default: true
+      default_category = create(:document_category, name: 'Technical documentation', is_default: true)
       document = Document.new(project:, title: "New Document")
       expect(document.category).to eql default_category
       expect do

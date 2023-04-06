@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ module Accounts::CurrentUser
     if session[:user_id]
       # existing session
       User.active.find_by(id: session[:user_id])
-    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting.autologin?
+    elsif cookies[OpenProject::Configuration['autologin_cookie_name']] && Setting::Autologin.enabled?
       # auto-login feature starts a new session
       user = User.try_to_autologin(cookies[OpenProject::Configuration['autologin_cookie_name']])
       session[:user_id] = user.id if user
@@ -127,7 +127,7 @@ module Accounts::CurrentUser
   # Login the current user
   def login_user(user)
     ::Users::LoginService
-      .new(controller: self)
+      .new(controller: self, request:)
       .call(user)
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,10 +41,11 @@ class Relation < ApplicationRecord
   TYPE_PARTOF       = 'partof'.freeze
   TYPE_REQUIRES     = 'requires'.freeze
   TYPE_REQUIRED     = 'required'.freeze
-  # The parent relation is maintained separately
+  # The parent/child relation is maintained separately
   # (in WorkPackage and WorkPackageHierarchy) and a relation cannot
   # have the type 'parent' but this is abstracted to simplify the code.
   TYPE_PARENT       = 'parent'.freeze
+  TYPE_CHILD        = 'child'.freeze
 
   TYPES = {
     TYPE_RELATES => {

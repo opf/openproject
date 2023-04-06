@@ -17,13 +17,13 @@ Read below to get a detailed overview of what is new in OpenProject 9.
 
 
 
-## Board view (Enterprise / Cloud Edition)
+## Board view (Enterprise add-on)
 
 The board view is a new module for OpenProject and allows Scrum and Kanban-style agile project management. You can display display a board view with the different statuses shown as columns (similarly to a Kanban board) and quickly update the status. Alternatively, you can define a basic board with custom names or display versions as columns (e.g. to plan your roadmap).
 
 Since boards display work packages - just like the work packages list - you can easily combine traditional and agile project management. Simply schedule your tasks in the Gantt chart and work on them from the boards view.
 
-To use boards you need to use either the Cloud Edition or the Enterprise Edition. If you currently use the Community Edition and would like to give boards a try, simply [request an Enterprise Edition trial license]().
+To use boards you need to use either the Enterprise cloud or the Enterprise on-premises edition. If you currently use the Community edition and would like to give boards a try, simply [request an Enterprise edition trial license]().
 
 [Learn more about Boards for Scrum and Agile Project Management.]()
 
@@ -77,6 +77,6 @@ For an extensive overview of bug fixes please refer to the [following list](http
 
 ## Upgrading your installation to OpenProject 9.0.
 
-If you're using the OpenProject Cloud Edition, you are already running on the latest version of OpenProject 9.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
+If you're using the OpenProject Enterprise cloud edition, you are already running on the latest version of OpenProject 9.0. For your local installations, there are some minor changes you need to do in order to perform the upgrade.
 
 [Please visit our upgrade guides for more information](../../../installation-and-operations/operation/upgrading).

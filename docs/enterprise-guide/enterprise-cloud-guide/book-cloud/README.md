@@ -2,8 +2,8 @@
 sidebar_navigation:
   title: Subscribe
   priority: 960
-description: Book the OpenProject Cloud Edition.
-keywords: Book Cloud Edition
+description: Book the OpenProject Enterprise cloud edition.
+keywords: book, enterprise cloud edition
 ---
 # Book the Enterprise cloud edition
 
@@ -17,7 +17,7 @@ You can subscribe to a monthly or yearly plan. The subscription can be **paid vi
 
 To upgrade your trial to the full version, **click on the BUY NOW teaser**, e.g. in the application header or project menu.
 
-![Cloud-edition-buy-now-teaser](Cloud-edition-buy-now-teaser.png)
+![Enterprise cloud edition](Cloud-edition-buy-now-teaser.png)
 
 You will be directed to -> *Administration* -> *Billing*.
 

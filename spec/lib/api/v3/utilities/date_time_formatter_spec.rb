@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Utilities::DateTimeFormatter do
+describe API::V3::Utilities::DateTimeFormatter do
   subject { described_class }
 
   let(:date) { Time.zone.today }
@@ -212,6 +212,29 @@ describe ::API::V3::Utilities::DateTimeFormatter do
     it_behaves_like 'can parse nil' do
       let(:method) { :parse_duration_to_hours }
       let(:input) { 'PT5H' }
+    end
+  end
+
+  describe 'format_duration_from_days' do
+    it 'formats floats' do
+      expect(subject.format_duration_from_days(5.0)).to eq('P5D')
+    end
+
+    it 'formats fractional floats' do
+      expect(subject.format_duration_from_days(5.5)).to eq('P5DT12H')
+    end
+
+    it 'includes minutes and seconds' do
+      expect(subject.format_duration_from_days(5.501)).to eq('P5DT12H1M26S')
+    end
+
+    it 'formats ints' do
+      expect(subject.format_duration_from_days(5)).to eq('P5D')
+    end
+
+    it_behaves_like 'can format nil' do
+      let(:method) { :format_duration_from_days }
+      let(:input) { 5 }
     end
   end
 

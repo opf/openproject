@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 module NoResultsHelper
-  # Helper to render the /common/no_results partial custamizable content.
+  # Helper to render the /common/no_results partial customizable content.
   # Example usage:
   # no_results_box action_url: new_project_version_path(@project),
   #                display_action: authorize_for('messages', 'new')

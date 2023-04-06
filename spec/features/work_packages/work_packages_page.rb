@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 class WorkPackagesPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::RSpecMatchers
   include RSpec::Matchers
 
   def initialize(project = nil)
@@ -82,9 +83,9 @@ class WorkPackagesPage
 
   def find_subject_field(text = nil)
     if text
-      find('#inplace-edit--write-value--subject', text:)
+      find_by_id('inplace-edit--write-value--subject', text:)
     else
-      find('#inplace-edit--write-value--subject')
+      find_by_id('inplace-edit--write-value--subject')
     end
   end
 

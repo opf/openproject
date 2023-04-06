@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe 'Manual scheduling', js: true do
   let(:project) { create(:project, types: [type]) }
-  let(:type) { create :type }
+  let(:type) { create(:type) }
 
-  let(:user) { create :user, member_in_project: project, member_through_role: role }
+  let(:user) { create(:user, member_in_project: project, member_through_role: role) }
 
   let!(:parent) do
     create(:work_package,
@@ -40,7 +40,7 @@ describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to edit dates' do
-    let(:role) { create :role, permissions: %i[view_work_packages edit_work_packages] }
+    let(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages]) }
 
     it 'allows to edit start and due date multiple times switching between scheduling modes' do
       start_date = wp_table.edit_field(parent, :startDate)
@@ -119,6 +119,6 @@ describe 'Manual scheduling', js: true do
   end
 
   context 'with a user allowed to view only' do
-    let(:role) { create :role, permissions: %i[view_work_packages] }
+    let(:role) { create(:role, permissions: %i[view_work_packages]) }
   end
 end

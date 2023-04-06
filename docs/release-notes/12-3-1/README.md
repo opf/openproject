@@ -18,7 +18,6 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 - Fixed: Frontend including editor and time logging unusable when there are many activities \[[#40373](https://community.openproject.com/wp/40373)\]
 - Fixed: Attachments are not going to be copied, when using "Copy to other project" function \[[#43005](https://community.openproject.com/wp/43005)\]
-- Fixed: BIM edition unavailable on Ubuntu 22.04 packaged installation \[[#43531](https://community.openproject.com/wp/43531)\]
 - Fixed: Custom fields are enabled on project creation \[[#43763](https://community.openproject.com/wp/43763)\]
 - Fixed: "Reorder values alphabetically" does not work reliably \[[#43832](https://community.openproject.com/wp/43832)\]
 - Fixed: Time and costs: Project filter set to "is not (includes subprojects)" not working as expected \[[#44217](https://community.openproject.com/wp/44217)\]

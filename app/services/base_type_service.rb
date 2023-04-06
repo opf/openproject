@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -130,7 +130,7 @@ class BaseTypeService
 
     [
       name,
-      group['attributes'].map { |attr| attr['key'] }
+      group['attributes'].pluck('key')
     ]
   end
 
@@ -139,6 +139,11 @@ class BaseTypeService
     props = JSON.parse group['query']
 
     query = Query.new_default(name: "Embedded table: #{name}")
+
+    query.extend(OpenProject::ChangedBySystem)
+    query.change_by_system do
+      query.user = User.system
+    end
 
     ::API::V3::UpdateQueryFromV3ParamsService
       .new(query, user)
@@ -159,7 +164,8 @@ class BaseTypeService
   def set_active_custom_fields
     new_cf_ids_to_add = active_custom_field_ids - type.custom_field_ids
     type.custom_field_ids = active_custom_field_ids
-    set_active_custom_fields_for_projects(type.projects, new_cf_ids_to_add)
+    set_active_custom_fields_for_projects(type.projects,
+                                          new_cf_ids_to_add)
   end
 
   def active_custom_field_ids
@@ -178,7 +184,14 @@ class BaseTypeService
   end
 
   def set_active_custom_fields_for_projects(projects, custom_field_ids)
-    projects.each { |p| p.work_package_custom_field_ids |= custom_field_ids }
+    values = projects
+               .to_a
+               .product(custom_field_ids)
+               .map { |p, cf_ids| { project_id: p.id, custom_field_id: cf_ids } }
+
+    return if values.empty?
+
+    CustomFieldsProject.insert_all(values)
   end
 
   def set_active_custom_fields_for_project_ids(project_ids)

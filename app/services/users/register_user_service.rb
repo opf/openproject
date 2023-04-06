@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,7 @@ module Users
         ensure_user_limit_not_reached!
         register_invited_user
         register_ldap_user
+        register_omniauth_user
         ensure_registration_allowed!
         register_by_email_activation
         register_automatically
@@ -88,14 +89,27 @@ module Users
 
     ##
     # Try to register a user with an auth source connection
-    # bypassing regular restrictions
+    # bypassing regular account registration restrictions
     def register_ldap_user
-      return unless user.auth_source_id.present?
+      return if user.auth_source_id.blank?
 
       user.activate
 
       with_saved_user_result(success_message: I18n.t(:notice_account_registered_and_logged_in)) do
-        Rails.logger.info { "User #{user.login} was successfully activated after invitation." }
+        Rails.logger.info { "User #{user.login} was successfully activated with LDAP association after invitation." }
+      end
+    end
+
+    ##
+    # Try to register a user with an existsing omniauth connection
+    # bypassing regular account registration restrictions
+    def register_omniauth_user
+      return if user.identity_url.blank?
+
+      user.activate
+
+      with_saved_user_result(success_message: I18n.t(:notice_account_registered_and_logged_in)) do
+        Rails.logger.info { "User #{user.login} was successfully activated after arriving from omniauth." }
       end
     end
 

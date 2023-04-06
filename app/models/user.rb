@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,7 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
-  belongs_to :auth_source
+  belongs_to :auth_source, optional: true
 
   # Authorized OAuth grants
   has_many :oauth_grants,
@@ -83,6 +83,7 @@ class User < Principal
          :newest,
          :notified_globally,
          :watcher_recipients,
+         :with_time_zone,
          :having_reminder_mail_to_send
 
   def self.create_blocked_scope(scope, blocked)
@@ -546,6 +547,7 @@ class User < Principal
           u.mail = ''
           u.status = User.statuses[:active]
         end).save
+
         raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
       end
       anonymous_user

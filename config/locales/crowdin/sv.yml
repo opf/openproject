@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ sv:
         main-menu-border-color: "Huvudmeny ram"
       custom_colors: "Anpassade färger"
       customize: "Anpassa din OpenProject installation med din egen logotyp och färger."
-      enterprise_notice: "Som ett särskilt Tack! för det ekonomiska bidraget till utvecklingen av OpenProject, är denna lilla funktion endast tillgänglig för Enterprise Edition support-prenumeranter."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Obs: logotypen som används kommer att vara allmänt tillgänglig."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
@@ -64,15 +64,15 @@ sv:
         main-menu-bg-color: "Bakgrundsfärg på den vänstra sidomenyn."
       theme_warning: Ändra temat kommer att skriva över din egen stil. Designen kommer då att gå förlorad. Är du säker på att du vill fortsätta?
     enterprise:
-      upgrade_to_ee: "Uppgradera till Enterprise Edition"
-      add_token: "Ladda upp en Enterprise Edition support-nyckel"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Är du säker på att du vill ta bort den nuvarande Enterprise Edition-token som används?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Ta bort token"
       replace_token: "Ersätta din nuvarande support-nyckel"
-      order: "Beställ Företag på-plats utgåva"
-      paste: "Klistra in din Enterprise Edition support-nyckel"
-      required_for_feature: "Denna funktion är endast tillgänglig med en aktiv Enterprise Edition support-nyckel."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "För mer information, klicka här."
       start_trial: 'Starta fri provperiod'
       book_now: 'Boka nu'
@@ -80,7 +80,7 @@ sv:
       buttons:
         upgrade: "Uppgradera nu"
         contact: "Kontakta oss för en demo"
-      enterprise_info_html: "är en Företags <strong class='icon-medal'></strong> -funktion."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ sv:
         när de först autentiserar med OpenProject.
         Lämna detta avmarkerat för att endast tillåta befintliga konton i OpenProject att autentisera via LDAP!
     connection_encryption: 'Kryptering av anslutning'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Systemkonto'
     system_account_legend: |
       OpenProject kräver skrivskyddad åtkomst via ett systemkonto för att söka upp användare och grupper i ditt LDAP-träd.
@@ -149,13 +150,18 @@ sv:
       vilka LDAP-attribut som används för att definiera attributen för en OpenProject-användare (attributmappning).
     tls_mode:
       plain: 'inga'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Enkel okrypterad anslutning, ingen TLS-förhandling."
-      simple_tls_description: "Implicit TLS-kryptering, men ingen certifikatvalidering. Använd med försiktighet och underförstådd tillit till LDAP-anslutningen."
-      start_tls_description: "Explicit TLS-kryptering med full validering. Använd för LDAP över TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Det här avsnittet gäller anslutningssäkerheten för denna LDAP-autentiseringskälla. För mer information, besök <a href="%{link}">Net:LDAP-dokumentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Det finns för närvarande inga inlägg i forumet.
@@ -226,6 +232,7 @@ sv:
       failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -315,7 +322,7 @@ sv:
       settings: "Inställningar"
       form_configuration: "Ställ in formulär"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekt"
       enabled_projects: "Aktiverade projekt"
       edit_query: "Redigera tabell"
@@ -330,6 +337,7 @@ sv:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Det finns för närvarande inga wiki-sidor.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Lägg till en ny wiki-sida
   work_flows:
@@ -340,6 +348,8 @@ sv:
       one: 'Ett underliggande arbetspaket'
       other: '%{count} underliggande arbetspaket'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Följande arbetspaket kunde inte sparas:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -368,7 +378,7 @@ sv:
   account:
     delete: "Ta bort konto"
     delete_confirmation: "Är du säker du vill ta bort kontot?"
-    deleted: "Kontot har tagits bort"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Det mesta av informationen som användaren skapat (t.ex. e-post och inställningar) kommer att raderas. Information som exempelvis arbetspaket och wiki-poster kan dock inte raderas eftersom detta skulle påverka andra användares arbete, så detta kommer istället att tilldelas ett konto som heter \"Raderad användare\". Eftersom information från alla raderade konton överförs till detta konto kommer det inte längre vara möjligt att se vem som skapat vad."
@@ -418,6 +428,7 @@ sv:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Versionsarkiv"
       comment:
@@ -462,22 +473,32 @@ sv:
       member:
         roles: "Roll"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifierare"
         latest_activity_at: "Senaste aktivitet vid"
         parent: "Delprojekt under"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Frågor"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typer"
         versions: "Versioner"
         work_packages: "Arbetspaket"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Statusbeskrivning'
         codes:
           not_started: 'Not started'
-          on_track: 'På banan'
+          on_track: 'På rätt spår'
           at_risk: 'I riskzonen'
-          off_track: 'Utanför banan'
+          off_track: 'Urspårat'
           finished: 'Finished'
           discontinued: 'Discontinued'
       query:
@@ -579,7 +600,7 @@ sv:
         confirmation: "matchar inte %{attribute}."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "finns inte."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "åtkomst nekas."
         error_readonly: "försökte skrivas men är inte skrivbart."
         email: "is not a valid email address."
@@ -626,6 +647,11 @@ sv:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "har fel längd (måste vara %{count} tecken)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -676,6 +702,11 @@ sv:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -686,6 +717,8 @@ sv:
           archived_ancestor: 'Projektet har en arkiverad förfader.'
           foreign_wps_reference_version: 'Arbetspaket i icke efterkommande projekt referensversioner av projektet eller dess efterkommande.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "används fortfarande av arbetspaket: %{types}"
             enabled_modules:
@@ -755,6 +788,11 @@ sv:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -874,8 +912,22 @@ sv:
     header_invalid_fields: "Det fanns problem med följande fält:"
     field_erroneous_label: "Det här fältet är ogiltigt: %{full_errors}\nVänligen ange ett giltigt värde."
   activity:
-    created: "Skapad: %{title}"
-    updated: "Uppdaterad: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1011,6 +1063,7 @@ sv:
   button_reset: "Återställ"
   button_rollback: "Återgå till denna version"
   button_save: "Spara"
+  button_apply_changes: "Apply changes"
   button_save_back: "Spara och återgå"
   button_show: "Visa"
   button_sort: "Sortera"
@@ -1245,11 +1298,11 @@ sv:
   ee:
     upsale:
       form_configuration:
-        description: "Anpassa formulärets inställningar med dessa extrafunktioner:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Lägg till nya attributgrupper"
         rename_groups: "Byt namn på attributgrupper"
       project_filters:
-        description_html: "Filtrering och sortering på anpassade fält är en funktion tillgänglig i Enterprise Edition."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Arbetspaketsprioritering"
   enumeration_reported_project_statuses: "Rapporterad projektstatus"
@@ -1271,7 +1324,7 @@ sv:
   error_cookie_missing: 'OpenProject cookie saknas. Vänligen kontrollera att cookies är aktiverade, eftersom detta program inte fungerar korrekt annars.'
   error_custom_option_not_found: "Alternativet finns inte."
   error_enterprise_activation_user_limit: "Ditt konto kunde inte aktiveras (begränsning för antal användare har uppnåtts). Kontakta administratören för att få tillgång."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Det gick inte ta bort denna post.'
   error_in_dependent: "Fel vid försök att ändra beroende objekt: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1306,16 +1359,20 @@ sv:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribut(en) kan inte markeras: %{attributes}"
   events:
-    project: 'Projektet redigerades'
     changeset: 'Uppdatering redigerades'
     message: Meddelande redigerades
     news: Nyheter
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Svarade
     time_entry: 'Tidrapport redigerades'
     wiki_page: 'Wiki-sida redigerades'
     work_package_closed: 'Arbetspaket stängdes'
     work_package_edit: 'Arbetspaket redigerades'
     work_package_note: 'Anteckning lades till arbetspaketet'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1341,7 +1398,6 @@ sv:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Svenska"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nej"
   general_text_yes: "ja"
@@ -1359,10 +1415,10 @@ sv:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Uppgradera till Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Mer information"
     links:
-      upgrade_enterprise_edition: "Uppgradera till Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrera din installation till PostgreSQL"
       user_guides: "Användarguider"
       faq: "Vanliga frågor (FAQ)"
@@ -1578,7 +1634,7 @@ sv:
   label_enumerations: "Textvärden"
   label_enterprise: "Företag"
   label_enterprise_active_users: "%{current}/%{limit} tilldelade aktiva användare"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Miljö"
   label_estimates_and_time: "Uppskattningar och tid"
   label_equals: "är"
@@ -1727,6 +1783,10 @@ sv:
   label_not_contains: "innehåller inte"
   label_not_equals: "är inte"
   label_on: "på"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Öppna meny"
   label_open_work_packages: "öppna"
   label_open_work_packages_plural: "öppna"
@@ -1768,6 +1828,8 @@ sv:
   label_product_version: "Produktversion"
   label_professional_support: "Professionell hjälp"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Totalt antal projekt"
   label_project_copy_notifications: "Skicka e-postaviseringar under projekt kopian"
   label_project_latest: "Senaste projekt"
@@ -2020,6 +2082,8 @@ sv:
         mentioned: 'Mentioned'
         subscribed: 'alla'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "En ny användare (%{value}) har registrerats. Kontot väntar på ditt godkännande:"
@@ -2055,8 +2119,6 @@ sv:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ditt %{value} lösenord"
   mail_subject_register: "Din %{value} kontoaktivering"
-  mail_subject_reminder: "%{count} arbetspaket förfaller inom de %{days} dagarna"
-  mail_subject_group_reminder: "För grupp \"%{group}\" %{count} arbetspaket som ska läggas till under de kommande %{days} dagarna"
   mail_subject_wiki_content_added: "'%{id}' wiki-sida har lagts till"
   mail_subject_wiki_content_updated: "'%{id}' wiki-sidan har uppdaterats"
   mail_member_added_project:
@@ -2190,6 +2252,7 @@ sv:
   permission_add_work_packages: "Lägg till arbetspaket"
   permission_add_messages: "Publicera meddelanden"
   permission_add_project: "Skapa projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Skapa delprojekt"
@@ -2589,11 +2652,11 @@ sv:
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     En vit logotyp på transparent bakgrund rekommenderas. För bästa resultat på både vanliga och Retina-skärmar bör bilden vara minst 460x60 px.
   text_custom_favicon_instructions: >
@@ -2625,12 +2688,13 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2894,7 +2958,7 @@ sv:
   warning_user_limit_reached: >
     Användargränsen har uppnåtts. Du kan inte aktivera fler användare. Vänligen <a href="%{upgrade_url}">uppgradera din plan</a> eller blockera medlemmar för att tillåta ytterligare användare.
   warning_user_limit_reached_instructions: >
-    Du har nått din användargräns (%{current}/%{max} aktiva användare). Kontakta sales@openproject.com för att uppgradera din Enterprise Edition-plan och lägga till ytterligare användare.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2922,19 +2986,25 @@ sv:
       title: "Radera arbetspaketet"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Ingenting att förhandsgranska"
   api_v3:
     attributes:
       lock_version: "Lås version"
+      property: 'Property'
     errors:
       code_400: "Felaktig begäran: %{message}"
       code_401: "Du måste autentiseras för att få tillgång till denna resurs."
@@ -2944,6 +3014,7 @@ sv:
       code_409: "Kunde inte uppdatera resursen på grund av motstridiga ändringar."
       code_429: "Too many requests. Please try again later."
       code_500: "Ett internt fel har inträffat."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

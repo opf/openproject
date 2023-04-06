@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 #++
 
 shared_context 'with a project with an arrangement of custom fields' do
-  shared_let(:version_cf) { create(:version_project_custom_field) }
-  shared_let(:bool_cf) { create(:bool_project_custom_field) }
-  shared_let(:user_cf) { create(:user_project_custom_field) }
-  shared_let(:int_cf) { create(:int_project_custom_field) }
-  shared_let(:float_cf) { create(:float_project_custom_field) }
-  shared_let(:text_cf) { create(:text_project_custom_field) }
-  shared_let(:string_cf) { create(:string_project_custom_field) }
-  shared_let(:date_cf) { create(:date_project_custom_field) }
+  shared_let(:version_cf) { create(:version_project_custom_field, position: 1) }
+  shared_let(:bool_cf) { create(:bool_project_custom_field, position: 2) }
+  shared_let(:user_cf) { create(:user_project_custom_field, position: 3) }
+  shared_let(:int_cf) { create(:int_project_custom_field, position: 4) }
+  shared_let(:float_cf) { create(:float_project_custom_field, position: 5) }
+  shared_let(:text_cf) { create(:text_project_custom_field, position: 6) }
+  shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }
+  shared_let(:date_cf) { create(:date_project_custom_field, position: 8) }
 
   shared_let(:system_version) { create(:version, sharing: 'system') }
 
@@ -51,14 +51,14 @@ shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:project) do
     create(:project, members: { other_user => role }).tap do |p|
       p.description = "The description of the project"
-      p.send(:"custom_field_#{int_cf.id}=", 5)
-      p.send(:"custom_field_#{bool_cf.id}=", true)
-      p.send(:"custom_field_#{version_cf.id}=", system_version)
-      p.send(:"custom_field_#{float_cf.id}=", 4.5)
-      p.send(:"custom_field_#{text_cf.id}=", 'Some **long** text')
-      p.send(:"custom_field_#{string_cf.id}=", 'Some small text')
-      p.send(:"custom_field_#{date_cf.id}=", Time.zone.today)
-      p.send(:"custom_field_#{user_cf.id}=", other_user)
+      p.send(int_cf.attribute_setter, 5)
+      p.send(bool_cf.attribute_setter, true)
+      p.send(version_cf.attribute_setter, system_version)
+      p.send(float_cf.attribute_setter, 4.5)
+      p.send(text_cf.attribute_setter, 'Some **long** text')
+      p.send(string_cf.attribute_setter, 'Some small text')
+      p.send(date_cf.attribute_setter, Time.zone.today)
+      p.send(user_cf.attribute_setter, other_user)
 
       p.build_status(code: :off_track)
 

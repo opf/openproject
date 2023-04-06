@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ describe Authorization::EnterpriseService do
       let(:expired) { true }
 
       it 'returns a false result' do
-        expect(result).to be_kind_of ServiceResult
+        expect(result).to be_a ServiceResult
         expect(result.result).to be_falsey
         expect(result.success?).to be_falsey
       end
@@ -83,7 +83,7 @@ describe Authorization::EnterpriseService do
           let(:action) { guarded_action }
 
           it 'returns a true result' do
-            expect(result).to be_kind_of ServiceResult
+            expect(result).to be_a ServiceResult
             expect(result.result).to be_truthy
             expect(result.success?).to be_truthy
           end

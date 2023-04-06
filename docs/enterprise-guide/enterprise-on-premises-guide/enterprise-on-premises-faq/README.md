@@ -17,13 +17,13 @@ If you do not yet have an own Community installation, the easiest way to test Op
 
 ## How can I upgrade from the Community to the Enterprise on-premises edition?
 
-The Enterprise on-premises edition is an upgrade of the self-hosted Community Edition. When you are already using the Community Edition, you can purchase an Enterprise on-premises edition license to upgrade to the Enterprise on-premises edition. To do this, follow these steps:
+The Enterprise on-premises edition is an upgrade of the self-hosted Community edition. When you are already using the Community edition, you can purchase an Enterprise on-premises edition license to upgrade to the Enterprise on-premises edition. To do this, follow these steps:
 
 1. Navigate to [www.openproject.org/enterprise-edition/](https://www.openproject.org/enterprise-edition/).
 2. Click on the "Book now" button.
-3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community Edition to the Enterprise on-premises edition. 
+3. Follow the steps to purchase the Enterprise on-premises edition license. You will then receive an Enterprise on-premises edition license key by email which you can use to upgrade your Community edition to the Enterprise on-premises edition. 
 
-If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14 day trial license from within your system (*Administration -> Enterprise Edition*). Simply click on the green **Start free trial** button to receive a 14 day trial license. If you want to continue, you can navigate to our [pricing page](https://www.openproject.org/pricing/) and choose a plan. Otherwise, you will automatically be downgraded to the Community edition. There is no need to cancel the trial.
+If you prefer to test the Enterprise on-premises edition before purchasing, you can request a 14 day trial license from within your system (*Administration -> Enterprise edition*). Simply click on the green **Start free trial** button to receive a 14 day trial license. If you want to continue, you can navigate to our [pricing page](https://www.openproject.org/pricing/) and choose a plan. Otherwise, you will automatically be downgraded to the Community edition. There is no need to cancel the trial.
 
 Find more information [here](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/).
 
@@ -33,7 +33,7 @@ Please use the link "Manage subscription" in the email you received confirming y
 
 ## Is it possible to only upgrade *some* users to the Enterprise edition?
 
-This is not possible, as the Premium features affect the whole OpenProject instance and not the individual users.
+This is not possible, as the Enterprise add-ons affect the whole OpenProject instance and not the individual users.
 
 ## I didn't receive my license key / Enterprise token
 
@@ -41,11 +41,11 @@ The Enterprise token is sent to the email address used to create the subscriptio
 
 ## Can I use my own domain name?
 
-Yes, for Enterprise on-premises and for Community Edition you will have to choose your own domain name during [initial configuration](../../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
+Yes, for Enterprise on-premises and for Community edition you will have to choose your own domain name during [initial configuration](../../../installation-and-operations/installation/packaged/#initial-configuration) after installing OpenProject.
 
-## Are also the premium features open source?
+## Are also the Enterprise add-ons open source?
 
-Yes, all features, also the premium features, are developed under the GPL v3.
+Yes, all features, also the Enterprise add-ons, are developed under the GPL v3.
 
 ## Why do you not offer all features for free?
 
@@ -57,7 +57,7 @@ Please use the link "Manage subscription" in the first email you received from o
 
 ## How can I downgrade from Enterprise on-premises to Community edition?
 
-To downgrade to the Community edition you will simply need to cancel the paid Enterprise plan. As soon as the subscription terminates, you will automatically switch back to the Community version. Please note that you will not be able to use the premium features anymore and you will not be eligible for support. As soon as your subscription or your trial ends you will automatically be downgraded to the Community Edition.
+To downgrade to the Community edition you will simply need to cancel the paid Enterprise plan. As soon as the subscription terminates, you will automatically switch back to the Community version. Please note that you will not be able to use the Enterprise add-ons anymore and you will not be eligible for support. As soon as your subscription or your trial ends you will automatically be downgraded to the Community edition.
 
 ## Can I migrate from the hosted Enterprise cloud edition to a self-hosted Community or Enterprise on-premises edition?
 

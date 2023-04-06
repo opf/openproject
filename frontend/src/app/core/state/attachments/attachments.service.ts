@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,53 +28,46 @@
 
 import { Injectable } from '@angular/core';
 import {
-  HttpClient,
+  HttpErrorResponse,
+  HttpEvent,
   HttpHeaders,
 } from '@angular/common/http';
 import { applyTransaction } from '@datorama/akita';
-import {
-  from,
-  Observable,
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   catchError,
   map,
   tap,
 } from 'rxjs/operators';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import {
-  OpenProjectFileUploadService,
-  UploadFile,
-} from 'core-app/core/file-upload/op-file-upload.service';
-import { OpenProjectDirectFileUploadService } from 'core-app/core/file-upload/op-direct-file-upload.service';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
-import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
 import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
 import {
   CollectionStore,
   ResourceCollectionService,
 } from 'core-app/core/state/resource-collection.service';
+import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
+import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
+import isNotNull from 'core-app/core/state/is-not-null';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceCollectionService<IAttachment> {
-  constructor(
-    private readonly I18n:I18nService,
-    private readonly http:HttpClient,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly fileUploadService:OpenProjectFileUploadService,
-    private readonly directFileUploadService:OpenProjectDirectFileUploadService,
-    private readonly configurationService:ConfigurationService,
-    private readonly toastService:ToastService,
-  ) {
-    super();
-  }
+  @InjectField() I18n:I18nService;
+
+  @InjectField() uploadService:OpUploadService;
+
+  @InjectField() configurationService:ConfigurationService;
+
+  @InjectField() toastService:ToastService;
 
   /**
    * This method ensures that a specific collection is fetched, if not available.
@@ -100,9 +93,9 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
       .get<IHALCollection<IAttachment>>(attachmentsSelfLink)
       .pipe(
         tap((collection) => insertCollectionIntoState(this.store, collection, attachmentsSelfLink)),
-        catchError((error) => {
+        catchError((error:HttpErrorResponse) => {
           this.toastService.addError(error);
-          throw error;
+          throw new Error(error.message);
         }),
       );
   }
@@ -120,9 +113,9 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
       .delete<void>(attachment._links.delete.href, { withCredentials: true, headers })
       .pipe(
         tap(() => removeEntityFromCollectionAndState(this.store, attachment.id, collectionKey)),
-        catchError((error) => {
+        catchError((error:HttpErrorResponse) => {
           this.toastService.addError(error);
-          throw error;
+          throw new Error(error.message);
         }),
       );
   }
@@ -133,17 +126,16 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
    * @param resource The HAL resource to attach the files to
    * @param files The upload files to be attached.
    */
-  attachFiles(resource:HalResource, files:UploadFile[]):Observable<IAttachment[]> {
+  attachFiles(resource:HalResource, files:File[]):Observable<IAttachment[]> {
     const identifier = AttachmentsResourceService.getAttachmentsSelfLink(resource) || HAL_NEW_RESOURCE_ID;
     const href = this.getUploadTarget(resource);
-    const isDirectUpload = !!this.getDirectUploadLink(resource);
+    const uploadFiles = files.map((file) => ({ file }));
 
     return this
       .addAttachments(
         identifier,
         href,
-        files,
-        isDirectUpload,
+        uploadFiles,
       );
   }
 
@@ -153,16 +145,14 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
    * @param collectionKey The identifier of the current attachment collection.
    * @param uploadHref The API target to perform the call against.
    * @param files The upload files to be attached.
-   * @param isDirectUpload whether the provided upload target is a direct upload URL.
    */
   addAttachments(
     collectionKey:string,
     uploadHref:string,
-    files:UploadFile[],
-    isDirectUpload = false,
+    files:IUploadFile[],
   ):Observable<IAttachment[]> {
     return this
-      .uploadAttachments(uploadHref, files, isDirectUpload)
+      .uploadAttachments(uploadHref, files)
       .pipe(
         tap((attachments) => {
           applyTransaction(() => {
@@ -183,24 +173,18 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
       );
   }
 
-  private uploadAttachments(href:string, files:UploadFile[], isDirectUpload:boolean):Observable<IAttachment[]> {
-    const { uploads, finished } = isDirectUpload
-      ? this.directFileUploadService.uploadAndMapResponse(href, files)
-      : this.fileUploadService.uploadAndMapResponse(href, files);
+  private uploadAttachments(href:string, files:IUploadFile[]):Observable<IAttachment[]> {
+    const observables = this.uploadService.upload<IAttachment>(href, files);
+    const uploads = files.map((f, i):[File, Observable<HttpEvent<unknown>>] => [f.file, observables[i]]);
 
-    const message = this.I18n.t('js.label_upload_notification');
-    const notification = this.toastService.addAttachmentUpload(message, uploads);
+    this.toastService.addUpload(this.I18n.t('js.label_upload_notification'), uploads);
 
-    return from(finished)
+    return waitForUploadsFinished(observables)
       .pipe(
-        tap(() => {
-          setTimeout(() => this.toastService.remove(notification), 700);
-        }),
-        map((result) => result.map(({ response }) => (response as HalResource).$source as IAttachment)),
-        catchError((error) => {
-          this.toastService.addError(error);
-          throw error;
-        }),
+        map((responses) =>
+          responses
+            .map((response) => response.body)
+            .filter(isNotNull)),
       );
   }
 
@@ -245,5 +229,9 @@ export class AttachmentsResourceService extends ResourceCollectionService<IAttac
 
   protected createStore():CollectionStore<IAttachment> {
     return new AttachmentsStore();
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.attachments.path;
   }
 }

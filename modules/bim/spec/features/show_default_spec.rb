@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,16 @@
 require_relative '../spec_helper'
 
 describe 'show default model',
-         with_config: { edition: 'bim' },
-         type: :feature,
-         js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+         js: true, with_config: { edition: 'bim' } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) { create(:role, permissions: %i[view_ifc_models view_work_packages manage_ifc_models]) }
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let(:model) do
@@ -50,7 +48,7 @@ describe 'show default model',
            uploader: user)
   end
   let(:model_is_default) { true }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:model_tree) { Components::XeokitModelTree.new }
 
   before do
     login_as(user)
@@ -58,7 +56,7 @@ describe 'show default model',
   end
 
   context 'when the work package module not loaded' do
-    let(:project) { create :project, enabled_module_names: [:bim] }
+    let(:project) { create(:project, enabled_module_names: [:bim]) }
 
     it 'shows an error loading the page' do
       show_default_page.visit!

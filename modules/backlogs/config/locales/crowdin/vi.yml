@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,7 +27,7 @@ vi:
         remaining_hours: "Số giờ còn lại"
         remaining_time: "Số giờ còn lại"
         story_points: "Điểm câu chuyện"
-        backlogs_work_package_type: "Backlog type"
+        backlogs_work_package_type: "Loại Backlog"
     errors:
       models:
         work_package:
@@ -36,18 +36,18 @@ vi:
               can_only_contain_work_packages_of_current_sprint: "chỉ có thể chứa ID của các gói công việc trong sprint hiện tại.\n"
               must_block_at_least_one_work_package: "bắt buộc phải chứa ID của ít nhất một việc"
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
+              parent_child_relationship_across_projects: "không hợp lệ vì gói công việc '%{work_package_name}' là một nhiệm vụ tồn đọng và do đó không thể có một phần tử cha bên ngoài dự án hiện tại."
+              type_must_be_one_of_the_following: "Phải là một trong những loại sau: %{type_names}."
             version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "phải giống với phiên bản của bảng cha."
         sprint:
-          cannot_end_before_it_starts: "Sprint cannot end before it starts."
+          cannot_end_before_it_starts: "Sprint không thể kết thúc trước khi nó bắt đầu."
   backlogs:
     add_new_story: "Câu chuyện mới"
     any: "bất kỳ"
     backlog_settings: "Lịch sử cài đặt"
-    burndown_graph: "Burndown Graph"
-    card_paper_size: "Paper size for card printing"
+    burndown_graph: "Đồ thị Burndown"
+    card_paper_size: "Khổ giấy để in thẻ"
     chart_options: "Tùy chọn biểu đồ"
     close: "Đóng"
     column_width: "Chiều rộng cột:"
@@ -57,32 +57,32 @@ vi:
     hours: "Giờ"
     impediment: "Trở ngại"
     label_versions_default_fold_state: "Hiển thị các phiên bản \n"
-    work_package_is_closed: "Work package is done, when"
-    label_is_done_status: "Status %{status_name} means done"
-    no_burndown_data: "No burndown data available. It is necessary to have the sprint start- and end dates set."
+    work_package_is_closed: "Gói công việc hoàn thành khi"
+    label_is_done_status: "Trạng thái %{status_name} nghĩa là đã hoàn thành"
+    no_burndown_data: "Không có dữ liệu báo cáo nào. Cần thiết lập ngày bắt đầu và ngày kết thúc trong sprint."
     points: "Points"
-    positions_could_not_be_rebuilt: "Positions could not be rebuilt."
-    positions_rebuilt_successfully: "Positions rebuilt successfully."
+    positions_could_not_be_rebuilt: "Không thể tạo lại vị trí."
+    positions_rebuilt_successfully: "Tạo lại vị trí thành công."
     properties: "Thuộc tính"
     rebuild: "Dựng lại"
     rebuild_positions: "Xây dựng lại vị trí"
     remaining_hours: "Số giờ còn lại"
-    remaining_hours_ideal: "Remaining hours (ideal)"
-    show_burndown_chart: "Burndown Chart"
+    remaining_hours_ideal: "Số giờ còn lại (lý tưởng)"
+    show_burndown_chart: "Biểu đồ Burndown"
     story: "Câu chuyện"
     story_points: "Story Points"
-    story_points_ideal: "Story Points (ideal)"
+    story_points_ideal: "Story Points (Lý tưởng)"
     task: "Nhiệm vụ"
-    task_color: "Task color"
-    unassigned: "Unassigned"
+    task_color: "Màu nhiệm vụ"
+    unassigned: "Chưa giao"
     x_more: "%{count} thêm..."
-  backlogs_active: "active"
-  backlogs_any: "any"
-  backlogs_card_specification: "Label types for card printing"
-  backlogs_inactive: "Project shows no activity"
-  backlogs_points_burn_direction: "Points burn up/down"
+  backlogs_active: "hoạt động"
+  backlogs_any: "bất kỳ"
+  backlogs_card_specification: "Các loại nhãn để in thẻ"
+  backlogs_inactive: "Dự án không có hoạt động nào"
+  backlogs_points_burn_direction: "Điểm ghi lên / xuống"
   backlogs_product_backlog: "Product backlog"
-  backlogs_product_backlog_is_empty: "Product backlog is empty"
+  backlogs_product_backlog_is_empty: "Không có Product backlog"
   backlogs_product_backlog_unsized: "The top of the product backlog has unsized stories"
   backlogs_sizing_inconsistent: "Story sizes vary against their estimates"
   backlogs_sprint_notes_missing: "Closed sprints without retrospective/review notes"

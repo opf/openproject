@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,16 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package form resource', type: :request, with_mail: false do
+describe 'API v3 Work package form resource', with_mail: false do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
   shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions view_budgets] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
-  shared_let(:project) { create(:project, public: false) }
+  shared_let(:cf_all) { create(:work_package_custom_field, is_for_all: true, field_format: 'text') }
+  shared_let(:type) { create(:type_bug, custom_fields: [cf_all]) }
+  shared_let(:project) { create(:project, public: false, types: [type]) }
   shared_let(:authorized_user) do
     create(:user, member_in_project: project, member_with_permissions: all_allowed_permissions)
   end
@@ -114,6 +116,24 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             let(:html) do
               defined?(html_value) ? html_value : "<p class=\"op-uc-p\">#{work_package.description}</p>"
             end
+          end
+
+          it 'denotes subject to be writable' do
+            expect(subject)
+              .to be_json_eql(true)
+              .at_path('_embedded/schema/subject/writable')
+          end
+
+          it 'denotes version to be writable' do
+            expect(subject)
+              .to be_json_eql(true)
+              .at_path('_embedded/schema/version/writable')
+          end
+
+          it 'denotes string custom_field to be writable' do
+            expect(subject)
+              .to be_json_eql(true)
+              .at_path("_embedded/schema/#{cf_all.attribute_name.camelcase(:lower)}/writable")
           end
         end
 
@@ -618,7 +638,7 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
             describe 'type' do
               let(:path) { '_embedded/payload/_links/type/href' }
               let(:links_path) { '_embedded/schema/type/_links' }
-              let(:target_type) { create(:type) }
+              let(:target_type) { create(:type, custom_fields: [cf_all]) }
               let(:other_type) { work_package.type }
               let(:type_link) { api_v3_paths.type target_type.id }
               let(:other_type_link) { api_v3_paths.type other_type.id }
@@ -741,10 +761,10 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
 
             describe 'formattable custom field set to nil' do
               let(:custom_field) do
-                create :work_package_custom_field, field_format: 'text'
+                create(:work_package_custom_field, field_format: 'text')
               end
 
-              let(:cf_param) { { "customField#{custom_field.id}" => nil } }
+              let(:cf_param) { { custom_field.attribute_name(:camel_case) => nil } }
               let(:params) { valid_params.merge(cf_param) }
 
               before do
@@ -803,6 +823,12 @@ describe 'API v3 Work package form resource', type: :request, with_mail: false d
         expect(subject)
           .to be_json_eql(true)
           .at_path('_embedded/schema/version/writable')
+      end
+
+      it 'denotes custom_field to not be writable' do
+        expect(subject)
+          .to be_json_eql(false)
+          .at_path("_embedded/schema/#{cf_all.attribute_name.camelcase(:lower)}/writable")
       end
     end
   end

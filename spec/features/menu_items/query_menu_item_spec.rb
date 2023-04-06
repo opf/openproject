@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,13 +32,13 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/work_packages_page'
 
 RSpec.describe 'Query menu items', js: true do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:notification) { PageObjects::Notifications.new(page) }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
-  let(:status) { create :status }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
+  let(:status) { create(:status) }
 
   def visit_index_page(query)
     work_packages_page.select_query(query)
@@ -52,16 +52,16 @@ RSpec.describe 'Query menu items', js: true do
 
   context 'with identical names' do
     let(:query_a) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: 'some query.',
-             project:
+             project:)
     end
     let(:query_b) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: query_a.name,
-             project:
+             project:)
     end
 
     it 'can be shown' do
@@ -74,10 +74,10 @@ RSpec.describe 'Query menu items', js: true do
 
   context 'with dots in their name' do
     let(:query) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: 'OP 3.0',
-             project:
+             project:)
     end
 
     after do
@@ -99,18 +99,18 @@ RSpec.describe 'Query menu items', js: true do
 
   describe 'renaming a menu item' do
     let(:query_a) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: 'bbbb',
              project:,
-             user:
+             user:)
     end
     let(:query_b) do
-      create :query_with_view_work_packages_table,
+      create(:query_with_view_work_packages_table,
              public: true,
              name: 'zzzz',
              project:,
-             user:
+             user:)
     end
 
     let(:new_name) { 'aaaaa' }

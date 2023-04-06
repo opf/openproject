@@ -8,9 +8,7 @@ import {
   EMPTY,
   Observable,
 } from 'rxjs';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { HttpClient } from '@angular/common/http';
 import {
   extendCollectionElementsWithId,
   insertCollectionIntoState,
@@ -24,21 +22,6 @@ import {
 
 @Injectable()
 export class WeekdayResourceService extends ResourceCollectionService<IWeekday> {
-  private get weekdaysPath():string {
-    return this
-      .apiV3Service
-      .days
-      .week
-      .path;
-  }
-
-  constructor(
-    private http:HttpClient,
-    private apiV3Service:ApiV3Service,
-  ) {
-    super();
-  }
-
   require():Observable<IWeekday[]> {
     return this
       .query
@@ -49,12 +32,12 @@ export class WeekdayResourceService extends ResourceCollectionService<IWeekday> 
       );
   }
 
-  private fetchWeekdays():Observable<IHALCollection<IWeekday>> {
+  protected fetchWeekdays():Observable<IHALCollection<IWeekday>> {
     const collectionURL = 'all'; // We load all weekdays
 
     return this
       .http
-      .get<IHALCollection<IWeekday>>(this.weekdaysPath)
+      .get<IHALCollection<IWeekday>>(this.basePath())
       .pipe(
         map((collection) => extendCollectionElementsWithId(collection)),
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
@@ -63,5 +46,13 @@ export class WeekdayResourceService extends ResourceCollectionService<IWeekday> 
 
   protected createStore():CollectionStore<IWeekday> {
     return new WeekdayStore();
+  }
+
+  protected basePath():string {
+    return this
+      .apiV3Service
+      .days
+      .week
+      .path;
   }
 }

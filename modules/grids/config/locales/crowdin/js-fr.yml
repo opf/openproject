@@ -5,8 +5,8 @@ fr:
       remove: 'Supprimer le widget'
       configure: 'Configurer le widget'
       upsale:
-        text: "Certains widgets, comme le widget graphique des lots de travaux, ne sont disponibles que dans l'édition Entreprise."
-        link: 'Version Entreprise.'
+        text: "Certains composants, comme le composant de graphique des lots de travaux, ne sont disponibles que dans l'édition Entreprise."
+        link: 'Version Entreprise'
       widgets:
         custom_text:
           title: 'Texte personnalisé'

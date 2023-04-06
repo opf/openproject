@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe 'Enterprise token', type: :feature, js: true do
+describe 'Enterprise token', js: true do
   include Redmine::I18n
 
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:token_object) do
     token = OpenProject::Token.new
     token.subscriber = 'Foobar'
@@ -43,8 +43,8 @@ describe 'Enterprise token', type: :feature, js: true do
     token
   end
 
-  let(:textarea) { find '#enterprise_token_encoded_token' }
-  let(:submit_button) { find '#token-submit-button' }
+  let(:textarea) { find_by_id 'enterprise_token_encoded_token' }
+  let(:submit_button) { find_by_id 'token-submit-button' }
 
   describe 'EnterpriseToken management' do
     before do
@@ -87,7 +87,7 @@ describe 'Enterprise token', type: :feature, js: true do
         expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
 
         # Expect section to be collapsed
-        expect(page).to have_no_selector('#token_encoded_token', visible: true)
+        expect(page).not_to have_selector('#token_encoded_token', visible: true)
 
         RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')

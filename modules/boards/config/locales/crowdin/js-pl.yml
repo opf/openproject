@@ -7,7 +7,7 @@ pl:
       label_unnamed_list: 'Lista bez nazwy'
       label_board_type: 'Typ tablicy'
       upsale:
-        teaser_text: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja wersji Enterprise. Przejdź na płatny plan.'
+        teaser_text: 'Czy chcesz zautomatyzować swoje przepływy pracy za pomocą tablic? Zaawansowane tablice to funkcja dodatku Enterprise. Przejdź na płatny plan.'
         upgrade: 'Zmień plan teraz'
       lists:
         delete: 'Usuń listę'
@@ -58,7 +58,7 @@ pl:
           subproject: podprojekt
           subtasks: nadrzędny-podrzędny
         board_type_title:
-          assignee: Przypisany do
+          assignee: Przypisana osoba
           status: Status
           version: Wersja
           subproject: Podprojekt

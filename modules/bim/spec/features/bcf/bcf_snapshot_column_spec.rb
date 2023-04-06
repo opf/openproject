@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'BCF snapshot column',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' },
          with_mail: false do
@@ -11,9 +10,9 @@ describe 'BCF snapshot column',
   let!(:work_package) { create(:work_package, project:) }
   let!(:bcf_issue) { create(:bcf_issue_with_viewpoint, work_package:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
   let!(:query) do
     query              = build(:query, user:, project:)

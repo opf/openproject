@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ describe Users::ReplaceMentionsService, 'integration' do
   shared_let(:other_user) { create(:user, firstname: 'Frank', lastname: 'Herbert') }
   shared_let(:user) { create(:user, firstname: 'Isaac', lastname: 'Asimov') }
   shared_let(:group) { create(:group, lastname: 'Sci-Fi') }
-  shared_let(:to_user) { create :user, firstname: 'Philip K.', lastname: 'Dick' }
+  shared_let(:to_user) { create(:user, firstname: 'Philip K.', lastname: 'Dick') }
 
   let(:instance) do
     described_class.new
@@ -342,7 +342,9 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for journal notes' do
-    it_behaves_like 'rewritten mention', :journal, :notes
+    it_behaves_like 'rewritten mention', :journal, :notes do
+      let(:additional_properties) { { data_id: 5, data_type: 'Foobar' } }
+    end
   end
 
   context 'for comment comments' do
@@ -350,14 +352,19 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for custom_value value' do
-    it_behaves_like 'rewritten mention', :custom_value, :value do
+    it_behaves_like 'rewritten mention', :principal_custom_value, :value do
       let(:additional_properties) { { custom_field: create(:text_wp_custom_field) } }
     end
   end
 
   context 'for customizable_journal value' do
     it_behaves_like 'rewritten mention', :journal_customizable_journal, :value do
-      let(:additional_properties) { { journal: create(:journal), custom_field: create(:text_wp_custom_field) } }
+      let(:additional_properties) do
+        {
+          journal: create(:journal, data_id: 5, data_type: 'Foobar'),
+          custom_field: create(:text_wp_custom_field)
+        }
+      end
     end
   end
 
@@ -388,7 +395,11 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for news_journals description' do
-    it_behaves_like 'rewritten mention', :journal_news_journal, :description
+    shared_let(:author) { create(:user) }
+
+    it_behaves_like 'rewritten mention', :journal_news_journal, :description do
+      let(:additional_properties) { { author_id: author.id } }
+    end
   end
 
   context 'for project description' do

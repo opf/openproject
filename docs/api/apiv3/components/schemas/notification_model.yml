@@ -12,10 +12,28 @@ properties:
     minimum: 1
   reason:
     type: string
-    description: The reason for the notification (such as mentioned, involved, watched)
+    description: The reason for the notification
+    enum:
+      - assigned
+      - commented
+      - created
+      - dateAlert
+      - mentioned
+      - prioritized
+      - processed
+      - responsible
+      - subscribed
+      - scheduled
+      - watched
   readIAN:
     type: boolean
     description: Whether the notification is marked as read
+  details:
+    type: array
+    items:
+      oneOf:
+        - $ref: './values_property_model.yml'
+    description: A list of objects including detailed information about the notification.
   createdAt:
     type: string
     format: date-time
@@ -27,9 +45,7 @@ properties:
   _embedded:
     type: object
     required:
-      - actor
       - project
-      - activity
       - resource
     properties:
       actor:
@@ -49,6 +65,7 @@ properties:
       - actor
       - activity
       - resource
+      - details
     properties:
       self:
         allOf:
@@ -78,7 +95,8 @@ properties:
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              The user that caused the notification
+              The user that caused the notification. This might be null in
+              case no user triggered the notification.
               
               **Resource**: User
       resource:
@@ -92,51 +110,17 @@ properties:
         allOf:
           - "$ref": "./link.yml"
           - description: |-
-              The journal activity, if the notification originated from a journal entry
+              The journal activity, if the notification originated from a journal entry. This might be null in
+              case no activity triggered the notification.
 
               **Resource**: Activity
-example:
-  _type: Notification
-  id: 1
-  readIAN: false
-  reason: mentioned
-  createdAt: '2022-04-05T14:38:28Z'
-  updatedAt: '2022-04-06T09:03:24Z'
-  _embedded:
-    author:
-      _hint: User resource shortened for brevity
-      _type: User
-      id: 13
-      name: Darth Nihilus
-    project:
-      _hint: Project resource shortened for brevity
-      _type: Project
-      id: 11
-      name: Jedi Remnant Locator
-    activity:
-      _hint: Activity resource shortened for brevity
-      _type: Activity::Comment
-      id: 180
-      version: 3
-    resource:
-      _hint: WorkPackage resource shortened for brevity
-      _type: WorkPackage
-      id: 77
-      subject: Educate Visas Marr
-  _links:
-    self:
-      href: '/api/v3/notifications/1'
-    readIAN:
-      href: '/api/v3/notifications/1/read_ian'
-      method: post
-    actor:
-      href: '/api/v3/users/13'
-      title: Darth Nihilus
-    project:
-      href: '/api/v3/projects/11'
-      title: Jedi Remnant Locator
-    activity:
-      href: '/api/v3/activities/180'
-    resource:
-      href: '/api/v3/work_packages/77'
-      title: Educate Visas Marr
+      details:
+        type: array
+        items:
+          allOf:
+            - "$ref": "./link.yml"
+            - description: |-
+                A list of objects including detailed information about the notification. The contents of
+                and type of this can vary widely between different notification reasons.
+
+                **Resource**: Polymorphic (e.g. Values::Property)

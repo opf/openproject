@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,18 @@
 
 module Users
   class LoginService
-    attr_accessor :controller
+    attr_accessor :controller, :request
 
-    def initialize(controller:)
+    delegate :session, to: :controller
+
+    def initialize(controller:, request:)
       self.controller = controller
+      self.request = request
     end
 
     def call(user)
       # retain custom session values
-      retained_values = retain_sso_session_values!(user)
+      retained_values = retain_sso_session_values!
 
       # retain flash values
       flash_values = controller.flash.to_h
@@ -47,20 +50,34 @@ module Users
 
       User.current = user
 
-      ::Sessions::InitializeSessionService.call(user, controller.session)
+      ::Sessions::InitializeSessionService.call(user, session)
 
-      controller.session.merge!(retained_values) if retained_values
+      session.merge!(retained_values) if retained_values
 
       user.log_successful_login
 
-      ServiceResult.failure(result: user)
+      after_login_hook(user)
+
+      ServiceResult.success(result: user)
     end
 
-    def retain_sso_session_values!(user)
-      provider = ::OpenProject::Plugins::AuthPlugin.login_provider_for(user)
+    private
+
+    def after_login_hook(user)
+      context = { user:, request:, session: }
+
+      OpenProject::Hook.call_hook(:user_logged_in, context)
+    end
+
+    def retain_sso_session_values!
+      provider_name = session[:omniauth_provider]
+      return unless provider_name
+
+      provider = ::OpenProject::Plugins::AuthPlugin.find_provider_by_name(provider_name)
       return unless provider && provider[:retain_from_session]
 
-      controller.session.to_h.slice(*provider[:retain_from_session])
+      retained_keys = provider[:retain_from_session] + ['omniauth_provider']
+      controller.session.to_h.slice(*retained_keys)
     end
   end
 end

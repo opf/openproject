@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe 'Errors handling', type: :feature do
+describe 'Errors handling' do
   it 'renders the internal error page in case of exceptions' do
     # We unfortunately cannot test raising exceptions as the test environment
     # marks all requests as local and thus shows exception details instead (like in dev mode)
     visit '/500'
     expect(page).to have_current_path '/500'
     expect(page).to have_text "An error occurred on the page you were trying to access."
-    expect(page).to have_no_text "Oh no, this is an internal error!"
+    expect(page).not_to have_text "Oh no, this is an internal error!"
   end
 
   it 'renders the not found page' do

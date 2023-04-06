@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ shared_examples_for 'safeguarded API' do
 end
 
 shared_examples_for 'valid activity request' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:status_code) { 200 }
 
   before do
@@ -50,7 +50,7 @@ shared_examples_for 'valid activity request' do
 end
 
 shared_examples_for 'invalid activity request' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(admin)

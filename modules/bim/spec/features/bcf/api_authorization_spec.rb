@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@
 require 'spec_helper'
 
 describe 'authorization for BCF api',
-         with_config: { edition: 'bim' },
-         type: :feature,
-         js: true do
+         js: true, with_config: { edition: 'bim' } do
   let!(:user) { create(:admin) }
   let(:client_secret) { app.plaintext_secret }
   let(:scope) { 'bcf_v2_1' }
@@ -76,7 +74,7 @@ describe 'authorization for BCF api',
     client_secret = page.first('.attributes-key-value--value code').text
     expect(client_secret).to match /\w+/
 
-    app = ::Doorkeeper::Application.first
+    app = Doorkeeper::Application.first
 
     visit oauth_path app.uid
 
@@ -91,7 +89,7 @@ describe 'authorization for BCF api',
     find('input.button[value="Authorize"]').click
 
     # Expect auth token
-    code = find('#authorization_code').text
+    code = find_by_id('authorization_code').text
 
     # And also have a grant for this application
     user.oauth_grants.reload

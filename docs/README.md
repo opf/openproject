@@ -13,7 +13,7 @@ keywords: help, documentation
 
 Get started with installing and upgrading OpenProject using [our Installation Guide starting point](./installation-and-operations/).
 
-The guides for [manual](./installation-and-operations/installation/manual), [packaged](./installation-and-operations/installation/packaged) and [Docker-based](./installation-and-operations/installation/docker) installations are provided.
+The guides [packaged](./installation-and-operations/installation/packaged) and [Docker-based](./installation-and-operations/installation/docker) installations are provided.
 
 ## Upgrading
 

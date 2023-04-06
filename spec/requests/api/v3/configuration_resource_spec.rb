@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,24 +29,22 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Configuration resource', type: :request do
+describe 'API v3 Configuration resource' do
   include Rack::Test::Methods
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:user) { create(:user) }
   let(:configuration_path) { api_v3_paths.configuration }
 
-  subject(:response) { last_response }
+  current_user { user }
 
-  before do
-    login_as(user)
+  subject(:response) do
+    get configuration_path
+
+    last_response
   end
 
   describe '#GET' do
-    before do
-      get configuration_path
-    end
-
     it 'returns 200 OK' do
       expect(subject.status).to eq(200)
     end
@@ -54,28 +52,48 @@ describe 'API v3 Configuration resource', type: :request do
     it 'returns the configuration', with_settings: { per_page_options: '3, 5, 8, 13' } do
       expect(subject.body)
         .to be_json_eql('Configuration'.to_json)
-        .at_path("_type")
+              .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql([3, 5, 8, 13].to_json)
-        .at_path('perPageOptions')
+              .at_path('perPageOptions')
     end
 
     it 'embedds the current user preferences' do
       expect(subject.body)
         .to be_json_eql('UserPreferences'.to_json)
-        .at_path('_embedded/userPreferences/_type')
+              .at_path('_embedded/userPreferences/_type')
+    end
+
+    it 'does not embed the preferences' do
+      expect(subject.body)
+        .not_to have_json_path('_embedded/user_preferences')
+    end
+
+    context 'with feature flags', :settings_reset do
+      before do
+        stub_const('ENV',
+                   'OPENPROJECT_FEATURE_AN_EXAMPLE_ACTIVE' => 'true',
+                   'OPENPROJECT_FEATURE_ANOTHER_EXAMPLE_ACTIVE' => 'true',
+                   'OPENPROJECT_FEATURE_INACTIVE_EXAMPLE_ACTIVE' => 'false')
+
+        OpenProject::FeatureDecisions.add :an_example
+        OpenProject::FeatureDecisions.add :another_example
+        OpenProject::FeatureDecisions.add :deactivated_example
+        OpenProject::FeatureDecisions.add :default_example
+      end
+
+      it 'lists the active feature flags' do
+        expect(subject.body)
+          .to be_json_eql(%w[anExample anotherExample].to_json)
+                .at_path('activeFeatureFlags')
+      end
     end
 
     context 'for a non logged in user' do
       it 'returns 200 OK' do
         expect(subject.status).to eq(200)
       end
-    end
-
-    it 'does not embed the preferences' do
-      expect(subject.body)
-        .not_to have_json_path('_embedded/user_preferences')
     end
   end
 end

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,16 +47,14 @@ export class OpInviteUserModalService {
   }
 
   public open(projectId:string|null = this.currentProjectService.id) {
-    const modal = this.opModalService.show(
+    this.opModalService.show(
       InviteUserModalComponent,
       'global',
       { projectId },
-    );
-
-    modal
+    ).subscribe((modal) => modal
       .closingEvent
       .subscribe((modal:InviteUserModalComponent) => {
         this.close.emit(modal.data);
-      });
+      }));
   }
 }

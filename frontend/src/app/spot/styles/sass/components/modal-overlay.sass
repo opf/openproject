@@ -4,7 +4,7 @@
   left: 0
   right: 0
   bottom: 0
-  z-index: 9000
+  @include spot-z-index("drop-modal")
   background: rgba(0, 0, 0, 0.75)
   justify-content: center
   align-items: center
@@ -26,3 +26,13 @@
     right: unset
     bottom: unset
     top: initial
+
+  &--close-button
+    display: block
+    margin: 1rem
+
+    @media (min-width: 680px)
+      display: none
+
+    @media (max-height: 480px)
+      align-self: end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,13 +30,13 @@ require 'spec_helper'
 require_module_spec_helper
 require 'contracts/shared/model_contract_shared_context'
 
-describe ::OAuthClients::CreateContract do
+describe OAuthClients::CreateContract do
   include_context 'ModelContract shared context'
 
   let(:current_user) { create(:admin) }
   let(:client_id) { "1234567889" }
   let(:client_secret) { "asdfasdfasdf" }
-  let(:integration) { build_stubbed :storage }
+  let(:integration) { build_stubbed(:storage) }
   let(:oauth_client) do
     build(:oauth_client, client_id:, client_secret:, integration:)
   end
@@ -73,7 +73,7 @@ describe ::OAuthClients::CreateContract do
     end
 
     context 'with integration (polymorphic attribute) linked' do
-      let(:integration) { create :storage }
+      let(:integration) { create(:storage) }
 
       include_examples 'contract is valid'
     end

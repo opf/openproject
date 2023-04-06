@@ -15,7 +15,7 @@ If you are an administrator on your OpenProject environment,  you can access the
 
 Click on one of the categories in order to proceed with the configuration.
 
-![image-20201006154046435](image-20201006154046435.png)
+![openproject_system_administration_start_page](openproject_system_administration_start_page.png)
 
 
 
@@ -42,5 +42,5 @@ Click on one of the categories in order to proceed with the configuration.
 | [Emails and notification](./incoming-and-outgoing/)          | Manage notifications and email                               |
 | [Information](./information/)                                | View the latest system information status.                   |
 | [Integrations](./integrations/)                              | How to integration OpenProject into other tools (eg. GitHub, Nextcloud...) |
-| [Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/) | Upgrading your Community Edition to Enterprise on-premises and other administrative topics. |
+| [Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/) | Upgrading your Community edition to Enterprise on-premises and other administrative topics. |
 | [Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/) | Manage your OpenProject Enterprise cloud and other administrative topics. |

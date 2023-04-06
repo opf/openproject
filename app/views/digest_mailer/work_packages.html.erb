@@ -17,7 +17,7 @@
                    salutation: I18n.t(:'mail.salutation', user: @user.firstname)
                  } %>
 
-      <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do | work_package, notifications_by_work_package| %>
+      <% @aggregated_notifications.first(DigestMailer::MAX_SHOWN_WORK_PACKAGES).each do |work_package, notifications_by_work_package| %>
         <%= render layout: 'mailer/notification_row',
                    locals: {
                      work_package: work_package,
@@ -29,7 +29,11 @@
           <table <%= placeholder_table_styles %>>
             <tr>
               <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
-                <%= digest_notification_timestamp_text(notifications_by_work_package.first) %>
+                <% if notifications_by_work_package.first.date_alert? %>
+                  <%= date_alerts_text(notifications_by_work_package.first) %>
+                <% else %>
+                  <%= digest_notification_timestamp_text(notifications_by_work_package.first) %>
+                <% end %>
                 <%= digest_additional_author_text(notifications_by_work_package) %>
               </td>
             </tr>

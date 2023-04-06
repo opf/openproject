@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Workday notification settings", type: :feature, js: true do
+describe "Workday notification settings", js: true do
   shared_examples 'workday settings' do
     before do
       current_user.language = locale
@@ -104,7 +104,7 @@ describe "Workday notification settings", type: :feature, js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      create :user
+      create(:user)
     end
 
     it_behaves_like 'workday settings'
@@ -113,11 +113,11 @@ describe "Workday notification settings", type: :feature, js: true do
   context 'with the user administration page' do
     let(:settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
     let(:pref) { other_user.pref }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
     it_behaves_like 'workday settings'

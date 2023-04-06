@@ -34,7 +34,8 @@ module.exports = {
         "plugin:@angular-eslint/recommended",
         // This is required if you use inline templates in Components
         "plugin:@angular-eslint/template/process-inline-templates",
-        "airbnb-typescript",
+        "airbnb-base",
+        "airbnb-typescript/base",
       ],
       rules: {
         /**
@@ -92,6 +93,9 @@ module.exports = {
         // destructuring doesn't always look better, only when object/array destructuring
         "prefer-destructuring": "off",
 
+        // Sometimes, arrow functions implicit return looks better below, so allow both
+        "implicit-arrow-linebreak": "off",
+
         // No void at all collides with `@typescript-eslint/no-floating-promises` which wants us to handle each promise.
         // Until we do that, `void` is a good way to explicitly mark unhandled promises. 
         "no-void": ["error", { allowAsStatement: true }],
@@ -121,6 +125,9 @@ module.exports = {
           },
         ],
 
+        // Allow writing type union and type intersections without space
+        "@typescript-eslint/space-infix-ops": "off",
+
         // Allow empty interfaces for naming purposes (HAL resources)
         "@typescript-eslint/no-empty-interface": "off",
 
@@ -136,6 +143,7 @@ module.exports = {
               "_embedded",
               "_meta",
               "_type",
+              "_destroy",
             ],
             allowAfterThis: true,
             allowAfterSuper: false,

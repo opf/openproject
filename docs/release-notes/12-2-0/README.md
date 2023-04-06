@@ -75,12 +75,12 @@ In OpenProject 12.2, you are now able to mark work packages with notifications a
 In 12.2, the way settings are being handled for controlling HTTPs mode of OpenProject have changed.
 In case of a packaged installation, the configuration from the packager wizard will result in the correct configuration.
 
-For docker and manual installations, you will need to set the environment variable `OPENPROJECT_HTTPS=false` if you actively want to disable HTTPS mode.
+For docker you will need to set the environment variable `OPENPROJECT_HTTPS=false` if you actively want to disable HTTPS mode.
 
 For more information, please see the respective installation pages:
 
 - [Packaged installation](../../installation-and-operations/installation/packaged/#step-3-apache2-web-server-and-ssl-termination)
-- [Docker installation](../../installation-and-operations/installation/docker/#initial-configuration)
+- [Docker installation](../../installation-and-operations/installation/docker/#configuration)
 
 ##  List of all bug fixes and changes
 
@@ -89,7 +89,7 @@ For more information, please see the respective installation pages:
 - Changed: Make the empty notification inbox nicer \[[#40148](https://community.openproject.com/wp/40148)\]
 - Changed: Show the project hierarchy in the project selector  \[[#40286](https://community.openproject.com/wp/40286)\]
 - Changed: OAuth settings of Nextcloud in OpenProject \[[#40375](https://community.openproject.com/wp/40375)\]
-- Changed: Unify Enterprise Edition pages \[[#40774](https://community.openproject.com/wp/40774)\]
+- Changed: Unify Enterprise edition pages \[[#40774](https://community.openproject.com/wp/40774)\]
 - Changed: Keep cached file data up to date \[[#40892](https://community.openproject.com/wp/40892)\]
 - Changed: Apply style changes to new date picker \[[#41814](https://community.openproject.com/wp/41814)\]
 - Changed: List file links in Files tab \[[#41905](https://community.openproject.com/wp/41905)\]

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ describe Members::CreateContract do
 
     describe '#assignable_projects' do
       context 'as a user without permission' do
-        let(:current_user) { build_stubbed :user }
+        let(:current_user) { build_stubbed(:user) }
 
         it 'is empty' do
           expect(contract.assignable_projects).to be_empty
@@ -72,12 +72,12 @@ describe Members::CreateContract do
       end
 
       context 'as a user with permission in one project' do
-        let!(:project1) { create :project }
-        let!(:project2) { create :project }
+        let!(:project1) { create(:project) }
+        let!(:project2) { create(:project) }
         let(:current_user) do
-          create :user,
+          create(:user,
                  member_in_project: project1,
-                 member_with_permissions: %i[manage_members]
+                 member_with_permissions: %i[manage_members])
         end
 
         it 'returns the one project' do

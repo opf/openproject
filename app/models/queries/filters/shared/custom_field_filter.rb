@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,23 +39,13 @@ module Queries::Filters::Shared::CustomFieldFilter
       /cf_(\d+)/
     end
 
-    ##
-    # TODO this differs from CustomField#accessor_name for reasons I don't see,
-    # however this name will be persisted in queries so we can't just map one to the other.
-    def custom_field_accessor(custom_field)
-      "cf_#{custom_field.id}"
-    end
-
     def all_for(context = nil)
-      custom_field_context.custom_fields(context).map do |cf|
-        cf_accessor = custom_field_accessor(cf)
-        begin
-          create!(name: cf_accessor, custom_field: cf, context:)
-        rescue ::Queries::Filters::InvalidError
-          Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
-          nil
-        end
-      end.compact
+      custom_field_context.custom_fields(context).filter_map do |cf|
+        create!(name: cf.column_name, custom_field: cf, context:)
+      rescue ::Queries::Filters::InvalidError
+        Rails.logger.error "Failed to map custom field filter for #{cf.column_name} (CF##{cf.id})."
+        nil
+      end
     end
 
     ##

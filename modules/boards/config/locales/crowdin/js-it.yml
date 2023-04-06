@@ -7,7 +7,7 @@ it:
       label_unnamed_list: 'Lista senza nome'
       label_board_type: 'Tipo scheda'
       upsale:
-        teaser_text: 'Vorresti automatizzare i tuoi flussi di lavoro con le schede? Le schede avanzate sono una funzionalità Enterprise. Esegui l''upgrade a un piano a pagamento.'
+        teaser_text: 'Vorresti automatizzare i tuoi flussi di lavoro con Boards? Le schede avanzate sono un addon di Imprese. Sei pregato di passare a un piano a pagamento.'
         upgrade: 'Aggiorna ora'
       lists:
         delete: 'Elimina elenco'
@@ -62,7 +62,7 @@ it:
           status: Stato
           version: Versione
           subproject: Sottoprogetto
-          subtasks: Genitore-Figlio
+          subtasks: genitore-figlio
           basic: Base
         select_attribute: "Attributo azione"
       add_list_modal:

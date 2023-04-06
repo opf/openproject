@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Configuration::ConfigurationRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Configuration::ConfigurationRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:represented) { Setting }
   let(:current_user) do
@@ -44,34 +44,34 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
     described_class.new(represented, current_user:, embed_links:)
   end
 
-  context 'generation' do
-    subject { representer.to_json }
+  subject { representer.to_json }
 
-    describe '_links' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
-        let(:href) { api_v3_paths.configuration }
+  describe '_links' do
+    it_behaves_like 'has an untitled link' do
+      let(:link) { 'self' }
+      let(:href) { api_v3_paths.configuration }
+    end
+
+    describe 'userPreferences' do
+      context 'if logged in' do
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.user_preferences(current_user.id) }
+        end
       end
 
-      context 'userPreferences' do
-        context 'if logged in' do
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.user_preferences(current_user.id) }
-          end
-        end
+      context 'if not logged in' do
+        let(:current_user) { build_stubbed(:anonymous) }
 
-        context 'if not logged in' do
-          let(:current_user) { build_stubbed(:anonymous) }
-
-          it_behaves_like 'has an untitled link' do
-            let(:link) { 'userPreferences' }
-            let(:href) { api_v3_paths.user_preferences(current_user.id) }
-          end
+        it_behaves_like 'has an untitled link' do
+          let(:link) { 'userPreferences' }
+          let(:href) { api_v3_paths.user_preferences(current_user.id) }
         end
       end
     end
+  end
 
+  describe 'properties' do
     it 'indicates its type' do
       expect(subject).to be_json_eql('Configuration'.to_json).at_path('_type')
     end
@@ -86,7 +86,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       expect(subject).to be_json_eql([1, 50, 100].to_json).at_path('perPageOptions')
     end
 
-    context 'timeFormat' do
+    describe 'timeFormat' do
       context 'with time format', with_settings: { time_format: '%I:%M %p' } do
         it 'indicates the timeFormat' do
           expect(subject)
@@ -112,7 +112,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    context 'dateFormat' do
+    describe 'dateFormat' do
       context 'without a date format', with_settings: { date_format: '' } do
         it 'indicates the dateFormat' do
           expect(subject)
@@ -122,14 +122,6 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
 
       context 'with date format (%Y-%m-%d)', with_settings: { date_format: '%Y-%m-%d' } do
-        it 'indicates the dateFormat' do
-          expect(subject)
-            .to be_json_eql('YYYY-MM-DD'.to_json)
-            .at_path('dateFormat')
-        end
-      end
-
-      context 'with date format (%d/%m/%Y)', with_settings: { date_format: '%Y-%m-%d' } do
         it 'indicates the dateFormat' do
           expect(subject)
             .to be_json_eql('YYYY-MM-DD'.to_json)
@@ -194,7 +186,7 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    context 'startOfWeek' do
+    describe 'startOfWeek' do
       context 'without a setting', with_settings: { start_of_week: '' } do
         it 'is null' do
           expect(subject)
@@ -212,23 +204,47 @@ describe ::API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
-    describe '_embedded' do
-      context 'userPreferences' do
-        context 'if embedding' do
-          let(:embed_links) { true }
+    describe 'activeFeatureFlags' do
+      context 'without any active flags' do
+        it 'is an empty array' do
+          expect(subject)
+            .to be_json_eql([].to_json)
+                  .at_path('activeFeatureFlags')
+        end
+      end
 
-          it 'embedds the user preferences' do
-            expect(subject)
-              .to be_json_eql('UserPreferences'.to_json)
-              .at_path('_embedded/userPreferences/_type')
-          end
+      context 'with active flags' do
+        before do
+          allow(OpenProject::FeatureDecisions)
+            .to receive(:active)
+                  .and_return(%w(the active_flags))
         end
 
-        context 'if not embedding' do
-          it 'embedds the user preferences' do
-            expect(subject)
-              .not_to have_json_path('_embedded/userPreferences/_type')
-          end
+        it 'is an array of strings of those flags' do
+          expect(subject)
+            .to be_json_eql(%w(the activeFlags).to_json)
+                  .at_path('activeFeatureFlags')
+        end
+      end
+    end
+  end
+
+  describe '_embedded' do
+    describe 'userPreferences' do
+      context 'if embedding' do
+        let(:embed_links) { true }
+
+        it 'embedds the user preferences' do
+          expect(subject)
+            .to be_json_eql('UserPreferences'.to_json)
+            .at_path('_embedded/userPreferences/_type')
+        end
+      end
+
+      context 'if not embedding' do
+        it 'embedds the user preferences' do
+          expect(subject)
+            .not_to have_json_path('_embedded/userPreferences/_type')
         end
       end
     end

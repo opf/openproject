@@ -1,5 +1,8 @@
 <div class="op-ian-center">
-  <div class="op-ian-center--content">
+  <div
+    class="op-ian-center--content"
+    [class.op-ian-center--content_empty]="(loading$ | async) === true || (hasNotifications$ | async) === false"
+  >
     <ng-container *ngIf="(loading$ | async) === false; else loading">
       <ng-container *ngIf="(hasNotifications$ | async); else noResults">
         <cdk-virtual-scroll-viewport
@@ -24,17 +27,29 @@
         <div class="op-ian-center--loading-indicator">
         <img [src]="image.no_notification" class="op-ian-center-loading-image"/>
         <p class="op-ian-center-loading-text">
-          <span [textContent]="noNotificationText(hasNotifications, (totalCount$ | async))"></span>
+          <span [textContent]="noNotificationText((totalCount$ | async) > 0)"></span>
          
         </p>
-        <span [textContent]="noResultText$ | async"></span>
+          <span
+            *ngIf="(totalCount$ | async) > 0"
+            [textContent]="text.no_results.with_current_filter"
+          ></span>
+          <ng-container *ngIf="(totalCount$ | async) === 0">
+            <p>
+              <span [textContent]="text.no_results.at_all"></span>
+              <br/>
+              <span [innerHTML]="text.change_notification_settings"></span>
+            </p>
+          </ng-container>
       </div>
       </ng-template>
     </ng-container>
     <ng-template #loading>
-      <img [src]="image.loading" 
-          class="op-ian-center--loading-indicator op-ian-center-loading-image"
+      <div class="op-ian-center--loading-indicator">
+        <img [src]="image.loading"
+          class="op-ian-center-loading-image"
           data-qa-selector="op-ian-center--loading-indicator"/>
+      </div>
     </ng-template>
   </div>
   <div class="op-ian-center--footer">

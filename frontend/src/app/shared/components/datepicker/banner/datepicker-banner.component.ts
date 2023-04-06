@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ import { DateModalRelationsService } from 'core-app/shared/components/datepicker
   templateUrl: './datepicker-banner.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DatepickerBannerComponent {
+export class OpDatePickerBannerComponent {
   @Input() scheduleManually = false;
 
   hasRelations$ = this.dateModalRelations.hasRelations$;
@@ -64,9 +64,13 @@ export class DatepickerBannerComponent {
       map((relations) => relations?.length > 0),
     );
 
-  isParent = this.dateModalRelations.isParent;
+  get isParent() {
+    return this.dateModalRelations.isParent;
+  }
 
-  isChild = this.dateModalRelations.isChild;
+  get isChild() {
+    return this.dateModalRelations.isChild;
+  }
 
   text = {
     automatically_scheduled_parent: this.I18n.t('js.work_packages.datepicker_modal.automatically_scheduled_parent'),
@@ -98,7 +102,7 @@ export class DatepickerBannerComponent {
       )
       .subscribe((ids) => {
         const props = {
-          c: ['id', 'subject', 'type', 'status', 'assignee', 'project', 'createdAt'],
+          c: ['id', 'subject', 'type', 'status', 'assignee', 'project', 'startDate', 'dueDate'],
           t: 'id:asc',
           tv: true,
           hi: true,

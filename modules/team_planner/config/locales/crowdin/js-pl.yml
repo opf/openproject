@@ -12,6 +12,7 @@ pl:
       remove_assignee: 'Usuń osobę przypisaną'
       two_weeks: '2 tygodnie'
       one_week: '1 tydzień'
+      work_week: 'Tydzień roboczy'
       today: 'Dzisiaj'
       drag_here_to_remove: 'Przeciągnij tutaj, aby usunąć przypisaną osobę oraz daty rozpoczęcia i zakończenia.'
       cannot_drag_here: 'Nie można usunąć pakietu roboczego ze względu na uprawnienia lub ograniczenia edycji.'

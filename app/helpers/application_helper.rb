@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,10 +99,6 @@ module ApplicationHelper
     }.merge(options)
 
     link_to I18n.t(:button_delete), url, options
-  end
-
-  def format_activity_title(text)
-    h(truncate_single_line(text, length: 100))
   end
 
   def format_activity_day(date)
@@ -385,7 +381,8 @@ module ApplicationHelper
   end
 
   def calendar_for(*_args)
-    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please add the class '-augmented-datepicker' instead.", caller
+    ActiveSupport::Deprecation.warn "calendar_for has been removed. Please use the op-basic-single-date-picker angular component instead",
+                                    caller
   end
 
   def locale_first_day_of_week
@@ -438,36 +435,22 @@ module ApplicationHelper
     "<meta name='ROBOTS' content='#{h(content)}' />".html_safe
   end
 
-  #
-  # Returns the footer text displayed in the layout file.
-  #
-  def footer_content
-    elements = []
-    elements << I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name,
-                                                       OpenProject::Info.url))
-    unless OpenProject::Footer.content.nil?
-      OpenProject::Footer.content.each do |name, value|
-        content = value.respond_to?(:call) ? value.call : value
-        if content
-          elements << content_tag(:span, content, class: "footer_#{name}")
-        end
-      end
-    end
-    elements << Setting.additional_footer_content if Setting.additional_footer_content.present?
-    elements.join(', ').html_safe
-  end
-
   def permitted_params
     PermittedParams.new(params, current_user)
   end
 
+  # Returns the language name in its own language for a given locale
+  #
+  # @param lang_code [String] the locale for the desired language, like `en`,
+  #   `de`, `fil`, `zh-CN`, and so on.
+  # @return [String] the language name translated in its own language
   def translate_language(lang_code)
     # rename in-context translation language name for the language select box
     if lang_code == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE &&
        ::I18n.locale != Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
       [Redmine::I18n::IN_CONTEXT_TRANSLATION_NAME, lang_code.to_s]
     else
-      [ll(lang_code.to_s, :general_lang_name), lang_code.to_s]
+      [I18n.t('cldr.language_name', locale: lang_code), lang_code.to_s]
     end
   end
 

@@ -11,13 +11,13 @@ release_date: 2020-02-20
 | Release notes                                                                                                                        | Description                                                                                          |
 |--------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------|
 | [OpenProject 10.4.0](#openproject-1040-release)                                                                                      | What is new for OpenProject 10.4.0?                                                                  |
-| [OpenProject 10.4 BIM Edition for construction project management](#openproject-104-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.4.0? |
+| [OpenProject 10.4 BIM edition for construction project management](#openproject-104-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.4.0? |
 
 ## OpenProject 10.4.0 Release
 
 We released OpenProject 10.4. The new release of the open source project management software contains a new time tracking widget for the My page which facilitates visualizing and logging time spent on your tasks. Additionally, cost reports can now be exported to Excel.
 
-Cloud and Enterprise Edition users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further design customization.
+Enterprise cloud and Enterprise on-premises users can now choose between the default OpenProject theme, a light theme and a dark theme. This provides a good starting point for further design customization.
 
 Read below to get a detailed overview of what is new in OpenProject 10.4.
 
@@ -37,9 +37,9 @@ The Excel spreadsheet lists the tracked time, cost, as well as the different cos
 
 ![Export cost reports](Export-cost-report-1536x1065.png)
 
-### Light and dark theme for OpenProject (Premium feature)
+### Light and dark theme for OpenProject (Enterprise add-on)
 
-Cloud and Enterprise Edition users can now easily customize the look and feel of their OpenProject environment by using a custom logo and adjusting the color theme. With OpenProject 10.4 this gets a lot easier - thanks to default themes. Simply choose between the OpenProject theme, the light theme and the dark theme.
+Enterprise cloud and Enterprise on-premises users can now easily customize the look and feel of their OpenProject environment by using a custom logo and adjusting the color theme. With OpenProject 10.4 this gets a lot easier - thanks to default themes. Simply choose between the OpenProject theme, the light theme and the dark theme.
 
 These themes are optimized and fulfill accessibility requirements. You can further customize them by starting with one of the default themes and adjusting individual colors based on your needs.
 
@@ -53,7 +53,7 @@ The other tabs menus have been updated to a modern layout. Additionally, the ema
 
 ![Layout admin settings](Layout_Project-admin-settings-1536x724.png)
 
-## OpenProject 10.4 BIM Edition for construction project management
+## OpenProject 10.4 BIM edition for construction project management
 
 What is new for the digital construction project management for the building industry in OpenProject?
 
@@ -195,9 +195,9 @@ Want to upgrade from a Community version to try out the light or dark theme? [Ge
 
 
 
-## How to try the OpenProject BIM Edition
+## How to try the OpenProject BIM edition
 
-Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM Edition.](https://start.openproject.com/go/bim)
+Try out OpenProject BIM 10.4. right away, create a free trial instance for the [OpenProject BIM edition.](https://start.openproject.com/go/bim)
 
  
 
@@ -217,7 +217,7 @@ For the upcoming BIM specific release we are focusing on more building industry 
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 10.4.
 
-We update hosted OpenProject environments (Cloud Edition) automatically.
+We update hosted OpenProject environments (Enterprise cloud) automatically.
 
 
 

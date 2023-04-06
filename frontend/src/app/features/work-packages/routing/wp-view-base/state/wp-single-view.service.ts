@@ -48,6 +48,13 @@ export class WpSingleViewService {
       map((notifications) => notifications.length),
     );
 
+  nonDateAlertNotificationsCount$ = this
+    .selectNotifications$
+    .pipe(
+      map((notifications) => notifications.filter((notification) => notification.reason !== 'dateAlert')),
+      map((notifications) => notifications.length),
+    );
+
   hasNotifications$ = this
     .selectNotificationsCount$
     .pipe(
@@ -106,7 +113,7 @@ export class WpSingleViewService {
       .pipe(
         take(1),
         filter((loggedIn) => loggedIn),
-        switchMap(() => this.resourceService.fetchNotifications(this.params)),
+        switchMap(() => this.resourceService.fetchCollection(this.params)),
       )
       .subscribe();
   }

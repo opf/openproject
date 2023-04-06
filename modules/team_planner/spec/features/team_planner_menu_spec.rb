@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,19 @@
 
 require 'spec_helper'
 
-describe 'Team planner sidemenu', type: :feature, js: true do
+describe 'Team planner sidemenu', js: true do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
 
   context 'with a user that does not have create rights' do
     shared_let(:user_without_rights) do
-      create :user,
+      create(:user,
              member_in_project: project,
              member_with_permissions: %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner
-             ]
+             ])
     end
 
     current_user { user_without_rights }
@@ -58,12 +58,12 @@ describe 'Team planner sidemenu', type: :feature, js: true do
 
   context 'with a user that has create rights' do
     shared_let(:user_with_rights) do
-      create :user,
+      create(:user,
              member_in_project: project,
              member_with_permissions: %w[
                view_work_packages edit_work_packages add_work_packages
                view_team_planner manage_team_planner
-             ]
+             ])
     end
 
     current_user { user_with_rights }
@@ -76,7 +76,7 @@ describe 'Team planner sidemenu', type: :feature, js: true do
           click_link 'Team planners'
         end
 
-        expect(page).to have_no_selector('[data-qa-selector="team-planner--create-button"]')
+        expect(page).not_to have_selector('[data-qa-selector="team-planner--create-button"]')
       end
     end
 

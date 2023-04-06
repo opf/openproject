@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'Cost report calculations', type: :feature, js: true do
-  let(:project) { create :project }
-  let(:user) { create :admin }
+describe 'Cost report calculations', js: true do
+  let(:project) { create(:project) }
+  let(:user) { create(:admin) }
 
   before do
     login_as(user)
@@ -20,8 +20,8 @@ describe 'Cost report calculations', type: :feature, js: true do
     click_on 'Clear'
     # Then filter "spent_on" should not be visible
     # And filter "user_id" should not be visible
-    expect(page).to have_no_selector("#filter_spent_on")
-    expect(page).to have_no_selector("#filter_user_id")
+    expect(page).not_to have_selector("#filter_spent_on")
+    expect(page).not_to have_selector("#filter_user_id")
 
     # Reload restores the query
     # And the user with the login "developer" should be selected for "User Value"

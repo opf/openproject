@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,14 +39,14 @@ module OAuth
       @applications = ::Doorkeeper::Application.without_integration.includes(:owner).all
     end
 
-    def new; end
-
-    def edit; end
-
     def show
       @reveal_secret = flash[:reveal_secret]
       flash.delete :reveal_secret
     end
+
+    def new; end
+
+    def edit; end
 
     def create
       call = ::OAuth::PersistApplicationService.new(@application, user: current_user)

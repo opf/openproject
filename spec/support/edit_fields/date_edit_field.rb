@@ -18,15 +18,18 @@ class DateEditField < EditField
     @datepicker ||= ::Components::WorkPackageDatepicker.new modal_selector
   end
 
-  delegate :set_start_date,
-           :set_due_date,
+  delegate :focus_milestone_date,
            :focus_start_date,
            :focus_due_date,
+           :expect_milestone_date,
+           :expect_start_date,
+           :expect_due_date,
+           :set_milestone_date,
+           :set_start_date,
+           :set_due_date,
            :expect_start_highlighted,
            :expect_due_highlighted,
            :expect_duration_highlighted,
-           :expect_start_date,
-           :expect_due_date,
            :expect_duration,
            :set_duration,
            :duration_field,
@@ -58,8 +61,6 @@ class DateEditField < EditField
   end
 
   def set_scheduling_mode(manually:)
-    val = manually ? :manual : :default
-
     # Expect currently set before toggling
     expect_scheduling_mode(manually:)
     # Change mode
@@ -94,8 +95,12 @@ class DateEditField < EditField
     if active?
       modal_element.find(input_selector)
     else
-      page.find(".#{property_name} input")
+      page.find(".#{property_name} .spot-input")
     end
+  end
+
+  def click_to_open_datepicker
+    input_element.click
   end
 
   def active?
@@ -110,7 +115,7 @@ class DateEditField < EditField
 
   def expect_inactive!
     expect(context).to have_selector(display_selector, wait: 10)
-    expect(page).to have_no_selector("#{modal_selector} #{input_selector}")
+    expect(page).not_to have_selector("#{modal_selector} #{input_selector}")
   end
 
   def expect_calendar
@@ -146,9 +151,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(page).to have_selector (".#{property_name} input") do |input|
-      input.value == value
-    end
+    expect(page).to have_selector(".#{property_name} .spot-input", value:)
   end
 
   def set_active_date(value)

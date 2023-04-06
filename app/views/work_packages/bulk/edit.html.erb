@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t(:label_change_properties) %></legend>
-      <div class="grid-block">
+      <div class="grid-block grid-block_visible-overflow">
         <div class="grid-content medium-6">
           <div class="form--field">
             <%= styled_label_tag :work_package_type_id, WorkPackage.human_attribute_name(:type) %>
@@ -102,9 +102,7 @@ See COPYRIGHT and LICENSE files for more details.
                                     options_from_collection_for_select(@project.categories, :id, :name)) %>
               </div>
             </div>
-          <% end %>
-          <% #TODO: allow editing versions when multiple projects %>
-          <% if @project %>
+            <% #TODO: allow editing versions when multiple projects %>
             <div class="form--field">
               <%= styled_label_tag :work_package_version_id, WorkPackage.human_attribute_name(:version) %>
               <div class="form--field-container">
@@ -113,8 +111,6 @@ See COPYRIGHT and LICENSE files for more details.
                                        version_options_for_select(@project.shared_versions.with_status_open.order_by_semver_name)) %>
               </div>
             </div>
-          <% end %>
-          <% if @project %>
             <div class="form--field">
               <%= styled_label_tag :work_package_budget_id, Budget.model_name.human %>
               <div class="form--field-container">
@@ -137,6 +133,12 @@ See COPYRIGHT and LICENSE files for more details.
           <%= call_hook(:view_work_packages_bulk_edit_details_bottom, { work_packages: @work_packages }) %>
         </div>
         <div class="grid-content medium-6">
+          <div class="form--field">
+            <%= styled_label_tag :work_package_subject, WorkPackage.human_attribute_name(:subject) %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag 'work_package[subject]', '', size: 10 %>
+            </div>
+          </div>
           <% if @project && User.current.allowed_to?(:manage_subtasks, @project) %>
             <div class="form--field">
               <%= styled_label_tag :work_package_parent_id, WorkPackage.human_attribute_name(:parent) %>
@@ -148,14 +150,24 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
           <div class="form--field">
             <%= styled_label_tag :work_package_start_date, WorkPackage.human_attribute_name(:start_date) %>
-            <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[start_date]', '', size: 10, class: '-augmented-datepicker' %>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-basic-single-date-picker',
+                                        inputs: {
+                                          id: "work_package_start_date",
+                                          name: "work_package[start_date]"
+                                        }
+              %>
             </div>
           </div>
           <div class="form--field">
             <%= styled_label_tag :work_package_due_date, WorkPackage.human_attribute_name(:due_date) %>
-            <div class="form--field-container">
-              <%= styled_text_field_tag 'work_package[due_date]', '', size: 10, class: '-augmented-datepicker' %>
+            <div class="form--field-container -visible-overflow">
+              <%= angular_component_tag 'op-basic-single-date-picker',
+                                        inputs: {
+                                          id: "work_package_due_date",
+                                          name: "work_package[due_date]"
+                                        }
+              %>
             </div>
           </div>
           <% if WorkPackage.use_field_for_done_ratio? %>

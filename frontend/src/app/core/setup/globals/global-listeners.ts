@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,15 +31,14 @@ import { registerRequestForConfirmation } from 'core-app/core/setup/globals/glob
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { scrollHeaderOnMobile } from 'core-app/core/setup/globals/global-listeners/top-menu-scroll';
 import { setupToggableFieldsets } from 'core-app/core/setup/globals/global-listeners/toggable-fieldset';
-import { TopMenu } from 'core-app/core/setup/globals/global-listeners/top-menu';
 import { installMenuLogic } from 'core-app/core/setup/globals/global-listeners/action-menu';
 import { makeColorPreviews } from 'core-app/core/setup/globals/global-listeners/color-preview';
 import { dangerZoneValidation } from 'core-app/core/setup/globals/global-listeners/danger-zone-validation';
 import { setupServerResponse } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 import { listenToSettingChanges } from 'core-app/core/setup/globals/global-listeners/settings';
 import { detectOnboardingTour } from 'core-app/core/setup/globals/onboarding/onboarding_tour_trigger';
-import { augmentedDatePicker } from './global-listeners/augmented-date-picker';
 import { performAnchorHijacking } from './global-listeners/link-hijacking';
+import { fixFragmentAnchors } from 'core-app/core/setup/globals/global-listeners/fix-fragment-anchors';
 
 /**
  * A set of listeners that are relevant on every page to set sensible defaults
@@ -48,9 +47,6 @@ export function initializeGlobalListeners():void {
   jQuery(document.documentElement)
     .on('click', (evt:any) => {
       const target = jQuery(evt.target) as JQuery;
-
-      // Create datepickers dynamically for Rails-based views
-      augmentedDatePicker(evt, target);
 
       // Prevent angular handling clicks on href="#..." links from other libraries
       // (especially jquery-ui and its datepicker) from routing to <base url>/#
@@ -128,9 +124,6 @@ export function initializeGlobalListeners():void {
   // Toggable fieldsets
   setupToggableFieldsets();
 
-  // Top menu click handling
-  new TopMenu(jQuery('.op-app-header'));
-
   // Action menu logic
   jQuery('.project-actions, .toolbar-items').each((idx:number, menu:HTMLElement) => {
     installMenuLogic(jQuery(menu));
@@ -147,4 +140,7 @@ export function initializeGlobalListeners():void {
 
   // Bootstrap legacy app code
   setupServerResponse();
+
+  // Replace fragment
+  fixFragmentAnchors();
 }

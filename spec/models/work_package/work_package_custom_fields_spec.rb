@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#custom_fields' do
     let(:type) { create(:type_standard) }
     let(:project) { create(:project, types: [type]) }
@@ -145,7 +145,7 @@ describe WorkPackage, type: :model do
       describe 'invalid custom field values' do
         context 'short error message' do
           shared_examples_for 'custom field with invalid value' do
-            let(:custom_field_key) { "custom_field_#{custom_field.id}".to_sym }
+            let(:custom_field_key) { custom_field.attribute_name.to_sym }
 
             before do
               change_custom_field_value(work_package, custom_field_value)
@@ -379,11 +379,11 @@ describe WorkPackage, type: :model do
 
     describe 'validation error interpolation' do
       let :custom_field do
-        create :work_package_custom_field,
+        create(:work_package_custom_field,
                name: 'PIN',
                field_format: 'text',
                max_length: 4,
-               is_required: true
+               is_required: true)
       end
 
       include_context 'project with custom field'

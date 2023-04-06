@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -94,7 +94,7 @@ module Redmine
 
             token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
 
-            if EnterpriseToken.allows_to?(:attachment_filters) && OpenProject::Database.allows_tsv?
+            if OpenProject::Database.allows_tsv?
               tsv_clauses = tsv_columns.map do |tsv_column|
                 OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
                                                       tsv_column[:column_name],

@@ -1,20 +1,20 @@
 ---
 sidebar_navigation:
   title: Attribute help texts
-  priority: 790
+  priority: 960
 description: Learn how to set attribute help texts in OpenProject
 keywords: attribute help texts, help texts for projects and work packages
 
 ---
 
-# Attribute help texts (Premium feature)
+# Attribute help texts (Enterprise add-on)
 
 <div class="glossary">
 **Attribute help texts** provide additional information for attributes in work packages and projects. After setting them up they are displayed when users click on the question mark symbol next to custom fields in projects and work packages. 
 This way you will reduce wrong entries for attributes. This is especially relevant for company specific custom fields.
 </div>
 
-> **Note**: Attribute help texts are a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+> **Note**: Attribute help texts are an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Overview
@@ -67,7 +67,7 @@ Navigate to -> *Administration* -> *Work packages* -> *Attribute help texts* in 
 
 ## Work packages
 
-The Attribute help texts for work packages will be displayed in the [details view](../../user-guide/work-packages/work-package-views/#work-package-split-screen-view) (as in the screenshot below) and in the [full screen view](../../user-guide/work-packages/work-package-views/#work-package-full-screen-view). They will help the users (e.g. the project managers) understand what kind of information to put in which fields.
+The Attribute help texts for work packages will be displayed in the [details view](../../user-guide/work-packages/work-package-views/#split-screen-view) (as in the screenshot below) and in the [full screen view](../../user-guide/work-packages/work-package-views/#full-screen-view). They will help the users (e.g. the project managers) understand what kind of information to put in which fields.
 
 ![Sys-admin-attribute-help-texts-open](Sys-admin-attribute-help-texts-open.png)
 

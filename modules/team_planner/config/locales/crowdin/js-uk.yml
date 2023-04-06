@@ -12,10 +12,11 @@ uk:
       remove_assignee: 'Вилучити виконавця'
       two_weeks: '2 тижні'
       one_week: '1 тиждень'
+      work_week: 'Робочий тиждень'
       today: 'Сьогодні'
       drag_here_to_remove: 'Перетягніть сюди, щоб вилучити виконавця, а також дати початку й закінчення.'
       cannot_drag_here: 'Не вдалося вилучити пакет робіт через дозволи або обмеження на редагування.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
+      cannot_drag_to_non_working_day: 'Цей пакет робіт не може починатися / завершуватися в неробочий день.'
       quick_add:
         empty_state: 'Скористайтеся полем пошуку, щоб знайти пакети робіт, і перетягніть їх у планувальник, щоб призначити комусь, а також визначити дати початку й закінчення завдання.'
         search_placeholder: 'Пошук...'

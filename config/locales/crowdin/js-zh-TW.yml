@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,12 +23,12 @@ zh-TW:
   js:
     ajax:
       hide: "隱藏"
-      loading: "Loading…"
-      updating: "Updating…"
+      loading: "載入中..."
+      updating: "更新中..."
     attachments:
-      delete: "Delete attachment"
+      delete: "刪除附件"
       delete_confirmation: |
-        Are you sure you want to delete this file? This action is not reversible.
+        是否確定要刪除此檔？此操作無法撤銷。
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
     autocomplete_select:
@@ -43,13 +43,13 @@ zh-TW:
         You can trigger a backup here. The process can take some time depending on the amount of data (especially attachments) you have. You will receive an email once it's ready.
       note: >
         A new backup will override any previous one. Only a limited number of backups per day can be requested.
-      last_backup: Last backup
-      last_backup_from: Last backup from
-      title: Backup OpenProject
+      last_backup: 上次備份
+      last_backup_from: 上次備份從
+      title: 備份OpenProject
       options: 選項
-      include_attachments: Include attachments
-      download_backup: Download backup
-      request_backup: Request backup
+      include_attachments: 包含附件
+      download_backup: 下載備份
+      request_backup: 要求備份
     close_popup_title: "關閉彈出式視窗"
     close_filter_title: "關閉篩選器"
     close_form_title: "關閉表單"
@@ -65,7 +65,7 @@ zh-TW:
     button_confirm: "確認"
     button_continue: "繼續"
     button_copy: "複製"
-    button_copy_to_other_project: "Copy to other project"
+    button_copy_to_other_project: "複製到其他專案"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
     button_delete_watcher: "刪除關注者"
@@ -85,10 +85,10 @@ zh-TW:
     button_open_fullscreen: "開啟全螢幕檢視"
     button_show_cards: "顯示卡片檢視"
     button_show_list: "列表檢視"
-    button_show_table: "Show table view"
-    button_show_gantt: "Show Gantt view"
-    button_show_fullscreen: "Show fullscreen view"
-    button_more_actions: "More actions"
+    button_show_table: "資料表檢視"
+    button_show_gantt: "開啟甘特圖檢視"
+    button_show_fullscreen: "開啟全螢幕檢視"
+    button_more_actions: "更多動作......"
     button_quote: "引言"
     button_save: "儲存"
     button_settings: "設定"
@@ -106,14 +106,14 @@ zh-TW:
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "您的瀏覽器不支援複製到剪貼簿。請手動複製選取的文字。"
-      copied_successful: "Successfully copied to clipboard!"
+      copied_successful: "已成功複製到剪貼簿"
     chart:
       type: '圖表類型'
       axis_criteria: 'Axis criteria'
-      modal_title: 'Work package graph configuration'
+      modal_title: '工作包表配置'
       types:
         line: '折線'
-        horizontal_bar: 'Horizontal bar'
+        horizontal_bar: '水平分隔線'
         bar: '長條'
         pie: '圓餅'
         doughnut: '甜甜圈'
@@ -133,12 +133,12 @@ zh-TW:
       preview: '切換預覽模式'
       source_code: '切換標記源模式'
       error_saving_failed: '保存文檔失敗, 出現以下錯誤: %{error}'
-      ckeditor_error: 'An error occurred within CKEditor'
+      ckeditor_error: 'CKEditor 出現錯誤'
       mode:
         manual: '切換到標記源模式'
         wysiwyg: '切換到所見即所得編輯器'
       macro:
-        error: 'Cannot expand macro: %{message}'
+        error: '無法展開macro:'
         attribute_reference:
           macro_help_tooltip: 'This text segment is being dynamically rendered by a macro.'
           not_found: 'Requested resource could not be found'
@@ -158,7 +158,7 @@ zh-TW:
           language_hint: '輸入將用於突出顯示的格式語言 (如果支援)。'
         dropdown:
           macros: '巨集'
-          chose_macro: 'Choose macro'
+          chose_macro: '選擇macro'
         toc: '目錄'
         toolbar_help: '按一下以選擇小部件並顯示工具列。按兩下以編輯小部件'
         wiki_page_include:
@@ -187,27 +187,27 @@ zh-TW:
         drag_to_activate: "從這裡拖曳欄位來啟用它們"
         add_group: "添加屬性組"
         add_table: "添加相關工作包的表格"
-        edit_query: 'Edit query'
+        edit_query: '編輯查詢'
         new_group: '新增群組'
         reset_to_defaults: '重設為預設值'
       enterprise:
-        text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_reprieve_days_left: "天至緩衝期結束"
+        text_expired: "已過期"
         trial:
-          confirmation: "Confirmation of email address"
+          confirmation: "確認您的電子郵件地址"
           confirmation_info: >
             We sent you an email on %{date} to %{email}. Please check your inbox and click the confirmation link provided to start your 14 days trial.
           form:
             general_consent: >
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
             invalid_email: "無效的電子郵件"
-            label_company: "Company"
+            label_company: "公司"
             label_first_name: "名字"
             label_last_name: "姓："
-            label_domain: "Domain"
+            label_domain: "網域"
             label_subscriber: "訂閱者"
             label_maximum_users: "最大活動使用者數"
-            label_starts_at: "Starts at"
+            label_starts_at: "開始於"
             label_expires_at: "過期於"
             receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
             taken_domain: There can only be one active trial per domain.
@@ -215,7 +215,7 @@ zh-TW:
             taken_email: Each user can only create one trial.
           email_not_received: "You did not receive an email? You can resend the email with the link on the right."
           try_another_email: "或嘗試使用其他電子郵件"
-          next_steps: "Next steps"
+          next_steps: "下一步"
           resend_link: "重新發送"
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
@@ -223,31 +223,48 @@ zh-TW:
           status_label: "狀態："
           status_confirmed: "已確認"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "成為英雄!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "專業支援"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "開始免費試用"
           button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "立即預約"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "獲取報價"
-          more_info: "More information"
+          more_info: "更多資訊"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
-          unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+          unlimited: "無限"
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: '開啟'
@@ -276,8 +293,6 @@ zh-TW:
           one: "第一個排序條件"
           two: "第二個排序條件"
           three: "第三個排序條件"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
-      upsale_link: '企業版。'
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -296,17 +311,13 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "啟用"
-    label_assignee: 'Assignee'
+    label_assignee: '負責執行者'
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
     label_add_columns: "增加欄"
@@ -376,7 +387,7 @@ zh-TW:
     label_in_more_than: "多於"
     label_incoming_emails: "接收到的電子郵件"
     label_information_plural: "資訊"
-    label_invalid: "Invalid"
+    label_invalid: "無效"
     label_import: "匯入"
     label_latest_activity: "最新活動"
     label_last_updated_on: "最後更新於"
@@ -394,8 +405,9 @@ zh-TW:
     label_next: "下一個"
     label_no_color: "無顏色"
     label_no_data: "沒有資料可顯示"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "無完成日期"
     label_no_start_date: "無開始日期"
+    label_no_date: "no date"
     label_no_value: "無值"
     label_none: "無"
     label_not_contains: "不包含"
@@ -408,8 +420,8 @@ zh-TW:
     label_previous: "上一個"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
-    label_project: "Project"
-    label_project_list: "Projects list"
+    label_project: "專案"
+    label_project_list: "專案清單"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
@@ -422,7 +434,7 @@ zh-TW:
     label_report: "報表"
     label_repository_plural: "Repositories"
     label_save_as: "保存為"
-    label_select_project: "Select a project"
+    label_select_project: "選擇專案"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
     label_show_attributes: "顯示所有屬性"
@@ -438,7 +450,7 @@ zh-TW:
     label_public_query: "公開"
     label_sum: "總和"
     label_sum_for: "總和"
-    label_total_sum: "Total sum"
+    label_total_sum: "總計"
     label_subject: "主題"
     label_this_week: "本週"
     label_today: "今日"
@@ -460,20 +472,20 @@ zh-TW:
     label_watch_work_package: "關注工作項目"
     label_watcher_added_successfully: "已成功新增關注者！"
     label_watcher_deleted_successfully: "已成功刪除關注者！"
-    label_work_package_details_you_are_here: "目前在 %{type} %{subject} 的第 %{tab} 個頁籤"
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "取消監看"
     label_unwatch_work_package: "取消關注工作項目"
     label_uploaded_by: "上傳者"
-    label_default_queries: "Default"
-    label_starred_queries: "Favorite"
-    label_global_queries: "Public"
-    label_custom_queries: "Private"
+    label_default_queries: "預設"
+    label_starred_queries: "最愛"
+    label_global_queries: "公開"
+    label_custom_queries: "私人"
     label_columns: "欄"
     label_attachments: 附加檔
-    label_drop_files: 將檔案拖曳至此處
-    label_drop_files_hint: 或按一下要添加的檔
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: 不能將資料夾作為附件上載。請選擇單個檔。
-    label_add_attachments: "新增附件"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"
     label_remove_file: "刪除 %{fileName}"
     label_remove_watcher: "刪除關注者 %{name}"
@@ -489,7 +501,7 @@ zh-TW:
     label_upload_counter: "%{count} 個中的 %{done} 個文件已完成"
     label_validation_error: "由於下列錯誤，無法儲存工作包:"
     label_version_plural: "版本"
-    label_view_has_changed: "This view has unsaved changes. Click to save them."
+    label_view_has_changed: "變動未儲存，請點按儲存。"
     help_texts:
       show_modal: '顯示屬性說明文字項目'
     onboarding:
@@ -499,14 +511,14 @@ zh-TW:
         got_it: '了解'
       steps:
         help_menu: 'The Help (?) menu provides <b>additional help resources</b>. Here you can find a user guide, helpful how-to videos and more. <br> Enjoy your work with OpenProject!'
-        members: 'Invite new <b>members</b> to join your project.'
-        project_selection: 'Please click on one of the demo projects that we have prepared. Demo data is currently only available in English. <br> The general <b>demo project</b> suits best for classical project management, while the <b>Scrum project</b> is better for agile project management.'
-        quick_add_button: 'Click on the plus (+) icon in the header navigation to <b>create a new project</b> or to <b>invite coworkers</b>.'
-        sidebar_arrow: "Use the return arrow in the top left corner to return to the project’s <b>main menu</b>."
+        members: '邀請新 <b>會員</b> 加入您的專案。'
+        project_selection: '請選擇一個具有有用演示資料的專案開始。 <br> <b>演示專案</b> 最適合傳統專案管理, 而 <b>scrum 專案</b> 是更好的敏捷專案管理。'
+        quick_add_button: '於頁首點按 (+) 鍵 <b>來建立新的專案</b> 或 <b>來邀請隊員</b>.'
+        sidebar_arrow: "用左上方的返回鍵，返回至專案的 <b>主選單</b>."
         welcome: '觀看三分鐘的介紹導覽, 以瞭解最多 <b>重要功能</b>。 <br> 我們建議完成所有步驟直到結束。您可以隨時重新開始導覽。'
-        wiki: 'Within the <b>wiki</b> you can document and share knowledge together with your team.'
+        wiki: '在 <b>wiki</b> 中, 您可以與您的團隊一起記錄和分享知識。'
         backlogs:
-          overview: "Manage your work in the <b>backlogs</b> view."
+          overview: " 在<b>backlogs</b> 檢視中，管理您的工作。"
           sprints: "On the right you have the product backlog and the bug backlog, on the left you have the respective sprints. Here you can create <b>epics, user stories, and bugs</b>, prioritize via drag & drop and add them to a sprint."
           task_board_arrow: 'To see your <b>task board</b>, open the sprint drop-down...'
           task_board_select: '...and select the <b>task board</b> entry.'
@@ -533,80 +545,107 @@ zh-TW:
           card: 'Drag work packages horizontally to move them backwards or forwards in time, drag the edges to change start and end dates and even drag them vertically to a different row to assign them to another member.'
     notifications:
       title: "通知"
-      no_unread: "No unread notifications"
+      no_unread: "無未讀通知"
       reasons:
-        mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        mentioned: '被標記'
+        watched: '關注者'
+        assigned: '負責執行者'
         responsible: '負責人'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
-        processed: 'processed'
-        prioritized: 'prioritized'
+        created: '已建立'
+        scheduled: '已排程'
+        commented: '已評論'
+        processed: '已處理'
+        prioritized: '優先'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
-        unread: 'Unread'
-        unread_title: 'Show unread'
+        unread: '未讀'
+        unread_title: '顯示未讀'
         all: '全部'
-        all_title: 'Show all'
+        all_title: '顯示全部'
       center:
-        label_actor_and: 'and'
+        label_actor_and: '和'
         and_more_users:
-          other: 'and %{count} others'
+          other: '和 1 個其他'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
           link_text: 'Click here to load them'
       menu:
         accountable: '負責人'
-        by_project: 'Unread by project'
-        by_reason: 'Involvement'
-        inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watching: 'Watching'
+        by_project: '未讀(依專案)'
+        by_reason: 'Reason'
+        inbox: '收件匣'
+        mentioned: '被標記'
+        watched: "關注者\n"
+        date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
-        title: "Notification settings"
-        notify_me: "Notify me"
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
+        title: "通知設定"
+        notify_me: "通知我"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: '被標記'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
-          work_package_commented: 'All new comments'
-          work_package_created: 'New work packages'
-          work_package_processed: 'All status changes'
-          work_package_prioritized: 'All priority changes'
-          work_package_scheduled: 'All date changes'
+          assignee: '負責執行者'
+          responsible: '負責人'
+          watched: "關注者\n"
+          work_package_commented: '新評論'
+          work_package_created: '新工作包'
+          work_package_processed: '全部狀態改變'
+          work_package_prioritized: '全部優先級改變'
+          work_package_scheduled: '全部日期改變'
         global:
           immediately:
-            title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            title: '參與中'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
-            title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            title: '非參與中'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
-            title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            title: '日期提醒'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          overdue: When overdue
         project_specific:
-          title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
-          add: 'Add setting for project'
-          already_selected: 'This project is already selected'
-          remove: 'Remove project settings'
+          title: '特定專案通知設定'
+          description: 'These project-specific settings override default settings above.'
+          add: '於此專案新增設定'
+          already_selected: '已選取此專案'
+          remove: '移除專案設定'
     password_confirmation:
       field_description: '您需要輸入您的帳戶密碼，以確認此更改。'
       title: '確認您的密碼以便繼續'
@@ -619,11 +658,12 @@ zh-TW:
       default: '-'
       subject: '在此輸入主旨'
       selection: '請選擇'
-      description: 'Description: Click to edit...'
+      description: '描述：點選可編輯'
       relation_description: '按一下以便為此關係添加描述'
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: '專案內容'
       work_package_belongs_to: '此工作項目屬於專案 %{projectname}。'
       click_to_switch_context: '在該專案中打開此工作項目。'
@@ -674,8 +714,8 @@ zh-TW:
         reset_title: "重設表單配置"
         confirm_reset: >
           警告: 確實要重置表單配置嗎？這將重置屬性到其預設組, 並禁用所有自訂欄位。
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
-        upgrade_to_ee_text: "哇！如果您需要使用此功能，說明您非常專業！您是否願意成為企業版客戶來支持 OpenSource 開發人員？"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
@@ -822,7 +862,7 @@ zh-TW:
       zooms: "縮放等級"
       outlines: "層次結構級別"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "粗體"
       italic: "斜體"
@@ -959,7 +999,7 @@ zh-TW:
         move_column_left: "欄向左移"
         move_column_right: "欄向右移"
         hide_column: "隱藏欄"
-        insert_columns: "插入欄..."
+        insert_columns: "Insert columns"
         filters: "篩選器"
         display_sums: "顯示加總"
         confirm_edit_cancel: "確實要取消編輯此視圖的名稱嗎？標題將被設置回以前的值。"
@@ -986,7 +1026,7 @@ zh-TW:
         button: '配置此工作包表'
         choose_display_mode: '將工作包顯示為'
         modal_title: '工作包表配置'
-        embedded_tab_disabled: "此配置選項卡不適用於您正在編輯的嵌入視圖。"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "預設"
         display_settings: '顯示設定'
         default_mode: "展開清單"
@@ -1013,7 +1053,7 @@ zh-TW:
         upsale:
           attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
-          check_out_link: '請查閱企業版'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1022,26 +1062,25 @@ zh-TW:
         relations: 關聯
         watchers: 監看者
         files: 檔案
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "天"
         weeks: "週"
         months: "月"
     toolbar:
       settings:
-        configure_view: "設定檢視..."
-        columns: "欄"
-        sort_by: "排序條件..."
-        group_by: "分組條件..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "顯示匯總"
         display_hierarchy: "顯示層次結構"
         hide_hierarchy: "隱藏層次結構"
         hide_sums: "隱藏匯總"
         save: "儲存"
-        save_as: "另存為…"
-        export: "匯出..."
-        visibility_settings: "可見度設定"
-        page_settings: "重新命名視圖 ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "删除"
       filter: "篩選器"
       unselected_title: "工作項目"
@@ -1155,9 +1194,9 @@ zh-TW:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Name or email address'
@@ -1216,4 +1255,5 @@ zh-TW:
       filter_chip:
         remove: '刪除'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: '關閉'

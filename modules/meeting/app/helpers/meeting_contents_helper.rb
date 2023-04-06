@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,8 +71,7 @@ module MeetingContentsHelper
                               method: :put,
                               data: { confirm: I18n.t(:text_meeting_closing_are_you_sure) },
                               class: 'meetings--close-meeting-button button') do
-          op_icon('button--icon icon-locked') +
-            content_tag('span', I18n.t(:label_meeting_close), class: 'button--text')
+          text_with_icon(I18n.t(:label_meeting_close), 'icon-locked')
         end
       end
     when 'meeting_minutes'
@@ -82,8 +81,7 @@ module MeetingContentsHelper
                                 meeting_id: meeting },
                               method: :put,
                               class: 'button') do
-          op_icon('button--icon icon-locked') +
-            content_tag('span', I18n.t(:label_meeting_agenda_close), class: 'button--text')
+          text_with_icon(I18n.t(:label_meeting_agenda_close), 'icon-locked')
         end
       end
     end
@@ -99,8 +97,7 @@ module MeetingContentsHelper
                             method: :put,
                             class: 'button',
                             data: { confirm: I18n.t(:text_meeting_agenda_open_are_you_sure) }) do
-        op_icon('button--icon icon-unlocked') +
-          content_tag('span', I18n.t(:label_meeting_open), class: 'button--text')
+        text_with_icon(I18n.t(:label_meeting_open), 'icon-unlocked')
       end
     end
   end
@@ -111,8 +108,7 @@ module MeetingContentsHelper
               class: 'button button--edit-agenda',
               data: { 'content-type': content_type },
               accesskey: accesskey(:edit) do
-                op_icon('button--icon icon-edit') +
-                  content_tag('span', I18n.t(:label_edit), class: 'button--text')
+                text_with_icon(I18n.t(:label_edit), 'icon-edit')
               end
     end
   end
@@ -125,8 +121,7 @@ module MeetingContentsHelper
                             aria: { label: t(:label_history) },
                             title: t(:label_history),
                             class: 'button') do
-        op_icon('button--icon icon-wiki') +
-          content_tag('span', I18n.t(:label_history), class: 'button--text')
+        text_with_icon(I18n.t(:label_history), 'icon-activity-history')
       end
     end
   end
@@ -137,8 +132,7 @@ module MeetingContentsHelper
                               action: 'notify', meeting_id: meeting },
                             method: :put,
                             class: 'button') do
-        op_icon('button--icon icon-mail1') +
-          content_tag('span', I18n.t(:label_notify), class: 'button--text')
+        text_with_icon(I18n.t(:label_notify), 'icon-mail1')
       end
     end
   end
@@ -149,9 +143,14 @@ module MeetingContentsHelper
                               action: 'icalendar', meeting_id: meeting },
                             method: :put,
                             class: 'button') do
-        op_icon('button--icon icon-calendar2') +
-          content_tag('span', I18n.t(:label_icalendar), class: 'button--text')
+        text_with_icon(I18n.t(:label_icalendar), 'icon-calendar2')
       end
     end
+  end
+
+  def text_with_icon(text, icon)
+    op_icon("button--icon #{icon}") +
+    ' ' +
+    content_tag('span', text, class: 'button--text')
   end
 end

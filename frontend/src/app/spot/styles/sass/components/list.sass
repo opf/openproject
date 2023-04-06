@@ -23,9 +23,7 @@
       margin: 0
       border: 0
       cursor: pointer
-
-      > *:first-child
-        flex-shrink: 0
+      scroll-margin-top: $spot-spacing-5
 
       &:focus
         @include spot-focus
@@ -40,12 +38,13 @@
         &:hover
           background-color: transparent
           cursor: not-allowed
+          color: $spot-color-basic-gray-1
 
       &_active#{&}_disabled
         color: $spot-color-basic-gray-3
         background-color: $spot-color-basic-gray-6
 
-      &_link
+      &_link:not(&_disabled)
         color: var(--content-link-color)
 
     &-floating-wrapper
@@ -56,7 +55,7 @@
       &:focus-within
         background-color: $spot-color-basic-gray-6
 
-      &__disabled
+      &_disabled
         color: $spot-color-basic-gray-1
 
         &:hover
@@ -80,10 +79,8 @@
       word-break: break-word
       min-height: $spot-spacing-1_5
 
-      &:not(:first-child)
-        margin-left: $spot-spacing-0_5
-
-      &:not(:last-child)
+      &:not(:first-child),
+      :not(:first-child)
         margin-left: $spot-spacing-0_5
 
       &_ellipse-text
@@ -92,6 +89,9 @@
         overflow: hidden
         max-width: 100%
         width: 100%
+
+    &-action_disabled &-title
+      opacity: 0.5
 
     &-floating-wrapper:hover > &-floating-actions,
     &-floating-actions:focus-within,

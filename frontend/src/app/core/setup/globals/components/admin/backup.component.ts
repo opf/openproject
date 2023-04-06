@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,9 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Injector,
@@ -49,6 +49,7 @@ export const backupSelector = 'backup';
 @Component({
   selector: backupSelector,
   templateUrl: './backup.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BackupComponent implements AfterViewInit {
   public text = {
@@ -93,7 +94,7 @@ export class BackupComponent implements AfterViewInit {
     this.includeAttachments = this.mayIncludeAttachments;
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit():void {
     this.backupTokenInput.nativeElement.focus();
   }
 

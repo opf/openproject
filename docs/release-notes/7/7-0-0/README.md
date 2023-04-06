@@ -79,11 +79,10 @@ This provides a cleaner and larger user interface to work with.
 
 
 
-## Multi-select custom fields (Enterprise / Cloud Edition)
+## Multi-select custom fields (Enterprise add-on)
 
-Users of the OpenProject [Enterprise
-Edition](https://www.openproject.org/enterprise-edition/) and [Cloud
-Edition](https://www.openproject.org/hosting/) can create multi-select
+Users of the OpenProject [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
+and [Enterprise cloud](https://www.openproject.org/hosting/) can create multi-select
 custom fields
 ([#24793](https://community.openproject.com/projects/openproject/work_packages/24793/activity)).
 
@@ -92,9 +91,9 @@ custom fields at once and also filter based on them.
 
 
 
-## Logo upload and custom color scheme (Enterprise / Cloud Edition)
+## Logo upload and custom color scheme (Enterprise add-on)
 
-Users of the OpenProject Enterprise Edition and Cloud Edition can upload
+Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can upload
 their own company’s logo instead of the OpenProject logo.
 
 Additionally, you can change the colors by using a custom color scheme

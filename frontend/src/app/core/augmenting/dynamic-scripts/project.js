@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -197,9 +197,9 @@ jQuery(function ($) {
   }
 
   function setValueVisibility() {
-    selectedOperator = $(this).val();
-    $filter = $(this).parents('.advanced-filters--filter')
-    $filterValue = $('.advanced-filters--filter-value', $filter);
+    const selectedOperator = $(this).val();
+    const $filter = $(this).parents('.advanced-filters--filter')
+    const $filterValue = $('.advanced-filters--filter-value', $filter);
     if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
       $filterValue.addClass('hidden');
     } else {

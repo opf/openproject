@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,16 +63,16 @@ module Pages
         page.within("[data-qa-selector='op-ian-notification-item-#{notification.id}']", &)
       end
 
-      def expect_item(notification, subject: notification.subject)
+      def expect_item(notification, expected_text = notification.subject)
         within_item(notification) do
-          expect(page).to have_text subject, normalize_ws: true
+          expect(page).to have_text expected_text, normalize_ws: true
         end
       end
 
       def expect_no_item(*notifications)
         notifications.each do |notification|
           expect(page)
-            .to have_no_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
+            .not_to have_selector("[data-qa-selector='op-ian-notification-item-#{notification.id}']")
         end
       end
 
@@ -97,12 +97,12 @@ module Pages
           raise(ArgumentError, "Expected work package") unless work_package.is_a?(WorkPackage)
 
           expect_item notification,
-                      subject: "#{work_package.type.name.upcase} #{work_package.subject}"
+                      "#{work_package.type.name.upcase} #{work_package.subject}"
         end
       end
 
       def expect_closed
-        expect(page).to have_no_selector('op-in-app-notification-center')
+        expect(page).not_to have_selector('op-in-app-notification-center')
       end
 
       def expect_open
@@ -115,7 +115,7 @@ module Pages
 
       def expect_number_of_notifications(count)
         if count == 0
-          expect(page).to have_no_selector('[data-qa-selector^="op-ian-notification-item-"]')
+          expect(page).not_to have_selector('[data-qa-selector^="op-ian-notification-item-"]')
         else
           expect(page).to have_selector('[data-qa-selector^="op-ian-notification-item-"]', count:, wait: 10)
         end
@@ -123,7 +123,7 @@ module Pages
 
       def expect_bell_count(count)
         if count == 0
-          expect(page).to have_no_selector('[data-qa-selector="op-ian-notifications-count"]')
+          expect(page).not_to have_selector('[data-qa-selector="op-ian-notifications-count"]')
         else
           expect(page).to have_selector('[data-qa-selector="op-ian-notifications-count"]', text: count, wait: 10)
         end
@@ -134,7 +134,7 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).to have_no_selector('.op-toast.-info', wait: 10)
+        expect(page).not_to have_selector('.op-toast.-info', wait: 10)
       end
 
       def expect_toast

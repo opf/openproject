@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'create placeholder users', type: :feature, selenium: true do
+describe 'create placeholder users', selenium: true do
   let(:new_placeholder_user_page) { Pages::NewPlaceholderUser.new }
 
   shared_examples_for 'placeholders creation flow' do
@@ -55,25 +55,25 @@ describe 'create placeholder users', type: :feature, selenium: true do
         new_placeholder_user_page.fill_in! name: 'UX Designer'
         new_placeholder_user_page.submit!
 
-        expect(page).to have_text 'is only available in the OpenProject Enterprise Edition'
+        expect(page).to have_text 'is only available in the OpenProject Enterprise edition'
       end
     end
   end
 
   context 'as admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'placeholders creation flow'
   end
 
   context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders creation flow'
   end
 
   context 'as user without global permission' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'returns an error' do
       visit new_placeholder_user_path

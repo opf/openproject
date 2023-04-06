@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
+describe API::V3::UserPreferences::UserPreferenceRepresenter,
          'rendering' do
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   let(:preference) do
     build_stubbed(:user_preference,
@@ -41,7 +41,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
                     }
                   })
   end
-  let(:notification_setting) { build(:notification_setting, start_date: 72, due_date: 72, overdue: 72) }
+  let(:notification_setting) { build(:notification_setting, start_date: 3, due_date: 3, overdue: 3) }
   let(:user) { build_stubbed(:user, preference:) }
   let(:representer) { described_class.new(preference, current_user: user) }
 
@@ -76,7 +76,7 @@ describe ::API::V3::UserPreferences::UserPreferenceRepresenter,
     end
   end
 
-  describe 'notification_settings' do
+  describe 'notification_settings', with_ee: %i[date_alerts] do
     it 'renders them as a nested array' do
       expect(subject).to have_json_type(Array).at_path('notifications')
       expect(subject).to be_json_eql(nil.to_json).at_path('notifications/0/_links/project/href')

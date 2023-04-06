@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe SearchController, type: :controller do
+describe SearchController do
   shared_let(:project) do
     create(:project,
            name: 'eCookbook')
@@ -182,16 +182,16 @@ describe SearchController, type: :controller do
 
     context 'when searching for a note' do
       let!(:note_1) do
-        create :work_package_journal,
+        create(:work_package_journal,
                journable_id: work_package_1.id,
                notes: 'Test note 1',
-               version: 2
+               version: 2)
       end
       let!(:note_2) do
-        create :work_package_journal,
+        create(:work_package_journal,
                journable_id: work_package_1.id,
                notes: 'Special note 2',
-               version: 3
+               version: 3)
       end
 
       before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }

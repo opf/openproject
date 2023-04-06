@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,6 +53,13 @@ class ColorsController < ApplicationController
     end
   end
 
+  def edit
+    @color = Color.find(params[:id])
+    respond_to do |format|
+      format.html
+    end
+  end
+
   def create
     @color = Color.new(permitted_params.color)
 
@@ -62,13 +69,6 @@ class ColorsController < ApplicationController
     else
       flash.now[:error] = I18n.t('timelines.color_could_not_be_saved')
       render action: 'new'
-    end
-  end
-
-  def edit
-    @color = Color.find(params[:id])
-    respond_to do |format|
-      format.html
     end
   end
 

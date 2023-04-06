@@ -43,7 +43,7 @@ export class InviteUserButtonComponent {
       .currentUserService
       .hasCapabilities$(
         'memberships/create',
-        this.projectId || undefined,
+        this.projectId || null,
       );
   }
 

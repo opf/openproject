@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,11 +28,11 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'hourly rates on a member', type: :feature, js: true do
-  let(:project) { build :project }
+describe 'hourly rates on a member', js: true do
+  let(:project) { build(:project) }
   let(:user) do
-    create :admin,
-           member_in_project: project
+    create(:admin,
+           member_in_project: project)
   end
   let(:member) { Member.find_by(project:, principal: user) }
 
@@ -50,22 +50,26 @@ describe 'hourly rates on a member', type: :feature, js: true do
     expect(page).to have_selector("#member-#{member.id} .currency", text: amount)
   end
 
-  def add_rate(rate:, date: nil)
+  def add_rate(rate:, date:)
     expect(page).to have_selector(".add-row-button")
     sleep(0.1)
     all("tr[id^='user_new_rate_attributes_'] .delete-row-button").each(&:click)
     sleep(0.1)
     click_link_or_button 'Add rate'
 
+    datepicker = Components::BasicDatepicker.new
+    datepicker.set_date(date.strftime('%Y-%m-%d'))
+
     within "tr[id^='user_new_rate_attributes_']" do
-      fill_in 'Valid from', with: date.strftime('%Y-%m-%d') if date
       fill_in 'Rate', with: rate
     end
   end
 
   def change_rate_date(from:, to:)
-    input = find("table.rates .date[value='#{from.strftime('%Y-%m-%d')}']")
-    input.set(to.strftime('%Y-%m-%d'))
+    input = find("table.rates .date input[data-value='#{from.strftime('%Y-%m-%d')}']")
+    input.click
+    datepicker = Components::BasicDatepicker.new
+    datepicker.set_date(to.strftime('%Y-%m-%d'))
   end
 
   before do
@@ -80,7 +84,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
     click_link('0.00 EUR')
     SeleniumHubWaiter.wait
 
-    add_rate(date: Date.today, rate: 10)
+    add_rate(date: Date.current, rate: 10)
 
     click_button 'Save'
 
@@ -98,7 +102,7 @@ describe 'hourly rates on a member', type: :feature, js: true do
     SeleniumHubWaiter.wait
     click_link('10.00 EUR')
 
-    change_rate_date(from: Date.today, to: 5.days.ago)
+    change_rate_date(from: Date.current, to: 5.days.ago)
 
     click_button 'Save'
 

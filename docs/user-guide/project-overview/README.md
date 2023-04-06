@@ -145,7 +145,7 @@ The widget only links the first subproject hierarchy and not the children of a s
 
 To edit the project hierarchy, go to the [project settings](../projects/project-settings).
 
-### Work package graph widgets (Premium feature)
+### Work package graph widgets (Enterprise add-on)
 
 The work package graph widgets display information about the work packages within a project. They can be displayed in different graph views, such as a bar graph or a pie chart.
 

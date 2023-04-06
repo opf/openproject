@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,20 +30,20 @@ require 'spec_helper'
 
 describe 'backlogs onboarding tour', js: true do
   let(:next_button) { find('.enjoyhint_next_btn') }
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:demo_project) do
-    create :project,
+    create(:project,
            name: 'Demo project',
            identifier: 'demo-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki]
+           enabled_module_names: %w[work_package_tracking wiki])
   end
   let(:project) do
-    create :project,
+    create(:project,
            name: 'Scrum project',
            identifier: 'your-scrum-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki backlogs]
+           enabled_module_names: %w[work_package_tracking wiki backlogs])
   end
   let(:sprint) { create(:version, project:, name: 'Sprint 1') }
   let(:status) { create(:default_status) }
@@ -125,8 +125,8 @@ describe 'backlogs onboarding tour', js: true do
 
   context 'with a new user who is not allowed to see the backlogs plugin' do
     # necessary to be able to see public projects
-    let(:non_member_role) { create :non_member, permissions: [:view_work_packages] }
-    let(:non_member_user) { create :user }
+    let(:non_member_role) { create(:non_member, permissions: [:view_work_packages]) }
+    let(:non_member_user) { create(:user) }
 
     before do
       non_member_role

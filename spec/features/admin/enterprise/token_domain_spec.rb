@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe 'Enterprise Edition token domain', type: :feature, js: true do
-  let(:current_user) { create :admin }
-  let(:ee_token) { File.read(Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3001.token")) }
+describe 'Enterprise Edition token domain', js: true do
+  let(:current_user) { create(:admin) }
+  let(:ee_token) { Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3001.token").read }
 
   before do
     allow(User).to receive(:current).and_return current_user
   end
 
-  shared_context 'uploading a token' do
+  shared_context 'when uploading a token' do
     before do
       visit '/admin/enterprise'
 
@@ -48,19 +48,19 @@ describe 'Enterprise Edition token domain', type: :feature, js: true do
 
   describe 'initial upload' do
     context 'with correct domain', with_settings: { host_name: 'localhost:3001' } do
-      it_behaves_like 'uploading a token' do
+      it_behaves_like 'when uploading a token' do
         it 'saves the token' do
           expect(body).to have_text 'Successful update.'
         end
 
         it 'shows the token info' do
-          expect(body).to have_text 'operations@openproject.com'
+          expect(page).to have_selector('[data-qa-selector="ee-active-trial-email"]', text: 'operations@openproject.com')
         end
       end
     end
 
     context 'with incorrect domain', with_settings: { host_name: 'localhost:3000' } do
-      it_behaves_like 'uploading a token' do
+      it_behaves_like 'when uploading a token' do
         it "shows an invalid domain error" do
           expect(body).to have_text "Domain is invalid."
         end
@@ -75,7 +75,7 @@ describe 'Enterprise Edition token domain', type: :feature, js: true do
       visit '/admin/enterprise'
     end
 
-    shared_context 'replacing a token' do
+    shared_context 'when replacing a token' do
       let(:new_token) { raise 'define me!' }
 
       before do
@@ -88,12 +88,12 @@ describe 'Enterprise Edition token domain', type: :feature, js: true do
     end
 
     it 'shows the current token info' do
-      expect(body).to have_text 'operations@openproject.com'
+      expect(page).to have_selector('[data-qa-selector="ee-active-trial-email"]', text: 'operations@openproject.com')
     end
 
     describe 'replacing the token' do
       context 'with correct domain' do
-        it_behaves_like 'replacing a token' do
+        it_behaves_like 'when replacing a token' do
           let(:new_token) { ee_token }
 
           it 'updates the token' do
@@ -103,15 +103,15 @@ describe 'Enterprise Edition token domain', type: :feature, js: true do
       end
 
       context 'with incorrect domain' do
-        it_behaves_like 'replacing a token' do
-          let(:new_token) { File.read(Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3000.token")) }
+        it_behaves_like 'when replacing a token' do
+          let(:new_token) { Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3000.token").read }
 
           it 'shows an invalid domain error' do
             expect(body).to have_text 'Domain is invalid.'
           end
 
           it "shows the new token's info" do
-            expect(body).to have_text 'localhost:3000'
+            expect(page).to have_selector('[data-qa-selector="ee-active-trial-domain"]', text: 'localhost:3000')
           end
 
           it "but doesn't save the new token" do

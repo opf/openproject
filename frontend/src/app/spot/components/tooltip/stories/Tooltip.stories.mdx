@@ -25,21 +25,21 @@ import { SbTooltipComponent } from './Tooltip.component';
 
 # Tooltip
 
-> Example of a tooltip
+> Example of a tooltip, configurable  (info tooltip, text: "This is the current project you are in.")
 
-Tooltips are used to provide additional information about an interactive element on mouse hover. 
+The tooltip provides additional textual context on hover over interactive elements. 
 
-By default, they take 100% of the width of the containing element. However, max-width should be specified manually for each tooltip, depending on the circumstances and placement of the element. 
+This context can be used to provide additional information (hover over a "help" icon) or to signal state information (for example, if a certain item is disabled).
 
-Tooltips have a min-width of X rem.
+By default, the tooltip takes 80% of the width of the container. This can be overridden if needed. 
 
-Tooltips automatically align themselves to the top or the bottom of the element it is attached to, depending on the positioning of the element in the viewport.
+> Eg. Tooltip on a file list, on a file that is not available due to permissions issues
 
-## Options
+## Structure and Options
 
-Tooltips by default have a dark gray background (_Gray 1: #333_), but a lighter version is also available with a sky blue background in the default theme (_Feedback/Info/Light_).
+Tooltips have a sky blue background in the default theme (_Feedback/Info/Light_). A darker version is available is but currently not used.
 
-> Example of a tooltip with a light background
+> Example of the darker one
 
 export const Template = (args) => ({
   parameters: {
@@ -65,3 +65,37 @@ export const Template = (args) => ({
     {Template.bind({})}
   </Story>
 </Canvas>
+
+
+## Behaviour
+
+The tooltip should appear either above or below the item being hovered. By default, it will be displayed above, left-aligned. This can be manually changed to these alternative positions:
+
+- Above, left-aligned
+- Above, center-aligned
+- Above, right-aligned
+- Below, left-aligned
+- Below, center-aligned
+- Below, right- aligned
+
+The item over which the user is hovering itself must never be covered. A tooltip' does not follow the cursor; its position is fixed as long as the user is hovering over the item. Hovering out of the element will cause the tooltip to disappear. 
+
+The tooltip will appear 200 ms after the user starts hovering and disappear 200 ms after the user has moved the cursor away, to avoid jittery behaviour.
+
+The tooltip will automatically become multi-line if necessary (i.e, if the container does not have sufficient space).
+
+> Example: multi-line tooltip (so a very long one). Text: ""
+
+## Dos and Don'ts
+
+A tooltip is, in its basic form, a line of text. However, it can also contain icons. 
+
+It must never contain interactive elements (a mouse pointer will not always be able to reach it).
+
+## Margins and Spacing
+
+A tooltip will never hug either side of the container; it will respect the internal padding of the that container.
+
+> Position, in-tree or out-of-tree to be decided
+
+Due to technical limitations, the minimum width of a tooltip is defined by its container (i.e, 80% of it).  Tooltips with content shorter this width will have additional space on the right.

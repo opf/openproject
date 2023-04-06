@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -593,6 +593,31 @@ describe WorkPackages::SetScheduleService, 'working days' do
         end
       end
     end
+
+    context 'with successor having only duration' do
+      context 'when setting dates on predecessor' do
+        let_schedule(<<~CHART)
+          days              | MTWTFSS |
+          work_package      |         |
+          follower          |         | duration 3, follows work_package
+        CHART
+
+        before do
+          change_schedule([work_package], <<~CHART)
+            days          | MTWTFSS |
+            work_package  |   XX    |
+          CHART
+        end
+
+        it 'schedules successor to start after predecessor and keeps the duration (#44479)' do
+          expect(subject.all_results).to match_schedule(<<~CHART)
+            days          | MTWTFSS   |
+            work_package  |   XX      |
+            follower      |     X..XX |
+          CHART
+        end
+      end
+    end
   end
 
   context 'with a parent' do
@@ -945,13 +970,6 @@ describe WorkPackages::SetScheduleService, 'working days' do
           follower4    |                          X..X |
         CHART
       end
-    end
-
-    def set_non_working_week_days(*days)
-      non_working_days = days.map do |day|
-        %w[xxx monday tuesday wednesday thursday friday saturday sunday].index(day.downcase)
-      end
-      Setting.working_days -= non_working_days
     end
 
     context 'when moving forward due to days and predecessor due date now being non-working days' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Sessions::SqlBypass do
+describe Sessions::SqlBypass do
   subject { build(:user_session, user:) }
 
   shared_examples 'augments the user_id attribute' do
@@ -59,21 +59,21 @@ describe ::Sessions::SqlBypass do
     context 'when config is enabled',
             with_config: { drop_old_sessions_on_logout: true } do
       it 'destroys both sessions' do
-        expect(::Sessions::UserSession.for_user(user).count).to eq(2)
+        expect(Sessions::UserSession.for_user(user).count).to eq(2)
         sessions.first.destroy
 
-        expect(::Sessions::UserSession.count).to eq(0)
+        expect(Sessions::UserSession.count).to eq(0)
       end
     end
 
     context 'when config is disabled',
             with_config: { drop_old_sessions_on_logout: false } do
       it 'destroys only the one session' do
-        expect(::Sessions::UserSession.for_user(user).count).to eq(2)
+        expect(Sessions::UserSession.for_user(user).count).to eq(2)
         sessions.first.destroy
 
-        expect(::Sessions::UserSession.count).to eq(1)
-        expect(::Sessions::UserSession.first.session_id).to eq(sessions[1].session_id)
+        expect(Sessions::UserSession.count).to eq(1)
+        expect(Sessions::UserSession.first.session_id).to eq(sessions[1].session_id)
       end
     end
   end

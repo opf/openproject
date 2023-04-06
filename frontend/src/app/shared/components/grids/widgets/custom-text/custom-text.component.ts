@@ -32,16 +32,22 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
 
   public customText:SafeHtml;
 
+  public text = {
+    attachments: this.I18n.t('js.label_attachments'),
+  };
+
   @ViewChild('displayContainer') readonly displayContainer:ElementRef;
 
-  constructor(protected i18n:I18nService,
+  constructor(
+    protected I18n:I18nService,
     protected injector:Injector,
     public handler:CustomTextEditFieldService,
     protected cdr:ChangeDetectorRef,
     protected sanitization:DomSanitizer,
     protected appRef:ApplicationRef,
-    protected layout:GridAreaService) {
-    super(i18n, injector);
+    protected layout:GridAreaService,
+  ) {
+    super(I18n, injector);
   }
 
   ngOnInit():void {
@@ -81,7 +87,7 @@ export class WidgetCustomTextComponent extends AbstractWidgetComponent implement
   }
 
   public get placeholderText() {
-    return this.i18n.t('js.grid.widgets.work_packages_overview.placeholder');
+    return this.I18n.t('js.grid.widgets.work_packages_overview.placeholder');
   }
 
   public get inplaceEditClasses() {

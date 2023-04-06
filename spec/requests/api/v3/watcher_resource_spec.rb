@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,41 +29,41 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Watcher resource', type: :request, content_type: :json do
+describe 'API v3 Watcher resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+  shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
-    create :user, member_in_project: project, member_through_role: role
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:role) { create(:role, permissions:) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
-    create :user,
+    create(:user,
            firstname: 'Something',
            lastname: 'Strange',
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
 
   let(:watching_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
   let(:existing_watcher) do
     create(:watcher, watchable: work_package, user: watching_user)
   end
 
   let!(:watching_blocked_user) do
-    create :user,
+    create(:user,
            login: 'lockedUser',
            mail: 'lockedUser@gmail.com',
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
   let!(:existing_blocked_watcher) do
     create(:watcher, watchable: work_package, user: watching_blocked_user).tap do
@@ -173,7 +173,21 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
       let(:new_watcher) { create(:user) }
 
       it_behaves_like 'constraint violation' do
-        let(:message) { 'User is invalid' }
+        let(:message) { 'User is not allowed to view this resource.' }
+      end
+    end
+
+    context 'when the target user is locked' do
+      let(:new_watcher) do
+        user = create(:user,
+                      member_in_project: project,
+                      member_through_role: view_work_packages_role)
+        user.locked!
+        user
+      end
+
+      it_behaves_like 'constraint violation' do
+        let(:message) { 'User is locked.' }
       end
     end
 

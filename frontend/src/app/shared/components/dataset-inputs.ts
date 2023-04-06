@@ -16,7 +16,7 @@ export interface DatasetInputsComponent extends DatasetInputsDecorated {
 }
 
 /**
- * The populateInputsFromDataset furnction automatically sets input values from `data` attributes set on a component tag.
+ * The populateInputsFromDataset function automatically sets input values from `data` attributes set on a component tag.
  * This is useful if you're rendering the tag in the backend but want to provide data to the component via its inputs.
  *
  * Usage:

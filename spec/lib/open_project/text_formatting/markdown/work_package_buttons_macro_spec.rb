@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,11 +32,11 @@ require_relative './expected_markdown'
 describe OpenProject::TextFormatting,
          'work package button macro' do
   include_context 'expected markdown modules'
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
-  let(:type) { create :type, name: 'MyTaskName' }
+  let(:type) { create(:type, name: 'MyTaskName') }
   let(:options) { { project: } }
-  let(:project) { create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
+  let(:project) { create(:valid_project, identifier: 'my-project', name: 'My project name', types: [type]) }
 
   before do
     login_as admin

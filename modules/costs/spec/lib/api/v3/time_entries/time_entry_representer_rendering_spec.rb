@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   let(:time_entry) do
     build_stubbed(:time_entry,
@@ -125,7 +125,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(time_entry)
-          .to receive(:"custom_field_#{custom_field.id}")
+          .to receive(custom_field.attribute_getter)
           .and_return(user)
 
         allow(time_entry)
@@ -268,7 +268,7 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
           .and_return([custom_field])
 
         allow(time_entry)
-          .to receive(:"custom_field_#{custom_field.id}")
+          .to receive(custom_field.attribute_getter)
           .and_return(custom_value.value)
       end
 

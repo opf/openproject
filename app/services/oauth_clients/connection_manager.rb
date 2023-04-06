@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,6 +33,7 @@ module OAuthClients
   class ConnectionManager
     # Nextcloud API endpoint to check if Bearer token is valid
     AUTHORIZATION_CHECK_PATH = '/ocs/v1.php/cloud/user'.freeze
+    TOKEN_IS_FRESH_DURATION = 10.seconds.freeze
 
     attr_reader :user, :oauth_client
 
@@ -61,19 +62,25 @@ module OAuthClients
     # The bearer/access token has expired or is due for renew for other reasons.
     # Talk to OAuth2 Authorization Server to exchange the renew_token for a new bearer token.
     def refresh_token
-      # There should already be an existing token,
-      # otherwise this method has been called too early (internal flow error).
-      oauth_client_token = get_existing_token
-      if oauth_client_token.nil?
-        return service_result_with_error(I18n.t('oauth_client.errors.refresh_token_called_without_existing_token'))
+      OAuthClientToken.transaction do
+        oauth_client_token = OAuthClientToken.lock('FOR UPDATE').find_by(user_id: @user, oauth_client_id: @oauth_client.id)
+
+        if oauth_client_token.present?
+          if (Time.current - oauth_client_token.updated_at) > TOKEN_IS_FRESH_DURATION
+            service_result = request_new_token(refresh_token: oauth_client_token.refresh_token)
+
+            if service_result.success?
+              update_oauth_client_token(oauth_client_token, service_result.result)
+            else
+              service_result
+            end
+          else
+            ServiceResult.success(result: oauth_client_token)
+          end
+        else
+          service_result_with_error(I18n.t('oauth_client.errors.refresh_token_called_without_existing_token'))
+        end
       end
-
-      # Get the Rack::OAuth2::Client and call access_token!, then return a ServiceResult.
-      service_result = request_new_token(refresh_token: oauth_client_token.refresh_token)
-      return service_result unless service_result.success?
-
-      # Updated tokens, handle model checking errors and return a ServiceResult
-      update_oauth_client_token(oauth_client_token, service_result.result)
     end
 
     # Returns the URI of the "authorize" endpoint of the OAuth2 Authorization Server.
@@ -99,7 +106,18 @@ module OAuthClients
       if oauth_client_token.present?
         update_oauth_client_token(oauth_client_token, service_result.result)
       else
-        oauth_client_token = create_new_oauth_client_token(service_result.result)
+        rack_access_token = service_result.result
+        oauth_client_token =
+          OAuthClientToken.create(
+            user: @user,
+            oauth_client: @oauth_client,
+            origin_user_id: rack_access_token.raw_attributes[:user_id], # ID of user at OAuth2 Authorization Server
+            access_token: rack_access_token.access_token,
+            token_type: rack_access_token.token_type, # :bearer
+            refresh_token: rack_access_token.refresh_token,
+            expires_in: rack_access_token.raw_attributes[:expires_in],
+            scope: rack_access_token.scope
+          )
       end
 
       ServiceResult.success(result: oauth_client_token)
@@ -151,7 +169,7 @@ module OAuthClients
       # `yield` needs to returns a ServiceResult:
       #   success: result= any object with data
       #   failure: result= :error or :not_authorized
-      yield_service_result = yield
+      yield_service_result = yield(oauth_client_token)
 
       if yield_service_result.failure? && yield_service_result.result == :not_authorized
         refresh_service_result = refresh_token
@@ -162,17 +180,10 @@ module OAuthClients
         end
 
         oauth_client_token.reload
-        yield_service_result = yield # Should contain result=<data> in case of success
+        yield_service_result = yield(oauth_client_token) # Should contain result=<data> in case of success
       end
 
       yield_service_result
-    end
-
-    def with_refreshed_token(&)
-      token = get_existing_token
-      return ServiceResult.failure(result: :not_authorized) if token.blank?
-
-      request_with_token_refresh(token, &)
     end
 
     private
@@ -187,20 +198,23 @@ module OAuthClients
     # Calls client.access_token!
     # Convert the various exceptions into user-friendly error strings.
     def request_new_token(options = {})
-      rack_access_token = rack_oauth_client(options)
-                            .access_token!(:body) # Rack::OAuth2::AccessToken
+      rack_access_token = rack_oauth_client(options).access_token!(:body)
 
       ServiceResult.success(result: rack_access_token)
-    rescue Rack::OAuth2::Client::Error => e # Handle Rack::OAuth2 specific errors
+    rescue Rack::OAuth2::Client::Error => e
       service_result_with_error(i18n_rack_oauth2_error_message(e), e.message)
-    rescue Timeout::Error, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError,
-           Errno::EINVAL, Errno::ENETUNREACH, Errno::ECONNRESET, Errno::ECONNREFUSED, JSON::ParserError => e
+    rescue Faraday::TimeoutError,
+           Faraday::ConnectionFailed,
+           Faraday::ParsingError,
+           Faraday::SSLError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}"
+        "#{I18n.t('oauth_client.errors.oauth_returned_http_error')}: #{e.class}: #{e.message.to_html}",
+        e.message
       )
     rescue StandardError => e
       service_result_with_error(
-        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
+        "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}",
+        e.message
       )
     end
 
@@ -241,21 +255,6 @@ module OAuthClients
         port: oauth_client_port,
         authorization_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/authorize"),
         token_endpoint: File.join(oauth_client_path, "/index.php/apps/oauth2/api/v1/token")
-      )
-    end
-
-    # Create a new OpenProject token object based on the return values
-    # from a Rack::OAuth2::AccessToken::Bearer token
-    def create_new_oauth_client_token(rack_access_token)
-      OAuthClientToken.create(
-        user: @user,
-        oauth_client: @oauth_client,
-        origin_user_id: rack_access_token.raw_attributes[:user_id], # ID of user at OAuth2 Authorization Server
-        access_token: rack_access_token.access_token,
-        token_type: rack_access_token.token_type, # :bearer
-        refresh_token: rack_access_token.refresh_token,
-        expires_in: rack_access_token.raw_attributes[:expires_in],
-        scope: rack_access_token.scope
       )
     end
 

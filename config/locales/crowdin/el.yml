@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ el:
         main-menu-border-color: "Περίγραμμα κύριου μενού"
       custom_colors: "Προσαρμοσμένα χρώματα"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "Σαν ένα ειδικό \"Ευχαριστώ!\" για την οικονομική τους συμβολή στην ανάπτυξη του OpenProject, αυτό το μικροσκοπικό χαρακτηριστικό είναι διαθέσιμο μόνο για τους συνδρομητές υποστήριξης Enterprise εκδοχής."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Επεξεργαστείτε τις επιλογές επιλογής χρώματος"
       instructions:
@@ -64,23 +64,23 @@ el:
         main-menu-bg-color: "Χρώμα φόντου του μενού της αριστερής πλευράς."
       theme_warning: Η αλλαγή του θέματος θα αντικαταστήσει το προσαρμοσμένο στυλ. Ο σχεδιασμός θα χαθεί. Είστε βέβαιοι ότι θέλετε να συνεχίσετε;
     enterprise:
-      upgrade_to_ee: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
-      add_token: "Ανεβάστε ενα token υποστήριξης έκδοσης για επιχειρήσεις"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Αντικαταστήστε το τρέχον token υποστήριξης"
-      order: "Παραγγείλτε το Enterprise on-premises Edition"
-      paste: "Επικολλήστε ένα token υποστήριξης Έκδοσης για Επιχειρήσεις"
-      required_for_feature: "Αυτή η λειτουργία διατίθεται μόνο με ενεργό token υποστήριξης Έκδοσης για Επιχειρήσεις."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Για περισσότερες πληροφορίες, πατήστε εδω."
       start_trial: 'Έναρξη δωρεάν δοκιμαστικής περιόδου'
       book_now: 'Κάντε κράτηση τώρα'
       get_quote: 'Λάβετε μια προσφορά'
       buttons:
-        upgrade: "Upgrade now"
-        contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+        upgrade: "Αναβαθμίστε τώρα"
+        contact: "Επικοινωνήστε μαζί μας για μια επίδειξη"
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -135,6 +135,7 @@ el:
         Αν επιλέξετε αυτό το κουτί, το OpenProject θα δημιουργεί αυτόματα καινούργιους χρήστες από τις καταχωρήσεις του LDAP όταν ταυτοποιούνται για πρώτη φορά στο OpenProject.
         Αφήστε το μη επιλεγμένο για να επιτρέψετε μόνο στους υπάρχοντες λογαριασμούς στο OpenProject να ταυτοποιηθούν μέσω LDAP!
     connection_encryption: 'Κρυπτογράφηση σύνδεσης'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Λογαριασμός συστήματος'
     system_account_legend: |
       Το OpenProject απαιτεί πρόσβαση ανάγνωσης-μόνο μέσω ενός λογαριασμού συστήματος για να αναζητά χρήστες και ομάδες στο LDAP δέντρο σας.
@@ -145,13 +146,18 @@ el:
       Τα ακόλουθα πεδία σχετίζονται με το πως οι χρήστες δημιουργούνται στο OpenProject από τις καταχωρήσεις LDAP και ποια χαρακτηριστικά LDAP χρησιμοποιούνται για να ορίσουν τα χαρακτηριστικά ενός χρήστη OpenProject (χαρτογράφηση χαρακτηριστικού).
     tls_mode:
       plain: 'κανένα'
-      simple_tls: 'απλό_tls'
-      start_tls: 'εκκίνηση_tls'
-      plain_description: "Απλή μη κρυπτογραφημένη σύνδεση, χωρίς διαπραγμάτευση TLS."
-      simple_tls_description: "Τυπική κρυπτογράφηση TLS, χωρίς επικύρωση πιστοποιητικού. Χρησιμοποιήστε με προσοχή και εμπιστοσύνη για την σύνδεση LDAP."
-      start_tls_description: "Αυξημένη κρυπτογράφηση TLS με πλήρη επικύρωση. Χρησιμοποιήστε το για LDAP μέσω TLS / SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Αυτή η ενότητα αφορά την ασφάλεια σύνδεσης αυτής της πηγής ελέγχου ταυτότητας LDAP. Για περισσότερες πληροφορίες, επισκεφθείτε <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Προς το παρόν δεν υπάρχουν αναρτήσεις σε αυτό το φόρουμ.
@@ -172,8 +178,8 @@ el:
     edit: 'Επεξεργασία της προσαρμοσμένης ενέργειας %{name}'
     execute: 'Εκτέλεση %{name}'
     upsale:
-      title: 'Custom actions'
-      description: 'Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project.'
+      title: 'Προσαρμοσμένες ενέργειες'
+      description: 'Οι προσαρμοσμένες ενέργειες είναι συντομεύσεις με ένα κλικ προς ένα σύνολο προκαθορισμένων ενεργειών που μπορείτε να διαθέσετε σε συγκεκριμένα πακέτα εργασίας με βάση την κατάσταση, ρόλος, τύπος ή έργο.'
   custom_fields:
     text_add_new_custom_field: >
       Για να προσθέσετε νέα προσαρμοσμένα πεδία σε ένα έργο, πρέπει πρώτα να τα δημιουργήσετε για να τα προσθέσετε σε αυτό το έργο.
@@ -181,7 +187,7 @@ el:
     enabled_in_project: 'Ενεργοποιημένο στο έργο'
     contained_in_type: 'Περιέχονται στον τύπο'
     confirm_destroy_option: "Η διαγραφή μιας επιλογής θα διαγράψει όλα τα περιστατικά της (π.χ. σε πακέτα εργασίας). Είστε βέβαιοι ότι θέλετε να το διαγράψετε;"
-    reorder_alphabetical: "Reorder values alphabetically"
+    reorder_alphabetical: "Αναδιάταξη τιμών αλφαβητικά"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
     tab:
       no_results_title_text: Προς το παρόν δεν υπάρχουν προσαρμοσμένα πεδία.
@@ -208,8 +214,8 @@ el:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
-      overviews: 'Project overview'
+      members: 'Μέλη έργου'
+      overviews: 'Επισκόπηση έργου'
       queries: 'Work packages: saved views'
       wiki_page_attachments: 'Wiki pages: attachments'
       work_package_attachments: 'Work packages: attachments'
@@ -222,6 +228,7 @@ el:
       failed_text: "Το αίτημα για διαγραφή του έργου %{name} απέτυχε. Το έργο παρέμεινε αρχειοθετημένο."
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Άνοιγμα ως προβολή Gantt'
       open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
@@ -312,7 +319,7 @@ el:
       settings: "Ρυθμίσεις"
       form_configuration: "Διαμόρφωση φόρμας"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Έργα"
       enabled_projects: "Ενεργοποιημένα έργα"
       edit_query: "Επεξεργασία πίνακα"
@@ -327,6 +334,7 @@ el:
   wiki:
     page_not_editable_index: Η σελίδα που ζητήσατε δεν υπάρχει (ακόμα). Έχετε ανακατευθυνθεί στο ευρετήριο όλων των σελίδων wiki.
     no_results_title_text: Προς το παρόν δεν υπάρχουν σελίδες wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Προσθέστε μια νέα σελίδα wiki
   work_flows:
@@ -337,6 +345,8 @@ el:
       one: 'Ένα πακέτο εργασίας-απόγονος'
       other: '%{count} πακέτα εργασίας-απόγονοι'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Δεν ήταν δυνατή η αποθήκευση των ακόλουθων πακέτων εργασίας:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -365,7 +375,7 @@ el:
   account:
     delete: "Διαγραφή λογαριασμού"
     delete_confirmation: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το λογαριασμό;"
-    deleted: "Ο λογαριασμός διαγράφηκε με επιτυχία"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Από τα δεδομένα που δημιούργησε ο χρήστης (π.χ. email, προτιμήσεις, πακέτα εργασίας, καταχωρίσεις wiki) θα διαγραφούν όσο το δυνατόν περισσότερα. Σημειώστε όμως ότι τα δεδομένα όπως τα πακέτα εργασίας και οι καταχωρίσεις wiki δεν μπορούν να διαγραφούν χωρίς να παρεμποδίσουν την εργασία των άλλων χρηστών. Ως εκ τούτου, τέτοια δεδομένα θα ανατεθούν σε ένα λογαριασμό που θα ονομάζεται \"Διαγραμμένος Χρήστης\". Εφόσον τα δεδομένα όλων των διαγραμμένων λογαριασμών ανατίθενται σε αυτόν το λογαριασμό, δεν θα είναι δυνατό να διακρίνετε τα δεδομένα που δημιούργησε ο χρήστης από τα δεδομένα κάποιου άλλου διαγραμμένου λογαριασμού."
@@ -415,6 +425,7 @@ el:
         host: "Διακομιστής"
         onthefly: "Αυτόματη δημιουργία χρήστη"
         port: "Θύρα"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Αποθετήριο"
       comment:
@@ -459,14 +470,24 @@ el:
       member:
         roles: "Ρόλοι"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Αναγνωριστικό"
         latest_activity_at: "Τελευταία δραστηριότητα στις"
         parent: "Υποέργο του"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Αναζητήσεις"
+        templated: "Πρότυπο έργο"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Τύποι"
         versions: "Εκδόσεις"
         work_packages: "Εργασίες"
-        templated: 'Πρότυπο έργο'
       projects/status:
         code: 'Κατάσταση'
         explanation: 'Περιγραφή κατάστασης'
@@ -576,7 +597,7 @@ el:
         confirmation: "δεν ταιριάζει με %{attribute}."
         could_not_be_copied: "%{dependency} δεν μπόρεσε να αντιγραφεί (πλήρως)."
         does_not_exist: "δεν υπάρχει."
-        error_enterprise_only: "είναι διαθέσιμο μόνο στην Έκδοση για Επιχειρήσεις του OpenProject"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "δεν είναι δυνατή η πρόσβαση."
         error_readonly: "επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο."
         email: "is not a valid email address."
@@ -623,6 +644,11 @@ el:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -673,6 +699,11 @@ el:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -683,6 +714,8 @@ el:
           archived_ancestor: 'Το έργο έχει έναν αρχειοθετημένο πρόγονο.'
           foreign_wps_reference_version: 'Πακέτα εργασίας σε εκδόσεις αναφοράς του έργου ή των απογόνων του έργου που δεν προέρχονται απο απογόνους.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "χρησιμοποιείται ακόμη από τα πακέτα εργασίας: %{types}"
             enabled_modules:
@@ -752,6 +785,11 @@ el:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -871,8 +909,22 @@ el:
     header_invalid_fields: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία:"
     field_erroneous_label: "Αυτό το πεδίο δεν είναι έγκυρο: %{full_errors}\nΠαρακαλούμε εισάγετε μια έγκυρη τιμή."
   activity:
-    created: "Δημιουργήθηκε: %{title}"
-    updated: "Ενημερώθηκε: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Ενεργό"
@@ -1008,6 +1060,7 @@ el:
   button_reset: "Επαναφορά"
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
+  button_apply_changes: "Apply changes"
   button_save_back: "Αποθήκευση και επιστροφή"
   button_show: "Εμφάνιση"
   button_sort: "Ταξινόμηση"
@@ -1242,11 +1295,11 @@ el:
   ee:
     upsale:
       form_configuration:
-        description: "Προσαρμόστε την μορφοποίηση της φόρμας με αυτές τις επιπλέον λειτουργίες:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Προσθήκη καινούργιων ομάδων χαρακτηριστικών"
         rename_groups: "Μετονομασία ομάδων χαρακτηριστικών"
       project_filters:
-        description_html: "Το φιλτράρισμα και η ταξινόμηση σε προσαρμοσμένα πεδία είναι μια λειτουργία έκδοσης για επιχειρήσεις."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Δραστηριότητες καταγραφής χρόνου"
   enumeration_work_package_priorities: "Προτεραιότητες πακέτου εργασίας"
   enumeration_reported_project_statuses: "Αναφερόμενη κατάσταση έργου"
@@ -1268,7 +1321,7 @@ el:
   error_cookie_missing: 'Τα cookie του OpenProject λείπουν. Παρακαλούμε σιγουρευτείτε ότι τα cookies είναι ενεργοποιημένα, καθώς αυτή η εφαρμογή δεν θα μπορεί να λειτουργήσει σωστά χωρίς αυτά.'
   error_custom_option_not_found: "Η επιλογή δεν υπάρχει."
   error_enterprise_activation_user_limit: "Ο λογαριασμός σας δεν ήταν δυνατό να ενεργοποιηθεί (επετεύχθη το όριο χρηστών). Παρακαλούμε επικοινωνήστε με τον διαχειριστή σας για να αποκτήσετε πρόσβαση."
-  error_enterprise_token_invalid_domain: "Η έκδοση Enterprise δεν είναι ενεργή. Ο τομέας του διακριτικού Enterprise (%{actual}) δεν ταιριάζει με το όνομα κεντρικού υπολογιστή του συστήματος (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Αποτυχία διαγραφής αυτής της καταχώρησης.'
   error_in_dependent: "Παρουσιάστηκε σφάλμα στην προσπάθεια αλλαγής του εξαρτώμενου αντικειμένου: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1303,16 +1356,20 @@ el:
   error_external_authentication_failed: "Παρουσιάστηκε σφάλμα κατά τη διάρκεια της εξωτερικής ταυτοποίησης. Παρακαλούμε προσπαθήστε ξανά."
   error_attribute_not_highlightable: "Δεν είναι δυνατή η επισήμανση του(-ών) χαρακτηριστικού(-ών): %{attributes}"
   events:
-    project: 'Το έργο επεξεργάστηκε'
     changeset: 'Οι αλλαγές επεξεργάστηκαν'
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Απάντησε
     time_entry: 'Η καταγραφή χρόνου επεξεργάστηκε'
     wiki_page: 'Η σελίδα Wiki επεξεργάστηκε'
     work_package_closed: 'Το Πακέτο Εργασίας έκλεισε'
     work_package_edit: 'Το πακέτο εργασίας επεξεργάστηκε'
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
@@ -1338,7 +1395,6 @@ el:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ελληνικά"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "όχι"
   general_text_yes: "ναι"
@@ -1356,10 +1412,10 @@ el:
     blocks:
       community: "Κοινότητα OpenProject"
       upsale:
-        title: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+        title: "Upgrade to Enterprise edition"
         more_info: "Περισσότερες πληροφορίες"
     links:
-      upgrade_enterprise_edition: "Αναβαθμίστε σε Έκδοση για Επιχειρήσεις"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Μεταφορά της εγκατάστασης σας σε PostgreSQL"
       user_guides: "Εγχειρίδια χρηστών"
       faq: "Συχνές Ερωτήσεις"
@@ -1575,7 +1631,7 @@ el:
   label_enumerations: "Απαριθμήσεις"
   label_enterprise: "Επιχείρηση"
   label_enterprise_active_users: "%{current}/%{limit} κλεισμένοι ενεργοί χρήστες"
-  label_enterprise_edition: "Έκδοση για Επιχειρήσεις"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Περιβάλλον"
   label_estimates_and_time: "Εκτιμήσεις & χρόνος"
   label_equals: "είναι"
@@ -1724,6 +1780,10 @@ el:
   label_not_contains: "δεν περιέχει"
   label_not_equals: "δεν είναι"
   label_on: "σε"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Άνοιγμα μενού"
   label_open_work_packages: "ανοιχτό"
   label_open_work_packages_plural: "ανοιχτό"
@@ -1765,6 +1825,8 @@ el:
   label_product_version: "Έκδοση προϊόντος"
   label_professional_support: "Επαγγελματική υποστήριξη"
   label_profile: "Προφίλ"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Συνολικός αριθμός έργων"
   label_project_copy_notifications: "Αποστολή ειδοποιήσεων με email κατά την διάρκεια της αντιγραφής του έργου"
   label_project_latest: "Τελευταία έργα"
@@ -2017,6 +2079,8 @@ el:
         mentioned: 'Mentioned'
         subscribed: 'όλα'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "'Ένας νέος χρήστης (%{value}) έχει εγγραφεί. Ο λογαριασμός είναι σε στάδιο αναμονής της έγκρισης σας:"
@@ -2052,8 +2116,6 @@ el:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Ο %{value} κωδικός σας"
   mail_subject_register: "Ενεργοποίηση του %{value} λογαριασμού σας"
-  mail_subject_reminder: "%{count} πακέτο(-α) εργασίας με προθεσμία στις επόμενες %{days} ημέρες"
-  mail_subject_group_reminder: "Για την ομάδα \"%{group}\" %{count} πακέτα εργασίας έχουν προθεσμία στις επόμενες %{days} ημέρες"
   mail_subject_wiki_content_added: "προστέθηκε η σελίδα wiki '%{id}'"
   mail_subject_wiki_content_updated: "ενημερώθηκε η σελίδα wiki '%{id}'"
   mail_member_added_project:
@@ -2186,6 +2248,7 @@ el:
   permission_add_work_packages: "Προσθήκη πακέτων εργασίας"
   permission_add_messages: "Δημοσίευση μηνυμάτων"
   permission_add_project: "Δημιουργία έργου"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Δημιουργία και επεξεργασία χρηστών"
   permission_manage_placeholder_user: "Δημιουργήστε, επεξεργαστείτε και διαγράψτε τους placeholder χρήστες"
   permission_add_subprojects: "Δημιουργία υποέργων"
@@ -2587,11 +2650,11 @@ el:
   text_custom_field_hint_activate_per_project_and_type: >
     Τα προσαρμοσμένα πεδία πρέπει να είναι ενεργοποιημένα ανά τύπο πακέτου εργασίας και ανά έργο.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Προτείνεται ένα άσπρο λογότυπο με διαφανές φόντο. Για τα καλύτερα αποτελέσματα για συμβατικές και retina οθόνες, σιγουρευτείτε ότι οι διαστάσεις της εικόνας σας είναι 460px με 60px.
   text_custom_favicon_instructions: >
@@ -2623,12 +2686,13 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
   text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
   text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2892,7 +2956,7 @@ el:
   warning_user_limit_reached: >
     Επετεύχθη το όριο χρηστών. Δεν μπορείτε να ενεργοποιήσετε άλλους χρήστες. Παρακαλούμε <a href="%{upgrade_url}">αναβαθμίστε το πλάνο σας</a> ή αποκλείστε μέλη για να επιτρέψετε περισσότερους χρήστες.
   warning_user_limit_reached_instructions: >
-    Έχετε φτάσει το όριο χρηστών (%{current}/%{max} ενεργοί χρήστες). Παρακαλούμε επικοινωνήστε με το sales@openproject.com για να αναβαθμίσετε σε Έκδοση για Επιχειρήσεις και να προσθέσετε επιπλέον χρήστες.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2920,19 +2984,25 @@ el:
       title: "Διαγραφή του πακέτου εργασίας"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Δεν υπάρχει κάτι για προεπισκόπηση"
   api_v3:
     attributes:
       lock_version: "Κλείδωμα Έκδοσης"
+      property: 'Property'
     errors:
       code_400: "Λάθος αίτημα: %{message}"
       code_401: "Πρέπει να αυθεντικοποιήσετε τον λογαριασμό σας για να αποκτήσετε πρόσβαση σε αυτό τον πόρο."
@@ -2942,6 +3012,7 @@ el:
       code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
       code_429: "Πάρα πολλά αιτήματα. Παρακαλώ δοκιμάστε ξανά αργότερα."
       code_500: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

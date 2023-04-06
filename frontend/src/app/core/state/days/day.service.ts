@@ -1,17 +1,21 @@
 import { Injectable } from '@angular/core';
 import {
+  finalize,
   map,
+  take,
   tap,
 } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { HttpClient } from '@angular/common/http';
-import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListFilter,
+  ApiV3ListParameters,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import {
   collectionKey,
-  extendCollectionElementsWithId,
   insertCollectionIntoState,
+  removeCollectionLoading,
+  setCollectionLoading,
 } from 'core-app/core/state/collection-store';
 import { DayStore } from 'core-app/core/state/days/day.store';
 import { IDay } from 'core-app/core/state/days/day.model';
@@ -22,29 +26,59 @@ import {
 
 @Injectable()
 export class DayResourceService extends ResourceCollectionService<IDay> {
-  private get daysPath():string {
+  protected basePath():string {
     return this
       .apiV3Service
       .days
+      .nonWorkingDays
       .path;
   }
 
-  constructor(
-    private http:HttpClient,
-    private apiV3Service:ApiV3Service,
-  ) {
-    super();
+  isNonWorkingDay$(input:Date):Promise<boolean> {
+    const date = moment(input).format('YYYY-MM-DD');
+
+    return this
+      .requireNonWorkingYear$(input)
+      .pipe(
+        map((days) => days.findIndex((day:IDay) => day.date === date) !== -1),
+        take(1),
+      )
+      .toPromise();
   }
 
-  fetchDays(params:ApiV3ListParameters):Observable<IHALCollection<IDay>> {
+  requireNonWorkingYear$(date:Date|string):Observable<IDay[]> {
+    const from = moment(date).startOf('year').format('YYYY-MM-DD');
+    const to = moment(date).endOf('year').format('YYYY-MM-DD');
+
+    const filters:ApiV3ListFilter[] = [
+      ['date', '<>d', [from, to]],
+    ];
+
+    return this.require({ filters });
+  }
+
+  requireNonWorkingYears$(start:Date|string, end:Date|string):Observable<IDay[]> {
+    const from = moment(start).startOf('year').format('YYYY-MM-DD');
+    const to = moment(end).endOf('year').format('YYYY-MM-DD');
+
+    const filters:ApiV3ListFilter[] = [
+      ['date', '<>d', [from, to]],
+    ];
+
+    return this.require({ filters });
+  }
+
+  fetchCollection(params:ApiV3ListParameters):Observable<IHALCollection<IDay>> {
     const collectionURL = collectionKey(params);
+
+    setCollectionLoading(this.store, collectionURL);
 
     return this
       .http
-      .get<IHALCollection<IDay>>(this.daysPath + collectionURL)
+      .get<IHALCollection<IDay>>(this.basePath() + collectionURL)
       .pipe(
-        map((collection) => extendCollectionElementsWithId(collection)),
         tap((collection) => insertCollectionIntoState(this.store, collection, collectionURL)),
+        finalize(() => removeCollectionLoading(this.store, collectionURL)),
       );
   }
 

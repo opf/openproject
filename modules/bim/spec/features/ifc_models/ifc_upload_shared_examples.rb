@@ -1,7 +1,7 @@
 shared_examples 'can upload an IFC file' do
-  let(:user) { create :admin }
-  let(:project) { create :project, enabled_module_names: %i[bim] }
-  let(:ifc_fixture) { ::UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, enabled_module_names: %i[bim]) }
+  let(:ifc_fixture) { UploadedFile.load_from('modules/bim/spec/fixtures/files/minimal.ifc') }
   let(:set_tick_is_default_after_file) { true }
 
   before do
@@ -14,9 +14,9 @@ shared_examples 'can upload an IFC file' do
     it 'allows uploading an IFC file' do
       visit new_bcf_project_ifc_model_path(project_id: project.identifier)
 
-      page.find('#bim_ifc_models_ifc_model_is_default').set(true) unless set_tick_is_default_after_file
+      page.find_by_id('bim_ifc_models_ifc_model_is_default').set(true) unless set_tick_is_default_after_file
       page.attach_file("file", ifc_fixture.path, visible: :all)
-      page.find('#bim_ifc_models_ifc_model_is_default').set true if set_tick_is_default_after_file
+      page.find_by_id('bim_ifc_models_ifc_model_is_default').set true if set_tick_is_default_after_file
 
       click_on "Create"
 

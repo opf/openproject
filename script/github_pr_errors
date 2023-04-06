@@ -5,13 +5,15 @@ require 'bundler'
 Bundler.setup(:default, :development)
 
 require 'colored2'
-require 'pathname'
 require 'json'
-require 'rest-client'
+require 'optparse'
+require 'pathname'
 require 'pry'
+require 'rest-client'
 require 'yaml'
 
-GITHUB_API_OPENPROJECT_PREFIX = "https://api.github.com/repos/opf/openproject"
+GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
+GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
 RAILS_ROOT = Pathname.new(__dir__).dirname
 SPEC_PATTERN = %r{^\S+ (?:rspec (\S+) #.+|An error occurred while loading (\S+)\.\r?)$}
 
@@ -21,9 +23,46 @@ elsif !ENV['GITHUB_TOKEN']
   raise "Missing GITHUB_TOKEN env, go to https://github.com/settings/tokens and create one with 'repo' access"
 end
 
+def parse_options
+  options = {}
+  opt_parser = OptionParser.new do |parser|
+    parser.banner = <<~BANNER
+      Usage: #{$0} [options]
+
+      Fetches rspec failures from last completed GitHub actions on current
+      branch, and outputs them on standard output, one by line.
+
+      Information is printed on standard error to preserve standard output.
+
+      Use this script with xargs to run failing specs locally:
+
+          #{$0} | xargs --no-run-if-empty bundle exec rspec
+
+
+      Options:
+    BANNER
+
+    parser.on("-c", "--compact", "Output all failing rspec files on one line") do
+      options[:compact] = true
+    end
+
+    parser.on("-r RUN_ID", "--run-id RUN_ID", Integer,
+              "The workflow run id to use (in github url: actions/runs/{id})") do |value|
+      options[:run_id] = value
+    end
+
+    parser.on("-h", "--help", "Prints this help") do
+      puts parser
+      exit
+    end
+  end
+  opt_parser.parse!
+  options
+end
+
 # Returns current branch
-def branch_name
-  @branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip
+def current_branch_name
+  @current_branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip
 end
 
 def get_http(path)
@@ -142,7 +181,7 @@ def last_with_status(workflow_runs, status)
     .max_by { |entry| entry['run_number'] }
 end
 
-def get_last_test_action
+def get_last_workflow_run(branch_name)
   test_workflow_runs =
     get_json("actions/runs?branch=#{CGI.escape(branch_name)}")
       .then { |response| response['workflow_runs'] }
@@ -151,28 +190,54 @@ def get_last_test_action
   last_completed = last_with_status(test_workflow_runs, 'completed')
   last_in_progress = last_with_status(test_workflow_runs, 'in_progress')
 
-  last_completed || last_in_progress
+  last_completed || last_in_progress or raise "No workflow run found for branch #{branch_name}"
+end
+
+def get_workflow_run(run_id)
+  if run_id
+    warn "Looking for the workflow run with id #{run_id.to_s.bold}"
+    get_json("actions/runs/#{CGI.escape(run_id.to_s)}")
+  else
+    warn "Looking for the last 'Test suite' workflow run in current branch #{current_branch_name.bold}"
+    get_last_workflow_run(current_branch_name)
+  end
+end
+
+def display_pull_request_info(workflow_run)
+  return unless workflow_run['event'] == 'pull_request'
+
+  pr = workflow_run['pull_requests'].first or
+    raise "Pull Request info cannot be found, perhaps it is already merged or closed?"
+  pr_number = "##{pr['number']}"
+  pr_html_url = "#{GITHUB_HTML_OPENPROJECT_PREFIX}/pull/#{pr['number']}"
+  pr_display_title = "#{workflow_run['display_title']} #{pr_number.white.dark} #{pr_html_url.white.dark}"
+  warn "  Pull Request: #{pr_display_title} "
+end
+
+def display_workflow_run_info(workflow_run)
+  warn "  Branch: #{workflow_run['head_branch'].bold}"
+  warn "  Commit SHA: #{workflow_run['head_sha'].bold}"
+  warn "  Commit message: #{commit_message(workflow_run).bold}"
+  display_pull_request_info(workflow_run)
 end
 
 ##########
 
-warn "Looking for the last 'Test suite' workflow run in branch #{branch_name}"
+options = parse_options
 
-last_test_action = get_last_test_action
+workflow_run = get_workflow_run(options[:run_id])
 
-raise "No action run found for branch #{branch_name}" unless last_test_action
-
-warn "  Commit SHA: #{last_test_action['head_sha']}"
-warn "  Commit message: #{commit_message(last_test_action)}"
+display_workflow_run_info(workflow_run)
 
 errors = []
 is_successful = true
-warn "  #{status_line(last_test_action)}"
-get_jobs(last_test_action)
+warn "  #{status_line(workflow_run)}"
+get_jobs(workflow_run)
   .then { |jobs_response| jobs_response['jobs'] }
   .sort_by { _1['name'] }
   .each { |job| warn "    #{status_line(job)}" }
   .select { _1['conclusion'] == 'failure' }
+  .reject { _1['name'] == 'rubocop' }
   .each do |job|
     is_successful = false
     get_log(job)
@@ -191,5 +256,7 @@ if is_successful
 elsif errors.empty?
   warn "No rspec errors found :-/"
 else
-  puts errors.map { "'#{_1}'" }
+  errors = errors.map { "'#{_1}'" }
+  errors = errors.join(" ") if options[:compact]
+  puts errors
 end

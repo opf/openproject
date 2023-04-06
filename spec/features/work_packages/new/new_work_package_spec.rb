@@ -5,8 +5,9 @@ require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
   let(:type_task) { create(:type_task) }
-  let(:type_bug) { create(:type_bug) }
-  let(:types) { [type_task, type_bug] }
+  let(:type_milestone) { create(:type_milestone, position: type_task.position + 1) }
+  let(:type_bug) { create(:type_bug, position: type_milestone.position + 1) }
+  let(:types) { [type_task, type_milestone, type_bug] }
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) do
@@ -37,35 +38,36 @@ describe 'new work package', js: true do
   end
 
   def save_work_package!(expect_success = true)
-    scroll_to_and_click find('#work-packages--edit-actions-save')
+    scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
     if expect_success
       toaster.expect_success('Successful creation.')
     end
   end
 
-  def create_work_package(type, _project)
+  def click_create_work_package_button(type)
     loading_indicator_saveguard
 
     wp_page.click_create_wp_button(type)
 
     loading_indicator_saveguard
+  end
+
+  def create_work_package(type, *)
+    click_create_work_package_button(type)
     expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
     wp_page.subject_field.set(subject)
 
     sleep 1
   end
 
-  def create_work_package_globally(type, project)
-    loading_indicator_saveguard
+  def create_work_package_globally(type, project_name)
+    click_create_work_package_button(type)
 
-    wp_page.click_create_wp_button(type)
-
-    loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
     project_field.openSelectField
-    project_field.set_value project
+    project_field.set_value project_name
 
     sleep 1
 
@@ -92,7 +94,7 @@ describe 'new work package', js: true do
       wp_page.subject_field.set(subject)
       save_work_package!
 
-      # safegurards
+      # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -112,7 +114,7 @@ describe 'new work package', js: true do
       subject_field.set(subject)
       subject_field.send_keys(:enter)
 
-      # safegurards
+      # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
         message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -157,7 +159,7 @@ describe 'new work package', js: true do
 
         save_work_package!
 
-        wp_page.expect_attributes subject: subject
+        wp_page.expect_attributes(subject:)
         wp_page.expect_attributes type: type_bug.name.upcase
       end
 
@@ -191,12 +193,12 @@ describe 'new work package', js: true do
 
         it do
           ids = custom_fields.map(&:id)
-          cf1 = find(".customField#{ids.first} input")
+          cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
           expect(cf1).not_to be_nil
 
-          expect(page).to have_selector(".customField#{ids.last} ng-select")
+          expect(page).to have_selector(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
 
-          cf = wp_page.edit_field "customField#{ids.last}"
+          cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
           cf.field_type = 'create-autocompleter'
           cf.openSelectField
           cf.set_value 'foo'
@@ -228,7 +230,7 @@ describe 'new work package', js: true do
     end
 
     it 'allows to go to the full page through the toaster (Regression #37555)' do
-      create_work_package(type_task, project.name)
+      create_work_package(type_task)
       save_work_package!
 
       wp_page.expect_toast message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -240,9 +242,9 @@ describe 'new work package', js: true do
     end
 
     it 'reloads the table and selects the new work package' do
-      expect(page).to have_no_selector('.wp--row')
+      expect(page).not_to have_selector('.wp--row')
 
-      create_work_package(type_task, project.name)
+      create_work_package(type_task)
       expect(page).to have_selector(safeguard_selector, wait: 10)
 
       wp_page.subject_field.set('new work package')
@@ -276,12 +278,29 @@ describe 'new work package', js: true do
 
   context 'full screen' do
     let(:safeguard_selector) { '.work-package--new-state' }
-    let(:existing_wp) { create :work_package, type: type_bug, project: }
+    let(:existing_wp) { create(:work_package, type: type_bug, project:) }
     let(:wp_page) { Pages::FullWorkPackage.new(existing_wp) }
 
     before do
       wp_page.visit!
       wp_page.ensure_page_loaded
+    end
+
+    it 'displays chosen date attribute for milestone type (#44701)' do
+      click_create_work_package_button(type_milestone)
+
+      date_field = wp_page.edit_field(:date)
+
+      date_field.expect_value(I18n.t('js.label_no_date'))
+
+      # Set date
+      date_field.click_to_open_datepicker
+      date = Time.zone.today.iso8601
+      date_field.set_milestone_date date
+      date_field.save!
+
+      # Expect date to be displayed
+      date_field.expect_value date
     end
 
     it_behaves_like 'work package creation workflow' do
@@ -308,7 +327,7 @@ describe 'new work package', js: true do
       click_on 'Cancel'
 
       wp_page.click_create_wp_button type_bug
-      expect(page).to have_no_selector('.ng-value', text: project.name)
+      expect(page).not_to have_selector('.ng-value', text: project.name)
 
       project_field.openSelectField
       project_field.set_value project.name
@@ -344,19 +363,14 @@ describe 'new work package', js: true do
 
       # Open datepicker
       date_field = wp_page.edit_field(:combinedDate)
-      date_field.input_element.click
+      date_field.click_to_open_datepicker
 
       # Select date
-      datepicker = date_field.datepicker
       start = (Time.zone.today - 1.day).iso8601
-      datepicker.focus_start_date
-      datepicker.set_date start
+      date_field.set_start_date start
 
       due = (Time.zone.today + 1.day).iso8601
-      datepicker.focus_due_date
-      datepicker.set_date due
-
-      date_field.expect_value "#{start} - #{due}"
+      date_field.set_due_date due
 
       # Cancel
       date_field.cancel_by_click
@@ -376,15 +390,15 @@ describe 'new work package', js: true do
         project_field.openSelectField
 
         expect(page).to have_selector('.ng-dropdown-panel .ng-option', text: project.name)
-        expect(page).to have_no_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
+        expect(page).not_to have_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
       end
     end
   end
 
   context 'as a user with no permissions' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
-    let(:wp_page) { ::Pages::Page.new }
+    let(:role) { create(:role, permissions: %i(view_work_packages)) }
+    let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
       [
@@ -405,7 +419,7 @@ describe 'new work package', js: true do
 
   context 'as a user with add_work_packages permission, but not edit_work_packages permission (Regression 28580)' do
     let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages add_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages add_work_packages)) }
     let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
     before do
@@ -431,7 +445,7 @@ describe 'new work package', js: true do
 
   context 'an anonymous user is prompted to login' do
     let(:user) { create(:anonymous) }
-    let(:wp_page) { ::Pages::Page.new }
+    let(:wp_page) { Pages::Page.new }
 
     let(:paths) do
       [
@@ -474,7 +488,7 @@ describe 'new work package', js: true do
       date_field = split_create_page.edit_field(:combinedDate)
       date_field.expect_value("#{parent.start_date} - #{parent.due_date}")
 
-      date_field.input_element.click
+      date_field.click_to_open_datepicker
       date_field.update ['', parent.due_date]
 
       subject = split_create_page.edit_field(:subject)

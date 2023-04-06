@@ -21,23 +21,34 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
+    env:
+      RUBY_GC_HEAP_INIT_SLOTS: 100000
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
+        with:
+          # FIXME: remove the ruby version once '3.2.2' is released.
+          # This is set to head to fix ruby segfaulting when brakeman is
+          # used. See https://bugs.ruby-lang.org/issues/19433
+          ruby-version: 'head'
 
       - name: Setup Brakeman
         run: |
           gem install brakeman
 
       - name: Scan
-        continue-on-error: true
         run: |
-          brakeman -i config/brakeman.ignore -f sarif -o output.sarif.json .
+          brakeman \
+            --ignore-config config/brakeman.ignore \
+            --no-exit-on-warn \
+            --no-exit-on-error \
+            --format sarif \
+            --output output.sarif.json
 
       - name: Upload SARIF
-        uses: github/codeql-action/upload-sarif@v1
+        uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: output.sarif.json

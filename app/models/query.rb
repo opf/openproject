@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,6 +28,7 @@
 
 class Query < ApplicationRecord
   include Timelines
+  include Timestamps
   include Highlighting
   include ManualSorting
   include Queries::Filters::AvailableFilters
@@ -84,7 +85,7 @@ class Query < ApplicationRecord
   def set_default_sort
     return if sort_criteria.any?
 
-    self.sort_criteria = [['id', 'asc']]
+    self.sort_criteria = [%w[id asc]]
   end
 
   def context
@@ -110,7 +111,7 @@ class Query < ApplicationRecord
   end
 
   def validate_columns
-    available_names = available_columns.map(&:name).map(&:to_sym)
+    available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     (column_names - available_names).each do |name|
       errors.add :column_names,
@@ -190,11 +191,11 @@ class Query < ApplicationRecord
 
   def available_columns
     if @available_columns &&
-       (@available_columns_project == ((project && project.cache_key) || 0))
+       (@available_columns_project == (project&.cache_key || 0))
       return @available_columns
     end
 
-    @available_columns_project = (project && project.cache_key) || 0
+    @available_columns_project = project&.cache_key || 0
     @available_columns = ::Query.available_columns(project)
   end
 
@@ -205,12 +206,20 @@ class Query < ApplicationRecord
       .flatten
   end
 
+  def self.displayable_columns
+    available_columns.select(&:displayable?)
+  end
+
   def self.groupable_columns
     available_columns.select(&:groupable)
   end
 
   def self.sortable_columns
-    available_columns.select(&:sortable) + [manual_sorting_column]
+    available_columns.select(&:sortable)
+  end
+
+  def displayable_columns
+    available_columns.select(&:displayable?)
   end
 
   # Returns an array of columns that can be used to group the results
@@ -220,7 +229,7 @@ class Query < ApplicationRecord
 
   # Returns an array of columns that can be used to sort the results
   def sortable_columns
-    available_columns.select(&:sortable) + [manual_sorting_column]
+    available_columns.select(&:sortable)
   end
 
   # Returns a Hash of sql columns for sorting by column
@@ -249,7 +258,7 @@ class Query < ApplicationRecord
                   end
 
     # preserve the order
-    column_list.map { |name| available_columns.find { |col| col.name == name.to_sym } }.compact
+    column_list.map { |name| displayable_columns.find { |col| col.name == name.to_sym } }.compact
   end
 
   def column_names=(names)
@@ -428,7 +437,7 @@ class Query < ApplicationRecord
   end
 
   def valid_column_subset!
-    available_names = available_columns.map(&:name).map(&:to_sym)
+    available_names = displayable_columns.map(&:name).map(&:to_sym)
 
     self.column_names &= available_names
   end

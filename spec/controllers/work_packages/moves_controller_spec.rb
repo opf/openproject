@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,30 +28,30 @@
 
 require 'spec_helper'
 
-describe WorkPackages::MovesController, type: :controller, with_settings: { journal_aggregation_time_minutes: 0 } do
-  let(:user) { create(:user) }
-  let(:role) do
-    create :role,
+describe WorkPackages::MovesController, with_settings: { journal_aggregation_time_minutes: 0 } do
+  shared_let(:user) { create(:user) }
+  shared_let(:role) do
+    create(:role,
            permissions: %i(move_work_packages
                            view_work_packages
                            add_work_packages
                            edit_work_packages
                            assign_versions
                            manage_subtasks
-                           work_package_assigned)
+                           work_package_assigned))
   end
-  let(:type) { create :type }
-  let(:type_2) { create :type }
-  let!(:status) { create :default_status }
-  let(:target_status) { create :status }
-  let(:priority) { create :priority }
-  let(:target_priority) { create :priority }
-  let(:project) do
+  shared_let(:type) { create(:type) }
+  shared_let(:type2) { create(:type) }
+  shared_let(:status) { create(:default_status) }
+  shared_let(:target_status) { create(:status) }
+  shared_let(:priority) { create(:priority) }
+  shared_let(:target_priority) { create(:priority) }
+  shared_let(:project) do
     create(:project,
            public: false,
-           types: [type, type_2])
+           types: [type, type2])
   end
-  let(:work_package) do
+  shared_let(:work_package) do
     create(:work_package,
            project_id: project.id,
            type:,
@@ -59,7 +59,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
            priority:)
   end
 
-  let(:current_user) { create(:user) }
+  shared_let(:current_user) { create(:user) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -124,7 +124,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
     let(:work_package_2) do
       create(:work_package,
              project_id: project.id,
-             type: type_2,
+             type: type2,
              priority:)
     end
 
@@ -191,18 +191,41 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
                  ids: [work_package.id, work_package_2.id],
                  new_project_id: target_project.id
                }
+        end
+
+        it 'project id is changed for both work packages, but keeps types' do
           work_package.reload
           work_package_2.reload
-        end
 
-        it 'project id is changed for both work packages' do
           expect(work_package.project_id).to eq(target_project.id)
           expect(work_package_2.project_id).to eq(target_project.id)
+
+          expect(work_package.type_id).to eq(type.id)
+          expect(work_package_2.type_id).to eq(type2.id)
         end
 
-        it 'changed no types' do
-          expect(work_package.type_id).to eq(type.id)
-          expect(work_package_2.type_id).to eq(type_2.id)
+        context 'when the limit to move in the frontend is 1',
+                with_settings: { work_packages_bulk_request_limit: 1 } do
+          it 'only schedules the move job' do
+            expect(WorkPackages::BulkMoveJob)
+              .to have_been_enqueued
+
+            work_package.reload
+            work_package_2.reload
+
+            expect(work_package.project_id).to eq(project.id)
+            expect(work_package_2.project_id).to eq(project.id)
+
+            perform_enqueued_jobs
+
+            work_package.reload
+            work_package_2.reload
+
+            expect(work_package.project_id).to eq(target_project.id)
+            expect(work_package_2.project_id).to eq(target_project.id)
+            expect(work_package.type_id).to eq(type.id)
+            expect(work_package_2.type_id).to eq(type2.id)
+          end
         end
       end
 
@@ -211,15 +234,15 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
           post :create,
                params: {
                  ids: [work_package.id, work_package_2.id],
-                 new_type_id: type_2.id
+                 new_type_id: type2.id
                }
           work_package.reload
           work_package_2.reload
         end
 
         it "changed work packages' types" do
-          expect(work_package.type_id).to eq(type_2.id)
-          expect(work_package_2.type_id).to eq(type_2.id)
+          expect(work_package.type_id).to eq(type2.id)
+          expect(work_package_2.type_id).to eq(type2.id)
         end
       end
 
@@ -336,7 +359,7 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
           let(:due_date) { Date.today + 1 }
           let(:target_version) { create(:version, project: target_project) }
           let(:target_user) do
-            user = create :user
+            user = create(:user)
 
             create(:member,
                    user:,
@@ -425,9 +448,10 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
 
           subject { WorkPackage.limit(1).order(Arel.sql('id desc')).last.journals }
 
-          it { expect(subject.count).to eq(1) }
-
-          it { expect(subject.last.notes).to eq(note) }
+          it 'contains that note' do
+            expect(subject.count).to eq(1)
+            expect(subject.last.notes).to eq(note)
+          end
         end
 
         context 'parent and child work package' do
@@ -443,23 +467,53 @@ describe WorkPackages::MovesController, type: :controller, with_settings: { jour
           end
 
           context 'on new' do
+            render_views
+
             before do
               get :new,
                   params: {
                     ids: [work_package.id, child_wp.id],
                     copy: '',
-                    new_project_id: to_project.id
+                    new_project_id: target_project.id
                   }
+            end
 
-              it 'reports the one child work package' do
-                expect(response.body).to have_selector "a.issue", count: 1
-                expect(response.body).to have_selector "contextual-info", text: '(+ One child work package)'
-              end
+            it 'reports the one child work package' do
+              expect(response.body).to have_selector "a.work_package", count: 2
+              expect(response.body).to have_selector ".contextual-info", text: '(+ One descendant work package)'
+            end
+          end
+
+          context 'when copying the parent with a child exceeds the request limit',
+                  with_settings: { work_packages_bulk_request_limit: 1 } do
+            let(:note) { 'Copying a work package' }
+
+            before do
+              post :create,
+                   params: {
+                     ids: [work_package.id],
+                     copy: '',
+                     notes: note
+                   }
+            end
+
+            subject { WorkPackage.limit(2).order(Arel.sql('id desc')).last.journals }
+
+            it 'runs in the background' do
+              expect(WorkPackages::BulkCopyJob)
+                .to have_been_enqueued
+
+              expect { perform_enqueued_jobs }
+                .to change(WorkPackage, :count)
+                .by(2)
+
+              expect(subject.first.notes).to eq(note)
+              expect(subject.last.notes).to eq(note)
             end
           end
         end
 
-        context 'child work package from one project to other' do
+        context 'when copying child work package from one project to other' do
           let(:to_project) do
             create(:project,
                    types: [type])

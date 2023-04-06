@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Projects', 'creation', type: :feature, js: true do
-  let(:name_field) { ::FormFields::InputFormField.new :name }
+describe 'Projects', 'creation', js: true do
+  let(:name_field) { FormFields::InputFormField.new :name }
 
   current_user { create(:admin) }
 
@@ -65,7 +65,7 @@ describe 'Projects', 'creation', type: :feature, js: true do
 
   context 'with a multi-select custom field' do
     let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
-    let(:list_field) { ::FormFields::SelectFormField.new list_custom_field }
+    let(:list_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
       click_on 'New project'
@@ -120,7 +120,7 @@ describe 'Projects', 'creation', type: :feature, js: true do
 
       within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
-        expect(page).to have_no_text 'Required Foo'
+        expect(page).not_to have_text 'Required Foo'
       end
     end
   end

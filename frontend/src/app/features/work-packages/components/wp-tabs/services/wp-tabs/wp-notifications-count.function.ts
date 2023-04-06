@@ -8,5 +8,5 @@ export function workPackageNotificationsCount(
   injector:Injector,
 ):Observable<number> {
   const storeService = injector.get(WpSingleViewService);
-  return storeService.selectNotificationsCount$;
+  return storeService.nonDateAlertNotificationsCount$;
 }

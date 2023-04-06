@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,7 +71,7 @@ module Accounts::UserPasswordChange
     end
 
     flash_error_message(log_reason: 'invalid credentials', flash_now:) do
-      if Setting.brute_force_block_after_failed_logins?
+      if Setting.brute_force_block_after_failed_logins.to_i > 0
         :notice_account_invalid_credentials_or_blocked
       else
         :notice_account_invalid_credentials
@@ -102,8 +102,8 @@ module Accounts::UserPasswordChange
   def flash_error_message(log_reason: '', flash_now: true)
     flash_hash = flash_now ? flash.now : flash
 
-    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
-                " at #{Time.now.utc}: #{log_reason}"
+    logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip} " \
+                "at #{Time.now.utc}: #{log_reason}"
 
     flash_message = yield
 

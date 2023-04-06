@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -62,6 +62,7 @@ import { ApiV3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notificat
 import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
 import { Apiv3BackupsPath } from 'core-app/core/apiv3/endpoints/backups/apiv3-backups-path';
 import { ApiV3DaysPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-days-paths';
+import { Apiv3StoragesPaths } from 'core-app/core/apiv3/endpoints/storages/apiv3-storages-paths';
 
 @Injectable({ providedIn: 'root' })
 export class ApiV3Service {
@@ -79,6 +80,9 @@ export class ApiV3Service {
 
   // /api/v3/documents
   public readonly documents = this.apiV3CollectionEndpoint('documents');
+
+  // /api/v3/file_links
+  public readonly file_links = this.apiV3CollectionEndpoint('file_links');
 
   // /api/v3/notifications
   public readonly notifications = this.apiV3CustomEndpoint(ApiV3NotificationsPaths);
@@ -115,6 +119,9 @@ export class ApiV3Service {
 
   // /api/v3/news
   public readonly news = this.apiV3CustomEndpoint(ApiV3NewsPaths);
+
+  // /api/v3/storages
+  public readonly storages = this.apiV3CustomEndpoint(Apiv3StoragesPaths);
 
   // /api/v3/types
   public readonly types = this.apiV3CustomEndpoint(ApiV3TypesPaths);

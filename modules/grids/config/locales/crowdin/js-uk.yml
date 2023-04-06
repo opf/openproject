@@ -5,8 +5,8 @@ uk:
       remove: 'Видалити віджет'
       configure: 'Налаштувати віджет'
       upsale:
-        text: "Деякі віджети, наприклад віджет графіку пакет робіт, доступні тільки у версії Enterprise Edition."
-        link: 'Випуск Enterprise Edition. '
+        text: "Деякі віджети, наприклад віджет графіку пакет робіт, доступні тільки у версії Enterprise."
+        link: 'Версія Enterprise.'
       widgets:
         custom_text:
           title: 'Текстовий блок'

@@ -1,9 +1,9 @@
 <div class="widget-box--description">
-  <%= image_tag "enterprise_edition.png", class: "widget-box--blocks--upsale-image" %>
+  <%= image_tag "enterprise-add-on.svg", class: "widget-box--blocks--upsale-image" %>
   <div class="widget-box--blocks--upsale-description">
     <div class="widget-box--blocks--upsale-title">
 
-      <%= op_icon('button--icon icon-medal') %>
+      <%= spot_icon('enterprise-addons') %>
       <span><%= t('homescreen.blocks.upsale.title') %></span>
 
       <p class="widget-box--blocks--upsale-description">
@@ -29,7 +29,7 @@
       target: '_blank',
       title: t('homescreen.blocks.upsale.more_info')} do %>
     <span class="button--text"><%= t('homescreen.blocks.upsale.more_info') %></span>
-    <%= op_icon('button--icon icon-external-link') %>
+    <%= spot_icon('button--icon icon-external-link') %>
   <% end %>
 
   <%= link_to(OpenProject::Static::Links.links[:pricing][:href],
@@ -37,7 +37,7 @@
       aria: {label: t('admin.enterprise.buttons.upgrade')},
       target: '_blank',
       title: t('admin.enterprise.buttons.upgrade')}) do %>
-    <%= op_icon('button--icon icon-medal') %>
+    <%= spot_icon('enterprise-addons enterprise-addons--button-icon') %>
     <span class="button--text"><%= t('admin.enterprise.buttons.upgrade') %></span>
   <% end %>
 

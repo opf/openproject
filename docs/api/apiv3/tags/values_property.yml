@@ -1,0 +1,23 @@
+---
+description: |-
+  `Values::Property` represents a single key - value pair. That pair typically is an
+  excerpt of the properties of a resource. `Values::Property` itself is not an independent resource. It will always be nested and as such
+  will only exist as part of another resource.
+
+  It is currently used e.g. in the Notification resource.
+
+  ## Linked Properties
+
+  | Property         | Description                 | Type                | Constraints           | Supported operations | Condition                 |
+  | :--------------: | ----------------------------| -----------         | --------------------- | -------------------- | ------------------------- |
+  | self             | This value                  | Values::Property    | not null              | READ                 |                           |
+  | schema           | This value's schema         | Schema              | not null              | READ                 |                           |
+
+  ## Local Properties
+
+  | Property         | Description                                            | Type         | Constraints    | Supported operations | Condition                    |
+  | :--------------: | ------------------------------------------------------ | -----------  | -------------- | -------------------- | ---------------------------- |
+  | property         | The pairs' key name                                    | String       | not null       | READ                 |                              |
+  | value            | The pairs' value                                       | Polymorphic  |                | READ                 |                              |
+
+name: Values::Property

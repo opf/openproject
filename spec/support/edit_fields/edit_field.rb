@@ -1,5 +1,6 @@
 class EditField
   include Capybara::DSL
+  include Capybara::RSpecMatchers
   include RSpec::Matchers
   include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
@@ -34,6 +35,10 @@ class EditField
 
   def input_element
     context.find "#{@selector} #{input_selector}"
+  end
+
+  def label_element
+    context.find ".wp-replacement-label[data-qa-selector='#{property_name}']"
   end
 
   def clear(with_backspace: false)
@@ -110,11 +115,11 @@ class EditField
 
   def expect_inactive!
     expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).to have_no_selector(field_type)
+    expect(field_container).not_to have_selector(field_type)
   end
 
   def expect_enabled!
-    expect(@context).to have_no_selector "#{@selector} #{input_selector}[disabled]"
+    expect(@context).not_to have_selector "#{@selector} #{input_selector}[disabled]"
   end
 
   def expect_invalid
@@ -152,7 +157,7 @@ class EditField
     raise ArgumentError.new('Is not an autocompleter field') unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query: query, results_selector: 'body'
+      select_autocomplete field_container, query:, results_selector: 'body'
     else
       search_autocomplete field_container, query:, results_selector: 'body'
     end
@@ -186,7 +191,7 @@ class EditField
     scroll_to_element(input_element)
     input_element.find('input').set content
 
-    page.find('.ng-option', text: 'Create: ' + content).click
+    page.find('.ng-option', text: "Create: #{content}").click
   end
 
   def type(text)

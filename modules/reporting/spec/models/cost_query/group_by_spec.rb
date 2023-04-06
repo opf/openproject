@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 require File.join(File.dirname(__FILE__), '..', '..', 'support', 'custom_field_filter')
 
-describe CostQuery, type: :model, reporting_query_helper: true do
+describe CostQuery, reporting_query_helper: true do
   let!(:type) { create(:type) }
   let!(:project1) { create(:project_with_types, types: [type]) }
   let!(:work_package1) { create(:work_package, project: project1, type:) }
@@ -306,7 +306,7 @@ describe CostQuery, type: :model, reporting_query_helper: true do
 
         check_cache
 
-        query.group_by "custom_field_#{custom_field2.id}".to_sym
+        query.group_by custom_field2.attribute_name
         footprint = query.result.each_direct_result.map { |c| [c.count, c.units.to_i] }.sort
         expect(footprint).to eq([[8, 8]])
       end

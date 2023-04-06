@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -25,12 +25,12 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+
 import { Injectable } from '@angular/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import * as moment from 'moment';
+
+import { ConfigurationResource } from 'core-app/features/hal/resources/configuration-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { WeekdayService } from 'core-app/core/days/weekday.service';
 
 @Injectable({ providedIn: 'root' })
 export class ConfigurationService {
@@ -39,20 +39,12 @@ export class ConfigurationService {
   // but could easily be stored in localStorage
   private configuration:ConfigurationResource;
 
-  public initialized:Promise<boolean>;
-
   public constructor(
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly weekdayService:WeekdayService,
-  ) {
-    this.initialized = Promise
-      .all([
-        this.loadConfiguration(),
-        this.weekdayService.loadWeekdays().toPromise(),
-      ])
-      .then(() => true)
-      .catch(() => false);
+    private readonly apiV3Service:ApiV3Service,
+  ) { }
+
+  public initialize():Promise<void> {
+    return this.loadConfiguration();
   }
 
   public commentsSortedInDescendingOrder():boolean {
@@ -120,6 +112,10 @@ export class ConfigurationService {
 
   public get hostName():string {
     return this.systemPreference('hostName');
+  }
+
+  public get activeFeatureFlags():string[] {
+    return this.systemPreference<string[]>('activeFeatureFlags');
   }
 
   private loadConfiguration() {

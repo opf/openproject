@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,8 @@ module API
           end
           private_class_method :index
 
-          def self.show(name)
-            define_singleton_method(name) { |id| build_path(name, id) }
+          def self.show(name, path = name)
+            define_singleton_method(name) { |id| build_path(path, id) }
           end
           private_class_method :show
 
@@ -263,6 +263,10 @@ module API
             "#{notification(id)}/unread_ian"
           end
 
+          def self.notification_detail(notification_id, detail_id)
+            "#{notification(notification_id)}/details/#{detail_id}"
+          end
+
           index :placeholder_user
           show :placeholder_user
 
@@ -278,6 +282,10 @@ module API
             alias :issue_priorities :priorities
             alias :issue_priority :priority
           end
+
+          show :oauth_application
+
+          show :oauth_client_credentials
 
           resources :project
 
@@ -387,6 +395,9 @@ module API
           index :role
           show :role
 
+          index :global_role, 'roles'
+          show :global_role, 'role'
+
           def self.show_revision(project_id, identifier)
             show_revision_project_repository_path(project_id, identifier)
           end
@@ -438,8 +449,16 @@ module API
             "#{user(id)}/preferences"
           end
 
+          def self.my_preferences
+            "#{root}/my_preferences"
+          end
+
           index :group
           show :group
+
+          def self.value_schema(property)
+            "#{root}/values/schemas/#{property}"
+          end
 
           resources :version
 
@@ -471,6 +490,13 @@ module API
           end
 
           resources :work_package, except: :schema
+
+          def self.work_package(id, timestamps: nil)
+            "#{root}/work_packages/#{id}" + \
+            if (param_value = timestamps_to_param_value(timestamps)).present? && Array(timestamps).any?(&:historic?)
+              "?#{{ timestamps: param_value }.to_query}"
+            end.to_s
+          end
 
           def self.work_package_schema(project_id, type_id)
             "#{root}/work_packages/schemas/#{project_id}-#{type_id}"
@@ -524,14 +550,22 @@ module API
             "#{project(project_id)}/work_packages"
           end
 
-          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil, select: nil)
+          def self.timestamps_to_param_value(timestamps)
+            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute.iso8601 }.join(",")
+          end
+
+          def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil,
+                            select: nil, timestamps: nil)
+            timestamps = timestamps_to_param_value(timestamps)
+
             query_params = {
               filters: filters&.to_json,
               sortBy: sort_by&.to_json,
               groupBy: group_by,
               pageSize: page_size,
               offset:,
-              select:
+              select:,
+              timestamps:
             }.compact_blank
 
             if query_params.any?
@@ -551,6 +585,14 @@ module API
             root_url = OpenProject::StaticRouting::StaticUrlHelpers.new.root_url
 
             root_url.gsub(duplicate_regexp, '') + send(path, arguments)
+          end
+
+          def self.join_uri_path(uri, *parts)
+            # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
+            # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
+            # Server is not run on a Windows context.
+            # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
+            File.join(uri.to_s, *parts)
           end
         end
 

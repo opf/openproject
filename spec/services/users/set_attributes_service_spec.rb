@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -92,6 +92,13 @@ describe Users::SetAttributesService, type: :model do
 
       expect(call.result.notification_settings)
         .to(all(be_a(NotificationSetting).and(be_new_record)))
+    end
+
+    it 'sets the default language', with_settings: { default_language: 'de' } do
+      call
+
+      expect(model_instance.language)
+        .to eql 'de'
     end
 
     context 'with params' do

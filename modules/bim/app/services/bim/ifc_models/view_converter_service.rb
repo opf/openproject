@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2023 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -127,7 +127,7 @@ module Bim
 
         convert!(ifc_filepath, 'dae') do |target_file|
           # To include IfcSpace entities, which by default are excluded by
-          # IfcConvert, together with IfcOpeningElement, we need ot over-
+          # IfcConvert, together with IfcOpeningElement, we need to over-
           # write the default exclude parameter to only exclude
           # IfcOpeningElements.
           # https://github.com/IfcOpenShell/IfcOpenShell/wiki#ifconvert

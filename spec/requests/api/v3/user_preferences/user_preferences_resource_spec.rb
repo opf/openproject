@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 UserPreferences resource', type: :request, content_type: :json do
+describe 'API v3 UserPreferences resource', content_type: :json do
   include Rack::Test::Methods
-  include ::API::V3::Utilities::PathHelper
+  include API::V3::Utilities::PathHelper
 
   subject(:response) { last_response }
 
@@ -171,6 +171,32 @@ describe 'API v3 UserPreferences resource', type: :request, content_type: :json 
           expect(subject.body).to be_json_eql('Europe/Paris'.to_json).at_path('timeZone')
           expect(preference.time_zone).to eq('Europe/Paris')
         end
+      end
+    end
+  end
+
+  describe '/api/v3/my_preferences endpoint' do
+    let(:preference_path) { api_v3_paths.my_preferences }
+
+    describe '#GET' do
+      before do
+        get preference_path
+      end
+
+      it 'redirects to /api/v3/users/me/preferences' do
+        expect(subject.status).to eq(301) # Moved Permanently, it may change the method to GET
+        expect(response.get_header('Location')).to eq(api_v3_paths.user_preferences("me"))
+      end
+    end
+
+    describe '#PATCH' do
+      before do
+        patch preference_path
+      end
+
+      it 'redirects to /api/v3/users/me/preferences with 308 to keep the http method' do
+        expect(subject.status).to eq(308) # Method redirect, it keeps the same HTTP method.
+        expect(response.get_header('Location')).to eq(api_v3_paths.user_preferences("me"))
       end
     end
   end

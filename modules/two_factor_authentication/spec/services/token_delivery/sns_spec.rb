@@ -1,10 +1,10 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
+describe OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
   describe 'sending messages' do
     let(:phone) { '+49 123456789' }
-    let!(:user) { create :user }
-    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
+    let!(:user) { create(:user) }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, channel:) }
     let(:channel) { :sms }
 
     let(:sns_params) do
@@ -27,7 +27,7 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
     end
 
     before do
-      allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns)
+      allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Sns)
         .to receive(:create_mobile_otp)
         .and_return('1234')
     end
@@ -51,13 +51,13 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
     end
 
     describe 'calling a mocked AWS API' do
-      subject { ::TwoFactorAuthentication::TokenService.new user: }
+      subject { TwoFactorAuthentication::TokenService.new user: }
 
       let(:result) { subject.request }
-      let(:api) { instance_double(::Aws::SNS::Client) }
+      let(:api) { instance_double(Aws::SNS::Client) }
 
       before do
-        expect(::Aws::SNS::Client).to receive(:new).and_return api
+        expect(Aws::SNS::Client).to receive(:new).and_return api
       end
 
       context 'assuming invalid credentials' do
@@ -83,9 +83,9 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategy::Sns do
           expect(api).to receive(:set_sms_attributes).and_return(nil)
           expect(api)
             .to receive(:publish)
-            .with(phone_number: phone.gsub(' ', ''),
-                  message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title,
-                                                                                             token: 1234))
+            .with({ phone_number: phone.gsub(' ', ''),
+                    message: I18n.t('two_factor_authentication.text_otp_delivery_message_sms',
+                                    app_title: Setting.app_title, token: 1234) })
             .and_return(api_result)
         end
 

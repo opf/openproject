@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,33 +30,33 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
+describe 'Arbitrary WorkPackage query table widget dashboard', js: true, with_mail: false do
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:other_project_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -82,9 +82,9 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
     Pages::Dashboard.new(project)
   end
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
 
   before do
     login_as user
@@ -122,7 +122,7 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
       filter_area.configure_wp_table
       modal.switch_to('Filters')
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by('Type', 'is (OR)', type.name)
       modal.save
 
       filter_area.configure_wp_table
@@ -135,11 +135,11 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)
@@ -166,11 +166,11 @@ describe 'Arbitrary WorkPackage query table widget dashboard', type: :feature, j
 
       # as the Subject column is disabled
       expect(filter_area.area)
-        .to have_no_selector('.subject', text: type_work_package.subject)
+        .not_to have_selector('.subject', text: type_work_package.subject)
 
       # As other_type is filtered out
       expect(filter_area.area)
-        .to have_no_selector('.id', text: other_type_work_package.id)
+        .not_to have_selector('.id', text: other_type_work_package.id)
 
       # Work packages from other projects are not displayed as the query is project scoped
       expect(filter_area.area)

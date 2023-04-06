@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:work_package_project) do
-    build_stubbed(:project, public: false).tap do |p|
+    create(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)
@@ -56,7 +56,7 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:type) { build_stubbed(:type) }
+  let(:type) { create(:type) }
   let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
@@ -282,7 +282,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed(:type, is_milestone: true) }
       let(:children) { [build_stubbed(:work_package)] }
 
       before do
@@ -381,27 +381,65 @@ describe WorkPackages::UpdateContract do
   describe 'readonly status' do
     context 'with the status being readonly', with_ee: %i[readonly_work_packages] do
       let(:status) { build_stubbed(:status, is_readonly: true) }
-      let(:new_priority) { build_stubbed(:priority) }
 
-      before do
-        work_package.priority = new_priority
+      describe 'updating the priority' do
+        let(:new_priority) { build_stubbed(:priority) }
 
-        contract.validate
+        before do
+          work_package.priority = new_priority
+
+          contract.validate
+        end
+
+        it 'is invalid' do
+          expect(contract)
+            .not_to be_valid
+        end
+
+        it 'adds an error to the written to attribute' do
+          expect(contract.errors.symbols_for(:priority_id))
+            .to include(:error_readonly)
+        end
+
+        it 'adds an error to base to better explain' do
+          expect(contract.errors.symbols_for(:base))
+            .to include(:readonly_status)
+        end
       end
 
-      it 'is invalid' do
-        expect(contract)
-          .not_to be_valid
-      end
+      describe 'updating the custom field values' do
+        let(:cf1) { create(:string_wp_custom_field) }
 
-      it 'adds an error to the written to attribute' do
-        expect(contract.errors.symbols_for(:priority_id))
-          .to include(:error_readonly)
-      end
+        before do
+          work_package_project.work_package_custom_fields << cf1
+          type.custom_fields << cf1
+          work_package.custom_field_values = { cf1.id => 'test' }
+          contract.validate
+        end
 
-      it 'adds an error to base to better explain' do
-        expect(contract.errors.symbols_for(:base))
-          .to include(:readonly_status)
+        shared_examples_for 'custom_field readonly errors' do
+          it 'adds an error to the written custom field attribute' do
+            expect(contract.errors.symbols_for(cf1.attribute_name.to_sym))
+              .to include(:error_readonly)
+          end
+
+          it 'adds an error to base to better explain' do
+            expect(contract.errors.symbols_for(:base))
+              .to include(:readonly_status)
+          end
+        end
+
+        context 'when the subject does not extends OpenProject::ChangedBySystem' do
+          include_examples 'custom_field readonly errors'
+        end
+
+        context 'when the subject extends OpenProject::ChangedBySystem' do
+          before do
+            work_package.extend(OpenProject::ChangedBySystem)
+          end
+
+          include_examples 'custom_field readonly errors'
+        end
       end
     end
   end

@@ -4,7 +4,7 @@ module Accounts::UserLogin
 
   def login_user!(user)
     # generate a key and set cookie if autologin
-    if Setting.autologin? && (params[:autologin] || session.delete(:autologin_requested))
+    if Setting::Autologin.enabled? && (params[:autologin] || session.delete(:autologin_requested))
       set_autologin_cookie(user)
     end
 

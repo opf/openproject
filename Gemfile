@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.1.2'
+ruby '~> 3.2.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -52,9 +52,9 @@ gem 'warden-basic_auth', '~> 0.2.1'
 
 gem 'will_paginate', '~> 3.3.0'
 
-gem 'friendly_id', '~> 5.4.0'
+gem 'friendly_id', '~> 5.5.0'
 
-gem 'acts_as_list', '~> 1.0.1'
+gem 'acts_as_list', '~> 1.1.0'
 gem 'acts_as_tree', '~> 2.9.0'
 gem 'awesome_nested_set', '~> 3.5.0'
 gem 'closure_tree', '~> 7.4.0'
@@ -69,7 +69,7 @@ gem 'addressable', '~> 2.8.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2022.1'
+gem 'tzinfo-data', '~> 1.2023.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -78,7 +78,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.6'
+gem 'commonmarker', '~> 0.23.7'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -88,9 +88,9 @@ gem 'deckar01-task_list', '~> 2.3.1'
 # Requires escape-utils for faster escaping
 gem 'escape_utils', '~> 1.3'
 # Syntax highlighting used in html-pipeline with rouge
-gem 'rouge', '~> 4.0.0'
+gem 'rouge', '~> 4.1.0'
 # HTML sanitization used for html-pipeline
-gem 'sanitize', '~> 6.0.0'
+gem 'sanitize', '~> 6.0.1'
 # HTML autolinking for mails and urls (replaces autolink)
 gem 'rinku', '~> 2.0.4'
 # Version parsing with semver
@@ -105,6 +105,8 @@ gem 'email_validator', '~> 2.2.3'
 gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
+gem 'mail', '>= 2.8.1'
+
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
 
@@ -114,7 +116,7 @@ gem 'posix-spawn', '~> 0.3.13', require: false
 gem 'bcrypt', '~> 3.1.6'
 
 gem 'multi_json', '~> 1.15.0'
-gem 'oj', '~> 3.13.0'
+gem 'oj', '~> 3.14.0'
 
 gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
@@ -129,7 +131,7 @@ gem 'rack-protection', '~> 3.0.0'
 gem 'rack-attack', '~> 6.6.0'
 
 # CSP headers
-gem 'secure_headers', '~> 6.4.0'
+gem 'secure_headers', '~> 6.5.0'
 
 # Browser detection for incompatibility checks
 gem 'browser', '~> 5.3.0'
@@ -151,7 +153,7 @@ gem 'airbrake', '~> 13.0.0', require: false
 
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
-# prawn implictly depends on matrix gem no longer in ruby core with 3.1
+# prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
 gem 'cells-erb', '~> 0.1.0'
@@ -173,11 +175,11 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
-gem 'puma', '~> 5.6'
-gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
+gem 'puma', '~> 6.1'
 gem 'puma-plugin-statsd', '~> 2.0'
+gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.13.9'
+gem 'nokogiri', '~> 1.14.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -193,30 +195,27 @@ gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.11.0', require: false
+gem 'ruby-progressbar', '~> 1.13.0', require: false
 
-gem 'mini_magick', '~> 4.11.0', require: false
+gem 'mini_magick', '~> 4.12.0', require: false
 
 gem 'validate_url'
-
-# Sentry error reporting
-gem "sentry-delayed_job", '~> 5.5.0'
-gem "sentry-rails", '~> 5.5.0'
-gem "sentry-ruby", '~> 5.5.0'
 
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'view_component'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 2.0.0'
+  gem 'rack-test', '~> 2.1.0'
 
   # Test prof provides factories from code
   # and other niceties
-  gem 'test-prof', '~> 1.0.0'
+  gem 'test-prof', '~> 1.2.0'
 
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.11.0'
+  gem 'rspec', '~> 3.12.0'
   # also add to development group, so "spec" rake task gets loaded
   gem 'rspec-rails', '~> 6.0.0', group: :development
 
@@ -230,7 +229,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.37.0'
+  gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
@@ -242,13 +241,13 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.0.0'
+  gem 'puffing-billy', '~> 3.1.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
 
-  gem 'parallel_tests', '~> 3.1'
+  gem 'parallel_tests', '~> 4.0'
 end
 
 group :ldap do
@@ -256,9 +255,8 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.7.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.8.0' # Use for event-based reloaders
 
-  gem 'faker'
   gem 'letter_opener'
 
   gem 'spring'
@@ -267,6 +265,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
@@ -282,10 +282,12 @@ group :development, :test do
   gem 'ruby-prof', require: false
   gem 'stackprof', require: false
 
+  # REPL with debug commands
+  gem 'debug'
+
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
-  gem 'pry-stack_explorer', '~> 0.6.0'
 
   # ruby linting
   gem 'rubocop', require: false
@@ -296,19 +298,22 @@ group :development, :test do
   gem 'lefthook', require: false
 
   # Brakeman scanner
-  gem 'brakeman', '~> 5.3.0'
-  gem 'danger-brakeman'
+  gem 'brakeman', '~> 5.4.0'
 end
 
-gem 'bootsnap', '~> 1.13.0', require: false
+gem 'bootsnap', '~> 1.16.0', require: false
 
 # API gems
-gem 'grape', '~> 1.6.0'
+gem 'grape', '~> 1.7.0'
 gem 'grape_logging', '~> 1.8.4'
-gem 'roar', '~> 1.1.0'
+gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 1.1.1'
+gem 'rack-cors', '~> 2.0.0'
+
+# Gmail API
+gem 'google-apis-gmail_v1', require: false
+gem 'googleauth', require: false
 
 # Required for contracts
 gem 'disposable', '~> 0.6.2'
@@ -319,7 +324,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.9.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.

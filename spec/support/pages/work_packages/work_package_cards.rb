@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,6 @@ require 'support/pages/page'
 
 module Pages
   class WorkPackageCards < Page
-    include Capybara::DSL
-    include RSpec::Matchers
     attr_reader :project
 
     def initialize(project = nil)
@@ -82,7 +80,7 @@ module Pages
     end
 
     def drag_and_drop_work_package(from:, to:)
-      drag_and_drop_list(from: from, to: to, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
+      drag_and_drop_list(from:, to:, elements: 'wp-single-card', handler: '.op-wp-single-card--content')
     end
 
     def select_work_package(work_package)
@@ -120,12 +118,12 @@ module Pages
 
     def select_all_work_packages
       find('body').send_keys [:control, 'a']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def deselect_all_work_packages
       find('body').send_keys [:control, 'd']
-      expect(page).to have_no_selector '#work-package-context-menu'
+      expect(page).not_to have_selector '#work-package-context-menu'
     end
 
     def card(work_package)

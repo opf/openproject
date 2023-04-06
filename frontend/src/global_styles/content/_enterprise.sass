@@ -54,6 +54,20 @@
   width: 200px
   margin: auto
 
+.enterprise-addons--button-icon
+  font-size: 1rem !important
+
+// There is a breadcrumb at the top of some of the Enterprise pages showing some spacing,
+// but for some other pages without a breadcrumb, there is no space at the top of of the page.
+// Therefore, we are just hiding the breadcrumb on top of these pages.
+:has(.upsale-notification_hide-breadcrumb)
+  #breadcrumb:has(:not(.-show))
+    display: block
+    visibility: hidden
+
+.spot-icon_enterprise-addons
+  color: $spot-color-feedback-warning-dark
+
 @media screen and (max-width: 679px)
   .upsale-notification
     max-width: none

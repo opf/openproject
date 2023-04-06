@@ -25,9 +25,9 @@ curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${A
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
-# sources for dotnet runtime
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-wget -qO /etc/apt/sources.list.d/microsoft.list https://packages.microsoft.com/config/debian/10/prod.list
+# https://learn.microsoft.com/fr-fr/dotnet/core/install/linux-debian#debian-10-
+wget --quiet https://packages.microsoft.com/config/debian/10/packages-microsoft-prod.deb -O /tmp/packages-microsoft-prod.deb && \
+	dpkg -i /tmp/packages-microsoft-prod.deb && rm /tmp/packages-microsoft-prod.deb
 
 apt-get update -qq
 apt-get install -y \
@@ -42,7 +42,8 @@ apt-get install -y \
 	postgresql-13 \
 	postgresql-client-13 \
 	imagemagick \
-	dotnet-runtime-3.1 # required for BIM edition
+	memcached \
+	dotnet-runtime-6.0 # required for BIM edition
 
 # remove any existing cluster
 service postgresql stop
@@ -66,7 +67,7 @@ wget --quiet https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.6.0-517b
 unzip -q IfcConvert-v0.6.0-517b819-linux64.zip
 mv IfcConvert "/usr/local/bin/IfcConvert"
 
-wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.0/xeokit-metadata-linux-x64.tar.gz
+wget --quiet https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz
 tar -zxvf xeokit-metadata-linux-x64.tar.gz
 chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 cp -r xeokit-metadata-linux-x64/ "/usr/lib/xeokit-metadata"

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -220,7 +220,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require$(params)
+        .require(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -234,7 +234,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require$(params)
+        .require(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -244,7 +244,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require$(params)
+        .require(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(2);
         });
@@ -254,7 +254,7 @@ describe('Capabilities service', () => {
       };
 
       service
-        .require$(params)
+        .require(params)
         .subscribe((caps) => {
           expect(caps.length).toEqual(1);
         });
@@ -263,10 +263,10 @@ describe('Capabilities service', () => {
     });
 
     it('Should filter by context and all actions', () => {
-      currentUser.hasCapabilities$('asdf/asdf').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('asdf/asdf', 'global').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(false);
       });
-      currentUser.hasCapabilities$('placeholder_users/read').subscribe((hasCaps) => {
+      currentUser.hasCapabilities$('placeholder_users/read', 'global').subscribe((hasCaps) => {
         expect(hasCaps).toEqual(true);
       });
       currentUser.hasCapabilities$(['memberships/update', 'memberships/read'], '6').subscribe((hasCaps) => {

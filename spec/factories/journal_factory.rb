@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,11 @@
 FactoryBot.define do
   factory :journal do
     user factory: :user
-    created_at { Time.now }
+    created_at { Time.zone.now }
     sequence(:version, 1)
 
     factory :work_package_journal, class: 'Journal' do
       journable_type { 'WorkPackage' }
-      activity_type { 'work_packages' }
       data { build(:journal_work_package_journal) }
 
       callback(:after_stub) do |journal, options|
@@ -44,20 +43,26 @@ FactoryBot.define do
 
     factory :wiki_content_journal, class: 'Journal' do
       journable_type { 'WikiContent' }
-      activity_type { 'wiki_edits' }
       data { build(:journal_wiki_content_journal) }
+
+      callback(:after_stub) do |journal, options|
+        journal.journable ||= options.journable || build_stubbed(:wiki_content)
+      end
     end
 
     factory :message_journal, class: 'Journal' do
       journable_type { 'Message' }
-      activity_type { 'messages' }
       data { build(:journal_message_journal) }
     end
 
     factory :news_journal, class: 'Journal' do
       journable_type { 'News' }
-      activity_type { 'news' }
       data { build(:journal_message_journal) }
+    end
+
+    factory :project_journal, class: 'Journal' do
+      journable factory: :project
+      data { build(:journal_project_journal) }
     end
   end
 end

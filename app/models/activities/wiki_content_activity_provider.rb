@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,7 +50,7 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   protected
 
   def event_title(event)
-    "#{I18n.t(:label_wiki_edit)}: #{event['wiki_title']} (##{event['version']})"
+    "#{I18n.t(:project_module_wiki)}: #{event['wiki_title']}"
   end
 
   def event_type(_event)
@@ -76,6 +76,6 @@ class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
   end
 
   def url_helper_parameter(event)
-    [event['project_id'], event['wiki_slug'], { version: event['version'] }]
+    [event['project_id'], event['wiki_slug']]
   end
 end

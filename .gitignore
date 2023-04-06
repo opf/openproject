@@ -44,6 +44,9 @@ npm-debug.log*
 # Ignore Visual Studio Code files
 /.vscode
 
+# Ignore Vim backup files
+*~
+
 # Ignore Ctags files
 /tags
 /tags.lock
@@ -132,3 +135,8 @@ structure.sql
 
 # lefthook.yml user override
 lefthook-local.yml
+frontend/package-lock.json
+
+# Testing and nextcloud infrastructure
+acme.json
+.env.test

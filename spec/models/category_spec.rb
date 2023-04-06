@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe Category, type: :model do
+describe Category do
   let(:project) { create(:project) }
   let(:created_category) { create(:category, project:, assigned_to: assignee) }
   let(:assignee) { nil }
 
   describe '#create' do
     it 'is creatable and takes the attributes' do
-      category = described_class.create project: project, name: 'New category'
+      category = described_class.create project:, name: 'New category'
 
       expect(category.attributes.slice('project_id', 'name'))
         .to eq('project_id' => project.id, 'name' => 'New category')

@@ -10,8 +10,8 @@ import {
 } from '@angular/core';
 import {
   AbstractControl,
-  FormControl,
-  FormGroup,
+  UntypedFormControl,
+  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -32,7 +32,6 @@ import { ICapability } from 'core-app/core/state/capabilities/capability.model';
   selector: 'op-ium-project-selection',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './project-selection.component.html',
-  styleUrls: ['./project-selection.component.sass'],
 })
 export class ProjectSelectionComponent implements OnInit {
   @Input() type:PrincipalType;
@@ -73,11 +72,11 @@ export class ProjectSelectionComponent implements OnInit {
     },
   ];
 
-  projectAndTypeForm = new FormGroup({
+  projectAndTypeForm = new UntypedFormGroup({
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    type: new FormControl(PrincipalType.User, [Validators.required]),
+    type: new UntypedFormControl(PrincipalType.User, [Validators.required]),
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    project: new FormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
+    project: new UntypedFormControl(null, [Validators.required], ProjectAllowedValidator(this.currentUserService)),
   });
 
   get typeControl():AbstractControl {
@@ -110,7 +109,7 @@ export class ProjectSelectionComponent implements OnInit {
 
     this
       .currentUserService
-      .capabilities$(['memberships/create'])
+      .capabilities$(['memberships/create'], null)
       .pipe(
         map((capabilities) => capabilities.filter((c) => c._links.action.href.endsWith('/memberships/create'))),
       )

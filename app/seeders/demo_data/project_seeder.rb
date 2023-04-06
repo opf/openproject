@@ -1,7 +1,7 @@
 #-- copyright
 
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -93,13 +93,22 @@ module DemoData
     end
 
     def seed_settings
-      welcome = demo_data_for('welcome')
-
-      if welcome.present?
-        Setting.welcome_title = welcome[:title]
-        Setting.welcome_text = welcome[:text]
-        Setting.welcome_on_homescreen = 1
+      seedable_welcome_settings
+        .select { |k,| Settings::Definition[k].writable? }
+        .each do |k, v|
+        Setting[k] = v
       end
+    end
+
+    def seedable_welcome_settings
+      welcome = demo_data_for('welcome')
+      return {} if welcome.blank?
+
+      {
+        welcome_title: welcome[:title],
+        welcome_text: welcome[:text],
+        welcome_on_homescreen: 1
+      }
     end
 
     def reset_project(key)

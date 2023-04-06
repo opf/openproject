@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require 'support/shared/acts_as_watchable'
 
-describe Message, type: :model do
+describe Message do
   let(:message) { create(:message) }
 
   it_behaves_like 'acts_as_watchable included' do
@@ -50,7 +50,7 @@ describe Message, type: :model do
   end
 
   describe 'with forum' do
-    shared_let(:forum) { create :forum }
+    shared_let(:forum) { create(:forum) }
     let(:message) do
       build(:message, forum:, subject: 'Test message', content: 'Test message content')
     end
@@ -71,9 +71,9 @@ describe Message, type: :model do
     end
 
     context 'with previous message' do
-      let(:topic) { create :message }
+      let(:topic) { create(:message) }
       let(:reply) do
-        create :message, forum:, subject: 'Test reply', parent: topic
+        create(:message, forum:, subject: 'Test reply', parent: topic)
       end
 
       it 'replies' do
@@ -97,9 +97,9 @@ describe Message, type: :model do
     end
 
     describe 'moving' do
-      let!(:forum1) { create :forum }
-      let!(:forum2) { create :forum }
-      let!(:message) { create :message, forum: forum1 }
+      let!(:forum1) { create(:forum) }
+      let!(:forum2) { create(:forum) }
+      let!(:message) { create(:message, forum: forum1) }
 
       it 'movings message should update counters' do
         expect do
@@ -136,7 +136,7 @@ describe Message, type: :model do
 
     describe 'with reply set' do
       let!(:reply) do
-        create :message, forum: message.forum, parent: message
+        create(:message, forum: message.forum, parent: message)
       end
 
       it 'destroys topic' do

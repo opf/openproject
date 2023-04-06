@@ -12,6 +12,7 @@ de:
       remove_assignee: 'Zugewiesenen Benutzer entfernen'
       two_weeks: '2 Wochen'
       one_week: '1 Woche'
+      work_week: 'Arbeitswoche'
       today: 'Heute'
       drag_here_to_remove: 'Hierher ziehen, um den zugewiesenen Benutzer zu entfernen und die Start- und Enddaten zu löschen.'
       cannot_drag_here: 'Das Arbeitspaket kann aufgrund von Berechtigungen oder Beschränkungen nicht entfernt werden.'

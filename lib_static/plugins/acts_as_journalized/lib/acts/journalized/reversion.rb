@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -81,7 +81,7 @@ module Acts::Journalized
       # some eager loading may mess up the order
       # journals.order('created_at').last will not work
       # (especially when journals already filtered)
-      # thats why this method exists
+      # that's why this method exists
       # it is impossible to incorporate this into #last_journal
       # because some logic is based on this eager loading bug/feature
       def last_loaded_journal

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,29 +37,88 @@ module Storages::Peripherals::StorageInteraction
       @oauth_client = oauth_client
     end
 
-    def files_query
+    def download_link_query
       case @provider_type
       when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
-        connection_manager.get_access_token.match(
-          on_success: ->(token) do
-            ServiceResult.success(
-              result:
-                ::Storages::Peripherals::StorageInteraction::NextcloudStorageQuery.new(
-                  base_uri: @uri,
-                  origin_user_id: token.origin_user_id,
-                  token: token.access_token,
-                  with_refreshed_token: connection_manager.method(:with_refreshed_token).to_proc
-                )
-            )
-          end,
-          on_failure: ->(_) do
-            ServiceResult.failure(result: :not_authorized)
-          end
-        )
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
+          ::Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery.new(
+            base_uri: @uri,
+            token:,
+            retry_proc: with_refreshed_token_proc
+          )
+        end
       else
         raise ArgumentError
       end
+    end
+
+    def upload_link_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
+          if OpenProject::FeatureDecisions.legacy_upload_preparation_active?
+            ::Storages::Peripherals::StorageInteraction::Nextcloud::LegacyUploadLinkQuery.new(
+              base_uri: @uri,
+              token:,
+              retry_proc: with_refreshed_token_proc
+            )
+          else
+            ::Storages::Peripherals::StorageInteraction::Nextcloud::UploadLinkQuery.new(
+              base_uri: @uri,
+              token:,
+              retry_proc: with_refreshed_token_proc
+            )
+          end
+        end
+      else
+        raise ArgumentError
+      end
+    end
+
+    def files_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
+          ::Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery.new(
+            base_uri: @uri,
+            token:,
+            retry_proc: with_refreshed_token_proc
+          )
+        end
+      else
+        raise ArgumentError
+      end
+    end
+
+    def file_query
+      case @provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        retry_with_refreshed_token do |token, with_refreshed_token_proc|
+          ::Storages::Peripherals::StorageInteraction::Nextcloud::FileQuery.new(
+            base_uri: @uri,
+            token:,
+            retry_proc: with_refreshed_token_proc
+          )
+        end
+      else
+        raise ArgumentError
+      end
+    end
+
+    private
+
+    def retry_with_refreshed_token
+      connection_manager = ::OAuthClients::ConnectionManager.new(user: @user, oauth_client: @oauth_client)
+      connection_manager.get_access_token.match(
+        on_success: ->(token) do
+          ServiceResult.success(result: yield(token, connection_manager.method(:request_with_token_refresh).to_proc))
+        end,
+        on_failure: ->(_) { error(:not_authorized, 'Query could not be created! No access token found!') }
+      )
+    end
+
+    def error(code, log_message = nil, data = nil)
+      ServiceResult.failure(errors: Storages::StorageError.new(code:, log_message:, data:))
     end
   end
 end

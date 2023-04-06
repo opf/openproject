@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'work_package'
 
-describe PlaceholderUsersController, type: :controller do
+describe PlaceholderUsersController do
   shared_let(:placeholder_user) { create(:placeholder_user) }
 
   shared_examples 'do not allow non-admins' do
@@ -106,7 +106,7 @@ describe PlaceholderUsersController, type: :controller do
           expect(response).to be_successful
 
           expect(assigns(:errors).details[:base])
-            .to eq([error: :error_enterprise_only])
+            .to eq([error: :error_enterprise_only, action: "Placeholder Users"])
         end
       end
 
@@ -242,18 +242,18 @@ describe PlaceholderUsersController, type: :controller do
   end
 
   context 'as an admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'authorized flows'
   end
 
   context 'as a user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
     it_behaves_like 'authorized flows'
   end
 
   context 'as an unauthorized user' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     describe 'GET new' do
       before do
@@ -334,7 +334,7 @@ describe PlaceholderUsersController, type: :controller do
   end
 
   context 'as a user that may not delete the placeholder' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     before do
       allow(PlaceholderUsers::DeleteContract)

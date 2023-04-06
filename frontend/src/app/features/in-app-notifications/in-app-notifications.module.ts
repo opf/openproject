@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { OPSharedModule } from 'core-app/shared/shared.module';
+import { OpSharedModule } from 'core-app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { IconModule } from 'core-app/shared/components/icon/icon.module';
 import { InAppNotificationBellComponent } from 'core-app/features/in-app-notifications/bell/in-app-notification-bell.component';
@@ -20,6 +20,9 @@ import { MarkAllAsReadButtonComponent } from './center/toolbar/mark-all-as-read/
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { EmptyStateComponent } from './center/empty-state/empty-state.component';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { InAppNotificationActorsLineComponent } from './entry/actors-line/in-app-notification-actors-line.component';
+import { InAppNotificationDateAlertComponent } from './entry/date-alert/in-app-notification-date-alert.component';
+import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,12 @@ import { IanBellService } from 'core-app/features/in-app-notifications/bell/stat
     MarkAllAsReadButtonComponent,
     IanMenuComponent,
     EmptyStateComponent,
+    InAppNotificationActorsLineComponent,
+    InAppNotificationDateAlertComponent,
+    InAppNotificationsDateAlertsUpsaleComponent,
   ],
   imports: [
-    OPSharedModule,
+    OpSharedModule,
     // Routes for /backlogs
     UIRouterModule.forChild({
       states: IAN_ROUTES,

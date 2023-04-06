@@ -61,7 +61,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
   // eslint-disable-next-line @typescript-eslint/ban-types
   removeTransitionSubscription:Function;
 
-  /** Not savable */
+  /** Not saveable */
   showToolbarSaveButton = false;
 
   /** Toolbar is always enabled */

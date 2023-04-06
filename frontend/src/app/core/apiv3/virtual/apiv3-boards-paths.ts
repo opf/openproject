@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,7 @@ import { ApiV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collec
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ApiV3BoardPath } from 'core-app/core/apiv3/virtual/apiv3-board-path';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
   @InjectField() private authorisationService:AuthorisationService;
@@ -77,7 +78,7 @@ export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
    */
   public allInScope(projectIdentifier:string):Observable<Board[]> {
     const path = this.boardPath(projectIdentifier);
-    return this.list({ filters: [['scope', '=', [path]]] });
+    return this.list({ filters: [['scope', '=', [path]]], pageSize: MAGIC_PAGE_NUMBER });
   }
 
   /**

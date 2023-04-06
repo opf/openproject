@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 require 'spec_helper'
 require_relative '../shared_expectations'
 
-describe CustomActions::Actions::Notify, type: :model do
+describe CustomActions::Actions::Notify do
   let(:key) { :notify }
   let(:type) { :associated_property }
   let(:allowed_values) do
@@ -59,7 +59,7 @@ describe CustomActions::Actions::Notify, type: :model do
     describe '#apply' do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'adds a note with all values distinguised by type' do
+      it 'adds a note with all values distinguished by type' do
         principals = [build_stubbed(:user),
                       build_stubbed(:group),
                       build_stubbed(:user)]

@@ -5,25 +5,25 @@ describe 'inline create work package', js: true do
   let(:types) { [type] }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:status) { create(:default_status) }
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role:
+           role:)
   end
 
   let!(:project) { create(:project, public: true, types:) }
   let!(:existing_wp) { create(:work_package, project:) }
-  let!(:priority) { create :priority, is_default: true }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let!(:priority) { create(:priority, is_default: true) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     workflow
@@ -77,7 +77,7 @@ describe 'inline create work package', js: true do
         )
 
         # Expect no inline create open
-        expect(page).to have_no_selector('.wp-inline-create-row')
+        expect(page).not_to have_selector('.wp-inline-create-row')
       end
     end
 
@@ -94,16 +94,16 @@ describe 'inline create work package', js: true do
       let(:cf_list) do
         create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
-      let(:cf_accessor_frontend) { "customField#{cf_list.id}" }
+      let(:cf_accessor_frontend) { cf_list.attribute_name(:camel_case) }
       let(:types) { [type, cf_type] }
       let(:type) { create(:type_standard) }
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
-      let(:columns) { ::Components::WorkPackages::Columns.new }
+      let(:columns) { Components::WorkPackages::Columns.new }
 
       it 'applies the filter value for the custom field' do
         wp_table.visit!
         filters.open
-        filters.add_filter_by cf_list.name, 'is', cf_list.custom_options.second.name, cf_accessor_frontend
+        filters.add_filter_by cf_list.name, 'is (OR)', cf_list.custom_options.second.name, cf_accessor_frontend
 
         sleep(0.3)
 
@@ -136,14 +136,14 @@ describe 'inline create work package', js: true do
 
         created_wp = WorkPackage.last
 
-        cf_field = wp_table.edit_field(created_wp, :"customField#{cf_list.id}")
+        cf_field = wp_table.edit_field(created_wp, cf_list.attribute_name(:camel_case))
         cf_field.expect_text(cf_list.custom_options.second.name)
       end
     end
   end
 
   describe 'global create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new }
+    let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       wp_table.visit!
@@ -152,28 +152,19 @@ describe 'inline create work package', js: true do
     it_behaves_like 'inline create work package' do
       let(:callback) do
         -> {
-          # Set project
+          # Set project which will also select the type (first one in the selected project)
           project_field = wp_table.edit_field(nil, :project)
           project_field.expect_active!
 
           project_field.openSelectField
           project_field.set_value project.name
-
-          sleep 1
-
-          # Set type
-          type_field = wp_table.edit_field(nil, :type)
-          type_field.expect_active!
-
-          type_field.openSelectField
-          type_field.set_value type.name
         }
       end
     end
   end
 
   describe 'project context create' do
-    let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
       wp_table.visit!
@@ -188,17 +179,17 @@ describe 'inline create work package', js: true do
     context 'when user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
-      let(:project2) { create :project }
+      let(:project2) { create(:project) }
       let(:role2) do
-        create :role,
+        create(:role,
                permissions: %i[view_work_packages
-                               add_work_packages]
+                               add_work_packages])
       end
       let!(:membership) do
-        create :member,
+        create(:member,
                user:,
                project: project2,
-               roles: [role2]
+               roles: [role2])
       end
 
       it 'renders the work packages, but no create' do

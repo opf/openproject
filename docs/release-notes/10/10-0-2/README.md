@@ -38,7 +38,7 @@ This has been fixed in this release. We now use the environment variable *OPENPR
 - Fixed: Inconsistent row heights when resizing widgets [[#31048](https://community.openproject.com/wp/31048)]
 - Fixed: In Budgets projected unit costs and labor cost is not shown [[#31247](https://community.openproject.com/wp/31247)]
 - Fixed: Restart puma workers to cope with potential memory leaks [[#31262](https://community.openproject.com/wp/31262)]
-- Fixed: "Enterprise Edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.com/wp/31265)]
+- Fixed: "Enterprise edition" blue bar would be nicer horizontally [[#31265](https://community.openproject.com/wp/31265)]
 
 #### Contributions
 

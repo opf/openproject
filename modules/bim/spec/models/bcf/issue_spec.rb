@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::Bim::Bcf::Issue, type: :model do
-  let(:type) { create :type, name: "Issue [BCF]" }
-  let(:work_package) { create :work_package, type: }
-  let(:issue) { create :bcf_issue, work_package: }
+describe Bim::Bcf::Issue do
+  let(:type) { create(:type, name: "Issue [BCF]") }
+  let(:work_package) { create(:work_package, type:) }
+  let(:issue) { create(:bcf_issue, work_package:) }
 
   describe '#markup_doc' do
     subject { issue }
@@ -54,8 +54,8 @@ describe ::Bim::Bcf::Issue, type: :model do
   end
 
   describe '.of_project' do
-    let!(:other_work_package) { create :work_package, type: }
-    let!(:other_issue) { create :bcf_issue, work_package: other_work_package }
+    let!(:other_work_package) { create(:work_package, type:) }
+    let!(:other_issue) { create(:bcf_issue, work_package: other_work_package) }
 
     it 'returns all issues of the provided project' do
       expect(described_class.of_project(issue.project))

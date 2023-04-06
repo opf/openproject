@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,11 @@ export class WeekdayService {
    */
   public isNonWorkingDay(date:Date|number):boolean {
     const isoDayOfWeek = (typeof date === 'number') ? date : moment(date).isoWeekday();
-    return !!this.weekdays.find((wd) => wd.day === isoDayOfWeek && !wd.working);
+    return !!(this.weekdays || []).find((wd) => wd.day === isoDayOfWeek && !wd.working);
+  }
+
+  public get nonWorkingDays():IWeekday[] {
+    return this.weekdays.filter((day) => !day.working);
   }
 
   loadWeekdays():Observable<IWeekday[]> {

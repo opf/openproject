@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Wysiwyg tables',
-         type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+         js: true do
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
@@ -317,8 +317,8 @@ describe 'Wysiwyg tables',
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) do
-        page = build :wiki_page_with_content,
-                     title: 'Wiki page with titles'
+        page = build(:wiki_page_with_content,
+                     title: 'Wiki page with titles')
         page.content.text = <<~MARKDOWN
 
           ## This is markdown!

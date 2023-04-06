@@ -14,12 +14,12 @@ To download the latest version (v2.2.3) of our OpenProject Revit AddIn click her
 
 
 
-> **Note**: OpenProject BIM Issue Management is a Premium Feature and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community Edition is easily possible.
+> **Note**: OpenProject BIM Issue Management is an Enterprise add-on and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
 
 
 ## Before usage
 
-Please check the following steps before using the OpenProject BIM Edition.
+Please check the following steps before using the OpenProject BIM edition.
 
 1. Does OpenProject BIM support your [Version of Revit](#system-requirements)?
 2. Did you already install the latest Version of our OpenProject BIM Addin?
@@ -166,7 +166,7 @@ The handling of BIM Issues within Revit is similar to OpenProject BIM. There are
 
 ## Synchronize tasks between Revit and OpenProject
 
-OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. Whatever you do, users of OpenProject BIM Edition will see any changes in the browser as well.  
+OpenProject BIM and Revit automatically synchronize all BIM work packages. You don't have to pay attention to anything else and you can manage your entire project directly in OpenProject. Whatever you do, users of OpenProject BIM edition will see any changes in the browser as well.  
 
 
 

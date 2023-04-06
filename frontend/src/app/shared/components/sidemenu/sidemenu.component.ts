@@ -6,6 +6,7 @@ import {
   HostBinding,
   ElementRef,
 } from '@angular/core';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export interface IOpSidemenuItem {
@@ -18,6 +19,7 @@ export interface IOpSidemenuItem {
   uiOptions?:unknown;
   children?:IOpSidemenuItem[];
   collapsible?:boolean;
+  isEnterprise?:boolean;
 }
 
 export const sidemenuSelector = 'op-sidemenu';
@@ -41,10 +43,13 @@ export class OpSidemenuComponent {
 
   public collapsed = false;
 
+  noEEToken = this.Banner.eeShowBanners;
+
   constructor(
     readonly elementRef:ElementRef,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
+    readonly Banner:BannersService,
   ) {
   }
 

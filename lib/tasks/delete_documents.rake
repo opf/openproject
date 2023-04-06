@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,12 @@ namespace :migrations do
   namespace :documents do
     include Tasks::Shared::UserFeedback
 
+    # rubocop:disable Rails/ApplicationRecord
     class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
       belongs_to :category, class_name: 'DocumentCategory'
     end
+    # rubocop:enable Rails/ApplicationRecord
 
     desc 'Removes all documents'
     task delete: :environment do |_task|

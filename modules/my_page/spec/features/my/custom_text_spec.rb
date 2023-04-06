@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-describe 'Custom text widget on my page', type: :feature, js: true do
+describe 'Custom text widget on my page', js: true do
   let(:permissions) do
     []
   end
@@ -49,8 +49,8 @@ describe 'Custom text widget on my page', type: :feature, js: true do
   let(:my_page) do
     Pages::My::Page.new
   end
-  let(:image_fixture) { ::UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new 'body' }
+  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:editor) { Components::WysiwygEditor.new 'body' }
   let(:field) { TextEditorField.new(page, 'description', selector: '.inline-edit--active-field') }
 
   before do
@@ -101,7 +101,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
 
     within custom_text_widget.area do
       expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
-      expect(page).to have_no_selector('notifications-upload-progress')
+      expect(page).not_to have_selector('notifications-upload-progress')
 
       field.save!
 
@@ -109,7 +109,7 @@ describe 'Custom text widget on my page', type: :feature, js: true do
         .to have_selector('#content img', count: 1)
 
       expect(page)
-        .to have_no_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        .not_to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
     end
 
     # ensure no one but the page's user can see the uploaded attachment

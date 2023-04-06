@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ class Setting
       manual_activation: 2,
       automatic_activation: 3
     }.freeze
+    KEYS = VALUES.invert.merge(VALUES.invert.transform_keys(&:to_s)).freeze
 
     def self.values
       VALUES
@@ -46,7 +47,7 @@ class Setting
     end
 
     def self.key(value:)
-      VALUES.find { |_k, v| v == value || v.to_s == value.to_s }&.first
+      KEYS[value]
     end
 
     def self.disabled
@@ -55,6 +56,10 @@ class Setting
 
     def self.disabled?
       key(value: Setting.self_registration) == :disabled
+    end
+
+    def self.enabled?
+      !disabled?
     end
 
     def self.by_email

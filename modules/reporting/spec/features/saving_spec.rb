@@ -1,11 +1,11 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-describe 'Cost report saving', type: :feature, js: true do
-  let(:project) { create :project }
-  let(:user) { create :admin }
+describe 'Cost report saving', js: true do
+  let(:project) { create(:project) }
+  let(:user) { create(:admin) }
 
-  let(:report_page) { ::Pages::CostReportPage.new project }
+  let(:report_page) { Pages::CostReportPage.new project }
 
   before do
     login_as(user)
@@ -47,15 +47,15 @@ describe 'Cost report saving', type: :feature, js: true do
   end
 
   context 'as user without permissions' do
-    let(:role) { create :role, permissions: %i(view_time_entries) }
+    let(:role) { create(:role, permissions: %i(view_time_entries)) }
     let!(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: role
+             member_through_role: role)
     end
 
     it 'cannot save reports' do
-      expect(page).to have_no_selector('.buttons', text: 'Save')
+      expect(page).not_to have_selector('.buttons', text: 'Save')
     end
   end
 end

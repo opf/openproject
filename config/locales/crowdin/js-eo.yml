@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -224,31 +224,48 @@ eo:
           status_label: "Status:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise Edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise Edition."
+          test_ee: "Test the Enterprise edition 14 days for free"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Fariĝu heroo!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises Edition?"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), two-factor authentication and automatic sync of LDAP groups."
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Premium features"
+            premium_features: "Enterprise add-ons"
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Profesia subteno"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Startu senpagan provperiodon"
           button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
           more_info: "More information"
           text: >
-            The OpenProject Enterprise Edition builds on top of the Community Edition. It includes premium features and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'je'
@@ -277,8 +294,6 @@ eo:
           one: "Unua ordiga kriterio"
           two: "Dua ordiga kriterio"
           three: "Tria ordiga kriterio"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
-      upsale_link: 'Entreprena Eldono.'
     general_text_no: "ne"
     general_text_yes: "jes"
     general_text_No: "Ne"
@@ -297,15 +312,11 @@ eo:
           learn_about: "Lerni pli pri la novaj plibonigoj"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activate"
     label_assignee: 'Assignee'
     label_add_column_after: "Aldoni kolumnon dektre"
@@ -397,6 +408,7 @@ eo:
     label_no_data: "Neniu montrebla datumo"
     label_no_due_date: "no finish date"
     label_no_start_date: "no start date"
+    label_no_date: "no date"
     label_no_value: "No value"
     label_none: "neniu"
     label_not_contains: "ne enhavas"
@@ -461,7 +473,7 @@ eo:
     label_watch_work_package: "Atenti laborpakaĵon"
     label_watcher_added_successfully: "Atentigo sukcese aldonita!"
     label_watcher_deleted_successfully: "Atentigo sukcese forigita!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Malatenti"
     label_unwatch_work_package: "Malatenti laborpakaĵon"
     label_uploaded_by: "Alŝutita de"
@@ -471,10 +483,10 @@ eo:
     label_custom_queries: "Private"
     label_columns: "Kolumnoj"
     label_attachments: Aldonaĵoj
-    label_drop_files: Drop files here
-    label_drop_files_hint: aŭ klaku por aldoni dosierojn
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: "Add attachments"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "Attach and link files by dropping on this field, or pasting from the clipboard."
     label_remove_file: "Forigi %{fileName}"
     label_remove_watcher: "Forigi atentanton %{name}"
@@ -537,14 +549,26 @@ eo:
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
         commented: 'commented'
         processed: 'processed'
         prioritized: 'prioritized'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
@@ -556,16 +580,16 @@ eo:
           one: 'and 1 other'
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -573,14 +597,27 @@ eo:
       menu:
         accountable: 'Respondeculo'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watching: 'Watching'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -596,16 +633,18 @@ eo:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          description: 'These project-specific settings override default settings above.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
@@ -626,6 +665,7 @@ eo:
     project:
       required_outside_context: >
         Please choose a project to create the work package in to see all attributes. You can only select projects which have the type above activated.
+      details_activity: 'Project details activity'
       context: 'Kunteksto de la projekto'
       work_package_belongs_to: 'Tiu ĉi laborpakaĵo apartenas al la projekto %{projectname}.'
       click_to_switch_context: 'Malfermi tiun laborpakaĵon en tiu projekto.'
@@ -676,8 +716,8 @@ eo:
         reset_title: "Reset form configuration"
         confirm_reset: >
           Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises Edition"
-        upgrade_to_ee_text: "Wow! If you need this feature you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise Edition client?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "Pliaj informoj"
         nevermind: "Nevermind"
       edit:
@@ -824,7 +864,7 @@ eo:
       zooms: "Zoom level"
       outlines: "Hierarkia nivelo"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "Strong"
       italic: "Kursiva"
@@ -961,7 +1001,7 @@ eo:
         move_column_left: "Movi kolumnon maldektren"
         move_column_right: "Movi kolumnon dektren"
         hide_column: "Kaŝi kolumnon"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Insert columns"
         filters: "Filtriloj"
         display_sums: "Vidigi sumojn"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -988,7 +1028,7 @@ eo:
         button: 'Agordi tiun ĉi laborpakaĵan tabelon'
         choose_display_mode: 'Montri laborpakaĵojn kiel'
         modal_title: 'Agordoj de laborpakaĵaj tabeloj'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Montri agordojn'
         default_mode: "Flat list"
@@ -1015,7 +1055,7 @@ eo:
         upsale:
           attribute_highlighting: 'Need certain work packages to stand out from the mass?'
           relation_columns: 'Need to see relations in the work package list?'
-          check_out_link: 'Check out the Enterprise Edition.'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filter work packages by relation type'
       tabs:
@@ -1024,26 +1064,25 @@ eo:
         relations: Rilatoj
         watchers: Atentantoj
         files: Dosieroj
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "tagoj"
         weeks: "weeks"
         months: "months"
     toolbar:
       settings:
-        configure_view: "Agordi vidojn ..."
-        columns: "Kolumnoj ..."
-        sort_by: "Sort by ..."
-        group_by: "Grupigi laŭ ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Montri sumojn"
         display_hierarchy: "Montri hierarkiojn"
         hide_hierarchy: "Kaŝi hierarkiojn"
         hide_sums: "Kaŝi sumojn"
         save: "Konservi"
-        save_as: "Konservi kiel ..."
-        export: "Eksporti ..."
-        visibility_settings: "Videbligaj agordoj ..."
-        page_settings: "Renomigi vidon ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Forigi"
       filter: "Filtrilo"
       unselected_title: "Laborpakaĵo"
@@ -1159,9 +1198,9 @@ eo:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: 'Placeholder user (Enterprise Edition only feature)'
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'Has no access to the project and no emails are sent out.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise Edition</a>'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: 'Name or email address'
@@ -1220,4 +1259,5 @@ eo:
       filter_chip:
         remove: 'Forigi'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: 'Fermi'

@@ -5,8 +5,8 @@ he:
       remove: 'הסר רכיב'
       configure: 'הגדר תוסף'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise Edition."
-        link: 'Enterprise Edition.'
+        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        link: 'Enterprise edition.'
       widgets:
         custom_text:
           title: 'Custom text'

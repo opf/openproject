@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,17 @@
 require_relative '../spec_helper'
 
 describe 'BIM navigation spec',
-         type: :feature,
-         with_config: { edition: 'bim' },
-         js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+         js: true, with_config: { edition: 'bim' } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
     create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let(:model) do
@@ -50,10 +48,10 @@ describe 'BIM navigation spec',
            uploader: user)
   end
 
-  let(:card_view) { ::Pages::WorkPackageCards.new(project) }
-  let(:details_view) { ::Pages::BcfDetailsPage.new(work_package, project) }
+  let(:card_view) { Pages::WorkPackageCards.new(project) }
+  let(:details_view) { Pages::BcfDetailsPage.new(work_package, project) }
   let(:full_view) { Pages::FullWorkPackage.new(work_package) }
-  let(:model_tree) { ::Components::XeokitModelTree.new }
+  let(:model_tree) { Components::XeokitModelTree.new }
   let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   before do
@@ -106,7 +104,7 @@ describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).to have_no_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).not_to have_selector('[data-qa-selector="op-wp-card-view"]')
 
         # Go to list only
         model_page.switch_view 'Cards'
@@ -163,13 +161,13 @@ describe 'BIM navigation spec',
   end
 
   context 'on default page' do
-    let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
+    let(:model_page) { Pages::IfcModels::ShowDefault.new project }
 
     it_behaves_like 'can switch from split to viewer to list-only'
   end
 
   context 'on show page' do
-    let(:model_page) { ::Pages::IfcModels::Show.new project, model.id }
+    let(:model_page) { Pages::IfcModels::Show.new project, model.id }
 
     it_behaves_like 'can switch from split to viewer to list-only'
   end

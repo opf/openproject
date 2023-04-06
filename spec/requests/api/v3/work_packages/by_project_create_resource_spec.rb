@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,12 +28,12 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, content_type: :json do
+describe API::V3::WorkPackages::WorkPackagesByProjectAPI, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  shared_let(:project) { create(:project_with_types, public: false) }
   let(:role) { create(:role, permissions:) }
-  let(:project) { create(:project_with_types, public: false) }
   let(:path) { api_v3_paths.work_packages_by_project project.id }
   let(:permissions) { %i[add_work_packages view_project] }
   let(:status) { build(:status, is_default: true) }
@@ -65,7 +65,15 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request, conten
   end
 
   describe 'notifications' do
-    let(:other_user) { create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
+    let(:other_user) do
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: %i(view_work_packages),
+             notification_settings: [
+               build(:notification_setting,
+                     work_package_created: true)
+             ])
+    end
 
     it 'creates a notification' do
       expect(Notification.where(recipient: other_user, resource: WorkPackage.last))

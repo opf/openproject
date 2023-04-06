@@ -7,7 +7,7 @@ nl:
       label_unnamed_list: 'Naamloze lijst'
       label_board_type: 'Type bord'
       upsale:
-        teaser_text: 'Wilt u uw workflows met Borden automatiseren? Geavanceerde boards zijn een Enterprise-functie. Upgrade naar een betaald abonnement.'
+        teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
         upgrade: 'Upgrade nu'
       lists:
         delete: 'Lijst verwijderen'
@@ -62,7 +62,7 @@ nl:
           status: Status
           version: Versie
           subproject: Subproject
-          subtasks: Ouder-Kind
+          subtasks: Parent-child
           basic: Basis
         select_attribute: "Actie attribuut"
       add_list_modal:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,8 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package user mentions',
-         type: :feature,
          js: true do
-  let!(:user) { create :admin }
+  let!(:user) { create(:admin, firstname: 'MeMyself', lastname: 'AndI', member_in_project: project) }
   let!(:user2) { create(:user, firstname: 'Foo', lastname: 'Bar', member_in_project: project) }
   let!(:group) { create(:group, firstname: 'Foogroup', lastname: 'Foogroup') }
   let!(:group_role) { create(:role) }
@@ -48,8 +47,8 @@ describe 'Wysiwyg work package user mentions',
     end
   end
 
-  let(:wp_page) { ::Pages::FullWorkPackage.new work_package, project }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:wp_page) { Pages::FullWorkPackage.new work_package, project }
+  let(:editor) { Components::WysiwygEditor.new }
 
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:comment_field) do
@@ -84,6 +83,25 @@ describe 'Wysiwyg work package user mentions',
 
     expect(page)
       .to have_selector('a.user-mention', text: 'Foo Bar')
+
+    # Mentioning myself works
+    comment_field.activate!
+
+    comment_field.clear with_backspace: true
+    comment_field.input_element.send_keys("@MeMyself")
+    expect(page).to have_selector('.mention-list-item', text: user.name)
+
+    page.find('.mention-list-item', text: user.name).click
+
+    expect(page)
+      .to have_selector('a.mention', text: '@MeMyself AndI')
+
+    comment_field.submit_by_click if comment_field.active?
+
+    wp_page.expect_and_dismiss_toaster message: "The comment was successfully added."
+
+    expect(page)
+      .to have_selector('a.user-mention', text: 'MeMyself AndI')
 
     # Mentioning a group works
     comment_field.activate!

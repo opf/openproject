@@ -4,12 +4,11 @@ sidebar_navigation:
   priority: 600
 description: Using the Nextcloud integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
 keywords: integration, apps, Nextcloud, user
-
 ---
 
 # Using the Nextcloud integration
 
-Starting with OpenProject 12.2, you can now use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+Starting with OpenProject 12.2, you can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 
@@ -24,10 +23,10 @@ This integration makes it possible for you to:
 | Topic                                                        | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link/unlink files and folders to work packages and view and download linked files |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
-| [Next steps for the integration](#next-steps-for-the-integration) | What is planned in future releases                           |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
+| [Unlinking files and folders](#unlinking-files-and-folders) | How to remove the link between a work package and a Nextcloud file or folder |
+| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them |
 
 
 
@@ -39,14 +38,17 @@ To begin using this integration, you will need to first connect your OpenProject
    ![NC_login](1_0_01-Files_Tab-Log_in_error.png)
 
 2. You will see a Nextcloud screen asking you to log in before granting OpenProject access to your Nextcloud account. You will also see a security warning, but since you are indeed trying to connect the two accounts, you can safely ignore it. Click on **Log in** and enter your Nextcloud credentials.
-   ![NC_login_step2](login_nc_step2-1.png)
 
+   ![NC_login_step2](login_nc_step2-1.png)
+   
    ![NC_login_step2](login_nc_step2-2.png)
 
 3. Once you are logged in to Nextcloud, click on **Grant access** to confirm you want to give OpenProject access to your Nextcloud account.
+
    ![NC_login_step2](login_nc_step3.png)
 
 4. You will now will be redirected back to OpenProject, where you will also be asked to grant Nextcloud read and write access to your OpenProject account via the API. This is necessary for the integration to function. Click on **Authorize**.
+
    ![NC_login_step2](login_nc_step4.png)
 
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
@@ -65,14 +67,79 @@ The following video gives you a short overview of how to use this integration:
 ### In OpenProject
 
 In addition to listing files attached to a work package, the **Files** tab now also shows you Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
+
+
+
 ![Empty_status_files](1_0_00-No_files_linked.png)
 
 ![OP_linked_files](1_1_00-All_files_available.png)
 
-> **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
 
+To link a Nextcloud file to the current work package, you can either:
+
+- select a file from your computer, which will be uploaded to Nextcloud and linked to this work package
+- select an existing file in Nextcloud to link to
+
+#### Upload and link file(s)
+
+If the file you want to link has not yet been uploaded to Nextcloud, you can do so by clicking on the **Upload files** link. 
+
+![Click on Upload Files to pick files on your computer](NC_12.5-uploadFilesLink.png)
+
+You will then be prompted to select a file (or multiple files) on your computer that you want to upload to Nextcloud. 
+
+![Pick a file from your computer](NC_12.5-selctFileToUpload.png)
+
+Alternatively, you can also simply drag a file or folder on your computer to this area (under the name of your Nextcloud file storage) and drop it in the drop zone that appears.
+
+Once you have selected or dropped the files you would like to upload, you will need to select a folder on Nextcloud to which they should be stored. 
+
+![Select the destination folder on Nextcloud](NC_12.5-selectLocationToUploadTo.png)
+
+You can click on folders you see to navigate to them. A helpful breadcrumb shows you where you are in the folder hierarchy. 
+
+To navigate one level up or to go back to the root, simply click on the relevant parent in the breadcrumb. 
+
+> **Info**: If you have navigated particularly deep (over 4 levels), intermediate levels might be collapsed to save space, but you'll always be able to navigate back to the immediate parent or the root to go backwards.
+
+To save the files you uploaded to the currently open folder, click on the **Choose location** button.
+
+The selected file is uploaded to your Nextcloud instance and linked to the current work package. It appears under the name of the file storage.
+
+![List of linked files](NC_12.5-fileIsNowLinked.png)
+
+#### Link existing files
+
+If the file you want to link already exists on Nextcloud, you simply have to create the link.
+
+To do so, start by clicking on **Link existing file**.
+
+![Link existing file button](NC_12.5-linkExistingFilesLink.png)
+
+A file picker will appear, displaying all the files and folders on your Nextcloud instance that you have permission to see.
+
+![An example of a file picker on your computer](NC_12.5-clickonAFileorFolderToSelectIt.png)
+
+To link a certain file or folder with this work package, click on the file or folder so the checkmark to the left of it is checked.
+
+If the file you're looking for is inside a folder or multiple levels of folders, you can click on each one to navigate to it. A helpful breadcrumb shows you where you are in the folder hierarchy. 
+
+To navigate one level up or to go back to the root, simply click on the relevant parent in the breadcrumb. 
+
+> **Info**: If you have navigated particularly deep (over 4 levels), intermediate levels might be collapsed to save space, but you'll always be able to navigate back to the immediate parent or the root to go backwards.
+
+Once you have selected the file(s) or folder(s) you wish to link to the work package, click on the **Link # files** button. The number on the button will represent the number of files/folders you have selected.
+
+![Click the Link file(s) button to link the selected files to this work package](NC_12.5-linkNFilesButton.png)
+
+> **Info**: To avoid the button being too long, it will say "Link 3 files" even if you have selected 2 files and 1 folder.
+
+The file is now linked to this work package and is visible in the list:
+
+![The newly-linked file is displayed under the name of the file storage](NC_12.5-secondFileAlsoLinked.png)
 
 ### In Nextcloud
+
 On the file or folder that you want to link to a work package, click on the *three dots → **Details**.*
 
 ![NC_open_file_details](Nextcloud_open_file_details.png)
@@ -113,6 +180,16 @@ There are three additional features related to the integration that you can enab
 > **Note:** In this version of the integration, you can only link files to work packages on Nextcloud; adding a new link to a Nextcloud file via the OpenProject interface is not yet possible, but will be possible in the near future.
 
 
+## Unlinking files and folders
+
+If you wish to unlink any linked file or folder, hover to it in the list of linked Files and click on the **Unlink** icon next to the _Delete_ icon.
+
+![A screenshot of the unlink icon when hovering on a linked file](NC_removeFileLinkButton.png)
+
+You will be asked to confirm that you want to unlink. Click on **Remove link** to do so.
+
+> **Info**: Unlinking a file or folder simply removes the connection with this work package; the original file or folder will _not_ be deleted or affected in any way. The only change is it will no longer appear in the Files tab on OpenProject, and the work package will no longer be listed in the "OpenProject" tab for that file on Nextcloud.
+
 ## Permissions and access control
 
 When a Nextcloud file or folder is linked to a work package, an OpenProject user who has access to that work package will be able to:
@@ -122,13 +199,6 @@ When a Nextcloud file or folder is linked to a work package, an OpenProject user
 - See who last modified it (or who created it, if it has not yet been modified)
 
 However, all available actions depend on permissions the OpenProject user (or more precisely, the Nextcloud account tied to that user) has in Nextcloud. In other words, a user who does not have the permission to access the file in Nextcloud will also *not* be able to open, download, modify or unlink the file in OpenProject.
-
-
-
-## **Next steps for the integration**
-
-Further integration efforts are under way. In the near future, you will be able to link and upload files to Nextcloud directly from the OpenProject interface.
-
 
 
 ## Possible errors and troubleshooting
@@ -163,4 +233,4 @@ In rare occasions, it is possible for the integration to not be able to fetch al
 
 If OpenProject notifications are not properly displayed in Nextcloud, navigate to *Nextcloud settings → Basic settings → Background jobs* and ensure that _Cron_ is selected.
 
-![NC_notifications_not_displayed](Cron_job_settings.png)
+## ![NC_notifications_not_displayed](Cron_job_settings.png)

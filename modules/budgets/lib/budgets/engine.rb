@@ -20,8 +20,6 @@ module Budgets
            icon: 'icon2 icon-budget'
     end
 
-    activity_provider :budgets, class_name: 'Activities::BudgetActivityProvider', default: false
-
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end
@@ -47,8 +45,7 @@ module Budgets
     end
 
     config.to_prepare do
-      OpenProject::ProjectActivity.register on: 'Budget',
-                                            attribute: :updated_at
+      OpenProject::ProjectLatestActivity.register on: 'Budget'
 
       # Add to the budget to the costs group
       ::Type.add_default_mapping(:costs, :budget)

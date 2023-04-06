@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Attribute help texts', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
   let(:modal) { Components::AttributeHelpTextModal.new(instance) }
@@ -57,7 +57,7 @@ describe 'Attribute help texts', js: true do
         editor.set_markdown('My attribute help text')
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
-        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
         expect(instance.help_text).to include 'My attribute help text'
@@ -81,7 +81,7 @@ describe 'Attribute help texts', js: true do
         # Add an image
         # adding an image
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
         # Should now show on index for editing
@@ -139,7 +139,7 @@ describe 'Attribute help texts', js: true do
         # Create new, status is now blocked
         page.find('.attribute-help-texts--create-button').click
         expect(page).to have_selector('#attribute_help_text_attribute_name option', text: 'Assignee')
-        expect(page).to have_no_selector('#attribute_help_text_attribute_name option', text: 'Status')
+        expect(page).not_to have_selector('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy

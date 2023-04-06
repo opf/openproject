@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,19 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 memberships resource', type: :request, content_type: :json do
+describe 'API v3 memberships resource', content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) do
+  shared_let(:project) { create(:project) }
+  shared_let(:current_user) do
     create(:user)
   end
-  let(:admin) do
+  shared_let(:admin) do
     create(:admin)
   end
+  shared_let(:other_role) { create(:role) }
+  shared_let(:global_role) { create(:global_role) }
   let(:own_member) do
     create(:member,
            roles: [create(:role, permissions:)],
@@ -46,9 +49,6 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
            user: current_user)
   end
   let(:permissions) { %i[view_members manage_members] }
-  let(:project) { create(:project) }
-  let(:other_role) { create(:role) }
-  let(:global_role) { create(:global_role) }
   let(:other_user) { create(:user) }
   let(:other_member) do
     create(:member,
@@ -1193,7 +1193,12 @@ describe 'API v3 memberships resource', type: :request, content_type: :json do
         create(:group, member_in_project: project, member_through_role: other_role, members: users)
       end
       let(:principal) { group }
-      let(:users) { [create(:user), create(:user)] }
+      let(:users) do
+        [
+          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)]),
+          create(:user, notification_settings: [build(:notification_setting, membership_added: true, membership_updated: true)])
+        ]
+      end
       let(:another_role) { create(:role) }
       let(:other_member) do
         Member.find_by(principal: group).tap do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,17 +47,18 @@ class Watcher < ApplicationRecord
   protected
 
   def validate_active_user
-    # TODO add informative error message
     return if user.blank?
 
-    errors.add :user_id, :invalid if user.locked?
+    errors.add :user_id, :locked if user.locked?
   end
 
   def validate_user_allowed_to_watch
-    # TODO add informative error message
     return if user.blank? || watchable.blank?
+    # No need to add a missing permission error on top of the user locked error
+    # created by validate_active_user.
+    return if user.locked?
 
-    errors.add :user_id, :invalid unless watchable.possible_watcher?(user)
+    errors.add :user_id, :not_allowed_to_view unless watchable.possible_watcher?(user)
   end
 
   class << self

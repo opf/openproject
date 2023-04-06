@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,13 +29,14 @@
 class CustomFieldsPage
   include Rails.application.routes.url_helpers
   include Capybara::DSL
+  include Capybara::RSpecMatchers
 
   def visit_new(type = 'WorkPackageCustomField')
     visit new_custom_field_path type:
   end
 
   def name_attribute
-    find '#custom_field_name'
+    find_by_id 'custom_field_name'
   end
 
   def default_value_attributes

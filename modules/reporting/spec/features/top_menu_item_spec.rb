@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Top menu items', js: true do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -55,7 +55,7 @@ describe 'Top menu items', js: true do
     within '.op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]' do
       expect(page).not_to have_selector('[style~=overflow]')
 
-      page.find_link(title).find('span').click
+      page.click_link(title)
     end
   end
 
@@ -78,7 +78,7 @@ describe 'Top menu items', js: true do
     let(:reporting_item) { I18n.t('cost_reports_title') }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays reporting item' do
         has_menu_items?(reporting_item)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ describe OpenProject::GithubIntegration::HookHandler do
     create(:project, members: { user => role })
   end
 
-  let(:work_packages) { create_list :work_package, 4, project: }
+  let(:work_packages) { create_list(:work_package, 4, project:) }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 

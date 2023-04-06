@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 describe AccountController,
-         skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :controller do
+         skip_2fa_stage: true do
   class UserHook < OpenProject::Hook::ViewListener
     attr_reader :registered_user, :first_login_user
 
@@ -100,7 +99,7 @@ describe AccountController,
   end
 
   context 'POST #login' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
 
     describe 'wrong password' do
       it 'redirects back to login' do
@@ -189,12 +188,11 @@ describe AccountController,
         expect(response).to redirect_to my_page_path
       end
 
-      context 'with an auth source' do
-        let(:auth_source) { create :ldap_auth_source }
+      context 'with an auth source',
+              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
+        let(:auth_source) { create(:ldap_auth_source) }
 
         it 'creates the user on the fly' do
-          allow(Setting).to receive(:self_registration).and_return('0')
-          allow(Setting).to receive(:self_registration?).and_return(false)
           allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                  firstname: 'Foo',
                                                                  lastname: 'Smith',
@@ -283,7 +281,7 @@ describe AccountController,
     end
 
     context 'GET #logout' do
-      shared_let(:admin) { create :admin }
+      shared_let(:admin) { create(:admin) }
 
       it 'calls reset_session' do
         expect(@controller).to receive(:reset_session).once
@@ -294,14 +292,14 @@ describe AccountController,
       end
 
       context 'with a user with an SSO provider attached' do
-        let(:user) { build_stubbed :user, login: 'bob', identity_url: 'saml:foo' }
+        let(:user) { build_stubbed(:user, login: 'bob', identity_url: 'saml:foo') }
         let(:slo_callback) { nil }
         let(:sso_provider) do
           { name: 'saml',  single_sign_out_callback: slo_callback }
         end
 
         before do
-          allow(::OpenProject::Plugins::AuthPlugin)
+          allow(OpenProject::Plugins::AuthPlugin)
             .to(receive(:login_provider_for))
             .and_return(sso_provider)
           login_as user
@@ -324,8 +322,7 @@ describe AccountController,
           end
 
           context 'with direct login and redirecting callback',
-                  with_settings: { login_required?: true },
-                  with_config: { omniauth_direct_login_provider: 'foo' } do
+                  with_config: { omniauth_direct_login_provider: 'foo' }, with_settings: { login_required?: true } do
             it 'will still call the callback' do
               # Set the previous session
               session[:foo] = 'bar'
@@ -405,8 +402,9 @@ describe AccountController,
       end
     end
 
-    context 'with an auth source' do
-      let(:auth_source) { create :ldap_auth_source }
+    context 'with an auth source',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
+      let(:auth_source) { create(:ldap_auth_source) }
 
       let(:user_attributes) do
         {
@@ -421,8 +419,6 @@ describe AccountController,
       let(:authenticate) { true }
 
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
 
         # required so that the register view can be rendered
@@ -550,11 +546,8 @@ describe AccountController,
   end
 
   context 'GET #register' do
-    context 'with self registration on' do
-      before do
-        allow(Setting).to receive(:self_registration).and_return('3')
-      end
-
+    context 'with self registration on',
+            with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       context 'and password login enabled' do
         before do
           get :register
@@ -579,22 +572,20 @@ describe AccountController,
       end
     end
 
-    context 'with self registration off' do
+    context 'with self registration off',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         get :register
       end
 
       it_behaves_like 'registration disabled'
     end
 
-    context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { create :invitation_token }
+    context 'with self registration off but an ongoing invitation activation',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
+      let(:token) { create(:invitation_token) }
 
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         session[:invitation_token] = token.value
 
         get :register
@@ -610,10 +601,10 @@ describe AccountController,
 
   # See integration/account_test.rb for the full test
   context 'POST #register' do
-    context 'with self registration on automatic' do
+    context 'with self registration on automatic',
+            with_settings: { self_registration: Setting::SelfRegistration.automatic } do
       before do
         allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(false)
-        allow(Setting).to receive(:self_registration).and_return('3')
       end
 
       context 'with password login enabled' do
@@ -665,7 +656,7 @@ describe AccountController,
         end
 
         context "with user limit reached" do
-          let!(:admin) { create :admin }
+          let!(:admin) { create(:admin) }
 
           let(:params) do
             {
@@ -718,11 +709,8 @@ describe AccountController,
       end
     end
 
-    context 'with self registration by email' do
-      before do
-        allow(Setting).to receive(:self_registration).and_return('1')
-      end
-
+    context 'with self registration by email',
+            with_settings: { self_registration: Setting::SelfRegistration.by_email } do
       context 'with password login enabled' do
         before do
           Token::Invitation.delete_all
@@ -769,7 +757,8 @@ describe AccountController,
       end
     end
 
-    context 'with manual activation' do
+    context 'with manual activation',
+            with_settings: { self_registration: Setting::SelfRegistration.manual } do
       let(:user_hash) do
         { login: 'register',
           password: 'adminADMIN!',
@@ -777,10 +766,6 @@ describe AccountController,
           firstname: 'John',
           lastname: 'Doe',
           mail: 'register@example.com' }
-      end
-
-      before do
-        allow(Setting).to receive(:self_registration).and_return('2')
       end
 
       context 'without back_url' do
@@ -834,10 +819,9 @@ describe AccountController,
       end
     end
 
-    context 'with self registration off' do
+    context 'with self registration off',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         post :register,
              params: {
                user: {
@@ -854,10 +838,9 @@ describe AccountController,
       it_behaves_like 'registration disabled'
     end
 
-    context 'with on-the-fly registration' do
+    context 'with on-the-fly registration',
+            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
-        allow(Setting).to receive(:self_registration).and_return('0')
-        allow(Setting).to receive(:self_registration?).and_return(false)
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false)
         allow(AuthSource).to receive(:authenticate).and_return(login: 'foo',
                                                                lastname: 'Smith',
@@ -925,8 +908,8 @@ describe AccountController,
   end
 
   context 'POST activate' do
-    let!(:admin) { create :admin }
-    let(:user) { create :user, status: }
+    let!(:admin) { create(:admin) }
+    let(:user) { create(:user, status:) }
     let(:status) { -1 }
 
     let(:token) { Token::Invitation.create!(user_id: user.id) }
@@ -980,8 +963,8 @@ describe AccountController,
       }
     end
 
-    let(:auth_source) { create :ldap_auth_source }
-    let(:user) { create :user, status: 2, auth_source: }
+    let(:auth_source) { create(:ldap_auth_source) }
+    let(:user) { create(:user, status: 2, auth_source:) }
     let(:login) { user.login }
 
     before do
@@ -1002,7 +985,7 @@ describe AccountController,
     end
 
     context "with an invalid user" do
-      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create(:user, mail: "login@DerpLAP.net") }
       let(:login) { 'foo' }
       let(:attrs) do
         { mail: duplicate.mail, login:, firstname: 'bla', lastname: 'bar' }
@@ -1023,7 +1006,7 @@ describe AccountController,
     end
 
     context "with a missing email" do
-      let!(:duplicate) { create :user, mail: "login@DerpLAP.net" }
+      let!(:duplicate) { create(:user, mail: "login@DerpLAP.net") }
       let(:login) { 'foo' }
       let(:attrs) do
         { login:, firstname: 'bla', lastname: 'bar' }
@@ -1089,13 +1072,13 @@ describe AccountController,
 
     context 'with an invited user' do
       it_behaves_like 'account activation' do
-        let(:user) { create :user, status: 4 }
+        let(:user) { create(:user, status: 4) }
       end
     end
 
     context 'with an registered user' do
       it_behaves_like 'account activation' do
-        let(:user) { create :user, status: 2 }
+        let(:user) { create(:user, status: 2) }
       end
     end
   end

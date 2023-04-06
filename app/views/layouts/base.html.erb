@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -59,6 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 </noscript>
 <op-toasts-container></op-toasts-container>
+<op-modal-overlay></op-modal-overlay>
+<spot-drop-modal-portal></spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
@@ -71,17 +73,17 @@ See COPYRIGHT and LICENSE files for more details.
         </h1>
         <main-menu-toggle></main-menu-toggle>
         <a href="" class="hidden-for-sighted skip-navigation-link"
+           id="skip-navigation--content"
            aria-label="<%= I18n.t('js.work_packages.jump_marks.label_content') %>">
           <%= I18n.t('js.work_packages.jump_marks.content') %>
         </a>
         <%= render_top_menu_left %>
       </div>
-      <div class="op-app-header--center op-logo">
-        <%= link_to(I18n.t('label_home'), fixed_home_url, class: 'op-logo--link') %>
+      <div class="op-app-header--center">
+        <%= render_top_menu_center %>
       </div>
-      <%= call_hook :view_layouts_base_top_menu %>
       <div class="op-app-header--end">
-        <%= render partial: 'search/mini_form' %>
+        <%= call_hook :view_layouts_base_top_menu %>
         <%= render_top_menu_right %>
       </div>
     </header>

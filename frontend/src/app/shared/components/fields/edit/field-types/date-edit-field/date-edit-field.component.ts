@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,57 +26,70 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
   template: `
-    <op-single-date-picker
-        tabindex="-1"
-        (changed)="onValueSelected($event)"
-        (canceled)="onCancel()"
-        [initialDate]="formatter(value)"
-        [required]="required"
-        [disabled]="inFlight"
-        [id]="handler.htmlId"
-        classes="inline-edit--field">
-    </op-single-date-picker>
+    <op-basic-single-date-picker
+      [(ngModel)]="value"
+      (keydown.escape)="onCancel()"
+      (keydown.enter)="handler.handleUserSubmit()"
+      (picked)="handler.handleUserSubmit()"
+      class="inline-edit--field"
+      [id]="handler.htmlId"
+      [required]="required"
+      [disabled]="inFlight"
+      [opAutofocus]="autofocus"
+    ></op-basic-single-date-picker>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DateEditFieldComponent extends EditFieldComponent implements OnInit {
   @InjectField() readonly timezoneService:TimezoneService;
 
-  @InjectField() opModalService:OpModalService;
+  autofocus = false;
 
-  ngOnInit() {
+  ngOnInit():void {
     super.ngOnInit();
+    // Open the datepicker when the field is not part of an editing form.
+    this.autofocus = !this.handler.inEditMode;
   }
 
-  public onValueSelected(data:string) {
-    this.value = this.parser(data);
-    this.handler.handleUserSubmit();
+  public get value():string {
+    return this.formatter(this.resource[this.name]) || '';
   }
 
-  public onCancel() {
-    this.handler.handleUserCancel();
+  public set value(value:string) {
+    this.resource[this.name] = this.parseValue(value);
   }
 
-  public parser(data:any) {
+  public parseValue(data:string) {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
-  public formatter(data:any) {
+  public onCancel():void {
+    this.handler.handleUserCancel();
+    this.onModalClosed();
+  }
+
+  public formatter(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);
     }
     return null;
+  }
+
+  public onModalClosed():void {
+    if (!this.handler.inEditMode) {
+      this.handler.deactivate(false);
+    }
   }
 }

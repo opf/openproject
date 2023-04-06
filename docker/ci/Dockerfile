@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-buster
+FROM ruby:3.2.1-buster
 MAINTAINER operations@openproject.com
 
 ENV NODE_VERSION="16.17.0"
@@ -8,7 +8,9 @@ ENV USER=dev
 RUN useradd -d /home/$USER -m $USER -s /bin/bash
 WORKDIR /home/$USER
 
-RUN curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
+RUN curl --http1.1 --retry 10 --output /tmp/node.tar.gz --silent --show-error https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
+  && tar xzf /tmp/node.tar.gz --directory /usr/local --strip-components=1 \
+  && rm -f /tmp/node.tar.gz
 
 RUN wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
@@ -27,7 +29,7 @@ RUN for url in $CHROME_SOURCE_URL; do \
 
 ENV CI=true
 ENV RAILS_ENV=test
-ENV BUNDLER_VERSION="2.3.12"
+ENV BUNDLER_VERSION="2.4.7"
 ENV BUNDLE_WITHOUT="development:production:docker"
 ENV OPENPROJECT_DISABLE_DEV_ASSET_PROXY=1
 ENV CAPYBARA_DYNAMIC_BIND_IP=1

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,18 +31,18 @@ require 'spec_helper'
 describe 'Work package with relation query group', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
-  let(:project) { create :project, types: [type] }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project, types: [type]) }
   let(:relation_type) { :parent }
   let(:relation_target) { work_package }
   let(:type) do
-    create :type_with_relation_query_group,
-           relation_filter: relation_type
+    create(:type_with_relation_query_group,
+           relation_filter: relation_type)
   end
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
-           type:
+           type:)
   end
   let!(:related_work_package) do
     create(:work_package,
@@ -56,10 +56,10 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
   end
 
-  let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
-  let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
   let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
   let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container')) }
 
@@ -121,7 +121,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
     end
 
     let(:type) do
-      create :type_with_relation_query_group, relation_filter: relation_type
+      create(:type_with_relation_query_group, relation_filter: relation_type)
     end
     let(:query_text) { 'Embedded Table for follows'.upcase }
 
@@ -178,8 +178,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
         full_wp.ensure_page_loaded
 
         # Will first try to load the query, and then hide it.
-        expect(page).to have_no_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_selector('.work-packages-embedded-view--container .op-toast.-error')
+        expect(page).not_to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).not_to have_selector('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end
@@ -188,8 +188,8 @@ describe 'Work package with relation query group', js: true, selenium: true do
     let(:relation_type) { :follows }
     let(:relation_target) { work_package }
     let!(:independent_work_package) do
-      create :work_package,
-             project:
+      create(:work_package,
+             project:)
     end
 
     before do
@@ -233,7 +233,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       end
 
       # adding existing from relations tab
-      relations.add_relation type: ::Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
+      relations.add_relation type: Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
       within(embedded_table.table_container) do
         embedded_table.expect_work_package_listed(independent_work_package)
       end
@@ -256,7 +256,7 @@ describe 'Work package with relation query group', js: true, selenium: true do
       end
 
       # adding existing from relations tab will show work package also in the embedded table
-      relations.add_relation type: ::Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
+      relations.add_relation type: Relation::TYPES[relation_type.to_s][:sym], to: independent_work_package
       within(embedded_table.table_container) do
         embedded_table.expect_work_package_listed(independent_work_package)
       end

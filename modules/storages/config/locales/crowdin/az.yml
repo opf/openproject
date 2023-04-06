@@ -51,7 +51,7 @@ az:
       type_link_text: "“Integration OpenProject”"
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "There are no file storages set up, yet."
+      no_storage_set_up: "There are no file storages set up yet."
       setting_up_additional_storages: "For setting up additional file storages, please visit"
       setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
       setting_up_storages: "For setting up file storages, please visit"
@@ -79,7 +79,7 @@ az:
     label_new_storage: "New storage"
     label_storage: "Storage"
     label_storages: "Storages"
-    no_results: "No storages set up, yet."
+    no_results: "No storages set up yet."
     provider_types:
       label: "Provider type"
       nextcloud:

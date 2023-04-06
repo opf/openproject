@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,19 +42,39 @@ module OAuth
     def extend_content_security_policy
       return unless pre_auth&.authorizable?
 
-      additional_form_actions = application_redirect_uris
+      additional_form_actions = application_http_redirect_uris + application_native_redirect_uris
       return if additional_form_actions.empty?
 
       flash[:_csp_appends] = { form_action: additional_form_actions }
       append_content_security_policy_directives flash[:_csp_appends]
     end
 
-    def application_redirect_uris
-      pre_auth&.client&.application&.redirect_uri
-        .to_s
-        .split
+    def application_http_redirect_uris
+      registered_redirect_uris
         .select { |url| url.start_with?('http') }
         .map { |url| URI.join(url, '/').to_s }
+    end
+
+    def application_native_redirect_uris
+      registered_redirect_uris
+        .reject { |url| url.start_with?('http') || url.start_with?('urn') }
+        .map(&method(:parse_native_redirect_uri))
+        .compact
+    end
+
+    def parse_native_redirect_uri(value)
+      uri = URI.parse(value)
+      "#{uri.scheme}:"
+    rescue StandardError => e
+      Rails.logger.error "Failed to parse native URL '#{value}' for allowing CSP redirects: #{e.message} "
+      nil
+    end
+
+    def registered_redirect_uris
+      @registered_redirect_uris ||=
+        pre_auth&.client&.application&.redirect_uri
+          .to_s
+          .split
     end
   end
 end

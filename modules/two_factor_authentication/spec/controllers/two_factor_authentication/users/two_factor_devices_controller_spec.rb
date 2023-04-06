@@ -1,8 +1,8 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
-  let(:admin) { create :admin }
+describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
+  let(:admin) { create(:admin) }
   let(:user) { create(:user, login: 'foobar') }
   let(:other_user) { create(:user) }
   let(:logged_in_user) { admin }
@@ -129,7 +129,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
       end
 
       context 'with existing non-default device' do
-        let!(:device) { create :two_factor_authentication_device_totp, user:, default: false }
+        let!(:device) { create(:two_factor_authentication_device_totp, user:, default: false) }
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -139,7 +139,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
       end
 
       context 'with existing default device' do
-        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
+        let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
         it 'deletes it' do
           delete :destroy, params: { id: user.id, device_id: device.id }
@@ -149,7 +149,7 @@ describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
       end
 
       context 'with existing default device AND enforced' do
-        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
+        let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
         let(:config) { { enforced: true } }
 
         it 'cannot be deleted' do

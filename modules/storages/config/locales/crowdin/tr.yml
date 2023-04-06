@@ -31,15 +31,15 @@ tr:
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: "can only be numeric or uuid."
+              only_numeric_or_uuid: "yalnızca sayısal veya uuid olabilir."
   api_v3:
     errors:
-      too_many_elements_created_at_once: "Too many elements created at once. Expected %{max} at most, got %{actual}."
+      too_many_elements_created_at_once: "Aynı anda çok fazla öğe oluşturuldu. En fazla %{max} bekleniyordu, %{actual} alındı."
   storages:
     buttons:
       done_continue_setup: "Tamamlandı. Kuruluma devam et"
-      replace_openproject_oauth: "Replace OpenProject OAuth"
-      replace_provider_type_oauth: "Replace %{provider_type} OAuth"
+      replace_openproject_oauth: "OpenProject OAuth'u değiştirin"
+      replace_provider_type_oauth: "%{provider_type} OAuth'u değiştirin"
       save_and_continue_setup: "Kaydet ve kuruluma devam et"
       save_and_complete_setup: "Kaydet ve kurulumu tamamla"
     page_titles:
@@ -50,12 +50,12 @@ tr:
       type: "Lütfen Nextcloud bulut sunucunuzda yönetici ayrıcalıklarına sahip olduğunuzdan ve kurulumu yapmadan önce aşağıdaki uygulamanın kurulu olduğundan emin olun:"
       type_link_text: "“Entegrasyon OpenProject”"
       name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
-      host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
-      no_storage_set_up: "Henüz ayarlanmış bir dosya deposu yok."
+      host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
+      no_storage_set_up: "Henüz ayarlanmış dosya deposu yok."
       setting_up_additional_storages: "Ek dosya depoları ayarlamak için lütfen adresi ziyaret edin."
-      setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
+      setting_up_additional_storages_non_admin: "Yöneticiler, Yönetim'de ek dosya depoları kurabilir"
       setting_up_storages: "Dosya depolarını ayarlamak için lütfen adresi ziyaret edin."
-      setting_up_storages_non_admin: "Administrators can set up file storages in Administration / File Storages."
+      setting_up_storages_non_admin: "Yöneticiler, Yönetim'de dosya depoları kurabilir"
       all_available_storages_already_added: "Mevcut tüm depolar zaten projeye eklenmiştir."
       copy_from: "Bu değeri şuradan kopyala"
       nextcloud:
@@ -79,7 +79,7 @@ tr:
     label_new_storage: "Yeni depolama"
     label_storage: "Depolama"
     label_storages: "Depolamalar"
-    no_results: "Henüz bir depo kurulmadı."
+    no_results: "Henüz ayarlanmış depolama alanı yok."
     provider_types:
       label: "Sağlayıcı türü"
       nextcloud:

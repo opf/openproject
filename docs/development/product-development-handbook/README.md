@@ -304,18 +304,18 @@ During the release phase, the new OpenProject version is rolled out, release not
 
 ### 5.1 Release phase 1: Rollout
 
-| Who is involved?  | Steps                                       | Output                        |
-| ----------------- | ------------------------------------------- | :---------------------------- |
-| - DevOps          | 1. Create news / release notes              | Rolled out / released version |
-| - Marketing       | 2. Release for Cloud / on-premise customers |                               |
-| - Product Manager |                                             |                               |
+| Who is involved?  | Steps                                                             | Output                        |
+|-------------------|-------------------------------------------------------------------|:------------------------------|
+| - DevOps          | 1. Create news / release notes                                    | Rolled out / released version |
+| - Marketing       | 2. Release for Enterprise cloud / Enterprise on-premise customers |                               |
+| - Product Manager |                                                                   |                               |
 
 Once tested and stabilized, a new OpenProject version is rolled out in stages:
 
 1. DevOps creates release branch for new version.
 2. Marketing / PM creates news and release notes.
-3. DevOps deploys new release on Cloud Edition trials.
-4. DevOps deploys new release on Cloud Edition production.
+3. DevOps deploys new release on Enterprise cloud edition trials.
+4. DevOps deploys new release on Enterprise cloud production.
 5. DevOps releases new OpenProject version for on-premise installations (Packager, Docker, notify UCS).
 6. DevOps / Marketing update documentation for new release (technical, marketing information).
 

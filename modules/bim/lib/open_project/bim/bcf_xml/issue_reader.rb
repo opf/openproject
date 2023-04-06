@@ -186,17 +186,19 @@ module OpenProject::Bim::BcfXml
       extractor.viewpoints.each do |vp|
         next if issue.viewpoints.has_uuid?(vp[:uuid])
 
-        issue.viewpoints.build(
+        viewpoint = issue.viewpoints.build(
           issue:,
           uuid: vp[:uuid],
 
           # Save the viewpoint as json
           json_viewpoint: viewpoint_as_json(vp[:uuid], read_entry(vp[:viewpoint])),
-          viewpoint_name: vp[:viewpoint],
-
-          # Save the snapshot as file attachment
-          snapshot: as_file_entry(vp[:snapshot])
+          viewpoint_name: vp[:viewpoint]
         )
+
+        # Save the snapshot as file attachment
+        file = as_file_entry(vp[:snapshot])
+        # Call build_snapshot manually so we can ensure the correct user is passed
+        viewpoint.build_snapshot(file, user:)
       end
     end
 

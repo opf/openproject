@@ -1,0 +1,48 @@
+# Example: Notification collection
+---
+value:
+  _type: Collection
+  count: 2
+  total: 2
+  offset: 1
+  pageSize: 20
+  _embedded:
+    elements:
+      - _hint: Notification resource shortened for brevity
+        id: 1
+        readIAN: false
+        reason: mentioned
+      - _hint: Notification resource shortened for brevity
+        id: 2
+        readIAN: false
+        reason: dateAlert
+        _embedded:
+          details:
+            - _type: 'Values::Property'
+              property: 'startDate'
+              value: '2021-01-01'
+              _links:
+                self:
+                  href: 'api/v3/notifications/123/details/0'
+                schema:
+                  href: 'api/v3/values/schemas/startDate'
+    detailsSchemas:
+      - _type: 'Schema'
+        property:
+          name: 'Property'
+          type: 'String'
+        value:
+          name: 'Start date'
+          type: 'Date'
+        _links:
+          self:
+            href: '/api/v3/values/schemas/startDate'
+  _links:
+    self:
+      href: '/api/v3/notifications?offset=1&pageSize=20'
+    jumpTo:
+      href: '/api/v3/notifications?filters=%5B%5D&offset=%7Boffset%7D&pageSize=20'
+      templated: true
+    changeSize:
+      href: '/api/v3/notifications?filters=%5B%5D&offset=1&pageSize=%7Bsize%7D'
+      templated: true

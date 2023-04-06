@@ -7,7 +7,7 @@ lol:
       label_unnamed_list: 'crwdns500207:0crwdne500207:0'
       label_board_type: 'crwdns500209:0crwdne500209:0'
       upsale:
-        teaser_text: 'crwdns825548:0crwdne825548:0'
+        teaser_text: 'crwdns839487:0crwdne839487:0'
         upgrade: 'crwdns500215:0crwdne500215:0'
       lists:
         delete: 'crwdns500219:0crwdne500219:0'
@@ -62,7 +62,7 @@ lol:
           status: crwdns500295:0crwdne500295:0
           version: crwdns500297:0crwdne500297:0
           subproject: crwdns500299:0crwdne500299:0
-          subtasks: crwdns500301:0crwdne500301:0
+          subtasks: crwdns839489:0crwdne839489:0
           basic: crwdns500303:0crwdne500303:0
         select_attribute: "crwdns500305:0crwdne500305:0"
       add_list_modal:

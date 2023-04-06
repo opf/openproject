@@ -1,17 +1,17 @@
 props:
   spot-shadow-light-low:
-    value: "2px 2px 5px rgba(0, 0, 0, 0.15)"
+    value: "1px 1px 5px rgba(0, 0, 0, 0.15)"
   spot-shadow-light-mid:
-    value: "4px 4px 10px rgba(0, 0, 0, 0.15)"
+    value: "3px 3px 10px rgba(0, 0, 0, 0.15)"
   spot-shadow-light-high:
-    value: "6px 6px 20px rgba(0, 0, 0, 0.15)"
+    value: "5px 5px 20px rgba(0, 0, 0, 0.15)"
 
   spot-shadow-hard-low:
-    value: "2px 2px 5px rgba(0, 0, 0, 0.25)"
+    value: "1px 1px 5px rgba(0, 0, 0, 0.25)"
   spot-shadow-hard-mid:
-    value: "4px 4px 10px rgba(0, 0, 0, 0.25)"
+    value: "3px 3px 10px rgba(0, 0, 0, 0.25)"
   spot-shadow-hard-high:
-    value: "6px 6px 20px rgba(0, 0, 0, 0.25)"
+    value: "5px 5px 20px rgba(0, 0, 0, 0.25)"
 
 global:
   type: box-shadow

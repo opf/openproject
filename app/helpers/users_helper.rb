@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module UsersHelper
   # @param extra [Hash] A hash containing extra entries with a count for each.
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
-    statuses = Users::StatusOptions.user_statuses_with_count extra: extra
+    statuses = Users::StatusOptions.user_statuses_with_count(extra:)
 
     options = statuses.map do |sym, count|
       ["#{translate_user_status(sym)} (#{count})", sym]

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,17 @@
 
 require 'spec_helper'
 
-describe AttributeHelpText::WorkPackage, type: :model do
+describe AttributeHelpText::WorkPackage do
   def create_cf_help_text(custom_field)
     # Need to clear the request store after every creation as the available attributes are cached
     RequestStore.clear!
     # need to clear the cache to free the memoized
     # Type.translated_work_package_form_attributes
     Rails.cache.clear
-    create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
+    create(:work_package_help_text, attribute_name: custom_field.attribute_name)
   end
 
-  let(:wp_custom_field) { create :text_wp_custom_field }
+  let(:wp_custom_field) { create(:text_wp_custom_field) }
 
   let(:cf_instance) do
     create_cf_help_text(wp_custom_field)
@@ -58,7 +58,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe '.used_attributes' do
-    let!(:instance) { create :work_package_help_text }
+    let!(:instance) { create(:work_package_help_text) }
 
     subject { described_class.used_attributes instance.type }
 
@@ -76,7 +76,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
              member_through_role: role)
     end
     let(:permission) { [] }
-    let(:static_instance) { create :work_package_help_text, attribute_name: 'project' }
+    let(:static_instance) { create(:work_package_help_text, attribute_name: 'project') }
 
     before do
       cf_instance
@@ -197,7 +197,7 @@ describe AttributeHelpText::WorkPackage, type: :model do
   end
 
   describe 'instance' do
-    subject { build :work_package_help_text }
+    subject { build(:work_package_help_text) }
 
     it 'provides a caption of its type' do
       expect(subject.attribute_scope).to eq 'WorkPackage'

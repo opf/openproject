@@ -44,7 +44,7 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
+    in the [Collections Section](https://www.openproject.org/docs/api/collections/).
 
     ## Authentication
 
@@ -245,10 +245,16 @@ paths:
     "$ref": "./paths/notifications_unread.yml"
   "/api/v3/notifications/{id}":
     "$ref": "./paths/notification.yml"
+  "/api/v3/notifications/{notification_id}/details/{id}":
+    "$ref": "./paths/notification_details.yml"
   "/api/v3/notifications/{id}/read_ian":
     "$ref": "./paths/notification_read.yml"
   "/api/v3/notifications/{id}/unread_ian":
     "$ref": "./paths/notification_unread.yml"
+  "/api/v3/oauth_applications/{id}":
+    "$ref": "./paths/oauth_application.yml"
+  "/api/v3/oauth_client_credentials/{id}":
+    "$ref": "./paths/oauth_client_credentials.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -351,13 +357,16 @@ paths:
     "$ref": "./paths/statuses.yml"
   "/api/v3/statuses/{id}":
     "$ref": "./paths/status.yml"
+  "/api/v3/storages":
+    "$ref": "./paths/storages.yml"
   "/api/v3/storages/{id}":
     "$ref": "./paths/storage.yml"
-# Temporarily removed for release 12.3 as the specification is not finished.
-# Also the implementation is not yet ready.
-# Discussion is tracked here: https://community.openproject.org/work_packages/43694  
-#  "/api/v3/storages/{id}/files":
-#    "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files":
+    "$ref": "./paths/storage_files.yml"
+  "/api/v3/storages/{id}/files/prepare_upload":
+    "$ref": "./paths/storage_files_prepare_upload.yml"
+  "/api/v3/storages/{id}/oauth_client_credentials":
+    "$ref": "./paths/storage_oauth_client_credentials.yml"
   "/api/v3/time_entries":
     "$ref": "./paths/time_entries.yml"
   "/api/v3/time_entries/{id}/form":
@@ -386,6 +395,8 @@ paths:
     "$ref": "./paths/user_form.yml"
   "/api/v3/users/{id}/lock":
     "$ref": "./paths/user_lock.yml"
+  "/api/v3/values/schema/{id}":
+    "$ref": "./paths/values_schema.yml"
   "/api/v3/versions":
     "$ref": "./paths/versions.yml"
   "/api/v3/versions/available_projects":
@@ -430,8 +441,6 @@ paths:
     "$ref": "./paths/work_package_available_watchers.yml"
   "/api/v3/work_packages/{id}/file_links":
     "$ref": "./paths/work_package_file_links.yml"
-  "/api/v3/work_packages/{id}/update_file_links":
-    "$ref": "./paths/work_package_update_file_links.yml"
   "/api/v3/work_packages/{id}/form":
     "$ref": "./paths/work_package_form.yml"
   "/api/v3/work_packages/{id}/revisions":
@@ -445,6 +454,12 @@ paths:
 
 components:
   examples:
+    DateAlertNotification:
+      $ref: './components/examples/date_alert_notification.yml'
+    MentionedNotification:
+      $ref: './components/examples/mentioned_notification.yml'
+    NotificationCollection:
+      $ref: './components/examples/notification_collection.yml'
     Project:
       $ref: "./components/examples/project.yml"
     ProjectBody:
@@ -455,13 +470,25 @@ components:
       "$ref": "./components/examples/query.yml"
     QuerySchemaModel:
       "$ref": "./components/examples/query_schema.yml"
+    ValuesPropertyStartDateSchema:
+      "$ref": "./components/examples/values_property_start_date_schema.yml"
+    ValuesPropertyDueDateSchema:
+      "$ref": "./components/examples/values_property_due_date_schema.yml"
+    ValuesPropertyDateSchema:
+      "$ref": "./components/examples/values_property_date_schema.yml"
+    ValuesPropertyStartDate:
+      "$ref": "./components/examples/values_property_start_date.yml"
+    ValuesPropertyDueDate:
+      "$ref": "./components/examples/values_property_due_date.yml"
+    ValuesPropertyDate:
+      "$ref": "./components/examples/values_property_date.yml"
     Views:
       "$ref": "./components/examples/views.yml"
     ViewWorkPackagesTable:
       "$ref": "./components/examples/view_work_packages_table.yml"
     ViewTeamPlanner:
       "$ref": "./components/examples/view_team_planner.yml"
-      
+
   responses:
     InvalidRequestBody:
       "$ref": "./components/responses/invalid_request_body.yml"
@@ -557,11 +584,6 @@ components:
       "$ref": "./components/schemas/example_schema_model.yml"
     Execute_custom_action:
       "$ref": "./components/schemas/execute_custom_action.yml"
-# Temporarily removed for the 12.3 release as it is not yet 
-# implemented.
-# Discussion is tracked here: https://community.openproject.org/work_packages/43694
-#    FileCollectionModel:
-#      $ref: './components/schemas/file_collection_model.yml'
     FileLinkCollectionReadModel:
       $ref: './components/schemas/file_link_collection_read_model.yml'
     FileLinkCollectionWriteModel:
@@ -626,6 +648,8 @@ components:
       "$ref": "./components/schemas/membership_update_form.yml"
     NewsModel:
       "$ref": "./components/schemas/news_model.yml"
+    NonWorkingDayCollectionModel:
+      "$ref": "./components/schemas/non_working_day_collection_model.yml"
     NonWorkingDayModel:
       "$ref": "./components/schemas/non_working_day_model.yml"
     NotificationCollectionModel:
@@ -636,6 +660,12 @@ components:
       "$ref": "./components/schemas/notification_settings_model.yml"
     Offset_based_pagination:
       "$ref": "./components/schemas/offset_based_pagination.yml"
+    OAuthApplicationReadModel:
+      "$ref": "./components/schemas/oauth_application_read_model.yml"
+    OAuthClientCredentialsReadModel:
+      "$ref": "./components/schemas/oauth_client_credentials_read_model.yml"
+    OAuthClientCredentialsWriteModel:
+      "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
     Plain_Text:
       "$ref": "./components/schemas/plain_text.yml"
     Plain_TextModel:
@@ -716,40 +746,30 @@ components:
       "$ref": "./components/schemas/status_model.yml"
     StatusesModel:
       "$ref": "./components/schemas/statuses_model.yml"
-    StorageModel:
-      "$ref": "./components/schemas/storage_model.yml"
     StorageFileModel:
       "$ref": "./components/schemas/storage_file_model.yml"
-    StorageFileLocationModel:
-      "$ref": "./components/schemas/storage_file_location_model.yml"
+    StorageFilesModel:
+      "$ref": "./components/schemas/storage_files_model.yml"
+    StorageFileUploadPreparationModel:
+      "$ref": "./components/schemas/storage_file_upload_preparation_model.yml"
+    StorageFileUploadLinkModel:
+      "$ref": "./components/schemas/storage_file_upload_link_model.yml"
+    StorageReadModel:
+      "$ref": "./components/schemas/storage_read_model.yml"
+    StorageWriteModel:
+      "$ref": "./components/schemas/storage_write_model.yml"
     Time_EntryModel:
       "$ref": "./components/schemas/time_entry_model.yml"
     Time_Entry_ActivityModel:
       "$ref": "./components/schemas/time_entry_activity_model.yml"
-    Time_entry_create_form:
-      "$ref": "./components/schemas/time_entry_create_form.yml"
-    Time_entry_update_form:
-      "$ref": "./components/schemas/time_entry_update_form.yml"
     TypeModel:
       "$ref": "./components/schemas/type_model.yml"
     TypesModel:
       "$ref": "./components/schemas/types_model.yml"
     Types_by_ProjectModel:
       "$ref": "./components/schemas/types_by_project_model.yml"
-    Unlock_user:
-      "$ref": "./components/schemas/unlock_user.yml"
     Unstar_QueryModel:
       "$ref": "./components/schemas/unstar_query_model.yml"
-    Update_User:
-      "$ref": "./components/schemas/update_user.yml"
-    Update_group:
-      "$ref": "./components/schemas/update_group.yml"
-    Update_membership:
-      "$ref": "./components/schemas/update_membership.yml"
-    Update_project:
-      "$ref": "./components/schemas/update_project.yml"
-    Update_time_entry:
-      "$ref": "./components/schemas/update_time_entry.yml"
     UserCollectionModel:
       "$ref": "./components/schemas/user_collection_model.yml"
     UserCreateModel:
@@ -758,20 +778,12 @@ components:
       "$ref": "./components/schemas/user_model.yml"
     UserPreferencesModel:
       "$ref": "./components/schemas/user_preferences_model.yml"
-    User_PreferenceModel:
-      "$ref": "./components/schemas/user_preference_model.yml"
-    User_create_form:
-      "$ref": "./components/schemas/user_create_form.yml"
-    User_update_form:
-      "$ref": "./components/schemas/user_update_form.yml"
+    ValuesPropertyModel:
+      "$ref": "./components/schemas/values_property_model.yml"
     VersionModel:
       "$ref": "./components/schemas/version_model.yml"
-    Version_create_form:
-      "$ref": "./components/schemas/version_create_form.yml"
     Version_schemaModel:
       "$ref": "./components/schemas/version_schema_model.yml"
-    Version_update_form:
-      "$ref": "./components/schemas/version_update_form.yml"
     VersionsModel:
       "$ref": "./components/schemas/versions_model.yml"
     Versions_by_ProjectModel:
@@ -814,8 +826,6 @@ components:
       "$ref": "./components/schemas/wiki_page_model.yml"
     Work_PackageModel:
       "$ref": "./components/schemas/work_package_model.yml"
-    Work_Package_Relation_FormModel:
-      "$ref": "./components/schemas/work_package_relation_form_model.yml"
     Work_Package_SchemasModel:
       "$ref": "./components/schemas/work_package_schemas_model.yml"
     Work_Package_activitiesModel:
@@ -830,6 +840,7 @@ tags:
   - "$ref": "./tags/basic_objects.yml"
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/baseline_comparisons.yml"
   - "$ref": "./tags/forms.yml"
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"
@@ -848,6 +859,7 @@ tags:
   - "$ref": "./tags/memberships.yml"
   - "$ref": "./tags/news.yml"
   - "$ref": "./tags/notifications.yml"
+  - "$ref": "./tags/oauth.yml"
   - "$ref": "./tags/posts.yml"
   - "$ref": "./tags/principals.yml"
   - "$ref": "./tags/priorities.yml"
@@ -870,6 +882,7 @@ tags:
   - "$ref": "./tags/types.yml"
   - "$ref": "./tags/userpreferences.yml"
   - "$ref": "./tags/users.yml"
+  - "$ref": "./tags/values_property.yml"
   - "$ref": "./tags/versions.yml"
   - "$ref": "./tags/views.yml"
   - "$ref": "./tags/wiki_pages.yml"

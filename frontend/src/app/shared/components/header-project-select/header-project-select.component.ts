@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -55,14 +55,14 @@ import { IProjectData } from 'core-app/shared/components/searchable-project-list
 export const headerProjectSelectSelector = 'op-header-project-select';
 
 @Component({
-  templateUrl: './header-project-select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: headerProjectSelectSelector,
+  templateUrl: './header-project-select.component.html',
+  styleUrls: ['./header-project-select.component.sass'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     SearchableProjectListService,
   ],
-  encapsulation: ViewEncapsulation.None,
-  styleUrls: ['./header-project-select.component.sass'],
 })
 export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-header-project-select') className = true;
@@ -71,7 +71,7 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
 
   public textFieldFocused = false;
 
-  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create');
+  public canCreateNewProjects$ = this.currentUserService.hasCapabilities$('projects/create', 'global');
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -140,6 +140,8 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     mergeMap(() => this.searchableProjectListService.fetchingProjects$),
   );
 
+  private scrollToCurrent = false;
+
   constructor(
     protected pathHelper:PathHelperService,
     protected I18n:I18nService,
@@ -152,13 +154,20 @@ export class OpHeaderProjectSelectComponent extends UntilDestroyedMixin {
     this.projects$
       .pipe(this.untilDestroyed())
       .subscribe((projects) => {
-        this.searchableProjectListService.resetActiveResult(projects);
+        if (this.currentProject.id && projects.length && this.scrollToCurrent) {
+          this.searchableProjectListService.selectedItemID$.next(parseInt(this.currentProject.id, 10));
+        } else {
+          this.searchableProjectListService.resetActiveResult(projects);
+        }
+
+        this.scrollToCurrent = false;
       });
   }
 
   toggleDropModal():void {
     this.dropModalOpen = !this.dropModalOpen;
     if (this.dropModalOpen) {
+      this.scrollToCurrent = true;
       this.searchableProjectListService.loadAllProjects();
     }
   }

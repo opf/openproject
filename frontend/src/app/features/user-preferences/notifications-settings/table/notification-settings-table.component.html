@@ -51,8 +51,8 @@
             <input
               type="checkbox"
               formControlName="assignee"
-              data-qa-project-notification-type="assignee" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="assignee"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
@@ -66,12 +66,95 @@
             <input
               type="checkbox"
               formControlName="responsible"
-              data-qa-project-notification-type="responsible" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="responsible"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
       </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          <h5>{{ text.dateAlerts.title }}</h5>
+          <p>{{ text.dateAlerts.description }}</p>
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell"></td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.startDate }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="startDate"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-start-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.dueDate }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="dueDate"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-due-date-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimes"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="!eeShowBanners">
+        <th class="op-table--cell op-table--cell_soft-heading">
+          {{ text.overdue }}
+        </th>
+        <ng-container *ngFor="let item of settings.controls">
+          <td class="op-table--cell--date-alerts" [formGroup]="item">
+            <select
+              formControlName="overdue"
+              class="op-reminder-settings-table-date-alerts--time form--select"
+              data-qa-project-notification-type="op-reminder-settings-overdue-alerts"
+              [attr.data-qa-project]="item.controls.project.value.title"
+              required="true"
+            >
+              <option
+                *ngFor="let availableTime of availableTimesOverdue"
+                [ngValue]="availableTime.value"
+              >
+                {{availableTime.title}}
+              </option>
+            </select>
+          </td>
+        </ng-container>
+      </tr>
+
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">
           <h5>{{ text.alsoNotifyFor.title }}</h5>
@@ -81,6 +164,7 @@
           <td class="op-table--cell"></td>
         </ng-container>
       </tr>
+
       <tr>
         <th class="op-table--cell op-table--cell_soft-heading">{{ text.work_package_created_header }}</th>
         <ng-container *ngFor="let item of settings.controls">
@@ -88,8 +172,8 @@
             <input
               type="checkbox"
               formControlName="workPackageCreated"
-              data-qa-project-notification-type="work_package_created" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="work_package_created"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
@@ -101,8 +185,8 @@
             <input
               type="checkbox"
               formControlName="workPackageProcessed"
-              data-qa-project-notification-type="work_package_processed" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="work_package_processed"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
@@ -114,8 +198,8 @@
             <input
               type="checkbox"
               formControlName="workPackageScheduled"
-              data-qa-project-notification-type="work_package_scheduled" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="work_package_scheduled"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
@@ -127,8 +211,8 @@
             <input
               type="checkbox"
               formControlName="workPackagePrioritized"
-              data-qa-project-notification-type="work_package_prioritized" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="work_package_prioritized"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>
@@ -140,8 +224,8 @@
             <input
               type="checkbox"
               formControlName="workPackageCommented"
-              data-qa-project-notification-type="work_package_commented" 
-              [attr.data-qa-project]="item.controls.project.value.title" 
+              data-qa-project-notification-type="work_package_commented"
+              [attr.data-qa-project]="item.controls.project.value.title"
             />
           </td>
         </ng-container>

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,22 +30,23 @@ class Authorization::EnterpriseService
   attr_accessor :token
 
   GUARDED_ACTIONS = %i(
-    define_custom_style
-    multiselect_custom_fields
-    edit_attribute_groups
-    work_package_query_relation_columns
     attribute_help_texts
-    two_factor_authentication
-    ldap_groups
-    custom_fields_in_projects_list
-    custom_actions
-    conditional_highlighting
-    readonly_work_packages
-    attachment_filters
     board_view
+    conditional_highlighting
+    custom_actions
+    custom_fields_in_projects_list
+    date_alerts
+    define_custom_style
+    edit_attribute_groups
     grid_widget_wp_graph
+    ldap_groups
+    multiselect_custom_fields
+    openid_providers
     placeholder_users
+    readonly_work_packages
     team_planner_view
+    two_factor_authentication
+    work_package_query_relation_columns
   ).freeze
 
   def initialize(token)
@@ -68,7 +69,7 @@ class Authorization::EnterpriseService
 
   def process(action)
     # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
+    GUARDED_ACTIONS.include?(action.to_sym)
   end
 
   def result(bool)

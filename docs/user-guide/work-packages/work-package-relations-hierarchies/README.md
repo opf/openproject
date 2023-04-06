@@ -15,7 +15,7 @@ Relations indicate any functional or timely relation (e.g. follows or proceeds, 
 | Topic                                                        | Content                                                      |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Work packages relations](#work-package-relations)           | How can I set a relation between two work packages and which relations can I set? |
-| [Display relations in work package list](#display-relations-in-work-package-list-premium-feature) | How can I display the relations between two work packages in the work package list? |
+| [Display relations in work package list](#display-relations-in-work-package-list-enterprise-add-on) | How can I display the relations between two work packages in the work package list? |
 | [Work package hierarchies](#work-package-hierarchies)        | What are work package hierarchies? Learn about parent and children work packages. |
 | [Adding a child work package](#adding-a-child-work-package)  | What are the possibilities to add children work packages?    |
 | [Change the parent work package](#change-the-parent-work-package) | How can I change a work package's parent?                    |
@@ -46,7 +46,7 @@ The selected relation status will be automatically displayed in the work package
 
 
 
-## Display relations in work package list (Premium feature)
+## Display relations in work package list (Enterprise add-on)
 
 As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package list.
 

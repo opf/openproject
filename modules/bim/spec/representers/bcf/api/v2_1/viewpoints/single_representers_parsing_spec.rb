@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,7 @@ describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
     OpenStruct.new
   end
   let(:hash) do
-    FactoryBot
-      .attributes_for(:bcf_viewpoint)[:json_viewpoint]
+    attributes_for(:bcf_viewpoint)[:json_viewpoint]
       .merge(
         "snapshot" =>
           {

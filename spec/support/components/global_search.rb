@@ -1,9 +1,8 @@
 module Components
   class GlobalSearch
     include Capybara::DSL
+    include Capybara::RSpecMatchers
     include RSpec::Matchers
-
-    def initialize; end
 
     def container
       page.find('.top-menu-search--input')
@@ -77,7 +76,7 @@ module Components
 
     def expect_no_work_package_option(wp)
       expect(page)
-        .to have_no_selector('.global-search--option', text: wp.subject.to_s)
+        .not_to have_selector('.global-search--option', text: wp.subject.to_s)
     end
 
     def click_work_package(wp)

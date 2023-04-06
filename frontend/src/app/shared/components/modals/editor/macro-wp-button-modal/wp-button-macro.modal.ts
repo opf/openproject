@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,13 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, Inject, ViewChild,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Inject,
+  ViewChild,
 } from '@angular/core';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -40,15 +46,12 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 
 @Component({
   templateUrl: './wp-button-macro.modal.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WpButtonMacroModalComponent extends OpModalComponent implements AfterViewInit {
   public changed = false;
 
   public showClose = true;
-
-  public closeOnEscape = true;
-
-  public closeOnOutsideClick = true;
 
   public selectedType:string;
 
@@ -92,6 +95,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
       .post({})
       .subscribe((form:FormResource) => {
         this.availableTypes = form.schema.type.allowedValues;
+        this.cdRef.detectChanges();
       });
   }
 

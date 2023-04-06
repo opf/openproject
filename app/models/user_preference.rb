@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -132,7 +132,7 @@ class UserPreference < ApplicationRecord
   end
 
   def immediate_reminders
-    super.presence || { mentioned: false }.with_indifferent_access
+    super.presence || { mentioned: true }.with_indifferent_access
   end
 
   def pause_reminders

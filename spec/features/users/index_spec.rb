@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'index users', type: :feature, js: true do
-  shared_let(:current_user) { create :admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago }
+describe 'index users', js: true do
+  shared_let(:current_user) { create(:admin, firstname: 'admin', lastname: 'admin', created_at: 1.hour.ago) }
   let(:index_page) { Pages::Admin::Users::Index.new }
 
   before do
@@ -37,9 +37,9 @@ describe 'index users', type: :feature, js: true do
   end
 
   describe 'with some sortable users' do
-    let!(:a_user) { create :user, login: 'aa_login', firstname: 'aa_first', lastname: 'xxx_a' }
-    let!(:b_user) { create :user, login: 'bb_login', firstname: 'bb_first', lastname: 'nnn_b' }
-    let!(:z_user) { create :user, login: 'zz_login', firstname: 'zz_first', lastname: 'ccc_z' }
+    let!(:a_user) { create(:user, login: 'aa_login', firstname: 'aa_first', lastname: 'xxx_a') }
+    let!(:b_user) { create(:user, login: 'bb_login', firstname: 'bb_first', lastname: 'nnn_b') }
+    let!(:z_user) { create(:user, login: 'zz_login', firstname: 'zz_first', lastname: 'ccc_z') }
 
     it 'sorts them correctly (Regression #35012)' do
       index_page.visit!
@@ -60,10 +60,10 @@ describe 'index users', type: :feature, js: true do
   end
 
   describe 'with some more status users' do
-    shared_let(:anonymous) { create :anonymous }
-    shared_let(:active_user) { create :user, created_at: 1.minute.ago }
-    shared_let(:registered_user) { create :user, status: User.statuses[:registered] }
-    shared_let(:invited_user) { create :user, status: User.statuses[:invited] }
+    shared_let(:anonymous) { create(:anonymous) }
+    shared_let(:active_user) { create(:user, created_at: 1.minute.ago) }
+    shared_let(:registered_user) { create(:user, status: User.statuses[:registered]) }
+    shared_let(:invited_user) { create(:user, status: User.statuses[:invited]) }
 
     it 'shows the users by status and allows status manipulations',
        with_settings: { brute_force_block_after_failed_logins: 5,
@@ -147,7 +147,7 @@ describe 'index users', type: :feature, js: true do
     end
 
     context 'as global user' do
-      shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+      shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
       let(:current_user) { global_manage_user }
 
       it 'can too visit the page' do

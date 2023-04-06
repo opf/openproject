@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ export class CurrentUserService {
   /**
    * Returns the set of capabilities for the given context and/or actions
    */
-  public capabilities$(actions:string[] = [], projectContext:string|null = null):Observable<ICapability[]> {
+  public capabilities$(actions:string[] = [], projectContext:string|null):Observable<ICapability[]> {
     return this
       .principalFilter$()
       .pipe(
@@ -92,7 +92,7 @@ export class CurrentUserService {
 
           return { filters, pageSize: -1 };
         }),
-        switchMap((params) => this.capabilitiesService.require$(params)),
+        switchMap((params) => this.capabilitiesService.require(params)),
       );
   }
 
@@ -100,7 +100,7 @@ export class CurrentUserService {
    * Returns an Observable<boolean> indicating whether the current user has the required capabilities
    * in the provided context.
    */
-  public hasCapabilities$(action:string|string[], projectContext = 'global'):Observable<boolean> {
+  public hasCapabilities$(action:string|string[], projectContext:string|null):Observable<boolean> {
     const actions = _.castArray(action);
     return this
       .capabilities$(actions, projectContext)
@@ -117,7 +117,7 @@ export class CurrentUserService {
    * Returns an Observable<boolean> indicating whether the current user
    * has any of the required capabilities in the provided context.
    */
-  public hasAnyCapabilityOf$(actions:string|string[], projectContext = 'global'):Observable<boolean> {
+  public hasAnyCapabilityOf$(actions:string|string[], projectContext:string|null):Observable<boolean> {
     const actionsToFilter = _.castArray(actions);
     return this
       .capabilities$(actionsToFilter, projectContext)

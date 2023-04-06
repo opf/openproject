@@ -11,7 +11,7 @@ release_date: 2020-04-23
 | Release notes                                                | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [OpenProject 10.5.0](#openproject-1050)                      | What is new for OpenProject 10.5.0?                          |
-| [OpenProject 10.5 BIM Edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
+| [OpenProject 10.5 BIM edition for construction project management](#openproject-105-bim-edition-for-construction-project-management) | What is new for the construction project management for the building industry in OpenProject 10.5.0? |
 
 
 # OpenProject 10.5.0
@@ -47,15 +47,15 @@ The summary of news will now be displayed in the news widget on the project over
 
 ![news-summary](news-summary.png)
 
-## Upgrade to the OpenProject Enterprise Edition
+## Upgrade to the OpenProject Enterprise on-premises edition
 
-With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise Edition. Within your system Administration under -> Enterprise Edition you now have the possibility to start a 14 days free trial for the Enterprise Edition. Also, you can upgrade directly to get professional support, premium features, and additional security features. The Enterprise token will be generated and updated in your Community installation.
+With OpenProject 10.5 it is now much easier to upgrade an existing Community installation to the Enterprise edition. Within your system Administration under -> Enterprise edition you now have the possibility to start a 14 days free trial for the Enterprise edition. Also, you can upgrade directly to get professional support, Enterprise add-ons, and additional security features. The Enterprise token will be generated and updated in your Community installation.
 
- ![Enterprise-Edition-upgrade](Enterprise-Edition-upgrade.png)
+ ![Enterprise-edition-upgrade](Enterprise-Edition-upgrade.png)
 
-## OpenProject 10.5 BIM Edition for construction project management
+## OpenProject 10.5 BIM edition for construction project management
 
-OpenProject BIM 10.5 will improvement BIM project management for the construction industry, especially with the support of the BIM Collaboration Format (BCF). With the BCF Management module, the OpenProject BIM Edition now offers a fast and intuitive form of central collaboration and coordination in your BIM projects. Release 10.4 has already added an IFC Viewer for the integration of 3D building models. Now, BCF issues can be created directly in the 3D model and managed centrally.
+OpenProject BIM 10.5 will improvement BIM project management for the construction industry, especially with the support of the BIM Collaboration Format (BCF). With the BCF Management module, the OpenProject BIM edition now offers a fast and intuitive form of central collaboration and coordination in your BIM projects. Release 10.4 has already added an IFC Viewer for the integration of 3D building models. Now, BCF issues can be created directly in the 3D model and managed centrally.
 
 ### Collaboration and coordination in one central BIM project management software
 
@@ -65,7 +65,7 @@ OpenProject supports BIM project management with central planning, collaboration
 
 ### BCF Management for the construction industry
 
-The core scenario enabled by the new release of the BIM Edition is BIM Issue Management with BCF. This enables issues in a construction project (e.g. clashes, requests, questions) to be created and communicated directly on a 3D model or between several submodels.
+The core scenario enabled by the new release of the BIM edition is BIM Issue Management with BCF. This enables issues in a construction project (e.g. clashes, requests, questions) to be created and communicated directly on a 3D model or between several submodels.
 Both, model-associated issues (BCFs) directly on the BIM model as well as non-model-associated tasks can be created and tracked.
 
 ![BCF-management-details](BCF-management-details.png)
@@ -160,7 +160,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Hourly cron synchronization not executed in docker context \[[#32884](https://community.openproject.com/wp/32884)\]
 - Fixed: Assignee list empty when creating a task in "modules" work package list \[[#32887](https://community.openproject.com/wp/32887)\]
 - Fixed: [Docker] Attach files error "An internal error has occurred. The attachment could not be saved due to lacking file system permissions" \[[#32890](https://community.openproject.com/wp/32890)\]
-- Fixed: Inconsistent breadcrumb in Administration -> Enterprise Edition \[[#32905](https://community.openproject.com/wp/32905)\]
+- Fixed: Inconsistent breadcrumb in Administration -> Enterprise edition \[[#32905](https://community.openproject.com/wp/32905)\]
 - Fixed: Styling and consistency issues in the confirm deletion modal for the EE token \[[#32908](https://community.openproject.com/wp/32908)\]
 - Fixed: Misaligned menu opener in Backlogs plugin \[[#32923](https://community.openproject.com/wp/32923)\]
 - Fixed: Wrong space in members widget after a group \[[#32927](https://community.openproject.com/wp/32927)\]
@@ -173,7 +173,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Confirm icon too close to text in EE trial modal \[[#33084](https://community.openproject.com/wp/33084)\]
 - Fixed: Internal error when trying to request EE trial license with Chinese language settings \[[#33085](https://community.openproject.com/wp/33085)\]
 - Fixed: Cannot resend email to activate EE trial license \[[#33086](https://community.openproject.com/wp/33086)\]
-- Fixed: Enterprise Edition email confirmation page reloads automatically \[[#33087](https://community.openproject.com/wp/33087)\]
+- Fixed: Enterprise edition email confirmation page reloads automatically \[[#33087](https://community.openproject.com/wp/33087)\]
 - Fixed: Button "Continue" when adding column to board should be named "Add" \[[#33090](https://community.openproject.com/wp/33090)\]
 - Fixed: Internal error when trying to save manually sorted work package view \[[#33092](https://community.openproject.com/wp/33092)\]
 - Fixed: Error when trying to export work packages \[[#33093](https://community.openproject.com/wp/33093)\]

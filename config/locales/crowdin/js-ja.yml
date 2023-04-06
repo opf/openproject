@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -226,30 +226,47 @@ ja:
           status_confirmed: "確認済み"
           status_waiting: "メールが送信されました - 確認待ちです"
           test_ee: "エンタープライズ版を14日間無料でテストする"
-          quick_overview: "OpenProject Enterprise Edition でのプロジェクト管理とチームコラボレーションの概要をご確認ください。"
+          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "ヒーローになろう!"
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "オンプレミス版 Enterprise Edition にはどのようなメリットがありますか？"
+            description: "What are the benefits of the Enterprise on-premises edition?"
             high_security: "セキュリティ機能"
-            high_security_text: "シングルサインオン(SAML、OpenID Connect、CAS)、2要素認証、LDAPグループの自動同期。"
+            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "インストールサポート"
             installation_text: "経験豊富なソフトウェアエンジニアが、あなた独自のインフラストラクチャへの完全なインストールとセットアッププロセスをガイドします。"
-            premium_features: "プレミアム機能"
+            premium_features: "エンタープライズアドオン"
             premium_features_text: "アジャイルボード、カスタムテーマとロゴ、グラフ、カスタムアクションによるインテリジェントワークフロー、ワークパッケージの添付ファイルおよびマルチセレクトカスタムフィールドの全文検索。"
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
           button_start_trial: "無料トライアルを開始"
           button_upgrade: "Upgrade now"
+          button_contact_us: "Contact us for a demo"
           button_book_now: "今すぐ予約"
           confidence: >
             テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
           link_quote: "見積もりの入手"
-          more_info: "More information"
+          more_info: "詳細情報"
           text: >
-            OpenProject Enterprise Edition は、Community Edition の上に構築されます。 OpenProjectでビジネスクリティカルなプロジェクトを管理する10人以上のユーザーを抱える組織を中心としたプレミアム機能とプロフェッショナルサポートが含まれています。
+            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "無制限"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise Edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+      working_days:
+        calendar:
+          empty_state_header: "Non-working days"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(new)'
+        add_non_working_day: "Non-working day"
+        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
+        change_button: "Save and reschedule"
+        change_title: "Change working days"
+        removed_title: "You will remove the following days from the non-working days list:"
+        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+        warning: >
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'オン'
@@ -278,8 +295,6 @@ ja:
           one: "最初の並べ替え条件"
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this feature."
-      upsale_link: 'エンタープライズ版。'
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -298,15 +313,11 @@ ja:
           learn_about: "新機能の詳細はこちら"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_3':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-3-release
-              new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Define your global work week (weekends and non-working days of the week).</li> <li>Calculate duration based on start and finish dates and the possibility to consider non-working days (weekends) in scheduling.</li> <li>Add meaningful tooltips to the most essential actions.</li> <li>Copying a project will also copy file links attached to all work packages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "有効にする"
     label_assignee: 'Assignee'
     label_add_column_after: "後に列を追加"
@@ -378,7 +389,7 @@ ja:
     label_in_more_than: "今日から○日後以降"
     label_incoming_emails: "受信メール"
     label_information_plural: "情報"
-    label_invalid: "Invalid"
+    label_invalid: "無効"
     label_import: "インポート"
     label_latest_activity: "最新の活動"
     label_last_updated_on: "最終更新日："
@@ -398,6 +409,7 @@ ja:
     label_no_data: "表示できるデータがありません。"
     label_no_due_date: "終了日が未設定"
     label_no_start_date: "開始日なし"
+    label_no_date: "no date"
     label_no_value: "値なし"
     label_none: "なし"
     label_not_contains: "含まない"
@@ -462,7 +474,7 @@ ja:
     label_watch_work_package: "作業項目をウォッチ"
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
     label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
-    label_work_package_details_you_are_here: "あなたは %{type} %{subject}で %{tab} タブにいます。"
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
@@ -472,10 +484,10 @@ ja:
     label_custom_queries: "Private"
     label_columns: "列"
     label_attachments: 添付ファイル
-    label_drop_files: ここにファイルをドロップ
-    label_drop_files_hint: またはクリックしてファイルを追加する
+    label_drop_files: "Drop files here to attach files."
+    label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: フォルダを添付ファイルとしてアップロードすることはできません。 単一のファイルを選択してください。
-    label_add_attachments: "添付ファイルを追加する"
+    label_add_attachments: "Attach files"
     label_formattable_attachment_hint: "このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。"
     label_remove_file: "%{fileName}を削除"
     label_remove_watcher: "ウォッチャー%{name}を削除"
@@ -538,14 +550,26 @@ ja:
       no_unread: "No unread notifications"
       reasons:
         mentioned: 'mentioned'
-        watched: 'watched'
-        assigned: 'assigned'
+        watched: 'watcher'
+        assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
+        created: '作成する'
+        scheduled: 'スケジュール済'
+        commented: 'コメント'
         processed: 'processed'
         prioritized: 'prioritized'
+        dateAlert: 'Date alert'
+      date_alerts:
+        milestone_date: 'Milestone date'
+        overdue: 'Overdue'
+        overdue_since: 'since %{difference_in_days}'
+        property_today: 'is today'
+        property_is: 'is in %{difference_in_days}'
+        property_was: 'was %{difference_in_days} ago'
+        property_is_deleted: 'is deleted'
+        upsale:
+          title: 'Date alerts'
+          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
       facets:
         unread: 'Unread'
         unread_title: 'Show unread'
@@ -556,16 +580,16 @@ ja:
         and_more_users:
           other: 'and %{count} others'
         no_results:
-          at_all: 'New notifications will appear here when there is activity that concerns you, in the mean time you can also view and modify your notification settings to configure when to be notified.'
+          at_all: 'New notifications will appear here when there is activity that concerns you.'
           with_current_filter: 'There are no notifications in this view at the moment'
         mark_all_read: 'Mark all as read'
         mark_as_read: 'Mark as read'
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -573,14 +597,27 @@ ja:
       menu:
         accountable: '責任者'
         by_project: 'Unread by project'
-        by_reason: 'Involvement'
+        by_reason: 'Reason'
         inbox: 'Inbox'
         mentioned: 'Mentioned'
-        watching: 'Watching'
+        watched: 'Watcher'
+        date_alert: 'Date alert'
       settings:
-        change_notification_settings: 'To view and change your notification settings, <a target="_blank" href="%{url}">click here</a>'
+        change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Notification settings"
         notify_me: "Notify me"
+        reminders:
+          no_notification: No notification
+          timeframes:
+            normal:
+              PT0S: same day
+              P1D: 1 day before
+              P3D: 3 days before
+              P7D: a week before
+            overdue:
+              P1D: every day
+              P3D: every 3 days
+              P7D: every week
         reasons:
           mentioned:
             title: 'Mentioned'
@@ -596,16 +633,18 @@ ja:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
           delayed:
             title: 'Non-participating'
-            description: 'Additional notifications for activities in all projects'
+            description: 'Additional notifications for activities in all projects.'
           date_alerts:
             title: 'Date alerts'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher)'
+            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          overdue: When overdue
         project_specific:
           title: 'Project-specific notification settings'
-          description: 'These project-specific settings override default settings above'
+          description: 'These project-specific settings override default settings above.'
           add: 'Add setting for project'
           already_selected: 'This project is already selected'
           remove: 'Remove project settings'
@@ -626,6 +665,7 @@ ja:
     project:
       required_outside_context: >
         作業パッケージを作成するプロジェクトを選択して、すべての属性を確認してください。 上記で有効になっているタイプのプロジェクトのみ選択できます。
+      details_activity: 'Project details activity'
       context: 'プロジェクトのコンテキスト'
       work_package_belongs_to: 'このワークパッケージは、プロジェクト %{projectname} に属しています。'
       click_to_switch_context: 'このワークパッケージをそのプロジェクトで開きます。'
@@ -676,8 +716,8 @@ ja:
         reset_title: "フォーム設定をリセット"
         confirm_reset: >
           警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性が規定のグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
-        upgrade_to_ee: "オンプレミス版 Enterprise Edition へのアップグレード"
-        upgrade_to_ee_text: "この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン ソース開発者を支援していただけませんか?"
+        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
+        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
         more_information: "詳細情報"
         nevermind: "無視"
       edit:
@@ -824,7 +864,7 @@ ja:
       zooms: "ズームレベル"
       outlines: "階層レベル"
     upsale:
-      ee_only: 'Enterprise Edition feature'
+      ee_only: 'Enterprise edition add-on'
     wiki_formatting:
       strong: "強調"
       italic: "斜体字"
@@ -961,7 +1001,7 @@ ja:
         move_column_left: "列を左に移動"
         move_column_right: "列を右に移動"
         hide_column: "列を非表示"
-        insert_columns: "列の挿入."
+        insert_columns: "Insert columns"
         filters: "フィルタ"
         display_sums: "合計を表示"
         confirm_edit_cancel: "このビューの名前の編集をキャンセルしてもよろしいですか？ タイトルは以前の値に戻されます。"
@@ -988,7 +1028,7 @@ ja:
         button: 'このワークパッケージテーブルを設定する'
         choose_display_mode: '作業項目を次のように表示する'
         modal_title: 'ワークパッケージ一覧の設定'
-        embedded_tab_disabled: "この設定タブは編集中の埋め込みビューでは使用できません。"
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "デフォルト"
         display_settings: '表示設定'
         default_mode: "フラットリスト"
@@ -1015,7 +1055,7 @@ ja:
         upsale:
           attribute_highlighting: '全体から目立つように特定の作業項目が必要ですか？'
           relation_columns: 'ワークパッケージリストに関係を表示する必要がありますか?'
-          check_out_link: 'エンタープライズ版をチェックしてください。'
+          check_out_link: 'Check out the Enterprise edition.'
         relation_filters:
           filter_work_packages_by_relation_type: '関係タイプでワークパッケージをフィルタ'
       tabs:
@@ -1024,26 +1064,25 @@ ja:
         relations: 関係
         watchers: ウォッチャー
         files: ファイルを添付する
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "日"
         weeks: "週"
         months: "月"
     toolbar:
       settings:
-        configure_view: "表示設定..."
-        columns: "列..."
-        sort_by: "並べ替え..."
-        group_by: "グループ化..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "合計を表示"
         display_hierarchy: "階層を表示"
         hide_hierarchy: "階層を非表示"
         hide_sums: "合計の非表示"
         save: "保存"
-        save_as: "名前を付けて保存"
-        export: "出力..."
-        visibility_settings: "表示設定..."
-        page_settings: "ビューの名前を変更..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "削除"
       filter: "フィルタ"
       unselected_title: "ワーク パッケージ"
@@ -1157,9 +1196,9 @@ ja:
           description: '選択したプロジェクトで割り当てられたロールに基づく権限'
         placeholder:
           title: 'プレースホルダー ユーザー'
-          title_no_ee: 'プレースホルダー ユーザー（Enterprise Edition のみの機能） '
+          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
           description: 'プロジェクトにアクセスできず、電子メールも送信されません。'
-          description_no_ee: 'プロジェクトにアクセスできず、電子メールも送信されません。<br><a href="%{eeHref}" target="_blank">Enterprise Edition</a> をチェックしてください。'
+          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: '名前またはメールアドレス'
@@ -1218,4 +1257,5 @@ ja:
       filter_chip:
         remove: '削除'
       drop_modal:
+        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
         Close: '閉じる'

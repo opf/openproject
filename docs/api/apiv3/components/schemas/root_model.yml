@@ -141,4 +141,4 @@ example:
     userPreferences:
       href: '/api/v3/users/3/preferences'
     workPackages:
-      href: '/pi/v3/work_packages'
+      href: '/api/v3/work_packages'

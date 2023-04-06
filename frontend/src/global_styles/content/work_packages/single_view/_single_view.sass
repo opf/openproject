@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,8 @@
 
     .inline-edit--display-field
       white-space: normal
-      word-break: break-all
+      overflow-wrap: anywhere
+      word-break: normal
 
 // Subject field
 .wp-new--subject-wrapper
@@ -78,21 +79,6 @@
     // Allow only vertical resizing of the textarea
     textarea
       resize: vertical
-
-
-  // Implement two column layout for WP full screen view
-  &_with-columns
-    @media screen and (min-width: 92rem), print
-      .-columns-2
-        @include two-column-layout
-
-      @supports (column-span: all)
-        // Remove the outline on focus since that breaks the column in chrome
-        // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
-        body
-          .attributes-key-value--value-container
-            *:focus
-              outline: 1px solid $gray
 
 .detail-panel-description
   margin: 0
@@ -143,6 +129,19 @@ i
     position: relative
     flex: 1 0 55%
     max-width: 55%
+
+  // For attributes that span both columns, make sure the label is not way too wide 
+  .wp-attribute-group--attribute_span-all
+    @media screen and (min-width: 92rem), print
+      // These weird calculations are made to account for the side-margins that make
+      // up the flex-basis calculations of the single-column items. 
+      .attributes-key-value--key
+        flex: 1 0 calc((100% - 3rem) * 0.225)
+        max-width: calc((100% - 3rem) * 0.225)
+      .attributes-key-value--value-container
+        flex: 1 0 calc((100% - 3rem) * 0.775)
+        max-width: calc((100% - 3rem) * 0.775)
+
 
 // -------------------- Info row --------------------
 .work-packages--info-row

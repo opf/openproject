@@ -14,7 +14,7 @@ To do this, you can (provided you have set the end dates for the work packages) 
 
 ## How can I activate Boards in OpenProject? 
 
-The Boards module is a premium feature of OpenProject Enterprise on-premises and OpenProject Enterprise cloud. You can upgrade your Community Edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
+The Boards module is an Enterprise add-on of OpenProject Enterprise on-premises and OpenProject Enterprise cloud. You can upgrade your Community edition installation by entering a valid subscription token in the application administration. You can purchase the token on our [website](https://www.openproject.org/enterprise-edition/).
 In addition, you need to activate the Boards module in the project settings.
 
 ## Is it possible that we can have a board over all OpenProject tasks and users? 

@@ -26,11 +26,11 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            self_path: 'some_path',
@@ -120,6 +120,44 @@ describe ::API::V3::Projects::ProjectSqlCollectionRepresenter, 'rendering' do
         pageSize: 5,
         total: 1,
         count: 1,
+        offset: 1,
+        _links: {
+          self: {
+            href: "some_path?offset=1&pageSize=5&select=%2A"
+          },
+          changeSize: {
+            href: "some_path?offset=1&pageSize=%7Bsize%7D&select=%2A",
+            templated: true
+          },
+          jumpTo: {
+            href: "some_path?offset=%7Boffset%7D&pageSize=5&select=%2A",
+            templated: true
+          }
+        }
+      }.to_json
+    end
+
+    it 'renders as expected' do
+      expect(json)
+        .to be_json_eql(expected)
+    end
+  end
+
+  context 'when not having a project to render' do
+    let(:scope) do
+      Project.none
+    end
+
+    let(:select) do
+      { '*' => {} }
+    end
+
+    let(:expected) do
+      {
+        _type: "Collection",
+        pageSize: 5,
+        total: 0,
+        count: 0,
         offset: 1,
         _links: {
           self: {

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'rack/utils'
 
-class WorkPackages::AutoCompletesController < ::ApplicationController
+class WorkPackages::AutoCompletesController < ApplicationController
   def index
     @work_packages = work_package_with_id | work_packages_by_subject_or_id
 
@@ -43,7 +43,9 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     query_term = params[:q].to_s
 
     if query_term =~ /\A\d+\z/
-      work_package_scope.visible.where(id: query_term.to_i)
+      work_package_scope
+        .visible.where(id: query_term.to_i)
+        .order("#{WorkPackage.table_name}.updated_at DESC") # :id does not work because...
     else
       []
     end
@@ -55,7 +57,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     work_package_scope
       .visible
       .where(query_term_sql)
-      .order("#{WorkPackage.table_name}.id ASC") # :id does not work because...
+      .order("#{WorkPackage.table_name}.updated_at DESC") # :id does not work because...
       .limit(10)
       .includes(:type)
   end

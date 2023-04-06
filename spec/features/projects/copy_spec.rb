@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,6 @@ require 'spec_helper'
 
 # rubocop:disable RSpec:MultipleMemoizedHelpers
 describe 'Projects copy',
-         type: :feature,
          js: true do
   describe 'with a full copy example' do
     let!(:project) do
@@ -111,13 +110,13 @@ describe 'Projects copy',
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
-      create :wiki_page_with_content,
+      create(:wiki_page_with_content,
              title: 'Attached',
              wiki:,
-             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')]
+             attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')])
     end
 
-    let(:parent_field) { ::FormFields::SelectFormField.new :parent }
+    let(:parent_field) { FormFields::SelectFormField.new :parent }
 
     let(:storage) { create(:storage) }
     let(:project_storage) { create(:project_storage, project:, storage:) }
@@ -149,12 +148,8 @@ describe 'Projects copy',
       click_on 'Advanced settings'
 
       # the value of the custom field should be preselected
-      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
+      editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
-
-      # Deactivate sending of mails during copying
-      click_on 'Copy options'
-      uncheck 'Send email notifications during the project copy'
 
       click_button 'Save'
 
@@ -180,7 +175,7 @@ describe 'Projects copy',
 
       # copies over the value of the custom field
       # has the parent of the original project
-      editor = ::Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
+      editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value 'some text cf'
 
       # has wp custom fields of original project active
@@ -189,7 +184,7 @@ describe 'Projects copy',
       copied_settings_page.expect_wp_custom_field_active(wp_custom_field)
       copied_settings_page.expect_wp_custom_field_inactive(inactive_wp_custom_field)
 
-      # has types of original project activ
+      # has types of original project active
       copied_settings_page.visit_tab!('types')
 
       active_types.each do |type|
@@ -253,24 +248,24 @@ describe 'Projects copy',
   end
 
   describe 'copying a set of ordered work packages' do
-    let(:user) { create :admin }
-    let(:project) { create :project, types: [type] }
-    let(:type) { create :type }
-    let(:status) { create :status }
-    let(:priority) { create :priority }
+    let(:user) { create(:admin) }
+    let(:project) { create(:project, types: [type]) }
+    let(:type) { create(:type) }
+    let(:status) { create(:status) }
+    let(:priority) { create(:priority) }
 
     let(:default_params) do
       { type:, status:, project:, priority: }
     end
 
-    let(:parent1) { create :work_package, default_params.merge(subject: 'Initial phase') }
-    let(:child1_1) { create :work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase') }
-    let(:child1_2) { create :work_package, default_params.merge(parent: parent1, subject: 'Initiation') }
-    let(:parent2) { create :work_package, default_params.merge(subject: 'Execution') }
-    let(:child2_1) { create :work_package, default_params.merge(parent: parent2, subject: 'Define goal') }
-    let(:child2_2) { create :work_package, default_params.merge(parent: parent2, subject: 'Specify metrics') }
-    let(:child2_3) { create :work_package, default_params.merge(parent: parent2, subject: 'Prepare launch') }
-    let(:child2_4) { create :work_package, default_params.merge(parent: parent2, subject: 'Launch') }
+    let(:parent1) { create(:work_package, default_params.merge(subject: 'Initial phase')) }
+    let(:child1_1) { create(:work_package, default_params.merge(parent: parent1, subject: 'Confirmation phase')) }
+    let(:child1_2) { create(:work_package, default_params.merge(parent: parent1, subject: 'Initiation')) }
+    let(:parent2) { create(:work_package, default_params.merge(subject: 'Execution')) }
+    let(:child2_1) { create(:work_package, default_params.merge(parent: parent2, subject: 'Define goal')) }
+    let(:child2_2) { create(:work_package, default_params.merge(parent: parent2, subject: 'Specify metrics')) }
+    let(:child2_3) { create(:work_package, default_params.merge(parent: parent2, subject: 'Prepare launch')) }
+    let(:child2_4) { create(:work_package, default_params.merge(parent: parent2, subject: 'Launch')) }
 
     let(:order) do
       [parent1, child1_1, child1_2, parent2, child2_1, child2_2, child2_3, child2_4]
@@ -288,10 +283,10 @@ describe 'Projects copy',
       login_as user
     end
 
-    let(:wp_table) { ::Pages::WorkPackagesTable.new project }
+    let(:wp_table) { Pages::WorkPackagesTable.new project }
 
     let(:copied_project) { Project.find_by(name: 'Copied project') }
-    let(:copy_wp_table) { ::Pages::WorkPackagesTable.new copied_project }
+    let(:copy_wp_table) { Pages::WorkPackagesTable.new copied_project }
 
     it 'copies them in the same order' do
       wp_table.visit!

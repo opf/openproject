@@ -21,14 +21,13 @@ The new in-app notifications let you never miss a change in your projects again.
 
 Go to our user guide to find out how to [configure in-app notifications](../../user-guide/notifications/).
 
-
+> **Info:** Please note that starting with version 12.0, OpenProject will no longer send individual emails for each notification. You can view your notifications via the new [Notification center](../../user-guide/notifications/#access-in-app-notifications). You can however still choose to receive daily [email reminders](../../getting-started/my-account/#email-reminders) at specific times of the day that you can configure.
 
 ## Notification center
 
-The new notification center shows all notifications about changes within your projects, including intuitive filter options in the menu on the left, e.g. by reason for notification or by projects. Clicking on the notification will open the details of a work package. you can directly edit it in a split view. The blue elliptical indicates the number of unread notifications about changes within one work package.
+The new Notification center shows all notifications about changes within your projects, including intuitive filter options in the menu on the left, e.g. by reason for notification or by projects. Clicking on the notification will open the details of a work package. you can directly edit it in a split view. The blue elliptical indicates the number of unread notifications about changes within one work package.
 
 ![notification-center](notification-center.png)
-
 
 
 ## Improved notification settings
@@ -36,7 +35,6 @@ The new notification center shows all notifications about changes within your pr
 The improved notification settings now allow to fine-tune for which actions and in which projects you want to receive a notification. With 12.0 you can now even add project-specific settings for changes you want to be notified about and override the default settings.
 
 ![notification-settings](notification-settings.png)
-
 
 
 ## Email summaries
@@ -212,18 +210,18 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 
 ## Installation and Updates
 
-To use OpenProject 12.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+To use OpenProject 12.0 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 12.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
+Want to upgrade from your self-managed Community version to try out the Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/)  Navigate to the -> *Administration*-> *Enterprise edition* and request your trial token.
 
 ## Migrating to OpenProject 12.0
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 12.0. Please note the blue box on top of the page.
 
-We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Credits and contributions
 

@@ -8,7 +8,7 @@ pushd "${APP_PATH}/frontend"
 export NG_CLI_ANALYTICS=ci # so angular cli doesn't block waiting for user input
 
 # Installing frontend dependencies
-RAILS_ENV=production npm install
+npm install
 
 popd
 
@@ -38,6 +38,9 @@ rm -rf "$APP_PATH/tmp/cache/assets"
 
 # Remove node_modules and entire frontend
 rm -rf "$APP_PATH/node_modules/" "$APP_PATH/frontend/node_modules/"
+
+# Remove angular cache
+rm -rf "$APP_PATH/frontend/.angular"
 
 # Clean cache in root
 rm -rf /root/.npm

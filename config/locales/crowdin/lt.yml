@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ lt:
         main-menu-border-color: "Pagrindinio meniu kraštinės"
       custom_colors: "Pasirinktinės spalvos"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "Kaip specialus „AČIŪ!“ už finansinę paramą kuriant OpenProject, ši mažytė funkcija galima naudoti tik „Enterprise Edition“ paramos prenumeratoriams."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
@@ -64,15 +64,15 @@ lt:
         main-menu-bg-color: "Kairiojo šoninio meniu fono spalva."
       theme_warning: Temos keitimas perrašys jūsų pritaikytą stilių. Ankstesnis dizainas bus prarastas. Ar tikrai norite tęsti?
     enterprise:
-      upgrade_to_ee: "Pagerinti į „Enterprise Edition“ versiją"
-      add_token: "Įkelti „Enterprise Edition“ paramos raktą"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Pakeisti savo esamą paramos raktą"
-      order: "Užsisakykite Enterprise on-premises Edition"
-      paste: "Įklijuokite savo „Enterprise Edition“ paramos raktą"
-      required_for_feature: "Ši funkcija galima tiks su aktyviu Enterprise Edition versijos raktu."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Norėdami gauti daugiau informacijos, spustelėkite čia."
       start_trial: 'Pradėti bandomąjį laikotarpį'
       book_now: 'Užsakyti dabar'
@@ -80,7 +80,7 @@ lt:
       buttons:
         upgrade: "Užsisakykite dabar"
         contact: "Susisiekite su mumis dėl demonstracijos"
-      enterprise_info_html: "yra Enterprise <strong class='icon-medal'></strong> savybė."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Prašome atsinaujinti į mokamą planą, kad aktyvuotumėte ir pradėtumėte ji naudoti savo komandoje."
     journal_aggregation:
       explanation:
@@ -136,6 +136,7 @@ lt:
         Jei pažymėsite šį lauką, OpenProject automatiškai sukurs naujus naudotojus pagal LDAP informaciją, kai tik šie naudotojai pirmą kartą prisijungs prie OpenProject.
         Nežymėkite šio lauko, jei norite, kad tik jau sukurti naudotojai galėtų prisijungti pasinaudodami LDAP!
     connection_encryption: 'Jungties šifravimas'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'Sistemos paskyra'
     system_account_legend: |
       OpenProject reikia tik-skaitymui skirto sisteminio naudotojo kitų naudotojų ir grupių patikrinimui jūsų LDAP medyje.
@@ -146,13 +147,18 @@ lt:
       Žemiau esantys laukai yra naudojami nurodant, kaip OpenProject naudotojai yra kuriami pagal LDAP įrašus ir kokie LDAP atributai yra naudojami nurodant kuriuos OpenProject naudotojo atributus (atributų surišimas).
     tls_mode:
       plain: 'joks'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Paprasta, nešifruota jungtis, be TLS derybų."
-      simple_tls_description: "Numanomas TLS šifravimas, bet be sertifikato tikrinimo. Naudokite atsargiai, kai besąlygiškai pasitikite LDAP jungtimi."
-      start_tls_description: "Pilnas TLS šifravimas su pilnu jungties validavimu. Naudokite LDAP per TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Ši skiltis apie šio LDAP autentifikacijos šaltinio jungties saugumą. Daugiau informacijos rasite <a href="%{link}">Net::LDAP dokumentacijoje</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: Šiuo metu forume nėra įrašų.
@@ -223,6 +229,7 @@ lt:
       failed_text: "Projekto %{name} užsakytas naikinimas nepavyko. Projektas liko suarchyvuotas."
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
@@ -313,7 +320,7 @@ lt:
       settings: "Nustatymai"
       form_configuration: "Formos konfigūracija"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projektai"
       enabled_projects: "Įgalinti projektai"
       edit_query: "Keisti lentelę"
@@ -328,6 +335,7 @@ lt:
   wiki:
     page_not_editable_index: Prašomas puslapis (dar) neegzistuoja. Vietoje to jus nukreipėme į visų wiki puslapių sąrašą.
     no_results_title_text: Nėra wiki puslapių.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Pridėti naują wiki puslapį
   work_flows:
@@ -340,6 +348,8 @@ lt:
       many: '%{count} pasekėjų darbo paketų'
       other: '%{count} pasekėjų darbo paketų'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nepavyko įrašyti šių darbo paketų:"
       none_could_be_saved: "Ne visus iš %{total} darbo paketų pavyko pakeisti."
       x_out_of_y_could_be_saved: "%{failing} iš %{total} darbo paketų nepavyko atnaujinti, o %{success} - pavyko."
@@ -368,7 +378,7 @@ lt:
   account:
     delete: "Pašaslinti paskyrą"
     delete_confirmation: "Ar tikrai norite ištrinti paskyrą?"
-    deleted: "Paskyrą sėkmingai ištrinta"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Naudotojo duomenys (pvz., el. paštas, nustatymai, darbo paketai, wiki įrašai) bus ištrinti kiek įmanoma. Tačiau duomenys, kaip darbo paketai, viki įrašai, negali būti ištrinti nepaveikiant kitų naudotojų darbo. Taigi, tokie duomenys priskiriami ištrinto naudotojo paskyrai „Ištrintas naudotojas“. Kadangi kiekvieno ištrinto naudotojo duomenys priskiriami tam pačiam naudotojui, nėra įmanoma išskirti atskirų ištrintojo naudotojo duomenų."
@@ -418,6 +428,7 @@ lt:
         host: "Hostas"
         onthefly: "Automatinis naudotojų kūrimas"
         port: "Jungtis"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitorija"
       comment:
@@ -462,14 +473,24 @@ lt:
       member:
         roles: "Vaidmenys"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikatorius"
         latest_activity_at: "Naujausia veikla"
         parent: "Priklauso projektui"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Užklausos"
+        templated: "Šabloninis projektas"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipai"
         versions: "Versijos"
         work_packages: "Darbų paketai"
-        templated: 'Šabloninis projektas'
       projects/status:
         code: 'Būsena'
         explanation: 'Būsenos aprašymas'
@@ -579,7 +600,7 @@ lt:
         confirmation: "nesutampa su %{attribute}."
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
         does_not_exist: "neegzistuoja."
-        error_enterprise_only: "yra galimas tik OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "negali būti pasiektas."
         error_readonly: "bandytas įrašyti, bet įrašyti nebuvo galima."
         email: "nėra tinkamas el. pašto adresas."
@@ -626,6 +647,11 @@ lt:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "yra neteisingo ilgio (turi būti %{count} simbolių)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -676,6 +702,11 @@ lt:
               no_notification_reason: 'negali būti tuščias, nes IAN parinktas kaip kanalas.'
             reason_mail_digest:
               no_notification_reason: 'negali būti tuščias, nes el.pašto santrauka yra pasirinkta kaip informavimo kanalas.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -686,6 +717,8 @@ lt:
           archived_ancestor: 'Projektas turi suarchyvuotą protėvį.'
           foreign_wps_reference_version: 'Darbų paketai iš kitų projektų medžių turi nuorodas į versijas šiame projekte arba jo subprojektuose.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "vis dar naudojama darbų paketuose: %{types}"
             enabled_modules:
@@ -755,6 +788,11 @@ lt:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -882,8 +920,22 @@ lt:
     header_invalid_fields: "Buvo problemų su šiais laukeliais:"
     field_erroneous_label: "Šis laukelis netinkamas: %{full_errors}\nPrašome įvesti tinkamą reikšmę."
   activity:
-    created: "Sukūrė: %{title}"
-    updated: "Atnaujino: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktyvus"
@@ -1019,6 +1071,7 @@ lt:
   button_reset: "Nustatyti iš naujo"
   button_rollback: "Grąžinti į šią versiją"
   button_save: "Išsaugoti"
+  button_apply_changes: "Apply changes"
   button_save_back: "Įrašyti ir grįžti atgal"
   button_show: "Rodyti"
   button_sort: "Rūšiuoti"
@@ -1277,11 +1330,11 @@ lt:
   ee:
     upsale:
       form_configuration:
-        description: "Pritaikyti sau formos konfigūraciją su šiomis naujomis funkcijomis:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Pridėti naujas atributų grupes"
         rename_groups: "Pervadinti atributų grupes"
       project_filters:
-        description_html: "Filtravimas ir rikiavimas pagal pritaikytus laukus yra tik Enterprise edition galimybė."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Laiko sekimo veiklos"
   enumeration_work_package_priorities: "Darbų paketo prioritetai"
   enumeration_reported_project_statuses: "Pranešta projekto būsena"
@@ -1303,7 +1356,7 @@ lt:
   error_cookie_missing: 'OpenProject sausainėlis nerastas. Prašome patikrinti, ar sausainėliai yra įgalinti, nes kitaip aplikacija tinkamai neveiks.'
   error_custom_option_not_found: "Galimybė neegzistuoja."
   error_enterprise_activation_user_limit: "Jūsų paskyra negali būti aktyvuota (pasiektas vartotojų limitas). Prašome kreiptis į savo sistemos administratorių."
-  error_enterprise_token_invalid_domain: "Enterprise Edition neaktyvi. Jūsų Enterprise rakto domenas (%{actual}) nesutampa su jūsų sistemos serverio vardu (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Šio įrašo nepavyko panaikinti.'
   error_in_dependent: "Klaida bandant pakeisti priklausomą objektą: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Klaida bandant sukurti priklausomą objektą: %{dependent_class} - %{related_subject}: %{error}"
@@ -1338,16 +1391,20 @@ lt:
   error_external_authentication_failed: "Įvyko klaida vykstant išorinei autentifikacijai. Bandykite dar kartą."
   error_attribute_not_highlightable: "Atributai, kurių negalima paryškinti: %{attributes}"
   events:
-    project: 'Projektas redaguotas'
     changeset: 'Pakeitimų paketas redaguotas'
     message: Žinutė redaguota
     news: Naujienos
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Atsakė
     time_entry: 'Laiko įrašai redaguoti'
     wiki_page: 'Wiki puslapis redaguotas'
     work_package_closed: 'Darbų paketas uždarytas'
     work_package_edit: 'Darbų paketas redaguotas'
     work_package_note: 'Darbų paketo pastaba pridėta'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Jūsų darbo užduočių eksportas"
     succeeded: "Eksportas baigtas sėkmingai."
@@ -1373,7 +1430,6 @@ lt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Lietuvių"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "ne"
   general_text_yes: "taip"
@@ -1391,10 +1447,10 @@ lt:
     blocks:
       community: "OpenProject community"
       upsale:
-        title: "Pagerinti į „Enterprise Edition“ versiją"
+        title: "Upgrade to Enterprise edition"
         more_info: "Daugiau informacijos"
     links:
-      upgrade_enterprise_edition: "Pagerinti į „Enterprise Edition“ versiją"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
@@ -1610,7 +1666,7 @@ lt:
   label_enumerations: "Enumeratoriai"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} aktyviai naudojami naudotojai"
-  label_enterprise_edition: "„Enterprise Edition“"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Aplinka"
   label_estimates_and_time: "Sąmatos ir laikas"
   label_equals: "yra"
@@ -1759,6 +1815,10 @@ lt:
   label_not_contains: "neturi"
   label_not_equals: "nėra"
   label_on: "įjungta"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Atidaryti meniu"
   label_open_work_packages: "atidarytas"
   label_open_work_packages_plural: "atidarytas"
@@ -1800,6 +1860,8 @@ lt:
   label_product_version: "Produkto versija"
   label_professional_support: "Profesionali pagalba"
   label_profile: "Profilis"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Bendras projektų skaičius"
   label_project_copy_notifications: "Vykstant projekto kopijavimui siųsti pranešimus į el. paštą"
   label_project_latest: "Naujausi projektai"
@@ -2054,6 +2116,8 @@ lt:
         mentioned: 'Paminėtas'
         subscribed: 'visi'
         prefix: 'Gauta dėl pranešimų nustatymo: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'Žiūrėti visus'
       updated_at: 'Pakeitė %{user} %{timestamp}'
   mail_body_account_activation_request: "Užsiregistravo naujas vartotojas (%{value}). Jo paskyra laukia jūsų patvirtinimo:"
@@ -2089,8 +2153,6 @@ lt:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Jūsų slaptažodis %{value}"
   mail_subject_register: "Jūsų %{value} paskyros aktyvavimas"
-  mail_subject_reminder: "%{count} darbų paketas(-ai, -ų) baigiasi per ateinančias %{days} dienas(-ai, -ų)"
-  mail_subject_group_reminder: "Grupės „%{group}“ %{count} darbo paketas(ai) turi būti baigti per kitas %{days} dienas"
   mail_subject_wiki_content_added: "Wiki puslapis '%{id}' buvo pridėtas"
   mail_subject_wiki_content_updated: "Wiki puslapis '%{id}' buvo atnaujintas"
   mail_member_added_project:
@@ -2226,6 +2288,7 @@ lt:
   permission_add_work_packages: "Pridėti darbų paketų"
   permission_add_messages: "Skelbti pranešimus"
   permission_add_project: "Sukurti projektą"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Kurti ir keisti naudotojus"
   permission_manage_placeholder_user: "Kurti, keisti ir trinti statytinius naudotojus"
   permission_add_subprojects: "Sukurti sub-projektus"
@@ -2625,11 +2688,11 @@ lt:
   text_custom_field_hint_activate_per_project_and_type: >
     Pritaikyti laukeliai turi būti kiekviename darbų paketų tipe ir kiekviename projekte.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Baltas logotipas su permatomu fonu yra rekomenduojamas. Gariausiems rezultatams pasiekti tradiciniuose ir retina ekranuose, būkite įsitikinę, kad paveikslėlio dimensijos yra 460px 60px.
   text_custom_favicon_instructions: >
@@ -2661,12 +2724,13 @@ lt:
   text_work_packages_destroy_confirmation: "Ar tikrai norite ištrinti pasirinktus(-ą) darbų paketus(-ą)?"
   text_work_packages_ref_in_commit_messages: "Darbų paketų susiejimas ir taisymas pavedimų žinutėse"
   text_journal_added: "%{label} %{value} pridėtas"
-  text_journal_changed_html: "%{label} pakeista iš %{old} %{linebreak}<strong>į</strong> %{new}"
   text_journal_changed_plain: "%{label} pakeista iš %{old} %{linebreak}į %{new}"
   text_journal_changed_no_detail: "%{label} atnaujintas"
   text_journal_changed_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_deleted: "%{label} ištrintas (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} ištrintas (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nustatytas į %{value}"
   text_journal_set_with_diff: "%{label} pasikeitė (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2934,7 +2998,7 @@ lt:
   warning_user_limit_reached: >
     Pasiektas vartotojų limitas. Jūs negalite aktyvuoti daugiau vartotojų. Prašome <a href="%{upgrade_url}">atnaujinti planą</a> arba blokuokite esamus vartotojus norėdami aktyvuoti naujus vartotojus.
   warning_user_limit_reached_instructions: >
-    Jūs pasiekėte naudotojų ribą (%{current}/%{max} aktyvūs naudotojai). Susisiekite su sales@openproject.com norėdami atnaujinti savo Enterprise Edition planą arba pridėti papildomų naudotojų.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2962,19 +3026,25 @@ lt:
       title: "Ištrinti darbų paketą"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nėra ką rodyti"
   api_v3:
     attributes:
       lock_version: "Užrakto versija"
+      property: 'Property'
     errors:
       code_400: "Bloga užklausa: %{message}"
       code_401: "Jums reikia būti autentifikuotam, kad galėtumėte pasiekti šį resursą."
@@ -2984,6 +3054,7 @@ lt:
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
       code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:

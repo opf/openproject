@@ -65,7 +65,7 @@ milestone plan) directly in a wiki page or in the project overview page.
 
 
 
-## Full text search for work package attachments (Enterprise / Cloud Edition)
+## Full text search for work package attachments (Enterprise add-on)
 
 Looking for a specific document or some text in that document? This is
 no problem with the new full text search capability for work package
@@ -77,7 +77,7 @@ with certain attachments.
 
 
 
-## Custom actions (Enterprise / Cloud Edition)
+## Custom actions (Enterprise add-on)
 
 With OpenProject 8 you can model intelligent workflows using custom
 actions
@@ -90,7 +90,7 @@ predefined workflows. You save time and avoid errors.
 
 
 
-## Conditional formatting for work package list (Enterprise / Cloud Edition)
+## Conditional formatting for work package list (Enterprise add-on)
 
 Rows in the work package page page can be highlighted based on the
 status or priority of the work packages. This makes it very easy to see
@@ -100,7 +100,7 @@ milestones or tasks are due soon or overdue.
 
 
 
-## Subelement groups for work package types (Enterprise / Cloud Edition)
+## Subelement groups for work package types (Enterprise add-on)
 
 To quickly add child work packages for an existing work package, you can
 add a subelement group to a work package type. This allows you to add a
@@ -123,9 +123,9 @@ be usable for embedded tables as well. In addition
 ## New design
 
 With version 8, OpenProject gets a fresh new look: Both the OpenProject
-logo and default color theme has been updated. As a user of the Cloud
-Edition or Enterprise Edition you can of course change the default color
-theme.
+logo and default color theme has been updated. As a user of the 
+OpenProject Enterprise cloud and Enterprise on-premises edition you can 
+of course change the default color theme.
 
 ## Performance improvements
 

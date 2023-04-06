@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,6 +87,29 @@ describe OpenProject::ChangedBySystem do
       it 'returns no attribute' do
         expect(model.changed_by_user)
           .to be_empty
+      end
+    end
+
+    context 'when the model has the acts_as_customizable plugin included' do
+      subject(:model) do
+        create(:work_package, project:).tap do |wp|
+          wp.extend(described_class)
+        end
+      end
+
+      let(:type) { create(:type_standard) }
+      let(:project) { create(:project, types: [type]) }
+      let(:cf1) { create(:work_package_custom_field) }
+
+      before do
+        project.work_package_custom_fields << cf1
+        type.custom_fields << cf1
+      end
+
+      it 'returns the custom fields too' do
+        model.custom_field_values = { cf1.id => 'test' }
+        expect(model.changed_by_user)
+          .to include(cf1.attribute_name)
       end
     end
   end

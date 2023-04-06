@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ class ExportCardConfiguration < ApplicationRecord
 
     def validate(record)
       begin
-        if record.rows.nil? || !(YAML::load(record.rows)).is_a?(Hash)
+        if record.rows.nil? || !YAML::load(record.rows).is_a?(Hash)
           record.errors.add(:rows, I18n.t('validation_error_yaml_is_badly_formed'))
           return false
         end

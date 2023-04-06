@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe MailHandler, type: :model do
+describe MailHandler do
   let(:anno_user) { User.anonymous }
   let(:project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
   let(:public_project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
@@ -621,7 +621,10 @@ describe MailHandler, type: :model do
 
         it 'sends notifications to watching users' do
           # User gets all updates
-          user = create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages))
+          user = create(:user,
+                        member_in_project: project,
+                        member_with_permissions: %i(view_work_packages),
+                        notification_settings: [build(:notification_setting, all: true)])
 
           expect do
             perform_enqueued_jobs do
@@ -1183,8 +1186,8 @@ describe MailHandler, type: :model do
     end
 
     context 'when sending a reply to work package mail' do
-      let!(:mail_user) { create :admin, mail: 'user@example.org' }
-      let!(:work_package) { create :work_package, project: }
+      let!(:mail_user) { create(:admin, mail: 'user@example.org') }
+      let!(:work_package) { create(:work_package, project:) }
 
       before do
         # Avoid trying to extract text
@@ -1195,7 +1198,7 @@ describe MailHandler, type: :model do
         it 'updates a work package with attachment' do
           allow(WorkPackage).to receive(:find_by).with(id: 123).and_return(work_package)
 
-          # Mail with two attachemnts, one of which is skipped by signature.asc filename match
+          # Mail with two attachments, one of which is skipped by signature.asc filename match
           submit_email 'update_ticket_with_attachment_and_sig.eml', issue: { project: 'onlinestore' }
 
           work_package.reload
@@ -1242,7 +1245,7 @@ describe MailHandler, type: :model do
             perform_enqueued_jobs do
               subject
             end
-          end.to change(Notification, :count).by(2)
+          end.to change(Notification, :count).by(1)
         end
       end
 
@@ -1308,8 +1311,8 @@ describe MailHandler, type: :model do
       end
 
       context 'with a custom field' do
-        let(:work_package) { create :work_package, project: }
-        let(:type) { create :type }
+        let(:work_package) { create(:work_package, project:) }
+        let(:type) { create(:type) }
 
         before do
           type.custom_fields << custom_field
@@ -1322,7 +1325,7 @@ describe MailHandler, type: :model do
         end
 
         context 'as type text' do
-          let(:custom_field) { create :text_wp_custom_field, name: "Notes" }
+          let(:custom_field) { create(:text_wp_custom_field, name: "Notes") }
 
           before do
             submit_email 'wp_reply_with_text_custom_field.eml', issue: { project: project.identifier }
@@ -1338,7 +1341,7 @@ describe MailHandler, type: :model do
         end
 
         context 'as type list' do
-          let(:custom_field) { create :list_wp_custom_field, name: "Letters", possible_values: %w(A B C) }
+          let(:custom_field) { create(:list_wp_custom_field, name: "Letters", possible_values: %w(A B C)) }
 
           before do
             submit_email 'wp_reply_with_list_custom_field.eml', issue: { project: project.identifier }
@@ -1483,7 +1486,7 @@ describe MailHandler, type: :model do
     end
 
     describe 'category' do
-      let!(:category) { create :category, project:, name: 'Foobar' }
+      let!(:category) { create(:category, project:, name: 'Foobar') }
 
       it 'adds a work_package with category' do
         allow(Setting).to receive(:default_language).and_return('en')

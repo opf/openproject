@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,13 +26,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, ElementRef } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+} from '@angular/core';
+import {
+  UntypedFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { EnterpriseTrialData, EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
+import { EnterpriseTrialService } from 'core-app/features/enterprise/enterprise-trial.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { localizeLink } from 'core-app/shared/helpers/i18n/localized-link';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { IEnterpriseData } from 'core-app/features/enterprise/enterprise-trial.model';
 
 const newsletterURL = 'https://www.openproject.org/newsletter/';
 
@@ -40,13 +48,15 @@ const newsletterURL = 'https://www.openproject.org/newsletter/';
   selector: 'enterprise-trial-form',
   templateUrl: './ee-trial-form.component.html',
   styleUrls: ['./ee-trial-form.component.sass'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EETrialFormComponent {
   // Retain used values
-  userData:Partial<EnterpriseTrialData> = this.eeTrialService.userData$.getValueOr({});
+  userData:Partial<IEnterpriseData> = this.eeTrialService.current.data || {};
 
   // The current request host
   requestHost = window.location.host;
+
   // The configured host name
   configuredHost = this.configurationService.hostName;
 
@@ -84,23 +94,24 @@ export class EETrialFormComponent {
     terms_of_service: this.I18n.t('js.admin.enterprise.trial.form.terms_of_service'),
   };
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly I18n:I18nService,
-    private formBuilder:FormBuilder,
+    readonly formBuilder:UntypedFormBuilder,
     readonly currentUserService:CurrentUserService,
     readonly configurationService:ConfigurationService,
-    public eeTrialService:EnterpriseTrialService) {
-
+    readonly eeTrialService:EnterpriseTrialService,
+  ) {
   }
 
   // checks if mail is valid after input field was edited by the user
   // displays message for user
-  public checkMailField() {
-    if (this.trialForm.value.email !== '' && this.trialForm.controls.email.errors) {
-      this.eeTrialService.emailInvalid = true;
+  public checkMailField():void {
+    const data = this.trialForm.value as IEnterpriseData;
+    if (data.email !== '' && this.trialForm.controls.email.errors) {
+      this.eeTrialService.store.update({ emailInvalid: true });
     } else {
-      this.eeTrialService.emailInvalid = false;
-      this.eeTrialService.error = undefined;
+      this.eeTrialService.store.update({ emailInvalid: false, error: undefined });
     }
   }
 }

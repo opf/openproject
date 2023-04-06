@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1182,13 +1182,13 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   #
   # Trying to set parent of C to B failed because parent relation is requested before change is saved.
   describe 'Changing parent to a new one that has the same parent as the current element (Regression #27746)' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:user) { admin }
 
-    let(:project) { create :project }
-    let!(:wp_a) { create :work_package }
-    let!(:wp_b) { create :work_package, parent: wp_a }
-    let!(:wp_c) { create :work_package, parent: wp_a }
+    let(:project) { create(:project) }
+    let!(:wp_a) { create(:work_package) }
+    let!(:wp_b) { create(:work_package, parent: wp_a) }
+    let!(:wp_c) { create(:work_package, parent: wp_a) }
 
     let(:work_package) { wp_c }
 
@@ -1200,8 +1200,8 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
   end
 
   describe 'Changing type to one that does not have the current status (Regression #27780)' do
-    let(:type) { create :type_with_workflow }
-    let(:new_type) { create :type }
+    let(:type) { create(:type_with_workflow) }
+    let(:new_type) { create(:type) }
     let(:project_types) { [type, new_type] }
     let(:attributes) { { type: new_type } }
 
@@ -1216,7 +1216,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
     end
 
     context 'when the work package does have default status' do
-      let(:status) { create :default_status }
+      let(:status) { create(:default_status) }
       let!(:workflow_type) do
         create(:workflow, type: new_type, role:, old_status_id: status.id)
       end
@@ -1253,7 +1253,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
              parent:,
              start_date: Time.zone.today + 1.day,
              due_date: Time.zone.today + 5.days,
-             "custom_field_#{custom_field.id}": 5)
+             custom_field.attribute_name => 5)
     end
     let!(:attributes) { { parent: nil } }
 
@@ -1264,7 +1264,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
         project:,
         type: project.types.first,
         parent:,
-        "custom_field_#{custom_field.id}": 8
+        custom_field.attribute_name => 8
       }
     end
 
@@ -1335,7 +1335,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model, with_ma
       {
         type:,
         project:,
-        "custom_field_#{custom_field_of_current_type.id}": 5
+        custom_field_of_current_type.attribute_name => 5
       }
     end
 

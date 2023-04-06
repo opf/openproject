@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -40,6 +40,7 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 export const ianMenuSelector = 'op-ian-menu';
 
@@ -88,9 +89,16 @@ export class IanMenuComponent implements OnInit {
     },
     {
       key: 'watched',
-      title: this.I18n.t('js.notifications.menu.watching'),
+      title: this.I18n.t('js.notifications.menu.watched'),
       icon: 'watching',
       ...getUiLinkForFilters({ filter: 'reason', name: 'watched' }),
+    },
+    {
+      key: 'dateAlert',
+      title: this.I18n.t('js.notifications.menu.date_alert'),
+      icon: 'date-alert',
+      isEnterprise: true,
+      ...this.eeGuardedDateAlertRoute,
     },
   ];
 
@@ -153,9 +161,18 @@ export class IanMenuComponent implements OnInit {
     readonly I18n:I18nService,
     readonly ianMenuService:IanMenuService,
     readonly state:StateService,
+    readonly bannersService:BannersService,
   ) { }
 
   ngOnInit():void {
     this.ianMenuService.reload();
+  }
+
+  private get eeGuardedDateAlertRoute() {
+    if (this.bannersService.eeShowBanners) {
+      return { uiSref: 'notifications.date_alerts_upsale', uiParams: null, uiOptions: { inherit: false } };
+    }
+
+    return getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' });
   }
 }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe TimeEntry, type: :model do
+describe TimeEntry do
   let(:project) { create(:project_with_types, public: false) }
   let(:project2) { create(:project_with_types, public: false) }
   let(:work_package) do
@@ -125,7 +125,7 @@ describe TimeEntry, type: :model do
     end
 
     it 'returns the current costs depending on the number of hours' do
-      (0..100).each do |hours|
+      101.times do |hours|
         time_entry.hours = hours
         time_entry.save!
         expect(time_entry.costs).to eq(time_entry.rate.rate * hours)
@@ -206,7 +206,7 @@ describe TimeEntry, type: :model do
     end
 
     it 'returns the current costs depending on the number of hours' do
-      (0..100).each do |hours|
+      101.times do |hours|
         @default_example.hours = hours
         @default_example.save!
         expect(@default_example.costs).to eq(@default_example.rate.rate * hours)

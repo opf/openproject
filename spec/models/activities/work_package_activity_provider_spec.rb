@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,17 +28,17 @@
 
 require 'spec_helper'
 
-describe Activities::WorkPackageActivityProvider, type: :model do
+describe Activities::WorkPackageActivityProvider do
   let(:event_scope) { 'work_packages' }
   let(:work_package_edit_event) { 'work_package-edit' }
   let(:work_package_closed_event) { 'work_package-closed' }
 
-  let(:user) { create :admin }
-  let(:role) { create :role }
-  let(:status_closed) { create :closed_status }
+  let(:user) { create(:admin) }
+  let(:role) { create(:role) }
+  let(:status_closed) { create(:closed_status) }
   let(:work_package) do
     User.execute_as(user) do
-      create :work_package
+      create(:work_package)
     end
   end
   let!(:work_packages) { [work_package] }
@@ -62,7 +62,7 @@ describe Activities::WorkPackageActivityProvider, type: :model do
     end
 
     context 'should be selected and ordered correctly' do
-      let!(:work_packages) { (1..5).map { (create :work_package, author: user).id.to_s } }
+      let!(:work_packages) { (1..5).map { create(:work_package, author: user).id.to_s } }
 
       let(:subject) do
         Activities::WorkPackageActivityProvider

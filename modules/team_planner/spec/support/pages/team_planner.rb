@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,9 +72,10 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('.fc-button-active', text:)
+      expect(page).to have_selector('[data-qa-selector="op-team-planner--view-select-dropdown"]', text:)
 
       param = {
+        'Work week' => :resourceTimelineWorkWeek,
         '1-week' => :resourceTimelineWeek,
         '2-week' => :resourceTimelineTwoWeeks
       }[text]
@@ -83,7 +84,14 @@ module Pages
     end
 
     def switch_view_mode(text)
-      page.find('.fc-button', text:).click
+      retry_block do
+        find('[data-qa-selector="op-team-planner--view-select-dropdown"]').click
+
+        within('#op-team-planner--view-select-dropdown') do
+          click_button(text)
+        end
+      end
+
       expect_view_mode(text)
     end
 
@@ -125,7 +133,7 @@ module Pages
       if present
         expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
       else
-        expect(page).to have_no_selector('.fc-event', text: work_package.subject)
+        expect(page).not_to have_selector('.fc-event', text: work_package.subject)
       end
     end
 

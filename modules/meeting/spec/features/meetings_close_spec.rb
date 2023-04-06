@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Meetings close', type: :feature do
-  let(:project) { create :project, enabled_module_names: %w[meetings] }
+describe 'Meetings close' do
+  let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -41,8 +41,8 @@ describe 'Meetings close', type: :feature do
            member_with_permissions: permissions)
   end
 
-  let!(:meeting) { create :meeting, project:, title: 'Own awesome meeting!', author: user }
-  let!(:meeting_agenda) { create :meeting_agenda, meeting:, text: "asdf" }
+  let!(:meeting) { create(:meeting, project:, title: 'Own awesome meeting!', author: user) }
+  let!(:meeting_agenda) { create(:meeting_agenda, meeting:, text: "asdf") }
 
   before do
     login_as(user)
@@ -92,7 +92,7 @@ describe 'Meetings close', type: :feature do
       visit meetings_path(project)
 
       expect(page)
-        .to have_no_link 'Close'
+        .not_to have_link 'Close'
     end
   end
 end

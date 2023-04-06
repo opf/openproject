@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe 'Wiki page - restoring main wiki item', type: :feature do
+describe 'Wiki page - restoring main wiki item' do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i[view_wiki_pages
-                                       rename_wiki_pages]
+                                       rename_wiki_pages])
   end
 
   before do
@@ -43,7 +43,7 @@ describe 'Wiki page - restoring main wiki item', type: :feature do
 
   it 'restores the main item on start' do
     # For some reason, a customer had deleted their wiki start page
-    # even though it should be recreated on desctruction of the last item
+    # even though it should be recreated on destruction of the last item
     # This spec ensure the wiki main item is rendered even if no menu item is saved.
     visit project_path(project)
 

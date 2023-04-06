@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,17 @@ describe 'CSP appends on login form from oauth',
 
       location = response.headers['Location']
       expect(location).to include("/login?back_url=#{CGI.escape(oauth_path)}")
+    end
+  end
+
+  context 'with redirect-uri being a custom scheme' do
+    let(:redirect_uri) { 'myscheme://custom-foobar' }
+
+    it 'appends given CSP appends from flash' do
+      get oauth_path
+
+      csp = response.headers['Content-Security-Policy']
+      expect(csp).to include "form-action 'self' myscheme:"
     end
   end
 end

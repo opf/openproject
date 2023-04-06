@@ -11,7 +11,7 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update(created_at: at, updated_at: at, user:)
   end
 
-  let(:project) { create :project_with_types, public: true }
+  let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) do
     at = 5.days.ago.to_date.to_fs(:db)
     work_package = create(:work_package,
@@ -30,7 +30,7 @@ describe 'Activity tab', js: true, selenium: true do
   let(:initial_subject) { 'My Subject' }
   let(:initial_comment) { 'First comment on this wp.' }
   let(:comments_in_reverse) { false }
-  let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
+  let(:activity_tab) { Components::WorkPackages::Activities.new(work_package) }
 
   let(:initial_note) do
     work_package.journals.reload.first

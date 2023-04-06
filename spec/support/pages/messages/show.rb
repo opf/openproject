@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ module Pages::Messages
       # For some reason, capybara will click on
       # the button to add another attachment when being told to click on "Submit".
       # Therefor, submitting by enter key.
-      subject_field = find('#reply_subject')
+      subject_field = find_by_id('reply_subject')
       subject_field.native.send_keys(:return)
 
       Message.last

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,21 +28,21 @@
 
 require 'spec_helper'
 
-describe Groups::AddUsersService, 'integration', type: :model do
+describe Groups::AddUsersService, 'integration' do
   subject(:service_call) { instance.call(ids: user_ids, message:) }
 
-  let(:projects) { create_list :project, 2 }
-  let(:role) { create :role }
-  let(:admin) { create :admin }
+  let(:projects) { create_list(:project, 2) }
+  let(:role) { create(:role) }
+  let(:admin) { create(:admin) }
 
   let!(:group) do
-    create :group,
+    create(:group,
            member_in_projects: projects,
-           member_through_role: role
+           member_through_role: role)
   end
 
-  let(:user1) { create :user }
-  let(:user2) { create :user }
+  let(:user1) { create(:user) }
+  let(:user2) { create(:user) }
   let(:user_ids) { [user1.id, user2.id] }
   let(:message) { 'Some message' }
 
@@ -76,10 +76,10 @@ describe Groups::AddUsersService, 'integration', type: :model do
 
       expect(Notifications::GroupMemberAlteredJob)
         .to have_received(:perform_later)
-        .with(current_user,
-              a_collection_containing_exactly(*ids),
-              message,
-              true)
+              .with(current_user,
+                    a_collection_containing_exactly(*ids),
+                    message,
+                    true)
     end
   end
 
@@ -138,7 +138,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
       let(:project) { create(:project) }
       let(:roles) { create_list(:role, 2) }
       let!(:group) do
-        create :group do |g|
+        create(:group) do |g|
           create(:member,
                  project:,
                  principal: g,
@@ -211,11 +211,11 @@ describe Groups::AddUsersService, 'integration', type: :model do
     end
 
     context 'with global role' do
-      let(:role) { create :global_role }
+      let(:role) { create(:global_role) }
       let!(:group) do
-        create :group,
+        create(:group,
                global_role: role,
-               global_permission: :add_project
+               global_permission: :add_project)
       end
 
       it 'adds the users to the group and their membership to the global role' do
@@ -231,7 +231,7 @@ describe Groups::AddUsersService, 'integration', type: :model do
       context 'when one user already has a global role that the group would add' do
         let(:global_roles) { create_list(:global_role, 2) }
         let!(:group) do
-          create :group do |g|
+          create(:group) do |g|
             create(:member,
                    project: nil,
                    principal: g,

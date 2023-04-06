@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planner_view] do
+describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let(:current_user) { user }
-  let(:query) { create :query, user:, project:, public: true }
-  let(:team_plan) { create :view_team_planner, query: }
+  let(:query) { create(:query, user:, project:, public: true) }
+  let(:team_plan) { create(:view_team_planner, query:) }
 
   before do
     login_as current_user
@@ -71,34 +71,34 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
     context 'with another user with limited access' do
       let(:current_user) do
-        create :user,
+        create(:user,
                firstname: 'Bernd',
                member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_team_planner]
+               member_with_permissions: %w[view_work_packages view_team_planner])
       end
 
       it 'does not show the create button' do
         expect(page).to have_selector 'td', text: query.name
 
         # Does not show the delete
-        expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+        expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Team planner'
+        expect(page).not_to have_selector '.button', text: 'Team planner'
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user:, project:, public: false }
+        let(:query) { create(:query, user:, project:, public: false) }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'
-          expect(page).to have_no_selector 'td', text: query.name
+          expect(page).not_to have_selector 'td', text: query.name
 
           # Does not show the delete
-          expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+          expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Team planner'
+          expect(page).not_to have_selector '.button', text: 'Team planner'
         end
       end
     end

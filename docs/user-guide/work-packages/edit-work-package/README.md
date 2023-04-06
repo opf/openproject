@@ -17,7 +17,7 @@ keywords: edit work packages
 
 ## Update a work package
 
-To edit a work package, double-click in the row of a work package in the [list view](../../work-packages/work-package-views/#work-package-list-view) or open the [split screen view](../../work-packages/work-package-views/#work-package-split-screen-view) to see the details.
+To edit a work package, double-click in the row of a work package in the [list view](../../work-packages/work-package-views/#list-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details.
 
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment. 
 
@@ -55,7 +55,7 @@ Please note, the status may differ from work package type. They can be configure
 
 ### How to add comments to a work package
 
-To add a comment to a work package, open the [details view](../../work-packages/work-package-views/#work-package-full-screen-view) or the [split screen view](../../work-packages/work-package-views/#work-package-split-screen-view) of a work package. On the tab [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages) tab you have a comment field at the bottom (or on top depending on your [My account settings](../../../getting-started/my-account/)).
+To add a comment to a work package, open the [details view](../../work-packages/work-package-views/#full-screen-view) or the [split screen view](../../work-packages/work-package-views/#split-screen-view) of a work package. On the tab [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages) tab you have a comment field at the bottom (or on top depending on your [My account settings](../../../getting-started/my-account/)).
 
 **Split screen view:**
 
@@ -77,7 +77,7 @@ You can mention and notify team members via [@notification](../../notifications/
 **Watchers** can be added to a work package in order to notify members about changes. They will receive notifications according to their notification settings if changes are made to the respective work package.
 </div>
 
-To add watchers, open the work package [details view](../../work-packages/work-package-views/#work-package-full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
+To add watchers, open the work package [details view](../../work-packages/work-package-views/#full-screen-view), select the tab watchers on the right hand side and choose the members you want to add with the drop-down menu or by starting to type their name.
 
 It is also possible to add oneself as watcher (if you have sufficient permissions).
 
@@ -85,7 +85,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 
 ### How to remove watchers from a work package
 
-To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#work-package-full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a work package. 
+To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the tab Watchers. Click the cross icon next to a watcher to remove the watcher from a work package. 
 The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../getting-started/my-account/#notifications-settings) for more information.
 
 ![remove-watchers](remove-watchers.png)

@@ -156,8 +156,8 @@ export class TimeEntryCalendarComponent {
     eventClick: this.dispatchEventClick.bind(this),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     eventDrop: this.moveEvent.bind(this),
-    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data),
-    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data),
+    dayHeaderClassNames: (data:DayHeaderMountArg) => this.calendar.applyNonWorkingDay(data, []),
+    dayCellClassNames: (data:DayCellMountArg) => this.calendar.applyNonWorkingDay(data, []),
   };
 
   constructor(
@@ -505,7 +505,11 @@ export class TimeEntryCalendarComponent {
   }
 
   private removeTooltip(event:CalendarViewEvent):void {
-    jQuery(event.el).tooltip('disable');
+    const target = jQuery(event.el);
+
+    if (target.tooltip('instance')) {
+      jQuery(event.el).tooltip('disable');
+    }
   }
 
   private prependDuration(event:CalendarViewEvent):void {

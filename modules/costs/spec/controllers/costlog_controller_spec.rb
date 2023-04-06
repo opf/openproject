@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe CostlogController, type: :controller do
+describe CostlogController do
   include Cost::PluginSpecHelper
   let (:project) { create(:project_with_types) }
   let (:work_package) do
@@ -586,7 +586,7 @@ describe CostlogController, type: :controller do
       it_behaves_like 'successful update'
     end
 
-    describe "WHEN the user is allowed ot update own cost_entries
+    describe "WHEN the user is allowed to update own cost_entries
               WHEN updating something" do
       let(:expected_units) { cost_entry.units + 20 }
 

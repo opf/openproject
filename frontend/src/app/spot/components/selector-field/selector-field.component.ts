@@ -35,6 +35,11 @@ export class SpotSelectorFieldComponent {
   @Input() reverseLabel = false;
 
   /**
+   * Whether the label should be in bold or regular font weight
+   */
+  @Input() labelWeight:'bold'|'regular' = 'regular';
+
+  /**
    * Whether this input is required
    */
   @Input() required = false;
@@ -43,7 +48,7 @@ export class SpotSelectorFieldComponent {
    * When to show validation errors. To remain consistent, you will almost never need to change this.
    * However, for some inputs or usecases it might be useful to show the validation error anyway.
    */
-  @Input() showValidationErrorOn:'change' | 'blur' | 'submit' | 'never' = 'submit';
+  @Input() showValidationErrorOn:'change'|'blur'|'submit'|'never' = 'submit';
 
   /**
    * The control of the input. This can be any interface that is compatible with `AbstractControl`,
@@ -55,7 +60,7 @@ export class SpotSelectorFieldComponent {
 
   /**
    * Hides the input. This is a utility input for usage of `spot-form-field` in dynamic forms.
-   * Outisde of dynamic forms, you should be hiding inputs via `*ngIf` or other methods.
+   * Outside of dynamic forms, you should be hiding inputs via `*ngIf` or other methods.
    */
   @Input() hidden = false;
 
@@ -86,9 +91,11 @@ export class SpotSelectorFieldComponent {
 
     if (this.showValidationErrorOn === 'submit') {
       return this.formControl.invalid && this.formGroupDirective?.submitted;
-    } if (this.showValidationErrorOn === 'blur') {
+    }
+    if (this.showValidationErrorOn === 'blur') {
       return this.formControl.invalid && this.formControl.touched;
-    } if (this.showValidationErrorOn === 'change') {
+    }
+    if (this.showValidationErrorOn === 'change') {
       return this.formControl.invalid && this.formControl.dirty;
     }
 

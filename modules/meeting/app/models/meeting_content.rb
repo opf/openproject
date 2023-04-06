@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,8 @@ class MeetingContent < ApplicationRecord
   include OpenProject::Journal::AttachmentHelper
 
   belongs_to :meeting
+  # Show the project on activity and search views
+  has_one :project, through: :meeting
   belongs_to :author, class_name: 'User'
 
   acts_as_attachable(
@@ -69,7 +71,4 @@ class MeetingContent < ApplicationRecord
       .where(version:)
       .first.data
   end
-
-  # Show the project on activity and search views
-  delegate :project, to: :meeting
 end

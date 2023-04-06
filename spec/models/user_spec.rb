@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe User, type: :model do
+describe User do
   let(:user) { build(:user) }
   let(:project) { create(:project_with_types) }
   let(:role) { create(:role, permissions: [:view_work_packages]) }
@@ -49,7 +49,7 @@ describe User, type: :model do
     it 'is valid' do
       user.firstname = 'a' * 256
       user.lastname = 'b' * 256
-      user.mail = 'fo' + ('o' * 237) + '@mail.example.com'
+      user.mail = "fo#{'o' * 237}@mail.example.com"
       expect(user).to be_valid
       expect(user.save).to be_truthy
     end
@@ -299,7 +299,7 @@ describe User, type: :model do
     let!(:blocked_user) do
       create(:user,
              failed_login_count: 3,
-             last_failed_login_on: Time.now)
+             last_failed_login_on: Time.zone.now)
     end
 
     before do
@@ -309,8 +309,8 @@ describe User, type: :model do
     end
 
     it 'returns the single blocked user' do
-      expect(User.blocked.length).to eq(1)
-      expect(User.blocked.first.id).to eq(blocked_user.id)
+      expect(described_class.blocked.length).to eq(1)
+      expect(described_class.blocked.first.id).to eq(blocked_user.id)
     end
   end
 
@@ -328,7 +328,7 @@ describe User, type: :model do
     end
 
     context 'for user with an auth source' do
-      let(:allowed_auth_source) { create :auth_source }
+      let(:allowed_auth_source) { create(:auth_source) }
 
       context 'that allows password changes' do
         before do
@@ -337,12 +337,12 @@ describe User, type: :model do
         end
 
         it 'allows password changes' do
-          expect(user.change_password_allowed?).to be_truthy
+          expect(user).to be_change_password_allowed
         end
       end
 
       context 'that does not allow password changes' do
-        let(:denied_auth_source) { create :auth_source }
+        let(:denied_auth_source) { create(:auth_source) }
 
         before do
           def denied_auth_source.allow_password_changes?; false; end
@@ -350,7 +350,7 @@ describe User, type: :model do
         end
 
         it 'does not allow password changes' do
-          expect(user.change_password_allowed?).to be_falsey
+          expect(user).not_to be_change_password_allowed
         end
       end
     end
@@ -362,7 +362,7 @@ describe User, type: :model do
       end
 
       it 'does not allow a password change' do
-        expect(user.change_password_allowed?).to be_falsey
+        expect(user).not_to be_change_password_allowed
       end
     end
   end
@@ -402,7 +402,7 @@ describe User, type: :model do
       let(:user) { build(:user, identity_url: 'test_provider:veryuniqueid') }
 
       it 'returns true' do
-        expect(user.uses_external_authentication?).to be_truthy
+        expect(user).to be_uses_external_authentication
       end
     end
 
@@ -410,39 +410,46 @@ describe User, type: :model do
       let(:user) { build(:user, identity_url: nil) }
 
       it 'returns false' do
-        expect(user.uses_external_authentication?).to be_falsey
+        expect(user).not_to be_uses_external_authentication
       end
     end
   end
 
   describe 'user create with empty password' do
+    let(:user) { described_class.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo') }
+
     before do
-      @u = User.new(firstname: 'new', lastname: 'user', mail: 'newuser@somenet.foo')
-      @u.login = 'new_user'
-      @u.password = ''
-      @u.password_confirmation = ''
-      @u.save
+      user.login = 'new_user'
+      user.password = ''
+      user.password_confirmation = ''
+      user.save
     end
 
-    it { expect(@u.valid?).to be_falsey }
+    it { expect(user).not_to be_valid }
 
     it {
-      expect(@u.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
-                                                     count: Setting.password_min_length.to_i)
+      expect(user.errors[:password]).to include I18n.t('activerecord.errors.messages.too_short',
+                                                       count: Setting.password_min_length.to_i)
     }
   end
 
   describe '#random_password' do
-    before do
-      @u = User.new
-      expect(@u.password).to be_nil
-      expect(@u.password_confirmation).to be_nil
-      @u.random_password!
+    let(:user) { described_class.new }
+
+    context 'without generation' do
+      it { expect(user.password).to be_nil }
+      it { expect(user.password_confirmation).to be_nil }
     end
 
-    it { expect(@u.password).not_to be_blank }
-    it { expect(@u.password_confirmation).not_to be_blank }
-    it { expect(@u.force_password_change).to be_truthy }
+    context 'with generation' do
+      before do
+        user.random_password!
+      end
+
+      it { expect(user.password).not_to be_blank }
+      it { expect(user.password_confirmation).not_to be_blank }
+      it { expect(user.force_password_change).to be_truthy }
+    end
   end
 
   describe '#try_authentication_for_existing_user' do
@@ -463,7 +470,7 @@ describe User, type: :model do
       user_double = build_user_double_with_expired_password(true)
 
       # use !! to ensure value is boolean
-      expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
+      expect(!!described_class.try_authentication_for_existing_user(user_double, 'anypassword')).to \
         be(false)
     end
 
@@ -471,7 +478,7 @@ describe User, type: :model do
       user_double = build_user_double_with_expired_password(false)
 
       # use !! to ensure value is boolean
-      expect(!!User.try_authentication_for_existing_user(user_double, 'anypassword')).to \
+      expect(!!described_class.try_authentication_for_existing_user(user_double, 'anypassword')).to \
         be(true)
     end
 
@@ -489,7 +496,7 @@ describe User, type: :model do
         end
 
         it 'succeeds' do
-          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
+          expect(described_class.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
             .to eq(user_with_external_auth_source)
         end
       end
@@ -500,7 +507,7 @@ describe User, type: :model do
         end
 
         it 'fails when the authentication fails' do
-          expect(User.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
+          expect(described_class.try_authentication_for_existing_user(user_with_external_auth_source, 'password'))
             .to be_nil
         end
       end
@@ -564,24 +571,24 @@ describe User, type: :model do
 
       it 'creates a SystemUser' do
         expect do
-          system_user = User.system
-          expect(system_user.new_record?).to be_falsey
-          expect(system_user.is_a?(SystemUser)).to be_truthy
-        end.to change(User, :count).by(1)
+          system_user = described_class.system
+          expect(system_user).not_to be_new_record
+          expect(system_user).to be_a(SystemUser)
+        end.to change(described_class, :count).by(1)
       end
     end
 
     context 'a SystemUser exists' do
       before do
-        @u = User.system
+        @u = described_class.system
         expect(SystemUser.first).to eq(@u)
       end
 
       it 'returns existing SystemUser' do
         expect do
-          system_user = User.system
+          system_user = described_class.system
           expect(system_user).to eq(@u)
-        end.not_to change(User, :count)
+        end.not_to change(described_class, :count)
       end
     end
   end
@@ -600,7 +607,7 @@ describe User, type: :model do
         default_admin.save
       end
 
-      it { expect(User.default_admin_account_changed?).to be_falsey }
+      it { expect(described_class).not_to be_default_admin_account_changed }
     end
 
     context 'default admin account exists with changed password' do
@@ -610,7 +617,7 @@ describe User, type: :model do
         default_admin.save
       end
 
-      it { expect(User.default_admin_account_changed?).to be_truthy }
+      it { expect(described_class).to be_default_admin_account_changed }
     end
 
     context 'default admin account was deleted' do
@@ -619,16 +626,16 @@ describe User, type: :model do
         default_admin.delete
       end
 
-      it { expect(User.default_admin_account_changed?).to be_truthy }
+      it { expect(described_class).to be_default_admin_account_changed }
     end
 
     context 'default admin account was disabled' do
       before do
-        default_admin.status = User.statuses[:locked]
+        default_admin.status = described_class.statuses[:locked]
         default_admin.save
       end
 
-      it { expect(User.default_admin_account_changed?).to be_truthy }
+      it { expect(described_class).to be_default_admin_account_changed }
     end
   end
 
@@ -676,11 +683,11 @@ describe User, type: :model do
   end
 
   describe '.newest' do
-    let!(:anonymous) { User.anonymous }
+    let!(:anonymous) { described_class.anonymous }
     let!(:user1) { create(:user) }
     let!(:user2) { create(:user) }
 
-    let(:newest) { User.newest.to_a }
+    let(:newest) { described_class.newest.to_a }
 
     it 'without anonymous user', :aggregate_failures do
       expect(newest).to include(user1)
@@ -691,7 +698,7 @@ describe User, type: :model do
 
   describe '#mail_regexp' do
     it 'handles suffixed mails' do
-      _, suffixed = User.mail_regexp('foo+bar@example.org')
+      _, suffixed = described_class.mail_regexp('foo+bar@example.org')
       expect(suffixed).to be_truthy
     end
   end
@@ -709,10 +716,10 @@ describe User, type: :model do
         match2 = described_class.find_by_mail('foo@example.org')
         expect([user1.id, user2.id]).to include(match2.id)
 
-        matches = User.where_mail_with_suffix('foo@example.org')
+        matches = described_class.where_mail_with_suffix('foo@example.org')
         expect(matches.pluck(:id)).to match_array [user1.id, user2.id]
 
-        matches = User.where_mail_with_suffix('foo+test@example.org')
+        matches = described_class.where_mail_with_suffix('foo+test@example.org')
         expect(matches.pluck(:id)).to match_array [user1.id]
       end
     end
@@ -728,7 +735,7 @@ describe User, type: :model do
         match2 = described_class.find_by_mail('foo@example.org')
         expect([user1.id, user2.id, user3.id]).to include(match2.id)
 
-        matches = User.where_mail_with_suffix('foo@example.org')
+        matches = described_class.where_mail_with_suffix('foo@example.org')
         expect(matches.pluck(:id)).to match_array [user1.id, user2.id, user3.id]
       end
     end
@@ -836,11 +843,11 @@ describe User, type: :model do
 
   describe '.find_by_mail' do
     let(:mail) { 'the@mail.org' }
-    let!(:user) { create :user, mail: }
+    let!(:user) { create(:user, mail:) }
 
     context 'with the exact mail' do
       it 'finds the user' do
-        expect(described_class.find_by_mail(mail))
+        expect(described_class.find_by(mail:))
           .to eq user
       end
     end
@@ -883,5 +890,10 @@ describe User, type: :model do
 
   include_examples 'creates an audit trail on destroy' do
     subject { create(:attachment) }
+  end
+
+  it_behaves_like 'acts_as_customizable included' do
+    let(:model_instance) { user }
+    let(:custom_field) { create(:string_user_custom_field) }
   end
 end

@@ -1,5 +1,5 @@
 // Legacy code ported from app/assets/javascripts/application.js.erb
-// Do not add stuff here, but ideally remove into components whenver changes are necessary
+// Do not add stuff here, but ideally remove into components whenever changes are necessary
 export function setupServerResponse() {
   initMainMenuExpandStatus();
   focusFirstErroneousField();

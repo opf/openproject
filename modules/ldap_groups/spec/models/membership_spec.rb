@@ -1,10 +1,10 @@
 require 'spec_helper'
 
-describe LdapGroups::Membership, type: :model do
+describe LdapGroups::Membership do
   describe 'destroy' do
-    let(:synchronized_group) { create :ldap_synchronized_group, group: }
-    let(:group) { create :group }
-    let(:user) { create :user }
+    let(:synchronized_group) { create(:ldap_synchronized_group, group:) }
+    let(:group) { create(:group) }
+    let(:user) { create(:user) }
 
     before do
       User.system.run_given do

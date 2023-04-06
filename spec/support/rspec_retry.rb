@@ -42,10 +42,20 @@ def retry_block(args: {}, screenshot: false, &block)
   end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
-    warn <<~EOS
+    max_tries = args[:tries] || (RSpec.current_example.metadata[:retry].to_i + 1)
+    exception_source_lines = backtrace_up_to_spec_file(exception)
+    next_try_message = next_interval ? "#{next_interval} seconds until the next try" : "last try"
+    # use stderr directly to prevent having StructuredWarnings::StandardWarning
+    # messy and useless output
+    $stderr.puts <<~MSG # rubocop:disable Style/StderrPuts
+      -- rspec-retry #{try}/#{max_tries}--
       #{exception.class}: '#{exception.message}'
-      #{try} tries in #{elapsed_time} seconds and #{next_interval} seconds until the next try.
-    EOS
+      occurred on #{exception_source_lines.first}
+      backtrace:
+      #{exception_source_lines.map { "  #{_1}" }.join("\n")}
+      #{try} tries in #{elapsed_time} seconds, #{next_try_message}.
+      --
+    MSG
 
     if screenshot
       begin
@@ -56,5 +66,12 @@ def retry_block(args: {}, screenshot: false, &block)
     end
   end
 
-  Retriable.retriable(args.merge(on_retry: log_errors), &block)
+  Retriable.retriable(on_retry: log_errors, **args, &block)
+end
+
+def backtrace_up_to_spec_file(exception)
+  exception.backtrace
+    .filter { |line| line.start_with?(Rails.root.to_s) }
+    .grep_v(%r[/spec/support/shared/with_(mail|direct_uploads)])
+    .grep_v(%r[#{Rails.root.join('bin')}])
 end

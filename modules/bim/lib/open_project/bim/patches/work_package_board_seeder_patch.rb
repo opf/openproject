@@ -15,7 +15,7 @@ module OpenProject::Bim::Patches::WorkPackageBoardSeederPatch
     end
 
     def seed_bcf_board
-      board = ::Boards::Grid.new project: project
+      board = ::Boards::Grid.new(project:)
 
       board.name = project_data_for(key, 'boards.bcf.name')
       board.options = { 'type' => 'action', 'attribute' => 'status', 'highlightingMode' => 'type' }

@@ -1,9 +1,9 @@
 require_relative '../spec_helper'
 
-describe ::TwoFactorAuthentication::TokenService do
+describe TwoFactorAuthentication::TokenService do
   describe 'sending messages' do
     let(:user) { create(:user) }
-    let(:dev_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
+    let(:dev_strategy) { OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
     let(:configuration) do
       {
         'active_strategies' => active_strategies,
@@ -77,7 +77,7 @@ describe ::TwoFactorAuthentication::TokenService do
       end
 
       context 'when matching device exists' do
-        let!(:device) { create :two_factor_authentication_device_sms, user:, default: true }
+        let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
         it 'submits the request' do
           expect(subject).to be_requires_token
@@ -87,7 +87,7 @@ describe ::TwoFactorAuthentication::TokenService do
       end
 
       context 'when non-matching device exists' do
-        let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
+        let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
         it 'submits the request' do
           expect(subject).to be_requires_token
@@ -99,8 +99,8 @@ describe ::TwoFactorAuthentication::TokenService do
 
     context 'when developer and totp strategies are set' do
       let(:active_strategies) { %i[developer totp] }
-      let!(:totp_device) { create :two_factor_authentication_device_totp, user:, default: true }
-      let!(:sms_device) { create :two_factor_authentication_device_sms, user:, default: false }
+      let!(:totp_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
+      let!(:sms_device) { create(:two_factor_authentication_device_sms, user:, default: false) }
 
       subject { described_class.new user:, use_device: }
 

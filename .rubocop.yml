@@ -1,6 +1,7 @@
 require:
   - rubocop-rails
   - rubocop-rspec
+  - ./lib_static/rubocop/cop/open_project/no_do_end_block_with_rspec_capybara_matcher_in_expect.rb
   - ./lib_static/rubocop/cop/open_project/use_service_result_factory_methods.rb
 
 inherit_mode:
@@ -9,7 +10,7 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.1
+  TargetRubyVersion: 3.2
   # Enable any new cops in new versions by default
   NewCops: enable
   Exclude:
@@ -126,6 +127,7 @@ Naming/PredicateName:
 Naming/VariableNumber:
   AllowedPatterns:
     - '\w_20\d\d' # allow dates like christmas_2022 or date_2034_04_12
+    - '\w\d++(_\d++)+' # allow hierarchical data like child1_2_5 (second + in regex is possessive qualifier)
 
 # There are valid cases in which to use methods like:
 # * update_all
@@ -222,13 +224,14 @@ RSpec/NamedSubject:
 RSpec/ContextWording:
   Prefixes:
     - as
+    - for
+    - if
     - 'on'
+    - to
+    - unless
     - when
     - with
     - without
-    - if
-    - unless
-    - for
 
 RSpec/FactoryBot/SyntaxMethods:
   Enabled: true

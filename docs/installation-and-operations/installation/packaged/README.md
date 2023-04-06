@@ -298,7 +298,8 @@ sudo yum install openproject
 
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
-**Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+> **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+>
 
 ### CentOS 7 / RHEL 7
 
@@ -318,6 +319,20 @@ sudo yum install openproject
 Then finish the installation by reading the [*Initial configuration*](#initial-configuration) section.
 
 > **Note:** On this distribution full-text extraction for attachments [*is not supported*](#full-text-extraction-not-supported) by default.
+
+**Workaround for outdated PostgreSQL library package**
+
+Depending on your version and installation variant, you might receive errors like `symbol lookup error: /opt/openproject/vendor/bundle/ruby/3.1.0/gems/pg-1.4.3/lib/pg_ext.so: undefined symbol: PQconninfo`.
+
+This happens when your local postgresql-libs package is outdated. You'll have to install a newer version manually like so:
+
+1. Add the package source for PostgreSQL (the exact URL might differ, double check https://www.postgresql.org/download/linux/redhat/)
+
+`yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm`
+
+2. Install postgresql13-libs
+
+`yum install postgresql13-libs`
 
 ## SUSE Linux Enterprise Server (SLES) Installation
 
@@ -370,13 +385,14 @@ sudo openproject reconfigure #interactive - manual choices are stored in /etc/op
 sudo openproject configure #non-interactive - using values stored in /etc/openproject/installer.dat
 ```
 
-**Notes:**
+> **Notes:**
+>
+> * Every time you will run the OpenProject wizard, by using `sudo openproject reconfigure` your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
+>
+> * In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
+>
 
-* Every time you will run the OpenProject wizard, by using `sudo openproject reconfigure` your choices will be persisted in a configuration file at `/etc/openproject/installer.dat` and subsequent executions of `sudo openproject configure` will re-use these values, only showing you the wizard steps for options you have not yet been asked for.
-
-* In the interactive way you can skip dialogs you do not want to change simply by confirming them with `ENTER`.
-
-## Step 1: Select your OpenProject Edition
+## Step 1: Select your OpenProject edition
 
 OpenProject comes in two editions:
 
@@ -460,7 +476,7 @@ If you wish to install OpenProject under a server path prefix, such as `yourdoma
 
 #### SSL/TLS configuration
 
-> **Note:** With OpenProject version 12.2 **HTTPS confugration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
+> **Note:** With OpenProject version 12.2 **HTTPS configuration** was set to be **default** for every installation. **Now best practice is to proceed by selecting `yes` for using HTTPS (SSL/TLS)** and generating the needed certificates, otherwise you will have to manually deactivate HTTPS on the command line.
 
 OpenProject can configure Apache to support HTTPS (SSL/TLS). If you have SSL certificates and want to use SSL/TLS (recommended), select **Yes**.
 
@@ -576,7 +592,7 @@ First, enter the fully qualified domain where your OpenProject installation will
 
 
 
-Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended-1) at step 3 above.
+Next, tell OpenProject whether you have SSL termination enabled somewhere in your stack. Please note that you need to set up protocol forwarding by the means mentioned in the [Skip Apache2 Installation](#skip-apache2-web-server-install-not-recommended) at step 3 above.
 
 ![HTTPS setting](07b-protocol.png)
 

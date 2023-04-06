@@ -20,6 +20,11 @@ get:
         application/hal+json:
           schema:
             $ref: '../components/schemas/notification_model.yml'
+          examples:
+            'Date alert notification':
+              $ref: '../components/examples/date_alert_notification.yml'
+            'Mentioned notification':
+              $ref: '../components/examples/mentioned_notification.yml'
       description: OK
     '404':
       content:

@@ -55,7 +55,7 @@ module OpenIDConnect
     private
 
     def check_ee
-      if EnterpriseToken.show_banners?
+      unless EnterpriseToken.allows_to?(:openid_providers)
         render template: '/openid_connect/providers/upsale'
         false
       end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ module Components
   module WorkPackages
     class TableConfigurationModal
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_accessor :trigger_parent
@@ -57,8 +58,12 @@ module Components
 
       def open!
         SeleniumHubWaiter.wait
-        scroll_to_and_click trigger
-        expect_open
+        retry_block do
+          next if open?
+
+          scroll_to_and_click trigger
+          expect_open
+        end
       end
 
       def set_display_sums(enable: true)
@@ -81,11 +86,15 @@ module Components
       end
 
       def expect_open
-        expect(page).to have_selector(selector, wait: 40)
+        raise "Expected modal to be open" unless open?
+      end
+
+      def open?
+        page.has_selector?('.wp-table--configuration-modal', wait: 1)
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).not_to have_selector(selector)
       end
 
       def expect_disabled_tab(name)

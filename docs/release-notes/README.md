@@ -14,6 +14,89 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 12.5.2
+
+Release date: 2023-03-28
+
+[Release Notes](12-5-2/)
+
+
+## 12.5.1
+
+Release date: 2023-03-20
+
+[Release Notes](12-5-1/)
+
+
+## 12.5.0
+
+Release date: 2023-03-20
+
+[Release Notes](12-5-0/)
+
+## 12.4.5
+
+Release date: 2023-02-23
+
+[Release Notes](12-4-5/)
+
+
+## 12.4.4
+
+Release date: 2023-02-15
+
+[Release Notes](12-4-4/)
+
+
+## 12.4.3
+
+Release date: 2023-01-30
+
+[Release Notes](12-4-3/)
+
+
+## 12.4.2
+
+Release date: 2023-01-16
+
+[Release Notes](12-4-2/)
+
+
+## 12.4.1
+
+Release date: 2022-12-14
+
+[Release Notes](12-4-1/)
+
+
+## 12.4.0
+
+Release date: 2022-12-05
+
+[Release Notes](12-4-0/)
+
+
+## 12.3.4
+
+Release date: 2022-12-02
+
+[Release Notes](12-3-4/)
+
+
+## 12.3.3
+
+Release date: 2022-11-23
+
+[Release Notes](12-3-3/)
+
+
+## 12.3.2
+
+Release date: 2022-10-26
+
+[Release Notes](12-3-2/)
+
+
 ## 12.3.1
 
 Release date: 2022-10-24

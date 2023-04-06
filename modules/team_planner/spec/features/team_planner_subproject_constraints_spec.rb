@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner constraints for a subproject', type: :feature, js: true do
+describe 'Team planner constraints for a subproject', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
@@ -37,25 +37,25 @@ describe 'Team planner constraints for a subproject', type: :feature, js: true d
   include_context 'with team planner full access'
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_team_planner work_package_assigned
-           ]
+           ])
   end
 
-  let!(:subproject) { create :project, parent: project }
-  let!(:role) { create :role, permissions: %i[view_work_packages edit_work_packages work_package_assigned] }
-  let!(:member) { create :member, principal: user, project: subproject, roles: [role] }
-  let(:project_include) { ::Components::ProjectIncludeComponent.new }
+  let!(:subproject) { create(:project, parent: project) }
+  let!(:role) { create(:role, permissions: %i[view_work_packages edit_work_packages work_package_assigned]) }
+  let!(:member) { create(:member, principal: user, project: subproject, roles: [role]) }
+  let(:project_include) { Components::ProjectIncludeComponent.new }
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project: subproject,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   it 'shows a visual aid that the other user cannot be assigned' do

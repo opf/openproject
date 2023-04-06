@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ ja:
         main-menu-border-color: "メインメニューの枠線"
       custom_colors: "カスタム色"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "OpenProject開発の金融面への貢献として、特に '感謝します!' この小さな機能はエンタープライズ版サポート購入者のみ利用できます。"
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "色の選択オプションを編集"
       instructions:
@@ -64,15 +64,15 @@ ja:
         main-menu-bg-color: "左サイドメニューの背景色。"
       theme_warning: テーマを変更した場合、カスタムスタイルが上書きされ、失われます。本当に続けますか？
     enterprise:
-      upgrade_to_ee: "エンタープライズ版にアップグレード"
-      add_token: "エンタープライズ版サポートのトークンをアップロード"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "現在のサポート トークンを置き換え"
-      order: "オンプレミス版 Enterprise Edition を注文する"
-      paste: "エンタープライズ版サポートのトークンを貼り付け"
-      required_for_feature: "この機能は、アクティブなエンタープライズ版のサポート トークンでのみ利用可能です。"
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "詳細については、ここをクリックしてください。"
       start_trial: '無料トライアルを開始'
       book_now: '今すぐ予約'
@@ -80,7 +80,7 @@ ja:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -137,6 +137,7 @@ ja:
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
     connection_encryption: '接続の暗号化'
+    encryption_details: 'LDAPS / STARTLSオプション'
     system_account: 'システムアカウント'
     system_account_legend: |
       OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
@@ -147,13 +148,18 @@ ja:
       以下のフィールドは、LDAPエントリからOpenProjectのユーザーの作成方法とアトリビュートマッピングに関連しています。
     tls_mode:
       plain: 'なし'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "平文の暗号化されていない接続。TLSネゴシエーションはありません。"
-      simple_tls_description: "暗黙的にTLS暗号化します。証明書を検証しません。暗黙的にLDAP接続を信頼します、注意して使用してください。"
-      start_tls_description: "完全な検証を行い明示的にTLS暗号化します。TLS/SSL経由のLDAPを使用します。"
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         このセクションは、このLDAP認証元の接続セキュリティを考慮します。詳細については、<a href="%{link}">Net::LDAPドキュメント</a>を参照してください。
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: 現在、フォーラムへの投稿はありません。
@@ -224,6 +230,7 @@ ja:
       failed_text: "プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。"
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
@@ -312,7 +319,7 @@ ja:
       settings: "設定"
       form_configuration: "フォーム設定"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "プロジェクト"
       enabled_projects: "有効なプロジェクト"
       edit_query: "テーブルを編集"
@@ -327,6 +334,7 @@ ja:
   wiki:
     page_not_editable_index: 要求されたページは (まだ) 存在しません。すべてのwikiページの索引にリダイレクトされました。
     no_results_title_text: 現在、Wikiページはありません。
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: 新しいWikiページを追加
   work_flows:
@@ -336,6 +344,8 @@ ja:
     x_descendants:
       other: '%{count} つの作業項目の子孫'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "次のワークパッケージを保存できませんでした:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -364,7 +374,7 @@ ja:
   account:
     delete: "アカウントを削除"
     delete_confirmation: "アカウントを削除してもよろしいですか？"
-    deleted: "アカウントが正常に削除されました。"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "ユーザーが作成した殆どのデータ (例えば電子メール、設定、ワークパッケージ 、wiki記載 )が削除されます。ただし、他のユーザーの作業を妨害することがなくワークパッケージやwiki 記載のようなデータは削除することはできません。それ故に、このようなデータは「削除されたユーザー」と呼ばれるアカウントに再割り当てされます。削除された各アカウントのデータがこのアカウントに再割り当てされるので、そのユーザーが作成したデータと削除された別のユーザーのデータとを区別することができなくなります。"
@@ -414,6 +424,7 @@ ja:
         host: "ホスト"
         onthefly: "ユーザーの自動作成"
         port: "ポート番号"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "リポジトリ"
       comment:
@@ -458,14 +469,24 @@ ja:
       member:
         roles: "ロール"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "識別子"
         latest_activity_at: "最新の活動"
         parent: "親プロジェクト名"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "クエリ"
+        templated: "テンプレートプロジェクト"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "ワークパッケージのタイプ"
         versions: "バージョン"
         work_packages: "ワークパッケージ"
-        templated: 'テンプレートプロジェクト'
       projects/status:
         code: 'ステータス'
         explanation: '状況の説明'
@@ -575,7 +596,7 @@ ja:
         confirmation: "は%{attribute} と一致しません。"
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
         does_not_exist: "は存在しません。"
-        error_enterprise_only: "はOpenProjectエンタープライズ版でのみ利用可能です"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "アクセスできません。"
         error_readonly: "書けませんでした。"
         email: "is not a valid email address."
@@ -622,6 +643,11 @@ ja:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "は%{count}文字を入力してください。"
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -672,6 +698,11 @@ ja:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -682,6 +713,8 @@ ja:
           archived_ancestor: 'プロジェクトの祖先がアーカイブされています。'
           foreign_wps_reference_version: '子孫でないプロジェクトのワークパッケージが、プロジェクトまたはその子孫のバージョンを参照しています。'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "まだワークパッケージによって使用されています: %{types}"
             enabled_modules:
@@ -751,6 +784,11 @@ ja:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -866,8 +904,22 @@ ja:
     header_invalid_fields: "次のフィールドに問題がありました："
     field_erroneous_label: "このフィールドが間違っています: %{full_errors}\n正しい値を入力してください。"
   activity:
-    created: "作成: %{title}"
-    updated: "更新: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "アクティブ"
@@ -1003,6 +1055,7 @@ ja:
   button_reset: "リセット"
   button_rollback: "このバージョンにロールバック"
   button_save: "保存"
+  button_apply_changes: "Apply changes"
   button_save_back: "保存して戻る"
   button_show: "表示"
   button_sort: "並べ替え"
@@ -1225,11 +1278,11 @@ ja:
   ee:
     upsale:
       form_configuration:
-        description: "これらの追加機能でフォームの設定をカスタマイズします:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "新しい属性グループを追加"
         rename_groups: "属性グループの名前を変更"
       project_filters:
-        description_html: "カスタムフィールドのフィルタリングと並べ替えは、エンタープライズ版の機能です。"
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "タイムトラッキングアクティビティ"
   enumeration_work_package_priorities: "ワークパッケージの優先度"
   enumeration_reported_project_statuses: "報告されるプロジェクト進捗状況"
@@ -1251,7 +1304,7 @@ ja:
   error_cookie_missing: 'OpenProject のcookieが見つかりません。cookieが有効であることを確認してください。そうしないとこのアプリケーションは正しく動作しません。'
   error_custom_option_not_found: "オプションが存在しません。"
   error_enterprise_activation_user_limit: "あなたのアカウントを有効にすることができませんでした（ユーザー制限に達しました）。アクセスするには管理者に連絡してください。"
-  error_enterprise_token_invalid_domain: "Enterprise Edition がアクティブではありません。Enterprise トークンのドメイン (%{actual}) がシステムのホスト名(%{expected}) と一致しません。"
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'このエントリを削除できませんでした。'
   error_in_dependent: "依存オブジェクトを変更しようとしてエラーが発生しました: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1286,16 +1339,20 @@ ja:
   error_external_authentication_failed: "外部認証中にエラーが発生しました。もう一度やり直してください。"
   error_attribute_not_highlightable: "強調表示されない属性: %{attributes}"
   events:
-    project: 'プロジェクトが編集されました。'
     changeset: '変更セットが編集されました。'
     message: メッセージが編集されました。
     news: ニュース
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: 返信済み
     time_entry: '時系列ログが編集されました。'
     wiki_page: 'Wiki ページが編集されました。'
     work_package_closed: '作業が完了'
     work_package_edit: '仕事項目が編集されました。'
     work_package_note: '仕事項目の注記が追加されました。'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "ワークパッケージをエクスポート"
     succeeded: "エクスポートが正常に完了しました。"
@@ -1321,7 +1378,6 @@ ja:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "日本語"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "いいえ"
   general_text_yes: "はい"
@@ -1339,10 +1395,10 @@ ja:
     blocks:
       community: "OpenProject コミュニティ"
       upsale:
-        title: "エンタープライズ版にアップグレード"
+        title: "Upgrade to Enterprise edition"
         more_info: "詳細情報"
     links:
-      upgrade_enterprise_edition: "エンタープライズ版にアップグレード"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "PostgreSQL にインストールを移行しています"
       user_guides: "ユーザーガイド"
       faq: "FAQ"
@@ -1365,7 +1421,7 @@ ja:
     admin:
       mail_notification: "電子メールの通知"
       mails_and_notifications: "Emails and notification"
-      aggregation: 'Aggregation'
+      aggregation: '集計'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
@@ -1558,7 +1614,7 @@ ja:
   label_enumerations: "列挙型の一覧"
   label_enterprise: "エンタープライズ"
   label_enterprise_active_users: "%{current}/%{limit} 予約済みのアクティブユーザー"
-  label_enterprise_edition: "エンタープライズ版"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "環境"
   label_estimates_and_time: "見積もりと 時間"
   label_equals: "等しい"
@@ -1707,6 +1763,10 @@ ja:
   label_not_contains: "含まない"
   label_not_equals: "等しくない"
   label_on: "オン"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "メニューを開く"
   label_open_work_packages: "未完了"
   label_open_work_packages_plural: "未完了"
@@ -1748,6 +1808,8 @@ ja:
   label_product_version: "製品バージョ​​ン"
   label_professional_support: "プロフェッショナルサポート"
   label_profile: "プロファイル"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "プロジェクトの合計数"
   label_project_copy_notifications: "プロジェクトのコピーの時、コピーした内容をメール通知する"
   label_project_latest: "最新のプロジェクト"
@@ -1999,6 +2061,8 @@ ja:
         mentioned: 'Mentioned'
         subscribed: '全て'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "新規ユーザー(%{value})が登録されました。このアカウントは承認待ちです："
@@ -2034,8 +2098,6 @@ ja:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "%{value} パスワード再発行"
   mail_subject_register: "%{value} アカウント登録の確認"
-  mail_subject_reminder: "%{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
-  mail_subject_group_reminder: "グループ \"%{group}\" の %{count} 件のワークパッケージが %{days} 日内に期限を迎えます"
   mail_subject_wiki_content_added: "Wikiページ'%{id}'が追加されました"
   mail_subject_wiki_content_updated: "Wikiページ'%{id}'が更新されました"
   mail_member_added_project:
@@ -2168,6 +2230,7 @@ ja:
   permission_add_work_packages: "ワークパッケージの追加"
   permission_add_messages: "メッセージの投稿"
   permission_add_project: "プロジェクトの作成"
+  permission_archive_project: "Archive project"
   permission_manage_user: "ユーザーの作成と編集"
   permission_manage_placeholder_user: "プレースホルダーユーザーの作成、編集、削除"
   permission_add_subprojects: "子プロジェクトの追加"
@@ -2201,8 +2264,8 @@ ja:
   permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "作業時間の記録"
+  permission_log_time: "他のユーザーの作業時間"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
@@ -2569,11 +2632,11 @@ ja:
   text_custom_field_hint_activate_per_project_and_type: >
     カスタムフィールドは、ワークパッケージタイプごと、およびプロジェクトごとにアクティブにする必要があります。
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     透明な背景の白いロゴをお勧めします。 従来、および Retina ディスプレイの両方で最高の結果となるように、画像の寸法は、460px x 60px を確認してください。
   text_custom_favicon_instructions: >
@@ -2605,12 +2668,13 @@ ja:
   text_work_packages_destroy_confirmation: "選択したワークパッケージを削除してもよろしいですか？"
   text_work_packages_ref_in_commit_messages: "コミットメッセージ内でのワークパッケージの参照 / 修正"
   text_journal_added: "%{label}で%{value}を追加"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label}を更新"
   text_journal_changed_with_diff: "%{label}を変更（%{link}）"
   text_journal_deleted: "%{label}を削除（%{old}）"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}を削除（%{link}）"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label}を%{value}に設定"
   text_journal_set_with_diff: "%{label}を設定（%{link}）"
   text_journal_label_value: "%{label} %{value}"
@@ -2872,12 +2936,12 @@ ja:
   warning_user_limit_reached: >
     ユーザー制限に達しました。 これ以上ユーザーをアクティブにすることはできません。 追加のユーザーが参加できるように<a href="%{upgrade_url}">プランをアップグレード</a>するか、メンバーをブロックしてください。
   warning_user_limit_reached_instructions: >
-    ユーザー制限（%{current}/%{max} アクティブユーザー）に達しました。 sales@openproject.com に連絡してEnterprise Editionプランをアップグレードし、ユーザーを追加してください。
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS モードのセットアップが一致しません'
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
@@ -2900,19 +2964,25 @@ ja:
       title: "ワークパッケージの削除"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "プレビューできるものは何もありません。"
   api_v3:
     attributes:
       lock_version: "ロックバージョン"
+      property: 'Property'
     errors:
       code_400: "不正なリクエスト: %{message}"
       code_401: "このリソースへのアクセスするには認証を行う必要があります。"
@@ -2922,6 +2992,7 @@ ja:
       code_409: "競合する変更のためにリソースを更新できませんでした。"
       code_429: "リクエストが多すぎます。 後でもう一度やり直してください。"
       code_500: "内部エラーが発生しました。"
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

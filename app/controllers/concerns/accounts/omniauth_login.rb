@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,6 +89,7 @@ module Accounts::OmniauthLogin
       .call(user_params)
 
     if call.success?
+      session[:omniauth_provider] = auth_hash[:provider]
       flash[:notice] = call.message if call.message.present?
       login_user_if_active(call.result, just_registered: call.result.just_created?)
     elsif call.includes_error?(:base, :failed_to_activate)

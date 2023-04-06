@@ -1,6 +1,7 @@
 # Force the latest version of chromedriver using the webdriver gem
 require 'webdrivers/chromedriver'
 
+# rubocop:disable Metrics/PerceivedComplexity
 def register_chrome(language, name: :"chrome_#{language}", override_time_zone: nil)
   Capybara.register_driver name do |app|
     options = Selenium::WebDriver::Chrome::Options.new
@@ -21,6 +22,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
     options.add_argument('--disable-gpu')
     options.add_argument('--disable-popup-blocking')
     options.add_argument("--lang=#{language}")
+    options.add_preference('intl.accept_languages', language)
     # This is REQUIRED for running in a docker container
     # https://github.com/grosser/parallel_tests/issues/658
     options.add_argument('--disable-dev-shm-usage')
@@ -32,11 +34,9 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
 
     options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
-    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      'goog:loggingPrefs': { browser: 'ALL' }
-    )
+    options.logging_prefs = { browser: 'ALL' }
 
-    yield(options, capabilities) if block_given?
+    yield(options) if block_given?
 
     client = Selenium::WebDriver::Remote::Http::Default.new
     client.read_timeout = 180
@@ -46,7 +46,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
 
     driver_opts = {
       browser: is_grid ? :remote : :chrome,
-      capabilities: [capabilities, options],
+      options:,
       http_client: client
     }
 
@@ -58,9 +58,9 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
         # See https://stackoverflow.com/a/65121582/177665
         chromedriver_path = '/snap/bin/chromium.chromedriver'
       end
-      driver_opts[:service] = ::Selenium::WebDriver::Service.chrome(
+      driver_opts[:service] = Selenium::WebDriver::Service.chrome(
         path: chromedriver_path,
-        args: { verbose: true, log_path: '/tmp/chromedriver.log' }
+        args: ['--verbose', '--log-path=/tmp/chromedriver.log']
       )
     end
 
@@ -91,6 +91,7 @@ def register_chrome(language, name: :"chrome_#{language}", override_time_zone: n
     driver.browser.save_screenshot(path)
   end
 end
+# rubocop:enable Metrics/PerceivedComplexity
 
 register_chrome 'en'
 # Register german locale for custom field decimal test
@@ -104,15 +105,15 @@ Billy.configure do |c|
 end
 
 # Register mocking proxy driver
-register_chrome 'en', name: :chrome_billy do |options, capabilities|
+register_chrome 'en', name: :chrome_billy do |options|
   options.add_argument("proxy-server=#{Billy.proxy.host}:#{Billy.proxy.port}")
   options.add_argument("proxy-bypass-list=127.0.0.1;localhost;#{Capybara.server_host}")
 
-  capabilities[:acceptInsecureCerts] = true
+  options.accept_insecure_certs = true
 end
 
 # Register Revit add in
-register_chrome 'en', name: :chrome_revit_add_in do |options, _capabilities|
+register_chrome 'en', name: :chrome_revit_add_in do |options|
   options.add_argument("user-agent='foo bar Revit'")
 end
 

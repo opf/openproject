@@ -3,11 +3,11 @@ require 'features/page_objects/notification'
 
 describe 'Add an attachment to a meeting (agenda)', js: true do
   let(:role) do
-    create :role, permissions: %i[view_meetings edit_meetings create_meeting_agendas]
+    create(:role, permissions: %i[view_meetings edit_meetings create_meeting_agendas])
   end
 
   let(:dev) do
-    create :user, member_in_project: project, member_through_role: role
+    create(:user, member_in_project: project, member_through_role: role)
   end
 
   let(:project) { create(:project) }
@@ -21,9 +21,10 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
     )
   end
 
-  let(:attachments) { ::Components::Attachments.new }
+  let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
+  let(:attachments_list) { Components::AttachmentsList.new }
 
   before do
     login_as(dev)
@@ -56,24 +57,22 @@ describe 'Add an attachment to a meeting (agenda)', js: true do
 
   describe 'attachment dropzone' do
     it 'can upload an image via attaching and drag & drop' do
-      # called the same for all Wysiwyg dditors no matter if for work packages
-      # or not
-      container = page.find('.wp-attachment-upload')
-      scroll_to_element(container)
+      editor.wait_until_loaded
+      attachments_list.wait_until_visible
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      editor.attachments_list.expect_empty
       attachments.attach_file_on_input(image_fixture.path)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
+      editor.wait_until_upload_progress_toaster_cleared
+      editor.attachments_list.expect_attached('image.png')
 
       ##
       # and via drag & drop
-      attachments.drag_and_drop_file(container, image_fixture.path)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
-      expect(page)
-        .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
+      editor.attachments_list.drag_enter
+      editor.attachments_list.drop(image_fixture)
+      editor.wait_until_upload_progress_toaster_cleared
+      editor.attachments_list.expect_attached('image.png', count: 2)
     end
   end
 end

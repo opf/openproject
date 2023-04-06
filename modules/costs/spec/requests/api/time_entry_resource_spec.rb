@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 time_entry resource', type: :request do
+describe 'API v3 time_entry resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -392,7 +392,7 @@ describe 'API v3 time_entry resource', type: :request do
           raw: "some comment"
         },
         spentOn: "2017-07-28",
-        "customField#{custom_field.id}": {
+        custom_field.attribute_name(:camel_case) => {
           raw: 'some cf text'
         }
       }
@@ -438,7 +438,7 @@ describe 'API v3 time_entry resource', type: :request do
       expect(new_entry.spent_on)
         .to eql Date.parse("2017-07-28")
 
-      expect(new_entry.send(:"custom_field_#{custom_field.id}"))
+      expect(new_entry.send(custom_field.attribute_getter))
         .to eql 'some cf text'
     end
 
@@ -485,7 +485,7 @@ describe 'API v3 time_entry resource', type: :request do
           hours: 'PT5H',
           comment: "some comment",
           spentOn: "2017-07-28",
-          "customField#{custom_field.id}": {
+          custom_field.attribute_name(:camel_case) => {
             raw: 'some cf text'
           }
         }

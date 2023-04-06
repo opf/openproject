@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ shared_examples 'create placeholder user request flow' do
     end
 
     describe 'when the user name already exists' do
-      let!(:placeholder) { create :placeholder_user, name: 'PLACEHOLDER' }
+      let!(:placeholder) { create(:placeholder_user, name: 'PLACEHOLDER') }
 
       it 'returns an error' do
         send_request
@@ -94,7 +94,7 @@ shared_examples 'create placeholder user request flow' do
 
       expect(last_response.status).to eq(422)
       expect(parsed_response['message'])
-        .to eq('is only available in the OpenProject Enterprise Edition')
+        .to eq('Placeholder Users is only available in the OpenProject Enterprise edition')
 
       expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)

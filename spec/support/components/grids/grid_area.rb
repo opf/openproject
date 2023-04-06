@@ -2,6 +2,7 @@ module Components
   module Grids
     class GridArea
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_accessor :area_selector
@@ -28,7 +29,18 @@ module Components
         open_menu
 
         SeleniumHubWaiter.wait
-        click_button text
+        click_link_or_button text
+      end
+
+      def expect_menu_item(text)
+        # Ensure there are no active toasters
+        dismiss_toaster!
+
+        open_menu
+
+        within('ul.dropdown-menu') do |element|
+          expect(element).to have_selector('span', text:)
+        end
       end
 
       def remove
@@ -77,7 +89,7 @@ module Components
       def expect_not_resizable
         within area do
           expect(page)
-            .to have_no_selector('.grid--area.-widgeted resizer')
+            .not_to have_selector('.grid--area.-widgeted resizer')
         end
       end
 
@@ -86,7 +98,7 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".grid--area-drag-handle")
+            .not_to have_selector(".grid--area-drag-handle")
         end
       end
 
@@ -102,7 +114,7 @@ module Components
 
         within area do
           expect(page)
-            .to have_no_selector(".icon-show-more-horizontal")
+            .not_to have_selector(".icon-show-more-horizontal")
         end
       end
 
@@ -138,7 +150,7 @@ module Components
           page.find('.op-toast--close').click
         end
 
-        expect(page).to have_no_selector('.op-toast')
+        expect(page).not_to have_selector('.op-toast')
       end
     end
   end

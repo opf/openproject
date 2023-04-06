@@ -31,7 +31,7 @@ export class TeamPlannerSidemenuComponent extends UntilDestroyedMixin {
     .currentUserService
     .hasCapabilities$(
       'team_planners/create',
-      this.currentProjectService.id || undefined,
+      this.currentProjectService.id || null,
     )
     .pipe(
       map((val) => val && !this.bannersService.eeShowBanners),

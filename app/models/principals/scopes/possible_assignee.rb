@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,13 +40,18 @@ module Principals::Scopes
       # * Group
       # User instances need to be non locked (status).
       # Only principals with a role marked as assignable in the project are returned.
-      # @project [Project] The project for which eligible candidates are to be searched
+      # If more than one project is given, the principals need to be assignable in all of the projects (intersection).
+      # @project [Project, [Project]] The project for which eligible candidates are to be searched
       # @return [ActiveRecord::Relation] A scope of eligible candidates
       def possible_assignee(project)
-        not_locked
-          .includes(:members)
-          .references(:members)
-          .merge(Member.assignable.of(project))
+        where(
+          id: Member
+              .assignable
+              .of(project)
+              .group('user_id')
+              .having(["COUNT(DISTINCT(project_id, user_id)) = ?", Array(project).count])
+              .select('user_id')
+        )
       end
     end
   end

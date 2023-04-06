@@ -1,13 +1,13 @@
 #English strings go here
 tr:
-  permission_view_team_planner: "View team planner"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planner"
+  permission_view_team_planner: "Takım planlayıcıyı görüntüle"
+  permission_manage_team_planner: "Takım planlayıcıyı yönet"
+  project_module_team_planner_view: "Takım planlayıcısı"
   team_planner:
-    label_team_planner: "Team planner"
-    label_create_new_team_planner: "Create new team planner"
-    label_team_planner_plural: "Team planners"
-    label_assignees: "Devralanlar"
+    label_team_planner: "Takım planlayıcısı"
+    label_create_new_team_planner: "Yeni takım planlayıcısı oluştur"
+    label_team_planner_plural: "Takım planlayıcıları"
+    label_assignees: "Atananlar"
     upsale:
-      title: "Team planner"
-      description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."
+      title: "Takım planlayıcısı"
+      description: "Team Planner ile ekibinizin planlamasına ilişkin eksiksiz bir genel bakış elde edin. Tarihleri değiştirmek, taşımak veya atananları değiştirmek için iş paketlerini genişletin, kısaltın ve sürükleyip bırakın."

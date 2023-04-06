@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ describe 'OpenID Connect',
   end
 
   before do
-    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+    with_enterprise_token :openid_providers
 
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
@@ -98,12 +98,19 @@ describe 'OpenID Connect',
       redirect_from_provider
 
       expect(response.status).to be 302
-      expect(response.location).to match /\/login$/
+      expect(response.location).to match /\/\?first_time_user=true$/
+
+      # after_login requires the optional third context parameter
+      # remove this guard once we are on v4.1
+      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
+        # check that cookie is stored in the access token
+        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+      end
 
       user = User.find_by_mail(user_info[:email])
 
       expect(user).not_to be_nil
-      expect(user.active?).to be false
+      expect(user.active?).to be true
 
       ##
       # it should redirect to the provider again upon clicking on sign-in when the user has been activated
@@ -121,13 +128,39 @@ describe 'OpenID Connect',
       redirect_from_provider
 
       expect(response.status).to be 302
-      expect(response.location).to match /\/\?first_time_user=true$/
+      expect(response.location).to match /\/my\/page/
+    end
 
-      # after_login requires the optional third context parameter
-      # remove this guard once we are on v4.1
-      if OpenProject::OmniAuth::Authorization.method(:after_login!).arity.abs > 2
-        # check that cookie is stored in the access token
-        expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
+    context 'with a custom claim and mapping' do
+      let(:user_info) do
+        {
+          sub: '87117114115116',
+          name: 'Hans Wurst',
+          email: 'h.wurst@finn.de',
+          given_name: 'Hans',
+          family_name: 'Wurst',
+          foobar: 'a.truly.random.value'
+        }
+      end
+
+      before do
+        allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
+          'providers' => {
+            'heroku' => {
+              'attribute_map' => { login: :foobar },
+              'identifier' => 'does not',
+              'secret' => 'matter'
+            }
+          }
+        )
+      end
+
+      it 'maps to the login' do
+        click_on_signin
+        redirect_from_provider
+
+        user = User.find_by(login: 'a.truly.random.value')
+        expect(user).to be_present
       end
     end
   end
@@ -149,7 +182,7 @@ describe 'OpenID Connect',
     end
 
     it 'will show no option unless EE' do
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
+      without_enterprise_token
       get '/login'
       expect(response.body).not_to match /Google/i
       expect(response.body).not_to match /Azure/i

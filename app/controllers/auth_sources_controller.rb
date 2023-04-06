@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,8 +34,10 @@ class AuthSourcesController < ApplicationController
   before_action :block_if_password_login_disabled
 
   def index
-    @auth_sources = AuthSource.page(page_param)
-                    .per_page(per_page_param)
+    @auth_sources = AuthSource
+      .order(id: :asc)
+      .page(page_param)
+      .per_page(per_page_param)
 
     render 'auth_sources/index'
   end
@@ -43,6 +45,11 @@ class AuthSourcesController < ApplicationController
   def new
     @auth_source = auth_source_class.new
     render 'auth_sources/new'
+  end
+
+  def edit
+    @auth_source = AuthSource.find(params[:id])
+    render 'auth_sources/edit'
   end
 
   def create
@@ -53,11 +60,6 @@ class AuthSourcesController < ApplicationController
     else
       render 'auth_sources/new'
     end
-  end
-
-  def edit
-    @auth_source = AuthSource.find(params[:id])
-    render 'auth_sources/edit'
   end
 
   def update

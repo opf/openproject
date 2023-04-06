@@ -52,4 +52,4 @@ Your OpenProject data will remain intact as long as you mounted the volumes as d
 ### I had already started OpenProject without mounted volumes. How do I save my data during an update?
 
 You will need to open a terminal on your Synology disk station.
-Then follow the instructions given in the [upgrade section](../../operation/upgrading/#compose-based-installation).
+Then follow the instructions given in the [upgrade section](../../operation/upgrading/#i-have-already-started-openproject-without-mounted-volumes-how-do-i-save-my-data-during-an-update).

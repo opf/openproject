@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Authentication
-  priority: 750
+  priority: 900
 description: Authentication in OpenProject.
 keywords: authentication
 ---
@@ -21,5 +21,5 @@ Configure **authentication** settings and authentication providers in OpenProjec
 | [Two-factor authentication](two-factor-authentication)                       | Set up and manage two-factor authentication (2FA) in OpenProject.                     |
 | [reCAPTCHA](recaptcha)                                                       | How to activate reCAPTCHA in OpenProject.                                             |
 | [LDAP authentication](ldap-authentication)                                   | How to set up LDAP authentication in OpenProject.                                     |
-| [LDAP group synchronization](ldap-authentication/ldap-group-synchronization) | How to configure LDAP group synchronization in OpenProject. (Premium feature)         |
+| [LDAP group synchronization](ldap-authentication/ldap-group-synchronization) | How to configure LDAP group synchronization in OpenProject. (Enterprise add-on)         |
 

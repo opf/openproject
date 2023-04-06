@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ module OpenProject::TextFormatting::Matchers
   module LinkHandlers
     class HashSeparator < Base
       def self.allowed_prefixes
-        %w(version message project user group document meeting)
+        %w(version message project user group document meeting view)
       end
 
       ##
@@ -118,6 +118,18 @@ module OpenProject::TextFormatting::Matchers
           link_to_group(group,
                         only_path: context[:only_path],
                         class: 'user-mention')
+        end
+      end
+
+      # view is the user-facing name of work package queries
+      # query is the technical/internal name of the concept
+      def render_view
+        query = Query.find_by(id: oid)
+
+        if query
+          link_to_query(query,
+                        { only_path: context[:only_path] },
+                        class: 'query')
         end
       end
     end

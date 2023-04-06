@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Sprint, type: :model do
+describe Sprint do
   let(:sprint) { build(:sprint) }
   let(:project) { build(:project) }
 
@@ -71,7 +71,7 @@ describe Sprint, type: :model do
       end
 
       context 'WITH a shared version from another project' do
-        let!(:parent_project) { create :project, identifier: "parent", name: "Parent" }
+        let!(:parent_project) { create(:project, identifier: "parent", name: "Parent") }
 
         let!(:home_project) do
           create(:project, identifier: "home", name: "Home").tap do |p|
@@ -87,7 +87,7 @@ describe Sprint, type: :model do
           end
         end
 
-        let!(:version) { create :version, name: "Shared Version", sharing: "tree", project: home_project }
+        let!(:version) { create(:version, name: "Shared Version", sharing: "tree", project: home_project) }
 
         let(:displayed) { Sprint.apply_to(sister_project).displayed_left(sister_project) }
 
@@ -139,7 +139,7 @@ describe Sprint, type: :model do
 
         describe 'WITH display = left in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -150,7 +150,7 @@ describe Sprint, type: :model do
 
         describe 'WITH display = left in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_LEFT
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_LEFT
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 
@@ -161,7 +161,7 @@ describe Sprint, type: :model do
 
         describe 'WITH display = none in home project and display = left in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_LEFT
           end
 
@@ -172,7 +172,7 @@ describe Sprint, type: :model do
 
         describe 'WITH display = none in home project and display = none in sister project' do
           before do
-            VersionSetting.create version: version, project: home_project, display: VersionSetting::DISPLAY_NONE
+            VersionSetting.create version:, project: home_project, display: VersionSetting::DISPLAY_NONE
             VersionSetting.create version:, project: sister_project, display: VersionSetting::DISPLAY_NONE
           end
 

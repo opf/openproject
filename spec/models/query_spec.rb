@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe Query, type: :model do
+describe Query do
   let(:query) { build(:query) }
-  let(:project) { build_stubbed(:project) }
+  let(:project) { create(:project) }
   let(:relation_columns_allowed) { true }
   let(:conditional_highlighting_allowed) { true }
 
@@ -218,7 +218,7 @@ describe Query, type: :model do
   describe '#available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'includes the done_ratio column' do
-        expect(query.available_columns.map(&:name)).to include :done_ratio
+        expect(query.displayable_columns.map(&:name)).to include :done_ratio
       end
     end
 
@@ -228,17 +228,17 @@ describe Query, type: :model do
       end
 
       it 'does not include the done_ratio column' do
-        expect(query.available_columns.map(&:name)).not_to include :done_ratio
+        expect(query.displayable_columns.map(&:name)).not_to include :done_ratio
       end
     end
 
     context 'results caching' do
-      let(:project2) { build_stubbed(:project) }
+      let(:project2) { create(:project) }
 
       it 'does not call the db twice' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         expect(project)
           .not_to receive(:all_work_package_custom_fields)
@@ -246,13 +246,13 @@ describe Query, type: :model do
         expect(project)
           .not_to receive(:types)
 
-        query.available_columns
+        query.displayable_columns
       end
 
       it 'does call the db if the project changes' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         query.project = project2
 
@@ -264,13 +264,13 @@ describe Query, type: :model do
           .to receive(:types)
           .and_return []
 
-        query.available_columns
+        query.displayable_columns
       end
 
       it 'does call the db if the project changes to nil' do
         query.project = project
 
-        query.available_columns
+        query.displayable_columns
 
         query.project = nil
 
@@ -282,7 +282,7 @@ describe Query, type: :model do
           .to receive(:all)
           .and_return []
 
-        query.available_columns
+        query.displayable_columns
       end
     end
 
@@ -309,18 +309,18 @@ describe Query, type: :model do
         end
 
         it 'includes the relation columns for project types' do
-          expect(query.available_columns.map(&:name)).to include :"relations_to_type_#{type_in_project.id}"
+          expect(query.displayable_columns.map(&:name)).to include :"relations_to_type_#{type_in_project.id}"
         end
 
         it 'does not include the relation columns for types not in project' do
-          expect(query.available_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
+          expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
         end
 
         context 'with the enterprise token disallowing relation columns' do
           let(:relation_columns_allowed) { false }
 
           it 'excludes the relation columns' do
-            expect(query.available_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
+            expect(query.displayable_columns.map(&:name)).not_to include :"relations_to_type_#{type_in_project.id}"
           end
         end
       end
@@ -331,16 +331,16 @@ describe Query, type: :model do
         end
 
         it 'includes the relation columns for all types' do
-          expect(query.available_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
-                                                                 :"relations_to_type_#{type_not_in_project.id}")
+          expect(query.displayable_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
+                                                                   :"relations_to_type_#{type_not_in_project.id}")
         end
 
         context 'with the enterprise token disallowing relation columns' do
           let(:relation_columns_allowed) { false }
 
           it 'excludes the relation columns' do
-            expect(query.available_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
-                                                                       :"relations_to_type_#{type_not_in_project.id}")
+            expect(query.displayable_columns.map(&:name)).not_to include(:"relations_to_type_#{type_in_project.id}",
+                                                                         :"relations_to_type_#{type_not_in_project.id}")
           end
         end
       end
@@ -354,18 +354,35 @@ describe Query, type: :model do
       end
 
       it 'includes the relation columns for every relation type' do
-        expect(query.available_columns.map(&:name)).to include(:relations_of_type_relation1,
-                                                               :relations_of_type_relation2)
+        expect(query.displayable_columns.map(&:name)).to include(:relations_of_type_relation1,
+                                                                 :relations_of_type_relation2)
       end
 
       context 'with the enterprise token disallowing relation columns' do
         let(:relation_columns_allowed) { false }
 
         it 'excludes the relation columns' do
-          expect(query.available_columns.map(&:name)).not_to include(:relations_of_type_relation1,
-                                                                     :relations_of_type_relation2)
+          expect(query.displayable_columns.map(&:name)).not_to include(:relations_of_type_relation1,
+                                                                       :relations_of_type_relation2)
         end
       end
+    end
+  end
+
+  describe '.displayable_columns' do
+    it 'includes the id column' do
+      expect(query.displayable_columns.detect { |c| c.name == :id })
+        .not_to be_nil
+    end
+
+    it 'excludes the manual sorting column' do
+      expect(query.displayable_columns.detect { |c| c.name == :manual_sorting })
+        .to be_nil
+    end
+
+    it 'excludes the typeahead column' do
+      expect(query.displayable_columns.detect { |c| c.name == :typeahead })
+        .to be_nil
     end
   end
 
@@ -386,7 +403,7 @@ describe Query, type: :model do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"] +
+                           [custom_field.column_name.to_sym] +
                            [:"relations_to_type_#{type.id}"] +
                            %i(relations_of_type_relation1 relations_of_type_relation2)
 
@@ -403,7 +420,7 @@ describe Query, type: :model do
                               parent done_ratio priority responsible
                               spent_hours start_date status subject type
                               updated_at version) +
-                           [:"cf_#{custom_field.id}"]
+                           [custom_field.column_name.to_sym]
 
         unexpected_columns = [:"relations_to_type_#{type.id}"] +
                              %i(relations_of_type_relation1 relations_of_type_relation2)
@@ -433,7 +450,7 @@ describe Query, type: :model do
     end
 
     context 'when filters are blank' do
-      let(:status) { create :status }
+      let(:status) { create(:status) }
       let(:query) { build(:query).tap { |q| q.filters = [] } }
 
       it 'is valid' do
@@ -444,11 +461,11 @@ describe Query, type: :model do
 
     context 'with a missing value for a custom field' do
       let(:custom_field) do
-        create :text_issue_custom_field, is_filter: true, is_for_all: true
+        create(:text_issue_custom_field, is_filter: true, is_for_all: true)
       end
 
       before do
-        query.add_filter('cf_' + custom_field.id.to_s, '=', [''])
+        query.add_filter(custom_field.column_name, '=', [''])
       end
 
       it 'has the name of the custom field in the error message' do

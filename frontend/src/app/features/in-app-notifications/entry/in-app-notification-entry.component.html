@@ -40,7 +40,7 @@
         class="op-ian-item--reason"
         *ngFor="let item of translatedReasons | keyvalue; let first = first; let last = last"
       >
-        {{ item.key }}<ng-container *ngIf="!last && first !== last">, </ng-container>
+        {{ item.key }}<ng-container *ngIf="!last">, </ng-container>
       </span>
       </div>
 
@@ -87,31 +87,18 @@
     <div
       class="op-ian-item--bottom-line"
     >
-      <div
-        class="op-ian-item--date"
-        [title]="fixedTime"
-        [textContent]="relativeTime$ | async"
-      ></div>
-      <div>
-        <ng-container *ngFor ="let actor of actors | slice:0:3; let last = last">
-          <span *ngIf="last && actors.length > 1 && actors.length < 4">
-            {{ text.and }}
-          </span>
-          <op-principal
-            class="op-ian-item--actors"
-            [principal]="actor"
-            [hideName]="false"
-            [hideAvatar]="true"
-            [link]="!isMobile()"
-          ></op-principal>
-          <span *ngIf="!last && actors.length > 2" [textContent]="', '"></span>
-        </ng-container>
-        <span
-          *ngIf="actors.length > 3"
-        >
-          {{ text_for_additional_authors(actors.length - 3) }}
-        </span>
-      </div>
+      <ng-container *ngIf="{ showDateAlert: (showDateAlert$ | async) } as context">
+        <op-in-app-notification-date-alert
+          *ngIf="context.showDateAlert"
+          [workPackage]="workPackage"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-date-alert>
+        <op-in-app-notification-actors-line
+          *ngIf="!context.showDateAlert"
+          [notification]="notification"
+          [aggregatedNotifications]="aggregatedNotifications"
+        ></op-in-app-notification-actors-line>
+      </ng-container>
     </div>
   </ng-container>
   <ng-template #workPackageLoading>

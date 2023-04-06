@@ -28,7 +28,7 @@ Now, in OpenProject you can rely on both, top-down and bottom-up planning or eve
 
 ![Top-down-scheduling](Top-down-scheduling.gif)
 
-## Flexible agile boards give you more options (premium feature)
+## Flexible agile boards give you more options (Enterprise add-on)
 
 New action board types as well as further improvements to the boards allow you even better agile project management.
 
@@ -84,7 +84,7 @@ We have again added many improvements to the WYSIWYG editor, i.e. for wiki pages
 
 Additionally, it is now possible to add macros to insert project or work packages attributes to the wiki or work package description.
 
-## Attribute help texts for projects (premium feature)
+## Attribute help texts for projects (Enterprise add-on)
 
 We have now also expanded the attribute help texts for projects. You can define help text for all project attributes, such as status or accountable or any custom field for projects. A small question mark icon will appear behind the attribute in order to make the entering this information easier and to eliminate errors.
 
@@ -305,19 +305,19 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 
 ## Installation and Updates
 
-To use OpenProject 11.0 right away, create an instance and [test 14 days for free in the Cloud](https://start.openproject.com/).
+To use OpenProject 11.0 right away, create an instance and [test Enterprise cloud 14 days for free](https://start.openproject.com/).
 
 Prefer to run OpenProject 11.0 in your own infrastructure?
 Here you can find the [Installation guidelines](../../../installation-and-operations) for OpenProject.
 
-Want to upgrade from your self-managed Community version to try out the Enterprise premium features? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/) 
-Navigate to the -> *Administration*-> *Enterprise Edition* and request your trial token.
+Want to upgrade from your self-managed Community version to try out the Enterprise Enterprise add-ons? [Get a 14 days free trial token directly out of your current Community installation.](https://www.openproject.org/blog/enterprise-edition-upgrade-test-free/) 
+Navigate to the -> *Administration*-> *Enterprise edition* and request your trial token.
 
 ## Migrating to OpenProject 11.0
 
 Follow the [upgrade guide for the packaged installation or Docker installation](../../../installation-and-operations/operation/upgrading/) to update your OpenProject installation to OpenProject 11.0. Please note the blue box on top of the page.
 
-We update the hosted OpenProject environments (Enterprise Cloud) automatically.
+We update the hosted OpenProject environments (Enterprise cloud) automatically.
 
 ## Credits and contributions
 

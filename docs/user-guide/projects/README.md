@@ -9,7 +9,7 @@ keywords: manage projects
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
 
-Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community Edition nor in the Enterprise cloud or in Enterprise on-premises edition.
+Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
 | Topic                                                                        | Content                                                                                                                  |
 |------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
@@ -141,7 +141,7 @@ Then click the blue **Copy** button.
 
 In order to archive a project, navigate to the [project settings](project-settings), and click the **Archive project** button.
 
-**Note**: This option is only available for Administrators.
+> **Note**: This option is always available to instance and project administrators. It can also be activated for specific roles by enabling the _Archive project_ permission for that role via the [Roles and permissions](../../system-admin-guide/users-permissions/roles-permissions/) page in the administrator settings.
 
 ![project settings archive project](project-settings-archive-project.png)
 
@@ -169,7 +169,7 @@ To get an overview of all your projects, press the **Projects lists** button at 
 
 You will then get a list of all your projects in OpenProject. You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
-**Please note:** Project custom fields are a premium feature and will only be displayed here for Enterprise on-premises and Enterprise cloud.
+**Please note:** Project custom fields are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
 With the **arrow** on the right you can display the **project description**.
 

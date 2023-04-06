@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,10 +34,9 @@ require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
 describe 'New work package datepicker',
-         with_settings: { date_format: '%Y-%m-%d' },
-         js: true, selenium: true do
-  let(:project) { create :project_with_types, public: true }
-  let(:user) { create :admin }
+         js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
+  let(:project) { create(:project_with_types, public: true) }
+  let(:user) { create(:admin) }
 
   let(:wp_page_create) { Pages::FullWorkPackageCreate.new(project:) }
   let(:date_field) { wp_page_create.edit_field(:combinedDate) }

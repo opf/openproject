@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Milestones full screen v iew', js: true do
-  let(:type) { create :type, is_milestone: true }
+  let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,
@@ -10,7 +10,7 @@ describe 'Milestones full screen v iew', js: true do
            subject: 'Foobar')
   end
 
-  let(:wp_page) { ::Pages::FullWorkPackage.new(work_package, project) }
+  let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:button) { find('.add-work-package', wait: 5) }
 
   before do

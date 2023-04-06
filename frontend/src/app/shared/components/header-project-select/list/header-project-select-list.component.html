@@ -10,11 +10,11 @@
     class="spot-list--item-action"
     [ngClass]="{
       'spot-list--item-action_disabled': project.disabled,
-      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
-    [title]="project.name"
     [href]="extendedProjectUrl(project.id)"
     [attr.data-list-selector]="projectListActionIdentifier"
+    [attr.data-project-id]="project.id"
   >
   <span
     class="spot-list--item-title spot-list--item-title_ellipse-text"
@@ -24,10 +24,9 @@
   </a>
   <span
     *ngIf="project.disabled"
-    [title]="project.name"
     class="spot-list--item-action spot-list--item-action_disabled"
     [ngClass]="{
-      'spot-list--item-action_active': (searchableProjectListService.activeItemID$ | async) === project.id
+      'spot-list--item-action_active': (searchableProjectListService.selectedItemID$ | async) === project.id
     }"
   >
     <span

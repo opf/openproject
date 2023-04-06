@@ -2,33 +2,70 @@
 tr:
   js:
     storages:
-      link_files_in_storage: "Link files in %{storageType}"
-      link_existing_files: "Link existing files"
-      login: "%{storageType} login"
-      login_to: "Login to %{storageType}"
-      no_connection: "No %{storageType} connection"
-      open_storage: "Open %{storageType}"
+      link_files_in_storage: "%{storageType} içindeki dosyaları bağla"
+      link_existing_files: "Mevcut dosyaları bağla"
+      upload_files: "Dosyaları yükle"
+      drop_files: "%{name}'a yüklemek için dosyaları buraya bırakın."
+      drop_or_click_files: "Dosyaları %{name}'a yüklemek için buraya bırakın veya tıklayın."
+      login: "%{storageType} oturum açma"
+      login_to: "%{storageType}'da oturum açın"
+      no_connection: "%{storageType} bağlantısı yok"
+      open_storage: "%{storageType}'ı açın"
+      select_location: "Konum seç"
+      choose_location: "Konum seç"
       types:
         nextcloud: "Nextcloud"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
-        live_data_error: "Error fetching file details"
+          Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
+        live_data_error: "Dosya ayrıntıları getirilirken hata oluştu"
         live_data_error_description: >
-          Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
-        no_file_links: "In order to link files to this work package please do it via %{storageType}."
+          Bazı %{storageType} verileri getirilemedi. Lütfen bu sayfayı yeniden yüklemeyi deneyin veya %{storageType} yöneticinizle iletişime geçin.
+        no_file_links: "Dosyaları bu iş paketine bağlamak için lütfen bunu %{storageType} aracılığıyla yapın."
         not_logged_in: >
-          To add a link, see or upload files related to this work package, please login to %{storageType}.
+          Bir bağlantı eklemek, bu iş paketiyle ilgili dosyaları görmek veya yüklemek için lütfen %{storageType}'da oturum açın.
+      files:
+        already_existing_header: "This file already exists"
+        already_existing_body: >
+          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+        directory_not_writeable: "You do not have permission to add files to this folder."
+        dragging_many_files: "%{storageType}'a yükleme aynı anda yalnızca bir dosyayı destekler."
+        empty_folder: "Bu klasör boş.\n"
+        empty_folder_location_hint: "Dosyayı bu konuma yüklemek için aşağıdaki düğmeyi tıklayın."
+        file_not_selectable_location: "Konum seçme sürecinde dosya seçmek mümkün değildir."
+        upload_keep_both: "Keep both"
+        upload_replace: "Replace"
       file_links:
-        download: "Download %{fileName}"
+        empty: >
+          Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
+        download: "%{fileName} dosyasını indir"
         no_permission: "Bu dosyayı görme izniniz yok."
-        open: 'Open file on storage'
-        open_location: 'Open file in location'
-        remove: "Remove file link"
+        open: "Dosyayı depoda aç"
+        open_location: "Dosyayı konumda aç"
+        remove: "Dosya bağlantısını kaldır"
         remove_confirmation: >
-          Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
-        selection_none: "Select files to link"
-        selection_any: "Link %{number} files"
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+          Dosyanın bu çalışma paketinden bağlantısını kaldırmak istediğinizden emin misiniz? Bağlantının kaldırılması orijinal dosyayı etkilemez ve yalnızca bu çalışma paketine olan bağlantıyı kaldırır.
+        remove_short: "Bağlantıyı kaldır"
+        select: "Dosyaları seç"
+        select_all: "Tümünü seç"
+        selection:
+          zero: "Bağlanacak dosyaları seçin"
+          one: "1 dosya bağla"
+          other: "%{count} dosya bağla"
+        success_create:
+          one: "1 dosya bağlantısı başarıyla oluşturuldu."
+          other: "%{count} dosya bağlantısı başarıyla oluşturuldu."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+          403: >
+            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+          413: >
+            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+          507: >
+            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+        link_uploaded_file_error: >
+          Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
+        not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
+        already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
+        already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

@@ -2,6 +2,7 @@ module Components
   module WorkPackages
     class Tabs
       include Capybara::DSL
+      include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       attr_reader :work_package
@@ -19,7 +20,7 @@ module Components
 
       # Counter should not be displayed, if there are no relations or watchers
       def expect_no_counter(tab)
-        expect(tab).to have_no_selector('[data-qa-selector="tab-count"]', wait: 10)
+        expect(tab).not_to have_selector('[data-qa-selector="tab-count"]', wait: 10)
       end
     end
   end

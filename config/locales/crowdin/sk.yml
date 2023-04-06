@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ sk:
         main-menu-border-color: "Main menu border"
       custom_colors: "Vlastné farby"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "Ďakujeme vám za finančnú podporu pri vývoji OpenProject, táto funkcia je k dispozícii iba v spojení s predplatným Enterprise Edition."
+      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Upraviť možnosti výberu farieb"
       instructions:
@@ -64,15 +64,15 @@ sk:
         main-menu-bg-color: "Farba pozadia ľavého menu."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise Edition"
-      add_token: "Nahrajte token podpory Enterprise Edition"
+      upgrade_to_ee: "Upgrade to the Enterprise edition"
+      add_token: "Upload an Enterprise edition support token"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise Edition token used?"
+        text: "Are you sure you want to remove the current Enterprise edition token used?"
         title: "Delete token"
       replace_token: "Nahraďte aktuálny token podpory"
-      order: "Order Enterprise on-premises Edition"
-      paste: "Vložte token podpory Enterprise Edition"
-      required_for_feature: "Táto funkcia je k dispozícii iba s aktívnym tokenom podpory Enterprise Edition."
+      order: "Order Enterprise on-premises edition"
+      paste: "Paste your Enterprise edition support token"
+      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
       enterprise_link: "Pre ďalšie informácie kliknite sem."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -80,7 +80,7 @@ sk:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <strong class='icon-medal'></strong> feature."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -138,6 +138,7 @@ sk:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Šifrovanie pripojenia'
+    encryption_details: 'LDAPS / STARTTLS options'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -149,13 +150,18 @@ sk:
       what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
     tls_mode:
       plain: 'žiadne'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Obyčajné nešifrované pripojenie, nepožadované TLS pripojenie."
-      simple_tls_description: "Implicitné šifrovanie TLS, ale žiadne overenie certifikátu. Používať s opatrnosťou a implicitne dôverné LDAP pripojenie."
-      start_tls_description: "Explicitné šifrovanie TLS s úplným overením. Použitie LDAP cez TLS/SSL."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
+      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
         Táto časť sa týka bezpečnosti pripojenia tohto zdroja autentifikácie LDAP. Ďalšie informácie nájdete na stránke<a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verify SSL certificate"
+      verify_peer_description_html: >
+        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
+      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
   forums:
     show:
       no_results_title_text: There are currently no posts for the forum.
@@ -226,6 +232,7 @@ sk:
       failed_text: "Požiadavka na odstránenie projektu %{name} zlyhala. Projekt zostal archivovaný."
       completed: "Odstránenie projektu %{name} dokončené"
       completed_text: "Požiadavka na odstránenie projektu '%{name}' bola ukončená."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -316,7 +323,7 @@ sk:
       settings: "Nastavenia"
       form_configuration: "Konfigurácia formulára"
       more_info_text_html: >
-        Enterprise Edition allows you to customize form configuration with these additional features: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
       projects: "Projekty"
       enabled_projects: "Povolené projekty"
       edit_query: "Upraviť tabuľku"
@@ -331,6 +338,7 @@ sk:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: Momentálne neexistujú žiadne stránky wiki.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Pridať novú stránku wiki
   work_flows:
@@ -343,6 +351,8 @@ sk:
       many: '%{count} podradené pracovné balíčky'
       other: '%{count} podradené pracovné balíčky'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Nasledujúce pracovné balíčky sa nepodarilo uložiť:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -371,7 +381,7 @@ sk:
   account:
     delete: "Vymazať účet"
     delete_confirmation: "Ste si istý, že chcete vymazať daný účet?"
-    deleted: "Účet bol úspešne vymazaný"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Dáta, ktoré daný používateľ vytvoril (čiže e-mail, nastavenia, pracovné balíčky, wiki stránky a pod.), budú odstránené do takej miery, do akej to bude možné. Pamätajte však, že pracovné balíčky a wiki stránky nemôžu byť odstránené bez skomplikovania prác ostatných používateľov. Takéto dáta budú preto preradené na účet nazvaný \"Odstránený používateľ\". Keďže dáta všetkých odstránených účtov sú automaticky priraďované na uvedený účet, nebude možné rozlíšiť dáta tohto používateľa od dát ostatných už odstránených používateľov."
@@ -421,6 +431,7 @@ sk:
         host: "Host"
         onthefly: "Automatic user creation"
         port: "Port"
+        tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repozitár"
       comment:
@@ -465,14 +476,24 @@ sk:
       member:
         roles: "Roly"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Identifikátor"
         latest_activity_at: "Posledná aktivita v"
         parent: "podprojekt projektu"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Požiadavky"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Typy"
         versions: "Verzie"
         work_packages: "Pracovné balíčky"
-        templated: 'Template project'
       projects/status:
         code: 'Stav'
         explanation: 'Status description'
@@ -582,7 +603,7 @@ sk:
         confirmation: "%{attribute} sa nezhoduje."
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "neexistuje."
-        error_enterprise_only: "is only available in the OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         email: "is not a valid email address."
@@ -629,6 +650,11 @@ sk:
           is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
         wrong_length: "má chybnú dĺžku (správne má byť %{count} znakov)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -663,7 +689,7 @@ sk:
             scopes:
               not_match_configured: "nezodpovedá dostupným rozsahom."
         enterprise_token:
-          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise Edition?"
+          unreadable: "nedá sa čítať. Ste si istý, že máte správny Token podpory Enterprise edition?"
         grids/grid:
           overlaps: 'prekrývajú.'
           outside: 'je mimo mriežku.'
@@ -679,6 +705,11 @@ sk:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -689,6 +720,8 @@ sk:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "stále používané týmito pracovnými balíkmi: %{types}"
             enabled_modules:
@@ -758,6 +791,11 @@ sk:
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
               wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "is not allowed to view this resource."
+              locked: "is locked."
         wiki_page:
           attributes:
             slug:
@@ -885,8 +923,22 @@ sk:
     header_invalid_fields: "Nastali problémy s nasledujúcimi poliami:"
     field_erroneous_label: "Toto pole je neplatné: %{full_errors}. Prosím zadajte platnú hodnotu."
   activity:
-    created: "Vytvoril: %{title}"
-    updated: "Aktualizované: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktívny"
@@ -1022,6 +1074,7 @@ sk:
   button_reset: "Vynulovať"
   button_rollback: "Vrátenie k tejto verzii"
   button_save: "Uložiť"
+  button_apply_changes: "Apply changes"
   button_save_back: "Uloženie a návrat"
   button_show: "Ukázať"
   button_sort: "Zoradiť"
@@ -1280,11 +1333,11 @@ sk:
   ee:
     upsale:
       form_configuration:
-        description: "Prispôsobte konfiguráciu formulára pomocou týchto doplnkových funkcií:"
+        description: "Customize the form configuration with these additional add-ons:"
         add_groups: "Pridajte nové skupiny atribútov"
         rename_groups: "Premenovať skupiny atribútov"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an enterprise edition feature."
+        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
   enumeration_activities: "Time tracking activities"
   enumeration_work_package_priorities: "Priority Pracovného balíka"
   enumeration_reported_project_statuses: "Nahlásený stav projektu"
@@ -1306,7 +1359,7 @@ sk:
   error_cookie_missing: 'Chýbajú súbory cookie pre OpenProject. Skontrolujte, či sú povolené súbory cookie, nakoľko bez nich táto aplikácia nebude správne fungovať.'
   error_custom_option_not_found: "Nastavenie neexistuje."
   error_enterprise_activation_user_limit: "Váš účet nemôže byť aktivovaný (dosiahnutý limit počtu užívateľov). Prosím kontaktujte vášho správcu pre získanie prístupu."
-  error_enterprise_token_invalid_domain: "The Enterprise Edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
   error_failed_to_delete_entry: 'Chyba pri odstraňovaní tejto položky.'
   error_in_dependent: "Error attempting to alter dependent object: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Error attempting to create dependent object: %{dependent_class} - %{related_subject}: %{error}"
@@ -1341,16 +1394,20 @@ sk:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Atribút(y), ktoré nie je možné zvýrazniť: %{attributes}"
   events:
-    project: 'Projekt upravený'
     changeset: 'Sada zmien upravená'
     message: Správa upravená
     news: Novinky
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Zodpovedané
     time_entry: 'Časový záznam zmenený'
     wiki_page: 'Wiki stránka upravená'
     work_package_closed: 'Pracovný balíček uzatvorený'
     work_package_edit: 'Pracovný balíček upravený'
     work_package_note: 'Poznámka pracovného balíčka pridaná'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "Operácia bola úspešne dokončená."
@@ -1376,7 +1433,6 @@ sk:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Slovenčina"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nie"
   general_text_yes: "áno"
@@ -1394,10 +1450,10 @@ sk:
     blocks:
       community: "OpenProject komunita"
       upsale:
-        title: "Upgrade na Enterprise Edition"
+        title: "Upgrade to Enterprise edition"
         more_info: "Viac informácií"
     links:
-      upgrade_enterprise_edition: "Upgrade na Enterprise Edition"
+      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Používateľské príručky"
       faq: "Často kladené otázky"
@@ -1613,7 +1669,7 @@ sk:
   label_enumerations: "Výpočet"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} rezervovaných aktívnych užívateľov"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Prostredie"
   label_estimates_and_time: "Odhady a čas"
   label_equals: "je"
@@ -1762,6 +1818,10 @@ sk:
   label_not_contains: "neobsahuje"
   label_not_equals: "nie je"
   label_on: "dňa"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Otvorte menu"
   label_open_work_packages: "otvorené"
   label_open_work_packages_plural: "otvorené"
@@ -1803,6 +1863,8 @@ sk:
   label_product_version: "Verzia produktu"
   label_professional_support: "Profesionálna podpora"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Celkový počet projektov"
   label_project_copy_notifications: "Odoslať e-mail notifikácie počas kopírovania projektu"
   label_project_latest: "Najnovšie projekty"
@@ -2057,6 +2119,8 @@ sk:
         mentioned: 'Mentioned'
         subscribed: 'Všetky'
         prefix: 'Received because of the notification setting: %{reason}'
+        date_alert_start_date: 'Date alert'
+        date_alert_due_date: 'Date alert'
       see_all: 'See all'
       updated_at: 'Updated at %{timestamp} by %{user}'
   mail_body_account_activation_request: "Bol zaregistrovaný nový používateľ (%{value}). Účet čaká na vaše schválenie:"
@@ -2092,8 +2156,6 @@ sk:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Vaše heslo %{value}"
   mail_subject_register: "Aktivácia vášho účtu %{value}"
-  mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších %{days} dňoch"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Bola pridaná wikistránka '%{id}'"
   mail_subject_wiki_content_updated: "Wikistránka '%{id}' bola aktualizovaná"
   mail_member_added_project:
@@ -2228,6 +2290,7 @@ sk:
   permission_add_work_packages: "Pridať pracovné balíky"
   permission_add_messages: "Publikovať správy"
   permission_add_project: "Vytvoriť projekt"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "Vytvoriť podprojekty"
@@ -2629,11 +2692,11 @@ sk:
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastné polia je potrebné aktivovať podľa typu pracovného balíčka a projektu.
   text_wp_custom_field_html: >
-    The Enterprise Edition will add these additional features for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise Edition will add these additional features for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise Edition will add these additional features for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
   text_custom_logo_instructions: >
     Odporúčané je biele logo na farebnom pozadí. Pre najlepšie výsledky na všetkých typoch monitorov (štandardných aj retina) použite obrázok s rozmermi 460px x 60px.
   text_custom_favicon_instructions: >
@@ -2665,12 +2728,13 @@ sk:
   text_work_packages_destroy_confirmation: "Naozaj chcete odstrániť vybraný pracovný balíček(y)?"
   text_work_packages_ref_in_commit_messages: "Odkazovanie a oprava pracovných balíčkov v podrobnejšom vysvetľujúcom texte"
   text_journal_added: "%{label} %{value} pridaných"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} aktualizované"
   text_journal_changed_with_diff: "%{label} zmenený (%{link})"
   text_journal_deleted: "%{label} odstránený (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} odstránený (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastavený na %{value}"
   text_journal_set_with_diff: "%{label} nastavený (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2939,7 +3003,7 @@ sk:
   warning_user_limit_reached: >
     Váš limit počtu užívateľov bol dosiahnutý. Nie je možné aktivovať viac užívateľov. Prosím <a href="%{upgrade_url}">upgradujte váš cenový plán</a> alebo zablokujte niektorých stávajúcich členov aby bolo možné pridanie ďalších užívateľov.
   warning_user_limit_reached_instructions: >
-    Limit počtu užívateľov (%{current}/%{max} aktívnych užívateľov) dosiahnutý. Prosím kontaktujte sales@openproject.com a upgradujte Vašu Enterprise Edition a pridajte ďalších užívateľov.
+    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2967,19 +3031,25 @@ sk:
       title: "Odstrániť pracovný balík"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Nič na zobrazenie náhľadu"
   api_v3:
     attributes:
       lock_version: "Uzamknúť verziu"
+      property: 'Property'
     errors:
       code_400: "Bad request: %{message}"
       code_401: "Pre prístup k tomuto prostriedku musíte byť autentifikovaný."
@@ -2989,6 +3059,7 @@ sk:
       code_409: "Nepodarilo sa aktualizovať zdroj kvôli konfliktným úpravám."
       code_429: "Too many requests. Please try again later."
       code_500: "Vyskytla sa vnútorná chyba."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

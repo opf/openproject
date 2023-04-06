@@ -82,7 +82,7 @@ You can now run `kadmin.local`  to access the admin CLI for adding principals to
 
 This will prompt for a password for user1, which you have to confirm afterwards.
 
-To check that the user was created successfuly, run this command `get_principal`:
+To check that the user was created successfully, run this command `get_principal`:
 
 ```
 > kadmin.local: get_principal user1

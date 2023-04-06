@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,31 +31,29 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Work package overview graph widget on dashboard',
-         type: :feature,
-         with_mail: false,
-         js: true do
-  let!(:type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
-  let!(:closed_status) { create :closed_status }
+         js: true, with_mail: false do
+  let!(:type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
+  let!(:closed_status) { create(:closed_status) }
   let!(:open_work_package) do
-    create :work_package,
+    create(:work_package,
            subject: 'Spanning work package',
            project:,
            status: open_status,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
   let!(:closed) do
-    create :work_package,
+    create(:work_package,
            subject: 'Starting work package',
            project:,
            status: closed_status,
            type:,
            author: user,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -90,7 +88,7 @@ describe 'Work package overview graph widget on dashboard',
 
     dashboard.add_widget(1, 1, :within, "Work packages overview")
 
-    # As the user lacks the necessary permisisons, no widget is preconfigured
+    # As the user lacks the necessary permissions, no widget is preconfigured
     overview_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
 
     overview_widget.expect_to_span(1, 1, 2, 2)

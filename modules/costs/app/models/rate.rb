@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -172,7 +172,7 @@ class Rate < ApplicationRecord
     end
 
     def count_rates(date1, date2 = nil)
-      (@rate.class).where(conditions_between(date1, date2, :valid_from)).count
+      @rate.class.where(conditions_between(date1, date2, :valid_from)).count
     end
 
     def orphaned_child_entries(date1, date2 = nil)

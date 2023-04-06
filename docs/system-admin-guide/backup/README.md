@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Backup
-  priority: 501
+  priority: 790
 description: Backing up OpenProject.
 keywords: system backup
 ---
@@ -63,7 +63,7 @@ It is sometimes good to have backups on other locations (e.g. local vs cloud). Y
 1. The Token must be already generated and stored in a secure keystore
 2. The API Key must be known and stored in a secure keystore
 
-You could use our [example bash script](/script/backup-via-apiv3.sh) and integrate it in your crond for running it daily.
+You could use our [example bash script](./script/backup-via-apiv3.sh) and integrate it in your crond for running it daily.
 
 ## Troubleshooting
 

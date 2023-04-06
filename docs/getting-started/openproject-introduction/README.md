@@ -11,12 +11,12 @@ Welcome to OpenProject! We are glad to have you here. In this section we will co
 
 ## Overview
 
-| Popular Topics                                               | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
-| [About OpenProject](#about-openproject)                      | What is OpenProject?                                         |
-| [First steps to get started](#first-steps-to-get-started)    | The first steps to get started with OpenProject.             |
-| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases. |
-| [OpenProject products](#openproject-products)                | What is the difference between the Community, Cloud and Enterprise Edition? |
+| Popular Topics                                                                        | Description                                                                                |
+|---------------------------------------------------------------------------------------|:-------------------------------------------------------------------------------------------|
+| [About OpenProject](#about-openproject)                                               | What is OpenProject?                                                                       |
+| [First steps to get started](#first-steps-to-get-started)                             | The first steps to get started with OpenProject.                                           |
+| [The entire Project Management Life-Cycle](#the-entire-project-management-life-cycle) | Find out more how OpenProject supports the different project phases.                       |
+| [OpenProject products](#openproject-products)                                         | What is the difference between the Community, Enterprise cloud and Enterprise on-premises? |
 
 ## About OpenProject
 
@@ -117,7 +117,7 @@ OpenProject can be used in three different editions, either on-premises or as so
 ![openproject versions](1569586019132.png)
 
 * [Community edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
-* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. premium features and support.
-* [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. premium features and support.
+* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. Enterprise add-ons and support.
+* [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. Enterprise add-ons and support.
 
 To compare the features side by side, please visit our [Feature Comparison](https://www.openproject.org/pricing/#features) page.

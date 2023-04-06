@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'tempfile'
 require 'zip'
 
-class BackupJob < ::ApplicationJob
+class BackupJob < ApplicationJob
   queue_with_priority :above_normal
 
   attr_reader :backup, :user
@@ -64,7 +64,7 @@ class BackupJob < ::ApplicationJob
       db_dump_file_name:
     )
 
-    store_backup file_name, backup: backup, user: user
+    store_backup(file_name, backup:, user:)
     cleanup_previous_backups!
 
     notify_backup_ready!
@@ -158,11 +158,8 @@ class BackupJob < ::ApplicationJob
 
     Zip::File.open(file_name, Zip::File::CREATE) do |zipfile|
       attachments.each do |attachment|
-        # If an attachment is destroyed on disk, skip i
-        diskfile = attachment.diskfile
-        next unless diskfile
-
-        path = diskfile.path
+        path = local_disk_path(attachment)
+        next unless path
 
         zipfile.add "attachment/file/#{attachment.id}/#{attachment[:file]}", path
 
@@ -177,6 +174,20 @@ class BackupJob < ::ApplicationJob
     @archived = true
 
     file_name
+  end
+
+  def local_disk_path(attachment)
+    # If an attachment is destroyed on disk, skip it
+    diskfile = attachment.diskfile
+    return unless diskfile
+
+    diskfile.path
+  rescue StandardError => e
+    Rails.logger.error do
+      "Failed to access attachment #{attachment.id} #{attachment.file&.path} for backup: #{e.message}"
+    end
+
+    nil
   end
 
   def remove_paths!(paths)

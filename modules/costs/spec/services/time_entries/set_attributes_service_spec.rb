@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -179,8 +179,8 @@ describe TimeEntries::SetAttributesService, type: :model do
   end
 
   context 'with another user setting logged by' do
-    let(:other_user) { create :user }
-    let(:time_entry_instance) { create :time_entry, user: other_user, logged_by: other_user, hours: 1 }
+    let(:other_user) { create(:user) }
+    let(:time_entry_instance) { create(:time_entry, user: other_user, logged_by: other_user, hours: 1) }
 
     let(:params) do
       {

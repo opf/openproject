@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 class Enumeration < ApplicationRecord
   default_scope { order("#{Enumeration.table_name}.position ASC") }
 
-  belongs_to :project
+  belongs_to :project, optional: true
 
   acts_as_list scope: 'type = \'#{type}\''
   acts_as_tree order: 'position ASC'

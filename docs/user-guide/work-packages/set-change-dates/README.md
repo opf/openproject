@@ -29,9 +29,9 @@ You can change the start and finish dates of a work package by opening the date 
 
 You can open the date picker for a work package from a number of different places:
 
-- By clicking on the date field in the work package [details view](../work-package-views/#work-package-full-screen-view) 
-- By clicking the the date field in the work package [split screen view](../work-package-views/#work-package-split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
-- By clicking the start date, finish date or duration fields in [list view](../work-package-views/#work-package-list-view)
+- By clicking on the date field in the work package [details view](../work-package-views/#full-screen-view) 
+- By clicking the the date field in the work package [split screen view](../work-package-views/#split-screen-view) (from any other view, including [notification center](../../notifications), [team planner](../../team-planner/), [boards](../../agile-boards)...)
+- By clicking the start date, finish date or duration fields in [list view](../work-package-views/#list-view)
 
 
 ### Using the date picker
@@ -44,7 +44,7 @@ You can enter dates either by typing them in into the start and finish date fiel
 
 You can also click on the **Today** link below the start and finish date fields to use today's date.
 
-A more intuitive way to select start and end dates is to simply click on two different dates in the mini calendars below. Two calendar months are displayed for better visibilty.
+A more intuitive way to select start and end dates is to simply click on two different dates in the mini calendars below. Two calendar months are displayed for better visibility.
 
 Start by clicking on a start date. This will enter the selected date as the start date, mark it with a dark color on the mini calendar below and move the focus to the finish date field. Hovering on different finish dates will give you a preview of the date range for the work packakge if you click this second date. Once you have decided on a finish date, click on it. This will enter the finish date in the date field and mark that date with another dark color. The dates in between will be highlighted with a lighter colour.
 
@@ -127,13 +127,13 @@ For example, if you set the start date to *Wednesday, 12 October* and enter a du
 
 It is possible for a work package to have only duration  without any start or finish dates set. 
 
-> **Note:** If you add even one date to a work package with duration, the other date is automatically derived; ot is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
+> **Note:** If you add even one date to a work package with duration, the other date is automatically derived; it is not possible to have just one date (start *or* finish) and duration set. Please note also that if a work package with only duration derives its start date via a relation, the finish date is then also derived. 
 
-Setting only duration without start of finish dates useful especially when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
+Setting only duration without start or finish dates is especially useful when you have a general estimation of how long different tasks or phases of a project will take, but do not have exact dates defined quite yet.
 
 > **Pro tip:** This feature makes it possible to automatically derive an estimated start or finish date for entire project. 
 >
-> To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set an end date on the last work package or a start date on the first one in the series, the start and end dates for all other work packages will be derived.
+> To do so, create a series of work packages that represent the main phases and set the approximate duration for each. Link them all using follow/precedes relationships. Now, when you set a start date on the first work package in the series, the start and end dates for all other work packages will be derived.
 
 
 
@@ -193,4 +193,4 @@ This warning banner is displayed on work packages whose start and end dates affe
 
 The information and warning banners also feature a **Show Relations** button. Clicking on this will open a new tab that displays work packages with direct relations to the current work package in [Gantt view](../../gantt-chart), in hierarchy mode. 
 
-> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [list view](../work-package-views/#work-package-list-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).
+> **Info**: This preview is intended to give a quick overview of only _direct_ relations that might affect scheduling options for the current work package. It does not show second-level relations (and above). To get a full overview, please use the project work package [list view](../work-package-views/#list-view) or [Gantt view](../../gantt-chart) with your desired [filter/view configuration](../work-package-table-configuration/).

@@ -17,24 +17,28 @@
       [innerHtml]="helpText.helpText.html"
     ></div>
 
-    <attachments
-      *ngIf="helpText && helpText.attachments.elements.length > 0"
-      [resource]="helpText"
-      data-allow-uploading="false"
-    ></attachments>
+    <fieldset class="form--fieldset" *ngIf="helpText && helpText.attachments.elements.length > 0">
+      <legend class="form--fieldset-legend">
+        {{ text.attachments }}
+      </legend>
+      <op-attachments
+        [resource]="helpText"
+        [allowUploading]="false"
+      ></op-attachments>
+    </fieldset>
   </div>
 
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
+        class="button spot-action-bar--action spot-modal--cancel-button"
         (click)="closeMe()"
         >
         {{ text.close }}
       </button>
       <a
-        class="help-text--edit-button button button_no-margin spot-action-bar--action"
+        class="help-text--edit-button button spot-action-bar--action"
         *ngIf="helpText.editText"
         [attr.href]="helpTextLink"
         [attr.title]="text.edit"

@@ -12,6 +12,7 @@ fi:
       remove_assignee: 'Remove assignee'
       two_weeks: '2-week'
       one_week: '1-week'
+      work_week: 'Work week'
       today: 'Today'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'

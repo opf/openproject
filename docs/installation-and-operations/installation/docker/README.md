@@ -6,13 +6,9 @@ sidebar_navigation:
 
 # Install OpenProject with Docker
 
-[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We
-provide a Docker image for the Community Edition that you can very easily
-install and upgrade on your servers. However, contrary to the manual or
-package-based installation, your machine needs to have the Docker Engine
-installed first, which usually requires a recent operating system. Please see
-the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker
-installed.
+[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
+install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
+installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker installed.
 
 OpenProject with Docker can be launched in two ways:
 
@@ -50,7 +46,7 @@ OPENPROJECT_HTTPS=false docker-compose up -d
 
 After a while, OpenProject should be up and running on `http://localhost:8080`. The default username and password is login: `admin`, and password: `admin`. You need to explicitly disable HTTPS mode on startup as OpenProject assumes it's running behind HTTPS in production by default.
 
-Note that the `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
+> **Note:** The `docker-compose.yml` file present in the repository can be adjusted to your convenience. With each pull it will be overwritten. Best practice is to use the file `docker-compose.override.yml` for that case. For instance you could mount specific configuration files, override environment variables, or switch off services you don't need. Please refer to the official [Docker Compose documentation](https://docs.docker.com/compose/extends/) for more details.
 
 You can stop the Compose stack by running:
 
@@ -71,26 +67,11 @@ If you want to start from scratch and remove the existing data you will have to 
 
 ### Configuration
 
-In the compose folder you will find the file `docker-compose.yml` which can be edited.
-Although we recommend using `docker-compose.override.yml`.
-Please be aware that only those variables shall be edited which are documented as not everything is meant to be configured or bend.
+Please see the [advanced configuration guide's docker paragraphs](../../configuration/#docker)
 
-#### BIM Edition
+#### BIM edition
 
 In order to install or change to BIM inside a Docker environment, please navigate to the [Docker Installation for OpenProject BIM](../../bim-edition/#docker-installation-openproject-bim) paragraph at the BIM edition documentation. 
-
-### Disabling services in the docker-compose file
-
-If you have an override file created, it is also easy to disable certain services, such as the database container if you have an external one running anyway.
-
-To do that, add this section to the file:
-
-```yaml
-services: 
-  db:
-    deploy:
-      replicas: 0
-```
 
 ## All-in-one container
 
@@ -194,121 +175,16 @@ docker stop openproject
 docker rm openproject
 ```
 
-### Initial configuration
+### Configuration
 
-OpenProject is usually configured through a YAML file, but with the Docker
-image you need to pass all configuration through environment variables. You can
-overwrite any of the values usually found in the standard YAML file by using
-[environment variables](../../configuration/environment).
-
-
-
-#### All-in-one container
-
-Environment variables can be either passed directly on the command-line to the
-Docker Engine, or via an environment file:
-
-```bash
-docker run -d -e KEY1=VALUE1 -e KEY2=VALUE2 ...
-# or
-docker run -d --env-file path/to/file ...
-```
-
-
-
-#### Docker-compose setup
-
-For the docker-compose setup, we recommend you copy the upstream docker-compose.yml and adjust it to your needs. Please observe any changes when updating to the latest versions.
-
-To add an environment variable manually to the docker-compose file, add it to the `environment:` section of the `op-x-app` definition like in the following example:
-
-```yaml
-version: "3.7"
-
-networks:
-  frontend:
-  backend:
-
-volumes:
-  pgdata:
-  opdata:
-
-x-op-restart-policy: &restart_policy
-  restart: unless-stopped
-x-op-image: &image
-  image: openproject/community:${TAG:-12}
-x-op-app: &app
-  <<: [*image, *restart_policy]
-  environment:
-    OPENPROJECT_HTTPS: true
-    # ... other configuration
-    RAILS_CACHE_STORE: "memcache"
-    OPENPROJECT_CACHE__MEMCACHE__SERVER: "cache:11211"
-    OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    DATABASE_URL: "${DATABASE_URL:-postgres://postgres:p4ssw0rd@db/openproject?pool=20&encoding=unicode&reconnect=true}"
-    RAILS_MIN_THREADS: 4
-    RAILS_MAX_THREADS: 16
-    # set to true to enable the email receiving feature. See ./docker/cron for more options
-    IMAP_ENABLED: "${IMAP_ENABLED:-false}"
-  volumes:
-    - "${OPDATA:-opdata}:/var/openproject/assets"
-
-# configuration cut off at this point. 
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
-```
-
-
-
-Alternatively, you can also use an env file for docker-compose like so:
-
-First, add a `.env` file with some variable:
-```
-OPENPROJECT_HTTPS=true
-```
-
-And then you'll need to pass the environment variable to the respective containers you want to set it on. For most OpenProject environment variables, this will be for `x-op-app`:
-
-```yaml
-version: "3.7"
-
-networks:
-  frontend:
-  backend:
-
-volumes:
-  pgdata:
-  opdata:
-
-x-op-restart-policy: &restart_policy
-  restart: unless-stopped
-x-op-image: &image
-  image: openproject/community:${TAG:-12}
-x-op-app: &app
-  <<: [*image, *restart_policy]
-  environment:
-    OPENPROJECT_HTTPS: ${OPENPROJECT_HTTPS}
-    # ... more environment variables
-
-# configuration cut off at this point. 
-# Please use the file at https://github.com/opf/openproject-deploy/blob/stable/12/compose/docker-compose.yml
-```
-
-
-
-Let's say you have a `.env.prod`  file with some production-specific configuration. Then, start the services with that special env file specified.
-
-```
-docker-compose --env-file .env.prod up
-```
-
-
+Please see the [advanced configuration guide's docker paragraphs](../../configuration#docker)
 
 #### Disabling HTTPS mode
 
 By default, OpenProject will expect a HTTPS request in production systems.
 In most cases, you will have an external web server or load balancer terminating the SSL/TLS connection and proxy/reverse-proxy to the docker container. You will then have to set up the web server to forward the protocol information (usually, this is `X-Forwarded-Proto` but depends on your web server).
 
-**Note**: This does not imply the docker container itself is running on SSL.
+> **NOTE**: This does not imply the docker container itself is running on SSL.
 
 If you _really_ want to disable HTTPS responses by OpenProject, you will need to add the environment variable `OPENPROJECT_HTTPS=false`. Note that this will disable secure cookies for session cookies, and is strongly discouraged for any production system.
 
@@ -356,7 +232,7 @@ described above.
 Assuming the desired *server name* is `openproject.example.com` the configuration
 will look like this:
 
-> **Note:** There is [another example](../packaged/#external-ssl-tls-termination) for external SSL/TLS termination for **packaged** installations
+> **NOTE:** There is [another example](../packaged/#external-ssltls-termination) for external SSL/TLS termination for **packaged** installations
 
 ```
 <VirtualHost *:80>
@@ -677,7 +553,7 @@ x-op-app: &app
 Any additional configuration of OpenProject happens in the environment section (like for S3 above) of the app inside of the `openproject-stack.yml`.
 For instance should you want to disable an OpenProject module globally, you would add the following:
 
-```
+```yaml
 x-op-app: &app
   <<: *image
   <<: *restart_policy
@@ -694,13 +570,13 @@ on what you can configure and how.
 
 Once you made any necessary adjustments to the `openproject-stack.yml` you are ready to launch the stack.
 
-```
-docker stack deploy -c openproject-stack.yaml openproject
+```bash
+docker stack deploy -c openproject-stack.yml openproject
 ```
 
 Once this has finished you should see something like this when running `docker service ls`:
 
-```
+```bash
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           
@@ -737,13 +613,13 @@ Also at least 2 worker (`openproject_worker`) replicas make sense to handle the 
 If you find that it takes too long for those tasks (such as sending emails or work package exports) to complete
 you may want to increase this number further.
 
-```
+```bash
 docker service scale openproject_proxy=2 openproject_web=6 openproject_worker=2
 ```
 
 This will take a moment to converge. Once done you should see something like the following when listing the services using `docker service ls`:
 
-```
+```bash
 docker service ls
 ID                  NAME                 MODE                REPLICAS            IMAGE                      PORTS
 kpdoc86ggema        openproject_cache    replicated          1/1                 memcached:latest           

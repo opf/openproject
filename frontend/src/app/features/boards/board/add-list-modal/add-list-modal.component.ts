@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -85,9 +85,6 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
   public inFlight = false;
 
   public trackByHref = trackByHref;
-
-  /* Do not close on outside click (because the select option are appended to the body */
-  public closeOnOutsideClick = false;
 
   public warningText:string|undefined;
 

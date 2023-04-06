@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2020 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <tr <%= "id=\"#{row_css_id}\"" if row_css_id %> class="<%= row_css_class %>">
   <% columns.each do |column| %>
-    <td class="<%= column_css_class(column) %>"
-        <%= title = column_title(column); "title=\"#{title}\"" if title %>
-    >
+    <td class="<%= column_css_class(column) %>">
       <%= column_value(column) %>
     </td>
   <% end %>

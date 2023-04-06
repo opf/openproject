@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ module OpenProject::Backlogs::List
 
     # Override acts_as_list implementation to avoid it calling save.
     # Calling save would remove the changes/saved_changes information.
-    def set_list_position(new_position, _raise_exception_if_save_fails = false) # rubocop:disable Style/OptionalBooleanParameter
+    def set_list_position(new_position, _raise_exception_if_save_fails = false)
       update_columns(position: new_position)
     end
 

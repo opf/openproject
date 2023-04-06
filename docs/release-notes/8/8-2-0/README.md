@@ -12,8 +12,8 @@
 OpenProject 8.2 includes several improvements, such as a modernized
 calendar as well as many usability improvements.
 
-Users of the [Cloud Edition](https://www.openproject.org/hosting/) and
-[Enterprise Edition](https://www.openproject.org/enterprise-edition/)
+Users of the [Enterprise cloud](https://www.openproject.org/hosting/) and
+[Enterprise on-premises](https://www.openproject.org/enterprise-edition/)
 can change work packages to a read-only mode to avoid unwanted changes.
 Additionally, embedded work package now also support relations.
 
@@ -38,9 +38,9 @@ improvements include:
   - The OpenProject search searches the current project and subprojects
     by default.
 
-## Read-only mode for work packages (Enterprise Edition / Cloud Edition)
+## Read-only mode for work packages (Enterprise add-on)
 
-Users of the Enterprise Edition and Cloud Edition can define read-only
+Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can define read-only
 work package statuses. When you change a work package’s status to a
 read-only status, the work package can no longer be modified. This
 allows you to avoid users to e.g. make changes to a work package once it
@@ -49,7 +49,7 @@ has been approved.
 ![Read-only mode work
 packages](Read-only-mode-work-packages-1024x432.png)
 
-## Embedded work packages with other relation types (Enterprise Edition / Cloud Edition)
+## Embedded work packages with other relation types (Enterprise add-on)
 
 With OpenProject 8.2 the embed work package capability introduced with
 OpenProject 8 is extended to be used with other relation types besides

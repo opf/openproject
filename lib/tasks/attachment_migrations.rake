@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,6 +36,7 @@ module Migrations
   # We create a separate classes as this is most likely to be used during
   # the migration of an ChiliProject (2.x or 3.x) which lacks a couple
   # of columns models have in OpenProject >6.
+  # rubocop:disable Rails/ApplicationRecord
   module Attachments
     class CurrentWikiPage < ::ActiveRecord::Base
       self.table_name = "wiki_pages"
@@ -47,12 +48,13 @@ module Migrations
       self.table_name = "wiki_contents"
     end
   end
+  # rubocop:enable Rails/ApplicationRecord
 end
 
 namespace :migrations do
   namespace :attachments do
-    include ::Tasks::Shared::UserFeedback
-    include ::Tasks::Shared::AttachmentMigration
+    include Tasks::Shared::UserFeedback
+    include Tasks::Shared::AttachmentMigration
 
     desc 'Removes all attachments from versions and projects'
     task delete_from_projects_and_versions: :environment do |_task|

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,14 +29,14 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner', type: :feature, js: true do
+describe 'Team planner', js: true do
   before do
     with_enterprise_token(:team_planner_view)
   end
 
   include_context 'with team planner full access'
 
-  it 'allows switching of view modes' do
+  it 'allows switching of view modes', with_settings: { working_days: [1, 2, 3, 4, 5] } do
     team_planner.visit!
 
     team_planner.expect_empty_state
@@ -46,8 +46,11 @@ describe 'Team planner', type: :feature, js: true do
       team_planner.select_user_to_add user.name
     end
 
+    team_planner.expect_view_mode 'Work week'
+    expect(page).to have_selector('.fc-timeline-slot-frame', count: 5)
+
     # weekly: Expect 7 slots
-    team_planner.expect_view_mode '1-week'
+    team_planner.switch_view_mode '1-week'
     expect(page).to have_selector('.fc-timeline-slot-frame', count: 7)
 
     # 2 weeks: expect 14 slots

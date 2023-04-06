@@ -31,12 +31,12 @@ class NotificationSetting < ApplicationRecord
       WORK_PACKAGE_PROCESSED,
       WORK_PACKAGE_PRIORITIZED,
       WORK_PACKAGE_SCHEDULED,
-      *duration_settings,
+      *date_alert_settings,
       *email_settings
     ]
   end
 
-  def self.duration_settings
+  def self.date_alert_settings
     [
       START_DATE,
       DUE_DATE,
@@ -57,7 +57,7 @@ class NotificationSetting < ApplicationRecord
     ]
   end
 
-  belongs_to :project
+  belongs_to :project, optional: true
   belongs_to :user
 
   include Scopes::Scoped

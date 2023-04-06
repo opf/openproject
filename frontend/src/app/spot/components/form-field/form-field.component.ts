@@ -29,7 +29,7 @@ export class SpotFormFieldComponent {
    * One example of an input like is the CKEditor rich text editor.
    *
    * Setting noWrapLabel to `true` causes the label not to wrap the input.
-   * This might slighly reduce the label functionality (e.g. clicking the label
+   * This might slightly reduce the label functionality (e.g. clicking the label
    * does not focus the input) but is still preferred over more broken behavior.
    */
   @Input() noWrapLabel = false;
@@ -55,7 +55,7 @@ export class SpotFormFieldComponent {
 
   /**
    * Hides the input. This is a utility input for usage of `spot-form-field` in dynamic forms.
-   * Outisde of dynamic forms, you should be hiding inputs via `*ngIf` or other methods.
+   * Outside of dynamic forms, you should be hiding inputs via `*ngIf` or other methods.
    */
   @Input() hidden = false;
 

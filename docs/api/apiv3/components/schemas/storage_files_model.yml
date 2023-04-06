@@ -1,0 +1,87 @@
+# Schema: StorageFilesModel
+---
+type: object
+required:
+  - _type
+  - files
+  - parent
+  - ancestors
+  - _links
+properties:
+  _type:
+    type: string
+    enum:
+      - StorageFiles
+  files:
+    type: array
+    items:
+      $ref: './storage_file_model.yml'
+    description: List of files provided by the selected storage.
+  parent:
+    allOf:
+      - $ref: './storage_file_model.yml'
+      - description: File of the currently selected parent directory.
+  ancestors:
+    type: array
+    items:
+      $ref: './storage_file_model.yml'
+    description: List of ancestors of the parent directory. Can be empty, if parent directory was root directory.
+  _links:
+    type: object
+    required:
+      - self
+    properties:
+      self:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              Not provided
+              
+              **Resource**: urn:openproject-org:api:v3:storages:storage_file:no_link_provided
+example:
+  _type: StorageFiles
+  files:
+    - id: 42
+      name: readme.md
+      _type: StorageFile
+      location: '/readme.md'
+      mimeType: 'text/markdown'
+      size: 4096
+      createdAt: '2021-12-19T09:42:10.170Z'
+      lastModifiedAt: '2021-12-20T14:00:13.987Z'
+      createdByName: Luke Skywalker
+      lastModifiedByName: Anakin Skywalker
+      _links:
+        self:
+          href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+    - id: 43
+      name: readme.pdf
+      _type: StorageFile
+      location: '/readme.pdf'
+      mimeType: 'application/pdf'
+      size: 2048
+      createdAt: '2021-12-19T09:42:10.170Z'
+      lastModifiedAt: '2021-12-20T14:00:13.987Z'
+      createdByName: Luke Skywalker
+      lastModifiedByName: Anakin Skywalker
+      _links:
+        self:
+          href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+  parent:
+    id: 41
+    name: '/'
+    location: '/'
+    mimeType: 'application/x-op-directory'
+    size: 6144
+    createdAt: '2021-12-20T09:42:10.170Z'
+    lastModifiedAt: '2021-12-21T14:00:13.987Z'
+    createdByName: Luke Skywalker
+    lastModifiedByName: Anakin Skywalker
+    _links:
+      self:
+        href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+  ancestors: []
+  _links:
+    self:
+      href: 'urn:openproject-org:api:v3:storages:storage_file:no_link_provided'
+  

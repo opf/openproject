@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
+  include API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
   let(:form_embedded) { false }
@@ -47,7 +47,8 @@ describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter do
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Role' }
-        let(:href) { api_v3_paths.roles }
+        let(:grantable_filter) { CGI.escape(JSON.dump([grantable: { operator: '=', values: ['t'] }])) }
+        let(:href) { api_v3_paths.roles + "?filters=#{grantable_filter}" }
 
         context "for operator 'Queries::Operators::Equals'" do
           let(:operator) { Queries::Operators::Equals }

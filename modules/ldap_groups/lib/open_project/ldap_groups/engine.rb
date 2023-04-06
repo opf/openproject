@@ -15,7 +15,8 @@ module OpenProject::LdapGroups
            { controller: '/ldap_groups/synchronized_groups', action: :index },
            parent: :authentication,
            last: true,
-           caption: ->(*) { I18n.t('ldap_groups.label_menu_item') }
+           caption: ->(*) { I18n.t('ldap_groups.label_menu_item') },
+           enterprise_feature: 'ldap_groups'
     end
 
     add_cron_jobs { LdapGroups::SynchronizationJob }

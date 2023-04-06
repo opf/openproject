@@ -3,24 +3,24 @@ sidebar_navigation:
   title: My account
   priority: 400
 description: Learn how to configure account settings.
-keywords: my account, account settings, change language, Deutsch
+keywords: my account, account settings, change language
 ---
 
 # My account
 
 Change your personal settings in My account. Here you can adapt, e.g. the language, edit notifications, or add an avatar.
 
-| Topic                                                        | Content                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Open My account settings](#open-my-account-settings)        | How to open your personal settings in OpenProject            |
-| [Change password](#change-password)                          | How to change my password                                    |
-| [Edit your user information](#edit-your-user-information)    | How to change the name or email address in OpenProject       |
+| Topic                                                                                         | Content                                                                     |
+|-----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| [Open My account settings](#open-my-account-settings)                                         | How to open your personal settings in OpenProject                           |
+| [Change password](#change-password)                                                           | How to change my password                                                   |
+| [Edit your user information](#edit-your-user-information)                                     | How to change the name or email address in OpenProject                      |
 | [Profile settings: change your language, time zone or display of comments](#profile-settings) | How to change the language, time zone or display of comments in OpenProject |
-| [Two-factor authentication](#two-factor-authentication-premium-feature) | How to set up a two-factor authentication                    |
-| [Notifications settings](#notifications-settings)            | How to change in-app notifications in OpenProject            |
-| [Email reminders](#email-reminders)                          | How to change email reminders sent by OpenProject            |
-| [Set an Avatar](#set-an-avatar)                              | How to set an avatar in OpenProject and change the profile picture |
-| [Delete account](#delete-account)                            | How to delete my own account                                 |
+| [Two-factor authentication](#two-factor-authentication)                                       | How to set up a two-factor authentication                                   |
+| [Notifications settings](#notifications-settings)                                             | How to change in-app notifications in OpenProject                           |
+| [Email reminders](#email-reminders)                                                           | How to change email reminders sent by OpenProject                           |
+| [Set an Avatar](#set-an-avatar)                                                               | How to set an avatar in OpenProject and change the profile picture          |
+| [Delete account](#delete-account)                                                             | How to delete my own account                                                |
 
 ## Open My account settings
 
@@ -96,15 +96,15 @@ There are two personal settings available for the [Backlogs module](../../user-g
 **Task color**: Here you can enter the color in which your tasks on the task board (on the Backlogs page) are displayed. Tasks on the task board are color-coded based on who they are assigned to. Every user has a default color assigned but if you prefer a different color, you can change it.
 **Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
 
-## Two-factor authentication (Premium feature)
+## Two-factor authentication
 
 In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
 
 ![two factor authentication](two-factor-authentication.png)
 
-In order to register a new device for two-factor authentication, lick the green button to add a **new 2FA device**.
+In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
 
-To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displaed in the authentication app to your login.
+To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
 
 ![app-based-authentication](app-based-authentication.png)
 

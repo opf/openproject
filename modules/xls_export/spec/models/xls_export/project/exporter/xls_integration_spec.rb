@@ -46,7 +46,7 @@ describe XlsExport::Project::Exporter::XLS do
 
   describe 'custom field columns selected' do
     before do
-      Setting.enabled_projects_columns += custom_fields.map { |cf| "cf_#{cf.id}" }
+      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do

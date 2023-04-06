@@ -1,0 +1,51 @@
+# /api/v3/notifications/{notification_id}/details/{id}
+---
+get:
+  summary: Get a notification detail
+  operationId: view_notification_detail
+  tags:
+    - Notifications
+    - Values::Property
+  description: Returns an individual detail of a notification identified by the notification id and the id of the detail.
+  parameters:
+    - name: notification_id
+      in: path
+      description: notification id
+      example: '1'
+      required: true
+      schema:
+        type: integer
+    - name: id
+      in: path
+      description: detail id
+      example: '0'
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/values_property_model.yml'
+          examples:
+            'Start date notification detail':
+              $ref: '../components/examples/values_property_start_date.yml'
+            'Due date notification detail':
+              $ref: '../components/examples/values_property_due_date.yml'
+            'Date notification detail for milestone work package':
+              $ref: '../components/examples/values_property_date.yml'
+      description: OK
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+            message: The requested resource could not be found.
+      description: |-
+        Returned if the notification or the detail of it does not exist or if the user does not have permission to view it.
+
+        **Required permission** being recipient of the notification

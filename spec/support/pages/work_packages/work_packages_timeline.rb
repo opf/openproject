@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ module Pages
       if page.has_selector?('#wp-view-toggle-button', text: 'Gantt')
         within(timeline_container) do
           work_packages.each do |wp|
-            expect(page).to have_no_selector(".wp-row-#{wp.id}-timeline", visible: true)
+            expect(page).not_to have_selector(".wp-row-#{wp.id}-timeline", visible: true)
           end
         end
       end
@@ -88,8 +88,8 @@ module Pages
         expect(page).to have_selector('#wp-view-toggle-button', text: 'Gantt')
         expect(page).to have_selector('.wp-table-timeline--container .wp-timeline-cell')
       else
-        expect(page).to have_no_selector('#wp-view-toggle-button', text: 'Gantt')
-        expect(page).to have_no_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
+        expect(page).not_to have_selector('#wp-view-toggle-button', text: 'Gantt')
+        expect(page).not_to have_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
     end
 
@@ -98,7 +98,7 @@ module Pages
     end
 
     def zoom_in_button
-      page.find('#work-packages-timeline-zoom-in-button')
+      page.find_by_id('work-packages-timeline-zoom-in-button')
     end
 
     def zoom_in
@@ -110,11 +110,11 @@ module Pages
     end
 
     def zoom_out_button
-      page.find('#work-packages-timeline-zoom-out-button')
+      page.find_by_id('work-packages-timeline-zoom-out-button')
     end
 
     def autozoom
-      page.find('#work-packages-timeline-zoom-auto-button').click
+      page.find_by_id('work-packages-timeline-zoom-auto-button').click
     end
 
     def expect_zoom_at(value)
@@ -138,13 +138,13 @@ module Pages
 
     def expect_no_timeline_relation(from, to)
       within(timeline_container) do
-        expect(page).to have_no_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}")
+        expect(page).not_to have_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}")
       end
     end
 
     def expect_no_relations
       within(timeline_container) do
-        expect(page).to have_no_selector(".relation-line")
+        expect(page).not_to have_selector(".relation-line")
       end
     end
 

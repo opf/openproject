@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Announcement, type: :model do
+describe Announcement do
   it do is_expected.to respond_to :text end
   it do is_expected.to respond_to :text= end
   it do is_expected.to respond_to :show_until end
@@ -17,7 +17,7 @@ describe Announcement, type: :model do
       end
 
       context 'WHEN an announcement exists' do
-        let!(:announcement) { create :announcement }
+        let!(:announcement) { create(:announcement) }
 
         it 'returns the true one announcement' do
           expect(Announcement.only_one).to eql announcement

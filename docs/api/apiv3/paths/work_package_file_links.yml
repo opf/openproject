@@ -44,6 +44,7 @@ post:
                   id: 5503
                   name: logo.png
                   mimeType: image/png
+                  size: 433765
                   createdAt: '2021-12-19T09:42:10.170Z'
                   lastModifiedAt: '2021-12-20T14:00:13.987Z'
                   createdByName: Luke Skywalker

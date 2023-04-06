@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -49,7 +49,7 @@ it:
         main-menu-border-color: "Bordo del menu principale"
       custom_colors: "Colori personalizzati"
       customize: "Personalizza la tua installazione OpenProject con il tuo logo e i tuoi colori."
-      enterprise_notice: "Questa funzionalità è disponibile solo per chi si è iscritto alla Enterprise Edition, come ringraziamento speciale per il contributo finanziario allo sviluppo di OpenProject."
+      enterprise_notice: "Questa piccola aggiunta è disponibile solo per chi si è iscritto alla Enterprise Edition come speciale ringraziamento per il contributo finanziario allo sviluppo di OpenProject."
       enterprise_more_info: "Nota: il logo utilizzato sarà accessibile al pubblico."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
@@ -64,15 +64,15 @@ it:
         main-menu-bg-color: "Colore di sfondo del menu a sinistra."
       theme_warning: Cambiando il tema si sovrascriverà lo stile personalizzato. Il design andrà poi perso. Sei sicuro di voler continuare?
     enterprise:
-      upgrade_to_ee: "Aggiorna a Enterprise Edition"
-      add_token: "Carica un token di assistenza per Enterprise Edition"
+      upgrade_to_ee: "Aggiorna a Enterprise edition"
+      add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
-      required_for_feature: "Questa funzionalità è disponibile solo con un token di assistenza Enterprise Edition attivo."
+      paste: "Incolla il tuo token di assistenza per Enterprise edition"
+      required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: 'Inizia la prova gratuita'
       book_now: 'Prenota ora'
@@ -80,7 +80,7 @@ it:
       buttons:
         upgrade: "Aggiorna ora"
         contact: "Contattaci per una demo"
-      enterprise_info_html: "è una funzione Enterprise <strong class='icon-medal'></strong>."
+      enterprise_info_html: "è un'<span class='spot-icon spot-icon_enterprise-addons'></span>aggiunta Enterprise."
       upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
     journal_aggregation:
       explanation:
@@ -136,6 +136,7 @@ it:
         Se selezioni questa spunta, OpenProject creerà automaticamente nuovi utenti dai loro record LDAP quando effettueranno la prima autenticazione con OpenProject.
         Lasciare vuota questa spunta se si vuole garantire ai soli account presenti su OpenProject di autenticarsi tramite LDAP!
     connection_encryption: 'Crittografia connessione'
+    encryption_details: 'Opzioni LDAPS / STARTTLS'
     system_account: 'Account di sistema'
     system_account_legend: |
       OpenProject richiede accesso in sola lettura ad un account di sistema per cercare utenti e gruppi nell'albero LDAP.
@@ -146,13 +147,18 @@ it:
       I seguenti campi sono associati a come gli utenti sono creati all'interno di OpenProject dai record LDAP e quali attributi LDAP sono usati per definire gli attributi di un utente OpenProject (mapping degli attributi).
     tls_mode:
       plain: 'nessuno'
-      simple_tls: 'simple_tls'
-      start_tls: 'start_tls'
-      plain_description: "Connessione non crittografata, nessuna negoziazione TLS."
-      simple_tls_description: "Crittografia TLS implicita, ma senza convalida del certificato. Usala con cautela e se la connessione LDAP è affidabile."
-      start_tls_description: "Crittografia TLS esplicita con convalida completa. Per l'uso di LDAP su SSL/TLS."
+      simple_tls: 'LDAPS'
+      start_tls: 'STARTTLS'
+      plain_description: "Apre una connessione non cifrata al server LDAP. Non consigliata per la produzione."
+      simple_tls_description: "Usa LDAPS. Richiede una porta separata sul server LDAP. Questa modalità è spesso deprecata, raccomandiamo di usare STARTTLS quando possibile."
+      start_tls_description: "Invia un comando STARTTLS dopo la connessione alla porta LDAP standard. Consigliato per connessioni cifrate."
       section_more_info_link_html: >
         Questa sezione riguarda la sicurezza della connessione di questa fonte di autenticazione LDAP. Per ulteriori informazioni, visita <a href="%{link}">the Net::LDAP documentation</a>.
+    tls_options:
+      verify_peer: "Verifica certificato SSL"
+      verify_peer_description_html: >
+        Abilita la rigorosa verifica della catena attendibile del certificato SSL. <br/> <strong>Attenzione:</strong> Deselezionare questa opzione disabilita la verifica del certificato SSL del server LDAP. Questo espone la tua connessione ad attacchi di tipo Man in the Middle.
+      tls_certificate_description: "Se il certificato del server LDAP non è nelle fonti di fiducia di questo sistema, è possibile aggiungerlo manualmente qui. Inserisci una stringa certificata PEM X509."
   forums:
     show:
       no_results_title_text: Al momento non vi sono post sul forum.
@@ -223,6 +229,7 @@ it:
       failed_text: "La richiesta di eliminare il progetto %{name} non è riuscita. Il progetto è stato lasciato in archivio."
       completed: "Eliminazione del progetto %{name} completata"
       completed_text: "La richiesta di cancellare il progetto '%{name}' è stata completata."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Apri come vista Gantt'
       open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
@@ -313,7 +320,7 @@ it:
       settings: "Impostazioni"
       form_configuration: "Configurazione del modulo"
       more_info_text_html: >
-        Enterprise Edition ti consente di personalizzare la configurazione dei moduli con queste funzionalità aggiuntive: <br> <ul class="%{list_styling_class}"> <li><b>Aggiungi nuovi gruppi di attributi</b></li> <li><b >Rinomina gruppi di attributi</b></li> <li><b>Aggiungi una tabella di macro-attività correlate</b></li> </ul>
+        L'edizione Enterprise ti consente di personalizzare la configurazione dei moduli con queste aggiunte: <br> <ul class="%{list_styling_class}"> <li><b>Aggiungi nuovi gruppi di attributi</b></li> <li><b >Rinomina gruppi di attributi</b></li> <li><b>Aggiungi una tabella di macro-attività correlate</b></li> </ul>
       projects: "Progetti"
       enabled_projects: "Progetti abilitati"
       edit_query: "Modificare la Tabella"
@@ -328,6 +335,7 @@ it:
   wiki:
     page_not_editable_index: La pagina richiesta non esiste (ancora). Sei stato reindirizzato all'indice di tutte le pagine wiki.
     no_results_title_text: Al momento non vi sono pagine wiki.
+    print_hint: Questo stamperà il contenuto di questa pagina della wiki senza alcuna barra di navigazione.
     index:
       no_results_content_text: Aggiungi una nuova pagina wiki
   work_flows:
@@ -338,6 +346,8 @@ it:
       one: 'Una macro-attività discendente'
       other: '%{count} macro-attività discendenti'
     bulk:
+      copy_failed: "Le macro-attività non possono essere aggiornate."
+      move_failed: "Le macro-attività non possono essere spostate."
       could_not_be_saved: "Le seguenti macro-attività non possono essere salvate:"
       none_could_be_saved: "Nessuna delle %{total} macro-attività può essere aggiornata."
       x_out_of_y_could_be_saved: "%{failing} di %{total} macro-attività non possono essere aggiornate, mentre %{success} possono essere aggiornate."
@@ -366,7 +376,7 @@ it:
   account:
     delete: "Cancella account"
     delete_confirmation: "Sei davvero sicuro di voler cancellare questo account?"
-    deleted: "Account cancellato con successo"
+    deletion_pending: "Il profilo è stato bloccato e ne è stata pianificata l'eliminazione. Nota che questo processo avviene in background. Potrebbe volerci un po', prima della completa eliminazione dell'utente."
     deletion_info:
       data_consequences:
         other: "I dati creati dall'utente (ad esempio posta elettronica, preferenze, macro-attività, voci wiki) verranno eliminati completamente se possibile. Si noti, tuttavia, che alcuni tipi di dati, come ad esempio i pacchetti di lavoro e le voci wiki, non possono essere eliminati senza creare un ostacolo per il lavoro di altri utenti. La proprietà di tali dati sarà pertanto trasferita ad un account generico chiamato \"Deleted user\". Visto che i dati di tutti gli account eliminati vengono riassegnati a questo stesso account, non sarà più possibile distinguere i dati creati dall'utente dai dati di un altro account eliminato."
@@ -416,6 +426,7 @@ it:
         host: "Host"
         onthefly: "Creazione automatica degli utenti"
         port: "Porta"
+        tls_certificate_string: "Certificato SSL del server LDAP"
       changeset:
         repository: "Archivio"
       comment:
@@ -460,14 +471,24 @@ it:
       member:
         roles: "Ruoli"
       project:
+        active_value:
+          true: "Rimosso dall'archivio"
+          false: "archiviato"
         identifier: "Identificatore"
         latest_activity_at: "Ultima attività alle"
         parent: "Sotto-progetto di"
+        public_value:
+          title: "Visibilità"
+          true: "pubblico"
+          false: "privato"
         queries: "Interrogazioni"
+        templated: "Progetto modello"
+        templated_value:
+          true: "contrassegnato come modello"
+          false: "non contrassegnato come modello"
         types: "Tipi"
         versions: "Versioni"
         work_packages: "Macro-attività"
-        templated: 'Progetto modello'
       projects/status:
         code: 'Stato'
         explanation: 'Descrizione stato'
@@ -577,7 +598,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "è disponibile solo in OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         email: "non è un indirizzo email valido"
@@ -624,6 +645,11 @@ it:
           non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
         wrong_length: "è della lunghezza sbagliata (dovrebbe essere %{count} caratteri)."
       models:
+        auth_source:
+          attributes:
+            tls_certificate_string:
+              invalid_certificate: "Il certificato SSL fornito non è valido: %{additional_message}"
+              format: "%{message}"
         attachment:
           attributes:
             content_type:
@@ -674,6 +700,11 @@ it:
               no_notification_reason: 'non può essere vuoto perché IAN è scelto come canale.'
             reason_mail_digest:
               no_notification_reason: 'non può essere vuoto perché la mail automatica è scelta come canale.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un giorno non lavorativo esiste già per %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -684,6 +715,8 @@ it:
           archived_ancestor: 'Il progetto ha un antenato archiviato.'
           foreign_wps_reference_version: 'Macro-attività in progetti non discendenti contengono riferimenti a versioni del progetto o dei suoi discendenti.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Non hai le autorizzazioni necessarie ad archiviare tutti i progetti secondari. Sei pregato di contattare un amministratore."
             types:
               in_use_by_work_packages: "ancora in uso dalla macro-attività: %{types}"
             enabled_modules:
@@ -753,6 +786,11 @@ it:
               email_alerts_global: 'Le impostazioni di notifica via email possono essere impostate solo globalmente.'
               format: "%{message}"
               wrong_date: 'Valore errato per la data di inizio, la data di scadenza o scaduto.'
+        watcher:
+          attributes:
+            user_id:
+              not_allowed_to_view: "non può visualizzare questa risorsa."
+              locked: "è bloccato."
         wiki_page:
           attributes:
             slug:
@@ -872,8 +910,22 @@ it:
     header_invalid_fields: "Ci sono stati dei problemi con i seguenti campi:"
     field_erroneous_label: "Questo campo non è valido: %{full_errors} Prego, inserisci un valore valido."
   activity:
-    created: "Creato: %{title}"
-    updated: "Aggiornato: %{title}"
+    item:
+      created_by_on: "creato da %{user} il %{datetime}"
+      created_on: "creato il %{datetime}"
+      updated_by_on: "aggiornato da %{user} il %{datetime}"
+      updated_on: "aggiornato il %{datetime}"
+      parent_without_of: "Sottoprogetto"
+      parent_no_longer: "Non più sottoprogetto di"
+    filter:
+      changeset: "Insiemi di modifiche"
+      message: "Forum"
+      news: "Notizie"
+      project_attribute: "Attributi del progetto"
+      subproject: "Includi sottoprogetti"
+      time_entry: "Tempo trascorso"
+      wiki_edit: "Wiki"
+      work_package: "Macro-attività"
   #common attributes of all models
   attributes:
     active: "Attivo"
@@ -1009,6 +1061,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_apply_changes: "Applica modifiche"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
   button_sort: "Ordina"
@@ -1243,11 +1296,11 @@ it:
   ee:
     upsale:
       form_configuration:
-        description: "Personalizza la configurazione del modulo con le seguenti funzionalità aggiuntive:"
+        description: "Personalizza la configurazione del modulo con le seguenti aggiunte:"
         add_groups: "Aggiunta di gruppi di proprietà"
         rename_groups: "Rinominazione di gruppi di proprietà"
       project_filters:
-        description_html: "Le opzioni di filtraggio ed ordinamento dei campi personalizzati sono disponibili nella versione enterprise."
+        description_html: "Le opzioni di filtraggio e ordinamento dei campi personalizzati sono disponibili nella versione Enterprise."
   enumeration_activities: "Attività di monitoraggio dei tempi"
   enumeration_work_package_priorities: "Priorità della macro-attività"
   enumeration_reported_project_statuses: "Stato di progetto segnalato"
@@ -1269,7 +1322,7 @@ it:
   error_cookie_missing: 'Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza.'
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: 'Cancellazione voce non riuscita.'
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1304,16 +1357,20 @@ it:
   error_external_authentication_failed: "Si è verificato un errore durante l'autenticazione esterna. Per favore riprova."
   error_attribute_not_highlightable: "Attributo/i non sottolineabile/i: %{attributes}"
   events:
-    project: 'Progetto modificato'
     changeset: 'Changeset modificato'
     message: Messaggio modificato
     news: Notizie
+    project_attributes: 'Attributi del progetto modificati'
+    projects: 'Progetto modificato'
     reply: Risposto
     time_entry: 'Registro dell''orario effettuato modificato'
     wiki_page: 'Pagina wiki modificata'
     work_package_closed: 'Macro-attività chiusa'
     work_package_edit: 'Macro-attività modificata'
     work_package_note: 'Aggiunta nota alla macro-attività'
+    title:
+      project: "Progetto: %{name}"
+      subproject: "Sottoprogetto: %{name}"
   export:
     your_work_packages_export: "Esportazione macro-attività"
     succeeded: "L’esportazione si è conclusa con successo."
@@ -1339,7 +1396,6 @@ it:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Italiano"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "si"
@@ -1357,10 +1413,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise Edition"
+        title: "Aggiorna ad Enterprise edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1576,7 +1632,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_environment: "Ambiente"
   label_estimates_and_time: "Stime e tempi"
   label_equals: "è"
@@ -1725,6 +1781,10 @@ it:
   label_not_contains: "non contiene"
   label_not_equals: "non è"
   label_on: "il"
+  label_operator_all: "non è vuoto"
+  label_operator_none: "è vuoto"
+  label_operator_equals_or: "è (OR)"
+  label_operator_equals_all: "è (AND)"
   label_open_menu: "Apri menu"
   label_open_work_packages: "aperte"
   label_open_work_packages_plural: "aperte"
@@ -1766,6 +1826,8 @@ it:
   label_product_version: "Versione del prodotto"
   label_professional_support: "Supporto professionale"
   label_profile: "Profilo"
+  label_project_activity: "Attività del progetto"
+  label_project_attribute_plural: "Attributi del progetto"
   label_project_count: "Numero totale di progetti"
   label_project_copy_notifications: "Invia le email di notifica durante la copia del progetto"
   label_project_latest: "Ultimi progetti"
@@ -2018,6 +2080,8 @@ it:
         mentioned: 'Menzionato'
         subscribed: 'tutti'
         prefix: 'Ricevuto a causa dell''impostazione della notifica: %{reason}'
+        date_alert_start_date: 'Avviso data'
+        date_alert_due_date: 'Avviso data'
       see_all: 'Vedi tutti'
       updated_at: 'Aggiornato il %{timestamp} da %{user}'
   mail_body_account_activation_request: "Un nuovo utente (%{value}) si è registrato. L'account è in attesa di approvazione:"
@@ -2053,8 +2117,6 @@ it:
   mail_subject_incoming_email_error: "Impossibile elaborare un'email inviata a OpenProject"
   mail_subject_lost_password: "La tua %{value} password"
   mail_subject_register: "La tua %{value} attivazione dell'account"
-  mail_subject_reminder: "%{count} macro-attività in scadenza nei prossimi %{days} giorni"
-  mail_subject_group_reminder: "Per il gruppo \"%{group}\" ci sono %{count} macro-attività in scadenza nei prossimi %{days} giorni"
   mail_subject_wiki_content_added: "La pagina wiki '%{id}' è stata aggiunta"
   mail_subject_wiki_content_updated: "La pagina wiki '%{id}' è stata aggiornata"
   mail_member_added_project:
@@ -2188,6 +2250,7 @@ it:
   permission_add_work_packages: "Aggiungere macro-attività (work package)"
   permission_add_messages: "Postare messaggi"
   permission_add_project: "Creare un progetto"
+  permission_archive_project: "Archivia progetto"
   permission_manage_user: "Crea e modifica utenti"
   permission_manage_placeholder_user: "Crea, modifica ed elimina utenti del segnaposto"
   permission_add_subprojects: "Creare sotto-progetti"
@@ -2589,11 +2652,11 @@ it:
   text_custom_field_hint_activate_per_project_and_type: >
     I campi personalizzati devono essere attivati per ogni tipo di macro-attività e per ogni progetto.
   text_wp_custom_field_html: >
-    Enterprise Edition aggiungerà queste funzionalità aggiuntive per i campi personalizzati delle macro-attività: <br> <ul> <li><b>Selezione multipla per i campi personalizzati di tipo Elenco o Utente</b></li> </ul >
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati delle macro-attività: <br> <ul> <li><b>Selezione multipla per i campi personalizzati di tipo Elenco o Utente</b></li> </ul>
   text_wp_status_read_only_html: >
-    Enterprise Edition aggiungerà queste funzionalità aggiuntive per i campi degli stati delle macro-attività: <br> <ul> <li><b>Possibilità di contrassegnare le macro-attività come di sola lettura per stati specifici</b></li> </ul >
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi degli stati delle macro-attività: <br> <ul> <li><b>Possibilità di contrassegnare le macro-attività come di sola lettura per stati specifici</b></li> </ul >
   text_project_custom_field_html: >
-    Enterprise Edition aggiungerà queste funzionalità aggiuntive per i campi personalizzati dei progetti: <br> <ul> <li><b>Aggiungere campi personalizzati per i progetti all'elenco dei progetti per creare una visualizzazione del portfolio di progetti</b></li> < /ul>
+    L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati dei progetti: <br> <ul> <li><b>Aggiungere campi personalizzati per i progetti all'elenco dei progetti per creare una visualizzazione del portfolio di progetti</b></li> < /ul>
   text_custom_logo_instructions: >
     Un logo bianco su sfondo trasparente è preferibile. Per ottenere i migliori risultati, sia su schermi convenzionali che ad alta risoluzione, assicurati che le dimensioni dell'immagine siano di 460x60 pixels.
   text_custom_favicon_instructions: >
@@ -2625,12 +2688,13 @@ it:
   text_work_packages_destroy_confirmation: "Sei sicuro di che voler eliminare le/le macro-attività selezionata/e?"
   text_work_packages_ref_in_commit_messages: "Macro-attivita che sono correlate e/o modificate nei messaggi di conferma"
   text_journal_added: "%{label} %{value} aggiunto"
-  text_journal_changed_html: "%{label} modificato da %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} modificato da %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} aggiornata"
   text_journal_changed_with_diff: "%{label} cambiato (%{link})"
   text_journal_deleted: "%{label} cancellato (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} cancellato (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} impostato su %{value}"
   text_journal_set_with_diff: "insieme di %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2895,7 +2959,7 @@ it:
   warning_user_limit_reached: >
     Raggiunto il limite di utente. Non puoi attivare altri utenti. Per favore<a href="%{upgrade_url}">aggiorna il tuo piano</a> o blocca i membri per consentire altri utenti.
   warning_user_limit_reached_instructions: >
-    Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano Enterprise Edition e aggiungere ulteriori utenti.
+    Raggiunto il limite di utenti (%{current}/%{max} utenti attivi). Si prega di contattare sales@openproject.com per aggiornare il tuo piano dell'edizione Enterprise e aggiungere ulteriori utenti.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2923,19 +2987,25 @@ it:
       title: "Eliminare la macro-attività"
   working_days:
     info: >
-      <b>Definisci i giorni lavorativi della settimana</b><br/> I giorni non lavorativi vengono saltati quando si pianificano le macro-attività e vengono esclusi quando si calcola la durata. Questa impostazione può essere sovrascritta a livello di macro-attività.
+      <b>Definisci i giorni considerati parte della settimana lavorativa</b><br/> I giorni non selezionati vengono saltati durante la pianificazione delle macro-attività (e non inclusi nel conteggio dei giorni). Questi possono essere sovrascritti a livello di macro-attività.
+    instance_wide_info: >
+      <b>Giorni non lavorativi specifici (festivi e di chiusura)</b><br/> Le date aggiunte all'elenco seguente sono considerate non lavorative e saltate durante la pianificazione delle macro-attività.
     change_button: "Cambia giorni lavorativi"
     warning: >
-      Cambiare quali giorni della settimana sono considerati giorni lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso.
+      La modifica dei giorni della settimana da considerare lavorativi o non lavorativi può influire sui giorni di inizio e di fine di tutte le macro-attività in tutti i progetti in questa istanza. <br/> Tieni presente che le modifiche vengono applicate solo dopo aver fatto clic sul pulsante Applica modifiche.
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:
         working: "%{day} ora è lavorativo"
         non_working: "%{day} ora non è lavorativo"
+      dates:
+        working: "%{date} è ora lavorativo"
+        non_working: "%{date} è ora non lavorativo"
   nothing_to_preview: "Niente in anteprima"
   api_v3:
     attributes:
       lock_version: "Blocca Versione"
+      property: 'Proprietà'
     errors:
       code_400: "Richiesta non valida: %{message}"
       code_401: "Devi essere autenticato per accedere a questa risorsa."
@@ -2945,6 +3015,7 @@ it:
       code_409: "Impossibile aggiornare la risorsa a causa di modifiche in conflitto."
       code_429: "Troppe richieste. Sei pregato di riprovare più tardi."
       code_500: "Si è verificato un errore interno."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "La macro-attività che stai cercando non può essere trovata o è stata eliminata."
       expected:

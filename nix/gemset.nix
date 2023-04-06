@@ -1132,17 +1132,6 @@
     };
     version = "6.1.0";
   };
-  faker = {
-    dependencies = ["i18n"];
-    groups = ["development"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "0z3d4y6xg8prn3zdjw1qpqrnziq1d3zigqil4sxjj0pbr46gc1d6";
-      type = "gem";
-    };
-    version = "2.17.0";
-  };
   faraday = {
     dependencies = ["faraday-net_http" "multipart-post" "ruby2_keywords"];
     groups = ["default" "development" "sentry" "test"];

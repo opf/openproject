@@ -1,7 +1,7 @@
 /**
  * Elements that can receive focus
  */
-const focusableElements = [
+export const FOCUSABLE_ELEMENT_SELECTORS = [
   'a[href]:not([tabindex^="-"])',
   'area[href]:not([tabindex^="-"])',
   'input:not([type="hidden"]):not([type="radio"]):not([disabled]):not([tabindex^="-"])',
@@ -19,6 +19,6 @@ const focusableElements = [
 /**
  * Find all focusable element within a given container
  */
-export function findAllFocusableElementsWithin(container:HTMLElement):NodeListOf<Element> {
-  return container.querySelectorAll(focusableElements.toString());
+export function findAllFocusableElementsWithin(container:HTMLElement):NodeListOf<HTMLElement> {
+  return container.querySelectorAll(FOCUSABLE_ELEMENT_SELECTORS.toString());
 }

@@ -20,14 +20,13 @@ bug fixes included.
   - The timeline zoom factor is now saved in queries: When you open a
     saved timeline query the same zoom level as before is shown
     ([#25318](https://community.openproject.com/projects/openproject/work_packages/25318/activity)).
-  - As a user of the [Cloud
-    Edition](https://www.openproject.org/hosting/) or [Enterprise
-    Edition](https://www.openproject.org/enterprise-edition/), you can
+  - As a user of the [Enterprise cloud edition](https://www.openproject.org/hosting/) or 
+    [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/), you can
     now upload a custom favicon which is shown in the browser. You can
     also set a touch icon which is shown on smartphones (e.g. when
     setting a
     bookmark)([#25517](https://community.openproject.com/projects/openproject/work_packages/25517/activity)).
-  - Users of the Cloud Edition and Enterprise Edition can now also set
+  - Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can now also set
     white headers and there are two additional configuration options:
     Setting the hover background color and the hover font color
     ([#25275](https://community.openproject.com/projects/openproject/work_packages/25275/activity)).

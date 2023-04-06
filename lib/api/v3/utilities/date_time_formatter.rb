@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,6 +99,12 @@ module API
                                                        I18n.t('api_v3.errors.expected.duration'),
                                                        duration)
           end
+        end
+
+        def format_duration_from_days(days, allow_nil: false)
+          return nil if days.nil? && allow_nil
+
+          Duration.new(seconds: days * 3600 * 24).iso8601
         end
 
         def parse_duration_to_days(duration, property_name, allow_nil: false)

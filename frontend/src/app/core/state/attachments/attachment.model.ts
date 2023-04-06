@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 import { ID } from '@datorama/akita';
 import {
-  IFormattable,
+  IFormattable, IHalMethodResourceLink,
   IHalResourceLink,
   IHalResourceLinks,
 } from 'core-app/core/state/hal-resource';
@@ -40,6 +40,16 @@ export interface IAttachmentHalResourceLinks extends IHalResourceLinks {
   author:IHalResourceLink;
   downloadLocation:IHalResourceLink;
   staticDownloadLocation:IHalResourceLink;
+  originOpen:IHalResourceLink;
+}
+
+export interface IAddAttachmentLink extends IHalMethodResourceLink {
+  form_fields:object;
+}
+
+export interface IAttachmentUploadHalResourceLinks extends IAttachmentHalResourceLinks {
+  addAttachment:IAddAttachmentLink;
+  completeUpload:IHalResourceLink;
 }
 
 export interface IAttachment {
@@ -50,8 +60,14 @@ export interface IAttachment {
   description:IFormattable;
   contentType:string;
   digest:string;
-
   createdAt:string;
-
   _links:IAttachmentHalResourceLinks;
+}
+
+export interface IAttachmentUpload {
+  id:ID;
+  fileName:string;
+  description:IFormattable;
+  createdAt:string;
+  _links:IAttachmentUploadHalResourceLinks;
 }

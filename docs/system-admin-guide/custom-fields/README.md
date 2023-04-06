@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Custom fields
-  priority: 800
+  priority: 970
 description: Manage custom fields in OpenProject.
 keywords: manage custom fields
 ---
@@ -46,7 +46,7 @@ Depending on the module, for which the new custom field is being  created, sligh
 >     1. Custom field has been added to the work package type (form configuration).
 >     2. Custom field is activated for the project.
 
-1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-premium-feature) (Form configuration). You can do this directly via the link in the custom field overview.
+1. [Assign a custom field to a work package type](../manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) (Form configuration). You can do this directly via the link in the custom field overview.
 
 ![Sys-admin-add-custom-field](Sys-admin-add-custom-field.png)
 
@@ -63,10 +63,10 @@ With these additional settings, you have absolute freedom which custom fields ar
 
 
 
-## Create a multi-select custom field (Premium feature)
+## Create a multi-select custom field (Enterprise add-on)
 
 For work package custom fields of type **List** and **User** you may also select **multi-select custom fields** to select more than one value at once.
-Please note that this feature is only available in the [Enterprise Edition](https://www.openproject.org/enterprise-edition/) and [Cloud Edition](https://www.openproject.org/hosting/).
+Please note that this add-on is only available in the [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/hosting/).
 
 To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or format *User* and check the option *Allow multi-select*.
 

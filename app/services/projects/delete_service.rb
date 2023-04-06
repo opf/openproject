@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,16 @@
 module Projects
   class DeleteService < ::BaseServices::Delete
     include Projects::Concerns::UpdateDemoData
+
+    ##
+    # Reference to the dependent projects that we're deleting
+    attr_accessor :dependent_projects
+
+    def initialize(user:, model:, contract_class: nil, contract_options: {})
+      self.dependent_projects = model.descendants.to_a # Store an Array instead of a Project::ActiveRecord_Relation
+
+      super
+    end
 
     def call(*)
       super.tap do |service_call|
@@ -68,7 +78,7 @@ module Projects
 
     def notify(success)
       if success
-        ProjectMailer.delete_project_completed(model, user:).deliver_now
+        ProjectMailer.delete_project_completed(model, user:, dependent_projects:).deliver_now
       else
         ProjectMailer.delete_project_failed(model, user:).deliver_now
       end

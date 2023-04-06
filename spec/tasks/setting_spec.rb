@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,16 @@
 
 require 'spec_helper'
 
-RSpec.describe Rake::Task, 'setting', :settings_reset do
+RSpec.describe Rake::Task, :settings_reset do
   describe 'setting:set' do
+    let(:configuration_yml) do
+      <<~YAML
+        ---
+          default:
+            email_delivery_method: 'initial_file_value'
+      YAML
+    end
+
     include_context 'rake' do
       let(:task_name) { 'setting:set' }
     end
@@ -43,11 +51,8 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
     context 'if setting is overridden from config/configuration.yml file' do
       before do
-        # disable test env detection because loading of the config file is partially disabled in test env
-        allow(Rails.env).to receive(:test?).and_return(false)
-        allow(Settings::Definition).to receive(:file_config)
-          .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
-        Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
+        stub_configuration_yml
+        reset(:email_delivery_method)
       end
 
       it 'saves the setting in database' do
@@ -79,25 +84,22 @@ RSpec.describe Rake::Task, 'setting', :settings_reset do
 
       context 'if setting is overridden from config/configuration.yml file' do
         before do
-          # disable test env detection because loading of the config file is partially disabled in test env
-          allow(Rails.env).to receive(:test?).and_return(false)
-          allow(Settings::Definition).to receive(:file_config)
-            .and_return('default' => { 'email_delivery_method' => 'initial_file_value' })
-          Settings::Definition.send(:override_value_from_file, Settings::Definition['email_delivery_method'])
+          stub_configuration_yml
+          reset(:email_delivery_method)
         end
 
         it 'updates the setting in database' do
           expect { subject.invoke('email_delivery_method=something') }
             .to change { Setting.find_by(name: 'email_delivery_method')&.value }
-            .from(:initial_db_value)
-            .to(:something)
+                  .from(:initial_db_value)
+                  .to(:something)
         end
 
         it 'keeps using the value from the file' do
           expect(Setting.email_delivery_method).to eq(:initial_file_value)
           expect { subject.invoke('email_delivery_method=something') }
             .not_to change(Setting, :email_delivery_method)
-            .from(:initial_file_value)
+                      .from(:initial_file_value)
         end
       end
     end
