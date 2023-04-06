@@ -53,6 +53,7 @@ describe 'Upload attachment to documents',
   let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
+  let(:attachments_list) { Components::AttachmentsList.new }
 
   before do
     login_as(user)
@@ -70,12 +71,12 @@ describe 'Upload attachment to documents',
       # adding an image via the attachments-list
       find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
 
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 1)
+      editor.attachments_list.expect_attached('image.png')
 
       # adding an image
       editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
+      editor.attachments_list.expect_attached('image.png', count: 2)
+      editor.wait_until_upload_progress_toaster_cleared
 
       perform_enqueued_jobs do
         click_on 'Create'
@@ -104,26 +105,18 @@ describe 'Upload attachment to documents',
       # editor.click_and_type_slowly 'abc'
       SeleniumHubWaiter.wait
 
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+      editor.attachments_list.expect_attached('image.png', count: 2)
 
       editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 3)
+      editor.attachments_list.expect_attached('image.png', count: 3)
 
-      scroll_to_element(page.find('[data-qa-selector="op-attachments"]'))
+      editor.attachments_list.drag_enter
+      editor.attachments_list.drop(image_fixture)
 
-      script = <<~JS
-        const event = new DragEvent('dragenter');
-        document.body.dispatchEvent(event);
-      JS
-      page.execute_script(script)
+      editor.attachments_list.expect_attached('image.png', count: 4)
 
-      # adding an image via the attachments-list
-      find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
-
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
-
-      expect(page).not_to have_selector('op-toasters-upload-progress')
+      editor.wait_until_upload_progress_toaster_cleared
 
       perform_enqueued_jobs do
         click_on 'Save'
@@ -133,7 +126,7 @@ describe 'Upload attachment to documents',
       expect(page).to have_selector('#content img', count: 2)
       expect(page).to have_content('Image uploaded on creation')
       expect(page).to have_content('Image uploaded the second time')
-      expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 4)
+      attachments_list.expect_attached('image.png', count: 4)
 
       # Expect a mail to be sent to the user having subscribed to all notifications
       expect(ActionMailer::Base.deliveries.size)
