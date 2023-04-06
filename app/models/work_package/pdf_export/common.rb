@@ -64,31 +64,6 @@ module WorkPackage::PDFExport::Common
     raise ::Exports::ExportError.new message
   end
 
-  def cell_padding
-    @cell_padding ||= [2, 5, 2, 5]
-  end
-
-  def configure_markup
-    # Do not attempt to fetch images.
-    # Fetching images can cause errors e.g. a 403 is returned when attempting to fetch from aws with
-    # a no longer valid token.
-    # Such an error would cause the whole export to error.
-    pdf.markup_options = {
-      image: {
-        loader: ->(_src) {},
-        placeholder: "<i>[#{I18n.t('export.image.omitted')}]</i>"
-      }
-    }
-  end
-
-  def current_y_position
-    OpenStruct.new y: pdf.y, page: pdf.page_number
-  end
-
-  def position_diff(position_a, position_b)
-    position_a.y - position_b.y + ((position_b.page - position_a.page) * pdf.bounds.height)
-  end
-
   def with_margin(opts, &)
     with_vertical_margin(opts) do
       pdf.indent(opts[:margin_left] || 0, opts[:margin_right] || 0, &)

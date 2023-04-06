@@ -154,7 +154,7 @@ gem 'airbrake', '~> 13.0.0', require: false
 gem "hexapdf", "~> 0.32.0"
 gem 'prawn', '~> 2.2'
 gem 'prawn-markup', '~> 0.3.0'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '88eda1608248e556c0d6fa5fb5d858510292fe28'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '92e4cd63c322d8e27ae6a9e0811f948493732aa4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 

@@ -31,22 +31,26 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
-      write_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
+      write_work_package_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
     end
   end
 
-  private
-
-  def write_detail!(work_package, level_path)
+  def write_work_package_detail!(work_package, level_path)
     # TODO: move page break threshold const to style settings and implement conditional break with height measuring
     write_optional_page_break(200)
     with_margin(detail_margins_style) do
       write_work_package_subject! work_package, level_path
-      write_attributes_table! work_package
-      write_description! work_package
-      write_custom_fields! work_package
+      write_work_package_detail_content! work_package
     end
   end
+
+  def write_work_package_detail_content!(work_package)
+    write_attributes_table! work_package
+    write_description! work_package
+    write_custom_fields! work_package
+  end
+
+  private
 
   def write_work_package_subject!(work_package, level_path)
     with_margin(subject_margins_style) do

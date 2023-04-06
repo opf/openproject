@@ -69,8 +69,11 @@ module WorkPackage::PDFExport::Markdown
       case tag.name
       when 'mention'
         # <mention class="mention" data-id="46012" data-type="work_package" data-text="#46012"></mention>
-        text = tag.attr('data-text')
-        result.push(text_hash(text, opts)) if text.present?
+        # <mention class="mention" data-id="3" data-type="user" data-text="@Some User">@Some User</mention>
+        if tag.text.blank?
+          text = tag.attr('data-text')
+          result.push(text_hash(text, opts)) if text.present?
+        end
       when 'span'
         text = tag.text
         result.push(text_hash(text, opts)) if text.present?
