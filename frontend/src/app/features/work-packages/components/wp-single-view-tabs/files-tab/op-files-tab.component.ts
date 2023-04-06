@@ -26,15 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
-import {
-  combineLatest,
-  Observable,
-} from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -43,8 +36,10 @@ import { HookService } from 'core-app/features/plugins/hook-service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 
 @Component({
   selector: 'op-files-tab',
@@ -62,7 +57,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   showAttachmentHeader$:Observable<boolean>;
 
-  storages$:Observable<IStorage[]>;
+  storageSections$:Observable<{ projectStorage:IProjectStorage, storage:Observable<IStorage> }[]>;
 
   allowManageFileLinks$:Observable<boolean>;
 
@@ -70,8 +65,8 @@ export class WorkPackageFilesTabComponent implements OnInit {
     private readonly i18n:I18nService,
     private readonly hook:HookService,
     private readonly currentUserService:CurrentUserService,
-    private readonly projectsResourceService:ProjectsResourceService,
     private readonly storagesResourceService:StoragesResourceService,
+    private readonly projectStoragesResourceService:ProjectStoragesResourceService,
   ) { }
 
   ngOnInit():void {
@@ -82,17 +77,23 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
     const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
-    this.storages$ = this
-      .storagesResourceService
-      .collection(project.href as string);
+    this.storageSections$ = this.projectStoragesResourceService.require({ filters: [['projectId', '=', [project.id]]] })
+      .pipe(
+        map((projectStorages) =>
+          projectStorages
+            .map((ps) => ({
+              projectStorage: ps,
+              storage: this.storagesResourceService.lookup(idFromLink(ps._links.storage.href)),
+            }))),
+      );
 
     this.allowManageFileLinks$ = this
       .currentUserService
-      .hasCapabilities$('file_links/manage', (this.workPackage.project as unknown&{ id:string }).id);
+      .hasCapabilities$('file_links/manage', project.id);
 
     this.showAttachmentHeader$ = combineLatest(
       [
-        this.storages$,
+        this.storageSections$,
         canViewFileLinks,
       ],
     ).pipe(

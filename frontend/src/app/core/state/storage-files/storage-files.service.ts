@@ -41,6 +41,7 @@ import { HttpClient } from '@angular/common/http';
 import { ID, QueryEntity } from '@datorama/akita';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 @Injectable()
 export class StorageFilesResourceService {
@@ -48,7 +49,10 @@ export class StorageFilesResourceService {
 
   private readonly query = new QueryEntity(this.store);
 
-  constructor(private readonly httpClient:HttpClient) {}
+  constructor(
+    private readonly httpClient:HttpClient,
+    private readonly apiV3Service:ApiV3Service,
+  ) {}
 
   files(link:IHalResourceLink):Observable<IStorageFiles> {
     const value = this.store.getValue().files[link.href];
@@ -65,6 +69,11 @@ export class StorageFilesResourceService {
     return this.httpClient
       .get<IStorageFiles>(link.href)
       .pipe(tap((storageFiles) => this.insert(storageFiles, link.href)));
+  }
+
+  file(storageId:ID, id:ID):Observable<IStorageFile> {
+    return this.httpClient
+      .get<IStorageFile>(`${this.apiV3Service.storages.id(storageId).path}/files/${id}`);
   }
 
   uploadLink(link:IPrepareUploadLink):Observable<IUploadLink> {

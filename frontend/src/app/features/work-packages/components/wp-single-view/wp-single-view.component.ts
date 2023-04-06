@@ -36,12 +36,17 @@ import {
   OnInit,
 } from '@angular/core';
 import { StateService } from '@uirouter/core';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   distinctUntilChanged,
+  first,
   map,
   switchMap,
-  take,
 } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -69,6 +74,8 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 
 export interface FieldDescriptor {
   name:string;
@@ -148,7 +155,8 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   $element:JQuery;
 
-  storages$ = new BehaviorSubject<IStorage[]>([]);
+  // storages$ = new BehaviorSubject<IStorage[]>([]);
+  storageSections$ = new BehaviorSubject<{ projectStorage:IProjectStorage, storage:Observable<IStorage> }[]>([]);
 
   constructor(
     protected readonly injector:Injector,
@@ -167,6 +175,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     private readonly storagesService:StoragesResourceService,
     private readonly displayFieldService:DisplayFieldService,
     private readonly projectsResourceService:ProjectsResourceService,
+    private readonly projectStoragesService:ProjectStoragesResourceService,
   ) {
     super();
   }
@@ -232,25 +241,35 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     if (resource.project === null) {
-      this.storages$.next([]);
+      this.storageSections$.next([]);
     } else {
       const project = resource.project as unknown&{ href:string, id:string };
       combineLatest([
         this.projectsResourceService.update(project.href),
+        this.projectStoragesService.require({ filters: [['projectId', '=', [project.id]]] }),
         this.currentUserService.hasCapabilities$('file_links/manage', project.id),
       ])
         .pipe(
-          switchMap(([p, manageFileLinks]) => {
+          switchMap(([p, projectStorages, manageFileLinks]) => {
             if (!p._links.storages || !manageFileLinks) {
-              return of([] as IStorage[]);
+              return of([]);
             }
 
-            return this.storagesService.updateCollection(p._links.self.href, p._links.storages);
+            return this.storagesService
+              .updateCollection(p._links.self.href, p._links.storages)
+              .pipe(
+                map(() =>
+                  projectStorages
+                    .map((ps) => ({
+                      projectStorage: ps,
+                      storage: this.storagesService.lookup(idFromLink(ps._links.storage.href)),
+                    }))),
+              );
           }),
-          take(1),
+          first(),
         )
         .subscribe((storages) => {
-          this.storages$.next(storages);
+          this.storageSections$.next(storages);
         });
     }
   }

@@ -124,7 +124,7 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
     return this
       .collectionState(key)
       .pipe(
-        filter((collection) => !!collection),
+        filter(isDefinedEntity),
         switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
       );
   }

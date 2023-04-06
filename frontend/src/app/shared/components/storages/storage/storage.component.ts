@@ -36,11 +36,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import {
-  HttpErrorResponse,
-} from '@angular/common/http';
-import {
-  BehaviorSubject,
+  BehaviorSubject, combineLatest,
   Observable,
   of,
   throwError,
@@ -59,6 +57,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
 import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/storage.model';
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
   fileLinkViewError,
@@ -113,6 +112,8 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   @Input() public resource:HalResource;
 
   @Input() public storage:IStorage;
+
+  @Input() public projectStorage:IProjectStorage;
 
   @Input() public allowUploading = true;
 
@@ -272,20 +273,21 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   public openLinkFilesDialog():void {
-    this.fileLinks$
-      .pipe(take(1))
-      .subscribe((fileLinks) => {
-        const locals = {
-          storageType: this.storage._links.type.href,
-          storageName: this.storage.name,
-          storageLink: this.storage._links.self,
-          addFileLinksHref: this.addFileLinksHref,
-          collectionKey: this.collectionKey,
-          location: '/',
-          fileLinks,
-        };
-        this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
-      });
+    combineLatest([
+      this.fileLinks$.pipe(take(1)),
+      this.entryLocation(),
+    ]).subscribe(([fileLinks, location]) => {
+      const locals = {
+        storageType: this.storage._links.type.href,
+        storageName: this.storage.name,
+        storageLink: this.storage._links.self,
+        addFileLinksHref: this.addFileLinksHref,
+        collectionKey: this.collectionKey,
+        location,
+        fileLinks,
+      };
+      this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
+    });
   }
 
   public triggerFileInput():void {
@@ -301,9 +303,24 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.filePicker.nativeElement.value = '';
   }
 
+  private entryLocation():Observable<string> {
+    if (this.projectStorage.projectFolderMode === 'inactive') {
+      return of('/');
+    }
+
+    if (this.projectStorage.projectFolderId === null) {
+      throw new Error(`Project folder id 'null' not allowed for project folder mode '${this.projectStorage.projectFolderMode}'.`);
+    }
+
+    return this.storageFilesResourceService
+      .file(this.storage.id, this.projectStorage.projectFolderId)
+      .pipe(map((file) => file.location));
+  }
+
   private storageFileUpload(file:File):void {
-    this.selectUploadLocation()
+    this.entryLocation()
       .pipe(
+        switchMap((entryLocation) => this.selectUploadLocation(entryLocation)),
         switchMap((data) => this.resolveUploadConflicts(file, data.files, data.location)),
       )
       .subscribe((data) => {
@@ -311,12 +328,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
       });
   }
 
-  private selectUploadLocation():Observable<LocationData> {
+  private selectUploadLocation(entryLocation:string):Observable<LocationData> {
     const locals = {
       storageType: this.storage._links.type.href,
       storageName: this.storage.name,
       storageLink: this.storage._links.self,
-      location: '/',
+      location: entryLocation,
     };
 
     return this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)

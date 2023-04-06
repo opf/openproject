@@ -59,7 +59,6 @@ export function collectionKey(params:ApiV3ListParameters):string {
  *
  * @param store An entity store for the collection
  * @param collectionUrl The key to insert the collection at
- * @param loading The loading state
  */
 export function setCollectionLoading<T extends { id:ID }>(
   store:EntityStore<CollectionState<T>>,

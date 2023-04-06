@@ -26,20 +26,21 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ApiV3GettableResource,
-  ApiV3ResourceCollection,
-} from 'core-app/core/apiv3/paths/apiv3-resource';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
+import { ID } from '@datorama/akita';
+import { IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
 
-export class Apiv3StoragesPaths
-  extends ApiV3ResourceCollection<IStorage, ApiV3GettableResource<IStorage>> {
-  // /api/v3/storages/files
-  public readonly files = this.subResource('files');
+export interface IProjectStorageHalResourceLinks extends IHalResourceLinks {
+  storage:IHalResourceLink;
+  project:IHalResourceLink;
+  creator:IHalResourceLink;
+}
 
-  constructor(protected apiRoot:ApiV3Service,
-    protected basePath:string) {
-    super(apiRoot, basePath, 'storages');
-  }
+export interface IProjectStorage {
+  id:ID;
+  projectFolderMode:string;
+  projectFolderId:string|null;
+  createdAt?:string;
+  lastModifiedAt?:string;
+
+  _links:IProjectStorageHalResourceLinks;
 }

@@ -18,13 +18,14 @@
   </section>
 
   <section
-    *ngFor="let storage of storages$ | async"
+    *ngFor="let sec of storageSections$ | async"
     data-qa-selector="op-tab-content--tab-section"
     class="op-tab-content--tab-section"
   >
     <op-storage
       [resource]="workPackage"
-      [storage]="storage"
+      [storage]="sec.storage | async"
+      [projectStorage]="sec.projectStorage"
       [allowUploading]="allowManageFileLinks$ | async"
       [allowLinking]="allowManageFileLinks$ | async"
     ></op-storage>

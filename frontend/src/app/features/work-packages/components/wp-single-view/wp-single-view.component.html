@@ -145,9 +145,10 @@
   </div>
 
   <op-storage
-    *ngFor="let storage of storages$ | async"
+    *ngFor="let sec of storageSections$ | async"
     [resource]="workPackage"
-    [storage]="storage"
+    [storage]="sec.storage | async"
+    [projectStorage]="sec.projectStorage"
     [allowLinking]="true"
     [allowUploading]="true"
   ></op-storage>
