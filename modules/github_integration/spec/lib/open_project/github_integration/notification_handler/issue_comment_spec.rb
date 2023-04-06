@@ -33,7 +33,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
   let(:handler_instance) { described_class.new }
   let(:upsert_partial_pull_request_service) do
-    instance_double(OpenProject::GithubIntegration::Services::UpsertPartialPullRequest)
+    OpenProject::GithubIntegration::Services::UpsertPartialPullRequest.new
   end
   let(:payload) do
     {
@@ -47,9 +47,17 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
         }
       },
       'issue' => {
+        'state' => 'open',
         'number' => pr_number,
         'title' => 'PR or issue title',
-        'pull_request' => pr_payload
+        'updated_at' => Time.current.iso8601,
+        'pull_request' => pr_payload,
+        'user' => {
+          'id' => 345,
+          'login' => 'test_user',
+          'html_url' => 'https://github.com/test_user',
+          'avatar_url' => 'https://github.com/test_user.jpg'
+        }
       },
       'repository' => {
         'full_name' => repo_full_name,
@@ -65,6 +73,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   let(:repo_full_name) { 'test_user/repo' }
   let(:github_system_user) { create(:admin) }
   let(:work_package) { create(:work_package) }
+  let(:github_pull_request) { GithubPullRequest.find_by(github_html_url: pr_html_url) }
 
   before do
     allow(handler_instance)
@@ -75,7 +84,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
             .and_return(upsert_partial_pull_request_service)
     allow(upsert_partial_pull_request_service)
       .to receive(:call)
-            .and_return(nil)
+            .and_call_original
   end
 
   shared_examples_for 'upserting a GithubPullRequest' do
@@ -101,8 +110,9 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
   shared_examples_for 'creating a comment on the work package' do
     it 'adds a comment to work packages' do
       process
-      expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with([work_package], github_system_user,
-                                                                                           comment)
+      expect(handler_instance)
+        .to have_received(:comment_on_referenced_work_packages)
+        .with([work_package], github_system_user, comment)
     end
   end
 
@@ -125,8 +135,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when commented on a PR' do
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
-          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
+          data-pull-request-state="&quot;referenced&quot;"></macro>).squish
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -134,14 +144,10 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest for the commented PR' do
-      let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
+      let!(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
-          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
-      end
-
-      before do
-        github_pull_request
+        %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
+          data-pull-request-state="&quot;referenced&quot;"></macro>).squish
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -149,25 +155,15 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest with that work_package' do
-      let(:github_pull_request) do
+      let!(:github_pull_request) do
         create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
-      end
-
-      before do
-        github_pull_request
       end
 
       it_behaves_like 'not creating comments on work packages'
 
       it 'calls the UpsertPartialPullRequest service without adding already known work_packages' do
         process
-        expect(upsert_partial_pull_request_service)
-          .to have_received(:call) do |received_payload, work_packages:|
-          expect(received_payload.to_h)
-            .to eql payload
-          expect(work_packages)
-            .to match_array []
-        end
+        expect(upsert_partial_pull_request_service).not_to have_received(:call)
       end
     end
   end
@@ -184,8 +180,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
 
     context 'when editing a PR comment with a new work package reference' do
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
-          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
+        %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
+          data-pull-request-state="&quot;referenced&quot;"></macro>).squish
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -193,14 +189,10 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest for the commented PR' do
-      let(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
+      let!(:github_pull_request) { create(:github_pull_request, github_html_url: pr_html_url) }
       let(:comment) do
-        "**Referenced in PR:** [test_user](https://github.com/test_user) referenced this work package " \
-          "in Pull request 123 [PR or issue title](https://comment.url) on [test_user/repo](https://github.com/test_user/repo).\n"
-      end
-
-      before do
-        github_pull_request
+        %(<macro class="github_pull_request" data-pull-request-id="#{github_pull_request.id}"
+          data-pull-request-state="&quot;referenced&quot;"></macro>).squish
       end
 
       it_behaves_like 'creating a comment on the work package'
@@ -208,12 +200,8 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
     end
 
     context 'when we already have a GithubPullRequest with that work_package' do
-      let(:github_pull_request) do
+      let!(:github_pull_request) do
         create(:github_pull_request, github_html_url: pr_html_url, work_packages: [work_package])
-      end
-
-      before do
-        github_pull_request
       end
 
       it_behaves_like 'not creating comments on work packages'
@@ -221,12 +209,7 @@ describe OpenProject::GithubIntegration::NotificationHandler::IssueComment do
       it 'calls the UpsertPartialPullRequest service without adding already known work_packages' do
         process
         expect(upsert_partial_pull_request_service)
-          .to have_received(:call) do |received_payload, work_packages:|
-          expect(received_payload.to_h)
-            .to eql payload
-          expect(work_packages)
-            .to match_array []
-        end
+          .not_to have_received(:call)
       end
     end
   end

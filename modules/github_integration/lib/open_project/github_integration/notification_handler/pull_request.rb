@@ -43,14 +43,17 @@ module OpenProject::GithubIntegration
       ].freeze
 
       def process(params)
-        @payload = wrap_payload(params)
+        payload = wrap_payload(params)
         github_system_user = User.find_by(id: payload.open_project_user_id)
-        work_packages = find_mentioned_work_packages(payload.pull_request.body, github_system_user)
 
-        pull_request = upsert_pull_request(work_packages)
+        work_packages = find_mentioned_work_packages(payload.pull_request.body, github_system_user)
+        return if work_packages.empty?
+
+        already_referenced = already_referenced_work_packages(payload)
+        pull_request = upsert_pull_request(payload, work_packages)
 
         comment_on_referenced_work_packages(
-          work_packages_to_comment_on(payload.action, pull_request, work_packages),
+          work_packages_to_comment_on(payload.action, work_packages, already_referenced),
           github_system_user,
           journal_entry(pull_request, payload)
         )
@@ -58,19 +61,24 @@ module OpenProject::GithubIntegration
 
       private
 
-      attr_reader :payload
-
-      def work_packages_to_comment_on(action, pull_request, work_packages)
+      def work_packages_to_comment_on(action, work_packages, already_referenced)
         if action == 'edited'
-          without_already_referenced(work_packages, pull_request)
+          without_already_referenced(work_packages, already_referenced)
         else
           COMMENT_ACTIONS.include?(action) ? work_packages : []
         end
       end
 
-      def upsert_pull_request(work_packages)
-        return if work_packages.empty? && pull_request.nil?
+      def already_referenced_work_packages(payload)
+        pull_request = GithubPullRequest
+          .where(github_id: payload.pull_request.id)
+          .or(GithubPullRequest.where(github_html_url: payload.pull_request.html_url))
+          .take
 
+        pull_request&.work_packages.to_a || []
+      end
+
+      def upsert_pull_request(payload, work_packages)
         OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.pull_request.to_h,
                                                                              work_packages:)
       end
