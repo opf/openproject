@@ -1,5 +1,4 @@
 module WorkPackage::PDFExport::Page
-
   def configure_page_size!(layout)
     pdf.options[:page_size] = 'EXECUTIVE' # TODO: 'A4'?
     pdf.options[:page_layout] = layout

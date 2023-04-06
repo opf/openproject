@@ -94,10 +94,18 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_history_item!(journal)
+    write_history_item_headline! journal
+    write_history_item_content! journal
+  end
+
+  def write_history_item_headline!(journal)
     headline = "#{format_time(journal.created_at)} - #{journal.user.name}"
     with_margin(headline_margins_style) do
       pdf.formatted_text([headline_style.merge({ text: headline })])
     end
+  end
+
+  def write_history_item_content!(journal)
     with_margin(item_margins_style) do
       journal.details.each do |detail|
         text = journal.render_detail(detail, html: true, only_path: false)
@@ -118,12 +126,20 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_changeset_item!(changeset)
-    headline = "#{format_time(changeset.committed_on)} - #{changeset.author.to_s}"
+    write_changeset_item_headline! changeset
+    write_changeset_item_content! changeset
+  end
+
+  def write_changeset_item_headline!(changeset)
+    headline = "#{format_time(changeset.committed_on)} - #{changeset.author}"
     with_margin(headline_margins_style) do
       pdf.formatted_text([headline_style.merge({ text: headline })])
     end
-    with_margin(item_margins_style) do
-      if changeset.comments.present?
+  end
+
+  def write_changeset_item_content!(changeset)
+    if changeset.comments.present?
+      with_margin(item_margins_style) do
         pdf.formatted_text([headline_style.merge({ text: changeset.comments.to_s })])
       end
     end
