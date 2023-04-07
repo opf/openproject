@@ -52,7 +52,6 @@ if [ "$(id -u)" = '0' ]; then
 		mkdir -p "$OPENPROJECT_ATTACHMENTS__STORAGE__PATH"
 		chown -R "$APP_USER:$APP_USER" "$OPENPROJECT_ATTACHMENTS__STORAGE__PATH"
 	fi
-	mkdir -p "$APP_PATH/log" "$APP_PATH/tmp/pids" "$APP_PATH/files"
 	chown "$APP_USER:$APP_USER" "$APP_PATH"
 	chown -R "$APP_USER:$APP_USER" "$APP_PATH/log" "$APP_PATH/tmp" "$APP_PATH/files" "$APP_PATH/public"
 

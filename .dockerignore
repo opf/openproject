@@ -1,6 +1,7 @@
 .github/
 .git
 .dockerignore
+.gitignore
 .bundle
 .env*
 .buildpacks
@@ -9,8 +10,8 @@
 .*ignore
 *.md
 *.log
-Vagrantfile
-Dockerfile
+docker/prod/Dockerfile
+docker/ci/Dockerfile
 Guardfile
 docker-compose.*
 browserslist

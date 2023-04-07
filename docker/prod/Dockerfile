@@ -7,64 +7,77 @@ ARG PLATFORM=on-prem
 ARG GITHUB_OAUTH_TOKEN
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV NODE_VERSION="16.17.0"
-ENV BUNDLER_VERSION="2.4.7"
-ENV BUNDLE_PATH__SYSTEM=false
+# Unprivileged user settings
 ENV APP_USER=app
 ENV APP_PATH=/app
 ENV APP_DATA_PATH=/var/openproject/assets
+
+# Package manager settings
+ENV NODE_VERSION="16.17.0"
+ENV BUNDLER_VERSION="2.4.10"
+
+# Postgres settings
 ENV PGDATA=/var/openproject/pgdata
 ENV PGVERSION="13"
 ENV PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 
-ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
+# Rails settings
 ENV RAILS_ENV=production
 ENV RAILS_GROUPS=production
 ENV RAILS_LOG_TO_STDOUT=1
 ENV RAILS_SERVE_STATIC_FILES=1
+# Set a default key base, ensure to provide a secure value in production environments!
+ENV SECRET_KEY_BASE=OVERWRITE_ME
+
+# OpenProject settings
 ENV OPENPROJECT_ATTACHMENTS__STORAGE__PATH=$APP_DATA_PATH/files
 # Valid values are: standard,bim
 ENV OPENPROJECT_EDITION=standard
 ENV OPENPROJECT_INSTALLATION__TYPE=docker
-ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
-# Set a default key base, ensure to provide a secure value in production environments!
-ENV SECRET_KEY_BASE=OVERWRITE_ME
 
 WORKDIR $APP_PATH
 
-COPY docker/prod/setup ./docker/prod/setup
-RUN ./docker/prod/setup/preinstall.sh
+RUN useradd -d /home/$APP_USER -m $APP_USER
 
-# set irb default config for app (docker run -it ...) and root (docker exec -it ...) users
-RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
-RUN ln -s /app/docker/prod/setup/.irbrc /root/
+COPY --chown=$APP_USER:$APP_USER . .
 
-COPY Gemfile ./Gemfile
-COPY Gemfile.* ./
-COPY modules ./modules
-COPY vendor ./vendor
-# some gemspec files of plugins require files in there, notably OpenProject::Version
-COPY lib ./lib
+# setup all dependencies
+RUN \
+  --mount=type=cache,target=/var/cache/apt \
+  --mount=type=cache,target=$APP_PATH/vendor/bundle/ruby/3.2.0/cache \
+  ./docker/prod/setup/preinstall.sh
 
-RUN bundle install --quiet --deployment --path vendor/bundle \
-  --with="$RAILS_GROUPS" --without="test development" --jobs=8 --retry=3 && \
-  rm -rf vendor/bundle/ruby/*/cache && rm -rf vendor/bundle/ruby/*/gems/*/spec && rm -rf vendor/bundle/ruby/*/gems/*/test
+# build assets, perform migrations, etc.
+RUN \
+  --mount=type=cache,target=$APP_PATH/frontend/.angular \
+  --mount=type=cache,target=$APP_PATH/frontend/node_modules \
+./docker/prod/setup/postinstall.sh
 
-# Finally, copy over the whole thing
-COPY . .
-
-RUN ./docker/prod/setup/postinstall.sh
-
+# use unprivileged user
 USER $APP_USER
+
+# set irb default config for $APP_USER
+RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
 
 # Expose port for rails server
 EXPOSE 8080
+
 # Expose OpenProject data directory as volume
 VOLUME ["$APP_DATA_PATH"]
 
+# Default to launching rails server
 CMD ["./docker/web"]
 
 FROM slim as all-in-one
+
+# The all-in-one image ships with postgres, memcached and apache2 preconfigured
+ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
+ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
+
+USER root
+
+# set irb default config for root user
+RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432

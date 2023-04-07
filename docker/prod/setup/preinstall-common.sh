@@ -19,9 +19,15 @@ set -e
 set -o pipefail
 ARCHITECTURE=$(get_architecture)
 
+# install ruby gems
+gem install bundler --version "$BUNDLER_VERSION" --no-document
+BUNDLE_JOBS=8 BUNDLE_RETRY=3 bundle install --quiet --deployment --clean --with="$RAILS_GROUPS" --without="test development"
+rm -rf vendor/bundle/ruby/*/gems/*/spec vendor/bundle/ruby/*/gems/*/test
+
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
+# setup postgres APT repository
 wget --quiet -O- https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
@@ -45,7 +51,7 @@ apt-get install -y \
 	memcached \
 	dotnet-runtime-6.0 # required for BIM edition
 
-# remove any existing cluster
+# remove any existing postgres cluster
 service postgresql stop
 rm -rf /var/lib/postgresql/{9.6,13}
 
@@ -73,9 +79,5 @@ chmod +x xeokit-metadata-linux-x64/xeokit-metadata
 cp -r xeokit-metadata-linux-x64/ "/usr/lib/xeokit-metadata"
 ln -s /usr/lib/xeokit-metadata/xeokit-metadata /usr/local/bin/xeokit-metadata
 
-cd /
 rm -rf $tmpdir
-
-gem install bundler --version "$BUNDLER_VERSION" --no-document
-
-useradd -d /home/$APP_USER -m $APP_USER
+rm -rf /root/.npm
