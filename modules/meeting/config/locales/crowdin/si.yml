@@ -85,7 +85,7 @@ si:
   text_duration_in_hours: "Duration in hours"
   text_in_hours: "in hours"
   text_meeting_agenda_for_meeting: 'agenda for the meeting "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
+  text_meeting_closing_are_you_sure: "Are you sure you want to close the agenda?"
   text_meeting_agenda_open_are_you_sure: "This will overwrite all changes in the minutes! Do you want to continue?"
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_review_meeting_agenda: "%{author} has put the %{link} up for review."
