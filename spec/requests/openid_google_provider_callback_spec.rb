@@ -33,23 +33,26 @@ describe 'OpenID Google provider callback' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  it 'redirects user without errors', webmock: true, with_settings: {
-    plugin_openproject_openid_connect: {
-      "providers" => { "google" => { "identifier" => "identifier", "secret" => "secret" } }
-    }
-  } do
-    with_enterprise_token :openid_providers
-    auth_hash = { "state" => "623960f1b4f1020941387659f022497f536ad3c95fa7e53b0f03bdbf36debd59f76320801ea2723df520",
-                  "code" => "4/0AVHEtk6HMPLH08Uw8OVoSaAbd2oTi7Z6wOlBsMQ99Yj3qgKhhyKAxUQBvQ2MZuRzvueOgQ",
-                  "scope" => "email profile https://www.googleapis.com/auth/userinfo.email openid https://www.googleapis.com/auth/userinfo.profile",
-                  "authuser" => "0",
-                  "prompt" => "none" }
+  let(:auth_hash) do
+    { "state" => "623960f1b4f1020941387659f022497f536ad3c95fa7e53b0f03bdbf36debd59f76320801ea2723df520",
+      "code" => "4/0AVHEtk6HMPLH08Uw8OVoSaAbd2oTi7Z6wOlBsMQ99Yj3qgKhhyKAxUQBvQ2MZuRzvueOgQ",
+      "scope" => "email profile https://www.googleapis.com/auth/userinfo.email openid https://www.googleapis.com/auth/userinfo.profile",
+      "authuser" => "0",
+      "prompt" => "none" }
+  end
+  let(:uri) do
     uri = URI('/auth/google/callback')
     uri.query = URI.encode_www_form([['code', auth_hash['code']],
                                      ['state', auth_hash['state']],
                                      ['scope', auth_hash['scope']],
                                      ['authuser', auth_hash['authuser']],
                                      ['prompt', auth_hash['prompt']]])
+    uri
+  end
+
+  before do
+    with_enterprise_token :openid_providers
+
     stub_request(:post, "https://accounts.google.com/o/oauth2/token").to_return(
       status: 200,
       body: {
@@ -64,7 +67,7 @@ describe 'OpenID Google provider callback' do
       }.to_json,
       headers: { "content-type" => "application/json; charset=utf-8" }
     )
-    stub_request(:get, "https://www.googleapis.com/oauth2/v3/userinfo?alt=json").to_return(
+    stub_request(:get, Addressable::Template.new("https://www.googleapis.com/oauth2/v3/userinfo{?alt}")).to_return(
       status: 200,
       body: { "sub" => "107403511037921355307",
               "name" => "Firstname Lastname",
@@ -76,10 +79,17 @@ describe 'OpenID Google provider callback' do
               "locale" => "en-GB" }.to_json,
       headers: { "content-type" => "application/json; charset=utf-8" }
     )
-    allow_any_instance_of(OmniAuth::Strategies::OpenIDConnect).to receive(:session) {
-                                                                    { 'omniauth.state' => auth_hash['state'] }
-                                                                  }
 
+    allow_any_instance_of(OmniAuth::Strategies::OpenIDConnect).to receive(:session) {
+      { 'omniauth.state' => auth_hash['state'] }
+    }
+  end
+
+  it 'redirects user without errors', webmock: true, with_settings: {
+    plugin_openproject_openid_connect: {
+      "providers" => { "google" => { "identifier" => "identifier", "secret" => "secret" } }
+    }
+  } do
     response = get uri.to_s
     expect(response.status).to eq(302)
     expect(response.body).to eq("<html><body>You are being <a href=\"http://example.org/two_factor_authentication/request\">redirected</a>.</body></html>")
