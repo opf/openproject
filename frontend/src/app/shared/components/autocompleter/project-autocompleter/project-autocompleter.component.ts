@@ -44,8 +44,8 @@ import {
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { merge, Observable, of } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -173,7 +173,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     populateInputsFromDataset(this);
   }
 
-  matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {
+  private matchingItems(elements:IProjectAutocompleteItem[], matching:string):Observable<IProjectAutocompleteItem[]> {
     let filtered:IProjectAutocompleteItem[];
 
     if (matching === '' || !matching) {
@@ -186,6 +186,21 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     return of(filtered);
   }
 
+  private disableSelectedItems(
+    projects:IProjectAutocompleteItem[],
+    value:IProjectAutocompleterData|IProjectAutocompleterData[]|null,
+  ) {
+    const normalizedValue = (value || []);
+    const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map(p => p.href || p.id);
+    return projects.map((project) => {
+      const isSelected = !!arrayedValue.find((selected) => selected === this.projectTracker(project));
+      return {
+        ...project,
+        disabled: isSelected || project.disabled,
+      };
+    });
+  }
+
   public getAvailableProjects(searchTerm:string):Observable<IProjectAutocompleteItem[]> {
     if (this.dataLoaded === true) {
       return this.matchingItems(this.projects, searchTerm).pipe(
@@ -194,6 +209,9 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
+        switchMap((projects) => this.valueChange.pipe(
+          map((value) => this.disableSelectedItems(projects, value)),
+        )),
       );
     }
     return getPaginatedResults<IProject>(
@@ -234,10 +252,22 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
           children: [],
         }))),
         map(this.mapResultsFn),
-        map((projects) => { this.dataLoaded = true; this.projects = projects; return projects.sort((a, b) => a.ancestors.length - b.ancestors.length); }),
+        map((projects) => {
+          this.dataLoaded = true;
+          this.projects = projects;
+          return projects.sort((a, b) => a.ancestors.length - b.ancestors.length);
+        }),
         map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
+        switchMap(
+          (projects) => merge(
+            of([]),
+            this.valueChange,
+          ).pipe(
+            map((value) => this.disableSelectedItems(projects, value)),
+          ),
+        ),
       );
   }
 
