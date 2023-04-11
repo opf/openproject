@@ -533,7 +533,7 @@ describe API::V3::Utilities::PathHelper do
 
     # The simple case (with an id) is already covered by the 'it_behaves_like'
     describe '#work_package with an historic timestamp' do
-      subject { helper.work_package 42, timestamps: Timestamp.parse("2020-02-02 02:02:02") }
+      subject { helper.work_package 42, timestamps: Timestamp.parse("2020-02-02T02:02:02Z") }
 
       it_behaves_like 'api v3 path', '/work_packages/42?timestamps=2020-02-02T02%3A02%3A02Z'
     end
