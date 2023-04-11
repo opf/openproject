@@ -31,21 +31,44 @@ class Timestamp
 
   class Exception < StandardError; end
 
-  class ISO8601Parser
+  class TimestampParser
     def initialize(string)
-      @iso8601_string = string
+      @original_string = string
     end
 
     def parse!
-      @iso8601_string = self.class.substitute_special_shortcut_values(@iso8601_string)
+      @timestamp_string = self.class.substitute_special_shortcut_values(@original_string)
 
-      if @iso8601_string.start_with? /[+-]?P/ # ISO8601 "Period"
-        ActiveSupport::Duration.parse(@iso8601_string).iso8601
+      case @timestamp_string
+      when /[+-]?P/ # ISO8601 "Period"
+        ActiveSupport::Duration.parse(@timestamp_string).iso8601
+      when /@/ # Built in date bare words
+        parse_relative_date(@timestamp_string).iso8601
       else
-        Time.zone.iso8601(@iso8601_string).iso8601
+        Time.zone.iso8601(@timestamp_string).iso8601
       end
     rescue ArgumentError => e
-      raise e.class, "The string \"#{@iso8601_string}\" cannot be parsed to Time or ActiveSupport::Duration."
+      raise e.class, "The string \"#{@original_string}\" cannot be parsed to a Timestamp."
+    end
+
+    def parse_relative_date(string)
+      date = case string
+             when /yesterday@/
+               1.day.ago
+             when /^lastWorkingDay@/
+               Day.last_working.date || 1.day.ago
+             when /^lastWeek@/
+               1.week.ago
+             when /^lastMonth@/
+               1.month.ago
+             end
+
+      hours = string[/@(([0-1]?[0-9]|2[0-3]):[0-5][0-9])$/, 1].presence
+      unless date && hours
+        raise ArgumentError, "The string \"#{string}\" cannot be parsed to a Timestamp."
+      end
+
+      Time.zone.parse(hours, date)
     end
 
     class << self
@@ -83,19 +106,19 @@ class Timestamp
   end
 
   class << self
-    def parse(iso8601_string)
-      return iso8601_string if iso8601_string.is_a?(Timestamp)
+    def parse(timestamp_string)
+      return timestamp_string if timestamp_string.is_a?(Timestamp)
 
-      iso8601_string = ISO8601Parser.new(iso8601_string.strip).parse!
-      new(iso8601_string)
+      timestamp_string = TimestampParser.new(timestamp_string.strip).parse!
+      new(timestamp_string)
     end
 
     # Take a comma-separated string of ISO-8601 timestamps and convert it
     # into an array of Timestamp objects.
     #
-    def parse_multiple(comma_separated_iso8601_string)
-      comma_separated_iso8601_string.to_s.split(",").compact_blank.collect do |iso8601_string|
-        Timestamp.parse(iso8601_string)
+    def parse_multiple(comma_separated_timestamp_string)
+      comma_separated_timestamp_string.to_s.split(",").compact_blank.collect do |timestamp_string|
+        Timestamp.parse(timestamp_string)
       end
     end
 
@@ -106,9 +129,9 @@ class Timestamp
 
   def initialize(arg = Timestamp.now.to_s)
     if arg.is_a? String
-      @timestamp_iso8601_string = ISO8601Parser.substitute_special_shortcut_values(arg)
+      @timestamp_string = TimestampParser.substitute_special_shortcut_values(arg)
     elsif arg.respond_to? :iso8601
-      @timestamp_iso8601_string = arg.iso8601
+      @timestamp_string = arg.iso8601
     else
       raise Timestamp::Exception,
             "Argument type not supported. " \
@@ -129,7 +152,7 @@ class Timestamp
   end
 
   def iso8601
-    @timestamp_iso8601_string.to_s
+    @timestamp_string.to_s
   end
 
   def to_iso8601
@@ -146,7 +169,7 @@ class Timestamp
 
   def to_time
     if relative?
-      Time.zone.now - (to_duration * (to_duration.to_i.positive? ? 1 : -1))
+      Time.zone.now - to_duration.abs
     else
       Time.zone.parse(self)
     end
