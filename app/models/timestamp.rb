@@ -110,7 +110,7 @@ class Timestamp
     elsif arg.respond_to? :iso8601
       @timestamp_iso8601_string = arg.iso8601
     else
-      raise Timestamp::Exception, \
+      raise Timestamp::Exception,
             "Argument type not supported. " \
             "Please provide an ISO-8601 String or anything that responds to :iso8601, e.g. a Time."
     end
