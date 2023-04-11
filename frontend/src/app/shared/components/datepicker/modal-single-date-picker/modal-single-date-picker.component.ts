@@ -270,8 +270,10 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   writeWorkingValue(value:string):void {
+    const date = new Date(value);
+    const utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     this.workingValue = value;
-    this.workingDate = new Date(value);
+    this.workingDate = utc;
   }
 
   writeValue(value:string):void {
