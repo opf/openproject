@@ -26,36 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API::V3::StorageFiles
-  class StorageFileRepresenter < ::API::Decorators::Single
-    include API::Decorators::DateProperty
-
-    def initialize(model, storage, current_user:)
-      super(model, current_user:)
-
-      @storage_id = storage.id
-    end
-
-    link :self do
-      {
-        href: api_v3_paths.storage_file(@storage_id, represented.id),
-        title: represented.name
-      }
-    end
-
-    property :id
-    property :name
-    property :size
-    property :mime_type
-    date_time_property :created_at
-    date_time_property :last_modified_at
-    property :created_by_name
-    property :last_modified_by_name
-    property :location
-    property :permissions
-
-    def _type
-      Storages::StorageFile.name.split('::').last
+module Storages::Peripherals::StorageInteraction::Nextcloud
+  module Errors
+    def error(code, log_message = nil, data = nil)
+      ServiceResult.failure(
+        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
+        errors: Storages::StorageError.new(code:, log_message:, data:)
+      )
     end
   end
 end

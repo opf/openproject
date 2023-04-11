@@ -29,6 +29,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     include API::V3::Utilities::PathHelper
+    include Errors
     using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
     URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
@@ -115,13 +116,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

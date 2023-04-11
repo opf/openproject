@@ -57,7 +57,7 @@ describe 'Attribute help texts', js: true do
         editor.set_markdown('My attribute help text')
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
 
-        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
         expect(instance.help_text).to include 'My attribute help text'
@@ -81,7 +81,7 @@ describe 'Attribute help texts', js: true do
         # Add an image
         # adding an image
         editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-        expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+        editor.attachments_list.expect_attached('image.png')
         click_button 'Save'
 
         # Should now show on index for editing

@@ -146,6 +146,10 @@ module OpenProject::Storages
       "#{storage(storage_id)}/files"
     end
 
+    add_api_path :storage_file do |storage_id, file_id|
+      "#{storage_files(storage_id)}/#{file_id}"
+    end
+
     add_api_path :prepare_upload do |storage_id|
       "#{storage(storage_id)}/files/prepare_upload"
     end
