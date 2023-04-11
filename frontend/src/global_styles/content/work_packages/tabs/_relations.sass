@@ -61,6 +61,17 @@
   .controls-container
     text-align: right
 
+  // FIXME: This overrides of `_grid.scss` classes for relations fixes
+  // https://community.openproject.org/projects/openproject/work_packages/44828/activity#activity-17.
+  // But, the grid layout does not work for relations on mobile, nor does it really fit the needs
+  // of the relations component in general.
+  .medium-2
+    flex: 0 0 calc((100% / 12) * 2)
+  .medium-3
+    flex: 0 0 calc((100% / 12) * 3)
+  .medium-5
+    flex: 0 0 calc((100% / 12) * 5)
+
 .wp-relations-hierarchy-section
   margin-top: 35px
 
