@@ -34,11 +34,13 @@ export class OpCalendarService extends UntilDestroyedMixin {
   }
 
   applyNonWorkingDay({ date }:{ date?:Date }, nonWorkingDays:IDay[]):string[] {
-    const formatted = moment(date).format('YYYY-MM-DD');
-    if (date && (this.weekdayService.isNonWorkingDay(date) || nonWorkingDays.find((el) => el.date === formatted))) {
-      return ['fc-non-working-day'];
+    if (date) {
+      const utcDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+      const formatted = moment(utcDate).format('YYYY-MM-DD');
+      if (this.weekdayService.isNonWorkingDay(utcDate) || nonWorkingDays.find((el) => el.date === formatted)) {
+        return ['fc-non-working-day'];
+      }
     }
-
     return [];
   }
 }
