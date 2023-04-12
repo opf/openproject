@@ -271,9 +271,10 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
 
   writeWorkingValue(value:string):void {
     const date = new Date(value);
-    const utc = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    // since new Date() returns a date in our local timezone, we need to find the UTC date
+    const utcDate = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
     this.workingValue = value;
-    this.workingDate = utc;
+    this.workingDate = utcDate;
   }
 
   writeValue(value:string):void {
