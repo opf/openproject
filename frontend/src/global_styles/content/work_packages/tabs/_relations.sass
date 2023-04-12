@@ -28,12 +28,16 @@
 
 .detail-panel-description-content
   .relation
-    clear: both //resolve the problem if inside are elements with float
+    //resolve the problem if inside are elements with float
+    clear: both
+
     h3
       cursor: pointer
+
       a
         text-decoration: none
         color: inherit
+
       i
         font-size: 0.8rem
 
@@ -43,41 +47,44 @@
 .hierarchy-item
   margin-bottom: 2px
 
+.relation-container
+  margin-bottom: $spot-spacing-1
+
 .relation-row
   line-height: 2em
-  .attribute-header
-    font-size: 0.8em
-    text-transform: uppercase
-    font-weight: bold
-  .description-section
-    border: 1px dotted lightblue
-    padding: 4px
+
   .inline-edit--container
     @include text-shortener
     // Similar to inner span's line-height
     line-height: 1.6em
+
     .inline-edit--display-field
       vertical-align: middle
-  .controls-container
-    text-align: right
 
-  // FIXME: This overrides of `_grid.scss` classes for relations fixes
-  // https://community.openproject.org/projects/openproject/work_packages/44828/activity#activity-17.
-  // But, the grid layout does not work for relations on mobile, nor does it really fit the needs
-  // of the relations component in general.
-  .medium-2
-    flex: 0 0 calc((100% / 12) * 2)
-  .medium-3
-    flex: 0 0 calc((100% / 12) * 3)
-  .medium-5
-    flex: 0 0 calc((100% / 12) * 5)
+  &--grid
+    display: grid
+    align-items: center
+    grid-template: "info id subject status actions" / 10% 12.5% 45% 22.5% 10%
+
+    @media #{$spot-mq-mobile}
+      grid-template: "info id status actions" "subject subject subject subject" / 30% 25% 30% 15%
+
+
+    &-actions
+      grid-area: actions
+      display: flex
+      justify-content: end
+
+    &-id
+      @include text-shortener()
+      grid-area: id
+
+    &-subject
+      @include text-shortener()
+      grid-area: subject
 
 .wp-relations-hierarchy-section
   margin-top: 35px
-
-.wp-relations-hierarchy-subject
-  @include text-shortener
-  display: block
 
 .wp-relations-controls-section
   text-align: right
@@ -96,6 +103,7 @@
 .wp-relations-create-button
   margin: 0.25rem 0
   line-height: 1.5
+
   .-create-button-full-width
     margin-top: 1.5em
     width: 100%
