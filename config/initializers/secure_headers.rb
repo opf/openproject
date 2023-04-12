@@ -5,8 +5,10 @@ Rails.application.config.after_initialize do
       secure: true,
       httponly: true
     }
-    # Add "; preload" and submit the site to hstspreload.org for best protection.
-    config.hsts = "max-age=#{20.years.to_i}; includeSubdomains"
+
+    # Let Rails ActionDispatch::SSL middleware handle the Strict-Transport-Security header
+    config.hsts = SecureHeaders::OPT_OUT
+
     config.x_frame_options = "SAMEORIGIN"
     config.x_content_type_options = "nosniff"
     config.x_xss_protection = "1; mode=block"

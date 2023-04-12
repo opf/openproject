@@ -29,7 +29,7 @@
 class Enumeration < ApplicationRecord
   default_scope { order("#{Enumeration.table_name}.position ASC") }
 
-  belongs_to :project
+  belongs_to :project, optional: true
 
   acts_as_list scope: 'type = \'#{type}\''
   acts_as_tree order: 'position ASC'

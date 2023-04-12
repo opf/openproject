@@ -3,11 +3,13 @@ module Components
     include Capybara::DSL
     include Capybara::RSpecMatchers
     include RSpec::Matchers
-    attr_reader :context_selector, :attachments
+
+    attr_reader :context_selector, :attachments, :attachments_list
 
     def initialize(context = '#content')
       @context_selector = context
       @attachments = ::Components::Attachments.new
+      @attachments_list = ::Components::AttachmentsList.new("#{context} ckeditor-augmented-textarea")
     end
 
     def container
@@ -27,8 +29,7 @@ module Components
     end
 
     def set_markdown(text)
-      # wait for element to be loaded
-      editor_element
+      wait_until_loaded
 
       textarea = container.find('.op-ckeditor-source-element', visible: :all)
       page.execute_script(
@@ -73,7 +74,7 @@ module Components
     end
 
     ##
-    # Create an image fixture with the optional caption
+    # Create an image fixture with the optional caption from inside the ckeditor
     def drag_attachment(image_fixture, caption = 'Some caption')
       in_editor do |_container, editable|
         # Click the latest figure, if any
@@ -94,7 +95,7 @@ module Components
         expect(page)
             .to have_selector('img[src^="/api/v3/attachments/"]', count: images.length + 1, wait: 10)
 
-        expect(page).not_to have_selector('op-toasters-upload-progress', wait: 5)
+        wait_until_upload_progress_toaster_cleared
 
         # Get the image uploaded last. As there is no way to distinguish between
         # two uploaded images, from the perspective of the user, we do it by getting
@@ -124,6 +125,14 @@ module Components
           figure.find('figcaption', text: caption)
         end
       end
+    end
+
+    def wait_until_upload_progress_toaster_cleared
+      page.has_no_selector?('op-toasters-upload-progress')
+    end
+
+    def wait_until_loaded
+      editor_element
     end
 
     def refocus

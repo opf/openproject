@@ -5,10 +5,6 @@ import {
   ID,
 } from '@datorama/akita';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import {
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { filter } from 'lodash';
@@ -17,12 +13,12 @@ export interface CollectionResponse {
   ids:ID[];
 }
 
-export interface CollectionState<T> extends EntityState<T> {
+export interface ResourceState<T> extends EntityState<T> {
   /** Loaded notification collections */
   collections:Record<string, CollectionResponse>;
 
-  /** Loading collections */
-  loadingCollections:Record<string, boolean>;
+  /** Loading resources, collections or singular entities */
+  loadingResources:Record<string, boolean>;
 }
 
 export interface CollectionItem {
@@ -36,57 +32,48 @@ export function mapHALCollectionToIDCollection<T extends CollectionItem>(collect
 }
 
 /**
- * Initialize the collection part of the entity store
+ * Initialize the resource part of the entity store
  */
-export function createInitialCollectionState<T>():CollectionState<T> {
+export function createInitialResourceState<T>():ResourceState<T> {
   return {
     collections: {},
-    loadingCollections: {},
+    loadingResources: {},
   };
 }
 
 /**
- * Returns the collection key for the given APIv3 parameters
- *
- * @param params list params
- */
-export function collectionKey(params:ApiV3ListParameters):string {
-  return listParamsString(params);
-}
-
-/**
- * Mark a collection key as being loaded
+ * Mark a resource path as being loaded
  *
  * @param store An entity store for the collection
- * @param collectionUrl The key to insert the collection at
+ * @param string The resource path to mark as loading
  */
-export function setCollectionLoading<T extends { id:ID }>(
-  store:EntityStore<CollectionState<T>>,
-  collectionUrl:string,
+export function setResourceLoading<T extends { id:ID }>(
+  store:EntityStore<ResourceState<T>>,
+  string:string,
 ):void {
-  store.update(({ loadingCollections }) => (
+  store.update(({ loadingResources }) => (
     {
-      loadingCollections: {
-        ...loadingCollections,
-        [collectionUrl]: true,
+      loadingResources: {
+        ...loadingResources,
+        [string]: true,
       },
     }
   ));
 }
 
 /**
- * Mark a collection key as no longer loading
+ * Mark a resource path as no longer loading
  *
  * @param store An entity store for the collection
- * @param collectionUrl The key to insert the collection at
+ * @param string The resource path to unmark as loading
  */
-export function removeCollectionLoading<T extends { id:ID }>(
-  store:EntityStore<CollectionState<T>>,
-  collectionUrl:string,
+export function removeResourceLoading<T extends { id:ID }>(
+  store:EntityStore<ResourceState<T>>,
+  string:string,
 ):void {
-  store.update(({ loadingCollections }) => (
+  store.update(({ loadingResources }) => (
     {
-      loadingCollections: filter(loadingCollections, (_, key) => key !== collectionUrl),
+      loadingResources: filter(loadingResources, (_, key) => key !== string),
     }
   ));
 }
@@ -99,7 +86,7 @@ export function removeCollectionLoading<T extends { id:ID }>(
  * @param collectionUrl The key to insert the collection at
  */
 export function insertCollectionIntoState<T extends { id:ID }>(
-  store:EntityStore<CollectionState<T>>,
+  store:EntityStore<ResourceState<T>>,
   collection:IHALCollection<T>,
   collectionUrl:string,
 ):void {
@@ -128,7 +115,7 @@ export function insertCollectionIntoState<T extends { id:ID }>(
 }
 
 export function removeEntityFromCollectionAndState<T extends { id:ID }>(
-  store:EntityStore<CollectionState<T>>,
+  store:EntityStore<ResourceState<T>>,
   entityId:ID,
   collectionUrl:string,
 ):void {

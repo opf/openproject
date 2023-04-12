@@ -21,7 +21,7 @@ class UploadedFile
     full_path = Rails.root.join(path)
     shared_path = DownloadList::SHARED_PATH.join(File.basename(full_path))
     # with remote drivers, files to upload must be in the shared downloads folder
-    FileUtils.cp(full_path, shared_path, verbose: true)
+    FileUtils.cp(full_path, shared_path)
     new(shared_path)
   end
 end
