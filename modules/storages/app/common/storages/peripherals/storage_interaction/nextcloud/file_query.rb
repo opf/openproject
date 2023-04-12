@@ -27,40 +27,40 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+  class FileQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     include API::V3::Utilities::PathHelper
     include Errors
     using Storages::Peripherals::ServiceResultRefinements
+
+    FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
 
     def initialize(base_uri:, token:, retry_proc:)
       super()
 
       @base_uri = base_uri
-      @uri = api_v3_paths.join_uri_path(base_uri, '/ocs/v2.php/apps/dav/api/v1/direct')
       @token = token
       @retry_proc = retry_proc
     end
 
-    def query(file_link)
-      outbound_response(file_link)
-        .bind { |response_body| direct_download_token(body: response_body) }
-        .map { |download_token| download_link(download_token, file_link.origin_name) }
+    def query(file_id)
+      file_info(file_id) >>
+        method(:storage_file)
     end
 
     private
 
     # rubocop:disable Metrics/AbcSize
-    def outbound_response(file_link)
+    def file_info(file_id)
       @retry_proc.call(@token) do |token|
         begin
           service_result = ServiceResult.success(
-            result: RestClient.post(
-              @uri.to_s,
-              { fileId: file_link.origin_id },
-              {
+            result: RestClient::Request.execute(
+              method: :get,
+              url: api_v3_paths.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
+              headers: {
                 'Authorization' => "Bearer #{token.access_token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json'
               }
             )
           )
@@ -74,46 +74,40 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           service_result = error(:error, 'Outbound request failed!')
         end
 
-        service_result.bind do |response|
-          # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
-          if response.body.blank?
-            error(:not_authorized, 'Outbound request not authorized!')
-          else
-            ServiceResult.success(result: response)
-          end
-        end
+        # rubocop:disable Style/OpenStructUse
+        service_result.map { |response| JSON.parse(response.body, object_class: OpenStruct) }
+        # rubocop:enable Style/OpenStructUse
       end
     end
 
     # rubocop:enable Metrics/AbcSize
 
-    def download_link(token, origin_name)
-      api_v3_paths.join_uri_path(@base_uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))
+    # rubocop:disable Metrics/AbcSize
+    def storage_file(file_info_response)
+      data = file_info_response.ocs.data
+      storage_file = ::Storages::StorageFile.new(data.id,
+                                                 data.name,
+                                                 data.size,
+                                                 data.mimetype,
+                                                 Time.zone.at(data.ctime),
+                                                 Time.zone.at(data.mtime),
+                                                 data.owner_name,
+                                                 data.modifier_name,
+                                                 location(data.path),
+                                                 data.dav_permissions)
+      ServiceResult.success(result: storage_file)
     end
 
-    def direct_download_token(body:)
-      token = parse_direct_download_token(body:)
-      if token.blank?
-        return error(:error, "Received unexpected json response", body)
-      end
+    # rubocop:enable Metrics/AbcSize
 
-      ServiceResult.success(result: token)
-    end
+    def location(files_path)
+      prefix = 'files/'
+      idx = files_path.rindex(prefix)
+      return '/' if idx == nil
 
-    def parse_direct_download_token(body:)
-      begin
-        json = JSON.parse(body)
-      rescue JSON::ParserError
-        return nil
-      end
+      idx += prefix.length - 1
 
-      direct_download_url = json.dig('ocs', 'data', 'url')
-      return nil if direct_download_url.blank?
-
-      path = URI.parse(direct_download_url).path
-      return nil if path.blank?
-
-      path.split('/').last
+      files_path[idx..]
     end
   end
 end
