@@ -38,8 +38,8 @@
       <a uiSref="work-packages.show.tabs"
          [uiParams]="{ workPackageId: relatedWorkPackage.id, tabIdentifier: 'relations' }"
          class="wp-relations--subject-field"
-         [textContent]="relatedWorkPackage.subjectWithId()"
-         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId()">
+         [textContent]="relatedWorkPackage.subjectWithId(0)"
+         [attr.aria-label]="normalizedRelationType + ' ' + relatedWorkPackage.subjectWithId(0)">
       </a>
     </div>
 
