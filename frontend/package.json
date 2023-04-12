@@ -22,7 +22,7 @@
     "@storybook/addon-interactions": "^6.5.10",
     "@storybook/addon-knobs": "^6.4.0",
     "@storybook/addon-links": "^6.5.10",
-    "@storybook/angular": "^7.0.2",
+    "@storybook/angular": "^6.5.10",
     "@storybook/builder-webpack5": "^6.5.10",
     "@storybook/manager-webpack5": "^6.5.10",
     "@storybook/mdx2-csf": "^0.0.3",
