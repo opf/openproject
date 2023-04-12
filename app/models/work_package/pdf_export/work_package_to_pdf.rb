@@ -85,10 +85,9 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_history!
-    write_field_label! I18n.t(:label_history)
-    work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
-      next if journal.initial?
-
+    journals = work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC")
+    write_label! I18n.t(:label_history) unless journals.empty?
+    journals.each do |journal|
       write_history_item! journal
     end
   end
@@ -119,9 +118,16 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_changesets!
-    write_field_label!(I18n.t(:label_associated_revisions))
-    work_package.changesets.each do |changeset|
+    changesets = work_package.changesets
+    write_label!(I18n.t(:label_associated_revisions)) unless changesets.empty?
+    changesets.each do |changeset|
       write_changeset_item! changeset
+    end
+  end
+
+  def write_label!(label)
+    with_margin(label_margins_style) do
+      pdf.formatted_text([label_style.merge({ text: label })])
     end
   end
 
@@ -159,5 +165,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def item_style
     { size: 9, styles: [:italic] }
+  end
+
+  def label_margins_style
+    { margin_top: 12, margin_bottom: 8 }
+  end
+
+  def label_style
+    { size: 11, styles: [:bold] }
   end
 end
