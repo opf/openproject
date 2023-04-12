@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 92e4cd63c322d8e27ae6a9e0811f948493732aa4
-  ref: 92e4cd63c322d8e27ae6a9e0811f948493732aa4
+  revision: 64936d9c8b3f3d558b6da7ca5b09d9a1b10cef53
+  ref: 64936d9c8b3f3d558b6da7ca5b09d9a1b10cef53
   specs:
     md_to_pdf (0.0.15)
-      commonmarker (~> 0.23.6)
+      commonmarker (~> 0.23)
       front_matter_parser (~> 1.0)
       matrix (~> 0.4)
-      nokogiri (~> 1.13)
+      nokogiri (~> 1.14)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
-      text-hyphen (~> 1.4)
+      text-hyphen (~> 1.5)
 
 GIT
   remote: https://github.com/opf/omniauth

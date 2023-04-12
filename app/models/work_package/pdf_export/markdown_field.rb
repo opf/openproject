@@ -32,25 +32,14 @@ module WorkPackage::PDFExport::MarkdownField
   def write_markdown_field!(work_package, markdown, label)
     return if markdown.blank?
 
-    # TODO: move page break threshold const to style settings and implement conditional break with height measuring
-    write_optional_page_break(100)
-    write_field_label! label
-    write_markdown! work_package, markdown
-  end
-
-  def write_field_label!(label)
-    with_margin(label_margins_style) do
-      pdf.formatted_text([label_style.merge({ text: label })])
+    with_margin(margins_style) do
+      write_markdown! work_package, "# <font size=\"12\">#{label}</font>\n\n#{markdown}"
     end
   end
 
   private
 
-  def label_margins_style
+  def margins_style
     { margin_top: 12, margin_bottom: 8 }
-  end
-
-  def label_style
-    { size: 11, styles: [:bold] }
   end
 end

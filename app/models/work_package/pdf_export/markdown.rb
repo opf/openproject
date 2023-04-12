@@ -34,6 +34,7 @@ module WorkPackage::PDFExport::Markdown
 
     def initialize(styling_yml)
       @styles = MarkdownToPDF::Styles.new(styling_yml)
+      init_options({ auto_generate_header_ids: false })
       # @hyphens = Hyphen.new('en', false)
     end
 
@@ -44,7 +45,7 @@ module WorkPackage::PDFExport::Markdown
       cm_parse_option = %i[FOOTNOTES SMART LIBERAL_HTML_TAG STRIKETHROUGH_DOUBLE_TILDE UNSAFE VALIDATE_UTF8]
       root = CommonMarker.render_doc(markdown, cm_parse_option, cm_extentions)
       begin
-        draw_node(root, pdf_root_options(@styles.page))
+        draw_node(root, pdf_root_options(@styles.page), true)
       rescue StandardError => e
         Rails.logger.error "Failed to draw markdown pdf: #{e}"
       end
@@ -58,10 +59,6 @@ module WorkPackage::PDFExport::Markdown
 
     def hyphenate(text)
       text # @hyphens.hyphenate(text)
-    end
-
-    def auto_generate_header_ids?
-      false
     end
 
     def handle_unknown_inline_html_tag(tag, _node, opts)
@@ -116,7 +113,8 @@ module WorkPackage::PDFExport::Markdown
         styles: [:bold]
       },
       header_1: {
-        size: 10
+        size: 10,
+        padding_bottom: 4
       },
       header_2: {
         size: 10
