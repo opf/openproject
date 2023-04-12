@@ -95,7 +95,6 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
-import { OpBasicDatePickerModule } from './components/datepicker/basic-datepicker.module';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -145,7 +144,6 @@ export function bootstrapModule(injector:Injector):void {
     AttributeHelpTextModule,
     FullCalendarModule,
     OpDatePickerModule,
-    OpBasicDatePickerModule,
   ],
   exports: [
     // Re-export all commonly used
