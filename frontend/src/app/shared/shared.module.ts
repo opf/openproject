@@ -165,6 +165,8 @@ export function bootstrapModule(injector:Injector):void {
 
     OpSpotModule,
 
+    OpDatePickerModule,
+
     FocusModule,
     OpDateTimeComponent,
 
