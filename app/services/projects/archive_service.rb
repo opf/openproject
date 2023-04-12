@@ -48,7 +48,8 @@ module Projects
 
     def archive_project(project)
       # We do not care for validations but want the timestamps to be updated
-      project.update_attribute(:active, false)
+      # for the changed models.
+      project.update_attribute(:active, false) if project.active?
     end
   end
 end

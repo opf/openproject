@@ -61,8 +61,10 @@ module Projects
       return if errors.present?
 
       subprojects = model.descendants
-      return if subprojects.empty?
-      return if user.allowed_to?(:archive_project, subprojects)
+      # Only active projects are allowed to be archived.
+      active_subprojects = subprojects.select {|p| p.active?}
+      return if active_subprojects.empty?
+      return if user.allowed_to?(:archive_project, active_subprojects)
 
       errors.add :base, :archive_permission_missing_on_subprojects
     end
