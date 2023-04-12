@@ -616,7 +616,7 @@ GEM
       net-protocol
     netrc (0.11.0)
     nio4r (2.5.9)
-    nokogiri (1.14.2)
+    nokogiri (1.14.3)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     oj (3.14.2)
@@ -1041,7 +1041,7 @@ DEPENDENCIES
   multi_json (~> 1.15.0)
   my_page!
   net-ldap (~> 0.17.0)
-  nokogiri (~> 1.14.0)
+  nokogiri (~> 1.14.3)
   oj (~> 3.14.0)
   okcomputer (~> 1.18.1)
   omniauth!
