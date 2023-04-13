@@ -64,14 +64,9 @@ module WorkPackage::PDFExport::OverviewTable
 
   def table_column_widths
     widths = table_columns_objects.map do |col|
-      if col.name == :subject || text_column?(col)
-        4.0
-      else
-        1.0
-      end
+      col.name == :subject || text_column?(col) ? 4.0 : 1.0
     end
     ratio = pdf.bounds.width / widths.sum
-
     widths.map { |w| w * ratio }
   end
 
@@ -150,10 +145,12 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_subject_cell(content, work_package, id_wp_meta_map)
-    level = id_wp_meta_map[work_package.id][:level_path].length
     opts = overview_table_cell_padding_style
     padding_left = opts[:padding_left]
-    padding_left = (overview_table_subject_indent_style * level) if level > 1
+    if query.show_hierarchies
+      level = id_wp_meta_map[work_package.id][:level_path].length
+      padding_left = (overview_table_subject_indent_style * level) if level > 1
+    end
     pdf.make_cell(content, opts.merge({ padding_left: }))
   end
 
@@ -166,9 +163,7 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_sum_row(sums)
-    sum_row = table_columns_objects.map do |col|
-      sums[col].to_s
-    end
+    sum_row = table_columns_objects.map { |col| sums[col].to_s }
     sum_row[0] = 'Sum' # TODO: I18n and in which column should the sum text be
     sum_row
   end
