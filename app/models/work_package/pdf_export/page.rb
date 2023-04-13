@@ -23,7 +23,7 @@ module WorkPackage::PDFExport::Page
   end
 
   def custom_logo_image
-    return unless CustomStyle.current.logo.present? && CustomStyle.current.logo.local_file.present?
+    return unless CustomStyle.current.present? && CustomStyle.current.logo.present? && CustomStyle.current.logo.local_file.present?
 
     image_file = CustomStyle.current.logo.local_file.path
     content_type = OpenProject::ContentTypeDetector.new(image_file).detect
