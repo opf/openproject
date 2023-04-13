@@ -154,7 +154,7 @@ module WorkPackage::PDFExport::OverviewTable
     opts = overview_table_cell_padding_style
     padding_left = opts[:padding_left]
     padding_left = (overview_table_subject_indent_style * level) if level > 1
-    pdf.make_cell(content, opts.merge({ padding_left: padding_left }))
+    pdf.make_cell(content, opts.merge({ padding_left: }))
   end
 
   def build_header_row
