@@ -187,6 +187,8 @@ module WorkPackage::PDFExport::Markdown
       },
       table: {
         auto_width: true,
+        margin_top: 4,
+        margin_bottom: 4,
         header: {
           size: 9,
           styles: ['bold'],

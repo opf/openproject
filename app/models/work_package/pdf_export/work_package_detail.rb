@@ -28,6 +28,7 @@
 
 module WorkPackage::PDFExport::WorkPackageDetail
   include WorkPackage::PDFExport::MarkdownField
+
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
       write_work_package_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
@@ -137,7 +138,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def subject_margins_style
-    {}
+    { margin_bottom: 4 }
   end
 
   def subject_font_style

@@ -27,19 +27,19 @@
 #++
 
 module WorkPackage::PDFExport::OverviewTable
-  def write_work_packages_overview!(work_packages)
+  def write_work_packages_overview!(work_packages, id_wp_meta_map)
     if query.grouped?
-      write_grouped!(work_packages)
+      write_grouped!(work_packages, id_wp_meta_map)
     else
       with_margin(overview_table_margins_style) do
-        write_table!(work_packages, get_total_sums)
+        write_table!(work_packages, id_wp_meta_map, get_total_sums)
       end
     end
   end
 
   private
 
-  def write_grouped!(work_packages)
+  def write_grouped!(work_packages, id_wp_meta_map)
     groups = {}
     work_packages.each do |work_package|
       group = query.group_by_column.value(work_package)
@@ -47,7 +47,7 @@ module WorkPackage::PDFExport::OverviewTable
       groups[group].push work_package
     end
     groups.each do |group, grouped_work_packages|
-      write_group!(group, grouped_work_packages, get_group_sums(group))
+      write_group!(group, grouped_work_packages, id_wp_meta_map, get_group_sums(group))
     end
   end
 
@@ -75,21 +75,20 @@ module WorkPackage::PDFExport::OverviewTable
     widths.map { |w| w * ratio }
   end
 
-  def write_group!(group, work_packages, sums)
+  def write_group!(group, work_packages, id_wp_meta_map, sums)
     write_optional_page_break(200) # TODO: move page break threshold const to style settings
     with_margin(overview_table_margins_style) do
       label = make_group_label(group)
       with_margin(overview_group_header_margins_style) do
         pdf.formatted_text([overview_group_header_style.merge({ text: label })])
       end
-      write_table!(work_packages, sums)
+      write_table!(work_packages, id_wp_meta_map, sums)
     end
   end
 
-  def write_table!(work_packages, sums)
-    rows = build_table_rows(work_packages, sums)
+  def write_table!(work_packages, id_wp_meta_map, sums)
+    rows = build_table_rows(work_packages, id_wp_meta_map, sums)
     pdf_table_auto_widths(rows, table_column_widths, table_options, query.grouped?) do |table|
-      format_header_cells table.cells.columns(0..-1).rows(0)
       format_sum_cells table.cells.columns(0..-1).rows(-1) if query.display_sums?
     end
   end
@@ -130,23 +129,40 @@ module WorkPackage::PDFExport::OverviewTable
     @group_sums[group]
   end
 
-  def build_table_rows(work_packages, sums)
+  def build_table_rows(work_packages, id_wp_meta_map, sums)
     rows = work_packages.map do |work_package|
-      build_table_row work_package
+      build_table_row(work_package, id_wp_meta_map)
     end
     rows.unshift build_header_row
     rows.push build_sum_row(sums) unless sums.nil?
     rows
   end
 
-  def build_table_row(work_package)
+  def build_table_row(work_package, id_wp_meta_map)
     table_columns_objects.map do |col|
-      get_column_value_cell work_package, col.name
+      content = get_column_value_cell work_package, col.name
+      col.name == :subject ? build_subject_cell(content, work_package, id_wp_meta_map) : build_column_cell(content)
     end
   end
 
+  def build_column_cell(content)
+    pdf.make_cell(content, overview_table_cell_padding_style)
+  end
+
+  def build_subject_cell(content, work_package, id_wp_meta_map)
+    level = id_wp_meta_map[work_package.id][:level_path].length
+    opts = overview_table_cell_padding_style
+    padding_left = opts[:padding_left]
+    padding_left = (overview_table_subject_indent_style * level) if level > 1
+    pdf.make_cell(content, opts.merge({ padding_left: padding_left }))
+  end
+
   def build_header_row
-    table_columns_objects.map { |col| (col.caption || '').upcase }
+    opts = overview_table_header_cell_style
+    table_columns_objects.map do |col|
+      content = (col.caption || '').upcase
+      pdf.make_cell(content, opts)
+    end
   end
 
   def build_sum_row(sums)
@@ -170,20 +186,28 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def overview_table_header_cell_style
-    { size: 9, text_color: "000000", font_style: :bold }
+    { size: 9, text_color: "000000", font_style: :bold,
+      padding_left: 5, padding_right: 5, padding_top: 0, padding_bottom: 5 }
   end
 
   def overview_table_sums_cell_style
     { size: 8, text_color: "000000", font_style: :bold }
   end
 
+  def overview_table_subject_indent_style
+    8
+  end
+
+  def overview_table_cell_padding_style
+    { padding_left: 5,
+      padding_right: 5,
+      padding_top: 0,
+      padding_bottom: 5 }
+  end
+
   def overview_table_cell_style
     { size: 9,
       text_color: "000000",
-      border_widths: [0.25, 0.25, 0.25, 0.25],
-      padding_left: 5,
-      padding_right: 5,
-      padding_top: 0,
-      padding_bottom: 4 }
+      border_widths: [0.25, 0.25, 0.25, 0.25] }
   end
 end

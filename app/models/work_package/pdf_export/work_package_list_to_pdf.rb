@@ -83,7 +83,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def render_work_packages(work_packages, filename: "pdf_export")
     @id_wp_meta_map = build_meta_infos_map(work_packages)
     write_title!
-    write_work_packages_overview! work_packages
+    write_work_packages_overview! work_packages, @id_wp_meta_map
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
     else
