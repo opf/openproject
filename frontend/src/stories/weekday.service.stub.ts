@@ -37,10 +37,8 @@ import {
 } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class WeekdayServiceShim {
+export class WeekdayServiceStub {
   private weekdays:IWeekday[] = [];
-
-  constructor() {}
 
   /**
    * @param date The iso day number (1-7) or a date instance

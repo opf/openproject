@@ -2,13 +2,13 @@ import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import { moduleMetadata } from '@storybook/angular';
 
 import { I18nService } from '../app/core/i18n/i18n.service';
-import { I18nServiceShim } from '../app/core/i18n/i18n.service.shim';
+import { I18nServiceStub } from './i18n.service.stub';
 
 import { WeekdayService } from '../app/core/days/weekday.service';
-import { WeekdayServiceShim } from '../app/core/days/weekday.service.shim';
+import { WeekdayServiceStub } from './weekday.service.stub';
 
 import { DayResourceService } from '../app/core/state/days/day.service';
-import { DayResourceServiceShim } from '../app/core/state/days/day.service.shim';
+import { DayResourceServiceStub } from './day.service.stub';
 
 import { States } from '../app/core/states/states.service';
 import { OpBasicDatePickerModule } from '../app/shared/components/datepicker/basic-datepicker.module';
@@ -28,15 +28,15 @@ import { SbDatePickerRangePrefilledExample } from './DatePickerRangePrefilled.ex
         { provide: States, useValue: new States() },
         {
           provide: I18nService,
-          useFactory: () => new I18nServiceShim(),
+          useFactory: () => I18nServiceStub,
         },
         {
           provide: WeekdayService,
-          useFactory: () => new WeekdayServiceShim(),
+          useFactory: () => new WeekdayServiceStub(),
         },
         {
           provide: DayResourceService,
-          useFactory: () => new DayResourceServiceShim(),
+          useFactory: () => new DayResourceServiceStub(),
         },
       ],
       imports: [
@@ -67,7 +67,7 @@ The structure is very basic and consists only of one mini calendar. There are tw
 **Single** allows picking just one date (2023-02-09)
 
 <Canvas>
-  <Story name="Single with prefilled prefilled">
+  <Story name="Single with prefilled value">
     {{ component: SbDatePickerBasicPrefilledExample }}
   </Story>
 </Canvas>
@@ -77,7 +77,7 @@ The structure is very basic and consists only of one mini calendar. There are tw
 **Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months.
 
 <Canvas>
-  <Story name="Range with prefilled prefilled">
+  <Story name="Range with prefilled value">
     {{ component: SbDatePickerRangePrefilledExample }}
   </Story>
 </Canvas>

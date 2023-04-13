@@ -12,7 +12,7 @@ import {
 } from 'core-app/core/state/resource-collection.service';
 
 @Injectable()
-export class DayResourceServiceShim extends ResourceCollectionService<IDay> {
+export class DayResourceServiceStub extends ResourceCollectionService<IDay> {
   protected basePath():string {
     return '';
   }
