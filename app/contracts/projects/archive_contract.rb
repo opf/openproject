@@ -62,7 +62,7 @@ module Projects
 
       subprojects = model.descendants
       # Only active projects are allowed to be archived.
-      active_subprojects = subprojects.select {|p| p.active?}
+      active_subprojects = subprojects.select(&:active?)
       return if active_subprojects.empty?
       return if user.allowed_to?(:archive_project, active_subprojects)
 
