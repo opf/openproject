@@ -201,14 +201,13 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     yesterday.setDate(today.getDate() - 1);
     while (lastWorkingDay === '') {
       if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
-        yesterday.setDate(yesterday.getDate() + 1);
+        yesterday.setDate(yesterday.getDate() - 1);
+        continue;
+      } else {
         lastWorkingDay = moment(yesterday).format('ddd, YYYY-MM-DD');
         this.selectedDate = moment(yesterday).format('YYYY-MM-DD');
         this.daysNumber = moment(yesterday).diff(moment(today), 'days');
         break;
-      } else {
-        yesterday.setDate(yesterday.getDate() - 1);
-        continue;
       }
     }
 
