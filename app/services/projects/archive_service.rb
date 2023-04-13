@@ -39,8 +39,8 @@ module Projects
     private
 
     def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+      archive_project(model) and model.active_subprojects.each do |subproject|
+        archive_project(subproject)
       end
 
       service_call
@@ -48,8 +48,7 @@ module Projects
 
     def archive_project(project)
       # We do not care for validations but want the timestamps to be updated
-      # for the changed models.
-      project.update_attribute(:active, false) if project.active?
+      project.update_attribute(:active, false)
     end
   end
 end

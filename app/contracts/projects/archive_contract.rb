@@ -60,9 +60,7 @@ module Projects
       # prevent adding another error if there is already one present
       return if errors.present?
 
-      subprojects = model.descendants
-      # Only active projects are allowed to be archived.
-      active_subprojects = subprojects.select(&:active?)
+      active_subprojects = model.active_subprojects
       return if active_subprojects.empty?
       return if user.allowed_to?(:archive_project, active_subprojects)
 
