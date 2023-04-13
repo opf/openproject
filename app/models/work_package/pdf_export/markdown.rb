@@ -207,7 +207,7 @@ module WorkPackage::PDFExport::Markdown
   def attachment_image_filepath(work_package, src)
     # images are embedded into markup with the api-path as img.src
     attachment = attachment_by_api_content_src(work_package, src)
-    return nil if attachment.nil? || attachment.file.local_file.nil? || !pdf_embeddable?(attachment)
+    return nil if attachment.nil? || attachment.file.local_file.nil? || !pdf_embeddable?(attachment.content_type)
 
     resize_image(attachment.file.local_file.path)
   end

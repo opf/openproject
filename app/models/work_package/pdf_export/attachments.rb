@@ -48,8 +48,8 @@ module WorkPackage::PDFExport::Attachments
     File.join(dir_path, "#{file_name}#{name_suffix}#{file_extension}")
   end
 
-  def pdf_embeddable?(attachment)
-    %w[image/jpeg image/png].include?(attachment.content_type)
+  def pdf_embeddable?(content_type)
+    %w[image/jpeg image/png].include?(content_type)
   end
 
   def delete_all_resized_images

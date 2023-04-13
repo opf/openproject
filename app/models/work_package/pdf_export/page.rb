@@ -15,10 +15,21 @@ module WorkPackage::PDFExport::Page
   end
 
   def logo_pdf_image
-    image_file = Rails.root.join("app/assets/images/logo_openproject.png")
+    image_file = custom_logo_image
+    image_file = Rails.root.join("app/assets/images/logo_openproject.png") if image_file.nil?
     image_obj, image_info = pdf.build_image_object(image_file)
     scale = [logo_height / image_info.height.to_f, 1].min
     [image_obj, image_info, scale]
+  end
+
+  def custom_logo_image
+    return unless CustomStyle.current.logo.present? && CustomStyle.current.logo.local_file.present?
+
+    image_file = CustomStyle.current.logo.local_file.path
+    content_type = OpenProject::ContentTypeDetector.new(image_file).detect
+    return unless pdf_embeddable?(content_type)
+
+    image_file
   end
 
   def write_title!
