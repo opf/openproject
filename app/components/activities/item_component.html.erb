@@ -6,7 +6,8 @@
   <%=
     render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
-                                             is_creation: @event.journal.initial?))
+                                             is_creation: @event.journal.initial?,
+                                             journable_type: @event.journal.journable_type))
   %>
   <% if comment.present? -%>
     <ul class="op-activity-list--item-details">
