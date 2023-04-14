@@ -989,7 +989,7 @@ en:
       created_by_on_time_entry: "time logged by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
       updated_by_on: "updated by %{user} on %{datetime}"
-      updated_by_on_time_entry: "time log updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "time logged updated by %{user} on %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"

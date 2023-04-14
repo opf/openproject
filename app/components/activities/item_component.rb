@@ -38,6 +38,8 @@ class Activities::ItemComponent < ViewComponent::Base
     @current_project = current_project
     @display_user = display_user
     @activity_page = activity_page
+
+    binding.pry
   end
 
   def project_suffix
