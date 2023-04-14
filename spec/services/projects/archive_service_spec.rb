@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Projects::ArchiveService do
-
   let(:project) { create(:project) }
   let(:subproject1) { create(:project) }
   let(:subproject2) { create(:project) }
@@ -54,19 +53,26 @@ describe Projects::ArchiveService do
 
     shared_examples 'when archiving a project' do
       it 'should archive the project' do
+        # Baseline verification.
         expect(project.reload.archived?).to be_falsey
 
+        # Action.
         expect(instance.call).to be_truthy
+
+        # Endline verification.
         expect(project.reload.archived?).to be_truthy
       end
 
       it 'should archive all the subprojects' do
+        # Baseline verification.
         expect(subproject1.reload.archived?).to be_falsey
         expect(subproject2.reload.archived?).to be_falsey
         expect(subproject3.reload.archived?).to be_falsey
 
+        # Action.
         expect(instance.call).to be_truthy
 
+        # Endline verification.
         expect(subproject1.reload.archived?).to be_truthy
         expect(subproject2.reload.archived?).to be_truthy
         expect(subproject3.reload.archived?).to be_truthy
@@ -117,9 +123,6 @@ describe Projects::ArchiveService do
         after_timestamp = subproject2.reload.updated_at
         expect(before_timestamp).not_to eq(after_timestamp)
       end
-
     end
   end
-
-
 end
