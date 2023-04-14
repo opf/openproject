@@ -39,14 +39,11 @@ import { StateService } from '@uirouter/core';
 import {
   BehaviorSubject,
   combineLatest,
-  Observable,
-  of,
 } from 'rxjs';
 import {
   distinctUntilChanged,
   first,
   map,
-  switchMap,
 } from 'rxjs/operators';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -67,15 +64,13 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { States } from 'core-app/core/states/states.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
-import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { ProjectsResourceService } from 'core-app/core/state/projects/projects.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
-import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 export interface FieldDescriptor {
   name:string;
@@ -155,8 +150,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
 
   $element:JQuery;
 
-  // storages$ = new BehaviorSubject<IStorage[]>([]);
-  storageSections$ = new BehaviorSubject<{ projectStorage:IProjectStorage, storage:Observable<IStorage> }[]>([]);
+  projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
 
   constructor(
     protected readonly injector:Injector,
@@ -172,7 +166,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     private readonly halEditing:HalResourceEditingService,
     private readonly halResourceService:HalResourceService,
     private readonly currentUserService:CurrentUserService,
-    private readonly storagesService:StoragesResourceService,
     private readonly displayFieldService:DisplayFieldService,
     private readonly projectsResourceService:ProjectsResourceService,
     private readonly projectStoragesService:ProjectStoragesResourceService,
@@ -241,35 +234,26 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     if (resource.project === null) {
-      this.storageSections$.next([]);
+      this.projectStorages.next([]);
     } else {
       const project = resource.project as unknown&{ href:string, id:string };
       combineLatest([
-        this.projectsResourceService.update(project.href),
-        this.projectStoragesService.require({ filters: [['projectId', '=', [project.id]]] }),
+        this.projectsResourceService.requireEntity(project.href),
+        this.projectStoragesService.requireCollection({ filters: [['projectId', '=', [project.id]]] }),
         this.currentUserService.hasCapabilities$('file_links/manage', project.id),
       ])
         .pipe(
-          switchMap(([p, projectStorages, manageFileLinks]) => {
+          map(([p, projectStorages, manageFileLinks]) => {
             if (!p._links.storages || !manageFileLinks) {
-              return of([]);
+              return [];
             }
 
-            return this.storagesService
-              .updateCollection(p._links.self.href, p._links.storages)
-              .pipe(
-                map(() =>
-                  projectStorages
-                    .map((ps) => ({
-                      projectStorage: ps,
-                      storage: this.storagesService.lookup(idFromLink(ps._links.storage.href)),
-                    }))),
-              );
+            return projectStorages;
           }),
           first(),
         )
-        .subscribe((storages) => {
-          this.storageSections$.next(storages);
+        .subscribe((ps) => {
+          this.projectStorages.next(ps);
         });
     }
   }
@@ -478,4 +462,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
     return this.schemaCache.of(resource);
   }
+
+  protected readonly structuredClone = structuredClone;
 }

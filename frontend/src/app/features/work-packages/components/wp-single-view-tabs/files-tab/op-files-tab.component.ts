@@ -35,10 +35,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
-import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 
 @Component({
@@ -57,7 +55,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
   showAttachmentHeader$:Observable<boolean>;
 
-  storageSections$:Observable<{ projectStorage:IProjectStorage, storage:Observable<IStorage> }[]>;
+  projectStorages:Observable<IProjectStorage[]>;
 
   allowManageFileLinks$:Observable<boolean>;
 
@@ -77,15 +75,9 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
     const canViewFileLinks = this.currentUserService.hasCapabilities$('file_links/view', project.id);
 
-    this.storageSections$ = this.projectStoragesResourceService.require({ filters: [['projectId', '=', [project.id]]] })
-      .pipe(
-        map((projectStorages) =>
-          projectStorages
-            .map((ps) => ({
-              projectStorage: ps,
-              storage: this.storagesResourceService.lookup(idFromLink(ps._links.storage.href)),
-            }))),
-      );
+    this.projectStorages = this
+      .projectStoragesResourceService
+      .requireCollection({ filters: [['projectId', '=', [project.id]]] });
 
     this.allowManageFileLinks$ = this
       .currentUserService
@@ -93,7 +85,7 @@ export class WorkPackageFilesTabComponent implements OnInit {
 
     this.showAttachmentHeader$ = combineLatest(
       [
-        this.storageSections$,
+        this.projectStorages,
         canViewFileLinks,
       ],
     ).pipe(

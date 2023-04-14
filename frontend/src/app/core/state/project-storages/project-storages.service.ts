@@ -28,16 +28,13 @@
 
 import { Injectable } from '@angular/core';
 
-import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { ProjectStoragesStore } from 'core-app/core/state/project-storages/project-storages.store';
+import { ResourceStore, ResourceStoreService } from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class ProjectStoragesResourceService extends ResourceCollectionService<IProjectStorage> {
-  protected createStore():CollectionStore<IProjectStorage> {
+export class ProjectStoragesResourceService extends ResourceStoreService<IProjectStorage> {
+  protected createStore():ResourceStore<IProjectStorage> {
     return new ProjectStoragesStore();
   }
 
