@@ -105,7 +105,10 @@ gem 'email_validator', '~> 2.2.3'
 gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
-gem 'mail', '>= 2.8.1'
+# `config/initializers/mail_starttls_patch.rb` has also been patched to
+# fix STARTTLS handling until https://github.com/mikel/mail/pull/1536 is
+# released.
+gem 'mail', '= 2.8.1'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
