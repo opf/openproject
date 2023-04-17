@@ -1,4 +1,4 @@
-# Schema: Query_Create_Form
+# Schema: Query_Update_Form
 ---
 type: object
 properties:
@@ -8,4 +8,4 @@ properties:
   # There are additional properties not mentioned here
 
 example:
-  name: New query name
+  name: Updated query name

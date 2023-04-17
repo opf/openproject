@@ -1,6 +1,11 @@
 # /api/v3/queries/{id}
 ---
 delete:
+  summary: Delete query
+  operationId: Delete_query
+  tags:
+  - Queries
+  description: Delete the query identified by the id parameter
   parameters:
   - description: Query id
     example: '1'
@@ -49,12 +54,14 @@ delete:
 
         **Required permission:** view work package in queries project
       headers: {}
+get:
+  summary: View query
+  operationId: View_query
   tags:
   - Queries
-  description: Delete the query identified by the id parameter
-  operationId: Delete_query
-  summary: Delete query
-get:
+  description: Retrieve an individual query as identified by the id parameter. Then
+    end point accepts a number of parameters that can be used to override the resources'
+    persisted parameters.
   parameters:
     - description: Query id
       example: '1'
@@ -198,14 +205,14 @@ get:
 
         **Required permission:** view work package in queries project
       headers: {}
+patch:
+  summary: Edit Query
+  operationId: Edit_Query
   tags:
   - Queries
-  description: Retrieve an individual query as identified by the id parameter. Then
-    end point accepts a number of parameters that can be used to override the resources'
-    persisted parameters.
-  operationId: View_query
-  summary: View query
-patch:
+  description: |-
+    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
+    Note that it is only allowed to provide properties or links supporting the **write** operation.
   parameters:
   - description: Query id
     example: '1'
@@ -214,6 +221,11 @@ patch:
     required: true
     schema:
       type: integer
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../components/schemas/query_update_form.yml'
   responses:
     '200':
       content:
@@ -380,20 +392,3 @@ patch:
 
         * the client provides a link to an invalid resource (`ResourceTypeMismatch`)
       headers: {}
-  tags:
-  - Queries
-  description: |-
-    When calling this endpoint the client provides a single object, containing the properties and links that it wants to change, in the body.
-    Note that it is only allowed to provide properties or links supporting the **write** operation.
-  operationId: Edit_Query
-  requestBody:
-    content:
-      application/json:
-        schema:
-          example:
-            name: New query name
-          properties:
-            name:
-              type: string
-          type: object
-  summary: Edit Query
