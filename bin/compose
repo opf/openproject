@@ -58,7 +58,7 @@ elif [[ "$1" = "reset" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE down && docker volume rm `docker volume ls -q | grep ${PWD##*/}_`
 elif [[ "$1" = "rspec" ]]; then
   function get-container-name() {
-    name=`docker-compose ps backend-test | tail -n1 | cut -d ' ' -f1`
+    name=`$DOCKER_COMPOSE ps backend-test | tail -n1 | cut -d ' ' -f1`
 
     if [ "$name" = 'NAME' ]; then
       return 1;
