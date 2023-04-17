@@ -37,6 +37,7 @@ import {
   filter,
   finalize,
   map,
+  shareReplay,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -288,6 +289,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
 
           throw error;
         }),
+        shareReplay(1),
       );
   }
 
@@ -316,6 +318,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
 
           throw error;
         }),
+        shareReplay(1),
       );
   }
 
