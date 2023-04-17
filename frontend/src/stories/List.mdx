@@ -1,28 +1,8 @@
-import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta } from '@storybook/blocks';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SbEmptyComponent } from './Empty.component.ts';
-import { SbListWithLinksExample } from './ListWithLinks.example.ts';
-import { SbListWithCheckboxesExample } from './ListWithCheckboxes.example.ts';
-import { SbListCompactExample } from './ListCompact.example.ts';
+import * as ListStories from './List.stories';
 
-<Meta
-  title="Components/List"
-  decorators={[
-    moduleMetadata({
-      imports: [
-        OpSpotModule,
-      ],
-    }),
-  ]}
-  parameters={{
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=859%3A6760',
-    },
-  }}
-/>
+<Meta of={ListStories} />
 
 # List
 
@@ -32,9 +12,7 @@ This component does not have a Figma object associated with it, since a group of
 
 This list is not to be confused with a standard HTML list element, which generates a bullet list of text. For this, a component is not needed in the Design System.
 
-<Canvas>
-  <Story name="With Links">{{ component: SbListWithLinksExample }}</Story>
-</Canvas>
+<Canvas of={ListStories.WithLinks} />
 
 # Behaviour
 
@@ -49,14 +27,10 @@ The dimensions of the list are defined by the dimensions of the containing eleme
 List items have a primary action attached to them. This can be linking somewhere, a button listener, or acting
 as a label for a checkbox.
 
-<Canvas>
-  <Story name="With Checkboxes">{{ component: SbListWithCheckboxesExample }}</Story>
-</Canvas>
+<Canvas of={ListStories.WithCheckboxes} />
 
 # Compact
 
 The compact version makes the items a little bit less tall.
 
-<Canvas>
-  <Story name="Compact">{{ component: SbListCompactExample }}</Story>
-</Canvas>
+<Canvas of={ListStories.Compact} />
