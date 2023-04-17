@@ -123,13 +123,11 @@ RSpec.describe Activities::ItemComponent, type: :component do
   end
 
   context 'for TimeEntry activites' do
-    let(:journal) { build_stubbed(:time_entry_journal) } # Factory not registered: "time_entry_journal"
+    let(:journal) { build_stubbed(:time_entry_journal) }
 
     it 'has the correct format when a TimeEntry is created' do
-      pending '# Factory not registered: "time_entry_journal"'
       component = described_class.new(event:)
       render_inline(component)
-
       expect(component.project_suffix).to be_nil
       expect(page).to have_css('.op-activity-list--item-title', text: /\A\s*Event Title\s*\z/)
     end

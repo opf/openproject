@@ -26,6 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :journal_time_entry_journal, class: 'Journal::TimeEntryJournal'
+class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = I18n.t('activerecord.attributes.project.public_value.title')
+    label_text = 'Spent time'
+    label_text << ':' if !values.first
+    label_text = content_tag(:strong, label_text) if options[:html]
+
+    # Need to
+    # Italicize
+    # Hour vs hours
+    # Use I18n strings
+
+    value = \
+      if values.first
+        # I18n.t('activerecord.attributes.project.public_value.true')
+        "changed from #{(values.first % 1).zero? ? values.first.to_i : values.first} hours to #{(values.last % 1).zero? ? values.last.to_i : values.last} hours"
+      else
+        # I18n.t('activerecord.attributes.project.public_value.false')
+        "#{(values.last % 1).zero? ? values.last.to_i : values.last} hours"
+      end
+    # value = content_tag(:i, value) if options[:html]
+
+    I18n.t(:text_journal_of, label: label_text, value:)
+  end
 end

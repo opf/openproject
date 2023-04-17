@@ -60,5 +60,10 @@ FactoryBot.define do
       journable factory: :project
       data { build(:journal_project_journal) }
     end
+
+    factory :time_entry_journal, class: 'Journal' do
+      journable_type { 'TimeEntry' }
+      data { build(:journal_time_entry_journal) }
+    end
   end
 end

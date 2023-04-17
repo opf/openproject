@@ -57,8 +57,8 @@ belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_na
   # TODO: move into service
   before_save :update_costs
 
-  register_journal_formatted_fields(:decimal, 'hours')
-  register_journal_formatted_fields(:named_association, 'user_id')
+  register_journal_formatted_fields(:time_entry_hours, 'hours')
+  # register_journal_formatted_fields(:named_association, 'user_id')
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move

@@ -38,8 +38,6 @@ class Activities::ItemComponent < ViewComponent::Base
     @current_project = current_project
     @display_user = display_user
     @activity_page = activity_page
-
-    binding.pry
   end
 
   def project_suffix
@@ -56,7 +54,7 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if @event.journal.initial?
+    return false if (@event.journal.initial? && @event.journal.journable_type != 'TimeEntry')
 
     rendered_details.present?
   end
