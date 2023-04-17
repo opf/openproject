@@ -134,14 +134,22 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_table_row(work_package, id_wp_meta_map)
-    table_columns_objects.map do |col|
+    row = table_columns_objects.map do |col|
       content = get_column_value_cell work_package, col.name
       col.name == :subject ? build_subject_cell(content, work_package, id_wp_meta_map) : build_column_cell(content)
     end
+    row.unshift build_nr_cell(work_package, id_wp_meta_map) if with_descriptions?
+    row
   end
 
   def build_column_cell(content)
     pdf.make_cell(content, overview_table_cell_padding_style)
+  end
+
+  def build_nr_cell(work_package, id_wp_meta_map)
+    content = "#{id_wp_meta_map[work_package.id][:level_path].join('.')}."
+    content = make_link_anchor_cell(work_package.id, content)
+    build_column_cell(content)
   end
 
   def build_subject_cell(content, work_package, id_wp_meta_map)
@@ -156,10 +164,12 @@ module WorkPackage::PDFExport::OverviewTable
 
   def build_header_row
     opts = overview_table_header_cell_style
-    table_columns_objects.map do |col|
+    row = table_columns_objects.map do |col|
       content = (col.caption || '').upcase
       pdf.make_cell(content, opts)
     end
+    row.unshift build_column_cell('#') if with_descriptions?
+    row
   end
 
   def build_sum_row(sums)
