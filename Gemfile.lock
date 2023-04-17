@@ -274,7 +274,7 @@ GEM
       activerecord (>= 4.2)
     acts_as_tree (2.9.1)
       activerecord (>= 3.0.0)
-    addressable (2.8.3)
+    addressable (2.8.4)
       public_suffix (>= 2.0.2, < 6.0)
     aes_key_wrap (1.1.0)
     afm (0.2.2)
@@ -282,7 +282,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.1)
       rbtree3 (~> 0.6)
-    appsignal (3.4.0)
+    appsignal (3.4.1)
       rack
     ast (2.4.2)
     attr_required (1.0.1)
@@ -291,7 +291,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.742.0)
+    aws-partitions (1.748.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -488,9 +488,9 @@ GEM
       retriable (>= 2.0, < 4.a)
       rexml
       webrick
-    google-apis-gmail_v1 (0.25.0)
+    google-apis-gmail_v1 (0.26.0)
       google-apis-core (>= 0.11.0, < 2.a)
-    googleauth (1.5.1)
+    googleauth (1.5.2)
       faraday (>= 0.17.3, < 3.a)
       jwt (>= 1.4, < 3.0)
       memoist (~> 0.16)
@@ -530,7 +530,7 @@ GEM
     ice_cube (0.16.4)
     interception (0.5)
     io-console (0.6.0)
-    irb (1.6.3)
+    irb (1.6.4)
       reline (>= 0.3.0)
     iso8601 (0.13.0)
     jmespath (1.6.2)
@@ -554,7 +554,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.3.9)
+    lefthook (1.3.10)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -638,7 +638,7 @@ GEM
       validate_email
       validate_url
       webfinger (~> 2.0)
-    openproject-token (2.2.0)
+    openproject-token (3.0.1)
       activemodel
     os (1.1.4)
     paper_trail (12.3.0)
@@ -708,7 +708,7 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (2.0.1)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.0.0)
+    rack-mini-profiler (3.1.0)
       rack (>= 1.2.0)
     rack-oauth2 (2.2.0)
       activesupport
@@ -717,7 +717,7 @@ GEM
       faraday-follow_redirects
       json-jwt (>= 1.11.0)
       rack (>= 2.1.0)
-    rack-protection (3.0.5)
+    rack-protection (3.0.6)
       rack
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -769,7 +769,7 @@ GEM
     recaptcha (5.13.0)
       json
     redcarpet (3.6.0)
-    regexp_parser (2.7.0)
+    regexp_parser (2.8.0)
     reline (0.3.3)
       io-console (~> 0.5)
     representable (3.2.0)
@@ -816,7 +816,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.0)
-    rubocop (1.50.1)
+    rubocop (1.50.2)
       json (~> 2.3)
       parallel (~> 1.10)
       parser (>= 3.2.0.0)
@@ -830,7 +830,7 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.17.1)
       rubocop (~> 1.41)
-    rubocop-rails (2.19.0)
+    rubocop-rails (2.19.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -892,7 +892,7 @@ GEM
     ssrf_filter (1.1.1)
     stackprof (0.2.25)
     stringex (2.8.5)
-    stringio (3.0.5)
+    stringio (3.0.6)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
     swd (2.0.2)
@@ -1066,7 +1066,7 @@ DEPENDENCIES
   openproject-reporting!
   openproject-storages!
   openproject-team_planner!
-  openproject-token (~> 2.2.0)
+  openproject-token (~> 3.0.1)
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-xls_export!
