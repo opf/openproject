@@ -39,6 +39,7 @@ module OpenProject::GithubIntegration
         closed
         opened
         ready_for_review
+        referenced
         reopened
       ].freeze
 
