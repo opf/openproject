@@ -65,4 +65,3 @@ export class PullRequestStateComponent implements OnInit {
     );
   }
 }
-
