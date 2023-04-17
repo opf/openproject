@@ -24,42 +24,30 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class CustomFieldSeeder < Seeder
-    attr_reader :project, :key
+#++
+module Standard
+  module BasicData
+    class PrioritySeeder < ::BasicData::PrioritySeeder
+      def data
+        color_names = [
+          'cyan-1', # low
+          'blue-3', # normal
+          'yellow-7', # high
+          'grape-5' # immediate
+        ]
 
-    def initialize(project, key)
-      @project = project
-      @key = key
-    end
+        # When selecting for an array of values, implicit order is applied
+        # so we need to restore values by their name.
+        colors_by_name = Color.where(name: color_names).index_by(&:name)
+        colors = color_names.collect { |name| colors_by_name[name].id }
 
-    def seed_data!
-      # Careful: The seeding recreates the seeded project before it runs, so any changes
-      # on the seeded project will be lost.
-      print_status '    ↳ Creating custom fields...' do
-        # create some custom fields and add them to the project
-        Array(project_data_for(key, 'custom_fields')).each do |name|
-          cf = WorkPackageCustomField.create!(
-            name:,
-            regexp: '',
-            is_required: false,
-            min_length: false,
-            default_value: '',
-            max_length: false,
-            editable: true,
-            possible_values: '',
-            visible: true,
-            field_format: 'text'
-          )
-          print_status '.'
-
-          project.work_package_custom_fields << cf
-        end
+        [
+          { name: I18n.t(:default_priority_low),       color_id: colors[0], position: 1, is_default: false },
+          { name: I18n.t(:default_priority_normal),    color_id: colors[1], position: 2, is_default: true  },
+          { name: I18n.t(:default_priority_high),      color_id: colors[2], position: 3, is_default: false },
+          { name: I18n.t(:default_priority_immediate), color_id: colors[3], position: 4, is_default: false }
+        ]
       end
-    end
-
-    def applicable?
-      not WorkPackageCustomField.any?
     end
   end
 end

@@ -36,7 +36,10 @@ OpenProject::Application.configure do
   # test suite. You never need to work with it otherwise. Remember that
   # your test database is "scratch space" for the test suite and is wiped
   # and recreated between test runs. Don't rely on the data there!
-  config.cache_classes = ENV['CI'].present?
+  #
+  # Spring requires to have the classes reloaded. On the CI or when Spring is
+  # disabled, it does not need to happen.
+  config.cache_classes = ENV['CI'].present? || ENV['DISABLE_SPRING'].present?
 
   # Use eager load to mirror the production environment
   # on travis
