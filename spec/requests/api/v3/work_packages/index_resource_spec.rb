@@ -773,14 +773,118 @@ describe 'API v3 Work package resource',
         end
       end
 
+      context 'when the timestamps are relative date keywords' do
+        let(:timestamps) { [Timestamp.parse('lastWeek@11:00'), Timestamp.parse('lastWorkingDay@12:00')] }
+
+        it 'has an embedded link to the baseline work package' do
+          expect(subject.body)
+            .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+            .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/self/href')
+        end
+
+        it 'has the absolute timestamps within the self links of the elements' do
+          Timecop.freeze do
+            expect(subject.body)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
+              .at_path('_embedded/elements/0/_links/self/href')
+          end
+        end
+
+        it 'has the absolute timestamps within the collection self link' do
+          Timecop.freeze do
+            expected_self_href = { timestamps: api_v3_paths.timestamps_to_param_value(timestamps.map(&:absolute)) }.to_query
+            expect(subject.body)
+              .to include_json(expected_self_href.to_json)
+              .at_path('_links/self/href')
+          end
+        end
+
+        it 'has the relative timestamps within the _meta timestamps' do
+          expect(subject.body)
+            .to be_json_eql('lastWeek@11:00'.to_json)
+            .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+          expect(subject.body)
+            .to be_json_eql('lastWorkingDay@12:00'.to_json)
+            .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+          expect(subject.body)
+            .to be_json_eql('lastWorkingDay@12:00'.to_json)
+            .at_path('_embedded/elements/0/_meta/timestamp')
+        end
+
+        describe "when the work package has not been present at the baseline time" do
+          let(:created_at) { 10.days.ago }
+
+          describe "attributesByTimestamp" do
+            describe "0 (baseline attributes)" do
+              describe "_meta" do
+                describe "timestamp" do
+                  it 'has the baseline timestamp, which is the first timestmap' do
+                    expect(subject.body)
+                      .to be_json_eql('lastWeek@11:00'.to_json)
+                      .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+                  end
+                end
+              end
+            end
+
+            describe "1 (current attributes)" do
+              describe "_meta" do
+                describe "timestamp" do
+                  it 'has the current timestamp, which is the second timestamp' do
+                    expect(subject.body)
+                      .to be_json_eql('lastWorkingDay@12:00'.to_json)
+                      .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+                  end
+                end
+              end
+            end
+          end
+        end
+
+        describe "when the work package has not changed at all between the baseline and today" do
+          let(:timestamps) { [Timestamp.parse('lastWorkingDay@12:00'), Timestamp.now] }
+
+          describe "_meta" do
+            describe "timestamp" do
+              it 'has the current timestamp, which is the second timestamp, ' \
+                 'in the same format as given in the request parameter' do
+                expect(subject.body)
+                  .to be_json_eql("PT0S".to_json)
+                  .at_path('_embedded/elements/0/_meta/timestamp')
+              end
+            end
+          end
+
+          describe "attributesByTimestamp" do
+            describe "_meta" do
+              describe "timestamp" do
+                it 'has the current timestamp, which is the second timestamp, ' \
+                   'in the same format as given in the request parameter' do
+                  expect(subject.body)
+                    .to be_json_eql("PT0S".to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+                end
+
+                it 'has the baseline timestamp, which is the first timestamp, ' \
+                   'in the same format as given in the request parameter' do
+                  expect(subject.body)
+                    .to be_json_eql('lastWorkingDay@12:00'.to_json)
+                    .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+                end
+              end
+            end
+          end
+        end
+      end
+
       context "with caching" do
         context "with relative timestamps" do
-          let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+          let(:timestamps) { [Timestamp.parse('lastWeek@12:00'), Timestamp.now] }
           let(:created_at) { '2015-01-01' }
 
           describe "when the filter becomes outdated" do
             # The work package has been updated 1 day ago, which is after the baseline
-            # date (2 days ago). When time progresses, the date of the update will be
+            # date (last week). When time progresses, the date of the update will be
             # before the baseline date, because the baseline date is relative to the
             # current date. This means that the filter will become outdated and we cannot
             # use a cached result in this case.
@@ -799,10 +903,10 @@ describe 'API v3 Work package resource',
             let(:search_term) { 'original' }
 
             it 'has the relative timestamps within the _meta timestamps' do
-              expect(timestamps.first.to_s).to eq('P-2D')
+              expect(timestamps.first.to_s).to eq('lastWeek@12:00')
               expect(timestamps.first).to be_relative
               expect(subject.body)
-                .to be_json_eql('P-2D'.to_json)
+                .to be_json_eql('lastWeek@12:00'.to_json)
                 .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
               expect(subject.body)
                 .to be_json_eql('PT0S'.to_json)
@@ -815,7 +919,7 @@ describe 'API v3 Work package resource',
             it "does not use an outdated cache" do
               get path
               expect do
-                Timecop.travel 5.days do
+                Timecop.travel 1.week do
                   get path
                 end
               end.to change {

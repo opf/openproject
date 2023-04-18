@@ -32,6 +32,9 @@ class Timestamp
   class Exception < StandardError; end
 
   class TimestampParser
+    DATE_KEYWORD_REGEX =
+      /^(?:yesterday|lastWorkingDay|lastWeek|lastMonth)@(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$/
+
     def initialize(string)
       @original_string = string
     end
@@ -42,33 +45,13 @@ class Timestamp
       case @timestamp_string
       when /[+-]?P/ # ISO8601 "Period"
         ActiveSupport::Duration.parse(@timestamp_string).iso8601
-      when /@/ # Built in date bare words
-        parse_relative_date(@timestamp_string).iso8601
+      when DATE_KEYWORD_REGEX # Built in date keywords
+        @timestamp_string
       else
         Time.zone.iso8601(@timestamp_string).iso8601
       end
     rescue ArgumentError => e
       raise e.class, "The string \"#{@original_string}\" cannot be parsed to a Timestamp."
-    end
-
-    def parse_relative_date(string)
-      date = case string
-             when /yesterday@/
-               1.day.ago
-             when /^lastWorkingDay@/
-               Day.last_working.date || 1.day.ago
-             when /^lastWeek@/
-               1.week.ago
-             when /^lastMonth@/
-               1.month.ago
-             end
-
-      hours = string[/@(([0-1]?[0-9]|2[0-3]):[0-5][0-9])$/, 1].presence
-      unless date && hours
-        raise ArgumentError, "The string \"#{string}\" cannot be parsed to a Timestamp."
-      end
-
-      Time.zone.parse(hours, date)
     end
 
     class << self
@@ -135,12 +118,20 @@ class Timestamp
     else
       raise Timestamp::Exception,
             "Argument type not supported. " \
-            "Please provide an ISO-8601 String or anything that responds to :iso8601, e.g. a Time."
+            "Please provide an ISO-8601 or a relative date keyword String, or anything that responds to :iso8601, e.g. a Time."
     end
   end
 
   def relative?
+    duration? || relative_date_keyword?
+  end
+
+  def duration?
     to_s.first == "P" # ISO8601 "Period"
+  end
+
+  def relative_date_keyword?
+    TimestampParser::DATE_KEYWORD_REGEX.match?(to_s)
   end
 
   def to_s
@@ -168,19 +159,38 @@ class Timestamp
   end
 
   def to_time
-    if relative?
+    if duration?
       Time.zone.now - to_duration.abs
+    elsif relative_date_keyword?
+      relative_date_keyword_to_time
     else
       Time.zone.parse(self)
     end
   end
 
   def to_duration
-    if relative?
+    if duration?
       ActiveSupport::Duration.parse(self)
     else
-      raise Timestamp::Exception, "This timestamp is absolute and cannot be represented as ActiveSupport::Duration."
+      raise Timestamp::Exception, "This timestamp does not contain a duration cannot be represented as ActiveSupport::Duration."
     end
+  end
+
+  def relative_date_keyword_to_time
+    unless relative_date_keyword?
+      raise ArgumentError, "This timestamp does not contain a relative date keyword and cannot be represented as Time."
+    end
+
+    relative_date_keyword, time_part = @timestamp_string.split('@')
+
+    date = case relative_date_keyword
+           when 'yesterday'      then 1.day.ago
+           when 'lastWorkingDay' then Day.last_working.date || 1.day.ago
+           when 'lastWeek'       then 1.week.ago
+           when 'lastMonth'      then 1.month.ago
+           end
+
+    Time.zone.parse(time_part, date)
   end
 
   def as_json(*_args)

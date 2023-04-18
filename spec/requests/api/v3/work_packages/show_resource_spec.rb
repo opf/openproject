@@ -418,6 +418,93 @@ describe 'API v3 Work package resource',
             end
           end
         end
+
+        context 'when the timestamps are relative date keywords' do
+          let(:timestamps) { [Timestamp.new('lastWeek@12:00'), Timestamp.now] }
+
+          it 'has an embedded link to the baseline work package' do
+            expect(subject)
+              .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+              .at_path('_embedded/attributesByTimestamp/0/_links/self/href')
+          end
+
+          it 'has the absolute timestamps within the self link' do
+            Timecop.freeze do
+              expect(subject)
+                .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.map(&:absolute)).to_json)
+                .at_path('_links/self/href')
+            end
+          end
+
+          describe "attributesByTimestamp" do
+            describe '_meta' do
+              describe 'timestamp' do
+                it 'has the relative timestamps' do
+                  expect(subject)
+                    .to be_json_eql('lastWeek@12:00'.to_json)
+                    .at_path('_embedded/attributesByTimestamp/0/_meta/timestamp')
+                  expect(subject)
+                    .to be_json_eql('PT0S'.to_json)
+                    .at_path('_embedded/attributesByTimestamp/1/_meta/timestamp')
+                end
+              end
+            end
+          end
+
+          context "with caching" do
+            before { login_as current_user }
+
+            context "with relative timestamps" do
+              let(:timestamps) { [Timestamp.parse("lastWeek@12:00"), Timestamp.now] }
+              let(:created_at) { '2015-01-01' }
+
+              describe "attributesByTimestamp" do
+                it "does not cache the self link" do
+                  get get_path
+                  expect do
+                    Timecop.travel 1.day do
+                      get get_path
+                    end
+                  end.to change {
+                    JSON.parse(last_response.body)
+                      .dig("_embedded", "attributesByTimestamp", 0, "_links", "self", "href")
+                  }
+                end
+
+                it "does not cache the attributes" do
+                  get get_path
+                  expect do
+                    Timecop.travel 1.week do
+                      get get_path
+                    end
+                  end.to change {
+                    JSON.parse(last_response.body)
+                      .dig("_embedded", "attributesByTimestamp", 0, "subject")
+                  }
+                end
+              end
+
+              describe "_meta" do
+                describe "exists" do
+                  let(:timestamps) { [Timestamp.parse("lastWorkingDay@12:00")] }
+                  let(:created_at) { 25.hours.ago }
+
+                  it "is not cached" do
+                    get get_path
+                    expect do
+                      Timecop.travel 2.days do
+                        get get_path
+                      end
+                    end.to change {
+                      JSON.parse(last_response.body)
+                        .dig("_meta", "exists")
+                    }
+                  end
+                end
+              end
+            end
+          end
+        end
       end
     end
   end

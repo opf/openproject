@@ -341,6 +341,16 @@ describe API::V3::ParseQueryParamsService,
         let(:expected) { { timestamps: [Timestamp.new("P-1Y"), Timestamp.parse("P-0Y")] } }
       end
 
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "lastMonth@11:00, now" } }
+        let(:expected) { { timestamps: [Timestamp.parse("lastMonth@11:00"), Timestamp.parse("P-0Y")] } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "lastMonth@11:00, lastWeek@12:00" } }
+        let(:expected) { { timestamps: [Timestamp.parse("lastMonth@11:00"), Timestamp.parse("lastWeek@12:00")] } }
+      end
+
       describe "for invalid parameters" do
         let(:params) { { timestamps: "foo,bar" } }
 
