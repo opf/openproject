@@ -182,6 +182,7 @@ module Redmine::MenuManager::MenuHelper
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
+    html_options['target'] = '_blank' if item.icon_after.present? && item.icon_after == 'external-link'
 
     link_to link_text, url, html_options
   end
