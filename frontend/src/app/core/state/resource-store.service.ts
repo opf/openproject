@@ -37,20 +37,23 @@ import {
   filter,
   finalize,
   map,
+  shareReplay,
   switchMap,
   tap,
 } from 'rxjs/operators';
 import {
-  collectionKey,
   CollectionResponse,
-  CollectionState,
   insertCollectionIntoState,
-  removeCollectionLoading,
-  setCollectionLoading,
-} from 'core-app/core/state/collection-store';
+  removeResourceLoading,
+  ResourceState,
+  setResourceLoading,
+} from 'core-app/core/state/resource-store';
 import { omit } from 'lodash';
 import isDefinedEntity from 'core-app/core/state/is-defined-entity';
-import { ApiV3ListParameters } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
+import {
+  ApiV3ListParameters,
+  listParamsString,
+} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import {
   HttpClient,
@@ -62,16 +65,19 @@ import {
 } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
-export type CollectionStore<T> = EntityStore<CollectionState<T>>;
+export type ResourceStore<T> = EntityStore<ResourceState<T>>;
 
-export interface ResourceCollectionLoadOptions {
+export interface ResourceStoreLoadOptions {
   handleErrors:boolean;
 }
 
+export type ResourceKeyInput = ApiV3ListParameters|string;
+
 @Injectable()
-export abstract class ResourceCollectionService<T extends { id:ID }> {
-  protected store:CollectionStore<T> = this.createStore();
+export abstract class ResourceStoreService<T extends { id:ID }> {
+  protected store:ResourceStore<T> = this.createStore();
 
   protected query = new QueryEntity(this.store);
 
@@ -87,30 +93,47 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
    * Require the results for the given filter params
    * Returns a cached set if it was loaded already.
    *
-   * @param params List params to require
+   * @param input List params to require, or href of the resource
    * @private
    */
-  public require(params:ApiV3ListParameters):Observable<T[]> {
-    const key = collectionKey(params);
-    if (this.collectionExists(key) || this.collectionLoading(key)) {
-      return this.loadedCollection(key);
+  public requireCollection(input:ResourceKeyInput):Observable<T[]> {
+    const href = this.buildResourceLink(input);
+    if (this.collectionExists(href) || this.resourceLoading(href)) {
+      return this.loadedCollection(href);
     }
 
     return this
-      .fetchCollection(params)
+      .fetchCollection(href)
       .pipe(
-        switchMap(() => this.loadedCollection(key)),
+        switchMap(() => this.loadedCollection(href)),
       );
+  }
+
+  /**
+   * Require a single entity to be loaded.
+   * Returnes the cached entity if it was loaded already
+   *
+   * @param href {string}
+   */
+  public requireEntity(href:string):Observable<T> {
+    const id = idFromLink(href);
+    if (this.query.hasEntity(id) || this.resourceLoading(href)) {
+      return this.lookup(id);
+    }
+
+    return this.fetchEntity(href);
   }
 
   /**
    * Retrieve a collection from the store
    *
-   * @param key The collection key to fetch
+   * @param input List params to require, or href of the resource
    */
-  collection(key:string):Observable<T[]> {
+  collection(input:ResourceKeyInput):Observable<T[]> {
+    const href = this.buildResourceLink(input);
+
     return this
-      .collectionState(key)
+      .collectionState(href)
       .pipe(
         switchMap((collection) => this.query.selectMany(collection?.ids || [])),
       );
@@ -118,11 +141,13 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
 
   /**
    * Return a collection observable that triggers only when the collection is loaded.
-   * @param key
+   * @param input List params to require, or href of the resource
    */
-  loadedCollection(key:string):Observable<T[]> {
+  loadedCollection(input:ResourceKeyInput):Observable<T[]> {
+    const href = this.buildResourceLink(input);
+
     return this
-      .collectionState(key)
+      .collectionState(href)
       .pipe(
         filter((collection) => !!collection),
         switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
@@ -131,14 +156,16 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
 
   /**
    * Return a collection observable that triggers only when the collection is loaded.
-   * @param key
+   * @param input List params to require, or href of the resource
    */
-  collectionState(key:string):Observable<CollectionResponse|undefined> {
+  collectionState(input:ResourceKeyInput):Observable<CollectionResponse|undefined> {
+    const href = this.buildResourceLink(input);
+
     return this
       .query
       .select()
       .pipe(
-        map((state) => state.collections[key]),
+        map((state) => state.collections[href]),
       );
   }
 
@@ -172,36 +199,44 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
 
   /**
    * Checks, if the store already has a collection given the key
+   *
+   * @param input List params to require, or href of the resource
    */
-  collectionExists(input:string|ApiV3ListParameters):boolean {
-    const key = typeof input === 'string' ? input : collectionKey(input);
+  collectionExists(input:ResourceKeyInput):boolean {
+    const href = this.buildResourceLink(input);
+
     return !!this
       .query
       .getValue()
-      .collections[key];
+      .collections[href];
   }
 
   /**
    * Checks, if the store already has a collection given the key
+   *
+   * @param input List params to require, or href of the resource
    */
-  collectionLoading(input:string|ApiV3ListParameters):boolean {
-    const key = typeof input === 'string' ? input : collectionKey(input);
+  resourceLoading(input:ResourceKeyInput):boolean {
+    const href = this.buildResourceLink(input);
+
     return this
       .query
       .getValue()
-      .loadingCollections[key] === true;
+      .loadingResources[href] === true;
   }
 
   /**
    * Clear a collection key
-   * @param key Collection key to clear
+   * @param input List params to require, or href of the resource
    */
-  clear(key:string):void {
+  clear(input:ResourceKeyInput):void {
+    const href = this.buildResourceLink(input);
+
     this
       .store
       .update(
         ({ collections }) => ({
-          collections: omit(collections, key),
+          collections: omit(collections, href),
         }),
       );
   }
@@ -219,7 +254,7 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   /**
    * Fetch a given collection, returning only its results
    */
-  fetchResults(params:ApiV3ListParameters|string):Observable<T[]> {
+  fetchResults(params:ResourceKeyInput):Observable<T[]> {
     return this
       .fetchCollection(params)
       .pipe(
@@ -230,38 +265,76 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   /**
    * Fetch a given collection, ensuring it is being flagged as loaded
    *
-   * @param params {ApiV3ListParameters|string} collection key or list params to build collection key from
-   * @param options {ResourceCollectionLoadOptions} Handle collection loading errors within the resource service
+   * @param params {ResourceKeyInput} collection key or list params to build collection key from
+   * @param options {ResourceStoreLoadOptions} Handle collection loading errors within the resource service
    */
   fetchCollection(
-    params:ApiV3ListParameters|string,
-    options:ResourceCollectionLoadOptions = { handleErrors: true },
+    params:ResourceKeyInput,
+    options:ResourceStoreLoadOptions = { handleErrors: true },
   ):Observable<IHALCollection<T>> {
-    const key = typeof params === 'string' ? params : collectionKey(params);
+    const href = this.buildResourceLink(params);
 
-    setCollectionLoading(this.store, key);
+    setResourceLoading(this.store, href);
 
     return this
       .http
-      .get<IHALCollection<T>>(this.basePath() + key)
+      .get<IHALCollection<T>>(href)
       .pipe(
-        tap((collection) => insertCollectionIntoState(this.store, collection, key)),
-        finalize(() => removeCollectionLoading(this.store, key)),
+        tap((collection) => insertCollectionIntoState(this.store, collection, href)),
+        finalize(() => removeResourceLoading(this.store, href)),
         catchError((error:unknown) => {
           if (options.handleErrors) {
-            this.handleCollectionLoadingError(error as HttpErrorResponse, key);
+            this.handleResourceLoadingError(error as HttpErrorResponse, href);
           }
 
           throw error;
         }),
+        shareReplay(1),
       );
+  }
+
+  /**
+   * Fetch a single entity, ensuring it is being flagged as loaded
+   *
+   * @param href {string} of the resource to load
+   * @param options {ResourceStoreLoadOptions} Handle loading errors within the resource service
+   */
+  fetchEntity(
+    href:string,
+    options:ResourceStoreLoadOptions = { handleErrors: true },
+  ):Observable<T> {
+    setResourceLoading(this.store, href);
+
+    return this
+      .http
+      .get<T>(href)
+      .pipe(
+        tap((entity) => this.store.add(entity)),
+        finalize(() => removeResourceLoading(this.store, href)),
+        catchError((error:unknown) => {
+          if (options.handleErrors) {
+            this.handleResourceLoadingError(error as HttpErrorResponse, href);
+          }
+
+          throw error;
+        }),
+        shareReplay(1),
+      );
+  }
+
+  protected buildResourceLink(input:ResourceKeyInput):string {
+    if (typeof input === 'string') {
+      return input;
+    }
+
+    return this.basePath() + listParamsString(input);
   }
 
   /**
    * Create a new instance of this resource service's underlying store.
    * @protected
    */
-  protected abstract createStore():CollectionStore<T>;
+  protected abstract createStore():ResourceStore<T>;
 
   /**
    * Base path for this collection
@@ -272,10 +345,10 @@ export abstract class ResourceCollectionService<T extends { id:ID }> {
   /**
    * By default, add a toast error in case of loading errors
    * @param error
-   * @param _collectionKey
+   * @param _path
    * @protected
    */
-  protected handleCollectionLoadingError(error:HttpErrorResponse, _collectionKey:string):void {
+  protected handleResourceLoadingError(error:HttpErrorResponse, _path:string):void {
     this.toastService.addError(error);
   }
 }

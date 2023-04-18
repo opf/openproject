@@ -66,7 +66,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   InAppNotificationsResourceService,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.service';
-import { mapHALCollectionToIDCollection } from 'core-app/core/state/collection-store';
+import { mapHALCollectionToIDCollection } from 'core-app/core/state/resource-store';
 import { INotificationPageQueryParameters } from 'core-app/features/in-app-notifications/in-app-notifications.routes';
 import {
   IAN_FACET_FILTERS,

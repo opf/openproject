@@ -235,6 +235,8 @@ description: |-
 
   * `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
 
+  * `Timestamp` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z" or to an ISO 8601 duration, e.g. "P1DT18H"
+
   ## Colors
 
   Colors are represented in RGB using hexadecimal notation as specified in [CSS Color Module Level 3](https://www.w3.org/TR/css3-color/).

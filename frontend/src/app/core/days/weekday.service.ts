@@ -73,7 +73,7 @@ export class WeekdayService {
 
     return this
       .weekdaysService
-      .require()
+      .requireCollection()
       .pipe(
         take(1),
         tap((weekdays) => {
