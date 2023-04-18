@@ -419,7 +419,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.params$
       .pipe(this.untilDestroyed())
       .subscribe((params) => {
-        this.principalsResourceService.fetchPrincipals(params).subscribe();
+        this.principalsResourceService.requireCollection(params).subscribe();
       });
 
     combineLatest([
