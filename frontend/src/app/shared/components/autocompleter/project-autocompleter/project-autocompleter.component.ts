@@ -45,7 +45,7 @@ import {
 } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { merge, Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ID } from '@datorama/akita';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -191,7 +191,7 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     value:IProjectAutocompleterData|IProjectAutocompleterData[]|null,
   ) {
     const normalizedValue = (value || []);
-    const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map(p => p.href || p.id);
+    const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map((p) => p.href || p.id);
     return projects.map((project) => {
       const isSelected = !!arrayedValue.find((selected) => selected === this.projectTracker(project));
       return {
