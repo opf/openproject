@@ -53,10 +53,10 @@ export class StorageFilesResourceService {
   files(link:IHalResourceLink):Observable<IStorageFiles> {
     const value = this.store.getValue().files[link.href];
     if (value !== undefined) {
-      return combineLatest([this.lookupMany(value.files), this.lookup(value.parent)])
+      return combineLatest([this.lookupMany(value.files), this.lookup(value.parent), this.lookupMany(value.ancestors)])
         .pipe(
-          map(([files, parent]):IStorageFiles => ({
-            files, parent, _type: 'StorageFiles', _links: { self: link },
+          map(([files, parent, ancestors]):IStorageFiles => ({
+            files, parent, ancestors, _type: 'StorageFiles', _links: { self: link },
           })),
           take(1),
         );
@@ -87,10 +87,11 @@ export class StorageFilesResourceService {
   }
 
   private insert(storageFiles:IStorageFiles, link:string):void {
-    this.store.upsertMany([...storageFiles.files, storageFiles.parent]);
+    this.store.upsertMany([...storageFiles.files, storageFiles.parent, ...storageFiles.ancestors]);
 
     const fileIds = storageFiles.files.map((file) => file.id);
     const parentId = storageFiles.parent.id;
+    const ancestorIds = storageFiles.ancestors.map((file) => file.id);
 
     this.store.update(({ files }) => ({
       files: {
@@ -98,6 +99,7 @@ export class StorageFilesResourceService {
         [link]: {
           files: fileIds,
           parent: parentId,
+          ancestors: ancestorIds,
         },
       },
     }));

@@ -27,7 +27,7 @@
 #++
 
 module Grids
-  class Widget < ActiveRecord::Base
+  class Widget < ApplicationRecord
     self.table_name = :grid_widgets
 
     belongs_to :grid

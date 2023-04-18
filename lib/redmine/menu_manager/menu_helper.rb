@@ -55,9 +55,8 @@ module Redmine::MenuManager::MenuHelper
 
   def render_menu(menu, project = nil)
     links = []
-
+    @menu = menu
     menu_items = first_level_menu_items_for(menu, project) do |node|
-      @menu = menu
       links << render_menu_node(node, project)
     end
 
@@ -164,21 +163,26 @@ module Redmine::MenuManager::MenuHelper
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
-    link_text << op_icon(item.icon(project)) if item.icon(project).present?
+    link_text << spot_icon(item.icon) if item.icon(project).present?
     link_text << content_tag(:span,
                              class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
                              lang: menu_item_locale(item)) do
-      title_text = ''.html_safe + caption + badge_for(item)
+      title_text = ''.html_safe + content_tag(:span, caption) + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (' '.html_safe + spot_icon('enterprise-addons'))
+        title_text << (''.html_safe + spot_icon('enterprise-addons'))
       end
       title_text
     end
-    link_text << (' '.html_safe + op_icon(item.icon_after)) if item.icon_after.present?
+
+    if item.icon_after.present?
+      link_text << (''.html_safe + spot_icon(item.icon_after, classnames: "icon-after"))
+    end
+
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
+    html_options['target'] = '_blank' if item.icon_after.present? && item.icon_after == 'external-link'
 
     link_to link_text, url, html_options
   end
@@ -194,7 +198,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def first_level_menu_items_for(menu, project = nil, &)
-    menu_items_for(Redmine::MenuManager.items(menu).root.children, menu, project, &)
+    menu_items_for(Redmine::MenuManager.items(menu, project).root.children, menu, project, &)
   end
 
   private
@@ -241,7 +245,7 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def all_menu_items_for(menu, project = nil)
-    menu_items_for(Redmine::MenuManager.items(menu).root, menu, project)
+    menu_items_for(Redmine::MenuManager.items(menu, project).root, menu, project)
   end
 
   def node_or_children_selected?(node)
@@ -334,6 +338,8 @@ module Redmine::MenuManager::MenuHelper
   end
 
   def node_action_allowed?(node, project, user)
+    return true if node.skip_permissions_check?
+
     url = node.url(project)
     return true unless url
 

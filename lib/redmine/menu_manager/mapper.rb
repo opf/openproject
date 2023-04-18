@@ -33,8 +33,6 @@ class Redmine::MenuManager::Mapper
     @menu_items = items[menu]
   end
 
-  @@last_items_count = Hash.new { |h, k| h[k] = 0 }
-
   # Adds an item at the end of the menu. Available options:
   # * param: the parameter name that is used for the project id (default is :project_id)
   # * if: a Proc that is called before rendering the item, the item is displayed only if it returns true
@@ -114,18 +112,6 @@ class Redmine::MenuManager::Mapper
       if node.name == name
         return node.position
       end
-    end
-  end
-end
-
-class Redmine::MenuManager::MapDeferrer
-  def initialize(menu_builder_queue)
-    @menu_builder_queue = menu_builder_queue
-  end
-
-  %i[push delete exists? find position_of].each do |method|
-    define_method method do |*args|
-      defer(method, *args)
     end
   end
 end

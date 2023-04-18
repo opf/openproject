@@ -28,12 +28,6 @@ module OpenProject::OpenIDConnect
     class_inflection_override('openid_connect' => 'OpenIDConnect')
 
     register_auth_providers do
-      # Use OpenSSL default certificate store instead of HTTPClient's.
-      # It's outdated and it's unclear how it's managed.
-      OpenIDConnect.http_config do |config|
-        config.ssl_config.set_default_paths
-      end
-
       OmniAuth::OpenIDConnect::Providers.configure custom_options: %i[
         display_name? icon? sso? issuer?
         check_session_iframe? end_session_endpoint?

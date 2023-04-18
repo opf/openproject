@@ -35,6 +35,8 @@ class WikiContent < ApplicationRecord
 
   acts_as_journalized
 
+  register_journal_formatted_fields(:wiki_diff, 'text')
+
   acts_as_event type: 'wiki-page',
                 title: Proc.new { |o|
                   "#{I18n.t(:label_wiki_edit)}: #{o.journal.journable.page.title} (##{o.journal.journable.version})"

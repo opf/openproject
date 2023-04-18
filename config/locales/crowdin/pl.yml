@@ -921,7 +921,7 @@ pl:
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
     item:
-      created_by_on: "utworzone %{date} przez %{user}"
+      created_by_on: "utworzone %{datetime} przez %{user}"
       created_on: "utworzono %{datetime}"
       updated_by_on: "zaktualizowane przez %{user} dnia %{datetime}"
       updated_on: "zaktualizowano %{datetime}"

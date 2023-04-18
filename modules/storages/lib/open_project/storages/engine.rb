@@ -85,6 +85,24 @@ module OpenProject::Storages
            { controller: '/storages/admin/projects_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
+
+      configure_menu :project_menu do |menu, project|
+        if project.present? &&
+           User.current.logged? &&
+           User.current.allowed_to?(:view_file_links, project)
+          project.storages.each do |storage|
+            menu.push(
+              :"storage_#{storage.id}",
+              storage.host,
+              caption: storage.name,
+              before: :members,
+              icon: "#{storage.provider_type}-circle",
+              icon_after: "external-link",
+              skip_permissions_check: true
+            )
+          end
+        end
+      end
     end
 
     patch_with_namespace :Principals, :ReplaceReferencesService
@@ -126,6 +144,10 @@ module OpenProject::Storages
 
     add_api_path :storage_files do |storage_id|
       "#{storage(storage_id)}/files"
+    end
+
+    add_api_path :storage_file do |storage_id, file_id|
+      "#{storage_files(storage_id)}/#{file_id}"
     end
 
     add_api_path :prepare_upload do |storage_id|

@@ -4,17 +4,20 @@ module OpenProject::Bim::Patches::ProjectSeederPatch
   end
 
   module InstanceMethods
-    def project_data_seeders(project, key)
-      data = super
+    def project_content_seeder_classes
+      classes = []
+      classes += bim_project_content_seeder_classes if OpenProject::Configuration.bim?
+      classes += super
+      classes
+    end
 
-      if OpenProject::Configuration.bim?
-        [
-          ::Bim::DemoData::BcfXmlSeeder.new(project, key),
-          ::Bim::DemoData::IfcModelSeeder.new(project, key)
-        ] + data
-      else
-        data
-      end
+    private
+
+    def bim_project_content_seeder_classes
+      [
+        ::Bim::DemoData::BcfXmlSeeder,
+        ::Bim::DemoData::IfcModelSeeder
+      ]
     end
   end
 end

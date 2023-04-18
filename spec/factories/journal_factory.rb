@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :journal do
     user factory: :user
-    created_at { Time.now }
+    created_at { Time.zone.now }
     sequence(:version, 1)
 
     factory :work_package_journal, class: 'Journal' do
@@ -44,6 +44,10 @@ FactoryBot.define do
     factory :wiki_content_journal, class: 'Journal' do
       journable_type { 'WikiContent' }
       data { build(:journal_wiki_content_journal) }
+
+      callback(:after_stub) do |journal, options|
+        journal.journable ||= options.journable || build_stubbed(:wiki_content)
+      end
     end
 
     factory :message_journal, class: 'Journal' do
