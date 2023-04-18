@@ -993,6 +993,12 @@ en:
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
+      time_entry:
+        created: "%{last} hours"
+        created_single: "%{last} hour"
+        updated: "changed from %{first} hours to %{last} hours"
+        updated_first_single: "changed from %{first} hour to %{last} hours"
+        updated_last_single: "changed from %{first} hours to %{last} hour"
     filter:
       changeset: "Changesets"
       message: "Forums"

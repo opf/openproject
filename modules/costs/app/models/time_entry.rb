@@ -33,7 +33,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :work_package
   belongs_to :user
   belongs_to :activity, class_name: 'TimeEntryActivity'
-belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
+  belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_name: 'Rate'
   belongs_to :logged_by, class_name: 'User'
 
   acts_as_customizable
@@ -58,6 +58,7 @@ belongs_to :rate, -> { where(type: %w[HourlyRate DefaultHourlyRate]) }, class_na
   before_save :update_costs
 
   register_journal_formatted_fields(:time_entry_hours, 'hours')
+  register_journal_formatted_fields(:named_association, 'work_package_id')
   # register_journal_formatted_fields(:named_association, 'user_id')
 
   def self.update_all(updates, conditions = nil, options = {})

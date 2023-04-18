@@ -1,6 +1,7 @@
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
     <%= link_to @event.event_title.squish, @event.journal.journable_type == 'TimeEntry' ? "/work_packages/#{@event.journal.journable.work_package_id}" : @event.event_path %>
+    <%= link_to @event.event_title.squish, @event.event_path %>
     <%= project_suffix %>
   </div>
   <%=

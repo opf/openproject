@@ -33,18 +33,36 @@ class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
     label_text << ':' if !values.first
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    # Need to
-    # Italicize
-    # Hour vs hours
-    # Use I18n strings
+    # TODO - Italicize
+    # Mismatch between @event.event_path and linked WP in item_component???
 
+    first = (values.first % 1).zero? ? values.first.to_i : values.first if values.first
+    last = (values.last % 1).zero? ? values.last.to_i : values.last
+
+    # TODO - Refactor?
     value = \
       if values.first
-        # I18n.t('activerecord.attributes.project.public_value.true')
-        "changed from #{(values.first % 1).zero? ? values.first.to_i : values.first} hours to #{(values.last % 1).zero? ? values.last.to_i : values.last} hours"
+        if values.first == 1
+          I18n.t(:'activity.item.time_entry.updated_first_single',
+                              first: first,
+                              last: last)
+        elsif values.last == 1
+          I18n.t(:'activity.item.time_entry.updated_last_single',
+                              first: first,
+                              last: last)
+        else
+          I18n.t(:'activity.item.time_entry.updated',
+                             first: first,
+                             last: last)
+        end
       else
-        # I18n.t('activerecord.attributes.project.public_value.false')
-        "#{(values.last % 1).zero? ? values.last.to_i : values.last} hours"
+        if values.last == 1
+          I18n.t(:'activity.item.time_entry.created_single',
+                             last: last)
+        else
+          I18n.t(:'activity.item.time_entry.created',
+                             last: last)
+        end
       end
     # value = content_tag(:i, value) if options[:html]
 
