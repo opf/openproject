@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import { moduleMetadata } from '@storybook/angular';
+import { Figma } from 'mdx-embed';
 
 import { I18nService } from '../app/core/i18n/i18n.service';
 import { I18nServiceStub } from './i18n.service.stub';
@@ -114,7 +115,10 @@ Apart from the banner, all other building blocks are provided by Flatpickr and o
 
 **Month-year** selectors allow the user to move forward/backwards in one-month increments.
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="400" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FXhCsrvs6rePifqbBpKYRWD%2FComponents-Library%3Fnode-id%3D3655%253A17592%26t%3DaGfS5ZzCPMI1IYHD-1"></iframe>
+<Figma
+  title="Something"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655-17556&t=ZARuk3pK5JNYCKAq-0"
+/>
 
 We use the basic structure provided by Flatpickr:
 
@@ -137,13 +141,11 @@ Days of the week are headers for the mini calendar and list the days of the week
 
 They are set in Caption/Bold; *Grey 1* text.
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="400" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FXhCsrvs6rePifqbBpKYRWD%2FComponents-Library%3Fnode-id%3D3655%253A17592%26t%3DaGfS5ZzCPMI1IYHD-1"></iframe>
 
 ### Mini day
 
 The mini day displays individual dates on the mini-calendar, and has a number of different states. Each of these states can be *enabled* (it is active and clickable) or *disabled* (it is inactive and not clickable).
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="400" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FXhCsrvs6rePifqbBpKYRWD%2FComponents-Library%3Fnode-id%3D3655%253A17592%26t%3DaGfS5ZzCPMI1IYHD-1"></iframe>
 
 Mini days are set in Caption/Regular.
 
@@ -185,7 +187,6 @@ The mini calendar consists of three elements:
 - a days of the week line
 - a 7×5 grid of mini days
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="400" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FXhCsrvs6rePifqbBpKYRWD%2FComponents-Library%3Fnode-id%3D3655%253A17552%26t%3DaGfS5ZzCPMI1IYHD-1" allowfullscreen></iframe>
 
 For certain months, there might be an additional (6) or one fewer (5) row, depending on the number of days in that month and the starting day.
 
