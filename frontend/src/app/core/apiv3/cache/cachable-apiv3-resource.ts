@@ -73,10 +73,10 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
       // Return concat of the loading observable
       // for error handling and the like,
       // but then continue with the streamed cache
-      return concat<T>(
+      return concat(
         observable,
         this.cache.state(id).values$(),
-      );
+      ) as Observable<T>;
     }
 
     return this.cache.state(id).values$();
@@ -123,7 +123,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
       )
       // Use a promise to ensure this fires
       // even if caller isn't subscribing.
-      .toPromise();
+      .toPromise() as Promise<T>;
   }
 
   /**

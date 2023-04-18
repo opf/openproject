@@ -57,7 +57,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   ));
 
   // Subject used to unregister all listeners of states above.
-  stopAllSubscriptions = new Subject();
+  stopAllSubscriptions = new Subject<void>();
 
   // Required work packages to be rendered by hierarchy mode + relation columns
   additionalRequiredWorkPackages = input<null>();

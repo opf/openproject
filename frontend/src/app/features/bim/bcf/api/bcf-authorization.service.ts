@@ -1,8 +1,14 @@
 import { multiInput } from 'reactivestates';
 import { BcfExtensionResource } from 'core-app/features/bim/bcf/api/extensions/bcf-extension.resource';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
+import {
+  map,
+  take,
+} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 
 export type AllowedExtensionKey = keyof BcfExtensionResource;
@@ -28,11 +34,12 @@ export class BcfAuthorizationService {
   public authorized$(projectIdentifier:string, extension:AllowedExtensionKey, action:string):Observable<boolean> {
     const state = this.authorizationMap.get(projectIdentifier);
 
-    state.putFromPromiseIfPristine(() => this.bcfApi
-      .projects.id(projectIdentifier)
-      .extensions
-      .get()
-      .toPromise());
+    state.putFromPromiseIfPristine(() => firstValueFrom(
+      this.bcfApi
+        .projects.id(projectIdentifier)
+        .extensions
+        .get(),
+    ));
 
     return state
       .values$()
@@ -51,12 +58,7 @@ export class BcfAuthorizationService {
    * @param action The desired action
    */
   public isAllowedTo(projectIdentifier:string, extension:AllowedExtensionKey, action:string):Promise<boolean> {
-    return this
-      .authorized$(projectIdentifier, extension, action)
-      .pipe(
-        take(1),
-      )
-      .toPromise()
+    return firstValueFrom(this.authorized$(projectIdentifier, extension, action))
       .catch(() => false);
   }
 }

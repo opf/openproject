@@ -39,6 +39,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { IHalOptionalTitledLink } from 'core-app/core/state/hal-resource';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { firstValueFrom } from 'rxjs';
 
 export const PROXY_IDENTIFIER = '__is_changeset_proxy';
 
@@ -143,11 +144,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       return this.updateForm();
     }
 
-    return this
-      .form$
-      .values$()
-      .pipe(take(1))
-      .toPromise();
+    return firstValueFrom(this.form$.values$());
   }
 
   /**

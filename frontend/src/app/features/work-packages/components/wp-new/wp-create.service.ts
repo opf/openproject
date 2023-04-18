@@ -31,6 +31,7 @@ import {
   Injector,
 } from '@angular/core';
 import {
+  firstValueFrom,
   Observable,
   Subject,
 } from 'rxjs';
@@ -167,13 +168,14 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
 
   public getEmptyForm(projectIdentifier:string|null|undefined):Promise<FormResource> {
     if (!this.form) {
-      this.form = this
-        .apiV3Service
-        .withOptionalProject(projectIdentifier)
-        .work_packages
-        .form
-        .post({})
-        .toPromise();
+      this.form = firstValueFrom(
+        this
+          .apiV3Service
+          .withOptionalProject(projectIdentifier)
+          .work_packages
+          .form
+          .post({}),
+      );
     }
 
     return this.form;
@@ -305,7 +307,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * a valid payload in the sense that all properties are at their correct place and are in the right format. That means
    * HalResources are in the _links section and follow the { href: some_link } format while simple properties stay on the
    * top level.
-    */
+   */
   private withFiltersPayload(projectIdentifier:string|null|undefined, defaults?:HalSource):Promise<HalSource> {
     const fromFilter = { _links: {} };
     this.defaultsFromFilters(fromFilter, defaults);
@@ -385,7 +387,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Set update link to form
     wp.update = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    wp.updateImmediately = wp.$links.updateImmediately = (payload) => this.apiV3Service.work_packages.post(payload).toPromise();
+    wp.updateImmediately = wp.$links.updateImmediately = (payload) => firstValueFrom(this.apiV3Service.work_packages.post(payload));
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

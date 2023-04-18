@@ -33,6 +33,7 @@ import {
   ElementRef,
   HostBinding,
   Injector,
+  OnInit,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -44,6 +45,7 @@ import {
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
 import { capitalize } from 'core-app/shared/helpers/string-helpers';
+import { firstValueFrom } from 'rxjs';
 
 export const attributeLabelMacro = 'macro.macro--attribute-label';
 
@@ -56,7 +58,7 @@ export const attributeLabelMacro = 'macro.macro--attribute-label';
     HalResourceEditingService,
   ],
 })
-export class AttributeLabelMacroComponent {
+export class AttributeLabelMacroComponent implements OnInit {
   // Whether the value could not be loaded
   error:string|null = null;
 
@@ -78,36 +80,40 @@ export class AttributeLabelMacroComponent {
   attribute:string;
 
   // The label to render
-  label:string;
+  label:string|undefined;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly resourceLoader:AttributeModelLoaderService,
     readonly schemaCache:SchemaCacheService,
     readonly displayField:DisplayFieldService,
     readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef) {
-
+    readonly cdRef:ChangeDetectorRef,
+  ) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const element = this.elementRef.nativeElement as HTMLElement;
-    const model:SupportedAttributeModels = element.dataset.model as any;
-    const id:string = element.dataset.id!;
-    const attributeName:string = element.dataset.attribute!;
+    const model = element.dataset.model as SupportedAttributeModels;
+    const id = element.dataset.id as string;
+    const attributeName = element.dataset.attribute as string;
     this.attributeScope = capitalize(model);
 
-    this.loadResourceAttribute(model, id, attributeName);
+    void this.loadResourceAttribute(model, id, attributeName);
   }
 
-  private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string) {
+  private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string):Promise<void> {
     let resource:HalResource|null;
 
     try {
-      this.resource = resource = await this.resourceLoader.require(model, id);
+      // eslint-disable-next-line no-multi-assign
+      this.resource = resource = await firstValueFrom(this.resourceLoader.require(model, id));
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.error(`Failed to render macro ${e}`);
-      return this.markError(this.text.not_found);
+      this.markError(this.text.not_found);
+      return;
     }
 
     if (!resource) {
@@ -117,7 +123,8 @@ export class AttributeLabelMacroComponent {
 
     const schema = await this.schemaCache.ensureLoaded(resource);
     this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
-    this.label = schema[this.attribute]?.name;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    this.label = schema[this.attribute]?.name as string|undefined;
 
     if (!this.label) {
       this.markError(this.text.invalid_attribute(attributeName));

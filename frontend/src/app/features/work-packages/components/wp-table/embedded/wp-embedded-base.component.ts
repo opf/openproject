@@ -1,5 +1,9 @@
 import {
-  AfterViewInit, ChangeDetectorRef, Directive, Input, SimpleChanges,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Directive,
+  Input,
+  SimpleChanges,
 } from '@angular/core';
 import {
   WorkPackageTableConfiguration,
@@ -15,6 +19,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
+import { firstValueFrom } from 'rxjs';
 
 @Directive()
 export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewBase implements AfterViewInit {
@@ -105,10 +110,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
     }
 
     const params = this.urlParamsHelper.buildV3GetQueryFromQueryResource(query, pagination);
-    const promise = this
-      .wpListService
-      .loadQueryFromExisting(query, params, this.queryProjectScope)
-      .toPromise()
+    const promise = firstValueFrom(
+      this
+        .wpListService
+        .loadQueryFromExisting(query, params, this.queryProjectScope),
+    )
       .then((query) => this.wpStatesInitialization.updateQuerySpace(query, query.results));
 
     if (visible) {

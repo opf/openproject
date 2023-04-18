@@ -9,12 +9,18 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
+import {
+  firstValueFrom,
+  Observable,
+  switchMap,
+} from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BoardListsService {
   private v3 = this.pathHelper.api.v3;
 
-  constructor(private readonly CurrentProject:CurrentProjectService,
+  constructor(
+    private readonly CurrentProject:CurrentProjectService,
     private readonly pathHelper:PathHelperService,
     private readonly apiV3Service:ApiV3Service,
     private readonly halResourceService:HalResourceService,
@@ -23,7 +29,7 @@ export class BoardListsService {
 
   }
 
-  private create(params:Object, filters:ApiV3Filter[]):Promise<QueryResource> {
+  private create(params:Object, filters:ApiV3Filter[]):Observable<QueryResource> {
     const filterJson = JSON.stringify(filters);
 
     return this
@@ -39,19 +45,19 @@ export class BoardListsService {
         this.CurrentProject.identifier,
         this.buildQueryRequest(params),
       )
-      .toPromise()
-      .then(([form, query]) => {
-        // When the permission to create public queries is missing, throw an error.
-        // Otherwise private queries would be created.
-        if (form.schema.public.writable) {
-          return this
-            .apiV3Service
-            .queries
-            .post(query, form)
-            .toPromise();
-        }
-        throw new Error(this.I18n.t('js.boards.error_permission_missing'));
-      });
+      .pipe(
+        switchMap(([form, query]) => {
+          // When the permission to create public queries is missing, throw an error.
+          // Otherwise private queries would be created.
+          if (form.schema.public.writable) {
+            return this
+              .apiV3Service
+              .queries
+              .post(query, form);
+          }
+          throw new Error(this.I18n.t('js.boards.error_permission_missing'));
+        }),
+      );
   }
 
   /**
@@ -70,7 +76,7 @@ export class BoardListsService {
   public async addQuery(board:Board, queryParams:Object, filters:ApiV3Filter[]):Promise<Board> {
     const count = board.queries.length;
     try {
-      const query = await this.create(queryParams, filters);
+      const query = await firstValueFrom(this.create(queryParams, filters));
 
       const source = {
         _type: 'GridWidget',

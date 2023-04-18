@@ -31,7 +31,6 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { combine, input, InputState } from 'reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { mapTo, take } from 'rxjs/operators';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -39,6 +38,8 @@ import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-re
 import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resources/query-filter-instance-schema-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { firstValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<QueryFilterInstanceResource[]> {
@@ -307,13 +308,11 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * Filters service depends on two states
    */
   public onReady():Promise<null> {
-    return combine(this.pristineState, this.availableState)
-      .values$()
-      .pipe(
-        take(1),
-        mapTo(null),
-      )
-      .toPromise();
+    return firstValueFrom(
+      combine(this.pristineState, this.availableState)
+        .values$()
+        .pipe(map(() => null)),
+    );
   }
 
   /**

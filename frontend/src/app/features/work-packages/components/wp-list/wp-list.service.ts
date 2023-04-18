@@ -37,6 +37,7 @@ import { UrlParamsHelperService } from 'core-app/features/work-packages/componen
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
+  firstValueFrom,
   from,
   Observable,
   of,
@@ -165,7 +166,7 @@ export class WorkPackagesListService {
    * Load the default query.
    */
   public loadDefaultQuery(projectIdentifier?:string):Promise<QueryResource> {
-    return this.fromQueryParams({}, projectIdentifier).toPromise();
+    return firstValueFrom(this.fromQueryParams({}, projectIdentifier));
   }
 
   /**
@@ -231,19 +232,18 @@ export class WorkPackagesListService {
   /**
    * Load the query from the given state params
    */
-  public loadCurrentQueryFromParams(projectIdentifier?:string) {
-    return this
-      .fromQueryParams(this.$state.params as any, projectIdentifier)
-      .toPromise();
+  public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
+    return firstValueFrom(this.fromQueryParams(this.$state.params as any, projectIdentifier));
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
-    return this
-      .apiV3Service
-      .queries
-      .form
-      .load(query)
-      .toPromise()
+    return firstValueFrom(
+      this
+        .apiV3Service
+        .queries
+        .form
+        .load(query),
+    )
       .then(([form, _]) => {
         this.wpStatesInitialization.updateStatesFromForm(query, form);
 
@@ -260,9 +260,7 @@ export class WorkPackagesListService {
 
     query.name = name;
 
-    const promise = this
-      .createQueryAndView(query, form)
-      .toPromise()
+    const promise = firstValueFrom(this.createQueryAndView(query, form))
       .then((createdQuery) => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_create'));
 
@@ -377,12 +375,13 @@ export class WorkPackagesListService {
     this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
-      this
-        .apiV3Service
-        .queries
-        .form
-        .loadWithParams(queryProps, queryId, projectIdentifier)
-        .toPromise()
+      firstValueFrom(
+        this
+          .apiV3Service
+          .queries
+          .form
+          .loadWithParams(queryProps, queryId, projectIdentifier),
+      )
         .then(([form, _]) => {
           this
             .apiV3Service

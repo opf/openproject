@@ -161,13 +161,13 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
-    .getAllPaginated<WorkPackageCollectionResource>(
-      this.path,
-      {
-        filters: ApiV3Filter('id', '=', ids).toJson(),
-      },
-    )
-      .toPromise();
+      .getAllPaginated<WorkPackageCollectionResource>(
+        this.path,
+        {
+          filters: ApiV3Filter('id', '=', ids).toJson(),
+        },
+      )
+      .toPromise() as Promise<WorkPackageCollectionResource[]>;
   }
 
   protected createCache():WorkPackageCache {
