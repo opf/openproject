@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { input, InputState } from 'reactivestates';
+import { input, InputState } from '@openproject/reactivestates';
 import {
   filter,
   map,

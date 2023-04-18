@@ -95,7 +95,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
    * @param payload
    * @return {Promise<WorkPackageResource>}
    */
-  public post(payload:Object):Observable<WorkPackageResource> {
+  public post(payload:object):Observable<WorkPackageResource> {
     return this
       .halResourceService
       .post<WorkPackageResource>(this.path, payload)
@@ -161,11 +161,9 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
   protected loadCollectionsFor(ids:string[]):Promise<WorkPackageCollectionResource[]> {
     return this
       .halResourceService
-      .getAllPaginated<WorkPackageCollectionResource>(
+      .getAllPaginated(
         this.path,
-        {
-          filters: ApiV3Filter('id', '=', ids).toJson(),
-        },
+        { filters: ApiV3Filter('id', '=', ids).toJson() },
       )
       .toPromise() as Promise<WorkPackageCollectionResource[]>;
   }

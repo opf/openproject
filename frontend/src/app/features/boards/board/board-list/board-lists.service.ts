@@ -29,7 +29,7 @@ export class BoardListsService {
 
   }
 
-  private create(params:Object, filters:ApiV3Filter[]):Observable<QueryResource> {
+  private create(params:object, filters:ApiV3Filter[]):Observable<QueryResource> {
     const filterJson = JSON.stringify(filters);
 
     return this
@@ -49,7 +49,7 @@ export class BoardListsService {
         switchMap(([form, query]) => {
           // When the permission to create public queries is missing, throw an error.
           // Otherwise private queries would be created.
-          if (form.schema.public.writable) {
+          if ((form.schema.public as IOPFieldSchema).writable) {
             return this
               .apiV3Service
               .queries
@@ -63,7 +63,7 @@ export class BoardListsService {
   /**
    * Add a free query to the board
    */
-  public addFreeQuery(board:Board, queryParams:Object) {
+  public addFreeQuery(board:Board, queryParams:object) {
     const filter = this.freeBoardQueryFilter();
     return this.addQuery(board, queryParams, [filter]);
   }
@@ -73,7 +73,7 @@ export class BoardListsService {
    * @param board
    * @param query
    */
-  public async addQuery(board:Board, queryParams:Object, filters:ApiV3Filter[]):Promise<Board> {
+  public async addQuery(board:Board, queryParams:object, filters:ApiV3Filter[]):Promise<Board> {
     const count = board.queries.length;
     try {
       const query = await firstValueFrom(this.create(queryParams, filters));

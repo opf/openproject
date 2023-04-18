@@ -104,27 +104,22 @@ export class AttributeLabelMacroComponent implements OnInit {
   }
 
   private async loadResourceAttribute(model:SupportedAttributeModels, id:string, attributeName:string):Promise<void> {
-    let resource:HalResource|null;
-
     try {
-      // eslint-disable-next-line no-multi-assign
-      this.resource = resource = await firstValueFrom(this.resourceLoader.require(model, id));
+      this.resource = await firstValueFrom(this.resourceLoader.require(model, id));
     } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-      console.error(`Failed to render macro ${e}`);
+      console.error('Failed to render macro %O', e);
       this.markError(this.text.not_found);
       return;
     }
 
-    if (!resource) {
+    if (!this.resource) {
       this.markError(this.text.not_found);
       return;
     }
 
-    const schema = await this.schemaCache.ensureLoaded(resource);
+    const schema = await this.schemaCache.ensureLoaded(this.resource);
     this.attribute = schema.attributeFromLocalizedName(attributeName) || attributeName;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    this.label = schema[this.attribute]?.name as string|undefined;
+    this.label = (schema[this.attribute] as IOPFieldSchema|undefined)?.name;
 
     if (!this.label) {
       this.markError(this.text.invalid_attribute(attributeName));

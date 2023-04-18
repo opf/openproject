@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { combine, input, InputState } from 'reactivestates';
+import { combine, input, InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schema-resource';

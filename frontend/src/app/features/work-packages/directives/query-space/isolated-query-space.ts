@@ -4,7 +4,7 @@ import {
   InputState,
   State,
   StatesGroup,
-} from 'reactivestates';
+} from '@openproject/reactivestates';
 import { Subject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';

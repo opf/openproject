@@ -42,7 +42,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { multiInput } from 'reactivestates';
+import { multiInput } from '@openproject/reactivestates';
 import { TransitionService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';

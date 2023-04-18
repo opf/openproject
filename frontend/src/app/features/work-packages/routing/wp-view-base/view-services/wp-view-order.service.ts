@@ -28,7 +28,7 @@
 
 import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';

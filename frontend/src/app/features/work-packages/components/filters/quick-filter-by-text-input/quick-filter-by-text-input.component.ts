@@ -34,7 +34,7 @@ import {
   debounceTime, distinctUntilChanged, map, tap,
 } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 

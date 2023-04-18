@@ -76,7 +76,7 @@ export abstract class ApiV3Resource<T extends HasId = HalResource>
       return concat(
         observable,
         this.cache.state(id).values$(),
-      ) as Observable<T>;
+      );
     }
 
     return this.cache.state(id).values$();

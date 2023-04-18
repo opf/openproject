@@ -40,7 +40,7 @@ import {
 import { StateService, Transition, TransitionService } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditableAttributeFieldComponent } from 'core-app/shared/components/fields/edit/field/editable-attribute-field.component';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { filter, map, take } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {

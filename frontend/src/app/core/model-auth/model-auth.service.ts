@@ -27,7 +27,7 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

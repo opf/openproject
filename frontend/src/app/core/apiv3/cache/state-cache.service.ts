@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { MultiInputState, State } from 'reactivestates';
+import { MultiInputState, State } from '@openproject/reactivestates';
 import {
   firstValueFrom,
   Observable,

@@ -42,7 +42,7 @@ import {
   Observable,
   of,
 } from 'rxjs';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import {
   catchError,
   mapTo,
@@ -233,7 +233,7 @@ export class WorkPackagesListService {
    * Load the query from the given state params
    */
   public loadCurrentQueryFromParams(projectIdentifier?:string):Promise<QueryResource> {
-    return firstValueFrom(this.fromQueryParams(this.$state.params as any, projectIdentifier));
+    return firstValueFrom(this.fromQueryParams(this.$state.params as { query_id?:string|null, query_props?:string }, projectIdentifier));
   }
 
   public loadForm(query:QueryResource):Promise<QueryFormResource> {
@@ -371,7 +371,12 @@ export class WorkPackagesListService {
     return this.querySpace.query.value!;
   }
 
-  private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId?:string|null, projectIdentifier?:string|null):Promise<QueryResource> {
+  private handleQueryLoadingError(
+    error:ErrorResource,
+    queryProps:{ [key:string]:unknown },
+    queryId?:string|null,
+    projectIdentifier?:string|null,
+  ):Promise<QueryResource> {
     this.toastService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
     return new Promise((resolve, reject) => {
@@ -391,7 +396,7 @@ export class WorkPackagesListService {
             .then((query:QueryResource) => {
               this.wpListInvalidQueryService.restoreQuery(query, form);
 
-              query.results.pageSize = queryProps.pageSize;
+              query.results.pageSize = queryProps.pageSize as number;
               query.results.total = 0;
 
               if (queryId) {

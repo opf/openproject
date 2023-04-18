@@ -77,6 +77,7 @@ export class DragAndDropTransformer {
         const workPackage = this.states.workPackages.get(wpId).value;
         return !!workPackage && this.actionService.canPickup(workPackage);
       },
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onMoved: async (el:HTMLElement, target:HTMLElement, source:HTMLElement, sibling:HTMLElement|null) => {
         const wpId:string = el.dataset.workPackageId!;
         let rowIndex;
@@ -135,6 +136,7 @@ export class DragAndDropTransformer {
           })
           .catch(() => false);
       },
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       onCloned: async (clone:HTMLElement, original:HTMLElement) => {
         // Replace clone with one TD of the subject
         const wpId:string = original.dataset.workPackageId!;

@@ -51,17 +51,16 @@ export class BoardService {
    * @param projectIdentifier
    */
   public loadAllBoards(projectIdentifier:string|null = this.CurrentProject.identifier, force = false) {
-    if (!(force || this.loadAllPromise === undefined)) {
-      return this.loadAllPromise;
+    if (force || this.loadAllPromise === undefined) {
+      this.loadAllPromise = firstValueFrom(
+        this
+          .apiV3Service
+          .boards
+          .allInScope(projectIdentifier as string),
+      );
     }
 
-    // eslint-disable-next-line no-return-assign
-    return this.loadAllPromise = firstValueFrom(
-      this
-        .apiV3Service
-        .boards
-        .allInScope(projectIdentifier!),
-    );
+    return this.loadAllPromise;
   }
 
   /**
@@ -85,20 +84,20 @@ export class BoardService {
 
   /**
    * Create a new board
-   * @param name
+   * @param params
    */
   public async create(params:CreateBoardParams):Promise<Board> {
     const board = await firstValueFrom(
       this
         .apiV3Service
         .boards
-        .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute),
+        .create(params.type, this.boardName(params), this.CurrentProject.identifier as string, params.attribute),
     );
 
     if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
     } else {
-      await this.boardActions.get(params.attribute!).addInitialColumnsForAction(board);
+      await this.boardActions.get(params.attribute as string).addInitialColumnsForAction(board);
     }
 
     await firstValueFrom(this.save(board));

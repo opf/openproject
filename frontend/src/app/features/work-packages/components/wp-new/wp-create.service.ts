@@ -368,7 +368,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
    * @param form
    */
   private initializeNewResource(form:FormResource) {
-    const payload = form.payload.$plain();
+    const payload = form.payload.$plain() as object&{ _links:{ schema:{ href:string } } };
 
     // maintain the reference to the schema
     payload._links.schema = { href: 'new' };
@@ -387,7 +387,8 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     // Set update link to form
     wp.update = wp.$links.update = form.$links.self;
     // Use POST /work_packages for saving link
-    wp.updateImmediately = wp.$links.updateImmediately = (payload) => firstValueFrom(this.apiV3Service.work_packages.post(payload));
+    wp.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
+    wp.$links.updateImmediately = (data:object) => firstValueFrom(this.apiV3Service.work_packages.post(data));
 
     // We need to provide the schema to the cache so that it is available in the html form to e.g. determine
     // the editability.

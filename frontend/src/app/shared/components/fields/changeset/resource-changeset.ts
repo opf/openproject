@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { input, InputState } from 'reactivestates';
+import { input, InputState } from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';

@@ -127,29 +127,27 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       });
   }
 
-  private loadForm(query:QueryResource):Promise<QueryFormResource|void> {
-    if (this.formPromise) {
-      return this.formPromise;
+  private loadForm(query:QueryResource):Promise<QueryFormResource|undefined> {
+    if (!this.formPromise) {
+      this.formPromise = firstValueFrom(
+        this
+          .apiv3Service
+          .withOptionalProject(this.projectIdentifier)
+          .queries
+          .form
+          .load(query),
+      )
+        .then(([form, _]) => {
+          this.wpStatesInitialization.updateStatesFromForm(query, form);
+          return form;
+        })
+        .catch(() => undefined);
     }
 
-    // eslint-disable-next-line no-return-assign
-    return this.formPromise = firstValueFrom(
-      this
-        .apiv3Service
-        .withOptionalProject(this.projectIdentifier)
-        .queries
-        .form
-        .load(query),
-    )
-      .then(([form, _]) => {
-        this.wpStatesInitialization.updateStatesFromForm(query, form);
-        return form;
-      })
-      // eslint-disable-next-line no-return-assign
-      .catch(() => this.formPromise = undefined);
+    return this.formPromise;
   }
 
-  public loadQuery(visible = true, firstPage = false):Promise<QueryResource|void> {
+  public loadQuery(visible = true, firstPage = false):Promise<QueryResource> {
     // Ensure we are loading the form.
     this.formPromise = undefined;
 
@@ -157,7 +155,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       const query = this.loadedQuery;
       this.loadedQuery = undefined;
       this.initializeStates(query);
-      return Promise.resolve(this.loadedQuery!);
+      return Promise.resolve(query);
     }
 
     // HACK: Decrease loading time of queries when results are not needed.
@@ -198,7 +196,7 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
       this.loadingIndicator = promise;
     }
 
-    return promise;
+    return promise as Promise<QueryResource>;
   }
 
   handleWorkPackageClicked(event:{ workPackageId:string; double:boolean }) {

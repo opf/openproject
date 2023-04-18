@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BoardActionService } from 'core-app/features/boards/board/board-actions/board-action.service';
-import { input } from 'reactivestates';
+import { input } from '@openproject/reactivestates';
 import {
   firstValueFrom,
   Observable,
@@ -48,7 +48,7 @@ export abstract class CachedBoardActionService extends BoardActionService {
       .putFromPromiseIfPristine(() => firstValueFrom(this.loadUncached()));
 
     return firstValueFrom(this.cache.values$())
-      .then((results:HalResource[]) => results.find((resource) => resource.id === id)!);
+      .then((results:HalResource[]) => results.find((resource) => resource.id === id) as HalResource);
   }
 
   protected abstract loadUncached():Observable<HalResource[]>;

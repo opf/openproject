@@ -27,7 +27,7 @@
 //++
 
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
-import { input, InputState } from 'reactivestates';
+import { input, InputState } from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
 import { GlobalHelpers } from 'core-app/core/setup/globals/global-helpers';
 import { firstValueFrom } from 'rxjs';
