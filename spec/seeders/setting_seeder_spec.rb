@@ -41,7 +41,7 @@ describe BasicData::SettingSeeder do
     BasicData::BuiltinRolesSeeder.new.seed!
     BasicData::RoleSeeder.new.seed!
     BasicData::ColorSchemeSeeder.new.seed!
-    StandardSeeder::BasicData::StatusSeeder.new.seed!
+    Standard::BasicData::StatusSeeder.new.seed!
     described_class.new.seed!
   end
 

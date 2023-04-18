@@ -1,5 +1,4 @@
 #-- copyright
-
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,33 +24,25 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class AttributeHelpTextSeeder < Seeder
-    def initialize; end
-
-    def seed_data!
-      print_status '    ↳ Creating attribute help texts' do
-        seed_attribute_help_texts
+#++
+module Standard
+  module BasicData
+    class TypeSeeder < ::BasicData::TypeSeeder
+      def type_names
+        %i[task milestone phase feature epic user_story bug]
       end
-    end
 
-    private
-
-    def seed_attribute_help_texts
-      help_texts = demo_data_for('attribute_help_texts')
-      if help_texts.present?
-        help_texts.each do |help_text_attr|
-          print_status '.'
-          create_attribute_help_text help_text_attr
-        end
+      def type_table
+        { # position is_default color_name is_in_roadmap is_milestone type_name
+          task: [1, true, I18n.t(:default_color_blue), true, false, :default_type_task],
+          milestone: [2, true, I18n.t(:default_color_green_light), false, true, :default_type_milestone],
+          phase: [3, true, 'orange-5', false, false, :default_type_phase],
+          feature: [4, false, 'indigo-5', true, false, :default_type_feature],
+          epic: [5, false, 'violet-5', true, false, :default_type_epic],
+          user_story: [6, false, I18n.t(:default_color_blue_light), true, false, :default_type_user_story],
+          bug: [7, false, 'red-7', true, false, :default_type_bug]
+        }
       end
-    end
-
-    def create_attribute_help_text(help_text_attr)
-      help_text_attr[:type] = AttributeHelpText::WorkPackage
-
-      attribute_help_text = AttributeHelpText.new help_text_attr
-      attribute_help_text.save
     end
   end
 end
