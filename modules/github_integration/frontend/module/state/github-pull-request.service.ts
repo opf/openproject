@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -26,26 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Injectable } from '@angular/core';
-import { ConfigurationService } from "core-app/core/config/configuration.service";
-import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IGithubPullRequest } from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.model';
+import { GithubPullRequestsStore } from 'core-app/features/plugins/linked/openproject-github_integration/state/github-pull-request.store';
+import { ID } from '@datorama/akita';
+import { ResourceStoreService, ResourceStore } from 'core-app/core/state/resource-store.service';
+import { Observable } from 'rxjs';
 
 @Injectable()
-export class WorkPackagesGithubPrsService extends WorkPackageLinkedResourceCache<HalResource[]> {
-
-  constructor(public ConfigurationService:ConfigurationService) {
-    super();
+export class GithubPullRequestResourceService extends ResourceStoreService<IGithubPullRequest> {
+  ofWorkPackage(workPackage:WorkPackageResource):Observable<IGithubPullRequest[]> {
+    return this.requireCollection(`${workPackage.href as string}/github_pull_requests`);
   }
 
-  protected load(workPackage:WorkPackageResource):Promise<HalResource[]> {
-    return workPackage.github_pull_requests.$update().then((data:any) => {
-      return this.sortList(data.elements);
-    });
+  requireSingle(id:ID):Observable<IGithubPullRequest> {
+    return this.requireEntity(this.entityPath(id));
   }
 
-  protected sortList(pullRequests:HalResource[], attr = 'createdAt'):HalResource[] {
-    return _.sortBy(_.flatten(pullRequests), attr);
+  protected basePath():string {
+    return this.apiV3Service.github_pull_requests.path;
+  }
+
+  protected entityPath(id:ID):string {
+    return this.apiV3Service.github_pull_requests.id(id).path;
+  }
+
+  protected createStore():ResourceStore<IGithubPullRequest> {
+    return new GithubPullRequestsStore();
   }
 }

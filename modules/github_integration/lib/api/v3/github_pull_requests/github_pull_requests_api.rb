@@ -26,7 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-en:
-  project_module_github: "GitHub"
-  permission_show_github_content: "Show GitHub content"
+module API
+  module V3
+    module GithubPullRequests
+      class GithubPullRequestsAPI < ::API::OpenProjectAPI
+        resources :github_pull_requests do
+          route_param :id, type: Integer, desc: 'Pull Request ID' do
+            after_validation do
+              @pull_request = GithubPullRequest.find(declared_params[:id])
 
+              authorize_by_with_raise @pull_request.visible?(current_user) do
+                raise API::Errors::NotFound
+              end
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: ::GithubPullRequest,
+                                                           instance_generator: ->(*) { @pull_request })
+                                                      .mount
+          end
+        end
+      end
+    end
+  end
+end
