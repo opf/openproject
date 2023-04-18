@@ -155,7 +155,7 @@
     "qr-creator": "^1.0.0",
     "reactivestates": "2.0.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^6.6.6",
+    "rxjs": "^7.8.0",
     "screenfull": "^4.2.1",
     "swagger-ui": "^4.16.1",
     "tablesorter": "^2.31.3",
