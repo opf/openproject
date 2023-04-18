@@ -69,7 +69,7 @@ export class PullRequestComponent {
 
   get state():string {
     if (this.pullRequest.state === 'open') {
-      return (this.pullRequest.draft ? 'draft' : 'open');
+      return (this.pullRequest.draft ? 'draft' : 'opened');
     }
     return (this.pullRequest.merged ? 'merged' : 'closed');
   }
