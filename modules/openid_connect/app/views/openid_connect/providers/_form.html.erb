@@ -22,4 +22,11 @@
   <div class="form--field -required">
     <%= f.text_field :secret, required: true, container_class: '-middle' %>
   </div>
+
+  <div class="form--field">
+    <%= f.check_box :limit_self_registration, required: false, container_class: '-middle' %>
+    <div class="form--field-instructions">
+      <%= I18n.t('openid_connect.setting_instructions.limit_self_registration') %>
+    </div>
+  </div>
 </fieldset>

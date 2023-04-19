@@ -26,22 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+module OpenProject::AuthPlugins::Patches::RegisterUserServicePatch
+  def self.included(base) # :nodoc:
+    base.prepend InstanceMethods
+  end
 
-module OpenProject::AuthPlugins
-  class Engine < ::Rails::Engine
-    engine_name :openproject_auth_plugins
+  module InstanceMethods
+    def skip_omniauth_user?
+      super || limit_self_registration?(user)
+    end
 
-    include OpenProject::Plugins::ActsAsOpEngine
+    def limit_self_registration?(user)
+      provider = user.authentication_provider.downcase
 
-    register 'openproject-auth_plugins',
-             author_url: 'https://www.openproject.org',
-             bundled: true
-
-    patch_with_namespace :Users, :RegisterUserService
-
-    config.to_prepare do
-      OpenProject::AuthPlugins::Hooks
+      OpenProject::Plugins::AuthPlugin.limit_self_registration? provider:
     end
   end
 end

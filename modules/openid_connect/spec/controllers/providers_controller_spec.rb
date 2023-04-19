@@ -105,11 +105,40 @@ describe OpenIDConnect::ProvidersController do
     end
 
     describe '#create' do
-      it 'is successful if valid params' do
-        post :create, params: { openid_connect_provider: valid_params }
-        expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
-        expect(Setting.plugin_openproject_openid_connect["providers"]).to have_key("azure")
-        expect(response).to be_redirect
+      context 'with valid params' do
+        let(:params) { { openid_connect_provider: valid_params } }
+
+        before do
+          post :create, params:
+        end
+
+        it 'is successful' do
+          expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
+          expect(Setting.plugin_openproject_openid_connect["providers"]).to have_key("azure")
+          expect(response).to be_redirect
+        end
+
+        context 'with limit_self_registration checked' do
+          let(:params) do
+            { openid_connect_provider: valid_params.merge(limit_self_registration: 1) }
+          end
+
+          it 'sets the setting' do
+            expect(OpenProject::Plugins::AuthPlugin)
+              .to be_limit_self_registration provider: valid_params[:name]
+          end
+        end
+
+        context 'with limit_self_registration unchecked' do
+          let(:params) do
+            { openid_connect_provider: valid_params.merge(limit_self_registration: 0) }
+          end
+
+          it 'does not set the setting' do
+            expect(OpenProject::Plugins::AuthPlugin)
+              .not_to be_limit_self_registration provider: valid_params[:name]
+          end
+        end
       end
 
       it 'renders an error if invalid params' do
@@ -129,6 +158,39 @@ describe OpenIDConnect::ProvidersController do
           expect(response).to be_successful
           expect(assigns[:provider]).to be_present
           expect(response).to render_template 'edit'
+        end
+
+        context(
+          'with limit_self_registration set',
+          with_settings: {
+            plugin_openproject_openid_connect: {
+              "providers" => {
+                "azure" => {
+                  "identifier" => "IDENTIFIER",
+                  "secret" => "SECRET",
+                  "limit_self_registration" => true
+                }
+              }
+            }
+          }
+        ) do
+          before do
+            get :edit, params: { id: 'azure' }
+          end
+
+          it 'shows limit_self_registration as checked' do
+            expect(assigns[:provider]).to be_limit_self_registration
+          end
+        end
+
+        context 'with limit_self_registration not set' do
+          before do
+            get :edit, params: { id: 'azure' }
+          end
+
+          it 'shows limit_self_registration as unchecked' do
+            expect(assigns[:provider]).not_to be_limit_self_registration
+          end
         end
       end
 
