@@ -33,6 +33,7 @@ import {
   ElementRef,
   HostBinding,
   Injector,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -45,6 +46,7 @@ import {
   AttributeModelLoaderService,
   SupportedAttributeModels,
 } from 'core-app/shared/components/fields/macros/attribute-model-loader.service';
+import { firstValueFrom } from 'rxjs';
 
 export const attributeValueMacro = 'macro.macro--attribute-value';
 
@@ -57,7 +59,7 @@ export const attributeValueMacro = 'macro.macro--attribute-value';
     HalResourceEditingService,
   ],
 })
-export class AttributeValueMacroComponent {
+export class AttributeValueMacroComponent implements OnInit {
   @ViewChild('displayContainer') private displayContainer:ElementRef<HTMLSpanElement>;
 
   // Whether the value could not be loaded
@@ -76,33 +78,36 @@ export class AttributeValueMacroComponent {
 
   fieldName:string;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly resourceLoader:AttributeModelLoaderService,
     readonly schemaCache:SchemaCacheService,
     readonly displayField:DisplayFieldService,
     readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef) {
-
+    readonly cdRef:ChangeDetectorRef,
+  ) {
   }
 
-  ngOnInit() {
+  ngOnInit():void {
     const element = this.elementRef.nativeElement as HTMLElement;
-    const model:SupportedAttributeModels = element.dataset.model as any;
-    const id:string = element.dataset.id!;
-    const attributeName:string = element.dataset.attribute!;
+    const model = element.dataset.model as SupportedAttributeModels;
+    const id = element.dataset.id as string;
+    const attributeName = element.dataset.attribute as string;
 
-    this.loadAndRender(model, id, attributeName);
+    void this.loadAndRender(model, id, attributeName);
   }
 
-  private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string) {
+  private async loadAndRender(model:SupportedAttributeModels, id:string, attributeName:string):Promise<void> {
     let resource:HalResource|null;
 
     try {
-      resource = await this.resourceLoader.require(model, id);
+      resource = await firstValueFrom(this.resourceLoader.require(model, id));
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       console.error(`Failed to render macro ${e}`);
-      return this.markError(this.text.not_found);
+      this.markError(this.text.not_found);
+      return;
     }
 
     if (!resource) {

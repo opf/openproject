@@ -37,6 +37,7 @@ import {
   TimeEntryWorkPackageAutocompleterMode,
 } from 'core-app/shared/components/autocompleter/te-work-package-autocompleter/te-work-package-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { firstValueFrom } from 'rxjs';
 
 const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 
@@ -85,20 +86,24 @@ export class TimeEntryWorkPackageEditFieldComponent extends WorkPackageEditField
   // a fixed number returned.
   protected loadAllowedValues(query?:string) {
     if (!this.recentWorkPackageIds) {
-      return this
-        .apiV3Service
-        .time_entries
-        .list({ filters: [['user_id', '=', ['me']]], sortBy: [['updated_at', 'desc']], pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER })
-        .toPromise()
-        .then((collection) => {
-          this.recentWorkPackageIds = collection
-            .elements
-            .filter((timeEntry) => timeEntry.workPackage?.href)
-            .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
-            .filter((v, i, a) => a.indexOf(v) === i);
+      return firstValueFrom(
+        this
+          .apiV3Service
+          .time_entries
+          .list({
+            filters: [['user_id', '=', ['me']]],
+            sortBy: [['updated_at', 'desc']],
+            pageSize: RECENT_TIME_ENTRIES_MAGIC_NUMBER,
+          }),
+      ).then((collection) => {
+        this.recentWorkPackageIds = collection
+          .elements
+          .filter((timeEntry) => timeEntry.workPackage?.href)
+          .map((timeEntry) => idFromLink(timeEntry.workPackage.href))
+          .filter((v, i, a) => a.indexOf(v) === i);
 
-          return this.fetchAllowedValueQuery(query);
-        });
+        return this.fetchAllowedValueQuery(query);
+      });
     }
     return this.fetchAllowedValueQuery(query);
   }

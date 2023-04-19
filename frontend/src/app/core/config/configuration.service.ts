@@ -124,7 +124,7 @@ export class ConfigurationService {
       .configuration
       .get()
       .toPromise()
-      .then((configuration) => {
+      .then((configuration:ConfigurationResource) => {
         this.configuration = configuration;
       });
   }
