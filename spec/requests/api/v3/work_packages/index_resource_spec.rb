@@ -879,6 +879,57 @@ describe 'API v3 Work package resource',
 
       context "with caching" do
         context "with relative timestamps" do
+          let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
+          let(:created_at) { '2015-01-01' }
+
+          describe "when the filter becomes outdated" do
+            # The work package has been updated 1 day ago, which is after the baseline
+            # date (2 days ago). When time progresses, the date of the update will be
+            # date (last week). When time progresses, the date of the update will be
+            # before the baseline date, because the baseline date is relative to the
+            # current date. This means that the filter will become outdated and we cannot
+            # use a cached result in this case.
+            let(:path) { "#{api_v3_paths.path_for(:work_packages, filters:)}&timestamps=#{timestamps.join(',')}" }
+            let(:filters) do
+              [
+                {
+                  subject: {
+                    operator: '~',
+                    values: [search_term]
+                  }
+                }
+              ]
+            end
+            let(:search_term) { 'original' }
+
+            it 'has the relative timestamps within the _meta timestamps' do
+              expect(timestamps.first.to_s).to eq('P-2D')
+              expect(timestamps.first).to be_relative
+              expect(subject.body)
+                .to be_json_eql('P-2D'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
+              expect(subject.body)
+                .to be_json_eql('PT0S'.to_json)
+                .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/timestamp')
+              expect(subject.body)
+               .to be_json_eql('PT0S'.to_json)
+               .at_path('_embedded/elements/0/_meta/timestamp')
+            end
+
+            it "does not use an outdated cache" do
+              get path
+              expect do
+                Timecop.travel 5.days do
+                  get path
+                end
+              end.to change {
+                JSON.parse(last_response.body).dig('_embedded', 'elements').count
+              }.from(1).to(0)
+            end
+          end
+        end
+
+        context "with relative date keyword timestamps" do
           let(:timestamps) { [Timestamp.parse('lastWeek@12:00'), Timestamp.now] }
           let(:created_at) { '2015-01-01' }
 

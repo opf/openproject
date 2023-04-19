@@ -455,13 +455,17 @@ describe 'API v3 Work package resource',
             before { login_as current_user }
 
             context "with relative timestamps" do
-              let(:timestamps) { [Timestamp.parse("lastWeek@12:00"), Timestamp.now] }
+              let(:timestamps) { [Timestamp.parse("yesterday@00:00"), Timestamp.now] }
               let(:created_at) { '2015-01-01' }
 
               describe "attributesByTimestamp" do
                 it "does not cache the self link" do
                   get get_path
+
                   expect do
+                    # Travel 1 day to test the href not being cached, because the
+                    # relative date keyword has a fixed hour part, which means the timestamp
+                    # will change its value only in 1 day units
                     Timecop.travel 1.day do
                       get get_path
                     end
@@ -474,7 +478,7 @@ describe 'API v3 Work package resource',
                 it "does not cache the attributes" do
                   get get_path
                   expect do
-                    Timecop.travel 1.week do
+                    Timecop.travel 2.days do
                       get get_path
                     end
                   end.to change {
@@ -486,7 +490,7 @@ describe 'API v3 Work package resource',
 
               describe "_meta" do
                 describe "exists" do
-                  let(:timestamps) { [Timestamp.parse("lastWorkingDay@12:00")] }
+                  let(:timestamps) { [Timestamp.parse("yesterday@00:00")] }
                   let(:created_at) { 25.hours.ago }
 
                   it "is not cached" do

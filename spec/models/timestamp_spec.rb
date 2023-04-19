@@ -120,6 +120,7 @@ describe Timestamp do
 
       it "returns a described_class representing that absolute time" do
         expect(subject).to be_a described_class
+        expect(subject).to be_valid
         expect(subject.to_s).to eq "2022-10-29T21:55:58Z"
         expect(subject.to_time).to eq Time.zone.parse("2022-10-29T21:55:58Z")
         expect(subject).not_to be_relative
@@ -132,7 +133,8 @@ describe Timestamp do
 
         it "returns a Timestamp representing the current time" do
           expect(subject).to be_a described_class
-          expect(subject.to_iso8601).to eq "PT0S"
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "PT0S"
           expect(subject).to be_relative
         end
       end
@@ -142,7 +144,8 @@ describe Timestamp do
 
         it "returns a Timestamp representing a time ago that duration" do
           expect(subject).to be_a described_class
-          expect(subject.to_iso8601).to eq "P-1Y"
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "P-1Y"
           expect(subject.to_duration).to eq ActiveSupport::Duration.build(-1.year)
           expect(subject).to be_relative
         end
@@ -153,7 +156,8 @@ describe Timestamp do
 
         it "returns a Timestamp representing a time ago that duration" do
           expect(subject).to be_a described_class
-          expect(subject.to_iso8601).to eq "P-1Y-2M"
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "P-1Y-2M"
           expect(subject.to_duration).to eq ActiveSupport::Duration.build(-1.year - 2.months)
           expect(subject).to be_relative
         end
@@ -164,7 +168,8 @@ describe Timestamp do
 
         it "returns a Timestamp representing that absolute time" do
           expect(subject).to be_a described_class
-          expect(subject.to_iso8601).to eq "2022-01-01T00:00:00Z"
+          expect(subject).to be_valid
+          expect(subject.to_s).to eq "2022-01-01T00:00:00Z"
           expect(subject.to_time).to eq Time.zone.parse("2022-01-01T00:00:00Z")
           expect(subject).not_to be_relative
         end
@@ -177,6 +182,7 @@ describe Timestamp do
 
         it "returns a Timestamp representing the yesterday at 12:00 pm" do
           expect(subject).to be_a described_class
+          expect(subject).to be_valid
           expect(subject).to be_relative
           expect(subject).to be_relative_date_keyword
           expect(subject.to_time).to eq 1.day.ago.change(hour: 12)
@@ -193,6 +199,7 @@ describe Timestamp do
 
         it "returns a Timestamp representing the last working day at 12:00 pm" do
           expect(subject).to be_a described_class
+          expect(subject).to be_valid
           expect(subject).to be_relative
           expect(subject).to be_relative_date_keyword
           expect(subject.to_time).to eq 2.days.ago.change(hour: 12)
@@ -204,6 +211,7 @@ describe Timestamp do
 
         it "returns a Timestamp representing the last week at 12:00 pm" do
           expect(subject).to be_a described_class
+          expect(subject).to be_valid
           expect(subject).to be_relative
           expect(subject).to be_relative_date_keyword
           expect(subject.to_time).to eq 1.week.ago.change(hour: 12)
@@ -215,6 +223,7 @@ describe Timestamp do
 
         it "returns a Timestamp representing the last month at 12:00 pm" do
           expect(subject).to be_a described_class
+          expect(subject).to be_valid
           expect(subject).to be_relative
           expect(subject).to be_relative_date_keyword
           expect(subject.to_time).to eq 1.month.ago.change(hour: 12)
@@ -344,8 +353,8 @@ describe Timestamp do
     end
   end
 
-  describe "#iso8601" do
-    subject { timestamp.iso8601 }
+  describe "#to_s" do
+    subject { timestamp.to_s }
 
     describe "for a timestamp representing an absolute time" do
       let(:timestamp) { described_class.new(1.year.ago) }
@@ -365,31 +374,10 @@ describe Timestamp do
     end
 
     describe "for a timestamp as a date keyword representing a point in time relative to now" do
-      let(:timestamp) { described_class.new("yesterday@12:00") }
+      let(:timestamp) { described_class.new('yesterday@12:00') }
 
-      it "returns an ISO8601 String representing the duration between that time and now" do
-        expect(subject).to eq "yesterday@12:00"
-      end
-    end
-  end
-
-  describe "#to_s" do
-    subject { timestamp.to_s }
-
-    describe "for a timestamp representing an absolute time" do
-      let(:timestamp) { described_class.new(1.year.ago) }
-
-      it "returns an ISO8601 String representing that time" do
-        expect(subject).to eq timestamp.to_time.iso8601
-      end
-    end
-
-    describe "for a timestamp representing a point in time relative to now" do
-      let(:timestamp) { described_class.new("PT10S") }
-
-      it "returns an ISO8601 String representing the duration between that time and now" do
-        expect(subject).to eq "PT10S"
-        expect(subject).to eq ActiveSupport::Duration.build(10).iso8601
+      it "returns an relative date keyword" do
+        expect(subject).to eq 'yesterday@12:00'
       end
     end
   end

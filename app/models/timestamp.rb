@@ -27,7 +27,7 @@
 #++
 
 class Timestamp
-  delegate :hash, to: :iso8601
+  delegate :hash, to: :to_s
 
   class Exception < StandardError; end
 
@@ -135,23 +135,15 @@ class Timestamp
   end
 
   def to_s
-    iso8601
+    @timestamp_string.to_s
   end
 
   def to_str
     to_s
   end
 
-  def iso8601
-    @timestamp_string.to_s
-  end
-
-  def to_iso8601
-    iso8601
-  end
-
   def inspect
-    "#<Timestamp \"#{iso8601}\">"
+    "#<Timestamp \"#{self}\">"
   end
 
   def absolute
@@ -204,9 +196,9 @@ class Timestamp
   def ==(other)
     case other
     when String
-      iso8601 == other or to_s == other
+      to_s == other
     when Timestamp
-      iso8601 == other.iso8601
+      to_s == other.to_s
     when NilClass
       to_s.blank?
     else
@@ -223,7 +215,7 @@ class Timestamp
   end
 
   def valid?
-    self.class.parse(iso8601)
+    TimestampParser.new(to_s).parse!
   rescue StandardError
     false
   end
