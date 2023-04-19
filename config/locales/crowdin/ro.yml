@@ -741,6 +741,9 @@ ro:
             sort_criteria:
               invalid: "Nu se poate sorta după coloană: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
             custom_fields:

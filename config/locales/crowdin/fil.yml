@@ -740,6 +740,9 @@ fil:
             sort_criteria:
               invalid: "Hindi masunod sa pamamagitan ng hanay: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "ay mutually wxclusive sa grupo ng '%{group_by}'. Hindi mo maaring i-aktibi ang dalawa."
           filters:
             custom_fields:
