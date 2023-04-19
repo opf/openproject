@@ -742,6 +742,9 @@ sk:
             sort_criteria:
               invalid: "Údaje nie je možné zoradiť podľa stĺpcov: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "vzájomne sa vylučuje so skupinou podľa '%{group_by}'. Nemôžete aktivovať oboje."
           filters:
             custom_fields:

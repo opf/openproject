@@ -2,12 +2,12 @@
 ru:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Clash
-    default_type_issue: Issue
-    default_type_remark: Remark
-    default_type_request: Request
-    default_status_resolved: Resolved
-    default_priority_critical: Critical
+    default_type_clash: Конфликт
+    default_type_issue: Выпуск
+    default_type_remark: Замечание
+    default_type_request: Запрос
+    default_status_resolved: Решено
+    default_priority_critical: Критично
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Неудачный импорт тем BCF'

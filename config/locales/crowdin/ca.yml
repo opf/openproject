@@ -736,6 +736,9 @@ ca:
             sort_criteria:
               invalid: "No es pot ordenar per columna: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
             custom_fields:

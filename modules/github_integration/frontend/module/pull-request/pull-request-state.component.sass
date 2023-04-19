@@ -26,17 +26,26 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+@import "helpers"
 
-export class GithubPullRequestResource extends HalResource {
-  public get state() {
-    return this.states.projects.get(this.id!) as any;
-  }
+.op-pull-request-state
+  display: inline-block
+  padding: 8px 11px
+  border-radius: 16px
+  color: #fff
+  font-size: 0.9rem
+  text-transform: capitalize
+  background-color: #6a737d
 
-  /**
-   * Exclude the schema _link from the linkable Resources.
-   */
-  public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
-  }
-}
+  &_small
+    padding: 0 10px
+    font-size: 0.75rem
+
+  &_opened
+    background-color: #28a745
+
+  &_merged
+    background-color: #6f42c1
+
+  &_closed
+    background-color: #d73a49

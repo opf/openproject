@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -26,17 +26,42 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from "core-app/features/hal/resources/hal-resource";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
-export class GithubUserResource extends HalResource {
-  public get state() {
-    return this.states.projects.get(this.id!) as any;
+export type PullRequestState = 'opened'|'closed'|'referenced'|'ready_for_review'|'merged'|'draft';
+
+@Component({
+  selector: 'op-github-pull-request-state',
+  templateUrl: './pull-request-state.component.html',
+  styleUrls: [
+    './pull-request-state.component.sass',
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class PullRequestStateComponent implements OnInit {
+  @Input() state:PullRequestState;
+
+  @Input() small = false;
+
+  displayText:string;
+
+  constructor(
+    readonly PathHelper:PathHelperService,
+    readonly I18n:I18nService,
+  ) {
   }
 
-  /**
-   * Exclude the schema _link from the linkable Resources.
-   */
-  public $linkableKeys():string[] {
-    return _.without(super.$linkableKeys(), 'schema');
+  ngOnInit():void {
+    this.displayText = this.I18n.t(
+      `js.github_integration.pull_requests.states.${this.state}`,
+      { defaultValue: this.state || '(unknown state)' },
+    );
   }
 }

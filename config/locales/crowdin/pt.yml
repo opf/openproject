@@ -739,6 +739,9 @@ pt:
             sort_criteria:
               invalid: "Não é possível ordenar pela coluna: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
             custom_fields:
