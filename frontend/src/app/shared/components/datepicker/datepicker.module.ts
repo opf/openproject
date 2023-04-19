@@ -15,6 +15,7 @@ import { OpDatePickerSchedulingToggleComponent } from './scheduling-mode/datepic
 import { OpDatePickerWorkingDaysToggleComponent } from './toggle/datepicker-working-days-toggle.component';
 import { OpBasicDatePickerModule } from './basic-datepicker.module';
 import { OpSpotModule } from 'core-app/spot/spot.module';
+import { OpenprojectModalModule } from '../modal/modal.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { OpSpotModule } from 'core-app/spot/spot.module';
     A11yModule,
     OpSpotModule,
     OpBasicDatePickerModule,
+    OpenprojectModalModule,
   ],
 
   providers: [
