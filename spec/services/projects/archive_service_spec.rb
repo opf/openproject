@@ -34,14 +34,14 @@ describe Projects::ArchiveService do
   let(:subproject2) { create(:project) }
   let(:subproject3) { create(:project) }
   let(:user) { create(:admin) }
-  let(:instance) { described_class.new(user: user, model: project) }
+  let(:instance) { described_class.new(user:, model: project) }
 
   context 'with project without any subprojects' do
-    it 'should archive the project' do
-      expect(project.reload.archived?).to be_falsey
+    it 'archives the project' do
+      expect(project.reload).not_to be_archived
 
       expect(instance.call).to be_truthy
-      expect(project.reload.archived?).to be_truthy
+      expect(project.reload).to be_archived
     end
   end
 
@@ -52,30 +52,30 @@ describe Projects::ArchiveService do
     end
 
     shared_examples 'when archiving a project' do
-      it 'should archive the project' do
+      it 'archives the project' do
         # Baseline verification.
-        expect(project.reload.archived?).to be_falsey
+        expect(project.reload).not_to be_archived
 
         # Action.
         expect(instance.call).to be_truthy
 
         # Endline verification.
-        expect(project.reload.archived?).to be_truthy
+        expect(project.reload).to be_archived
       end
 
-      it 'should archive all the subprojects' do
+      it 'archives all the subprojects' do
         # Baseline verification.
-        expect(subproject1.reload.archived?).to be_falsey
-        expect(subproject2.reload.archived?).to be_falsey
-        expect(subproject3.reload.archived?).to be_falsey
+        expect(subproject1.reload).not_to be_archived
+        expect(subproject2.reload).not_to be_archived
+        expect(subproject3.reload).not_to be_archived
 
         # Action.
         expect(instance.call).to be_truthy
 
         # Endline verification.
-        expect(subproject1.reload.archived?).to be_truthy
-        expect(subproject2.reload.archived?).to be_truthy
-        expect(subproject3.reload.archived?).to be_truthy
+        expect(subproject1.reload).to be_archived
+        expect(subproject2.reload).to be_archived
+        expect(subproject3.reload).to be_archived
       end
     end
 
@@ -92,7 +92,6 @@ describe Projects::ArchiveService do
 
       include_examples 'when archiving a project'
     end
-
   end
 
   context 'with project having an archived subproject' do
@@ -104,8 +103,8 @@ describe Projects::ArchiveService do
     end
 
     context 'while archiving the project' do
-      it 'should not change timestamp of the already archived subproject' do
-        expect(subproject1.reload.archived?).to be_truthy
+      it 'does not change timestamp of the already archived subproject' do
+        expect(subproject1.reload).to be_archived
         before_timestamp = subproject1.updated_at
 
         expect(instance.call).to be_truthy
@@ -114,8 +113,8 @@ describe Projects::ArchiveService do
         expect(before_timestamp).to eq(after_timestamp)
       end
 
-      it 'should change timestamp of the active subproject' do
-        expect(subproject2.reload.archived?).to be_falsey
+      it 'changes timestamp of the active subproject' do
+        expect(subproject2.reload).not_to be_archived
         before_timestamp = subproject2.updated_at
 
         expect(instance.call).to be_truthy
