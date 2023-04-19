@@ -7,12 +7,12 @@ import {
 import { DayStore } from 'core-app/core/state/days/day.store';
 import { IDay } from 'core-app/core/state/days/day.model';
 import {
-  CollectionStore,
-  ResourceCollectionService,
-} from 'core-app/core/state/resource-collection.service';
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class DayResourceServiceStub extends ResourceCollectionService<IDay> {
+export class DayResourceServiceStub extends ResourceStoreService<IDay> {
   protected basePath():string {
     return '';
   }
@@ -43,7 +43,7 @@ export class DayResourceServiceStub extends ResourceCollectionService<IDay> {
     });
   }
 
-  protected createStore():CollectionStore<IDay> {
+  protected createStore():ResourceStore<IDay> {
     return new DayStore();
   }
 }
