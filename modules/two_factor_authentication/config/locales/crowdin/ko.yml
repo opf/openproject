@@ -69,8 +69,8 @@ ko:
       delete_all_are_you_sure: '이 사용자에 대한 모든 2FA 장치를 삭제하시겠습니까?'
       button_delete_all_devices: '등록된 2FA 장치 삭제'
       button_register_mobile_phone_for_user: '휴대폰 등록'
-      text_2fa_enabled: '로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 이 사용자에게 표시됩니다.'
-      text_2fa_disabled: "사용자가 '내 계정 페이지'에서 2FA 장치를 설정하지 않았습니다."
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: '2단계 인증'
       description: '모든 프로젝트 멤버에게 2단계 인증을 제공(또는 적용)하여 OpenProject 인스턴스의 보안을 강화하세요.'

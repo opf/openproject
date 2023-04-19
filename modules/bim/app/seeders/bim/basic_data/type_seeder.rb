@@ -37,10 +37,10 @@ module Bim
           task: [1, true, 'blue-6', true, false, :default_type_task],
           milestone: [2, true, 'orange-6', false, true, :default_type_milestone],
           phase: [3, true, I18n.t(:default_color_grey), false, false, :default_type_phase],
-          issue: [4, true, 'indigo-7', true, false, 'seeders.bim.default_type_issue'],
-          remark: [5, true, I18n.t(:default_color_green_dark), true, false, 'seeders.bim.default_type_remark'],
-          request: [6, true, 'cyan-7', true, false, 'seeders.bim.default_type_request'],
-          clash: [7, true, 'red-8', true, false, 'seeders.bim.default_type_clash']
+          issue: [4, true, 'indigo-7', true, false, 'bim.default_type_issue'],
+          remark: [5, true, I18n.t(:default_color_green_dark), true, false, 'bim.default_type_remark'],
+          request: [6, true, 'cyan-7', true, false, 'bim.default_type_request'],
+          clash: [7, true, 'red-8', true, false, 'bim.default_type_clash']
         }
       end
     end

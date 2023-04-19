@@ -49,7 +49,8 @@ describe OpenProject::GithubIntegration::Services::UpsertPullRequest do
       'labels' => labels_payload,
       'base' => {
         'repo' => {
-          'full_name' => 'test_user/repo'
+          'full_name' => 'test_user/repo',
+          'html_url' => 'https://github.com/test_user/repo'
         }
       },
       'user' => user_payload,

@@ -36,16 +36,22 @@ import {
   markNotificationsAsReadByFilters,
   notificationsMarkedRead,
 } from 'core-app/core/state/in-app-notifications/in-app-notifications.actions';
-import { EffectCallback, EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
+import {
+  EffectCallback,
+  EffectHandler,
+} from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 import { InAppNotificationsStore } from 'core-app/core/state/in-app-notifications/in-app-notifications.store';
-import { CollectionStore, ResourceCollectionService } from 'core-app/core/state/resource-collection.service';
+import {
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @EffectHandler
 @Injectable()
-export class InAppNotificationsResourceService extends ResourceCollectionService<INotification> {
+export class InAppNotificationsResourceService extends ResourceStoreService<INotification> {
   @InjectField() actions$:ActionsService;
 
   update(id:ID, inAppNotification:Partial<INotification>):void {
@@ -87,14 +93,11 @@ export class InAppNotificationsResourceService extends ResourceCollectionService
       });
   }
 
-  protected createStore():CollectionStore<INotification> {
+  protected createStore():ResourceStore<INotification> {
     return new InAppNotificationsStore();
   }
 
   protected basePath():string {
-    return this
-      .apiV3Service
-      .notifications
-      .path;
+    return this.apiV3Service.notifications.path;
   }
 }

@@ -737,6 +737,9 @@ hu:
             sort_criteria:
               invalid: "Nem lehet rendezni ezen oszlop szerint: %{value}"
               format: "%{message}\n"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:

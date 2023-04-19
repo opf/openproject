@@ -1,5 +1,6 @@
 import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
 import { moduleMetadata } from '@storybook/angular';
+import { Figma } from 'mdx-embed';
 
 import { I18nService } from '../app/core/i18n/i18n.service';
 import { I18nServiceStub } from './i18n.service.stub';
@@ -114,7 +115,11 @@ Apart from the banner, all other building blocks are provided by Flatpickr and o
 
 **Month-year** selectors allow the user to move forward/backwards in one-month increments.
 
-> **Example**: Month-year selector
+<Figma
+  title="Month-year selector"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17592&t=eNjGyvY1pXJeQFHr-1"
+/>
+
 
 We use the basic structure provided by Flatpickr:
 
@@ -137,15 +142,19 @@ Days of the week are headers for the mini calendar and list the days of the week
 
 They are set in Caption/Bold; *Grey 1* text.
 
-> **Example**: Days of the week
+<Figma
+  title="Days of the Week"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17479&t=eNjGyvY1pXJeQFHr-1"
+/>
 
 ### Mini day
 
 The mini day displays individual dates on the mini-calendar, and has a number of different states. Each of these states can be *enabled* (it is active and clickable) or *disabled* (it is inactive and not clickable).
 
-> **Example**: The different states of the mini calendar, labeled.
-> 
-> Top row: enabled, bottom row: disabled.
+<Figma
+  title="Days of the Week"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17535&t=eNjGyvY1pXJeQFHr-1"
+/>
 
 Mini days are set in Caption/Regular.
 
@@ -187,13 +196,10 @@ The mini calendar consists of three elements:
 - a days of the week line
 - a 7×5 grid of mini days
 
-> **Example**: Mini calendar showing:
-> 
-> - Today
-> - Weekends
-> - Individual non-working days
-> - Selected range (spanning non-working days)
-> - Disabled date range (limited by relations)
+<Figma
+  title="Mini calendar"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17552&t=eNjGyvY1pXJeQFHr-1"
+/>
 
 For certain months, there might be an additional (6) or one fewer (5) row, depending on the number of days in that month and the starting day.
 

@@ -29,6 +29,7 @@ module Bim
   class BasicDataSeeder < ::BasicDataSeeder
     def data_seeder_classes
       [
+        ::BasicData::BuiltinUsersSeeder,
         ::BasicData::BuiltinRolesSeeder,
         ::Bim::BasicData::RoleSeeder,
         ::Bim::BasicData::ActivitySeeder,

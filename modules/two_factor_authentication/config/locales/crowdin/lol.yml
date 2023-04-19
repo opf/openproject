@@ -68,8 +68,8 @@ lol:
       delete_all_are_you_sure: 'crwdns498101:0crwdne498101:0'
       button_delete_all_devices: 'crwdns498109:0crwdne498109:0'
       button_register_mobile_phone_for_user: 'crwdns498117:0crwdne498117:0'
-      text_2fa_enabled: 'crwdns498123:0crwdne498123:0'
-      text_2fa_disabled: "crwdns498127:0crwdne498127:0"
+      text_2fa_enabled: 'crwdns851631:0crwdne851631:0'
+      text_2fa_disabled: "crwdns851633:0crwdne851633:0"
     upsale:
       title: 'crwdns657569:0crwdne657569:0'
       description: 'crwdns822266:0crwdne822266:0'

@@ -29,9 +29,9 @@ class AdminUserSeeder < Seeder
   def seed_data!
     user = new_admin
     unless user.save! validate: false
-      puts 'Seeding admin failed:'
+      print_error 'Seeding admin failed:'
       user.errors.full_messages.each do |msg|
-        puts "  #{msg}"
+        print_error "  #{msg}"
       end
     end
   end

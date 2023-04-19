@@ -2,6 +2,12 @@
 uk:
   bim:
     label_bim: 'BIM'
+    default_type_clash: Clash
+    default_type_issue: Issue
+    default_type_remark: Remark
+    default_type_request: Request
+    default_status_resolved: Resolved
+    default_priority_critical: Critical
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Не вдалося імпортувати BFC теми'
@@ -131,4 +137,3 @@ uk:
   extraction:
     available:
       ifc_convert: "Доступна перебудова конвеєрної системи IFC"
-

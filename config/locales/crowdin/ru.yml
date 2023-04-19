@@ -741,6 +741,9 @@ ru:
             sort_criteria:
               invalid: "Невозможно отсортировать по столбцу: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -1156,7 +1159,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%d.%m.%Y"
+      default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month

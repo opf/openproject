@@ -68,6 +68,12 @@ class GithubPullRequest < ApplicationRecord
     end
   end
 
+  def visible?(user = User.current)
+    WorkPackage
+      .visible(user)
+      .exists?(id: work_packages.select(:id))
+  end
+
   ##
   # When a PR lives long enough and receives many pushes, the same check (say, a CI test run) can be run multiple times.
   # This method only returns the latest of each type of check_run.
