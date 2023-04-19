@@ -641,7 +641,7 @@ GEM
     openproject-token (3.0.1)
       activemodel
     os (1.1.4)
-    ox (2.14.14)
+    ox (2.14.16)
     paper_trail (12.3.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
