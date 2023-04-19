@@ -1,9 +1,8 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { Canvas, Meta } from '@storybook/blocks';
 
-import { SbDividerSoftExample } from './DividerSoft.example';
-import { SbDividerStrongExample } from './DividerStrong.example';
+import * as DividerStories from './Divider.stories';
 
-<Meta title="Components/Divider" />
+<Meta of={DividerStories} />
 
 # Divider
 
@@ -29,20 +28,12 @@ A divider can be soft or strong. The correct one to use depends on the structure
 
 1 px, Grey-5 (#E0E0E0)
 
-<Canvas>
-  <Story name="Soft">
-    {{ component: SbDividerSoftExample }}
-  </Story>
-</Canvas>
+<Canvas of={DividerStories.Soft} />
 
 **Strong**
 
 1px, Grey-4 (#CCCCCC)
 
-<Canvas>
-  <Story name="Strong">
-    {{ component: SbDividerStrongExample }}
-  </Story>
-</Canvas>
+<Canvas of={DividerStories.Strong} />
 
 _Example: In the work package details view, the main three-way split (top header, left-side description, right-side split screen) is done using strong dividers, but on the Activity tab, dates are separated with soft ones._

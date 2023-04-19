@@ -3,10 +3,6 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
 const meta: Meta = {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
   title: 'Components/List',
   decorators: [
     moduleMetadata({

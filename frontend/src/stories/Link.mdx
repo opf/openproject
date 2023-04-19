@@ -1,25 +1,8 @@
-import { moduleMetadata } from '@storybook/angular';
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { Canvas, Meta } from '@storybook/blocks';
 
-import { OpSpotModule } from '../app/spot/spot.module';
-import { SbLinkExample } from './Link.example.ts';
+import * as LinkStories from './Link.stories';
 
-<Meta
-  title="Components/Link"
-  decorators={[
-    moduleMetadata({
-      imports: [
-        OpSpotModule,
-      ],
-    }),
-  ]}
-  parameters={{
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=859%3A6760',
-    },
-  }}
-/>
+<Meta of={LinkStories} />
 
 # Links
 
@@ -45,47 +28,31 @@ These can be combined. The most common combinations are:
 
 This is the most basic link. 
 
-<Canvas>
-  <Story name="Default">{{ component: SbLinkExample }}</Story>
-</Canvas>
+<Canvas of={LinkStories.Basic} />
 
 **Text with left icon**
 
 The left icon provides additional context when necessary.
 
-> Example
+<Canvas of={LinkStories.LeftIcon} />
 
 **Text with right icon**
 
 The right icon is not used as much but is available. The most common use case is to have a down-pointing arrow to signal the presence of drop-down menu, a right-pointing arrow to signal forward movement (in a multi-step process) or an ‘external’ icon to indicate that the link opens in a separate tab.
 
-> Example
+<Canvas of={LinkStories.RightIcon} />
 
 **Text with both icons**
 
 This is available but we discourage its use.
 
-> Example
+<Canvas of={LinkStories.BothIcons} />
 
 **Icon-only**
 
 This is essentially just an icon, but is offered here as a way of degrading a link with icon to just an icon when there are spatial constraints.
 
 _Note: We discourage using icon-only links if the icon unfamiliar to the user, or the action is one that the user would not have previously encountered. The only exception is when space is very tight and there is immediate feedback (eg. “configure” button on a search bar)._
-
-## States
-
-**Regular**
-
-> Example
-
-**Hover**
-
-> Example
-
-**Clicked**
-
-> Example
 
 ## Margins and Spacing
 
