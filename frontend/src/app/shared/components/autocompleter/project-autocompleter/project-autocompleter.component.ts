@@ -209,9 +209,11 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         map((projects) => buildTree(projects)),
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
-        switchMap((projects) => this.valueChange.pipe(
-          map((value) => this.disableSelectedItems(projects, value)),
-        )),
+        switchMap(
+          (projects) => merge(of([]), this.valueChange).pipe(
+            map(() => this.disableSelectedItems(projects, this.value)),
+          ),
+        ),
       );
     }
     return getPaginatedResults<IProject>(
@@ -261,11 +263,8 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
         map((projects) => recursiveSort(projects)),
         map((projectTreeItems) => flattenProjectTree(projectTreeItems)),
         switchMap(
-          (projects) => merge(
-            of([]),
-            this.valueChange,
-          ).pipe(
-            map((value) => this.disableSelectedItems(projects, value)),
+          (projects) => merge(of([]), this.valueChange).pipe(
+            map(() => this.disableSelectedItems(projects, this.value)),
           ),
         ),
       );
