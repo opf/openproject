@@ -91,6 +91,17 @@ describe 'API v3 Configuration resource' do
     end
 
     context 'for a non logged in user' do
+      current_user { User.anonymous }
+
+      it 'returns 200 OK' do
+        expect(subject.status).to eq(200)
+      end
+    end
+
+    context 'for a non logged in user with login_required',
+            with_settings: { login_required?: true } do
+      current_user { User.anonymous }
+
       it 'returns 200 OK' do
         expect(subject.status).to eq(200)
       end
