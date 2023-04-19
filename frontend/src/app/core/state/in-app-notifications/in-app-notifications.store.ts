@@ -1,13 +1,13 @@
 import { EntityStore, StoreConfig } from '@datorama/akita';
 import { INotification } from './in-app-notification.model';
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import { ResourceState, createInitialResourceState } from 'core-app/core/state/resource-store';
 
-export interface InAppNotificationsState extends CollectionState<INotification> {
+export interface InAppNotificationsState extends ResourceState<INotification> {
 }
 
 @StoreConfig({ name: 'in-app-notifications' })
 export class InAppNotificationsStore extends EntityStore<InAppNotificationsState> {
   constructor() {
-    super(createInitialCollectionState());
+    super(createInitialResourceState());
   }
 }

@@ -46,7 +46,7 @@ module Bim
             position: 1 },
           { name: I18n.t(:default_status_in_progress),      color_id: colors[1],  is_closed: false, is_default: false,
             position: 2 },
-          { name: I18n.t('seeders.bim.default_status_resolved'), color_id: colors[2], is_closed: false,
+          { name: I18n.t('bim.default_status_resolved'), color_id: colors[2], is_closed: false,
             is_default: false, position: 3 },
           { name: I18n.t(:default_status_closed), color_id: colors[3], is_closed: true, is_default: false,
             position: 4 }

@@ -739,6 +739,9 @@ sl:
             sort_criteria:
               invalid: "Ne morem razvrščati po stolpcu: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "\nse medsebojno izključuje s skupino '%{group_by}'. Ne morete aktivirati obeh."
           filters:
             custom_fields:

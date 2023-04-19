@@ -22,7 +22,6 @@ import {
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
-import { collectionKey } from 'core-app/core/state/collection-store';
 import { Query } from '@datorama/akita';
 
 @EffectHandler
@@ -39,7 +38,7 @@ export class WpSingleViewService {
     .select((state) => state.notifications.filters)
     .pipe(
       filter((filters) => filters.length > 0),
-      switchMap((filters) => this.resourceService.collection(collectionKey({ filters }))),
+      switchMap((filters) => this.resourceService.collection({ filters })),
     );
 
   selectNotificationsCount$ = this
@@ -92,10 +91,9 @@ export class WpSingleViewService {
   }
 
   markAllAsRead():void {
-    const key = collectionKey({ filters: this.store.getValue().notifications.filters });
     this
       .resourceService
-      .collection(key)
+      .collection({ filters: this.store.getValue().notifications.filters })
       .pipe(
         take(1),
       )
