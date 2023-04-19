@@ -151,12 +151,9 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem "hexapdf", "~> 0.32.0"
+gem "hexapdf", "~> 0.32"
 gem 'prawn', '~> 2.2'
-gem 'prawn-markup', '~> 0.3.0'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '875c4626a06321adefb479f381097ff69d408952'
-# prawn implicitly depends on matrix gem no longer in ruby core with 3.1
-gem 'matrix', '~> 0.4.2'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '4337f5d2b9601f8ab726576200bcfb2066417fc0'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'

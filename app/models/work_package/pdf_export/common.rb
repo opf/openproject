@@ -103,7 +103,7 @@ module WorkPackage::PDFExport::Common
 
   def get_id_column_cell(work_package, value)
     href = url_helpers.work_package_url(work_package)
-    make_link_href_cell(href, value) + Prawn::Text::NBSP
+    make_link_href_cell(href, value)
   end
 
   def get_subject_column_cell(work_package, value)
