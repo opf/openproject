@@ -892,7 +892,7 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.1)
     stackprof (0.2.25)
-    stringex (2.8.5)
+    stringex (2.8.6)
     stringio (3.0.6)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
