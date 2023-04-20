@@ -61,8 +61,6 @@ en:
             description: >
               **This is a demo project**. You can edit the description in
               the [Project settings -> Description]({{opSetting:base_url}}/projects/demo-project/settings).
-            timeline:
-              name: Timeline
             modules:
               - work_package_tracking
               - news

@@ -78,8 +78,6 @@ projects:
       code: on_track
       description: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
     description: This is a short summary of the goals of this demo construction project.
-    timeline:
-      name: Timeline
     modules:
       - work_package_tracking
       - news
@@ -226,8 +224,6 @@ projects:
       description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-construction-project
     description: This is a short summary of the goals of this demo planning and constructing project.
-    timeline:
-      name: Timeline
     modules:
       - work_package_tracking
       - news
@@ -683,8 +679,6 @@ projects:
       description: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-construction-project
     description: This is a short summary of the goals of this demo BIM project.
-    timeline:
-      name: Timeline
     modules:
       - work_package_tracking
       - news
@@ -1243,8 +1237,6 @@ projects:
       description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-bim-project
     description: This is a short summary of the goals of this demo BCF management project.
-    timeline:
-      name: Timeline
     modules:
       - work_package_tracking
       - bim
