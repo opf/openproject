@@ -39,8 +39,8 @@ module Projects
     private
 
     def persist(service_call)
-      archive_project(model) and model.children.each do |child|
-        archive_project(child)
+      archive_project(model) and model.active_subprojects.each do |subproject|
+        archive_project(subproject)
       end
 
       service_call
