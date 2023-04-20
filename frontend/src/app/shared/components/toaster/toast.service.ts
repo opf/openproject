@@ -28,7 +28,7 @@
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { input, State } from 'reactivestates';
+import { input, State } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
