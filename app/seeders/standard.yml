@@ -27,8 +27,8 @@
 #++
 
 welcome:
-  title: "Welcome to OpenProject!"
-  text: |
+  t_title: "Welcome to OpenProject!"
+  t_text: |
     Select one of the demo projects to get started with some demo data we have prepared for you.
 
     * [Demo project]({{opSetting:base_url}}/projects/demo-project): to get an overview about classical project management.
@@ -41,12 +41,12 @@ welcome:
     You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
 projects:
   demo-project:
-    name: Demo project
+    t_name: Demo project
     identifier: demo-project
     status:
       code: on_track
-      description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-    description: This is a short summary of the goals of this demo project.
+      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    t_description: This is a short summary of the goals of this demo project.
     modules:
       - work_package_tracking
       - news
@@ -54,19 +54,19 @@ projects:
       - board_view
       - team_planner_view
     news:
-      - title: Welcome to your demo project
-        summary: >
+      - t_title: Welcome to your demo project
+        t_summary: >
           We are glad you joined.
           In this module you can communicate project news to your team members.
-        description: The actual news
+        t_description: The actual news
     types:
       - :default_type_task
       - :default_type_milestone
       - :default_type_phase
-    categories:
+    t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
-      - name: Project plan
+      - t_name: Project plan
         status: open
         timeline: true
         sort_by: id
@@ -81,7 +81,7 @@ projects:
           - due_date
           - duration
           - assigned_to
-      - name: Milestones
+      - t_name: Milestones
         type: :default_type_milestone
         timeline: true
         columns:
@@ -92,7 +92,7 @@ projects:
           - start_date
           - due_date
         sort_by: id
-      - name: Tasks
+      - t_name: Tasks
         status: open
         type: :default_type_task
         hierarchy: true
@@ -103,18 +103,19 @@ projects:
           - priority
           - status
           - assigned_to
-      - name: Team planner
+      - t_name: Team planner
         module: team_planner
+        # TODO: ref wont be found with another language
         assignee: OpenProject Admin
     boards:
       kanban:
-        name: 'Kanban board'
+        t_name: 'Kanban board'
         filters:
           - type: default_type_task
       basic:
-        name: 'Basic board'
+        t_name: 'Basic board'
       parent_child:
-        name: 'Work breakdown structure'
+        t_name: 'Work breakdown structure'
     project-overview:
       row_count: 6
       column_count: 2
@@ -125,7 +126,7 @@ projects:
           start_column: 1
           end_column: 3
           options:
-            name: 'Welcome'
+            t_name: 'Welcome'
             text: '![Teaser](##attachment:"demo_project_teaser.png")'
           attachments:
             - demo_project_teaser.png
@@ -135,8 +136,8 @@ projects:
           start_column: 1
           end_column: 2
           options:
-            name: 'Getting started'
-            text: |
+            t_name: 'Getting started'
+            t_text: |
               We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
               Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
@@ -175,14 +176,14 @@ projects:
           start_column: 1
           end_column: 3
           options:
-            name: 'Work packages'
+            t_name: 'Work packages'
         - identifier: 'work_packages_table'
           start_row: 6
           end_row: 7
           start_column: 1
           end_column: 3
           options:
-            name: 'Milestones'
+            t_name: 'Milestones'
             queryId: '##query.id:"Milestones"'
     # For all dates, the reference is the monday of the current week
     # So
@@ -191,38 +192,38 @@ projects:
     # * start: -1 references the last Sunday
     work_packages:
       - start: -1
-        subject: Start of project
+        t_subject: Start of project
         description:
         status: default_status_closed
         type: default_type_milestone
         duration: 1
         schedule_manually: false
       - start: 0
-        subject: Organize open source conference
-        description:
+        t_subject: Organize open source conference
+        description: ''
         status: default_status_in_progress
         type: default_type_phase
         children:
           - start: 0
-            subject: Set date and location of conference
+            t_subject: Set date and location of conference
             description: ''
             status: default_status_in_progress
             type: default_type_task
             children:
               - start: 0
-                subject: Send invitation to speakers
+                t_subject: Send invitation to speakers
                 description: ''
                 status: default_status_in_progress
                 type: default_type_task
                 duration: 1
               - start: 0
-                subject: Contact sponsoring partners
+                t_subject: Contact sponsoring partners
                 description: ''
                 status: default_status_new
                 type: default_type_task
                 duration: 2
               - start: 0
-                subject: Create sponsorship brochure and hand-outs
+                t_subject: Create sponsorship brochure and hand-outs
                 description: ''
                 status: default_status_new
                 type: default_type_task
@@ -230,30 +231,32 @@ projects:
             duration: 4
             schedule_manually: false
           - start: 4
-            subject: Invite attendees to conference
+            t_subject: Invite attendees to conference
             description: ''
             status: default_status_new
             type: default_type_task
             duration: 1
             relations:
+              # TODO: ref wont be found with another language
               - to: Set date and location of conference
                 type: follows
             schedule_manually: false
           - start: 4
-            subject: Setup conference website
+            t_subject: Setup conference website
             description: ''
             status: default_status_new
             type: default_type_task
             duration: 11
             relations:
+              # TODO: ref wont be found with another language
               - to: Set date and location of conference
                 type: follows
             schedule_manually: false
         duration: 15
         schedule_manually: true
       - start: 15
-        subject: Conference
-        description:
+        t_subject: Conference
+        description: ''
         status: default_status_scheduled
         type: default_type_milestone
         duration: 1
@@ -262,21 +265,21 @@ projects:
             type: follows
         schedule_manually: false
       - start: 21
-        subject: Follow-up tasks
-        description:
+        t_subject: Follow-up tasks
+        description: ''
         status: default_status_to_be_scheduled
         type: default_type_phase
         children:
           - start: 21
-            subject: Upload presentations to website
+            t_subject: Upload presentations to website
             description: ''
             status: default_status_new
             type: default_type_task
             duration: 10
             schedule_manually: false
           - start: 31
-            subject: Party for conference supporters :-)
-            description: |-
+            t_subject: Party for conference supporters :-)
+            t_description: |-
               *   [ ] Beer
               *   [ ] Snacks
               *   [ ] Music
@@ -288,22 +291,23 @@ projects:
         duration: 11
         schedule_manually: false
       - start: 32
-        subject: End of project
+        t_subject: End of project
         description:
         status: default_status_new
         type: default_type_milestone
         duration: 1
         relations:
+          # TODO: ref wont be found with another language
           - to: Follow-up tasks
             type: follows
         schedule_manually: false
   scrum-project:
-    name: Scrum project
+    t_name: Scrum project
     identifier: your-scrum-project
     status:
       code: on_track
-      description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-    description: This is a short summary of the goals of this demo Scrum project.
+      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    t_description: This is a short summary of the goals of this demo Scrum project.
     modules:
       - backlogs
       - news
@@ -311,27 +315,27 @@ projects:
       - work_package_tracking
       - board_view
     news:
-      - title: Welcome to your Scrum demo project
-        summary: >
+      - t_title: Welcome to your Scrum demo project
+        t_summary: >
           We are glad you joined.
           In this module you can communicate project news to your team members.
         description: This is the news content.
     versions:
-      - name: Bug Backlog
+      - t_name: Bug Backlog
         sharing: none
         status: open
-      - name: Product Backlog
+      - t_name: Product Backlog
         sharing: none
         status: open
         start: 15
-      - name: Sprint 1
+      - t_name: Sprint 1
         sharing: none
         status: open
         start: 4
         duration: 7
         wiki:
-          title: Sprint 1
-          content: |
+          t_title: Sprint 1
+          t_content: |
             ### Sprint planning meeting
 
             _Please document here topics to the Sprint planning meeting_
@@ -377,7 +381,7 @@ projects:
             * Time boxed (3 h).
             * After Sprint Review, will be moderated by Scrum Master.
             * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
-      - name: Sprint 2
+      - t_name: Sprint 2
         sharing: none
         status: open
     types:
@@ -387,18 +391,19 @@ projects:
       - :default_type_epic
       - :default_type_user_story
       - :default_type_bug
-    categories:
+    t_categories:
       - Category 1 (to be changed in Project settings)
     queries:
-      - name: Project plan
+      - t_name: Project plan
         status: open
         sort_by: id
         type:
           - :default_type_milestone
           - :default_type_phase
         timeline: true
-      - name: Product backlog
+      - t_name: Product backlog
         status: open
+        # TODO: ref wont be found with another language
         version: Product Backlog
         group_by: status
         sort_by: status
@@ -410,8 +415,9 @@ projects:
           - status
           - assigned_to
           - story_points
-      - name: Sprint 1
+      - t_name: Sprint 1
         status: open
+        # TODO: ref wont be found with another language
         version: Sprint 1
         hierarchy: true
         columns:
@@ -423,15 +429,15 @@ projects:
           - assigned_to
           - done_ratio
           - story_points
-      - name: Tasks
+      - t_name: Tasks
         status: open
         type: :default_type_task
         hierarchy: true
     boards:
       kanban:
-        name: 'Kanban board'
+        t_name: 'Kanban board'
       basic:
-        name: 'Task board'
+        t_name: 'Task board'
     project-overview:
       row_count: 6
       column_count: 2
@@ -442,7 +448,7 @@ projects:
           start_column: 1
           end_column: 3
           options:
-            name: 'Welcome'
+            t_name: 'Welcome'
             text: '![Teaser](##attachment:"scrum_project_teaser.png")'
           attachments:
             - scrum_project_teaser.png
@@ -452,8 +458,8 @@ projects:
           start_column: 1
           end_column: 2
           options:
-            name: 'Getting started'
-            text: |
+            t_name: 'Getting started'
+            t_text: |
               We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
               Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
@@ -493,167 +499,187 @@ projects:
           start_column: 1
           end_column: 3
           options:
-            name: 'Work packages'
+            t_name: 'Work packages'
         - identifier: 'work_packages_table'
           start_row: 6
           end_row: 7
           start_column: 1
           end_column: 3
           options:
-            name: 'Project plan'
+            t_name: 'Project plan'
+            # TODO: ref wont be found with another language
             queryId: '##query.id:"Project plan"'
     work_packages:
-      - subject: New login screen
+      - t_subject: New login screen
         status: :default_status_in_specification
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Product Backlog
         position: 3
-      - subject: Password reset does not send email
+      - t_subject: Password reset does not send email
         status: :default_status_confirmed
         type: :default_type_bug
+        # TODO: ref wont be found with another language
         version: Bug Backlog
         position: 1
-      - subject: New website
+      - t_subject: New website
         status: :default_status_specified
         type: :default_type_epic
         start: 0
         duration: 29
         children:
-          - subject: Newsletter registration form
+          - t_subject: Newsletter registration form
             status: :default_status_in_progress
             type: :default_type_user_story
+            # TODO: ref wont be found with another language
             version: Product Backlog
             position: 6
-          - subject: Implement product tour
+          - t_subject: Implement product tour
             status: :default_status_in_specification
             type: :default_type_user_story
+            # TODO: ref wont be found with another language
             version: Product Backlog
             position: 4
-          - subject: New landing page
+          - t_subject: New landing page
             status: :default_status_specified
             type: :default_type_user_story
+            # TODO: ref wont be found with another language
             version: Sprint 1
             position: 2
             story_points: 3
             start: 28
             duration: 1
             children:
-              - subject: Create wireframes for new landing page
+              - t_subject: Create wireframes for new landing page
                 status: :default_status_in_progress
                 type: :default_type_task
+                # TODO: ref wont be found with another language
                 version: Sprint 1
                 start: 28
                 duration: 1
-      - subject: Contact form
+      - t_subject: Contact form
         status: :default_status_specified
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Sprint 1
         position: 5
         start: 21
         duration: 1
         story_points: 1
-      - subject: Feature carousel
+      - t_subject: Feature carousel
         status: :default_status_specified
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Sprint 1
         position: 3
         story_points: 5
         children:
-          - subject: Make screenshots for feature tour
+          - t_subject: Make screenshots for feature tour
             status: :default_status_closed
             type: :default_type_task
+            # TODO: ref wont be found with another language
             version: Sprint 1
-      - subject: Wrong hover color
+      - t_subject: Wrong hover color
         status: :default_status_rejected
         type: :default_type_bug
+        # TODO: ref wont be found with another language
         version: Sprint 1
         position: 4
         story_points: 1
         start: 21
         duration: 1
-      - subject: SSL certificate
+      - t_subject: SSL certificate
         status: :default_status_specified
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Product Backlog
         position: 1
         start: 22
         duration: 1
-      - subject: Set-up Staging environment
+      - t_subject: Set-up Staging environment
         status: :default_status_in_specification
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Product Backlog
         position: 2
         start: 23
         duration: 1
-      - subject: Choose a content management system
+      - t_subject: Choose a content management system
         status: :default_status_specified
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Product Backlog
         position: 7
         start: 24
         duration: 1
-      - subject: Website navigation structure
+      - t_subject: Website navigation structure
         status: :default_status_specified
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Sprint 1
         position: 7
         story_points: 3
         start: 25
         duration: 1
         children:
-          - subject: Set up navigation concept for website.
+          - t_subject: Set up navigation concept for website.
             status: :default_status_in_specification
             type: :default_type_task
+            # TODO: ref wont be found with another language
             version: Sprint 1
             start: 25
             duration: 1
-      - subject: Internal link structure
+      - t_subject: Internal link structure
         status: :default_status_closed
         type: :default_type_user_story
+        # TODO: ref wont be found with another language
         version: Product Backlog
         position: 5
         start: 25
         duration: 1
-      - subject: Develop v1.0
+      - t_subject: Develop v1.0
         status: :default_status_in_progress
         type: :default_type_phase
         start: 14
         duration: 3
-      - subject: Release v1.0
+      - t_subject: Release v1.0
         status: :default_status_new
         type: :default_type_milestone
         start: 18
         duration: 1
         relations:
+          # TODO: ref wont be found with another language
           - to: Develop v1.0
             type: follows
-      - subject: Develop v1.1
+      - t_subject: Develop v1.1
         status: :default_status_new
         type: :default_type_phase
         start: 21
         duration: 3
-      - subject: Release v1.1
+      - t_subject: Release v1.1
         status: :default_status_new
         type: :default_type_milestone
         start: 25
         duration: 1
         relations:
+          # TODO: ref wont be found with another language
           - to: Develop v1.1
             type: follows
-      - subject: Develop v2.0
+      - t_subject: Develop v2.0
         status: :default_status_new
         type: :default_type_phase
         start: 28
         duration: 3
-      - subject: Release v2.0
+      - t_subject: Release v2.0
         status: :default_status_new
         type: :default_type_milestone
         start: 32
         duration: 1
         relations:
+          # TODO: ref wont be found with another language
           - to: Develop v2.0
             type: follows
-    wiki: |
+    t_wiki: |
       ### Sprint planning meeting
 
       _Please document here topics to the Sprint planning meeting_
