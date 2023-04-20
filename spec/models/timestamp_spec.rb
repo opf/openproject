@@ -177,8 +177,8 @@ describe Timestamp do
     end
 
     describe "when providing relative date keywords" do
-      describe "yesterday@12:00" do
-        subject { described_class.parse("yesterday@12:00") }
+      describe "oneDayAgo@12:00" do
+        subject { described_class.parse("oneDayAgo@12:00") }
 
         it "returns a Timestamp representing the yesterday at 12:00 pm" do
           expect(subject).to be_a described_class
@@ -206,8 +206,8 @@ describe Timestamp do
         end
       end
 
-      describe "lastWeek@12:00" do
-        subject { described_class.parse("lastWeek@12:00") }
+      describe "oneWeekAgo@12:00" do
+        subject { described_class.parse("oneWeekAgo@12:00") }
 
         it "returns a Timestamp representing the last week at 12:00 pm" do
           expect(subject).to be_a described_class
@@ -218,8 +218,8 @@ describe Timestamp do
         end
       end
 
-      describe "lastMonth@12:00" do
-        subject { described_class.parse("lastMonth@12:00") }
+      describe "oneMonthAgo@12:00" do
+        subject { described_class.parse("oneMonthAgo@12:00") }
 
         it "returns a Timestamp representing the last month at 12:00 pm" do
           expect(subject).to be_a described_class
@@ -248,7 +248,7 @@ describe Timestamp do
       end
 
       describe "when providing something invalid with relative date keywords" do
-        subject { described_class.parse("yesterday@") }
+        subject { described_class.parse("oneDayAgo@") }
 
         it "raises an error" do
           expect { subject }.to raise_error ArgumentError
@@ -256,7 +256,7 @@ describe Timestamp do
       end
 
       describe "when providing something invalid with relative date keywords#2" do
-        subject { described_class.parse("yesterday@11:22:asd") }
+        subject { described_class.parse("oneDayAgo@11:22:asd") }
 
         it "raises an error" do
           expect { subject }.to raise_error ArgumentError
@@ -345,7 +345,7 @@ describe Timestamp do
     end
 
     describe "for a timestamp as a date keyword representing a point in time relative to now" do
-      let(:timestamp) { described_class.new("lastWeek@12:00") }
+      let(:timestamp) { described_class.new("oneWeekAgo@12:00") }
 
       it "returns true" do
         expect(subject).to be true
@@ -374,10 +374,10 @@ describe Timestamp do
     end
 
     describe "for a timestamp as a date keyword representing a point in time relative to now" do
-      let(:timestamp) { described_class.new('yesterday@12:00') }
+      let(:timestamp) { described_class.new('oneDayAgo@12:00') }
 
       it "returns an relative date keyword" do
-        expect(subject).to eq 'yesterday@12:00'
+        expect(subject).to eq 'oneDayAgo@12:00'
       end
     end
   end

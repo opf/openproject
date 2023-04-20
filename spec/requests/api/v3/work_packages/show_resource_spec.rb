@@ -420,7 +420,7 @@ describe 'API v3 Work package resource',
         end
 
         context 'when the timestamps are relative date keywords' do
-          let(:timestamps) { [Timestamp.new('lastWeek@12:00'), Timestamp.now] }
+          let(:timestamps) { [Timestamp.new('oneWeekAgo@12:00'), Timestamp.now] }
 
           it 'has an embedded link to the baseline work package' do
             expect(subject)
@@ -441,7 +441,7 @@ describe 'API v3 Work package resource',
               describe 'timestamp' do
                 it 'has the relative timestamps' do
                   expect(subject)
-                    .to be_json_eql('lastWeek@12:00'.to_json)
+                    .to be_json_eql('oneWeekAgo@12:00'.to_json)
                     .at_path('_embedded/attributesByTimestamp/0/_meta/timestamp')
                   expect(subject)
                     .to be_json_eql('PT0S'.to_json)
@@ -455,7 +455,7 @@ describe 'API v3 Work package resource',
             before { login_as current_user }
 
             context "with relative timestamps" do
-              let(:timestamps) { [Timestamp.parse("yesterday@00:00"), Timestamp.now] }
+              let(:timestamps) { [Timestamp.parse("oneDayAgo@00:00"), Timestamp.now] }
               let(:created_at) { '2015-01-01' }
 
               describe "attributesByTimestamp" do
@@ -490,7 +490,7 @@ describe 'API v3 Work package resource',
 
               describe "_meta" do
                 describe "exists" do
-                  let(:timestamps) { [Timestamp.parse("yesterday@00:00")] }
+                  let(:timestamps) { [Timestamp.parse("oneDayAgo@00:00")] }
                   let(:created_at) { 25.hours.ago }
 
                   it "is not cached" do

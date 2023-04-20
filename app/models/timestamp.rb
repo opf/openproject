@@ -33,7 +33,7 @@ class Timestamp
 
   class TimestampParser
     DATE_KEYWORD_REGEX =
-      /^(?:yesterday|lastWorkingDay|lastWeek|lastMonth)@(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$/
+      /^(?:oneDayAgo|lastWorkingDay|oneWeekAgo|oneMonthAgo)@(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$/
 
     def initialize(string)
       @original_string = string
@@ -161,10 +161,10 @@ class Timestamp
     relative_date_keyword, time_part = @timestamp_string.split('@')
 
     date = case relative_date_keyword
-           when 'yesterday'      then 1.day.ago
+           when 'oneDayAgo'      then 1.day.ago
            when 'lastWorkingDay' then Day.last_working.date || 1.day.ago
-           when 'lastWeek'       then 1.week.ago
-           when 'lastMonth'      then 1.month.ago
+           when 'oneWeekAgo'       then 1.week.ago
+           when 'oneMonthAgo'      then 1.month.ago
            end
 
     Time.zone.parse(time_part, date)

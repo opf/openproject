@@ -80,7 +80,7 @@ class Day < ApplicationRecord
   end
 
   def self.last_working
-    # Look up only from 8 days ago, because the Setting.working_days must have at least 1 working day.
+    # Look up only from 8 days ago, because the Setting.working_days must have at least 1 working weekday.
     from_range(from: 8.days.ago, to: Time.zone.yesterday).where(working: true).last
   end
 

@@ -195,7 +195,7 @@ describe UpdateQueryFromParamsService,
       let(:timestamps) do
         [
           Timestamp.parse("2022-10-29T23:01:23Z"),
-          Timestamp.parse("lastWeek@12:00"),
+          Timestamp.parse("oneWeekAgo@12:00"),
           Timestamp.parse("PT0S")
         ]
       end

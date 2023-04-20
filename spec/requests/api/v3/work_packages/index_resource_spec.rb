@@ -774,7 +774,7 @@ describe 'API v3 Work package resource',
       end
 
       context 'when the timestamps are relative date keywords' do
-        let(:timestamps) { [Timestamp.parse('lastWeek@11:00'), Timestamp.parse('lastWorkingDay@12:00')] }
+        let(:timestamps) { [Timestamp.parse('oneWeekAgo@11:00'), Timestamp.parse('lastWorkingDay@12:00')] }
 
         it 'has an embedded link to the baseline work package' do
           expect(subject.body)
@@ -801,7 +801,7 @@ describe 'API v3 Work package resource',
 
         it 'has the relative timestamps within the _meta timestamps' do
           expect(subject.body)
-            .to be_json_eql('lastWeek@11:00'.to_json)
+            .to be_json_eql('oneWeekAgo@11:00'.to_json)
             .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
           expect(subject.body)
             .to be_json_eql('lastWorkingDay@12:00'.to_json)
@@ -820,7 +820,7 @@ describe 'API v3 Work package resource',
                 describe "timestamp" do
                   it 'has the baseline timestamp, which is the first timestmap' do
                     expect(subject.body)
-                      .to be_json_eql('lastWeek@11:00'.to_json)
+                      .to be_json_eql('oneWeekAgo@11:00'.to_json)
                       .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
                   end
                 end
@@ -930,7 +930,7 @@ describe 'API v3 Work package resource',
         end
 
         context "with relative date keyword timestamps" do
-          let(:timestamps) { [Timestamp.parse('lastWeek@12:00'), Timestamp.now] }
+          let(:timestamps) { [Timestamp.parse('oneWeekAgo@12:00'), Timestamp.now] }
           let(:created_at) { '2015-01-01' }
 
           describe "when the filter becomes outdated" do
@@ -954,10 +954,10 @@ describe 'API v3 Work package resource',
             let(:search_term) { 'original' }
 
             it 'has the relative timestamps within the _meta timestamps' do
-              expect(timestamps.first.to_s).to eq('lastWeek@12:00')
+              expect(timestamps.first.to_s).to eq('oneWeekAgo@12:00')
               expect(timestamps.first).to be_relative
               expect(subject.body)
-                .to be_json_eql('lastWeek@12:00'.to_json)
+                .to be_json_eql('oneWeekAgo@12:00'.to_json)
                 .at_path('_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/timestamp')
               expect(subject.body)
                 .to be_json_eql('PT0S'.to_json)
