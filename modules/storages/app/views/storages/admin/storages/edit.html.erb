@@ -9,7 +9,7 @@
 <% local_assigns[:additional_breadcrumb] = @object.name %>
 <%= toolbar title: t('label_edit_x', x: @object.name) %>
 
-<%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object) do |f| -%>
+<%= labelled_tabular_form_for @object, url: admin_settings_storage_path(@object), as: :storages_storage do |f| -%>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag t(:button_save), class: "-highlight -with-icon icon-checkmark" %>
 <% end %>
@@ -41,23 +41,23 @@
 <% end %>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= t(:'storages.label_oauth_client_details') %></legend>
+  <legend class="form--fieldset-legend"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= t(:'storages.label_oauth_client_details') %></legend>
   <% if @object.oauth_client %>
     <div class="attributes-key-value">
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
+      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_ID %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
           <span><%= @object.oauth_client.client_id %></span>
         </div>
       </div>
-      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
+      <div class="attributes-key-value--key"><%= t("storages.provider_types.#{@object.short_provider_type}.name") %> <%= Storages::Admin::LABEL_OAUTH_CLIENT_SECRET %></div>
       <div class="attributes-key-value--value-container">
         <div class="attributes-key-value--value -text">
           <span><%= short_secret(@object.oauth_client.client_secret) %></span>
         </div>
       </div>
     </div>
-    <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.provider_type}.name")),
+    <%= link_to(t("storages.buttons.replace_provider_type_oauth", provider_type: t("storages.provider_types.#{@object.short_provider_type}.name")),
                 new_admin_settings_storage_oauth_client_path(@object),
                 data: { confirm: t(:'storages.confirm_replace_oauth_client') },
                 class: 'button -with-icon icon-reload') %>

@@ -96,7 +96,7 @@ module OpenProject::Storages
               storage.host,
               caption: storage.name,
               before: :members,
-              icon: "#{storage.provider_type}-circle",
+              icon: "#{storage.short_provider_type}-circle",
               icon_after: "external-link",
               skip_permissions_check: true
             )
