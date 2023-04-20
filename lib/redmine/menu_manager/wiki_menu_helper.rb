@@ -49,7 +49,7 @@ module Redmine::MenuManager::WikiMenuHelper
               { controller: '/wiki', action: 'show', id: main_item.slug },
               caption: main_item.title,
               after: :meetings,
-              icon: 'icon2 icon-wiki',
+              icon: 'wiki',
               html: { class: 'wiki-menu--main-item' }
 
     if project.wiki.pages.any?

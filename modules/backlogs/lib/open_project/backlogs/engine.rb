@@ -109,7 +109,7 @@ module OpenProject::Backlogs
            { controller: '/rb_master_backlogs', action: :index },
            caption: :project_module_backlogs,
            after: :work_packages,
-           icon: 'icon2 icon-backlogs'
+           icon: 'backlogs'
 
       menu :project_menu,
            :settings_backlogs,

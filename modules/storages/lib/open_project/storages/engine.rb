@@ -78,7 +78,7 @@ module OpenProject::Storages
            { controller: '/storages/admin/storages', action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: 'icon2 icon-hosting'
+           icon: 'hosting'
 
       menu :project_menu,
            :settings_projects_storages,

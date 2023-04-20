@@ -46,7 +46,7 @@
     <div class="spot-action-bar--right">
       <button
         type="button"
-        class="button spot-modal--cancel-button spot-action-bar--action"
+        class="button button_inline-flex spot-modal--cancel-button spot-action-bar--action"
         data-qa-selector="confirmation-modal--cancel"
         (click)="close($event)"
       >
@@ -55,7 +55,7 @@
       </button>
       <button
         type="button"
-        class="button spot-action-bar--action"
+        class="button button_inline-flex spot-action-bar--action"
         data-qa-selector="confirmation-modal--confirmed"
         [ngClass]="dangerHighlighting ? '-danger': '-highlight'"
         (click)="confirmAndClose($event)"
