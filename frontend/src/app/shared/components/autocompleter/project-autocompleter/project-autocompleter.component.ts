@@ -190,6 +190,10 @@ export class ProjectAutocompleterComponent implements ControlValueAccessor {
     projects:IProjectAutocompleteItem[],
     value:IProjectAutocompleterData|IProjectAutocompleterData[]|null,
   ) {
+    if (!this.multiple) {
+      return projects;
+    }
+
     const normalizedValue = (value || []);
     const arrayedValue = (Array.isArray(normalizedValue) ? normalizedValue : [normalizedValue]).map((p) => p.href || p.id);
     return projects.map((project) => {
