@@ -43,8 +43,11 @@ module API::V3::ProjectStorages
 
     associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
     associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }
-    associated_resource :creator, v3_path: :user, representer: ::API::V3::Users::UserRepresenter,
-                        skip_render: ->(*) { true }, skip_link: ->(*) { false }
+    associated_resource :creator,
+                        v3_path: :user,
+                        representer: ::API::V3::Users::UserRepresenter,
+                        skip_render: ->(*) { true },
+                        skip_link: ->(*) { false }
 
     def _type
       'ProjectStorage'

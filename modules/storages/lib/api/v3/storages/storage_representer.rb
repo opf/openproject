@@ -149,7 +149,8 @@ module API::V3::Storages
     end
 
     link :projectStorages do
-      { href: "#{api_v3_paths.project_storages}?filters=[{\"storageId\":{\"operator\":\"=\",\"values\":[\"#{represented.id}\"]}}]" }
+      filters = [{ storageId: { operator: "=", values: [represented.id.to_s] } }]
+      { href: api_v3_paths.path_for(:project_storages, filters:) }
     end
 
     associated_resource :oauth_application,
@@ -186,16 +187,6 @@ module API::V3::Storages
 
     def storage_projects(storage)
       storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))
-    end
-
-    def project_folders(storage)
-      storage_projects(storage).map(&:projects_storages).flatten.map do |ps|
-        {
-          project_id: ps.project_id,
-          project_folder_id: ps.project_folder_id,
-          project_folder_mode: ps.project_folder_mode
-        }
-      end
     end
 
     def storage_projects_ids(storage)
