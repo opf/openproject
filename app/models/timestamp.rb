@@ -55,35 +55,20 @@ class Timestamp
     end
 
     class << self
-      # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/PerceivedComplexity
       def substitute_special_shortcut_values(string)
         # map now to PT0S
-        string = "PT0S" if string == "now"
+        return 'PT0S' if string == 'now'
 
         # map 1y to P1Y, 1m to P1M, 1w to P1W, 1d to P1D
         # map -1y to P-1Y, -1m to P-1M, -1w to P-1W, -1d to P-1D
         # map -1y1d to P-1Y-1D
-        sign = "-" if string.start_with? "-"
-        years = scan_for_shortcut_value(string:, unit: "y")
-        months = scan_for_shortcut_value(string:, unit: "m")
-        weeks = scan_for_shortcut_value(string:, unit: "w")
-        days = scan_for_shortcut_value(string:, unit: "d")
-        if years || months || weeks || days
-          string = "P" \
-                   "#{sign if years}#{years}#{'Y' if years}" \
-                   "#{sign if months}#{months}#{'M' if months}" \
-                   "#{sign if weeks}#{weeks}#{'W' if weeks}" \
-                   "#{sign if days}#{days}#{'D' if days}"
-        end
+        units = ['y', 'm', 'w', 'd']
+        sign = '-' if string.start_with?('-')
+        substitutions = units.map { |unit| string.scan(/\d+#{unit}/).first&.upcase }.compact
 
-        string
-      end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/PerceivedComplexity
+        return string if substitutions.empty?
 
-      def scan_for_shortcut_value(string:, unit:)
-        string.scan(/(\d+)#{unit}/).flatten.first
+        "P#{sign}#{substitutions.join(sign)}"
       end
     end
   end
