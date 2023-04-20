@@ -344,7 +344,7 @@ class Project < ApplicationRecord
 
   # Returns an array of active subprojects.
   def active_subprojects
-    project.descendants.select(&:active)
+    project.descendants.where(active: true)
   end
 
   class << self
