@@ -27,15 +27,27 @@
 #++
 
 require 'spec_helper'
+require_relative '../../../../spec/seeders/root_seeder_shared_examples'
 
 describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  it 'creates the demo data' do
-    expect { described_class.new.seed_data! }.not_to raise_error
+  before_all do
+    RSpec::Mocks.with_temporary_scope do
+      # the mocking of settings and configuration is duplicated here because
+      # it's executed outside of an example context
+      with_config(edition: 'bim')
+      with_settings(journal_aggregation_time_minutes: 0)
+      described_class.new.seed_data!
+    end
+  end
 
+  it 'creates an admin user' do
     expect(User.not_builtin.where(admin: true).count).to eq 1
+  end
+
+  it 'creates the BIM demo data' do
     expect(Project.count).to eq 4
     expect(WorkPackage.count).to eq 76
     expect(Wiki.count).to eq 3
@@ -48,10 +60,12 @@ describe RootSeeder,
     expect(Bim::IfcModels::IfcModel.count).to eq 3
     expect(Grids::Overview.count).to eq 4
     expect(Boards::Grid.count).to eq 2
-
-    perform_enqueued_jobs
-
-    expect(ActionMailer::Base.deliveries)
-      .to be_empty
   end
+
+  it 'creates follows and parent-child relations' do
+    expect(Relation.follows.count).to eq 35
+    expect(WorkPackage.where.not(parent: nil).count).to eq 55
+  end
+
+  include_examples 'no email deliveries'
 end

@@ -27,20 +27,12 @@
 #++
 
 require 'spec_helper'
+require_relative './root_seeder_shared_examples'
 
 describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  shared_examples 'no email deliveries' do
-    it 'does not perform any email deliveries' do
-      perform_enqueued_jobs
-
-      expect(ActionMailer::Base.deliveries)
-        .to be_empty
-    end
-  end
-
   describe 'demo data' do
     before_all do
       described_class.new.seed_data!
