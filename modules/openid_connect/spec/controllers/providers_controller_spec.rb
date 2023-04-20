@@ -204,11 +204,13 @@ describe OpenIDConnect::ProvidersController do
     end
 
     describe '#update' do
-      context 'when found', with_settings: {
-        plugin_openproject_openid_connect: {
-          "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
-        }
-      } do
+      context 'when found' do
+        before do
+          Setting.plugin_openproject_openid_connect = {
+            "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
+          }
+        end
+
         it 'successfully updates the provider configuration' do
           put :update, params: { id: "azure", openid_connect_provider: valid_params.merge(secret: "NEWSECRET") }
           expect(response).to be_redirect
@@ -220,11 +222,13 @@ describe OpenIDConnect::ProvidersController do
     end
 
     describe '#destroy' do
-      context 'when found', with_settings: {
-        plugin_openproject_openid_connect: {
-          "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
-        }
-      } do
+      context 'when found' do
+        before do
+          Setting.plugin_openproject_openid_connect = {
+            "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
+          }
+        end
+
         it 'removes the provider' do
           delete :destroy, params: { id: "azure" }
           expect(response).to be_redirect
