@@ -224,19 +224,19 @@ be:
           status_label: "Status:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"
-          test_ee: "Test the Enterprise edition 14 days for free"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          test_ee: "Тэсціраваць Enterprise edition 14 дзён бясплатна"
+          quick_overview: "Атрымаць хуткі агляд кіравання праектамі і каманднага ўзаемадзеяння з OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} гэта Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> дапаўненне."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Якія перавагі ў Enterprise edition з лакальным разгортваннем?"
             high_security: "Security features"
-            high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
+            high_security_text: "Адзіны ўваход праз (SAML, OpenID Connect, CAS), LDAP групы."
             installation: "Installation support"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Карпаратыўныя дадаткі."
             premium_features_text: "Agile boards, custom theme and logo, graphs, intelligent workflows with custom actions, full text search for work package attachments and multi-select custom fields."
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
@@ -247,11 +247,11 @@ be:
           confidence: >
             We deliver the confidence of a tested and supported enterprise-class project management software - with Open Source and an open mind.
           link_quote: "Get a quote"
-          more_info: "More information"
+          more_info: "Дадатковыя звесткі"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            Карпаратыўнае выданне OpenProject пабудавана паверх Супольнай версіі. Яно ўключае Карпаратыўныя дадаткі, прафесійную падтрымку і накіравана на арганізацыі з больш чым 10 карыстальнікамі, якія кіруюць крытычнымі для бізнесу праектамі з дапамогай OpenProject.
           unlimited: "Unlimited"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Распрацоўшчыкам таксама патрэбна плаціць па рахунках. Абнаўляючыся да Карпаратыўнай версіі, вы падтрымліваеце гэтыя высілкі адкрытай супольнасці і спрыяеце яе развіццю, абслугоўванню і пастаянным паляпшэнням."
       working_days:
         calendar:
           empty_state_header: "Non-working days"
@@ -388,7 +388,7 @@ be:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
-    label_invalid: "Invalid"
+    label_invalid: "Няверны"
     label_import: "Import"
     label_latest_activity: "Latest activity"
     label_last_updated_on: "Last updated on"
@@ -552,7 +552,7 @@ be:
         watched: 'watcher'
         assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
+        created: 'створана'
         scheduled: 'scheduled'
         commented: 'commented'
         processed: 'processed'

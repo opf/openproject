@@ -742,7 +742,7 @@ ru:
               invalid: "Невозможно отсортировать по столбцу: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
+              invalid: "Временные метки содержат недопустимые значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
