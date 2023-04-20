@@ -30,7 +30,7 @@
 
 class SeedData
   def initialize(data)
-    @data = data.deep_stringify_keys
+    @data = data
   end
 
   def lookup(path)
