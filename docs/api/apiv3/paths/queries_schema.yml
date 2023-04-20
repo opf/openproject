@@ -1,6 +1,12 @@
 # /api/v3/queries/schema
 ---
 get:
+  summary: View schema for global queries
+  operationId: View_schema_for_global_queries
+  tags:
+  - Queries
+  description: Retrieve the schema for global queries, those, that are not assigned
+    to a project.
   responses:
     '200':
       content:
@@ -25,9 +31,3 @@ get:
                 message: You are not authorized to access this resource.
       description: "**Required permission:** view work package in any project"
       headers: {}
-  tags:
-  - Queries
-  description: Retrieve the schema for global queries, those, that are not assigned
-    to a project.
-  operationId: View_schema_for_global_queries
-  summary: View schema for global queries

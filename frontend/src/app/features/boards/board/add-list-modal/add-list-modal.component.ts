@@ -43,7 +43,10 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { tap } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { Observable } from 'rxjs';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
@@ -136,11 +139,11 @@ export class AddListModalComponent extends OpModalComponent implements OnInit {
     this.inFlight = true;
     this.actionService
       .addColumnWithActionAttribute(this.board, this.selectedAttribute!)
-      .then((board) => this.boardService.save(board).toPromise())
+      .then((board) => firstValueFrom(this.boardService.save(board)))
       .then((board) => {
         this.inFlight = false;
         this.closeMe();
-        this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
+        void this.state.go('boards.partitioned.show', { board_id: board.id, isNew: true });
       })
       .catch(() => (this.inFlight = false));
   }

@@ -78,10 +78,12 @@ export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> exte
 
   @InjectField() halResourceService:HalResourceService;
 
-  constructor(protected apiRoot:ApiV3Service,
+  constructor(
+    protected apiRoot:ApiV3Service,
     protected basePath:string,
     segment:string,
-    protected resource?:Constructor<T>) {
+    protected resource?:Constructor<T>,
+  ) {
     super(basePath, segment, resource);
   }
 

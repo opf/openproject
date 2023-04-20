@@ -42,10 +42,10 @@ module Bim
         colors = color_names.collect { |name| colors_by_name[name].id }
 
         [
-          { name: I18n.t(:default_priority_low),                     color_id: colors[0], position: 1, is_default: true },
-          { name: I18n.t(:default_priority_normal),                  color_id: colors[1], position: 2, is_default: false },
-          { name: I18n.t(:default_priority_high),                    color_id: colors[2], position: 3, is_default: false },
-          { name: I18n.t('seeders.bim.default_priority_critical'),   color_id: colors[3], position: 4, is_default: false }
+          { name: I18n.t(:default_priority_low),           color_id: colors[0], position: 1, is_default: true },
+          { name: I18n.t(:default_priority_normal),        color_id: colors[1], position: 2, is_default: false },
+          { name: I18n.t(:default_priority_high),          color_id: colors[2], position: 3, is_default: false },
+          { name: I18n.t('bim.default_priority_critical'), color_id: colors[3], position: 4, is_default: false }
         ]
       end
     end

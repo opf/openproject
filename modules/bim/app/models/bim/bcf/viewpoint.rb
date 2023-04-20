@@ -27,7 +27,7 @@
 #++
 
 module Bim::Bcf
-  class Viewpoint < ActiveRecord::Base
+  class Viewpoint < ApplicationRecord
     self.table_name = :bcf_viewpoints
 
     include InitializeWithUuid

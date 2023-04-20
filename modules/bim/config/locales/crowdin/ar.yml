@@ -2,6 +2,12 @@
 ar:
   bim:
     label_bim: 'BIM'
+    default_type_clash: Clash
+    default_type_issue: Issue
+    default_type_remark: Remark
+    default_type_request: Request
+    default_status_resolved: Resolved
+    default_priority_critical: Critical
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'فشل استيراد مواضيع BCF'
@@ -130,4 +136,3 @@ ar:
   extraction:
     available:
       ifc_convert: "IFC conversion pipeline available"
-

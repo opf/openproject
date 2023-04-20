@@ -48,7 +48,7 @@ module Redmine::MenuManager::WikiMenuHelper
     menu.push main_item.menu_identifier,
               { controller: '/wiki', action: 'show', id: main_item.slug },
               caption: main_item.title,
-              before: :members,
+              after: :meetings,
               icon: 'icon2 icon-wiki',
               html: { class: 'wiki-menu--main-item' }
 

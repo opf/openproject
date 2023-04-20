@@ -116,7 +116,7 @@ description: |-
 
   The `timestamp` has the same ISO-8601 format as in the `timestamps` request parameter and preserves the absolute or relative character of the requested timestamp.
 
-  Furthermore, each self link corresponding to an earlier point in time has also a `timestamps` request parameter added to it, which is converted to an absolute ISO-8601 string at the execution time of the query. (`"2023-03-01T01:37:10Z` in the above example, which has been executed at that time.)
+  Furthermore, each self link corresponding to an earlier point in time has also a `timestamps` request parameter added to it, which is converted to an absolute ISO-8601 string at the execution time of the query. (in the above example, `PT0S` was converted to `2023-03-01T01:37:10Z` as the query was executed at that time.)
 
   ## Attributes
 

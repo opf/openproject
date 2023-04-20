@@ -32,6 +32,8 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ComponentType } from '@angular/cdk/portal';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
+import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -153,7 +155,7 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
       .form
       .load(query)
       .toPromise()
-      .then(([form, _]) => {
+      .then(([form, _]:[QueryFormResource, QueryResource]) => {
         this.wpStatesInitialization.updateStatesFromForm(query, form);
 
         return form;

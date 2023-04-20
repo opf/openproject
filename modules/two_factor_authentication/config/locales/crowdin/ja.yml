@@ -69,8 +69,8 @@ ja:
       delete_all_are_you_sure: 'このユーザーの2FAデバイスをすべて削除してもよろしいですか？'
       button_delete_all_devices: '登録された2FAデバイスを削除します'
       button_register_mobile_phone_for_user: '携帯電話番号で登録する'
-      text_2fa_enabled: 'ログインごとに、このユーザはデフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。'
-      text_2fa_disabled: "ユーザーは2FAデバイスを「マイアカウントページ」から設定していません"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Two-factor authentication'
       description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
