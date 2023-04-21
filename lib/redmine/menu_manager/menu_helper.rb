@@ -170,15 +170,19 @@ module Redmine::MenuManager::MenuHelper
       title_text = ''.html_safe + content_tag(:span, caption) + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
         title_text << (''.html_safe + spot_icon('enterprise-addons'))
-      elsif item.icon_after.present?
-        title_text << (''.html_safe + spot_icon(item.icon_after))
       end
       title_text
     end
+
+    if item.icon_after.present?
+      link_text << (''.html_safe + spot_icon(item.icon_after, classnames: "icon-after"))
+    end
+
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
+    html_options['target'] = '_blank' if item.icon_after.present? && item.icon_after == 'external-link'
 
     link_to link_text, url, html_options
   end

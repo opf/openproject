@@ -33,11 +33,14 @@
 
 # It is very unstable code. However, it should never change the instance it runs in. However, use it with caution.
 
-## Before using it, make sure that all subjects are unique:
-# project_identifiers = %w(construction-project bcf-management seed-daten creating-bim-model)
-# projects = Project.where(identifier: project_identifiers)
-# all_wps = projects.map(&:work_packages).flatten
-# all_wps.group_by(&:subject).select { |subject, members| members.size > 1 }.each { |subject, members| puts "#{subject}\t#{members.map(&:id).join("\t")}" }
+## Before using it, make sure:
+# that the default language is :en
+# that the seeded status, types, and priority names have never been changed
+# that all subjects are unique:
+#   project_identifiers = %w(construction-project bcf-management seed-daten creating-bim-model)
+#   projects = Project.where(identifier: project_identifiers)
+#   all_wps = projects.map(&:work_packages).flatten
+#   all_wps.group_by(&:subject).select { |subject, members| members.size > 1 }.each { |subject, members| puts "#{subject}\t#{members.map(&:id).join("\t")}" }
 class Seedifier
   attr_accessor :written_work_packages_ids, :project_identifiers, :projects, :base_date
 
@@ -82,7 +85,7 @@ class Seedifier
   def calc_status(work_package)
     prefix = ''
     if ["Resolved"].include?(work_package.status.name)
-      prefix = 'seeders.bim.'
+      prefix = 'bim.'
     end
     "#{prefix}default_status_#{calc_low_dash(work_package.status.name.downcase)}"
   end
@@ -90,7 +93,7 @@ class Seedifier
   def calc_type(work_package)
     prefix = ''
     if ["Issue", "Clash", "Remark", "Request"].include?(work_package.type.name)
-      prefix = 'seeders.bim.'
+      prefix = 'bim.'
     end
     "#{prefix}default_type_#{calc_low_dash(work_package.type.name.downcase)}"
   end

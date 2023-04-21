@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import * as moment from 'moment';
-import { InputState, MultiInputState } from 'reactivestates';
+import { InputState, MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';

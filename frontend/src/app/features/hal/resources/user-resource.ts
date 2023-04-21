@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 export class UserResource extends HalResource {

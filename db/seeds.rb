@@ -26,4 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+Seeder.log_to_stdout!
 RootSeeder.new.seed!

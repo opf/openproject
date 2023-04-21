@@ -739,6 +739,9 @@ tr:
             sort_criteria:
               invalid: "Sütuna göre sıralama yapamazsınız: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
             custom_fields:

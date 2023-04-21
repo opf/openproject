@@ -37,11 +37,18 @@ module Storages::ProjectStorages
     # Include validation library
     include ActiveModel::Validations
 
-    # Attributes project and storage can be written
     attribute :project
     validates_presence_of :project
     attribute :storage
     validates_presence_of :storage
+
+    attribute :project_folder_id
+
+    attribute :project_folder_mode do
+      unless @model.project_folder_inactive? || @model.project_folder_manual?
+        errors.add :project_folder_mode, :invalid
+      end
+    end
 
     def assignable_storages
       Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))

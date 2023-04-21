@@ -22,14 +22,4 @@
 lol:
   project_module_github: "crwdns494685:0crwdne494685:0"
   permission_show_github_content: "crwdns494687:0crwdne494687:0"
-  github_integration:
-    pull_request_opened_comment: >
-      crwdns494689:0%{pr_number}crwdnd494689:0%{pr_title}crwdnd494689:0%{pr_url}crwdnd494689:0%{repository}crwdnd494689:0%{repository_url}crwdnd494689:0%{github_user}crwdnd494689:0%{github_user_url}crwdne494689:0
-    pull_request_closed_comment: >
-      crwdns494691:0%{pr_number}crwdnd494691:0%{pr_title}crwdnd494691:0%{pr_url}crwdnd494691:0%{repository}crwdnd494691:0%{repository_url}crwdnd494691:0%{github_user}crwdnd494691:0%{github_user_url}crwdne494691:0
-    pull_request_merged_comment: >
-      crwdns494693:0%{pr_number}crwdnd494693:0%{pr_title}crwdnd494693:0%{pr_url}crwdnd494693:0%{repository}crwdnd494693:0%{repository_url}crwdnd494693:0%{github_user}crwdnd494693:0%{github_user_url}crwdne494693:0
-    pull_request_referenced_comment: >
-      crwdns494695:0%{github_user}crwdnd494695:0%{github_user_url}crwdnd494695:0%{pr_number}crwdnd494695:0%{pr_title}crwdnd494695:0%{pr_url}crwdnd494695:0%{repository}crwdnd494695:0%{repository_url}crwdne494695:0
-    pull_request_ready_for_review_comment: >
-      crwdns494697:0%{pr_number}crwdnd494697:0%{pr_title}crwdnd494697:0%{pr_url}crwdnd494697:0%{repository}crwdnd494697:0%{repository_url}crwdnd494697:0%{github_user}crwdnd494697:0%{github_user_url}crwdne494697:0
+

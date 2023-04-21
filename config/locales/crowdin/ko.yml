@@ -738,6 +738,9 @@ ko:
             sort_criteria:
               invalid: "열로 정렬할 수 없습니다: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:

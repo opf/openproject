@@ -739,6 +739,9 @@ lt:
             sort_criteria:
               invalid: "Negalima rūšiuoti pagal stulpelį: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
             custom_fields:

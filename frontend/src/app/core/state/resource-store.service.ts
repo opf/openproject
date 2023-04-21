@@ -37,6 +37,7 @@ import {
   filter,
   finalize,
   map,
+  shareReplay,
   switchMap,
   tap,
 } from 'rxjs/operators';
@@ -115,17 +116,12 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
    * @param href {string}
    */
   public requireEntity(href:string):Observable<T> {
-    console.warn('REQUIRE');
-    console.warn(href);
     const id = idFromLink(href);
     if (this.query.hasEntity(id) || this.resourceLoading(href)) {
       return this.lookup(id);
     }
 
-    return this.fetchEntity(href)
-      .pipe(
-        switchMap(() => this.lookup(id)),
-      );
+    return this.fetchEntity(href);
   }
 
   /**
@@ -293,6 +289,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
 
           throw error;
         }),
+        shareReplay(1),
       );
   }
 
@@ -321,6 +318,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
 
           throw error;
         }),
+        shareReplay(1),
       );
   }
 

@@ -46,6 +46,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { firstValueFrom } from 'rxjs';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -197,11 +198,12 @@ export class TimeEntryCalendarComponent {
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.getTime() !== start.getTime()
       || this.memoizedTimeEntries.end.getTime() !== end.getTime()) {
-      const promise = this
-        .apiV3Service
-        .time_entries
-        .list({ filters: this.dmFilters(start, end), pageSize: 500 })
-        .toPromise()
+      const promise = firstValueFrom(
+        this
+          .apiV3Service
+          .time_entries
+          .list({ filters: this.dmFilters(start, end), pageSize: 500 }),
+      )
         .then((collection) => {
           this.memoizedCreateAllowed = !!collection.createTimeEntry;
 

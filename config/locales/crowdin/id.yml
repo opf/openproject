@@ -733,6 +733,9 @@ id:
             sort_criteria:
               invalid: "Tidak dapat diurutkan dengan kolom: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
             custom_fields:

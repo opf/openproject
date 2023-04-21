@@ -45,17 +45,17 @@ export function createInitialResourceState<T>():ResourceState<T> {
  * Mark a resource path as being loaded
  *
  * @param store An entity store for the collection
- * @param string The resource path to mark as loading
+ * @param url The resource path to mark as loading
  */
 export function setResourceLoading<T extends { id:ID }>(
   store:EntityStore<ResourceState<T>>,
-  string:string,
+  url:string,
 ):void {
   store.update(({ loadingResources }) => (
     {
       loadingResources: {
         ...loadingResources,
-        [string]: true,
+        [url]: true,
       },
     }
   ));
@@ -65,15 +65,15 @@ export function setResourceLoading<T extends { id:ID }>(
  * Mark a resource path as no longer loading
  *
  * @param store An entity store for the collection
- * @param string The resource path to unmark as loading
+ * @param url The resource path to unmark as loading
  */
 export function removeResourceLoading<T extends { id:ID }>(
   store:EntityStore<ResourceState<T>>,
-  string:string,
+  url:string,
 ):void {
   store.update(({ loadingResources }) => (
     {
-      loadingResources: filter(loadingResources, (_, key) => key !== string),
+      loadingResources: filter(loadingResources, (_, key) => key !== url),
     }
   ));
 }

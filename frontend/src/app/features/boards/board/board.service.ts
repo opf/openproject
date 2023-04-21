@@ -3,11 +3,18 @@ import { BoardListsService } from 'core-app/features/boards/board/board-list/boa
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { Board, BoardType } from 'core-app/features/boards/board/board';
+import {
+  Board,
+  BoardType,
+} from 'core-app/features/boards/board/board';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BoardActionsRegistryService } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export interface CreateBoardParams {
@@ -44,15 +51,16 @@ export class BoardService {
    * @param projectIdentifier
    */
   public loadAllBoards(projectIdentifier:string|null = this.CurrentProject.identifier, force = false) {
-    if (!(force || this.loadAllPromise === undefined)) {
-      return this.loadAllPromise;
+    if (force || this.loadAllPromise === undefined) {
+      this.loadAllPromise = firstValueFrom(
+        this
+          .apiV3Service
+          .boards
+          .allInScope(projectIdentifier as string),
+      );
     }
 
-    return this.loadAllPromise = this
-      .apiV3Service
-      .boards
-      .allInScope(projectIdentifier!)
-      .toPromise();
+    return this.loadAllPromise;
   }
 
   /**
@@ -76,32 +84,35 @@ export class BoardService {
 
   /**
    * Create a new board
-   * @param name
+   * @param params
    */
   public async create(params:CreateBoardParams):Promise<Board> {
-    const board = await this
-      .apiV3Service
-      .boards
-      .create(params.type, this.boardName(params), this.CurrentProject.identifier!, params.attribute).toPromise();
+    const board = await firstValueFrom(
+      this
+        .apiV3Service
+        .boards
+        .create(params.type, this.boardName(params), this.CurrentProject.identifier as string, params.attribute),
+    );
 
     if (params.type === 'free') {
       await this.boardsList.addFreeQuery(board, { name: this.text.unnamed_list });
     } else {
-      await this.boardActions.get(params.attribute!).addInitialColumnsForAction(board);
+      await this.boardActions.get(params.attribute as string).addInitialColumnsForAction(board);
     }
 
-    await this.save(board).toPromise();
+    await firstValueFrom(this.save(board));
 
     return board;
   }
 
   public delete(board:Board):Promise<unknown> {
-    return this
-      .apiV3Service
-      .boards
-      .id(board)
-      .delete()
-      .toPromise();
+    return firstValueFrom(
+      this
+        .apiV3Service
+        .boards
+        .id(board)
+        .delete(),
+    );
   }
 
   /**

@@ -22,14 +22,4 @@
 de:
   project_module_github: "GitHub"
   permission_show_github_content: "Zeige weiteren Inhalt"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR geöffnet:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) geöffnet.
-    pull_request_closed_comment: >
-      **PR geschlossen:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) geschlossen.
-    pull_request_merged_comment: >
-      **PR gemerged:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) gemerged.
-    pull_request_referenced_comment: >
-      **Referenziert in PR:** [%{github_user}](%{github_user_url}) referenziert dieses Arbeitspaket in Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) auf [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **PR gemerged:** Pull-Request %{pr_number} [%{pr_title}](%{pr_url}) für [%{repository}](%{repository_url}) wurde von [%{github_user}](%{github_user_url}) gemerged.
+

@@ -31,7 +31,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { States } from 'core-app/core/states/states.service';
 import { Injectable } from '@angular/core';
 import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
-import { combine } from 'reactivestates';
+import { combine } from '@openproject/reactivestates';
 import { mapTo, take } from 'rxjs/operators';
 import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
 import { WorkPackageQueryStateService } from './wp-view-base.service';

@@ -86,9 +86,8 @@ module OpenProject::GithubIntegration
       ##
       # Filters a list of work packages, removing those that are associated to
       # the given `GithubPullRequest`.
-      def without_already_referenced(work_packages, github_pull_request)
-        referenced_work_packages = github_pull_request&.work_packages || []
-        work_packages - referenced_work_packages
+      def without_already_referenced(work_packages, already_referenced)
+        work_packages - already_referenced
       end
 
       ##
