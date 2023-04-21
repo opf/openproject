@@ -59,7 +59,7 @@ class TimeEntry < ApplicationRecord
 
   register_journal_formatted_fields(:time_entry_hours, 'hours')
   register_journal_formatted_fields(:named_association, 'work_package_id')
-  # register_journal_formatted_fields(:named_association, 'user_id')
+  register_journal_formatted_fields(:time_entry_named_association, 'user_id')
 
   def self.update_all(updates, conditions = nil, options = {})
     # instead of a update_all, perform an individual update during work_package#move

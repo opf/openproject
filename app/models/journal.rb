@@ -45,7 +45,11 @@ class Journal < ApplicationRecord
   register_journal_formatter :visibility, OpenProject::JournalFormatter::Visibility
   register_journal_formatter :subproject_named_association, OpenProject::JournalFormatter::SubprojectNamedAssociation
   register_journal_formatter :time_entry_hours, OpenProject::JournalFormatter::TimeEntryHours
+<<<<<<< HEAD
   register_journal_formatter :wiki_diff, OpenProject::JournalFormatter::WikiDiff
+=======
+  register_journal_formatter :time_entry_named_association, OpenProject::JournalFormatter::TimeEntryNamedAssociation
+>>>>>>> 562caed8f8 (Add time_entry_named_association journal formatter)
 
   # Make sure each journaled model instance only has unique version ids
   validates :version, uniqueness: { scope: %i[journable_id journable_type] }

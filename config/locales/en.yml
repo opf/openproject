@@ -1002,6 +1002,7 @@ en:
         updated: "changed from %{first} hours to %{last} hours"
         updated_first_single: "changed from %{first} hour to %{last} hours"
         updated_last_single: "changed from %{first} hours to %{last} hour"
+        logged_for: "Logged for"
     filter:
       changeset: "Changesets"
       message: "Forums"
