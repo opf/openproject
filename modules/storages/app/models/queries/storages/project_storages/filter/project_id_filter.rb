@@ -34,6 +34,10 @@ module Queries::Storages::ProjectStorages::Filter
       :list
     end
 
+    def human_name
+      ::Storages::ProjectStorage.human_attribute_name(name)
+    end
+
     def allowed_values
       Storages::ProjectStorage.pluck(:project_id).map { |id| [id, id.to_s] }
     end
