@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+# require 'spec_helper'
 
-describe 'TimeEntry activities' do
+# describe 'TimeEntry activities' do
 
-  # TO DO
+#   # TO DO
 
-  # User logs time for a WP
-  # Activity is displayed as specified
-  # User updates log time duration and category
-  # Activity is updated as specified
+#   # User logs time for a WP
+#   # Activity is displayed as specified
+#   # User updates log time duration and category
+#   # Activity is updated as specified
 
-end
+# end
