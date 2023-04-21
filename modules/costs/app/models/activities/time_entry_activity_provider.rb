@@ -68,7 +68,7 @@ class Activities::TimeEntryActivityProvider < Activities::BaseActivityProvider
   end
 
   def event_path(event)
-    event_location(event)
+    "/work_packages/#{event['work_package_id']}"
   end
 
   def event_url(event)
