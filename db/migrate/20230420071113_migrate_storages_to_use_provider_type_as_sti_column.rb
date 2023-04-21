@@ -27,10 +27,14 @@
 
 class MigrateStoragesToUseProviderTypeAsStiColumn < ActiveRecord::Migration[7.0]
   def up
-    Storages::Storage.update_all("provider_type = 'Storages::NextcloudStorage'")
+    Storages::Storage
+      .where(provider_type: 'nextcloud')
+      .update_all("provider_type = 'Storages::NextcloudStorage'")
   end
 
   def down
-    Storages::Storage.update_all("provider_type = 'nextcloud'")
+    Storages::Storage
+      .where(provider_type: 'Storages::NextcloudStorage')
+      .update_all("provider_type = 'nextcloud'")
   end
 end
