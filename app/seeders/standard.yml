@@ -149,7 +149,7 @@ projects:
               3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
               4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:"Project plan") in the project navigation.
               5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:"Set date and location of conference"/overview?query_id=##query.id:"Tasks").
+              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:"Tasks").
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -206,6 +206,7 @@ projects:
         children:
           - start: 0
             t_subject: Set date and location of conference
+            reference: :set_date_and_location_of_conference
             description: ''
             status: default_status_in_progress
             type: default_type_task
@@ -237,8 +238,7 @@ projects:
             type: default_type_task
             duration: 1
             relations:
-              # TODO: ref wont be found with another language
-              - to: Set date and location of conference
+              - to: :set_date_and_location_of_conference
                 type: follows
             schedule_manually: false
           - start: 4
@@ -248,8 +248,7 @@ projects:
             type: default_type_task
             duration: 11
             relations:
-              # TODO: ref wont be found with another language
-              - to: Set date and location of conference
+              - to: :set_date_and_location_of_conference
                 type: follows
             schedule_manually: false
         duration: 15

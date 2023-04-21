@@ -29,14 +29,25 @@
 #++
 
 class SeedData
-  def initialize(data)
+  def initialize(data, registry = nil)
     @data = data
+    @registry = registry || {}
+  end
+
+  def store_reference(reference, record)
+    return if reference.nil?
+
+    registry[reference] = record
+  end
+
+  def find_reference(reference)
+    registry.fetch(reference) { raise ArgumentError, "Nothing registered with reference #{reference.inspect}" }
   end
 
   def lookup(path)
     case sub_data = fetch(path)
     when Hash
-      SeedData.new(sub_data)
+      SeedData.new(sub_data, registry)
     else
       sub_data
     end
@@ -58,11 +69,13 @@ class SeedData
     return if sub_data.nil?
 
     sub_data.each_value do |item_data|
-      yield SeedData.new(item_data)
+      yield SeedData.new(item_data, registry)
     end
   end
 
   private
+
+  attr_reader :registry
 
   def fetch(path)
     keys = path.to_s.split('.')

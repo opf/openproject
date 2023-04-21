@@ -209,4 +209,100 @@ describe DemoData::WorkPackageSeeder do
       expect(WorkPackage.first.estimated_hours).to be_nil
     end
   end
+
+  context 'with a parent relation by subject name' do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Parent'),
+        work_package_data(subject: 'Child', parent: 'Parent')
+      ]
+    end
+
+    it 'creates a parent-child relation between work packages' do
+      expect(WorkPackage.count).to eq(2)
+      expect(WorkPackage.second.parent).to eq(WorkPackage.first)
+    end
+  end
+
+  context 'with a parent relation by reference' do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Parent', reference: :wp_parent),
+        work_package_data(subject: 'Child', parent: :wp_parent)
+      ]
+    end
+
+    it 'creates a parent-child relation between work packages' do
+      expect(WorkPackage.count).to eq(2)
+      expect(WorkPackage.second.parent).to eq(WorkPackage.first)
+    end
+  end
+
+  context 'with a parent relation by reference inside a nested children property' do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Grand-parent',
+                          children: [
+                            work_package_data(subject: 'Parent', reference: :this_one)
+                          ]),
+        work_package_data(subject: 'Child', parent: :this_one)
+      ]
+    end
+
+    it 'creates parent-child relations between work packages' do
+      expect(WorkPackage.find_by(subject: 'Child').parent).to eq(WorkPackage.find_by(subject: 'Parent'))
+      expect(WorkPackage.find_by(subject: 'Parent').parent).to eq(WorkPackage.find_by(subject: 'Grand-parent'))
+    end
+  end
+
+  context 'with a parent relation by reference inside a nested children property with a bcf uuid' do
+    let(:bcf_work_package) { create(:work_package, project:) }
+    let(:bcf_issue) { create(:bcf_issue, work_package: bcf_work_package, uuid: 'fbbf9ecf-5721-4bf1-a08c-aed50dc19353') }
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Grand-parent',
+                          children: [
+                            work_package_data(subject: 'Parent', reference: :this_one)
+                          ]),
+        work_package_data(bcf_issue_uuid: bcf_issue.uuid, parent: :this_one)
+      ]
+    end
+
+    it 'creates parent-child relations between work packages' do
+      expect(bcf_work_package.reload.parent).to eq(WorkPackage.find_by(subject: 'Parent'))
+      expect(WorkPackage.find_by(subject: 'Parent').parent).to eq(WorkPackage.find_by(subject: 'Grand-parent'))
+    end
+  end
+
+  context 'with a work package description referencing another work package by a reference name' do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Major thing to do',
+                          reference: :major_thing),
+        work_package_data(subject: 'Other thing',
+                          description: 'Please also check [this one]({{opSetting:base_url}}/wp/##wp.id:major_thing).')
+      ]
+    end
+
+    it 'creates parent-child relations between work packages' do
+      wp_major, wp_other = WorkPackage.order(:id).to_a
+      expect(wp_other.description).to eq("Please also check [this one]({{opSetting:base_url}}/wp/#{wp_major.id}).")
+    end
+  end
+
+  context 'with a work package description referencing another work package by subject name' do
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Major thing to do',
+                          reference: :major_thing),
+        work_package_data(subject: 'Other thing',
+                          description: 'Please also check [this one]({{opSetting:base_url}}/wp/##wp.id:"Major thing to do").')
+      ]
+    end
+
+    it 'creates parent-child relations between work packages' do
+      wp_major, wp_other = WorkPackage.order(:id).to_a
+      expect(wp_other.description).to eq("Please also check [this one]({{opSetting:base_url}}/wp/#{wp_major.id}).")
+    end
+  end
 end

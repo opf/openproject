@@ -27,7 +27,7 @@ module OpenProject::Bim::Patches::WorkPackageSeederPatch
     def update_parent(work_package, attributes)
       return unless attributes['parent']
 
-      parent = WorkPackage.find_by(subject: attributes['parent'])
+      parent = find_work_package(attributes['parent'])
       return if parent.nil?
 
       work_package.parent = parent

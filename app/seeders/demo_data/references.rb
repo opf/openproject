@@ -96,12 +96,13 @@ module DemoData
       )
     end
 
-    ##
-    # Turns `##wp:"Some subject"` into
-    # `/projects/demo-project/work_packages/42/activity` given there is a work package
-    # named "Some subject" (its subject here being "Some subject").
+    ## Turns `##wp:"Some subject"` or `##wp:some_subject` into
+    # `/projects/demo-project/work_packages/42/activity` given there is a work
+    # package named "Some subject" (its subject here being "Some subject") or
+    # referenced with :some_subject.
     #
-    # Alternatively `##wp.id:"Some subject"` is translated into just the ID.`
+    # Alternatively `##wp.id:"Some subject"` or `##wp.id:some_subject` is
+    # translated into just the ID.`
     def link_work_packages(str, project)
       link_reference(
         str,
@@ -126,20 +127,33 @@ module DemoData
     end
 
     def link_reference(str, model:, find_by:, project:, link:, tag: nil)
-      return str unless str.present?
+      return str if str.blank?
 
       tag ||= model.name.downcase
 
-      str.gsub(/###{tag}(\.id)?:"[^"]+"/) do |match|
-        identifier = match.split(":", 2).last[1..-2] # strip quotes of part behind :
-        instance = model.where(find_by => identifier, :project => project).first!
-
-        if match.include?(".id")
-          instance.id
-        else
-          link.call instance
+      [
+        [/###{tag}(\.id)?:"[^"]+"/, ->(match) { find_instance_by_query(match, model:, find_by:, project:) }],
+        [/###{tag}(\.id)?:[a-z_0-9]+/, ->(match) { find_instance_by_reference(match) }]
+      ].reduce(str) do |str_acc, (regex, find_instance)|
+        str_acc.gsub(regex) do |match|
+          instance = find_instance.(match)
+          if match.include?(".id")
+            instance.id
+          else
+            link.call instance
+          end
         end
       end
+    end
+
+    def find_instance_by_query(text, model:, find_by:, project:)
+      identifier = text.split(":", 2).last[1..-2] # strip quotes of part behind :
+      model.where(find_by => identifier, :project => project).first!
+    end
+
+    def find_instance_by_reference(text)
+      reference = text.split(":", 2).last.to_sym
+      seed_data.find_reference(reference)
     end
 
     def query_link(query)

@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
-    attr_reader :project, :statuses, :repository,
-                :types, :project_data
+    attr_reader :project, :statuses, :repository, :types
+    alias_method :project_data, :seed_data
 
     include ::DemoData::References
 
     def initialize(project, project_data)
-      super()
+      super(project_data)
       @project = project
       @project_data = project_data
       @statuses = Status.all
@@ -51,7 +51,8 @@ module DemoData
 
     def seed_demo_work_packages
       project_data.each('work_packages') do |attributes|
-        create_or_update_work_package(attributes)
+        work_package = create_or_update_work_package(attributes)
+        memorize_work_package(work_package, attributes)
       end
     end
 
@@ -91,6 +92,7 @@ module DemoData
 
         child.parent = work_package
         child.save!
+        memorize_work_package(child, child_attributes)
       end
     end
 
@@ -104,8 +106,24 @@ module DemoData
         status: find_status(attributes),
         type: find_type(attributes),
         priority: find_priority(attributes) || IssuePriority.default,
-        parent: WorkPackage.find_by(subject: attributes['parent'])
+        parent: find_work_package(attributes['parent'])
       }
+    end
+
+    def memorize_work_package(work_package, attributes)
+      project_data.store_reference(attributes['reference'], work_package)
+      attributes['work_package'] = work_package
+    end
+
+    def find_work_package(subject_or_reference)
+      case subject_or_reference
+      when String
+        subject = subject_or_reference
+        WorkPackage.find_by(subject:)
+      when Symbol
+        reference = subject_or_reference
+        seed_data.find_reference(reference)
+      end
     end
 
     def find_principal(name)
@@ -174,9 +192,8 @@ module DemoData
 
     def create_relations(attributes)
       Array(attributes['relations']).each do |relation|
-        root_work_package = WorkPackage.find_by!(subject: attributes['subject'])
-        to_work_package = WorkPackage.find_by(subject: relation['to'], project: root_work_package.project)
-        to_work_package ||= WorkPackage.find_by!(subject: relation['to'])
+        root_work_package = attributes['work_package'] # memorized on creation
+        to_work_package = find_work_package(relation['to'])
         create_relation(
           to: to_work_package,
           from: root_work_package,
