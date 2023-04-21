@@ -45,7 +45,6 @@ module JournalFormatter
     end
 
     def render(key, values, options = { html: true })
-    binding.pry
       label, old_value, value = format_details(key, values)
 
       if options[:html]

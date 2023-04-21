@@ -28,44 +28,32 @@
 
 class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = I18n.t('activerecord.attributes.project.public_value.title')
     label_text = 'Spent time'
     label_text << ':' if !values.first
     label_text = content_tag(:strong, label_text) if options[:html]
 
     # TODO - Italicize
-    # Mismatch between @event.event_path and linked WP in item_component???
 
-    first = (values.first % 1).zero? ? values.first.to_i : values.first if values.first
-    last = (values.last % 1).zero? ? values.last.to_i : values.last
+    first = format_float(values.first) if values.first
+    last = format_float(values.last)
 
-    # TODO - Refactor?
     value = \
-      if values.first
-        if values.first == 1
-          I18n.t(:'activity.item.time_entry.updated_first_single',
-                              first: first,
-                              last: last)
-        elsif values.last == 1
-          I18n.t(:'activity.item.time_entry.updated_last_single',
-                              first: first,
-                              last: last)
-        else
-          I18n.t(:'activity.item.time_entry.updated',
-                             first: first,
-                             last: last)
-        end
+      if first
+        I18n.t(:'activity.item.time_entry.updated',
+               first: I18n.t(:'activity.item.time_entry.hour', count: first),
+               last: I18n.t(:'activity.item.time_entry.hour', count: last))
       else
-        if values.last == 1
-          I18n.t(:'activity.item.time_entry.created_single',
-                             last: last)
-        else
-          I18n.t(:'activity.item.time_entry.created',
-                             last: last)
-        end
+        I18n.t(:'activity.item.time_entry.hour',
+               count: last)
       end
     # value = content_tag(:i, value) if options[:html]
 
     I18n.t(:text_journal_of, label: label_text, value:)
+  end
+
+  private
+
+  def format_float(val)
+    (val % 1).zero? ? val.to_i : val
   end
 end
