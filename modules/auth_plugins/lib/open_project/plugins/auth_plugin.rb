@@ -92,6 +92,15 @@ module OpenProject::Plugins
       [camelization, name].compact.first.underscore.to_sym
     end
 
+    ##
+    # Indicates whether or not self registration should be limited for the provider
+    # with the given name.
+    #
+    # @param provider [String] Name of the provider
+    def self.limit_self_registration?(provider:)
+      Hash(find_provider_by_name(provider))[:limit_self_registration]
+    end
+
     def self.warn_unavailable(name)
       RequestStore.fetch("warn_unavailable_auth_#{name}") do
         Rails.logger.warn { "OmniAuth SSO strategy #{name} is only available for Enterprise Editions." }

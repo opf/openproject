@@ -26,22 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
-
-module OpenProject::AuthPlugins
-  class Engine < ::Rails::Engine
-    engine_name :openproject_auth_plugins
-
-    include OpenProject::Plugins::ActsAsOpEngine
-
-    register 'openproject-auth_plugins',
-             author_url: 'https://www.openproject.org',
-             bundled: true
-
-    patch_with_namespace :Users, :RegisterUserService
-
-    config.to_prepare do
-      OpenProject::AuthPlugins::Hooks
-    end
-  end
+module OpenProject::AuthPlugins::Patches
 end
