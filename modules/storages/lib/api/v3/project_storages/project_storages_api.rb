@@ -26,13 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
-    project_folder_id { 'some_folder' }
-    project_folder_mode { 'manual' }
+module API::V3::ProjectStorages
+  class ProjectStoragesAPI < API::OpenProjectAPI
+    helpers Storages::Peripherals::Scopes
+
+    resources :project_storages do
+      get do
+        query = ParamsToQueryService
+                  .new(Storages::ProjectStorage,
+                       current_user,
+                       query_class: Queries::Storages::ProjectStorages::ProjectStoragesQuery)
+                  .call(params)
+
+        unless query.valid?
+          message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
+          raise ::API::Errors::InvalidQuery.new(message)
+        end
+
+        results = query.results.filter { |result| current_user.allowed_to?(:view_file_links, result.project) }
+
+        ::API::V3::ProjectStorages::ProjectStorageCollectionRepresenter.new(
+          results,
+          self_link: api_v3_paths.project_storages,
+          current_user:
+        )
+      end
+
+      route_param :id, type: Integer, desc: 'ProjectStorage id' do
+        after_validation do
+          @project_storage = Storages::ProjectStorage.find(params[:id])
+        end
+
+        get &API::V3::Utilities::Endpoints::Show.new(model: Storages::ProjectStorage).mount
+      end
+    end
   end
 end

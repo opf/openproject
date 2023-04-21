@@ -26,13 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
-    project_folder_id { 'some_folder' }
-    project_folder_mode { 'manual' }
+module API
+  module V3
+    module ProjectStorages
+      class ProjectStorageCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+      end
+    end
   end
 end

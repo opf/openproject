@@ -26,13 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
-    project_folder_id { 'some_folder' }
-    project_folder_mode { 'manual' }
+module Queries::Storages::ProjectStorages::Filter
+  class ProjectIdFilter < ::Queries::Filters::Base
+    self.model = Storages::ProjectStorage
+
+    def type
+      :list
+    end
+
+    def allowed_values
+      Storages::ProjectStorage.pluck(:project_id).map { |id| [id, id.to_s] }
+    end
   end
 end

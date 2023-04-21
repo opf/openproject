@@ -26,13 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Required parameters: project and storage
-FactoryBot.define do
-  factory :project_storage, class: '::Storages::ProjectStorage' do
-    creator factory: :user
-    storage factory: :storage
-    project factory: :project
-    project_folder_id { 'some_folder' }
-    project_folder_mode { 'manual' }
+module API::V3::ProjectStorages
+  class ProjectStorageRepresenter < ::API::Decorators::Single
+    include API::Decorators::DateProperty
+    include API::Decorators::LinkedResource
+
+    defaults render_nil: true
+
+    self_link(title: false)
+
+    property :id
+    date_time_property :created_at
+    date_time_property :updated_at
+    property :project_folder_id
+    property :project_folder_mode
+
+    associated_resource :storage, skip_render: ->(*) { true }, skip_link: ->(*) { false }
+    associated_resource :project, skip_render: ->(*) { true }, skip_link: ->(*) { false }
+    associated_resource :creator,
+                        v3_path: :user,
+                        representer: ::API::V3::Users::UserRepresenter,
+                        skip_render: ->(*) { true },
+                        skip_link: ->(*) { false }
+
+    def _type
+      'ProjectStorage'
+    end
   end
 end
