@@ -31,6 +31,18 @@ describe XlsExport::Project::Exporter::XLS do
                                 project.name, project.description, 'Off track', 'false']
   end
 
+  context 'with project description containing html' do
+    before do
+      project.update(description: "This is an <p>html</p> description.")
+    end
+
+    it 'performs a successful export' do
+      expect(rows.count).to eq(1)
+      expect(sheet.row(1)).to eq [project.id.to_s, project.identifier, project.name,
+                                  "This is an html description.", 'Off track', 'false']
+    end
+  end
+
   context 'with status_explanation enabled' do
     before do
       Setting.enabled_projects_columns += ["status_explanation"]
