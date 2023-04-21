@@ -81,7 +81,12 @@ class Storages::Storage < ApplicationRecord
   }
 
   def self.shorten_provider_type(provider_type)
-    provider_type.demodulize[0..-8].downcase
+    case /Storages::(?'storage_name'.*)Storage/.match(provider_type)
+    in storage_name:
+      storage_name.downcase
+    else
+      raise "Unknown provider_type! Given: #{provider_type}. Expected the following signature: Storages::{Name of the provider}Storage"
+    end
   end
 
   def short_provider_type
