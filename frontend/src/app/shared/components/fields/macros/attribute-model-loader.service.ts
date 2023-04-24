@@ -28,12 +28,21 @@
 
 import { Injectable } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { NEVER, Observable, throwError } from 'rxjs';
 import {
-  filter, map, take, tap,
+  firstValueFrom,
+  NEVER,
+  Observable,
+  throwError,
+} from 'rxjs';
+import {
+  filter,
+  map,
+  shareReplay,
+  take,
+  tap,
 } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { multiInput } from 'reactivestates';
+import { multiInput } from '@openproject/reactivestates';
 import { TransitionService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -69,20 +78,21 @@ export class AttributeModelLoaderService {
    * @param model
    * @param id
    */
-  require(model:SupportedAttributeModels, id:string):Promise<HalResource|null> {
+  require(model:SupportedAttributeModels, id:string):Observable<HalResource|null> {
     const identifier = `${model}-${id}`;
     const state = this.cache$.get(identifier);
 
     if (state.isPristine()) {
-      const promise = this
+      const observable = this
         .load(model, id)
         .pipe(
           filter((response) => !!response),
-        )
-        .toPromise();
-      state.clearAndPutFromPromise(promise as PromiseLike<HalResource>);
+          shareReplay(1),
+        );
 
-      return promise;
+      state.clearAndPutFromPromise(firstValueFrom(observable) as PromiseLike<HalResource>);
+
+      return observable;
     }
 
     return state
@@ -90,8 +100,7 @@ export class AttributeModelLoaderService {
       .pipe(
         take(1),
         tap((val) => console.log(`VAL ${val}`), (err) => console.error(`ERR ${err}`)),
-      )
-      .toPromise();
+      );
   }
 
   private load(model:SupportedAttributeModels, id?:string|undefined|null):Observable<HalResource|null> {

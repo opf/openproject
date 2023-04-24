@@ -30,6 +30,7 @@ source 'https://rubygems.org'
 
 ruby '~> 3.2.1'
 
+gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
@@ -105,7 +106,10 @@ gem 'email_validator', '~> 2.2.3'
 gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
-gem 'mail', '>= 2.8.1'
+# `config/initializers/mail_starttls_patch.rb` has also been patched to
+# fix STARTTLS handling until https://github.com/mikel/mail/pull/1536 is
+# released.
+gem 'mail', '= 2.8.1'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
@@ -189,7 +193,7 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.2.0'
+gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 

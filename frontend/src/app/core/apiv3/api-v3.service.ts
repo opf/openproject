@@ -87,6 +87,9 @@ export class ApiV3Service {
   // /api/v3/notifications
   public readonly notifications = this.apiV3CustomEndpoint(ApiV3NotificationsPaths);
 
+  // /api/v3/github_pull_requests
+  public readonly github_pull_requests = this.apiV3CollectionEndpoint('github_pull_requests');
+
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(ApiV3GridsPaths);
 

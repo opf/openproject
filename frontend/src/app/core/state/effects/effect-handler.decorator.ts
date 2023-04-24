@@ -65,8 +65,7 @@ export function EffectHandler<T extends { new(...args:any[]):EffectClass }>(cons
               try {
                 item.callback.call(this, instance);
               } catch (e) {
-                // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                console.error(`Error thrown in effect callback ${key}: ${e}`);
+                console.error(`Error thrown in effect callback ${key}: ${e as string}`);
               }
             });
         });

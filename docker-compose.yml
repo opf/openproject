@@ -23,6 +23,9 @@ x-op-build: &build
   args:
     DEV_UID: $DEV_UID
     DEV_GID: $DEV_GID
+x-op-image: &image
+  image:
+    openproject/dev:latest
 x-op-frontend-build: &frontend-build
   context: .
   dockerfile: ./docker/dev/frontend/Dockerfile
@@ -33,7 +36,7 @@ x-op-backend: &backend
   build:
     <<: *build
     target: develop
-  <<: *restart_policy
+  <<: [*image, *restart_policy]
   environment:
     LOCAL_DEV_CHECK: "${LOCAL_DEV_CHECK:?The docker-compose file for OpenProject has moved to https://github.com/opf/openproject-deploy}"
     RAILS_ENV: development

@@ -27,13 +27,35 @@
 #++
 
 class Seeder
+  class << self
+    attr_writer :logger
+
+    def logger
+      @logger ||= Rails.logger
+    end
+
+    def log_to_stdout!
+      @logger = Logger.new($stdout)
+      @logger.level = Logger::DEBUG
+      @logger.formatter = proc do |_severity, _datetime, _prog_name, msg|
+        "#{msg}\n"
+      end
+    end
+  end
+
+  attr_reader :seed_data
+
+  def initialize(seed_data = nil)
+    @seed_data = seed_data
+  end
+
   def seed!
     if applicable?
       without_notifications do
         seed_data!
       end
     else
-      Rails.logger.debug { "   *** #{not_applicable_message}" }
+      Seeder.logger.debug { "   *** #{not_applicable_message}" }
     end
   end
 
@@ -49,35 +71,21 @@ class Seeder
     "Skipping #{self.class.name}"
   end
 
+  # The user being the author of all data created during seeding.
+  def user
+    @user ||= User.not_builtin.admin.first
+  end
+
   protected
 
   def print_status(message)
-    Rails.logger.info message
+    Seeder.logger.info message
 
     yield if block_given?
   end
 
-  ##
-  # Translate the given string with the fixed interpolation for base_url
-  # Deep interpolation is required in order for interpolations on hashes to work!
-  def translate_with_base_url(string, **i18n_options)
-    I18n.t(string, deep_interpolation: true, base_url: "{{opSetting:base_url}}", **i18n_options)
-  end
-
-  def edition_data_for(key)
-    translate_with_base_url("seeders.#{OpenProject::Configuration['edition']}.#{key}", default: nil)
-  end
-
-  def demo_data_for(key)
-    edition_data_for("demo_data.#{key}")
-  end
-
-  def project_data_for(project, key)
-    demo_data_for "projects.#{project}.#{key}"
-  end
-
-  def project_has_data_for?(project, key)
-    I18n.exists?("seeders.#{OpenProject::Configuration['edition']}.demo_data.projects.#{project}.#{key}")
+  def print_error(message)
+    Seeder.logger.error message
   end
 
   def without_notifications(&)

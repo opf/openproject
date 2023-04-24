@@ -185,7 +185,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
     // Fetch attachments of current work package
     const attachments = this.workPackage.attachments as unknown&{ href:string };
-    this.attachmentsResourceService.fetchAttachments(attachments.href).subscribe();
+    this.attachmentsResourceService.fetchCollection(attachments.href).subscribe();
 
     if (this.workPackage.$links.fileLinks) {
       this.fileLinkResourceService

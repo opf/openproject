@@ -1,14 +1,80 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
+import { Meta, Story, Canvas, ArgsTable } from '@storybook/addon-docs';
+import { moduleMetadata } from '@storybook/angular';
+import { Figma } from 'mdx-embed';
 
-<Meta title="Patterns/Date Picker (2): Basic" />
+import { I18nService } from '../app/core/i18n/i18n.service';
+import { I18nServiceStub } from './i18n.service.stub';
+
+import { WeekdayService } from '../app/core/days/weekday.service';
+import { WeekdayServiceStub } from './weekday.service.stub';
+
+import { DayResourceService } from '../app/core/state/days/day.service';
+import { DayResourceServiceStub } from './day.service.stub';
+
+import { States } from '../app/core/states/states.service';
+import { OpBasicDatePickerModule } from '../app/shared/components/datepicker/basic-datepicker.module';
+
+import { OpBasicSingleDatePickerComponent } from '../app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component.ts'
+import { OpBasicRangeDatePickerComponent } from '../app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component.ts'
+
+import { SbDatePickerBasicExample } from './DatePickerBasic.example';
+import { SbDatePickerBasicPrefilledExample } from './DatePickerBasicPrefilled.example';
+import { SbDatePickerRangePrefilledExample } from './DatePickerRangePrefilled.example';
+
+<Meta
+  title="Patterns/Date Picker"
+  decorators={[
+    moduleMetadata({
+      providers: [      
+        { provide: States, useValue: new States() },
+        {
+          provide: I18nService,
+          useFactory: () => I18nServiceStub,
+        },
+        {
+          provide: WeekdayService,
+          useFactory: () => new WeekdayServiceStub(),
+        },
+        {
+          provide: DayResourceService,
+          useFactory: () => new DayResourceServiceStub(),
+        },
+      ],
+      imports: [
+        OpBasicDatePickerModule,
+      ],
+    }),
+  ]}
+/>
 
 # Basic Date Picker 
 
+The basic date picker is a key element in OpenProject and is displayed any time the user has to input a date.
+
 Basic date pickers are attached to existing date input fields and is displayed as a drop-down when that date input field is in focus. It consists of only the mini-calendar component.
 
-Unlike the Work package and Modal variants, the basic date picker does not trap focus and as such does not allow for any keyboard navigation.
+The basic date picker can also be placed inside modals like the work package date drop modal and the Baseline drop modal.
 
-> **Example**: An example of a basic date picker (with input field)
+The most common places where users will interact with a date picker are:
+
+- Work packages (start and finish dates, milestone date)
+- Custom fields (of type date)
+- Log time and costs
+- Admin settings (specifying individual non-working days)
+- Filters
+- Baseline
+
+<Canvas>
+  <Story name="Single">
+    {{ component: SbDatePickerBasicExample }}
+  </Story>
+</Canvas>
+
+## External dependencies
+
+All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/). The library gives us certain functionality out of the box with a fairly high degree of customisation, but also introduces limits (which will be mentioned below when relevant).
+
+Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/) before using or contributing to date pickers.
 
 ## Sub-variants
 
@@ -18,34 +84,143 @@ The structure is very basic and consists only of one mini calendar. There are tw
 
 **Single** allows picking just one date (2023-02-09)
 
-> **Example**: An example of a basic range date picker (with date pre-filled in the attached date input field)
+<Canvas>
+  <Story name="Single with prefilled value">
+    {{ component: SbDatePickerBasicPrefilledExample }}
+  </Story>
+</Canvas>
 
 ### Range
 
 **Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months.
 
-> **Example**: An example of a basic range date picker (with date pre-filled in the attached date input field).
+<Canvas>
+  <Story name="Range with prefilled value">
+    {{ component: SbDatePickerRangePrefilledExample }}
+  </Story>
+</Canvas>
+
+## Building Blocks
+
+All date pickers are built out of a common set of components. The basic building blocks specific to date pickers are:
+
+- Month-year selector
+- Days of the week
+- Mini day
+- Mini calendar (made of Mini days)
+
+Apart from the banner, all other building blocks are provided by Flatpickr and only styled in OpenProject. The following section will only describe how they are styled.
+
+### Month-year selector
+
+**Month-year** selectors allow the user to move forward/backwards in one-month increments.
+
+<Figma
+  title="Month-year selector"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17592&t=eNjGyvY1pXJeQFHr-1"
+/>
+
+
+We use the basic structure provided by Flatpickr:
+
+- previous button: *Grey 1* text, *Primary* on hover,
+- month indicator: Body/Small Regular; *Grey 1* text
+    - this becomes drop down selector when clicked
+- year: Body/Small Regular; *Grey 1* text
+    - this becomes a text box when clicked
+- next button: *Grey 1* text, *Primary* on hover
+
+There are two sub-variants:
+
+1.  arrows on both sides (for single date pickers)
+2.  without the right arrow: used on the left side of a two-month range calendar
+3.  without the left arrow: used on the right side of a two month range calendar
+
+### Days of the week
+
+Days of the week are headers for the mini calendar and list the days of the week in three-letter acronyms (Mon, Tue, Wed, Thu, Fri, Sat, Sun).
+
+They are set in Caption/Bold; *Grey 1* text.
+
+<Figma
+  title="Days of the Week"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17479&t=eNjGyvY1pXJeQFHr-1"
+/>
+
+### Mini day
+
+The mini day displays individual dates on the mini-calendar, and has a number of different states. Each of these states can be *enabled* (it is active and clickable) or *disabled* (it is inactive and not clickable).
+
+<Figma
+  title="Days of the Week"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17535&t=eNjGyvY1pXJeQFHr-1"
+/>
+
+Mini days are set in Caption/Regular.
+
+- **Regular** days are the default state and cover the vast majority of cases.
+    - Enabled: *Grey 1* text on *White* background.
+    	- On Hover: add stroke, 1px, Grey 3 (not-rounded)
+    - Disabled: *Grey 3* text on *White* background.
+        - Used when certain dates that are restricted by relations.
+- **A non-working day** can be a weekend or one that's individually-defined in the admin settings:
+    - Enabled: *Grey 1* text on *Grey 6* background
+        - Used when the "Working days only" switch is OFF.
+		- On Hover: add stroke, 1px, Grey 3 (not-rounded)
+    - Disabled: *Grey 3* text on *Grey 6* background.
+        - Default state, when the "Working days only" switch is ON.
+- **Selected-start, select-end or selected-single** indicate the start and finish dates of a range, or the selected date for a single date.
+    - They have 5-pixel rounding on the left for start, right for end and and on all corners for single dates.
+    - Enabled: *White* text on *Main/Primary* background
+    - Disabled: *Grey 3* text on *Grey 5* background
+        - Used when the date is already set and not user-modifiable (eg. automatically scheduled).
+- **Selected-mid** indicates working days that are included in a date range:
+    - Enabled: *Main/Primary* text on *Main/Light* background
+    - Disabled: *Grey 3* text on *Grey 5* background
+        - used when the range is already set and not user-modifiable (eg. on a parent work package that is automatically scheduled and the dates are set by its children).
+- **Selected-mid-non-spanned** indicates non-working days that are spanned (but not counted) in a date range:
+    - Enabled state does not exist (since if a date is selected, it cannot be disabled).
+    - Disabled: Main/Primary text on *Grey 6* background
+        - Used when the selected range spans non-working days that are not included (Working days only switch is ON).
+- **Today** indicates today's date.
+    - Enabled: *Grey 1* text on *Indication*/*Current* background.
+		- On Hover: add stroke, 1px, Grey 3 (not-rounded)
+    - Disabled: *Grey 3* text on *Indication*/*Current* background.
+        - Used when today falls on a non-working day and "Working days only" switch is ON.
+
+### Mini calendar
+
+The mini calendar consists of three elements:
+
+- a month-year selector
+- a days of the week line
+- a 7×5 grid of mini days
+
+<Figma
+  title="Mini calendar"
+  url="file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=3655%3A17552&t=eNjGyvY1pXJeQFHr-1"
+/>
+
+For certain months, there might be an additional (6) or one fewer (5) row, depending on the number of days in that month and the starting day.
+
+For example, a February starting on a Monday will only have lines, and a November starting on a Saturday will have six.
+
 
 ## Mobile
 
 The basic date picker does not have a mobile version. On mobile devices, Flatpickr will automatically gracefully degrade to the device's native date picker.
 
-## Margins and spacing
-
-1 rem between horizontal groupsets
-
+For more complex implementations involving date pickers (the work package date field or the baseline modal), please refer to documentation concerning those specific features for notes on mobile-specific rendering.
 
 ## Accessibility
 
-The date picker itself never receives focus (and thus does not afford keyboard navigation or screen reader compatibility; see [Date Picker: Common elements](#) for accessibility shortcomings of of Flatpickr). However, the date input field that the date picker is attached to can receive focus, and all users can type in the desired date in the ISO format. 
-
-_To be completed_ 
+The basic date picker itself never receives focus (and thus does not afford keyboard navigation or screen reader compatibility). However, the date input field that the date picker is attached to can receive focus and all users can type in the desired date in the ISO format.  
 
 ## Usage
 
-This date picker is used in:
+The basic date picker is used in:
 
-**Single:**
+### Single date picker
 
 - Log time
 - Log unit costs
@@ -60,6 +235,10 @@ This date picker is used in:
 - Budget forms
 - Dynamic forms
 
-**Range:**
+<ArgsTable of={OpBasicSingleDatePickerComponent} />
+
+### Range date picker
 
 - Pause date reminders
+
+<ArgsTable of={OpBasicRangeDatePickerComponent} />

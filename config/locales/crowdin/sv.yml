@@ -739,6 +739,9 @@ sv:
             sort_criteria:
               invalid: "Kan inte sortera på kolumn: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
           filters:
             custom_fields:

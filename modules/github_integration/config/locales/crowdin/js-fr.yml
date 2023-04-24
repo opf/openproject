@@ -39,3 +39,14 @@ fr:
       tab_prs:
         empty: 'Il n''y a pas encore de demandes de pull liées. Liez une PR existante en utilisant le code <code>OP#%{wp_id}</code> dans la description de la PR ou créez une nouvelle PR.'
       github_actions: Actions
+      pull_requests:
+        message: >
+          Pull request #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}. #%{pr_number} %{pr_link} for %{repository_link} has been %{pr_state} by %{github_user_link}.
+        referenced_message: >
+          %{github_user_link} referenced this work package in pull request #%{pr_number} %{pr_link} on %{repository_link}. #%{pr_number} %{pr_link} on %{repository_link}.
+        states:
+          opened: 'opened'
+          closed: 'closed'
+          draft: 'drafted'
+          merged: 'merged'
+          ready_for_review: 'marked ready for review'

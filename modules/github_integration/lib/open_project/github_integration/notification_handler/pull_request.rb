@@ -32,72 +32,68 @@ module OpenProject::GithubIntegration
     # Handles GitHub pull request notifications.
     class PullRequest
       include OpenProject::GithubIntegration::NotificationHandler::Helper
+      include ActionView::Helpers::TagHelper
+      include ::AngularHelper
 
       COMMENT_ACTIONS = %w[
         closed
         opened
         ready_for_review
+        referenced
         reopened
       ].freeze
 
       def process(params)
-        @payload = wrap_payload(params)
+        payload = wrap_payload(params)
         github_system_user = User.find_by(id: payload.open_project_user_id)
+
         work_packages = find_mentioned_work_packages(payload.pull_request.body, github_system_user)
+        return if work_packages.empty?
+
+        already_referenced = already_referenced_work_packages(payload)
+        pull_request = upsert_pull_request(payload, work_packages)
 
         comment_on_referenced_work_packages(
-          work_packages_to_comment_on(payload.action, work_packages),
+          work_packages_to_comment_on(payload.action, work_packages, already_referenced),
           github_system_user,
-          journal_entry
+          journal_entry(pull_request, payload)
         )
-        upsert_pull_request(work_packages)
       end
 
       private
 
-      attr_reader :payload
-
-      def work_packages_to_comment_on(action, work_packages)
+      def work_packages_to_comment_on(action, work_packages, already_referenced)
         if action == 'edited'
-          without_already_referenced(work_packages, pull_request)
+          without_already_referenced(work_packages, already_referenced)
         else
           COMMENT_ACTIONS.include?(action) ? work_packages : []
         end
       end
 
-      def pull_request
-        @pull_request ||= GithubPullRequest
-                            .where(github_id: payload.pull_request.id)
-                            .or(GithubPullRequest.where(github_html_url: payload.pull_request.html_url))
-                            .take
+      def already_referenced_work_packages(payload)
+        pull_request = GithubPullRequest
+          .where(github_id: payload.pull_request.id)
+          .or(GithubPullRequest.where(github_html_url: payload.pull_request.html_url))
+          .take
+
+        pull_request&.work_packages.to_a || []
       end
 
-      def upsert_pull_request(work_packages)
-        return if work_packages.empty? && pull_request.nil?
-
+      def upsert_pull_request(payload, work_packages)
         OpenProject::GithubIntegration::Services::UpsertPullRequest.new.call(payload.pull_request.to_h,
                                                                              work_packages:)
       end
 
-      def journal_entry
-        key = journal_entry_i18n_key
-        return nil unless key
-
-        pull_request = payload.pull_request
-        repository = pull_request.base.repo
-        sender = payload.sender
-
-        I18n.t("github_integration.pull_request_#{key}_comment",
-               pr_number: pull_request.number,
-               pr_title: pull_request.title,
-               pr_url: pull_request.html_url,
-               repository: repository.full_name,
-               repository_url: repository.html_url,
-               github_user: sender.login,
-               github_user_url: sender.html_url)
+      def journal_entry(pull_request, payload)
+        angular_component_tag 'macro',
+                              class: 'github_pull_request',
+                              inputs: {
+                                pullRequestId: pull_request.id,
+                                pullRequestState: pull_request_state(payload)
+                              }
       end
 
-      def journal_entry_i18n_key
+      def pull_request_state(payload)
         key = {
           'opened' => 'opened',
           'reopened' => 'opened',
