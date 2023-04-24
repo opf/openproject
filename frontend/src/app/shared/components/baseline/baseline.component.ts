@@ -86,36 +86,34 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
 
   public baselineAvailableValues = [
     {
-      value: '0',
+      value: 'none',
       title: this.I18n.t('js.baseline.drop_down.none'),
     },
     {
-      value: '1',
+      value: 'oneDayAgo',
       title: this.I18n.t('js.baseline.drop_down.yesterday'),
     },
     {
-      value: '2',
+      value: 'lastWorkingDay',
       title: this.I18n.t('js.baseline.drop_down.last_working_day'),
     },
     {
-      value: '3',
+      value: 'oneWeekAgo',
       title: this.I18n.t('js.baseline.drop_down.last_week'),
     },
     {
-      value: '4',
+      value: 'oneMonthAgo',
       title: this.I18n.t('js.baseline.drop_down.last_month'),
     },
     {
-      value: '5',
+      value: 'aSpecificDate',
       title: this.I18n.t('js.baseline.drop_down.a_specific_date'),
     },
     {
-      value: '6',
+      value: 'betweenTwoSpecificDates',
       title: this.I18n.t('js.baseline.drop_down.between_two_specific_dates'),
     },
   ];
-
-  public query$ = this.wpTableFilters.querySpace.query.values$();
 
   constructor(
     readonly I18n:I18nService,
@@ -224,19 +222,19 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
   }
 
   public filterChange(value:string):void {
-    if (value !== '0') {
+    if (value !== 'none') {
       this.filterSelected = true;
       switch (value) {
-        case '1':
+        case 'oneDayAgo':
           this.dropDownDescription = this.yesterdayDate();
           break;
-        case '2':
+        case 'lastWorkingDay':
           this.dropDownDescription=this.lastWorkingDate();
           break;
-        case '3':
+        case 'oneWeekAgo':
           this.dropDownDescription = this.lastweekDate();
           break;
-        case '4':
+        case 'oneMonthAgo':
           this.dropDownDescription = this.lastMonthDate();
           break;
         default:
