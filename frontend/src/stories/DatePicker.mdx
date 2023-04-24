@@ -1,0 +1,77 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { OpBasicSingleDatePickerComponent } from '../app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component'
+import { OpBasicRangeDatePickerComponent } from '../app/shared/components/datepicker/basic-range-date-picker/basic-range-date-picker.component'
+
+import * as DatePickerStories from './DatePicker.stories';
+
+<Meta of={DatePickerStories} />
+
+# Basic Date Picker 
+
+The basic date picker is a key element in OpenProject and is displayed any time the user has to input a date.
+
+Basic date pickers are attached to existing date input fields and is displayed as a drop-down when that date input field is in focus. It consists of only the mini-calendar component.
+
+The basic date picker can also be placed inside modals like the work package date drop modal and the Baseline drop modal.
+
+<Canvas of={DatePickerStories.Single} />
+
+## External dependencies
+
+All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/). The library gives us certain functionality out of the box with a fairly high degree of customisation, but also introduces limits (which will be mentioned below when relevant).
+
+Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/) before using or contributing to date pickers.
+
+## Sub-variants
+
+The structure is very basic and consists only of one mini calendar. There are two sub-variants:
+
+### Single
+
+**Single** allows picking just one date (2023-02-09)
+
+<Canvas of={DatePickerStories.SingleWithValue} />
+
+### Range
+
+**Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months.
+
+<Canvas of={DatePickerStories.RangeWithValue} />
+
+## Mobile
+
+The basic date picker does not have a mobile version. On mobile devices, Flatpickr will automatically gracefully degrade to the device's native date picker.
+
+For more complex implementations involving date pickers (the work package date field or the baseline modal), please refer to documentation concerning those specific features for notes on mobile-specific rendering.
+
+## Accessibility
+
+The basic date picker itself never receives focus (and thus does not afford keyboard navigation or screen reader compatibility). However, the date input field that the date picker is attached to can receive focus and all users can type in the desired date in the ISO format.  
+
+## Usage
+
+The basic date picker is used in:
+
+### Single date picker
+
+- Log time
+- Log unit costs
+- Custom fields (work package and project)
+- Meeting minutes
+- Work package table filters
+- Work package bulk edit form
+- Announcement edit form
+- Version new and edit form and custom fields
+- Project filters
+- Cost report filters
+- Budget forms
+- Dynamic forms
+
+<ArgsTable of={OpBasicSingleDatePickerComponent} />
+
+### Range date picker
+
+- Pause date reminders
+
+<ArgsTable of={OpBasicRangeDatePickerComponent} />

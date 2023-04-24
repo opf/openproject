@@ -1,33 +1,9 @@
-import { moduleMetadata } from '@storybook/angular';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Canvas, Meta, Story, ArgsTable } from '@storybook/addon-docs';
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
 
-import { OpSpotModule } from '../../../spot.module';
 import { SpotFormFieldComponent } from '../form-field.component';
+import * as FormFieldStories from './FormField.stories';
 
-import { SbFormFieldInputSlotExample } from './FormFieldInputSlot.example';
-import { SbFormFieldDescriptionSlotExample } from './FormFieldDescriptionSlot.example';
-import { SbFormFieldErrorSlotExample } from './FormFieldErrorSlot.example';
-import { SbFormFieldActionSlotExample } from './FormFieldActionSlot.example';
-
-<Meta
-  title="Patterns/Form Field"
-  component={SpotFormFieldComponent}
-  decorators={[
-    moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        OpSpotModule,
-      ],
-    }),
-  ]}
-  parameters={{
-    design: {
-      type: 'figma',
-      url: 'https://www.figma.com/file/XhCsrvs6rePifqbBpKYRWD/Components-Library?node-id=1805%3A6650',
-    },
-  }}
-/>
+<Meta of={FormFieldStories} />
 
 # Form Field
 
@@ -55,21 +31,13 @@ Some of these require adding an extra class on that element, so watch the exampl
 
 Use `slot="input"` to select the input element:
 
-<Canvas>
-  <Story name="Input slot">
-    {{ component: SbFormFieldInputSlotExample }}
-  </Story>
-</Canvas>
+<Canvas of={FormFieldStories.InputSlot} />
 
 ## Adding a description
 
 Use `slot="description"` to select the input element:
 
-<Canvas>
-  <Story name="Description slot">
-    {{ component: SbFormFieldDescriptionSlotExample }}
-  </Story>
-</Canvas>
+<Canvas of={FormFieldStories.DescriptionSlot} />
 
 
 ## Adding a help text
@@ -98,11 +66,7 @@ figure out the validation state automagically.
 Use `slot="errors"` to set validation errors. You can set multiple errors independently by all giving them the `slot`
 attribute.
 
-<Canvas>
-  <Story name="Basic validation">
-    {{ component: SbFormFieldErrorSlotExample }}
-  </Story>
-</Canvas>
+<Canvas of={FormFieldStories.BasicValidation} />
 
 As you can see, by default validation messages will only be shown on submit. You can change this behavior by changing
 the `showValidationErrorOn` input to the `spot-form-field` component.
@@ -114,10 +78,6 @@ the form or input.
 
 Form field actions allow you to add extra action buttons to the context of an input field.
 
-<Canvas>
-  <Story name="Actions">
-    {{ component: SbFormFieldActionSlotExample }}
-  </Story>
-</Canvas>
+<Canvas of={FormFieldStories.ActionSlot} />
 
 <ArgsTable of={SpotFormFieldComponent} />

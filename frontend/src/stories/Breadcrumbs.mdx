@@ -1,29 +1,10 @@
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
-import { moduleMetadata } from '@storybook/angular';
+import { Canvas, Meta } from '@storybook/blocks';
 
-import { OpSpotModule } from "../app/spot/spot.module";
-import { SbBreadcrumbsExample } from './Breadcrumbs.example';
-import { SbBreadcrumbsFourLevelsExample } from './BreadcrumbsFourLevels.example';
-import { SbBreadcrumbsFiveLevelsExample } from './BreadcrumbsFiveLevels.example';
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
 
-<Meta
-  title="Patterns/Breadcrumbs"
-  decorators={[
-    moduleMetadata({
-      imports: [
-        OpSpotModule,
-      ],
-    }),
-  ]}
-/>
+<Meta of={BreadcrumbsStories} />
 
 # Breadcrumbs
-
-<Canvas>
-  <Story name="Default example">
-    {{ component: SbBreadcrumbsExample }}
-  </Story>
-</Canvas>
 
 Breadcrumbs provide important semantic context to information being presented on the screen by allowing users to identify where they are in a hierarchical structure.
 
@@ -32,15 +13,13 @@ Breadcrumbs allow users to:
 - identify their current location (in a folder structure or hierarchy of work packages)
 - navigate up to the parent(s)
 
+<Canvas of={BreadcrumbsStories.Default} />
+
 ## Structure and Options
 
 Breadcrumbs consist of a series of "levels" presented horizontally, separated by a right arrow (▶). Each level is a child of the level preceding it, except the first level, which is the root.
 
-<Canvas>
-  <Story name="Four levels">
-    {{ component: SbBreadcrumbsFourLevelsExample }}
-  </Story>
-</Canvas>
+<Canvas of={BreadcrumbsStories.FourLevels} />
 
 ## Behaviour
 
@@ -51,11 +30,7 @@ Because the length of the breadcrumb can vary significantly (depending on the ti
 - The breadcrumb can show four (4) levels in full, space permitting, before going to "collapsed" mode.
 - If the available space in the parent container not does afford sufficient width to display the four levels in full, the middle levels are truncated with ellipses ("Root ▶ Second le... ▶ Third le... ▶ Fourth level").
 
-<Canvas>
-  <Story name="Five levels">
-    {{ component: SbBreadcrumbsFiveLevelsExample }}
-  </Story>
-</Canvas>
+<Canvas of={BreadcrumbsStories.FiveLevels} />
 
 There are special rules on mobile:
 
@@ -79,8 +54,3 @@ The text for each level is always a link, except for:
 
 - current level
 - collapsed levels between the direct parent and root in collapsed mode
-
-## Margins and Spacing
-
-
-The breadcrumb component does not inherently have margins or padding. There is a 0.25 rem spacing between each level and a right arrow (that is, 0.25 to the left and right of every right arrow).
