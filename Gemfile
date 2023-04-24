@@ -157,7 +157,7 @@ gem 'airbrake', '~> 13.0.0', require: false
 
 gem "hexapdf", "~> 0.32"
 gem 'prawn', '~> 2.2'
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '4337f5d2b9601f8ab726576200bcfb2066417fc0'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'e216e9a28730c906d42690282fb2e186844fd371'
 
 gem 'cells-erb', '~> 0.1.0'
 gem 'cells-rails', '~> 0.1.4'
