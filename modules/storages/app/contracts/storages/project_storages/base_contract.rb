@@ -42,6 +42,8 @@ module Storages::ProjectStorages
     validates_presence_of :project
     attribute :storage
     validates_presence_of :storage
+    attribute :project_folder_mode
+    validates :project_folder_mode, presence: true, inclusion: { in: Storages::ProjectStorage.project_folder_modes.keys }
 
     def assignable_storages
       Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))

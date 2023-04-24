@@ -65,9 +65,10 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
-    # Enable one file storage
+    # Enable one file storage together with a project folder mode
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
+    page.find_by_id('storages_project_storage_project_folder_mode_manual').click
     page.find('button[type=submit]').click
 
     # The list of enabled file storages should now contain Storage 1

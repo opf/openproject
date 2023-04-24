@@ -59,6 +59,10 @@ en:
       name: "Give your storage a name so that users can differentiate between multiple storages."
       host: "Please add the host address of your storage including the https://. It should not be longer than 255 characters."
       no_storage_set_up: "There are no file storages set up yet."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the
+        administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "For setting up additional file storages, please visit"
       setting_up_additional_storages_non_admin: "Administrators can set up additional file storages in Administration / File Storages."
       setting_up_storages: "For setting up file storages, please visit"
@@ -86,6 +90,8 @@ en:
     label_oauth_client_details: "OAuth client details"
     label_provider_type: "Provider type"
     label_new_storage: "New storage"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Storage"
     label_storages: "Storages"
     no_results: "No storages set up yet."
