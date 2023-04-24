@@ -99,7 +99,6 @@ import {
   StorageInformationService,
 } from 'core-app/shared/components/storages/storage-information/storage-information.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Component({
   selector: 'op-storage',
@@ -210,13 +209,17 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   ngOnInit():void {
-    this.storagesResourceService.requireEntity(this.projectStorage._links.storage.href).subscribe();
-
-    this.storage = this.storagesResourceService.lookup(idFromLink(this.projectStorage._links.storage.href));
+    this.storage = this.storagesResourceService.requireEntity(this.projectStorage._links.storage.href);
 
     this.fileLinks = this.collectionKey()
       .pipe(
-        switchMap((key) => this.fileLinkResourceService.requireCollection(key)),
+        switchMap((key) => {
+          if (isNewResource(this.resource)) {
+            return this.fileLinkResourceService.collection(key);
+          }
+
+          return this.fileLinkResourceService.requireCollection(key);
+        }),
         tap((fileLinks) => {
           if (isNewResource(this.resource)) {
             this.resource.fileLinks = { elements: fileLinks.map((a) => a._links?.self) };

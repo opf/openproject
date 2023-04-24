@@ -462,6 +462,4 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
     return this.schemaCache.of(resource);
   }
-
-  protected readonly structuredClone = structuredClone;
 }
