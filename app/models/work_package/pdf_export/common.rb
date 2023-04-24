@@ -143,7 +143,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def draw_repeating_dynamic_text(align, top, style)
-    pdf.repeat :all do
+    pdf.repeat :all, dynamic: true do
       text = yield
       left = align_to_left_position(text, align, style)
       opts = style.merge({ at: [left, top] })
@@ -197,5 +197,9 @@ module WorkPackage::PDFExport::Common
 
   def with_attachments?
     options[:show_attachments]
+  end
+
+  def current_page_nr
+    pdf.page_number + @page_count
   end
 end

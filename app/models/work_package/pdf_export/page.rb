@@ -56,8 +56,12 @@ module WorkPackage::PDFExport::Page
 
   def write_footer_page_nr!
     draw_repeating_dynamic_text(:center, -page_footer_top, page_footer_style) do
-      (pdf.page_number + @page_count).to_s
+      current_page_nr.to_s + total_page_nr_text
     end
+  end
+
+  def total_page_nr_text
+    @total_page_nr ? "/#{@total_page_nr}" : ''
   end
 
   def write_footer_title!

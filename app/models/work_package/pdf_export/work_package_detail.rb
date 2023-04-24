@@ -31,6 +31,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
+      id_wp_meta_map[work_package.id][:page_number] = current_page_nr
       write_work_package_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
     end
   end

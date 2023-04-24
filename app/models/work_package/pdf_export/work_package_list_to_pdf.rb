@@ -57,6 +57,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def initialize(object, options = {})
     super
 
+    @total_page_nr = nil
     @page_count = 0
     @work_packages_per_batch = 100
     setup_page!
@@ -82,6 +83,21 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def render_work_packages(work_packages, filename: "pdf_export")
     @id_wp_meta_map = build_meta_infos_map(work_packages)
+    file = render_work_packages_pdfs(work_packages, filename)
+    if wants_total_page_nrs?
+      @total_page_nr = @page_count
+      @page_count = 0
+      setup_page! # clear current pdf
+      file = render_work_packages_pdfs(work_packages, filename)
+    end
+    file
+  end
+
+  def wants_total_page_nrs?
+    true
+  end
+
+  def render_work_packages_pdfs(work_packages, filename)
     write_title!
     write_work_packages_overview! work_packages, @id_wp_meta_map
     if should_be_batched?(work_packages)
@@ -142,7 +158,6 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def render_pdf(work_packages, filename)
-    @resized_image_paths = []
     write_work_packages_details!(work_packages, @id_wp_meta_map) if with_descriptions?
     write_after_pages!
     file = Tempfile.new(filename)
