@@ -9,6 +9,7 @@ el:
         identifier: Αναγνωριστικό
         secret: Μυστικό
         scope: Φυσικό Αντικείμενο
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Πάροχοι OpenID
     providers:
@@ -17,3 +18,6 @@ el:
       no_results_table: Δεν έχουν οριστεί πάροχοι ακόμη.
       plural: Πάροχοι OpenID
       singular: Πάροχος OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

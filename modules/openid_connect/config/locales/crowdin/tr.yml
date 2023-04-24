@@ -9,6 +9,7 @@ tr:
         identifier: Tanımlayıcı
         secret: Gizli
         scope: kapsam
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID sağlayıcıları
     providers:
@@ -17,3 +18,6 @@ tr:
       no_results_table: Henüz bir sağlayıcı tanımlanmadı.
       plural: OpenID sağlayıcıları
       singular: OpenID sağlayıcı
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.
