@@ -46,13 +46,13 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
-  selector: 'op-show-changes',
+  selector: 'op-baseline-modal',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './show-changes.component.html',
-  styleUrls: ['./show-changes.component.sass'],
+  templateUrl: './baseline-modal.component.html',
+  styleUrls: ['./baseline-modal.component.sass'],
 })
-export class OpShowChangesComponent extends UntilDestroyedMixin implements AfterViewInit {
-  @HostBinding('class.op-show-changes') className = true;
+export class OpBaselineModalComponent extends UntilDestroyedMixin implements AfterViewInit {
+  @HostBinding('class.op-baseline-modal') className = true;
 
   public opened = false;
 
@@ -84,7 +84,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
     time_description: () => this.I18n.t('js.show_changes.time_description', { time: this.selectedTimezoneFormattedTime, days: this.daysNumber }),
   };
 
-  public showChangesAvailableValues = [
+  public baselineModalAvailableValues = [
     {
       value: '0',
       title: this.I18n.t('js.show_changes.drop_down.none'),

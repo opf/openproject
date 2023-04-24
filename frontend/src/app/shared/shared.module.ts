@@ -94,7 +94,7 @@ import { ViewsResourceService } from 'core-app/core/state/views/views.service';
 import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-content-loader/openproject-content-loader.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { OpShowChangesComponent } from './components/show-changes/show-changes.component';
+import { OpBaselineModalComponent } from './components/baseline-modal/baseline-modal.component';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
 
 export function bootstrapModule(injector:Injector):void {
@@ -207,7 +207,7 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     ViewSelectComponent,
-    OpShowChangesComponent,
+    OpBaselineModalComponent,
     // Old datepickers
     OpMultiDatePickerComponent,
 
@@ -268,7 +268,7 @@ export function bootstrapModule(injector:Injector):void {
     OpLoadingProjectListComponent,
 
     OpNonWorkingDaysListComponent,
-    OpShowChangesComponent,
+    OpBaselineModalComponent,
 
     // Old datepickers
     OpMultiDatePickerComponent,

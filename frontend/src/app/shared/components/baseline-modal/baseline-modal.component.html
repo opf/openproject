@@ -35,7 +35,7 @@
           (change)="filterChange($event.target.value)"
             >
             <option
-              *ngFor="let availableValue of showChangesAvailableValues"
+              *ngFor="let availableValue of baselineModalAvailableValues"
               [value]="availableValue.value">
               {{availableValue.title}}
             </option>
