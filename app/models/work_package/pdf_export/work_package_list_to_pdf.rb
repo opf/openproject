@@ -105,20 +105,39 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def merge_batched_pdfs(batch_files, filename)
     return batch_files[0] if batch_files.length == 1
 
+    # TODO: All internal link annotations are not copied over on merging, is there a way to preserve them?
+
     merged_pdf = Tempfile.new(filename)
+
+    # We use the command line tool "pdfunite" for concatenating the PDFs.
+    # That tool comes with the system package "poppler-utils" which we
+    # fortunately already have installed for text extraction purposes.
+    Open3.capture2e("pdfunite", *batch_files.map(&:path), merged_pdf.path)
 
     # TODO: Also possible, use the hexapdf cli that comes with the gem
     # Open3.capture2e("hexapdf", 'merge', '--force', *batch_files.map(&:path), merged_pdf.path)
 
-    # TODO: All internal link annotions are not copied over on merging, is there a way to preserve them?
-    target = HexaPDF::Document.new
-    batch_files.each do |batch_file|
-      pdf = HexaPDF::Document.open(batch_file.path)
-      pdf.pages.each { |page| target.pages << target.import(page) }
-    end
-    target.write(merged_pdf.path, optimize: true)
+    # TODO: Also possible, use the hexapdf gem
+    # target = HexaPDF::Document.new
+    # batch_files.each do |batch_file|
+    #   pdf = HexaPDF::Document.open(batch_file.path)
+    #   pdf.pages.each { |page| target.pages << target.import(page) }
+    # end
+    # target.write(merged_pdf.path, optimize: true)
 
     merged_pdf
+  end
+
+  def batch_supported?
+    return @batch_supported if defined?(@batch_supported)
+
+    @batch_supported = begin
+                         _, status = Open3.capture2e('pdfunite', '-h')
+                         status.success?
+                       rescue StandardError => e
+                         Rails.logger.error "Failed to test pdfunite version: #{e.message}"
+                         false
+                       end
   end
 
   def render_pdf(work_packages, filename)
@@ -176,7 +195,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def should_be_batched?(work_packages)
-    with_descriptions? && with_attachments? && (work_packages.length > @work_packages_per_batch)
+    batch_supported? && with_descriptions? && with_attachments? && (work_packages.length > @work_packages_per_batch)
   end
 
   def project
