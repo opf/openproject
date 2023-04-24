@@ -53,6 +53,7 @@ en:
       project_settings:
         index: "File storages available in this project"
         new: "Add a file storage to this project"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Please make sure you have administration privileges in your Nextcloud instance and have the following application installed before doing the setup:"
       type_link_text: "“Integration OpenProject”"

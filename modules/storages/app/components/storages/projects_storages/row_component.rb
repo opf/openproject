@@ -53,7 +53,14 @@ module Storages::ProjectsStorages
     end
 
     def button_links
-      [delete_link]
+      [edit_link, delete_link]
+    end
+
+    def edit_link
+      link_to '',
+              edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              class: 'icon icon-edit',
+              title: I18n.t(:button_edit)
     end
 
     def delete_link
