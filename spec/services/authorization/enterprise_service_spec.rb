@@ -74,7 +74,6 @@ describe Authorization::EnterpriseService do
       end
 
       %i(define_custom_style
-         multiselect_custom_fields
          edit_attribute_groups
          work_package_query_relation_columns
          attribute_help_texts
