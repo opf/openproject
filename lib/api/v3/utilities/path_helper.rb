@@ -551,7 +551,7 @@ module API
           end
 
           def self.timestamps_to_param_value(timestamps)
-            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute.iso8601 }.join(",")
+            Array(timestamps).map { |timestamp| Timestamp.parse(timestamp).absolute }.join(",")
           end
 
           def self.path_for(path, filters: nil, sort_by: nil, group_by: nil, page_size: nil, offset: nil,
