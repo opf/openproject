@@ -30,22 +30,15 @@ require 'mini_magick'
 
 module WorkPackage::PDFExport::Attachments
   def resize_image(file_path)
-    resized_file_path = extend_file_name_in_path(file_path, '__x325')
+    tmp_file = Tempfile.new(['temp_image', File.extname(file_path)])
+    @resized_images << tmp_file
+    resized_file_path = tmp_file.path
+
     image = MiniMagick::Image.open(file_path)
     image.resize("x325>")
     image.write(resized_file_path)
 
-    @resized_image_paths << resized_file_path
-
     resized_file_path
-  end
-
-  def extend_file_name_in_path(file_path, name_suffix)
-    dir_path = File.dirname(file_path)
-    file_extension = File.extname(file_path)
-    file_name = File.basename(file_path, '.*')
-
-    File.join(dir_path, "#{file_name}#{name_suffix}#{file_extension}")
   end
 
   def pdf_embeddable?(content_type)
@@ -53,8 +46,7 @@ module WorkPackage::PDFExport::Attachments
   end
 
   def delete_all_resized_images
-    @resized_image_paths.each do |file_path|
-      File.delete(file_path)
-    end
+    @resized_images&.each(&:close!)
+    @resized_images = []
   end
 end
