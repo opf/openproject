@@ -105,8 +105,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        # TODO: ref wont be found with another language
-        assignee: OpenProject Admin
+        assignee: :openproject_admin
     boards:
       kanban:
         t_name: 'Kanban board'

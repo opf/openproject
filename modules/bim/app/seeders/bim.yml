@@ -139,8 +139,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        # TODO: ref wont be found with another language
-        assignee: OpenProject Admin
+        assignee: :openproject_admin
     boards:
       bcf:
         t_name: "Simple drag'n drop workflow"
@@ -286,7 +285,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        assignee: OpenProject Admin
+        assignee: :openproject_admin
     project-overview:
       row_count: 6
       column_count: 2
@@ -769,7 +768,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        assignee: OpenProject Admin
+        assignee: :openproject_admin
     project-overview:
       row_count: 6
       column_count: 2
@@ -1402,8 +1401,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        # TODO: ref wont be found with another language
-        assignee: OpenProject Admin
+        assignee: :openproject_admin
     boards:
       bcf:
         t_name: "BCF issues"

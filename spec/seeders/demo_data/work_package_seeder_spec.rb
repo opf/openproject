@@ -44,9 +44,6 @@ describe DemoData::WorkPackageSeeder do
 
       # IssuePriority records needed by WorkPackageSeeder
       Standard::BasicData::PrioritySeeder,
-
-      # User admin needed by WorkPackageSeeder
-      AdminUserSeeder
     ].each { |seeder| seeder.new.seed! }
   end
   let(:project) { create(:project) }
@@ -65,6 +62,13 @@ describe DemoData::WorkPackageSeeder do
 
   before do
     seed_data = SeedData.new('work_packages' => work_packages_data)
+
+    # Admin user needed by ProjectSeeder
+    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
+    # to add a reference to the created admin user in the seed_data for each
+    # example.
+    AdminUserSeeder.new(seed_data).seed!
+
     work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
   end

@@ -172,17 +172,11 @@ module DemoData
     end
 
     def set_assignee_filter!(filters)
-      users = Array(config[:assignee])
-                .map(&:split)
-                .inject(User.user.none) do |scope, (firstname, lastname)|
-                  scope.or(User.user.where(firstname:, lastname:))
-                end
-                .pluck(:id)
-
-      if users.any?
+      assignee = seed_data.find_reference(config[:assignee])
+      if assignee
         filters[:assigned_to_id] = {
           operator: "=",
-          values: users.map(&:to_s)
+          values: [assignee.id.to_s]
         }
       end
     end

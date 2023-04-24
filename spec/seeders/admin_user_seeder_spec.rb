@@ -30,21 +30,45 @@
 
 require 'spec_helper'
 
-RSpec.describe Seeder do
-  subject(:seeder) { described_class.new }
+RSpec.describe AdminUserSeeder do
+  subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { SeedData.new({}) }
 
-  describe '#user' do
-    it 'returns the admin created from the seeding' do
-      expect(seeder.user).to be_nil
-      AdminUserSeeder.new(seed_data).seed!
-      expect(seeder.user).to be_a(User)
+  it 'creates an admin user' do
+    expect { seeder.seed! }.to change { User.admin.count }.by(1)
+  end
+
+  it 'references the admin user as :openproject_admin in the seed_data' do
+    seeder.seed!
+    expect(seed_data.find_reference(:openproject_admin)).to eq(User.admin.first)
+  end
+
+  context 'when a builtin admin user already exists' do
+    before do
+      User.system
     end
 
-    it 'does not return the system user' do
-      expect { User.system }.to change { User.admin.count }.by(1)
-      expect(seeder.user).to be_nil
+    it 'creates a non-builtin admin user' do
+      expect(User.admin.count).to eq(1)
+      expect { seeder.seed! }.to change { User.user.admin.count }.by(1)
+    end
+  end
+
+  context 'when some admin users already exist' do
+    before do
+      User.system
+      create(:admin, firstname: 'First existing admin')
+      create(:admin, firstname: 'Second existing admin')
+    end
+
+    it 'does not create another admin user' do
+      expect { seeder.seed! }.not_to change { User.admin.count }
+    end
+
+    it 'references the first non-builtin admin user as :openproject_admin in the seed_data' do
+      seeder.seed!
+      expect(seed_data.find_reference(:openproject_admin)).to eq(User.user.admin.first)
     end
   end
 end

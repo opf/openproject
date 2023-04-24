@@ -48,9 +48,6 @@ RSpec.describe DemoData::ProjectSeeder do
       # IssuePriority records needed by WorkPackageSeeder
       Standard::BasicData::PrioritySeeder,
 
-      # admin user needed by ProjectSeeder
-      AdminUserSeeder,
-
       # project admin role needed by ProjectSeeder
       BasicData::BuiltinRolesSeeder,
       BasicData::RoleSeeder
@@ -71,6 +68,14 @@ RSpec.describe DemoData::ProjectSeeder do
         }
       ]
     }
+  end
+
+  before do
+    # Admin user needed by ProjectSeeder
+    # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
+    # to add a reference to the created admin user in the seed_data for each
+    # example.
+    AdminUserSeeder.new(seed_data).seed!
   end
 
   it 'stores references to created versions in the seed data' do
@@ -142,13 +147,38 @@ RSpec.describe DemoData::ProjectSeeder do
       )
     end
 
-    it 'creates the link' do
+    it 'creates the appropriate version filter' do
       project_seeder.seed!
       version = Version.find_by(name: 'The product backlog')
       query = Query.find_by(name: 'Product Backlog query')
-      expect(query.filters).to include(an_instance_of(Queries::WorkPackages::Filter::VersionFilter))
-      version_filter = query.filters.find { _1.is_a?(Queries::WorkPackages::Filter::VersionFilter) }
-      expect(version_filter.values).to eq([version.id.to_s])
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::VersionFilter, values: [version.id.to_s]))
     end
+  end
+
+  context 'with query linking to an assignee by its reference' do
+    let(:project_data) do
+      {
+        'name' => 'Some project',
+        'queries' => [
+          {
+            'name' => 'Team planner',
+            'assignee' => :openproject_admin
+          }
+        ]
+      }
+    end
+
+    it 'creates the appropriate assigned_to filter' do
+      project_seeder.seed!
+      user = User.admin.last
+      query = Query.find_by(name: 'Team planner')
+      expect(query.filters)
+        .to include(a_filter(Queries::WorkPackages::Filter::AssignedToFilter, values: [user.id.to_s]))
+    end
+  end
+
+  def a_filter(filter_class, attributes)
+    an_instance_of(filter_class).and having_attributes(attributes)
   end
 end
