@@ -1000,6 +1000,9 @@ en:
         hour:
           one: "%{count} hour"
           other: "%{count} hours"
+        hour_html:
+          one: "<i>%{count} hour</i>"
+          other: "<i>%{count} hours</i>"
         updated: "changed from %{first} to %{last}"
         logged_for: "Logged for"
     filter:

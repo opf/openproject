@@ -30,35 +30,20 @@ class OpenProject::JournalFormatter::TimeEntryNamedAssociation < JournalFormatte
   private
 
   def format_details(key, values, cache:)
-    # TODO - Confirm wording
-
-    label = if values.first.nil?
-              label(key)
-            elsif values.last.nil?
-              I18n.t("activity.item.time_entry.logged_for")
-              # else
-              #   I18n.t("activity.item.time_entry.logged_for")
-            end
+    label = I18n.t("activity.item.time_entry.logged_for")
 
     old_value, value = *format_values(values, key, cache:)
 
     [label, old_value, value]
   end
 
-  # def format_html_details(label, old_value, value)
-  #   label = content_tag(:strong, label)
-  #   old_value = content_tag('i', h(old_value)) if old_value.present?
-  #   value = content_tag('i', h(value)) if value.present?
-  #   value ||= ''
+  def format_html_details(label, old_value, value)
+    label = content_tag(:strong, label)
 
-  #   [label, old_value, value]
-  # end
+    [label, old_value, value]
+  end
 
-  # def render_ternary_detail_text(label, value, old_value, options)
-  #   binding.pry
-  #   return I18n.t(:text_journal_deleted_subproject, label:, old: old_value) if value.blank?
-  #   return I18n.t(:text_journal_of, label:, value:) if old_value.blank?
-
-  #   super
-  # end
+  def render_ternary_detail_text(label, value, _old_value, _options)
+    I18n.t(:text_journal_of, label:, value:)
+  end
 end

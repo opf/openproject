@@ -32,21 +32,20 @@ class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
     label_text << ':' if !values.first
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    # TODO - Italicize
+    html = options[:html] ? '_html' : ''
 
     first = format_float(values.first) if values.first
     last = format_float(values.last)
 
-    value = \
+    value =
       if first
         I18n.t(:'activity.item.time_entry.updated',
-               first: I18n.t(:'activity.item.time_entry.hour', count: first),
-               last: I18n.t(:'activity.item.time_entry.hour', count: last))
+               first: I18n.t(:"activity.item.time_entry.hour#{html}", count: first),
+               last: I18n.t(:"activity.item.time_entry.hour#{html}", count: last))
       else
-        I18n.t(:'activity.item.time_entry.hour',
+        I18n.t(:"activity.item.time_entry.hour#{html}",
                count: last)
       end
-    # value = content_tag(:i, value) if options[:html]
 
     I18n.t(:text_journal_of, label: label_text, value:)
   end
