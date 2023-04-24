@@ -47,10 +47,10 @@ export class OpBaselineModalComponent extends UntilDestroyedMixin {
   public opened = false;
 
   public text = {
-    toggle_title: this.I18n.t('js.show_changes.toggle_title'),
-    header_description: this.I18n.t('js.show_changes.header_description'),
-    clear: this.I18n.t('js.show_changes.clear'),
-    apply: this.I18n.t('js.show_changes.apply'),
+    toggle_title: this.I18n.t('js.baseline.toggle_title'),
+    header_description: this.I18n.t('js.baseline.header_description'),
+    clear: this.I18n.t('js.baseline.clear'),
+    apply: this.I18n.t('js.baseline.apply'),
   };
 
   constructor(

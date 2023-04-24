@@ -73,45 +73,45 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
   public tooltipPosition = SpotDropAlignmentOption.BottomRight;
 
   public text = {
-    toggle_title: this.I18n.t('js.show_changes.toggle_title'),
-    header_description: this.I18n.t('js.show_changes.header_description'),
-    clear: this.I18n.t('js.show_changes.clear'),
-    apply: this.I18n.t('js.show_changes.apply'),
-    show_changes_since: this.I18n.t('js.show_changes.show_changes_since'),
-    time: this.I18n.t('js.show_changes.time'),
-    help_description: this.I18n.t('js.show_changes.help_description'),
+    toggle_title: this.I18n.t('js.baseline.toggle_title'),
+    header_description: this.I18n.t('js.baseline.header_description'),
+    clear: this.I18n.t('js.baseline.clear'),
+    apply: this.I18n.t('js.baseline.apply'),
+    show_changes_since: this.I18n.t('js.baseline.show_changes_since'),
+    time: this.I18n.t('js.baseline.time'),
+    help_description: this.I18n.t('js.baseline.help_description'),
     timeZone: this.configuration.isTimezoneSet() ? moment().tz(this.configuration.timezone()).zoneAbbr() : 'local',
-    time_description: () => this.I18n.t('js.show_changes.time_description', { time: this.selectedTimezoneFormattedTime, days: this.daysNumber }),
+    time_description: () => this.I18n.t('js.baseline.time_description', { time: this.selectedTimezoneFormattedTime, days: this.daysNumber }),
   };
 
   public baselineAvailableValues = [
     {
       value: '0',
-      title: this.I18n.t('js.show_changes.drop_down.none'),
+      title: this.I18n.t('js.baseline.drop_down.none'),
     },
     {
       value: '1',
-      title: this.I18n.t('js.show_changes.drop_down.yesterday'),
+      title: this.I18n.t('js.baseline.drop_down.yesterday'),
     },
     {
       value: '2',
-      title: this.I18n.t('js.show_changes.drop_down.last_working_day'),
+      title: this.I18n.t('js.baseline.drop_down.last_working_day'),
     },
     {
       value: '3',
-      title: this.I18n.t('js.show_changes.drop_down.last_week'),
+      title: this.I18n.t('js.baseline.drop_down.last_week'),
     },
     {
       value: '4',
-      title: this.I18n.t('js.show_changes.drop_down.last_month'),
+      title: this.I18n.t('js.baseline.drop_down.last_month'),
     },
     {
       value: '5',
-      title: this.I18n.t('js.show_changes.drop_down.a_specific_date'),
+      title: this.I18n.t('js.baseline.drop_down.a_specific_date'),
     },
     {
       value: '6',
-      title: this.I18n.t('js.show_changes.drop_down.between_two_specific_dates'),
+      title: this.I18n.t('js.baseline.drop_down.between_two_specific_dates'),
     },
   ];
 
