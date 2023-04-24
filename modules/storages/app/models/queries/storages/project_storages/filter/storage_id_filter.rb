@@ -39,7 +39,7 @@ module Queries::Storages::ProjectStorages::Filter
     end
 
     def allowed_values
-      Storages::ProjectStorage.pluck(:storage_id).map { |id| [id, id.to_s] }
+      Storages::Storage.visible.pluck(:id).map { |id| [id, id.to_s] }
     end
   end
 end
