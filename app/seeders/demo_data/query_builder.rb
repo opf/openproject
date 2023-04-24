@@ -26,13 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class QueryBuilder < ::Seeder
-    attr_reader :config, :project, :user
+    attr_reader :config, :project, :user, :seed_data
 
-    def initialize(config, project:, user:)
+    def initialize(config, project:, user:, seed_data:)
       super()
       @config = config.with_indifferent_access
       @project = project
       @user = user
+      @seed_data = seed_data
     end
 
     def create!
@@ -139,10 +140,11 @@ module DemoData
     end
 
     def set_version_filter!(filters)
-      if version = config[:version].presence
+      version = seed_data.find_reference(config[:version])
+      if version
         filters[:version_id] = {
           operator: "=",
-          values: [Version.find_by(name: version).id]
+          values: [version.id]
         }
       end
     end

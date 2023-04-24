@@ -64,6 +64,15 @@ describe RootSeeder,
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
     end
 
+    it 'links work packages to their version' do
+      count_by_version = WorkPackage.joins(:version).group('versions.name').count
+      expect(count_by_version).to eq(
+        "Bug Backlog" => 1,
+        "Sprint 1" => 8,
+        "Product Backlog" => 7
+      )
+    end
+
     include_examples 'no email deliveries'
 
     context 'when run a second time' do

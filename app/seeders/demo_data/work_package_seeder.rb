@@ -148,8 +148,9 @@ module DemoData
     end
 
     def set_version!(wp_attr, attributes)
-      if attributes['version']
-        wp_attr[:version] = Version.find_by!(name: attributes['version'])
+      version = seed_data.find_reference(attributes['version'])
+      if version
+        wp_attr[:version] = version
       end
     end
 

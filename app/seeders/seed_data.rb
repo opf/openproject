@@ -41,6 +41,8 @@ class SeedData
   end
 
   def find_reference(reference)
+    return if reference.nil?
+
     registry.fetch(reference) { raise ArgumentError, "Nothing registered with reference #{reference.inspect}" }
   end
 
