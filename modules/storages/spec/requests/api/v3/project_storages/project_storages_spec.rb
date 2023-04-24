@@ -97,6 +97,15 @@ describe 'API v3 project storages resource', content_type: :json, webmock: true 
 
           it_behaves_like 'invalid filters'
         end
+
+        context 'with project id of project with no storages' do
+          let(:project) { create(:project) }
+          let(:project_id) { project.id }
+
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
+        end
       end
 
       context 'with storage filter' do
@@ -115,6 +124,15 @@ describe 'API v3 project storages resource', content_type: :json, webmock: true 
           let(:storage_id) { '1337' }
 
           it_behaves_like 'invalid filters'
+        end
+
+        context 'with storage id of storage with no linked projects' do
+          let(:storage) { create(:storage) }
+          let(:storage_id) { storage.id }
+
+          it_behaves_like 'API V3 collection response', 0, 0, 'ProjectStorage', 'Collection' do
+            let(:elements) { [] }
+          end
         end
       end
     end
