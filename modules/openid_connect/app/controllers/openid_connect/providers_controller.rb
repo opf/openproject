@@ -62,11 +62,11 @@ module OpenIDConnect
     end
 
     def create_params
-      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret)
+      params.require(:openid_connect_provider).permit(:name, :display_name, :identifier, :secret, :limit_self_registration)
     end
 
     def update_params
-      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret)
+      params.require(:openid_connect_provider).permit(:display_name, :identifier, :secret, :limit_self_registration)
     end
 
     def find_provider

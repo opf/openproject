@@ -76,6 +76,48 @@ describe Users::RegisterUserService do
     end
   end
 
+  describe '#register_omniauth_user' do
+    let(:user) { User.new(status: Principal.statuses[:registered], identity_url: 'azure:1234') }
+    let(:instance) { described_class.new(user) }
+    let(:call) { instance.call }
+
+    before do
+      allow(user).to receive(:activate)
+      allow(user).to receive(:save).and_return true
+
+      # required so that the azure provider is visible (ee feature)
+      allow(EnterpriseToken).to receive(:show_banners?).and_return false
+
+      with_all_registration_options do |_type|
+        call
+      end
+    end
+
+    it 'tries to activate that user regardless of settings' do
+      expect(call).to be_success
+      expect(call.result).to eq user
+      expect(call.message).to eq I18n.t(:notice_account_registered_and_logged_in)
+    end
+
+    context(
+      'with limit_self_registration enabled and self_registration disabled',
+      with_settings: {
+        self_registration: 0,
+        plugin_openproject_openid_connect: {
+          providers: {
+            azure: { identifier: "foo", secret: "bar", limit_self_registration: true }
+          }
+        }
+      }
+    ) do
+      it 'fails to activate due to disabled self registration' do
+        expect(call).not_to be_success
+        expect(call.result).to eq user
+        expect(call.message).to eq I18n.t('account.error_self_registration_disabled')
+      end
+    end
+  end
+
   describe '#ensure_registration_allowed!' do
     it 'returns an error for disabled' do
       allow(Setting).to receive(:self_registration).and_return(0)
