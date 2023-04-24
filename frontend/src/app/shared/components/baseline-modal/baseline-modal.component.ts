@@ -33,7 +33,6 @@ import {
 } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 
 @Component({
   selector: 'op-baseline-modal',
@@ -41,7 +40,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   templateUrl: './baseline-modal.component.html',
   styleUrls: ['./baseline-modal.component.sass'],
 })
-export class OpBaselineModalComponent extends UntilDestroyedMixin {
+export class OpBaselineModalComponent {
   @HostBinding('class.op-baseline-modal') className = true;
 
   public opened = false;
@@ -55,24 +54,9 @@ export class OpBaselineModalComponent extends UntilDestroyedMixin {
 
   constructor(
     readonly I18n:I18nService,
-  ) {
-    super();
-  }
+  ) {}
 
   public toggleOpen():void {
     this.opened = !this.opened;
-  }
-
-  public clearSelection():void {
-  }
-
-  public onSubmit(e:Event):void {
-    e.preventDefault();
-
-    this.close();
-  }
-
-  public close():void {
-    this.opened = false;
   }
 }
