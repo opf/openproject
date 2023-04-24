@@ -189,6 +189,10 @@ describe 'Working Days', js: true do
     it 'can add non-working days' do
       click_on 'Non-working day'
 
+      # Check if a date is correctly highlighted after selecting it in different time zones
+      datepicker.select_day 5
+      datepicker.expect_day '5'
+
       # It can cancel and reopen
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Cancel'

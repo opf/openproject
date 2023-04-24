@@ -6,6 +6,7 @@
     [value]="filter.values"
     [focusDirectly]="shouldFocus"
     [multiple]="true"
+    [appendTo]="'body'"
     [id]="'values-' + filter.id"
     class="advanced-filters--ng-select -multi-select"
     (valueChange)="onChange($event)"

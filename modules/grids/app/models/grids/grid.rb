@@ -27,7 +27,7 @@
 #++
 
 module Grids
-  class Grid < ActiveRecord::Base
+  class Grid < ApplicationRecord
     self.table_name = :grids
 
     serialize :options, Hash

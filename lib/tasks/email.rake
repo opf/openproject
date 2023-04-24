@@ -145,8 +145,8 @@ namespace :redmine do
         username: ENV.fetch('username', nil),
         password: ENV.fetch('password', nil),
         folder: ENV.fetch('folder', nil),
-        move_on_success: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_success', nil)),
-        move_on_failure: ActiveRecord::Type::Boolean.new.cast(ENV.fetch('move_on_failure', nil))
+        move_on_success: ENV.fetch('move_on_success', nil),
+        move_on_failure: ENV.fetch('move_on_failure', nil)
       }
 
       Redmine::IMAP.check(imap_options, options_from_env)
