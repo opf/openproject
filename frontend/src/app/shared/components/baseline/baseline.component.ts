@@ -46,7 +46,7 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
-  selector: 'op-baseline-',
+  selector: 'op-baseline',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './baseline.component.html',
   styleUrls: ['./baseline.component.sass'],
