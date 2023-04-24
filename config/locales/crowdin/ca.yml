@@ -229,7 +229,7 @@ ca:
       failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
       completed: "S'ha completat l'eliminació del projecte %{name}"
       completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Addicionalment, s'han eliminat els següents subprojectes:"
     index:
       open_as_gantt: 'Obre com a diagrama de Gantt'
       open_as_gantt_title: "Utilitza aquest botó per a generar un diagrama de Gantt que filtra paquets de treball pels projectes visibles en aquesta pàgina."
@@ -735,6 +735,9 @@ ca:
               format: "%{message}"
             sort_criteria:
               invalid: "No es pot ordenar per columna: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
@@ -3007,7 +3010,7 @@ ca:
       code_409: "No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte."
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."
       code_500: "S'ha produït un error intern."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Hi ha un error en una petició sortint a un altre recurs amb el codi d'estat %{status_code}."
       not_found:
         work_package: "No s'ha pogut trobar o s'ha eliminat el paquet de treball que estàs buscant."
       expected:

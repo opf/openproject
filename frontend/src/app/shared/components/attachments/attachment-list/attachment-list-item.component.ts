@@ -103,15 +103,10 @@ export class OpAttachmentListItemComponent extends UntilDestroyedMixin implement
   ngOnInit():void {
     this.fileIcon = getIconForMimeType(this.attachment.contentType);
 
-    const authorId = idFromLink(this.attachment._links.author.href);
-
-    if (!this.principalsResourceService.exists(authorId)) {
-      this.principalsResourceService.fetchUser(authorId).subscribe();
-    }
+    const href = this.attachment._links.author.href;
+    this.author$ = this.principalsResourceService.requireEntity(href);
 
     this.timestampText = this.timezoneService.parseDatetime(this.attachment.createdAt).fromNow();
-
-    this.author$ = this.principalsResourceService.lookup(authorId).pipe(first());
 
     combineLatest([
       this.author$,

@@ -152,7 +152,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
 
     // ensure collection is loaded to the store
     if (!isNewResource(this.resource)) {
-      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink);
+      this.attachmentsResourceService.requireCollection(this.attachmentsSelfLink).subscribe();
     }
 
     const compareCreatedAtTimestamps = (a:IAttachment, b:IAttachment):number => {

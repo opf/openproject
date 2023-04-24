@@ -46,5 +46,5 @@ class Storages::ProjectStorage < ApplicationRecord
   enum project_folder_mode: {
     inactive: 'inactive',
     manual: 'manual'
-  }, _prefix: 'project_folder'
+  }.freeze, _prefix: 'project_folder'
 end

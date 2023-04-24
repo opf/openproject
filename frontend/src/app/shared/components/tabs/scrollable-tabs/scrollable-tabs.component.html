@@ -42,12 +42,12 @@
           role="button"
         >
           <span [textContent]="tab.name"></span>
-          <op-tab-count
-            *ngIf="tab.counter && tab.showCountAsBubble"
-            [count]="tab.counter(injector) | async"
-            [attr.data-qa-selector]="'tab-counter-' + tab.name"
-          ></op-tab-count>
-          <ng-container *ngIf="tab.counter(injector) | async as tabCounter">
+          <ng-container *ngIf="counter(tab) | async as tabCounter">
+            <op-tab-count
+              *ngIf="tab.showCountAsBubble"
+              [count]="tabCounter"
+              [attr.data-qa-selector]="'tab-counter-' + tab.name"
+            ></op-tab-count>
             <span
               *ngIf="tabCounter > 0 && !tab.showCountAsBubble"
               data-qa-selector="tab-count"
