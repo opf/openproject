@@ -46,7 +46,6 @@ module OpenProject
         begin; Kernel.Float(s); rescue StandardError; nil; end
       end
 
-      # TODO: Check if this can be deleted
       def with_leading_slash
         starts_with?('/') ? self : "/#{self}"
       end
