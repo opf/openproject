@@ -10,21 +10,7 @@
     <% if @available_storages.any? %>
       <%= render partial: '/storages/project_settings/form', locals: { f: f, available_storages: @available_storages }  %>
     <% else %>
-      <div class="op-toast -info">
-        <div class="op-toast--content">
-          <p>
-            <strong><%= t(:'storages.instructions.all_available_storages_already_added') %></strong>
-          </p>
-          <p>
-            <% if User.current.admin? %>
-              <%= t(:"storages.instructions.setting_up_additional_storages") %>
-              <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
-            <% else %>
-              <%= t(:"storages.instructions.setting_up_additional_storages_non_admin") %>
-            <% end %>
-          </p>
-        </div>
-      </div>
+      <%= render partial: '/storages/project_settings/toast_all_available_storages_already_added' %>
     <% end %>
   </section>
 <% end %>
