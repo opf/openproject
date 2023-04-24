@@ -185,7 +185,7 @@ export class OpShowChangesComponent extends UntilDestroyedMixin implements After
       .daysService
       .requireNonWorkingYears$(lastYear, today)
       .pipe(take(1))
-      .toPromise();
+      .toPromise()?? [];
   }
 
   isNonWorkingDay(date:Date|string):boolean {
