@@ -131,13 +131,14 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   def batch_supported?
     return @batch_supported if defined?(@batch_supported)
 
-    @batch_supported = begin
-                         _, status = Open3.capture2e('pdfunite', '-h')
-                         status.success?
-                       rescue StandardError => e
-                         Rails.logger.error "Failed to test pdfunite version: #{e.message}"
-                         false
-                       end
+    @batch_supported =
+      begin
+        _, status = Open3.capture2e('pdfunite', '-h')
+        status.success?
+      rescue StandardError => e
+        Rails.logger.error "Failed to test pdfunite version: #{e.message}"
+        false
+      end
   end
 
   def render_pdf(work_packages, filename)
