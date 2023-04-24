@@ -92,13 +92,6 @@ module WorkPackage::PDFExport::OverviewTable
     { header: true, cell_style: overview_table_cell_style.merge({ inline_format: true }) }
   end
 
-  def format_header_cells(header_cells)
-    header_style = overview_table_header_cell_style
-    header_cells.each do |cell|
-      apply_cell_style cell, header_style
-    end
-  end
-
   def format_sum_cells(sums_cells)
     sums_style = overview_table_sums_cell_style
     sums_cells.each do |cell|
@@ -163,13 +156,17 @@ module WorkPackage::PDFExport::OverviewTable
   end
 
   def build_header_row
-    opts = overview_table_header_cell_style
+    header_style = overview_table_header_cell_style
     row = table_columns_objects.map do |col|
       content = (col.caption || '').upcase
-      pdf.make_cell(content, opts)
+      build_header_cell(content, header_style)
     end
-    row.unshift build_column_cell('#') if with_descriptions?
+    row.unshift build_header_cell('#', header_style) if with_descriptions?
     row
+  end
+
+  def build_header_cell(content, opts)
+    pdf.make_cell(content, opts)
   end
 
   def build_sum_row(sums)
