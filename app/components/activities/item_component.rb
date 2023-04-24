@@ -54,7 +54,7 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if (@event.journal.initial? && @event.journal.journable_type != 'TimeEntry')
+    return false if @event.journal.initial? && @event.journal.journable_type != 'TimeEntry'
 
     rendered_details.present?
   end
