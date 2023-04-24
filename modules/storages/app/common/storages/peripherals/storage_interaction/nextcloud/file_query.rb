@@ -44,6 +44,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def query(file_id)
       file_info(file_id) >>
+        method(:handle_access_control) >>
         method(:storage_file)
     end
 
@@ -82,19 +83,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:enable Metrics/AbcSize
 
-    # rubocop:disable Metrics/AbcSize
-    def storage_file(file_info_response)
+    def handle_access_control(file_info_response)
       data = file_info_response.ocs.data
-      storage_file = ::Storages::StorageFile.new(data.id,
-                                                 data.name,
-                                                 data.size,
-                                                 data.mimetype,
-                                                 Time.zone.at(data.ctime),
-                                                 Time.zone.at(data.mtime),
-                                                 data.owner_name,
-                                                 data.modifier_name,
-                                                 location(data.path),
-                                                 data.dav_permissions)
+      if data.statuscode == 403
+        error(:forbidden)
+      else
+        ServiceResult.success(result: data)
+      end
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def storage_file(file_info_data)
+      storage_file = ::Storages::StorageFile.new(file_info_data.id,
+                                                 file_info_data.name,
+                                                 file_info_data.size,
+                                                 file_info_data.mimetype,
+                                                 Time.zone.at(file_info_data.ctime),
+                                                 Time.zone.at(file_info_data.mtime),
+                                                 file_info_data.owner_name,
+                                                 file_info_data.modifier_name,
+                                                 location(file_info_data.path),
+                                                 file_info_data.dav_permissions)
       ServiceResult.success(result: storage_file)
     end
 

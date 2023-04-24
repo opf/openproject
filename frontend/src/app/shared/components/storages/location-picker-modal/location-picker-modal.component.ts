@@ -58,6 +58,7 @@ export class LocationPickerModalComponent extends FilePickerBaseModalComponent {
 
   public readonly text = {
     header: this.i18n.t('js.storages.select_location'),
+    warningNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
     content: {
       empty: this.i18n.t('js.storages.files.empty_folder'),
       emptyHint: this.i18n.t('js.storages.files.empty_folder_location_hint'),
