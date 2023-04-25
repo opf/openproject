@@ -31,7 +31,7 @@ module ::Calendar
     def show
       begin
         call = ::Calendar::IcalResponseService.new.call(
-          ical_token: params[:ical_token],
+          ical_token_string: params[:ical_token],
           query_id: params[:id]
         )
       rescue ActiveRecord::RecordNotFound

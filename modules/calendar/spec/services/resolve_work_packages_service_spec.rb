@@ -35,8 +35,31 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
            member_with_permissions: permissions)
   end
   let(:permissions) { %i[view_work_packages] }
-  let(:project) { create(:project, work_packages: [work_package1]) }
-  let(:work_package1) { create(:work_package) }
+  let(:project) { create(:project) }
+  let(:work_package_without_dates) do
+    create(:work_package, project:)
+  end
+  let(:work_package_with_due_date) do
+    create(:work_package, project:,
+                          due_date: Time.zone.today + 7.days)
+  end
+  let(:work_package_with_start_date) do
+    create(:work_package, project:,
+                          start_date: Time.zone.today + 14.days)
+  end
+  let(:work_package_with_start_and_due_date) do
+    create(:work_package, project:,
+                          start_date: Date.tomorrow, 
+                          due_date: Time.zone.today + 7.days)
+  end
+  let(:work_packages) do
+    [
+      work_package_without_dates,
+      work_package_with_due_date,
+      work_package_with_start_date,
+      work_package_with_start_and_due_date
+    ]
+  end
   let(:query) do
     create(:query,
            project:,
@@ -55,9 +78,17 @@ describe Calendar::ResolveWorkPackagesService, type: :model do
 
     subject { instance.call(query:) }
 
-    it 'returns work_packages of query as result' do
-      expect(subject.result)
-        .to match_array(query.results.work_packages)
+    it 'returns work_packages of query with start and due date as result' do
+      result = subject.result
+
+      expect(result)
+        .to include(
+          work_package_with_start_date, 
+          work_package_with_due_date, 
+          work_package_with_start_and_due_date
+        )
+      expect(result)
+        .not_to include(work_package_without_dates)
     end
 
     it 'is a success' do

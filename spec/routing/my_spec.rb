@@ -66,7 +66,7 @@ describe 'my routes' do
                                                  action: 'deletion_info')
   end
 
-  it '/my/revoke_all_ical_tokens DELETE routes to my#revoke_all_ical_tokens' do
-    expect(delete('/my/revoke_all_ical_tokens')).to route_to('my#revoke_all_ical_tokens')
+  it '/my/revoke_all_ical_tokens_of_query DELETE routes to my#revoke_all_ical_tokens_of_query' do
+    expect(delete('/my/revoke_all_ical_tokens_of_query')).to route_to('my#revoke_all_ical_tokens_of_query')
   end
 end

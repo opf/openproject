@@ -30,8 +30,8 @@ module Calendar
   class IcalResponseService < ::BaseServices::BaseCallable
     ICAL_CACHE_EXPIRES_IN = 0.minutes # cache disabled for now by setting to 0.minute
 
-    def perform(ical_token:, query_id:)
-      ical_string = resolve_from_cache_or_regenerate(ical_token, query_id)
+    def perform(ical_token_string:, query_id:)
+      ical_string = resolve_from_cache_or_regenerate(ical_token_string, query_id)
 
       if ical_string.present?
         ServiceResult.success(result: ical_string)
@@ -42,39 +42,42 @@ module Calendar
 
     protected
 
-    def cache_key(ical_token, query_id)
-      "ical-response-#{query_id}-#{ical_token}"
+    def cache_key(ical_token_string, query_id)
+      "ical-response-#{query_id}-#{ical_token_string}"
     end
 
-    def resolve_from_cache_or_regenerate(ical_token, query_id)
+    def resolve_from_cache_or_regenerate(ical_token_string, query_id)
       OpenProject::Cache.fetch(
-        cache_key(ical_token, query_id),
+        cache_key(ical_token_string, query_id),
         expires_in: ICAL_CACHE_EXPIRES_IN
       ) do
-        regenerate_ical_string(ical_token, query_id)
+        regenerate_ical_string(ical_token_string, query_id)
       end
     end
 
-    def regenerate_ical_string(ical_token, query_id)
-      User.execute_as(resolve_user_by_token(ical_token)) do
-        query = resolve_and_authorize_query(User.current, query_id)
+    def regenerate_ical_string(ical_token_string, query_id)
+      ical_token_instance = resolve_ical_token(ical_token_string)
+      user = ical_token_instance.user
+
+      User.execute_as(user) do
+        query = resolve_and_authorize_query(ical_token_instance, query_id)
         work_packages = resolve_work_packages(query)
         create_ical_string(work_packages, query.name)
       end
     end
 
-    def resolve_user_by_token(ical_token)
-      call = ::Calendar::ResolveIcalUserService.new.call(
-        ical_token:
+    def resolve_ical_token(ical_token_string)
+      call = ::Calendar::ResolveIcalTokenService.new.call(
+        ical_token_string:
       )
-      user = call.result if call.success?
+      ical_token_instance = call.result if call.success?
 
-      user
+      ical_token_instance
     end
 
-    def resolve_and_authorize_query(user, query_id)
+    def resolve_and_authorize_query(ical_token_instance, query_id)
       call = ::Calendar::ResolveAndAuthorizeQueryService.new.call(
-        user:,
+        ical_token_instance:,
         query_id:
       )
       query = call.result if call.success?

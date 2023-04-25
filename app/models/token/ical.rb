@@ -28,6 +28,23 @@
 
 module Token
   class ICal < HashedToken
+    # restrict the usage of one ical token to one query (calendar)
+    has_one :ical_token_query_assignment, dependent: :destroy, foreign_key: :ical_token_id
+    has_one :query, through: :ical_token_query_assignment
+    has_one :project, through: :query
+
+    validate :query_assignment_must_exist
+
+    class << self
+      def create_and_return_value(user, query)
+        create(user:, query:).plain_value
+      end
+    end
+
+    def query_assignment_must_exist
+      errors.add(:base, "IcalTokenQueryAssignment must exist") unless ical_token_query_assignment.present?
+    end
+    
     # Prevent deleting previous tokens
     # Every time an ical url is generated, a new ical token will be generated for this url as well
     # the existing ical tokens (and thus urls) should still be valid

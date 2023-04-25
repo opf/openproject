@@ -26,30 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class GenerateIcalUrl < ::BaseServices::BaseCallable
-
-    def perform(user:, query_id:, project_id:)
-      new_ical_token = create_ical_token(user, query_id)
-      new_ical_url = create_ical_url(query_id, project_id, new_ical_token)
-
-      ServiceResult.success(result: new_ical_url)
-    end
-
-    protected
-
-    def create_ical_token(user, query_id)
-      query = Query.find(query_id)
-      Token::ICal.create_and_return_value(user, query)
-    end
-
-    def create_ical_url(query_id, project_id, ical_token)
-      OpenProject::StaticRouting::StaticRouter.new.url_helpers
-        .ical_project_calendar_url(
-          id: query_id,
-          project_id:,
-          ical_token:
-        )
-    end
-  end
+class IcalTokenQueryAssignment < ApplicationRecord
+  # TODO: dependent_destroy from query model
+  belongs_to :ical_token, class_name: 'Token::ICal'
+  belongs_to :query
 end

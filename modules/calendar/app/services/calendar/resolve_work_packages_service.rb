@@ -34,7 +34,10 @@ module Calendar
         work_packages = query.results.work_packages.includes(
           :project, :assigned_to, :author, :priority, :status
         )
-        ServiceResult.success(result: work_packages)
+        work_packages_with_dates = work_packages
+          .where.not(start_date: nil, due_date: nil)
+
+        ServiceResult.success(result: work_packages_with_dates)
       else
         # TODO: raise specific error
         raise ActiveRecord::RecordNotFound

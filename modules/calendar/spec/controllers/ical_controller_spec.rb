@@ -36,12 +36,14 @@ describe Calendar::IcalController do
            member_with_permissions: sufficient_permissions)
   end
   let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
-  let(:valid_ical_token_value) { Token::ICal.create_and_return_value user }
   let(:query) do
     create(:query,
            project:,
            user:,
            public: false)
+  end
+  let(:valid_ical_token_value) do 
+    Token::ICal.create_and_return_value(user, query)
   end
 
   # the ical urls are intended to be used without a logged in user from a calendar client app

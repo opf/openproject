@@ -45,13 +45,11 @@ module Calendar
       calendar.prodid = "-//OpenProject GmbH//OpenProject Core Project//EN"
       calendar.x_wr_calname = calendar_name
 
-      work_packages
-        .where.not(start_date: nil, due_date: nil)
-        .each do |work_package|
-          event = create_event(work_package)
-          event = add_attendee_value(event, work_package)
+      work_packages.each do |work_package|
+        event = create_event(work_package)
+        event = add_attendee_value(event, work_package)
 
-          calendar.add_event(event)
+        calendar.add_event(event)
       end
 
       calendar.to_ical

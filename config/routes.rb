@@ -551,7 +551,7 @@ OpenProject::Application.routes.draw do
 
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
-    delete '/my/revoke_all_ical_tokens', action: 'revoke_all_ical_tokens'
+    delete '/my/revoke_all_ical_tokens_of_query', action: 'revoke_all_ical_tokens_of_query'
     get '/my/access_token', action: 'access_token'
   end
 

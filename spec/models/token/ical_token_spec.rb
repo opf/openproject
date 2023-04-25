@@ -30,15 +30,50 @@ require 'spec_helper'
 
 describe Token::ICal do
   let(:user) { build(:user) }
+  let(:project) { build(:project) }
+  let(:query) { build(:query, project:) }
 
-  subject { described_class.new user: }
+  it 'inherits from Token::HashedToken' do
+    expect(described_class).to be < Token::HashedToken
+  end
 
-  describe 'behaves like Token::HashedToken' do
-    it 'inherits from Token::HashedToken' do
-      expect(described_class).to be < Token::HashedToken
+  describe 'in contrast to HashedToken' do
+    it 'needs to be assigned to a query' do
+      # ical tokens are only valid for a specific query (scoped to a query)
+      # thus an ical_token cannot be created without such an assignment
+      ical_token1 = described_class.create(user:)
+      
+      expect(ical_token1.errors[:base].first).to eq("IcalTokenQueryAssignment must exist")
+      expect(described_class.where(user_id: user.id)).to be_empty
     end
 
-    # following code is copy pasted from hashed_token_spec
+    it 'a user can have N ical tokens per query' do
+      # Every time an ical url is generated, a new ical token will be generated for this url as well
+      # the existing ical tokens (and thus urls) should still be valid
+      # until the user decides to revert all existing ical tokens of a query
+      # therefore a user needs to be allowed to have N ical tokens per query
+      ical_token1 = described_class.create(user:, query:)
+      ical_token2 = described_class.create(user:, query:)
+
+      expect(described_class.where(user_id: user.id)).to contain_exactly(
+        ical_token1, ical_token2
+      )
+
+      query2 = build(:query, project:)
+
+      ical_token3 = described_class.create(user:, query: query2)
+      ical_token4 = described_class.create(user:, query: query2)
+
+      expect(described_class.where(user_id: user.id)).to contain_exactly(
+        ical_token1, ical_token2, ical_token3, ical_token4
+      )
+    end
+  end
+
+  describe 'behaves like Token::HashedToken if created with query assignment' do
+    subject { described_class.new user:, query: }
+
+    # TODO: following code is copy pasted from hashed_token_spec
     # in order to make sure the token behaves in the same way in it's basics
     # cheching for inheritance does not safely check if the basic behaviour is the same
     # is there a better way of reusing the specs from hashed_token_spec?
@@ -74,21 +109,6 @@ describe Token::ICal do
         expect(described_class.find_by_plaintext_value('foobar')).to be_nil
         # rubocop:enable Rails/DynamicFindBy
       end
-    end
-  end
-
-  describe 'in contrast to HashedToken' do
-    it 'a user can have N ical tokens' do
-      # Every time an ical url is generated, a new ical token will be generated for this url as well
-      # the existing ical tokens (and thus urls) should still be valid
-      # until the user decides to revert all existing ical tokens (and urls)
-      # therefore a user needs to be allowed to have N ical token
-      ical_token1 = described_class.create(user:)
-      ical_token2 = described_class.create(user:)
-
-      expect(described_class.where(user_id: user.id)).to contain_exactly(
-        ical_token1, ical_token2
-      )
     end
   end
 end

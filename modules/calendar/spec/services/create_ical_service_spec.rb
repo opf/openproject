@@ -31,17 +31,13 @@ require 'spec_helper'
 describe Calendar::CreateIcalService, type: :model do
   let(:project) { create(:project) }
   let(:user) { create(:user) }
-
-  let(:work_package_without_dates) do
-    create(:work_package, project:)
+  let(:work_package_with_start_date) do
+    create(:work_package, project:,
+                          start_date: Time.zone.today + 14.days)
   end
   let(:work_package_with_due_date) do
     create(:work_package, project:,
                           due_date: Time.zone.today + 7.days)
-  end
-  let(:work_package_with_start_date) do
-    create(:work_package, project:,
-                          start_date: Time.zone.today + 14.days)
   end
   let(:work_package_with_start_and_due_date) do
     create(:work_package, project:,
@@ -53,7 +49,6 @@ describe Calendar::CreateIcalService, type: :model do
   end
   let(:work_packages) do
     [
-      work_package_without_dates,
       work_package_with_due_date,
       work_package_with_start_date,
       work_package_with_start_and_due_date,
@@ -73,7 +68,6 @@ describe Calendar::CreateIcalService, type: :model do
   end
 
   subject do
-    # TODO: fix test, the service is now expecting an AR Relation rather than an array for work_packages
     instance.call(
       work_packages:,
       calendar_name: query_name

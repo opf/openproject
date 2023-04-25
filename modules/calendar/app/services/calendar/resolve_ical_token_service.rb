@@ -27,19 +27,18 @@
 #++
 
 module Calendar
-  class ResolveIcalUserService < ::BaseServices::BaseCallable
-    def perform(ical_token:)
-      if ical_token.blank?
+  class ResolveIcalTokenService < ::BaseServices::BaseCallable
+    def perform(ical_token_string:)
+      if ical_token_string.blank?
         raise ActiveRecord::RecordNotFound
       end
 
       # rubocop:disable Rails/DynamicFindBy
-      token = Token::ICal.find_by_plaintext_value(ical_token)
+      token = Token::ICal.find_by_plaintext_value(ical_token_string)
       # rubocop:enable Rails/DynamicFindBy
 
       if token.present?
-        user = token.user
-        ServiceResult.success(result: user)
+        ServiceResult.success(result: token)
       else
         raise ActiveRecord::RecordNotFound
       end

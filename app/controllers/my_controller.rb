@@ -36,7 +36,7 @@ class MyController < ApplicationController
   before_action :require_login
   before_action :set_current_user
   before_action :check_password_confirmation, only: %i[update_account]
-  before_action :set_ical_tokens, only: %i[access_token]
+  before_action :set_grouped_ical_tokens, only: %i[access_token]
 
   menu_item :account,             only: [:account]
   menu_item :settings,            only: [:settings]
@@ -130,9 +130,18 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
-  def revoke_all_ical_tokens
-    current_user.ical_tokens.destroy_all
-    flash[:info] = t('my.access_token.notice_ical_tokens_reverted')
+  def revoke_all_ical_tokens_of_query
+    query = Query.find(params[:query_id])
+
+    ical_tokens_of_query = current_user.ical_tokens
+      .joins(:ical_token_query_assignment)
+      .where(ical_token_query_assignments: { query_id: query.id })
+      ical_tokens_of_query.destroy_all
+
+    flash[:info] = t('my.access_token.notice_ical_tokens_reverted', 
+      calendar_name: query.name, 
+      project_name: query.project.name
+    )
   rescue StandardError => e
     Rails.logger.error "Failed to revoke all ical tokens for ##{current_user.id}: #{e}"
     flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
@@ -202,7 +211,11 @@ class MyController < ApplicationController
     @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   end
 
-  def set_ical_tokens
-    @ical_tokens = current_user.ical_tokens
+  def set_grouped_ical_tokens
+    @ical_tokens_grouped_by_query = current_user.ical_tokens
+      .joins(ical_token_query_assignment: { query: :project })
+      .select("tokens.*, ical_token_query_assignments.query_id")
+      .group_by(&:query_id)
   end
+
 end

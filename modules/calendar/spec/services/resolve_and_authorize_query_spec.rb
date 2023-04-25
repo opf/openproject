@@ -29,97 +29,216 @@
 require 'spec_helper'
 
 describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
-  let(:user1) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: sufficient_permissions)
-  end
-  let(:user2_without_permission) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: insufficient_permissions)
-  end
-  let(:user3_not_member) do
-    create(:user,
-           member_in_project: nil)
-  end
+  # let(:user3_not_member) do
+  #   create(:user,
+  #          member_in_project: nil)
+  # end
   let(:sufficient_permissions) { %i[view_work_packages share_calendars] }
   let(:insufficient_permissions) { %i[view_work_packages] }
   let(:project) { create(:project) }
-  let(:query) do
-    create(:query,
-           project:,
-           user: user1,
-           public: false)
-  end
 
   let(:instance) do
     described_class.new
   end
 
-  context 'if authenticated and permitted to share via ical url' do
-    before do
-      login_as(user1)
+  context 'if user is authenticated to read from query and user is permitted to use ical sharing' do
+    let(:user) do
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: sufficient_permissions)
+    end
+    let(:query1) do
+      create(:query,
+             project:,
+             user: user,
+             public: false)
+    end
+    let(:query2) do
+      create(:query,
+             project:,
+             user: user,
+             public: false)
+    end
+    let(:ical_token_instance_for_query1) do
+      Token::ICal.create(user: user, query: query1)
+    end
+    let(:ical_token_instance_for_query2) do
+      Token::ICal.create(user: user, query: query2)
     end
 
-    subject { instance.call(user: user1, query_id: query.id) }
+    context 'if ical token belongs to query' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: ical_token_instance_for_query1
+        ) 
+      end
 
-    it 'resolves a query by a given query id and returns query as result' do
-      expect(subject.result)
-        .to eq query
+      it 'returns the query as result' do
+        expect(subject.result)
+          .to eq query1
+      end
+
+      it 'is a success' do
+        expect(subject)
+          .to be_success
+      end
     end
 
-    it 'is a success' do
-      expect(subject)
-        .to be_success
+    context 'if ical token does NOT belong to query' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: ical_token_instance_for_query2
+        ) 
+      end
+
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'if ical token is nil' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: nil
+        ) 
+      end
+
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
-  context 'if not authenticated' do
-    before do
-      login_as(user2_without_permission)
+  context 'if user is authenticated to read from query but is NOT permitted to use ical sharing' do
+    let(:user) do
+      create(:user,
+        member_in_project: project,
+        member_with_permissions: insufficient_permissions)
+    end
+    let(:query1) do
+      create(:query,
+             project:,
+             user: user,
+             public: false)
+    end
+    let(:query2) do
+      create(:query,
+             project:,
+             user: user,
+             public: false)
+    end
+    let(:ical_token_instance_for_query1) do 
+      Token::ICal.create(user: user, query: query1) 
+    end
+    let(:ical_token_instance_for_query2) do 
+      Token::ICal.create(user: user, query: query2) 
     end
 
-    subject { instance.call(user: user2_without_permission, query_id: query.id) }
+    context 'if ical token belongs to query' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: ical_token_instance_for_query1
+        ) 
+      end
 
-    it 'does not resolve a query by a given query id and raises ActiveRecord::RecordNotFound' do
-      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'if ical token does NOT belong to query' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: ical_token_instance_for_query2
+        ) 
+      end
+
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
-  context 'if not member of project' do
-    before do
-      login_as(user3_not_member)
+  context 'if user is not authenticated to read from query' do
+    let(:user1) do
+      create(:user,
+              member_in_project: project,
+              member_with_permissions: sufficient_permissions)
+    end
+    let(:user2) do
+      create(:user,
+              member_in_project: project,
+              member_with_permissions: sufficient_permissions)
+    end
+    let(:query1) do
+      create(:query,
+             project:,
+             user: user1,
+             public: false)
+    end
+    let(:ical_token_instance_of_user_2_for_query1) do 
+      Token::ICal.create(user: user2, query: query1) 
     end
 
-    subject { instance.call(user: user3_not_member, query_id: query.id) }
+    context 'if ical token belongs to query' do
+      subject do 
+        instance.call(
+          query_id: query1.id, 
+          ical_token_instance: ical_token_instance_of_user_2_for_query1
+        ) 
+      end
 
-    it 'does not resolve a query by a given query id and raises ActiveRecord::RecordNotFound' do
-      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 
-  context 'if query id is invalid' do
-    before do
-      login_as(user1)
+  context 'if query id is invalid or nil' do
+    let(:user) do
+      create(:user,
+             member_in_project: project,
+             member_with_permissions: sufficient_permissions)
+    end
+    let(:query1) do
+      create(:query,
+             project:,
+             user: user,
+             public: false)
+    end
+    let(:ical_token_instance_for_query1) do
+      Token::ICal.create(user: user, query: query1)
     end
 
-    subject { instance.call(user: user1, query_id: SecureRandom.hex) }
+    context 'if query id is invalid' do
+      subject do 
+        instance.call(
+          query_id: SecureRandom.hex, 
+          ical_token_instance: ical_token_instance_for_query1
+        ) 
+      end
 
-    it 'does not resolve query and raises ActiveRecord::RecordNotFound' do
-      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
-  end
 
-  context 'if query id is nil' do
-    before do
-      login_as(user1)
-    end
+    context 'if query id is nil' do
+      subject do 
+        instance.call(
+          query_id: nil, 
+          ical_token_instance: ical_token_instance_for_query1
+        ) 
+      end
 
-    subject { instance.call(user: user1, query_id: nil) }
-
-    it 'does not resolve query and raises ActiveRecord::RecordNotFound' do
-      expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      it 'raises ActiveRecord::RecordNotFound' do
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      end
     end
   end
 end

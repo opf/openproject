@@ -28,9 +28,12 @@
 
 require 'spec_helper'
 
-describe Calendar::ResolveIcalUserService, type: :model do
+describe Calendar::ResolveIcalTokenService, type: :model do
   let(:user) { create(:user) }
-  let(:valid_ical_token_value) { Token::ICal.create_and_return_value user }
+  let(:project) { create(:project) }
+  let(:query) { create(:query, project:) }
+
+  let(:valid_ical_token_value) { Token::ICal.create_and_return_value(user, query) }
   let(:invalid_ical_token_value) { valid_ical_token_value[0..-2] }
 
   let(:instance) do
@@ -38,11 +41,19 @@ describe Calendar::ResolveIcalUserService, type: :model do
   end
 
   context 'for a given valid ical token value' do
-    subject { instance.call(ical_token: valid_ical_token_value) }
+    subject { instance.call(ical_token_string: valid_ical_token_value) }
 
-    it 'resolves the user as result' do
-      expect(subject.result)
+    it 'resolves the ical_token instance as result' do
+      ical_token_instance = subject.result
+
+      expect(ical_token_instance)
+        .to eql Token::ICal.where(user: user).first
+
+      expect(ical_token_instance.user)
         .to eql user
+
+      expect(ical_token_instance.query)
+        .to eql query
     end
 
     it 'is a success' do
@@ -52,7 +63,7 @@ describe Calendar::ResolveIcalUserService, type: :model do
   end
 
   context 'when given ical token value is invalid' do
-    subject { instance.call(ical_token: invalid_ical_token_value) }
+    subject { instance.call(ical_token_string: invalid_ical_token_value) }
 
     it 'raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
@@ -60,7 +71,7 @@ describe Calendar::ResolveIcalUserService, type: :model do
   end
 
   context 'when no ical token value is given' do
-    subject { instance.call(ical_token: nil) }
+    subject { instance.call(ical_token_string: nil) }
 
     it 'raises ActiveRecord::RecordNotFound' do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)

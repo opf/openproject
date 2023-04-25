@@ -28,10 +28,22 @@
 
 module Calendar
   class ResolveAndAuthorizeQueryService < ::BaseServices::BaseCallable
-    def perform(user:, query_id:)
+    def perform(ical_token_instance:, query_id:)
+      # TODO: move logic to contract
+
+      if ical_token_instance.nil?
+        raise ActiveRecord::RecordNotFound
+      end
+      
       query = Query
-        .visible(user) # authorization
+        .visible(ical_token_instance.user) # authorization
         .find(query_id)
+
+      # check scope of token
+      # TODO: more specific error?
+      if ical_token_instance.query != query
+        raise ActiveRecord::RecordNotFound
+      end
 
       # TODO:
       # Is this the correct way of unscoping the calendar view state
@@ -39,7 +51,7 @@ module Calendar
       query.filters = query.filters
         .reject { |filter| filter.name == :dates_interval }
 
-      sharing_permitted = QueryPolicy.new(user).allowed?(
+      sharing_permitted = QueryPolicy.new(ical_token_instance.user).allowed?(
         query, :share_via_ical
       )
 
