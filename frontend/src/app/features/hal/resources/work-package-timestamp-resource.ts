@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is an open source project management software.
 // Copyright (C) 2012-2023 the OpenProject GmbH
 //
@@ -26,19 +26,28 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-table-baseline
-  &--icon-added
-    color: #35C53F
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
-  &--icon-changed
-    color: #54AFE0
+export interface IWorkPackageTimestampMeta {
+  exists:boolean;
+  matchesFilters:boolean;
+  timestamp:string;
+}
 
-  &--old-value
-    color: var(--body-font-color) !important
-    text-decoration: line-through
-
-  &--cell
-    background-color: #f3f3f3
-    display: flex !important
-    flex-direction: column
-
+export class IWorkPackageTimestamp extends HalResource {
+  startDate?:string;
+  dueDate?:string;
+  date?:string;
+  _meta:IWorkPackageTimestampMeta;
+  $links:{
+    schema?:HalResource;
+    self:HalResource;
+    status?:HalResource;
+    assignee?:HalResource;
+    accountable?:HalResource;
+    project?:HalResource;
+    type?:HalResource;
+    priority?:HalResource;
+    version?:HalResource;
+  }
+}

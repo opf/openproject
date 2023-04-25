@@ -1,4 +1,6 @@
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import {
+  WorkPackageResource,
+} from 'core-app/features/hal/resources/work-package-resource';
 import {
   DisplayFieldRenderer,
   editFieldContainerClass,
@@ -7,12 +9,16 @@ import { Injector } from '@angular/core';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 
 export class CellBuilder {
   @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
+
+  @InjectField(WorkPackageViewBaselineService) wpTableBaseline:WorkPackageViewBaselineService;
 
   public fieldRenderer = new DisplayFieldRenderer(this.injector, 'table');
 
@@ -28,17 +34,23 @@ export class CellBuilder {
       td.classList.add('-max');
     }
 
-    if ([ 'startDate', 'dueDate', 'duration' ].indexOf(attribute) !== -1) {
+    if (['startDate', 'dueDate', 'duration'].indexOf(attribute) !== -1) {
       td.classList.add('-no-ellipsis');
     }
 
-    const schema = this.schemaCache.of(workPackage).ofProperty(attribute);
-    if (schema && schema.type === 'User') {
+    const schema = this.schemaCache.of(workPackage);
+    const fieldSchema = schema.ofProperty(attribute);
+    if (fieldSchema && fieldSchema.type === 'User') {
       td.classList.add('-contains-avatar');
     }
 
     const container = document.createElement('span');
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
+
+    if (attribute !== 'id' && this.wpTableBaseline.isActive()) {
+      this.prependChanges(container, workPackage, schema.mappedName(attribute));
+    }
+
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
     container.appendChild(displayElement);
@@ -52,5 +64,25 @@ export class CellBuilder {
 
     container.innerHTML = '';
     container.appendChild(displayElement);
+  }
+
+  private prependChanges(
+    container:HTMLElement,
+    workPackage:WorkPackageResource,
+    attribute:string,
+  ):void {
+    const timestamps = workPackage.attributesByTimestamp || [];
+    if (timestamps.length <= 1) {
+      return;
+    }
+
+    const base = timestamps[0];
+    if (base[attribute as keyof IWorkPackageTimestamp]) {
+      base.$links.schema = workPackage.$links.schema;
+      const span = this.fieldRenderer.render(base, attribute, null);
+      span.classList.add('op-table-baseline--old-value');
+      container.classList.add('op-table-baseline--cell');
+      container.appendChild(span);
+    }
   }
 }

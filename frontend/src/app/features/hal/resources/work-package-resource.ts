@@ -48,7 +48,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -114,29 +114,6 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
 export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
   schema:HalResource;
-}
-
-export interface IWorkPackageTimestampMeta {
-  exists:boolean;
-  matchesFilters:boolean;
-  timestamp:string;
-}
-
-export interface IWorkPackageTimestamp {
-  startDate?:string;
-  dueDate?:string;
-  date?:string;
-  _meta:IWorkPackageTimestampMeta;
-  $links:{
-    self:IHalResourceLink;
-    status?:IHalResourceLink;
-    assignee?:IHalResourceLink;
-    accountable?:IHalResourceLink;
-    project?:IHalResourceLink;
-    type?:IHalResourceLink;
-    priority?:IHalResourceLink;
-    version?:IHalResourceLink;
-  }
 }
 
 export class WorkPackageBaseResource extends HalResource {
