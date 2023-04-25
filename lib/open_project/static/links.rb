@@ -242,7 +242,7 @@ module OpenProject
                 href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/custom-fields-projects/'
               },
               custom_field_multiselect: {
-                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field-enterprise-add-on'
+                href: 'https://www.openproject.org/docs/system-admin-guide/custom-fields/#create-a-multi-select-custom-field'
               },
               status_read_only: {
                 href: 'https://www.openproject.org/docs/system-admin-guide/manage-work-packages/work-package-status/#create-a-new-work-package-status'
