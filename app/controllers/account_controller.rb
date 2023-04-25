@@ -49,11 +49,16 @@ class AccountController < ApplicationController
 
     if user.logged?
       redirect_after_login(user)
-    elsif omniauth_direct_login?
+    elsif omniauth_direct_login? && !session[:internal_login]
       direct_login(user)
     elsif request.post?
       authenticate_user
     end
+  end
+
+  def internal_login
+    session[:internal_login] = true
+    redirect_to action: :login
   end
 
   # Log out current user and redirect to welcome page
