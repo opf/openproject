@@ -63,16 +63,13 @@ With these additional settings, you have absolute freedom which custom fields ar
 
 
 
-## Create a multi-select custom field (Enterprise add-on)
+## Create a multi-select custom field
 
 For work package custom fields of type **List** and **User** you may also select **multi-select custom fields** to select more than one value at once.
-Please note that this add-on is only available in the [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/hosting/).
 
-To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or format *User* and check the option *Allow multi-select*.
+To create a multi-select custom field follow the same steps as you would when [creating a standard custom field](#add-a-new-custom-field). Select format *List* or *User* and check the option *Allow multi-select*.
 
 ![Sys-admin-multi-select-custom-field](Sys-admin-multi-select-custom-field.png)
-
-
 
 When using multi-select custom fields, you can add as many options as required. The cross icon next to an option will remove it from the selection. The check mark will save your changes.
 
