@@ -152,11 +152,9 @@ module WorkPackage::PDFExport::Common
   end
 
   def pdf_table_auto_widths(data, column_widths, options, &)
-    begin
-      pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
-    rescue Prawn::Errors::CannotFit
-      pdf.table(data, options.merge({ column_widths: }), &)
-    end
+    pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
+  rescue Prawn::Errors::CannotFit
+    pdf.table(data, options.merge({ column_widths: }), &)
   end
 
   def measure_text_width(text, opts)
