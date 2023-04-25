@@ -30,24 +30,17 @@
       (change)="timeChange($event.target.value)"
       type="time"
       class="op-baseline--time-input"/>
-  
-    <div
+   
+    <spot-tooltip
       slot="input"
-      class="op-baseline--time-help spot-body-small"
-    >
-      <span class="">{{text.timeZone}}</span>
-
-      <spot-tooltip
-        class="op-baseline--time-tooltip"
-        [alignment]="tooltipPosition"
-        [disabled]="false"
-        [light]="true">
-  
-        <span class="spot-icon spot-icon_help1" slot="trigger"></span>
-        <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
-  
-      </spot-tooltip>
-    </div>
+      class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
+      [alignment]="tooltipPosition"
+      [disabled]="false"
+      [light]="true">
+      <span slot="trigger">{{text.timeZone}}</span>
+      <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
+    </spot-tooltip>
+    
 
     <span slot="description" 
       *ngIf="timeZoneSelected"
