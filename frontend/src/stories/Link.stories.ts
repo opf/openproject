@@ -34,7 +34,7 @@ export const LeftIcon:Story = {
         href="#"
         class="spot-link"
       >
-        This is a spot-link
+        <span>This is a spot-link</span>
         <span class="spot-icon spot-icon_add"></span>
       </a>
    `,
@@ -50,7 +50,7 @@ export const RightIcon:Story = {
         class="spot-link"
       >
         <span class="spot-icon spot-icon_add"></span>
-        This is a spot-link
+        <span>This is a spot-link</span>
       </a>
    `,
   }),
@@ -65,7 +65,7 @@ export const BothIcons:Story = {
         class="spot-link"
       >
         <span class="spot-icon spot-icon_add"></span>
-        This is a spot-link
+        <span>This is a spot-link</span>
         <span class="spot-icon spot-icon_add"></span>
       </a>
    `,
