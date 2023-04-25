@@ -77,6 +77,9 @@ export interface QueryProps {
   tv?:boolean;
   tzl?:string;
   tll?:string;
+
+  // Timestamps options
+  ts?:string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -127,6 +130,7 @@ export class UrlParamsHelperService {
       ...this.encodeHighlightedAttributes(query),
       ...this.encodeSortBy(query),
       ...this.encodeFilters(query.filters),
+      ...this.encodeTimestamps(query),
     };
 
     if (typeof extender === 'function') {
@@ -174,6 +178,14 @@ export class UrlParamsHelperService {
           .map((sort:QuerySortByResource) => (sort.id as string).replace('-', ':'))
           .join(),
       };
+    }
+
+    return {};
+  }
+
+  private encodeTimestamps(query:QueryResource):Partial<QueryProps> {
+    if (query.timestamps) {
+      return { ts: query.timestamps.join(",") };
     }
 
     return {};
@@ -289,6 +301,10 @@ export class UrlParamsHelperService {
       queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
     }
 
+    if (properties.ts) {
+      queryData.timestamps = properties.ts;
+    }
+
     // Pagination
     if (properties.pa) {
       queryData.offset = properties.pa;
@@ -333,6 +349,7 @@ export class UrlParamsHelperService {
 
     // Sortation
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
+    queryData.timestamps = query.timestamps.join(',');
 
     return _.extend(additionalParams, queryData);
   }
