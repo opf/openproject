@@ -151,9 +151,7 @@ module WorkPackage::PDFExport::Common
     end
   end
 
-  def pdf_table_auto_widths(data, column_widths, options, force_fixed_columns, &)
-    return pdf.table(data, options.merge({ column_widths: }), &) if force_fixed_columns
-
+  def pdf_table_auto_widths(data, column_widths, options, &)
     begin
       pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
     rescue Prawn::Errors::CannotFit

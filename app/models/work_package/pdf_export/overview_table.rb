@@ -66,6 +66,7 @@ module WorkPackage::PDFExport::OverviewTable
     widths = table_columns_objects.map do |col|
       col.name == :subject || text_column?(col) ? 4.0 : 1.0
     end
+    widths.unshift 1.0 if with_descriptions?
     ratio = pdf.bounds.width / widths.sum
     widths.map { |w| w * ratio }
   end
@@ -83,7 +84,7 @@ module WorkPackage::PDFExport::OverviewTable
 
   def write_table!(work_packages, id_wp_meta_map, sums)
     rows = build_table_rows(work_packages, id_wp_meta_map, sums)
-    pdf_table_auto_widths(rows, table_column_widths, table_options, query.grouped?) do |table|
+    pdf_table_auto_widths(rows, table_column_widths, table_options) do |table|
       format_sum_cells table.cells.columns(0..-1).rows(-1) if query.display_sums?
     end
   end
