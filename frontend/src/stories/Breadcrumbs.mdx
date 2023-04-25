@@ -1,0 +1,56 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
+
+<Meta of={BreadcrumbsStories} />
+
+# Breadcrumbs
+
+Breadcrumbs provide important semantic context to information being presented on the screen by allowing users to identify where they are in a hierarchical structure.
+
+Breadcrumbs allow users to:
+
+- identify their current location (in a folder structure or hierarchy of work packages)
+- navigate up to the parent(s)
+
+<Canvas of={BreadcrumbsStories.Default} />
+
+## Structure and Options
+
+Breadcrumbs consist of a series of "levels" presented horizontally, separated by a right arrow (▶). Each level is a child of the level preceding it, except the first level, which is the root.
+
+<Canvas of={BreadcrumbsStories.FourLevels} />
+
+## Behaviour
+
+The last level is always the current level; this is never clickable. All other levels (the parents) are links, and clicking on them will take users to that level.
+
+Because the length of the breadcrumb can vary significantly (depending on the title of each level and the available space), it can condense to fit the available space:
+
+- The breadcrumb can show four (4) levels in full, space permitting, before going to "collapsed" mode.
+- If the available space in the parent container not does afford sufficient width to display the four levels in full, the middle levels are truncated with ellipses ("Root ▶ Second le... ▶ Third le... ▶ Fourth level").
+
+<Canvas of={BreadcrumbsStories.FiveLevels} />
+
+There are special rules on mobile:
+
+- The root level shows only an icon and ellipses ("...", fully truncated).
+- The direct parent (...) is displayed as non-shrinkable ellipses that are clickable
+- Further parents (between the direct parent and the root) are not displayed
+- The current level maybe be truncated with ellipses ("[Icon] ... ▶ ... ▶ Current le...) if needed.
+
+To view the mobile style, reduce the viewport width of your browser below 680px.
+
+## Options
+
+Each level can consist of:
+
+- an icon
+- a text
+
+The icon is almost always only used for the first item, although the component does allow it to be present at any level.
+
+The text for each level is always a link, except for:
+
+- current level
+- collapsed levels between the direct parent and root in collapsed mode

@@ -231,6 +231,7 @@ pt:
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
@@ -737,6 +738,9 @@ pt:
               format: "%{message}"
             sort_criteria:
               invalid: "Não é possível ordenar pela coluna: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
@@ -2650,8 +2654,6 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
-  text_wp_custom_field_html: >
-    A edição Enterprise conta com estes complementos adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite a seleção múltipla de campos personalizados do tipo Lista ou Usuário</b></li> </ul>
   text_wp_status_read_only_html: >
     A edição Enterprise (Edição corporative) conta com estes complemento adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite marcar pacotes de trabalho como "apenas leitura" para status específicos</b></li> </ul>
   text_project_custom_field_html: >
@@ -3013,6 +3015,7 @@ pt:
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:

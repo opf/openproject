@@ -227,6 +227,7 @@ uk:
       failed_text: "Запит видалення проекту %{name} не вдало. Проект залишився в архіві."
       completed: "Видалення проекту %{name} завершено."
       completed_text: "Запит видалення проекту '%{name}' завершено."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Відкрити в поданні Ґанта'
       open_as_gantt_title: "Натисніть цю кнопку, щоб створити подання Ґанта, у якому фільтруються пакети робіт для проєктів, видимих на цій сторінці."
@@ -735,6 +736,9 @@ uk:
               format: "%{message}"
             sort_criteria:
               invalid: "Неможливо сортувати за стовпцями: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
@@ -2683,8 +2687,6 @@ uk:
     При використанні спеціальних полів: Майте на увазі, що спеціальні поля повинні бути активовані для кожного проекту.
   text_custom_field_hint_activate_per_project_and_type: >
     Користувальницькі поля повинні бути активовані за типом робочого пакета та проекту.
-  text_wp_custom_field_html: >
-    У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів пакетів робіт: <br> <ul><li><b>Дозволити вибір кількох користувацьких полів типу «Список» або «Користувач»</b></li> </ul>
   text_wp_status_read_only_html: >
     У версії Enterprise Edition з’являться такі додаткові доповнення для полів статусу пакетів робіт: <br> <ul><li><b>Дозволити позначати пакети робіт певних статусів як доступні тільки для читання</b></li> </ul>
   text_project_custom_field_html: >
@@ -3050,6 +3052,7 @@ uk:
       code_409: "Не вдалося оновити ресурс через конфліктуючі зміни."
       code_429: "Забагато запитів. Повторіть спробу пізніше."
       code_500: "Сталася внутрішня помилка."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Пакет робіт, який ви шукаєте, не можна знайти або його видалено."
       expected:

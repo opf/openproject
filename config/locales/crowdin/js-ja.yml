@@ -225,7 +225,7 @@ ja:
           status_label: "ステータス:"
           status_confirmed: "確認済み"
           status_waiting: "メールが送信されました - 確認待ちです"
-          test_ee: "Test the Enterprise edition 14 days for free"
+          test_ee: "エンタープライズ版を14日間無料でテストする"
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "ヒーローになろう!"
@@ -237,7 +237,7 @@ ja:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "インストールサポート"
             installation_text: "経験豊富なソフトウェアエンジニアが、あなた独自のインフラストラクチャへの完全なインストールとセットアッププロセスをガイドします。"
-            premium_features: "Enterprise add-ons"
+            premium_features: "エンタープライズアドオン"
             premium_features_text: "アジャイルボード、カスタムテーマとロゴ、グラフ、カスタムアクションによるインテリジェントワークフロー、ワークパッケージの添付ファイルおよびマルチセレクトカスタムフィールドの全文検索。"
             professional_support: "プロフェッショナルサポート"
             professional_support_text: "ビジネスクリティカルな環境での OpenProject 利用に関する専門知識を持つ上級サポートエンジニアから、信頼性の高いハイタッチサポートを受けましょう。"
@@ -248,7 +248,7 @@ ja:
           confidence: >
             テストおよびサポートされているエンタープライズクラスのプロジェクト管理ソフトウェアの信頼性を提供します。オープンソースとオープンマインドとともに。
           link_quote: "見積もりの入手"
-          more_info: "More information"
+          more_info: "詳細情報"
           text: >
             The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
           unlimited: "無制限"
@@ -389,7 +389,7 @@ ja:
     label_in_more_than: "今日から○日後以降"
     label_incoming_emails: "受信メール"
     label_information_plural: "情報"
-    label_invalid: "Invalid"
+    label_invalid: "無効"
     label_import: "インポート"
     label_latest_activity: "最新の活動"
     label_last_updated_on: "最終更新日："
@@ -553,9 +553,9 @@ ja:
         watched: 'watcher'
         assigned: 'assignee'
         responsible: 'accountable'
-        created: 'created'
-        scheduled: 'scheduled'
-        commented: 'commented'
+        created: '作成する'
+        scheduled: 'スケジュール済'
+        commented: 'コメント'
         processed: 'processed'
         prioritized: 'prioritized'
         dateAlert: 'Date alert'

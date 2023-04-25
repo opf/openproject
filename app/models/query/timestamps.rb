@@ -34,7 +34,7 @@ module Query::Timestamps
 
     # Returns the timestamps the query should be evaluated at.
     #
-    # In the database, the timestamps are stored as ISO8601 strings.
+    # In the database, the timestamps are stored as strings.
     # This method returns the timestamps as array of `Timestamp` objects.
     #
     # Timestamps can be absolute (e.g. a certain date and time) or relative
@@ -48,8 +48,8 @@ module Query::Timestamps
       timestamps.any? ? timestamps : [Timestamp.now]
     end
 
-    def timestamps=(array)
-      super(array.collect { |element| element.respond_to?(:iso8601) ? element.iso8601 : element })
+    def timestamps=(params)
+      super(Array(params).collect(&:to_s))
     end
 
     # Does this query perform a historic search?

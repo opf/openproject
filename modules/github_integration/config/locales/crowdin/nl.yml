@@ -22,14 +22,4 @@
 nl:
   project_module_github: "GitHub"
   permission_show_github_content: "Toon GitHub inhoud"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR geopend:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) voor [%{repository}](%{repository_url}) is geopend door [%{github_user}](%{github_user_url}).
-    pull_request_closed_comment: >
-      **PR gesloten:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) voor [%{repository}](%{repository_url}) is gesloten door [%{github_user}](%{github_user_url}).
-    pull_request_merged_comment: >
-      **Samengevoegd:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) voor [%{repository}](%{repository_url}) is samengevoegd met [%{github_user}](%{github_user_url}).
-    pull_request_referenced_comment: >
-      **Gerefereerd in de PR:** [%{github_user}](%{github_user_url}) verwees naar dit werkpakket in Pull request %{pr_number} [%{pr_title}](%{pr_url}) op [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **PR Ready for Review:** Pull request %{pr_number} [%{pr_title}](%{pr_url}) voor [%{repository}](%{repository_url}) was gemarkeerd als klaar voor beoordeling door [%{github_user}](%{github_user_url}).
+

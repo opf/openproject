@@ -229,6 +229,7 @@ nl:
       failed_text: "Het verzoek om het project %{name} verwijderen is mislukt. Het project is gearchiveerd gebleven."
       completed: "Verwijderen van project %{name} is gelukt"
       completed_text: "Het verzoek om het verwijderen van project '%{name}' is voltooid."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open als Gantt weergave'
       open_as_gantt_title: "Gebruik deze knop om een Gantt-weergave te genereren die werkpakketten filtert voor de projecten die op deze pagina zichtbaar zijn."
@@ -735,6 +736,9 @@ nl:
               format: "%{message}"
             sort_criteria:
               invalid: "Kan niet sorteren op kolom: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
@@ -2649,8 +2653,6 @@ nl:
     Bij het gebruik van aangepaste velden: Houd er rekening mee dat aangepaste velden moeten worden geactiveerd per project.
   text_custom_field_hint_activate_per_project_and_type: >
     Aangepaste velden moeten worden geactiveerd per werkpakket type en per project.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -3012,6 +3014,7 @@ nl:
       code_409: "De bron kan niet worden bijgewerkt vanwege conflicterende wijzigingen."
       code_429: "Te veel verzoeken. Probeer het later opnieuw."
       code_500: "Een interne fout is opgetreden."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Het werkpakket dat u zoekt kan niet gevonden of verwijderd worden."
       expected:

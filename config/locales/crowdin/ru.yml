@@ -231,6 +231,7 @@ ru:
       failed_text: "Запрос на удаление проекта %{name} не удался. Проект был оставлен в архиве."
       completed: "Удаление проекта %{name} завершено"
       completed_text: "Запрос на удаление проекта '%{name}' был завершен."
+      completed_text_children: "Кроме того, были удалены следующие подпроекты:"
     index:
       open_as_gantt: 'Открыть в виде диаграммы Ганта'
       open_as_gantt_title: "Используйте эту кнопку для создания представления Ганта, фильтрующего пакеты работ, видимых на этой странице."
@@ -740,6 +741,9 @@ ru:
             sort_criteria:
               invalid: "Невозможно отсортировать по столбцу: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Временные метки содержат недопустимые значения: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -1155,7 +1159,7 @@ ru:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%м/%д/%Г"
+      default: "%m/%d/%Y"
       long: "%B %d, %Y"
       short: "%b %d"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -2687,8 +2691,6 @@ ru:
     Помните, что настраиваемые поля тоже нужно включать в каждом проекте по отдельности.
   text_custom_field_hint_activate_per_project_and_type: >
     Настраиваемые поля нужно включать для каждого типа комплекса работ и для каждого проекта в отдельности.
-  text_wp_custom_field_html: >
-    Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей рабочих пакетов: <br> <ul> <li> <b> Разрешить множественный выбор для пользовательских полей типа Список или Пользователь </b> </li> </ul>
   text_wp_status_read_only_html: >
     Корпоративная версия добавит эти дополнительные дополнения для полей статусов пакетов работ: <br> <ul> <li><b>Разрешить помечать пакеты работ только для чтения в определенные статусы</b></li> </ul>
   text_project_custom_field_html: >
@@ -3054,6 +3056,7 @@ ru:
       code_409: "Не удалось обновить ресурс из-за конфликтующих изменений."
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
+      code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:

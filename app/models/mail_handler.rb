@@ -589,7 +589,7 @@ class MailHandler < ActionMailer::Base
       subject: email.subject,
       from: email.from&.first || '(unknown from address)',
       quote: incoming_email_quote(email),
-      text: incoming_email_text(email)
+      text: plain_text_body || incoming_email_text(email)
     }
   end
 

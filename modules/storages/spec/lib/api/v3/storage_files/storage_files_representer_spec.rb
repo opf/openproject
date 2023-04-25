@@ -30,20 +30,21 @@ require 'spec_helper'
 
 describe API::V3::StorageFiles::StorageFilesRepresenter do
   let(:user) { build_stubbed(:user) }
+  let(:storage) { build_stubbed(:storage) }
   let(:created_at) { DateTime.now }
   let(:last_modified_at) { DateTime.now }
 
   let(:parent) do
     Storages::StorageFile.new(
       23,
-      '/',
+      'Documents',
       2048,
       'application/x-op-directory',
       created_at,
       last_modified_at,
       'admin',
       'admin',
-      '/',
+      '/Documents',
       %i[readable writeable]
     )
   end
@@ -58,16 +59,31 @@ describe API::V3::StorageFiles::StorageFilesRepresenter do
       last_modified_at,
       'admin',
       'admin',
-      '/readme.md',
+      '/Documents/readme.md',
+      %i[readable writeable]
+    )
+  end
+
+  let(:ancestor) do
+    Storages::StorageFile.new(
+      47,
+      '/',
+      4096,
+      'application/x-op-directory',
+      created_at,
+      last_modified_at,
+      'admin',
+      'admin',
+      '/',
       %i[readable writeable]
     )
   end
 
   let(:files) do
-    Storages::StorageFiles.new([file], parent)
+    Storages::StorageFiles.new([file], parent, [ancestor])
   end
 
-  let(:representer) { described_class.new(files, current_user: user) }
+  let(:representer) { described_class.new(files, storage, current_user: user) }
 
   subject { representer.to_json }
 
@@ -78,11 +94,20 @@ describe API::V3::StorageFiles::StorageFilesRepresenter do
 
     it_behaves_like 'collection', :files do
       let(:value) { files.files }
-      let(:element_decorator) { API::V3::StorageFiles::StorageFileRepresenter }
+      let(:element_decorator) do
+        ->(value) { API::V3::StorageFiles::StorageFileRepresenter.new(value, storage, current_user: user) }
+      end
+    end
+
+    it_behaves_like 'collection', :ancestors do
+      let(:value) { files.ancestors }
+      let(:element_decorator) do
+        ->(value) { API::V3::StorageFiles::StorageFileRepresenter.new(value, storage, current_user: user) }
+      end
     end
 
     it_behaves_like 'property', :parent do
-      let(:value) { API::V3::StorageFiles::StorageFileRepresenter.new(files.parent, current_user: user) }
+      let(:value) { API::V3::StorageFiles::StorageFileRepresenter.new(files.parent, storage, current_user: user) }
     end
   end
 end

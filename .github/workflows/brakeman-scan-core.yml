@@ -21,12 +21,19 @@ jobs:
     if: github.repository == 'opf/openproject'
     name: Brakeman Scan
     runs-on: ubuntu-latest
+    env:
+      RUBY_GC_HEAP_INIT_SLOTS: 100000
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
+        with:
+          # FIXME: remove the ruby version once '3.2.2' is released.
+          # This is set to head to fix ruby segfaulting when brakeman is
+          # used. See https://bugs.ruby-lang.org/issues/19433
+          ruby-version: 'head'
 
       - name: Setup Brakeman
         run: |

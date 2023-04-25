@@ -29,14 +29,16 @@
 require 'spec_helper'
 
 describe "POST /api/v3/queries" do
-  let(:user) { create(:admin) }
-  let(:status) { create(:status) }
-  let(:project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:status) { create(:status) }
+  shared_let(:project) { create(:project) }
+  shared_let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
 
   let(:default_params) do
     {
       name: "Dummy Query",
       showHierarchies: false,
+      timestamps:,
       filters: [
         {
           name: "Status",
@@ -123,6 +125,7 @@ describe "POST /api/v3/queries" do
       expect(query.user).to eq user
       expect(query.project).to eq project
 
+      expect(query.timestamps).to eq(timestamps.map { |t| Timestamp.new(t) })
       expect(query.filters.size).to eq 1
       filter = query.filters.first
 

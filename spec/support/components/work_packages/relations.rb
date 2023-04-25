@@ -48,7 +48,7 @@ module Components
 
       def click_relation(relatable)
         SeleniumHubWaiter.wait
-        page.find(".relation-row-#{relatable.id} .wp-relations--subject-field").click
+        page.find(".relation-row-#{relatable.id} [data-qa-selector='op-relation--row-id']").click
       end
 
       def edit_relation_type(relatable, to_type:)
@@ -63,7 +63,7 @@ module Components
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
-          span = page.find(".relation-row-#{relatable.id} .relation-row--type", wait: 20)
+          span = page.find(".relation-row-#{relatable.id} [data-qa-selector='op-relation--row-type']", wait: 20)
           scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
@@ -96,7 +96,7 @@ module Components
         container = find('.wp-relations-create--form', wait: 10)
 
         # Labels to expect
-        relation_label = I18n.t('js.relation_labels.' + type)
+        relation_label = I18n.t("js.relation_labels.#{type}")
 
         select relation_label, from: 'relation-type--select'
 
@@ -111,9 +111,9 @@ module Components
                                       text: relation_label.upcase,
                                       wait: 10)
 
-        expect(page).to have_selector('.relation-row--type', text: to.type.name.upcase)
+        expect(page).to have_selector("[data-qa-selector='op-relation--row-type']", text: to.type.name.upcase)
 
-        expect(page).to have_selector('.wp-relations--subject-field', text: to.subject)
+        expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']", text: to.subject)
 
         ## Test if relation exist
         work_package.reload
@@ -123,15 +123,15 @@ module Components
       end
 
       def expect_relation(relatable)
-        expect(relations_group).to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(relations_group).to have_selector("[data-qa-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_selector('.wp-relations--subject-field', text:)
+        expect(relations_group).to have_selector("[data-qa-selector='op-relation--row-subject']", text:)
       end
 
       def expect_no_relation(relatable)
-        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector("[data-qa-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def add_parent(query, work_package)
@@ -172,7 +172,7 @@ module Components
         subject.update subject_text
       end
 
-      def openChildrenAutocompleter
+      def open_children_autocompleter
         retry_block do
           next if page.has_selector?('.wp-relations--children .ng-input input')
 

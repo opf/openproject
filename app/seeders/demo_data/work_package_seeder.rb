@@ -26,34 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
-    attr_accessor :project, :user, :statuses, :repository,
-                  :types, :key
+    attr_reader :project, :statuses, :repository,
+                :types, :project_data
 
     include ::DemoData::References
 
-    def initialize(project, key)
-      self.project = project
-      self.key = key
-      self.user = User.user.admin.first
-      self.statuses = Status.all
-      self.repository = Repository.first
-      self.types = project.types.all.reject(&:is_milestone?)
+    def initialize(project, project_data)
+      super()
+      @project = project
+      @project_data = project_data
+      @statuses = Status.all
+      @repository = Repository.first
+      @types = project.types.all.reject(&:is_milestone?)
     end
 
     def seed_data!
       print_status '    ↳ Creating work_packages' do
         seed_demo_work_packages
-        set_workpackage_relations
+        set_work_package_relations
       end
     end
 
     private
 
     def seed_demo_work_packages
-      work_packages_data = project_data_for(key, 'work_packages')
-
-      work_packages_data.each do |attributes|
-        print_status '.'
+      project_data.each('work_packages') do |attributes|
         create_or_update_work_package(attributes)
       end
     end
@@ -89,8 +86,7 @@ module DemoData
     end
 
     def create_children!(work_package, attributes)
-      Array(attributes[:children]).each do |child_attributes|
-        print_status '.'
+      Array(attributes['children']).each do |child_attributes|
         child = create_work_package child_attributes
 
         child.parent = work_package
@@ -102,13 +98,13 @@ module DemoData
       {
         project:,
         author: user,
-        assigned_to: find_principal(attributes[:assignee]),
-        subject: attributes[:subject],
-        description: attributes[:description],
+        assigned_to: find_principal(attributes['assignee']),
+        subject: attributes['subject'],
+        description: attributes['description'],
         status: find_status(attributes),
         type: find_type(attributes),
         priority: find_priority(attributes) || IssuePriority.default,
-        parent: WorkPackage.find_by(subject: attributes[:parent])
+        parent: WorkPackage.find_by(subject: attributes['parent'])
       }
     end
 
@@ -122,26 +118,26 @@ module DemoData
     end
 
     def find_priority(attributes)
-      IssuePriority.find_by(name: translate_with_base_url(attributes[:priority]))
+      IssuePriority.find_by(name: I18n.t(attributes['priority']))
     end
 
     def find_status(attributes)
-      Status.find_by!(name: translate_with_base_url(attributes[:status]))
+      Status.find_by!(name: I18n.t(attributes['status']))
     end
 
     def find_type(attributes)
-      Type.find_by!(name: translate_with_base_url(attributes[:type]))
+      Type.find_by!(name: I18n.t(attributes['type']))
     end
 
     def set_version!(wp_attr, attributes)
-      if attributes[:version]
-        wp_attr[:version] = Version.find_by!(name: attributes[:version])
+      if attributes['version']
+        wp_attr[:version] = Version.find_by!(name: attributes['version'])
       end
     end
 
     def set_accountable!(wp_attr, attributes)
-      if attributes[:accountable]
-        wp_attr[:responsible] = find_principal(attributes[:accountable])
+      if attributes['accountable']
+        wp_attr[:responsible] = find_principal(attributes['accountable'])
       end
     end
 
@@ -155,13 +151,13 @@ module DemoData
 
     def set_backlogs_attributes!(wp_attr, attributes)
       if defined? OpenProject::Backlogs
-        wp_attr[:position] = attributes[:position].to_i if attributes[:position].present?
-        wp_attr[:story_points] = attributes[:story_points].to_i if attributes[:story_points].present?
+        wp_attr[:position] = attributes['position'].to_i if attributes['position'].present?
+        wp_attr[:story_points] = attributes['story_points'].to_i if attributes['story_points'].present?
       end
     end
 
     def create_attachments!(work_package, attributes)
-      Array(attributes[:attachments]).each do |file_name|
+      Array(attributes['attachments']).each do |file_name|
         attachment = work_package.attachments.build
         attachment.author = work_package.author
         attachment.file = File.new("config/locales/media/en/#{file_name}")
@@ -170,27 +166,25 @@ module DemoData
       end
     end
 
-    def set_workpackage_relations
-      work_packages_data = project_data_for(key, 'work_packages')
-
-      work_packages_data.each do |attributes|
+    def set_work_package_relations
+      project_data.each('work_packages') do |attributes|
         create_relations attributes
       end
     end
 
     def create_relations(attributes)
-      Array(attributes[:relations]).each do |relation|
-        root_work_package = WorkPackage.find_by!(subject: attributes[:subject])
-        to_work_package =  WorkPackage.find_by(subject: relation[:to], project: root_work_package.project)
-        to_work_package =  WorkPackage.find_by!(subject: relation[:to]) unless to_work_package.nil?
+      Array(attributes['relations']).each do |relation|
+        root_work_package = WorkPackage.find_by!(subject: attributes['subject'])
+        to_work_package = WorkPackage.find_by(subject: relation['to'], project: root_work_package.project)
+        to_work_package ||= WorkPackage.find_by!(subject: relation['to'])
         create_relation(
           to: to_work_package,
           from: root_work_package,
-          type: relation[:type]
+          type: relation['type']
         )
       end
 
-      Array(attributes[:children]).each do |child_attributes|
+      Array(attributes['children']).each do |child_attributes|
         create_relations child_attributes
       end
     end
@@ -223,12 +217,12 @@ module DemoData
       end
 
       def start_date
-        days_ahead = attributes[:start] || 0
+        days_ahead = attributes['start'] || 0
         Time.zone.today.monday + days_ahead.days
       end
 
       def due_date
-        all_days.due_date(start_date, attributes[:duration])
+        all_days.due_date(start_date, attributes['duration'])
       end
 
       def duration
@@ -242,7 +236,7 @@ module DemoData
       end
 
       def estimated_hours
-        attributes[:estimated_hours]&.to_i
+        attributes['estimated_hours']&.to_i
       end
 
       def all_days

@@ -16,6 +16,10 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 
 @Directive()
 export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetComponent implements OnInit {
@@ -60,7 +64,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
         this.buildEntries(collection.elements);
 
         if (collection.count > 0) {
-          this.schema = await this.loadSchema();
+          this.schema = await firstValueFrom(this.loadSchema());
         }
 
         this.entriesLoaded = true;
@@ -202,12 +206,11 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
     return !this.entries.length && this.entriesLoaded;
   }
 
-  private loadSchema():Promise<SchemaResource> {
+  private loadSchema():Observable<SchemaResource> {
     return this
       .apiV3Service
       .time_entries
       .schema
-      .get()
-      .toPromise();
+      .get();
   }
 }

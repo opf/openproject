@@ -226,6 +226,7 @@ id:
       failed_text: "Permintaan untuk menghapus proyek %{name} telah gagal.  Proyek dibiarkan diarsipkan."
       completed: "Penghapusan proyek %{name} selesai"
       completed_text: "Permintaan untuk menghapus proyek '%{name}' telah selesai."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Buka sebagai tampilan Gantt'
       open_as_gantt_title: "Gunakan tombol ini untuk membuat tampilan Gantt yang memfilter paket kerja untuk proyek yang terlihat di halaman ini."
@@ -731,6 +732,9 @@ id:
               format: "%{message}"
             sort_criteria:
               invalid: "Tidak dapat diurutkan dengan kolom: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
@@ -2626,8 +2630,6 @@ id:
     Ketika menggunakan filed kustom: Perlu diingat bahwa field kustom perlu diaktifkan per proyek, juga.
   text_custom_field_hint_activate_per_project_and_type: >
     Field-field kustom perlu diaktifkan per jenis paket kerja dan per proyek.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -2988,6 +2990,7 @@ id:
       code_409: "Could not update the resource because of conflicting modifications."
       code_429: "Too many requests. Please try again later."
       code_500: "An internal error has occurred."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

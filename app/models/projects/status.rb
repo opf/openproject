@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Status < ActiveRecord::Base
+class Projects::Status < ApplicationRecord
   belongs_to :project
 
   self.table_name = 'project_statuses'

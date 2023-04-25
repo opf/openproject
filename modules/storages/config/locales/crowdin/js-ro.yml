@@ -59,7 +59,7 @@ ro:
           other: "A creat cu succes %{count} de legături de fișiere."
         upload_error:
           default: >
-            Fișierul dumneavoastră (%{fileName}) nu a putut fi încărcat. Vă rugăm să contactați administratorul dumneavoastră pentru mai multe informații.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             Fişierul (%{fileName}) nu a putut fi încărcat din cauza restricţiilor de sistem. Vă rugăm să contactaţi administratorul pentru mai multe informaţii.
           413: >

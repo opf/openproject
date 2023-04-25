@@ -1,0 +1,26 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotSwitchComponent } from '../switch.component';
+import * as SwitchStories from './Switch.stories';
+
+<Meta of={SwitchStories} />
+
+# Switches
+
+This component describes only the actual switch, without the label. For the full component, please refer to Selector field component, which provides a label.
+
+## States
+
+The selector field itself only has two states, *enabled* and *disabled*.
+
+### Enabled
+
+<Canvas of={SwitchStories.Checked} />
+<Canvas of={SwitchStories.Unchecked} />
+
+### Disabled
+
+<Canvas of={SwitchStories.DisabledChecked} />
+<Canvas of={SwitchStories.Disabled} />
+
+<ArgsTable of={SpotSwitchComponent} />

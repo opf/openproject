@@ -85,6 +85,24 @@ module OpenProject::Storages
            { controller: '/storages/admin/projects_storages', action: 'index' },
            caption: :project_module_storages,
            parent: :settings
+
+      configure_menu :project_menu do |menu, project|
+        if project.present? &&
+           User.current.logged? &&
+           User.current.allowed_to?(:view_file_links, project)
+          project.storages.each do |storage|
+            menu.push(
+              :"storage_#{storage.id}",
+              storage.host,
+              caption: storage.name,
+              before: :members,
+              icon: "#{storage.provider_type}-circle",
+              icon_after: "external-link",
+              skip_permissions_check: true
+            )
+          end
+        end
+      end
     end
 
     patch_with_namespace :Principals, :ReplaceReferencesService
@@ -111,6 +129,11 @@ module OpenProject::Storages
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
+
+        ::Queries::Register.register(::Queries::Storages::ProjectStorages::ProjectStoragesQuery) do
+          filter ::Queries::Storages::ProjectStorages::Filter::StorageIdFilter
+          filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
+        end
       end
     end
 
@@ -120,12 +143,24 @@ module OpenProject::Storages
       "#{root}/storages"
     end
 
+    add_api_path :project_storages do
+      "#{root}/project_storages"
+    end
+
+    add_api_path :project_storage do |id|
+      "#{root}/project_storages/#{id}"
+    end
+
     add_api_path :storage do |storage_id|
       "#{storages}/#{storage_id}"
     end
 
     add_api_path :storage_files do |storage_id|
       "#{storage(storage_id)}/files"
+    end
+
+    add_api_path :storage_file do |storage_id, file_id|
+      "#{storage_files(storage_id)}/#{file_id}"
     end
 
     add_api_path :prepare_upload do |storage_id|
@@ -155,6 +190,7 @@ module OpenProject::Storages
     # Add api endpoints specific to this module
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Storages::StoragesAPI
+      mount ::API::V3::ProjectStorages::ProjectStoragesAPI
       mount ::API::V3::FileLinks::FileLinksAPI
     end
 

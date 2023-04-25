@@ -69,8 +69,8 @@ nl:
       delete_all_are_you_sure: 'Weet u zeker dat u alle 2FA-apparaten voor deze gebruiker wilt verwijderen?'
       button_delete_all_devices: 'Geregistreerde 2FA apparaten verwijderen'
       button_register_mobile_phone_for_user: 'Mobiele telefoon registreren'
-      text_2fa_enabled: 'Bij elke aanmelding wordt deze gebruiker gevraagd om een OTP-token in te voeren vanaf zijn standaard 2FA-apparaat.'
-      text_2fa_disabled: "De gebruiker heeft geen 2FA-apparaat ingesteld via zijn 'Mijn accountpagina'"
+      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
+      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
     upsale:
       title: 'Twee-staps authenticatie'
       description: 'Versterk de beveiliging van uw OpenProject door tweestapsauthentificatie aan alle projectdeelnemers aan te bieden (of af te dwingen)'
