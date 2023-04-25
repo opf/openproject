@@ -140,21 +140,26 @@ class WorkPackage < ApplicationRecord
 
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
-                               "#{Journal.table_name}.notes"],
+                               {
+                                 name: "#{Journal.table_name}.notes",
+                                 scope: -> { Journal.for_work_package.where("journable_id = #{table_name}.id") }
+                               }],
                      tsv_columns: [
                        {
                          table_name: Attachment.table_name,
                          column_name: 'fulltext',
-                         normalization_type: :text
+                         normalization_type: :text,
+                         scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        },
                        {
                          table_name: Attachment.table_name,
                          column_name: 'file',
-                         normalization_type: :filename
+                         normalization_type: :filename,
+                         scope: -> { Attachment.where(container_type: name).where("container_id = #{table_name}.id") }
                        }
                      ],
-                     include: %i(project journals attachments),
-                     references: %i(projects journals attachments),
+                     include: %i(project journals),
+                     references: %i(projects),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -580,7 +585,7 @@ class WorkPackage < ApplicationRecord
   private_class_method :count_and_group_by
 
   def set_attachments_error_details
-    if invalid_attachment = attachments.detect { |a| !a.valid? }
+    if invalid_attachment = attachments.detect(&:invalid?)
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
     end
   end
