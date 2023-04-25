@@ -453,13 +453,36 @@ describe AccountController,
 
         expect(response).to redirect_to '/auth/some_provider'
       end
+
+      it 'allows to login internally using a special route' do
+        get :internal_login
+
+        expect(response).to redirect_to '/login'
+        expect(session[:internal_login]).to be true
+      end
+
+      it 'allows to login internally using a session flag' do
+        session[:internal_login] = true
+        get :login
+
+        expect(response).to render_template 'login'
+      end
     end
 
     describe 'POST' do
+      shared_let(:admin) { create(:admin) }
+
       it 'redirects to some_provider' do
         post :login, params: { username: 'foo', password: 'bar' }
 
         expect(response).to redirect_to '/auth/some_provider'
+      end
+
+      it 'allows to login internally using a session flag' do
+        session[:internal_login] = true
+        post :login, params: { username: admin.login, password: 'adminADMIN!' }
+
+        expect(response).to redirect_to '/my/page'
       end
     end
   end
