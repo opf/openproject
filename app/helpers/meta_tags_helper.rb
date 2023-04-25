@@ -45,8 +45,9 @@ module MetaTagsHelper
           firstWeekOfYear: locale_first_week_of_year,
           firstDayOfWeek: locale_first_day_of_week,
           environment: Rails.env,
-          edition: OpenProject::Configuration.edition
-        }
+          edition: OpenProject::Configuration.edition,
+          'asset-host': OpenProject::Configuration.rails_asset_host.presence
+        }.compact
   end
 
   ##

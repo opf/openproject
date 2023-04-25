@@ -1,0 +1,18 @@
+import { Canvas, Meta, ArgsTable } from '@storybook/blocks';
+
+import { SpotCheckboxComponent } from '../checkbox.component';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkboxes
+
+This component describes only the actual checkbox, without the label. For the full component, please refer to Selector field component, which provides a label.
+
+## States
+
+The selector field itself only has two states, *enabled* and *disabled*.
+
+<Canvas of={CheckboxStories.Basic} />
+
+<ArgsTable of={SpotCheckboxComponent} />

@@ -163,7 +163,7 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     // lazy load the work package's project, needed when initializing
     // the work package resource from split view.
     this.projectsResourceService
-      .update((this.workPackage.$links.project as HalResource).href as string)
+      .requireEntity((this.workPackage.$links.project as HalResource).href as string)
       .subscribe(
         () => {},
         (error:HttpErrorResponse) => {
@@ -190,20 +190,10 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
     if (this.workPackage.$links.fileLinks) {
       this.fileLinkResourceService
         .updateCollectionsForWorkPackage(this.workPackage.$links.fileLinks.href as string)
-        .pipe(
-          this.untilDestroyed(),
-          switchMap(() => this.projectsResourceService.lookup((this.workPackage.project as unknown&{ id:string }).id)),
-          take(1),
-        )
+        .pipe(take(1))
         .subscribe(
-          (project) => {
-            if (project._links.storages) {
-              this.storages.updateCollection(project._links.self.href, project._links.storages).subscribe();
-            }
-          },
-          (error:HttpErrorResponse) => {
-            this.toastService.addError(error);
-          },
+          () => { /* Do nothing */ },
+          (error:HttpErrorResponse) => { this.toastService.addError(error); },
         );
     }
 

@@ -27,8 +27,6 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { IProject } from './project.model';
 import {
   ResourceStore,
@@ -38,15 +36,6 @@ import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
 
 @Injectable()
 export class ProjectsResourceService extends ResourceStoreService<IProject> {
-  update(link:string):Observable<IProject> {
-    return this.http.get<IProject>(link)
-      .pipe(
-        tap((project) => {
-          this.store.upsertMany([project]);
-        }),
-      );
-  }
-
   protected createStore():ResourceStore<IProject> {
     return new ProjectsStore();
   }

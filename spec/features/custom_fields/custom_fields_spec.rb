@@ -18,6 +18,7 @@ describe 'custom fields', js: true do
 
       select "List", from: "custom_field_field_format"
       expect(page).to have_text("Allow multi-select")
+      check("custom_field_multi_value")
 
       expect(page).to have_selector('.custom-option-row', count: 1)
       within all(".custom-option-row").last do
@@ -48,6 +49,8 @@ describe 'custom fields', js: true do
       SeleniumHubWaiter.wait
       click_on "Operating System"
 
+      expect(page).to have_field("custom_field_multi_value", checked: true)
+
       expect(page).to have_selector('.custom-option-row', count: 3)
       expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "Solaris")
       expect(page).to have_field("custom_field_custom_options_attributes_1_value", with: "Windows")
@@ -77,8 +80,6 @@ describe 'custom fields', js: true do
     end
 
     before do
-      with_enterprise_token(:multiselect_custom_fields)
-
       cf_page.visit!
       expect_angular_frontend_initialized
       SeleniumHubWaiter.wait
