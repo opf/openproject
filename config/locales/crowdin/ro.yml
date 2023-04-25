@@ -2675,8 +2675,6 @@ ro:
     Când utilizați câmpuri personalizate: Rețineți că fiecare câmp personalizat trebuie activat individual în cadrul fiecărui proiect.
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
-  text_wp_custom_field_html: >
-    Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale pachetelor de lucru: <br> <ul> <li><b>Permiteți selecția multiplă pentru câmpurile personalizate de tip Listă sau Utilizator</b></li> </ul>
   text_wp_status_read_only_html: >
     Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile de statusuri ale pachetelor de lucru: <br> <ul> <li><b>Permiteți să marcați pachetele de lucru ca fiind numai pentru citire pentru anumite stări</b></li> </ul>
   text_project_custom_field_html: >
