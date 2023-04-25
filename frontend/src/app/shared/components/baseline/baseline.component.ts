@@ -27,7 +27,6 @@
 //++
 
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   HostBinding,
@@ -41,9 +40,9 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
-import { take } from 'rxjs/operators';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'op-baseline',
@@ -51,7 +50,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
   templateUrl: './baseline.component.html',
   styleUrls: ['./baseline.component.sass'],
 })
-export class OpBaselineComponent extends UntilDestroyedMixin implements AfterViewInit {
+export class OpBaselineComponent extends UntilDestroyedMixin {
   @HostBinding('class.op-baseline') className = true;
 
   public opened = false;
@@ -59,6 +58,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
   public dropDownDescription = '';
 
   public nonWorkingDays:IDay[] = [];
+
+  public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
 
   public selectedDate = '';
 
@@ -127,10 +128,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
     super();
   }
 
-  async ngAfterViewInit():Promise<void> {
-    await this.requireNonWorkingDaysOfTwoYears();
-  }
-
   public toggleOpen():void {
     this.opened = !this.opened;
   }
@@ -175,15 +172,13 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
     return this.selectedDate;
   }
 
-  async requireNonWorkingDaysOfTwoYears() {
+  requireNonWorkingDaysOfTwoYears() {
     const today = new Date();
     const lastYear = new Date(today);
     lastYear.setFullYear(today.getFullYear() - 1);
-    this.nonWorkingDays = await this
+    return this
       .daysService
-      .requireNonWorkingYears$(lastYear, today)
-      .pipe(take(1))
-      .toPromise()?? [];
+      .requireNonWorkingYears$(lastYear, today);
   }
 
   isNonWorkingDay(date:Date|string):boolean {

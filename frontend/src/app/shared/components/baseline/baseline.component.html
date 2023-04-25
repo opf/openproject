@@ -1,4 +1,5 @@
 <form
+  *ngIf="(nonWorkingDays$ | async); else loadingTemplate"
   (submit)="onSubmit($event)"
   class="spot-container op-baseline--body"
 >
@@ -30,7 +31,7 @@
       (change)="timeChange($event.target.value)"
       type="time"
       class="op-baseline--time-input"/>
-   
+  
     <spot-tooltip
       slot="input"
       class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
@@ -67,3 +68,6 @@
   </div>
 </form>
 
+<ng-template #loadingTemplate>
+  <op-baseline-loading></op-baseline-loading>
+</ng-template>
