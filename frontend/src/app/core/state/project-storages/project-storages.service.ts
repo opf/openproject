@@ -27,20 +27,18 @@
 //++
 
 import { Injectable } from '@angular/core';
-import { IProject } from './project.model';
-import {
-  ResourceStore,
-  ResourceStoreService,
-} from 'core-app/core/state/resource-store.service';
-import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
+
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
+import { ProjectStoragesStore } from 'core-app/core/state/project-storages/project-storages.store';
+import { ResourceStore, ResourceStoreService } from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class ProjectsResourceService extends ResourceStoreService<IProject> {
-  protected createStore():ResourceStore<IProject> {
-    return new ProjectsStore();
+export class ProjectStoragesResourceService extends ResourceStoreService<IProjectStorage> {
+  protected createStore():ResourceStore<IProjectStorage> {
+    return new ProjectStoragesStore();
   }
 
   protected basePath():string {
-    return this.apiV3Service.projects.path;
+    return this.apiV3Service.projectStorages.path;
   }
 }

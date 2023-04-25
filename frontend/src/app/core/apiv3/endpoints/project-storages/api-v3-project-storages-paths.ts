@@ -26,21 +26,19 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { IProject } from './project.model';
 import {
-  ResourceStore,
-  ResourceStoreService,
-} from 'core-app/core/state/resource-store.service';
-import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
+  ApiV3GettableResource,
+  ApiV3ResourceCollection,
+} from 'core-app/core/apiv3/paths/apiv3-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 
-@Injectable()
-export class ProjectsResourceService extends ResourceStoreService<IProject> {
-  protected createStore():ResourceStore<IProject> {
-    return new ProjectsStore();
-  }
-
-  protected basePath():string {
-    return this.apiV3Service.projects.path;
+export class ApiV3ProjectStoragesPaths
+  extends ApiV3ResourceCollection<IProjectStorage, ApiV3GettableResource<IProjectStorage>> {
+  constructor(
+    protected apiRoot:ApiV3Service,
+    protected basePath:string,
+  ) {
+    super(apiRoot, basePath, 'project_storages');
   }
 }

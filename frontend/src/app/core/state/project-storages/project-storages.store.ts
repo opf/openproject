@@ -26,21 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
-import { IProject } from './project.model';
-import {
-  ResourceStore,
-  ResourceStoreService,
-} from 'core-app/core/state/resource-store.service';
-import { ProjectsStore } from 'core-app/core/state/projects/projects.store';
+import { EntityStore, StoreConfig } from '@datorama/akita';
 
-@Injectable()
-export class ProjectsResourceService extends ResourceStoreService<IProject> {
-  protected createStore():ResourceStore<IProject> {
-    return new ProjectsStore();
-  }
+import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
+import { createInitialResourceState, ResourceState } from 'core-app/core/state/resource-store';
 
-  protected basePath():string {
-    return this.apiV3Service.projects.path;
+export interface ProjectStoragesState extends ResourceState<IProjectStorage> {}
+
+@StoreConfig({ name: 'project-storages' })
+export class ProjectStoragesStore extends EntityStore<ProjectStoragesState> {
+  constructor() {
+    super(createInitialResourceState());
   }
 }

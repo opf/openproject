@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  map,
-  take,
-} from 'rxjs/operators';
-import {
-  firstValueFrom,
-  Observable,
-} from 'rxjs';
+import { map } from 'rxjs/operators';
+import { firstValueFrom, Observable } from 'rxjs';
+
 import { ApiV3ListFilter } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { DayStore } from 'core-app/core/state/days/day.store';
 import { IDay } from 'core-app/core/state/days/day.model';
