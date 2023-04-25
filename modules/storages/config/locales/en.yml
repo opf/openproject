@@ -30,7 +30,7 @@ en:
                 appears to not have the app "OpenProject integration" installed. Please install it first and then try
                 again.
               authorization_header_missing: >
-                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is 
+                is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is
                 necessary for a Bearer token based authorization of API requests. Please double check your HTTP
                 server configuration.
         storages/file_link:
