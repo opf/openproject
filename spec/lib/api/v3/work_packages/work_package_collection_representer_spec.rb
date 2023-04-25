@@ -80,7 +80,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     describe 'self' do
       describe 'when providing timestamps' do
         let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
-        let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+        let(:absolute_timestamp_strings) { timestamps.collect(&:absolute) }
         let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
 
         it 'has the absolute timestamps within the self link' do
@@ -563,7 +563,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     shared_examples_for 'has the absolute timestamps within the self link' do
-      let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+      let(:absolute_timestamp_strings) { timestamps.collect(&:absolute) }
       let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
 
       it 'has the absolute timestamps within the self link' do

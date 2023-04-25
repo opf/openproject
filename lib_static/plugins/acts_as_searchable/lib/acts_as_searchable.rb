@@ -47,11 +47,10 @@ module Redmine
           self.searchable_options = options
 
           if searchable_options[:columns].nil?
-            raise 'No searchable column defined.'
-          elsif !searchable_options[:columns].is_a?(Array)
-            searchable_options[:columns] = [] << searchable_options[:columns]
+            raise ArgumentError, 'No searchable column defined.'
           end
 
+          searchable_options[:columns] = Array(searchable_options[:columns])
           searchable_options[:tsv_columns] ||= []
 
           searchable_options[:project_key] ||= "#{table_name}.project_id"
@@ -83,41 +82,25 @@ module Redmine
           # projects argument can be either nil (will search all projects), a project or an array of projects
           # Returns the results and the results count
           def search(tokens, projects = nil, options = {})
-            tokens = [] << tokens unless tokens.is_a?(Array)
+            tokens = Array(tokens)
             projects = [] << projects unless projects.nil? || projects.is_a?(Array)
 
             find_order = "#{searchable_options[:order_column]} " + (options[:before] ? 'DESC' : 'ASC')
 
-            columns = searchable_options[:columns]
-
-            tsv_columns = searchable_options[:tsv_columns]
-
-            token_clauses = columns.map { |column| "(LOWER(#{column}) LIKE ?)" }
+            token_clauses = searchable_column_conditions
 
             if OpenProject::Database.allows_tsv?
-              tsv_clauses = tsv_columns.map do |tsv_column|
-                OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
-                                                      tsv_column[:column_name],
-                                                      tokens.join(' '),
-                                                      normalization: tsv_column[:normalization_type])
-              end
+              tsv_clauses = searchable_tsv_column_conditions(tokens)
             end
 
             if searchable_options[:search_custom_fields]
-              searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
-                                                              searchable: true).pluck(:id)
-              if searchable_custom_field_ids.any?
-                custom_field_sql = "#{table_name}.id IN (SELECT customized_id FROM #{CustomValue.table_name}" +
-                                   " WHERE customized_type='#{name}' AND customized_id=#{table_name}.id AND LOWER(value) LIKE ?" +
-                                   " AND #{CustomValue.table_name}.custom_field_id IN (#{searchable_custom_field_ids.join(',')}))"
-                token_clauses << custom_field_sql
-              end
+              token_clauses += Array(searchable_custom_fields_conditions)
             end
 
-            sql = (['(' + token_clauses.join(' OR ') + ')'] * tokens.size).join(' AND ')
+            sql = (["(#{token_clauses.join(' OR ')})"] * tokens.size).join(' AND ')
 
             if tsv_clauses.present?
-              sql << (' OR ' + tsv_clauses.join(' OR '))
+              sql << (" OR #{tsv_clauses.join(' OR ')}")
             end
 
             find_conditions = [sql, *(tokens.map { |w| "%#{w.downcase}%" } * token_clauses.size).sort]
@@ -147,6 +130,8 @@ module Redmine
             [results, results_count]
           end
 
+          private
+
           def searchable_projects_condition
             projects = if searchable_options[:permission].nil?
                          Project.visible_by(User.current)
@@ -155,6 +140,58 @@ module Redmine
                        end
 
             "#{searchable_options[:project_key]} IN (#{projects.select(:id).to_sql})"
+          end
+
+          def searchable_column_conditions
+            searchable_options[:columns].map do |column|
+              name, scope = column.is_a?(Hash) ? column.values_at(:name, :scope) : column
+              match_condition = "(#{Arel.sql(name)} ILIKE ?)"
+
+              if scope
+                subquery_condition(scope, match_condition)
+              else
+                match_condition
+              end
+            end
+          end
+
+          def searchable_tsv_column_conditions(tokens)
+            searchable_options[:tsv_columns].map do |tsv_column|
+              tsv_condition =
+                OpenProject::FullTextSearch.tsv_where(tsv_column[:table_name],
+                                                      tsv_column[:column_name],
+                                                      tokens.join(' '),
+                                                      normalization: tsv_column[:normalization_type])
+              if tsv_column[:scope]
+                subquery_condition(tsv_column[:scope], tsv_condition)
+              else
+                tsv_condition
+              end
+            end
+          end
+
+          def searchable_custom_fields_conditions
+            searchable_custom_field_ids = CustomField.where(type: "#{name}CustomField",
+                                                            searchable: true).pluck(:id)
+            if searchable_custom_field_ids.any?
+              custom_field_condition =
+                CustomValue.select('1').where(customized_type: name)
+                           .where("customized_id=#{table_name}.id AND value ILIKE ?")
+                           .where(custom_field_id: searchable_custom_field_ids)
+
+              "EXISTS ( #{custom_field_condition.to_sql} )"
+            end
+          end
+
+          def subquery_condition(scope_clause, match_condition)
+            raise ArgumentError, ":scope must be an instance of Proc" unless scope_clause.is_a?(Proc)
+
+            scope = scope_clause.call
+            unless scope.is_a?(ActiveRecord::Relation)
+              raise ArgumentError, ":scope must return an instance of ActiveRecord::Relation"
+            end
+
+            "EXISTS ( #{scope.select('1').where(match_condition).to_sql} )"
           end
         end
       end

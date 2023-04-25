@@ -9,6 +9,7 @@ es:
         identifier: Identificador
         secret: Secreto
         scope: Ámbito
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Proveedores de OpenID
     providers:
@@ -17,3 +18,6 @@ es:
       no_results_table: Aún no se han definido proveedores.
       plural: Proveedores de OpenID
       singular: Proveedor de OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

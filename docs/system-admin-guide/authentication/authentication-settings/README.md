@@ -23,6 +23,8 @@ You can adapt the following under the authentication settings:
 
    c) **Automatic account activation** means that a newly registered user will automatically be active.
 
+   **Note:** By default, self-registration is only applied to internal users (logging in with username and password). If you have an identity provider such as LDAP, SAML or OpenID Connect, use the respective settings in their configuration to control which users are applicable for automatic user creation.
+
 3. Define if the **email address should be used as login** name.
 
 4. Define after how many days the **activation email sent to new users will expire**. Afterwards, you will have the possibility to [re-send the activation email](../../users-permissions/users/#resend-user-invitation-via-email) via the user settings.
