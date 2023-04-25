@@ -264,6 +264,7 @@ projects:
         schedule_manually: false
       - start: 21
         t_subject: Follow-up tasks
+        reference: :follow_up_tasks
         description: ''
         status: default_status_to_be_scheduled
         type: default_type_phase
@@ -295,8 +296,7 @@ projects:
         type: default_type_milestone
         duration: 1
         relations:
-          # TODO: ref wont be found with another language
-          - to: Follow-up tasks
+          - to: :follow_up_tasks
             type: follows
         schedule_manually: false
   scrum-project:
@@ -517,7 +517,6 @@ projects:
       - t_subject: Password reset does not send email
         status: :default_status_confirmed
         type: :default_type_bug
-        # TODO: ref wont be found with another language
         version: :scrum_project__version__bug_backlog
         position: 1
       - t_subject: New website
@@ -622,6 +621,7 @@ projects:
         start: 25
         duration: 1
       - t_subject: Develop v1.0
+        reference: :develop_v1_0
         status: :default_status_in_progress
         type: :default_type_phase
         start: 14
@@ -632,10 +632,10 @@ projects:
         start: 18
         duration: 1
         relations:
-          # TODO: ref wont be found with another language
-          - to: Develop v1.0
+          - to: :develop_v1_0
             type: follows
       - t_subject: Develop v1.1
+        reference: :develop_v1_1
         status: :default_status_new
         type: :default_type_phase
         start: 21
@@ -646,10 +646,10 @@ projects:
         start: 25
         duration: 1
         relations:
-          # TODO: ref wont be found with another language
-          - to: Develop v1.1
+          - to: :develop_v1_1
             type: follows
       - t_subject: Develop v2.0
+        reference: :develop_v2_0
         status: :default_status_new
         type: :default_type_phase
         start: 28
@@ -660,8 +660,7 @@ projects:
         start: 32
         duration: 1
         relations:
-          # TODO: ref wont be found with another language
-          - to: Develop v2.0
+          - to: :develop_v2_0
             type: follows
     t_wiki: |
       ### Sprint planning meeting
