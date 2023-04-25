@@ -78,14 +78,24 @@ class Activities::ItemComponent < ViewComponent::Base
     @event.event_description
   end
 
+  def time_entry_url
+    return unless time_entry_activity?
+
+    @event.event_url
+  end
+
   private
 
   def work_package_activity?
-    @event.journal.journable_type == "WorkPackage"
+    @event.journal.journable_type == 'WorkPackage'
   end
 
   def project_activity?
     @event.journal.journable_type == 'Project'
+  end
+
+  def time_entry_activity?
+    @event.journal.journable_type == 'TimeEntry'
   end
 
   def activity_is_from_current_project?
