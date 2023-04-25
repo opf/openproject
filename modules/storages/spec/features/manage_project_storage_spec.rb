@@ -69,7 +69,7 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
-    page.find('button[type=submit]').click
+    page.click_button('Add')
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
@@ -77,14 +77,15 @@ describe 'Activation of storages in projects', js: true do
 
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
-    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project, id: Storages::ProjectStorage.last)
+    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+                                                                                  id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     # The project folder mode should be manual
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
 
     # Change the project folder mode to inactive
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
-    page.find('button[type=submit]').click
+    page.click_button('Add')
 
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_text('File storages available in this project')
