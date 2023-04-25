@@ -2653,8 +2653,6 @@ es:
     Si utiliza campos personalizados: tenga en cuenta que los campos personalizados deben activarse también en cada proyecto por separado.
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
-  text_wp_custom_field_html: >
-    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de campos personalizados de tipo Lista o Usuario</b></li> </ul>
   text_wp_status_read_only_html: >
     La edición Enterprise añadirá estos add-ons extras para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
   text_project_custom_field_html: >

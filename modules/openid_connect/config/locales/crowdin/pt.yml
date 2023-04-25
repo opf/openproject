@@ -9,6 +9,7 @@ pt:
         identifier: Identificador
         secret: Chave
         scope: Escopo
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Provedores OpenID
     providers:
@@ -17,3 +18,6 @@ pt:
       no_results_table: Nenhum provedor foi definido.
       plural: Provedores OpenID
       singular: Provedor OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

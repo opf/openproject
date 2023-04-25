@@ -12,7 +12,7 @@ class RestoreDefaultsOnEmptySettings < ActiveRecord::Migration[6.1]
 
       next if definition.value == ''
 
-      setting.update_column(:value, definition.value)
+      setting.update_attribute(:value, definition.value)
     end
   end
 

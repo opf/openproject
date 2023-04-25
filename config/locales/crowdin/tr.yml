@@ -2653,8 +2653,6 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
-  text_wp_custom_field_html: >
-    Enterprise sürümü, iş paketlerinin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Liste veya Kullanıcı türündeki özel alanlar için çoklu seçime izin verin</b></li> < /ul>
   text_wp_status_read_only_html: >
     Enterprise sürümü, iş paketlerinin durum alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>İş paketlerini belirli durumlar için salt okunur olarak işaretlemeye izin verin</b></li> < /ul>
   text_project_custom_field_html: >

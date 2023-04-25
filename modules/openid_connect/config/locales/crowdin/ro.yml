@@ -9,6 +9,7 @@ ro:
         identifier: Identificator
         secret: Secret
         scope: Scop
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Furnizori OpenID
     providers:
@@ -17,3 +18,6 @@ ro:
       no_results_table: Încă nu au fost definiți furnizori.
       plural: Furnizori OpenID
       singular: Furnizor de autentificare
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

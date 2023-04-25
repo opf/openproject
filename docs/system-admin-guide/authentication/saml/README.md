@@ -233,13 +233,13 @@ Be sure to choose the correct indentation and base key. The items below the `sam
 
 In this section, we detail some of the required and optional configuration options for SAML.
 
-**Mandatory: Response signature verification**
+#### 2.1 Mandatory: Response signature verification
 
 SAML responses by identity providers are required to be signed. You can configure this by either specifying the response's certificate fingerprint in `idp_cert_fingerprint` , or by passing the entire PEM-encoded certificate string in `idp_cert` (beware of newlines and formatting the cert, [c.f. the idP certificate options in omniauth-saml](https://github.com/omniauth/omniauth-saml#options))
 
 
 
-**Mandatory: Attribute mapping**
+#### 2.2 Mandatory: Attribute mapping
 
 Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
 
@@ -291,7 +291,9 @@ default:
         last_name: ['sn']
 ```
 
-**Optional: Setting the attribute format**
+
+
+#### 2.3 Optional: Setting the attribute format
 
 By default, the attributes above will be requested with the format `urn:oasis:names:tc:SAML:2.0:attrname-format:basic`.
 That means the response should contain attribute names 'mail', etc. as configured above.
@@ -327,7 +329,9 @@ default:
         last_name: ['urn:oid:2.5.4.4']
 ```
 
-**Optional: Request signature and Assertion Encryption**
+
+
+#### 2.4 Optional: Request signature and Assertion Encryption
 
 Your identity provider may optionally encrypt the assertion response, however note that with the required use of TLS transport security, in many cases this is not necessary. You may wish to use Assertion Encryption if TLS is terminated before the OpenProject application server (e.g., on the load balancer level).
 
@@ -368,8 +372,24 @@ default:
         digest_method: 'http://www.w3.org/2001/04/xmlenc#sha256'
 ```
 
-
 With request signing enabled, the certificate will be added to the identity provider to validate the signature of the service provider's request.
+
+
+
+#### 2.5. Optional: Restrict who can automatically self-register
+
+You can configure OpenProject to restrict which users can register on the system with the [authentication self-registration setting](../authentication-settings)
+
+ By default, users returning from a SAML idP will be automatically created. If you'd like for the SAML integration to respect the configured self-registration option, please use this setting:
+
+```yml
+default:
+  # <-- other configuration -->
+    mysaml1:
+      # <-- other configuration -->
+      limit_self_registration: true
+```
+
 
 
 ### 3: Restarting the server

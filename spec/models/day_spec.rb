@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Day do
+  shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
   let(:today) { Date.current }
   let(:date_range) { Date.new(2022, 1, 1)..Date.new(2022, 2, 1) }
   let(:first_of_year) { date_range.begin }
@@ -49,7 +50,6 @@ describe Day do
   end
 
   context 'for collection with multiple non-working days' do
-    shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
     let(:non_working_dates) { [date_range.begin, date_range.begin + 1.day] }
 
     before do
@@ -80,6 +80,44 @@ describe Day do
   context 'with the weekday present' do
     it 'loads the name attribute' do
       expect(subject.name).to eq('Saturday')
+    end
+  end
+
+  describe '.last_working' do
+    subject { described_class.last_working }
+
+    around do |ex|
+      Timecop.travel(current_time, &ex)
+    end
+
+    context 'when today is Monday' do
+      let(:current_time) { Time.current.monday }
+
+      context 'when yesterday is a weekend day' do
+        it 'returns last Friday' do
+          expect(subject.date).to eq(current_time.prev_occurring(:friday))
+        end
+      end
+    end
+
+    context 'when today is Tuesday' do
+      let(:current_time) { Time.current.monday + 1.day }
+
+      context 'when yesterday is working' do
+        it 'returns Monday' do
+          expect(subject.date).to eq(current_time.yesterday)
+        end
+      end
+
+      context 'when yesterday is non-working' do
+        before do
+          create(:non_working_day, date: current_time.yesterday)
+        end
+
+        it 'returns last Friday' do
+          expect(subject.date).to eq(current_time.prev_occurring(:friday))
+        end
+      end
     end
   end
 

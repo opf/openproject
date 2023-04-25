@@ -2654,8 +2654,6 @@ it:
     Se utilizzi i campi personalizzati: Tieni presente che i campi personalizzati devono essere attivati anche per ogni progetto.
   text_custom_field_hint_activate_per_project_and_type: >
     I campi personalizzati devono essere attivati per ogni tipo di macro-attività e per ogni progetto.
-  text_wp_custom_field_html: >
-    L'edizione Enterprise aggiungerà queste funzionalità per i campi personalizzati delle macro-attività: <br> <ul> <li><b>Selezione multipla per i campi personalizzati di tipo Elenco o Utente</b></li> </ul>
   text_wp_status_read_only_html: >
     L'edizione Enterprise aggiungerà queste funzionalità per i campi degli stati delle macro-attività: <br> <ul> <li><b>Possibilità di contrassegnare le macro-attività come di sola lettura per stati specifici</b></li> </ul >
   text_project_custom_field_html: >

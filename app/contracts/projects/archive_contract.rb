@@ -60,9 +60,9 @@ module Projects
       # prevent adding another error if there is already one present
       return if errors.present?
 
-      subprojects = model.descendants
-      return if subprojects.empty?
-      return if user.allowed_to?(:archive_project, subprojects)
+      active_subprojects = model.active_subprojects
+      return if active_subprojects.empty?
+      return if user.allowed_to?(:archive_project, active_subprojects)
 
       errors.add :base, :archive_permission_missing_on_subprojects
     end
