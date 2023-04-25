@@ -73,6 +73,14 @@ describe RootSeeder,
       )
     end
 
+    it 'creates different types of queries' do
+      count_by_type = View.group(:type).count
+      expect(count_by_type).to eq(
+        "work_packages_table" => 7,
+        "team_planner" => 1
+      )
+    end
+
     include_examples 'no email deliveries'
 
     context 'when run a second time' do

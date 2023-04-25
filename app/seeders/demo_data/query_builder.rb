@@ -29,15 +29,18 @@ module DemoData
     attr_reader :config, :project, :user, :seed_data
 
     def initialize(config, project:, user:, seed_data:)
-      super()
+      super(seed_data)
       @config = config.with_indifferent_access
       @project = project
       @user = user
-      @seed_data = seed_data
     end
 
     def create!
-      create_query if valid?
+      return unless valid?
+
+      create_query.tap do |query|
+        seed_data.store_reference(config['reference'], query)
+      end
     end
 
     private

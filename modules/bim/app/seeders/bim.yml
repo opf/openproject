@@ -28,6 +28,7 @@
 
 global_queries:
   - t_name: "Embedded table: Children"
+    reference: :global_query__children
     parent: '{id}'
     timeline: false
     sort_by: id
@@ -44,9 +45,8 @@ global_queries:
 type_configuration:
   - type: :default_type_phase
     form_configuration:
-      # TODO: should they be translated? Or are they refs?
-      - group_name: "Children"
-        query_name: "Embedded table: Children"
+      - t_group_name: "Children"
+        query: :global_query__children
 groups:
   - t_name: Architects
   - t_name: BIM Coordinators
