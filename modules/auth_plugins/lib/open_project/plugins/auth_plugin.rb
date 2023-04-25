@@ -88,6 +88,14 @@ module OpenProject::Plugins
       [camelization, name].compact.first.underscore.to_sym
     end
 
+    ##
+    # Indicates whether or not self registration should be limited for the provider
+    # with the given name.
+    #
+    # @param provider [String] Name of the provider
+    def self.limit_self_registration?(provider:)
+      Hash(find_provider_by_name(provider))[:limit_self_registration]
+    end
   end
 
   class ProviderBuilder

@@ -93,7 +93,7 @@ sr:
     button_save: "Save"
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
-    button_update: "Update"
+    button_update: "Ažuriranje"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Create"

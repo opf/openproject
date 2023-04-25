@@ -232,6 +232,7 @@ cs:
       failed_text: "Požadavek na smazání projektu %{name} se nezdařil. Projekt zůstal archivován."
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Otevřít jako Gantt diagram'
       open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."

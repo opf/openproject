@@ -5,8 +5,10 @@ Rails.application.config.after_initialize do
       secure: true,
       httponly: true
     }
-    # Add "; preload" and submit the site to hstspreload.org for best protection.
-    config.hsts = "max-age=#{20.years.to_i}; includeSubdomains"
+
+    # Let Rails ActionDispatch::SSL middleware handle the Strict-Transport-Security header
+    config.hsts = SecureHeaders::OPT_OUT
+
     config.x_frame_options = "SAMEORIGIN"
     config.x_content_type_options = "nosniff"
     config.x_xss_protection = "1; mode=block"
@@ -52,7 +54,7 @@ Rails.application.config.after_initialize do
       preserve_schemes: true,
 
       # Fallback when no value is defined
-      default_src:, # default_src,
+      default_src:,
       # Allowed uri in <base> tag
       base_uri: %w('self'),
 
@@ -66,15 +68,14 @@ Rails.application.config.after_initialize do
       # Allow images from anywhere including data urls and blobs (used in resizing)
       img_src: %w(* data: blob:),
       # Allow scripts from self
-      script_src:, # script_src,
-
+      script_src:,
       # Allow unsafe-inline styles
       style_src: assets_src + %w('unsafe-inline'),
       # Allow object-src from Release API
       object_src: [OpenProject::Configuration[:security_badge_url]],
 
       # Connect sources for CLI in dev mode
-      connect_src:, # connect_src,
+      connect_src:,
 
       # Allow videos from self and from the asset proxy in dev mode.
       media_src:

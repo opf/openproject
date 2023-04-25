@@ -9,6 +9,7 @@ cs:
         identifier: Identifikátor
         secret: Secret
         scope: Rozsah
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Poskytovatelé OpenID
     providers:
@@ -17,3 +18,6 @@ cs:
       no_results_table: Zatím nebyli definováni žádní poskytovatelé.
       plural: Poskytovatelé OpenID
       singular: Poskytovatel OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

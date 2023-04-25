@@ -728,6 +728,18 @@ module Settings
         },
         writable: false
       },
+      remote_storage_upload_host: {
+        format: :string,
+        default: nil,
+        writable: false,
+        description: 'Host the frontend uses to upload files to, which has to be added to the CSP.'
+      },
+      remote_storage_download_host: {
+        format: :string,
+        default: nil,
+        writable: false,
+        description: 'Host the frontend uses to download files, which has to be added to the CSP.'
+      },
       report_incoming_email_errors: {
         description: 'Respond to incoming mails with error details',
         default: true

@@ -226,6 +226,7 @@ id:
       failed_text: "Permintaan untuk menghapus proyek %{name} telah gagal.  Proyek dibiarkan diarsipkan."
       completed: "Penghapusan proyek %{name} selesai"
       completed_text: "Permintaan untuk menghapus proyek '%{name}' telah selesai."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Buka sebagai tampilan Gantt'
       open_as_gantt_title: "Gunakan tombol ini untuk membuat tampilan Gantt yang memfilter paket kerja untuk proyek yang terlihat di halaman ini."

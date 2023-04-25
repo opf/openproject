@@ -232,6 +232,7 @@ ro:
       failed_text: "Solicitarea de ștergere a proiectului %{name} a eșuat. Proiectul a rămas arhivat."
       completed: "Ștergerea proiectului %{name} finalizată"
       completed_text: "Cererea de ștergere a proiectului \"%{name}\" a fost finalizată."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Deschideți ca vizualizare Gantt'
       open_as_gantt_title: "Utilizați acest buton pentru a genera o vizualizare Gantt care filtrează pachetele de lucru pentru proiectele vizibile pe această pagină."

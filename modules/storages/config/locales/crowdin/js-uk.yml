@@ -61,7 +61,7 @@ uk:
           other: "Створено посилання на %{count} файлу"
         upload_error:
           default: >
-            Не вдалося вивантажити ваш файл (%{fileName}). Щоб дізнатися більше, зверніться до адміністратора.
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
           403: >
             Ваш файл (%{fileName}) не можна вивантажити через системні обмеження. Щоб дізнатися більше, зверніться до адміністратора.
           413: >

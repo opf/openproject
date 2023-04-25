@@ -53,6 +53,7 @@ class ::Type < ApplicationRecord
                           association_foreign_key: 'custom_field_id'
 
   belongs_to :color,
+             optional: true,
              class_name: 'Color'
 
   acts_as_list

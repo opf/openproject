@@ -229,6 +229,7 @@ ca:
       failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
       completed: "S'ha completat l'eliminació del projecte %{name}"
       completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
+      completed_text_children: "Addicionalment, s'han eliminat els següents subprojectes:"
     index:
       open_as_gantt: 'Obre com a diagrama de Gantt'
       open_as_gantt_title: "Utilitza aquest botó per a generar un diagrama de Gantt que filtra paquets de treball pels projectes visibles en aquesta pàgina."
