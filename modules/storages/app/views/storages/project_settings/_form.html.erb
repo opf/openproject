@@ -12,19 +12,24 @@
 </div>
 
 <div class="form--field -required">
-  <%= f.radio_button :project_folder_mode,
-                    'inactive',
-                    label: t(:"storages.label_no_specific_folder"),
-                    container_class: '-slim' %>
+  <label class="form--label -bold">Project folder</label>
+  <div class="form--field-container -horizontal">
+    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+      <%= f.radio_button :project_folder_mode, 'inactive', no_label: true %>
+      <%= t(:"storages.label_no_specific_folder") %>
+    <% end %>
+  </div>
   <p class="form--field-instructions">
     <%= t(:"storages.instructions.no_specific_folder")  %>
   </p>
 
-  <%= f.radio_button :project_folder_mode,
-                    'manual',
-                    label: t(:"storages.label_existing_manual_folder"),
-                    container_class: '-slim' %>
-  <p class="form--field-instructions">
+  <div class="form--field-container -horizontal">
+    <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+      <%= f.radio_button :project_folder_mode, 'manual', no_label: true %>
+      <%= t(:"storages.label_existing_manual_folder") %>
+    <% end %>
+  </div>
+  <p class="form--field-instructions -xwide">
     <%= t(:"storages.instructions.existing_manual_folder")  %>
   </p>
 </div>
