@@ -2654,8 +2654,6 @@ sv:
     När du använder anpassade fält: Kom ihåg att dessa även måste aktiveras för varje projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >

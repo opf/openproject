@@ -63,6 +63,7 @@ import {
   HalEventsService,
 } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { firstValueFrom } from 'rxjs';
 
 export interface DisabledButtonPlaceholder {
   text:string;
@@ -115,7 +116,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   /** Whether the add button should be shown */
   public showAddButton = false;
 
-  private canAdd = this.wpInlineCreate.canAdd.pipe(take(1)).toPromise();
+  private canAdd = firstValueFrom(this.wpInlineCreate.canAdd);
 
   public columnsQueryProps:any;
 

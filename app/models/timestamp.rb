@@ -27,75 +27,66 @@
 #++
 
 class Timestamp
-  delegate :hash, to: :iso8601
+  delegate :hash, to: :to_s
 
   class Exception < StandardError; end
 
-  class ISO8601Parser
+  class TimestampParser
+    DATE_KEYWORD_REGEX =
+      /^(?:oneDayAgo|lastWorkingDay|oneWeekAgo|oneMonthAgo)@(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$/
+
     def initialize(string)
-      @iso8601_string = string
+      @original_string = string
     end
 
     def parse!
-      @iso8601_string = self.class.substitute_special_shortcut_values(@iso8601_string)
+      @timestamp_string = self.class.substitute_special_shortcut_values(@original_string)
 
-      if @iso8601_string.start_with? /[+-]?P/ # ISO8601 "Period"
-        ActiveSupport::Duration.parse(@iso8601_string).iso8601
+      case @timestamp_string
+      when /[+-]?P/ # ISO8601 "Period"
+        ActiveSupport::Duration.parse(@timestamp_string).iso8601
+      when DATE_KEYWORD_REGEX # Built in date keywords
+        @timestamp_string
       else
-        Time.zone.iso8601(@iso8601_string).iso8601
+        Time.zone.iso8601(@timestamp_string).iso8601
       end
     rescue ArgumentError => e
-      raise e.class, "The string \"#{@iso8601_string}\" cannot be parsed to Time or ActiveSupport::Duration."
+      raise e.class, "The string \"#{@original_string}\" cannot be parsed to a Timestamp."
     end
 
     class << self
-      # rubocop:disable Metrics/AbcSize
-      # rubocop:disable Metrics/PerceivedComplexity
       def substitute_special_shortcut_values(string)
         # map now to PT0S
-        string = "PT0S" if string == "now"
+        return 'PT0S' if string == 'now'
 
         # map 1y to P1Y, 1m to P1M, 1w to P1W, 1d to P1D
         # map -1y to P-1Y, -1m to P-1M, -1w to P-1W, -1d to P-1D
         # map -1y1d to P-1Y-1D
-        sign = "-" if string.start_with? "-"
-        years = scan_for_shortcut_value(string:, unit: "y")
-        months = scan_for_shortcut_value(string:, unit: "m")
-        weeks = scan_for_shortcut_value(string:, unit: "w")
-        days = scan_for_shortcut_value(string:, unit: "d")
-        if years || months || weeks || days
-          string = "P" \
-                   "#{sign if years}#{years}#{'Y' if years}" \
-                   "#{sign if months}#{months}#{'M' if months}" \
-                   "#{sign if weeks}#{weeks}#{'W' if weeks}" \
-                   "#{sign if days}#{days}#{'D' if days}"
-        end
+        units = ['y', 'm', 'w', 'd']
+        sign = '-' if string.start_with?('-')
+        substitutions = units.map { |unit| string.scan(/\d+#{unit}/).first&.upcase }.compact
 
-        string
-      end
-      # rubocop:enable Metrics/AbcSize
-      # rubocop:enable Metrics/PerceivedComplexity
+        return string if substitutions.empty?
 
-      def scan_for_shortcut_value(string:, unit:)
-        string.scan(/(\d+)#{unit}/).flatten.first
+        "P#{sign}#{substitutions.join(sign)}"
       end
     end
   end
 
   class << self
-    def parse(iso8601_string)
-      return iso8601_string if iso8601_string.is_a?(Timestamp)
+    def parse(timestamp_string)
+      return timestamp_string if timestamp_string.is_a?(Timestamp)
 
-      iso8601_string = ISO8601Parser.new(iso8601_string.strip).parse!
-      new(iso8601_string)
+      timestamp_string = TimestampParser.new(timestamp_string.strip).parse!
+      new(timestamp_string)
     end
 
     # Take a comma-separated string of ISO-8601 timestamps and convert it
     # into an array of Timestamp objects.
     #
-    def parse_multiple(comma_separated_iso8601_string)
-      comma_separated_iso8601_string.to_s.split(",").compact_blank.collect do |iso8601_string|
-        Timestamp.parse(iso8601_string)
+    def parse_multiple(comma_separated_timestamp_string)
+      comma_separated_timestamp_string.to_s.split(",").compact_blank.collect do |timestamp_string|
+        Timestamp.parse(timestamp_string)
       end
     end
 
@@ -106,38 +97,38 @@ class Timestamp
 
   def initialize(arg = Timestamp.now.to_s)
     if arg.is_a? String
-      @timestamp_iso8601_string = ISO8601Parser.substitute_special_shortcut_values(arg)
+      @timestamp_string = TimestampParser.substitute_special_shortcut_values(arg)
     elsif arg.respond_to? :iso8601
-      @timestamp_iso8601_string = arg.iso8601
+      @timestamp_string = arg.iso8601
     else
       raise Timestamp::Exception,
             "Argument type not supported. " \
-            "Please provide an ISO-8601 String or anything that responds to :iso8601, e.g. a Time."
+            "Please provide an ISO-8601 or a relative date keyword String, or anything that responds to :iso8601, e.g. a Time."
     end
   end
 
   def relative?
+    duration? || relative_date_keyword?
+  end
+
+  def duration?
     to_s.first == "P" # ISO8601 "Period"
   end
 
+  def relative_date_keyword?
+    TimestampParser::DATE_KEYWORD_REGEX.match?(to_s)
+  end
+
   def to_s
-    iso8601
+    @timestamp_string.to_s
   end
 
   def to_str
     to_s
   end
 
-  def iso8601
-    @timestamp_iso8601_string.to_s
-  end
-
-  def to_iso8601
-    iso8601
-  end
-
   def inspect
-    "#<Timestamp \"#{iso8601}\">"
+    "#<Timestamp \"#{self}\">"
   end
 
   def absolute
@@ -145,19 +136,38 @@ class Timestamp
   end
 
   def to_time
-    if relative?
-      Time.zone.now - (to_duration * (to_duration.to_i.positive? ? 1 : -1))
+    if duration?
+      Time.zone.now - to_duration.abs
+    elsif relative_date_keyword?
+      relative_date_keyword_to_time
     else
       Time.zone.parse(self)
     end
   end
 
   def to_duration
-    if relative?
+    if duration?
       ActiveSupport::Duration.parse(self)
     else
-      raise Timestamp::Exception, "This timestamp is absolute and cannot be represented as ActiveSupport::Duration."
+      raise Timestamp::Exception, "This timestamp does not contain a duration cannot be represented as ActiveSupport::Duration."
     end
+  end
+
+  def relative_date_keyword_to_time
+    unless relative_date_keyword?
+      raise ArgumentError, "This timestamp does not contain a relative date keyword and cannot be represented as Time."
+    end
+
+    relative_date_keyword, time_part = @timestamp_string.split('@')
+
+    date = case relative_date_keyword
+           when 'oneDayAgo'      then 1.day.ago
+           when 'lastWorkingDay' then Day.last_working.date || 1.day.ago
+           when 'oneWeekAgo'       then 1.week.ago
+           when 'oneMonthAgo'      then 1.month.ago
+           end
+
+    Time.zone.parse(time_part, date)
   end
 
   def as_json(*_args)
@@ -171,9 +181,9 @@ class Timestamp
   def ==(other)
     case other
     when String
-      iso8601 == other or to_s == other
+      to_s == other
     when Timestamp
-      iso8601 == other.iso8601
+      to_s == other.to_s
     when NilClass
       to_s.blank?
     else
@@ -190,7 +200,7 @@ class Timestamp
   end
 
   def valid?
-    self.class.parse(iso8601)
+    TimestampParser.new(to_s).parse!
   rescue StandardError
     false
   end

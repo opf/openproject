@@ -30,7 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';

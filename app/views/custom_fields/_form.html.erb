@@ -61,27 +61,9 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <% if @custom_field.new_record? || @custom_field.list? || @custom_field.multi_value_possible? %>
-      <div class="form--field" id="custom_field_multi_select" style="display:none">
-        <% if EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
-          <%= f.check_box :multi_value %>
-        <% else %>
-          <label class="form--label" for="custom_field_multi_value_disabled"><%= CustomField.human_attribute_name('multi_value') %></label>
-          <span class="form--field-container">
-            <span class="form--check-box-container">
-              <input disabled="disabled" class="-cf-ignore-disabled form--check-box" type="checkbox" name="custom_field_multi_value_disabled">
-            </span>
-          </span>
-          <div class="form--field-instructions -no-italic -xwide">
-            <%= angular_component_tag 'op-enterprise-banner',
-                                      inputs: {
-                                        collapsible: true,
-                                        textMessage: t('text_wp_custom_field_html'),
-                                        moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
-                                      }
-            %>
-          </div>
-        <% end %>
-      </div>
+    <div class="form--field" id="custom_field_multi_select" style="display:none">
+      <%= f.check_box :multi_value %>
+    </div>
 
     <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>

@@ -38,6 +38,8 @@ module OpenProject::AuthPlugins
              author_url: 'https://www.openproject.org',
              bundled: true
 
+    patch_with_namespace :Users, :RegisterUserService
+
     config.to_prepare do
       OpenProject::AuthPlugins::Hooks
     end

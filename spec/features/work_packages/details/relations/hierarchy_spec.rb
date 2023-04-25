@@ -69,14 +69,14 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       ##
       # Add child #1
-      relations.openChildrenAutocompleter
+      relations.open_children_autocompleter
 
       relations.add_existing_child(child)
       relations.expect_child(child)
 
       ##
       # Add child #2
-      relations.openChildrenAutocompleter
+      relations.open_children_autocompleter
 
       relations.add_existing_child(child2)
       relations.expect_child(child2)
@@ -240,7 +240,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
           ##
           # Add child
-          relations.openChildrenAutocompleter
+          relations.open_children_autocompleter
 
           relations.add_existing_child(child)
           wp_page.expect_and_dismiss_toaster(message: 'Successful update.')

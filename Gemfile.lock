@@ -305,7 +305,7 @@ GEM
     awesome_nested_set (3.5.0)
       activerecord (>= 4.0.0, < 7.1)
     aws-eventstream (1.2.0)
-    aws-partitions (1.748.0)
+    aws-partitions (1.750.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -314,7 +314,7 @@ GEM
     aws-sdk-kms (1.63.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sigv4 (~> 1.1)
-    aws-sdk-s3 (1.120.1)
+    aws-sdk-s3 (1.121.0)
       aws-sdk-core (~> 3, >= 3.165.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.4)
@@ -785,8 +785,7 @@ GEM
     rbtree3 (0.7.0)
     rdoc (6.5.0)
       psych (>= 4.0.0)
-    recaptcha (5.13.1)
-      json
+    recaptcha (5.14.0)
     redcarpet (3.6.0)
     regexp_parser (2.8.0)
     reline (0.3.3)
@@ -861,7 +860,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.12.2)
-    ruby-prof (1.6.2)
+    ruby-prof (1.6.3)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.15.0)
@@ -883,7 +882,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.5.0)
-    selenium-webdriver (4.8.6)
+    selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -910,7 +909,7 @@ GEM
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.1)
     stackprof (0.2.25)
-    stringex (2.8.5)
+    stringex (2.8.6)
     stringio (3.0.6)
     structured_warnings (0.4.0)
     svg-graph (2.2.1)
@@ -949,7 +948,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (2.82.0)
+    view_component (3.0.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)
