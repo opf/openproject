@@ -6,13 +6,10 @@ import {
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { DayStore } from 'core-app/core/state/days/day.store';
 import { IDay } from 'core-app/core/state/days/day.model';
-import {
-  ResourceStore,
-  ResourceStoreService,
-} from 'core-app/core/state/resource-store.service';
+import { ResourceStore } from 'core-app/core/state/resource-store.service';
 
 @Injectable()
-export class DayResourceServiceStub extends ResourceStoreService<IDay> {
+export class DayResourceServiceStub {
   protected basePath():string {
     return '';
   }
