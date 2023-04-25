@@ -97,6 +97,7 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpBaselineModalComponent } from './components/baseline-modal/baseline-modal.component';
 import { OpBaselineComponent } from './components/baseline/baseline.component';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
+import { OpBaselineLoadingComponent } from './components/baseline-loading/baseline-loading.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -211,6 +212,7 @@ export function bootstrapModule(injector:Injector):void {
 
     OpBaselineModalComponent,
     OpBaselineComponent,
+    OpBaselineLoadingComponent,
 
     // Old datepickers
     OpMultiDatePickerComponent,
@@ -275,6 +277,7 @@ export function bootstrapModule(injector:Injector):void {
 
     OpBaselineModalComponent,
     OpBaselineComponent,
+    OpBaselineLoadingComponent,
 
     // Old datepickers
     OpMultiDatePickerComponent,
