@@ -1341,7 +1341,7 @@ en:
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
     baseline:
-      toggle_title: 'Changes'
+      toggle_title: 'Baseline'
       clear: 'Clear'
       apply: 'Apply'
       header_description: 'View changes made to work packages in the current view within a time period.'

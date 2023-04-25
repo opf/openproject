@@ -153,8 +153,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
     this.daysNumber = -1;
 
     today.setDate(today.getDate() - 1);
-    this.selectedDate = moment(today).format('YYYY-MM-DD');
-    return moment(today).format('ddd, YYYY-MM-DD');
+    this.selectedDate = this.timezoneService.formattedDate(today.toString());
+    return this.selectedDate;
   }
 
   public lastMonthDate():string {
@@ -162,17 +162,17 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
     const lastMonthDate = new Date(today);
 
     lastMonthDate.setMonth(today.getMonth() - 1);
-    this.selectedDate = moment(lastMonthDate).format('YYYY-MM-DD');
+    this.selectedDate = this.timezoneService.formattedDate(lastMonthDate.toString());
     this.daysNumber = moment(lastMonthDate).diff(moment(today), 'days');
-    return moment(today).format('ddd, YYYY-MM-DD');
+    return this.selectedDate;
   }
 
   public lastweekDate():string {
     const today = new Date();
     this.daysNumber = -7;
     today.setDate(today.getDate() - 7);
-    this.selectedDate = moment(today).format('YYYY-MM-DD');
-    return moment(today).format('ddd, YYYY-MM-DD');
+    this.selectedDate = this.timezoneService.formattedDate(today.toString());
+    return this.selectedDate;
   }
 
   async requireNonWorkingDaysOfTwoYears() {
@@ -194,22 +194,20 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
   public lastWorkingDate():string {
     const today = new Date();
     const yesterday = new Date(today);
-    let lastWorkingDay = '';
-
+    this.selectedDate = '';
     yesterday.setDate(today.getDate() - 1);
-    while (lastWorkingDay === '') {
+    while (this.selectedDate === '') {
       if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
         yesterday.setDate(yesterday.getDate() - 1);
         continue;
       } else {
-        lastWorkingDay = moment(yesterday).format('ddd, YYYY-MM-DD');
-        this.selectedDate = moment(yesterday).format('YYYY-MM-DD');
+        this.selectedDate = this.timezoneService.formattedDate(yesterday.toString());
         this.daysNumber = moment(yesterday).diff(moment(today), 'days');
         break;
       }
     }
 
-    return lastWorkingDay;
+    return this.selectedDate;
   }
 
   public timeChange(value:string):void {
@@ -217,7 +215,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements AfterVie
     if (timeZone) {
       this.timeZoneSelected = true;
       const dateTime= `${this.selectedDate}  ${value}`;
-      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
+      this.selectedTimezoneFormattedTime = this.timezoneService.formattedDatetime(dateTime);
     }
   }
 
