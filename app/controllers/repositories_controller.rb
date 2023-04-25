@@ -492,19 +492,3 @@ class RepositoriesController < ApplicationController
       ent.dup.force_encoding('UTF-8') == ent.dup.force_encoding('BINARY')
   end
 end
-
-class Date
-  def months_ago(date = Date.today)
-    ((date.year - year) * 12) + (date.month - month)
-  end
-
-  def weeks_ago(date = Date.today)
-    ((date.year - year) * 52) + (date.cweek - cweek)
-  end
-end
-
-class String
-  def with_leading_slash
-    starts_with?('/') ? self : "/#{self}"
-  end
-end
