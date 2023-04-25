@@ -63,6 +63,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
 
   public selectedDate = '';
 
+  public selectedTime = '';
+
+  public selectedFilter = '';
+
   public selectedTimezoneFormattedTime = '';
 
   public filterSelected = false;
@@ -137,7 +141,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
 
   public onSubmit(e:Event):void {
     e.preventDefault();
-
+    // TODO: string should be sent to the server
+    const filterString = `${this.selectedFilter}@${this.selectedTime}`;
     this.close();
   }
 
@@ -206,6 +211,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
   }
 
   public timeChange(value:string):void {
+    this.selectedTime = value;
     const timeZone = this.configuration.isTimezoneSet();
     if (timeZone) {
       this.timeZoneSelected = true;
@@ -217,6 +223,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
   public filterChange(value:string):void {
     if (value !== 'none') {
       this.filterSelected = true;
+      this.selectedFilter = value;
       switch (value) {
         case 'oneDayAgo':
           this.dropDownDescription = this.yesterdayDate();
