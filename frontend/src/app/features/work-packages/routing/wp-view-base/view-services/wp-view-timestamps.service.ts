@@ -45,7 +45,7 @@ export class WorkPackageViewTimestampsService extends WorkPackageQueryStateServi
     super(querySpace);
   }
 
-  public showChanges():boolean {
+  public isActive():boolean {
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
   }
 

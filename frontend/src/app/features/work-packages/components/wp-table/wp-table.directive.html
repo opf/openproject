@@ -3,6 +3,7 @@
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
+        <col *ngIf="wpTableTimestamps.isActive()">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
         <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
         <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
@@ -18,6 +19,11 @@
           <th *ngIf="configuration.dragAndDropEnabled" class="wp-table--manual-sort-th -short hide-when-print">
             <div class="generic-table--empty-header">
               <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
+            </div>
+          </th>
+          <th *ngIf="wpTableTimestamps.isActive()" class="wp-table--timestamps-th -short hide-when-print">
+            <div class="generic-table--empty-header">
+              <op-icon icon-classes="icon-baseline"></op-icon>
             </div>
           </th>
           <th *ngFor="let column of columns; trackBy:trackByHref"

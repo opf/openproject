@@ -1,69 +1,84 @@
 import { Injector } from '@angular/core';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
+import {
+  IWorkPackageTimestamp,
+  WorkPackageResource,
+} from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { States } from 'core-app/core/states/states.service';
-import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
-import { WorkPackageRelationsService } from '../../wp-relations/wp-relations.service';
-import { QueryColumn } from '../../wp-query/query-column';
-import { tdClassName } from './cell-builder';
+import { WorkPackageViewTimestampsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timestamps.service';
+import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
+import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
+import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
-export const relationCellTdClassName = 'wp-table--relation-cell-td';
-export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
+export const timestampsCellName = 'wp-table--timestamps-cell-td';
 
-export class RelationCellbuilder {
+export class TimestampsColumnBuilder {
   @InjectField() states:States;
 
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  @InjectField() wpTableTimestamps:WorkPackageViewTimestampsService;
 
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+
+  @InjectField() schemaCache:SchemaCacheService;
 
   constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
-    td.classList.add(tdClassName, relationCellTdClassName, column.id);
+    td.classList.add(tdClassName, timestampsCellName, column.id);
     td.dataset.columnId = column.id;
 
-    // Get current expansion and value state
-    const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id!) === column.id;
-    const relationState = this.wpRelations.state(workPackage.id!).value;
-    const relations = this.wpTableRelationColumns.relationsForColumn(workPackage,
-      relationState,
-      column);
+    const schema = this.schemaCache.of(workPackage);
+    const timestamps = workPackage.attributesByTimestamp || [];
 
-    const indicator = this.renderIndicator();
-    const badge = this.renderBadge(relations);
-
-    if (expanded) {
-      td.classList.add('-expanded');
+    // Nothing to render if we don't have a comparison
+    if (timestamps.length <= 1) {
+      return td;
     }
 
-    if (relations.length > 0) {
-      td.appendChild(badge);
-      td.appendChild(indicator);
+    const base = timestamps[0];
+    const compare = timestamps[1];
+
+    // Check if added
+    const icon = this.changeIcon(base, compare, schema);
+    if (icon) {
+      td.appendChild(icon);
     }
 
     return td;
   }
 
-  private renderIndicator() {
-    const indicator = document.createElement('span');
-    indicator.classList.add(relationCellIndicatorClassName);
-    indicator.setAttribute('aria-hidden', 'true');
-    indicator.setAttribute('tabindex', '0');
+  private changeIcon(
+    base:IWorkPackageTimestamp,
+    compare:IWorkPackageTimestamp,
+    schema:ISchemaProxy,
+  ):HTMLElement|null {
+    if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
+      return opIconElement('icon-add', 'op-timestamps--icon-added');
+    }
 
-    return indicator;
+    if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
+      return opIconElement('icon-minus1', 'op-timestamps--icon-removed');
+    }
+
+    if (this.visibleAttributeChanged(base, schema)) {
+      return opIconElement('icon-arrow-left-right', 'op-timestamps--icon-changed');
+    }
+
+    return null;
   }
 
-  private renderBadge(relations:RelationResource[]) {
-    const badge = document.createElement('span');
-    badge.classList.add('wp-table--relation-count');
-
-    badge.textContent = `${relations.length}`;
-    badge.classList.add('badge', '-border-only');
-
-    return badge;
+  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
+    return !!this
+      .wpTableColumns
+      .getColumns()
+      .find((column) => {
+        const name = schema.mappedName(column.id);
+        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
+      });
   }
 }
