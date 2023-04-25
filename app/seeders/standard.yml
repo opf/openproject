@@ -116,6 +116,19 @@ projects:
           - type: default_type_task
       basic:
         t_name: 'Basic board'
+        lists:
+          - t_name: 'Wish list'
+            work_packages:
+              - :setup_conference_website
+              - :upload_presentations_to_website
+          - t_name: 'Short list'
+            work_packages:
+              - :invite_attendees_to_conference
+          - t_name: 'Prio list for today'
+            work_packages:
+              - :set_date_and_location_of_conference
+          - t_name: 'Never'
+            work_packages: []
       parent_child:
         t_name: 'Work breakdown structure'
     project-overview:
@@ -445,6 +458,22 @@ projects:
         t_name: 'Kanban board'
       basic:
         t_name: 'Task board'
+        lists:
+          - t_name: 'Wish list'
+            work_packages:
+              - :new_website
+              - :ssl_certificate
+              - :choose_content_management_system
+          - t_name: 'Short list'
+            work_packages:
+              - :new_login_screen
+          - t_name: 'Prio list for today'
+            work_packages:
+              - :set_up_staging_environment
+          - t_name: 'Never'
+            work_packages:
+              - :wrong_hover_color
+
     project-overview:
       row_count: 6
       column_count: 2

@@ -127,7 +127,7 @@ module DemoData
     end
 
     def seed_basic_board(board_data)
-      widgets = seed_basic_board_widgets
+      widgets = seed_basic_board_widgets(board_data)
       board =
         ::Boards::Grid.new(
           project:,
@@ -140,8 +140,8 @@ module DemoData
       board.save!
     end
 
-    def seed_basic_board_widgets
-      seed_basic_board_queries.each_with_index.map do |query, i|
+    def seed_basic_board_widgets(board_data)
+      seed_basic_board_queries(board_data).each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
@@ -150,58 +150,33 @@ module DemoData
       end
     end
 
-    def seed_basic_board_queries
-      wps = if project.identifier === 'your-scrum-project'
-              scrum_query_work_packages
-            else
-              basic_query_work_packages
-            end
-
-      lists = [{ name: 'Wish list', wps: wps[0] },
-               { name: 'Short list', wps: wps[1] },
-               { name: 'Prio list for today', wps: wps[2] },
-               { name: 'Never', wps: wps[3] }]
-
+    def seed_basic_board_queries(board_data)
+      lists = board_data.lookup('lists')
       lists.map do |list|
-        Query.new(project:, user:).tap do |query|
-          # Make it public so that new members can see it too
-          query.public = true
-          query.include_subprojects = true
-
-          query.name = list[:name]
-
-          # Set manual sort filter
-          query.add_filter('manual_sort', 'ow', [])
-          query.sort_criteria = [[:manual_sorting, 'asc']]
-
-          list[:wps].each_with_index do |wp_id, i|
-            query.ordered_work_packages.build(work_package_id: wp_id, position: i)
-          end
-
-          query.save!
-        end
+        create_basic_board_query_from_list(list)
       end
     end
 
-    def scrum_query_work_packages
-      [
-        [seed_data.find_reference(:new_website).id,
-         seed_data.find_reference(:ssl_certificate).id,
-         seed_data.find_reference(:choose_content_management_system).id],
-        [seed_data.find_reference(:new_login_screen).id],
-        [seed_data.find_reference(:set_up_staging_environment).id],
-        [seed_data.find_reference(:wrong_hover_color).id]
-      ]
-    end
+    def create_basic_board_query_from_list(list)
+      Query.new(
+        project:,
+        user:,
+        # Make it public so that new members can see it too
+        public: true,
+        include_subprojects: true,
+        name: list['name']
+      ).tap do |query|
+        # Set manual sort filter
+        query.add_filter('manual_sort', 'ow', [])
+        query.sort_criteria = [[:manual_sorting, 'asc']]
 
-    def basic_query_work_packages
-      [
-        [seed_data.find_reference(:setup_conference_website).id,
-         seed_data.find_reference(:upload_presentations_to_website).id],
-        [seed_data.find_reference(:invite_attendees_to_conference).id],
-        [seed_data.find_reference(:set_date_and_location_of_conference).id],
-        []
-      ]
+        list['work_packages'].each_with_index do |wp_reference, i|
+          work_package_id = seed_data.find_reference(wp_reference).id
+          query.ordered_work_packages.build(work_package_id:, position: i)
+        end
+
+        query.save!
+      end
     end
 
     def seed_parent_child_board(board_data)

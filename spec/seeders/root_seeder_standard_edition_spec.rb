@@ -125,6 +125,10 @@ describe RootSeeder,
     end
 
     include_examples 'creates standard demo data'
+
+    it 'has all Query.name translated' do
+      expect(Query.pluck(:name)).to all(start_with('tr: '))
+    end
   end
 
   describe 'demo data with development data' do
