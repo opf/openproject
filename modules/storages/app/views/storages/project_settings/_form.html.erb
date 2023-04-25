@@ -2,6 +2,7 @@
   <%= f.select :storage_id,
       available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
                 selected: available_storages.first.id.to_s,
+                class: '-bold',
                 container_class: '-slim' %>
   <% if User.current.admin? %>
     <span class="form--field-instructions">
