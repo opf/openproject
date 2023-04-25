@@ -27,14 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageBoardSeeder < Seeder
-    attr_reader :project, :project_data
+    attr_reader :project
+    alias_method :project_data, :seed_data
 
     include ::DemoData::References
 
     def initialize(project, project_data)
-      super()
+      super(project_data)
       @project = project
-      @project_data = project_data
     end
 
     def seed_data!
@@ -101,7 +101,8 @@ module DemoData
     end
 
     def seed_kanban_board_queries
-      status_names = ['New', 'In progress', 'Closed', 'Rejected']
+      status_keys = %i[default_status_new default_status_in_progress default_status_closed default_status_rejected]
+      status_names = status_keys.map { I18n.t(_1) }
       statuses = Status.where(name: status_names).to_a
 
       if statuses.size < status_names.size
@@ -150,7 +151,7 @@ module DemoData
     end
 
     def seed_basic_board_queries
-      wps = if project.name === 'Scrum project'
+      wps = if project.identifier === 'your-scrum-project'
               scrum_query_work_packages
             else
               basic_query_work_packages
@@ -184,21 +185,21 @@ module DemoData
 
     def scrum_query_work_packages
       [
-        [WorkPackage.find_by(subject: 'New website').id,
-         WorkPackage.find_by(subject: 'SSL certificate').id,
-         WorkPackage.find_by(subject: 'Choose a content management system').id],
-        [WorkPackage.find_by(subject: 'New login screen').id],
-        [WorkPackage.find_by(subject: 'Set-up Staging environment').id],
-        [WorkPackage.find_by(subject: 'Wrong hover color').id]
+        [seed_data.find_reference(:new_website).id,
+         seed_data.find_reference(:ssl_certificate).id,
+         seed_data.find_reference(:choose_content_management_system).id],
+        [seed_data.find_reference(:new_login_screen).id],
+        [seed_data.find_reference(:set_up_staging_environment).id],
+        [seed_data.find_reference(:wrong_hover_color).id]
       ]
     end
 
     def basic_query_work_packages
       [
-        [WorkPackage.find_by(subject: 'Setup conference website').id,
-         WorkPackage.find_by(subject: 'Upload presentations to website').id],
-        [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
-        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
+        [seed_data.find_reference(:setup_conference_website).id,
+         seed_data.find_reference(:upload_presentations_to_website).id],
+        [seed_data.find_reference(:invite_attendees_to_conference).id],
+        [seed_data.find_reference(:set_date_and_location_of_conference).id],
         []
       ]
     end
@@ -228,8 +229,8 @@ module DemoData
     end
 
     def seed_parent_child_board_queries
-      parents = [WorkPackage.find_by(subject: 'Organize open source conference'),
-                 WorkPackage.find_by(subject: 'Follow-up tasks')]
+      parents = [seed_data.find_reference(:organize_open_source_conference),
+                 seed_data.find_reference(:follow_up_tasks)]
 
       parents.map do |parent|
         Query.new_default(project:, user:).tap do |query|

@@ -33,11 +33,7 @@ describe RootSeeder,
          'standard edition',
          with_config: { edition: 'standard' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  describe 'demo data' do
-    before_all do
-      described_class.new.seed_data!
-    end
-
+  shared_examples 'creates standard demo data' do
     it 'creates the system user' do
       expect(SystemUser.where(admin: true).count).to eq 1
     end
@@ -66,10 +62,11 @@ describe RootSeeder,
 
     it 'links work packages to their version' do
       count_by_version = WorkPackage.joins(:version).group('versions.name').count
+      count_by_version.transform_keys! { _1.gsub(/^tr: /, '') } # revert simulated translation if any
       expect(count_by_version).to eq(
-        "Bug Backlog" => 1,
-        "Sprint 1" => 8,
-        "Product Backlog" => 7
+        'Bug Backlog' => 1,
+        'Sprint 1' => 8,
+        'Product Backlog' => 7
       )
     end
 
@@ -80,6 +77,14 @@ describe RootSeeder,
         "team_planner" => 1
       )
     end
+  end
+
+  describe 'demo data' do
+    before_all do
+      described_class.new.seed_data!
+    end
+
+    include_examples 'creates standard demo data'
 
     include_examples 'no email deliveries'
 
@@ -105,6 +110,21 @@ describe RootSeeder,
         expect(Boards::Grid.count).to eq 5
       end
     end
+  end
+
+  describe 'demo data translated in another language' do
+    before_all do
+      RSpec::Mocks.with_temporary_scope do
+        # simulate a translation by changing the returned string on `I18n#t` calls
+        allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
+          original_translation = m.call(*args, **kw)
+          "tr: #{original_translation}"
+        end
+        described_class.new.seed_data!
+      end
+    end
+
+    include_examples 'creates standard demo data'
   end
 
   describe 'demo data with development data' do

@@ -67,6 +67,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        reference: :demo_project__query__project_plan
         status: open
         timeline: true
         sort_by: id
@@ -82,6 +83,7 @@ projects:
           - duration
           - assigned_to
       - t_name: Milestones
+        reference: :demo_project__query__milestones
         type: :default_type_milestone
         timeline: true
         columns:
@@ -93,6 +95,7 @@ projects:
           - due_date
         sort_by: id
       - t_name: Tasks
+        reference: :demo_project__query__tasks
         status: open
         type: :default_type_task
         hierarchy: true
@@ -146,9 +149,9 @@ projects:
               1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
               2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
               3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-              4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:"Project plan") in the project navigation.
+              4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
               5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:"Tasks").
+              6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
 
               Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
               Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
@@ -183,7 +186,7 @@ projects:
           end_column: 3
           options:
             t_name: 'Milestones'
-            queryId: '##query.id:"Milestones"'
+            queryId: '##query.id:demo_project__query__milestones'
     # For all dates, the reference is the monday of the current week
     # So
     # * start: 0 references Monday
@@ -199,6 +202,7 @@ projects:
         schedule_manually: false
       - start: 0
         t_subject: Organize open source conference
+        reference: :organize_open_source_conference
         description: ''
         status: default_status_in_progress
         type: default_type_phase
@@ -232,6 +236,7 @@ projects:
             schedule_manually: false
           - start: 4
             t_subject: Invite attendees to conference
+            reference: :invite_attendees_to_conference
             description: ''
             status: default_status_new
             type: default_type_task
@@ -242,6 +247,7 @@ projects:
             schedule_manually: false
           - start: 4
             t_subject: Setup conference website
+            reference: :setup_conference_website
             description: ''
             status: default_status_new
             type: default_type_task
@@ -259,7 +265,7 @@ projects:
         type: default_type_milestone
         duration: 1
         relations:
-          - to: Organize open source conference
+          - to: :organize_open_source_conference
             type: follows
         schedule_manually: false
       - start: 21
@@ -271,6 +277,7 @@ projects:
         children:
           - start: 21
             t_subject: Upload presentations to website
+            reference: :upload_presentations_to_website
             description: ''
             status: default_status_new
             type: default_type_task
@@ -396,6 +403,7 @@ projects:
       - Category 1 (to be changed in Project settings)
     queries:
       - t_name: Project plan
+        reference: :scrum_project__query__project_plan
         status: open
         sort_by: id
         type:
@@ -469,7 +477,7 @@ projects:
               2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
               3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
               4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-              5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:"Project plan") in the project navigation.
+              5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
               6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
               7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
@@ -506,10 +514,10 @@ projects:
           end_column: 3
           options:
             t_name: 'Project plan'
-            # TODO: ref wont be found with another language
-            queryId: '##query.id:"Project plan"'
+            queryId: '##query.id:scrum_project__query__project_plan'
     work_packages:
       - t_subject: New login screen
+        reference: :new_login_screen
         status: :default_status_in_specification
         type: :default_type_user_story
         version: :scrum_project__version__product_backlog
@@ -520,6 +528,7 @@ projects:
         version: :scrum_project__version__bug_backlog
         position: 1
       - t_subject: New website
+        reference: :new_website
         status: :default_status_specified
         type: :default_type_epic
         start: 0
@@ -570,6 +579,7 @@ projects:
             type: :default_type_task
             version: :scrum_project__version__sprint_1
       - t_subject: Wrong hover color
+        reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
         version: :scrum_project__version__sprint_1
@@ -578,6 +588,7 @@ projects:
         start: 21
         duration: 1
       - t_subject: SSL certificate
+        reference: :ssl_certificate
         status: :default_status_specified
         type: :default_type_user_story
         version: :scrum_project__version__product_backlog
@@ -585,6 +596,7 @@ projects:
         start: 22
         duration: 1
       - t_subject: Set-up Staging environment
+        reference: :set_up_staging_environment
         status: :default_status_in_specification
         type: :default_type_user_story
         version: :scrum_project__version__product_backlog
@@ -592,6 +604,7 @@ projects:
         start: 23
         duration: 1
       - t_subject: Choose a content management system
+        reference: :choose_content_management_system
         status: :default_status_specified
         type: :default_type_user_story
         version: :scrum_project__version__product_backlog
