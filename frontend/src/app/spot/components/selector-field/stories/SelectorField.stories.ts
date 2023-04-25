@@ -9,7 +9,7 @@ import { OpSpotModule } from '../../../spot.module';
 
 import { SpotSelectorFieldComponent } from '../selector-field.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/SelectorField',
   component: SpotSelectorFieldComponent,
   decorators: [
@@ -32,7 +32,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -71,7 +71,7 @@ export const Default: Story = {
   }),
 };
 
-export const LongLabel: Story = {
+export const LongLabel:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -84,7 +84,7 @@ export const LongLabel: Story = {
   }),
 };
 
-export const FontWeight: Story = {
+export const FontWeight:Story = {
   render: (args) => ({
     props: args,
     template: `

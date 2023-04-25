@@ -6,7 +6,7 @@ import { OpSpotModule } from '../app/spot/spot.module';
 import { BreadcrumbsContent } from '../app/spot/components/breadcrumbs/breadcrumbs-content';
 import { SpotBreadcrumbsComponent } from '../app/spot/components/breadcrumbs/breadcrumbs.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/Breadcrumbs',
   component: SpotBreadcrumbsComponent,
   decorators: [
@@ -19,7 +19,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -32,7 +32,7 @@ export const Default: Story = {
   }),
 };
 
-export const FourLevels: Story = {
+export const FourLevels:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -46,7 +46,7 @@ export const FourLevels: Story = {
   }),
 };
 
-export const FiveLevels: Story = {
+export const FiveLevels:Story = {
   render: (args) => ({
     props: {
       ...args,

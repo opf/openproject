@@ -4,7 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../../../spot.module';
 import { SpotTooltipComponent } from '../tooltip.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Tooltip',
   component: SpotTooltipComponent,
   decorators: [
@@ -17,7 +17,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -36,7 +36,7 @@ export const Default: Story = {
   }),
 };
 
-export const InList: Story = {
+export const InList:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -89,7 +89,7 @@ export const InList: Story = {
   }),
 };
 
-export const Dark: Story = {
+export const Dark:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -106,7 +106,7 @@ export const Dark: Story = {
   }),
 };
 
-export const Multiline: Story = {
+export const Multiline:Story = {
   render: (args) => ({
     props: args,
     template: `

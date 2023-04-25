@@ -4,7 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../../../spot.module';
 import { SpotToggleComponent } from '../toggle.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Toggle',
   component: SpotToggleComponent,
   decorators: [
@@ -17,7 +17,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   args: {
     name: 'my-toggle',
     value: null,
@@ -28,7 +28,7 @@ export const Default: Story = {
   },
 };
 
-export const WithValue: Story = {
+export const WithValue:Story = {
   args: {
     value: 'first',
     options: [
@@ -38,7 +38,7 @@ export const WithValue: Story = {
   },
 };
 
-export const FourOptions: Story = {
+export const FourOptions:Story = {
   args: {
     name: 'my-toggle',
     value: 'first',

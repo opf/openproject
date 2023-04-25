@@ -22,7 +22,7 @@ import { States } from '../app/core/states/states.service';
 import { OpBasicDatePickerModule } from '../app/shared/components/datepicker/basic-datepicker.module';
 import { OpBasicSingleDatePickerComponent } from '../app/shared/components/datepicker/basic-single-date-picker/basic-single-date-picker.component'
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/DatePicker',
   component: OpBasicSingleDatePickerComponent,
   decorators: [
@@ -63,7 +63,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Single: Story = {
+export const Single:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -74,7 +74,7 @@ export const Single: Story = {
   }),
 };
 
-export const SingleWithValue: Story = {
+export const SingleWithValue:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -88,7 +88,7 @@ export const SingleWithValue: Story = {
   }),
 };
 
-export const RangeWithValue: Story = {
+export const RangeWithValue:Story = {
   render: (args) => ({
     props: {
       ...args,

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/List',
   decorators: [
     moduleMetadata({
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const WithLinks: Story = {
+export const WithLinks:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -33,7 +33,7 @@ export const WithLinks: Story = {
   }),
 };
 
-export const WithCheckboxes: Story = {
+export const WithCheckboxes:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -67,7 +67,7 @@ export const WithCheckboxes: Story = {
   }),
 };
 
-export const Compact: Story = {
+export const Compact:Story = {
   render: (args) => ({
     props: args,
     template: `

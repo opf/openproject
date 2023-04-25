@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/angular';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Section Header',
 };
 

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Link',
   decorators: [
     moduleMetadata({
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
+export const Basic:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -26,7 +26,7 @@ export const Basic: Story = {
   }),
 };
 
-export const LeftIcon: Story = {
+export const LeftIcon:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -41,7 +41,7 @@ export const LeftIcon: Story = {
   }),
 };
 
-export const RightIcon: Story = {
+export const RightIcon:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -56,7 +56,7 @@ export const RightIcon: Story = {
   }),
 };
 
-export const BothIcons: Story = {
+export const BothIcons:Story = {
   render: (args) => ({
     props: args,
     template: `

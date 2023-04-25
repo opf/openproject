@@ -9,7 +9,7 @@ import SpotDropAlignmentOption from '../../../drop-alignment-options';
 
 import { SpotDropModalComponent } from '../drop-modal.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/DropModal',
   component: SpotDropModalComponent,
   decorators: [
@@ -30,7 +30,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   render: (args) => ({
     props: {
       ...args,

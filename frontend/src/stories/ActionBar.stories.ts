@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/ActionBar',
   decorators: [
     moduleMetadata({
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const InModal: Story = {
+export const InModal:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -43,7 +43,7 @@ export const InModal: Story = {
   }),
 };
 
-export const Default: Story = {
+export const Default:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -68,7 +68,7 @@ export const Default: Story = {
   }),
 };
 
-export const LeftButtons: Story = {
+export const LeftButtons:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -96,7 +96,7 @@ export const LeftButtons: Story = {
   }),
 };
 
-export const Transparent: Story = {
+export const Transparent:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -129,7 +129,7 @@ export const Transparent: Story = {
   }),
 };
 
-export const NoSideOption: Story = {
+export const NoSideOption:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -153,7 +153,7 @@ export const NoSideOption: Story = {
   }),
 };
 
-export const MoreButtons: Story = {
+export const MoreButtons:Story = {
   render: (args) => ({
     props: args,
     template: `

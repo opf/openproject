@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Divider',
   decorators: [
     moduleMetadata({
@@ -14,7 +14,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Soft: Story = {
+export const Soft:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -30,7 +30,7 @@ export const Soft: Story = {
   }),
 };
 
-export const Strong: Story = {
+export const Strong:Story = {
   render: (args) => ({
     props: args,
     template: `

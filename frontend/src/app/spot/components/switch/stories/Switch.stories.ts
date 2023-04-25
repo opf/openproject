@@ -4,7 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../../../spot.module';
 import { SpotSwitchComponent } from '../switch.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Switch',
   component: SpotSwitchComponent,
   decorators: [
@@ -17,28 +17,28 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Checked: Story = {
+export const Checked:Story = {
   args: {
     checked: true,
     disabled: false,
   },
 };
 
-export const Unchecked: Story = {
+export const Unchecked:Story = {
   args: {
     checked: false,
     disabled: false,
   },
 };
 
-export const Disabled: Story = {
+export const Disabled:Story = {
   args: {
     checked: false,
     disabled: true,
   },
 };
 
-export const DisabledChecked: Story = {
+export const DisabledChecked:Story = {
   args: {
     checked: true,
     disabled: true,

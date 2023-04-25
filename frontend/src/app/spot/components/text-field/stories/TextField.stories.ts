@@ -4,7 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../../../spot.module';
 import { SpotTextFieldComponent } from '../text-field.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/TextField',
   component: SpotTextFieldComponent,
   decorators: [
@@ -17,7 +17,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Default: Story = {
+export const Default:Story = {
   args: {
     value: '',
     disabled: false,
@@ -27,7 +27,7 @@ export const Default: Story = {
   },
 };
 
-export const SearchWithIcon: Story = {
+export const SearchWithIcon:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -41,7 +41,7 @@ export const SearchWithIcon: Story = {
   }),
 };
 
-export const SearchWithIconAndValue: Story = {
+export const SearchWithIconAndValue:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -55,25 +55,25 @@ export const SearchWithIconAndValue: Story = {
   }),
 };
 
-export const Placeholder: Story = {
+export const Placeholder:Story = {
   args: {
     placeholder: 'Enter a value here',
   },
 };
 
-export const WithValue: Story = {
+export const WithValue:Story = {
   args: {
     value: 'Some value',
   },
 };
 
-export const Disabled: Story = {
+export const Disabled:Story = {
   args: {
     disabled: true,
   },
 };
 
-export const DisabledWithValue: Story = {
+export const DisabledWithValue:Story = {
   args: {
     value: 'Disabled with value',
     disabled: true,

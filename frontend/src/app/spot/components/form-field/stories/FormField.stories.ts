@@ -14,7 +14,7 @@ import { OpSpotModule } from '../../../spot.module';
 
 import { SpotFormFieldComponent } from '../form-field.component';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Patterns/FormField',
   component: SpotFormFieldComponent,
   decorators: [
@@ -36,7 +36,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const InputSlot: Story = {
+export const InputSlot:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -47,7 +47,7 @@ export const InputSlot: Story = {
   }),
 };
 
-export const DescriptionSlot: Story = {
+export const DescriptionSlot:Story = {
   render: (args) => ({
     props: args,
     template: `
@@ -61,7 +61,7 @@ export const DescriptionSlot: Story = {
   }),
 };
 
-export const BasicValidation: Story = {
+export const BasicValidation:Story = {
   render: (args) => ({
     props: {
       ...args,
@@ -115,7 +115,7 @@ export const BasicValidation: Story = {
   }),
 };
 
-export const ActionSlot: Story = {
+export const ActionSlot:Story = {
   render: (args) => ({
     props: {
       ...args,

@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { OpSpotModule } from '../../../spot.module';
 
-const meta: Meta = {
+const meta:Meta = {
   title: 'Components/Checkbox',
   decorators: [
     moduleMetadata({
@@ -15,7 +15,7 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Basic: Story = {
+export const Basic:Story = {
   render: (args) => ({
     props: args,
     template: `
