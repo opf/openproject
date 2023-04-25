@@ -58,15 +58,15 @@ export class TimestampsColumnBuilder {
     schema:ISchemaProxy,
   ):HTMLElement|null {
     if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-      return opIconElement('icon-add', 'op-timestamps--icon-added');
+      return opIconElement('icon-add', 'op-table-timestamps--icon-added');
     }
 
     if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-      return opIconElement('icon-minus1', 'op-timestamps--icon-removed');
+      return opIconElement('icon-minus1', 'op-table-timestamps--icon-removed');
     }
 
     if (this.visibleAttributeChanged(base, schema)) {
-      return opIconElement('icon-arrow-left-right', 'op-timestamps--icon-changed');
+      return opIconElement('icon-arrow-left-right', 'op-table-timestamps--icon-changed');
     }
 
     return null;

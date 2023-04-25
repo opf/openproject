@@ -1,6 +1,9 @@
 <div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
-    <table class="keyboard-accessible-list generic-table work-package-table">
+    <table
+      class="keyboard-accessible-list generic-table work-package-table"
+      [class.op-table-timestamps]="wpTableTimestamps.isActive()"
+    >
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
         <col *ngIf="wpTableTimestamps.isActive()">
