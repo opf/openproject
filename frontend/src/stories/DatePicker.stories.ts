@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import * as moment from 'moment';
 
+import { TimezoneService } from '../app/core/datetime/timezone.service';
+import { TimezoneServiceStub } from './timezone.service.stub';
+
 import { I18nService } from '../app/core/i18n/i18n.service';
 import { I18nServiceStub } from './i18n.service.stub';
 
@@ -28,6 +31,10 @@ const meta: Meta = {
         OpBasicDatePickerModule,
       ],
       providers: [
+        {
+          provide: TimezoneService,
+          useValue: TimezoneServiceStub, 
+        },
         {
           provide: ConfigurationService,
           useValue: ConfigurationServiceStub, 
