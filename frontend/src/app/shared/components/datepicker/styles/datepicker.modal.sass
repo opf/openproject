@@ -3,17 +3,24 @@
 .op-datepicker-modal
   display: flex
   flex-direction: column
-  min-height: 200px
-  width: 100vw
-  // Basically the width of the two calendars next to each other + spacings
-  // will be overwritten on mobile
-  max-width: 300px
+  height: 100%
 
-  &_wide
-    max-width: 600px
+  @media #{$spot-mq-drop-modal-in-context}
+    height: unset
+    min-height: 200px
+    width: 100vw
+    // Basically the width of the two calendars next to each other + spacings
+    // will be overwritten on mobile
+    max-width: 320px
+
+    &_wide
+      max-width: 600px
 
   &--banner
     margin-bottom: $spot-spacing-1
+
+    &:empty
+      visibility: hidden
 
   &--toggle-actions-container
     display: grid
@@ -36,12 +43,40 @@
   &--date-container
     display: inline-grid
 
-  &--action
-    &:last-of-type
-      margin-right: 0
-
   &--hidden-link
     visibility: hidden
 
-  &--flatpickr-instance
-    margin: 1rem auto
+  &--flatpickr-instance.inline
+    margin: 1rem auto !important
+
+  &--stretch-content
+    flex-grow: 1
+    flex-shrink: 1
+    overflow-y: auto
+
+    // Unfortunately, we need an extra class
+    // Of specificity here to overwrite the
+    // nested spot-container styles
+    &.spot-container
+      margin-top: $spot-spacing-0_5
+
+@media screen and (max-width: 679px)
+  .op-datepicker-modal
+    // Use same width as spot-modal mobile
+    width: calc(100vw - 2rem)
+    margin-bottom: 0
+
+    &--flatpickr-instance
+      align-self: center
+
+    &--dates-container
+      grid-template-columns: 1fr 1fr
+
+    &--toggle-actions-container
+      display: grid
+      grid-template-columns: 1fr
+      grid-row-gap: $spot-spacing-1
+
+    &--date-form
+      &:only-child
+        grid-column: 1 / 3

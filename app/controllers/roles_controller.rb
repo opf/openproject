@@ -48,6 +48,11 @@ class RolesController < ApplicationController
     @roles = roles_scope
   end
 
+  def edit
+    @role = Role.find(params[:id])
+    @call = set_role_attributes(@role, 'update')
+  end
+
   def create
     @call = create_role
     @role = @call.result
@@ -60,11 +65,6 @@ class RolesController < ApplicationController
 
       render action: 'new'
     end
-  end
-
-  def edit
-    @role = Role.find(params[:id])
-    @call = set_role_attributes(@role, 'update')
   end
 
   def update

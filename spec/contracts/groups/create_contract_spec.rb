@@ -42,7 +42,7 @@ describe Groups::CreateContract do
     let(:contract) { described_class.new(group, current_user) }
 
     describe 'validations' do
-      let(:current_user) { build_stubbed :admin }
+      let(:current_user) { build_stubbed(:admin) }
 
       describe 'type' do
         context 'type and class mismatch' do

@@ -45,7 +45,7 @@ module TabsHelper
   def render_extensible_tabs(key, params = {})
     tabs = ::OpenProject::Ui::ExtensibleTabs.enabled_tabs(key).map do |tab|
       path = tab[:path].respond_to?(:call) ? instance_exec(params, &tab[:path]) : tab[:path]
-      tab.dup.merge path: path
+      tab.dup.merge(path:)
     end
     render_tabs(tabs)
   end

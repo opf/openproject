@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe CustomValue::ListStrategy do
   let(:instance) { described_class.new(custom_value) }
-  let(:custom_field) { create :list_wp_custom_field }
+  let(:custom_field) { create(:list_wp_custom_field) }
   let(:custom_value) do
     double("CustomField", value:, custom_field:, customized:)
   end

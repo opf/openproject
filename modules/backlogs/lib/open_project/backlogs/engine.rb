@@ -47,10 +47,10 @@ module OpenProject::Backlogs
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-backlogs',
+    register('openproject-backlogs',
              author_url: 'https://www.openproject.org',
              bundled: true,
-             settings: settings do
+             settings:) do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.permission(:add_work_packages).tap do |add|
           add.controller_actions << 'rb_stories/create'

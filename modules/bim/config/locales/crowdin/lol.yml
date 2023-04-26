@@ -2,6 +2,12 @@
 lol:
   bim:
     label_bim: 'crwdns496051:0crwdne496051:0'
+    default_type_clash: crwdns851155:0crwdne851155:0
+    default_type_issue: crwdns851157:0crwdne851157:0
+    default_type_remark: crwdns851159:0crwdne851159:0
+    default_type_request: crwdns851161:0crwdne851161:0
+    default_status_resolved: crwdns851163:0crwdne851163:0
+    default_priority_critical: crwdns851165:0crwdne851165:0
   bcf:
     label_bcf: 'crwdns496055:0crwdne496055:0'
     label_imported_failed: 'crwdns496057:0crwdne496057:0'
@@ -131,4 +137,3 @@ lol:
   extraction:
     available:
       ifc_convert: "crwdns496395:0crwdne496395:0"
-

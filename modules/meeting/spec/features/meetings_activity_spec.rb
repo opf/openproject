@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Meetings', js: true do
-  let(:project) { create :project, enabled_module_names: %w[meetings activity] }
+  let(:project) { create(:project, enabled_module_names: %w[meetings activity]) }
   let(:user) { create(:admin) }
 
-  let!(:meeting) { create :meeting, project:, title: 'Awesome meeting!' }
-  let!(:agenda) { create :meeting_agenda, meeting:, text: 'foo' }
-  let!(:minutes) { create :meeting_minutes, meeting:, text: 'minutes' }
+  let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
+  let!(:agenda) { create(:meeting_agenda, meeting:, text: 'foo') }
+  let!(:minutes) { create(:meeting_minutes, meeting:, text: 'minutes') }
 
   before do
     login_as(user)
@@ -47,9 +47,9 @@ describe 'Meetings', js: true do
       check 'Meetings'
       click_on 'Apply'
 
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Minutes: Awesome meeting!')
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Agenda: Awesome meeting!')
-      expect(page).to have_selector('.op-project-activity-list--item-title', text: 'Meeting: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Minutes: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Agenda: Awesome meeting!')
+      expect(page).to have_selector('.op-activity-list--item-title', text: 'Meeting: Awesome meeting!')
     end
   end
 end

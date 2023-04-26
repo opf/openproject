@@ -46,7 +46,7 @@ module Components
       if present
         expect(page).to have_selector("#{row_selector(row)} .icon-#{icon}")
       else
-        expect(page).to have_no_selector("#{row_selector(row)} .icon-#{icon}")
+        expect(page).not_to have_selector("#{row_selector(row)} .icon-#{icon}")
       end
     end
 

@@ -39,8 +39,8 @@ module Components
       end
 
       def expect_not_changed
-        expect(page).to have_no_selector '.editable-toolbar-title--save'
-        expect(page).to have_no_selector '.editable-toolbar-title--input.-changed'
+        expect(page).not_to have_selector '.editable-toolbar-title--save'
+        expect(page).not_to have_selector '.editable-toolbar-title--input.-changed'
       end
 
       def input_field

@@ -38,7 +38,7 @@ describe AttributeHelpText::WorkPackage do
     create(:work_package_help_text, attribute_name: custom_field.attribute_name)
   end
 
-  let(:wp_custom_field) { create :text_wp_custom_field }
+  let(:wp_custom_field) { create(:text_wp_custom_field) }
 
   let(:cf_instance) do
     create_cf_help_text(wp_custom_field)
@@ -58,7 +58,7 @@ describe AttributeHelpText::WorkPackage do
   end
 
   describe '.used_attributes' do
-    let!(:instance) { create :work_package_help_text }
+    let!(:instance) { create(:work_package_help_text) }
 
     subject { described_class.used_attributes instance.type }
 
@@ -76,7 +76,7 @@ describe AttributeHelpText::WorkPackage do
              member_through_role: role)
     end
     let(:permission) { [] }
-    let(:static_instance) { create :work_package_help_text, attribute_name: 'project' }
+    let(:static_instance) { create(:work_package_help_text, attribute_name: 'project') }
 
     before do
       cf_instance
@@ -197,7 +197,7 @@ describe AttributeHelpText::WorkPackage do
   end
 
   describe 'instance' do
-    subject { build :work_package_help_text }
+    subject { build(:work_package_help_text) }
 
     it 'provides a caption of its type' do
       expect(subject.attribute_scope).to eq 'WorkPackage'

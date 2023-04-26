@@ -120,7 +120,7 @@ describe 'Projects', 'creation', js: true do
 
       within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
-        expect(page).to have_no_text 'Required Foo'
+        expect(page).not_to have_text 'Required Foo'
       end
     end
   end

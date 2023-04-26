@@ -23,6 +23,9 @@ lv:
   activerecord:
     models:
       document: "Dokuments"
+  activity:
+    filter:
+      document: "Documents"
   default_doc_category_tech: "Tehniskā dokumentācija"
   default_doc_category_user: "Lietotāja dokumentācija"
   enumeration_doc_categories: "Dokumentu kategorijas"

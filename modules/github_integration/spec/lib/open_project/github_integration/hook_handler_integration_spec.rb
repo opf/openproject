@@ -56,7 +56,7 @@ describe OpenProject::GithubIntegration::HookHandler do
     create(:project, members: { user => role })
   end
 
-  let(:work_packages) { create_list :work_package, 4, project: }
+  let(:work_packages) { create_list(:work_package, 4, project:) }
   let(:journal_counts_before) { work_packages.map { |wp| wp.journals.count } }
   let(:journal_counts_after) { work_packages.map { |wp| wp.journals.count } }
 
@@ -80,7 +80,7 @@ describe OpenProject::GithubIntegration::HookHandler do
       process_webhook
 
       expect(work_packages[0].journals.count).to be(journal_counts_before[0] + 1)
-      expect(work_packages[0].journals.last.notes).to include(journal_entry)
+      expect(work_packages[0].journals.last.notes).to match(journal_entry)
 
       expect(work_packages[1].journals.count).to be(journal_counts_before[1])
       expect(work_packages[2].journals.count).to be(journal_counts_before[2])
@@ -207,7 +207,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Opened' }
+      let(:journal_entry) { /<macro.+opened/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a pull request and github user'
@@ -234,7 +234,7 @@ describe OpenProject::GithubIntegration::HookHandler do
 
         work_packages.each_with_index do |work_package, index|
           expect(work_package.journals.count).to be(journal_counts_before[index] + 1)
-          expect(work_package.journals.last.notes).to include('PR Opened')
+          expect(work_package.journals.last.notes).to match(/<macro.+opened/)
         end
       end
 
@@ -333,7 +333,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Opened' }
+      let(:journal_entry) { /<macro.+opened/ }
       let(:pr_draft) { true }
 
       it_behaves_like 'it comments on the first work_package'
@@ -363,7 +363,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Ready for Review' }
+      let(:journal_entry) { /<macro.+ready_for_review/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a pull request and github user'
@@ -399,7 +399,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'Referenced in PR' }
+      let(:journal_entry) { /<macro.+referenced/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a pull request and github user'
@@ -415,7 +415,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'Referenced in PR' }
+      let(:journal_entry) { /<macro.+referenced/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a pull request and github user'
@@ -445,7 +445,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Closed' }
+      let(:journal_entry) { /<macro.+closed/ }
       let(:pr_state) { 'closed' }
 
       it_behaves_like 'it comments on the first work_package'
@@ -461,7 +461,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Opened' }
+      let(:journal_entry) { /<macro.+opened/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a pull request and github user'
@@ -476,7 +476,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR body mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'PR Merged' }
+      let(:journal_entry) { /<macro.+merged/ }
       let(:pr_state) { 'closed' }
       let(:pr_merged) { true }
 
@@ -515,7 +515,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR comment mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'Referenced' }
+      let(:journal_entry) { /<macro.+referenced/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a partial pull request' do
@@ -545,7 +545,7 @@ describe OpenProject::GithubIntegration::HookHandler do
           body: "A PR comment mentioning OP##{work_packages[0].id}"
         )
       end
-      let(:journal_entry) { 'Referenced' }
+      let(:journal_entry) { /<macro.+referenced/ }
 
       it_behaves_like 'it comments on the first work_package'
       it_behaves_like 'it creates a partial pull request' do

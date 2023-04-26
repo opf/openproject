@@ -128,7 +128,7 @@ describe API::V3::Users::UsersAPI do
   end
 
   describe 'user with global manage_user permission' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
     let(:current_user) { global_manage_user }
 
     it_behaves_like 'update flow'

@@ -38,13 +38,13 @@ describe 'Board management spec', js: true do
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
-  let!(:work_package) { create :work_package, subject: 'Foo', project: }
+  let!(:work_package) { create(:work_package, subject: 'Foo', project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
 
-  let!(:priority) { create :default_priority }
-  let!(:status) { create :default_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:status) { create(:default_status) }
 
   before do
     with_enterprise_token :board_view
@@ -63,7 +63,7 @@ describe 'Board management spec', js: true do
         manage_public_queries
       ]
     end
-    let(:board_view) { create :board_grid_with_query, project: }
+    let(:board_view) { create(:board_grid_with_query, project:) }
 
     it 'allows parallel creation of cards (Regression #30842)' do
       board_view
@@ -89,13 +89,13 @@ describe 'Board management spec', js: true do
       page.find('.menu-item', text: 'Add new card').click
 
       board_page.within_list('List 2') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject = page.find_by_id('wp-new-inline-edit--field-subject')
         subject.set 'New card 1'
         subject.send_keys :enter
       end
 
       board_page.within_list('List 1') do
-        subject = page.find('#wp-new-inline-edit--field-subject')
+        subject = page.find_by_id('wp-new-inline-edit--field-subject')
         subject.set 'New card 2'
         subject.send_keys :enter
       end
@@ -208,7 +208,7 @@ describe 'Board management spec', js: true do
 
   context 'with view boards + work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages] }
-    let(:board_view) { create :board_grid_with_query, project: }
+    let(:board_view) { create(:board_grid_with_query, project:) }
 
     it 'allows viewing boards index and boards' do
       board_view
@@ -227,7 +227,7 @@ describe 'Board management spec', js: true do
 
   context 'with view boards + edit work package permission' do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
-    let(:board_view) { create :board_grid_with_queries, project: }
+    let(:board_view) { create(:board_grid_with_queries, project:) }
 
     it 'allows viewing boards index and moving items around' do
       board_view

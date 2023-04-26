@@ -38,7 +38,7 @@ describe "budget attachments" do
     let(:update_permission) { :edit_budgets }
 
     let(:budget) do
-      create :budget, project:
+      create(:budget, project:)
     end
   end
 end

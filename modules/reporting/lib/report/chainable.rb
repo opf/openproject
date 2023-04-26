@@ -329,7 +329,7 @@ module Report
     def with_table(fields)
       fields.map do |f|
         place_field_name = self.class.put_sql_table_names[f] || self.class.put_sql_table_names[f].nil?
-        place_field_name ? (field_name_for f, self) : f
+        place_field_name ? field_name_for([self, f]) : f
       end
     end
 

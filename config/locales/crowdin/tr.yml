@@ -232,6 +232,7 @@ tr:
       failed_text: "%{name} projesini silme isteği başarısız oldu. Proje arşivlendi."
       completed: " %{name}  projesinin silinmesi tamamlandı"
       completed_text: "'%{name}' projesini silme isteği tamamlandı."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt görünümü olarak aç'
       open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
@@ -347,6 +348,8 @@ tr:
       one: 'Bir soydan iş paketi'
       other: '%{count} Bir soydan iş paketi'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Aşağıdaki iş paketleri kaydedilemedi:"
       none_could_be_saved: "%{total} iş paketlerinin hiçbiri güncellenemedi."
       x_out_of_y_could_be_saved: "%{total} iş paketinden %{failing} tanesi güncellenemezken %{success} güncellenebildi."
@@ -736,6 +739,9 @@ tr:
             sort_criteria:
               invalid: "Sütuna göre sıralama yapamazsınız: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
             custom_fields:
@@ -909,8 +915,22 @@ tr:
     header_invalid_fields: "Aşağıdaki alanları ile ilgili sorunlar oluştu:"
     field_erroneous_label: "Bu alan geçersiz:% {full_errors}\nLütfen geçerli bir değer girin. %{full_errors}."
   activity:
-    created: "Oluşturuldu: %{title}"
-    updated: "Güncellendi: %{title}"
+    item:
+      created_by_on: "%{user} tarafından %{date} tarihinde oluşturuldu"
+      created_on: "Oluşturulma tarihi: {dateTime}"
+      updated_by_on: "%{date} tarihinde %{user} tarafından güncellendi"
+      updated_on: "Güncellenme tarihi: {dateTime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Değişiklik Listeleri"
+      message: "Forumlar"
+      news: "Haberler"
+      project_attribute: "Proje öznitelikleri"
+      subproject: "Alt proje dahil"
+      time_entry: "Harcanan zaman"
+      wiki_edit: "Rehber"
+      work_package: "İş paketleri"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1355,6 +1375,7 @@ tr:
     work_package_note: 'İk Paketi notu eklendi'
     title:
       project: "Proje: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "İş paketleri dışa aktarma"
     succeeded: "Dışa aktarma başarıyla tamamlandı."
@@ -1380,7 +1401,6 @@ tr:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Türkçe"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "hayır"
   general_text_yes: "evet"
@@ -2633,8 +2653,6 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
-  text_wp_custom_field_html: >
-    Enterprise sürümü, iş paketlerinin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Liste veya Kullanıcı türündeki özel alanlar için çoklu seçime izin verin</b></li> < /ul>
   text_wp_status_read_only_html: >
     Enterprise sürümü, iş paketlerinin durum alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>İş paketlerini belirli durumlar için salt okunur olarak işaretlemeye izin verin</b></li> < /ul>
   text_project_custom_field_html: >
@@ -2670,12 +2688,13 @@ tr:
   text_work_packages_destroy_confirmation: "Seçilen çalışma paket(ler) ini silmek istediğinizden emin misiniz?"
   text_work_packages_ref_in_commit_messages: "İş paketlerini taahhüt mesajlarında referans ve sabitleme"
   text_journal_added: "%{value} %{label} eklendi"
-  text_journal_changed_html: "%{label}, %{old} %{linebreak} %{new}<strong>olarak</strong> değiştirildi"
   text_journal_changed_plain: "%{label}, %{old} %{linebreak} iken %{new} olarak değiştirildi"
   text_journal_changed_no_detail: "%{label} güncellendi"
   text_journal_changed_with_diff: "%{label} değişti ( %{link})"
   text_journal_deleted: "%{label}, ( %{old}) silindi"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}, ( %{link}) silindi"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value} yapıldı"
   text_journal_set_with_diff: "%{label} ayarla ( %{link})"
   text_journal_label_value: "%{value} %{label} eklendi"
@@ -2995,6 +3014,7 @@ tr:
       code_409: "Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir."
       code_429: "Çok fazla istek. Lütfen daha sonra tekrar deneyiniz."
       code_500: "İç hata oluştu."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Aradığınız çalışma paketi bulunamadı veya silinmiş."
       expected:

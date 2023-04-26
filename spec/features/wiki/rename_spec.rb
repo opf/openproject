@@ -31,10 +31,10 @@ require 'spec_helper'
 describe 'Wiki page', js: true do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i[view_wiki_pages
-                                       rename_wiki_pages]
+                                       rename_wiki_pages])
   end
   let!(:wiki_page) do
     create(:wiki_page_with_content, wiki: project.wiki, title: initial_name)

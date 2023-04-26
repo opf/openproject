@@ -26,8 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Component, HostBinding, Input, Output } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  Output,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import * as moment from 'moment';
@@ -57,36 +61,38 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
-  constructor(readonly timezoneService:TimezoneService,
-    readonly I18n:I18nService) {
+  constructor(
+    readonly timezoneService:TimezoneService,
+    readonly I18n:I18nService,
+  ) {
     super();
   }
 
-  public get value():(HalResource[]|string[]) {
-    return this.filter.values;
+  public get value():string[] {
+    return (this.filter.values || []) as string[];
   }
 
-  public set value(val:(HalResource[]|string[])) {
+  public set value(val:string[]) {
     this.filter.values = val;
     this.filterChanged.emit(this.filter);
   }
 
-  public get begin():any {
-    return this.filter.values[0];
+  public get begin():string {
+    return (this.filter.values[0] || '') as string;
   }
 
-  public get end():HalResource|string {
-    return this.filter.values[1];
+  public get end():string {
+    return (this.filter.values[1] || '') as string;
   }
 
-  public parser(data:any) {
+  public parser(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       return data;
     }
     return null;
   }
 
-  public formatter(data:any) {
+  public formatter(data:string):string|null {
     if (moment(data, 'YYYY-MM-DD', true).isValid()) {
       const d = this.timezoneService.parseDate(data);
       return this.timezoneService.formattedISODate(d);

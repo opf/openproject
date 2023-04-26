@@ -52,7 +52,9 @@ import { States } from 'core-app/core/states/states.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { StateService } from '@uirouter/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -67,7 +69,9 @@ import interactionPlugin, {
   EventDragStopArg,
   EventResizeDoneArg,
 } from '@fullcalendar/interaction';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import {
@@ -81,9 +85,12 @@ import {
   EffectCallback,
   EffectHandler,
 } from 'core-app/core/state/effects/effect-handler.decorator';
-import { teamPlannerPageRefresh } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { calendarRefreshRequest } from 'core-app/features/calendar/calendar.actions';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import {
+  addBackgroundEvents,
+  removeBackgroundEvents,
+} from 'core-app/features/team-planner/team-planner/planner/background-events';
 
 @EffectHandler
 @Component({
@@ -226,7 +233,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
         const start = moment(resizeInfo.event.startStr).toDate();
         const wp = resizeInfo.event.extendedProps.workPackage as WorkPackageResource;
         if (!wp.ignoreNonWorkingDays && (this.weekdayService.isNonWorkingDay(start) || this.weekdayService.isNonWorkingDay(due)
-        || this.workPackagesCalendar.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(due))) {
+          || this.workPackagesCalendar.isNonWorkingDay(start) || this.workPackagesCalendar.isNonWorkingDay(due))) {
           this.toastService.addError(this.text.cannot_drag_to_non_working_day);
           resizeInfo?.revert();
           return;
@@ -249,7 +256,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
           this.addBackgroundEventsForNonWorkingDays();
         }
       },
-      eventResizeStop: () => this.removeBackGroundEvents(),
+      eventResizeStop: () => removeBackgroundEvents(this.ucCalendar.getApi()),
       eventDragStart: (dragInfo:EventDragStartArg) => {
         const wp = dragInfo.event.extendedProps.workPackage as WorkPackageResource;
         if (!wp.ignoreNonWorkingDays) {
@@ -259,7 +266,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       eventDragStop: (dragInfo:EventDragStopArg) => {
         const { el } = dragInfo;
         el.style.removeProperty('pointer-events');
-        this.removeBackGroundEvents();
+        removeBackgroundEvents(this.ucCalendar.getApi());
       },
       eventClick: (evt:EventClickArg) => {
         const workPackageId = (evt.event.extendedProps.workPackage as WorkPackageResource).id as string;
@@ -280,10 +287,8 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       additionalOptions.initialView = 'dayGridWeek';
     }
 
-    void Promise.all([
-      this.configuration.initialized,
-      this.weekdayService.loadWeekdays().toPromise(),
-    ])
+    void this.weekdayService.loadWeekdays()
+      .toPromise()
       .then(() => {
         this.calendarOptions$.next(
           this.workPackagesCalendar.calendarOptions(additionalOptions),
@@ -368,37 +373,15 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     );
   }
 
-  private removeBackGroundEvents() {
-    this
-      .ucCalendar
-      .getApi()
-      .getEvents()
-      .filter((el) => el.source?.id === 'background')
-      .forEach((el) => el.remove());
-  }
-
-  private addBackgroundEventsForNonWorkingDays() {
-    const api = this.ucCalendar.getApi();
-    let currentStartDate = this.ucCalendar.getApi().view.activeStart;
-    const currentEndDate = this.ucCalendar.getApi().view.activeEnd;
-    const nonWorkingDays = new Array<{ start:Date|string, end:Date|string }>();
-
-    while (currentStartDate.toString() !== currentEndDate.toString()) {
-      if (this.weekdayService.isNonWorkingDay(currentStartDate) || this.workPackagesCalendar.isNonWorkingDay(currentStartDate)) {
-        nonWorkingDays.push({
-          start: moment(currentStartDate).format('YYYY-MM-DD'),
-          end: moment(currentStartDate).add('1', 'day').format('YYYY-MM-DD'),
-        });
-      }
-      currentStartDate = moment(currentStartDate).add('1', 'day').toDate();
-    }
-    nonWorkingDays.forEach((day) => {
-      api.addEvent({ ...day }, 'background');
-    });
-  }
-
   @EffectCallback(calendarRefreshRequest)
   reloadOnRefreshRequest():void {
     this.ucCalendar.getApi().refetchEvents();
+  }
+
+  private addBackgroundEventsForNonWorkingDays() {
+    addBackgroundEvents(
+      this.ucCalendar.getApi(),
+      (date) => this.weekdayService.isNonWorkingDay(date) || this.workPackagesCalendar.isNonWorkingDay(date),
+    );
   }
 }

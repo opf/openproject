@@ -35,12 +35,12 @@ describe Token::Base do
 
   it 'creates' do
     subject.save!
-    assert_equal 64, subject.value.length
+    expect(subject.value.length).to eq(64)
   end
 
   it 'create_should_remove_existing_tokenses' do
     subject.save!
-    t2 = Token::AutoLogin.create user: user
+    t2 = Token::AutoLogin.create(user:)
     expect(subject.value).not_to eq(t2.value)
     expect(Token::AutoLogin.exists?(subject.id)).to be false
     expect(Token::AutoLogin.exists?(t2.id)).to be true

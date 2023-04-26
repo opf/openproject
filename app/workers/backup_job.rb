@@ -29,7 +29,7 @@
 require 'tempfile'
 require 'zip'
 
-class BackupJob < ::ApplicationJob
+class BackupJob < ApplicationJob
   queue_with_priority :above_normal
 
   attr_reader :backup, :user
@@ -64,7 +64,7 @@ class BackupJob < ::ApplicationJob
       db_dump_file_name:
     )
 
-    store_backup file_name, backup: backup, user: user
+    store_backup(file_name, backup:, user:)
     cleanup_previous_backups!
 
     notify_backup_ready!

@@ -60,8 +60,7 @@ describe Projects::SetAttributesService, type: :model do
 
   describe 'call' do
     let(:call_attributes) do
-      {
-      }
+      {}
     end
 
     before do
@@ -206,8 +205,8 @@ describe Projects::SetAttributesService, type: :model do
 
         shared_examples "setting custom field defaults" do
           context 'with custom fields' do
-            let!(:custom_field) { create :text_wp_custom_field, types: }
-            let!(:custom_field_with_no_type) { create :text_wp_custom_field }
+            let!(:custom_field) { create(:text_wp_custom_field, types:) }
+            let!(:custom_field_with_no_type) { create(:text_wp_custom_field) }
 
             it 'activates the type\'s custom fields' do
               expect(subject.result.work_package_custom_fields)

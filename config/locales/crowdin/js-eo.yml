@@ -255,7 +255,7 @@ eo:
       working_days:
         calendar:
           empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '(new)'
         add_non_working_day: "Non-working day"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
@@ -264,7 +264,8 @@ eo:
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'je'
@@ -293,8 +294,6 @@ eo:
           one: "Unua ordiga kriterio"
           two: "Dua ordiga kriterio"
           three: "Tria ordiga kriterio"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "ne"
     general_text_yes: "jes"
     general_text_No: "Ne"
@@ -474,7 +473,7 @@ eo:
     label_watch_work_package: "Atenti laborpakaĵon"
     label_watcher_added_successfully: "Atentigo sukcese aldonita!"
     label_watcher_deleted_successfully: "Atentigo sukcese forigita!"
-    label_work_package_details_you_are_here: "You're on the %{tab} tab for %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Malatenti"
     label_unwatch_work_package: "Malatenti laborpakaĵon"
     label_uploaded_by: "Alŝutita de"
@@ -588,9 +587,9 @@ eo:
         text_update_date: "%{date} by"
         total_count_warning: "Showing the %{newest_count} most recent notifications. %{more_count} more are not displayed."
         empty_state:
-          no_notification: "Looks like you're all caught up."
-          no_notification_with_current_project_filter: "Looks like you're all caught up with the selected project."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Click on a notification to view all activity details."
         new_notifications:
           message: 'There are new notifications.'
@@ -1002,7 +1001,7 @@ eo:
         move_column_left: "Movi kolumnon maldektren"
         move_column_right: "Movi kolumnon dektren"
         hide_column: "Kaŝi kolumnon"
-        insert_columns: "Insert columns ..."
+        insert_columns: "Insert columns"
         filters: "Filtriloj"
         display_sums: "Vidigi sumojn"
         confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
@@ -1029,7 +1028,7 @@ eo:
         button: 'Agordi tiun ĉi laborpakaĵan tabelon'
         choose_display_mode: 'Montri laborpakaĵojn kiel'
         modal_title: 'Agordoj de laborpakaĵaj tabeloj'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you're editing."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "default"
         display_settings: 'Montri agordojn'
         default_mode: "Flat list"
@@ -1065,26 +1064,25 @@ eo:
         relations: Rilatoj
         watchers: Atentantoj
         files: Dosieroj
-        files_tab_migration_help: 'You can now attach files to work packages via the new tab:'
       time_relative:
         days: "tagoj"
         weeks: "weeks"
         months: "months"
     toolbar:
       settings:
-        configure_view: "Agordi vidojn ..."
-        columns: "Kolumnoj ..."
-        sort_by: "Sort by ..."
-        group_by: "Grupigi laŭ ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Montri sumojn"
         display_hierarchy: "Montri hierarkiojn"
         hide_hierarchy: "Kaŝi hierarkiojn"
         hide_sums: "Kaŝi sumojn"
         save: "Konservi"
-        save_as: "Konservi kiel ..."
-        export: "Eksporti ..."
-        visibility_settings: "Videbligaj agordoj ..."
-        page_settings: "Renomigi vidon ..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Forigi"
       filter: "Filtrilo"
       unselected_title: "Laborpakaĵo"

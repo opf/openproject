@@ -91,9 +91,9 @@ shared_examples_for "an action requiring admin" do
 end
 shared_context "there are users with and without avatars" do
   let(:base_path) { File.expand_path 'fixtures', __dir__ }
-  let(:user_without_avatar) { create :user }
+  let(:user_without_avatar) { create(:user) }
   let(:user_with_avatar) do
-    u = create :user
+    u = create(:user)
     u.attachments = [build(:avatar_attachment, author: u)]
     u
   end

@@ -38,7 +38,7 @@ RSpec.describe CustomStyle do
       end
 
       it 'deletes the file' do
-        expect(File.exists?(file_path)).to be false
+        expect(File.exist?(file_path)).to be false
       end
 
       it 'clears the file mount column' do

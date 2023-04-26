@@ -110,7 +110,7 @@ describe 'Query name inline edit', js: true do
     expect(assignee_query.name).to eq 'Not my assignee query'
 
     # Rename query through context menu
-    wp_table.click_setting_item 'Rename view ...'
+    wp_table.click_setting_item 'Rename view'
 
     expect(page).to have_focus_on('.editable-toolbar-title--input')
     page.driver.browser.switch_to.active_element.send_keys('Some other name')

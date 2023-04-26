@@ -35,35 +35,35 @@ describe 'API v3 Watcher resource', content_type: :json do
 
   shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
   let(:current_user) do
-    create :user, member_in_project: project, member_through_role: role
+    create(:user, member_in_project: project, member_through_role: role)
   end
   let(:role) { create(:role, permissions:) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { create(:role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }
   let(:available_watcher) do
-    create :user,
+    create(:user,
            firstname: 'Something',
            lastname: 'Strange',
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
 
   let(:watching_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
   let(:existing_watcher) do
     create(:watcher, watchable: work_package, user: watching_user)
   end
 
   let!(:watching_blocked_user) do
-    create :user,
+    create(:user,
            login: 'lockedUser',
            mail: 'lockedUser@gmail.com',
            member_in_project: project,
-           member_through_role: view_work_packages_role
+           member_through_role: view_work_packages_role)
   end
   let!(:existing_blocked_watcher) do
     create(:watcher, watchable: work_package, user: watching_blocked_user).tap do

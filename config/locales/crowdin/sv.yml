@@ -232,6 +232,7 @@ sv:
       failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -347,6 +348,8 @@ sv:
       one: 'Ett underliggande arbetspaket'
       other: '%{count} underliggande arbetspaket'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Följande arbetspaket kunde inte sparas:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -736,6 +739,9 @@ sv:
             sort_criteria:
               invalid: "Kan inte sortera på kolumn: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
           filters:
             custom_fields:
@@ -909,8 +915,22 @@ sv:
     header_invalid_fields: "Det fanns problem med följande fält:"
     field_erroneous_label: "Det här fältet är ogiltigt: %{full_errors}\nVänligen ange ett giltigt värde."
   activity:
-    created: "Skapad: %{title}"
-    updated: "Uppdaterad: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1355,6 +1375,7 @@ sv:
     work_package_note: 'Anteckning lades till arbetspaketet'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1380,7 +1401,6 @@ sv:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ";"
   general_first_day_of_week: "1"
-  general_lang_name: "Svenska"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nej"
   general_text_yes: "ja"
@@ -2634,8 +2654,6 @@ sv:
     När du använder anpassade fält: Kom ihåg att dessa även måste aktiveras för varje projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -2671,12 +2689,13 @@ sv:
   text_work_packages_destroy_confirmation: "Är du säker du vill ta bort det valda arbetspaket(paketen)?"
   text_work_packages_ref_in_commit_messages: "Referenser och fixande av arbetspaket i incheckningsmeddelanden"
   text_journal_added: "%{label} %{value} lades till"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} uppdaterades"
   text_journal_changed_with_diff: "%{label} ändrades (%{link})"
   text_journal_deleted: "%{label} raderad (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} raderad (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} ange till %{value}"
   text_journal_set_with_diff: "%{label} anger (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2973,7 +2992,7 @@ sv:
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -2996,6 +3015,7 @@ sv:
       code_409: "Kunde inte uppdatera resursen på grund av motstridiga ändringar."
       code_429: "Too many requests. Please try again later."
       code_500: "Ett internt fel har inträffat."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

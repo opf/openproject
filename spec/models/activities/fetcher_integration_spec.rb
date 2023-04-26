@@ -39,6 +39,11 @@ describe Activities::Fetcher, 'integration' do
   let(:instance) { described_class.new(user, options) }
   let(:options) { {} }
 
+  it 'does not find budgets in its event_types' do
+    expect(instance.event_types)
+      .not_to include('budgets')
+  end
+
   describe '#events' do
     let(:event_user) { user }
     let(:work_package) { create(:work_package, project:, author: event_user) }
@@ -54,12 +59,12 @@ describe Activities::Fetcher, 'integration' do
       create(:wiki_page, wiki:, content:)
     end
 
-    subject { instance.events(30.days.ago, 1.day.from_now) }
+    subject { instance.events(from: 30.days.ago, to: 1.day.from_now) }
 
     context 'for global activities' do
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
-      it 'finds events of all type' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
           .to match_array(activities.map(&:id))
       end
@@ -103,7 +108,7 @@ describe Activities::Fetcher, 'integration' do
       let(:options) { { project: } }
       let!(:activities) { [project, work_package, message, news, time_entry, changeset, wiki_page.content] }
 
-      it 'finds events of all type' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
           .to match_array(activities.map(&:id))
       end
@@ -233,7 +238,7 @@ describe Activities::Fetcher, 'integration' do
         [project, work_package, message, news, time_entry, changeset, wiki_page.content]
       end
 
-      it 'finds events of all type' do
+      it 'finds events of all types' do
         expect(subject.map(&:journable_id))
           .to match_array(activities.map(&:id))
       end

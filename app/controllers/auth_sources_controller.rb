@@ -47,6 +47,11 @@ class AuthSourcesController < ApplicationController
     render 'auth_sources/new'
   end
 
+  def edit
+    @auth_source = AuthSource.find(params[:id])
+    render 'auth_sources/edit'
+  end
+
   def create
     @auth_source = auth_source_class.new permitted_params.auth_source
     if @auth_source.save
@@ -55,11 +60,6 @@ class AuthSourcesController < ApplicationController
     else
       render 'auth_sources/new'
     end
-  end
-
-  def edit
-    @auth_source = AuthSource.find(params[:id])
-    render 'auth_sources/edit'
   end
 
   def update

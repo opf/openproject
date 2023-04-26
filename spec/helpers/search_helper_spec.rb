@@ -118,10 +118,6 @@ describe 'search/index' do
       end
     end
 
-    before do
-      with_enterprise_token :attachment_filters
-    end
-
     context 'with the token in the journal notes' do
       let(:tokens) { %w(journals) }
 

@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class TimeEntries::UpdateService < ::BaseServices::Update; end
+class TimeEntries::UpdateService < BaseServices::Update; end

@@ -49,7 +49,7 @@ pt:
         main-menu-border-color: "Margem do menu principal"
       custom_colors: "Cores personalizadas"
       customize: "Personalize a instalação de seu OpenProject com seu logotipo e cores."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Como agradecimento especial por sua contribuição financeira para o desenvolvimento do OpenProject, este singelo complemento está disponível apenas para assinantes que deram suporte à edição Enterprise."
       enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
@@ -64,15 +64,15 @@ pt:
         main-menu-bg-color: "Cor de fundo do menu esquerdo."
       theme_warning: Alterar o tema irá sobrescrever seu estilo personalizado. O design será perdido. Tem certeza que deseja continuar?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Aualize para a edição Enterprise"
+      add_token: "Carregar um token de suporte da edição Enterprise "
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Tem a certeza de que deseja remover o token atual da edição Enterprise?"
         title: "Excluir token"
       replace_token: "Substitua seu token atual de suporte"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Solicitar edição Enterprise local"
+      paste: "Cole o seu token de suporte da edição Enterprise"
+      required_for_feature: "Este complemento só está disponível com um token de suporte ativo da edição Enterprise."
       enterprise_link: "Para mais informações, clique aqui."
       start_trial: 'Iniciar avaliação gratuita'
       book_now: 'Reserve agora'
@@ -80,7 +80,7 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "é um complemento da Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
       explanation:
@@ -137,7 +137,7 @@ pt:
         quando eles forem autenticados pela primeira vez com o OpenProject.
         Deixe isso desmarcado para permitir que apenas contas existentes no OpenProject possam se autenticar através do LDAP!
     connection_encryption: 'Criptografia de Conexão'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'Opções LDAPS / STARTTLS'
     system_account: 'Conta do sistema'
     system_account_legend: |
       OpenProject requer acesso somente leitura através de uma conta de sistema para procurar usuários e grupos em sua árvore LDAP.
@@ -151,16 +151,16 @@ pt:
       plain: 'nenhum'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      plain_description: "Abre uma conexão descriptografada com o servidor LDAP. Não recomendado para produção."
+      simple_tls_description: "Use o LDAPS. Requer uma porta separada no servidor LDAP. Este modo é frequentemente substituído, recomendamos o uso de STARTTLS sempre que possível."
+      start_tls_description: "Envia um comando STARTTLS depois de se conectar à porta LDAP padrão. Recomendado para conexões criptografadas."
       section_more_info_link_html: >
         Esta seção diz respeito à segurança de conexão desta fonte de autenticação LDAP. Para mais informações, visite <a href="%{link}">a documentação Net::LDAP</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Verificar certificado SSL"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Permite uma verificação SSL estrita da cadeia de confiança do certificado. <br/> <strong>Aviso:</strong> Desmarcar esta opção desativa a verificação SSL do certificado do servidor LDAP, o que expõe a sua conexão a ataques man-in-the-middle.
+      tls_certificate_description: "Se o certificado do servidor LDAP não estiver nas fontes de confiança deste sistema, você poderá adicioná-lo manualmente. Digite uma cadeia de caracteres de certificado PEM X509."
   forums:
     show:
       no_results_title_text: Não há postagens no fórum no momento.
@@ -231,6 +231,7 @@ pt:
       failed_text: "A solicitação para excluir o projeto %{name} falhou. O projeto foi arquivado."
       completed: "Exclusão do projeto %{name} concluída"
       completed_text: "Foi concluída a solicitação para exclusão do projeto '%{name}'."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Abrir como visualização Gantt'
       open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
@@ -321,7 +322,7 @@ pt:
       settings: "Configurações"
       form_configuration: "Configuração do formulário"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        A edição Enterprise permite a personalização da configuração do formulário com estes complementos adicionais: <br> <ul class="%{list_styling_class}"> <li><b>Adicionar novos grupos de atributos</b></li> <li><b>Renomear grupos de atributos</b></li> <li><b>Adicionar uma tabela de pacotes de trabalho relacionados</b></li> </ul>
       projects: "Projetos"
       enabled_projects: "Projetos habilitados"
       edit_query: "Editar tabela"
@@ -336,7 +337,7 @@ pt:
   wiki:
     page_not_editable_index: A página solicitada (ainda) não existe. Você foi redirecionado para o índice de todas as páginas wiki.
     no_results_title_text: Atualmente, não há páginas wiki.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Isto imprimirá o conteúdo desta página wiki sem nenhuma barra de navegação.
     index:
       no_results_content_text: Adicionar uma nova página wiki
   work_flows:
@@ -347,6 +348,8 @@ pt:
       one: 'Um pacote de trabalho descendente'
       other: '%{count} pacotes de trabalho descendentes'
     bulk:
+      copy_failed: "Os pacotes de trabalho não puderam ser copiados."
+      move_failed: "Os pacotes de trabalho não puderam ser movidos."
       could_not_be_saved: "Os seguintes pacotes de trabalho não puderam ser salvos:"
       none_could_be_saved: "Nenhum dos %{total} pacotes de trabalho pode ser atualizado."
       x_out_of_y_could_be_saved: "%{failing} dos %{total} pacotes de trabalho não puderam ser atualizados enquanto %{success} foram atualizados."
@@ -375,7 +378,7 @@ pt:
   account:
     delete: "Excluir conta"
     delete_confirmation: "Tem certeza que deseja excluir a conta?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "A conta foi bloqueada e sua exclusão foi agendada. Observe que este processo ocorre em segundo plano. Pode levar alguns minutos até que o usuário seja totalmente excluído."
     deletion_info:
       data_consequences:
         other: "Os dados que o usuário criou (ex.: e-mail, preferências, pacotes de trabalho, páginas wiki) serão excluídos na medida do possível. Note, porém, que dados como pacotes de trabalho e páginas wiki não podem ser excluídos sem impactar o trabalho dos demais usuários. Estes dados serão reatribuídos a uma conta chamada \"Usuário excluído\". Como os dados de todas as contas excluídas serão reatribuídos a esta conta, não será possível distinguir os dados que o usuário criou dos dados de outra conta excluída."
@@ -425,7 +428,7 @@ pt:
         host: "Servidor"
         onthefly: "Criação de usuário automático"
         port: "Porta"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Certificado SSL do servidor LDAP"
       changeset:
         repository: "Repositório"
       comment:
@@ -471,20 +474,20 @@ pt:
         roles: "Papéis"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "Desarquivada"
+          false: "arquivado"
         identifier: "Identificador"
         latest_activity_at: "Últimas atividades em"
         parent: "Subprojeto de"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Visibilidade"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
         templated: "Projeto modelo"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marcado como modelo"
+          false: "não marcado como modelo"
         types: "Tipos"
         versions: "Versões"
         work_packages: "Pacotes de Trabalho"
@@ -597,7 +600,7 @@ pt:
         confirmation: "não coincide com %{attribute}."
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
         does_not_exist: "não existe."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} só está disponível na edição OpenProject Enterprise"
         error_unauthorized: "não pode ser acessado."
         error_readonly: "tentou escrever, mas não é gravável."
         email: "não é um endereço de e-mail válido."
@@ -647,7 +650,7 @@ pt:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "O certificado SSL fornecido é inválido: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -702,7 +705,7 @@ pt:
         non_working_day:
           attributes:
             date:
-              taken: "A non-working day already exists for %{value}."
+              taken: "Já existe um dia não útil para %{value}"
               format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
@@ -715,7 +718,7 @@ pt:
           foreign_wps_reference_version: 'Pacotes de trabalho em projetos não descendentes referenciam versões do projeto ou de seus descendentes.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Você não possui as permissões necessárias para arquivar todos os subprojetos. Entre em contato com um administrador"
             types:
               in_use_by_work_packages: "ainda em uso pelos pacotes de trabalho: %{types}"
             enabled_modules:
@@ -735,6 +738,9 @@ pt:
               format: "%{message}"
             sort_criteria:
               invalid: "Não é possível ordenar pela coluna: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
@@ -834,7 +840,7 @@ pt:
               attribute_unknown: "Atributo de pacote de trabalho inválido usado."
               attribute_unknown_name: "Atributo de pacote de trabalho inválido: %{attribute}"
               duplicate_group: "O nome de grupo %{group} foi usado mais de uma vez. Nomes de grupos devem ser únicos."
-              query_invalid: "A consulta embutida '%{group}' é inválida: %{details}"
+              query_invalid: "A consulta incorporada '%{group}' é inválida: %{details}"
               group_without_name: "Grupos sem nome não são permitidos."
         user:
           attributes:
@@ -909,8 +915,22 @@ pt:
     header_invalid_fields: "Existem problemas com os seguintes campos:"
     field_erroneous_label: "Este campo é inválido: %{full_errors}\nPor favor, insira um valor válido."
   activity:
-    created: "Criado: %{title}"
-    updated: "Atualizado: %{title}"
+    item:
+      created_by_on: "criado por %{user} em %{datetime}"
+      created_on: "criado em %{datetime}"
+      updated_by_on: "atualizado por %{user} em %{datetime}"
+      updated_on: "atualizado em %{datetime}"
+      parent_without_of: "Subprojeto"
+      parent_no_longer: "Não é mais um subprojeto de"
+    filter:
+      changeset: "Cj de alterações"
+      message: "Fóruns"
+      news: "Notícias"
+      project_attribute: "Atributos do projeto"
+      subproject: "Incur subprojetos"
+      time_entry: "Tempo gasto"
+      wiki_edit: "Wiki"
+      work_package: "Pacotes de trabalho"
   #common attributes of all models
   attributes:
     active: "Ativo"
@@ -1046,7 +1066,7 @@ pt:
   button_reset: "Reiniciar"
   button_rollback: "Retornar para esta versão"
   button_save: "Salvar"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Aplicar as alterações"
   button_save_back: "Salvar e voltar"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1281,11 +1301,11 @@ pt:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Personalize a configuração do formulário com estes complementos adicionais:"
         add_groups: "Adicionar novos grupos de atributos"
         rename_groups: "Renomear grupos de atributos"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtrar e ordenar em campos personalizados é um complemento da edição Enterprise."
   enumeration_activities: "Atividades de controle de tempo"
   enumeration_work_package_priorities: "Prioridades do pacote de trabalho"
   enumeration_reported_project_statuses: "Situação de projeto comunicada"
@@ -1307,7 +1327,7 @@ pt:
   error_cookie_missing: 'Está faltando o cookie do OpenProject. Por favor, certifique-se de que os cookies estão habilitados, sem os quais esta função não funcionará adequadamente.'
   error_custom_option_not_found: "A opção não existe."
   error_enterprise_activation_user_limit: "Sua conta não pôde ser ativada (limite de usuários atingido). Por favor, contate o administrador para obter acesso."
-  error_enterprise_token_invalid_domain: "The Enterprise edition is not active. Your Enterprise token's domain (%{actual}) does not match the system's host name (%{expected})."
+  error_enterprise_token_invalid_domain: "A edição Enterprise não esta ativa. Seu domínio do token Enterprise (%{actual}) não corresponde ao nome do host do sistema (%{expected})."
   error_failed_to_delete_entry: 'Falha ao excluir esta entrada.'
   error_in_dependent: "Erro ao tentar alterar o objeto dependente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}" #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Erro ao tentar criar objeto dependente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1345,8 +1365,8 @@ pt:
     changeset: 'Conjunto de alterações editadas'
     message: Mensagem editada
     news: Notícias
-    project_attributes: 'Project attributes edited'
-    projects: 'Project edited'
+    project_attributes: 'Atributos do projeto editado'
+    projects: 'Projeto editado'
     reply: Respondida
     time_entry: 'Registro de tempo editado'
     wiki_page: 'Página wiki editada'
@@ -1354,7 +1374,8 @@ pt:
     work_package_edit: 'Pacote de Trabalho editado'
     work_package_note: 'Anotação acrescentada ao Pacote de Trabalho'
     title:
-      project: "Project: %{name}"
+      project: "Projeto: %{name}"
+      subproject: "Subprojeto: %{name}"
   export:
     your_work_packages_export: "Exportação de seus pacotes de trabalho"
     succeeded: "A exportação foi completada com sucesso."
@@ -1380,7 +1401,6 @@ pt:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Português (Brasil)"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "não"
   general_text_yes: "sim"
@@ -1398,10 +1418,10 @@ pt:
     blocks:
       community: "Comunidade do OpenProject"
       upsale:
-        title: "Upgrade to Enterprise edition"
+        title: "Atualizar para a edição Enterprise"
         more_info: "Mais informações"
     links:
-      upgrade_enterprise_edition: "Upgrade to Enterprise edition"
+      upgrade_enterprise_edition: "Atualizar para a edição Enterprise"
       postgres_migration: "Migrando sua instalação para PostgreSQL"
       user_guides: "Guias do usuário"
       faq: "Perguntas Freqüentes"
@@ -1617,7 +1637,7 @@ pt:
   label_enumerations: "Enumerações"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} usuários ativos reservados"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Edição Enterprise"
   label_environment: "Ambiente"
   label_estimates_and_time: "Estimativas e tempo"
   label_equals: "é"
@@ -1766,10 +1786,10 @@ pt:
   label_not_contains: "não contém"
   label_not_equals: "não é"
   label_on: "ligado"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "não está vazio"
+  label_operator_none: "está vazio"
+  label_operator_equals_or: "é (OR)"
+  label_operator_equals_all: "é (AND)"
   label_open_menu: "Abrir menu"
   label_open_work_packages: "aberto"
   label_open_work_packages_plural: "aberto"
@@ -1811,8 +1831,8 @@ pt:
   label_product_version: "Versão do produto"
   label_professional_support: "Suporte profissional"
   label_profile: "Perfil"
-  label_project_activity: "Project activity"
-  label_project_attribute_plural: "Project attributes"
+  label_project_activity: "Atividade do projeto"
+  label_project_attribute_plural: "Atributos do projeto"
   label_project_count: "Número total de projetos"
   label_project_copy_notifications: "Enviar notificações por email durante a cópia do projeto"
   label_project_latest: "Últimos projetos"
@@ -2233,7 +2253,7 @@ pt:
   permission_add_work_packages: "Adicionar pacotes de trabalho"
   permission_add_messages: "Postar mensagens"
   permission_add_project: "Criar Projeto"
-  permission_archive_project: "Archive project"
+  permission_archive_project: "Arquivar projeto"
   permission_manage_user: "Criar e editar usuários"
   permission_manage_placeholder_user: "Criar, editar e excluir usuários do espaço reservado"
   permission_add_subprojects: "Criar subprojetos"
@@ -2634,12 +2654,10 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    A edição Enterprise (Edição corporative) conta com estes complemento adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite marcar pacotes de trabalho como "apenas leitura" para status específicos</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    A edição Enterprise (Edição corporativa) contará com estes complementos adicionais para campos personalizados dos Projetos: <br> <ul> <li><b>Adicionar campos personalizados para projetos a sua Lista de projetos para criar uma visão do portfólio de projetos</b></li> </ul>
   text_custom_logo_instructions: >
     Recomenda-se um logotipo branco sobre fundo transparente. Para obter melhores resultados em telas convencionais e de retina, certifique-se de que as dimensões de sua imagem são de 460px por 60px.
   text_custom_favicon_instructions: >
@@ -2671,12 +2689,13 @@ pt:
   text_work_packages_destroy_confirmation: "Tem certeza que deseja excluir o(s) pacote(s) de trabalho selecionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando e corrigindo pacotes de trabalho nas mensagens de commit"
   text_journal_added: "%{label} %{value}  adicionado"
-  text_journal_changed_html: "%{label} modificado de  %{old} %{linebreak}<strong>para</strong> %{new}"
   text_journal_changed_plain: "%{label} alterado de %{old} %{linebreak}para %{new}"
   text_journal_changed_no_detail: "%{label} atualizado"
   text_journal_changed_with_diff: "%{label} alterado %{link}"
   text_journal_deleted: "%{label} excluído %{old} "
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} excluído (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} definido como %{value}"
   text_journal_set_with_diff: "%{label} definido (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2940,7 +2959,7 @@ pt:
   warning_user_limit_reached: >
     Atingido o limite de usuários. Você não pode ativar mais nenhum usuário. <a href="%{upgrade_url}">Atualize seus plano</a> ou bloqueie a adição de novos usuários.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Você atingiu seu limite de usuários (%{current}/%{max} usuários ativos). Entre em contato com sales@openproject.com para atualizar seu plano da edição Enterprise e adicionar novos usuários.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -2968,20 +2987,20 @@ pt:
       title: "Excluir o pacote de trabalho"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Defina os dias considerados parte da semana útil</b><br/> Dias que não são selecionados são pulados ao agendar pacotes de trabalho (e não são incluídos na contagem do dia). Estes podem ser substituídos a nível do pacotes de trabalho.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Dias não úteis específicos (feriados e dias de fechamento )</b><br/> As datas adicionadas à lista abaixo são consideradas dias não úteis e são ignoradas ao agendar pacotes de trabalho.
     change_button: "Alterar dias úteis"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Alterar os dias da semana considerados úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho em todos os projetos desta instância. <br/> Observe que as alterações só são aplicadas após clicar no botão aplicar alterações.
     journal_note:
       changed: _**Dias úteis** alterado (%{changes})._
       days:
         working: "%{day} agora é um dia útil"
-        non_working: "%{day} agora é um dia não-útil"
+        non_working: "%{day} agora é um dia não útil"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} agora está funcionando"
+        non_working: "%{date} não está funcionando agora"
   nothing_to_preview: "Nada para visualizar"
   api_v3:
     attributes:
@@ -2996,6 +3015,7 @@ pt:
       code_409: "Não foi possível atualizar o recurso devido a modificações conflitantes."
       code_429: "Muitas requisições. Tente novamente mais tarde."
       code_500: "Ocorreu um erro interno."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "O pacote de trabalho que você está procurando não pode ser encontrado ou foi excluído."
       expected:

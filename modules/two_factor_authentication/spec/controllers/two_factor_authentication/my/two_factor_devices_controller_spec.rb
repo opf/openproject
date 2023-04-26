@@ -122,7 +122,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -133,7 +133,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
         end
 
         describe 'with registered device' do
-          let!(:device) { create :two_factor_authentication_device_sms, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_sms, user:, active: false, default: false) }
 
           it 'renders the confirmation page' do
             get :confirm, params: { device_id: device.id }
@@ -161,7 +161,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
 
         describe 'and registered totp device' do
           let(:active_strategies) { [:totp] }
-          let!(:device) { create :two_factor_authentication_device_totp, user:, active: false, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, active: false, default: false) }
 
           it 'renders a 400 on missing token' do
             post :confirm, params: { device_id: device.id }
@@ -194,7 +194,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
           end
 
           context 'with another default device present' do
-            let!(:default_device) { create :two_factor_authentication_device_totp, user:, default: true }
+            let!(:default_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
             it 'activates the device when entered correctly' do
               allow_any_instance_of(TwoFactorAuthentication::TokenService)
@@ -227,7 +227,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
         end
 
         context 'with existing non-default device' do
-          let!(:device) { create :two_factor_authentication_device_totp, user:, default: false }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, default: false) }
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -237,7 +237,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
         end
 
         context 'with existing default device' do
-          let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
           it 'deletes it' do
             delete :destroy, params: { device_id: device.id }
@@ -247,7 +247,7 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
         end
 
         context 'with existing default device AND enforced' do
-          let!(:device) { create :two_factor_authentication_device_totp, user:, default: true }
+          let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
           let(:config) { { enforced: true } }
 
           it 'cannot be deleted' do

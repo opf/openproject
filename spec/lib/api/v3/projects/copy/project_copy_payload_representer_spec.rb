@@ -42,18 +42,18 @@ describe API::V3::Projects::Copy::ProjectCopyPayloadRepresenter do
 
     subject { representer.to_json }
 
-    it 'has a _meta property with the copy properties set to true by default' do
+    it 'has a _meta property with the copy properties set to true by default but sendNotifications false by default' do
       expect(subject).to have_json_path '_meta'
-
-      expect(subject)
-        .to be_json_eql(true.to_json)
-              .at_path("_meta/sendNotifications")
 
       Projects::CopyService.copyable_dependencies.each do |dep|
         expect(subject)
           .to be_json_eql(true.to_json)
                 .at_path("_meta/copy#{dep[:identifier].camelize}")
       end
+
+      expect(subject)
+        .to be_json_eql(false.to_json)
+              .at_path("_meta/sendNotifications")
     end
 
     context 'with the meta property containing which associations to copy' do

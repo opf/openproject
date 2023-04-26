@@ -254,7 +254,7 @@ ro:
       working_days:
         calendar:
           empty_state_header: "Zile nelucrătoare"
-          empty_state_description: 'Pentru acest an nu este definită nicio zi nelucrătoare, apasă pe "Adaugă o zi nelucrătoare" de mai jos pentru a adăuga o dată.'
+          empty_state_description: 'Nu sunt definite zile non-lucrătoare specifice pentru acest an. Faceţi clic pe "+ zi nelucrătoare" de mai jos pentru a adăuga o dată.'
           new_date: '(nou)'
         add_non_working_day: "Zi nelucrătoare"
         already_added_error: "O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică."
@@ -263,7 +263,8 @@ ro:
         removed_title: "Veţi elimina următoarele zile din lista de zile nelucrătoare:"
         change_description: "Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și sfârșit ale tuturor pachetelor de lucru în toate proiectele, în acest caz."
         warning: >
-          Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate. Ești sigur că vrei să continui?
+          Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante au fost actualizate.
+          Ești sigur că vrei să continui?
     custom_actions:
       date:
         specific: 'pe'
@@ -292,8 +293,6 @@ ro:
           one: "Primul criteriu de sortare"
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
-      upsale_for_more: "Filtrele avansate vă permit să filtrați, de asemenea, numele fișierelor și conținutul atașamentelor pachetelor de lucru. Vă rugăm să treceți la un plan plătit pentru a utiliza acest supliment."
-      upsale_link: 'Ediția Enterprise.'
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -473,7 +472,7 @@ ro:
     label_watch_work_package: "Urmăriți pachetul de lucru"
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
-    label_work_package_details_you_are_here: "Esti în secțiunea %{tab} din %{type} %{subject}."
+    label_work_package_details_you_are_here: "Sunteți pe fila %{tab} pentru %{type} %{subject}."
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
@@ -588,9 +587,9 @@ ro:
         text_update_date: "%{date} de"
         total_count_warning: "Se afișează %{newest_count} cele mai recente notificări. %{more_count} în plus nu sunt afișate."
         empty_state:
-          no_notification: "Se pare că toţi sunteţi prinşi."
-          no_notification_with_current_project_filter: "Se pare că toți sunteți prinși de proiectul selectat."
-          no_notification_with_current_filter: "Se pare că toți sunteți prinși pentru filtrul %{filter}."
+          no_notification: "Se pare că v-ați pus la punct."
+          no_notification_with_current_project_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
+          no_notification_with_current_filter: "Se pare că v-ați pus la punct cu proiectul selectat."
           no_selection: "Faceți clic pe o notificare pentru a vizualiza toate detaliile activității."
         new_notifications:
           message: 'Există notificări noi.'
@@ -1002,7 +1001,7 @@ ro:
         move_column_left: "Mutați coloana la stânga"
         move_column_right: "Mutați coloana la dreapta"
         hide_column: "Ascundere coloana"
-        insert_columns: "Inserare coloane..."
+        insert_columns: "Inserare coloane"
         filters: "Filtre"
         display_sums: "Afişare totaluri"
         confirm_edit_cancel: "Sunteți sigur că doriți să anulați editarea numelui acestei vizualizări? Titlul va fi setat la valoarea anterioară."
@@ -1065,25 +1064,24 @@ ro:
         relations: Relații
         watchers: Observatori
         files: Fişiere
-        files_tab_migration_help: 'Acum puteți atașa fișiere la pachetele de lucru prin intermediul noii file:'
       time_relative:
         days: "zile"
         weeks: "săptămâni"
         months: "luni"
     toolbar:
       settings:
-        configure_view: "Configurare"
-        columns: "Coloane..."
-        sort_by: "Sortare după..."
-        group_by: "Grupare după..."
+        configure_view: "Configurați vizualizarea"
+        columns: "Coloane"
+        sort_by: "Sortare după"
+        group_by: "Grupare după"
         display_sums: "Afişare totaluri"
         display_hierarchy: "Afișați ierarhia"
         hide_hierarchy: "Ascundeți ierarhia"
         hide_sums: "Ascundere totaluri"
         save: "Salvare"
-        save_as: "Salvare ca ..."
-        export: "Exportare ..."
-        visibility_settings: "Setări Vizibilitate Profil"
+        save_as: "Salvare ca"
+        export: "Exportare"
+        visibility_settings: "Setări de vizibilitate"
         page_settings: "Redenumire"
         delete: "Ștergere"
       filter: "Filtrare"

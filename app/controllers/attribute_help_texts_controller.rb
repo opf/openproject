@@ -35,6 +35,10 @@ class AttributeHelpTextsController < ApplicationController
   before_action :find_entry, only: %i(edit update destroy)
   before_action :find_type_scope
 
+  def index
+    @texts_by_type = AttributeHelpText.all_by_scope
+  end
+
   def new
     @attribute_help_text = AttributeHelpText.new type: @attribute_scope
   end
@@ -42,20 +46,6 @@ class AttributeHelpTextsController < ApplicationController
   def edit; end
 
   def upsale; end
-
-  def update
-    call = ::AttributeHelpTexts::UpdateService
-      .new(user: current_user, model: @attribute_help_text)
-      .call(permitted_params_with_attachments)
-
-    if call.success?
-      flash[:notice] = t(:notice_successful_update)
-      redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
-    else
-      flash[:error] = call.message || I18n.t('notice_internal_server_error')
-      render action: 'edit'
-    end
-  end
 
   def create
     call = ::AttributeHelpTexts::CreateService
@@ -72,6 +62,20 @@ class AttributeHelpTextsController < ApplicationController
     end
   end
 
+  def update
+    call = ::AttributeHelpTexts::UpdateService
+      .new(user: current_user, model: @attribute_help_text)
+      .call(permitted_params_with_attachments)
+
+    if call.success?
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
+    else
+      flash[:error] = call.message || I18n.t('notice_internal_server_error')
+      render action: 'edit'
+    end
+  end
+
   def destroy
     if @attribute_help_text.destroy
       flash[:notice] = t(:notice_successful_delete)
@@ -80,10 +84,6 @@ class AttributeHelpTextsController < ApplicationController
     end
 
     redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
-  end
-
-  def index
-    @texts_by_type = AttributeHelpText.all_by_scope
   end
 
   protected

@@ -28,7 +28,7 @@
 
 require 'rack/utils'
 
-class WorkPackages::AutoCompletesController < ::ApplicationController
+class WorkPackages::AutoCompletesController < ApplicationController
   def index
     @work_packages = work_package_with_id | work_packages_by_subject_or_id
 

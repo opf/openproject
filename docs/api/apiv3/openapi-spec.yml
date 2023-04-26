@@ -44,7 +44,7 @@ info:
 
     All API responses contain a single HAL+JSON object, even collections of objects are technically represented by
     a single HAL+JSON object that itself contains its members. More details on collections can be found
-    in the [Collections Section](https://www.openproject.org/docs/api/group-objects/).
+    in the [Collections Section](https://www.openproject.org/docs/api/collections/).
 
     ## Authentication
 
@@ -329,6 +329,8 @@ paths:
     "$ref": "./paths/queries_sort_by.yml"
   "/api/v3/queries/{id}":
     "$ref": "./paths/query.yml"
+  "/api/v3/queries/{id}/form":
+    "$ref": "./paths/query_form.yml"
   "/api/v3/queries/{id}/star":
     "$ref": "./paths/query_star.yml"
   "/api/v3/queries/{id}/unstar":
@@ -712,6 +714,8 @@ components:
       "$ref": "./components/schemas/query_operator_model.yml"
     Query_Sort_ByModel:
       "$ref": "./components/schemas/query_sort_by_model.yml"
+    Query_Update_Form:
+      "$ref": "./components/schemas/query_update_form.yml"
     RelationModel:
       "$ref": "./components/schemas/relation_model.yml"
     Relation_edit_formModel:
@@ -840,6 +844,7 @@ tags:
   - "$ref": "./tags/basic_objects.yml"
   - "$ref": "./tags/collections.yml"
   - "$ref": "./tags/filters.yml"
+  - "$ref": "./tags/baseline_comparisons.yml"
   - "$ref": "./tags/forms.yml"
   - "$ref": "./tags/signaling.yml"
   - "$ref": "./tags/actions_and_capabilities.yml"

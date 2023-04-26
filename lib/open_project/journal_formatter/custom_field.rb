@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class OpenProject::JournalFormatter::CustomField < ::JournalFormatter::Base
+class OpenProject::JournalFormatter::CustomField < JournalFormatter::Base
   include CustomFieldsHelper
 
   private

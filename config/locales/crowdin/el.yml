@@ -228,6 +228,7 @@ el:
       failed_text: "Το αίτημα για διαγραφή του έργου %{name} απέτυχε. Το έργο παρέμεινε αρχειοθετημένο."
       completed: "Η διαγραφή του έργου %{name} ολοκληρώθηκε"
       completed_text: "Το αίτημα για διαγραφή του έργου %{name} έχει ολοκληρωθεί."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Άνοιγμα ως προβολή Gantt'
       open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
@@ -344,6 +345,8 @@ el:
       one: 'Ένα πακέτο εργασίας-απόγονος'
       other: '%{count} πακέτα εργασίας-απόγονοι'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "Δεν ήταν δυνατή η αποθήκευση των ακόλουθων πακέτων εργασίας:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -733,6 +736,9 @@ el:
             sort_criteria:
               invalid: "Δεν είναι δυνατή η ταξινόμηση κατά στήλη: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
             custom_fields:
@@ -906,8 +912,22 @@ el:
     header_invalid_fields: "Υπήρξαν προβλήματα με τα ακόλουθα πεδία:"
     field_erroneous_label: "Αυτό το πεδίο δεν είναι έγκυρο: %{full_errors}\nΠαρακαλούμε εισάγετε μια έγκυρη τιμή."
   activity:
-    created: "Δημιουργήθηκε: %{title}"
-    updated: "Ενημερώθηκε: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Ενεργό"
@@ -1352,6 +1372,7 @@ el:
     work_package_note: 'Προστέθηκε η σημείωση πακέτου εργασίας'
     title:
       project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Η εξαγωγή των πακέτων εργασίας σας"
     succeeded: "Η εξαγωγή ολοκληρώθηκε επιτυχώς."
@@ -1377,7 +1398,6 @@ el:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Ελληνικά"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "όχι"
   general_text_yes: "ναι"
@@ -2632,8 +2652,6 @@ el:
     Όταν χρησιμοποιείτε προσαρμοσμένα πεδία: Θυμηθείτε ότι τα προσαρμοσμένα πεδία πρέπει να ενεργοποιημένα και ανά έργο.
   text_custom_field_hint_activate_per_project_and_type: >
     Τα προσαρμοσμένα πεδία πρέπει να είναι ενεργοποιημένα ανά τύπο πακέτου εργασίας και ανά έργο.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -2669,12 +2687,13 @@ el:
   text_work_packages_destroy_confirmation: "Είστε βέβαιοι ότι θέλετε να διαγράψετε το(-α) επιλεγμένο(-α) πακέτο(-α) εργασίας;"
   text_work_packages_ref_in_commit_messages: "Αναφορά και επιδιόρθωση πακέτων εργασίας σε μηνύματα δέσμευσης"
   text_journal_added: "%{label} %{value} προστέθηκε"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "Το %{label} ενημερώθηκε"
   text_journal_changed_with_diff: "Το %{label} άλλαξε (%{link})"
   text_journal_deleted: "Το %{label} διαγράφηκε (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "Το %{label} διαγράφηκε (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "Το %{label} ορίστηκε σε %{value}"
   text_journal_set_with_diff: "Το %{label} ορίστηκε (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2971,7 +2990,7 @@ el:
       <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -2994,6 +3013,7 @@ el:
       code_409: "Δεν ήταν δυνατή η ενημέρωση του πόρου λόγω αντιφατικών τροποποιήσεων."
       code_429: "Πάρα πολλά αιτήματα. Παρακαλώ δοκιμάστε ξανά αργότερα."
       code_500: "Παρουσιάστηκε ένα εσωτερικό σφάλμα."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

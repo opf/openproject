@@ -1,10 +1,9 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login with 2FA backup code', with_settings: {
-                                         plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
-                                       },
-                                       js: true do
+describe 'Login with 2FA backup code', js: true, with_settings: {
+  plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
+} do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
@@ -12,15 +11,15 @@ describe 'Login with 2FA backup code', with_settings: {
            password: user_password,
            password_confirmation: user_password)
   end
-  let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
+  let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
 
   context 'when user has no backup code' do
     it 'does not show the backup code link' do
       first_login_step
 
       # Open other options
-      find('#toggle_resend_form').click
-      expect(page).to have_no_selector('a', text: I18n.t('two_factor_authentication.backup_codes.enter_backup_code_title'))
+      find_by_id('toggle_resend_form').click
+      expect(page).not_to have_selector('a', text: I18n.t('two_factor_authentication.backup_codes.enter_backup_code_title'))
     end
   end
 
@@ -41,7 +40,7 @@ describe 'Login with 2FA backup code', with_settings: {
       # Open other options
       # This may fail on the first request when the assets aren't ready yet
       SeleniumHubWaiter.wait
-      find('#toggle_resend_form').click
+      find_by_id('toggle_resend_form').click
       SeleniumHubWaiter.wait
       find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 2).click
 
@@ -57,7 +56,7 @@ describe 'Login with 2FA backup code', with_settings: {
       # Try again!
       first_login_step
       SeleniumHubWaiter.wait
-      find('#toggle_resend_form').click
+      find_by_id('toggle_resend_form').click
       SeleniumHubWaiter.wait
       find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title')).click
 

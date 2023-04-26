@@ -31,16 +31,16 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'News widget on dashboard', js: true do
-  let!(:project) { create :project }
-  let!(:other_project) { create :project }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
   let!(:visible_news) do
-    create :news,
+    create(:news,
            project:,
-           description: 'blubs'
+           description: 'blubs')
   end
   let!(:invisible_news) do
-    create :news,
-           project: other_project
+    create(:news,
+           project: other_project)
   end
   let(:role) do
     create(:role,

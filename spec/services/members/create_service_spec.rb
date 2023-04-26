@@ -75,7 +75,6 @@ describe Members::CreateService, type: :model do
                       member: model_instance,
                       message: call_attributes[:notification_message],
                       send_notifications: true)
-
       end
 
       describe 'for a group' do

@@ -84,7 +84,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   end
 
   def prepare_batch!
-    total_wp_count = query.results.work_package_count
+    total_wp_count = query.results.work_packages.count
     @work_packages_per_batch = 100
     @batches_count = total_wp_count.fdiv(@work_packages_per_batch).ceil
     @batch_files = []

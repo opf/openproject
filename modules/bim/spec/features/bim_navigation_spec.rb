@@ -29,18 +29,17 @@
 require_relative '../spec_helper'
 
 describe 'BIM navigation spec',
-         with_config: { edition: 'bim' },
-         js: true do
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+         js: true, with_config: { edition: 'bim' } do
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
     create(:role, permissions: %i[view_ifc_models manage_ifc_models view_work_packages delete_work_packages])
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   let(:model) do
@@ -105,7 +104,7 @@ describe 'BIM navigation spec',
         model_page.switch_view 'Viewer'
 
         model_page.model_viewer_visible true
-        expect(page).to have_no_selector('[data-qa-selector="op-wp-card-view"]')
+        expect(page).not_to have_selector('[data-qa-selector="op-wp-card-view"]')
 
         # Go to list only
         model_page.switch_view 'Cards'

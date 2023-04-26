@@ -3,19 +3,19 @@ require 'features/work_packages/work_packages_page'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'custom field inplace editor', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type) { create(:type_standard, custom_fields:) }
   let(:project) do
-    create :project,
+    create(:project,
            types: [type],
-           work_package_custom_fields: custom_fields
+           work_package_custom_fields: custom_fields)
   end
   let(:custom_fields) { [custom_field] }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            type:,
            project:,
-           custom_values: initial_custom_values
+           custom_values: initial_custom_values)
   end
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
 
@@ -201,7 +201,7 @@ describe 'custom field inplace editor', js: true do
     let(:initial_custom_values) { { custom_field.id => 123.50 } }
 
     context 'with zero value' do
-      let(:user) { create :admin, language: 'en' }
+      let(:user) { create(:admin, language: 'en') }
       let(:initial_custom_values) { { custom_field.id => 0 } }
 
       it 'displays the zero (Regression #37157)' do
@@ -210,7 +210,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     context 'with english locale' do
-      let(:user) { create :admin, language: 'en' }
+      let(:user) { create(:admin, language: 'en') }
 
       it 'displays the float with english locale and allows editing' do
         field.expect_state_text '123.5'
@@ -224,7 +224,7 @@ describe 'custom field inplace editor', js: true do
 
     context 'with german locale',
             driver: :firefox_de do
-      let(:user) { create :admin, language: 'de' }
+      let(:user) { create(:admin, language: 'de') }
 
       it 'displays the float with german locale and allows editing' do
         field.expect_state_text '123,5'

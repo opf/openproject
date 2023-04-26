@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Custom actions', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:permissions) { %i(view_work_packages edit_work_packages move_work_packages work_package_assigned) }
   let(:role) { create(:role, permissions:) }
@@ -293,7 +293,6 @@ describe 'Custom actions', js: true do
       find("#custom_action_actions_custom_field_#{date_custom_field.id}_visible").click
       datepicker = Components::Datepicker.new 'body'
       datepicker.set_date date
-      datepicker.save!
 
       new_ca_page.add_action('Type', other_type.name)
       new_ca_page.expect_action('type', other_type.id)

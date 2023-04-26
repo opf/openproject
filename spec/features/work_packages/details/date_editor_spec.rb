@@ -276,13 +276,11 @@ describe 'date inplace editor',
 
   context 'with a date custom field' do
     let(:cf_field) { EditField.new page, date_cf.attribute_name(:camel_case) }
-    let(:datepicker) { Components::Datepicker.new }
+    let(:datepicker) { Components::BasicDatepicker.new }
     let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
 
     it 'can handle creating a CF date' do
       create_page.visit!
-
-      datepicker.expect_not_visible
 
       type_field = create_page.edit_field(:type)
       type_field.activate!
@@ -300,8 +298,6 @@ describe 'date inplace editor',
       # Open date picker
       cf_field.input_element.click
       datepicker.set_date Time.zone.today
-      datepicker.save!
-
       create_page.edit_field(:subject).set_value 'My subject!'
       create_page.save!
       create_page.expect_and_dismiss_toaster message: 'Successful creation'
@@ -318,11 +314,7 @@ describe 'date inplace editor',
 
       datepicker.set_date Time.zone.today
 
-      datepicker.expect_year Time.zone.today.year
-      datepicker.expect_month Time.zone.today.strftime("%B")
-      datepicker.expect_day Time.zone.today.day
-
-      datepicker.save!
+      create_page.expect_and_dismiss_toaster message: 'Successful update.'
       cf_field.expect_inactive!
       cf_field.expect_state_text Time.zone.today.strftime('%Y-%m-%d')
     end

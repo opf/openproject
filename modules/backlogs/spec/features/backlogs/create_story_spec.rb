@@ -51,14 +51,14 @@ describe 'Backlogs', js: true do
   end
 
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i(add_work_packages
                                        view_master_backlog
                                        view_work_packages
-                                       assign_versions)
+                                       assign_versions))
   end
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
   let(:backlog_version) { create(:version, project:) }
 

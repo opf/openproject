@@ -6,6 +6,7 @@ import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-pac
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewDisplayRepresentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-display-representation.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewHierarchyIdentationService {
@@ -88,7 +89,7 @@ export class WorkPackageViewHierarchyIdentationService {
 
     // If the predecessor is in an ancestor chain.
     // get the first element of the ancestor chain that workPackage is not in
-    const predecessor = await this.apiV3Service.work_packages.id(predecessorId).get().toPromise();
+    const predecessor = await firstValueFrom(this.apiV3Service.work_packages.id(predecessorId).get());
 
     const difference = _.difference(predecessor.ancestorIds, workPackage.ancestorIds);
     if (difference && difference.length > 0) {

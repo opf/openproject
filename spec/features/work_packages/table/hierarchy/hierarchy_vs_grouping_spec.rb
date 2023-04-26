@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy vs grouping', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

@@ -39,6 +39,9 @@ et:
     models:
       budget: "Eelarve"
       material_budget_item: "Ühik"
+  activity:
+    filter:
+      budget: "Budgets"
   attributes:
     budget: "Eelarve"
   button_add_budget_item: "Lisa planeeritud kulud"

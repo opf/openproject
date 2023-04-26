@@ -254,17 +254,18 @@ fr:
           you_contribute: "Les développeurs aussi ont besoin de payer leurs factures. En passant à la version Entreprise, vous soutiendrez cet effort communautaire open source et contribuerez à son développement, sa maintenance et son amélioration continue."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+          empty_state_header: "Jours non travaillés"
+          empty_state_description: 'Aucun jour de travail spécifique n''est défini pour cette année. Cliquez sur « + jour non travaillé » ci-dessous pour ajouter une date.'
+          new_date: '(nouveau)'
+        add_non_working_day: "Jour non travaillé"
+        already_added_error: "Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique."
+        change_button: "Enregistrer et reprogrammer"
+        change_title: "Changer les jours travaillés"
+        removed_title: "Vous supprimerez les jours suivants de la liste des jours non travaillés :"
+        change_description: "La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          Les modifications pourraient prendre un certain temps pour être appliquées. Vous serez averti(e) lorsque tous les lots de travaux pertinents auront été mis à jour.
+          Voulez-vous continuer ?
     custom_actions:
       date:
         specific: 'le'
@@ -293,8 +294,6 @@ fr:
           one: "Premier critère de tri"
           two: "Second critère de tri"
           three: "Troisième critère de tri"
-      upsale_for_more: "Les filtres avancés vous permettent également de filtrer les noms de fichiers et le contenu des pièces jointes du lot de travaux. Veuillez passer à une offre payante pour utiliser cet add-on."
-      upsale_link: 'Version Entreprise'
     general_text_no: "non"
     general_text_yes: "oui"
     general_text_No: "Non"
@@ -317,7 +316,7 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Téléversez et liez des fichiers depuis des lots de travaux vers votre espace de stockage Nextcloud.</li> <li>Suivez les modifications du projet avec le suivi des activités du projet.</li> <li>Ajoutez des jours fériés à l'échelle de l'instance (jours non travaillés)</li> <li>Projets d'archives par les non-administrateurs.</li> <li>Nouveau filtre par défaut pour les lots de travaux en retard.</li> </ul>
     label_activate: "Activer"
     label_assignee: 'Responsable'
     label_add_column_after: "Ajouter une colonne au-dessus"
@@ -588,9 +587,9 @@ fr:
         text_update_date: "%{date} par"
         total_count_warning: "Affichage des %{newest_count} notifications les plus récentes. %{more_count} autres ne sont pas affichées."
         empty_state:
-          no_notification: "On dirait que vous êtes à jour."
-          no_notification_with_current_project_filter: "On dirait que vous êtes à jour dans le projet sélectionné."
-          no_notification_with_current_filter: "On dirait que vous êtes à jour pour le filtre %{filter}."
+          no_notification: "Il semble que vous êtes à jour."
+          no_notification_with_current_project_filter: "Il semble que vous êtes à jour dans le projet sélectionné."
+          no_notification_with_current_filter: "Il semble que vous êtes à jour pour le filtre %{filter}."
           no_selection: "Cliquez sur une notification pour voir tous les détails de l'activité."
         new_notifications:
           message: 'Il y a de nouvelles notifications.'
@@ -1002,7 +1001,7 @@ fr:
         move_column_left: "Déplacer la colonne de gauche"
         move_column_right: "Déplacer le colonne de droite"
         hide_column: "Masquer la colonne"
-        insert_columns: "Insérer des colonnes…"
+        insert_columns: "Insérer des colonnes"
         filters: "Filtres"
         display_sums: "Afficher les sommes"
         confirm_edit_cancel: "Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente."
@@ -1029,7 +1028,7 @@ fr:
         button: 'Configurer ce tableau du lot de travaux'
         choose_display_mode: 'Afficher les lots de travaux comme'
         modal_title: 'Configuration du tableau du lot de travaux'
-        embedded_tab_disabled: "Cet onglet de configuration n’est pas disponible pour la vue intégrée que vous êtes en train de modifier."
+        embedded_tab_disabled: "Cet onglet de configuration n'est pas disponible pour la vue intégrée que vous êtes en train de modifier."
         default: "défaut"
         display_settings: 'Paramètres d''affichage'
         default_mode: "Liste ombrée"
@@ -1065,26 +1064,25 @@ fr:
         relations: Relations
         watchers: Observateurs
         files: Fichiers
-        files_tab_migration_help: 'Vous pouvez maintenant joindre des fichiers aux lots de travaux via le nouvel onglet :'
       time_relative:
         days: "jours"
         weeks: "semaines"
         months: "mois"
     toolbar:
       settings:
-        configure_view: "Configurer la vue..."
-        columns: "Colonnes…"
-        sort_by: "Trier par…"
-        group_by: "Grouper par…"
+        configure_view: "Configurer la vue"
+        columns: "Colonnes"
+        sort_by: "Trier par"
+        group_by: "Grouper par"
         display_sums: "Afficher les sommes"
         display_hierarchy: "Afficher la hiérarchie"
         hide_hierarchy: "Masquer la hiérarchie"
         hide_sums: "Masquer les sommes"
         save: "Enregistrer"
-        save_as: "Enregistrer sous…"
-        export: "Exporter…"
-        visibility_settings: "Paramètres de visibilité..."
-        page_settings: "Renommer la vue..."
+        save_as: "Enregistrer sous"
+        export: "Exporter"
+        visibility_settings: "Paramètres de visibilité"
+        page_settings: "Renommer la vue"
         delete: "Supprimer"
       filter: "Filtrer"
       unselected_title: "Lot de travaux"
@@ -1261,5 +1259,5 @@ fr:
       filter_chip:
         remove: 'Supprimer'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Il s''agit d''une ancre de mise au point pour les fenêtres modales. Appuyez sur Maj+Tab pour revenir à l''élément de déclenchement modal.'
         Close: 'Fermer'

@@ -60,7 +60,7 @@ describe News::CommentsController do
 
   describe '#destroy' do
     it 'deletes the comment and redirects to the news page' do
-      comment = create :comment, commented: news
+      comment = create(:comment, commented: news)
 
       expect do
         delete :destroy, params: { id: comment.id }

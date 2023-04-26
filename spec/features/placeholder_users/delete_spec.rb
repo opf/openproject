@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'delete placeholder user', js: true do
-  shared_let(:placeholder_user) { create :placeholder_user, name: 'UX Developer' }
+  shared_let(:placeholder_user) { create(:placeholder_user, name: 'UX Developer') }
 
   shared_examples 'placeholders delete flow' do
     it 'can delete name' do
@@ -61,26 +61,26 @@ describe 'delete placeholder user', js: true do
   end
 
   context 'as admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'placeholders delete flow'
   end
 
   context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders delete flow'
   end
 
   context 'as user with global permission, but placeholder in an invisible project' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
 
-    let!(:project) { create :project }
+    let!(:project) { create(:project) }
     let!(:member) do
-      create :member,
+      create(:member,
              principal: placeholder_user,
              project:,
-             roles: [create(:role)]
+             roles: [create(:role)])
     end
 
     it 'returns an error when trying to delete and disables the button' do
@@ -98,7 +98,7 @@ describe 'delete placeholder user', js: true do
   end
 
   context 'as user without global permission' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'returns an error' do
       visit deletion_info_placeholder_user_path(placeholder_user)

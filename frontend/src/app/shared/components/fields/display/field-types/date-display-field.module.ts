@@ -61,8 +61,7 @@ export class DateDisplayField extends HighlightableDisplayField {
         .statuses
         .id(this.resource.status.id)
         .get()
-        .toPromise()
-        .then((status) => {
+        .subscribe((status) => {
           if (!status.isClosed) {
             element.classList.add(Highlighting.overdueDate(diff));
           }

@@ -45,7 +45,7 @@ describe "Reminder email", js: true do
     let(:reminders_settings_page) { Pages::My::Reminders.new(current_user) }
 
     current_user do
-      create :user
+      create(:user)
     end
 
     it_behaves_like 'reminder settings'
@@ -54,10 +54,10 @@ describe "Reminder email", js: true do
   context 'when configuring via the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
     it_behaves_like 'reminder settings'

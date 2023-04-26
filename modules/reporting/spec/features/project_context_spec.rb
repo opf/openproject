@@ -2,9 +2,9 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
 describe 'Cost report project context', js: true do
-  let(:project1) { create :project }
-  let(:project2) { create :project }
-  let(:admin) { create :admin }
+  let(:project1) { create(:project) }
+  let(:project2) { create(:project) }
+  let(:admin) { create(:admin) }
 
   let(:report_page) { Pages::CostReportPage.new project }
 

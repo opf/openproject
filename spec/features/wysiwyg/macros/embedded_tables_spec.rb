@@ -30,10 +30,10 @@ require 'spec_helper'
 
 describe 'Wysiwyg embedded work package tables',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
-  let(:type_task) { create :type_task }
-  let(:type_bug) { create :type_bug }
+  let(:type_task) { create(:type_task) }
+  let(:type_bug) { create(:type_bug) }
   let(:project) do
     create(:project, types: [type_task, type_bug], enabled_module_names: %w[wiki work_package_tracking])
   end

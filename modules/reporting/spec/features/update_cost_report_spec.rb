@@ -30,17 +30,17 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 require_relative 'support/pages/cost_report_page'
 
 describe "updating a cost report's cost type", js: true do
-  let(:project) { create :project_with_types, members: { user => create(:role) } }
+  let(:project) { create(:project_with_types, members: { user => create(:role) }) }
   let(:user) do
     create(:admin)
   end
 
   let(:cost_type) do
-    create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+    create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps')
   end
 
   let!(:cost_entry) do
-    create :cost_entry, user:, project:, cost_type:
+    create(:cost_entry, user:, project:, cost_type:)
   end
 
   let(:report_page) { Pages::CostReportPage.new project }
@@ -56,6 +56,7 @@ describe "updating a cost report's cost type", js: true do
     retry_block do
       cost_query = CostQuery.find_by!(name: 'My Query')
       raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+
       expect(page).to have_field('Labor', checked: true)
     end
 

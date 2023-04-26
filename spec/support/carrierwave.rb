@@ -33,7 +33,7 @@ module MockCarrierwave
     Fog.mock!
     Fog.credentials = credentials
 
-    CarrierWave::Configuration.configure_fog! directory: bucket, credentials: credentials
+    CarrierWave::Configuration.configure_fog!(directory: bucket, credentials:)
 
     connection = Fog::Storage.new provider: credentials[:provider]
     connection.directories.create key: bucket

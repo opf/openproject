@@ -104,13 +104,17 @@ module Users
     # Try to register a user with an existsing omniauth connection
     # bypassing regular account registration restrictions
     def register_omniauth_user
-      return if user.identity_url.blank?
+      return if skip_omniauth_user?
 
       user.activate
 
       with_saved_user_result(success_message: I18n.t(:notice_account_registered_and_logged_in)) do
         Rails.logger.info { "User #{user.login} was successfully activated after arriving from omniauth." }
       end
+    end
+
+    def skip_omniauth_user?
+      user.identity_url.blank?
     end
 
     def register_by_email_activation

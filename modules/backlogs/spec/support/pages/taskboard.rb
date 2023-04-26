@@ -70,8 +70,8 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_selector('.ui-dialog')
-      expect(page).to have_no_selector('#work_package_')
+      expect(page).not_to have_selector('.ui-dialog')
+      expect(page).not_to have_selector('#work_package_')
     end
 
     def update_task(task, attributes)
@@ -79,7 +79,7 @@ module Pages
 
       change_attributes_in_modal(attributes)
 
-      expect(page).to have_no_selector('.ui-dialog')
+      expect(page).not_to have_selector('.ui-dialog')
 
       sleep(0.5)
     end

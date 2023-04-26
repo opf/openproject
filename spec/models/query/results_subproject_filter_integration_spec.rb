@@ -40,8 +40,8 @@ describe Query::Results, 'Subproject filter integration', with_mail: false do
     Query::Results.new query
   end
 
-  shared_let(:parent_project) { create :project }
-  shared_let(:child_project) { create :project, parent: parent_project }
+  shared_let(:parent_project) { create(:project) }
+  shared_let(:child_project) { create(:project, parent: parent_project) }
 
   shared_let(:user) do
     create(:user,
@@ -51,8 +51,8 @@ describe Query::Results, 'Subproject filter integration', with_mail: false do
            member_with_permissions: [:view_work_packages])
   end
 
-  shared_let(:parent_wp) { create :work_package, project: parent_project }
-  shared_let(:child_wp) { create :work_package, project: child_project }
+  shared_let(:parent_wp) { create(:work_package, project: parent_project) }
+  shared_let(:child_wp) { create(:work_package, project: child_project) }
 
   before do
     login_as user

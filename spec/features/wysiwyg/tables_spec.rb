@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Wysiwyg tables',
          js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
@@ -317,8 +317,8 @@ describe 'Wysiwyg tables',
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) do
-        page = build :wiki_page_with_content,
-                     title: 'Wiki page with titles'
+        page = build(:wiki_page_with_content,
+                     title: 'Wiki page with titles')
         page.content.text = <<~MARKDOWN
 
           ## This is markdown!

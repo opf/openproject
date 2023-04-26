@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Relations::BaseService < ::BaseServices::BaseCallable
+class Relations::BaseService < BaseServices::BaseCallable
   include Contracted
   include Shared::ServiceContext
 
@@ -44,7 +44,7 @@ class Relations::BaseService < ::BaseServices::BaseCallable
     success, errors = validate_and_save(model, user)
     success, errors = retry_with_inverse_for_relates(model, errors) unless success
 
-    result = ServiceResult.new success: success, errors: errors, result: model
+    result = ServiceResult.new success:, errors:, result: model
 
     if success && model.follows?
       reschedule_result = reschedule(model)

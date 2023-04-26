@@ -33,8 +33,8 @@ describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder1) { create :placeholder_user, name: 'foo' }
-  shared_let(:placeholder2) { create :placeholder_user, name: 'bar' }
+  shared_let(:placeholder1) { create(:placeholder_user, name: 'foo') }
+  shared_let(:placeholder2) { create(:placeholder_user, name: 'bar') }
 
   let(:send_request) do
     get api_v3_paths.placeholder_users

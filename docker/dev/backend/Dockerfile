@@ -1,4 +1,4 @@
-FROM ruby:3.2.0-bullseye as develop
+FROM ruby:3.2.1-bullseye as develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -7,7 +7,7 @@ ARG DEV_GID=1001
 ENV USER=dev
 ENV RAILS_ENV=development
 
-ENV BUNDLER_VERSION "2.4.1"
+ENV BUNDLER_VERSION "2.4.7"
 
 # `--no-log-init` is required as a workaround to avoid disk exhaustion.
 #
@@ -29,6 +29,17 @@ RUN apt-get update -qq && \
 # as the `./scripts/api/validate_spec`.
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
+
+# Install watchexec for continuous test execution.
+# Usage:
+# - Add the following line to your ~/.bashrc ("dcrw" stands for "Docker Compose Rspec Watch"):
+# dcrw() { docker compose exec backend-test watchexec --exts rb,erb -- bin/rspec --order defined --format documentation --fail-fast $1; }
+# - and then use it like this:
+# dcrw <path-to-your-spec-file>
+RUN curl -fsSL https://apt.cli.rs/pubkey.asc | tee -a /usr/share/keyrings/rust-tools.asc
+RUN curl -fsSL https://apt.cli.rs/rust-tools.list | tee /etc/apt/sources.list.d/rust-tools.list
+RUN apt update
+RUN apt install watchexec-cli
 
 COPY ./docker/dev/backend/scripts/setup /usr/sbin/setup
 COPY ./docker/dev/backend/scripts/run-app /usr/sbin/run-app

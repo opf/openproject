@@ -44,7 +44,7 @@ module Components
       end
 
       def expect_current_project(name)
-        page.find('#projects-menu', text: name)
+        page.find_by_id('projects-menu', text: name)
       end
 
       def expect_open
@@ -52,7 +52,7 @@ module Components
       end
 
       def expect_closed
-        page.raise_if_found(autocompleter_selector)
+        expect(page).not_to have_selector(autocompleter_selector)
       end
 
       def search(query)
@@ -91,7 +91,7 @@ module Components
 
       def expect_no_result(name)
         within search_results do
-          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
+          expect(page).not_to have_selector(autocompleter_item_title_selector, text: name)
         end
       end
 

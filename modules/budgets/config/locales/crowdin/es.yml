@@ -39,6 +39,9 @@ es:
     models:
       budget: "Presupuesto"
       material_budget_item: "Unidad"
+  activity:
+    filter:
+      budget: "Presupuestos"
   attributes:
     budget: "Presupuesto"
   button_add_budget_item: "Añadir los costos previstos"

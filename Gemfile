@@ -28,8 +28,9 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 3.2.0'
+ruby '~> 3.2.1'
 
+gem 'ox'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-import', '~> 1.4.0'
@@ -69,7 +70,7 @@ gem 'addressable', '~> 2.8.0'
 gem "auto_strip_attributes", "~> 2.5"
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2022.1'
+gem 'tzinfo-data', '~> 1.2023.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -78,7 +79,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.7'
+gem 'commonmarker', '~> 0.23.9'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -105,7 +106,10 @@ gem 'email_validator', '~> 2.2.3'
 gem 'json_schemer', '~> 0.2.18'
 gem 'ruby-duration', '~> 3.2.0'
 
-gem 'mail', '>= 2.8.1'
+# `config/initializers/mail_starttls_patch.rb` has also been patched to
+# fix STARTTLS handling until https://github.com/mikel/mail/pull/1536 is
+# released.
+gem 'mail', '= 2.8.1'
 
 # provide compatible filesystem information for available storage
 gem 'sys-filesystem', '~> 1.4.0', require: false
@@ -179,7 +183,7 @@ gem 'puma', '~> 6.1'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.14.0'
+gem 'nokogiri', '~> 1.14.3'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -189,13 +193,13 @@ gem 'aws-sdk-core', '~> 3.107'
 # File upload via fog + screenshots on travis
 gem 'aws-sdk-s3', '~> 1.91'
 
-gem 'openproject-token', '~> 2.2.0'
+gem 'openproject-token', '~> 3.0.1'
 
 gem 'plaintext', '~> 0.3.2'
 
 gem 'rest-client', '~> 2.0'
 
-gem 'ruby-progressbar', '~> 1.11.0', require: false
+gem 'ruby-progressbar', '~> 1.13.0', require: false
 
 gem 'mini_magick', '~> 4.12.0', require: false
 
@@ -204,9 +208,11 @@ gem 'validate_url'
 # Appsignal integration
 gem "appsignal", "~> 3.0", require: false
 
+gem 'view_component'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
-  gem 'rack-test', '~> 2.0.0'
+  gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
   # Test prof provides factories from code
@@ -228,7 +234,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.38.0'
+  gem 'capybara', '~> 3.39.0'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'selenium-webdriver', '~> 4.0'
   gem 'webdrivers', '~> 5.2.0'
@@ -240,7 +246,7 @@ group :test do
   gem 'webmock', '~> 3.12', require: false
 
   # Mock selenium requests through proxy (for feature tests)
-  gem 'puffing-billy', '~> 3.0.0'
+  gem 'puffing-billy', '~> 3.1.0'
   gem 'table_print', '~> 1.5.6'
 
   gem 'equivalent-xml', '~> 0.6'
@@ -265,6 +271,8 @@ group :development do
   # Gems for living styleguide
   gem 'livingstyleguide', '~> 2.1.0'
   gem 'sassc-rails'
+
+  gem 'colored2'
 end
 
 group :development, :test do
@@ -297,7 +305,6 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 5.4.0'
-  gem 'danger-brakeman'
 end
 
 gem 'bootsnap', '~> 1.16.0', require: false
@@ -308,7 +315,11 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 1.1.1'
+gem 'rack-cors', '~> 2.0.0'
+
+# Gmail API
+gem 'google-apis-gmail_v1', require: false
+gem 'googleauth', require: false
 
 # Required for contracts
 gem 'disposable', '~> 0.6.2'
@@ -319,7 +330,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   # Support application loading when no database exists yet.
-  gem 'activerecord-nulldb-adapter', '~> 0.8.0'
+  gem 'activerecord-nulldb-adapter', '~> 0.9.0'
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.

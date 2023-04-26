@@ -26,11 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Moment } from 'moment';
 import {
-  HostBinding,
   Component,
+  HostBinding,
   Input,
   OnInit,
   Output,
@@ -41,6 +40,7 @@ import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { AbstractDateTimeValueController } from '../abstract-filter-date-time-value/abstract-filter-date-time-value.controller';
+import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   selector: 'op-filter-date-times-value',
@@ -70,21 +70,22 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
     super(I18n, timezoneService);
   }
 
-  public get value():(HalResource[]|string[]) {
-    return this.filter.values;
+  public get begin():string {
+    return (this.filter.values[0] || '') as string;
   }
 
-  public set value(val:(HalResource[]|string[])) {
-    this.filter.values = val.map(d => this.isoDateParser(d));
+  public set begin(val:string) {
+    this.filter.values[0] = val || '';
     this.filterChanged.emit(this.filter);
   }
 
-  public get begin() {
-    return this.filter.values[0];
+  public get end():string {
+    return (this.filter.values[1] || '') as string;
   }
 
-  public get end() {
-    return this.filter.values[1];
+  public set end(val:string) {
+    this.filter.values = [this.begin, val || ''] as string[];
+    this.filterChanged.emit(this.filter);
   }
 
   public get lowerBoundary():Moment|null {
@@ -99,5 +100,45 @@ export class FilterDateTimesValueComponent extends AbstractDateTimeValueControll
       return this.timezoneService.parseDatetime(this.end.toString());
     }
     return null;
+  }
+
+  public parseBegin(date:string|null) {
+    if (date === null || !validDate(date)) {
+      return;
+    }
+
+    if (date === '') {
+      this.begin = date;
+    } else {
+      const parsed = this
+        .timezoneService
+        .parseISODatetime(date)
+        .startOf('day')
+        .utc();
+
+      this.begin = this.timezoneService.formattedISODateTime(parsed);
+    }
+  }
+
+  public parseEnd(date:string|null) {
+    if (date === null || !validDate(date)) {
+      return;
+    }
+
+    if (date === '') {
+      this.end = date;
+    } else {
+      const parsed = this
+        .timezoneService
+        .parseISODatetime(date)
+        .endOf('day')
+        .utc();
+
+      this.end = this.timezoneService.formattedISODateTime(parsed);
+    }
+  }
+
+  public formatter(data:string[]):string[] {
+    return data.map((date) => this.isoDateFormatter(date));
   }
 }

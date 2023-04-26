@@ -35,7 +35,7 @@ describe ApplicationHelper do
   include Rails.application.routes.url_helpers
 
   describe ".format_text" do
-    let(:project) { create :valid_project }
+    let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
     let(:role) do
       create(:role, permissions: %i[
@@ -43,13 +43,13 @@ describe ApplicationHelper do
              ])
     end
     let(:project_member) do
-      create :user, member_in_project: project,
-                    member_through_role: role
+      create(:user, member_in_project: project,
+                    member_through_role: role)
     end
     let(:document) do
-      create :document,
+      create(:document,
              title: 'Test document',
-             project:
+             project:)
     end
 
     before do
@@ -94,7 +94,7 @@ describe ApplicationHelper do
     end
 
     context 'Cross-Project Document Links' do
-      let(:the_other_project) { create :valid_project }
+      let(:the_other_project) { create(:valid_project) }
 
       context "By name without project" do
         subject { format_text("document:\"#{document.title}\"", project: the_other_project) }

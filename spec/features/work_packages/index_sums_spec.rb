@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work package index sums', js: true do
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i[view_own_hourly_rate
                                        view_work_packages
@@ -38,7 +38,7 @@ RSpec.describe 'Work package index sums', js: true do
                                        view_time_entries
                                        view_cost_entries
                                        view_cost_rates
-                                       log_costs]
+                                       log_costs])
   end
   let(:project) do
     create(:project, name: 'project1', identifier: 'project1')
@@ -69,31 +69,31 @@ RSpec.describe 'Work package index sums', js: true do
     end
   end
   let!(:hourly_rate) do
-    create :default_hourly_rate,
+    create(:default_hourly_rate,
            user:,
-           rate: 10.00
+           rate: 10.00)
   end
   let!(:time_entry) do
-    create :time_entry,
+    create(:time_entry,
            user:,
            work_package: work_package_1,
            project:,
-           hours: 1.50
+           hours: 1.50)
   end
   let(:cost_type) do
-    type = create :cost_type, name: 'Translations'
-    create :cost_rate,
+    type = create(:cost_type, name: 'Translations')
+    create(:cost_rate,
            cost_type: type,
-           rate: 3.00
+           rate: 3.00)
     type
   end
   let!(:cost_entry) do
-    create :cost_entry,
+    create(:cost_entry,
            work_package: work_package_1,
            project:,
            units: 2.50,
            cost_type:,
-           user:
+           user:)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

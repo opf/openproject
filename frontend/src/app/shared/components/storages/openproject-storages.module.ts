@@ -54,6 +54,12 @@ import {
 import {
   LoadingFileListComponent,
 } from 'core-app/shared/components/storages/loading-file-list/loading-file-list.component';
+import {
+  UploadConflictModalComponent,
+} from 'core-app/shared/components/storages/upload-conflict-modal/upload-conflict-modal.component';
+import {
+  StorageInformationService,
+} from 'core-app/shared/components/storages/storage-information/storage-information.service';
 
 @NgModule({
   imports: [
@@ -71,6 +77,7 @@ import {
     StorageInformationComponent,
     StorageFileListItemComponent,
     SortFilesPipe,
+    UploadConflictModalComponent,
   ],
   exports: [
     StorageComponent,
@@ -78,6 +85,7 @@ import {
   providers: [
     SortFilesPipe,
     CookieService,
+    StorageInformationService,
   ],
 })
 export class OpenprojectStoragesModule {}

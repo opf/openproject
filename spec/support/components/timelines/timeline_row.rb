@@ -66,7 +66,7 @@ module Components
         }.each do |className, text|
           if text.nil?
             expect(container).to have_selector(".#{className}", visible: :all)
-            expect(container).to have_no_selector(".#{className}.not-empty", wait: 0)
+            expect(container).not_to have_selector(".#{className}.not-empty", wait: 0)
           else
             expect(container).to have_selector(".#{className}.not-empty", text:)
           end

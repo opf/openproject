@@ -89,7 +89,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).to have_no_selector("[data-qa-selector='project-include-list']")
+      expect(page).not_to have_selector("[data-qa-selector='project-include-list']")
     end
 
     def click_button(text)
@@ -115,7 +115,7 @@ module Components
     end
 
     def no_loading_indicator
-      expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+      expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
     end
   end
 end

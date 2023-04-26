@@ -33,7 +33,7 @@ module BecomeMember
 
   module InstanceMethods
     def become_member_with_permissions(project, user, permissions)
-      role = create :role, permissions: Array(permissions)
+      role = create(:role, permissions: Array(permissions))
 
       add_user_to_project! user:, project:, role:
     end
@@ -43,8 +43,8 @@ module BecomeMember
     end
 
     def add_user_to_project!(user:, project:, role: nil, permissions: nil)
-      role ||= create :existing_role, permissions: Array(permissions)
-      create :member, principal: user, project:, roles: [role]
+      role ||= create(:existing_role, permissions: Array(permissions))
+      create(:member, principal: user, project:, roles: [role])
     end
   end
 end

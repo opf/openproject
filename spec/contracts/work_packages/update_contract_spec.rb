@@ -30,7 +30,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 describe WorkPackages::UpdateContract do
   let(:work_package_project) do
-    build_stubbed(:project, public: false).tap do |p|
+    create(:project, public: false).tap do |p|
       allow(Project)
         .to receive(:find)
         .with(p.id)
@@ -56,7 +56,7 @@ describe WorkPackages::UpdateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:type) { build_stubbed(:type) }
+  let(:type) { create(:type) }
   let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
@@ -282,7 +282,7 @@ describe WorkPackages::UpdateContract do
 
   describe 'with children' do
     context 'changing to milestone' do
-      let(:milestone) { build_stubbed :type, is_milestone: true }
+      let(:milestone) { build_stubbed(:type, is_milestone: true) }
       let(:children) { [build_stubbed(:work_package)] }
 
       before do

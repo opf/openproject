@@ -27,12 +27,16 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, Output, ViewChild,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { trackByName } from 'core-app/shared/helpers/angular/tracking-functions';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackageFiltersService } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
@@ -40,7 +44,6 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -49,7 +52,7 @@ const ADD_FILTER_SELECT_INDEX = -1;
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './query-filters.component.html',
 })
-export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
+export class QueryFiltersComponent extends UntilDestroyedMixin implements OnChanges {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Input() public filters:QueryFilterInstanceResource[];
@@ -63,8 +66,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
 
   public remainingFilters:any[] = [];
 
-  public eeShowBanners = false;
-
   public focusElementIndex = 0;
 
   public trackByName = trackByName;
@@ -73,9 +74,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     open_filter: this.I18n.t('js.filter.description.text_open_filter'),
     label_filter_add: this.I18n.t('js.work_packages.label_filter_add'),
     close_filter: this.I18n.t('js.filter.description.text_close_filter'),
-    upsale_for_more: this.I18n.t('js.filter.upsale_for_more'),
-    upsale_link: this.I18n.t('js.filter.upsale_link'),
-    more_info_link: enterpriseDocsUrl.website,
     close_form: this.I18n.t('js.close_form_title'),
     selected_filter_list: this.I18n.t('js.label_selected_filter_list'),
     button_delete: this.I18n.t('js.button_delete'),
@@ -83,15 +81,12 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
   };
 
-  constructor(readonly wpTableFilters:WorkPackageViewFiltersService,
+  constructor(
+    readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpFiltersService:WorkPackageFiltersService,
     readonly I18n:I18nService,
-    readonly bannerService:BannersService) {
+  ) {
     super();
-  }
-
-  ngOnInit() {
-    this.eeShowBanners = this.bannerService.eeShowBanners;
   }
 
   ngOnChanges() {

@@ -39,17 +39,17 @@ describe 'Global role: Global role assignment', js: true do
       mock_global_permissions [['global1', { project_module: :global }], ['global2', { project_module: :global }]]
     end
 
-    let!(:global_role1) { create :global_role, name: 'global_role1', permissions: %i[global1] }
-    let!(:global_role2) { create :global_role, name: 'global_role2', permissions: %i[global2] }
+    let!(:global_role1) { create(:global_role, name: 'global_role1', permissions: %i[global1]) }
+    let!(:global_role2) { create(:global_role, name: 'global_role2', permissions: %i[global2]) }
 
-    let!(:user) { create :user }
+    let!(:user) { create(:user) }
     let!(:global_member) do
       create(:global_member,
              principal: user,
              roles: [global_role1])
     end
 
-    let(:current_user) { create :admin }
+    let(:current_user) { create(:admin) }
 
     it 'allows global roles management' do
       visit edit_user_path user
@@ -61,7 +61,7 @@ describe 'Global role: Global role assignment', js: true do
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should see "global_role2" within "#available_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
+        expect(page).not_to have_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
 
@@ -80,8 +80,8 @@ describe 'Global role: Global role assignment', js: true do
 
       # Then I should see "global_role" within "#table_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
-        expect(page).to have_no_text 'global_role2'
+        expect(page).not_to have_text 'global_role1'
+        expect(page).not_to have_text 'global_role2'
       end
 
       # And I delete the assigned role "global_role"
@@ -92,13 +92,13 @@ describe 'Global role: Global role assignment', js: true do
 
       # Then I should see "global_role" within "#table_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).to have_no_text 'global_role2'
+        expect(page).not_to have_text 'global_role2'
         expect(page).to have_text 'global_role1'
       end
       # And I should not see "global_role" within "#available_principal_roles"
       # And I should see "There is currently nothing to display"
       page.within('#table_principal_roles') do
-        expect(page).to have_no_text 'global_role1'
+        expect(page).not_to have_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
     end

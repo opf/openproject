@@ -4,7 +4,7 @@ require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
 describe 'activity comments', js: true, with_mail: false do
-  let(:project) { create :project, public: true }
+  let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -25,7 +25,7 @@ describe 'activity comments', js: true, with_mail: false do
   end
 
   context 'with permission' do
-    let(:current_user) { create :admin }
+    let(:current_user) { create(:admin) }
 
     before do
       wp_page.visit!
@@ -42,7 +42,7 @@ describe 'activity comments', js: true, with_mail: false do
           comment_field.click_and_type_slowly 'this is a comment'
           comment_field.submit_by_enter
 
-          expect(page).to have_no_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
         end
 
         it 'submits with click' do
@@ -95,7 +95,7 @@ describe 'activity comments', js: true, with_mail: false do
           wp_page.expect_comment text: 'this is my fifth comment!1'
 
           # Expect no activity details
-          expect(page).to have_no_selector('.work-package-details-activities-messages li')
+          expect(page).not_to have_selector('.work-package-details-activities-messages li')
         end
       end
 
@@ -108,13 +108,13 @@ describe 'activity comments', js: true, with_mail: false do
           comment_field.cancel_by_escape
           expect(comment_field.editing?).to be true
 
-          expect(page).to have_no_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
 
           # Click should cancel the editing
           comment_field.cancel_by_click
           expect(comment_field.editing?).to be false
 
-          expect(page).to have_no_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
         end
       end
 
@@ -154,7 +154,7 @@ describe 'activity comments', js: true, with_mail: false do
           wp_page.expect_comment text: 'bold text', subselector: 'strong'
 
           # Hover the new activity
-          activity = page.find('#activity-2')
+          activity = page.find_by_id('activity-2')
           page.driver.browser.action.move_to(activity.native).perform
 
           # Check the edit textarea
@@ -209,7 +209,7 @@ describe 'activity comments', js: true, with_mail: false do
         comment_field.submit_by_click
 
         # Scroll to the activity
-        scroll_to_element(page.find('#activity-2'))
+        scroll_to_element(page.find_by_id('activity-2'))
 
         wp_page.expect_comment text: 'this is a bold remark'
         wp_page.expect_comment count: 2
@@ -285,7 +285,7 @@ describe 'activity comments', js: true, with_mail: false do
 
   context 'with no permission' do
     let(:current_user) { create(:user, member_in_project: project, member_through_role: role) }
-    let(:role) { create :role, permissions: %i(view_work_packages) }
+    let(:role) { create(:role, permissions: %i(view_work_packages)) }
 
     before do
       wp_page.visit!
@@ -293,7 +293,7 @@ describe 'activity comments', js: true, with_mail: false do
     end
 
     it 'does not show the field' do
-      expect(page).to have_no_selector(selector, visible: true)
+      expect(page).not_to have_selector(selector, visible: true)
     end
   end
 end

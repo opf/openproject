@@ -45,7 +45,7 @@ module Accounts::UserLimits
 
       true
     elsif imminent_user_limit?
-      show_imminent_user_limit_warning! flash_now: flash_now
+      show_imminent_user_limit_warning!(flash_now:)
 
       true
     else

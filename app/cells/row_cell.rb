@@ -41,10 +41,6 @@ class RowCell < RailsCell
     entries.to_h
   end
 
-  def column_title(_column)
-    nil
-  end
-
   def button_links
     []
   end

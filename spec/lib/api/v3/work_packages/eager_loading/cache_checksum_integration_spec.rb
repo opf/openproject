@@ -60,7 +60,9 @@ describe API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the status id' do
-      WorkPackage.where(id: work_package.id).update_all(status_id: 0)
+      new_status = create(:status)
+
+      WorkPackage.where(id: work_package.id).update_all(status_id: new_status.id)
 
       expect(new_checksum)
         .not_to eql orig_checksum
@@ -130,7 +132,8 @@ describe API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the type id' do
-      WorkPackage.where(id: work_package.id).update_all(type_id: 0)
+      new_type = create(:type)
+      WorkPackage.where(id: work_package.id).update_all(type_id: new_type.id)
 
       expect(new_checksum)
         .not_to eql orig_checksum

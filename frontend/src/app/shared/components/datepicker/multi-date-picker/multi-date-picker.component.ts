@@ -33,7 +33,6 @@ import {
   ElementRef,
   EventEmitter,
   forwardRef,
-  HostBinding,
   Injector,
   Input,
   OnInit,
@@ -84,7 +83,7 @@ import { SpotDropModalTeleportationService } from 'core-app/spot/components/drop
 @Component({
   selector: 'op-multi-date-picker',
   templateUrl: './multi-date-picker.component.html',
-  styleUrls: ['../styles/datepicker.modal.sass', '../styles/datepicker_mobile.modal.sass'],
+  styleUrls: ['../styles/datepicker.modal.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -104,7 +103,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   @Input() name = '';
 
-  @Input() fieldName:string = '';
+  @Input() fieldName = '';
 
   @Input() value:string[] = [];
 
@@ -156,7 +155,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
     return this.text.placeholder;
   }
 
-  ignoreNonWorkingDays = false;
+  ignoreNonWorkingDays = true;
 
   currentlyActivatedDateField:DateFields;
 
@@ -216,7 +215,9 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
 
   ngOnInit():void {
     this.applyLabel = this.applyLabel || this.text.apply;
-    this.htmlId = `wp-datepicker-${this.fieldName as string}`;
+    this.htmlId = `wp-datepicker-${this.fieldName}`;
+    this.dates.start = this.value?.[0];
+    this.dates.end = this.value?.[1];
 
     this.setCurrentActivatedField(this.initialActivatedField);
   }
@@ -317,16 +318,16 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
           this.handleSingleDateUpdate(activeField, latestSelectedDateObj);
           this.cdRef.detectChanges();
         },
-        onDayCreate: (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
+        onDayCreate: async (dObj:Date[], dStr:string, fp:flatpickr.Instance, dayElem:DayElement) => {
           onDayCreate(
             dayElem,
             this.ignoreNonWorkingDays,
-            this.weekdayService.isNonWorkingDay(dayElem.dateObj),
+            await this.datePickerInstance?.isNonWorkingDay(dayElem.dateObj),
             this.isDayDisabled(dayElem, minimalDate),
           );
         },
       },
-      this.flatpickrTarget.nativeElement,
+      this.flatpickrTarget.nativeElement as HTMLElement,
     );
   }
 
@@ -477,7 +478,7 @@ export class OpMultiDatePickerComponent extends UntilDestroyedMixin implements O
   }
 
   writeValue(newValue:string[]|null):void {
-    const value = (newValue || []).map(d => this.timezoneService.formattedISODate(d));
+    const value = (newValue || []).map((d) => this.timezoneService.formattedISODate(d));
     if (value[0] === this.dates.start && value[1] === this.dates.end) {
       return;
     }

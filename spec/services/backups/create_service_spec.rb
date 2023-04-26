@@ -30,13 +30,13 @@ require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
 describe Backups::CreateService, type: :model do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:service) { described_class.new user:, backup_token: backup_token.plain_value }
-  let(:backup_token) { create :backup_token, user: }
+  let(:backup_token) { create(:backup_token, user:) }
 
   it_behaves_like 'BaseServices create service' do
     let(:instance) { service }
-    let(:backup_token) { build_stubbed :backup_token, user: }
+    let(:backup_token) { build_stubbed(:backup_token, user:) }
     let(:contract_options) { { backup_token: backup_token.plain_value } }
   end
 
@@ -65,7 +65,7 @@ describe Backups::CreateService, type: :model do
   end
 
   context "with missing permission" do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     it "does not enqueue a BackupJob" do
       expect { expect(service.call).to be_failure }.not_to have_enqueued_job(BackupJob)

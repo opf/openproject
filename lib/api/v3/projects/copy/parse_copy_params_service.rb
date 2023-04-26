@@ -41,7 +41,7 @@ module API
               target_project_params: attributes,
               attributes_only: true,
               only: meta[:only],
-              send_notifications: meta[:send_notifications] != false
+              send_notifications: meta[:send_notifications] == true
             }
           end
         end

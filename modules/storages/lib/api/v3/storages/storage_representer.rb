@@ -148,6 +148,11 @@ module API::V3::Storages
       { href: @connection_manager.get_authorization_uri, title: 'Authorize' }
     end
 
+    link :projectStorages do
+      filters = [{ storageId: { operator: "=", values: [represented.id.to_s] } }]
+      { href: api_v3_paths.path_for(:project_storages, filters:) }
+    end
+
     associated_resource :oauth_application,
                         skip_render: ->(*) { !current_user.admin? },
                         getter: ->(*) {
@@ -180,12 +185,12 @@ module API::V3::Storages
 
     private
 
-    def storage_projects_ids(model)
-      model.projects.filter { |project| user_allowed_to_manage?(project) }.map(&:id)
+    def storage_projects(storage)
+      storage.projects.merge(Project.allowed_to(current_user, :manage_file_links))
     end
 
-    def user_allowed_to_manage?(model)
-      current_user.allowed_to?(:manage_file_links, model.project)
+    def storage_projects_ids(storage)
+      storage_projects(storage).pluck(:id)
     end
 
     def authorization_state

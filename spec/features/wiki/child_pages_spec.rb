@@ -33,9 +33,9 @@ describe 'wiki child pages', js: true do
     create(:project)
   end
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:role) do
     create(:role,

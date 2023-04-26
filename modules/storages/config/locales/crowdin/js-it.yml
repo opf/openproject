@@ -15,6 +15,7 @@ it:
       choose_location: "Scegli posizione"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Alcune impostazioni %{storageType} non funzionano. Contatta l'amministratore %{storageType}.
@@ -25,18 +26,23 @@ it:
         not_logged_in: >
           Per aggiungere un link, vedere o caricare i file relativi a questo pacchetto di lavoro, accedi a %{storageType}.
       files:
-        directory_not_writeable: "Non sei autorizzato ad aggiungere file a questa cartella."
+        already_existing_header: "Questo file esiste già"
+        already_existing_body: >
+          Un file con il nome "%{fileName}" esiste già nella posizione in cui stai tentando di caricare questo file. Cosa ti piacerebbe fare?
+        directory_not_writeable: "Non hai l'autorizzazione ad aggiungere file a questa cartella."
         dragging_many_files: "Il caricamento su %{storageType} supporta soltanto un file per volta."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Questa cartella è vuota."
+        empty_folder_location_hint: "Clicca sul pulsante in basso per caricare il file in questa posizione."
         file_not_selectable_location: "Impossibile selezionare un file durante la scelta di una posizione."
+        upload_keep_both: "Mantieni entrambi"
+        upload_replace: "Sostituisci"
       file_links:
         empty: >
           Correntemente, non esiste alcun file collegato a questo pacchetto di lavoro. Inizia a collegare i file con l'azione seguente o dall'interno di %{storageType}.
         download: "Scarica %{fileName}"
         no_permission: "Non hai i permessi per accedere al file."
-        open: 'Apri file su memoria'
-        open_location: 'Apri file nella posizione'
+        open: "Apri file su memoria"
+        open_location: "Apri file nella posizione"
         remove: "Rimuovi collegamento al file"
         remove_confirmation: >
           Vuoi davvero scollegare il file da questa macro-attività? Lo scollegamento non influisce sul file originale e rimuove solo la connessione a questa macro-attività.
@@ -50,7 +56,15 @@ it:
         success_create:
           one: "1 link del file creato correttamente."
           other: "%{count} link di file creati correttamente."
-        upload_error: "Si è verificato un errore caricando il file '%{fileName}'."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+          403: >
+            Il tuo file (%{fileName}) non può essere caricato a causa di restrizioni di sistema. Per ulteriori informazioni, contatta il tuo amministratore.
+          413: >
+            Il tuo file (%{fileName}) è più grande di quello che OpenProject può caricare su %{storageType}. Puoi prima caricarlo direttamente su %{storageType} e poi collegare il file.
+          507: >
+            Il tuo file (%{fileName}) è più grande di quanto consentito dalla quota di archiviazione. Contatta il tuo amministratore per modificare questa quota.
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"

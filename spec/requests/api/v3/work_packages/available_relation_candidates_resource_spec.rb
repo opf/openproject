@@ -33,7 +33,6 @@ describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
 
   shared_let(:project1) { create(:project) }
 
-  # rubocop:disable Naming/VariableNumber
   shared_let(:wp1) { create(:work_package, project: project1, subject: "WP 1") }
 
   shared_let(:wp1_1) do
@@ -57,8 +56,6 @@ describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
   shared_let(:relation_wp2_1_to_wp2_2) do
     create(:relation, from: wp2_1, to: wp2_2, relation_type: "relates")
   end
-  # rubocop:enable Naming/VariableNumber
-
   let(:href) { "/api/v3/work_packages/#{wp1.id}/available_relation_candidates?query=WP" }
   let(:request) { get href }
   let(:result) do
@@ -145,7 +142,6 @@ describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       end
 
       describe 'with an already existing relationship from the work package' do
-        # rubocop:disable Naming/VariableNumber
         shared_let(:relation_wp2_to_wp2_2) do
           create(:relation, from: wp2, to: wp2_2, relation_type: "follows")
         end
@@ -153,8 +149,6 @@ describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
         shared_let(:relation_wp1_1_to_wp2) do
           create(:relation, from: wp1_1, to: wp2, relation_type: "follows")
         end
-        # rubocop:enable Naming/VariableNumber
-
         context 'for a follows relationship' do
           it 'does not contain the work packages already related in the opposite direction nor the parent' do
             expect(subjects).to match_array ["WP 1.2", "WP 1.2.1", "WP 2.1"]

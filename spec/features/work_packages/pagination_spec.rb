@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package pagination', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   let(:project) do
     create(:project, name: 'project1', identifier: 'project1')

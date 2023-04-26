@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'Work Package table group headers', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
-  let(:category) { create :category, project:, name: 'Foo' }
-  let(:category2) { create :category, project:, name: 'Bar' }
+  let(:category) { create(:category, project:, name: 'Foo') }
+  let(:category2) { create(:category, project:, name: 'Bar') }
 
   let!(:wp_cat1) { create(:work_package, project:, category:) }
   let!(:wp_cat2) { create(:work_package, project:, category: category2) }

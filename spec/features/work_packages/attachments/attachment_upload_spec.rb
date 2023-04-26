@@ -31,15 +31,15 @@ require 'features/page_objects/notification'
 
 describe 'Upload attachment to work package', js: true do
   let(:role) do
-    create :role,
-           permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes]
+    create(:role,
+           permissions: %i[view_work_packages add_work_packages edit_work_packages add_work_package_notes])
   end
   let(:dev) do
-    create :user,
+    create(:user,
            firstname: 'Dev',
            lastname: 'Guy',
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
@@ -78,8 +78,8 @@ describe 'Upload attachment to work package', js: true do
 
       context 'with a user that is not allowed to add images (Regression #28541)' do
         let(:role) do
-          create :role,
-                 permissions: %i[view_work_packages add_work_packages add_work_package_notes]
+          create(:role,
+                 permissions: %i[view_work_packages add_work_packages add_work_package_notes])
         end
         let(:selector) { '.work-packages--activity--add-comment' }
         let(:comment_field) do
@@ -123,7 +123,7 @@ describe 'Upload attachment to work package', js: true do
         attachments.drag_and_drop_file(target, image_fixture.path)
 
         sleep 2
-        expect(page).not_to have_selector('op-toasters-upload-progress')
+        editor.wait_until_upload_progress_toaster_cleared
 
         editor.in_editor do |_container, editable|
           expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
@@ -132,7 +132,7 @@ describe 'Upload attachment to work package', js: true do
 
         sleep 2
 
-        scroll_to_and_click find('#work-packages--edit-actions-save')
+        scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
         new_page.expect_and_dismiss_toaster(
           message: 'Successful creation.'
@@ -152,7 +152,7 @@ describe 'Upload attachment to work package', js: true do
         subject = new_page.edit_field :subject
         subject.set_value 'A second task'
 
-        scroll_to_and_click find('#work-packages--edit-actions-save')
+        scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
         new_page.expect_toast(
           message: 'Successful creation.'
@@ -191,7 +191,7 @@ describe 'Upload attachment to work package', js: true do
           attachments.drag_and_drop_file(target, image_fixture.path)
 
           sleep 2
-          expect(page).not_to have_selector('op-toasters-upload-progress')
+          editor.wait_until_upload_progress_toaster_cleared
 
           editor.in_editor do |_container, editable|
             expect(editable).to have_selector('img[src*="/api/v3/attachments/"]', wait: 20)
@@ -200,7 +200,7 @@ describe 'Upload attachment to work package', js: true do
 
           sleep 2
 
-          scroll_to_and_click find('#work-packages--edit-actions-save')
+          scroll_to_and_click find_by_id('work-packages--edit-actions-save')
 
           wp_page.expect_toast(
             message: 'Successful creation.'
@@ -253,7 +253,7 @@ describe 'Upload attachment to work package', js: true do
                                      page.find('[data-qa-tab-id="files"]')
 
       expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 10)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
+      editor.wait_until_upload_progress_toaster_cleared
       wp_page.expect_tab 'Files'
     end
 
@@ -274,15 +274,15 @@ describe 'Upload attachment to work package', js: true do
 
       ##
       # Attach file manually
-      expect(page).to have_no_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
+      expect(page).not_to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]')
       attachments.attach_file_on_input(image_fixture.path)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
+      editor.wait_until_upload_progress_toaster_cleared
       expect(page).to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', wait: 5)
 
       ##
       # and via drag & drop
       attachments.drag_and_drop_file(container, image_fixture.path)
-      expect(page).not_to have_selector('op-toasters-upload-progress')
+      editor.wait_until_upload_progress_toaster_cleared
       expect(page)
         .to have_selector('[data-qa-selector="op-files-tab--file-list-item-title"]', text: 'image.png', count: 2, wait: 5)
     end

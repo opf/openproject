@@ -9,6 +9,7 @@ ko:
         identifier: 식별자
         secret: 비밀번호
         scope: 범위
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID 공급자
     providers:
@@ -17,3 +18,6 @@ ko:
       no_results_table: 아직 정의된 공급자가 없습니다.
       plural: OpenID 공급자
       singular: OpenID 공급자
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

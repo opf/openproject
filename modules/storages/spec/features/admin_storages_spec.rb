@@ -54,16 +54,16 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
     mock_server_config_check_response("https://example.com")
-    page.find('#storages_storage_name').set("NC 1")
-    page.find('#storages_storage_host').set("https://example.com")
+    page.find_by_id('storages_storage_name').set("NC 1")
+    page.find_by_id('storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Save and continue setup").click
 
     # Show created oauth application
     storage_type = I18n.t('storages.provider_types.nextcloud.name')
     expect(page).to have_title("#{storage_type} #{I18n.t('storages.label_oauth_application_details')}")
-    oauth_app_client_id = page.find('#client_id').value
+    oauth_app_client_id = page.find_by_id('client_id').value
     expect(oauth_app_client_id.length).to eq 43
-    expect(page.find('#secret').value.length).to eq 43
+    expect(page.find_by_id('secret').value.length).to eq 43
     page.find('a.button', text: 'Done. Continue setup').click
 
     # Add OAuthClient - Testing a number of different invalid states
@@ -71,21 +71,21 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     expect(page).to have_title("OAuth client details")
 
     # Set the client_id but leave client_secret empty
-    page.find('#oauth_client_client_id').set("0123456789")
+    page.find_by_id('oauth_client_client_id').set("0123456789")
     page.find('button[type=submit]').click
     # Check that we're still on the same page
     expect(page).to have_title("OAuth client details")
 
     # Set client_id to be empty but set the client_secret
-    page.find('#oauth_client_client_id').set("")
-    page.find('#oauth_client_client_secret').set("1234567890")
+    page.find_by_id('oauth_client_client_id').set("")
+    page.find_by_id('oauth_client_client_secret').set("1234567890")
     page.find('button[type=submit]', text: 'Save').click
     # Check that we're still on the same page
     expect(page).to have_title("OAuth client details")
 
     # Both client_id and client_secret valid
-    page.find('#oauth_client_client_id').set("0123456789")
-    page.find('#oauth_client_client_secret').set("1234567890")
+    page.find_by_id('oauth_client_client_id').set("0123456789")
+    page.find_by_id('oauth_client_client_secret').set("1234567890")
     page.find('button[type=submit]', text: 'Save').click
 
     # Show details of a storage
@@ -115,8 +115,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # The form the new OAuth client shall be empty as we are creating a new one.
     expect(page).not_to have_text("234567")
 
-    page.find('#oauth_client_client_id').set("2345678901")
-    page.find('#oauth_client_client_secret').set("3456789012")
+    page.find_by_id('oauth_client_client_id').set("2345678901")
+    page.find_by_id('oauth_client_client_secret').set("3456789012")
     page.find('button[type=submit]', text: 'Replace').click
 
     # Check for client_id
@@ -126,8 +126,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # simulating server not running Nextcloud
     page.find('.button--icon.icon-edit').click
     mock_server_capabilities_response("https://other.example.com", response_code: '400')
-    page.find('#storages_storage_name').set("Other NC")
-    page.find('#storages_storage_host').set("https://other.example.com")
+    page.find_by_id('storages_storage_name').set("Other NC")
+    page.find_by_id('storages_storage_host').set("https://other.example.com")
     page.find('button[type=submit]', text: "Save").click
 
     expect(page).to have_title("Edit: Other NC")
@@ -138,8 +138,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Edit page - Check for failed Nextcloud Version
     # Test the behavior of a Nextcloud server with major version too low
     mock_server_capabilities_response("https://old.example.com", response_nextcloud_major_version: 18)
-    page.find('#storages_storage_name').set("Old NC")
-    page.find('#storages_storage_host').set("https://old.example.com")
+    page.find_by_id('storages_storage_name').set("Old NC")
+    page.find_by_id('storages_storage_host').set("https://old.example.com")
     page.find('button[type=submit]', text: "Save").click
 
     expect(page).to have_title("Edit: Old NC")
@@ -149,8 +149,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
 
     # Edit page - save working storage
     # Restore the mocked working server example.com
-    page.find('#storages_storage_host').set("https://example.com")
-    page.find('#storages_storage_name').set("Other NC")
+    page.find_by_id('storages_storage_host').set("https://example.com")
+    page.find_by_id('storages_storage_name').set("Other NC")
     page.find('button[type=submit]', text: "Save").click
 
     created_storage = Storages::Storage.find_by(name: 'Other NC')

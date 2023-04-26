@@ -31,26 +31,26 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Members widget on dashboard', js: true do
-  let!(:project) { create :project }
-  let!(:other_project) { create :project }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
 
   let!(:manager_user) do
-    create :user, lastname: "Manager", member_in_project: project, member_through_role: role
+    create(:user, lastname: "Manager", member_in_project: project, member_through_role: role)
   end
   let!(:no_edit_member_user) do
-    create :user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role
+    create(:user, lastname: "No_Edit", member_in_project: project, member_through_role: no_edit_member_role)
   end
   let!(:no_view_member_user) do
-    create :user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role
+    create(:user, lastname: "No_View", member_in_project: project, member_through_role: no_view_member_role)
   end
   let!(:placeholder_user) do
-    create :placeholder_user,
+    create(:placeholder_user,
            lastname: "Placeholder user",
            member_in_project: project,
-           member_through_role: no_view_member_role
+           member_through_role: no_view_member_role)
   end
   let!(:invisible_user) do
-    create :user, lastname: "Invisible", member_in_project: other_project, member_through_role: role
+    create(:user, lastname: "Invisible", member_in_project: other_project, member_through_role: role)
   end
 
   let(:no_view_member_role) do
@@ -126,7 +126,7 @@ describe 'Members widget on dashboard', js: true do
 
     within members_area.area do
       expect(page)
-        .to have_no_link('Member')
+        .not_to have_link('Member')
     end
 
     # A user without view permission will not see any members
@@ -144,10 +144,10 @@ describe 'Members widget on dashboard', js: true do
         .to have_content('No visible members')
 
       expect(page)
-        .to have_no_link('Member')
+        .not_to have_link('Member')
 
       expect(page)
-        .to have_no_link('View all members')
+        .not_to have_link('View all members')
     end
   end
 end

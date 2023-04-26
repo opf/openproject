@@ -31,16 +31,16 @@ require 'spec_helper'
 require_relative '../support/pages/dashboard'
 
 describe 'Documents widget on dashboard', js: true do
-  let!(:project) { create :project }
-  let!(:other_project) { create :project }
+  let!(:project) { create(:project) }
+  let!(:other_project) { create(:project) }
   let!(:visible_document) do
-    create :document,
+    create(:document,
            project:,
-           description: 'blubs'
+           description: 'blubs')
   end
   let!(:invisible_document) do
-    create :document,
-           project: other_project
+    create(:document,
+           project: other_project)
   end
   let(:role) do
     create(:role,

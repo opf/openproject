@@ -26,21 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import {
-  input,
-  State,
-} from 'reactivestates';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { input, State } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
-import { UploadInProgress } from 'core-app/core/file-upload/op-file-upload.service';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
+
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 import {
   IHalErrorBase,
   IHalMultipleError,
   isHalError,
 } from 'core-app/features/hal/resources/error-resource';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export function removeSuccessFlashMessages():void {
   jQuery('.flash.notice').remove();
@@ -65,11 +64,10 @@ export class ToastService {
     readonly configurationService:ConfigurationService,
     readonly I18n:I18nService,
   ) {
-    jQuery(window)
-      .on(OPToastEvent,
-        (event:JQuery.TriggeredEvent, toast:IToast) => {
-          this.add(toast);
-        });
+    jQuery(window).on(
+      OPToastEvent,
+      (event:JQuery.TriggeredEvent, toast:IToast) => { this.add(toast); },
+    );
   }
 
   /**
@@ -142,8 +140,24 @@ export class ToastService {
     return this.add(this.createToast(message, 'info'));
   }
 
-  public addAttachmentUpload(message:IToast|string, uploads:UploadInProgress[]):IToast {
-    return this.add(this.createAttachmentUploadToast(message, uploads));
+  public addUpload(message:string, uploads:[File, Observable<HttpEvent<unknown>>][]):IToast {
+    if (!uploads.length) {
+      throw new Error('Cannot create an upload toast without uploads!');
+    }
+
+    const notification = this.add({
+      data: uploads,
+      type: 'upload',
+      message,
+    });
+
+    waitForUploadsFinished(uploads.map((o) => o[1]))
+      .pipe(take(1))
+      .subscribe(() => {
+        setTimeout(() => this.remove(notification), 700);
+      });
+
+    return notification;
   }
 
   public addLoading(observable:Observable<unknown>):IToast {
@@ -170,17 +184,6 @@ export class ToastService {
         link: toast.link,
         data: toast.data,
       };
-  }
-
-  private createAttachmentUploadToast(message:IToast|string, uploads:UploadInProgress[]) {
-    if (!uploads.length) {
-      throw new Error('Cannot create an upload toast without uploads!');
-    }
-
-    const toast = this.createToast(message, 'upload');
-    toast.data = uploads;
-
-    return toast;
   }
 
   private createLoadingToast(message:IToast|string, observable:Observable<unknown>) {

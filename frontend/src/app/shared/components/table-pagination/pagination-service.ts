@@ -82,10 +82,6 @@ export class PaginationService {
     return this.paginationOptions;
   }
 
-  public get isPerPageKnown() {
-    return !!(this.localStoragePerPage || this.paginationOptions);
-  }
-
   public getPerPage() {
     return this.localStoragePerPage || this.paginationOptions.perPage;
   }
@@ -111,16 +107,12 @@ export class PaginationService {
     this.paginationOptions.perPageOptions = perPageOptions;
   }
 
-  public loadPaginationOptions() {
-    return this.configuration.initialized.then(() => {
-      this.paginationOptions = {
-        perPage: this.getCachedPerPage(this.configuration.perPageOptions),
-        perPageOptions: this.configuration.perPageOptions,
-        maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
-        optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize,
-      };
-
-      return this.paginationOptions;
-    });
+  private loadPaginationOptions():void {
+    this.paginationOptions = {
+      perPage: this.getCachedPerPage(this.configuration.perPageOptions),
+      perPageOptions: this.configuration.perPageOptions,
+      maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
+      optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize,
+    };
   }
 }

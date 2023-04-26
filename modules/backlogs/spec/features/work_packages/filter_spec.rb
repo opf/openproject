@@ -43,8 +43,8 @@ describe 'Filter by backlog type', js: true do
     type
   end
 
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }

@@ -190,5 +190,22 @@ describe UpdateQueryFromParamsService,
         end
       end
     end
+
+    context "when providing timestamps" do
+      let(:timestamps) do
+        [
+          Timestamp.parse("2022-10-29T23:01:23Z"),
+          Timestamp.parse("oneWeekAgo@12:00"),
+          Timestamp.parse("PT0S")
+        ]
+      end
+      let(:params) { { timestamps: } }
+
+      it 'sets the timestamps' do
+        subject
+
+        expect(query.timestamps).to eq timestamps
+      end
+    end
   end
 end

@@ -35,25 +35,27 @@ module API
         end
 
         class << self
-          def wrap(ids_in_order, current_user)
+          attr_accessor :timestamps, :query
+
+          def wrap(ids_in_order, current_user, timestamps: nil, query: nil)
             work_packages = add_eager_loading(WorkPackage.where(id: ids_in_order), current_user).to_a
 
-            wrap_and_apply(work_packages, eager_loader_classes_all)
+            wrap_and_apply(work_packages, eager_loader_classes_all, timestamps:, query:)
               .sort_by { |wp| ids_in_order.index(wp.id) }
           end
 
-          def wrap_one(work_package, _current_user)
+          def wrap_one(work_package, _current_user, timestamps: nil, query: nil)
             return work_package if work_package.respond_to?(:wrapped?)
 
-            wrap_and_apply([work_package], eager_loader_classes_all)
+            wrap_and_apply([work_package], eager_loader_classes_all, timestamps:, query:)
               .first
           end
 
           private
 
-          def wrap_and_apply(work_packages, container_classes)
+          def wrap_and_apply(work_packages, container_classes, timestamps:, query:)
             containers = container_classes
-                         .map { |klass| klass.new(work_packages) }
+                         .map { |klass| klass.new(work_packages, timestamps:, query:) }
 
             work_packages = work_packages.map do |work_package|
               new(work_package)
@@ -70,6 +72,7 @@ module API
 
           def eager_loader_classes_all
             [
+              ::API::V3::WorkPackages::EagerLoading::HistoricAttributes,
               ::API::V3::WorkPackages::EagerLoading::Hierarchy,
               ::API::V3::WorkPackages::EagerLoading::Ancestor,
               ::API::V3::WorkPackages::EagerLoading::Project,

@@ -50,7 +50,7 @@ describe API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
            author:,
            responsible:)
   end
-  let(:project) { create :project, types: [create(:type, is_milestone:)] }
+  let(:project) { create(:project, types: [create(:type, is_milestone:)]) }
   let(:is_milestone) { false }
   let(:assignee) { nil }
   let(:author) { create(:user) }

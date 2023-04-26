@@ -58,7 +58,7 @@ module BasicData
           color_id: colors.fetch(color_name),
           is_in_roadmap:,
           is_milestone:,
-          description: type_description(type_name)
+          description: ''
         }
       end
     end
@@ -71,38 +71,28 @@ module BasicData
       raise NotImplementedError
     end
 
-    def type_description(type_name)
-      return '' if demo_data_for('type_configuration').nil?
-
-      demo_data_for('type_configuration').each do |entry|
-        if entry[:type] && I18n.t(entry[:type]) === I18n.t(type_name)
-          return entry[:description] || ''
-        else
-          return ''
-        end
-      end
-    end
-
     def set_attribute_groups_for_type(type)
-      return if demo_data_for('type_configuration').nil?
+      type_data = type_data_for(type)
+      return unless type_data && type_data['form_configuration']
 
-      demo_data_for('type_configuration').each do |entry|
-        if entry[:form_configuration] && I18n.t(entry[:type]) === type.name
+      type_data['form_configuration'].each do |form_config_attr|
+        groups = type.default_attribute_groups
+        query = find_query_by_name(form_config_attr['query_name'])
+        query_association = "query_#{query}"
+        groups.unshift([form_config_attr['group_name'], [query_association.to_sym]])
 
-          entry[:form_configuration].each do |form_config_attr|
-            groups = type.default_attribute_groups
-            query_association = 'query_' + find_query_by_name(form_config_attr[:query_name]).to_s
-            groups.unshift([form_config_attr[:group_name], [query_association.to_sym]])
-
-            type.attribute_groups = groups
-          end
-
-          type.save!
-        end
+        type.attribute_groups = groups
       end
+
+      type.save!
     end
 
     private
+
+    def type_data_for(type)
+      types_data = seed_data.lookup('type_configuration') || []
+      types_data.find { |entry| I18n.t(entry['type']) == type.name }
+    end
 
     def find_query_by_name(name)
       Query.find_by(name:).id

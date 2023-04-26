@@ -32,13 +32,9 @@ describe "POST /api/v3/queries/form" do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
-  shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project_with_types) }
-
   let(:parameters) { {} }
   let(:override_params) { {} }
   let(:form) { JSON.parse last_response.body }
-
   let(:static_columns_json) do
     %w(id project assignee author
        category createdAt dueDate estimatedTime
@@ -51,7 +47,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:custom_field_columns_json) do
     [
       {
@@ -60,7 +55,6 @@ describe "POST /api/v3/queries/form" do
       }
     ]
   end
-
   let(:relation_to_type_columns_json) do
     project.types.map do |type|
       {
@@ -69,7 +63,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:relation_of_type_columns_json) do
     Relation::TYPES.map do |_, value|
       {
@@ -78,7 +71,6 @@ describe "POST /api/v3/queries/form" do
       }
     end
   end
-
   let(:non_project_type_relation_column_json) do
     [
       {
@@ -87,13 +79,15 @@ describe "POST /api/v3/queries/form" do
       }
     ]
   end
-
   let(:additional_setup) {}
   let(:perform_request) do
     ->(*) {
       post path, parameters.merge(override_params).to_json
     }
   end
+
+  shared_let(:user) { create(:admin) }
+  shared_let(:project) { create(:project_with_types) }
 
   before do
     login_as(user)
@@ -331,7 +325,8 @@ describe "POST /api/v3/queries/form" do
   end
 
   describe 'with all parameters given' do
-    let(:status) { create :status }
+    let(:status) { create(:status) }
+    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
 
     let(:parameters) do
       {
@@ -339,6 +334,7 @@ describe "POST /api/v3/queries/form" do
         public: true,
         sums: true,
         showHierarchies: false,
+        timestamps:,
         filters: [
           {
             name: "Status",
@@ -455,6 +451,18 @@ describe "POST /api/v3/queries/form" do
       expect(form.dig("_embedded", "payload", "_links", "sortBy")).to eq sort_by
     end
 
+    it 'has the timestamps set' do
+      expect(form.dig("_embedded", "payload", "timestamps")).to eq timestamps
+    end
+
+    context 'with one timestamp is present only' do
+      let(:timestamps) { "PT0S" }
+
+      it 'has the timestamp set' do
+        expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+      end
+    end
+
     context "with the project referred to by its identifier" do
       let(:override_params) do
         links = parameters[:_links]
@@ -474,7 +482,7 @@ describe "POST /api/v3/queries/form" do
     end
 
     context "with groupBy specified as a GET parameter" do
-      let(:path) { api_v3_paths.create_query_form + "?groupBy=author" }
+      let(:path) { "#{api_v3_paths.create_query_form}?groupBy=author" }
       let(:override_params) do
         links = parameters[:_links]
 
@@ -555,8 +563,54 @@ describe "POST /api/v3/queries/form" do
       end
     end
 
+    context 'with invalid timestamps' do
+      context 'when one timestamp cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid"
+        end
+      end
+
+      context 'when one timestamp cannot be parsed (malformed)' do
+        let(:override_params) do
+          { timestamps: ['2022-03-02 invalid string 20:45:56Z', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: 2022-03-02 invalid string 20:45:56Z"
+        end
+      end
+
+      context 'when one timestamp cannot be parsed (malformed)#2' do
+        let(:override_params) do
+          { timestamps: ['LastWorkingDayInvalid@12:00', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: LastWorkingDayInvalid@12:00"
+        end
+      end
+
+      context 'when both timestamps cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'invalid2'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid, invalid2"
+        end
+      end
+    end
+
     context "with an unauthorized user trying to set the query public" do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       it "rejects the request" do
         expect(form.dig("_embedded", "validationErrors", "public", "message"))

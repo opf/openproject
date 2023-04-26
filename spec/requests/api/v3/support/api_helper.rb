@@ -31,7 +31,7 @@ shared_examples_for 'safeguarded API' do
 end
 
 shared_examples_for 'valid activity request' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:status_code) { 200 }
 
   before do
@@ -50,7 +50,7 @@ shared_examples_for 'valid activity request' do
 end
 
 shared_examples_for 'invalid activity request' do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
   before do
     allow(User).to receive(:current).and_return(admin)

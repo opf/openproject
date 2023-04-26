@@ -26,8 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { MultiInputState, State } from 'reactivestates';
-import { Observable } from 'rxjs';
+import { MultiInputState, State } from '@openproject/reactivestates';
+import {
+  firstValueFrom,
+  Observable,
+} from 'rxjs';
 import {
   auditTime, map, share, startWith, take,
 } from 'rxjs/operators';
@@ -77,7 +80,7 @@ export class StateCacheService<T> {
 
     this
       .multiState.get(id)
-      .clearAndPutFromPromise(observable.toPromise());
+      .clearAndPutFromPromise(firstValueFrom(observable));
 
     return observable;
   }

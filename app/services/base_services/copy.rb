@@ -92,12 +92,6 @@ module BaseServices
     protected
 
     ##
-    # Disabling sending regular notifications
-    def service_context(*_args, &)
-      in_context(model, false, &)
-    end
-
-    ##
     # Should the dependency be skipped for this service run?
     def skip_dependency?(_params, _dependency_cls)
       false

@@ -37,13 +37,13 @@ describe DemoData::WorkPackageSeeder do
       BasicData::ColorSchemeSeeder,
 
       # Status records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::StatusSeeder,
+      Standard::BasicData::StatusSeeder,
 
       # Type records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::TypeSeeder,
+      Standard::BasicData::TypeSeeder,
 
       # IssuePriority records needed by WorkPackageSeeder
-      StandardSeeder::BasicData::PrioritySeeder,
+      Standard::BasicData::PrioritySeeder,
 
       # User admin needed by WorkPackageSeeder
       AdminUserSeeder
@@ -60,20 +60,13 @@ describe DemoData::WorkPackageSeeder do
       subject: "Some subject",
       status: "default_status_new",
       type: "default_type_task"
-    }.merge(attributes)
+    }.merge(attributes).deep_stringify_keys
   end
 
   before do
-    work_package_seeder = described_class.new(project, "dummy-project")
-    allow(work_package_seeder)
-      .to receive(:project_data_for).with('dummy-project', 'work_packages')
-          .and_return(work_packages_data)
+    seed_data = SeedData.new('work_packages' => work_packages_data)
+    work_package_seeder = described_class.new(project, seed_data)
     work_package_seeder.seed!
-  end
-
-  # available for debugging purposes, to see what real world data looks like
-  def real_work_package_data
-    seeder.send(:translate_with_base_url, "seeders.standard.demo_data.projects.demo-project.work_packages")
   end
 
   context 'with work package data with start: 0' do

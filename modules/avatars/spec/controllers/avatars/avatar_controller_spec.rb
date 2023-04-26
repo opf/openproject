@@ -21,7 +21,7 @@ describe Avatars::AvatarController do
     end
 
     describe 'when logged in' do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       before do
         login_as user

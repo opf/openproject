@@ -40,11 +40,6 @@ module I18nLazyLoading
       I18nLazyLoading.load_locale(locale)
       super
     end
-
-    def ll(lang, _str, _value = nil)
-      I18nLazyLoading.load_locale(lang)
-      super
-    end
   end
 
   # Load additional locales when calling:

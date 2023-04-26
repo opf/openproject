@@ -22,7 +22,14 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
 
   def create_alertable(**attributes)
     attributes = attributes.reverse_merge(assigned_to: user, project:)
-    create(:work_package, **attributes)
+    work_package = create(:work_package, **attributes)
+
+    # TimeCop sets the current time to 1:04h below. To be compatible to historic searches,
+    # we need to pretend that the journal records have been created before that time.
+    # https://github.com/opf/openproject/pull/11678#issuecomment-1328011996
+    #
+    work_package.journals.update_all created_at: Time.zone.now.change(hour: 0, minute: 0)
+    work_package
   end
 
   # notification will be created by the job because `overdue: 1` in user notifications settings
@@ -170,6 +177,7 @@ describe "Notification center date alerts", js: true, with_settings: { journal_a
                                    .new([timezone_time('1:00', time_zone)])
     travel_to(timezone_time('1:04', time_zone))
     create_date_alerts_service.call
+    travel_back
   end
 
   before do

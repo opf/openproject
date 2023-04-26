@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::CreateService < ::BaseServices::Create; end
+class Queries::CreateService < BaseServices::Create; end

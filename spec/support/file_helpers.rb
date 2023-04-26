@@ -34,7 +34,7 @@ module FileHelpers
                          content: 'test content',
                          binary: false)
 
-    tmp = ::OpenProject::Files.create_temp_file name: name, content: content, binary: binary
+    tmp = ::OpenProject::Files.create_temp_file(name:, content:, binary:)
     Rack::Test::UploadedFile.new tmp.path, content_type, binary
   end
 end

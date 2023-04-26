@@ -37,6 +37,9 @@ ca:
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Acta"
+  activity:
+    filter:
+      meeting: "Reunions"
   description_attended: "hi vaig assistir"
   description_invite: "convidat"
   events:
@@ -82,7 +85,7 @@ ca:
   text_duration_in_hours: "Duració en hores"
   text_in_hours: "en hores"
   text_meeting_agenda_for_meeting: 'agenda per la reunió "%{meeting}"'
-  text_meeting_closing_are_you_sure: "Segur que vols tancar aquesta reunió?"
+  text_meeting_closing_are_you_sure: "Segur que vols tancar aquesta agenda?"
   text_meeting_agenda_open_are_you_sure: "Això sobreescriurà tots els canvis a l'acte! Vols continuar?"
   text_meeting_minutes_for_meeting: 'actes per la reunió "%{meeting}"'
   text_review_meeting_agenda: "%{author} ha afegit el %{link} per a revisió."

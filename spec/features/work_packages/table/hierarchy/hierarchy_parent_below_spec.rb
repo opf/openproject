@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy parent below', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
   let(:project) { create(:project, types: [type_task, type_bug]) }
@@ -162,7 +162,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-icon')
     end
   end
 end

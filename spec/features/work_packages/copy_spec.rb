@@ -128,7 +128,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     work_package_page.visit_tab! :relations
     expect_angular_frontend_initialized
     expect(page).to have_selector('.relation-group--header', text: 'RELATED TO', wait: 20)
-    expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
+    expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']", text: original_work_package.subject)
   end
 
   describe 'when source work package has an attachment' do
@@ -141,7 +141,7 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
       find('#action-show-more-dropdown-menu .button').click
       find('.menu-item', text: 'Copy', exact_text: true).click
 
-      to_copy_work_package_page = Pages::FullWorkPackageCreate.new original_work_package: original_work_package
+      to_copy_work_package_page = Pages::FullWorkPackageCreate.new(original_work_package:)
       to_copy_work_package_page.update_attributes Description: 'Copied WP Description'
       to_copy_work_package_page.save!
 
@@ -181,6 +181,6 @@ RSpec.describe 'Work package copy', js: true, selenium: true do
     work_package_page.visit_tab!('relations')
     expect_angular_frontend_initialized
     expect(page).to have_selector('.relation-group--header', text: 'RELATED TO', wait: 20)
-    expect(page).to have_selector('.wp-relations--subject-field', text: original_work_package.subject)
+    expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']", text: original_work_package.subject)
   end
 end

@@ -30,9 +30,9 @@ require 'spec_helper'
 
 describe 'Meeting search', js: true do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:user) { create(:user, member_in_project: project, member_through_role: role) }
-  let(:role) { create :role, permissions: %i(view_meetings view_work_packages) }
+  let(:role) { create(:role, permissions: %i(view_meetings view_work_packages)) }
 
   let!(:meeting) { create(:meeting, project:) }
 
@@ -50,7 +50,7 @@ describe 'Meeting search', js: true do
                           wait_dropdown_open: false)
 
       page.find('[data-qa-tab-id="meetings"]').click
-      expect(page.find('#search-results')).to have_text(meeting.title)
+      expect(page.find_by_id('search-results')).to have_text(meeting.title)
     end
   end
 end

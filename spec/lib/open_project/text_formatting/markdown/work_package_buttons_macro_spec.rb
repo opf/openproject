@@ -32,11 +32,11 @@ require_relative './expected_markdown'
 describe OpenProject::TextFormatting,
          'work package button macro' do
   include_context 'expected markdown modules'
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
 
-  let(:type) { create :type, name: 'MyTaskName' }
+  let(:type) { create(:type, name: 'MyTaskName') }
   let(:options) { { project: } }
-  let(:project) { create :valid_project, identifier: 'my-project', name: 'My project name', types: [type] }
+  let(:project) { create(:valid_project, identifier: 'my-project', name: 'My project name', types: [type]) }
 
   before do
     login_as admin

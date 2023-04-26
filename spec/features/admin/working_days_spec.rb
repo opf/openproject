@@ -189,6 +189,10 @@ describe 'Working Days', js: true do
     it 'can add non-working days' do
       click_on 'Non-working day'
 
+      # Check if a date is correctly highlighted after selecting it in different time zones
+      datepicker.select_day 5
+      datepicker.expect_day '5'
+
       # It can cancel and reopen
       page.within('[data-qa-selector="op-datepicker-modal"]') do
         click_on 'Cancel'
@@ -199,7 +203,7 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'My holiday'
       end
 
-      date1 = Time.zone.today.next_week.next_occurring(:monday)
+      date1 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:monday)
       datepicker.set_date date1
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do
@@ -215,7 +219,7 @@ describe 'Working Days', js: true do
         fill_in 'name', with: 'Another important day'
       end
 
-      date2 = Time.zone.today.next_week.next_occurring(:tuesday)
+      date2 = NonWorkingDay.maximum(:date).next_week(:monday).next_occurring(:tuesday)
       datepicker.set_date date2
 
       page.within('[data-qa-selector="op-datepicker-modal"]') do

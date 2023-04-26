@@ -15,15 +15,15 @@
   width: 40rem
 
   max-width: calc(100vw - 2rem)
-  max-height: calc(100vh - 2rem)
+  max-height: calc(#{var(--app-height)} - 2rem)
 
   @media #{$spot-mq-mobile}
     width: calc(100vw - 2rem)
-    max-height: calc(100vh - 5rem)
+    max-height: calc(#{var(--app-height)} - 5rem)
     overflow-y: auto
 
     @media (max-height: 480px)
-      max-height: calc(100vh - 2rem)
+      max-height: calc(#{var(--app-height)} - 2rem)
       max-width: calc(100vw - 6rem)
 
   &_wide
@@ -77,5 +77,5 @@
       outline-style: none
 
   &--cancel-button
-    @media #{$spot-mq-mobile}
+    @media #{$spot-mq-drop-modal-full-screen}
       display: none

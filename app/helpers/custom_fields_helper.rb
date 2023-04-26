@@ -78,7 +78,7 @@ module CustomFieldsHelper
 
     tag = case field_format.try(:edit_as)
           when 'date'
-            angular_component_tag 'op-single-date-picker',
+            angular_component_tag 'op-basic-single-date-picker',
                                   inputs: {
                                     required: custom_field.is_required,
                                     value: custom_value.value,
@@ -155,10 +155,10 @@ module CustomFieldsHelper
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
     case field_format.try(:edit_as)
     when 'date'
-      angular_component_tag 'op-single-date-picker',
+      angular_component_tag 'op-modal-single-date-picker',
                             inputs: {
                               id: field_id,
-                              name: field_name,
+                              name: field_name
                             }
     when 'text'
       styled_text_area_tag(field_name, '', id: field_id, rows: 3, with_text_formatting: true)

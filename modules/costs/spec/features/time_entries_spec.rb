@@ -80,12 +80,11 @@ describe 'Work Package table cost entries', js: true do
   it 'creates an activity' do
     visit project_activities_path project
 
-    # Activate budget filter
+    # Activate the spent time filter
     check('Spent time')
-    check('Budgets')
     click_on 'Apply'
 
-    expect(page).to have_selector('.op-project-activity-list--item-title', text: '10.00 hours')
-    expect(page).to have_selector('.op-project-activity-list--item-title', text: '2.50 hours')
+    expect(page).to have_selector('.op-activity-list--item-title', text: '10.00 hours')
+    expect(page).to have_selector('.op-activity-list--item-title', text: '2.50 hours')
   end
 end

@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'set'
-
 class Report::GroupBy
   include Report::QueryUtils
 

@@ -2,6 +2,12 @@
 ko:
   bim:
     label_bim: 'BIM'
+    default_type_clash: Clash
+    default_type_issue: Issue
+    default_type_remark: Remark
+    default_type_request: Request
+    default_status_resolved: Resolved
+    default_priority_critical: Critical
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'BCF 항목 가져오기 실패'
@@ -131,4 +137,3 @@ ko:
   extraction:
     available:
       ifc_convert: "IFC 변환 파이프라인 사용 가능"
-

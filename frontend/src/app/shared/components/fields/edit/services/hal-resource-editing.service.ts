@@ -28,7 +28,7 @@
 
 import {
   combine, deriveRaw, InputState, multiInput, State, StatesGroup,
-} from 'reactivestates';
+} from '@openproject/reactivestates';
 import { filter, map } from 'rxjs/operators';
 import { Injectable, Injector } from '@angular/core';
 import { Subject } from 'rxjs';

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class API::V3::FileLinks::FileLinksDownloadAPI < ::API::OpenProjectAPI
+class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   using Storages::Peripherals::ServiceResultRefinements
   helpers Storages::Peripherals::StorageUrlHelper, Storages::Peripherals::StorageErrorHelper
 

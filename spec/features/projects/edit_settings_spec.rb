@@ -46,8 +46,8 @@ describe 'Projects', 'editing settings', js: true do
   it 'hides the field whose functionality is presented otherwise' do
     visit project_settings_general_path(project.id)
 
-    expect(page).to have_no_text :all, 'Active'
-    expect(page).to have_no_text :all, 'Identifier'
+    expect(page).not_to have_text :all, 'Active'
+    expect(page).not_to have_text :all, 'Identifier'
   end
 
   describe 'identifier edit', js: false do
@@ -165,7 +165,7 @@ describe 'Projects', 'editing settings', js: true do
       visit project_settings_general_path(project.id)
 
       form_field.set_value '2021-05-26'
-      form_field.send_keys :escape
+      form_field.send_keys :enter
 
       click_on 'Save'
 

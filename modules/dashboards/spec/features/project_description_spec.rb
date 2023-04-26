@@ -33,7 +33,7 @@ require_relative '../support/pages/dashboard'
 describe 'Project description widget on dashboard', js: true do
   let(:project_description) { "Some text I like to write" }
   let!(:project) do
-    create :project, description: project_description
+    create(:project, description: project_description)
   end
 
   let(:read_only_permissions) do
@@ -118,9 +118,9 @@ describe 'Project description widget on dashboard', js: true do
   end
 
   context 'with editing and wp add permissions' do
-    let!(:type) { create :type_task, name: 'Task' }
+    let!(:type) { create(:type_task, name: 'Task') }
     let!(:project) do
-      create :project, types: [type]
+      create(:project, types: [type])
     end
 
     let(:current_user) do

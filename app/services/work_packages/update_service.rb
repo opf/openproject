@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::UpdateService < ::BaseServices::Update
+class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
   include Attachments::ReplaceAttachments
 

@@ -236,13 +236,13 @@ cs:
             high_security_text: "Single sign on (SAML, OpenID Connect, CAS), LDAP groups."
             installation: "Instalační podpora"
             installation_text: "Zkušení softwaroví inženýři vás povedou kompletní instalací a instalací ve vaší vlastní infrastruktuře."
-            premium_features: "Enterprise add-ons"
+            premium_features: "Doplňky Enterprise Edice"
             premium_features_text: "Agile desky, vlastní téma a logo, grafy, inteligentní pracovní postupy s vlastními akcemi, fulltextové vyhledávání příloh pracovního balíčku a vícenásobný výběr vlastních polí."
             professional_support: "Profesionální podpora"
             professional_support_text: "Získejte spolehlivou, vysoce profesionální podporu od seniorních podpůrných inženýrů s odbornými znalostmi o používání OpenProject."
           button_start_trial: "Zahájit zkušební verzi zdarma"
           button_upgrade: "Upgradovat nyní"
-          button_contact_us: "Contact us for a demo"
+          button_contact_us: "Kontaktujte nás pro demo"
           button_book_now: "Rezervujte nyní"
           confidence: >
             Doručujeme testovaný a podporovaný software pro řízení projetků - s Open Source a otevřenou myslí.
@@ -254,17 +254,18 @@ cs:
           you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
+          empty_state_header: "Nepracovní dny"
+          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          new_date: '(nové)'
+        add_non_working_day: "Nepracovní den"
         already_added_error: "Nepracovní den pro toto datum již existuje. Pro každý jedinečný datum může být vytvořen pouze jeden nepracovní den."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
+        change_button: "Uložit a přeplánovat"
+        change_title: "Změnit pracovní dny"
         removed_title: "You will remove the following days from the non-working days list:"
         change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated.
+          Are you sure you want to continue?
     custom_actions:
       date:
         specific: 'zapnuto'
@@ -293,8 +294,6 @@ cs:
           one: "První kritérium třídění"
           two: "Druhé kritérium třídění"
           three: "Třetí kritérium třídění"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -409,7 +408,7 @@ cs:
     label_no_data: "Žádná data k zobrazení"
     label_no_due_date: "žádné datum dokončení"
     label_no_start_date: "žádné datum začátku"
-    label_no_date: "no date"
+    label_no_date: "žádné datum"
     label_no_value: "Žádná hodnota"
     label_none: "žádný"
     label_not_contains: "neobsahuje"
@@ -474,7 +473,7 @@ cs:
     label_watch_work_package: "Sledovat pracovní balíček"
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
-    label_work_package_details_you_are_here: "Jste na kartě %{tab} pro %{type} %{subject}."
+    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -487,7 +486,7 @@ cs:
     label_drop_files: "Drop files here to attach files."
     label_drop_or_click_files: "Drop files here or click to attach files."
     label_drop_folders_hint: Není možné použít složku jako přílohu. Prosím vyberte jednotlivé soubory.
-    label_add_attachments: "Attach files"
+    label_add_attachments: "Připojit soubory"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."
     label_remove_file: "Odstranit %{fileName}"
     label_remove_watcher: "Odstranit pozorovatele %{name}"
@@ -550,8 +549,8 @@ cs:
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
         mentioned: 'zmíněn'
-        watched: 'watcher'
-        assigned: 'assignee'
+        watched: 'pozorovatel'
+        assigned: 'Řešitel'
         responsible: 'Odpovědný'
         created: 'Vytvořeno'
         scheduled: 'Naplánováno'
@@ -560,13 +559,13 @@ cs:
         prioritized: 'upřednostněno'
         dateAlert: 'Date alert'
       date_alerts:
-        milestone_date: 'Milestone date'
-        overdue: 'Overdue'
-        overdue_since: 'since %{difference_in_days}'
-        property_today: 'is today'
+        milestone_date: 'Datum milníku'
+        overdue: 'Po termínu'
+        overdue_since: 'od %{difference_in_days}'
+        property_today: 'je dnes'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_is_deleted: 'byl smazán'
         upsale:
           title: 'Date alerts'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -576,7 +575,7 @@ cs:
         all: 'Vše'
         all_title: 'Zobrazit vše'
       center:
-        label_actor_and: 'and'
+        label_actor_and: 'a'
         and_more_users:
           one: 'a 1 další'
           few: 'a %{count} dalšich'
@@ -590,9 +589,9 @@ cs:
         text_update_date: "%{date} od"
         total_count_warning: "Zobrazení posledních oznámení %{newest_count} . Nezobrazuje se ještě %{more_count}"
         empty_state:
-          no_notification: "Vypadá to, že jste všechno dohnali..."
-          no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
-          no_notification_with_current_filter: "Looks like you're all caught up for %{filter} filter."
+          no_notification: "Looks like you are all caught up."
+          no_notification_with_current_project_filter: "Looks like you are all caught up with the selected project."
+          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'
@@ -600,10 +599,10 @@ cs:
       menu:
         accountable: 'Odpovědný'
         by_project: 'Nepřečteno podle projektu'
-        by_reason: 'Reason'
+        by_reason: 'Důvod'
         inbox: 'Inbox'
-        mentioned: 'Mentioned'
-        watched: 'Watcher'
+        mentioned: 'Zmíněné'
+        watched: 'Sledující'
         date_alert: 'Date alert'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
@@ -613,21 +612,21 @@ cs:
           no_notification: No notification
           timeframes:
             normal:
-              PT0S: same day
-              P1D: 1 day before
-              P3D: 3 days before
+              PT0S: Týž den
+              P1D: před 1 dnem
+              P3D: 3 dny před
               P7D: a week before
             overdue:
-              P1D: every day
+              P1D: každý den
               P3D: every 3 days
               P7D: every week
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Zmíněné'
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
-          assignee: 'Assignee'
-          responsible: 'Accountable'
-          watched: 'Watcher'
+          assignee: 'Řešitel'
+          responsible: 'Odpovědný'
+          watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
           work_package_processed: 'Všechny změny stavu'
@@ -636,7 +635,7 @@ cs:
         global:
           immediately:
             title: 'Participating'
-            description: 'Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
             title: 'Non-participating'
             description: 'Additional notifications for activities in all projects.'
@@ -1004,7 +1003,7 @@ cs:
         move_column_left: "Přesunout sloupec vlevo"
         move_column_right: "Přesunout sloupec vpravo"
         hide_column: "Skrýt sloupec"
-        insert_columns: "Vložit sloupec ..."
+        insert_columns: "Insert columns"
         filters: "Filtry"
         display_sums: "Zobrazit součty"
         confirm_edit_cancel: "Jste si jisti, že chcete zrušit úpravy názvu tohoto pohledu? Titulek bude nastaven zpět na předchozí hodnotu."
@@ -1031,7 +1030,7 @@ cs:
         button: 'Konfigurovat tabulku pracovních balíčků'
         choose_display_mode: 'Zobrazit pracovní balíčky jako'
         modal_title: 'Konfigurace tabulky pracovních balíčků'
-        embedded_tab_disabled: "Tato karta konfigurace není k dispozici pro vložené zobrazení, které upravujete."
+        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "výchozí"
         display_settings: 'Nastavení zobrazení'
         default_mode: "Plochý seznam"
@@ -1058,7 +1057,7 @@ cs:
         upsale:
           attribute_highlighting: 'Potřebujete určité pracovní balíčky, aby vyšly z celkového objemu?'
           relation_columns: 'Potřebujete vidět vztahy v seznamu pracovních balíčků?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Podívejte se na Enterprise edici.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtrovat pracovní balíčky podle typu vztahu'
       tabs:
@@ -1067,26 +1066,25 @@ cs:
         relations: Vztahy
         watchers: Sledující
         files: Soubory
-        files_tab_migration_help: ' Prostřednictvím nové karty nyní můžete přiložit soubory k pracovním balíčkům'
       time_relative:
         days: "dnů"
         weeks: "týdny"
         months: "mesice"
     toolbar:
       settings:
-        configure_view: "Nastavit zobrazení ..."
-        columns: "Sloupce ..."
-        sort_by: "Řadit podle ..."
-        group_by: "Seskupit podle ..."
+        configure_view: "Configure view"
+        columns: "Columns"
+        sort_by: "Sort by"
+        group_by: "Group by"
         display_sums: "Zobrazit součty"
         display_hierarchy: "Hierarchie zobrazení"
         hide_hierarchy: "Skrýt hierarchii"
         hide_sums: "Skrýt součty"
         save: "Uložit"
-        save_as: "Uložit jako..."
-        export: "Exportovat ..."
-        visibility_settings: "Viditelnost zobrazení"
-        page_settings: "Přejmenovat zobrazení..."
+        save_as: "Save as"
+        export: "Export"
+        visibility_settings: "Visibility settings"
+        page_settings: "Rename view"
         delete: "Odstranit"
       filter: "Filtr"
       unselected_title: "Pracovní balíček"
@@ -1098,7 +1096,7 @@ cs:
       button_save: "Uložit"
       button_submit: "Potvrdit"
       button_cancel: "Zrušit"
-      button_delete: "Delete"
+      button_delete: "Vymazat"
       form_submit:
         title: 'Potvrdit a pokračovat'
         text: 'Opravdu chcete provést tuto akci?'
@@ -1233,7 +1231,7 @@ cs:
       message:
         label: 'Pozvánka'
         description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
-        next_button: 'Next'
+        next_button: 'Další'
       summary:
         next_button: 'Odeslat pozvánku'
       success:

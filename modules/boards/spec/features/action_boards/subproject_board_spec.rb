@@ -55,9 +55,9 @@ describe 'Subproject action board', js: true do
        edit_work_packages view_work_packages manage_public_queries move_work_packages]
   end
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:work_package) { create :work_package, project: subproject1, subject: 'Foo', status: open_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:work_package) { create(:work_package, project: subproject1, subject: 'Foo', status: open_status) }
 
   before do
     with_enterprise_token :board_view
@@ -191,7 +191,7 @@ describe 'Subproject action board', js: true do
 
     let(:board_page) { Pages::Board.new(board) }
     let!(:invisible_work_package) do
-      create :work_package, project: subproject2, status: open_status
+      create(:work_package, project: subproject2, status: open_status)
     end
 
     before do
@@ -244,7 +244,7 @@ describe 'Subproject action board', js: true do
 
       board_page.open_and_fill_add_list_modal subproject2.name
 
-      expect(page).to have_no_selector('.ng-option', text: subproject2.name)
+      expect(page).not_to have_selector('.ng-option', text: subproject2.name)
     end
   end
 end

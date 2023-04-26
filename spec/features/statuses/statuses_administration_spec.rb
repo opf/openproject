@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Statuses administration' do
-  let(:admin) { create :admin }
+  let(:admin) { create(:admin) }
 
   before do
     login_as(admin)

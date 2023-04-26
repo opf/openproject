@@ -38,6 +38,6 @@ namespace 'environment' do
 
   desc 'Eager load the application (only applicable in dev mode)'
   task eager_load: :environment do
-    ::Zeitwerk::Loader.eager_load_all if Rails.env.development?
+    Zeitwerk::Loader.eager_load_all if Rails.env.development?
   end
 end

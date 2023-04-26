@@ -27,7 +27,7 @@
 #++
 
 module Bim::Bcf
-  class Comment < ActiveRecord::Base
+  class Comment < ApplicationRecord
     self.table_name = :bcf_comments
 
     include InitializeWithUuid

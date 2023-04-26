@@ -80,7 +80,7 @@ de:
       buttons:
         upgrade: "Jetzt Upgrade durchführen"
         contact: "Kontaktieren Sie uns für eine Demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "ist ein Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> Add-on."
       upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um diese Funktion zu aktivieren und in Ihrem Team zu verwenden."
     journal_aggregation:
       explanation:
@@ -229,6 +229,7 @@ de:
       failed_text: "Die Anfrage zum Löschen des Projekts %{name} ist fehlgeschlagen. Das Projekt wurde archiviert."
       completed: "Löschen des Projekts %{name} abgeschlossen"
       completed_text: "Die Anfrage zum Löschen des Projekts '%{name}' wurde abgeschlossen."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Als Gantt-Ansicht öffnen'
       open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
@@ -317,7 +318,7 @@ de:
       settings: "Einstellungen"
       form_configuration: "Formularkonfiguration"
       more_info_text_html: >
-        Enterprise edition allows you to customize form configuration with these additional add-ons: <br> <ul class="%{list_styling_class}"> <li><b>Add new attribute groups</b></li> <li><b>Rename attribute groups</b></li> <li><b>Add a table of related work packages</b></li> </ul>
+        Mit der Enterprise Edition können Sie die Formularkonfiguration mit diesen zusätzlichen Add-ons anpassen: <br> <ul class="%{list_styling_class}"> <li><b>Neue Attributgruppen hinzufügen</b></li> <li><b>Attributgruppen umbenennen</b></li> </li> <li><b>Eine Tabelle mit verwandten Arbeitspaketen hinzufügen</b></li> </ul>
       projects: "Projekte"
       enabled_projects: "Aktivierte Projekte"
       edit_query: "Tabelle bearbeiten"
@@ -343,6 +344,8 @@ de:
       one: 'Ein untergeordnetes Arbeitspaket'
       other: '%{count} untergeordnete Arbeitspakete'
     bulk:
+      copy_failed: "Die Arbeitspakete konnten nicht kopiert werden."
+      move_failed: "Die Arbeitspakete konnten nicht verschoben werden."
       could_not_be_saved: "Die folgenden Arbeitspakete konnten nicht gespeichert werden:"
       none_could_be_saved: "Keines der %{total} Arbeitspakete konnte aktualisiert werden."
       x_out_of_y_could_be_saved: "%{failing} von %{total} Arbeitspaketen konnten nicht aktualisiert werden, aber %{success} wurden aktualisiert."
@@ -643,7 +646,7 @@ de:
         auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "Das angegebene SSL-Zertifikat ist ungültig: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -711,7 +714,7 @@ de:
           foreign_wps_reference_version: 'Arbeitspakete in nicht verknüpften Projekten verweisen auf Versionen des Projekts oder seiner verknüpften Projekte.'
           attributes:
             base:
-              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
+              archive_permission_missing_on_subprojects: "Sie haben nicht die erforderlichen Berechtigungen, um alle Unterprojekte zu archivieren. Bitte kontaktieren Sie einen Administrator."
             types:
               in_use_by_work_packages: "wird noch genutzt von folgenden Arbeitspaketen: %{types}"
             enabled_modules:
@@ -731,6 +734,9 @@ de:
               format: "%{message}"
             sort_criteria:
               invalid: "Kann nicht nach Spalte sortieren: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
@@ -905,8 +911,22 @@ de:
     header_invalid_fields: "Bei den folgenden Feldern traten Fehler auf:"
     field_erroneous_label: "Dieses Feld ist ungültig: %{full_errors} \nBitte geben Sie einen gültigen Wert ein."
   activity:
-    created: "Erstellt: %{title}"
-    updated: "Aktualisiert: %{title}"
+    item:
+      created_by_on: "erstellt von %{user} am %{datetime}"
+      created_on: "erstellt am %{datetime}"
+      updated_by_on: "aktualisiert von %{user} am %{datetime}"
+      updated_on: "aktualisiert am %{datetime}"
+      parent_without_of: "Unterprojekt"
+      parent_no_longer: "Nicht mehr Unterprojekt von"
+    filter:
+      changeset: "Änderungssätze"
+      message: "Foren"
+      news: "Neuigkeiten"
+      project_attribute: "Projekt-Attribute"
+      subproject: "Unterprojekte einbeziehen"
+      time_entry: "Aufgewendete Zeit"
+      wiki_edit: "Wiki"
+      work_package: "Arbeitspakete"
   #common attributes of all models
   attributes:
     active: "Aktiv"
@@ -1042,7 +1062,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Änderungen anwenden"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
   button_sort: "Sortierung"
@@ -1277,11 +1297,11 @@ de:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Anpassen der Form-Konfiguration mit diesen zusätzlichen Add-ons:"
         add_groups: "Neue Attributgruppen hinzufügen"
         rename_groups: "Attributgruppen umbenennen"
       project_filters:
-        description_html: "Filtering and sorting on custom fields is an Enterprise edition add-on."
+        description_html: "Filtern und Sortieren auf benutzerdefinierten Feldern ist ein Add-on der Enterprise Edition."
   enumeration_activities: "Aktivitäten für Zeiterfassung"
   enumeration_work_package_priorities: "Arbeitspaket-Prioritäten"
   enumeration_reported_project_statuses: "Gemeldeter Projekt-Status"
@@ -1351,6 +1371,7 @@ de:
     work_package_note: 'Arbeitspaket kommentiert'
     title:
       project: "Projekt: %{name}"
+      subproject: "Unterprojekt: %{name}"
   export:
     your_work_packages_export: "Export der Arbeitspakete"
     succeeded: "Der Export wurde erfolgreich abgeschlossen."
@@ -1376,7 +1397,6 @@ de:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "1"
-  general_lang_name: "Deutsch"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "nein"
   general_text_yes: "ja"
@@ -2632,12 +2652,10 @@ de:
     Wenn Sie benutzerdefinierte Felder verwenden: Bitte beachten, dass diese auch pro Projekt aktiviert werden müssen.
   text_custom_field_hint_activate_per_project_and_type: >
     Benutzerdefinierte Felder müssen jeweils in Arbeitspaket-Typ und Projekt aktiviert werden.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Add-ons für die Statusfelder der Arbeitspakete hinzu: <br> <ul> <li><b>Erlaubt die Markierung von Arbeitspaketen als read-only für bestimmte Status</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Die Enterprise Edition fügt diese zusätzlichen Add-ons für die benutzerdefinierten Felder der Projekte hinzu: <br> <ul> <li><b>Fügt benutzerdefinierte Felder für Projekte zu Ihrer Projektliste hinzu, um eine Portfolioansicht zu erstellen</b></li> </ul>
   text_custom_logo_instructions: >
     Ein weißes Logo mit transparentem Hintergrund wird empfohlen. Für ein optimales Ergebnis für konventionelle und Retina-Displays sollte die Bildabmessungen 460 x 110 Pixel betragen.
   text_custom_favicon_instructions: >
@@ -2669,12 +2687,13 @@ de:
   text_work_packages_destroy_confirmation: "Sind Sie sicher, dass Sie die ausgewählten Arbeitspakete löschen möchten?"
   text_work_packages_ref_in_commit_messages: "Arbeitspaket-Beziehungen und -Status in Commit-Log-Meldungen"
   text_journal_added: "%{label} %{value} wurde hinzugefügt"
-  text_journal_changed_html: "%{label} von %{old} %{linebreak}<strong>in</strong> %{new} geändert"
   text_journal_changed_plain: "%{label} geändert von %{old} %{linebreak}zu %{new}"
   text_journal_changed_no_detail: "%{label} aktualisiert"
   text_journal_changed_with_diff: "%{label} geändert (%{link})"
   text_journal_deleted: "%{label} %{old} wurde gelöscht"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} wurde gelöscht (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} wurde auf %{value} gesetzt"
   text_journal_set_with_diff: "%{label} gesetzt (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2966,12 +2985,12 @@ de:
       title: "Arbeitspaket löschen"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definieren Sie die Tage, die als Teil der Arbeitswoche gelten</b><br/> Tage, die nicht ausgewählt sind, werden bei der Planung von Arbeitspaketen übersprungen (und bei der Tageszählung nicht berücksichtigt). Diese können auf Arbeitspaket-Ebene überschrieben werden.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Besondere arbeitsfreie Tage (Feiertage und Betriebsferien)</b><br/> Daten, die der Liste unten hinzugefügt werden, gelten als arbeitsfrei und werden bei der Planung von Arbeitspaketen übersprungen.
     change_button: "Arbeitstage ändern"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich in diesem Fall auf die Start- und Endtage aller Arbeitspakete in allen Projekten auswirken. <br/> Bitte beachten Sie, dass die Änderungen erst wirksam werden, nachdem Sie auf die Schaltfläche Änderungen anwenden geklickt haben.
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:
@@ -2994,6 +3013,7 @@ de:
       code_409: "Die Ressource konnte wegen parallelen Zugriffs nicht aktualisiert werden."
       code_429: "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
       code_500: "Ein interner Fehler ist aufgetreten."
+      code_500_outbound_request_failure: "Eine ausgehende Anfrage an eine andere Ressource ist mit dem Statuscode %{status_code} fehlgeschlagen."
       not_found:
         work_package: "Das von Ihnen gesuchte Arbeitspaket konnte nicht gefunden werden oder wurde gelöscht."
       expected:

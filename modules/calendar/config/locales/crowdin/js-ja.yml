@@ -2,7 +2,7 @@
 ja:
   js:
     calendar:
-      create_new: 'Create new calendar'
-      title: 'Calendar'
-      too_many: 'There are %{count} work packages in total, but only %{max} can be shown.'
-      unsaved_title: 'Unnamed calendar'
+      create_new: '新しいカレンダーを作成'
+      title: 'カレンダー'
+      too_many: '全部で %{count} 個の作業項目がありますが、 %{max} 個しか表示できません。'
+      unsaved_title: '名前のないカレンダー'

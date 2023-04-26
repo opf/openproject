@@ -20,8 +20,6 @@ module Budgets
            icon: 'icon2 icon-budget'
     end
 
-    activity_provider :budgets, class_name: 'Activities::BudgetActivityProvider', default: false
-
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
     end

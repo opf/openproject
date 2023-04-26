@@ -229,6 +229,7 @@ pl:
       failed_text: "Żądanie usunięcia projektu %{name} nie powiodło się. Projekt pozostał zarchiwizowany."
       completed: "Usunięcie projektu %{name} zostało wykonane"
       completed_text: "Żądanie usunięcia projektu „%{name}” zostało wykonane."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Otwórz jako widok wykresu Gantta'
       open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
@@ -347,6 +348,8 @@ pl:
       many: 'Wiele potomnych pakietów roboczych (%{count})'
       other: 'Wiele potomnych pakietów roboczych (%{count})'
     bulk:
+      copy_failed: "Nie można skopiować pakietów roboczych."
+      move_failed: "Nie można przenieść pakietów roboczych."
       could_not_be_saved: "Nie można zapisać następujących pakietów roboczych:"
       none_could_be_saved: "Nie mógł zostać zaktualizowany żaden z pakietów roboczych %{total}."
       x_out_of_y_could_be_saved: "%{failing} z %{total} pakietów roboczych nie można było zaktualizować, a %{success} można było zaktualizować."
@@ -471,20 +474,20 @@ pl:
         roles: "Role"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "niezarchiwizowane"
+          false: "zarchiwizowane"
         identifier: "Identyfikator"
         latest_activity_at: "Ostatnia aktywność o"
         parent: "Projekt nadrzędny"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Widoczność"
+          true: "publiczne"
+          false: "prywatne"
         queries: "Kwerendy"
         templated: "Projekt wzorcowy"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "oznaczono jako szablon"
+          false: "odznaczono jako szablon"
         types: "Typy"
         versions: "Wersje"
         work_packages: "Zadania"
@@ -736,6 +739,9 @@ pl:
             sort_criteria:
               invalid: "Nie można sortować według kolumny: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
             custom_fields:
@@ -917,8 +923,22 @@ pl:
     header_invalid_fields: "Wystąpił problem z następującymi polami:"
     field_erroneous_label: "To pole jest nieprawidłowe: %{full_errors} proszę podać prawidłową wartość."
   activity:
-    created: "Utworzona: %{title}"
-    updated: "Aktualizacja: %{title}"
+    item:
+      created_by_on: "utworzone %{datetime} przez %{user}"
+      created_on: "utworzono %{datetime}"
+      updated_by_on: "zaktualizowane przez %{user} dnia %{datetime}"
+      updated_on: "zaktualizowano %{datetime}"
+      parent_without_of: "Podprojekt"
+      parent_no_longer: "Nie jest to już podprojekt projektu"
+    filter:
+      changeset: "Zestawy zmian"
+      message: "Fora"
+      news: "Wiadomości"
+      project_attribute: "Atrybuty projektu"
+      subproject: "Zawiera podprojekty"
+      time_entry: "Poświęcony czas"
+      wiki_edit: "Wiki"
+      work_package: "Pakiety robocze"
   #common attributes of all models
   attributes:
     active: "Aktywne"
@@ -1054,7 +1074,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
   button_sort: "Sortowanie"
@@ -1387,6 +1407,7 @@ pl:
     work_package_note: 'Notatka pakietu roboczego dodana'
     title:
       project: "Projekt: %{name}"
+      subproject: "Podprojekt: %{name}"
   export:
     your_work_packages_export: "Eksport Twoich pakietów roboczych"
     succeeded: "Eksport został wykonany."
@@ -1412,7 +1433,6 @@ pl:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "7"
-  general_lang_name: "Polski"
   general_pdf_encoding: "ISO-8859-2"
   general_text_no: "nie"
   general_text_yes: "tak"
@@ -1798,10 +1818,10 @@ pl:
   label_not_contains: "nie zawierają"
   label_not_equals: "nie jest"
   label_on: "wł"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "nie jest puste"
+  label_operator_none: "jest puste"
+  label_operator_equals_or: "jest (OR)"
+  label_operator_equals_all: "jest (AND)"
   label_open_menu: "Otwórz menu"
   label_open_work_packages: "Otwarte"
   label_open_work_packages_plural: "Otwarte"
@@ -2669,12 +2689,10 @@ pl:
     Korzystając z pól niestandardowych, pamiętaj, że wymagają aktywacji w każdym poszczególnym projekcie.
   text_custom_field_hint_activate_per_project_and_type: >
     Pola niestandardowe wymagają aktywacji w każdym poszczególnym typie zadań i projekcie.
-  text_wp_custom_field_html: >
-    Wersja Enterprise doda te dodatki do pól niestandardowych pakietów roboczych: <br> <ul> <li><b>Zezwól na wybór pól niestandardowych typu Lista lub Użytkownik</b></li> </ul>
   text_wp_status_read_only_html: >
     Edycja Enterprise doda te dodatkowe funkcje dla pól statusów pakietów roboczych: <br> <ul> <li><b>Zezwól na oznaczanie pakietów roboczych jako tylko do odczytu w przypadku określonych statusów</b></li> </ul>
   text_project_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for projects' custom fields: <br> <ul> <li><b>Add custom fields for projects to your Project list to create a project portfolio view</b></li> </ul>
+    Wersja Enterprise doda te dodatkowe funkcje niestandardowych pól projektów: <br> <ul> <li><b>Dodaj niestandardowe pola projektów do listy projektów, aby utworzyć widok portfolio projektów</b></li> </ul>
   text_custom_logo_instructions: >
     Na bezbarwnym tle zaleca się stosowanie białego logo. Najlepsze rezultaty - zarówno na tradycyjnych jak i wyświetlaczach retina - są dla obrazów o rozdzielczości 460x60 px.
   text_custom_favicon_instructions: >
@@ -2706,12 +2724,13 @@ pl:
   text_work_packages_destroy_confirmation: "Czy na pewno chcesz usunąć wybrane pakiety robocze?"
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
-  text_journal_changed_html: "%{label} zmieniono z %{old} %{linebreak}<strong>na</strong> %{new}"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
   text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} set to %{value}"
   text_journal_set_with_diff: "%{label} set (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2980,7 +2999,7 @@ pl:
   warning_user_limit_reached: >
     Osiągnięto limit użytkowników. Nie możesz aktywować kolejnych użytkowników. <a href="%{upgrade_url}"> uaktualnij swój plan </a> lub zablokuj członków, aby umożliwić korzystanie z dodatkowych użytkowników.
   warning_user_limit_reached_instructions: >
-    You reached your user limit (%{current}/%{max} active users). Please contact sales@openproject.com to upgrade your Enterprise edition plan and add additional users.
+    Osiągnięto limit użytkownika (%{current}/%{max} aktywnych użytkowników). Skontaktuj się z sales@openproject.com w celu uaktualnienia planu Enterprise Edition i dodania kont użytkowników.
   warning_protocol_mismatch_html: >
 
   warning_bar:
@@ -3008,12 +3027,12 @@ pl:
       title: "Usuń Zestawy zadań"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Zdefiniuj dni uważane za część tygodnia pracy</b><br/> Dni, które nie zostały wybrane, są pomijane podczas planowania zadań (i nie są uwzględnione w liczniku dni). Mogą one zostać zastąpione na poziomie pakietu roboczego.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Określone dni nierobocze (wakacje i okresy zamknięcie)</b><br/> Daty dodane do poniższej listy są uważane za dni nierobocze i są pomijane podczas planowania pakietów roboczych.
     change_button: "Zmień dni robocze"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Zmiana dni tygodnia, które są uważane za dni robocze lub dni nierobocze może mieć wpływ na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych we wszystkich projektach w tym wystąpieniu. <br/> Pamiętaj, że zmiany są stosowane dopiero po kliknięciu przycisku Zastosuj zmiany.
     journal_note:
       changed: _Zmieniono **Dni robocze** (%{changes})._
       days:
@@ -3036,6 +3055,7 @@ pl:
       code_409: "Nie można zaktualizować zasobu ze względu na modyfikacje powodujące konflikt."
       code_429: "Zbyt wiele prób. Spróbuj ponownie później."
       code_500: "Wystąpił błąd wewnętrzny."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Pakiet roboczy, którego szukasz nie został znaleziony lub został usunięty."
       expected:

@@ -1,10 +1,10 @@
 shared_examples 'notification settings workflow' do
   describe 'with another project the user can see', with_ee: %i[date_alerts] do
-    let!(:project) { create :project }
-    let!(:project_alt) { create :project }
-    let!(:role) { create :role, permissions: %i[view_project] }
-    let!(:member) { create :member, user:, project:, roles: [role] }
-    let!(:member_two) { create :member, user:, project: project_alt, roles: [role] }
+    let!(:project) { create(:project) }
+    let!(:project_alt) { create(:project) }
+    let!(:role) { create(:role, permissions: %i[view_project]) }
+    let!(:member) { create(:member, user:, project:, roles: [role]) }
+    let!(:member_two) { create(:member, user:, project: project_alt, roles: [role]) }
 
     it 'allows to control notification settings' do
       # Expect default settings
@@ -29,7 +29,7 @@ shared_examples 'notification settings workflow' do
       settings_page.set_reminder('overdue', 'every week')
 
       # Set settings for project email
-      settings_page.configure_project project: project,
+      settings_page.configure_project project:,
                                       assignee: true,
                                       responsible: true,
                                       work_package_commented: false,

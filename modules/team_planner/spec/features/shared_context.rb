@@ -35,14 +35,14 @@ shared_context 'with team planner full access' do
   end
 
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages edit_work_packages add_work_packages
              view_team_planner manage_team_planner
              save_queries manage_public_queries
              work_package_assigned
-           ]
+           ])
   end
 
   let(:team_planner) { Pages::TeamPlanner.new project }

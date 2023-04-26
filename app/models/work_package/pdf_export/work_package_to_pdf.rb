@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackage::PDFExport::WorkPackageToPdf < ::Exports::Exporter
+class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   include WorkPackage::PDFExport::Common
   include WorkPackage::PDFExport::Formattable
   include WorkPackage::PDFExport::Attachments

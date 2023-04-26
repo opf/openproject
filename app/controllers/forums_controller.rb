@@ -86,6 +86,8 @@ class ForumsController < ApplicationController
 
   def new; end
 
+  def edit; end
+
   def create
     if @forum.save
       flash[:notice] = I18n.t(:notice_successful_create)
@@ -94,8 +96,6 @@ class ForumsController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def update
     if @forum.update(permitted_params.forum)

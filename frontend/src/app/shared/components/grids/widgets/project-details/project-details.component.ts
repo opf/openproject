@@ -38,11 +38,12 @@ import {
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { SchemaAttributeObject, SchemaResource } from 'core-app/features/hal/resources/schema-resource';
+import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { Observable } from 'rxjs';
 import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
 
 @Component({
   templateUrl: './project-details.component.html',

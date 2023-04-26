@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -40,14 +41,13 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
     [
       activity_journal_projection_statement(:subject, 'subject'),
       activity_journal_projection_statement(:project_id, 'project_id'),
-      projection_statement(statuses_table, :name, 'status_name'),
       projection_statement(statuses_table, :is_closed, 'status_closed'),
       projection_statement(types_table, :name, 'type_name')
     ]
   end
 
-  def self.work_package_title(id, subject, type_name, _status_name, is_standard)
-    "#{is_standard ? '' : type_name} ##{id}: #{subject}"
+  def self.work_package_title(id, subject, type_name)
+    "#{type_name} ##{id}: #{subject}"
   end
 
   protected
@@ -55,9 +55,7 @@ class Activities::WorkPackageActivityProvider < Activities::BaseActivityProvider
   def event_title(event)
     self.class.work_package_title(event['journable_id'],
                                   event['subject'],
-                                  event['type_name'],
-                                  event['status_name'],
-                                  event['is_standard'])
+                                  event['type_name'])
   end
 
   def event_type(event)

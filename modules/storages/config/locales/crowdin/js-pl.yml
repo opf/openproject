@@ -15,6 +15,7 @@ pl:
       choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
@@ -25,18 +26,23 @@ pl:
         not_logged_in: >
           Aby dodać link, zobacz lub wgraj pliki związane z tym pakietem roboczym, zaloguj się do %{storageType}.
       files:
+        already_existing_header: "Ten plik już istnieje"
+        already_existing_body: >
+          Plik o nazwie „%{fileName}” już istnieje w lokalizacji, do której próbujesz go przesłać. Co chcesz zrobić?
         directory_not_writeable: "Nie masz uprawnień do dodawania plików do tego folderu."
         dragging_many_files: "Przesyłanie do %{storageType} obsługuje tylko jeden plik na raz."
-        empty_folder: "This folder is empty."
-        empty_folder_location_hint: "Click the button below to upload the file to this location."
+        empty_folder: "Ten folder jest pusty."
+        empty_folder_location_hint: "Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji."
         file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
+        upload_keep_both: "Zachowaj oba"
+        upload_replace: "Zastąp"
       file_links:
         empty: >
           Obecnie nie ma żadnych powiązanych plików z tym pakietem roboczym. Rozpocznij łączenie plików z poniższą czynnością lub w ciągu %{storageType}.
         download: "Pobierz %{fileName}"
         no_permission: "Nie masz uprawnień, aby zobaczyć ten plik."
-        open: 'Otwórz plik w pamięci'
-        open_location: 'Otwórz plik w lokalizacji'
+        open: "Otwórz plik w pamięci"
+        open_location: "Otwórz plik w lokalizacji"
         remove: "Usuń link do pliku"
         remove_confirmation: >
           Czy na pewno chcesz odłączyć plik od tego pakietu roboczego? Odłączenie nie ma wpływu na oryginalny plik i usuwa tylko połączenie z tym pakietem roboczym.
@@ -54,7 +60,15 @@ pl:
           few: "Pomyślnie utworzono %{count} połączenia plików."
           many: "Pomyślnie utworzono %{count} połączeń plików."
           other: "Pomyślnie utworzono %{count} połączeń plików."
-        upload_error: "Wystąpił błąd podczas przesyłania pliku '%{fileName}'."
+        upload_error:
+          default: >
+            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+          403: >
+            Nie można przesłać pliku (%{fileName}) ze względu na ograniczenia systemu. Aby uzyskać więcej informacji, skontaktuj się z administratorem.
+          413: >
+            Plik (%{fileName}) ma rozmiar większy niż ten, który OpenProject może przesłać do %{storageType}. Możesz najpierw przesłać go bezpośrednio do %{storageType} , a następnie powiązać plik.
+          507: >
+            Plik (%{fileName}) jest większy niż dozwolony limit przechowywania. Aby zmodyfikować ten limit, skontaktuj się z administratorem.
         link_uploaded_file_error: >
           Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         not_allowed_tooltip: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"

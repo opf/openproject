@@ -112,11 +112,11 @@ module Pages
         if paused
           expect(page).to have_checked_field 'Temporarily pause daily email reminders'
         else
-          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
+          expect(page).not_to have_checked_field 'Temporarily pause daily email reminders'
         end
 
         if first && last
-          expect(page).to have_selector('[data-qa-selector="op-multi-date-picker"] input',
+          expect(page).to have_selector('[data-qa-selector="op-basic-range-date-picker"]',
                                         value: "#{first.iso8601} - #{last.iso8601}")
         end
       end
@@ -125,11 +125,11 @@ module Pages
         if paused
           check 'Temporarily pause daily email reminders'
 
-          page.find('op-multi-date-picker input').click
-          fill_in 'startDate', with: first.iso8601
-          fill_in 'endDate', with: last.iso8601
-          sleep 1
-          page.find('[data-qa-selector="op-datepicker-modal--action"]', text: 'Apply').click
+          page.find('op-basic-range-date-picker input').click
+
+          datepicker = ::Components::RangeDatepicker.new
+          datepicker.set_date first
+          datepicker.set_date last
         else
           uncheck 'Temporarily pause daily email reminders'
         end

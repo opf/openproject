@@ -40,19 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 <% end %>
 
-<% if tab[:name] == 'WorkPackageCustomField' %>
-  <% unless EnterpriseToken.allows_to?(:multiselect_custom_fields) %>
-    <%=
-    angular_component_tag 'op-enterprise-banner',
-                          inputs: {
-                            collapsible: true,
-                            textMessage: t('text_wp_custom_field_html'),
-                            moreInfoLink: OpenProject::Static::Links.links[:enterprise_docs][:custom_field_multiselect][:href],
-                          }
-    %>
-  <% end %>
-<% end %>
-
 <% if (@custom_fields_by_type[tab[:name]] || []).any? %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">

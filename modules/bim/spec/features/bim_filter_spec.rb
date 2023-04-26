@@ -32,16 +32,15 @@ require_relative '../support/pages/ifc_models/show'
 require_relative '../support/pages/ifc_models/show_default'
 
 describe 'BIM filter spec',
-         with_config: { edition: 'bim' },
-         js: true do
-  let(:project) { create :project, enabled_module_names: %w(bim work_package_tracking) }
+         js: true, with_config: { edition: 'bim' } do
+  let(:project) { create(:project, enabled_module_names: %w(bim work_package_tracking)) }
   let(:open_status) { create(:status, is_closed: false) }
   let(:closed_status) { create(:status, is_closed: true) }
 
   let(:wp1) { create(:work_package, project:, status: open_status) }
   let(:wp2) { create(:work_package, project:, status: closed_status) }
 
-  let(:admin) { create :admin }
+  let(:admin) { create(:admin) }
 
   let!(:model) do
     create(:ifc_model_minimal_converted,

@@ -29,7 +29,7 @@
 FactoryBot.define do
   factory :oauth_access_token, class: '::Doorkeeper::AccessToken' do
     transient do
-      resource_owner { create :user }
+      resource_owner { create(:user) }
     end
 
     after(:build) do |token, evaluator|

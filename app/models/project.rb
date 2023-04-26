@@ -81,8 +81,7 @@ class Project < ApplicationRecord
   # Custom field for the project's work_packages
   has_and_belongs_to_many :work_package_custom_fields,
                           -> { order("#{CustomField.table_name}.position") },
-                          class_name: 'WorkPackageCustomField',
-                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
   has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
@@ -110,7 +109,7 @@ class Project < ApplicationRecord
   register_journal_formatted_fields(:plaintext, 'name')
   register_journal_formatted_fields(:diff, 'description')
   register_journal_formatted_fields(:visibility, 'public')
-  register_journal_formatted_fields(:named_association, 'parent_id')
+  register_journal_formatted_fields(:subproject_named_association, 'parent_id')
   register_journal_formatted_fields(:custom_field, /custom_fields_\d+/)
 
   has_paper_trail
@@ -317,7 +316,7 @@ class Project < ApplicationRecord
   end
 
   def enabled_module_names=(module_names)
-    if module_names&.is_a?(Array)
+    if module_names.is_a?(Array)
       module_names = module_names.map(&:to_s).compact_blank
       self.enabled_modules = module_names.map do |name|
         enabled_modules.detect do |mod|
@@ -341,6 +340,11 @@ class Project < ApplicationRecord
     parents = project.self_and_ancestors || []
     descendants = project.descendants || []
     parents | descendants # Set union
+  end
+
+  # Returns an array of active subprojects.
+  def active_subprojects
+    project.descendants.where(active: true)
   end
 
   class << self

@@ -78,9 +78,9 @@ OpenProject::Application.configure do
   # Allow disabling HSTS redirect by using OPENPROJECT_HSTS=false
   config.force_ssl = OpenProject::Configuration.https?
   config.ssl_options = {
+    hsts: OpenProject::Configuration.hsts_enabled?,
     # Disable redirect on the internal SYS API
     redirect: {
-      hsts: OpenProject::Configuration.hsts_enabled?,
       exclude: ->(request) do
         # Disable redirects when hsts is disabled
         return true unless OpenProject::Configuration.hsts_enabled?

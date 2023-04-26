@@ -54,7 +54,7 @@ class GithubPullRequest < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
-  scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
+  scope :without_work_package, -> { where.missing(:work_packages) }
 
   def self.find_by_github_identifiers(id: nil, url: nil, initialize: false)
     raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
@@ -66,6 +66,12 @@ class GithubPullRequest < ApplicationRecord
     elsif initialize
       new(github_id: id, github_html_url: url)
     end
+  end
+
+  def visible?(user = User.current)
+    WorkPackage
+      .visible(user)
+      .exists?(id: work_packages.select(:id))
   end
 
   ##

@@ -41,11 +41,11 @@ describe 'Open the GitHub tab', js: true do
                            add_work_package_notes
                            show_github_content))
   end
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:, subject: 'A test work_package') }
   let(:github_tab) { Pages::GitHubTab.new(work_package.id) }
-  let(:pull_request) { create :github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title' }
-  let(:check_run) { create :github_check_run, github_pull_request: pull_request, name: 'a check run name' }
+  let(:pull_request) { create(:github_pull_request, :open, work_packages: [work_package], title: 'A Test PR title') }
+  let(:check_run) { create(:github_check_run, github_pull_request: pull_request, name: 'a check run name') }
 
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
   let(:github_tab_element) { find('.op-tab-row--link_selected', text: 'GITHUB') }

@@ -29,7 +29,11 @@
 import { applyTransaction } from '@datorama/akita';
 import { Injectable } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+import {
+  from,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   groupBy,
   mergeMap,
@@ -38,19 +42,32 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
+import {
+  IFileLink,
+  IFileLinkOriginData,
+} from 'core-app/core/state/file-links/file-link.model';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { FileLinksStore } from 'core-app/core/state/file-links/file-links.store';
-import { insertCollectionIntoState, removeEntityFromCollectionAndState } from 'core-app/core/state/collection-store';
-import { CollectionStore, ResourceCollectionService } from 'core-app/core/state/resource-collection.service';
+import {
+  insertCollectionIntoState,
+  removeEntityFromCollectionAndState,
+} from 'core-app/core/state/resource-store';
+import {
+  ResourceStore,
+  ResourceStoreService,
+} from 'core-app/core/state/resource-store.service';
 import { IHalResourceLink } from 'core-app/core/state/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
-export class FileLinksResourceService extends ResourceCollectionService<IFileLink> {
-  @InjectField() toastService:ToastService;
+export class FileLinksResourceService extends ResourceStoreService<IFileLink> {
+  protected createStore():ResourceStore<IFileLink> {
+    return new FileLinksStore();
+  }
+
+  protected basePath():string {
+    return this.apiV3Service.file_links.path;
+  }
 
   updateCollectionsForWorkPackage(fileLinksSelfLink:string):Observable<IFileLink[]> {
     return this.http
@@ -79,21 +96,24 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
       );
   }
 
-  protected createStore():CollectionStore<IFileLink> {
-    return new FileLinksStore();
+  updateCollection(href:string):Observable<IHALCollection<IFileLink>> {
+    return this.http
+      .get<IHALCollection<IFileLink>>(href)
+      .pipe(
+        tap((collection) => insertCollectionIntoState(this.store, collection, href)),
+      );
   }
 
-  remove(collectionKey:string, fileLink:IFileLink):void {
+  remove(collectionKey:string, fileLink:IFileLink):Observable<void> {
     if (!fileLink._links.delete) {
-      return;
+      return of();
     }
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    this.http
+    return this.http
       .delete<void>(fileLink._links.delete.href, { withCredentials: true, headers })
-      .subscribe(
-        () => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey),
-        this.toastAndThrow.bind(this),
+      .pipe(
+        tap(() => removeEntityFromCollectionAndState(this.store, fileLink.id, collectionKey)),
       );
   }
 
@@ -131,15 +151,5 @@ export class FileLinksResourceService extends ResourceCollectionService<IFileLin
           });
         }),
       );
-  }
-
-  protected basePath():string {
-    return this.apiV3Service.file_links.path;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private toastAndThrow(error:any):void {
-    this.toastService.addError(error);
-    throw error;
   }
 }

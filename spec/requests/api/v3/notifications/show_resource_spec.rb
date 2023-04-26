@@ -34,20 +34,20 @@ describe API::V3::Notifications::NotificationsAPI,
   include API::V3::Utilities::PathHelper
 
   shared_let(:recipient) do
-    create :user
+    create(:user)
   end
   shared_let(:role) { create(:role, permissions: %i(view_work_packages)) }
   shared_let(:project) do
-    create :project,
-           members: { recipient => role }
+    create(:project,
+           members: { recipient => role })
   end
-  shared_let(:resource) { create :work_package, project: }
+  shared_let(:resource) { create(:work_package, project:) }
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource:,
-           journal: resource.journals.last
+           journal: resource.journals.last)
   end
 
   let(:send_request) do

@@ -3,9 +3,9 @@ require 'messagebird'
 
 describe OpenProject::TwoFactorAuthentication::TokenStrategy::MessageBird do
   describe 'sending messages' do
-    let!(:user) { create :user, language: locale }
+    let!(:user) { create(:user, language: locale) }
     let!(:locale) { 'en' }
-    let!(:device) { create :two_factor_authentication_device_sms, user:, channel: }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, channel:) }
 
     let(:service_url) { 'https://example.org/foobar' }
     let(:apikey) { 'whatever' }

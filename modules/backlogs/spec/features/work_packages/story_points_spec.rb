@@ -43,7 +43,7 @@ describe 'Work packages having story points', js: true do
     create(:project,
            enabled_module_names: %w(work_package_tracking backlogs))
   end
-  let(:status) { create :default_status }
+  let(:status) { create(:default_status) }
   let(:story_type) { create(:type_feature) }
   let(:task_type) { create(:type_feature) }
 

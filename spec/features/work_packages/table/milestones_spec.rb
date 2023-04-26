@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'Inline editing milestones', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
-  let(:type) { create :type, is_milestone: true }
+  let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
     create(:work_package,

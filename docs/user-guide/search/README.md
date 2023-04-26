@@ -34,10 +34,7 @@ Please note: It is not possible to find content from archived projects. You will
 
 ## Full text search, incl. work package attachments
 
-The search bar of Openproject is configured to allow a full text search. This means that you can search not only headings but also descriptions and texts, such as a wiki text or the description of a work package.
+The search bar of OpenProject is configured to allow a full text search. This means that you can search not only headings but also descriptions and texts, such as a wiki text or the description of a work package.
 
-The title and the description of a work package can also be found by [filtering by text](../work-packages/work-package-table-configuration/#filtering-by-text).
-Aside from full-text search, you can search work packages based on their attached file name or even within the content of an attachment.
-
-**Note** Full text search is an Enterprise add-on in OpenProject and can only be used with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easily possible.
-
+The title and the description of a work package can also be found by [filtering by text](../work-packages/work-package-table-configuration/#filter-by-text).
+Aside from full-text search, you can [search work packages based on their attached file name or even within the content of an attachment](../work-packages/work-package-table-configuration/#filter-for-attachment-file-name-and-content).

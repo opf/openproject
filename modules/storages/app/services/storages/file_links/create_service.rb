@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::FileLinks::CreateService < ::BaseServices::Create
+class Storages::FileLinks::CreateService < BaseServices::Create
   def persist(service_result)
     if existing = find_existing(service_result.result)
       service_result.result = existing

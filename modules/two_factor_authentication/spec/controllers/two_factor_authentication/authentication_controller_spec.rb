@@ -63,7 +63,7 @@ describe TwoFactorAuthentication::AuthenticationController, with_settings: { log
     end
 
     context 'with a non-default device' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, default: false, channel: :sms }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: false, channel: :sms) }
 
       before do
         session[:authenticated_user_id] = user.id
@@ -75,13 +75,13 @@ describe TwoFactorAuthentication::AuthenticationController, with_settings: { log
     end
 
     context 'with an invalid device' do
-      let!(:device) { create :two_factor_authentication_device_totp, user:, channel: :totp }
+      let!(:device) { create(:two_factor_authentication_device_totp, user:, channel: :totp) }
 
       it_behaves_like '2FA login request failure', I18n.t('two_factor_authentication.error_no_matching_strategy')
     end
 
     context 'with an active device' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, channel: :sms }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, channel: :sms) }
 
       it_behaves_like '2FA SMS request success'
     end
@@ -90,13 +90,13 @@ describe TwoFactorAuthentication::AuthenticationController, with_settings: { log
   describe 'with two active strategy',
            with_settings: { 'plugin_openproject_two_factor_authentication' => { active_strategies: %i[developer totp] } } do
     context 'with a totp device' do
-      let!(:device) { create :two_factor_authentication_device_totp, user:, channel: :totp }
+      let!(:device) { create(:two_factor_authentication_device_totp, user:, channel: :totp) }
 
       it_behaves_like '2FA TOTP request success'
     end
 
     context 'with an sms device' do
-      let!(:device) { create :two_factor_authentication_device_sms, user:, channel: :sms }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, channel: :sms) }
 
       it_behaves_like '2FA SMS request success'
     end

@@ -39,6 +39,9 @@ ko:
     models:
       budget: "예산"
       material_budget_item: "단위"
+  activity:
+    filter:
+      budget: "예산"
   attributes:
     budget: "예산"
   button_add_budget_item: "계획된 비용 추가"

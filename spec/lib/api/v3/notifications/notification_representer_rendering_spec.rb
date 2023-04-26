@@ -33,7 +33,7 @@ describe API::V3::Notifications::NotificationRepresenter, 'rendering' do
 
   subject(:generated) { representer.to_json }
 
-  shared_let(:project) { create :project }
+  shared_let(:project) { create(:project) }
   let(:resource) { build_stubbed(:work_package, project:) }
 
   let(:recipient) { build_stubbed(:user) }
@@ -41,14 +41,14 @@ describe API::V3::Notifications::NotificationRepresenter, 'rendering' do
   let(:actor) { nil }
   let(:reason) { :mentioned }
   let(:notification) do
-    build_stubbed :notification,
+    build_stubbed(:notification,
                   recipient:,
                   project:,
                   resource:,
                   journal:,
                   actor:,
                   reason:,
-                  read_ian:
+                  read_ian:)
   end
   let(:representer) do
     described_class.create notification,
@@ -186,7 +186,7 @@ describe API::V3::Notifications::NotificationRepresenter, 'rendering' do
     end
 
     context 'when set' do
-      let(:actor) { create :user }
+      let(:actor) { create(:user) }
 
       it_behaves_like 'has a titled link' do
         let(:link) { 'actor' }

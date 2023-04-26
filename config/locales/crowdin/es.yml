@@ -229,6 +229,7 @@ es:
       failed_text: "La petición de borrado del proyecto %{name} ha fallado. El proyecto ha sido archivado."
       completed: "Borrado del proyecto %{name} completado"
       completed_text: "La petición para borrar el proyecto '%{name}' se ha completado."
+      completed_text_children: "Adicionalmente, los siguientes subproyectos han sido eliminados:"
     index:
       open_as_gantt: 'Abrir como diagrama de Gantt'
       open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."
@@ -345,6 +346,8 @@ es:
       one: 'Un paquete de trabajo descendiente'
       other: '%{count} paquetes de trabajo descendientes'
     bulk:
+      copy_failed: "No se pudieron copiar los paquetes de trabajo."
+      move_failed: "No se pudieron mover los paquetes de trabajo."
       could_not_be_saved: "Los siguientes paquetes de trabajo no pudieron guardarse:"
       none_could_be_saved: "Ninguno de los %{total} paquetes de trabajo pudo ser actualizado."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquetes de trabajo no pudieron ser actualizados mientras que %{success} pudieron."
@@ -469,20 +472,20 @@ es:
         roles: "Perfiles"
       project:
         active_value:
-          true: "unarchived"
-          false: "archived"
+          true: "desarchivado"
+          false: "archivado"
         identifier: "Identificador"
         latest_activity_at: "Última actividad en"
         parent: "Subproyecto de"
         public_value:
-          title: "Visibility"
-          true: "public"
-          false: "private"
+          title: "Visibilidad"
+          true: "público"
+          false: "privado"
         queries: "Consultas"
         templated: "Plantilla del proyecto"
         templated_value:
-          true: "marked as template"
-          false: "unmarked as template"
+          true: "marcar como plantilla"
+          false: "desmarcar como plantilla"
         types: "Tipos"
         versions: "Versiones"
         work_packages: "Paquetes de trabajo"
@@ -734,6 +737,9 @@ es:
             sort_criteria:
               invalid: "No se puede ordenar por la columna: %{value}"
               format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
             custom_fields:
@@ -907,8 +913,22 @@ es:
     header_invalid_fields: "Hubo problemas con los siguientes campos:"
     field_erroneous_label: "Este campo es inválido: %{full_errors} por favor, ingrese un valor válido."
   activity:
-    created: "Creado: %{title}"
-    updated: "Actualizado: %{title}"
+    item:
+      created_by_on: "creado por %{user} el %{datetime}"
+      created_on: "creado el %{datetime}"
+      updated_by_on: "actualizado por %{user} el %{datetime}"
+      updated_on: "actualizado el %{datetime}"
+      parent_without_of: "Subproyecto"
+      parent_no_longer: "Ya no es subproyecto de"
+    filter:
+      changeset: "Conjuntos de cambios"
+      message: "Foros"
+      news: "Noticias"
+      project_attribute: "Atributos del proyecto"
+      subproject: "Incluir subproyectos"
+      time_entry: "Tiempo empleado"
+      wiki_edit: "Wiki"
+      work_package: "Paquetes de trabajo"
   #common attributes of all models
   attributes:
     active: "Activo"
@@ -1044,7 +1064,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
-  button_apply_changes: "Apply changes"
+  button_apply_changes: "Aplicar cambios"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
   button_sort: "Ordenar"
@@ -1353,6 +1373,7 @@ es:
     work_package_note: 'Nota de paquete de trabajo añadido'
     title:
       project: "Proyecto: %{name}"
+      subproject: "Subproyecto: %{name}"
   export:
     your_work_packages_export: "Exportar paquetes de trabajo"
     succeeded: "La exportación se ha completado correctamente."
@@ -1378,7 +1399,6 @@ es:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Español"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1764,10 +1784,10 @@ es:
   label_not_contains: "no contiene"
   label_not_equals: "no es"
   label_on: "en"
-  label_operator_all: "is not empty"
-  label_operator_none: "is empty"
-  label_operator_equals_or: "is (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_all: "no está vacío"
+  label_operator_none: "está vacío"
+  label_operator_equals_or: "es (OR)"
+  label_operator_equals_all: "es (AND)"
   label_open_menu: "Abrir menú"
   label_open_work_packages: "abierto"
   label_open_work_packages_plural: "abierto"
@@ -2633,8 +2653,6 @@ es:
     Si utiliza campos personalizados: tenga en cuenta que los campos personalizados deben activarse también en cada proyecto por separado.
   text_custom_field_hint_activate_per_project_and_type: >
     Los campos personalizados se deben activar en cada tipo de paquete de trabajo y en cada proyecto por separado.
-  text_wp_custom_field_html: >
-    La edición Enterprise añadirá estos add-ons extra para los campos personalizados de los paquetes de trabajo: <br> <ul> <li><b>Permitir la selección múltiple de campos personalizados de tipo Lista o Usuario</b></li> </ul>
   text_wp_status_read_only_html: >
     La edición Enterprise añadirá estos add-ons extras para los campos de estado de los paquetes de trabajo: <br> <ul> <li><b>Permitir marcar como solo lectura los paquetes de trabajo en estados específicos</b></li> </ul>
   text_project_custom_field_html: >
@@ -2670,12 +2688,13 @@ es:
   text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar paquete(s) de trabajo seleccionado(s)?"
   text_work_packages_ref_in_commit_messages: "Referenciando y reparando paquetes de trabajo en mensajes de commit"
   text_journal_added: "%{label} %{value} añadido"
-  text_journal_changed_html: "%{label} se cambió de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} se cambió de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "%{label} actualizado"
   text_journal_changed_with_diff: "%{label} modificado (%{link})"
   text_journal_deleted: "%{label} eliminado (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} eliminado (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} establecido al %{value}"
   text_journal_set_with_diff: "%{label} fijado (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2967,12 +2986,12 @@ es:
       title: "Eliminar el pauqete de trabajo"
   working_days:
     info: >
-      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      <b>Definir los días considerados parte de la semana laboral.</b><br/> Los días que no están seleccionados se omiten al programar paquetes de trabajo (y no se incluyen en la cuenta de días). Estos pueden ser substituidos en los paquetes de trabajo.
     instance_wide_info: >
-      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      <b>Días no laborables específicos (días festivos y cerrados)</b><br/> Las fechas añadidas a la siguiente lista se consideran no laborales y se omiten al programar paquetes de trabajo.
     change_button: "Cambiar los días laborables"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the save changes button.
+      Cambiar qué días de la semana se consideran días laborables o no laborables puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo en todos los proyectos de esta instancia. <br/> Tenga en cuenta que los cambios solo se aplican después de hacer clic en el botón aplicar cambios.
     journal_note:
       changed: _**Días laborales** cambiados (%{changes})._
       days:
@@ -2995,6 +3014,7 @@ es:
       code_409: "No se pudo actualizar el recurso debido a un conflicto de modificaciones."
       code_429: "Demasiadas solicitudes. Vuelva a intentarlo más tarde."
       code_500: "Ha ocurrido un error interno."
+      code_500_outbound_request_failure: "Una solicitud de salida a otro recurso ha fallado con el código de estado %{status_code}."
       not_found:
         work_package: "No se encuentra el paquete de trabajo que busca, o bien se ha eliminado."
       expected:

@@ -225,13 +225,13 @@ it:
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
           test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
-          quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
+          quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} è un'<span class='spot-icon spot-icon_enterprise-addons'></span>aggiunta Enterprise."
           upgrade_info: "Esegui l'upgrade a un piano a pagamento per attivarlo e iniziare a usarlo nel tuo team."
           benefits:
-            description: "What are the benefits of the Enterprise on-premises edition?"
+            description: "Quali sono i benefici dell'edizione Enterprise in sede?"
             high_security: "Funzionalità di sicurezza"
             high_security_text: "Singolo segno su (SAML, OpenID Connect, CAS), gruppi LDAP."
             installation: "Assistenza all'installazione"
@@ -249,22 +249,23 @@ it:
           link_quote: "Richiedi un preventivo"
           more_info: "Ulteriori informazioni"
           text: >
-            The OpenProject Enterprise edition builds on top of the Community edition. It includes Enterprise add-ons and professional support mainly aimed at organizations with more than 10 users that manage business critical projects with OpenProject.
+            L'edizione OpenProject Enterprise si basa sull'edizione Community. Include aggiunte premium e supporto professionale principalmente rivolto alle organizzazioni con più di 10 utenti che gestiscono progetti critici di business con OpenProject.
           unlimited: "Illimitato"
-          you_contribute: "Developers need to pay their bills, too. By upgrading to the Enterprise edition, you will be supporting this open source community effort and contributing to its development, maintenance and continuous improvement."
+          you_contribute: "Anche gli sviluppatori devono pagare le bollette. Con l'aggiornamento all'edizione Enterprise, sosterrai questo sforzo della comunità open source e contribuirai al suo sviluppo, manutenzione e miglioramento continuo."
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "Add non-working day" below to add a date.'
-          new_date: '(new)'
-        add_non_working_day: "Non-working day"
-        already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
-        change_button: "Save and reschedule"
-        change_title: "Change working days"
-        removed_title: "You will remove the following days from the non-working days list:"
-        change_description: "Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance."
+          empty_state_header: "Giorni non lavorativi"
+          empty_state_description: 'Per quest''anno non sono definiti giorni non lavorativi specifici. Fai clic su "+ Giorno non lavorativo" di seguito per aggiungere una data.'
+          new_date: '(nuovo)'
+        add_non_working_day: "Giorno non lavorativo"
+        already_added_error: "Esiste già un giorno non lavorativo per questa data. Può essere creato un solo giorno non lavorativo per ogni data univoca."
+        change_button: "Salva e riprogramma"
+        change_title: "Cambia giorni lavorativi"
+        removed_title: "Rimuoverai i seguenti giorni dall'elenco dei giorni non lavorativi:"
+        change_description: "Cambiare quali giorni della settimana sono considerati giorni lavorativi o giorni non lavorativi può influenzare l'inizio e la fine di tutte le macro-attività in tutti i progetti in questo caso."
         warning: >
-          The changes might take some time to take effect. You will be notified when all relevant work packages have been updated. Are you sure you want to continue?
+          L'applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutti i pacchetti di lavoro pertinenti saranno aggiornati.
+          Vuoi davvero continuare?
     custom_actions:
       date:
         specific: 'il'
@@ -293,8 +294,6 @@ it:
           one: "Primo criterio di ordinamento"
           two: "Secondo criterio di ordinamento"
           three: "Terzo criterio di ordinamento"
-      upsale_for_more: "Advanced filters allow you to also filter for file names and content of work package attachments. Please upgrade to a paid plan to use this add-on."
-      upsale_link: 'Enterprise edition.'
     general_text_no: "no"
     general_text_yes: "si"
     general_text_No: "No"
@@ -317,7 +316,7 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
+                La versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Carica e collega i file dai pacchetti di lavoro al tuo archivio di file Nextcloud.</li> <li>Follow-up su modifiche al progetto con il monitoraggio delle attività del progetto.</li> <li>Aggiungi giorni festivi a livello di istanza (giorni non lavorativi).</li> <li>Archivia i progetti da non amministratori.</li> <li>Nuovo filtro predefinito per macro-attività scadute.</li> </ul>
     label_activate: "Attiva"
     label_assignee: 'Assegnatario'
     label_add_column_after: "Aggiungi colonna dopo"
@@ -717,8 +716,8 @@ it:
         reset_title: "Reimposta la configurazione del modulo"
         confirm_reset: >
           Attenzione: vuoi reimpostare la configurazione del modulo? Tutti gli attributi torneranno al loro gruppo predefinito e TUTTI i campi personalizzati verranno disattivati.
-        upgrade_to_ee: "Upgrade to Enterprise on-premises edition"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee: "Passa all'edizione Enterprise in sede"
+        upgrade_to_ee_text: "Wow! Se hai bisogno di questa aggiunta sei un vero professionista! Ti andrebbe di aiutare noi sviluppatori OpenSource diventando un cliente dell'edizione Enterprise?"
         more_information: "Altre informazioni"
         nevermind: "Lascia stare"
       edit:
@@ -1002,7 +1001,7 @@ it:
         move_column_left: "Spostare la colonna a sinistra"
         move_column_right: "Spostare la colonna a destra"
         hide_column: "Nascondi la colonna"
-        insert_columns: "Inserire colonne..."
+        insert_columns: "Inserisci colonne"
         filters: "Filtri"
         display_sums: "Visualizza somme"
         confirm_edit_cancel: "Sei sicuro di voler annullare la modifica del nome di questa vista? Il titolo verrà impostato sul valore precedente."
@@ -1056,7 +1055,7 @@ it:
         upsale:
           attribute_highlighting: 'Vuoi che alcune macro-attività si distinguano dalla massa?'
           relation_columns: 'Vuoi visualizzare le relazioni nell''elenco di macro-attività?'
-          check_out_link: 'Check out the Enterprise edition.'
+          check_out_link: 'Scopri l''edizione Enterprise.'
         relation_filters:
           filter_work_packages_by_relation_type: 'Filtra le macro-attività per tipo di relazione'
       tabs:
@@ -1065,26 +1064,25 @@ it:
         relations: Relazioni
         watchers: Osservatori
         files: File
-        files_tab_migration_help: 'È ora possibile allegare file alle macro-attività tramite la nuova scheda:'
       time_relative:
         days: "giorni"
         weeks: "Settimane"
         months: "mesi"
     toolbar:
       settings:
-        configure_view: "Configura la vista..."
-        columns: "Colonne ..."
-        sort_by: "Ordina per ..."
-        group_by: "Raggruppa per..."
+        configure_view: "Configura vista"
+        columns: "Colonne"
+        sort_by: "Ordina per"
+        group_by: "Raggruppa per"
         display_sums: "Visualizza somme"
         display_hierarchy: "Visualizza gerarchia"
         hide_hierarchy: "Nascondi gerarchia"
         hide_sums: "Nascondi le somme"
         save: "Salva"
-        save_as: "Salva come …"
-        export: "Esporta ..."
-        visibility_settings: "Impostazioni di visibilità ..."
-        page_settings: "Rinomina vista..."
+        save_as: "Salva come"
+        export: "Esporta"
+        visibility_settings: "Impostazioni di visibilità"
+        page_settings: "Rinomina vista"
         delete: "Cancella"
       filter: "Filtro"
       unselected_title: "Macro-attività"
@@ -1200,9 +1198,9 @@ it:
           description: 'I permessi basati sul ruolo assegnato nel progetto selezionato'
         placeholder:
           title: 'Utente segnaposto'
-          title_no_ee: 'Placeholder user (Enterprise edition only add-on)'
+          title_no_ee: 'Utente del segnaposto (funzionalità solo dell''edizione Enterprise)'
           description: 'Non ha accesso al progetto e non è inviata alcuna email.'
-          description_no_ee: 'Has no access to the project and no emails are sent out. <br>Check out the <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
+          description_no_ee: 'Non ha accesso al progetto e non è inviata alcuna email. <br>Dai un''occhiata all''<a href="%{eeHref}" target="_blank">edizione Enterprise</a>'
       principal:
         label:
           name_or_email: 'Nome o indirizzo email'
@@ -1261,5 +1259,5 @@ it:
       filter_chip:
         remove: 'Rimuovi'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Questo è un punto focale per i modali. Premere MAIUSC+TAB per tornare all''elemento scatenante modale.'
         Close: 'Chiuso'

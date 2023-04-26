@@ -36,7 +36,7 @@ class CustomFieldsPage
   end
 
   def name_attribute
-    find '#custom_field_name'
+    find_by_id 'custom_field_name'
   end
 
   def default_value_attributes

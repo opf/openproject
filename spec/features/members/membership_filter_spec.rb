@@ -29,27 +29,27 @@
 require 'spec_helper'
 
 describe 'group memberships through groups page', js: true do
-  shared_let(:admin) { create :admin }
-  let!(:project) { create :project, name: 'Project 1', identifier: 'project1' }
+  shared_let(:admin) { create(:admin) }
+  let!(:project) { create(:project, name: 'Project 1', identifier: 'project1') }
 
   let!(:peter) do
-    create :user,
+    create(:user,
            firstname: 'Peter',
            lastname: 'Pan',
            mail: 'foo@example.org',
            member_in_project: project,
            member_through_role: role,
-           preferences: { hide_mail: false }
+           preferences: { hide_mail: false })
   end
 
   let!(:hannibal) do
-    create :user,
+    create(:user,
            firstname: 'Pan',
            lastname: 'Hannibal',
            mail: 'foo@example.com',
            member_in_project: project,
            member_through_role: role,
-           preferences: { hide_mail: true }
+           preferences: { hide_mail: true })
   end
   let(:role) { create(:role, permissions: %i(add_work_packages)) }
   let(:members_page) { Pages::Members.new project.identifier }
@@ -65,19 +65,19 @@ describe 'group memberships through groups page', js: true do
 
     members_page.search_for_name 'pan'
     members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
 
     members_page.search_for_name '@example'
     members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
 
     members_page.search_for_name '@example.org'
     members_page.find_user 'Peter Pan'
     members_page.find_mail peter.mail
-    expect(page).to have_no_selector('td.mail', text: hannibal.mail)
+    expect(page).not_to have_selector('td.mail', text: hannibal.mail)
   end
 end

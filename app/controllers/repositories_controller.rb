@@ -51,11 +51,29 @@ class RepositoriesController < ApplicationController
 
   rescue_from OpenProject::SCM::Exceptions::SCMError, with: :show_error_command_failed
 
-  def update
-    @repository = @project.repository
-    update_repository(params.fetch(:repository, {}))
+  def show
+    if Setting.autofetch_changesets? && @path.blank?
+      @repository.fetch_changesets
+      @repository.update_required_storage
+    end
 
-    redirect_to project_settings_repository_path(@project)
+    @limit = Setting.repository_truncate_at
+    @entries = @repository.entries(@path, @rev, limit: @limit)
+    @changeset = @repository.find_changeset_by_name(@rev)
+
+    if request.xhr?
+      if @entries && @repository.valid?
+        render(partial: 'dir_list_content')
+      else
+        render(nothing: true)
+      end
+    elsif @entries.nil? && @repository.invalid?
+      show_error_not_found
+    else
+      @changesets = @repository.latest_changesets(@path, @rev)
+      @properties = @repository.properties(@path, @rev)
+      render action: 'show'
+    end
   end
 
   def create
@@ -67,6 +85,13 @@ class RepositoriesController < ApplicationController
     else
       flash[:error] = service.build_error
     end
+
+    redirect_to project_settings_repository_path(@project)
+  end
+
+  def update
+    @repository = @project.repository
+    update_repository(params.fetch(:repository, {}))
 
     redirect_to project_settings_repository_path(@project)
   end
@@ -103,31 +128,6 @@ class RepositoriesController < ApplicationController
       flash[:error] = repository.errors.full_messages
     end
     redirect_to project_settings_repository_path(@project)
-  end
-
-  def show
-    if Setting.autofetch_changesets? && @path.blank?
-      @repository.fetch_changesets
-      @repository.update_required_storage
-    end
-
-    @limit = Setting.repository_truncate_at
-    @entries = @repository.entries(@path, @rev, limit: @limit)
-    @changeset = @repository.find_changeset_by_name(@rev)
-
-    if request.xhr?
-      if @entries && @repository.valid?
-        render(partial: 'dir_list_content')
-      else
-        render(nothing: true)
-      end
-    elsif @entries.nil? && @repository.invalid?
-      show_error_not_found
-    else
-      @changesets = @repository.latest_changesets(@path, @rev)
-      @properties = @repository.properties(@path, @rev)
-      render action: 'show'
-    end
   end
 
   alias_method :browse, :show
@@ -490,21 +490,5 @@ class RepositoriesController < ApplicationController
     # TODO: need to handle edge cases of non-binary content that isn't UTF-8
     OpenProject::MimeType.is_type?('text', path) ||
       ent.dup.force_encoding('UTF-8') == ent.dup.force_encoding('BINARY')
-  end
-end
-
-class Date
-  def months_ago(date = Date.today)
-    ((date.year - year) * 12) + (date.month - month)
-  end
-
-  def weeks_ago(date = Date.today)
-    ((date.year - year) * 52) + (date.cweek - cweek)
-  end
-end
-
-class String
-  def with_leading_slash
-    starts_with?('/') ? self : "/#{self}"
   end
 end

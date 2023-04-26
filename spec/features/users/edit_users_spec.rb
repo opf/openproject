@@ -29,11 +29,11 @@
 require 'spec_helper'
 
 describe 'edit users', js: true do
-  shared_let(:admin) { create :admin }
+  shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let(:user) { create :user, mail: 'foo@example.com' }
+  let(:user) { create(:user, mail: 'foo@example.com') }
 
-  let!(:auth_source) { create :auth_source }
+  let!(:auth_source) { create(:auth_source) }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -85,18 +85,18 @@ describe 'edit users', js: true do
   end
 
   context 'as global user' do
-    shared_let(:global_manage_user) { create :user, global_permission: :manage_user }
+    shared_let(:global_manage_user) { create(:user, global_permission: :manage_user) }
     let(:current_user) { global_manage_user }
 
     it 'can too edit the user' do
       visit edit_user_path(user)
 
-      expect(page).to have_no_selector('.admin-overview-menu-item', text: 'Overview')
-      expect(page).to have_no_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
+      expect(page).not_to have_selector('.admin-overview-menu-item', text: 'Overview')
+      expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
       expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
 
       expect(page).to have_selector 'select#user_auth_source_id'
-      expect(page).to have_no_selector 'input#user_password'
+      expect(page).not_to have_selector 'input#user_password'
 
       expect(page).to have_selector '#user_login'
       expect(page).to have_selector '#user_firstname'

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'creating a child directly after the wp itself was created', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project, types: [type]) }
   let(:wp_page) { Pages::FullWorkPackageCreate.new }
 
@@ -37,9 +37,9 @@ describe 'creating a child directly after the wp itself was created', js: true d
   let!(:priority) { create(:priority, is_default: true) }
   let(:type) { create(:type, custom_fields: [custom_field]) }
   let(:custom_field) do
-    create :work_package_custom_field,
+    create(:work_package_custom_field,
            field_format: 'int',
-           is_for_all: true
+           is_for_all: true)
   end
   let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
 
@@ -67,7 +67,7 @@ describe 'creating a child directly after the wp itself was created', js: true d
     scroll_to_and_click relations_tab
     find('[data-qa-selector="op-wp-inline-create"]').click
     fill_in 'wp-new-inline-edit--field-subject', with: 'A child WP'
-    find('#wp-new-inline-edit--field-subject').native.send_keys(:return)
+    find_by_id('wp-new-inline-edit--field-subject').native.send_keys(:return)
 
     # Expect CF value to be still visible
     wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
