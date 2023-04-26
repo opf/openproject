@@ -31,7 +31,7 @@ export const InModal:Story = {
             >Cancel</button>
             <button
               type="button"
-              class="spot-action-bar--action button button_inline-flex -danger"
+              class="spot-action-bar--action button -danger"
             >
               <span class="spot-icon spot-icon_delete"></span>
               <span>Delete attachment</span>
@@ -118,7 +118,7 @@ export const Transparent:Story = {
           </button>
           <button
             type="button"
-            class="spot-action-bar--action button button_inline-flex -danger"
+            class="spot-action-bar--action button -danger"
           >
             <span class="spot-icon spot-icon_delete"></span>
             <span>Delete</span>
@@ -161,21 +161,21 @@ export const MoreButtons:Story = {
         <div class="spot-action-bar--left">
           <button
             type="button"
-            class="spot-action-bar--action button button_inline-flex"
+            class="spot-action-bar--action button"
           >
             <span class="spot-icon spot-icon_watched"></span>
             <span>Watch</span>
           </button>
           <button
             type="button"
-            class="spot-action-bar--action button button_inline-flex"
+            class="spot-action-bar--action button"
           >
             <span class="spot-icon spot-icon_mark-read"></span>
             <span>Mark as read</span>
           </button>
           <button
             type="button"
-            class="spot-action-bar--action button button_inline-flex"
+            class="spot-action-bar--action button"
           >
             <span>More</span>
             <span class="spot-icon spot-icon_dropdown"></span>
