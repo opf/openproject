@@ -10,6 +10,9 @@
       <select class="op-baseline--filter"
       (change)="filterChange($event.target.value)"
         >
+        <option [textContent]="text.drop_down_none_option"
+                      [selected]="!filterSelected"
+                      [value]=""></option>
         <option
           *ngFor="let availableValue of baselineAvailableValues"
           [value]="availableValue.value">

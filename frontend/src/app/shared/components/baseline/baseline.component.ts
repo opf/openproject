@@ -79,6 +79,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
 
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
+    drop_down_none_option: this.I18n.t('js.baseline.drop_down.none'),
     header_description: this.I18n.t('js.baseline.header_description'),
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
@@ -90,10 +91,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
   };
 
   public baselineAvailableValues = [
-    {
-      value: 'none',
-      title: this.I18n.t('js.baseline.drop_down.none'),
-    },
     {
       value: 'oneDayAgo',
       title: this.I18n.t('js.baseline.drop_down.yesterday'),
@@ -132,22 +129,19 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
     super();
   }
 
-  public toggleOpen():void {
-    this.opened = !this.opened;
-  }
-
   public clearSelection():void {
+    this.filterSelected = false;
+    this.timeZoneSelected =false;
+    this.selectedTime = '';
+    this.selectedDate = '';
+    this.selectedFilter = '';
+    this.dropDownDescription = '';
   }
 
   public onSubmit(e:Event):void {
     e.preventDefault();
     // TODO: string should be sent to the server
     const filterString = `${this.selectedFilter}@${this.selectedTime}`;
-    this.close();
-  }
-
-  public close():void {
-    this.opened = false;
   }
 
   public yesterdayDate():string {
@@ -221,7 +215,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
   }
 
   public filterChange(value:string):void {
-    if (value !== 'none') {
+    if (value !== '') {
       this.filterSelected = true;
       this.selectedFilter = value;
       switch (value) {
