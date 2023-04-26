@@ -91,6 +91,10 @@ OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
 OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
 # You can also specify multiple attributes, the first found value will be used. Example:
 # OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="['mail', 'samAccountName', 'uid']"
+
+# In case the idP does not respond with a name ID, you can override it to a mapped attribute
+# Replace the value with a mapped attribute from your idP
+OPENPROJECT_SAML_SAML_UID__ATTRIBUTE="uid"
 ```
 
 Please note that every underscore (`_`) in the original configuration key has to be replaced by a duplicate underscore
@@ -150,84 +154,17 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
         "first_name" => ['givenName'],
         # What attribute in SAML maps to the last name (default: sn)
         "last_name" => ['sn']
-      }
+      },
+      
+      # Override the value being used to uniquely identify the user
+      # in case the NameID attribute is missing from SAMLResponse
+      "uid_attribute" => 'uid'
     }
   }
 })
 ```
 
 
-
-#### 1.3 config/configuration.yml file
-
-> **NOTE**: ONLY for OpenProject version 11 and older
-
-In your OpenProject packaged installation, you can modify the `/opt/openproject/config/configuration.yml` file. 
-Edit the file in your favorite editor
-
-```
-vim /opt/openproject/config/configuration.yml
-```
-
-This will contains the complete OpenProject configuration and can be extended to also contain metadata settings and connection details for your SSO identity provider.
-
-The following is an exemplary file with a set of common settings:
-
-```yaml
-default:
-  # <-- other configuration -->
-  saml:
-    # First SAML provider
-    mysaml1:  
-      # Name of the provider, leave this at saml unless you use multiple providers
-      name: "saml"
-      # The name that will be display in the login button
-      display_name: "My SSO"
-      # Use the default SAML icon
-      icon: "auth_provider-saml.png"
-
-      # The callback within OpenProject that your idP should redirect to
-      assertion_consumer_service_url: "https://<YOUR OPENPROJECT HOSTNAME>/auth/saml/callback"
-      # The SAML issuer string that OpenProject will call your idP with
-      issuer: "https://<YOUR OPENPROJECT HOSTNAME>"
-
-      # IF your SSL certificate on your SSO is not trusted on this machine, you need to add it here in ONE line
-      ### one liner to generate certificate in ONE line
-      ### awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' <yourcert.pem>
-      #idp_cert: "-----BEGIN CERTIFICATE-----\n ..... SSL CERTIFICATE HERE ...-----END CERTIFICATE-----\n"
-      # Otherwise, the certificate fingerprint must be added
-      # Either `idp_cert` or `idp_cert_fingerprint` must be present!
-      idp_cert_fingerprint: "E7:91:B2:E1:..."
-
-      # Replace with your SAML 2.0 redirect flow single sign on URL
-      # For example: "https://sso.example.com/saml/singleSignOn"
-      idp_sso_target_url: "<YOUR SSO URL>"
-      # Replace with your redirect flow single sign out URL
-      # or comment out
-      # For example: "https://sso.example.com/saml/proxySingleLogout"
-      idp_slo_target_url: "<YOUR SSO logout URL>"
-
-      # Attribute map in SAML
-      attribute_statements:
-        # What attribute in SAML maps to email (default: mail)
-        email: ['mail']
-        # What attribute in SAML maps to the user login (default: uid)
-        login: ['uid']
-        # What attribute in SAML maps to the first name (default: givenName)
-        first_name: ['givenName']
-        # What attribute in SAML maps to the last name (default: sn)
-        last_name: ['sn']
-      
-    # OPTIONAL: Additional SAML provider(s)
-    #mysaml2:
-    #  name: "saml2"
-    #  display_name: "Additional SSO"
-    #  (...)
-    #mysaml3:
-    #  (...)
-```
-
-Be sure to choose the correct indentation and base key. The items below the `saml` key should be indented two spaces more than `saml` already is. And `saml` can will need to be placed in the `default` or `production` group so it will already be indented. You will get an YAML parsing error otherwise when trying to start OpenProject.
 
 ### 2. Configuration details
 
@@ -236,8 +173,6 @@ In this section, we detail some of the required and optional configuration optio
 #### 2.1 Mandatory: Response signature verification
 
 SAML responses by identity providers are required to be signed. You can configure this by either specifying the response's certificate fingerprint in `idp_cert_fingerprint` , or by passing the entire PEM-encoded certificate string in `idp_cert` (beware of newlines and formatting the cert, [c.f. the idP certificate options in omniauth-saml](https://github.com/omniauth/omniauth-saml#options))
-
-
 
 #### 2.2 Mandatory: Attribute mapping
 
@@ -270,25 +205,17 @@ Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml
 })
 ```
 
-**b) Attribute mapping example for configuration.yml**
+**b) Attribute mapping example using environment variables**
 
-> **NOTE**: ONLY for OpenProject version 11 and older
-
-```yaml
-default:
-  # <-- other configuration -->
-    mysaml1:
-      # <-- other configuration -->
-      # Attribute map in SAML
-      attribute_statements:
-        # Use the `mail` attribute for 
-        email: ['mail']
-        # Use the mail address as login
-        login: ['mail']
-        # What attribute in SAML maps to the first name (default: givenName)
-        first_name: ['givenName']
-        # What attribute in SAML maps to the last name (default: sn)
-        last_name: ['sn']
+```bash
+# What attribute in SAML maps to email
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
+# Map the login attribute from a set of possible login attribute
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[username, samAccountName, uid]"
+# What attribute in SAML maps to the first name
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+# What attribute in SAML maps to the last name
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
 ```
 
 
@@ -300,7 +227,58 @@ That means the response should contain attribute names 'mail', etc. as configure
 
 If you have URN or OID attribute identifiers, you can modify the request as follows:
 
-> **NOTE**: Example is ONLY for OpenProject version 11 and older and needs to be redesigned for ENV configuration
+
+
+**a) Request attribute format example for database**
+
+```ruby
+Setting.plugin_openproject_auth_saml = Hash(Setting.plugin_openproject_auth_saml).deep_merge({
+  "providers" => {
+    "saml" => {
+      # Modify the request attribute sent in the request
+      # These oids are exemplary, but will often be identical,
+      # please check with your identity provider for the correct oids
+      "request_attributes" => 
+        - name: 'urn:oid:0.9.2342.19200300.100.1.3'
+          friendly_name: 'Mail address'
+          name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+        - name: 'urn:oid:2.5.4.42'
+          friendly_name: 'First name'
+          name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+        - name: 'urn:oid:2.5.4.4'
+          friendly_name: 'Last name'
+          name_format: urn:oasis:names:tc:SAML:2.0:attrname-format:uri
+      "attribute_statements" => {
+        # What attribute in SAML maps to email (default: mail)
+        "email" => ['mail'],
+        # another example for combined attributes in an array:
+        "login" => ['username', 'samAccountName', 'uid'],
+        # What attribute in SAML maps to the first name (default: givenName)
+        "first_name" => ['givenName'],
+        # What attribute in SAML maps to the last name (default: sn)
+        "last_name" => ['sn']
+      }
+    }
+  }
+})
+```
+
+**b) Attribute mapping example using environment variables**
+
+```bash
+# What attribute in SAML maps to email
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_EMAIL="[mail]"
+# Map the login attribute from a set of possible login attribute
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LOGIN="[username, samAccountName, uid]"
+# What attribute in SAML maps to the first name
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_FIRST__NAME="[givenName]"
+# What attribute in SAML maps to the last name
+OPENPROJECT_SAML_SAML_ATTRIBUTE__STATEMENTS_LAST__NAME="[sn]"
+```
+
+
+
+
 
 ```yaml
 default:
@@ -389,6 +367,22 @@ default:
       # <-- other configuration -->
       limit_self_registration: true
 ```
+
+
+
+#### 2.6. Optional: Override the NameID attribute
+
+In some cases, the idP can not be properly configured to return a NameID that is uniquely identifiable. In that case, you can tell OpenProject to use another attribute for uniquely identifying the user.
+
+```yml
+default:
+  # <-- other configuration -->
+    mysaml1:
+      # <-- other configuration -->
+      limit_self_registration: true
+```
+
+
 
 
 
