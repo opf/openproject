@@ -210,7 +210,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
     if (timeZone) {
       this.timeZoneSelected = true;
       const dateTime= `${this.selectedDate}  ${value}`;
-      this.selectedTimezoneFormattedTime = this.timezoneService.formattedDatetime(dateTime);
+      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
     }
   }
 
