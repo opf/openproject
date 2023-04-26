@@ -97,112 +97,13 @@ module WorkPackage::PDFExport::Markdown
   end
 
   def write_markdown!(work_package, markdown)
-    md2pdf = MD2PDF.new(styling_yml)
+    md2pdf = MD2PDF.new(markdown_styling_yml)
     md2pdf.draw_markdown(markdown, pdf, ->(src) {
       with_attachments? ? attachment_image_filepath(work_package, src) : nil
     })
   end
 
   private
-
-  def styling_yml
-    # rubocop:disable Naming/VariableNumber
-    {
-      header: {
-        size: 8,
-        styles: [:bold]
-      },
-      header_1: {
-        size: 10,
-        padding_bottom: 4
-      },
-      header_2: {
-        size: 10
-      },
-      header_3: {
-        size: 9
-      },
-      page: {
-        size: 10,
-        leading: 3
-      },
-      paragraph: {
-        align: 'left'
-      },
-      unordered_list: {
-        spacing: 1
-      },
-      unordered_list_point: {
-        spacing: 4
-      },
-      ordered_list: {
-        spacing: 1
-      },
-      ordered_list_point: {
-        spacing: 4
-      },
-      task_list: {
-        spacing: 1
-      },
-      task_list_point: {
-        spacing: 4,
-        checked: '☑', # fallback font is needed
-        unchecked: '☐' # fallback font is needed
-      },
-      link: {
-        styles: ['underline']
-      },
-      code: {
-        color: '880000',
-        size: 9,
-        font: 'SpaceMono'
-      },
-      blockquote: {
-        background_color: 'f4f9ff',
-        size: 10,
-        styles: ['italic'],
-        color: '0f3b66',
-        border_color: 'b8d6f4',
-        border_width: 1,
-        padding: 4,
-        padding_left: 6,
-        margin_top: 4,
-        margin_bottom: 4,
-        no_border_left: false,
-        no_border_right: true,
-        no_border_bottom: true,
-        no_border_top: true
-      },
-      image: {
-        align: 'left'
-      },
-      codeblock: {
-        background_color: 'F5F5F5',
-        color: '880000',
-        padding: '3mm',
-        size: 8,
-        margin_top: '2mm',
-        margin_bottom: '2mm',
-        font: 'SpaceMono'
-      },
-      table: {
-        auto_width: true,
-        margin_top: 4,
-        margin_bottom: 4,
-        header: {
-          size: 9,
-          styles: ['bold'],
-          background_color: 'F0F0F0'
-        },
-        cell: {
-          size: 9,
-          border_width: '0.25mm',
-          padding: 5
-        }
-      }
-    }
-    # rubocop:enable Naming/VariableNumber
-  end
 
   def attachment_image_filepath(work_package, src)
     # images are embedded into markup with the api-path as img.src

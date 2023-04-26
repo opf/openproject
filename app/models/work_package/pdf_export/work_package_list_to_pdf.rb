@@ -37,7 +37,7 @@
 # grow beyond limits. Therefore we create multiple smaller PDFs that we finally
 # merge do one file.
 
-require 'hexapdf'
+# require 'hexapdf'
 require 'open3'
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
@@ -46,6 +46,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::OverviewTable
   include WorkPackage::PDFExport::WorkPackageDetail
   include WorkPackage::PDFExport::Page
+  include WorkPackage::PDFExport::Style
 
   attr_accessor :pdf,
                 :options
@@ -231,5 +232,4 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
       title
     end
   end
-
 end

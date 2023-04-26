@@ -111,7 +111,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def make_link_href_cell(href, caption)
-    "<link href='#{href}'>#{caption}</link>"
+    "<color rgb='#{overview_table_link_color}'><link href='#{href}'>#{caption}</link></color>"
   end
 
   def make_link_anchor_cell(anchor, caption)

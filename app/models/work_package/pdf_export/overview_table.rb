@@ -175,42 +175,4 @@ module WorkPackage::PDFExport::OverviewTable
     sum_row[0] = 'Sum' # TODO: I18n and in which column should the sum text be
     sum_row
   end
-
-  def overview_group_header_style
-    { size: 11, styles: [:bold] }
-  end
-
-  def overview_group_header_margins_style
-    { margin_bottom: 4 }
-  end
-
-  def overview_table_margins_style
-    { margin_top: 20, margin_bottom: 0, margin_left: 0, margin_right: 0 }
-  end
-
-  def overview_table_header_cell_style
-    { size: 9, text_color: "000000", font_style: :bold,
-      padding_left: 5, padding_right: 5, padding_top: 0, padding_bottom: 5 }
-  end
-
-  def overview_table_sums_cell_style
-    { size: 8, text_color: "000000", font_style: :bold }
-  end
-
-  def overview_table_subject_indent_style
-    8
-  end
-
-  def overview_table_cell_padding_style
-    { padding_left: 5,
-      padding_right: 5,
-      padding_top: 0,
-      padding_bottom: 5 }
-  end
-
-  def overview_table_cell_style
-    { size: 9,
-      text_color: "000000",
-      border_widths: [0.25, 0.25, 0.25, 0.25] }
-  end
 end

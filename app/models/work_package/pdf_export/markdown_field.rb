@@ -32,14 +32,8 @@ module WorkPackage::PDFExport::MarkdownField
   def write_markdown_field!(work_package, markdown, label)
     return if markdown.blank?
 
-    with_margin(margins_style) do
-      write_markdown! work_package, "# <font size=\"12\">#{label}</font>\n\n#{markdown}"
+    with_margin(wp_markdown_field_margins_style) do
+      write_markdown! work_package, "# <font size=\"#{wp_markdown_field_label_size}\">#{label}</font>\n\n#{markdown}"
     end
-  end
-
-  private
-
-  def margins_style
-    { margin_top: 12, margin_bottom: 8 }
   end
 end

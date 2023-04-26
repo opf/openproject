@@ -31,6 +31,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   include WorkPackage::PDFExport::Attachments
   include WorkPackage::PDFExport::WorkPackageDetail
   include WorkPackage::PDFExport::Page
+  include WorkPackage::PDFExport::Style
 
   attr_accessor :pdf, :columns
 
@@ -99,13 +100,13 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def write_history_item_headline!(journal)
     headline = "#{format_time(journal.created_at)} - #{journal.user.name}"
-    with_margin(headline_margins_style) do
-      pdf.formatted_text([headline_style.merge({ text: headline })])
+    with_margin(wp_headline_margins_style) do
+      pdf.formatted_text([wp_headline_style.merge({ text: headline })])
     end
   end
 
   def write_history_item_content!(journal)
-    with_margin(item_margins_style) do
+    with_margin(wp_item_margins_style) do
       journal.details.each do |detail|
         text = journal.render_detail(detail, html: true, only_path: false)
         write_markdown! work_package, "* #{text}"
@@ -126,8 +127,8 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def write_label!(label)
-    with_margin(label_margins_style) do
-      pdf.formatted_text([label_style.merge({ text: label })])
+    with_margin(wp_label_margins_style) do
+      pdf.formatted_text([wp_label_style.merge({ text: label })])
     end
   end
 
@@ -138,40 +139,16 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
 
   def write_changeset_item_headline!(changeset)
     headline = "#{format_time(changeset.committed_on)} - #{changeset.author}"
-    with_margin(headline_margins_style) do
-      pdf.formatted_text([headline_style.merge({ text: headline })])
+    with_margin(wp_headline_margins_style) do
+      pdf.formatted_text([wp_headline_style.merge({ text: headline })])
     end
   end
 
   def write_changeset_item_content!(changeset)
     if changeset.comments.present?
-      with_margin(item_margins_style) do
-        pdf.formatted_text([headline_style.merge({ text: changeset.comments.to_s })])
+      with_margin(wp_item_margins_style) do
+        pdf.formatted_text([wp_headline_style.merge({ text: changeset.comments.to_s })])
       end
     end
-  end
-
-  def headline_margins_style
-    { margin_top: 4, margin_bottom: 4 }
-  end
-
-  def headline_style
-    { size: 9, styles: [:bold] }
-  end
-
-  def item_margins_style
-    { margin_left: 10 }
-  end
-
-  def item_style
-    { size: 9, styles: [:italic] }
-  end
-
-  def label_margins_style
-    { margin_top: 12, margin_bottom: 8 }
-  end
-
-  def label_style
-    { size: 11, styles: [:bold] }
   end
 end
