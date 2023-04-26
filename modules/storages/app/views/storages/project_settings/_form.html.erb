@@ -13,7 +13,15 @@
 </div>
 
 <div class="form--field -required">
-  <label class="form--label -bold">Project folder</label>
+  <%= styled_label_tag :project_folder_mode, class: "-bold" do %>
+    <%= t(:"storages.label_project_folder") %>
+    <%= angular_component_tag 'op-static-attribute-help-text',
+                              inputs: {
+                                title: "Title",
+                                content: "Lorem ipsum sit ajsakjdkassjd asdjkasjd",
+                              }
+    %>
+  <% end %>
   <div class="form--field-container -horizontal">
     <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
       <%= f.radio_button :project_folder_mode, 'inactive', no_label: true %>
