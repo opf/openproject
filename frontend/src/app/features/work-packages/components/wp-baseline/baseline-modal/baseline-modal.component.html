@@ -24,5 +24,8 @@
       <span class="spot-body-small">{{ text.header_description }}</span>
     </div>
   </ng-container>
-  <op-baseline slot="body"></op-baseline>
+  <op-baseline
+    slot="body"
+    (submitted)="opened = false"
+  ></op-baseline>
 </spot-drop-modal>

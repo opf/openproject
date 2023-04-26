@@ -56,7 +56,7 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   }
 
   public valueFromQuery(query:QueryResource):string[] {
-    return query.timestamps as string[];
+    return query.timestamps;
   }
 
   public hasChanged(query:QueryResource) {
