@@ -181,6 +181,9 @@ import { FileLinksResourceService } from 'core-app/core/state/file-links/file-li
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-timestamps/baseline-modal/baseline-modal.component';
+import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-timestamps/baseline/baseline.component';
+import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-timestamps/baseline-loading/baseline-loading.component';
 
 @NgModule({
   imports: [
@@ -409,6 +412,11 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 
     // Notifications
     WorkPackageMarkNotificationButtonComponent,
+
+    // Timestamps
+    OpBaselineModalComponent,
+    OpBaselineComponent,
+    OpBaselineLoadingComponent,
   ],
   exports: [
     WorkPackagesTableComponent,
