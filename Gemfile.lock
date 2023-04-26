@@ -659,7 +659,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.4.6)
+    pg (1.5.2)
     plaintext (0.3.4)
       activesupport (> 2.2.1)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -1074,7 +1074,7 @@ DEPENDENCIES
   ox
   paper_trail (~> 12.3)
   parallel_tests (~> 4.0)
-  pg (~> 1.4.0)
+  pg (~> 1.5.0)
   plaintext (~> 0.3.2)
   posix-spawn (~> 0.3.13)
   prawn (~> 2.2)
