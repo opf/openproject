@@ -177,6 +177,18 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     return (this.resource.$links as unknown&{ addFileLink:IHalResourceLink }).addFileLink.href;
   }
 
+  private get projectFolderId():string|null {
+    if (this.projectStorage.projectFolderMode === 'inactive') {
+      return null;
+    }
+
+    if (this.projectStorage.projectFolderId === null) {
+      throw new Error(`Project folder id 'null' not allowed for project folder mode '${this.projectStorage.projectFolderMode}'.`);
+    }
+
+    return this.projectStorage.projectFolderId;
+  }
+
   private onGlobalDragLeave:(_event:DragEvent) => void = (_event) => {
     this.dragging = Math.max(this.dragging - 1, 0);
     this.cdRef.detectChanges();
@@ -276,17 +288,14 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     combineLatest([
       this.storage,
       this.fileLinks,
-      this.storage.pipe(switchMap((storage) => this.entryLocation(storage))),
       this.collectionKey(),
     ]).pipe(first())
-      .subscribe(([storage, fileLinks, location, collectionKey]) => {
+      .subscribe(([storage, fileLinks, collectionKey]) => {
         const locals = {
-          storageType: storage._links.type.href,
-          storageName: storage.name,
-          storageLink: storage._links.self,
           addFileLinksHref: this.addFileLinksHref,
+          projectFolderId: this.projectFolderId,
+          storage,
           collectionKey,
-          location,
           fileLinks,
         };
         this.opModalService.show<FilePickerModalComponent>(FilePickerModalComponent, 'global', locals);
@@ -306,20 +315,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     this.filePicker.nativeElement.value = '';
   }
 
-  private entryLocation(storage:IStorage):Observable<string> {
-    if (this.projectStorage.projectFolderMode === 'inactive') {
-      return of('/');
-    }
-
-    if (this.projectStorage.projectFolderId === null) {
-      throw new Error(`Project folder id 'null' not allowed for project folder mode '${this.projectStorage.projectFolderMode}'.`);
-    }
-
-    return this.storageFilesResourceService
-      .file(storage.id, this.projectStorage.projectFolderId)
-      .pipe(map((file) => file.location));
-  }
-
   private storageFileUpload(file:File):void {
     this.storage
       .pipe(
@@ -332,15 +327,13 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private selectUploadLocation(storage:IStorage):Observable<LocationData> {
-    return this.entryLocation(storage)
+    const locals = {
+      projectFolderId: this.projectFolderId,
+      storage,
+    };
+
+    return this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)
       .pipe(
-        map((location):Record<string, unknown> => ({
-          storageType: storage._links.type.href,
-          storageName: storage.name,
-          storageLink: storage._links.self,
-          location,
-        })),
-        switchMap((locals) => this.opModalService.show<LocationPickerModalComponent>(LocationPickerModalComponent, 'global', locals)),
         switchMap((modal) => modal.closingEvent),
         filter((modal) => modal.submitted),
         first(),

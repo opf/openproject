@@ -15,6 +15,7 @@ lol:
       choose_location: "crwdns838831:0crwdne838831:0"
       types:
         nextcloud: "crwdns823098:0crwdne823098:0"
+        default: "crwdns851971:0crwdne851971:0"
       information:
         connection_error: >
           crwdns824868:0%{storageType}crwdnd824868:0%{storageType}crwdne824868:0
