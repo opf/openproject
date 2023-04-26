@@ -50,13 +50,22 @@ describe Storages::Storage do
       it 'raises an error', aggregate_failures: true do
         expect do
           described_class.shorten_provider_type('Storages::Nextcloud')
-        end.to raise_error('Unknown provider_type! Given: Storages::Nextcloud. Expected the following signature: Storages::{Name of the provider}Storage')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages::Nextcloud. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
         expect do
           described_class.shorten_provider_type('Storages:NextcloudStorage')
-        end.to raise_error('Unknown provider_type! Given: Storages:NextcloudStorage. Expected the following signature: Storages::{Name of the provider}Storage')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages:NextcloudStorage. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
         expect do
           described_class.shorten_provider_type('Storages::NextcloudStorag')
-        end.to raise_error('Unknown provider_type! Given: Storages::NextcloudStorag. Expected the following signature: Storages::{Name of the provider}Storage')
+        end.to raise_error(
+          'Unknown provider_type! Given: Storages::NextcloudStorag. ' \
+          'Expected the following signature: Storages::{Name of the provider}Storage'
+        )
       end
     end
   end
