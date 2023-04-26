@@ -32,6 +32,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
@@ -41,11 +42,16 @@ export class WorkPackageViewTimestampsService extends WorkPackageQueryStateServi
     protected readonly states:States,
     protected readonly querySpace:IsolatedQuerySpace,
     protected readonly pathHelper:PathHelperService,
+    protected readonly configurationService:ConfigurationService,
   ) {
     super(querySpace);
   }
 
   public isActive():boolean {
+    if (!this.configurationService.activeFeatureFlags.includes('showChanges')) {
+      return false;
+    }
+
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
   }
 
