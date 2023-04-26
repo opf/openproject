@@ -112,6 +112,7 @@ describe AccountController,
         get :login
 
         expect(response).to render_template 'login'
+        expect(session).not_to have_key :internal_login
       end
     end
 
@@ -119,7 +120,7 @@ describe AccountController,
       it 'allows to login internally using a special route' do
         get :internal_login
 
-        expect(response.status).to eq 404
+        expect(response).to have_http_status(404)
         expect(session[:internal_login]).not_to be_present
       end
     end
@@ -831,9 +832,7 @@ describe AccountController,
         end
 
         it 'preserves the back url' do
-          expect(response).to redirect_to(
-                                '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url'
-                              )
+          expect(response).to redirect_to('/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
         end
 
         it 'calls the user_registered callback' do

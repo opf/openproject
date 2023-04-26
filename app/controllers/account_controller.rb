@@ -41,6 +41,7 @@ class AccountController < ApplicationController
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
   before_action :check_internal_login_enabled, only: :internal_login
+  after_action :remove_internal_login_flag, only: :login
 
   layout 'no_menu'
 
@@ -536,5 +537,9 @@ class AccountController < ApplicationController
 
   def check_internal_login_enabled
     render_404 unless omniauth_direct_login?
+  end
+
+  def remove_internal_login_flag
+    session.delete :internal_login
   end
 end
