@@ -2646,8 +2646,6 @@ ca:
     Mentre utilitzes camps personalitzats: Tingues en compte que els camps personalitzats s'han d'activar per projecte també.
   text_custom_field_hint_activate_per_project_and_type: >
     Els camps personalitzats han d'activar-se per classe de paquet de treball i per projecte.
-  text_wp_custom_field_html: >
-    L'edició Enterprise afegirà add-ons extra pels camps personalitzats de paquets de treball: <br> <ul> <li><b>Permet múltiple selecció dels camps personalitzats pels estils Llista o Usuari</b></li> </ul>
   text_wp_status_read_only_html: >
     L'edició Enterprise afegirà add-ons extra pels estats de paquets de treball: <br> <ul> <li><b>Permet marcar paquets de treball com a només lectura per a estats específics</b></li> </ul>
   text_project_custom_field_html: >

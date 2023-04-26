@@ -45,6 +45,7 @@ import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packa
 import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
+import { OpBaselineModalComponent } from 'core-app/shared/components/baseline-modal/baseline-modal.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -71,6 +72,11 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: OpProjectIncludeComponent,
+    },
+    {
+      component: OpBaselineModalComponent,
+      show: () => this.configuration.activeFeatureFlags.includes('showChanges'),
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: WorkPackageFilterButtonComponent,

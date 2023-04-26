@@ -5,10 +5,6 @@ import {
   ID,
 } from '@datorama/akita';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import {
-  ApiV3ListParameters,
-  listParamsString,
-} from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { IHalResourceLinks } from 'core-app/core/state/hal-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { filter } from 'lodash';

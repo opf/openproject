@@ -15,6 +15,7 @@ nl:
       choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Sommige %{storageType} instellingen werken niet. Neem contact op met uw %{storageType} beheerder.

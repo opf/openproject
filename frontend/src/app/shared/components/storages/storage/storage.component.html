@@ -5,12 +5,12 @@
     <span
       class="op-tab-content--header-icon spot-icon spot-icon_nextcloud-circle op-files-tab--icon op-files-tab--icon_primary"
     ></span>
-    <span class="op-tab-content--header-text" [textContent]="storage.name"></span>
+    <span class="op-tab-content--header-text" [textContent]="(storage | async)?.name"></span>
     <a
       class="op-tab-content--header-action spot-link"
-      aria-label="{{text.openStorage()}}"
-      [title]="text.openStorage()"
-      [href]="storageFilesLocation"
+      aria-label="{{text.openStorage(storageType | async)}}"
+      [title]="text.openStorage(storageType | async)"
+      [href]="(storage | async)?._links.open.href"
       target="_blank"
     >
       <span class="spot-icon spot-icon_external-link"></span>
@@ -26,7 +26,7 @@
 
   <div class="op-file-section">
     <ul
-      *ngIf="(fileLinks$ | async).length > 0"
+      *ngIf="(fileLinks | async)?.length > 0"
       class="spot-list spot-list_compact op-file-list"
       [ngClass]="{
         'op-file-section': true,
@@ -35,21 +35,21 @@
       data-qa-selector="file-list"
     >
       <li
-        *ngFor="let fileLink of fileLinks$ | async; let i = index;"
+        *ngFor="let fileLink of fileLinks | async; let i = index;"
         class="spot-list--item op-file-list--item"
         data-qa-selector="file-list--item"
         op-file-link-list-item
         [fileLink]="fileLink"
-        [disabled]="disabled"
+        [disabled]="disabled | async"
         [allowEditing]="allowLinking"
         (removeFileLink)="removeFileLink(fileLink)"
       ></li>
     </ul>
 
     <span
-      *ngIf="!allowUploading && (storageErrors | async).length === 0 && (fileLinks$ | async).length === 0"
+      *ngIf="!allowUploading && (storageErrors | async)?.length === 0 && (fileLinks | async)?.length === 0"
       class="op-file-section--empty-list-hint"
-      [textContent]="text.emptyList()"
+      [textContent]="text.emptyList(this.storageType | async)"
     ></span>
 
     <input
@@ -63,7 +63,7 @@
     />
 
     <button
-      *ngIf="allowUploading && (storageErrors | async).length === 0"
+      *ngIf="allowUploading && (storageErrors | async)?.length === 0"
       [attr.aria-label]="text.dropBox.uploadLabel"
       data-qa-selector="op-storage--drop-box"
       [ngClass]="{
@@ -71,7 +71,7 @@
         'op-file-section--drop-box': true,
         'op-file-section--drop-box_dragging': dragging > 0,
         'op-file-section--drop-box_dragging-over': draggingOverDropZone,
-        'op-file-section--drop-box_float': (fileLinks$ | async).length
+        'op-file-section--drop-box_float': (fileLinks | async)?.length
       }"
       type="button"
       (dragover)="onDragOver($event)"
@@ -83,19 +83,19 @@
         class="spot-icon spot-icon_upload-arrow op-file-section--drop-box-icon"
       ></span>
       <span
-        *ngIf="(fileLinks$ | async).length > 0"
+        *ngIf="(fileLinks | async)?.length > 0"
         class="op-file-section--drop-box-text"
-        [textContent]="text.dropBox.dropFiles()"
+        [textContent]="text.dropBox.dropFiles(this.storageType | async)"
       ></span>
       <span
-        *ngIf="(fileLinks$ | async).length === 0"
+        *ngIf="(fileLinks | async)?.length === 0"
         class="op-file-section--drop-box-text"
-        [textContent]="text.dropBox.dropClickFiles()"
+        [textContent]="text.dropBox.dropClickFiles(this.storageType | async)"
       ></span>
     </button>
 
     <div
-      *ngIf="(storageErrors | async).length === 0"
+      *ngIf="(storageErrors | async)?.length === 0"
       class="op-file-section--actions"
     >
       <button
@@ -103,7 +103,7 @@
         type="button"
         class="spot-link"
         data-qa-selector="op-storage--upload-file-button"
-      (click)="triggerFileInput()"
+        (click)="triggerFileInput()"
       >
         <span class="spot-icon spot-icon_upload-arrow"></span>
         <span [textContent]="text.actions.uploadFile"></span>

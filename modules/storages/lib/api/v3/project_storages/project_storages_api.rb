@@ -39,7 +39,7 @@ module API::V3::ProjectStorages
                   .call(params)
 
         unless query.valid?
-          message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
+          message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
           raise ::API::Errors::InvalidQuery.new(message)
         end
 
@@ -55,6 +55,10 @@ module API::V3::ProjectStorages
       route_param :id, type: Integer, desc: 'ProjectStorage id' do
         after_validation do
           @project_storage = Storages::ProjectStorage.find(params[:id])
+
+          unless current_user.allowed_to?(:view_file_links, @project_storage.project)
+            raise ::API::Errors::NotFound.new
+          end
         end
 
         get &API::V3::Utilities::Endpoints::Show.new(model: Storages::ProjectStorage).mount

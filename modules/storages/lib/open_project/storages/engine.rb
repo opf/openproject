@@ -43,6 +43,7 @@ module OpenProject::Storages
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :legacy_upload_preparation
+      OpenProject::FeatureDecisions.add :managed_project_folders
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -66,8 +67,25 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new create destroy] },
-                   dependencies: %i[]
+                   { 'storages/admin/projects_storages': %i[index new create destroy] }
+
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          permission :read_files,
+                     {},
+                     dependencies: %i[]
+          permission :write_files,
+                     {},
+                     dependencies: %i[]
+          permission :create_files,
+                     {},
+                     dependencies: %i[]
+          permission :delete_files,
+                     {},
+                     dependencies: %i[]
+          permission :share_files,
+                     {},
+                     dependencies: %i[]
+        end
       end
 
       # Menu extensions

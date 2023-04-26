@@ -9,6 +9,7 @@ nl:
         identifier: Identifier
         secret: Geheim
         scope: Scope
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID aanbieders
     providers:
@@ -17,3 +18,6 @@ nl:
       no_results_table: Er zijn nog geen aanbieders gedefinieerd.
       plural: OpenID aanbieders
       singular: OpenID aanbieders
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

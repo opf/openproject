@@ -15,6 +15,7 @@ fr:
       choose_location: "Choisir emplacement"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Certains paramètres de %{storageType} ne fonctionnent pas. Veuillez contacter votre administrateur %{storageType}.

@@ -28,12 +28,16 @@
 
 .detail-panel-description-content
   .relation
-    clear: both //resolve the problem if inside are elements with float
+    //resolve the problem if inside are elements with float
+    clear: both
+
     h3
       cursor: pointer
+
       a
         text-decoration: none
         color: inherit
+
       i
         font-size: 0.8rem
 
@@ -43,30 +47,47 @@
 .hierarchy-item
   margin-bottom: 2px
 
+.relation-container
+  margin-bottom: $spot-spacing-1
+
 .relation-row
   line-height: 2em
-  .attribute-header
-    font-size: 0.8em
-    text-transform: uppercase
-    font-weight: bold
-  .description-section
-    border: 1px dotted lightblue
-    padding: 4px
+
   .inline-edit--container
     @include text-shortener
     // Similar to inner span's line-height
     line-height: 1.6em
+
     .inline-edit--display-field
       vertical-align: middle
-  .controls-container
-    text-align: right
+
+  &--grid
+    display: grid
+    align-items: center
+    grid-template: "id info subject status actions" / 10% 12.5% 45% 22.5% 10%
+    margin-bottom: $spot-spacing-0_5
+
+    @media #{$spot-mq-mobile}
+      grid-template: "id info status actions" "subject subject subject subject" / 25% 30% 30% 15%
+
+
+    &-actions
+      grid-area: actions
+      display: flex
+      justify-content: end
+
+    &-id
+      @include text-shortener()
+      grid-area: id
+      font-size: 0.875rem
+
+    &-subject
+      @include text-shortener()
+      grid-area: subject
+      font-size: 0.875rem
 
 .wp-relations-hierarchy-section
   margin-top: 35px
-
-.wp-relations-hierarchy-subject
-  @include text-shortener
-  display: block
 
 .wp-relations-controls-section
   text-align: right
@@ -85,6 +106,7 @@
 .wp-relations-create-button
   margin: 0.25rem 0
   line-height: 1.5
+
   .-create-button-full-width
     margin-top: 1.5em
     width: 100%

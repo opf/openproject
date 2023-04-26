@@ -2637,8 +2637,6 @@ zh-TW:
     當使用自訂欄位：請留意自訂欄位需要分別被每個專案個別啟用。
   text_custom_field_hint_activate_per_project_and_type: >
     自訂欄位需要個別被工作項目類別和專案啟用。
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >

@@ -118,6 +118,13 @@ shared_examples_for 'parse error' do |details|
   end
 end
 
+shared_examples_for 'invalid filters' do
+  it_behaves_like 'error response',
+                  400,
+                  'InvalidQuery',
+                  I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
+end
+
 shared_examples_for 'unauthenticated access' do
   it_behaves_like 'error response',
                   401,

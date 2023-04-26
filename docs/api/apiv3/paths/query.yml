@@ -135,9 +135,12 @@ get:
         default: false
         type: boolean
     - name: timestamps
-      description: Indicates the timestamps to filter by when showing changed attributes
-        on work packages. Values can be either ISO8601 durations or dates.
-      example: '2023-01-01,P-1Y,PT0S'
+      description: >
+        Indicates the timestamps to filter by when showing changed attributes
+        on work packages. Values can be either ISO8601 dates, ISO8601 durations and the
+        following relative date keywords: "oneDayAgo@HH:MM", "lastWorkingDay@HH:MM", "oneWeekAgo@HH:MM",
+        "oneMonthAgo@HH:MM". The "HH:MM" part represents the zero paded hours and minutes.
+      example: '2023-01-01,P-1Y,PT0S,lastWorkingDay@12:00'
       in: query
       required: false
       schema:

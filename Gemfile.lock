@@ -842,7 +842,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.12.2)
-    ruby-prof (1.6.2)
+    ruby-prof (1.6.3)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.15.0)
@@ -864,7 +864,7 @@ GEM
       sprockets-rails
       tilt
     secure_headers (6.5.0)
-    selenium-webdriver (4.8.6)
+    selenium-webdriver (4.9.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -929,7 +929,7 @@ GEM
     validate_url (1.0.15)
       activemodel (>= 3.0.0)
       public_suffix
-    view_component (2.82.0)
+    view_component (3.0.0)
       activesupport (>= 5.2.0, < 8.0)
       concurrent-ruby (~> 1.0)
       method_source (~> 1.0)

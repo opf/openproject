@@ -224,7 +224,7 @@ description: |-
   }
   ```
 
-  ## Dates, Times and Durations
+  ## Dates, Times, Durations and Timestamps
 
   Representation of time related values in this API is done according to [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601).
   In this specification the following terms will be used as type specifiers (e.g. in tables):
@@ -235,7 +235,10 @@ description: |-
 
   * `Duration` - refers to an ISO 8601 duration, e.g. "P1DT18H"
 
-  * `Timestamp` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z" or to an ISO 8601 duration, e.g. "P1DT18H"
+  * `Timestamp` - refers to an ISO 8601 combined date and time, e.g. "2014-05-21T13:37:00Z" or to an ISO 8601 duration, e.g. "P1DT18H".
+  The following shorthand values are also being parsed as duration: "1d", "1w", "1m", "1y", "1y-2m", "-2y".
+  It can also refer the following relative date keywords: "oneDayAgo@HH:MM", "lastWorkingDay@HH:MM", "oneWeekAgo@HH:MM", "oneMonthAgo@HH:MM".
+  The "HH:MM" part represents the zero paded hours and minutes of the relative date e.g. "oneDayAgo@00:00", "lastWorkingDay@21:00".
 
   ## Colors
 

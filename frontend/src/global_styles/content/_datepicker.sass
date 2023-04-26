@@ -140,6 +140,9 @@ $datepicker--selected-border-radius: 5px
         border-radius: 0
         box-shadow: none !important
 
+        &:hover
+          border-color: $spot-color-basic-gray-3
+
         &.flatpickr-non-working-day
           @include non-working-day
 
@@ -152,8 +155,8 @@ $datepicker--selected-border-radius: 5px
           border-radius: 0
 
           &:hover
-            color: $spot-color-basic-gray-1 !important
-            border-color: #e6e6e6 !important
+            color: $spot-color-basic-gray-1
+            border-color: $spot-color-basic-gray-3
 
         &.selected:not(.startRange, .endRange)
           border-radius: $datepicker--selected-border-radius
@@ -164,6 +167,10 @@ $datepicker--selected-border-radius: 5px
           background: var(--primary-color)
           border-color: var(--primary-color)
           color: $spot-color-basic-white
+
+          &:hover
+            background: var(--primary-color-dark)
+            border-color: var(--primary-color-dark)
 
         &.startRange
           border-radius: $datepicker--selected-border-radius 0 0 $datepicker--selected-border-radius
@@ -179,6 +186,10 @@ $datepicker--selected-border-radius: 5px
           color: var(--primary-color)
           border-color: var(--primary-color--minor3)
           border-radius: 0
+
+          &:hover
+            color: var(--primary-color-dark)
+            border-color: var(--primary-color-dark)
 
           &.flatpickr-non-working-day
             background: $spot-color-basic-gray-6

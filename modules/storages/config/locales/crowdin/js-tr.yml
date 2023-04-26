@@ -15,6 +15,7 @@ tr:
       choose_location: "Konum seç"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Bazı %{storageType} ayarları çalışmıyor. Lütfen %{storageType} yöneticinizle iletişime geçin.
