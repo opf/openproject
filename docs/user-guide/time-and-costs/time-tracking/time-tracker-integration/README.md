@@ -10,11 +10,13 @@ keywords: time tracking, time tracker integration
 
 Please note that the Time Tracker integration is not developed, nor officially supported by OpenProject.
 
-[Time Tracker for OpenProject](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your Open  Project instance. 
+<img src="https://user-images.githubusercontent.com/8611608/234582698-d41991bb-0e44-4ef2-bbd2-3ab5cac598c1.png" width="300">
+
+[Time Tracker for OpenProject](https://open-time-tracker.com/) is a mobile app that records time spent on tasks and logs it to your Open Project instance. 
 
 ## Installation
 
-Time Tracker app is available in the Apple AppStore and on GitHub.
+Time Tracker app is available in the Apple [AppStore](https://apps.apple.com/us/app/time-tracker-for-open-project/id1669753978), Google [PlayStore](https://play.google.com/store/apps/details?id=vonrehberg.timetracker) and on [GitHub](https://github.com/VonRehbergConsulting/open-time-tracker).
 
 ## Configuration
 
