@@ -40,6 +40,7 @@ class AccountController < ApplicationController
   before_action :apply_csp_appends, only: %i[login]
   before_action :disable_api
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
+  before_action :check_internal_login_enabled, only: :internal_login
 
   layout 'no_menu'
 
@@ -531,5 +532,9 @@ class AccountController < ApplicationController
     return unless appends
 
     append_content_security_policy_directives(appends)
+  end
+
+  def check_internal_login_enabled
+    render_404 unless omniauth_direct_login?
   end
 end
