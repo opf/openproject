@@ -120,7 +120,7 @@ describe AccountController,
       it 'allows to login internally using a special route' do
         get :internal_login
 
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(:not_found)
         expect(session[:internal_login]).not_to be_present
       end
     end
