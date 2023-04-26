@@ -607,7 +607,7 @@ GEM
     net-imap (0.3.4)
       date
       net-protocol
-    net-ldap (0.17.1)
+    net-ldap (0.18.0)
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.1)
@@ -1040,7 +1040,7 @@ DEPENDENCIES
   mini_magick (~> 4.12.0)
   multi_json (~> 1.15.0)
   my_page!
-  net-ldap (~> 0.17.0)
+  net-ldap (~> 0.18.0)
   nokogiri (~> 1.14.3)
   oj (~> 3.14.0)
   okcomputer (~> 1.18.1)
