@@ -80,7 +80,7 @@ module WorkPackage::PDFExport::Style
   end
 
   def overview_group_header_margins_style
-    { margin_bottom: 20 }
+    { margin_bottom: 10 }
   end
 
   def overview_table_margins_style

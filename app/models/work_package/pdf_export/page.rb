@@ -36,18 +36,26 @@ module WorkPackage::PDFExport::Page
 
   def write_logo!
     image_obj, image_info, scale = logo_pdf_image
+    top = logo_pdf_top
+    left = logo_pdf_left(image_info.width.to_f * scale)
     pdf.repeat :all do
-      top = pdf.bounds.top + page_header_top + (page_logo_height / 2)
-      left = case page_logo_align
-             when :middle
-               ((pdf.bounds.right - pdf.bounds.left) - (image_info.width.to_f * scale)) / 2
-             when :right
-               pdf.bounds.right - (image_info.width.to_f * scale)
-             else
-               0 # :left
-             end
       pdf.embed_image image_obj, image_info, { at: [left, top], scale: }
     end
+  end
+
+  def logo_pdf_left(logo_width)
+    case page_logo_align
+    when :middle
+      (pdf.bounds.right - pdf.bounds.left - logo_width) / 2
+    when :right
+      pdf.bounds.right - logo_width
+    else
+      0 # :left
+    end
+  end
+
+  def logo_pdf_top
+    pdf.bounds.top + page_header_top + (page_logo_height / 2)
   end
 
   def logo_pdf_image
