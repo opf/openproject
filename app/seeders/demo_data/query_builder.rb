@@ -133,7 +133,7 @@ module DemoData
       set_version_filter! filters
       set_type_filter! filters
       set_parent_filter! filters
-      set_assignee_filter! filters
+      set_assigned_to_filter! filters
 
       filters
     end
@@ -174,8 +174,8 @@ module DemoData
       end
     end
 
-    def set_assignee_filter!(filters)
-      assignee = seed_data.find_reference(config[:assignee])
+    def set_assigned_to_filter!(filters)
+      assignee = seed_data.find_reference(config[:assigned_to])
       if assignee
         filters[:assigned_to_id] = {
           operator: "=",

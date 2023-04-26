@@ -163,7 +163,7 @@ RSpec.describe DemoData::ProjectSeeder do
         'queries' => [
           {
             'name' => 'Team planner',
-            'assignee' => :openproject_admin
+            'assigned_to' => :openproject_admin
           }
         ]
       }

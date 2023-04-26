@@ -100,7 +100,7 @@ module DemoData
       {
         project:,
         author: user,
-        assigned_to: find_principal(attributes['assignee']),
+        assigned_to: find_principal(attributes['assigned_to']),
         subject: attributes['subject'],
         description: attributes['description'],
         status: find_status(attributes),
@@ -126,13 +126,12 @@ module DemoData
       end
     end
 
-    def find_principal(name)
-      if name
-        group_assignee = Group.find_by(lastname: name)
-        return group_assignee unless group_assignee.nil?
+    def find_principal(lastname)
+      if lastname.present?
+        Principal.find_by!(lastname:)
+      else
+        user
       end
-
-      user
     end
 
     def find_priority(attributes)

@@ -108,7 +108,7 @@ projects:
           - assigned_to
       - t_name: Team planner
         module: team_planner
-        assignee: :openproject_admin
+        assigned_to: :openproject_admin
     boards:
       kanban:
         t_name: 'Kanban board'

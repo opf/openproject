@@ -67,5 +67,23 @@ describe RootSeeder,
     expect(WorkPackage.where.not(parent: nil).count).to eq 55
   end
 
+  it 'assigns work packages to groups' do
+    count_by_assignee =
+      WorkPackage
+        .joins(:assigned_to)
+        .group("array_to_string(ARRAY[type || ':', firstname, lastname], ' ')")
+        .count
+        .transform_keys!(&:squish)
+    expect(count_by_assignee).to eq(
+      "Group: Architects" => 1,
+      "Group: BIM Coordinators" => 11,
+      "Group: BIM Managers" => 2,
+      "Group: BIM Modellers" => 21,
+      "Group: Lead BIM Coordinators" => 8,
+      "Group: Planners" => 21,
+      "User: OpenProject Admin" => 12
+    )
+  end
+
   include_examples 'no email deliveries'
 end

@@ -50,6 +50,7 @@ describe DemoData::WorkPackageSeeder do
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
   let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
   let(:work_packages_data) { [] }
+  let(:seed_data) { SeedData.new('work_packages' => work_packages_data) }
 
   def work_package_data(**attributes)
     {
@@ -61,8 +62,6 @@ describe DemoData::WorkPackageSeeder do
   end
 
   before do
-    seed_data = SeedData.new('work_packages' => work_packages_data)
-
     # Admin user needed by ProjectSeeder
     # The AdminUserSeeder cannot be put in the initial_seeding block as it needs
     # to add a reference to the created admin user in the seed_data for each
@@ -307,6 +306,53 @@ describe DemoData::WorkPackageSeeder do
     it 'creates parent-child relations between work packages' do
       wp_major, wp_other = WorkPackage.order(:id).to_a
       expect(wp_other.description).to eq("Please also check [this one]({{opSetting:base_url}}/wp/#{wp_major.id}).")
+    end
+  end
+
+  describe 'assigned_to' do
+    let(:a_user) { create(:user, lastname: 'Bernard') }
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'without assigned_to'),
+        work_package_data(subject: 'with assigned_to', assigned_to: a_user.lastname)
+      ]
+    end
+
+    it 'assigns work packages without assigned_to to the admin user' do
+      work_package = WorkPackage.find_by(subject: 'without assigned_to')
+      expect(work_package.assigned_to).to eq(User.user.admin.last)
+    end
+
+    it 'assigns work packages with assigned_to referencing the user lastname' do
+      work_package = WorkPackage.find_by(subject: 'with assigned_to')
+      expect(work_package.assigned_to).to eq(a_user)
+    end
+
+    context 'with a BCF work package data' do
+      let(:bcf_work_package_without_assigned_to) { create(:work_package, project:) }
+      let(:bcf_issue_without_assigned_to) do
+        create(:bcf_issue, work_package: bcf_work_package_without_assigned_to, uuid: 'aaaaaaaa-5721-4bf1-a08c-aed50dc19353')
+      end
+      let(:bcf_work_package_with_assigned_to) { create(:work_package, project:) }
+      let(:bcf_issue_with_assigned_to) do
+        create(:bcf_issue, work_package: bcf_work_package_with_assigned_to, uuid: 'bbbbbbbb-5721-4bf1-a08c-aed50dc19353')
+      end
+      let(:work_packages_data) do
+        [
+          work_package_data(bcf_issue_uuid: bcf_issue_without_assigned_to.uuid),
+          work_package_data(bcf_issue_uuid: bcf_issue_with_assigned_to.uuid, assigned_to: a_user.lastname)
+        ]
+      end
+
+      it 'assigns work packages without assigned_to to the admin user' do
+        expect(bcf_work_package_without_assigned_to.reload.assigned_to)
+          .to eq(User.user.admin.last)
+      end
+
+      it 'assigns work packages with assigned_to referencing the user lastname' do
+        expect(bcf_work_package_with_assigned_to.reload.assigned_to)
+          .to eq(a_user)
+      end
     end
   end
 end
