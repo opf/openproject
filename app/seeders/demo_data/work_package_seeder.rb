@@ -126,12 +126,8 @@ module DemoData
       end
     end
 
-    def find_principal(lastname)
-      if lastname.present?
-        Principal.find_by!(lastname:)
-      else
-        user
-      end
+    def find_principal(reference)
+      seed_data.find_reference(reference) || user
     end
 
     def find_priority(attributes)

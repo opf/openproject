@@ -33,57 +33,89 @@ describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
          with_settings: { journal_aggregation_time_minutes: 0 } do
-  before_all do
-    RSpec::Mocks.with_temporary_scope do
-      # the mocking of settings and configuration is duplicated here because
-      # it's executed outside of an example context
-      with_config(edition: 'bim')
-      with_settings(journal_aggregation_time_minutes: 0)
-      described_class.new.seed_data!
+  shared_examples 'creates BIM demo data' do
+    it 'creates an admin user' do
+      expect(User.not_builtin.where(admin: true).count).to eq 1
+    end
+
+    it 'creates the BIM demo data' do
+      expect(Project.count).to eq 4
+      expect(WorkPackage.count).to eq 76
+      expect(Wiki.count).to eq 3
+      expect(Query.count).to eq 29
+      expect(Group.count).to eq 8
+      expect(Type.count).to eq 7
+      expect(Status.count).to eq 4
+      expect(IssuePriority.count).to eq 4
+      expect(Projects::Status.count).to eq 4
+      expect(Bim::IfcModels::IfcModel.count).to eq 3
+      expect(Grids::Overview.count).to eq 4
+      expect(Boards::Grid.count).to eq 2
+    end
+
+    it 'creates follows and parent-child relations' do
+      expect(Relation.follows.count).to eq 35
+      expect(WorkPackage.where.not(parent: nil).count).to eq 55
     end
   end
 
-  it 'creates an admin user' do
-    expect(User.not_builtin.where(admin: true).count).to eq 1
+  describe 'demo data' do
+    before_all do
+      RSpec::Mocks.with_temporary_scope do
+        # the mocking of settings and configuration is duplicated here because
+        # it's executed outside of an example context
+        with_config(edition: 'bim')
+        with_settings(journal_aggregation_time_minutes: 0)
+
+        described_class.new.seed_data!
+      end
+    end
+
+    include_examples 'creates BIM demo data'
+
+    include_examples 'no email deliveries'
+
+    it 'assigns work packages to groups' do
+      count_by_assignee =
+        WorkPackage
+          .joins(:assigned_to)
+          .group("array_to_string(ARRAY[type || ':', firstname, lastname], ' ')")
+          .count
+          .transform_keys!(&:squish)
+      expect(count_by_assignee).to eq(
+        "Group: Architects" => 1,
+        "Group: BIM Coordinators" => 11,
+        "Group: BIM Managers" => 2,
+        "Group: BIM Modellers" => 21,
+        "Group: Lead BIM Coordinators" => 8,
+        "Group: Planners" => 21,
+        "User: OpenProject Admin" => 12
+      )
+    end
   end
 
-  it 'creates the BIM demo data' do
-    expect(Project.count).to eq 4
-    expect(WorkPackage.count).to eq 76
-    expect(Wiki.count).to eq 3
-    expect(Query.count).to eq 29
-    expect(Group.count).to eq 8
-    expect(Type.count).to eq 7
-    expect(Status.count).to eq 4
-    expect(IssuePriority.count).to eq 4
-    expect(Projects::Status.count).to eq 4
-    expect(Bim::IfcModels::IfcModel.count).to eq 3
-    expect(Grids::Overview.count).to eq 4
-    expect(Boards::Grid.count).to eq 2
-  end
+  describe 'demo data translated in another language' do
+    before_all do
+      RSpec::Mocks.with_temporary_scope do
+        # the mocking of settings and configuration is duplicated here because
+        # it's executed outside of an example context
+        with_config(edition: 'bim')
+        with_settings(journal_aggregation_time_minutes: 0)
 
-  it 'creates follows and parent-child relations' do
-    expect(Relation.follows.count).to eq 35
-    expect(WorkPackage.where.not(parent: nil).count).to eq 55
-  end
+        # simulate a translation by changing the returned string on `I18n#t` calls
+        allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
+          original_translation = m.call(*args, **kw)
+          "tr: #{original_translation}"
+        end
 
-  it 'assigns work packages to groups' do
-    count_by_assignee =
-      WorkPackage
-        .joins(:assigned_to)
-        .group("array_to_string(ARRAY[type || ':', firstname, lastname], ' ')")
-        .count
-        .transform_keys!(&:squish)
-    expect(count_by_assignee).to eq(
-      "Group: Architects" => 1,
-      "Group: BIM Coordinators" => 11,
-      "Group: BIM Managers" => 2,
-      "Group: BIM Modellers" => 21,
-      "Group: Lead BIM Coordinators" => 8,
-      "Group: Planners" => 21,
-      "User: OpenProject Admin" => 12
-    )
-  end
+        described_class.new.seed_data!
+      end
+    end
 
-  include_examples 'no email deliveries'
+    include_examples 'creates BIM demo data'
+
+    it 'has all Query.name translated' do
+      expect(Query.pluck(:name)).to all(start_with('tr: '))
+    end
+  end
 end

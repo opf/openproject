@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,31 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GroupSeeder < Seeder
-    include ::DemoData::References
+#++
 
-    def seed_data!
-      print_status '    ↳ Creating groups' do
-        seed_groups
-      end
+require 'spec_helper'
+
+RSpec.describe DemoData::GroupSeeder do
+  subject(:seeder) { described_class.new(seed_data) }
+
+  let(:seed_data) { SeedData.new(data_hash) }
+
+  context 'with a group defined' do
+    let(:data_hash) do
+      YAML.load <<~SEEDING_DATA_YAML
+        groups:
+        - name: Architects
+          reference: :architects
+      SEEDING_DATA_YAML
     end
 
-    def applicable?
-      Group.count.zero?
+    it 'creates the corresponding group with the given name as lastname' do
+      seeder.seed!
+      created_group = Group.last
+      expect(created_group).to have_attributes(lastname: 'Architects')
     end
 
-    private
-
-    def seed_groups
-      seed_data.each('groups') do |group_data|
-        group = create_group group_data['name']
-        seed_data.store_reference(group_data['reference'], group)
-      end
-    end
-
-    def create_group(name)
-      Group.create lastname: name
+    it 'references the group in the seed data' do
+      seeder.seed!
+      created_group = Group.last
+      expect(seed_data.find_reference(:architects)).to eq(created_group)
     end
   end
 end

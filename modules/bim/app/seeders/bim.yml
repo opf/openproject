@@ -49,12 +49,18 @@ type_configuration:
         query: :global_query__children
 groups:
   - t_name: Architects
+    reference: :group__architects
   - t_name: BIM Coordinators
+    reference: :group__bim_coordinators
   - t_name: BIM Managers
+    reference: :group__bim_managers
   - t_name: BIM Modellers
+    reference: :group__bim_modellers
   - t_name: Lead BIM Coordinators
+    reference: :group__lead_bim_coordinators
   - t_name: MEP Engineers
   - t_name: Planners
+    reference: :group__planners
   - t_name: Structural Engineers
 welcome:
   t_title: "Welcome to OpenProject BIM edition!"
@@ -114,6 +120,7 @@ projects:
           - duration
           - assigned_to
       - t_name: Milestones
+        reference: :demo_construction_project__query__milestones
         status: open
         type: :default_type_milestone
         timeline: true
@@ -215,8 +222,7 @@ projects:
           end_column: 3
           options:
             t_name: 'Milestones'
-            # TODO: ref wont be found with another language
-            queryId: '##query.id:"Milestones"'
+            queryId: '##query.id:demo_construction_project__query__milestones'
     work_packages: []
   demo-planning-constructing-project:
     t_name: (Demo) Planning & constructing
@@ -260,6 +266,7 @@ projects:
           - due_date
           - duration
       - t_name: Milestones
+        reference: :demo_planning_constructing_project__query__milestones
         status: open
         type: :default_type_milestone
         timeline: true
@@ -354,7 +361,7 @@ projects:
           end_column: 3
           options:
             t_name: 'Milestones'
-            queryId: '##query.id:"Milestones"'
+            queryId: '##query.id:demo_planning_constructing_project__query__milestones'
     work_packages:
       - :start: 4
         :t_subject: Project kick off construction project
@@ -365,8 +372,7 @@ projects:
           The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 1
       - :start: 7
         :t_subject: Basic evaluation
@@ -391,8 +397,7 @@ projects:
               *   Derive the cost estimation and time frame
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 4
           - :start: 14
             :t_subject: Summarize the results
@@ -412,8 +417,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 4
             :relations:
               - :to: :gathering_first_project_information
@@ -425,13 +429,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 1
             :relations:
               - :to: :summarize_the_results
                 :type: follows
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 14
         :relations:
           - :to: :project_kick_off_construction_project
@@ -461,8 +464,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 10
             :relations:
               - :to: :end_of_basic_evaluation
@@ -485,13 +487,12 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 4
             :relations:
               - :to: :developing_first_draft
                 :type: follows
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 17
       - :start: 42
         :t_subject: Passing of preliminary planning
@@ -500,8 +501,7 @@ projects:
           and &quot;Request&quot;, thus represents a general note.
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 1
         :relations:
           - :to: :summarize_results
@@ -530,8 +530,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 45
             :relations:
               - :to: :passing_of_preliminary_planning
@@ -543,14 +542,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 1
             :relations:
               - :to: :finishing_design
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 46
       - :start: 98
         :t_subject: Construction phase
@@ -575,8 +572,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 31
           - :start: 130
             :t_subject: Foundation
@@ -593,8 +589,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 25
             :relations:
               - :to: :start_constructing
@@ -616,8 +611,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 46
           - :start: 164
             :t_subject: Finishing the facade
@@ -635,8 +629,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 32
           - :start: 178
             :t_subject: Installing the building service systems
@@ -653,8 +646,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 25
           - :start: 189
             :t_subject: Final touches
@@ -674,8 +666,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 18
           - :start: 208
             :t_subject: House warming party
@@ -695,8 +686,7 @@ projects:
             :relations:
               - :to: :final_touches
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 110
         :relations:
           - :to: :design_freeze
@@ -743,6 +733,7 @@ projects:
           - due_date
           - duration
       - t_name: Milestones
+        reference: :demo_bim_project__query__milestones
         status: open
         type: :default_type_milestone
         timeline: true
@@ -840,8 +831,7 @@ projects:
           end_column: 3
           options:
             t_name: 'Milestones'
-            # TODO: ref wont be found with another language
-            queryId: '##query.id:"Milestones"'
+            queryId: '##query.id:demo_bim_project__query__milestones'
     work_packages:
       - :start: 14
         :t_subject: Project kick off creating BIM model
@@ -852,8 +842,7 @@ projects:
           The next step could be to check out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-bim-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Managers
+        :assigned_to: :group__bim_managers
         :duration: 1
       - :start: 15
         :t_subject: Project preparation
@@ -882,8 +871,7 @@ projects:
                   *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Planners
+            :assigned_to: :group__planners
             :duration: 14
             :relations:
               - :to: :project_kick_off_creating_bim_model
@@ -904,7 +892,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            :assigned_to: Lead BIM Coordinators
+            :assigned_to: :group__lead_bim_coordinators
             :duration: 18
             :relations:
               - :to: :gathering_project_data_and_info
@@ -916,13 +904,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: bim.default_status_resolved
             :type: default_type_milestone
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
               - :to: :creating_bim_execution_plan
                 :type: follows
-        # TODO: ref wont be found with another language
-                :assigned_to: BIM Managers
+                :assigned_to: :group__bim_managers
         :duration: 37
       - :start: 53
         :t_subject: End of preparation phase
@@ -931,8 +918,7 @@ projects:
           and &quot;Request&quot;, thus represents a general note.
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Managers
+        :assigned_to: :group__bim_managers
         :duration: 1
         :relations:
           - :to: :project_preparation
@@ -960,8 +946,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Modellers
+            :assigned_to: :group__bim_modellers
             :duration: 7
             :relations:
               - :to: :end_of_preparation_phase
@@ -980,8 +965,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: Lead BIM Coordinators
+            :assigned_to: :group__lead_bim_coordinators
             :duration: 2
             :relations:
               - :to: :modelling_initial_bim_model
@@ -993,14 +977,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Modellers
+            :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
               - :to: :initial_internal_model_check_and_revising
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: Architects
+        :assigned_to: :group__architects
         :duration: 11
         :relations:
           - :to: :completion_of_bim_execution_plan
@@ -1027,8 +1009,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Modellers
+            :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
               - :to: :submitting_initial_bim_model
@@ -1048,8 +1029,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Modellers
+            :assigned_to: :group__bim_modellers
             :duration: 6
             :relations:
               - :to: :referencing_external_bim_models
@@ -1068,7 +1048,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
               - :to: :modelling_of_the_bim_model
@@ -1080,14 +1060,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Modellers
+            :assigned_to: :group__bim_modellers
             :duration: 1
             :relations:
               - :to: :first_cycle_internal_model_check_and_revising
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Coordinators
+        :assigned_to: :group__bim_coordinators
         :duration: 10
         :relations:
           - :to: :submitting_initial_bim_model
@@ -1114,8 +1092,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 3
           - :start: 77
             :t_subject: Issue management, first cycle
@@ -1123,8 +1100,7 @@ projects:
             :description: ''
             :status: default_status_new
             :type: default_type_phase
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 4
           - :start: 82
             :t_subject: Finishing coordination, first cycle
@@ -1133,14 +1109,12 @@ projects:
               and &quot;Request&quot;, thus represents a general note.
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: Lead BIM Coordinators
+            :assigned_to: :group__lead_bim_coordinators
             :duration: 1
             :relations:
               - :to: :issue_management_first_cycle
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: Lead BIM Coordinators
+        :assigned_to: :group__lead_bim_coordinators
         :duration: 5
         :relations:
           - :to: :submitting_bim_model
@@ -1151,8 +1125,7 @@ projects:
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: default_status_new
         :type: default_type_phase
-        # TODO: ref wont be found with another language
-        :assigned_to: Lead BIM Coordinators
+        :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
           - :to: :finishing_coordination_first_cycle
@@ -1164,8 +1137,7 @@ projects:
           and &quot;Request&quot;, thus represents a general note.
         :status: default_status_new
         :type: default_type_phase
-        # TODO: ref wont be found with another language
-        :assigned_to: Lead BIM Coordinators
+        :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
           - :to: :modelling_and_coordinating_second_cycle
@@ -1176,8 +1148,7 @@ projects:
         :t_description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n*   ..."
         :status: default_status_new
         :type: default_type_phase
-        # TODO: ref wont be found with another language
-        :assigned_to: Lead BIM Coordinators
+        :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
           - :to: :modelling_and_coordinating_another_cycle
@@ -1189,8 +1160,7 @@ projects:
           and &quot;Request&quot;, thus represents a general note.
         :status: default_status_new
         :type: default_type_phase
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Coordinators
+        :assigned_to: :group__bim_coordinators
         :duration: 1
         :relations:
           - :to: :modelling_and_coordinating_penultimate_cycle
@@ -1202,8 +1172,7 @@ projects:
           and &quot;Request&quot;, thus represents a general note.
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Coordinators
+        :assigned_to: :group__bim_coordinators
         :duration: 1
         :relations:
           - :to: :modelling_and_coordinating_last_cycle
@@ -1230,8 +1199,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 5
           - :start: 98
             :t_subject: Construct the building
@@ -1249,8 +1217,7 @@ projects:
               *   ...
             :status: default_status_new
             :type: default_type_task
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 101
           - :start: 200
             :t_subject: Finish construction
@@ -1258,14 +1225,12 @@ projects:
             :description: ''
             :status: default_status_new
             :type: default_type_milestone
-            # TODO: ref wont be found with another language
-            :assigned_to: BIM Coordinators
+            :assigned_to: :group__bim_coordinators
             :duration: 1
             :relations:
               - :to: :construct_building
                 :type: follows
-        # TODO: ref wont be found with another language
-        :assigned_to: BIM Coordinators
+        :assigned_to: :group__bim_coordinators
         :duration: 112
         :relations:
           - :to: :finishing_modelling_and_coordinating
@@ -1276,8 +1241,7 @@ projects:
         :description: ''
         :status: default_status_new
         :type: default_type_phase
-        # TODO: ref wont be found with another language
-        :assigned_to: Planners
+        :assigned_to: :group__planners
         :duration: 88
       - :start: 210
         :t_subject: Handover for Facility Management
@@ -1296,8 +1260,7 @@ projects:
           *   ...
         :status: default_status_new
         :type: default_type_milestone
-        # TODO: ref wont be found with another language
-        :assigned_to: Lead BIM Coordinators
+        :assigned_to: :group__lead_bim_coordinators
         :duration: 1
         :relations:
           - :to: :finish_construction
@@ -1472,82 +1435,82 @@ projects:
     work_packages:
       - :start: 77
         :bcf_issue_uuid: fbbf9ecf-5721-4bf1-a08c-aed50dc19353
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f6271a32-acf5-49f8-a1b5-7c445f9158e5
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f210a2cd-f1f7-4691-b986-2f94117caefe
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: feb97e6e-14fd-4c62-bbad-607f2bb4ebf5
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: 00efc0da-b4d5-4933-bcb6-e01513ee2bcc
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f9e079a8-02f5-40f0-a08a-171f494ee130
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f70417a8-174a-42ae-bf1e-a0b6457d0e6f
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f55d0ec0-9a0f-4222-9926-cc5744888b02
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 4
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: fc560c06-51fc-44fa-81b4-e688be189c6a
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: fe2f9c1f-631b-4b37-91ea-833c4751725a
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: fc5099c0-bedb-4770-a576-0429a7733517
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: 010d9884-8c93-4551-b2bc-570faffe7082
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: febee8e1-1ad2-45e5-b08d-b4be92d25ad6
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: f4d71d45-5a2c-4dad-bcb1-8a4935f2ea69
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: fb9705ea-b32c-46ff-bb6f-d1d049494e05
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 4
         :parent: :issue_management_first_cycle
       - :start: 77
         :bcf_issue_uuid: fbe1d941-06ce-45f4-8ccb-ef48b8426f72
-        :assigned_to: BIM Modellers
+        :assigned_to: :group__bim_modellers
         :duration: 3
         :parent: :issue_management_first_cycle
       - :start: 98

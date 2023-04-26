@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,31 +26,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GroupSeeder < Seeder
-    include ::DemoData::References
+#++
 
-    def seed_data!
-      print_status '    ↳ Creating groups' do
-        seed_groups
-      end
+require 'spec_helper'
+
+RSpec.describe SeedData do
+  subject(:seed_data) { described_class.new({}) }
+
+  describe '#store_reference / find_reference' do
+    it 'acts as a key store to register object by a symbol' do
+      object = Object.new
+      seed_data.store_reference(:ref, object)
+      expect(seed_data.find_reference(:ref)).to be(object)
     end
 
-    def applicable?
-      Group.count.zero?
+    it 'stores nothing if reference is nil' do
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      seed_data.store_reference(nil, object)
     end
 
-    private
-
-    def seed_groups
-      seed_data.each('groups') do |group_data|
-        group = create_group group_data['name']
-        seed_data.store_reference(group_data['reference'], group)
-      end
+    it 'returns nil if reference is nil' do
+      expect(seed_data.find_reference(nil)).to be_nil
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      expect(seed_data.find_reference(nil)).to be_nil
     end
 
-    def create_group(name)
-      Group.create lastname: name
+    it 'raises an error when the reference is already used' do
+      seed_data.store_reference(:ref, Object.new)
+      expect { seed_data.store_reference(:ref, Object.new) }
+        .to raise_error(ArgumentError)
     end
   end
 end

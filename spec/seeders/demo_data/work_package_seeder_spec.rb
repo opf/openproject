@@ -310,11 +310,16 @@ describe DemoData::WorkPackageSeeder do
   end
 
   describe 'assigned_to' do
+    let(:seed_data) do
+      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data.store_reference(:user_bernard, a_user)
+      seed_data
+    end
     let(:a_user) { create(:user, lastname: 'Bernard') }
     let(:work_packages_data) do
       [
         work_package_data(subject: 'without assigned_to'),
-        work_package_data(subject: 'with assigned_to', assigned_to: a_user.lastname)
+        work_package_data(subject: 'with assigned_to', assigned_to: :user_bernard)
       ]
     end
 
@@ -323,7 +328,7 @@ describe DemoData::WorkPackageSeeder do
       expect(work_package.assigned_to).to eq(User.user.admin.last)
     end
 
-    it 'assigns work packages with assigned_to referencing the user lastname' do
+    it 'assigns work packages with assigned_to referencing the user' do
       work_package = WorkPackage.find_by(subject: 'with assigned_to')
       expect(work_package.assigned_to).to eq(a_user)
     end
@@ -340,7 +345,7 @@ describe DemoData::WorkPackageSeeder do
       let(:work_packages_data) do
         [
           work_package_data(bcf_issue_uuid: bcf_issue_without_assigned_to.uuid),
-          work_package_data(bcf_issue_uuid: bcf_issue_with_assigned_to.uuid, assigned_to: a_user.lastname)
+          work_package_data(bcf_issue_uuid: bcf_issue_with_assigned_to.uuid, assigned_to: :user_bernard)
         ]
       end
 

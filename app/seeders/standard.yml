@@ -124,7 +124,7 @@ projects:
           - t_name: 'Short list'
             work_packages:
               - :invite_attendees_to_conference
-          - t_name: 'Prio list for today'
+          - t_name: 'Priority list for today'
             work_packages:
               - :set_date_and_location_of_conference
           - t_name: 'Never'
@@ -467,7 +467,7 @@ projects:
           - t_name: 'Short list'
             work_packages:
               - :new_login_screen
-          - t_name: 'Prio list for today'
+          - t_name: 'Priority list for today'
             work_packages:
               - :set_up_staging_environment
           - t_name: 'Never'
