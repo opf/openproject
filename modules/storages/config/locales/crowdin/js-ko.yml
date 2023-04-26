@@ -15,6 +15,7 @@ ko:
       choose_location: "위치 선택"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           일부 %{storageType} 설정이 작동하지 않습니다. %{storageType} 관리자에게 문의하세요.

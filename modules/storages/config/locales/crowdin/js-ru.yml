@@ -15,6 +15,7 @@ ru:
       choose_location: "Выберите местоположение"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Некоторые настройки %{storageType} не работают. Обратитесь к администратору %{storageType}.

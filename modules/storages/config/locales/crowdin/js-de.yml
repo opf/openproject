@@ -15,6 +15,7 @@ de:
       choose_location: "Speicherort wählen"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Einige %{storageType} Einstellungen funktionieren nicht. Bitte kontaktieren Sie Ihren %{storageType} Administrator.
