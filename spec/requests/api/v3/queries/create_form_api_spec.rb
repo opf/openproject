@@ -326,7 +326,7 @@ describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
 
   describe 'with all parameters given' do
     let(:status) { create(:status) }
-    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
+    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00+00:00', "P0D"] }
 
     let(:parameters) do
       {
