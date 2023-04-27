@@ -117,7 +117,7 @@ describe AccountController,
     end
 
     context 'when direct login disabled' do
-      it 'allows to login internally using a special route' do
+      it 'the internal login route is inactive' do
         get :internal_login
 
         expect(response).to have_http_status(:not_found)
