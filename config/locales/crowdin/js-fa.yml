@@ -1250,6 +1250,23 @@ fa:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

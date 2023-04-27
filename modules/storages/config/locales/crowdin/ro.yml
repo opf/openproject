@@ -3,6 +3,11 @@ ro:
   permission_view_file_links: "Vizualizați link-urile fișierului"
   permission_manage_file_links: "Gestionează link-urile fișierelor"
   permission_manage_storages_in_project: "Gestionați stocarea fișierelor în proiect"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Stocuri de fișiere"
   activerecord:
     models:
