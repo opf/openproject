@@ -9,20 +9,19 @@ const CSS_FONT_URL = "../../../../../frontend/src/assets/fonts/openproject_icon/
 const FONT_DESTINATION = path.resolve(__dirname, '..', '..', '..', '..', '..', 'frontend', 'src', 'assets', 'fonts', 'openproject_icon');
 
 const files = glob.sync(path.join(TEMPLATE_DIR, 'src/*.svg'));
+const filesBoxed = glob.sync(path.join(TEMPLATE_DIR, 'icons/*.svg'));
 
 webfontsGenerator({
-  files,
-  "fontName": "openproject-icon-font",
-  "cssFontsUrl": CSS_FONT_URL,
-  "dest": FONT_DESTINATION,
+  files: filesBoxed,
+  "fontName": "openproject-spot-icon-font",
+  "cssFontsUrl": "../../../../../frontend/src/assets/fonts/openproject_spot_icon/",
+  "dest": path.resolve(__dirname, '..', '..', '..', '..', '..', 'frontend', 'src', 'assets', 'fonts', 'openproject_spot_icon'),
   "cssDest": path.join(
     path.resolve(__dirname, '..', 'styles', 'sass', 'common'),
     'icon.sass',
   ),
   "cssTemplate": path.join(TEMPLATE_DIR, "icon.template.sass"),
   "types": ['woff2', 'woff'],
-  "fixedWidth": true,
-  "descent": 100
 }, function(error) {
   if (error) {
     console.log('Failed to build icon font. ', error);
