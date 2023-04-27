@@ -121,7 +121,6 @@ en:
                 type: :default_type_phase
                 start: 7
                 duration: 17
-                accountable: 'Project Admins'
                 relations:
                   - to: Project planning
                     type: follows

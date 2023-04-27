@@ -67,7 +67,6 @@ module DemoData
       wp_attr = base_work_package_attributes attributes
 
       set_version! wp_attr, attributes
-      set_accountable! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
@@ -146,12 +145,6 @@ module DemoData
       version = seed_data.find_reference(attributes['version'])
       if version
         wp_attr[:version] = version
-      end
-    end
-
-    def set_accountable!(wp_attr, attributes)
-      if attributes['accountable']
-        wp_attr[:responsible] = find_principal(attributes['accountable'])
       end
     end
 
