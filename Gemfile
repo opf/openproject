@@ -257,7 +257,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.17.0'
+  gem 'net-ldap', '~> 0.18.0'
 end
 
 group :development do
@@ -326,7 +326,7 @@ gem 'disposable', '~> 0.6.2'
 
 platforms :mri, :mingw, :x64_mingw do
   group :postgres do
-    gem 'pg', '~> 1.4.0'
+    gem 'pg', '~> 1.5.0'
   end
 
   # Support application loading when no database exists yet.

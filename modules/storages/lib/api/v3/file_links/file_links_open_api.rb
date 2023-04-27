@@ -31,7 +31,7 @@ class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
 
   resources :open do
     get do
-      url = storage_url_open_file(@file_link, open_location: params[:location])
+      url = storage_url_open_file(@file_link.storage, @file_link.origin_id, open_location: params[:location])
       redirect url, body: "The requested resource can be viewed at #{url}"
       status 303 # The follow-up request to the resource must be GET
     end
