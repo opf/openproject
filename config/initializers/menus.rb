@@ -70,7 +70,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
               { controller: '/projects', action: :new, project_id: nil, parent_id: project&.id }
             },
             caption: ->(*) { Project.model_name.human },
-            icon: "icon-add icon3",
+            icon: "add",
             html: {
               aria: { label: I18n.t(:label_project_new) },
               title: I18n.t(:label_project_new)
@@ -83,7 +83,7 @@ Redmine::MenuManager.map :quick_add_menu do |menu|
   menu.push :invite_user,
             nil,
             caption: :label_invite_user,
-            icon: 'icon3 icon-user-plus',
+            icon: 'user-plus',
             html: {
               'invite-user-modal-augment': 'invite-user-modal-augment'
             },
