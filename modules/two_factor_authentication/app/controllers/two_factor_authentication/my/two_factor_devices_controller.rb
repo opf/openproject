@@ -69,24 +69,6 @@ module ::TwoFactorAuthentication
         )
       end
 
-      ##
-      # Validate the token input
-      def validate_device_token
-        service = token_service(@device)
-        result = service.verify(params[:otp])
-
-        if result.success? && @device.confirm_registration_and_save
-          flash[:notice] = t('two_factor_authentication.devices.registration_complete')
-          return redirect_to action: :index
-        elsif !result.success?
-          flash[:error] = t('two_factor_authentication.devices.registration_failed_token_invalid')
-        else
-          flash[:error] = t('two_factor_authentication.devices.registration_failed_update')
-        end
-
-        redirect_to action: :confirm, device_id: @device.id
-      end
-
       def request_token_for_device(device, locals)
         transmit = token_service(device).request
 
@@ -110,6 +92,10 @@ module ::TwoFactorAuthentication
 
       def show_local_breadcrumb
         false
+      end
+
+      def registration_success_path
+        url_for(action: :index)
       end
 
       def set_user_variables

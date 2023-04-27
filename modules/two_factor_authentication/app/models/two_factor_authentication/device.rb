@@ -18,7 +18,7 @@ module TwoFactorAuthentication
     end
 
     def self.has_default?(user)
-      Device.where(user_id: user.id, active: true, default: true).exists?
+      Device.exists?(user_id: user.id, active: true, default: true)
     end
 
     def has_default?
