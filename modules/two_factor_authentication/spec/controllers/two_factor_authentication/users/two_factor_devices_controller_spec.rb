@@ -122,6 +122,16 @@ describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
       end
     end
 
+    describe '#confirm' do
+      it 'fails on GET' do
+        expect { get :confirm }.to raise_error(ActionController::UrlGenerationError)
+      end
+
+      it 'fails on POST' do
+        expect { post :confirm }.to raise_error(ActionController::UrlGenerationError)
+      end
+    end
+
     describe '#destroy' do
       it 'croaks on missing id' do
         delete :destroy, params: { id: user.id, device_id: '1234' }
