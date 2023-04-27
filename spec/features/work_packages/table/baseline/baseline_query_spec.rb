@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'timestamps rendering', js: true do
+describe 'baseline rendering', js: true do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_bug, type_task]) }
@@ -62,7 +62,7 @@ describe 'timestamps rendering', js: true do
     end
 
     Timecop.travel(1.day.ago) do
-      ::WorkPackages::UpdateService
+      WorkPackages::UpdateService
         .new(user:, model: wp)
         .call(subject: 'New subject')
         .on_failure { |result| raise result.message }
@@ -76,7 +76,7 @@ describe 'timestamps rendering', js: true do
     end
 
     Timecop.travel(1.day.ago) do
-      ::WorkPackages::UpdateService
+      WorkPackages::UpdateService
         .new(user:, model: wp)
         .call(type: type_task)
         .on_failure { |result| raise result.message }
@@ -90,7 +90,7 @@ describe 'timestamps rendering', js: true do
     end
 
     Timecop.travel(1.day.ago) do
-      ::WorkPackages::UpdateService
+      WorkPackages::UpdateService
         .new(user:, model: wp)
         .call(type: type_bug)
         .on_failure { |result| raise result.message }
@@ -112,7 +112,7 @@ describe 'timestamps rendering', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:timestamps) { Components::WorkPackages::Timestamps.new }
+  let(:baseline) { Components::WorkPackages::Baseline.new }
 
   current_user { user }
 
@@ -122,11 +122,11 @@ describe 'timestamps rendering', js: true do
       wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task
       wp_table.ensure_work_package_not_listed! wp_bug
 
-      timestamps.expect_active
-      timestamps.expect_added wp_task_was_bug
-      timestamps.expect_removed wp_bug_was_task
-      timestamps.expect_changed wp_task_changed
-      timestamps.expect_unchanged wp_task
+      baseline.expect_active
+      baseline.expect_added wp_task_was_bug
+      baseline.expect_removed wp_bug_was_task
+      baseline.expect_changed wp_task_changed
+      baseline.expect_unchanged wp_task
     end
   end
 
@@ -136,7 +136,7 @@ describe 'timestamps rendering', js: true do
       wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug
       wp_table.ensure_work_package_not_listed! wp_bug, wp_bug_was_task
 
-      timestamps.expect_inactive
+      baseline.expect_inactive
     end
   end
 end

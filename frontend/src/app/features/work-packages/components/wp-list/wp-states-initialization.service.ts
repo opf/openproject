@@ -25,7 +25,7 @@ import { QuerySchemaResource } from 'core-app/features/hal/resources/query-schem
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { WorkPackagesListChecksumService } from './wp-list-checksum.service';
-import { WorkPackageViewTimestampsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timestamps.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
@@ -50,7 +50,7 @@ export class WorkPackageStatesInitializationService {
     protected authorisationService:AuthorisationService,
     protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
     protected wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
-    protected wpTimestamps:WorkPackageViewTimestampsService,
+    protected wpTimestamps:WorkPackageViewBaselineService,
   ) { }
 
   /**

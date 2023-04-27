@@ -2,11 +2,11 @@
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
     <table
       class="keyboard-accessible-list generic-table work-package-table"
-      [class.op-table-timestamps]="wpTableTimestamps.isActive()"
+      [class.op-table-timestamps]="wpTableBaseline.isActive()"
     >
       <colgroup>
         <col *ngIf="configuration.dragAndDropEnabled">
-        <col *ngIf="wpTableTimestamps.isActive()">
+        <col *ngIf="wpTableBaseline.isActive()">
         <!-- Generate col elements dynamically(!) for each requested column plus one for the action menu's column. -->
         <col opHighlightCol *ngFor="let column of [].constructor(columns.length)">
         <col opHighlightCol *ngIf="configuration.columnMenuEnabled">
@@ -24,7 +24,7 @@
               <op-icon *ngIf="manualSortEnabled" icon-classes="icon-sort-by"></op-icon>
             </div>
           </th>
-          <th *ngIf="wpTableTimestamps.isActive()" class="wp-table--timestamps-th -short hide-when-print">
+          <th *ngIf="wpTableBaseline.isActive()" class="wp-table--baseline-th -short hide-when-print">
             <div class="generic-table--empty-header">
               <op-icon icon-classes="icon-baseline"></op-icon>
             </div>

@@ -28,18 +28,18 @@
 
 module Components
   module WorkPackages
-    class Timestamps
+    class Baseline
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_selector('.wp-table--timestamps-th')
+        expect(page).to have_selector('.wp-table--baseline-th')
       end
 
       def expect_inactive
-        expect(page).to have_no_selector('.wp-table--timestamps-th')
-        expect(page).to have_no_selector('.wp-table--timestamps-cell-td')
+        expect(page).not_to have_selector('.wp-table--baseline-th')
+        expect(page).not_to have_selector('.wp-table--baseline-cell-td')
       end
 
       def expect_changed(work_package)
@@ -56,13 +56,13 @@ module Components
 
       def expect_unchanged(work_package)
         page.within(row_selector(work_package)) do
-          expect(page).to have_no_selector(".wp-table--timestamps-cell-td *")
+          expect(page).not_to have_selector(".wp-table--baseline-cell-td *")
         end
       end
 
       def expect_icon(work_package, icon_type)
         page.within(row_selector(work_package)) do
-          expect(page).to have_selector(".op-table-timestamps--icon-#{icon_type}")
+          expect(page).to have_selector(".op-table-baseline--icon-#{icon_type}")
         end
       end
 

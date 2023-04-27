@@ -37,7 +37,7 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
 @Injectable()
-export class WorkPackageViewTimestampsService extends WorkPackageQueryStateService<string[]> {
+export class WorkPackageViewBaselineService extends WorkPackageQueryStateService<string[]> {
   constructor(
     protected readonly states:States,
     protected readonly querySpace:IsolatedQuerySpace,

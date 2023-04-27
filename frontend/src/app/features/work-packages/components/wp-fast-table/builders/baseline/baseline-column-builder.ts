@@ -5,7 +5,7 @@ import {
 } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { States } from 'core-app/core/states/states.service';
-import { WorkPackageViewTimestampsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timestamps.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
@@ -13,12 +13,12 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 
-export const timestampsCellName = 'wp-table--timestamps-cell-td';
+export const baselineCellName = 'wp-table--baseline-cell-td';
 
-export class TimestampsColumnBuilder {
+export class BaselineColumnBuilder {
   @InjectField() states:States;
 
-  @InjectField() wpTableTimestamps:WorkPackageViewTimestampsService;
+  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
 
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
 
@@ -29,7 +29,7 @@ export class TimestampsColumnBuilder {
 
   public build(workPackage:WorkPackageResource, column:QueryColumn) {
     const td = document.createElement('td');
-    td.classList.add(tdClassName, timestampsCellName, column.id);
+    td.classList.add(tdClassName, baselineCellName, column.id);
     td.dataset.columnId = column.id;
 
     const schema = this.schemaCache.of(workPackage);
@@ -58,15 +58,15 @@ export class TimestampsColumnBuilder {
     schema:ISchemaProxy,
   ):HTMLElement|null {
     if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-      return opIconElement('icon-add', 'op-table-timestamps--icon-added');
+      return opIconElement('icon-add', 'op-table-baseline--icon-added');
     }
 
     if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-      return opIconElement('icon-minus1', 'op-table-timestamps--icon-removed');
+      return opIconElement('icon-minus1', 'op-table-baseline--icon-removed');
     }
 
     if (this.visibleAttributeChanged(base, schema)) {
-      return opIconElement('icon-arrow-left-right', 'op-table-timestamps--icon-changed');
+      return opIconElement('icon-arrow-left-right', 'op-table-baseline--icon-changed');
     }
 
     return null;

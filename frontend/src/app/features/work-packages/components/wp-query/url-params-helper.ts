@@ -82,6 +82,25 @@ export interface QueryProps {
   ts?:string;
 }
 
+export interface QueryRequestParams {
+  pageSize:string|number;
+  offset:string|number;
+  'columns[]':string[];
+  showSums:boolean;
+  timelineVisible:boolean;
+  timelineLabels:string;
+  timelineZoomLevel:string;
+  displayRepresentation:string;
+  includeSubprojects:boolean;
+  highlightingMode:string;
+  'highlightedAttributes[]':string[];
+  showHierarchies:boolean;
+  groupBy:string|null;
+  filters:string;
+  sortBy:string;
+  timestamps:string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
   public constructor(public paginationService:PaginationService) {
@@ -185,7 +204,7 @@ export class UrlParamsHelperService {
 
   private encodeTimestamps(query:QueryResource):Partial<QueryProps> {
     if (query.timestamps) {
-      return { ts: query.timestamps.join(",") };
+      return { ts: query.timestamps.join(',') };
     }
 
     return {};
@@ -224,7 +243,7 @@ export class UrlParamsHelperService {
   }
 
   public buildV3GetQueryFromJsonParams(updateJson:string|null) {
-    const queryData:any = {
+    const queryData:Partial<QueryRequestParams> = {
       pageSize: this.paginationService.getPerPage(),
     };
 
@@ -316,8 +335,12 @@ export class UrlParamsHelperService {
     return queryData;
   }
 
-  public buildV3GetQueryFromQueryResource(query:QueryResource, additionalParams:any = {}, contextual:any = {}) {
-    const queryData:any = {};
+  public buildV3GetQueryFromQueryResource(
+    query:QueryResource,
+    additionalParams:object = {},
+    contextual:object = {},
+  ):Partial<QueryRequestParams> {
+    const queryData:Partial<QueryRequestParams> = {};
 
     queryData['columns[]'] = this.buildV3GetColumnsFromQueryResource(query);
     queryData.showSums = query.sums;
@@ -333,7 +356,7 @@ export class UrlParamsHelperService {
     }
 
     if (query.highlightedAttributes && query.highlightingMode === 'inline') {
-      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map((el) => el.href);
+      queryData['highlightedAttributes[]'] = query.highlightedAttributes.map((el) => el.href as string);
     }
 
     if (query.displayRepresentation) {
@@ -351,7 +374,7 @@ export class UrlParamsHelperService {
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
     queryData.timestamps = query.timestamps.join(',');
 
-    return _.extend(additionalParams, queryData);
+    return _.extend(additionalParams, queryData) as Partial<QueryRequestParams>;
   }
 
   public queryFilterValueToParam(value:HalResource|string|boolean):string {
@@ -374,13 +397,15 @@ export class UrlParamsHelperService {
     return value.toString();
   }
 
-  private buildV3GetColumnsFromQueryResource(query:QueryResource) {
+  private buildV3GetColumnsFromQueryResource(query:QueryResource):string[] {
     if (query.columns) {
-      return query.columns.map((column:any) => column.id || idFromLink(column.href));
+      return query.columns.map((column:any) => column.id || idFromLink(column.href)) as string[];
     }
     if (query._links.columns) {
-      return query._links.columns.map((column:HalLink) => idFromLink(column.href as string));
+      return query._links.columns.map((column:HalLink) => idFromLink(column.href as string)) as string[];
     }
+
+    return [];
   }
 
   public buildV3GetFilters(filters:QueryFilterInstanceResource[], replacements = {}):ApiV3Filter[] {

@@ -61,7 +61,7 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { States } from 'core-app/core/states/states.service';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
-import { WorkPackageViewTimestampsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timestamps.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -144,7 +144,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly wpTableSortBy:WorkPackageViewSortByService,
     readonly wpTableSums:WorkPackageViewSumService,
-    readonly wpTableTimestamps:WorkPackageViewTimestampsService,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
   ) {
     super();
   }
