@@ -71,7 +71,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedTime = '00:00';
 
-  public selectedFilter = '';
+  public selectedFilter = '-';
 
   public selectedTimezoneFormattedTime = '';
 
@@ -151,7 +151,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.timeZoneSelected = false;
     this.selectedTime = '0:00';
     this.selectedDate = '';
-    this.selectedFilter = '';
+    this.selectedFilter = '-';
     this.dropDownDescription = '';
   }
 
@@ -238,7 +238,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public filterChange(value:string):void {
-    if (value !== '') {
+    if (value !== '-') {
       this.filterSelected = true;
       this.selectedFilter = value;
       switch (value) {
@@ -259,8 +259,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
           break;
       }
     } else {
-      this.filterSelected = false;
-      this.dropDownDescription = '';
+      this.clearSelection();
     }
   }
 }

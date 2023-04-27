@@ -14,7 +14,7 @@
       >
         <option [textContent]="text.drop_down_none_option"
                 [selected]="!filterSelected"
-                [value]=""></option>
+                [value]="'-'"></option>
         <option
           *ngFor="let availableValue of baselineAvailableValues"
           [value]="availableValue.value"
@@ -62,13 +62,13 @@
     <div class="spot-action-bar--right">
       <button
         class="button spot-action-bar--action"
+        [disabled]="!filterSelected"
         type="button"
         (click)="clearSelection()"
       >
         {{ text.clear }}
       </button>
       <button
-        [disabled]="!filterSelected"
         class="button -highlight spot-action-bar--action"
       >
         {{ text.apply }}
