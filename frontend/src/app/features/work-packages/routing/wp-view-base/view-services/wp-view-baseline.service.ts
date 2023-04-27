@@ -69,6 +69,10 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     return true;
   }
 
+  public disable() {
+    this.update([DEFAULT_TIMESTAMP]);
+  }
+
   public get current():string[] {
     return this.lastUpdatedState.getValueOr([DEFAULT_TIMESTAMP]);
   }

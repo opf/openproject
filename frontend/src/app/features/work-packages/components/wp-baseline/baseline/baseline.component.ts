@@ -157,8 +157,13 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public onSubmit(e:Event):void {
     e.preventDefault();
-    const filterString = `${this.selectedFilter}@${this.selectedTime}`;
-    this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
+    if (this.selectedFilter === '-') {
+      this.wpTableBaseline.disable();
+    } else {
+      const filterString = `${this.selectedFilter}@${this.selectedTime}`;
+      this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
+    }
+
     this.submitted.emit();
   }
 
