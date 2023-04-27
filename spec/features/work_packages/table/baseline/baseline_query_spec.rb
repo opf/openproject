@@ -28,115 +28,59 @@
 
 require 'spec_helper'
 
-describe 'baseline rendering', js: true do
-  shared_let(:type_bug) { create(:type_bug) }
-  shared_let(:type_task) { create(:type_task) }
-  shared_let(:project) { create(:project, types: [type_bug, type_task]) }
-  shared_let(:user) do
-    create(:user,
-           member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages])
-  end
-
-  shared_let(:wp_bug) do
-    create(:work_package,
-           project:,
-           type: type_bug,
-           subject: 'A bug',
-           created_at: 5.days.ago,
-           updated_at: 5.days.ago)
-  end
-
-  shared_let(:wp_task) do
-    create(:work_package,
-           project:,
-           type: type_task,
-           subject: 'A task',
-           created_at: 5.days.ago,
-           updated_at: 5.days.ago)
-  end
-
-  shared_let(:wp_task_changed) do
-    wp = Timecop.travel(5.days.ago) do
-      create(:work_package, project:, type: type_task, subject: 'Old subject')
-    end
-
-    Timecop.travel(1.day.ago) do
-      WorkPackages::UpdateService
-        .new(user:, model: wp)
-        .call(subject: 'New subject')
-        .on_failure { |result| raise result.message }
-        .result
-    end
-  end
-
-  shared_let(:wp_task_was_bug) do
-    wp = Timecop.travel(5.days.ago) do
-      create(:work_package, project:, type: type_bug, subject: 'Bug changed to Task')
-    end
-
-    Timecop.travel(1.day.ago) do
-      WorkPackages::UpdateService
-        .new(user:, model: wp)
-        .call(type: type_task)
-        .on_failure { |result| raise result.message }
-        .result
-    end
-  end
-
-  shared_let(:wp_bug_was_task) do
-    wp = Timecop.travel(5.days.ago) do
-      create(:work_package, project:, type: type_task, subject: 'Task changed to Bug')
-    end
-
-    Timecop.travel(1.day.ago) do
-      WorkPackages::UpdateService
-        .new(user:, model: wp)
-        .call(type: type_bug)
-        .on_failure { |result| raise result.message }
-        .result
-    end
-  end
-
-  shared_let(:query) do
-    query = create(:query,
-                   name: 'Timestamps Query',
-                   project:,
-                   user:)
-
-    query.timestamps = ["P-2d", "PT0S"]
-    query.add_filter('type_id', '=', [type_task.id])
-    query.save!(validate: false)
-
-    query
-  end
+describe 'baseline query saving', js: true do
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:baseline) { Components::WorkPackages::Baseline.new }
+  let(:baseline_modal) { Components::WorkPackages::BaselineModal.new }
 
-  current_user { user }
-
-  describe 'with feature enabled', with_flag: { show_changes: true } do
-    it 'does show changes' do
-      wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug, wp_bug_was_task
-      wp_table.ensure_work_package_not_listed! wp_bug
-
-      baseline.expect_active
-      baseline.expect_added wp_task_was_bug
-      baseline.expect_removed wp_bug_was_task
-      baseline.expect_changed wp_task_changed
-      baseline.expect_unchanged wp_task
-    end
+  current_user do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages save_queries])
   end
 
-  describe 'with feature disabled', with_flag: { show_changes: false } do
-    it 'does not show changes' do
-      wp_table.visit_query(query)
-      wp_table.expect_work_package_listed wp_task, wp_task_changed, wp_task_was_bug
-      wp_table.ensure_work_package_not_listed! wp_bug, wp_bug_was_task
+  it 'can configure and save baseline queries', with_flag: { show_changes: true } do
+    wp_table.visit!
 
-      baseline.expect_inactive
-    end
+    baseline_modal.expect_closed
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+    baseline_modal.expect_selected '-'
+
+    baseline_modal.select_filter 'yesterday'
+    baseline_modal.apply
+
+    loading_indicator_saveguard
+
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+    baseline_modal.expect_selected 'yesterday'
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_closed
+
+    wp_table.save_as 'Baseline query'
+    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+
+    query = retry_block { Query.find_by! name: 'Baseline query' }
+    expect(query.timestamps).to eq ['oneDayAgo@00:00', 'PT0S']
+
+    wp_table.visit_query query
+
+    baseline_modal.expect_closed
+    baseline_modal.toggle_drop_modal
+    baseline_modal.expect_open
+    baseline_modal.expect_selected 'yesterday'
+    baseline_modal.select_filter '-'
+    baseline_modal.apply
+
+    loading_indicator_saveguard
+    wp_table.save
+    wp_table.expect_and_dismiss_toaster(message: 'Successful update.')
+
+    query.reload
+    expect(query.timestamps).to eq ['PT0S']
   end
 end

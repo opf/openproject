@@ -28,47 +28,49 @@
 
 module Components
   module WorkPackages
-    class Baseline
+    class BaselineModal
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
 
-      def expect_active
-        expect(page).to have_selector('.wp-table--baseline-th')
+      def toggle_drop_modal
+        page.find('[data-qa-selector="baseline-button"]').click
       end
 
-      def expect_inactive
-        expect(page).not_to have_selector('.wp-table--baseline-th')
-        expect(page).not_to have_selector('.wp-table--baseline-cell-td')
+      def expect_closed
+        expect(page).not_to have_selector('op-baseline')
       end
 
-      def expect_changed(work_package)
-        expect_icon(work_package, :changed)
+      def expect_open
+        expect(page).to have_selector('op-baseline')
+        expect(page).to have_field('op-baseline-filter')
       end
 
-      def expect_added(work_package)
-        expect_icon(work_package, :added)
+      def expect_selected(option)
+        expect(page).to have_select('op-baseline-filter', selected: option)
       end
 
-      def expect_removed(work_package)
-        expect_icon(work_package, :removed)
+      def expect_selected_time(value)
+        expect(page).to have_field('op-baseline-time', with: value)
       end
 
-      def expect_unchanged(work_package)
-        page.within(row_selector(work_package)) do
-          expect(page).not_to have_selector(".wp-table--baseline-cell-td *")
+      def expect_no_time_field
+        expect(page).not_to have_field('op-baseline-time')
+      end
+
+      def select_filter(option)
+        page.select(option, from: 'op-baseline-filter')
+        expect_selected(option)
+      end
+
+      def set_time(value)
+        fill_in 'op-baseline-time', with: value
+      end
+
+      def apply
+        page.within('op-baseline') do
+          click_button 'Apply'
         end
-      end
-
-      def expect_icon(work_package, icon_type)
-        page.within(row_selector(work_package)) do
-          expect(page).to have_selector(".op-table-baseline--icon-#{icon_type}")
-        end
-      end
-
-      def row_selector(elem)
-        id = elem.is_a?(WorkPackage) ? elem.id.to_s : elem.to_s
-        ".wp-row-#{id}-table"
       end
     end
   end
