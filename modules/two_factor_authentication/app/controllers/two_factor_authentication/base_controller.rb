@@ -132,6 +132,7 @@ module ::TwoFactorAuthentication
     def index_path
       raise NotImplementedError
     end
+
     helper_method :index_path
 
     def registration_failure_path
@@ -152,8 +153,10 @@ module ::TwoFactorAuthentication
 
     def logout_other_sessions
       if current_user == target_user
+        Rails.logger.info { "First 2FA device registered for #{target_user}, terminating other logged in sessions." }
         ::Sessions::DropOtherSessionsService.call(target_user, session)
       else
+        Rails.logger.info { "First 2FA device registered for #{target_user}, terminating logged in sessions." }
         ::Sessions::DropAllSessionsService.call(target_user)
       end
     end
