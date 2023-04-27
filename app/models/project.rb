@@ -149,8 +149,6 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  delegate :explanation, to: :status, allow_nil: true, prefix: true
-
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }

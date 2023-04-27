@@ -35,9 +35,10 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
 
   let(:project) do
     build_stubbed(:project,
+                  :on_track,
+                  status_explanation: 'some explanation',
                   parent: parent_project,
-                  description: 'some description',
-                  status:).tap do |p|
+                  description: 'some description').tap do |p|
       allow(p)
         .to receive(:available_custom_fields)
               .and_return([int_custom_field, version_custom_field])
@@ -55,9 +56,6 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
         .to receive(:ancestors_from_root)
               .and_return(ancestors)
     end
-  end
-  let(:status) do
-    build_stubbed(:project_status)
   end
   let(:parent_project) do
     build_stubbed(:project).tap do |parent|
@@ -131,7 +129,7 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     end
 
     it_behaves_like 'formattable property', 'statusExplanation' do
-      let(:value) { status.explanation }
+      let(:value) { project.status_explanation }
     end
 
     it_behaves_like 'has UTC ISO 8601 date and time' do
@@ -345,12 +343,13 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
     describe 'status' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'status' }
-        let(:href) { api_v3_paths.project_status(project.status.code) }
-        let(:title) { I18n.t(:"activerecord.attributes.projects/status.codes.#{project.status.code}") }
+        let(:status_code) { project.status_code }
+        let(:href) { api_v3_paths.project_status(status_code) }
+        let(:title) { I18n.t(:"activerecord.attributes.project.status_codes.#{status_code}") }
       end
 
-      context 'if the status is nil' do
-        let(:status) { nil }
+      context 'if the status_code is nil' do
+        before { project.status_code = nil }
 
         it_behaves_like 'has an untitled link' do
           let(:link) { 'status' }
@@ -636,13 +635,6 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
 
       it 'changes when the project is updated' do
         project.updated_at = 20.seconds.from_now
-
-        expect(representer.json_cache_key)
-          .not_to eql former_cache_key
-      end
-
-      it 'changes when the project status is updated' do
-        project.status.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

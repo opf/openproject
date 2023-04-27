@@ -39,31 +39,9 @@ module API
         include API::Decorators::FormattableProperty
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
 
-        cached_representer key_parts: %i(status),
-                           disabled: false
+        cached_representer disabled: false
 
         self_link
-
-        def from_hash(body)
-          # Representable is broken when passing nil as parameters
-          # it will set the property :status and :statusExplanation
-          # regardless of what the setter actually does
-          # Bug opened at https://github.com/trailblazer/representable/issues/234
-          super(body).tap do |struct|
-            next unless struct.respond_to?(:status_attributes)
-
-            # Set the status attribute properly
-            struct.status = struct.status_attributes
-
-            # Remove temporary attributes workaround
-            struct.delete(:status_attributes)
-
-            # Remove nil status_explanation when passed as nil
-            if struct.respond_to?(:status_explanation)
-              struct.delete(:status_explanation)
-            end
-          end
-        end
 
         link :createWorkPackage,
              cache_if: -> { current_user_allowed_to(:add_work_packages, context: represented) } do
@@ -212,16 +190,16 @@ module API
 
         resource :status,
                  getter: ->(*) {
-                   next unless represented.status&.code
+                   next unless represented.status_code
 
                    ::API::V3::Projects::Statuses::StatusRepresenter
-                     .create(represented.status.code, current_user:, embed_links:)
+                     .create(represented.status_code, current_user:, embed_links:)
                  },
                  link: ->(*) {
-                   if represented.status&.code
+                   if represented.status_code
                      {
-                       href: api_v3_paths.project_status(represented.status.code),
-                       title: I18n.t(:"activerecord.attributes.projects/status.codes.#{represented.status.code}",
+                       href: api_v3_paths.project_status(represented.status_code),
+                       title: I18n.t(:"activerecord.attributes.project.status_codes.#{represented.status_code}",
                                      default: nil)
                      }.compact
                    else
@@ -231,28 +209,15 @@ module API
                    end
                  },
                  setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= API::ParserStruct.new
-
-                   link = ::API::Decorators::LinkObject.new(represented.status_attributes,
+                   link = ::API::Decorators::LinkObject.new(represented,
                                                             path: :project_status,
-                                                            property_name: :status,
-                                                            getter: :code,
-                                                            setter: :'code=')
-
+                                                            property_name: :status_code,
+                                                            setter: :'status_code=')
                    link.from_hash(fragment)
                  }
 
-        property :status_explanation,
-                 writable: -> { represented.writable?(:status) },
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(status&.explanation,
-                                                      object: self,
-                                                      plain: false)
-                 },
-                 setter: ->(fragment:, represented:, **) {
-                   represented.status_attributes ||= API::ParserStruct.new
-                   represented.status_attributes[:explanation] = fragment["raw"]
-                 }
+        formattable_property :status_explanation,
+                             writable: -> { represented.writable?(:status) }
 
         def _type
           'Project'
