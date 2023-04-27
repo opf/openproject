@@ -95,6 +95,7 @@ module ::TwoFactorAuthentication
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def confirm_and_save(result)
       if result.success? && @device.confirm_registration_and_save
         flash[:notice] = t('two_factor_authentication.devices.registration_complete')
@@ -109,6 +110,7 @@ module ::TwoFactorAuthentication
         false
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def request_token_for_device(device, locals)
       transmit = token_service(device).request

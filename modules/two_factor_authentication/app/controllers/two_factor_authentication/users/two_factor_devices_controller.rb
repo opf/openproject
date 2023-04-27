@@ -23,8 +23,10 @@ module ::TwoFactorAuthentication
         @device_type = params[:key].to_sym
         @device = new_device_type! @device_type
 
+        has_default = ::TwoFactorAuthentication::Device.has_default?(target_user)
         @device.attributes = new_device_params
         if @device.confirm_registration_and_save
+          logout_other_sessions unless has_default
           Rails.logger.info "Admin ##{current_user.id} registered a new device #{@device_type} for #{@user.id}."
           redirect_to index_path
         else
