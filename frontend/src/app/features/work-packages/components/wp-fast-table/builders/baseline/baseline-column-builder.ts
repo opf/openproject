@@ -12,6 +12,7 @@ import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export const baselineCellName = 'wp-table--baseline-cell-td';
 
@@ -23,6 +24,8 @@ export class BaselineColumnBuilder {
   @InjectField() wpTableColumns:WorkPackageViewColumnsService;
 
   @InjectField() schemaCache:SchemaCacheService;
+
+  @InjectField() I18n:I18nService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -58,15 +61,21 @@ export class BaselineColumnBuilder {
     schema:ISchemaProxy,
   ):HTMLElement|null {
     if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-      return opIconElement('icon-add', 'op-table-baseline--icon-added');
+      const icon = opIconElement('icon-add', 'op-table-baseline--icon-added');
+      icon.title = this.I18n.t('js.work_packages.baseline.addition_label');
+      return icon;
     }
 
     if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-      return opIconElement('icon-minus1', 'op-table-baseline--icon-removed');
+      const icon = opIconElement('icon-minus1', 'op-table-baseline--icon-removed');
+      icon.title = this.I18n.t('js.work_packages.baseline.removal_label');
+      return icon;
     }
 
     if (this.visibleAttributeChanged(base, schema)) {
-      return opIconElement('icon-arrow-left-right', 'op-table-baseline--icon-changed');
+      const icon = opIconElement('icon-arrow-left-right', 'op-table-baseline--icon-changed');
+      icon.title = this.I18n.t('js.work_packages.baseline.modification_label');
+      return icon;
     }
 
     return null;
