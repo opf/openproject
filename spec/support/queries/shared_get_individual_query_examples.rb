@@ -97,7 +97,7 @@ shared_examples_for 'GET individual query' do
     end
   end
 
-  context 'when providing valid timestamps' do
+  context 'when providing valid timestamps', with_flag: { show_changes: true } do
     let(:path) do
       params = CGI.escape(timestamps)
       "#{base_path}?timestamps=#{params}"

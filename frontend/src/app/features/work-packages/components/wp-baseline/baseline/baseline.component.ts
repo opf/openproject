@@ -29,12 +29,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   HostBinding,
+  OnInit,
+  Output,
 } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -43,6 +45,10 @@ import { IDay } from 'core-app/core/state/days/day.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { Observable } from 'rxjs';
+import {
+  DEFAULT_TIMESTAMP,
+  WorkPackageViewBaselineService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
   selector: 'op-baseline',
@@ -50,10 +56,10 @@ import { Observable } from 'rxjs';
   templateUrl: './baseline.component.html',
   styleUrls: ['./baseline.component.sass'],
 })
-export class OpBaselineComponent extends UntilDestroyedMixin {
+export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-baseline') className = true;
 
-  public opened = false;
+  @Output() submitted = new EventEmitter<void>();
 
   public dropDownDescription = '';
 
@@ -63,9 +69,9 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
 
   public selectedDate = '';
 
-  public selectedTime = '';
+  public selectedTime = '00:00';
 
-  public selectedFilter = '';
+  public selectedFilter = '-';
 
   public selectedTimezoneFormattedTime = '';
 
@@ -119,29 +125,46 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
 
   constructor(
     readonly I18n:I18nService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly halResourceService:HalResourceService,
-    private weekdaysService:WeekdayService,
-    private daysService:DayResourceService,
+    readonly weekdaysService:WeekdayService,
+    readonly daysService:DayResourceService,
     readonly timezoneService:TimezoneService,
-    private configuration:ConfigurationService,
+    readonly configuration:ConfigurationService,
   ) {
     super();
   }
 
+  public ngOnInit():void {
+    if (this.wpTableBaseline.isActive()) {
+      const value = this.wpTableBaseline.current[0];
+      const [date, time] = value.split('@');
+
+      this.filterChange(date);
+      this.selectedTime = time || '00:00';
+      this.filterSelected = true;
+    }
+  }
+
   public clearSelection():void {
     this.filterSelected = false;
-    this.timeZoneSelected =false;
-    this.selectedTime = '';
+    this.timeZoneSelected = false;
+    this.selectedTime = '0:00';
     this.selectedDate = '';
-    this.selectedFilter = '';
+    this.selectedFilter = '-';
     this.dropDownDescription = '';
   }
 
   public onSubmit(e:Event):void {
     e.preventDefault();
-    // TODO: string should be sent to the server
-    const filterString = `${this.selectedFilter}@${this.selectedTime}`;
+    if (this.selectedFilter === '-') {
+      this.wpTableBaseline.disable();
+    } else {
+      const filterString = `${this.selectedFilter}@${this.selectedTime}`;
+      this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
+    }
+
+    this.submitted.emit();
   }
 
   public yesterdayDate():string {
@@ -215,7 +238,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
   }
 
   public filterChange(value:string):void {
-    if (value !== '') {
+    if (value !== '-') {
       this.filterSelected = true;
       this.selectedFilter = value;
       switch (value) {
@@ -236,8 +259,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin {
           break;
       }
     } else {
-      this.filterSelected = false;
-      this.dropDownDescription = '';
+      this.clearSelection();
     }
   }
 }

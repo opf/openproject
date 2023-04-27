@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Journable::WithHistoricAttributes do
+describe Journable::WithHistoricAttributes, with_flag: { show_changes: true } do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:baseline_time) { "2022-01-01".to_time }
