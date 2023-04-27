@@ -162,6 +162,15 @@ class Project < ApplicationRecord
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
 
+  enum status_code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
+
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))
   end

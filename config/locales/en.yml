@@ -551,6 +551,15 @@ en:
           true: "public"
           false: "private"
         queries: "Queries"
+        status_code: 'Status'
+        status_explanation: 'Status description'
+        status_codes:
+          not_started: 'Not started'
+          on_track: 'On track'
+          at_risk: 'At risk'
+          off_track: 'Off track'
+          finished: 'Finished'
+          discontinued: 'Discontinued'
         templated: "Template project"
         templated_value:
           true: "marked as template"

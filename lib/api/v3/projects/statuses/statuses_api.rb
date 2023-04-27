@@ -38,7 +38,7 @@ module API
             route_param :id do
               helpers do
                 def status_exists?
-                  ::Projects::Status.codes.keys.include?(params[:id])
+                  ::Project.status_codes.keys.include?(params[:id])
                 end
               end
 

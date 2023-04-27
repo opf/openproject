@@ -33,7 +33,7 @@ describe API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
 
   subject { representer.to_json }
 
-  let(:status) { Projects::Status.codes.keys.first }
+  let(:status) { Project.status_codes.keys.first }
   let(:representer) do
     described_class.create(status, current_user:, embed_links: true)
   end
@@ -45,7 +45,7 @@ describe API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { api_v3_paths.project_status status }
-        let(:title) { I18n.t(:"activerecord.attributes.projects/status.codes.#{status}") }
+        let(:title) { I18n.t(:"activerecord.attributes.project.status_codes.#{status}") }
       end
     end
   end
@@ -60,7 +60,7 @@ describe API::V3::Projects::Statuses::StatusRepresenter, 'rendering' do
     end
 
     it_behaves_like 'property', :name do
-      let(:value) { I18n.t(:"activerecord.attributes.projects/status.codes.#{status}") }
+      let(:value) { I18n.t(:"activerecord.attributes.project.status_codes.#{status}") }
     end
   end
 end
