@@ -164,13 +164,14 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-There are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
+There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *OpenProject *, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
-![NC_extra_settings](Nextcloud_connected_account.png)
+![NC_extra_settings](nextcloud_openproject_account.png)
+
+
 
 ![NC_extra_navlink](Navigation_link_OpenProject.png)
 

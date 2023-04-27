@@ -157,9 +157,7 @@ class OAuthClientsController < ApplicationController
   end
 
   def nextcloud?
-    @oauth_client&.integration && \
-      @oauth_client.integration.is_a?(::Storages::Storage) && \
-      @oauth_client.integration.provider_type == 'nextcloud'
+    @oauth_client&.integration&.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
   end
 
   def get_redirect_uri

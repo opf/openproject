@@ -25,34 +25,34 @@ hi:
       work_package:
         position: "स्थिति"
         remaining_hours: "बाकी बचे घंटे"
-        remaining_time: "Remaining hours"
-        story_points: "Story Points"
-        backlogs_work_package_type: "Backlog type"
+        remaining_time: "बाकी बचे घंटे"
+        story_points: "कहानी अंक"
+        backlogs_work_package_type: "बैकलॉग प्रकार"
     errors:
       models:
         work_package:
           attributes:
             blocks_ids:
-              can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
-              must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
+              can_only_contain_work_packages_of_current_sprint: "वर्तमान स्प्रिंट में केवल कार्य पैकेजों की आईडी हो सकती है।"
+              must_block_at_least_one_work_package: "कम से कम एक टिकट की आईडी होनी चाहिए।"
             parent_id:
-              parent_child_relationship_across_projects: "is invalid because the work package '%{work_package_name}' is a backlog task and therefore cannot have a parent outside of the current project."
-              type_must_be_one_of_the_following: "Type must be one of the following: %{type_names}."
+              parent_child_relationship_across_projects: "अमान्य है क्योंकि वर्क पैकेज '%{work_package_name}' एक बैकलॉग टास्क है और इसलिए मौजूदा प्रोजेक्ट के बाहर पैरेंट नहीं हो सकता है |"
+              type_must_be_one_of_the_following: "प्रकार निम्न में से एक होना चाहिए:"
             version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "मूल कहानी के संस्करण के समान होना चाहिए।"
         sprint:
-          cannot_end_before_it_starts: "Sprint cannot end before it starts."
+          cannot_end_before_it_starts: "स्प्रिंट शुरू होने से पहले खत्म नहीं हो सकता।"
   backlogs:
-    add_new_story: "New Story"
-    any: "any"
-    backlog_settings: "Backlogs settings"
-    burndown_graph: "Burndown Graph"
-    card_paper_size: "Paper size for card printing"
-    chart_options: "Chart options"
+    add_new_story: "नई कहानी"
+    any: "कोई"
+    backlog_settings: "बैकलॉग सेटिंग्स"
+    burndown_graph: "बर्नडाउन ग्राफ"
+    card_paper_size: "कार्ड छपाई के लिए कागज का आकार"
+    chart_options: "चार्ट विकल्प"
     close: "बंद करें"
-    column_width: "Column width:"
-    date: "Day"
-    definition_of_done: "Definition of Done"
+    column_width: "स्तंभ की चौड़ाई:"
+    date: "दिन"
+    definition_of_done: "पूर्ण की परिभाषा"
     generating_chart: "Generating Graph..."
     hours: "घंटे"
     impediment: "Impediment"

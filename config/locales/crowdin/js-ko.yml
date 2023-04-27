@@ -1247,6 +1247,23 @@ ko:
         current_project: '작업 중인 현재 프로젝트입니다.'
         does_not_match_search: '프로젝트가 검색 기준과 일치하지 않습니다.'
       no_results: '검색 기준과 일치하는 프로젝트가 없습니다.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
     forms:
       submit_success_message: '양식을 성공적으로 제출했습니다'
       load_error_message: '양식을 불러오는 중 오류가 발생했습니다'

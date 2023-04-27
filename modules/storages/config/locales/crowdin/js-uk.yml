@@ -34,6 +34,8 @@ uk:
         empty_folder: "Ця папка пуста."
         empty_folder_location_hint: "Натисніть кнопку нижче, щоб вивантажити файл у цю папку."
         file_not_selectable_location: "Неможливо вибрати файл під час вибору папки."
+        project_folder_no_access: >
+          You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
         upload_keep_both: "Зберегти обидва"
         upload_replace: "Замінити"
       file_links:

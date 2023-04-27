@@ -1256,6 +1256,23 @@ cs:
         current_project: 'Toto je aktuální projekt, ve kterém se nacházíte.'
         does_not_match_search: 'Projekt neodpovídá kritériím vyhledávání.'
       no_results: 'Žádný projekt neodpovídá vašim kritériím vyhledávání.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
     forms:
       submit_success_message: 'Formulář byl úspěšně odeslán'
       load_error_message: 'Při načítání formuláře došlo k chybě'

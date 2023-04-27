@@ -59,8 +59,8 @@ describe 'SAML provider callback' do
         'check_idp_cert_expiration' => false
       },
       'attribute_statements' => {
-        'email' => ['mail', 'urn:oid:0.9.2342.19200300.100.1.3'],
-        'login' => ['uid', 'login', 'urn:oid:0.9.2342.19200300.100.1.3'],
+        'email' => ['email', 'urn:oid:0.9.2342.19200300.100.1.3'],
+        'login' => ['uid', 'email', 'urn:oid:0.9.2342.19200300.100.1.3'],
         'first_name' => ['givenName', 'urn:oid:2.5.4.42'],
         'last_name' => ['sn', 'urn:oid:2.5.4.4']
       }

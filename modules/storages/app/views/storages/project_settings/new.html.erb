@@ -10,7 +10,7 @@
     <% if @available_storages.any? %>
       <div class="form--field -required">
         <%= f.select :storage_id,
-            @available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
+            @available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
                      selected: @available_storages.first.id.to_s,
                      container_class: '-slim' %>
         <% if User.current.admin? %>

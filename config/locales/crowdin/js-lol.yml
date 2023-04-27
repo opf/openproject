@@ -1248,6 +1248,23 @@ lol:
         current_project: 'crwdns809360:0crwdne809360:0'
         does_not_match_search: 'crwdns822880:0crwdne822880:0'
       no_results: 'crwdns825434:0crwdne825434:0'
+    baseline:
+      toggle_title: 'crwdns852025:0crwdne852025:0'
+      clear: 'crwdns852027:0crwdne852027:0'
+      apply: 'crwdns852029:0crwdne852029:0'
+      header_description: 'crwdns852031:0crwdne852031:0'
+      show_changes_since: 'crwdns852033:0crwdne852033:0'
+      help_description: 'crwdns852035:0crwdne852035:0'
+      time_description: 'crwdns852037:0%{time}crwdnd852037:0%{days}crwdne852037:0'
+      time: 'crwdns852039:0crwdne852039:0'
+      drop_down:
+        none: 'crwdns852041:0crwdne852041:0'
+        yesterday: 'crwdns852043:0crwdne852043:0'
+        last_working_day: 'crwdns852045:0crwdne852045:0'
+        last_week: 'crwdns852047:0crwdne852047:0'
+        last_month: 'crwdns852049:0crwdne852049:0'
+        a_specific_date: 'crwdns852051:0crwdne852051:0'
+        between_two_specific_dates: 'crwdns852053:0crwdne852053:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'
