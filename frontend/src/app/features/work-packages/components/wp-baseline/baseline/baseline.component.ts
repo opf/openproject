@@ -73,11 +73,9 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedFilter = '-';
 
-  public selectedTimezoneFormattedTime = '';
+  public selectedTimezoneFormattedTime = `${this.selectedTime}+00:00`;
 
   public filterSelected = false;
-
-  public timeZoneSelected = false;
 
   public daysNumber = 0;
 
@@ -138,17 +136,18 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public ngOnInit():void {
     if (this.wpTableBaseline.isActive()) {
       const value = this.wpTableBaseline.current[0];
-      const [date, time] = value.split('@');
+      const [date, timeWithZone] = value.split('@');
+      const time = timeWithZone.split(/[+-]/)[0];
 
       this.filterChange(date);
       this.selectedTime = time || '00:00';
+      this.selectedTimezoneFormattedTime = timeWithZone || '00:00+00:00';
       this.filterSelected = true;
     }
   }
 
   public clearSelection():void {
     this.filterSelected = false;
-    this.timeZoneSelected = false;
     this.selectedTime = '0:00';
     this.selectedDate = '';
     this.selectedFilter = '-';
@@ -160,7 +159,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
-      const filterString = `${this.selectedFilter}@${this.selectedTime}`;
+      const filterString = `${this.selectedFilter}@${this.selectedTimezoneFormattedTime}`;
       this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
     }
 
@@ -229,12 +228,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public timeChange(value:string):void {
     this.selectedTime = value;
-    const timeZone = this.configuration.isTimezoneSet();
-    if (timeZone) {
-      this.timeZoneSelected = true;
-      const dateTime= `${this.selectedDate}  ${value}`;
-      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
-    }
+    const dateTime= `${this.selectedDate}  ${value}`;
+    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
   }
 
   public filterChange(value:string):void {
