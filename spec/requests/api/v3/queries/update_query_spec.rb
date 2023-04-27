@@ -113,7 +113,7 @@ describe "PATCH /api/v3/queries/:id" do
     login_as user
   end
 
-  describe "updating a query" do
+  describe "updating a query", with_flag: { show_changes: true } do
     before do
       header "Content-Type", "application/json"
       patch "/api/v3/queries/#{query.id}", params.to_json

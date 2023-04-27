@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Query::Timestamps do
+describe Query::Timestamps, with_flag: { show_changes: true } do
   describe "#timestamps" do
     subject { query.timestamps }
 

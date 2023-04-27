@@ -42,6 +42,8 @@ module Query::Timestamps
     # call `timestamp.to_time`.
     #
     def timestamps
+      return [Timestamp.now] unless OpenProject::FeatureDecisions.show_changes_active?
+
       timestamps = super.collect do |timestamp_string|
         Timestamp.new(timestamp_string)
       end

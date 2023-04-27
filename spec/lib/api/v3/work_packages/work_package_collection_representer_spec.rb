@@ -635,7 +635,7 @@ describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
                member_with_permissions: %i[view_work_packages view_file_links])
       end
 
-      context 'with baseline and current timestamps' do
+      context 'with baseline and current timestamps', with_flag: { show_changes: true } do
         let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
 
         describe 'attributesByTimestamp' do
