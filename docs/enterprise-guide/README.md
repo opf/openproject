@@ -41,3 +41,8 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Activate Enterprise on-premises](./enterprise-on-premises-guide/activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
 | [Support](./enterprise-on-premises-guide/support)                                                 | How can I get support or installation support?                               |
 
+
+
+## Support ##
+
+Find out more about our different [support options](../../enterprise-guide/support/).
