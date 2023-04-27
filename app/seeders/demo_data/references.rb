@@ -44,20 +44,6 @@ module DemoData
     end
 
     ##
-    # Replaces occurrences of `##child:n` with a link to the given
-    # work package's nth child using the standard OpenProject work package
-    # link syntax `##<id>`.
-    def link_children(str, work_package)
-      return str unless str.present? && str.include?("##child:")
-
-      str.gsub(/##child:\d+/) do |match|
-        index = match.split(":").last.to_i - 1
-
-        "##" + work_package.children[index].id.to_s
-      end
-    end
-
-    ##
     # Links attachments from the given set of attachments, referenced via name.
     # For instance:
     #

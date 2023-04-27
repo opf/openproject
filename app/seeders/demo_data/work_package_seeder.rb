@@ -77,7 +77,6 @@ module DemoData
 
       description = work_package.description
       description = link_attachments description, work_package.attachments
-      description = link_children description, work_package
       description = with_references description, project
 
       work_package.update(description:)
