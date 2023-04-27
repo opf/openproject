@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form" do
+describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.query_form(query.id) }

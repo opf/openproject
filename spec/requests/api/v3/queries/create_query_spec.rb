@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe "POST /api/v3/queries" do
+describe "POST /api/v3/queries", with_flag: { show_changes: true } do
   shared_let(:user) { create(:admin) }
   shared_let(:status) { create(:status) }
   shared_let(:project) { create(:project) }

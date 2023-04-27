@@ -238,7 +238,7 @@ describe 'API v3 Work package resource',
       end
     end
 
-    context 'when providing timestamps' do
+    context 'when providing timestamps', with_flag: { show_changes: true } do
       subject do
         get path
         last_response
