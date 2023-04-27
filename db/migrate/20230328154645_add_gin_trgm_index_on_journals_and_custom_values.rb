@@ -1,5 +1,5 @@
 class AddGinTrgmIndexOnJournalsAndCustomValues < ActiveRecord::Migration[7.0]
-  def change
+  def up
     safe_enable_pg_trgm_extension
 
     if extensions.include?('pg_trgm')
@@ -8,10 +8,16 @@ class AddGinTrgmIndexOnJournalsAndCustomValues < ActiveRecord::Migration[7.0]
     end
   end
 
+  def down
+    remove_index(:journals, :notes, if_exists: true)
+    remove_index(:custom_values, :value, if_exists: true)
+    drop_pg_trgm_extension
+  end
+
   private
 
   def safe_enable_pg_trgm_extension
-    enable_extension("pg_trgm")
+    ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm WITH SCHEMA pg_catalog;")
   rescue StandardError => e
     raise unless e.message =~ /pg_trgm/
 
@@ -29,5 +35,9 @@ class AddGinTrgmIndexOnJournalsAndCustomValues < ActiveRecord::Migration[7.0]
       To re-run this migration use the following command `bin/rails db:migrate:redo VERSION=20230328154645`
 
     MESSAGE
+  end
+
+  def drop_pg_trgm_extension
+    ActiveRecord::Base.connection.execute("DROP EXTENSION IF EXISTS pg_trgm CASCADE;")
   end
 end
