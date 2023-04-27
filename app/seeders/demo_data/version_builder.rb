@@ -73,7 +73,7 @@ module DemoData
       version.wiki_page_title = config['title']
       page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
 
-      content = with_references config['content'], project
+      content = with_references config['content']
       Journal::NotificationConfiguration.with false do
         WikiContent.create! page:, author: user, text: content
       end

@@ -77,7 +77,7 @@ module DemoData
 
       description = work_package.description
       description = link_attachments description, work_package.attachments
-      description = with_references description, project
+      description = with_references description
 
       work_package.update(description:)
 
@@ -113,15 +113,8 @@ module DemoData
       attributes['work_package'] = work_package
     end
 
-    def find_work_package(subject_or_reference)
-      case subject_or_reference
-      when String
-        subject = subject_or_reference
-        WorkPackage.find_by(subject:)
-      when Symbol
-        reference = subject_or_reference
-        seed_data.find_reference(reference)
-      end
+    def find_work_package(reference)
+      seed_data.find_reference(reference)
     end
 
     def find_principal(reference)

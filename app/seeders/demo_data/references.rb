@@ -37,10 +37,10 @@ module DemoData
       API::V3::Utilities::PathHelper::ApiV3Path
     end
 
-    def with_references(str, project)
-      res = link_work_packages str, project
-      res = link_queries res, project
-      link_sprints res, project
+    def with_references(str)
+      res = link_work_packages str
+      res = link_queries res
+      link_sprints res
     end
 
     ##
@@ -52,7 +52,7 @@ module DemoData
     # @param str [String] String in which to substitute attachment references.
     # @param attachments [ActiveRecord::QueryMethods] Query to set of attachments which can be referenced.
     def link_attachments(str, attachments)
-      return str unless str.present?
+      return str if str.blank?
 
       str.gsub(/##attachment(\.id)?:"[^"]+"/) do |match|
         file = match.split(":", 2).last[1..-2] # strip quotes of part behind :
@@ -67,85 +67,62 @@ module DemoData
     end
 
     ##
-    # Turns `##query:"Gantt chart"` into
+    # Turns `##query:gantt_chart` into
     # `/projects/demo-project/work_packages?query_id=1` given there is a query
-    # named "Gantt chart" (its ID here being 1).
+    # referenced with :gantt_chart and its ID here is 1.
     #
-    # Alternatively `##query.id:"Gantt chart"` is translated into just the ID.`
-    def link_queries(str, project)
-      link_reference(
-        str,
-        model: Query,
-        find_by: :name,
-        project:,
-        link: ->(query) { query_link query }
-      )
+    # Alternatively `##query.id:gantt_chart` is translated into just the ID.
+    def link_queries(str)
+      link_references(str, tag: 'query')
     end
 
-    ## Turns `##wp:"Some subject"` or `##wp:some_subject` into
+    ## Turns `##wp:some_subject` into
     # `/projects/demo-project/work_packages/42/activity` given there is a work
-    # package named "Some subject" (its subject here being "Some subject") or
-    # referenced with :some_subject.
+    # package referenced with :some_subject and ID here is 42.
     #
-    # Alternatively `##wp.id:"Some subject"` or `##wp.id:some_subject` is
-    # translated into just the ID.`
-    def link_work_packages(str, project)
-      link_reference(
-        str,
-        model: WorkPackage,
-        tag: "wp",
-        find_by: :subject,
-        project:,
-        link: ->(wp) { work_package_link wp }
-      )
+    # Alternatively `##wp.id:some_subject` is translated into just the ID.
+    def link_work_packages(str)
+      link_references(str, tag: 'wp')
     end
 
-    def link_sprints(str, project)
+    def link_sprints(str)
       return str unless defined? OpenProject::Backlogs
 
-      link_reference(
-        str,
-        model: Sprint,
-        find_by: :name,
-        project:,
-        link: ->(sprint) { sprint_link sprint }
-      )
+      link_references(str, tag: 'sprint')
     end
 
-    def link_reference(str, model:, find_by:, project:, link:, tag: nil)
+    def link_references(str, tag:)
       return str if str.blank?
 
-      tag ||= model.name.downcase
-
-      [
-        [/###{tag}(\.id)?:"[^"]+"/, ->(match) { find_instance_by_query(match, model:, find_by:, project:) }],
-        [/###{tag}(\.id)?:[a-z_0-9]+/, ->(match) { find_instance_by_reference(match) }]
-      ].reduce(str) do |str_acc, (regex, find_instance)|
-        str_acc.gsub(regex) do |match|
-          instance = find_instance.(match)
-          if match.include?(".id")
-            instance.id
-          else
-            link.call instance
-          end
+      str.gsub(/###{tag}(\.id)?:[a-z_0-9]+/) do |match|
+        reference = match.split(":", 2).last.to_sym
+        instance = seed_data.find_reference(reference)
+        if match.include?(".id")
+          instance.id
+        else
+          link(tag, instance)
         end
       end
     end
 
-    def find_instance_by_query(text, model:, find_by:, project:)
-      identifier = text.split(":", 2).last[1..-2] # strip quotes of part behind :
-      model.where(find_by => identifier, :project => project).first!
-    end
-
-    def find_instance_by_reference(text)
-      reference = text.split(":", 2).last.to_sym
-      seed_data.find_reference(reference)
+    def link(tag, instance)
+      case tag
+      when 'query'
+        query_link(instance)
+      when 'wp'
+        work_package_link(instance)
+      when 'sprint'
+        sprint_link(instance)
+      else
+        raise ArgumentError, "cannot create link for #{tag.inspect}"
+      end
     end
 
     def query_link(query)
-      path = url_helpers.project_work_packages_path project_id: query.project.identifier
-
-      "#{path}?query_id=#{query.id}"
+      url_helpers.project_work_packages_path(
+        project_id: query.project.identifier,
+        query_id: query.id
+      )
     end
 
     def work_package_link(work_package)

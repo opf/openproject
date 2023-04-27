@@ -83,14 +83,14 @@ module DemoData
 
     def text_with_references(overview, widget_options)
       if widget_options && widget_options['text']
-        widget_options['text'] = with_references(widget_options['text'], overview.project)
+        widget_options['text'] = with_references(widget_options['text'])
         widget_options['text'] = link_attachments(widget_options['text'], overview.attachments)
       end
     end
 
     def query_id_references(overview, widget_options)
       if widget_options && widget_options['queryId']
-        widget_options['queryId'] = with_references(widget_options['queryId'], overview.project)
+        widget_options['queryId'] = with_references(widget_options['queryId'])
       end
     end
 

@@ -213,20 +213,6 @@ describe DemoData::WorkPackageSeeder do
     end
   end
 
-  context 'with a parent relation by subject name' do
-    let(:work_packages_data) do
-      [
-        work_package_data(subject: 'Parent'),
-        work_package_data(subject: 'Child', parent: 'Parent')
-      ]
-    end
-
-    it 'creates a parent-child relation between work packages' do
-      expect(WorkPackage.count).to eq(2)
-      expect(WorkPackage.second.parent).to eq(WorkPackage.first)
-    end
-  end
-
   context 'with a parent relation by reference' do
     let(:work_packages_data) do
       [
@@ -277,35 +263,61 @@ describe DemoData::WorkPackageSeeder do
     end
   end
 
-  context 'with a work package description referencing another work package by a reference name' do
+  context 'with a work package description referencing a work package with ##wp:ref notation' do
     let(:work_packages_data) do
       [
         work_package_data(subject: 'Major thing to do',
                           reference: :major_thing),
         work_package_data(subject: 'Other thing',
-                          description: 'Please also check [this one]({{opSetting:base_url}}/wp/##wp.id:major_thing).')
+                          description: 'Check [this work package](##wp:major_thing) of id ##wp.id:major_thing.')
       ]
     end
 
     it 'creates parent-child relations between work packages' do
       wp_major, wp_other = WorkPackage.order(:id).to_a
-      expect(wp_other.description).to eq("Please also check [this one]({{opSetting:base_url}}/wp/#{wp_major.id}).")
+      expect(wp_other.description)
+        .to eq("Check [this work package](/projects/#{project.identifier}/" \
+               "work_packages/#{wp_major.id}/activity) of id #{wp_major.id}.")
     end
   end
 
-  context 'with a work package description referencing another work package by subject name' do
+  context 'with a work package description referencing a query with ##query:ref notation' do
+    let(:seed_data) do
+      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data.store_reference(:q_project_plan, query)
+      seed_data
+    end
+    let(:query) { create(:query, project:) }
     let(:work_packages_data) do
       [
-        work_package_data(subject: 'Major thing to do',
-                          reference: :major_thing),
-        work_package_data(subject: 'Other thing',
-                          description: 'Please also check [this one]({{opSetting:base_url}}/wp/##wp.id:"Major thing to do").')
+        work_package_data(subject: 'Referencing query',
+                          description: 'The [query](##query:q_project_plan) of id ##query.id:q_project_plan.')
       ]
     end
 
-    it 'creates parent-child relations between work packages' do
-      wp_major, wp_other = WorkPackage.order(:id).to_a
-      expect(wp_other.description).to eq("Please also check [this one]({{opSetting:base_url}}/wp/#{wp_major.id}).")
+    it 'creates link to the query with the right id' do
+      expect(WorkPackage.last.description)
+        .to eq("The [query](/projects/#{project.identifier}/work_packages?query_id=#{query.id}) of id #{query.id}.")
+    end
+  end
+
+  context 'with a work package description referencing a sprint with ##sprint:ref notation' do
+    let(:seed_data) do
+      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data.store_reference(:sprint_backlog, sprint)
+      seed_data
+    end
+    let(:sprint) { create(:sprint, project:) }
+    let(:work_packages_data) do
+      [
+        work_package_data(subject: 'Referencing sprint',
+                          description: 'The [sprint](##sprint:sprint_backlog) of id ##sprint.id:sprint_backlog.')
+      ]
+    end
+
+    it 'creates link to the sprint with the right id' do
+      expect(WorkPackage.last.description)
+        .to eq("The [sprint](/projects/#{project.identifier}/sprints/#{sprint.id}/taskboard) of id #{sprint.id}.")
     end
   end
 
