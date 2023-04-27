@@ -162,7 +162,7 @@ module Authentication
     def remap_existing_user
       return unless Setting.oauth_allow_remapping_of_existing_users?
 
-      User.find_by_login(user_attributes[:login])
+      User.not_builtin.find_by(login: user_attributes[:login])
     end
 
     ##
