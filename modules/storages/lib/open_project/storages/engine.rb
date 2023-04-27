@@ -108,10 +108,17 @@ module OpenProject::Storages
         if project.present? &&
            User.current.logged? &&
            User.current.allowed_to?(:view_file_links, project)
-          project.storages.each do |storage|
+          project.projects_storages.each do |project_storage|
+            storage = project_storage.storage
+            href = if project_storage.project_folder_inactive?
+                     storage.host
+                   else
+                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                   end
+
             menu.push(
               :"storage_#{storage.id}",
-              storage.host,
+              href,
               caption: storage.name,
               before: :members,
               icon: "#{storage.short_provider_type}-circle",
