@@ -29,6 +29,8 @@
 require 'spec_helper'
 require_relative '../../../../spec/seeders/root_seeder_shared_examples'
 
+RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
+
 describe RootSeeder,
          'BIM edition',
          with_config: { edition: 'bim' },
@@ -116,6 +118,28 @@ describe RootSeeder,
 
     it 'has all Query.name translated' do
       expect(Query.pluck(:name)).to all(start_with('tr: '))
+    end
+
+    context 'for work packages NOT related to a BCF issue' do
+      let(:work_packages) { WorkPackage.left_joins(:bcf_issue).where('bcf_issues.id': nil) }
+
+      %w[subject description].each do |field|
+        it "have their #{field} field translated" do
+          expect(work_packages.pluck(:subject)).to all(start_with('tr: '))
+        end
+      end
+    end
+
+    # TODO: the data coming from BCF files should be translated too
+    # This is recorded in the implementation work package 47998
+    context 'for work packages related to a BCF issue' do
+      let(:work_packages) { WorkPackage.joins(:bcf_issue).where.not('bcf_issues.id': nil) }
+
+      %w[subject description].each do |field|
+        it "have NOT their #{field} field translated" do
+          expect(work_packages.pluck(:subject)).to all(not_start_with('tr: '))
+        end
+      end
     end
   end
 end
