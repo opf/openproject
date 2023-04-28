@@ -103,6 +103,20 @@ describe Projects::SetAttributesService, type: :model do
         .not_to have_received(:save)
     end
 
+    shared_examples 'setting status attributes' do
+      let(:status_explanation) { 'A magic dwells in each beginning.' }
+
+      it 'sets the project status code' do
+        expect(subject.result.status_code)
+          .to eq status_code
+      end
+
+      it 'sets the project status explanation' do
+        expect(subject.result.status_explanation)
+          .to eq status_explanation
+      end
+    end
+
     context 'for a new record' do
       let(:project) do
         Project.new
@@ -264,123 +278,49 @@ describe Projects::SetAttributesService, type: :model do
       end
 
       describe 'project status' do
-        context 'with a value provided' do
+        context 'with valid status attributes' do
+          let(:status_code) { 'on_track' }
           let(:call_attributes) do
             {
-              status: {
-                code: 'on_track',
-                explanation: 'A magic dwells in each beginning.'
-              }
+              status_code:,
+              status_explanation:
             }
           end
 
-          it 'set the project status code' do
-            expect(subject.result.status.code)
-              .to eql 'on_track'
+          include_examples 'setting status attributes'
+        end
+
+        context 'with an invalid status code provided' do
+          let(:status_code) { 'wrong' }
+          let(:call_attributes) do
+            {
+              status_code:,
+              status_explanation:
+            }
           end
 
-          it 'set the project status explanation' do
-            expect(subject.result.status.explanation)
-              .to eql 'A magic dwells in each beginning.'
-          end
-
-          it 'does not persist the status' do
-            expect(subject.result.status)
-              .to be_new_record
-          end
+          include_examples 'setting status attributes'
         end
       end
     end
 
     context 'for an existing project' do
       describe 'project status' do
-        context 'with the project not having a status before' do
-          context 'with a value provided' do
-            let(:call_attributes) do
-              {
-                status: {
-                  code: 'on_track',
-                  explanation: 'A magic dwells in each beginning.'
-                }
-              }
-            end
-
-            it 'set the project status code' do
-              expect(subject.result.status.code)
-                .to eql 'on_track'
-            end
-
-            it 'set the project status explanation' do
-              expect(subject.result.status.explanation)
-                .to eql 'A magic dwells in each beginning.'
-            end
-
-            it 'does not persist the status' do
-              expect(subject.result.status)
-                .to be_new_record
-            end
-          end
-
-          context 'with an invalid code' do
-            let(:call_attributes) do
-              {
-                status: {
-                  code: 'bogus',
-                  explanation: 'A magic dwells in each beginning.'
-                }
-              }
-            end
-
-            it 'set the project status code' do
-              expect(subject.result.status.code)
-                .to eql 'bogus'
-            end
-
-            it 'set the project status explanation' do
-              expect(subject.result.status.explanation)
-                .to eql 'A magic dwells in each beginning.'
-            end
-
-            it 'does not persist the status' do
-              expect(subject.result.status)
-                .to be_new_record
-            end
-          end
+        let(:project) do
+          build_stubbed(:project, :on_track)
         end
 
-        context 'with the project having a status before' do
-          let(:project_status) do
-            build_stubbed(:project_status)
+        context 'with a value provided' do
+          let(:status_code) { 'at_risk' }
+          let(:status_explanation) { 'Still some magic there.' }
+          let(:call_attributes) do
+            {
+              status_code:,
+              status_explanation:
+            }
           end
-          let(:project) do
-            build_stubbed(:project, status: project_status)
-          end
 
-          context 'with a value provided' do
-            let(:call_attributes) do
-              {
-                status: {
-                  code: 'at_risk',
-                  explanation: 'Still some magic there.'
-                }
-              }
-            end
-
-            it 'set the project status code' do
-              expect(subject.result.status.code)
-                .to eql 'at_risk'
-            end
-
-            it 'set the project status explanation' do
-              expect(subject.result.status.explanation)
-                .to eql 'Still some magic there.'
-            end
-
-            it 'does not persist the status' do
-              expect(subject.result.status)
-                .to be_changed
-            end
-          end
+          include_examples 'setting status attributes'
         end
       end
     end
