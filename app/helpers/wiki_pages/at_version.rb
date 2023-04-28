@@ -39,7 +39,7 @@ class WikiPages::AtVersion < SimpleDelegator
 
   def initialize(wiki_page, version = nil)
     super(wiki_page)
-    self.version = (version || wiki_page.version).to_i
+    self.version = (version || wiki_page.version).to_i.clamp(1, wiki_page.version)
     self.latest_version = wiki_page.version
   end
 

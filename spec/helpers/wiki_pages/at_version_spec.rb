@@ -101,6 +101,24 @@ describe WikiPages::AtVersion do
           .to eq second_journal_user
       end
     end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the last journal`s user' do
+        expect(page_at_version.author)
+          .to eq second_journal_user
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is the first journal`s user' do
+        expect(page_at_version.author)
+          .to eq first_journal_user
+      end
+    end
   end
 
   describe '#journals' do
@@ -128,6 +146,24 @@ describe WikiPages::AtVersion do
       it 'is the full set of journals' do
         expect(page_at_version.journals)
           .to contain_exactly(first_journal, second_journal)
+      end
+    end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the full set of journals' do
+        expect(page_at_version.journals)
+          .to contain_exactly(first_journal, second_journal)
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is only the first journal' do
+        expect(page_at_version.journals)
+          .to contain_exactly(first_journal)
       end
     end
   end
@@ -159,6 +195,24 @@ describe WikiPages::AtVersion do
           .to eq second_journal.version
       end
     end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the last journals`s version' do
+        expect(page_at_version.lock_version)
+          .to eq second_journal.version
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is the first journals`s version' do
+        expect(page_at_version.lock_version)
+          .to eq first_journal.version
+      end
+    end
   end
 
   describe '#updated_at' do
@@ -188,6 +242,24 @@ describe WikiPages::AtVersion do
           .to eq second_journal.updated_at
       end
     end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the last journals`s updated_at' do
+        expect(page_at_version.updated_at)
+          .to eq second_journal.updated_at
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is the first journals`s updated_at' do
+        expect(page_at_version.updated_at)
+          .to eq first_journal.updated_at
+      end
+    end
   end
 
   describe '#version' do
@@ -206,6 +278,24 @@ describe WikiPages::AtVersion do
       it 'is the provided version' do
         expect(page_at_version.version)
           .to eq version
+      end
+    end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the highest possible version' do
+        expect(page_at_version.version)
+          .to eq 2
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is first version' do
+        expect(page_at_version.version)
+          .to eq 1
       end
     end
   end
@@ -257,6 +347,24 @@ describe WikiPages::AtVersion do
           .to eq second_journal_text
       end
     end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is the last journals`s text' do
+        expect(page_at_version.text)
+          .to eq second_journal_text
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is the first journals`s text' do
+        expect(page_at_version.text)
+          .to eq first_journal_text
+      end
+    end
   end
 
   describe '#readonly?' do
@@ -286,6 +394,24 @@ describe WikiPages::AtVersion do
           .not_to be_readonly
       end
     end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is false' do
+        expect(page_at_version)
+          .not_to be_readonly
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is true' do
+        expect(page_at_version)
+          .to be_readonly
+      end
+    end
   end
 
   describe '#current_version?' do
@@ -313,6 +439,24 @@ describe WikiPages::AtVersion do
       it 'is true' do
         expect(page_at_version)
           .to be_current_version
+      end
+    end
+
+    context 'with the version being larger then the current one' do
+      let(:version) { 3 }
+
+      it 'is true' do
+        expect(page_at_version)
+          .to be_current_version
+      end
+    end
+
+    context 'with the version being less then 1' do
+      let(:version) { 0 }
+
+      it 'is true' do
+        expect(page_at_version)
+          .not_to be_current_version
       end
     end
   end
