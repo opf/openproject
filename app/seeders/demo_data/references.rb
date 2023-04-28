@@ -37,10 +37,44 @@ module DemoData
       API::V3::Utilities::PathHelper::ApiV3Path
     end
 
+    ##
+    # Turns ##<tag>:<ref_name> into a link to the referenced object, and
+    # ##<tag>.id:<ref_name> into its record id.
+    #
+    # - `<tag>` can be one of `query`, `sprint`, or `wp`.
+    # - `<ref_name>` is a reference which was used to register the object.
+    #
+    # For instance:
+    # - Turns `##sprint:sprint_backlog` into
+    #   `/projects/demo-project/sprints/23/taskboard` given there is a sprint
+    #   referenced with :sprint_backlog and its ID here is 23.
+    #
+    #   Alternatively `##sprint.id:sprint_backlog` is translated into just the
+    #   id.
+    #
+    # - Turns `##query:gantt_chart` into
+    #   `/projects/demo-project/work_packages?query_id=1` given there is a query
+    #   referenced with :gantt_chart and its ID here is 1.
+    #
+    #   Alternatively `##query.id:gantt_chart` is translated into just the ID.
+    #
+    # - Turns `##wp:some_subject` into
+    #   `/projects/demo-project/work_packages/42/activity` given there is a work
+    #   package referenced with :some_subject and ID here is 42.
+    #
+    #   Alternatively `##wp.id:some_subject` is translated into just the ID.
     def with_references(str)
-      res = link_work_packages str
-      res = link_queries res
-      link_sprints res
+      return str if str.blank?
+
+      str.gsub(/##(query|sprint|wp)(\.id)?:[a-z_0-9]+/) do |match|
+        tag, reference = match.delete('#').split(":", 2)
+        instance = seed_data.find_reference(reference.to_sym)
+        if match.include?(".id")
+          instance.id
+        else
+          link(tag, instance)
+        end
+      end
     end
 
     ##
@@ -66,51 +100,14 @@ module DemoData
       end
     end
 
-    ##
-    # Turns `##query:gantt_chart` into
-    # `/projects/demo-project/work_packages?query_id=1` given there is a query
-    # referenced with :gantt_chart and its ID here is 1.
-    #
-    # Alternatively `##query.id:gantt_chart` is translated into just the ID.
-    def link_queries(str)
-      link_references(str, tag: 'query')
-    end
-
-    ## Turns `##wp:some_subject` into
-    # `/projects/demo-project/work_packages/42/activity` given there is a work
-    # package referenced with :some_subject and ID here is 42.
-    #
-    # Alternatively `##wp.id:some_subject` is translated into just the ID.
-    def link_work_packages(str)
-      link_references(str, tag: 'wp')
-    end
-
-    def link_sprints(str)
-      link_references(str, tag: 'sprint')
-    end
-
-    def link_references(str, tag:)
-      return str if str.blank?
-
-      str.gsub(/###{tag}(\.id)?:[a-z_0-9]+/) do |match|
-        reference = match.split(":", 2).last.to_sym
-        instance = seed_data.find_reference(reference)
-        if match.include?(".id")
-          instance.id
-        else
-          link(tag, instance)
-        end
-      end
-    end
-
     def link(tag, instance)
       case tag
       when 'query'
         query_link(instance)
-      when 'wp'
-        work_package_link(instance)
       when 'sprint'
         sprint_link(instance)
+      when 'wp'
+        work_package_link(instance)
       else
         raise ArgumentError, "cannot create link for #{tag.inspect}"
       end
@@ -123,18 +120,18 @@ module DemoData
       )
     end
 
+    def sprint_link(sprint)
+      url_helpers.backlogs_project_sprint_taskboard_path(
+        sprint_id: sprint.id,
+        project_id: sprint.project.identifier
+      )
+    end
+
     def work_package_link(work_package)
       url_helpers.project_work_package_path(
         id: work_package.id,
         project_id: work_package.project.identifier,
         state: "activity"
-      )
-    end
-
-    def sprint_link(sprint)
-      url_helpers.backlogs_project_sprint_taskboard_path(
-        sprint_id: sprint.id,
-        project_id: sprint.project.identifier
       )
     end
   end
