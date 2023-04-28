@@ -32,20 +32,7 @@ class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
     label_text << ':' if !values.first
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    html = options[:html] ? '_html' : ''
-
-    first = format_float(values.first) if values.first
-    last = format_float(values.last)
-
-    value =
-      if first
-        I18n.t(:'activity.item.time_entry.updated',
-               first: I18n.t(:"activity.item.time_entry.hour#{html}", count: first),
-               last: I18n.t(:"activity.item.time_entry.hour#{html}", count: last))
-      else
-        I18n.t(:"activity.item.time_entry.hour#{html}",
-               count: last)
-      end
+    value = value(options[:html], values.first, values.last)
 
     I18n.t(:text_journal_of, label: label_text, value:)
   end
@@ -54,5 +41,21 @@ class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
 
   def format_float(val)
     (val % 1).zero? ? val.to_i : val
+  end
+
+  def value(html, first, last)
+    html = html ? '_html' : ''
+
+    first = format_float(first) if first
+    last = format_float(last)
+
+    if first
+      I18n.t(:'activity.item.time_entry.updated',
+             first: I18n.t(:"activity.item.time_entry.hour#{html}", count: first),
+             last: I18n.t(:"activity.item.time_entry.hour#{html}", count: last))
+    else
+      I18n.t(:"activity.item.time_entry.hour#{html}",
+             count: last)
+    end
   end
 end
