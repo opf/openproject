@@ -3,6 +3,11 @@ ca:
   permission_view_file_links: "Veure els enllaços del fitxer"
   permission_manage_file_links: "Administra els enllaços del fitxer"
   permission_manage_storages_in_project: "Administra els emmagatzematges de fitxers en el projecte"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Emmagatzematges de fitxers"
   activerecord:
     models:

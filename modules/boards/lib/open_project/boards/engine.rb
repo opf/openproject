@@ -43,7 +43,7 @@ module OpenProject::Boards
            { controller: '/boards/boards', action: :index },
            caption: :'boards.label_boards',
            after: :work_packages,
-           icon: 'icon2 icon-boards'
+           icon: 'boards'
 
       menu :project_menu,
            :board_menu,

@@ -80,7 +80,7 @@ lol:
       buttons:
         upgrade: "crwdns655649:0crwdne655649:0"
         contact: "crwdns655651:0crwdne655651:0"
-      enterprise_info_html: "crwdns839555:0crwdne839555:0"
+      enterprise_info_html: "crwdns852067:0crwdne852067:0"
       upgrade_info: "crwdns655655:0crwdne655655:0"
     journal_aggregation:
       explanation:
@@ -722,6 +722,9 @@ lol:
             sort_criteria:
               invalid: "crwdns495581:0%{value}crwdne495581:0"
               format: "crwdns495583:0%{message}crwdne495583:0"
+            timestamps:
+              invalid: "crwdns851627:0%{values}crwdne851627:0"
+              format: "crwdns851629:0%{message}crwdne851629:0"
           group_by_hierarchies_exclusive: "crwdns495585:0%{group_by}crwdne495585:0"
           filters:
             custom_fields:
@@ -2623,8 +2626,6 @@ lol:
     crwdns499211:0crwdne499211:0
   text_custom_field_hint_activate_per_project_and_type: >
     crwdns499213:0crwdne499213:0
-  text_wp_custom_field_html: >
-    crwdns839563:0crwdne839563:0
   text_wp_status_read_only_html: >
     crwdns839565:0crwdne839565:0
   text_project_custom_field_html: >

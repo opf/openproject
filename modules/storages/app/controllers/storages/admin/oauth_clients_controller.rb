@@ -54,7 +54,6 @@ class Storages::Admin::OAuthClientsController < ApplicationController
 
   # Actually create a OAuthClient object.
   # Use service pattern to create a new OAuthClient
-  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   def create
     service_result = ::OAuthClients::CreateService.new(user: User.current)

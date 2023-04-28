@@ -22,14 +22,4 @@
 hu:
   project_module_github: "GitHub"
   permission_show_github_content: "GitHub tartalom mutatása"
-  github_integration:
-    pull_request_opened_comment: >
-      **PR Opened:** Kérés elküldve %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) megnyitva  [%{github_user}] által(%{github_user_url}).
-    pull_request_closed_comment: >
-      **PR Closed:** Kérés elküldve %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) lezárva [%{github_user}] által (%{github_user_url}).
-    pull_request_merged_comment: >
-      **PR Merged:** Kérés elküldve %{pr_number} [%{pr_title}](%{pr_url}) for [%{repository}](%{repository_url}) összefűzve [%{github_user}] által (%{github_user_url}).
-    pull_request_referenced_comment: >
-      **Referenced in PR:** [%{github_user}](%{github_user_url}) megjejölve a munkamenet, elküldve %{pr_number} [%{pr_title}](%{pr_url}) on [%{repository}](%{repository_url}).
-    pull_request_ready_for_review_comment: >
-      **PR felülvizsgálatra kész:** A [%{pr_number} [%{pr_title}](%{pr_url}) letöltési kérelem a [%{repository}](%{repository_url}) felülvizsgálatra késznek nyilvánította a [%{github_user}](%{github_user_url}).
+

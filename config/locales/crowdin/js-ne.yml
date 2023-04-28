@@ -228,7 +228,7 @@ ne:
           quick_overview: "Get a quick overview of project management and team collaboration with OpenProject Enterprise edition."
         upsale:
           become_hero: "Become a hero!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
           benefits:
             description: "What are the benefits of the Enterprise on-premises edition?"
@@ -920,6 +920,10 @@ ne:
       message_work_package_read_only: "Work package is locked in this status. No attribute other than status can be altered."
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "Subject, description, comments, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
       filters:
         title: 'Filter work packages'
       inline_create:
@@ -1250,6 +1254,23 @@ ne:
         current_project: 'This is the current project you are in.'
         does_not_match_search: 'Project does not match the search criteria.'
       no_results: 'No project matches your search criteria.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
     forms:
       submit_success_message: 'The form was successfully submitted'
       load_error_message: 'There was an error loading the form'

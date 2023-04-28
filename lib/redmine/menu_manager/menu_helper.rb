@@ -129,6 +129,7 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def render_menu_node_with_children(node, project = nil)
     html_options = { data: { name: node.name } }
 
@@ -159,29 +160,39 @@ module Redmine::MenuManager::MenuHelper
     end
   end
 
+  # rubocop:enable Metrics/AbcSize
+
+  # rubocop:disable Metrics/AbcSize
   def render_single_menu_node(item, project = nil, menu_class = 'op-menu')
     caption, url, selected = extract_node_details(item, project)
 
     link_text = ''.html_safe
-    link_text << spot_icon(item.icon) if item.icon(project).present?
+    link_text << spot_icon(item.icon, size: '1_25') if item.icon(project).present?
+    badge_class = item.badge(project).present? ? " #{menu_class}--item-title_has-badge" : ''
     link_text << content_tag(:span,
-                             class: "#{menu_class}--item-title #{item.badge(project).present? ? "#{menu_class}--item-title_has-badge" : ''}",
+                             class: "#{menu_class}--item-title#{badge_class}",
                              lang: menu_item_locale(item)) do
-      title_text = ''.html_safe + content_tag(:span, caption) + badge_for(item)
+      title_text = ''.html_safe + content_tag(:span, caption, class: 'ellipsis') + badge_for(item)
       if item.enterprise_feature.present? && !EnterpriseToken.allows_to?(item.enterprise_feature)
-        title_text << (''.html_safe + spot_icon('enterprise-addons'))
-      elsif item.icon_after.present?
-        title_text << (''.html_safe + spot_icon(item.icon_after))
+        title_text << (''.html_safe + spot_icon('enterprise-addons', size: '1_25'))
       end
       title_text
     end
+
+    if item.icon_after.present?
+      link_text << (''.html_safe + spot_icon(item.icon_after, size: '1_25', classnames: "icon-after"))
+    end
+
     html_options = item.html_options(selected:)
     html_options[:title] ||= selected ? t(:description_current_position) + caption : caption
     html_options[:class] = "#{html_options[:class]} #{menu_class}--item-action"
     html_options['data-qa-selector'] = "#{menu_class}--item-action"
+    html_options['target'] = '_blank' if item.icon_after.present? && item.icon_after == 'external-link'
 
     link_to link_text, url, html_options
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   def current_menu_item_part_of_menu?(menu, project = nil)
     return true if no_menu_item_wiki_prefix? || wiki_prefix?

@@ -30,12 +30,15 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InputState } from 'reactivestates';
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import { InputState } from '@openproject/reactivestates';
+import {
+  WorkPackagesActivityService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
@@ -45,6 +48,7 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { IHalResourceLink } from 'core-app/core/state/hal-resource';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
@@ -112,6 +116,29 @@ export interface WorkPackageLinksObject extends WorkPackageResourceLinks {
   schema:HalResource;
 }
 
+export interface IWorkPackageTimestampMeta {
+  exists:boolean;
+  matchesFilters:boolean;
+  timestamp:string;
+}
+
+export interface IWorkPackageTimestamp {
+  startDate?:string;
+  dueDate?:string;
+  date?:string;
+  _meta:IWorkPackageTimestampMeta;
+  $links:{
+    self:IHalResourceLink;
+    status?:IHalResourceLink;
+    assignee?:IHalResourceLink;
+    accountable?:IHalResourceLink;
+    project?:IHalResourceLink;
+    type?:IHalResourceLink;
+    priority?:IHalResourceLink;
+    version?:IHalResourceLink;
+  }
+}
+
 export class WorkPackageBaseResource extends HalResource {
   public $embedded:WorkPackageResourceEmbedded;
 
@@ -129,6 +156,8 @@ export class WorkPackageBaseResource extends HalResource {
 
   public attachments:AttachmentCollectionResource;
 
+  public attributesByTimestamp?:IWorkPackageTimestamp[];
+
   @InjectField() I18n!:I18nService;
 
   @InjectField() states:States;
@@ -142,8 +171,6 @@ export class WorkPackageBaseResource extends HalResource {
   @InjectField() workPackageNotificationService:WorkPackageNotificationService;
 
   @InjectField() pathHelper:PathHelperService;
-
-  @InjectField() opFileUpload:OpenProjectFileUploadService;
 
   readonly attachmentsBackend = true;
 
@@ -169,8 +196,8 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<subject> (#<id>)" if the id is known.
    */
   public subjectWithId(truncateSubject = 40):string {
-    const id = isNewResource(this) ? '' : ` (#${this.id})`;
-    const subject = _.truncate(this.subject, { length: truncateSubject });
+    const id = isNewResource(this) ? '' : ` (#${this.id || ''})`;
+    const subject = truncateSubject <= 0 ? this.subject : _.truncate(this.subject, { length: truncateSubject });
 
     return `${subject}${id}`;
   }

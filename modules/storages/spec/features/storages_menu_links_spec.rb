@@ -29,48 +29,44 @@
 require_relative '../spec_helper'
 
 describe 'Project menu', js: true do
-  let(:storage1) { create(:storage, name: "Storage 1") }
-  let(:storage2) { create(:storage, name: "Storage 2") }
-  let(:storage3) { create(:storage, name: "Storage 3") }
+  let(:storage) { create(:storage, name: "Storage 1") }
+  let(:another_storage) { create(:storage, name: "Storage 2") }
+  let(:unlinked_storage) { create(:storage, name: "Storage 3") }
   let(:project) { create(:project, enabled_module_names: %i[storages]) }
-  let(:project_storage1) { create(:project_storage, project:, storage: storage1) }
-  let(:project_storage2) { create(:project_storage, project:, storage: storage2) }
-  let(:project_storage3) { create(:project_storage, project:, storage: storage3) }
+  let(:project_storage_without_folder) { create(:project_storage, project:, storage:) }
+  let(:project_storage_with_manual_folder) do
+    create(:project_storage, project:, storage: another_storage, project_folder_mode: 'manual', project_folder_id: '42')
+  end
+  let(:permissions) { %i[view_file_links] }
   let(:user) { create(:user, member_in_project: project, member_with_permissions: permissions) }
 
-  it 'has no links to storages when user is not logged in' do
-    project_storage1
-    visit(project_path(id: project.id))
-    expect(page).not_to have_link(storage1.name, href: storage1.host)
+  before do
+    project_storage_without_folder
+    project_storage_with_manual_folder
+    unlinked_storage
+
+    login_as(user)
+    visit(project_path(project))
   end
 
-  context 'when user is logged in without permissions to see storage links' do
+  it 'has links to enabled storages' do
+    visit(project_path(id: project.id))
+
+    expect(page).to have_link(storage.name, href: storage.host)
+    project_folder_id = project_storage_with_manual_folder.project_folder_id
+    folder_href = "#{another_storage.host}/index.php/f/#{project_folder_id}?openfile=1"
+    expect(page).to have_link(another_storage.name, href: folder_href)
+    expect(page).not_to have_link(unlinked_storage.name)
+  end
+
+  context 'if user has no permission to see storage links' do
     let(:permissions) { %i[] }
 
-    before do
-      login_as(user)
-    end
-
     it 'has no links to enabled storages' do
-      project_storage1
       visit(project_path(id: project.id))
-      expect(page).not_to have_link(storage1.name, href: storage1.host)
-    end
-  end
 
-  context 'when user is logged in with permissions to see storage links' do
-    let(:permissions) { %i[view_file_links] }
-
-    before { login_as(user) }
-
-    it 'has links to enabled storages' do
-      project_storage1
-      project_storage2
-      storage3
-      visit(project_path(id: project.id))
-      expect(page).to have_link(storage1.name, href: storage1.host)
-      expect(page).to have_link(storage2.name, href: storage2.host)
-      expect(page).not_to have_link(storage3.name, href: storage3.host)
+      expect(page).not_to have_link(storage.name)
+      expect(page).not_to have_link(another_storage.name)
     end
   end
 end

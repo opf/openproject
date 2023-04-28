@@ -29,6 +29,7 @@
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class DownloadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
     include API::V3::Utilities::PathHelper
+    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(base_uri:, token:, retry_proc:)
@@ -85,13 +86,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:enable Metrics/AbcSize
-
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
 
     def download_link(token, origin_name)
       api_v3_paths.join_uri_path(@base_uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))

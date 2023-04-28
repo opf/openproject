@@ -81,9 +81,9 @@ export class OpNonWorkingDaysListComponent implements OnInit {
     initialView: 'listYear',
     contentHeight: 'auto',
     headerToolbar: {
-      right: 'prev,next',
+      right: '',
       center: '',
-      left: 'title',
+      left: 'prev,next,title',
     },
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     events: this.calendarEventsFunction.bind(this),

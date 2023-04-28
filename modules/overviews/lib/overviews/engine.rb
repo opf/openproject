@@ -10,7 +10,7 @@ module Overviews
                   { controller: '/overviews/overviews', action: 'show' },
                   caption: :'overviews.label',
                   first: true,
-                  icon: 'icon2 icon-info1')
+                  icon: 'info1')
       end
     end
 

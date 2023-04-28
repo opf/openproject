@@ -28,11 +28,12 @@ module DemoData
   class VersionBuilder
     include ::DemoData::References
 
-    attr_reader :config, :project
+    attr_reader :config, :project, :user
 
-    def initialize(config, project)
+    def initialize(config, project:, user:)
       @config = config
       @project = project
+      @user = user
     end
 
     def create!
@@ -53,13 +54,13 @@ module DemoData
 
     def version
       version = Version.create!(
-        name: config[:name],
-        status: config[:status],
-        sharing: config[:sharing],
+        name: config['name'],
+        status: config['status'],
+        sharing: config['sharing'],
         project:
       )
 
-      set_wiki! version, config[:wiki] if config[:wiki]
+      set_wiki! version, config['wiki'] if config['wiki']
 
       version
     end

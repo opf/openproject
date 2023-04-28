@@ -34,10 +34,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
+import {
+  BehaviorSubject,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+} from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
-import { IHalResourceLink } from 'core-app/core/state/hal-resource';
+import { IStorage } from 'core-app/core/state/storages/storage.model';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
@@ -62,15 +69,17 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   protected currentDirectory:IStorageFile;
 
-  protected get storageLink():IHalResourceLink {
-    return this.locals.storageLink as IHalResourceLink;
+  protected get storage():IStorage {
+    return this.locals.storage as IStorage;
   }
 
   public breadcrumbs:BreadcrumbsContent = new BreadcrumbsContent([{
-    text: this.locals.storageName as string,
-    icon: getIconForStorageType(this.locals.storageType as string),
+    text: this.storage.name,
+    icon: getIconForStorageType(this.storage._links.type.href),
     navigate: () => {},
   }]);
+
+  public noAccessWarning = new BehaviorSubject(false);
 
   public listItems$:Observable<StorageFileListItem[]> = this.storageFiles$
     .pipe(
@@ -94,10 +103,11 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   ngOnInit():void {
     super.ngOnInit();
 
-    const location = this.locals.location as string || '/';
-
-    this.storageFilesResourceService
-      .files(makeFilesCollectionLink(this.storageLink, location))
+    this.entryLocation()
+      .pipe(
+        this.untilDestroyed(),
+        switchMap((location:string) => this.storageFilesResourceService.files(makeFilesCollectionLink(this.storage._links.self, location))),
+      )
       .subscribe((storageFiles) => {
         this.currentDirectory = storageFiles.parent;
         this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
@@ -110,6 +120,10 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     super.ngOnDestroy();
 
     this.storageFilesResourceService.reset();
+  }
+
+  public closeWarning():void {
+    this.noAccessWarning.next(false);
   }
 
   protected abstract storageFileToListItem(file:IStorageFile, index:number):StorageFileListItem;
@@ -127,13 +141,33 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
     this.loading$.next(true);
 
     this.loadingSubscription = this.storageFilesResourceService
-      .files(makeFilesCollectionLink(this.storageLink, ancestor.location))
+      .files(makeFilesCollectionLink(this.storage._links.self, ancestor.location))
       .subscribe((storageFiles) => {
         this.currentDirectory = storageFiles.parent;
         this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
         this.storageFiles$.next(storageFiles.files);
         this.loading$.next(false);
       });
+  }
+
+  private entryLocation():Observable<string> {
+    if (this.locals.projectFolderId === null) {
+      return of('/');
+    }
+
+    return this.storageFilesResourceService
+      .file(this.storage.id, this.locals.projectFolderId as string)
+      .pipe(
+        map((file) => file.location),
+        catchError((error:HttpErrorResponse) => {
+          if (error.status !== 403) {
+            throw new Error(error.message);
+          }
+
+          this.noAccessWarning.next(true);
+          return of('/');
+        }),
+      );
   }
 
   private cancelCurrentLoading():void {
@@ -143,8 +177,8 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
   private makeBreadcrumbs(ancestors:IStorageFile[], parent:IStorageFile):BreadcrumbsContent {
     const crumbs = ancestors.concat(parent).map((ancestor):Breadcrumb => {
       const isRoot = ancestor.location === '/';
-      const icon = isRoot ? getIconForStorageType(this.locals.storageType as string) : undefined;
-      const text = isRoot ? this.locals.storageName as string : ancestor.name;
+      const icon = isRoot ? getIconForStorageType(this.storage._links.type.href) : undefined;
+      const text = isRoot ? this.storage.name : ancestor.name;
       return { icon, text, navigate: () => this.changeLevel(ancestor) };
     });
 

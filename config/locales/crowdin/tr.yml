@@ -80,7 +80,7 @@ tr:
       buttons:
         upgrade: "Hemen Yükselt"
         contact: "Demo için bizimle iletişime geçin"
-      enterprise_info_html: "bir Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> eklentisidir."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Etkinleştirmek ve ekibinizde kullanmaya başlamak için lütfen ücretli bir plana yükseltin."
     journal_aggregation:
       explanation:
@@ -738,6 +738,9 @@ tr:
               format: "%{message}"
             sort_criteria:
               invalid: "Sütuna göre sıralama yapamazsınız: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
@@ -2650,8 +2653,6 @@ tr:
     Özel alanları kullanırken: Özel alanların her proje için aktif yapılması gerektiğini unutmayın.
   text_custom_field_hint_activate_per_project_and_type: >
     Özel alanların iş paketi türü ve proje bazında aktive edilmesi gerekiyor.
-  text_wp_custom_field_html: >
-    Enterprise sürümü, iş paketlerinin özel alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>Liste veya Kullanıcı türündeki özel alanlar için çoklu seçime izin verin</b></li> < /ul>
   text_wp_status_read_only_html: >
     Enterprise sürümü, iş paketlerinin durum alanları için şu ek eklentileri ekleyecektir: <br> <ul> <li><b>İş paketlerini belirli durumlar için salt okunur olarak işaretlemeye izin verin</b></li> < /ul>
   text_project_custom_field_html: >

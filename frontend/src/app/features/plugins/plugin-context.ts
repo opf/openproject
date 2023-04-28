@@ -15,7 +15,6 @@ import { ExternalRelationQueryConfigurationService } from 'core-app/features/wor
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
@@ -49,7 +48,6 @@ export class OpenProjectPluginContext {
     i18n: this.injector.get<I18nService>(I18nService),
     notifications: this.injector.get<ToastService>(ToastService),
     opModalService: this.injector.get<OpModalService>(OpModalService),
-    opFileUpload: this.injector.get<OpenProjectFileUploadService>(OpenProjectFileUploadService),
     displayField: this.injector.get<DisplayFieldService>(DisplayFieldService),
     editField: this.injector.get<EditFieldService>(EditFieldService),
     macros: this.injector.get<EditorMacrosService>(EditorMacrosService),

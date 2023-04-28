@@ -510,7 +510,7 @@ module OpenProject::TextFormatting::Formats
         end
       end
 
-      class OldForum < ::ActiveRecord::Base
+      class OldForum < ApplicationRecord
         self.table_name = 'boards'
       end
     end

@@ -54,10 +54,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     let(:expected) do
       <<~HTML.squish
         <a class="testing-menu-item op-menu--item-action" title="This is a test" data-qa-selector="op-menu--item-action" href="/test">
-          <span class="op-menu--item-title ">
-            <span>
-              This is a test
-            </span>
+          <span class="op-menu--item-title">
+            <span class="ellipsis">This is a test</span>
           </span>
         </a>
       HTML
@@ -77,10 +75,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
         <<~HTML.squish
           <li data-name="single_node">
             <a class="single-node-menu-item op-menu--item-action" title="Single node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title ">
-                <span>
-                  Single node
-                </span>
+              <span class="op-menu--item-title">
+                <span class="ellipsis">Single node</span>
               </span>
             </a>
           </li>
@@ -108,8 +104,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
         <<~HTML.squish
           <li data-name="parent_node">
             <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title ">
-                <span>
+              <span class="op-menu--item-title">
+                <span class="ellipsis">
                   Parent node
                 </span>
               </span>
@@ -117,37 +113,29 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
             <ul class="main-menu--children">
               <li data-name="child_one_node">
                 <a class="child-one-node-menu-item op-menu--item-action" title="Child one node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title ">
-                    <span>
-                      Child one node
-                    </span>
+                  <span class="op-menu--item-title">
+                    <span class="ellipsis">Child one node</span>
                   </span>
                 </a>
               </li>
               <li data-name="child_two_node">
                 <a class="child-two-node-menu-item op-menu--item-action" title="Child two node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title ">
-                    <span>
-                      Child two node
-                    </span>
+                  <span class="op-menu--item-title">
+                    <span class="ellipsis">Child two node</span>
                   </span>
                 </a>
               </li>
               <li data-name="child_three_node">
                 <a class="child-three-node-menu-item op-menu--item-action" title="Child three node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title ">
-                    <span>
-                      Child three node
-                    </span>
+                  <span class="op-menu--item-title">
+                    <span class="ellipsis">Child three node</span>
                   </span>
                 </a>
               </li>
               <li data-name="child_three_inner_node">
                 <a class="child-three-inner-node-menu-item op-menu--item-action" title="Child three inner node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title ">
-                    <span>
-                      Child three inner node
-                    </span>
+                  <span class="op-menu--item-title">
+                    <span class="ellipsis">Child three inner node</span>
                   </span>
                 </a>
               </li>
@@ -188,10 +176,8 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
         <<~HTML.squish
           <li data-name="parent_node">
             <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title ">
-                <span>
-                  Parent node
-                </span>
+              <span class="op-menu--item-title">
+                <span class="ellipsis">Parent node</span>
               </span>
             </a>
 
@@ -263,20 +249,16 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
         <<~HTML.squish
           <li data-name="parent_node">
             <a class="parent-node-menu-item op-menu--item-action" title="Parent node" data-qa-selector="op-menu--item-action" href="/test">
-              <span class="op-menu--item-title ">
-                <span>
-                  Parent node
-                </span>
+              <span class="op-menu--item-title">
+                <span class="ellipsis">Parent node</span>
               </span>
             </a>
 
             <ul class="main-menu--children">
               <li data-name="child_node">
                 <a class="child-node-menu-item op-menu--item-action" title="Child node" data-qa-selector="op-menu--item-action" href="/test">
-                  <span class="op-menu--item-title ">
-                    <span>
-                      Child node
-                    </span>
+                  <span class="op-menu--item-title">
+                    <span class="ellipsis">Child node</span>
                   </span>
                 </a>
                 <ul class="main-menu--children unattached">

@@ -242,18 +242,18 @@ describe XlsExport::WorkPackage::Exporter::XLS do
 
     let(:work_package) do
       create(:work_package,
-             description: 'some arbitrary description',
+             description: "some arbitrary description \n <p>with some html</p>",
              project:,
              type: project.types.first)
     end
     let(:work_packages) { [work_package] }
     let(:column_names) { %w[id] }
 
-    it 'includes the description' do
+    it 'includes the HTML sanitized description' do
       expect(sheet.rows.size).to eq(1 + 1)
 
       expect(sheet.rows[1][1])
-        .to eql(work_package.description)
+        .to eql("some arbitrary description \n with some html")
     end
   end
 

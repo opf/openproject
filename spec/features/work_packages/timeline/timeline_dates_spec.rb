@@ -92,6 +92,22 @@ RSpec.describe 'Work package timeline date formatting',
 
   describe 'with default settings',
            with_settings: { start_of_week: '', first_week_of_year: '' } do
+    before do
+      wp_timeline.expect_timeline!
+    end
+
+    context 'with german locale user' do
+      let(:current_user) { create(:admin, language: 'de') }
+
+      it 'shows german ISO dates' do
+        # expect moment to return week 53 for start date
+        expect_date_week work_package.start_date.iso8601, '53'
+        expect_date_week work_package.due_date.iso8601, '53'
+        # Monday, 4th of january is the first week
+        expect_date_week '2021-01-04', '01'
+      end
+    end
+
     context 'with english locale user' do
       let(:current_user) { create(:admin, language: 'en') }
 
@@ -101,21 +117,6 @@ RSpec.describe 'Work package timeline date formatting',
         expect_date_week work_package.due_date.iso8601, '01'
         # Monday, 4th of january is the second week
         expect_date_week '2021-01-04', '02'
-      end
-    end
-
-    context 'with german locale user' do
-      let(:current_user) { create(:admin, language: 'de') }
-
-      it 'shows german ISO dates' do
-        expect(page).to have_selector('.wp-timeline--header-element', text: '52')
-        expect(page).to have_selector('.wp-timeline--header-element', text: '53')
-
-        # expect moment to return week 53 for start date
-        expect_date_week work_package.start_date.iso8601, '53'
-        expect_date_week work_package.due_date.iso8601, '53'
-        # Monday, 4th of january is the first week
-        expect_date_week '2021-01-04', '01'
       end
     end
 
@@ -172,6 +173,20 @@ RSpec.describe 'Work package timeline date formatting',
     shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
     let(:current_user) { create(:admin) }
     let(:row) { wp_timeline.timeline_row work_package_with_non_working_days.id }
+
+    it 'today_line is in view' do
+      row.wait_until_hoverable
+      today_line_offsetLeft = page.evaluate_script <<~JS
+        document.getElementById('wp-timeline-static-element-today-line').offsetLeft
+      JS
+      timeline_side_scrollLeft = page.evaluate_script <<~JS
+        document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].scrollLeft
+      JS
+      timeline_side_clientWidth = page.evaluate_script <<~JS
+        document.getElementsByClassName('work-packages-tabletimeline--timeline-side')[0].clientWidth
+      JS
+      expect(today_line_offsetLeft).to be_between(timeline_side_scrollLeft, timeline_side_scrollLeft + timeline_side_clientWidth)
+    end
 
     shared_let(:non_working_day) do
       create(:non_working_day,

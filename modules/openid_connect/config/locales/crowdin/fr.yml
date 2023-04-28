@@ -9,6 +9,7 @@ fr:
         identifier: Identifiant
         secret: Secret
         scope: Portée
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Fournisseurs OpenID
     providers:
@@ -17,3 +18,6 @@ fr:
       no_results_table: Aucun fournisseur n'a encore été défini.
       plural: Fournisseurs OpenID
       singular: Fournisseur OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.
