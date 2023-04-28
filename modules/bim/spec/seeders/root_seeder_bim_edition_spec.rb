@@ -33,8 +33,9 @@ RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
 
 describe RootSeeder,
          'BIM edition',
-         with_config: { edition: 'bim' },
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+         with_config: { edition: 'bim' } do
+  include RootSeederTestHelpers
+
   shared_examples 'creates BIM demo data' do
     it 'creates an admin user' do
       expect(User.not_builtin.where(admin: true).count).to eq 1
@@ -81,12 +82,7 @@ describe RootSeeder,
 
   describe 'demo data' do
     before_all do
-      RSpec::Mocks.with_temporary_scope do
-        # the mocking of settings and configuration is duplicated here because
-        # it's executed outside of an example context
-        with_config(edition: 'bim')
-        with_settings(journal_aggregation_time_minutes: 0)
-
+      with_edition('bim') do
         described_class.new.seed_data!
       end
     end
@@ -96,14 +92,9 @@ describe RootSeeder,
     include_examples 'no email deliveries'
   end
 
-  describe 'demo data translated in another language' do
+  describe 'demo data mock-translated in another language' do
     before_all do
-      RSpec::Mocks.with_temporary_scope do
-        # the mocking of settings and configuration is duplicated here because
-        # it's executed outside of an example context
-        with_config(edition: 'bim')
-        with_settings(journal_aggregation_time_minutes: 0)
-
+      with_edition('bim') do
         # simulate a translation by changing the returned string on `I18n#t` calls
         allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
           original_translation = m.call(*args, **kw)
@@ -141,5 +132,20 @@ describe RootSeeder,
         end
       end
     end
+  end
+
+  describe 'demo data with a non-English language' do
+    before_all do
+      with_edition('bim') do
+        stub_language('de')
+        described_class.new.seed_data!
+      end
+    end
+
+    before do
+      stub_language('de')
+    end
+
+    include_examples 'creates BIM demo data'
   end
 end

@@ -31,8 +31,9 @@ require_relative './root_seeder_shared_examples'
 
 describe RootSeeder,
          'standard edition',
-         with_config: { edition: 'standard' },
-         with_settings: { journal_aggregation_time_minutes: 0 } do
+         with_config: { edition: 'standard' } do
+  include RootSeederTestHelpers
+
   shared_examples 'creates standard demo data' do
     it 'creates the system user' do
       expect(SystemUser.where(admin: true).count).to eq 1
@@ -81,7 +82,9 @@ describe RootSeeder,
 
   describe 'demo data' do
     before_all do
-      described_class.new.seed_data!
+      with_edition('standard') do
+        described_class.new.seed_data!
+      end
     end
 
     include_examples 'creates standard demo data'
@@ -112,9 +115,9 @@ describe RootSeeder,
     end
   end
 
-  describe 'demo data translated in another language' do
+  describe 'demo data mock-translated in another language' do
     before_all do
-      RSpec::Mocks.with_temporary_scope do
+      with_edition('standard') do
         # simulate a translation by changing the returned string on `I18n#t` calls
         allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
           original_translation = m.call(*args, **kw)
@@ -129,6 +132,21 @@ describe RootSeeder,
     it 'has all Query.name translated' do
       expect(Query.pluck(:name)).to all(start_with('tr: '))
     end
+  end
+
+  describe 'demo data with a non-English language' do
+    before_all do
+      with_edition('standard') do
+        stub_language('de')
+        described_class.new.seed_data!
+      end
+    end
+
+    before do
+      stub_language('de')
+    end
+
+    include_examples 'creates standard demo data'
   end
 
   describe 'demo data with development data' do

@@ -26,10 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageSeeder < Seeder
+    include CreateAttachments
+    include References
+
     attr_reader :project, :statuses, :repository, :types
     alias_method :project_data, :seed_data
-
-    include ::DemoData::References
 
     def initialize(project, project_data)
       super(project_data)
@@ -151,16 +152,6 @@ module DemoData
     def set_backlogs_attributes!(wp_attr, attributes)
       wp_attr[:position] = attributes['position'].presence&.to_i
       wp_attr[:story_points] = attributes['story_points'].presence&.to_i
-    end
-
-    def create_attachments!(work_package, attributes)
-      Array(attributes['attachments']).each do |file_name|
-        attachment = work_package.attachments.build
-        attachment.author = work_package.author
-        attachment.file = File.new("config/locales/media/en/#{file_name}")
-
-        attachment.save!
-      end
     end
 
     def set_work_package_relations
