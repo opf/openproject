@@ -35,108 +35,126 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def initialize(base_uri:, username:, password:)
       super()
 
-      @base_uri = base_uri
+      @uri = base_uri
+      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(username))
       @username = username
       @password = password
-      # TODO: check if we really need to init cert_store
-      # see files_query.rb
-      @http_options = {
-        cert_store: OpenSSL::X509::Store.new.tap(&:set_default_paths),
-        use_ssl: true,
-      }
     end
 
-    def execute(folder_path:, permissions:)
-      body = Nokogiri::XML::Builder.new do |xml|
+    def execute(folder:, permissions:)
+      http = Net::HTTP.new(@uri.host, @uri.port)
+      http.use_ssl = @uri.scheme == 'https'
+
+      response = http.proppatch(
+        "#{@base_path}#{requested_folder(folder)}",
+        converted_permissions(username: @username, permissions:),
+        {
+          'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
+        }
+      )
+
+      response.is_a?(Net::HTTPSuccess) ? ServiceResult.success : error(response)
+    end
+
+    private
+
+    def escape_whitespace(value)
+      value.gsub(' ', '%20')
+    end
+
+    def requested_folder(folder)
+      return '' if folder.nil?
+
+      escape_whitespace(folder)
+    end
+
+    def error(response)
+      case response
+      when Net::HTTPNotFound
+        error_result(:not_found)
+      when Net::HTTPUnauthorized
+        error_result(:not_authorized)
+      else
+        error_result(:error)
+      end
+    end
+
+    def error_result(code, log_message = nil, data = nil)
+      ServiceResult.failure(
+        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
+        errors: Storages::StorageError.new(code:, log_message:, data:)
+      )
+    end
+
+    def converted_permissions(username:, permissions:)
+      Nokogiri::XML::Builder.new do |xml|
         xml['d'].propertyupdate(
           'xmlns:d' => 'DAV:',
-          'xmlns:oc' => 'http://owncloud.org/ns'
+          'xmlns:oc' => 'http://owncloud.org/ns',
           'xmlns:nc' => 'http://nextcloud.org/ns'
         ) do
           xml['d'].set do
             xml['d'].prop do
               xml['nc'].send('acl-list') do
-                xml['nc'].acl do
-                  xml['nc'].send('acl-mapping-type', 'user')
-                  xml['nc'].send('acl-mapping-id', @username)
-                  xml['nc'].send('acl-mask', '31')
-                  xml['nc'].send('acl-permissions', '31')
-                end
-                xml['nc'].acl do
-                  xml['nc'].send('acl-mapping-type', 'group')
-                  # TODO: consider group as a parameter as well.
-                  xml['nc'].send('acl-mapping-id', 'OpenProject')
-                  xml['nc'].send('acl-mask', '31')
-                  xml['nc'].send('acl-permissions', '1')
-                end
-                prepare_permissions(permission)
+                global_permissions(xml, username)
+                user_permissions(xml, permissions)
               end
             end
           end
         end
       end.to_xml
+    end
 
-     body = <<~XML
-<d:propertyupdate xmlns:d="DAV:"
-  xmlns:oc="http://owncloud.org/ns"
-  xmlns:nc="http://nextcloud.org/ns"
-  xmlns:ocs="http://open-collaboration-services.org/ns">
-  <d:set>
-    <d:prop>
-      <nc:acl-list>
-        <nc:acl>
-          <nc:acl-mapping-type>user</nc:acl-mapping-type>
-          <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-          <nc:acl-mask>31</nc:acl-mask>
-          <nc:acl-permissions>31</nc:acl-permissions>
-        </nc:acl>
-        <nc:acl>
-          <nc:acl-mapping-type>group</nc:acl-mapping-type>
-          <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
-          <nc:acl-mask>31</nc:acl-mask>
-          <nc:acl-permissions>0</nc:acl-permissions>
-        </nc:acl>
-        #{prepare_permissions(permissions).join("/n")}
-      </nc:acl-list>
-    </d:prop>
-  </d:set>
-</d:propertyupdate>
-      XML
-        puts body
-        path = "/remote.php/dav/files/#{@username}/#{folder_path}"
-        headers = {
-          'Authorization' => "Basic #{Base64::encode64(@username + ':' + @password)}"
-        }
+    def global_permissions(xml, username)
+      control_user_permissions(username, xml)
+      control_group_permissions(xml)
+    end
 
-      Net::HTTP.start(@hostname, nil, nil, nil, nil, nil, @http_options) do |http|
-        http.proppatch(path, body , headers)
+    def control_user_permissions(username, xml)
+      xml['nc'].acl do
+        xml['nc'].send('acl-mapping-type', 'user')
+        xml['nc'].send('acl-mapping-id', username)
+        xml['nc'].send('acl-mask', '31')
+        xml['nc'].send('acl-permissions', '31')
       end
     end
 
-    private
+    def control_group_permissions(xml)
+      xml['nc'].acl do
+        xml['nc'].send('acl-mapping-type', 'group')
+        xml['nc'].send('acl-mapping-id', 'OpenProject')
+        xml['nc'].send('acl-mask', '31')
+        xml['nc'].send('acl-permissions', '0')
+      end
+    end
 
-    def prepare_permissions(users_permissions)
-      acls = users_permissions.map do |i|
-        permissions_map = {
-          read_files: 1,
-          write_files: 2,
-          create_files: 4,
-          share_files: 16,
-          delete_files: 8
-        }
-        username = i[0]
-        permissions = i[1].reduce(0) do |acc, (k, v)|
-          acc = acc + permissions_map[k] if v
-          acc
+    PERMISSION_MAP = {
+      read_files: 1,
+      write_files: 2,
+      create_files: 4,
+      delete_files: 8,
+      share_files: 16
+    }.freeze
+
+    def user_permissions(xml, permissions)
+      permissions.each do |permission|
+        username = permission[0]
+        assignable_permission = nextcloud_permission(permission[1])
+
+        xml['nc'].acl do
+          xml['nc'].send('acl-mapping-type', 'user')
+          xml['nc'].send('acl-mapping-id', username)
+          xml['nc'].send('acl-mask', '31')
+          xml['nc'].send('acl-permissions', assignable_permission)
         end
-        <<~ACL
-        <nc:acl>
-          <nc:acl-mapping-type>user</nc:acl-mapping-type>
-          <nc:acl-mapping-id>#{username}</nc:acl-mapping-id>
-          <nc:acl-mask>31</nc:acl-mask>
-          <nc:acl-permissions>#{permissions}</nc:acl-permissions>
-        </nc:acl>
-        ACL
+      end
+    end
+
+    def nextcloud_permission(permission)
+      permission.reduce(0) do |acc, (k, v)|
+        acc = acc + PERMISSION_MAP[k] if v
+        acc
       end
     end
   end
+end
