@@ -67,7 +67,8 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new create destroy] }
+                   { 'storages/admin/projects_storages': %i[index new create destroy fix_permissions permissions] },
+                   dependencies: %i[]
 
         if OpenProject::FeatureDecisions.managed_project_folders_active?
           permission :read_files,

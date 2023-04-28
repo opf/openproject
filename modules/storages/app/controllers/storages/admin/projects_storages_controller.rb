@@ -112,6 +112,76 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     redirect_to project_settings_projects_storages_path
   end
 
+  def permissions
+    find_model_object(:projects_storage_id)
+    storage = @projects_storage.storage
+    api = OpenProject::Storages::NextcloudAPI.new(
+      username: storage.username,
+      password: storage.password,
+      hostname: URI(storage.host).host
+    )
+    folder_path = "OpenProject/#{@projects_storage.project_folder_id}"
+    project_users = @project.users
+    oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id, integration_type: 'Storages::Storage').first
+    @nextcloud_users = OAuthClientToken.where(oauth_client: oauth_client, user: project_users)
+    @users_permissions = @nextcloud_users.map do |token|
+      # token.user.memberships.where(project: @project).first.roles.first.role_permissions.pluck(:permission)
+      user = token.user
+      [
+        token.origin_user_id,
+        {
+          read_files: user.allowed_to?(:read_files, @project),
+          write_files: user.allowed_to?(:write_files, @project),
+          create_files: user.allowed_to?(:create_files, @project),
+          share_files: user.allowed_to?(:share_files, @project),
+          delete_files: user.allowed_to?(:delete_files, @project),
+        }
+      ]
+    end
+    n = Nokogiri::XML(api.folder_acl_get(folder_path))
+    n.xpath('/d:multistatus/d:response/d:href')
+    n.xpath('/d:multistatus/d:response/d:propstat/d:status')
+    n.xpath('/d:multistatus/d:response/d:propstat/d:prop/nc:acl-list/nc:acl')
+    acl_xml = n.xpath('//nc:acl')
+    @folder_acls = acl_xml.map do |node|
+      node.children.inject({}) do |acl, child_node|
+        acl[child_node.name] = child_node.content
+        acl
+      end
+    end
+    render '/storages/project_settings/permissions'
+  end
+
+  def fix_permissions
+    find_model_object(:projects_storage_id)
+    storage = @projects_storage.storage
+    api = OpenProject::Storages::NextcloudAPI.new(
+      username: storage.username,
+      password: storage.password,
+      hostname: URI(storage.host).host
+    )
+    folder_path = "OpenProject/#{@projects_storage.project_folder_id}"
+    project_users = @project.users
+    oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id, integration_type: 'Storages::Storage').first
+    nextcloud_users = OAuthClientToken.where(oauth_client: oauth_client, user: project_users)
+    users_permissions = nextcloud_users.map do |token|
+      user = token.user
+      [
+        token.origin_user_id,
+        {
+          read_files: user.allowed_to?(:read_files, @project),
+          write_files: user.allowed_to?(:write_files, @project),
+          create_files: user.allowed_to?(:create_files, @project),
+          share_files: user.allowed_to?(:share_files, @project),
+          delete_files: user.allowed_to?(:delete_files, @project),
+        }
+      ]
+    end
+
+    api.folder_acl_set(folder_path, users_permissions)
+    redirect_to(project_settings_projects_storage_permissions_path(project_id: @project.id, projects_storage_id: @projects_storage.id))
+  end
+
   private
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.

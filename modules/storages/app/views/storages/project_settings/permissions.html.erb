@@ -1,0 +1,24 @@
+<!-- Standard Ruby view, please see the controller for comments -->
+<% html_title t(:label_administration), t("project_module_storages") %>
+<% local_assigns[:additional_breadcrumb] = t('storages.label_permissions') %>
+<%= toolbar title: t("storages.page_titles.project_settings.permissions") %>
+
+
+<pre>
+<%= @projects_storage.pretty_inspect %>
+</pre>
+<br>
+<p> Project users with nextcloud activated:</p>
+<pre>
+  <%= @nextcloud_users.pretty_inspect %>
+</pre>
+<p> User permissions on OpenProject side:</p>
+<pre>
+  <%= @users_permissions.pretty_inspect %>
+</pre>
+<p> ACLs for project folder on NextCloud side:</p>
+<pre>
+  <%= @folder_acls.pretty_inspect %>
+</pre>
+
+<%= link_to "Fix permissions", project_settings_projects_storage_fix_permissions_path(projects_storage_id: @projects_storage.id, project_id: @project.id) %>
