@@ -86,8 +86,6 @@ module DemoData
     end
 
     def link_sprints(str)
-      return str unless defined? OpenProject::Backlogs
-
       link_references(str, tag: 'sprint')
     end
 

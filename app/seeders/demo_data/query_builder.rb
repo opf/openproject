@@ -36,20 +36,12 @@ module DemoData
     end
 
     def create!
-      return unless valid?
-
       create_query.tap do |query|
         seed_data.store_reference(config['reference'], query)
       end
     end
 
     private
-
-    ##
-    # Don't seed queries specific to the backlogs plugin.
-    def valid?
-      backlogs_present? || !columns.include?("story_points")
-    end
 
     def base_attributes
       {
@@ -182,12 +174,6 @@ module DemoData
           values: [assignee.id.to_s]
         }
       end
-    end
-
-    def backlogs_present?
-      @backlogs_present = defined? OpenProject::Backlogs if @backlogs_present.nil?
-
-      @backlogs_present
     end
   end
 end

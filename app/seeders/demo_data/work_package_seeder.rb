@@ -149,10 +149,8 @@ module DemoData
     end
 
     def set_backlogs_attributes!(wp_attr, attributes)
-      if defined? OpenProject::Backlogs
-        wp_attr[:position] = attributes['position'].to_i if attributes['position'].present?
-        wp_attr[:story_points] = attributes['story_points'].to_i if attributes['story_points'].present?
-      end
+      wp_attr[:position] = attributes['position'].presence&.to_i
+      wp_attr[:story_points] = attributes['story_points'].presence&.to_i
     end
 
     def create_attachments!(work_package, attributes)
