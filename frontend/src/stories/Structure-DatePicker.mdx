@@ -1,0 +1,80 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Structure/Date picker" />
+
+# Structure: Date picker
+
+## Design
+
+### What it is and when to use it
+
+- Date picker is used to allow users to input dates visually (by clicking on a calendar sheet)
+- Can be attached to input fields (drop modal) or embedded in modals (Baseline, work package date picker)
+
+### Variations
+
+None. (Removed header?)
+
+### Options
+
+- Working days only (non-working days are not clickable)
+- All days (working days are indicated but remain clickable)
+
+### States
+
+- Selected (single date)
+	- All corners rounded
+- Selected (date range)
+	- Start/finish: one side rounded
+	- Spanned dates: highlighted
+- Today
+- Non-working days
+- Disabled: all of the above states can be disabled, which will still indicate all these states but in shades of grey.
+
+### Design notes
+
+- Date format depends on user / instance settings
+- Certain dates can be disabled by other functions (relations)
+
+### Accessibility
+
+- Contrast ratios respected
+- Individual date selection not possible via keyboard navigation, known Flatpickr issue
+	- If selectable, label ("13") is not enough; screen reader should read the full date, "Friday, 13 October, 2023")
+
+## Angular components
+
+### Calendar sheet
+
+#### Code example
+#### Inputs (a work package object, sting variable, date variable, ...)
+##### Configuration options
+#### Outputs
+#### Accessibility notes
+
+### Single sheet
+
+#### Code example
+
+### Double sheet
+
+#### Code example
+
+### Date input
+
+Have a input field that on click opens a Mini calendar which closes on date selection.
+Validations
+
+#### Code example
+#### Inputs
+#### Outputs
+#### Accessibility notes
+
+Screen readers should read out date once it is correctly input and give additional context (non working day, disabled...).
+
+## Ruby components 
+
+Not relevant. (Remove header?)
+
+
+

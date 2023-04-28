@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta of={StructureBreadcrumbsStories} />
+
+# Structure: Breadcrumbs
+
+## Design
+
+### What it is and when to use it
+
+Breadcrumbs provide important semantic context to information being presented on the screen by allowing users to identify where they are in a hierarchical structure.
+
+Breadcrumbs allow users to:
+
+- identify their current location (in a folder structure or hierarchy of work packages)
+- navigate up to the parent(s)
+
+<Canvas of={StructureBreadcrumbsStories.Default} />
+
+Breadcrumbs consist of a series of "levels" presented horizontally, separated by a right arrow (▶). Each level is a child of the level preceding it, except the first level, which is the root.
+
+<Canvas of={StructureBreadcrumbsStories.FourLevels} />
+
+### Behaviour
+
+The last level is always the current level; this is never clickable. All other levels (the parents) are links, and clicking on them will take users to that level.
+
+Because the length of the breadcrumb can vary significantly (depending on the title of each level and the available space), it can condense to fit the available space:
+
+- The breadcrumb can show four (4) levels in full, space permitting, before going to "collapsed" mode.
+- If the available space in the parent container not does afford sufficient width to display the four levels in full, the middle levels are truncated with ellipses ("Root ▶ Second le... ▶ Third le... ▶ Fourth level").
+
+<Canvas of={StructureBreadcrumbsStories.FiveLevels} />
+
+#### Mobile-specific
+
+There are special rules on mobile:
+
+- The root level shows only an icon and ellipses ("...", fully truncated).
+- The direct parent (...) is displayed as non-shrinkable ellipses that are clickable
+- Further parents (between the direct parent and the root) are not displayed
+- The current level maybe be truncated with ellipses ("[Icon] ... ▶ ... ▶ Current le...) if needed.
+
+To view the mobile style, reduce the viewport width of your browser below 680px.
+
+### Options
+
+Each item can consist of an icon and text.
+
+The icon is generally only used for the first item, although it possible for to display it at any level if necessary.
+
+### Accessibility
+
+The user should be able to use the Tab key to navigate between different levels, and press Enter to click. 
+
+Truncated levels (...) are not keyboard accessible, but neither are they clickable.
+
+## Angular components
+
+### Breadcrumbs
+
+#### Code example
+#### Inputs and configuration options
+#### Outputs
+#### Accessibility notes
