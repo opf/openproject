@@ -227,7 +227,7 @@ lol:
           quick_overview: "crwdns839459:0crwdne839459:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
-          enterprise_info_html: "crwdns839569:0%{feature_title}crwdne839569:0"
+          enterprise_info_html: "crwdns852069:0%{feature_title}crwdne852069:0"
           upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns839461:0crwdne839461:0"
@@ -918,6 +918,10 @@ lol:
       message_work_package_read_only: "crwdns788224:0crwdne788224:0"
       message_work_package_status_blocked: "crwdns788226:0crwdne788226:0"
       placeholder_filter_by_text: "crwdns788228:0crwdne788228:0"
+      baseline:
+        addition_label: 'crwdns852071:0crwdne852071:0'
+        removal_label: 'crwdns852073:0crwdne852073:0'
+        modification_label: 'crwdns852075:0crwdne852075:0'
       filters:
         title: 'crwdns833314:0crwdne833314:0'
       inline_create:

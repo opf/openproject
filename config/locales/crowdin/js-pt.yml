@@ -227,7 +227,7 @@ pt:
           quick_overview: "Obtenha uma visão geral da gestão de projetos e colaboração entre equipes com o OpenProject edição Enterprise."
         upsale:
           become_hero: "Torne-se um herói!"
-          enterprise_info_html: "%{feature_title} é um complemento Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
           benefits:
             description: "Quais os benefícios da edição Enterprise Edition local?"
@@ -919,6 +919,10 @@ pt:
       message_work_package_read_only: "Pacote de trabalho está bloqueado na presente situação. Nenhum atributo que não seja a situação pode ser alterado."
       message_work_package_status_blocked: "A situação do pacote de trabalho não é gravável devido a situação fechada e a versão fechada."
       placeholder_filter_by_text: "Assunto, descrição, comentários, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
       filters:
         title: 'Filtrar pacotes de trabalho'
       inline_create:
