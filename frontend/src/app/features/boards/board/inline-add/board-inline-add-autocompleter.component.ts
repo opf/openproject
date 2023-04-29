@@ -75,7 +75,7 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     const filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
     const results = this.querySpace.results.value;
 
-    filters.add('subjectOrId', '**', [searchString]);
+    filters.add('typeahead', '**', [searchString]);
 
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
