@@ -32,11 +32,8 @@ require 'services/base_services/behaves_like_update_service'
 describe Projects::UpdateService, type: :model do
   it_behaves_like 'BaseServices update service' do
     let!(:model_instance) do
-      build_stubbed(:project, status: project_status).tap do |_p|
-        project_status.clear_changes_information
-      end
+      build_stubbed(:project, :on_track)
     end
-    let(:project_status) { build_stubbed(:project_status) }
 
     it 'sends an update notification' do
       expect(OpenProject::Notifications)
@@ -78,20 +75,6 @@ describe Projects::UpdateService, type: :model do
         expect(WorkPackage)
           .to(receive(:update_versions_from_hierarchy_change))
           .with(model_instance)
-
-        subject
-      end
-    end
-
-    context 'if the project status is altered' do
-      before do
-        allow(project_status)
-          .to(receive(:changed?))
-          .and_return(true)
-      end
-
-      it 'persists the changes' do
-        expect(project_status).to receive(:save)
 
         subject
       end
