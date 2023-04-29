@@ -88,11 +88,16 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
       filters.merge(currentFilters, 'subprojectId');
     }
 
+    const params = {
+      sortBy: '[["updatedAt","desc"]]',
+      offset: '1',
+      pageSize: '10',
+    };
     return this
       .apiV3Service
       .withOptionalProject(this.CurrentProject.id)
       .work_packages
-      .filtered(filters)
+      .filtered(filters, params)
       .get()
       .pipe(
         map((collection) => collection.elements),
