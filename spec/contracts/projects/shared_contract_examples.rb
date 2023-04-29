@@ -43,7 +43,8 @@ shared_examples_for 'project contract' do
   let(:project_description) { 'Project description' }
   let(:project_active) { true }
   let(:project_public) { true }
-  let(:project_status) { build_stubbed(:project_status) }
+  let(:project_status_code) { 'on_track' }
+  let(:project_status_explanation) { 'some explanation' }
   let(:project_parent) do
     build_stubbed(:project)
   end
@@ -132,17 +133,37 @@ shared_examples_for 'project contract' do
     end
   end
 
-  context 'if status is nil' do
-    let(:project_status) { nil }
+  context 'if status code is nil' do
+    let(:project_status_code) { nil }
+
+    it_behaves_like 'is valid'
+  end
+
+  context 'if status explanation is nil' do
+    let(:project_status_explanation) { nil }
 
     it_behaves_like 'is valid'
   end
 
   context 'if status code is invalid' do
     before do
-      allow(project_status)
-        .to receive(:code)
-        .and_return('bogus')
+      # Questions for Jens:
+      # I'm unsure if this should even be in a spec. It implies a dependency
+      # between the SetAttributesService and the Contract which I'm not sure
+      # is good. However, it might be warranted as this is only shifting the
+      # behavior of what would've happened either way into the Project itself
+      # instead of an association which is why it didn't pose the need for hack
+      # on this spec.
+
+      # Hack in order to handle setting an Enum value without raising an
+      # ArgumentError and letting the Contract perform the validation.
+      #
+      # This is the behavior that would be expected to be performed by
+      # the SetAttributesService at that layer of the flow.
+      bogus_project_status_code = 'bogus'
+      code_attributes = project.instance_variable_get(:@attributes)['status_code']
+      code_attributes.instance_variable_set(:@value_before_type_cast, bogus_project_status_code)
+      code_attributes.instance_variable_set(:@value, bogus_project_status_code)
     end
 
     it 'is invalid' do
