@@ -80,10 +80,11 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-    // Add the subproject filter, if any
+    // Add the project filter, if any
     const query = this.querySpace.query.value;
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
+      filters.merge(currentFilters, 'project');
       filters.merge(currentFilters, 'subprojectId');
     }
 
