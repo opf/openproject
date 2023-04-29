@@ -37,7 +37,6 @@ import { StateService } from '@uirouter/core';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { teamPlannerEventRemoved } from 'core-app/features/team-planner/team-planner/planner/team-planner.actions';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 
 @Component({
@@ -185,7 +184,10 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
       .apiV3Service
       .withOptionalProject(this.currentProject.id)
       .work_packages
-      .filtered(filters, { pageSize: '-1' })
+      .filtered(filters, {
+        pageSize: '-1',
+        sortBy: '[["updatedAt","desc"]]',
+      })
       .get()
       .pipe(
         map((collection) => collection.elements),
