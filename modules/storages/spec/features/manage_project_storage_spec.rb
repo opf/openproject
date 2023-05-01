@@ -54,7 +54,7 @@ describe 'Activation of storages in projects', js: true do
     login_as user
   end
 
-  it 'adds and removes storages to projects' do
+  it 'adds, edits and removes storages to projects' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
     page.find('.settings-projects-storages-menu-item').click
@@ -69,6 +69,7 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
+    page.find_by_id('storages_project_storage_project_folder_id').set('Project#1')
     page.click_button('Add')
 
     # The list of enabled file storages should now contain Storage 1
@@ -82,9 +83,12 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_text('Edit the file storage to this project')
     # The project folder mode should be manual
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
+    expect(page).to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
 
-    # Change the project folder mode to inactive
+    # Change the project folder mode to inactive, project folder is hidden but retained
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
+    expect(page).not_to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
+    expect(page).to have_css('#storages_project_storage_project_folder_id', visible: :hidden)
     page.click_button('Add')
 
     # The list of enabled file storages should still contain Storage 1

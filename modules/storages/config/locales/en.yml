@@ -79,6 +79,7 @@ en:
       project_storage: >
         Are you sure you want to remove this file storage from this project? This will also
         remove all links to files stored in this storage for this project.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Creator"
     label_file_link: "File link"
     label_file_links: "File links"
@@ -92,6 +93,7 @@ en:
     label_provider_type: "Provider type"
     label_new_storage: "New storage"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
     label_no_specific_folder: "No specific folder"
     label_storage: "Storage"
     label_storages: "Storages"

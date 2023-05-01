@@ -35,4 +35,32 @@
   </p>
 </div>
 
-<%= styled_button_tag t(:button_add), class: "-highlight -with-icon icon-checkmark" %>
+<div style="display:none;" id="storages_manual_folder_selection" class="form--field -required">
+  <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
+  <div class="form--field-container -horizontal">
+    <%= f.text_field :project_folder_id,
+                     placeholder: t(:"storages.placeholder_existing_folder_selection"),
+                     container_class: "-middle",
+                     no_label: true
+    %>
+  </div>
+</div>
+
+<div class="form--field">
+  <%= styled_button_tag t(:button_add), class: "-highlight -with-icon icon-checkmark" %>
+</div>
+
+<%= nonced_javascript_tag do -%>
+  jQuery(function($) {
+    <%# Show manual folder selection on reload when checked %>
+    $("#storages_project_storage_project_folder_mode_manual").is(':checked') && $("#storages_manual_folder_selection").show();
+
+    $("input[type='radio']").change(function() {
+      if ($(this).val() == 'manual') {
+        $("#storages_manual_folder_selection").show();
+      } else {
+        $("#storages_manual_folder_selection").hide();
+      }
+    })
+  });
+<% end -%>

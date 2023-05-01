@@ -154,7 +154,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # "params" is an instance of ActionController::Parameters
     params
       .require(:storages_project_storage)
-      .permit('storage_id', 'project_folder_mode')
+      .permit('storage_id', 'project_folder_mode', 'project_folder_id')
       .to_h
       .reverse_merge(project_id: @project.id)
   end
