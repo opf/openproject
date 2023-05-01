@@ -35,12 +35,13 @@ describe 'API v3 Project resource show', content_type: :json do
 
   let(:admin) { create(:admin) }
   let(:project) do
-    create(:project, public: false, status: project_status, active: project_active)
+    create(:project,
+           :on_track,
+           status_explanation: 'some explanation',
+           public: false,
+           active: project_active)
   end
   let(:project_active) { true }
-  let(:project_status) do
-    build(:project_status, project: nil)
-  end
   let(:other_project) do
     create(:project, public: false)
   end
@@ -106,11 +107,11 @@ describe 'API v3 Project resource show', content_type: :json do
 
     it 'includes the project status' do
       expect(subject.body)
-        .to be_json_eql(project_status.explanation.to_json)
+        .to be_json_eql(project.status_explanation.to_json)
               .at_path("statusExplanation/raw")
 
       expect(subject.body)
-        .to be_json_eql(api_v3_paths.project_status(project_status.code).to_json)
+        .to be_json_eql(api_v3_paths.project_status(project.status_code).to_json)
               .at_path("_links/status/href")
     end
 
