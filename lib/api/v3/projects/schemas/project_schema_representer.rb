@@ -65,7 +65,7 @@ module API
                                          type: 'ProjectStatus',
                                          name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
                                          required: false,
-                                         writable: ->(*) { represented.writable?(:status) },
+                                         writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
                                            ::Projects::Status.codes.keys
                                          },
@@ -73,7 +73,7 @@ module API
                                          link_factory: ->(value) {
                                            {
                                              href: api_v3_paths.project_status(value),
-                                             title: I18n.t(:"activerecord.attributes.projects/status.codes.#{value}")
+                                             title: I18n.t(:"activerecord.attributes.project.status_codes.#{value}")
                                            }
                                          }
 
@@ -81,7 +81,7 @@ module API
                  type: 'Formattable',
                  name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.explanation') },
                  required: false,
-                 writable: ->(*) { represented.writable?(:status) }
+                 writable: ->(*) { represented.writable?(:status_explanation) }
 
           schema_with_allowed_link :parent,
                                    type: 'Project',

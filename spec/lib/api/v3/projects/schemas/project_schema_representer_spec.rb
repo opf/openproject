@@ -54,7 +54,8 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:writable?) do |attribute|
-      writable = %w(name identifier description public status parent active)
+      writable = %w(name identifier description public
+                    status_code status_explanation parent active)
 
       writable.include?(attribute.to_s)
     end
@@ -65,7 +66,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
     allow(contract)
       .to receive(:assignable_values)
-      .with(:status, current_user)
+      .with(:status_code, current_user)
       .and_return(allowed_status)
 
     allow(contract)
