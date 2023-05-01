@@ -35,12 +35,13 @@ describe 'API v3 Project resource update', content_type: :json do
 
   let(:admin) { create(:admin) }
   let(:project) do
-    create(:project, public: false, status: project_status, active: project_active)
+    create(:project,
+           :on_track,
+           status_explanation: 'some explanation',
+           public: false,
+           active: project_active)
   end
   let(:project_active) { true }
-  let(:project_status) do
-    build(:project_status, project: nil)
-  end
   let(:custom_field) do
     create(:text_project_custom_field)
   end
@@ -144,9 +145,9 @@ describe 'API v3 Project resource update', content_type: :json do
         .to be_json_eql(nil.to_json)
               .at_path('_links/status/href')
 
-      status = project.status.reload
-      expect(status.code).to be_nil
-      expect(status.explanation).to eq 'Some explanation.'
+      project.reload
+      expect(project.status_code).to be_nil
+      expect(project.status_explanation).to eq 'Some explanation.'
 
       expect(last_response.body)
         .to be_json_eql(
@@ -191,12 +192,12 @@ describe 'API v3 Project resource update', content_type: :json do
     end
 
     it 'persists the altered status' do
-      project_status.reload
+      project.reload
 
-      expect(project_status.code)
+      expect(project.status_code)
         .to eql('off_track')
 
-      expect(project_status.explanation)
+      expect(project.status_explanation)
         .to eql('Some explanation.')
     end
   end
@@ -246,9 +247,9 @@ describe 'API v3 Project resource update', content_type: :json do
     end
 
     it 'does not change the project status' do
-      code_before = project_status.code
+      code_before = project.status_code
 
-      expect(project_status.reload.code)
+      expect(project.reload.status_code)
         .to eql(code_before)
     end
 
