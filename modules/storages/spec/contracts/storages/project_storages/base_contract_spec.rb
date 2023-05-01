@@ -26,35 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A "contract" is an OpenProject pattern used to validate parameters
-# before actually creating, updating, or deleting a model.
-# Used by: projects_storages_controller.rb and in the API
-module Storages::ProjectStorages
-  class BaseContract < ::ModelContract
-    # "Concern" just injects a permission checking routine.
-    # Not sure where this concern is reused.
-    include ::Storages::ProjectStorages::Concerns::ManageStoragesGuarded
-    # Include validation library
-    include ActiveModel::Validations
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-    # Attributes project and storage can be written
-    attribute :project
-    validates_presence_of :project
-    attribute :storage
-    validates_presence_of :storage
-    attribute :project_folder_mode
-    validates :project_folder_mode, presence: true, inclusion: { in: Storages::ProjectStorage.project_folder_modes.keys }
-    attribute :project_folder_id
-    validates :project_folder_id, presence: true, if: :project_folder_mode_manual?
+describe Storages::ProjectStorages::BaseContract do
+  include_context 'ModelContract shared context'
 
-    def assignable_storages
-      Storages::Storage.visible(user).where.not(id: @model.project.projects_storages.pluck(:storage_id))
+  let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
+  # Creator is not writable in BaseContract; just test base contract writable attributes
+  let(:project_storage) { build(:project_storage) }
+
+  context 'when the project folder mode is `inactive`' do
+    before do
+      project_storage.project_folder_mode = 'inactive'
     end
 
-    private
+    it_behaves_like 'contract is valid'
+  end
 
-    def project_folder_mode_manual?
-      @model.project_folder_manual?
+  context 'when the project folder mode is `manual`' do
+    before do
+      project_storage.project_folder_mode = 'manual'
+    end
+
+    context 'with no project_folder_id' do
+      it_behaves_like 'contract is invalid', project_folder_id: :blank
+    end
+
+    context 'with project_folder_id' do
+      before do
+        project_storage.project_folder_id = 'Project#1'
+      end
+
+      it_behaves_like 'contract is valid'
     end
   end
 end
