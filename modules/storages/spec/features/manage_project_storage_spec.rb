@@ -65,7 +65,14 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
+    # Can cancel the creation of a new file storage
+    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
+    expect(page).to have_text('Add a file storage')
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+
     # Enable one file storage together with a project folder mode
+    page.find('.toolbar .button--icon.icon-add').click
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
@@ -94,6 +101,14 @@ describe 'Activation of storages in projects', js: true do
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text('Storage 1')
+
+    # Click Edit icon again but cancel the edit
+    page.find('.icon.icon-edit').click
+    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+                                                                                  id: Storages::ProjectStorage.last)
+    expect(page).to have_text('Edit the file storage to this project')
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click

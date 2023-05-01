@@ -48,6 +48,7 @@
 
 <div class="form--field">
   <%= styled_button_tag submit_button_label, class: "-highlight -with-icon icon-checkmark" %>
+  <%= link_to t(:button_cancel), project_settings_projects_storages_path(@project), class: 'button -with-icon icon-cancel' %>
 </div>
 
 <%= nonced_javascript_tag do -%>
