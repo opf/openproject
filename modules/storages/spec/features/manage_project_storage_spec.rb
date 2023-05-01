@@ -89,7 +89,7 @@ describe 'Activation of storages in projects', js: true do
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
     expect(page).not_to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
     expect(page).to have_css('#storages_project_storage_project_folder_id', visible: :hidden)
-    page.click_button('Add')
+    page.click_button('Save')
 
     # The list of enabled file storages should still contain Storage 1
     expect(page).to have_text('File storages available in this project')

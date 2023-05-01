@@ -7,6 +7,8 @@
   <%= error_messages_for_contract @project_storage, @errors %>
 
   <section class="form--section">
-    <%= render partial: '/storages/project_settings/form', locals: { f: f, available_storages: @available_storages }  %>
+    <%= render partial: '/storages/project_settings/form',
+               locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }
+    %>
   </section>
 <% end %>
