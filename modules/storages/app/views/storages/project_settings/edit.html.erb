@@ -1,5 +1,5 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages") %>
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.storage.name) %>
 <% local_assigns[:additional_breadcrumb] = t('storages.label_edit_storage') %>
 <%= toolbar title: t("storages.page_titles.project_settings.edit") %>
 
