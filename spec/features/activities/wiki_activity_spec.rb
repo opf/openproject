@@ -48,7 +48,7 @@ describe 'Wiki activities' do
     # create a wiki page
     visit project_wiki_path(project, 'mypage')
 
-    fill_in 'content_page_title', with: 'My page'
+    fill_in 'page_title', with: 'My page'
 
     editor.set_markdown('First content')
 

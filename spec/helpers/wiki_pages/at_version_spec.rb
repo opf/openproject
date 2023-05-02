@@ -114,9 +114,18 @@ describe WikiPages::AtVersion do
     context 'with the version being less then 1' do
       let(:version) { 0 }
 
-      it 'is the first journal`s user' do
+      it 'is nil' do
         expect(page_at_version.author)
-          .to eq first_journal_user
+          .to be_nil
+      end
+    end
+
+    context 'with the version being less then 0' do
+      let(:version) { -1 }
+
+      it 'is nil' do
+        expect(page_at_version.author)
+          .to be_nil
       end
     end
   end
@@ -161,9 +170,9 @@ describe WikiPages::AtVersion do
     context 'with the version being less then 1' do
       let(:version) { 0 }
 
-      it 'is only the first journal' do
+      it 'is empty' do
         expect(page_at_version.journals)
-          .to contain_exactly(first_journal)
+          .to be_empty
       end
     end
   end
@@ -172,45 +181,45 @@ describe WikiPages::AtVersion do
     context 'without a version' do
       let(:version) { nil }
 
-      it 'is the last journals`s version' do
+      it 'is the page`s lock_version' do
         expect(page_at_version.lock_version)
-          .to eq second_journal.version
+          .to eq wiki_page.lock_version
       end
     end
 
     context 'with the version set to the first one' do
       let(:version) { 1 }
 
-      it 'is the first journals`s version' do
+      it 'is the page`s lock_version' do
         expect(page_at_version.lock_version)
-          .to eq first_journal.version
+          .to eq wiki_page.lock_version
       end
     end
 
     context 'with the version set to the last one' do
       let(:version) { 2 }
 
-      it 'is the last journals`s version' do
+      it 'is the page`s lock_version' do
         expect(page_at_version.lock_version)
-          .to eq second_journal.version
+          .to eq wiki_page.lock_version
       end
     end
 
     context 'with the version being larger then the current one' do
       let(:version) { 3 }
 
-      it 'is the last journals`s version' do
+      it 'is the page`s lock_version' do
         expect(page_at_version.lock_version)
-          .to eq second_journal.version
+          .to eq wiki_page.lock_version
       end
     end
 
     context 'with the version being less then 1' do
       let(:version) { 0 }
 
-      it 'is the first journals`s version' do
+      it 'is the page`s lock_version' do
         expect(page_at_version.lock_version)
-          .to eq first_journal.version
+          .to eq wiki_page.lock_version
       end
     end
   end
@@ -255,9 +264,9 @@ describe WikiPages::AtVersion do
     context 'with the version being less then 1' do
       let(:version) { 0 }
 
-      it 'is the first journals`s updated_at' do
+      it 'is nil' do
         expect(page_at_version.updated_at)
-          .to eq first_journal.updated_at
+          .to be_nil
       end
     end
   end
@@ -290,12 +299,21 @@ describe WikiPages::AtVersion do
       end
     end
 
-    context 'with the version being less then 1' do
+    context 'with the version being 0' do
       let(:version) { 0 }
 
-      it 'is first version' do
+      it 'is 0' do
         expect(page_at_version.version)
-          .to eq 1
+          .to eq 0
+      end
+    end
+
+    context 'with the version being less then 0' do
+      let(:version) { -1 }
+
+      it 'is 0' do
+        expect(page_at_version.version)
+          .to eq 0
       end
     end
   end
@@ -360,9 +378,9 @@ describe WikiPages::AtVersion do
     context 'with the version being less then 1' do
       let(:version) { 0 }
 
-      it 'is the first journals`s text' do
+      it 'is the wiki pages`s text' do
         expect(page_at_version.text)
-          .to eq first_journal_text
+          .to eq wiki_page.text
       end
     end
   end
@@ -478,6 +496,15 @@ describe WikiPages::AtVersion do
         expect(page_at_version.object)
           .to eq wiki_page
       end
+    end
+  end
+
+  describe '#respond_to?' do
+    let(:version) { 1 }
+
+    it 'returns false for #to_model' do
+      expect(page_at_version)
+               .not_to respond_to(:to_model)
     end
   end
 end

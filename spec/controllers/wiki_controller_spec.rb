@@ -347,7 +347,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: 'abc' } }
+                 page: { text: 'h1. abc', title: 'abc' }
                }
 
           expect(response).to redirect_to action: 'show', project_id: project, id: 'abc'
@@ -357,7 +357,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: 'abc' } }
+                 page: { text: 'h1. abc', title: 'abc' }
                }
 
           page = project.wiki.pages.find_by title: 'abc'
@@ -371,7 +371,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(response).to render_template('new')
@@ -381,7 +381,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:project]).to eq(project)
@@ -391,7 +391,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:wiki]).to eq(project.wiki)
@@ -402,7 +402,7 @@ describe WikiController do
           post 'create',
                params: {
                  project_id: project,
-                 content: { text: 'h1. abc', page: { title: '' } }
+                 page: { text: 'h1. abc', title: '' }
                }
 
           expect(assigns[:page]).to be_new_record
@@ -425,7 +425,7 @@ describe WikiController do
                params: {
                  project_id: project,
                  id: existing_page.title,
-                 content: { text: 'h1. abc', page: { title: 'foobar' } }
+                 page: { text: 'h1. abc', title: 'foobar' }
                }
 
           expect(response).to redirect_to action: 'show', project_id: project, id: 'foobar'

@@ -39,22 +39,33 @@ class WikiPages::AtVersion < SimpleDelegator
 
   def initialize(wiki_page, version = nil)
     super(wiki_page)
-    self.version = (version || wiki_page.version).to_i.clamp(1, wiki_page.version)
     self.latest_version = wiki_page.version
+    self.version = (version || wiki_page.version).to_i.clamp(0, latest_version)
   end
-
-  delegate :updated_at,
-           to: :last_journal
 
   delegate :text,
            to: :data
 
-  def lock_version
-    last_journal.version
+  # The form_for helper will call the #to_model method on the object it is passed otherwise
+  # which will return the object itself. Any version handling intended by this class will be forfeit.
+
+  # rubocop:disable Style/OptionalBooleanParameter
+  # Overwriting a superclass method.
+  def respond_to?(method_name, include_all = false)
+    if method_name.to_s == 'to_model'
+      false
+    else
+      super
+    end
   end
+  # rubocop:enable Style/OptionalBooleanParameter
 
   def author
-    last_journal.user
+    last_journal&.user
+  end
+
+  def updated_at
+    last_journal&.updated_at
   end
 
   def journals
@@ -74,7 +85,7 @@ class WikiPages::AtVersion < SimpleDelegator
   end
 
   def to_ary
-    __getobj__.send(:to_ary)
+    object.send(:to_ary)
   end
 
   private
@@ -83,7 +94,7 @@ class WikiPages::AtVersion < SimpleDelegator
               :version
 
   def data
-    last_journal.data
+    last_journal.present? ? last_journal.data : object
   end
 
   def last_journal
