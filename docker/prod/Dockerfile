@@ -1,5 +1,5 @@
 FROM ruby:3.2.1-buster AS slim
-MAINTAINER operations@openproject.com
+LABEL org.opencontainers.image.authors="operations@openproject.com"
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
 ARG PLATFORM=on-prem
@@ -39,19 +39,20 @@ WORKDIR $APP_PATH
 
 RUN useradd -d /home/$APP_USER -m $APP_USER
 
-COPY --chown=$APP_USER:$APP_USER . .
+COPY . .
 
 # setup all dependencies
 RUN \
   --mount=type=cache,target=/var/cache/apt \
   --mount=type=cache,target=$APP_PATH/vendor/bundle/ruby/3.2.0/cache \
-  ./docker/prod/setup/preinstall.sh
+  ./docker/prod/setup/deps-common.sh
 
 # build assets, perform migrations, etc.
 RUN \
-  --mount=type=cache,target=$APP_PATH/frontend/.angular \
+  --mount=type=cache,target=/var/cache/npm \
+  --mount=type=cache,target=$APP_PATH/frontend/.angular/cache \
   --mount=type=cache,target=$APP_PATH/frontend/node_modules \
-./docker/prod/setup/postinstall.sh
+  ./docker/prod/setup/postinstall.sh
 
 # use unprivileged user
 USER $APP_USER
@@ -66,7 +67,7 @@ EXPOSE 8080
 VOLUME ["$APP_DATA_PATH"]
 
 # Default to launching rails server
-CMD ["./docker/web"]
+CMD ["./docker/prod/web"]
 
 FROM slim as all-in-one
 
@@ -75,6 +76,10 @@ ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 
 USER root
+
+RUN \
+  --mount=type=cache,target=/var/cache/apt \
+  ./docker/prod/setup/deps-onprem.sh
 
 # set irb default config for root user
 RUN ln -s /app/docker/prod/setup/.irbrc /root/

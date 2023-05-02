@@ -19,9 +19,21 @@ set -e
 set -o pipefail
 ARCHITECTURE=$(get_architecture)
 
+# setup git URLs with GITHUB_OAUTH_TOKEN if present
+if [ -n "$GITHUB_OAUTH_TOKEN" ]; then
+	cat > /etc/gitconfig <<CONF
+	[url "https://${GITHUB_OAUTH_TOKEN}@github.com/"]
+		insteadOf = git@github.com:
+CONF
+fi
+
 # install ruby gems
 gem install bundler --version "$BUNDLER_VERSION" --no-document
-BUNDLE_JOBS=8 BUNDLE_RETRY=3 bundle install --quiet --deployment --clean --with="$RAILS_GROUPS" --without="test development"
+bundle config set --local with "$RAILS_GROUPS"
+bundle config set --local without "test development"
+bundle config set --local clean "true"
+bundle config set --local deployment "true"
+BUNDLE_JOBS=8 BUNDLE_RETRY=3 bundle install --quiet
 rm -rf vendor/bundle/ruby/*/gems/*/spec vendor/bundle/ruby/*/gems/*/test
 
 # install node + npm
@@ -81,3 +93,4 @@ ln -s /usr/lib/xeokit-metadata/xeokit-metadata /usr/local/bin/xeokit-metadata
 
 rm -rf $tmpdir
 rm -rf /root/.npm
+rm -f /etc/gitconfig
