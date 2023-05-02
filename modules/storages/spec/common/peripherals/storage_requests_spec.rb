@@ -88,7 +88,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       ]
     end
 
-    let(:xml) do
+    let(:expected_request_body) do
       <<~XML
         <?xml version="1.0"?>
         <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
@@ -126,30 +126,130 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
       XML
     end
 
-    before do
-      stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProjectJediProject")
-        .with(
-          body: xml,
-          headers: {
-            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
-          }
-        )
-        .to_return(status: 200, body: "", headers: {})
-    end
-
-    describe 'with Nextcloud storage type selected' do
-      it 'must return success when permissions could be set' do
-        subject
-          .set_permissions_command
-          .match(
-            on_success: ->(command) do
-              result = command.call(folder: 'JediProject', permissions:)
-              expect(result).to be_success
-            end,
-            on_failure: ->(error) do
-              raise "Set permissions command could not be executed: #{error}"
-            end
+    context 'with Nextcloud storage type selected' do
+      before do
+        stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProject/JediProject")
+          .with(
+            body: expected_request_body,
+            headers: {
+              'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
+            }
           )
+          .to_return(expected_response)
+      end
+
+      context 'when permissions can be set' do
+        let(:expected_response_body) do
+          <<~XML
+            <?xml version="1.0"?>
+            <d:multistatus
+              xmlns:d="DAV:"
+              xmlns:s="http://sabredav.org/ns"
+              xmlns:oc="http://owncloud.org/ns"
+              xmlns:nc="http://nextcloud.org/ns">
+              <d:response>
+                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Project%231</d:href>
+                <d:propstat>
+                  <d:prop>
+                    <nc:acl-list/>
+                  </d:prop>
+                  <d:status>HTTP/1.1 200 OK</d:status>
+                </d:propstat>
+              </d:response>
+            </d:multistatus>
+          XML
+        end
+        let(:expected_response) do
+          {
+            status: 207,
+            body: expected_response_body,
+            headers: {}
+          }
+        end
+
+        it 'returns success when permissions can be set' do
+          subject
+            .set_permissions_command
+            .match(
+              on_success: ->(command) do
+                result = command.call(folder: 'JediProject', permissions:)
+                expect(result).to be_success
+              end,
+              on_failure: ->(error) do
+                raise "Set permissions command could not be executed: #{error}"
+              end
+            )
+        end
+      end
+
+      context 'when the password is wrong' do
+        let(:expected_response_body) do
+          <<~XML
+            <?xml version="1.0" encoding="utf-8"?>
+            <d:error
+              xmlns:d="DAV:"
+              xmlns:s="http://sabredav.org/ns">
+              <s:exception>Sabre\DAV\Exception\NotAuthenticated</s:exception>
+              <s:message>No public access to this resource., No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured, No 'Authorization: Bearer' header found. Either the client didn't send one, or the server is mis-configured, No 'Authorization: Basic' header found. Either the client didn't send one, or the server is misconfigured</s:message>
+            </d:error>
+          XML
+        end
+        let(:expected_response) do
+          {
+            status: 401,
+            body: expected_response_body,
+            headers: {}
+          }
+        end
+
+        it 'returns failure' do
+          subject
+            .set_permissions_command
+            .match(
+              on_success: ->(command) do
+                result = command.call(folder: 'JediProject', permissions:)
+                expect(result).to be_failure
+              end,
+              on_failure: ->(error) do
+                raise "Set permissions command could not be executed: #{error}"
+              end
+            )
+        end
+      end
+
+      context 'when the NC control user cannot read(see) the project folder' do
+        let(:expected_response_body) do
+          <<~XML
+            <?xml version="1.0" encoding="utf-8"?>
+            <d:error
+              xmlns:d="DAV:"
+              xmlns:s="http://sabredav.org/ns">
+              <s:exception>Sabre\DAV\Exception\NotFound</s:exception>
+              <s:message>File with name /OpenProject/JediProject could not be located</s:message>
+            </d:error>
+          XML
+        end
+        let(:expected_response) do
+          {
+            status: 404,
+            body: expected_response_body,
+            headers: {}
+          }
+        end
+
+        it 'returns failure' do
+          subject
+            .set_permissions_command
+            .match(
+              on_success: ->(command) do
+                result = command.call(folder: 'JediProject', permissions:)
+                expect(result).to be_failure
+              end,
+              on_failure: ->(error) do
+                raise "Set permissions command could not be executed: #{error}"
+              end
+            )
+        end
       end
     end
   end

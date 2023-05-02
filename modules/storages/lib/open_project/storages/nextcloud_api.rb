@@ -169,8 +169,8 @@ module OpenProject::Storages
           share_files: 16,
           delete_files: 8
         }
-        username = i[0]
-        permissions = i[1].reduce(0) do |acc, (k, v)|
+        username = i[:origin_user_id]
+        permissions = i[:permissions].reduce(0) do |acc, (k, v)|
           acc = acc + permissions_map[k] if v
           acc
         end

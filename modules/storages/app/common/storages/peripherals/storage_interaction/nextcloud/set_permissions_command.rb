@@ -32,6 +32,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
+    PERMISSION_MAP = {
+      read_files: 1,
+      write_files: 2,
+      create_files: 4,
+      delete_files: 8,
+      share_files: 16
+    }.freeze
+
     def initialize(base_uri:, username:, password:)
       super()
 
@@ -46,7 +54,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       http.use_ssl = @uri.scheme == 'https'
 
       response = http.proppatch(
-        "#{@base_path}#{requested_folder(folder)}",
+        "#{@base_path}/#{requested_folder(folder)}",
         converted_permissions(username: @username, permissions:),
         {
           'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
@@ -122,14 +130,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         xml['nc'].send('acl-permissions', '0')
       end
     end
-
-    PERMISSION_MAP = {
-      read_files: 1,
-      write_files: 2,
-      create_files: 4,
-      delete_files: 8,
-      share_files: 16
-    }.freeze
 
     def user_permissions(xml, permissions)
       permissions.each do |permission|
