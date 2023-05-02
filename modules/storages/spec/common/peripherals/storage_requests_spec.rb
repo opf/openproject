@@ -37,9 +37,11 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
 
   let(:storage) do
-    storage = instance_double(Storages::Storage)
+    storage = instance_double(Storages::NextcloudStorage) # Stub as Nextcloud, because for now we only support Nextcloud
     allow(storage).to receive(:oauth_client).and_return(instance_double(OAuthClient))
     allow(storage).to receive(:provider_type).and_return(Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
+    allow(storage).to receive(:username).and_return('OpenProject')
+    allow(storage).to receive(:password).and_return('OpenProjectSecurePassword')
     allow(storage).to receive(:host).and_return(url)
     storage
   end
@@ -59,6 +61,98 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   end
 
   subject { described_class.new(storage:) }
+
+  describe '#set_permissions_command' do
+    let(:permissions) do
+      [
+        {
+          origin_user_id: 'Obi-Wan',
+          permissions: {
+            read_files: true,
+            write_files: true,
+            create_files: true,
+            share_files: true,
+            delete_files: true
+          }
+        },
+        {
+          origin_user_id: 'Qui-Gon',
+          permissions: {
+            read_files: true,
+            write_files: true,
+            create_files: true,
+            share_files: true,
+            delete_files: true
+          }
+        }
+      ]
+    end
+
+    let(:xml) do
+      <<~XML
+        <?xml version="1.0"?>
+        <d:propertyupdate xmlns:d="DAV:" xmlns:nc="http://nextcloud.org/ns">
+          <d:set>
+            <d:prop>
+              <nc:acl-list>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>group</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>OpenProject</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>0</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Obi-Wan</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+                <nc:acl>
+                  <nc:acl-mapping-type>user</nc:acl-mapping-type>
+                  <nc:acl-mapping-id>Qui-Gon</nc:acl-mapping-id>
+                  <nc:acl-mask>31</nc:acl-mask>
+                  <nc:acl-permissions>31</nc:acl-permissions>
+                </nc:acl>
+              </nc:acl-list>
+            </d:prop>
+          </d:set>
+        </d:propertyupdate>
+      XML
+    end
+
+    before do
+      stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProjectJediProject")
+        .with(
+          body: xml,
+          headers: {
+            'Authorization' => 'Basic T3BlblByb2plY3Q6T3BlblByb2plY3RTZWN1cmVQYXNzd29yZA=='
+          }
+        )
+        .to_return(status: 200, body: "", headers: {})
+    end
+
+    describe 'with Nextcloud storage type selected' do
+      it 'must return success when permissions could be set' do
+        subject
+          .set_permissions_command
+          .match(
+            on_success: ->(command) do
+              result = command.call(folder: 'JediProject', permissions:)
+              expect(result).to be_success
+            end,
+            on_failure: ->(error) do
+              raise "Set permissions command could not be executed: #{error}"
+            end
+          )
+      end
+    end
+  end
 
   describe '#download_link_query' do
     let(:file_link) do

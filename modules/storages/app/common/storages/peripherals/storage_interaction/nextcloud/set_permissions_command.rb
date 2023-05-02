@@ -90,24 +90,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].propertyupdate(
           'xmlns:d' => 'DAV:',
-          'xmlns:oc' => 'http://owncloud.org/ns',
           'xmlns:nc' => 'http://nextcloud.org/ns'
         ) do
           xml['d'].set do
             xml['d'].prop do
               xml['nc'].send('acl-list') do
-                global_permissions(xml, username)
+                control_user_permissions(username, xml)
+                control_group_permissions(xml)
                 user_permissions(xml, permissions)
               end
             end
           end
         end
       end.to_xml
-    end
-
-    def global_permissions(xml, username)
-      control_user_permissions(username, xml)
-      control_group_permissions(xml)
     end
 
     def control_user_permissions(username, xml)
@@ -138,8 +133,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def user_permissions(xml, permissions)
       permissions.each do |permission|
-        username = permission[0]
-        assignable_permission = nextcloud_permission(permission[1])
+        username = permission[:origin_user_id]
+        assignable_permission = nextcloud_permission(permission[:permissions])
 
         xml['nc'].acl do
           xml['nc'].send('acl-mapping-type', 'user')

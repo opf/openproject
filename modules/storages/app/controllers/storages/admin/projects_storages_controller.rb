@@ -166,16 +166,16 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     nextcloud_users = OAuthClientToken.where(oauth_client: oauth_client, user: project_users)
     users_permissions = nextcloud_users.map do |token|
       user = token.user
-      [
-        token.origin_user_id,
-        {
+      {
+        origin_user_id: token.origin_user_id,
+        permissions: {
           read_files: user.allowed_to?(:read_files, @project),
           write_files: user.allowed_to?(:write_files, @project),
           create_files: user.allowed_to?(:create_files, @project),
           share_files: user.allowed_to?(:share_files, @project),
-          delete_files: user.allowed_to?(:delete_files, @project),
+          delete_files: user.allowed_to?(:delete_files, @project)
         }
-      ]
+      }
     end
 
     api.folder_acl_set(folder_path, users_permissions)

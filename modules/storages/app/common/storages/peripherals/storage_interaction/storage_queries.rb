@@ -105,17 +105,6 @@ module Storages::Peripherals::StorageInteraction
       end
     end
 
-    def set_permissions_command
-      case @provider_type
-      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        ::Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand.new(
-          base_uri: @uri,
-        )
-      else
-        raise ArgumentError
-      end
-    end
-
     private
 
     def retry_with_refreshed_token
