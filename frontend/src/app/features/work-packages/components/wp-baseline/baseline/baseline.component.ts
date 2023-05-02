@@ -84,7 +84,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public daysNumber = 0;
 
-  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
+  public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
