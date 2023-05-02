@@ -45,6 +45,19 @@ export class CellBuilder {
     }
 
     const container = document.createElement('span');
+    this.render(container, workPackage, attribute);
+    td.appendChild(container);
+
+    return td;
+  }
+
+  public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
+    container.innerHTML = '';
+    this.render(container, workPackage, attribute);
+  }
+
+  private render(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
+    const schema = this.schemaCache.of(workPackage);
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
 
     if (attribute !== 'id' && this.wpTableBaseline.isActive()) {
@@ -52,17 +65,6 @@ export class CellBuilder {
     }
 
     const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
-
-    container.appendChild(displayElement);
-    td.appendChild(container);
-
-    return td;
-  }
-
-  public refresh(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
-    const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
-
-    container.innerHTML = '';
     container.appendChild(displayElement);
   }
 
