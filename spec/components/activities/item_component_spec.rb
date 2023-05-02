@@ -122,18 +122,21 @@ RSpec.describe Activities::ItemComponent, type: :component do
     end
   end
 
-  # context 'for TimeEntry activites' do
-  #   let(:journal) { build_stubbed(:time_entry_journal) }
-
-  #   it 'has the correct format when a TimeEntry is created' do
-  #     component = described_class.new(event:)
-  #     render_inline(component)
-  #     expect(component.project_suffix).to be_nil
-  #     expect(page).to have_css('.op-activity-list--item-title', text: /\A\s*Event Title\s*\z/)
-  #   end
-
-  #   # it 'has the correct format when a TimeEntry is updated' do
-  #   # end
-
-  # end
+  context 'for TimeEntry activites' do
+    let(:event) do
+      Activities::Event.new(
+        event_title: "Event Title",
+        event_path: "/project/123",
+        project_id: project.id,
+        project:,
+        journal:
+      )
+    end
+    let(:journal) { build_stubbed(:time_entry_journal) }
+    it 'displays the title correctly' do
+      component = described_class.new(event:)
+      render_inline(component)
+      expect(page).to have_css('.op-activity-list--item-title', text: /Event Title\s+\(Project: My project\)/)
+    end
+  end
 end

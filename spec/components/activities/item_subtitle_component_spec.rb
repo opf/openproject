@@ -69,5 +69,21 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     it { is_expected.to have_text("updated on #{format_time(datetime)}") }
   end
 
-  # TODO - Add for TimeEntry
+  context 'on TimeEntry creation' do
+    let(:is_creation) { true }
+    let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'TimeEntry' }
+
+    it { is_expected.to have_text("time logged by #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on TimeEntry updation' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'TimeEntry' }
+
+    it { is_expected.to have_text("time logged updated by #{user.name} on #{format_time(datetime)}") }
+  end
+
+  # space issues?
 end
