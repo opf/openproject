@@ -227,7 +227,7 @@ ru:
           quick_overview: "Узнайте вкратце об управлении проектами и совместной работе в OpenProject корпоративной версии."
         upsale:
           become_hero: "Стать героем!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> дополнением."
           upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
           benefits:
             description: "Каковы преимущества корпоративной версии?"
@@ -922,9 +922,9 @@ ru:
       message_work_package_status_blocked: "Статус пакета работ недоступен для записи из-за закрытого статуса и назначенной закрытой версии."
       placeholder_filter_by_text: "Тема, описание, комментарии, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
+        addition_label: 'Добавлено для просмотра в период сравнения'
+        removal_label: 'Удалено из просмотра в период сравнения'
+        modification_label: 'Изменено в период времени сравнения'
       filters:
         title: 'Фильтровать пакеты работ'
       inline_create:
@@ -1260,22 +1260,22 @@ ru:
         does_not_match_search: 'Ни один проект не соответствует критериям поиска.'
       no_results: 'Ни один проект не соответствует критериям поиска.'
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
-      show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Time'
+      toggle_title: 'Исходный уровень'
+      clear: 'Очистить'
+      apply: 'Применить'
+      header_description: 'Просмотр изменений, внесенных в рабочие пакеты в текущем представлении за определенный период времени.'
+      show_changes_since: 'Показать изменения с'
+      help_description: 'Часовой пояс экземпляра по умолчанию установлен администратором.'
+      time_description: 'В часовом поясе по умолчанию: %{time} %{days} дн.'
+      time: 'Время'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
-        last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        yesterday: 'вчера'
+        last_working_day: 'последний рабочий день'
+        last_week: 'прошлой недели'
+        last_month: 'прошлый месяц'
+        a_specific_date: 'определенная дата'
+        between_two_specific_dates: 'между двумя определенными датами'
     forms:
       submit_success_message: 'Форма успешно отправлена'
       load_error_message: 'Произошла ошибка при загрузке формы'
