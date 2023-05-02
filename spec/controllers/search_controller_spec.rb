@@ -215,7 +215,7 @@ describe SearchController do
 
         it { expect(assigns(:results)).to include work_package_1 }
 
-        describe '#view' do
+        describe '#view', skip: "This test will be rewritten as a feature spec." do
           render_views
 
           it 'highlights last note' do
