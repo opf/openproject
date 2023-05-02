@@ -55,7 +55,7 @@ OPENPROJECT_STORAGE_TYPE=nfs
 
 The configuration uses YAML to parse overrides from ENV. Using YAML inline syntax, you can:
 
-1. Pass a symbol as an override using `OPENPROJECT_SESSION_STORE=":active_record_store"`
+1. Pass a symbol as an override using `OPENPROJECT_ATTACHMENTS__STORAGE=":file"`
 
 2. Pass arrays by wrapping values in brackets (e.g., `[val1, val2, val3]`).
 
