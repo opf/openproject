@@ -171,7 +171,6 @@ Configuring OpenProject through environment variables is described in detail [in
 * `scm_subversion_command` (default: 'svn')
 * [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
 * `force_help_link` (default: nil)
-* `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * `drop_old_sessions_on_logout` (default: true)
 * `drop_old_sessions_on_login` (default: false)
 * [`auth_source_sso`](#auth-source-sso) (default: nil)
@@ -194,28 +193,25 @@ Configuring OpenProject through environment variables is described in detail [in
 
 ## Setting session options
 
-Use `session_store` to define where session information is stored. In order to store sessions in the database and use the following options, set that configuration to `:active_record_store`.
-
 **Delete old sessions for the same user when logging in**
-
-To enable, set the configuration option:
 
 *default: false*
 
+To enable, set the configuration option:
+
 ```yaml
-OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_login: true } }"
+OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGIN="true"
 ```
 
 **Delete old sessions for the same user when logging out**
 
-To disable, set the configuration option:
-
 *default: true*
 
-```yaml
-OPENPROJECT_SESSION__STORE="{ :active_record_store: { drop_old_sessions_on_logout: false } }"
-```
+To disable, set the configuration option:
 
+```yaml
+OPENPROJECT_DROP__OLD__SESSIONS__ON__LOGOUT="false"
+```
 
 ### disable password login
 

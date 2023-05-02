@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Expire old user sessions',
-         with_config: { session_store: :active_record_store } do
+describe 'Expire old user sessions' do
   shared_let(:admin) { create(:admin) }
   let(:admin_password) { 'adminADMIN!' }
 
