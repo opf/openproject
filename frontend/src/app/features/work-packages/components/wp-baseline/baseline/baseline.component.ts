@@ -31,6 +31,7 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -60,6 +61,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-baseline') className = true;
 
   @Output() submitted = new EventEmitter<void>();
+
+  @Input() showActionBar? = false;
 
   public dropDownDescription = '';
 
@@ -157,6 +160,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public onSubmit(e:Event):void {
     e.preventDefault();
+    this.onSave();
+  }
+
+  public onSave() {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
