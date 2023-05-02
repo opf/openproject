@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <%= f.text_field :name,
                      required: true,
-                     placeholder: I18n.t('storages.provider_types.nextcloud.name_placeholder'),
+                     placeholder: I18n.t("storages.provider_types.#{@object.short_provider_type}.name_placeholder"),
                      container_class: '-slim' %>
     <span class="form--field-instructions"><%= t('storages.instructions.name') %></span>
   </div>

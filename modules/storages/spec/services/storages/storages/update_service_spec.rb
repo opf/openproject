@@ -51,8 +51,7 @@ describe Storages::Storages::UpdateService, type: :model do
       build_stubbed(factory,
                     creator: user,
                     name: 'My updated storage',
-                    host: 'https://updated.example.org',
-                    provider_type: 'nextcloud')
+                    host: 'https://updated.example.org')
     end
 
     let!(:oauth_application) { create(:oauth_application, integration: model_instance) }
@@ -90,7 +89,7 @@ describe Storages::Storages::UpdateService, type: :model do
     end
 
     it 'must update the name of the OAuth application' do
-      expect(subject.result.oauth_application.name).to eq("#{name} (#{storage.provider_type.to_s.capitalize})")
+      expect(subject.result.oauth_application.name).to eq("Awesome Storage (Nextcloud)")
     end
   end
 end

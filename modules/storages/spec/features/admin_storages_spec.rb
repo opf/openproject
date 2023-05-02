@@ -54,6 +54,9 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
     mock_server_config_check_response("https://example.com")
+
+    # Setting to "" is needed to avoid receiving "My NextcloudNC 1"
+    page.find_by_id('storages_storage_name').set("")
     page.find_by_id('storages_storage_name').set("NC 1")
     page.find_by_id('storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Save and continue setup").click

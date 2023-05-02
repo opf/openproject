@@ -63,11 +63,10 @@ class Storages::Admin::StoragesController < ApplicationController
   def new
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
-    # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
     # That service inherits from ::BaseServices::SetAttributes
     @object = ::Storages::Storages::SetAttributesService
                 .new(user: current_user,
-                     model: Storages::Storage.new(provider_type: Storages::Storage::PROVIDER_TYPE_NEXTCLOUD),
+                     model: Storages::NextcloudStorage.new,
                      contract_class: EmptyContract)
                 .call
                 .result
@@ -77,7 +76,6 @@ class Storages::Admin::StoragesController < ApplicationController
   # Overwrite the creator_id with the current_user. Is this this pattern always used?
   # Use service pattern to create a new Storage
   # See also: storages/services/storages/storages/create_service.rb
-  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   def create
     service_result = Storages::Storages::CreateService.new(user: current_user).call(permitted_storage_params)
@@ -100,7 +98,6 @@ class Storages::Admin::StoragesController < ApplicationController
 
   # Update is similar to create above
   # See also: create above
-  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
   # Called by: Global app/config/routes.rb to serve Web page
   def update
     service_result = ::Storages::Storages::UpdateService

@@ -43,6 +43,7 @@ module OpenProject::Storages
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
       OpenProject::FeatureDecisions.add :legacy_upload_preparation
+      OpenProject::FeatureDecisions.add :managed_project_folders
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -68,6 +69,24 @@ module OpenProject::Storages
         permission :manage_storages_in_project,
                    { 'storages/admin/projects_storages': %i[index new edit update create destroy] },
                    dependencies: %i[]
+
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          permission :read_files,
+                     {},
+                     dependencies: %i[]
+          permission :write_files,
+                     {},
+                     dependencies: %i[]
+          permission :create_files,
+                     {},
+                     dependencies: %i[]
+          permission :delete_files,
+                     {},
+                     dependencies: %i[]
+          permission :share_files,
+                     {},
+                     dependencies: %i[]
+        end
       end
 
       # Menu extensions
@@ -78,7 +97,7 @@ module OpenProject::Storages
            { controller: '/storages/admin/storages', action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: 'icon2 icon-hosting'
+           icon: 'hosting'
 
       menu :project_menu,
            :settings_projects_storages,
@@ -90,13 +109,20 @@ module OpenProject::Storages
         if project.present? &&
            User.current.logged? &&
            User.current.allowed_to?(:view_file_links, project)
-          project.storages.each do |storage|
+          project.projects_storages.each do |project_storage|
+            storage = project_storage.storage
+            href = if project_storage.project_folder_inactive?
+                     storage.host
+                   else
+                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                   end
+
             menu.push(
               :"storage_#{storage.id}",
-              storage.host,
+              href,
               caption: storage.name,
               before: :members,
-              icon: "#{storage.provider_type}-circle",
+              icon: "#{storage.short_provider_type}-circle",
               icon_after: "external-link",
               skip_permissions_check: true
             )
@@ -129,6 +155,11 @@ module OpenProject::Storages
         ::Queries::Register.register(::Queries::Storages::FileLinks::FileLinkQuery) do
           filter ::Queries::Storages::FileLinks::Filter::StorageFilter
         end
+
+        ::Queries::Register.register(::Queries::Storages::ProjectStorages::ProjectStoragesQuery) do
+          filter ::Queries::Storages::ProjectStorages::Filter::StorageIdFilter
+          filter ::Queries::Storages::ProjectStorages::Filter::ProjectIdFilter
+        end
       end
     end
 
@@ -136,6 +167,14 @@ module OpenProject::Storages
     # and the return value is a string.
     add_api_path :storages do
       "#{root}/storages"
+    end
+
+    add_api_path :project_storages do
+      "#{root}/project_storages"
+    end
+
+    add_api_path :project_storage do |id|
+      "#{root}/project_storages/#{id}"
     end
 
     add_api_path :storage do |storage_id|
@@ -177,6 +216,7 @@ module OpenProject::Storages
     # Add api endpoints specific to this module
     add_api_endpoint 'API::V3::Root' do
       mount ::API::V3::Storages::StoragesAPI
+      mount ::API::V3::ProjectStorages::ProjectStoragesAPI
       mount ::API::V3::FileLinks::FileLinksAPI
     end
 

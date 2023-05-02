@@ -335,7 +335,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       {
         field: 'title',
         headerContent: {
-          html: `<span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span> <span class="hidden-for-mobile">${this.text.assignee}</span>`,
+          html: `<span class="spot-link spot-link_inactive"><span aria-label="${this.text.assignee}" class="spot-icon spot-icon_user"></span><span class="hidden-for-mobile">${this.text.assignee}</span></span>`,
         },
       },
     ],
@@ -419,7 +419,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     this.params$
       .pipe(this.untilDestroyed())
       .subscribe((params) => {
-        this.principalsResourceService.fetchPrincipals(params).subscribe();
+        this.principalsResourceService.requireCollection(params).subscribe();
       });
 
     combineLatest([

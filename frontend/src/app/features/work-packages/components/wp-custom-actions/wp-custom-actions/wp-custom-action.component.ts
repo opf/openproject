@@ -62,9 +62,9 @@ export class WpCustomActionComponent {
   private fetchAction() {
     if (this.action.href === null) return;
 
-    void this.halResourceService.get<CustomActionResource>(this.action.href)
-      .toPromise()
-      .then((action) => {
+    void this.halResourceService
+      .get<CustomActionResource>(this.action.href)
+      .subscribe((action) => {
         this.action = action;
       });
   }

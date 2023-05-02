@@ -249,7 +249,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         # Wait for the relations table to be present
         sleep 2
-        expect(page).to have_selector('.wp-relations--subject-field')
+        expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']")
 
         scroll_to_element find('.detail-panel--relations')
 

@@ -3,6 +3,11 @@ lol:
   permission_view_file_links: "crwdns807898:0crwdne807898:0"
   permission_manage_file_links: "crwdns807900:0crwdne807900:0"
   permission_manage_storages_in_project: "crwdns807902:0crwdne807902:0"
+  permission_read_files: "crwdns852055:0crwdne852055:0"
+  permission_write_files: "crwdns852057:0crwdne852057:0"
+  permission_create_files: "crwdns852059:0crwdne852059:0"
+  permission_delete_files: "crwdns852061:0crwdne852061:0"
+  permission_share_files: "crwdns852063:0crwdne852063:0"
   project_module_storages: "crwdns807904:0crwdne807904:0"
   activerecord:
     models:

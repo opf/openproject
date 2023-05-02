@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { MultiInputState } from 'reactivestates';
+import { MultiInputState } from '@openproject/reactivestates';
 import { Injectable, Injector } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';

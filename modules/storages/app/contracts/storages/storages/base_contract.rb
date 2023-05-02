@@ -44,7 +44,7 @@ module Storages::Storages
     validates :name, presence: true, length: { maximum: 255 }
 
     attribute :provider_type
-    validates :provider_type, inclusion: { in: ->(*) { Storages::Storage::PROVIDER_TYPES } }
+    validates :provider_type, inclusion: { in: Storages::Storage::PROVIDER_TYPES }
 
     attribute :host
     validates :host, url: { message: I18n.t('activerecord.errors.messages.invalid_url') }, length: { maximum: 255 }

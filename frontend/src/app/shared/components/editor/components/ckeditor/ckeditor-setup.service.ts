@@ -23,7 +23,14 @@ export class CKEditorSetupService {
   /** The language CKEditor was able to load, falls back to 'en' */
   private loadedLocale = 'en';
 
+  /** Prefetch ckeditor when browser is idle */
+  private prefetch:Promise<unknown>;
+
   constructor(private PathHelper:PathHelperService) {
+  }
+
+  public initialize() {
+    this.prefetch = this.load();
   }
 
   /**
@@ -42,7 +49,7 @@ export class CKEditorSetupService {
     initialData:string|null = null,
   ):Promise<ICKEditorWatchdog> {
     // Load the bundle and the matching locale, if found.
-    await this.load();
+    await this.prefetch;
 
     const { type } = context;
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
@@ -108,11 +115,11 @@ export class CKEditorSetupService {
     // untyped module cannot be dynamically imported
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    await import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor.js');
+    await import(/* webpackPrefetch: true; webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor');
 
     try {
       await import(
-        /* webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
+        /* webpackPrefetch: true; webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
       ) as unknown;
       this.loadedLocale = I18n.locale;
     } catch (e:unknown) {

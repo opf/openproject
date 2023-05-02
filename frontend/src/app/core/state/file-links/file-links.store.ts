@@ -26,15 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CollectionState, createInitialCollectionState } from 'core-app/core/state/collection-store';
+import { ResourceState, createInitialResourceState } from 'core-app/core/state/resource-store';
 import { EntityStore, StoreConfig } from '@datorama/akita';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 
-export interface FileLinksState extends CollectionState<IFileLink> {}
+export interface FileLinksState extends ResourceState<IFileLink> {}
 
 @StoreConfig({ name: 'file_links' })
 export class FileLinksStore extends EntityStore<FileLinksState> {
   constructor() {
-    super(createInitialCollectionState());
+    super(createInitialResourceState());
   }
 }

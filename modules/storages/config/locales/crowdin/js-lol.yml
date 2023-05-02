@@ -15,6 +15,7 @@ lol:
       choose_location: "crwdns838831:0crwdne838831:0"
       types:
         nextcloud: "crwdns823098:0crwdne823098:0"
+        default: "crwdns851971:0crwdne851971:0"
       information:
         connection_error: >
           crwdns824868:0%{storageType}crwdnd824868:0%{storageType}crwdne824868:0
@@ -33,6 +34,8 @@ lol:
         empty_folder: "crwdns845473:0crwdne845473:0"
         empty_folder_location_hint: "crwdns845475:0crwdne845475:0"
         file_not_selectable_location: "crwdns844779:0crwdne844779:0"
+        project_folder_no_access: >
+          crwdns852065:0crwdne852065:0
         upload_keep_both: "crwdns846095:0crwdne846095:0"
         upload_replace: "crwdns846097:0crwdne846097:0"
       file_links:

@@ -77,6 +77,12 @@ example:
     hasDefault: true
     writable: true
     deprecated: true
+  timestamps:
+    type: "[]Timestamp"
+    name: Timestamps
+    required: false
+    hasDefault: true
+    writable: true
   highlightingMode:
     type: String
     name: Highlighting mode

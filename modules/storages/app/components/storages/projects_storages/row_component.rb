@@ -44,7 +44,7 @@ module Storages::ProjectsStorages
     end
 
     def provider_type
-      project_storage.storage.provider_type
+      project_storage.storage.short_provider_type
     end
 
     def creator

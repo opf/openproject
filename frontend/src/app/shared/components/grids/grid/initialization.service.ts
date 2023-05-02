@@ -3,10 +3,15 @@ import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { switchMap } from 'rxjs/operators';
+import {
+  Observable,
+  of,
+} from 'rxjs';
 
 @Injectable()
 export class GridInitializationService {
-  constructor(readonly apiV3Service:ApiV3Service,
+  constructor(
+    readonly apiV3Service:ApiV3Service,
     readonly halResourceService:HalResourceService) {
   }
 
@@ -14,21 +19,22 @@ export class GridInitializationService {
   // that page will be used to initialized the grid.
   // If it does not exist, fetch the form and then create a new resource.
   // The created resource is then used to initialize the grid.
-  public initialize(path:string) {
+  public initialize(path:string):Observable<GridResource> {
     return this
       .apiV3Service
       .grids
       .list({ filters: [['scope', '=', [path]]] })
-      .toPromise()
-      .then((collection) => {
-        if (collection.total === 0) {
-          return this.myPageForm(path);
-        }
-        return (collection.elements[0]);
-      });
+      .pipe(
+        switchMap((collection) => {
+          if (collection.total === 0) {
+            return this.myPageForm(path);
+          }
+          return of(collection.elements[0]);
+        }),
+      );
   }
 
-  private myPageForm(path:string):Promise<GridResource> {
+  private myPageForm(path:string):Observable<GridResource> {
     const payload = {
       _links: {
         scope: {
@@ -57,7 +63,6 @@ export class GridInitializationService {
             .grids
             .post(resource, form.schema);
         }),
-      )
-      .toPromise();
+      );
   }
 }

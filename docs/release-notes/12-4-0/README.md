@@ -66,7 +66,7 @@ It is now possible to choose between a full 1-week view, a 2-week view or only t
 
 ## OpenProject Helm Charts
 
-Starting with OpenProject 12.4 offical [OpenProject Helm charts](../../installation-and-operations/installation/kubernetes/#helm) are availble.
+Starting with OpenProject 12.4 offical [OpenProject Helm charts](../../installation-and-operations/installation/helm-chart) are available.
 
 ![openproject helm charts](openproject-helm-charts.jpg)
 

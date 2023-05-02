@@ -61,7 +61,7 @@ module OpenProject::Meeting
            caption: :project_module_meetings,
            after: :wiki,
            before: :members,
-           icon: 'icon2 icon-meetings'
+           icon: 'meetings'
 
       ActiveSupport::Inflector.inflections do |inflect|
         inflect.uncountable 'meeting_minutes'

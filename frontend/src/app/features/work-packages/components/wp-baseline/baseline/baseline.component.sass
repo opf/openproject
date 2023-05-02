@@ -1,0 +1,39 @@
+@import "src/assets/sass/helpers"
+
+.op-baseline
+
+  &--body
+    flex-shrink: 1
+    flex-basis: 100%
+    overflow: hidden
+    margin-top: 0 !important
+
+    @media screen and #{$spot-mq-drop-modal-in-context}
+      width: 300px
+      max-height: 70vh
+  &--time
+    
+    &-input
+      width: 65%
+      border: 1px solid $spot-color-basic-gray-3
+
+    &-help
+      background-color: $spot-color-basic-gray-6
+      border: 1px solid $spot-color-basic-gray-3
+      border-left: none !important
+      padding: $spot-spacing-0_5 $spot-spacing-1
+      line-height: unset
+      text-align: center
+      display: block
+
+    &-tooltip-body
+      width: 220px
+      display: block
+
+  &--filter
+  
+    &-description
+      font-size: $spot-spacing-0_75
+      font-style: italic
+      line-height: $spot-spacing-1
+      color: $spot-color-basic-gray-2
