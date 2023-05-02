@@ -87,16 +87,10 @@ describe Authentication::OmniauthService do
     let(:call) { instance.call }
 
     context 'with an active found user' do
-      let(:user) { build_stubbed(:user) }
-
-      before do
-        expect(instance).to receive(:find_existing_user).and_return(user)
-        expect(Users::RegisterUserService).not_to receive(:new)
-      end
+      let!(:user) { create(:user, login: 'foo@bar.com', identity_url: 'google:123545') }
 
       it 'does not call register user service and logs in the user' do
-        # should update the user attributes
-        allow(user).to receive(:save)
+        allow(Users::RegisterUserService).to receive(:new)
 
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
@@ -107,51 +101,36 @@ describe Authentication::OmniauthService do
         expect(call.result.firstname).to eq 'foo'
         expect(call.result.lastname).to eq 'bar'
         expect(call.result.mail).to eq 'foo@bar.com'
-        expect(user).to have_received(:save)
+
+        expect(Users::RegisterUserService).not_to have_received(:new)
       end
     end
 
     context 'without remapping allowed',
             with_settings: { oauth_allow_remapping_of_existing_users?: false } do
+      let!(:user) { create(:user, login: 'foo@bar.com') }
+
       it 'does not look for the user by login' do
-        # Regular find
-        expect(User)
-          .to(receive(:find_by))
-          .with(identity_url: 'google:123545')
-          .and_return(nil)
+        allow(Users::RegisterUserService).to receive(:new).and_call_original
 
-        # Remap find
-        expect(User)
-          .not_to(receive(:find_by_login))
-          .with('foo@bar.com')
+        expect(call).not_to be_success
+        expect(call.result.firstname).to eq 'foo'
+        expect(call.result.lastname).to eq 'bar'
+        expect(call.result.mail).to eq 'foo@bar.com'
+        expect(call.result).not_to eq user
+        expect(call.result).to be_new_record
+        expect(call.result.errors[:login]).to eq ['has already been taken.']
 
-        call
+        expect(Users::RegisterUserService).to have_received(:new)
       end
     end
 
     context 'with an active user remapped',
             with_settings: { oauth_allow_remapping_of_existing_users?: true } do
-      let(:user) { build_stubbed(:user, identity_url: 'foo') }
-
-      before do
-        # Regular find
-        expect(User)
-          .to(receive(:find_by))
-          .with(identity_url: 'google:123545')
-          .and_return(nil)
-
-        # Remap find
-        expect(User)
-          .to(receive(:find_by_login))
-          .with('foo@bar.com')
-          .and_return(user)
-
-        expect(Users::RegisterUserService).not_to receive(:new)
-      end
+      let!(:user) { create(:user, identity_url: 'foo', login: 'foo@bar.com') }
 
       it 'does not call register user service and logs in the user' do
-        # should update the user attributes
-        allow(user).to receive(:save)
+        allow(Users::RegisterUserService).to receive(:new)
 
         expect(OpenProject::OmniAuth::Authorization)
           .to(receive(:after_login!))
@@ -162,7 +141,13 @@ describe Authentication::OmniauthService do
         expect(call.result.firstname).to eq 'foo'
         expect(call.result.lastname).to eq 'bar'
         expect(call.result.mail).to eq 'foo@bar.com'
-        expect(user).to have_received(:save)
+
+        user.reload
+        expect(user.firstname).to eq 'foo'
+        expect(user.lastname).to eq 'bar'
+        expect(user.identity_url).to eq 'google:123545'
+
+        expect(Users::RegisterUserService).not_to have_received(:new)
       end
     end
 

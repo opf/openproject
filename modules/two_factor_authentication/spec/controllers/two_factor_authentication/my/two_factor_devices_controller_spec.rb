@@ -179,36 +179,44 @@ describe TwoFactorAuthentication::My::TwoFactorDevicesController do
             expect(device.default).to be false
           end
 
-          it 'activates the device when entered correctly' do
-            allow_any_instance_of(TwoFactorAuthentication::TokenService)
-              .to receive(:verify)
-              .with('1234')
-              .and_return(ServiceResult.success)
+          context 'when user has another active session' do
+            let!(:plain_session) { create(:user_session, user:) }
+            let!(:user_session) { Sessions::UserSession.find_by(session_id: plain_session.session_id) }
 
-            post :confirm, params: { device_id: device.id, otp: '1234' }
-            expect(response).to redirect_to action: :index
-            expect(flash[:notice]).to include I18n.t('two_factor_authentication.devices.registration_complete')
-            device.reload
-            expect(device.active).to be true
-            expect(device.default).to be true
-          end
-
-          context 'with another default device present' do
-            let!(:default_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
-
-            it 'activates the device when entered correctly' do
+            it 'activates the device when entered correctly and clears other sessions' do
               allow_any_instance_of(TwoFactorAuthentication::TokenService)
-                  .to receive(:verify)
-                          .with('1234')
-                          .and_return(ServiceResult.success)
+                .to receive(:verify)
+                .with('1234')
+                .and_return(ServiceResult.success)
 
               post :confirm, params: { device_id: device.id, otp: '1234' }
               expect(response).to redirect_to action: :index
               expect(flash[:notice]).to include I18n.t('two_factor_authentication.devices.registration_complete')
               device.reload
               expect(device.active).to be true
-              # but does not set default
-              expect(device.default).to be false
+              expect(device.default).to be true
+              expect { user_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
+            end
+
+            context 'with another default device present' do
+              let!(:default_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
+
+              it 'activates the device when entered correctly' do
+                # rubocop:disable RSpec/AnyInstance
+                allow_any_instance_of(TwoFactorAuthentication::TokenService)
+                  .to receive(:verify)
+                  .with('1234')
+                  .and_return(ServiceResult.success)
+                # rubocop:enable RSpec/AnyInstance
+
+                post :confirm, params: { device_id: device.id, otp: '1234' }
+                expect(response).to redirect_to action: :index
+                expect(flash[:notice]).to include I18n.t('two_factor_authentication.devices.registration_complete')
+                device.reload
+                expect(device.active).to be true
+                # but does not set default
+                expect(device.default).to be false
+              end
             end
           end
         end

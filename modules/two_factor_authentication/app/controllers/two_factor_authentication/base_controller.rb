@@ -86,19 +86,31 @@ module ::TwoFactorAuthentication
       service = token_service(@device)
       result = service.verify(params[:otp])
 
+      has_default = ::TwoFactorAuthentication::Device.has_default?(target_user)
+      if confirm_and_save(result)
+        logout_other_sessions unless has_default
+        redirect_to registration_success_path
+      else
+        redirect_to action: :confirm, device_id: @device.id
+      end
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def confirm_and_save(result)
       if result.success? && @device.confirm_registration_and_save
         flash[:notice] = t('two_factor_authentication.devices.registration_complete')
-        return redirect_to registration_success_path
+        true
       elsif !result.success?
         flash[:notice] = nil
         flash[:error] = t('two_factor_authentication.devices.registration_failed_token_invalid')
+        false
       else
         flash[:notice] = nil
         flash[:error] = t('two_factor_authentication.devices.registration_failed_update')
+        false
       end
-
-      redirect_to action: :confirm, device_id: @device.id
     end
+    # rubocop:enable Metrics/AbcSize
 
     def request_token_for_device(device, locals)
       transmit = token_service(device).request
@@ -120,6 +132,7 @@ module ::TwoFactorAuthentication
     def index_path
       raise NotImplementedError
     end
+
     helper_method :index_path
 
     def registration_failure_path
@@ -136,6 +149,16 @@ module ::TwoFactorAuthentication
         default: false,
         active: false
       )
+    end
+
+    def logout_other_sessions
+      if current_user == target_user
+        Rails.logger.info { "First 2FA device registered for #{target_user}, terminating other logged in sessions." }
+        ::Sessions::DropOtherSessionsService.call(target_user, session)
+      else
+        Rails.logger.info { "First 2FA device registered for #{target_user}, terminating logged in sessions." }
+        ::Sessions::DropAllSessionsService.call(target_user)
+      end
     end
 
     def permitted_device_params

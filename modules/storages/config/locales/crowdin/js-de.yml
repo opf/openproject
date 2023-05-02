@@ -57,7 +57,7 @@ de:
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden. Bitte überprüfen Sie, ob die neueste Version der Nextcloud-App „OpenProject Integration“ installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
           403: >
             Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
           413: >
