@@ -894,7 +894,7 @@ GEM
     stringex (2.8.6)
     stringio (3.0.6)
     structured_warnings (0.4.0)
-    svg-graph (2.2.1)
+    svg-graph (2.2.2)
     swd (2.0.2)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
