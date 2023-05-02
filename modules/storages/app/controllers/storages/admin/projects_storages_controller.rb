@@ -106,10 +106,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
 
-    # Right now, we only have a single storage provider.
-    # See #create @available_storages on how to filter available storages when we introduce another storage provider.
-    @available_storages = [@project_storage.storage]
-
     render '/storages/project_settings/edit'
   end
 

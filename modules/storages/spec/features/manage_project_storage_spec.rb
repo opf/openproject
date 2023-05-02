@@ -75,6 +75,7 @@ describe 'Activation of storages in projects', js: true do
     page.find('.toolbar .button--icon.icon-add').click
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
+    expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
     page.find_by_id('storages_project_storage_project_folder_mode_manual').click
     page.find_by_id('storages_project_storage_project_folder_id').set('Project#1')
     page.click_button('Add')
@@ -88,7 +89,8 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
                                                                                   id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
-    # The project folder mode should be manual
+    expect(page).not_to have_select('storages_project_storage_storage_id')
+    expect(page).to have_text('Storage 1')
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
     expect(page).to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
 

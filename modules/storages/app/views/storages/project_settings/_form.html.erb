@@ -1,14 +1,24 @@
 <div class="form--field -required">
-  <%= f.select :storage_id,
-      available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
-                selected: available_storages.first.id.to_s,
-                class: '-bold',
-                container_class: '-slim' %>
-  <% if User.current.admin? %>
-    <span class="form--field-instructions">
-      <%= t(:"storages.instructions.setting_up_additional_storages")  %>
-      <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
-    </span>
+  <% case action_name %>
+  <% when 'new' %>
+    <%= f.select :storage_id,
+        available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
+                  selected: available_storages.first.id.to_s,
+                  class: '-bold',
+                  container_class: '-slim' %>
+    <% if User.current.admin? %>
+      <span class="form--field-instructions">
+        <%= t(:"storages.instructions.setting_up_additional_storages")  %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+      </span>
+    <% end %>
+  <% when 'edit' %>
+    <%= f.label :storage_id, class: "form--label -bold" do %>
+      <%= t(:"storages.label_storage") %>
+    <% end %>
+    <div class="form--field-container -horizontal">
+      <span><%= @project_storage.storage.name %></span>
+    </div>
   <% end %>
 </div>
 
