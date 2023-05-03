@@ -115,8 +115,8 @@ sl:
     no_results: "V tem projektu ni bil naložen noben model IFC."
     conversion_status:
       label: 'Obdelovanje?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Čakajoče'
+      processing: 'V obdelavi'
       completed: 'Zaključeno'
       error: 'Napaka'
     processing_notice:
