@@ -13,10 +13,11 @@
   width: calc(100% + #{$spot-spacing-3})
 
   &--attribute
-    flex-basis: calc(100% - #{$spot-spacing-3})
-    flex-grow: 0
+    flex-basis: 20rem
+    flex-grow: 1
     flex-shrink: 0
     margin: 0 $spot-spacing-1_5
+    max-width: 100%
 
     @media screen and (min-width: 92rem), print
       flex-basis: calc(50% - #{$spot-spacing-3})
