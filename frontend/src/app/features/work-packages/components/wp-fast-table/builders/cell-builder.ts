@@ -84,6 +84,7 @@ export class CellBuilder {
       const span = this.fieldRenderer.render(base, attribute, null);
       span.classList.add('op-table-baseline--old-value');
       container.classList.add('op-table-baseline--cell');
+      container.classList.remove(editCellContainer);
       container.appendChild(span);
     }
   }
