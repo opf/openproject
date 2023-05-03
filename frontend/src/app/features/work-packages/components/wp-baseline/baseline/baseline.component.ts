@@ -74,9 +74,15 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedTime = '00:00';
 
+  public selectedDateInTimeZone = '';
+
+  public isTimezoneSet = this.configuration.isTimezoneSet();
+
+  public timeZoneOffset = '';
+
   public selectedFilter = '-';
 
-  public selectedTimezoneFormattedTime = `${this.selectedTime}+00:00`;
+  public selectedTimezoneFormattedTime = '00:00';
 
   public filterSelected = false;
 
@@ -144,14 +150,14 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
       this.filterChange(date);
       this.selectedTime = time || '00:00';
-      this.selectedTimezoneFormattedTime = timeWithZone || '00:00+00:00';
       this.filterSelected = true;
     }
   }
 
   public clearSelection():void {
     this.filterSelected = false;
-    this.selectedTime = '0:00';
+    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(`${this.selectedDate} 00:00`);
+    this.selectedTime = '00:00';
     this.selectedDate = '';
     this.selectedFilter = '-';
     this.dropDownDescription = '';
@@ -166,7 +172,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
-      const filterString = `${this.selectedFilter}@${this.selectedTimezoneFormattedTime}`;
+      const filterString = `${this.selectedFilter}@${this.selectedTime}${this.timeZoneOffset}`;
       this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
     }
 
@@ -180,6 +186,22 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     today.setDate(today.getDate() - 1);
     this.selectedDate = this.timezoneService.formattedDate(today.toString());
     return this.selectedDate;
+  }
+
+  public diffTimeZone(localDate:string, timeZoneDate:string) {
+    const date1 = new Date(localDate);
+    const date2 = new Date(timeZoneDate);
+
+    const diff = date2.getTime() - date1.getTime();
+
+    let msec = diff;
+    const hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    const mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    const ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+    return `${(hh > 0 ? `+${hh}` : hh)}:${mm}`;
   }
 
   public lastMonthDate():string {
@@ -236,7 +258,9 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public timeChange(value:string):void {
     this.selectedTime = value;
     const dateTime= `${this.selectedDate}  ${value}`;
-    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
+    if (this.isTimezoneSet) {
+      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
+    }
   }
 
   public filterChange(value:string):void {
@@ -263,5 +287,9 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     } else {
       this.clearSelection();
     }
+    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(`${this.selectedDate} 00:00`);
+    this.selectedDateInTimeZone = this.timezoneService.formattedDatetime(`${this.selectedDate} 00:00`);
+    this.timeZoneOffset = this.isTimezoneSet ? this.diffTimeZone(`${this.selectedDate} 00:00`, this.selectedDateInTimeZone) : '+00:00';
+    this.selectedTime = '00:00';
   }
 }
