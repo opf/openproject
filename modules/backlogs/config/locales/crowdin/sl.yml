@@ -137,7 +137,7 @@ sl:
   label_wiki: "Wiki"
   permission_view_master_backlog: "glavni zaostanek prejšnje poizvedbe"
   permission_view_taskboards: "Prikaz delovne table"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Označi statuse narejeno"
   permission_update_sprints: "Posodobi šprinte"
   points_accepted: "sprejete točke"
   points_committed: "Oddane točke"
