@@ -77,6 +77,10 @@ en:
       copy_from: "Copy this value from"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project.
+        Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Are you sure you want to delete this storage? This will also delete the storage from all projects where it is used.
