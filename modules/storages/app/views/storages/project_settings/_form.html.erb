@@ -2,7 +2,7 @@
   <% case action_name %>
   <% when 'new' %>
     <%= f.select :storage_id,
-        available_storages.map { |storage| ["#{storage.name} (#{storage.provider_type})", storage.id] },
+        available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
                   selected: available_storages.first.id.to_s,
                   class: '-bold',
                   container_class: '-slim' %>

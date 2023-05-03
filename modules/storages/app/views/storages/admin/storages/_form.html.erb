@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% when 'new' %>
       <%= f.hidden_field :provider_type %>
       <%= f.select :provider_type,
-                  ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{provider_type}.name"), provider_type] },
+                  ::Storages::Storage::PROVIDER_TYPES.map { |provider_type| [I18n.t("storages.provider_types.#{::Storages::Storage.shorten_provider_type(provider_type)}.name"), provider_type] },
                   {
                     selected: ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
                     container_class: '-slim'
