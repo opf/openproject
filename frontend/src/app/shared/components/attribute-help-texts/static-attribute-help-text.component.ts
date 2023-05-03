@@ -32,7 +32,7 @@ import {
   Component,
   ElementRef,
   Injector,
-  Input
+  Input,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
@@ -48,19 +48,19 @@ export const staticAttributeHelpTextSelector = 'op-static-attribute-help-text';
 })
 export class StaticAttributeHelpTextComponent {
   // Attribute pass the modal title and content
-  @Input() public title: string;
-  @Input() public content: string;
+  @Input() public title:string;
+  @Input() public content:string;
 
   readonly text = {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
   };
 
   constructor(
-    readonly elementRef: ElementRef,
-    protected opModalService: OpModalService,
-    protected cdRef: ChangeDetectorRef,
-    protected injector: Injector,
-    protected I18n: I18nService,
+    readonly elementRef:ElementRef,
+    protected opModalService:OpModalService,
+    protected cdRef:ChangeDetectorRef,
+    protected injector:Injector,
+    protected I18n:I18nService,
   ) {
     populateInputsFromDataset(this);
   }

@@ -20,13 +20,13 @@ import { StaticAttributeHelpTextModalComponent } from './static-attribute-help-t
     AttributeHelpTextComponent,
     AttributeHelpTextModalComponent,
     StaticAttributeHelpTextComponent,
-    StaticAttributeHelpTextModalComponent
+    StaticAttributeHelpTextModalComponent,
   ],
   providers: [
   ],
   exports: [
     AttributeHelpTextComponent,
-    StaticAttributeHelpTextComponent
+    StaticAttributeHelpTextComponent,
   ],
 })
 export class AttributeHelpTextModule {}

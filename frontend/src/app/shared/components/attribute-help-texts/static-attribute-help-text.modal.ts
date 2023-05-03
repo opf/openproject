@@ -43,8 +43,8 @@ export class StaticAttributeHelpTextModalComponent extends OpModalComponent impl
     close: this.I18n.t('js.button_close'),
   };
 
-  public title:string = this.locals.title!;
-  public content:string = this.locals.content!;
+  public title:string = this.locals.title || '';
+  public content:string = this.locals.content || '';
 
   constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
