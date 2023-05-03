@@ -35,6 +35,7 @@ module Constants
       assigned_to: 'assignee',
       version: 'version',
       done_ratio: 'percentageDone',
+      status_code: 'status',
       estimated_hours: 'estimatedTime',
       remaining_hours: 'remainingTime',
       spent_hours: 'spentTime',

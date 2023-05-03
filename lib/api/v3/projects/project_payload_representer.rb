@@ -33,10 +33,6 @@ module API
         include ::API::Utilities::PayloadRepresenter
 
         cached_representer disabled: true
-
-        def writable_attributes
-          super + %w[status]
-        end
       end
     end
   end
