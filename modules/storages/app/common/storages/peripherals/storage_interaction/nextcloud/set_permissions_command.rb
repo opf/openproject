@@ -71,7 +71,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def requested_folder(folder)
-      return '' if folder.nil?
+      raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
 
       escape_whitespace(folder)
     end
