@@ -34,6 +34,7 @@
 # Called by: Calls to the controller methods are initiated by user Web GUI
 # actions and mapped to this controller by storages/config/routes.rb.
 class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
+  using Storages::Peripherals::ServiceResultRefinements
   # This is the resource handled in this controller.
   # So the controller knows that the ID in params (URl) refer to instances of this model.
   # This defines @object as the model instance.
@@ -142,6 +143,37 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     redirect_to project_settings_projects_storages_path
   end
 
+  def set_permissions
+    if OpenProject::FeatureDecisions.managed_project_folders_active?
+      find_model_object(:projects_storage_id)
+      storage = @projects_storage.storage
+      project = @projects_storage.project
+      command = Storages::Peripherals::StorageRequests.new(storage:).set_permissions_command
+      folder = @projects_storage.project_folder_id
+      project_users = project.users
+      oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id, integration_type: 'Storages::Storage').first
+      nextcloud_users = OAuthClientToken.where(oauth_client:, user: project_users)
+      permissions = nextcloud_users.map do |token|
+        user = token.user
+        {
+          origin_user_id: token.origin_user_id,
+          permissions: {
+            read_files: user.allowed_to?(:read_files, @project),
+            write_files: user.allowed_to?(:write_files, @project),
+            create_files: user.allowed_to?(:create_files, @project),
+            share_files: user.allowed_to?(:share_files, @project),
+            delete_files: user.allowed_to?(:delete_files, @project)
+          }
+        }
+      end
+
+      command.result.call(folder:, permissions:).match(
+        on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' },
+        on_failure: ->(error) { flash[:error] = "Error: #{error}" }
+      )
+    end
+    redirect_back(fallback_location: project_settings_projects_storages_path(project_id: project.id))
+  end
   private
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.

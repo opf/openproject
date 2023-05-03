@@ -40,13 +40,15 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       share_files: 16
     }.freeze
 
-    def initialize(base_uri:, username:, password:)
+    def initialize(storage)
       super()
 
-      @uri = base_uri
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(username))
-      @username = username
-      @password = password
+      @uri = URI(storage.host).normalize
+      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(storage.username))
+      @groupfolder = storage.groupfolder
+      @group = storage.group
+      @username = storage.username
+      @password = storage.password
     end
 
     def execute(folder:, permissions:)
@@ -54,8 +56,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       http.use_ssl = @uri.scheme == 'https'
 
       response = http.proppatch(
-        "#{@base_path}/#{requested_folder(folder)}",
-        converted_permissions(username: @username, permissions:),
+        "#{@base_path}/#{@groupfolder}/#{requested_folder(folder)}",
+        converted_permissions(permissions:),
         {
           'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
         }
@@ -94,7 +96,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       )
     end
 
-    def converted_permissions(username:, permissions:)
+    def converted_permissions(permissions:)
       Nokogiri::XML::Builder.new do |xml|
         xml['d'].propertyupdate(
           'xmlns:d' => 'DAV:',
@@ -103,7 +105,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           xml['d'].set do
             xml['d'].prop do
               xml['nc'].send('acl-list') do
-                control_user_permissions(username, xml)
+                control_user_permissions(xml)
                 control_group_permissions(xml)
                 user_permissions(xml, permissions)
               end
@@ -113,10 +115,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end.to_xml
     end
 
-    def control_user_permissions(username, xml)
+    def control_user_permissions(xml)
       xml['nc'].acl do
         xml['nc'].send('acl-mapping-type', 'user')
-        xml['nc'].send('acl-mapping-id', username)
+        xml['nc'].send('acl-mapping-id', @username)
         xml['nc'].send('acl-mask', '31')
         xml['nc'].send('acl-permissions', '31')
       end
@@ -125,7 +127,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def control_group_permissions(xml)
       xml['nc'].acl do
         xml['nc'].send('acl-mapping-type', 'group')
-        xml['nc'].send('acl-mapping-id', 'OpenProject')
+        xml['nc'].send('acl-mapping-id', @group)
         xml['nc'].send('acl-mask', '31')
         xml['nc'].send('acl-permissions', '0')
       end

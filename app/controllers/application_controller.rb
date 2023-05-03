@@ -302,10 +302,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  def find_model_object
+  def find_model_object(object_id = :id)
     model = self.class._model_object
     if model
-      @object = model.find(params[:id])
+      @object = model.find(params[object_id])
       instance_variable_set('@' + controller_name.singularize, @object) if @object
     end
   rescue ActiveRecord::RecordNotFound

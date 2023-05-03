@@ -30,26 +30,13 @@ module Storages::Peripherals::StorageInteraction
   class StorageCommands
     using ::Storages::Peripherals::ServiceResultRefinements
 
-    def initialize(uri:, provider_type:, username:, password:)
-      @uri = uri
-      @provider_type = provider_type
-      @username = username
-      @password = password
+    def initialize(storage)
+      @storage = storage
     end
 
     def set_permissions_command
-      case @provider_type
-      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
-        ServiceResult.success(
-          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand.new(
-            base_uri: @uri,
-            username: @username,
-            password: @password
-          )
-        )
-      else
-        raise ArgumentError
-      end
+      command_class = "::Storages::Peripherals::StorageInteraction::#{@storage.short_provider_type.capitalize}::SetPermissionsCommand".constantize
+      ServiceResult.success(result: command_class.new(@storage))
     end
   end
 end
