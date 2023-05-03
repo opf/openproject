@@ -39,6 +39,10 @@ module API
           def meta_representer_class
             ProjectCopyMetaRepresenter
           end
+
+          def writable_attributes
+            super + %w[status]
+          end
         end
       end
     end

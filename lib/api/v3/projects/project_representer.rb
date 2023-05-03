@@ -216,8 +216,7 @@ module API
                    link.from_hash(fragment)
                  }
 
-        formattable_property :status_explanation,
-                             writable: -> { represented.writable?(:status) }
+        formattable_property :status_explanation
 
         def _type
           'Project'
