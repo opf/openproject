@@ -235,8 +235,8 @@ describe API::V3::WorkPackageCollectionFromQueryService,
         end
       end
 
-      context 'when timestamps are given' do
-        let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.now] }
+      context 'when timestamps are given', with_flag: { show_changes: true } do
+        let(:timestamps) { [Timestamp.parse("P-1Y"), Timestamp.parse("oneWeekAgo@12:00"), Timestamp.now] }
         let(:query) { build_stubbed(:query, timestamps:) }
 
         it 'has the query timestamps' do

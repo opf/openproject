@@ -15,6 +15,7 @@ pl:
       choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
+        default: "Storage"
       information:
         connection_error: >
           Niektóre ustawienia %{storageType} nie działają. Skontaktuj się z administratorem %{storageType}.
@@ -33,6 +34,8 @@ pl:
         empty_folder: "Ten folder jest pusty."
         empty_folder_location_hint: "Kliknij poniższy przycisk, aby przesłać plik do tej lokalizacji."
         file_not_selectable_location: "Wybranie pliku nie jest możliwe w procesie wyboru lokalizacji."
+        project_folder_no_access: >
+          You have no access to the project folder. Please, contact your administrator to get access or upload the file in another location.
         upload_keep_both: "Zachowaj oba"
         upload_replace: "Zastąp"
       file_links:

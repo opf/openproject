@@ -17,7 +17,7 @@ export class DebouncedEventEmitter<T> {
       .subscribe((val) => this.emitter.emit(val));
   }
 
-  public emit(value?:T):void {
+  public emit(value:T):void {
     this.debouncer.next(value);
   }
 

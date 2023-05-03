@@ -106,10 +106,6 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @project_storage is used in the view in order to render the form for a new object
     @project_storage = @object
 
-    # Right now, we only have a single storage provider.
-    # See #create @available_storages on how to filter available storages when we introduce another storage provider.
-    @available_storages = [@project_storage.storage]
-
     render '/storages/project_settings/edit'
   end
 
@@ -154,7 +150,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # "params" is an instance of ActionController::Parameters
     params
       .require(:storages_project_storage)
-      .permit('storage_id', 'project_folder_mode')
+      .permit('storage_id', 'project_folder_mode', 'project_folder_id')
       .to_h
       .reverse_merge(project_id: @project.id)
   end

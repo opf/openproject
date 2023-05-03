@@ -342,6 +342,11 @@ class Project < ApplicationRecord
     parents | descendants # Set union
   end
 
+  # Returns an array of active subprojects.
+  def active_subprojects
+    project.descendants.where(active: true)
+  end
+
   class << self
     # builds up a project hierarchy helper structure for use with #project_tree_from_hierarchy
     #

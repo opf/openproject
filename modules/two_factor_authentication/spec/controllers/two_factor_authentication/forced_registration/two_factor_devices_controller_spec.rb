@@ -185,11 +185,16 @@ describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController
             expect(device.default).to be false
           end
 
-          it 'activates the device when entered correctly' do
+          it 'activates the device when entered correctly and logs out the user' do
+            allow(Sessions::DropAllSessionsService)
+              .to receive(:call)
+
+            # rubocop:disable RSpec/AnyInstance
             allow_any_instance_of(TwoFactorAuthentication::TokenService)
               .to receive(:verify)
               .with('1234')
               .and_return(ServiceResult.success)
+            # rubocop:enable RSpec/AnyInstance
 
             post :confirm, params: { device_id: device.id, otp: '1234' }
             expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: 'asdf')
@@ -197,6 +202,9 @@ describe TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesController
             device.reload
             expect(device.active).to be true
             expect(device.default).to be true
+
+            expect(Sessions::DropAllSessionsService)
+              .to have_received(:call).with(user)
           end
         end
       end

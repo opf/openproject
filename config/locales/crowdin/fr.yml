@@ -80,7 +80,7 @@ fr:
       buttons:
         upgrade: "Passer au plan supérieur"
         contact: "Contactez-nous pour une démo"
-      enterprise_info_html: "est un <span class='spot-icon spot-icon_enterprise-addons'></span> add-on Entreprise."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Veuillez passer à un plan payant pour l'activer et commencer à l'utiliser dans votre équipe."
     journal_aggregation:
       explanation:
@@ -739,6 +739,9 @@ fr:
               format: "%{message}"
             sort_criteria:
               invalid: "Impossible de trier par colonne : %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
@@ -2654,8 +2657,6 @@ fr:
     Lorsque vous utilisez des champs personnalisés : n’oubliez pas que les champs personnalisés doivent être activés par projet également.
   text_custom_field_hint_activate_per_project_and_type: >
     Les champs personnalisés doivent être activés par type de lot de travaux et par projet.
-  text_wp_custom_field_html: >
-    L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des lots de travaux : <br> <ul> <li><b>Autoriser la sélection multiple pour les champs personnalisés de type Liste ou Utilisateur</b></li> </ul>
   text_wp_status_read_only_html: >
     L'édition Entreprise ajoutera ces add-ons supplémentaires pour les champs de statut des lots de travaux : <br> <ul> <li><b>Permet de marquer les lots de travaux en lecture seule pour des statuts spécifiques</b></li> </ul>
   text_project_custom_field_html: >

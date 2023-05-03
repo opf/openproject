@@ -56,7 +56,8 @@ export function detectOnboardingTour():void {
     }
 
     // ------------------------------- Tutorial Homescreen page -------------------------------
-    if (currentTourPart === 'readyToStart') {
+    // start the home onboarding tour (either after the intro modal or by parameter)
+    if (currentTourPart === 'readyToStart' || url.searchParams.get('start_home_onboarding_tour')) {
       void triggerTour('homescreen');
     }
 

@@ -80,7 +80,7 @@ ru:
       buttons:
         upgrade: "Обновить сейчас"
         contact: "Свяжитесь с нами для демо"
-      enterprise_info_html: "%{feature_title} является корпоративным <span class='spot-icon spot-icon_enterprise-addons'></span> дополнением."
+      enterprise_info_html: "является дополнением Корпоративной версии <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span>."
       upgrade_info: "Пожалуйста, перейдите на платный тарифный план, чтобы активировать его и начать использовать в вашей команде."
     journal_aggregation:
       explanation:
@@ -740,6 +740,9 @@ ru:
               format: "%{message}"
             sort_criteria:
               invalid: "Невозможно отсортировать по столбцу: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Временные метки содержат недопустимые значения: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -2688,8 +2691,6 @@ ru:
     Помните, что настраиваемые поля тоже нужно включать в каждом проекте по отдельности.
   text_custom_field_hint_activate_per_project_and_type: >
     Настраиваемые поля нужно включать для каждого типа комплекса работ и для каждого проекта в отдельности.
-  text_wp_custom_field_html: >
-    Корпоративная версия добавит эти дополнительные дополнения для пользовательских полей рабочих пакетов: <br> <ul> <li> <b> Разрешить множественный выбор для пользовательских полей типа Список или Пользователь </b> </li> </ul>
   text_wp_status_read_only_html: >
     Корпоративная версия добавит эти дополнительные дополнения для полей статусов пакетов работ: <br> <ul> <li><b>Разрешить помечать пакеты работ только для чтения в определенные статусы</b></li> </ul>
   text_project_custom_field_html: >

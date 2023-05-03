@@ -182,6 +182,11 @@ module API
           end
         end
 
+        link :projectStorages, uncacheable: true do
+          filters = [{ projectId: { operator: "=", values: [represented.id.to_s] } }]
+          { href: api_v3_paths.path_for(:project_storages, filters:) }
+        end
+
         associated_resource :parent,
                             v3_path: :project,
                             representer: ::API::V3::Projects::ProjectRepresenter,

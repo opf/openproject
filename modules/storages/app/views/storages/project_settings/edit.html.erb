@@ -1,5 +1,5 @@
 <!-- Standard Ruby view, please see the controller for comments -->
-<% html_title t(:label_administration), t("project_module_storages") %>
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.storage.name) %>
 <% local_assigns[:additional_breadcrumb] = t('storages.label_edit_storage') %>
 <%= toolbar title: t("storages.page_titles.project_settings.edit") %>
 
@@ -7,6 +7,8 @@
   <%= error_messages_for_contract @project_storage, @errors %>
 
   <section class="form--section">
-    <%= render partial: '/storages/project_settings/form', locals: { f: f, available_storages: @available_storages }  %>
+    <%= render partial: '/storages/project_settings/form',
+               locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }
+    %>
   </section>
 <% end %>

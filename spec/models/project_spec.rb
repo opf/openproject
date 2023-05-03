@@ -358,6 +358,27 @@ describe Project do
     end
   end
 
+  describe '#active_subprojects' do
+    subject { root_project.active_subprojects }
+
+    shared_let(:root_project) { create(:project) }
+    shared_let(:parent_project) { create(:project, parent: root_project) }
+    shared_let(:child_project1) { create(:project, parent: parent_project) }
+
+    context 'with an archived subproject' do
+      before do
+        child_project1.active = false
+        child_project1.save
+      end
+
+      it { is_expected.to eq [parent_project] }
+    end
+
+    context 'with all active subprojects' do
+      it { is_expected.to eq [parent_project, child_project1] }
+    end
+  end
+
   describe '#rolled_up_types' do
     let!(:parent) do
       create(:project, types: [parent_type]).tap do |p|

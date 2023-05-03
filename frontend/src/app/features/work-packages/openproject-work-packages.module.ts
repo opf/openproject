@@ -180,6 +180,10 @@ import { OpenprojectStoragesModule } from 'core-app/shared/components/storages/o
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { StoragesResourceService } from 'core-app/core/state/storages/storages.service';
 import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
+import { ProjectStoragesResourceService } from 'core-app/core/state/project-storages/project-storages.service';
+import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
+import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
+import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-loading/baseline-loading.component';
 
 @NgModule({
   imports: [
@@ -238,6 +242,7 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
     StorageFilesResourceService,
 
     StoragesResourceService,
+    ProjectStoragesResourceService,
   ],
   declarations: [
     // Routing
@@ -407,6 +412,11 @@ import { StorageFilesResourceService } from 'core-app/core/state/storage-files/s
 
     // Notifications
     WorkPackageMarkNotificationButtonComponent,
+
+    // Timestamps
+    OpBaselineModalComponent,
+    OpBaselineComponent,
+    OpBaselineLoadingComponent,
   ],
   exports: [
     WorkPackagesTableComponent,

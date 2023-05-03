@@ -3,6 +3,11 @@ de:
   permission_view_file_links: "Datei-Links anzeigen"
   permission_manage_file_links: "Datei-Links verwalten"
   permission_manage_storages_in_project: "Datei-Speicher im Projekt verwalten"
+  permission_read_files: "Dateien lesen"
+  permission_write_files: "Dateien schreiben"
+  permission_create_files: "Dateien erstellen"
+  permission_delete_files: "Dateien löschen"
+  permission_share_files: "Dateien freigeben"
   project_module_storages: "Datei-Speicher"
   activerecord:
     models:

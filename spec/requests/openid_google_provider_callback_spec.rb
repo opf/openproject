@@ -51,6 +51,12 @@ describe 'OpenID Google provider callback' do
   end
 
   before do
+    # enable self registration for Google which is limited by default
+    expect(OpenProject::Plugins::AuthPlugin)
+      .to receive(:limit_self_registration?)
+      .with(provider: "google")
+      .and_return false
+
     with_enterprise_token :openid_providers
 
     stub_request(:post, "https://accounts.google.com/o/oauth2/token").to_return(

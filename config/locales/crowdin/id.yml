@@ -80,7 +80,7 @@ id:
       buttons:
         upgrade: "Tingkatkan sekarang"
         contact: "Hubungi kami untuk demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Tingkatkan ke paket berbayar untuk mengaktifkan dan mulai menggunakannya di tim Anda."
     journal_aggregation:
       explanation:
@@ -732,6 +732,9 @@ id:
               format: "%{message}"
             sort_criteria:
               invalid: "Tidak dapat diurutkan dengan kolom: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
@@ -2627,8 +2630,6 @@ id:
     Ketika menggunakan filed kustom: Perlu diingat bahwa field kustom perlu diaktifkan per proyek, juga.
   text_custom_field_hint_activate_per_project_and_type: >
     Field-field kustom perlu diaktifkan per jenis paket kerja dan per proyek.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >

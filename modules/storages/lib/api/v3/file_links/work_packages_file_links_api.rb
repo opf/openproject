@@ -43,7 +43,7 @@ class API::V3::FileLinks::WorkPackagesFileLinksAPI < API::OpenProjectAPI
                 .call(params)
 
       unless query.valid?
-        message = I18n.t('api_v3.errors.missing_or_malformed_parameter')
+        message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
         raise ::API::Errors::InvalidQuery.new(message)
       end
 

@@ -72,6 +72,24 @@ describe Projects::ArchiveContract do
 
         include_examples 'contract is valid'
       end
+
+      context 'when some of subprojects are archived but not all' do
+        before do
+          subproject1.update_column(:active, false)
+          create(:member, user: current_user, project: subproject2, roles: [archivist_role])
+        end
+
+        include_examples 'contract is valid'
+      end
+
+      context 'when all of subprojects are archived' do
+        before do
+          subproject1.update_column(:active, false)
+          subproject2.update_column(:active, false)
+        end
+
+        include_examples 'contract is valid'
+      end
     end
 
     include_examples 'contract is valid for active admins and invalid for regular users'

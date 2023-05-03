@@ -88,6 +88,8 @@ export class QueryResource extends HalResource {
 
   public timelineLabels:TimelineLabels;
 
+  public timestamps:string[];
+
   public showHierarchies:boolean;
 
   public public:boolean;

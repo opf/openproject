@@ -55,14 +55,19 @@ import { ApiV3HelpTextsPaths } from 'core-app/core/apiv3/endpoints/help_texts/ap
 import { ApiV3ConfigurationPath } from 'core-app/core/apiv3/endpoints/configuration/apiv3-configuration-path';
 import { ApiV3BoardsPaths } from 'core-app/core/apiv3/virtual/apiv3-boards-paths';
 import { RootResource } from 'core-app/features/hal/resources/root-resource';
-import { ApiV3PlaceholderUsersPaths } from 'core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths';
+import {
+  ApiV3PlaceholderUsersPaths,
+} from 'core-app/core/apiv3/endpoints/placeholder-users/apiv3-placeholder-users-paths';
 import { ApiV3GroupsPaths } from 'core-app/core/apiv3/endpoints/groups/apiv3-groups-paths';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3NotificationsPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notifications-paths';
 import { ApiV3ViewsPaths } from 'core-app/core/apiv3/endpoints/views/apiv3-views-paths';
 import { Apiv3BackupsPath } from 'core-app/core/apiv3/endpoints/backups/apiv3-backups-path';
 import { ApiV3DaysPaths } from 'core-app/core/apiv3/endpoints/days/api-v3-days-paths';
-import { Apiv3StoragesPaths } from 'core-app/core/apiv3/endpoints/storages/apiv3-storages-paths';
+import { ApiV3StoragesPaths } from 'core-app/core/apiv3/endpoints/storages/api-v3-storages-paths';
+import {
+  ApiV3ProjectStoragesPaths,
+} from 'core-app/core/apiv3/endpoints/project-storages/api-v3-project-storages-paths';
 
 @Injectable({ providedIn: 'root' })
 export class ApiV3Service {
@@ -86,6 +91,9 @@ export class ApiV3Service {
 
   // /api/v3/notifications
   public readonly notifications = this.apiV3CustomEndpoint(ApiV3NotificationsPaths);
+
+  // /api/v3/github_pull_requests
+  public readonly github_pull_requests = this.apiV3CollectionEndpoint('github_pull_requests');
 
   // /api/v3/grids
   public readonly grids = this.apiV3CustomEndpoint(ApiV3GridsPaths);
@@ -121,7 +129,10 @@ export class ApiV3Service {
   public readonly news = this.apiV3CustomEndpoint(ApiV3NewsPaths);
 
   // /api/v3/storages
-  public readonly storages = this.apiV3CustomEndpoint(Apiv3StoragesPaths);
+  public readonly storages = this.apiV3CustomEndpoint(ApiV3StoragesPaths);
+
+  // /api/v3/project_storages
+  public readonly projectStorages = this.apiV3CustomEndpoint(ApiV3ProjectStoragesPaths);
 
   // /api/v3/types
   public readonly types = this.apiV3CustomEndpoint(ApiV3TypesPaths);
@@ -162,9 +173,10 @@ export class ApiV3Service {
   // VIRTUAL boards are /api/v3/grids + a scope filter
   public readonly boards = this.apiV3CustomEndpoint(ApiV3BoardsPaths);
 
-  constructor(readonly injector:Injector,
-    readonly pathHelper:PathHelperService) {
-  }
+  constructor(
+    readonly injector:Injector,
+    readonly pathHelper:PathHelperService,
+  ) { }
 
   /**
    * Returns the part of the API that exists both
@@ -193,6 +205,7 @@ export class ApiV3Service {
   }
 
   private apiV3CustomEndpoint<T>(cls:Constructor<T>):T {
+    // eslint-disable-next-line new-cap
     return new cls(this, this.pathHelper.api.v3.apiV3Base);
   }
 

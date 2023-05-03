@@ -80,7 +80,7 @@ uk:
       buttons:
         upgrade: "Оновити зараз"
         contact: "Зв’яжіться з нами, щоб отримати демоверсію"
-      enterprise_info_html: "– доповнення версії Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Перейдіть на платний план, щоб активувати його та почати використовувати його у своїй команді."
     journal_aggregation:
       explanation:
@@ -736,6 +736,9 @@ uk:
               format: "%{message}"
             sort_criteria:
               invalid: "Неможливо сортувати за стовпцями: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
@@ -2684,8 +2687,6 @@ uk:
     При використанні спеціальних полів: Майте на увазі, що спеціальні поля повинні бути активовані для кожного проекту.
   text_custom_field_hint_activate_per_project_and_type: >
     Користувальницькі поля повинні бути активовані за типом робочого пакета та проекту.
-  text_wp_custom_field_html: >
-    У версії Enterprise з’являться такі додаткові доповнення для користувацьких полів пакетів робіт: <br> <ul><li><b>Дозволити вибір кількох користувацьких полів типу «Список» або «Користувач»</b></li> </ul>
   text_wp_status_read_only_html: >
     У версії Enterprise Edition з’являться такі додаткові доповнення для полів статусу пакетів робіт: <br> <ul><li><b>Дозволити позначати пакети робіт певних статусів як доступні тільки для читання</b></li> </ul>
   text_project_custom_field_html: >

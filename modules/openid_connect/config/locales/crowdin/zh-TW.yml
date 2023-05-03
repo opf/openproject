@@ -9,6 +9,7 @@ zh-TW:
         identifier: 識別碼
         secret: 金鑰
         scope: 範圍
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID 提供者
     providers:
@@ -17,3 +18,6 @@ zh-TW:
       no_results_table: 尚未定義任何提供者。
       plural: OpenID 提供者
       singular: OpenID 提供者
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

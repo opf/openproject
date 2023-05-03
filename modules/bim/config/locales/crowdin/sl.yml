@@ -2,12 +2,12 @@
 sl:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Clash
-    default_type_issue: Issue
-    default_type_remark: Remark
-    default_type_request: Request
-    default_status_resolved: Resolved
-    default_priority_critical: Critical
+    default_type_clash: Konflikt
+    default_type_issue: Težava
+    default_type_remark: Opomba
+    default_type_request: Zahteva
+    default_status_resolved: Rešeno
+    default_priority_critical: Kritično
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Uvoz tematike BCF ni uspel'
@@ -121,8 +121,8 @@ sl:
     no_results: "V tem projektu ni bil naložen noben model IFC."
     conversion_status:
       label: 'Obdelovanje?'
-      pending: 'Pending'
-      processing: 'Processing'
+      pending: 'Čakajoče'
+      processing: 'V obdelavi'
       completed: 'Zaključeno'
       error: 'Napaka'
     processing_notice:

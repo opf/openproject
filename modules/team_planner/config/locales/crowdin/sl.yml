@@ -7,7 +7,7 @@ sl:
     label_team_planner: "Team planner"
     label_create_new_team_planner: "Create new team planner"
     label_team_planner_plural: "Team planners"
-    label_assignees: "Assignees"
+    label_assignees: "Prevzemniki"
     upsale:
       title: "Team planner"
       description: "Get a complete overview of your team’s planning with Team Planner. Stretch, shorten and drag-and-drop work packages to modify dates, move them or change assignees."

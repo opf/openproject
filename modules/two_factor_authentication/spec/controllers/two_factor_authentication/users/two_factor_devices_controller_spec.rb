@@ -23,7 +23,7 @@ describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
     allow(User).to receive(:current).and_return(logged_in_user)
     allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
       .to receive(:add_default_strategy?)
-      .and_return false
+            .and_return false
   end
 
   describe 'accessing' do
@@ -93,14 +93,12 @@ describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
     end
 
     describe '#register' do
-      before do
-        post :register, params: { id: user.id, key: :sms, device: params }
-      end
-
       context 'with missing phone' do
         let(:params) { { identifier: 'foo' } }
 
         it 'renders action new' do
+          post :register, params: { id: user.id, key: :sms, device: params }
+
           expect(response).to be_successful
           expect(response).to render_template 'new'
           expect(assigns[:device]).to be_invalid
@@ -111,6 +109,8 @@ describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
         let(:params) { { phone_number: '+49123456789', identifier: 'foo' } }
 
         it 'redirects to result' do
+          post :register, params: { id: user.id, key: :sms, device: params }
+
           device = user.otp_devices.reload.last
           expect(response).to redirect_to edit_user_path(user.id, tab: :two_factor_authentication)
 
@@ -119,6 +119,54 @@ describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
           expect(device.default).to be_truthy
           expect(device.active).to be_truthy
         end
+
+        context 'when user has active sessions' do
+          let!(:plain_session1) { create(:user_session, user:) }
+          let!(:user_session1) { Sessions::UserSession.find_by(session_id: plain_session1.session_id) }
+
+          let!(:plain_session2) { create(:user_session, user:) }
+          let!(:user_session2) { Sessions::UserSession.find_by(session_id: plain_session2.session_id) }
+
+          let!(:other_plain_session) { create(:user_session, user: other_user) }
+          let!(:other_session) { Sessions::UserSession.find_by(session_id: other_plain_session.session_id) }
+
+          it 'drops all sessions of that user' do
+            post :register, params: { id: user.id, key: :sms, device: params }
+
+            expect { user_session1.reload }.to raise_error(ActiveRecord::RecordNotFound)
+            expect { user_session2.reload }.to raise_error(ActiveRecord::RecordNotFound)
+
+            expect { other_session.reload }.not_to raise_error
+          end
+
+          context 'when user has an active device' do
+            let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
+
+            it 'does nothing' do
+              post :register, params: { id: user.id, key: :sms, device: params }
+
+              expect(user.otp_devices.count).to eq 2
+              expect(device.reload).to be_default
+              expect(user.otp_devices.last).to be_active
+              expect(user.otp_devices.last).not_to be_default
+
+              expect { user_session1.reload }.not_to raise_error
+              expect { user_session2.reload }.not_to raise_error
+
+              expect { other_session.reload }.not_to raise_error
+            end
+          end
+        end
+      end
+    end
+
+    describe '#confirm' do
+      it 'fails on GET' do
+        expect { get :confirm }.to raise_error(ActionController::UrlGenerationError)
+      end
+
+      it 'fails on POST' do
+        expect { post :confirm }.to raise_error(ActionController::UrlGenerationError)
       end
     end
 

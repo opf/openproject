@@ -73,7 +73,9 @@ get:
       example: 1
     - description: |-
         In order to perform a [baseline comparison](/docs/api/baseline-comparisons) of the work-package attributes, you may
-        provide one or several timestamps in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative.
+        provide one or several timestamps in ISO-8601 format as comma-separated list. The timestamps may be absolute or relative,
+        such as ISO8601 dates, ISO8601 durations and the following relative date keywords: "oneDayAgo@HH:MM", "lastWorkingDay@HH:MM",
+        "oneWeekAgo@HH:MM", "oneMonthAgo@HH:MM". The "HH:MM" part represents the zero paded hours and minutes.
         Usually, the first timestamp is the baseline date, the last timestamp is the current date.
       in: query
       name: timestamps

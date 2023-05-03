@@ -9,6 +9,7 @@ ja:
         identifier: 識別子
         secret: シークレット
         scope: スコープ
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID プロバイダー
     providers:
@@ -17,3 +18,6 @@ ja:
       no_results_table: プロバイダーが定義されていません。
       plural: OpenID プロバイダー
       singular: OpenID プロバイダー
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

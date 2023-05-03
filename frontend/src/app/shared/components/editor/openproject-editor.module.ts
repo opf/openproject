@@ -26,7 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OpenprojectAttachmentsModule } from 'core-app/shared/components/attachments/openproject-attachments.module';
@@ -40,6 +44,13 @@ import { WikiIncludePageMacroModalComponent } from 'core-app/shared/components/m
 import { ChildPagesMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-child-pages-modal/child-pages-macro.modal';
 import { CodeBlockMacroModalComponent } from 'core-app/shared/components/modals/editor/macro-code-block-modal/code-block-macro.modal';
 
+export function initializeServices(injector:Injector) {
+  return () => {
+    const ckeditorService = injector.get(CKEditorSetupService);
+    ckeditorService.initialize();
+  };
+}
+
 @NgModule({
   imports: [
     FormsModule,
@@ -52,6 +63,9 @@ import { CodeBlockMacroModalComponent } from 'core-app/shared/components/modals/
     EditorMacrosService,
     CKEditorSetupService,
     CKEditorPreviewService,
+    {
+      provide: APP_INITIALIZER, useFactory: initializeServices, deps: [Injector], multi: true,
+    },
   ],
   exports: [
     CkeditorAugmentedTextareaComponent,

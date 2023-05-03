@@ -228,7 +228,7 @@ fr:
           quick_overview: "Obtenez un aperçu rapide de la gestion de projets et de la collaboration en équipe avec la version Entreprise d'OpenProject."
         upsale:
           become_hero: "Devenez un héros !"
-          enterprise_info_html: "%{feature_title} est un <span class='spot-icon spot-icon_enterprise-addons'></span>add-on Entreprise."
+          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
           upgrade_info: "Veuillez passer à une offre payante pour l'activer et commencer à l'utiliser dans votre équipe."
           benefits:
             description: "Quels sont les avantages de l'édition Entreprise autohébergée ?"
@@ -920,6 +920,10 @@ fr:
       message_work_package_read_only: "Paquet de travail est verrouillé. Aucun attribut autre que l’État ne peut être modifié."
       message_work_package_status_blocked: "Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés."
       placeholder_filter_by_text: "Objet, description, commentaires, ..."
+      baseline:
+        addition_label: 'Added to view within the comparison time period'
+        removal_label: 'Removed from view within the comparison time period'
+        modification_label: 'Modified within the comparison time period'
       filters:
         title: 'Filtrer les lots de travaux'
       inline_create:
@@ -1250,6 +1254,23 @@ fr:
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'
         does_not_match_search: 'Le projet ne correspond pas aux critères de recherche.'
       no_results: 'Aucun projet ne correspond à vos critères de recherche.'
+    baseline:
+      toggle_title: 'Baseline'
+      clear: 'Clear'
+      apply: 'Apply'
+      header_description: 'View changes made to work packages in the current view within a time period.'
+      show_changes_since: 'Show changes since'
+      help_description: 'Default time zone of the instance set by the administrator.'
+      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time: 'Time'
+      drop_down:
+        none: '-'
+        yesterday: 'yesterday'
+        last_working_day: 'last working day'
+        last_week: 'last week'
+        last_month: 'last month'
+        a_specific_date: 'a specific date'
+        between_two_specific_dates: 'between two specific dates'
     forms:
       submit_success_message: 'Le formulaire a bien été envoyé'
       load_error_message: 'Une erreur s''est produite lors du chargement du formulaire'

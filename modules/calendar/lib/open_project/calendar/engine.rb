@@ -42,7 +42,7 @@ module OpenProject::Calendar
            :calendar_view,
            { controller: '/calendar/calendars', action: 'index' },
            caption: :label_calendar_plural,
-           icon: 'icon2 icon-calendar',
+           icon: 'calendar',
            after: :work_packages
 
       menu :project_menu,

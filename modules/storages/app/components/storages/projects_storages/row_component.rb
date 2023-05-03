@@ -44,7 +44,7 @@ module Storages::ProjectsStorages
     end
 
     def provider_type
-      project_storage.storage.provider_type
+      project_storage.storage.short_provider_type
     end
 
     def creator
@@ -53,7 +53,9 @@ module Storages::ProjectsStorages
     end
 
     def button_links
-      [edit_link, delete_link]
+      [delete_link].tap do |links|
+        links.unshift edit_link if OpenProject::FeatureDecisions.storage_project_folders_active?
+      end
     end
 
     def edit_link
