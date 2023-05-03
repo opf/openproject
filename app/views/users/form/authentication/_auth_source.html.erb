@@ -4,9 +4,15 @@
                             AuthSource.all,
                             :id,
                             :name,
-                            label: :'activerecord.attributes.user.auth_source',
-                            container_class: '-middle',
-                            include_blank: t(:label_internal) %>
+                            {
+                              label: :'activerecord.attributes.user.auth_source',
+                              container_class: '-middle',
+                              include_blank: t(:label_internal)
+                            },
+                            data: {
+                              action: 'admin-users#togglePasswordFields'
+                            }
+    %>
   </div>
 
   <div class="form--field" id="new_user_login" style="display: none;">
