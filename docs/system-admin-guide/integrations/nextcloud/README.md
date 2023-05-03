@@ -25,6 +25,8 @@ OpenProject offers close integration with Nextcloud to allow users to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
+> Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
+
 ## Minimum requirements
 
 Please note these minimum version requirements for the integration to work:
