@@ -31,6 +31,7 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -61,6 +62,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   @Output() submitted = new EventEmitter<void>();
 
+  @Input() showActionBar? = false;
+
   public dropDownDescription = '';
 
   public nonWorkingDays:IDay[] = [];
@@ -81,7 +84,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public daysNumber = 0;
 
-  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
+  public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
@@ -157,6 +160,10 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public onSubmit(e:Event):void {
     e.preventDefault();
+    this.onSave();
+  }
+
+  public onSave() {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
