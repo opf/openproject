@@ -29,6 +29,7 @@
 .attributes-key-value
   display: flex
   flex-wrap: wrap
+  align-items: flex-start
   font-size: 0.875rem
   margin-bottom: 0.1875rem
 
@@ -36,6 +37,8 @@
     @extend .form--label
     display: flex
     flex-basis: 170px
+    flex-grow: 1
+    flex-shrink: 0
     padding: 0.375rem 0
     font-weight: bold
     > wp-replacement-label
@@ -47,10 +50,9 @@
 
   &--value-container
     display: flex
-    flex: 1 0 65%
+    flex: 1000000 0 65%
     margin-bottom: 0.1875rem
     padding: 0.375rem 0
-    align-self: center
     height: 100%
 
     p

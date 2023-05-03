@@ -2,26 +2,9 @@
 
 .wp-attribute-group
   display: flex
-  flex-direction: row
-  flex-wrap: wrap
-
-  // We want a margin between items, but don't know if any one item is on the right,
-  // the left, or spanning both columns. The easy way to get a gutter is to give
-  // *all* elements margins on both sides, and then negating this margin on the parent.
-  // This also explains all of the + and - xrem calc() values below.
-  margin: 0 -1 * $spot-spacing-1_5
-  width: calc(100% + #{$spot-spacing-3})
+  flex-direction: column
+  align-items: stretch
+  width: 100%
 
   &--attribute
-    flex-basis: 20rem
-    flex-grow: 1
-    flex-shrink: 0
-    margin: 0 $spot-spacing-1_5
-    max-width: 100%
-
-    @media screen and (min-width: 92rem), print
-      flex-basis: calc(50% - #{$spot-spacing-3})
-      min-width: 25rem
-
-    &_span-all
-      flex-basis: calc(100% - #{$spot-spacing-3})
+    width: 100%
