@@ -27,7 +27,7 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2,
+  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnDestroy, OnInit, Renderer2,
 } from '@angular/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -46,6 +46,7 @@ export const globalSearchWorkPackagesSelector = 'global-search-work-packages';
 
 @Component({
   selector: globalSearchWorkPackagesSelector,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <wp-embedded-table *ngIf="!resultsHidden"
                        [queryProps]="queryProps"
@@ -69,7 +70,8 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     filterButtonText: this.I18n.t('js.button_advanced_filter'),
   };
 
-  constructor(readonly FocusHelper:FocusHelperService,
+  constructor(
+    readonly FocusHelper:FocusHelperService,
     readonly elementRef:ElementRef,
     readonly renderer:Renderer2,
     readonly I18n:I18nService,
@@ -79,7 +81,8 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     readonly querySpace:IsolatedQuerySpace,
     readonly wpFilters:WorkPackageFiltersService,
     readonly cdRef:ChangeDetectorRef,
-    private UrlParamsHelper:UrlParamsHelperService) {
+    private UrlParamsHelper:UrlParamsHelperService,
+  ) {
     super();
   }
 
@@ -115,7 +118,14 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
     const filters:any[] = [];
     let columns = ['id', 'project', 'subject', 'type', 'status', 'updatedAt'];
 
-    if (this.globalSearchService.searchTerm.length > 0) {
+    if (this.globalSearchService.searchTermIsId) {
+      filters.push({
+        id: {
+          operator: '=',
+          values: [this.globalSearchService.searchTermWithoutHash],
+        },
+      });
+    } else if (this.globalSearchService.searchTerm.length > 0) {
       filters.push({
         search: {
           operator: '**',
