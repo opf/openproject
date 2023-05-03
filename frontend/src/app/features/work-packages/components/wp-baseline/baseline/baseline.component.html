@@ -52,7 +52,7 @@
     </spot-tooltip>
 
 
-    <span slot="description" [textContent]="text.time_description()"></span>
+    <span slot="description" [textContent]="text.time_description()" *ngIf="isTimezoneSet"></span>
   </spot-form-field>
 
   <div class="spot-action-bar"
