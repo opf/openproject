@@ -43,6 +43,6 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 
 
 
-## Support ##
+## Support
 
 Find out more about our different [support options](../../enterprise-guide/support/).
