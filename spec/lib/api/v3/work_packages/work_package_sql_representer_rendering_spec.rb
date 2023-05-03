@@ -26,11 +26,11 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
-  include ::API::V3::Utilities::PathHelper
+describe API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
+  include API::V3::Utilities::PathHelper
 
   subject(:json) do
-    ::API::V3::Utilities::SqlRepresenterWalker
+    API::V3::Utilities::SqlRepresenterWalker
       .new(scope,
            current_user:,
            url_query: { select: })
@@ -50,7 +50,7 @@ describe ::API::V3::WorkPackages::WorkPackageSqlRepresenter, 'rendering' do
            author:,
            responsible:)
   end
-  let(:project) { create :project, types: [create(:type, is_milestone:)] }
+  let(:project) { create(:project, types: [create(:type, is_milestone:)]) }
   let(:is_milestone) { false }
   let(:assignee) { nil }
   let(:author) { create(:user) }

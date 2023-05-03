@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 
@@ -103,7 +103,7 @@ describe ServiceResult, type: :model do
       errors = ['errors']
       message = 'message'
       message_type = :message_type
-      state = instance_double(::Shared::ServiceState)
+      state = instance_double(Shared::ServiceState)
       dependent_results = ['dependent_results']
       result = instance_double(Object, 'result')
 
@@ -134,7 +134,7 @@ describe ServiceResult, type: :model do
     end
 
     it 'is what the object is initialized with' do
-      instance = described_class.new errors: errors
+      instance = described_class.new(errors:)
 
       expect(instance.errors).to eql errors
     end
@@ -144,10 +144,10 @@ describe ServiceResult, type: :model do
     end
 
     context 'when providing errors from user' do
-      let(:result) { build :work_package }
+      let(:result) { build(:work_package) }
 
       it 'creates a new errors instance' do
-        instance = described_class.new result: result
+        instance = described_class.new(result:)
         expect(instance.errors).not_to eq result.errors
       end
     end
@@ -157,7 +157,7 @@ describe ServiceResult, type: :model do
     let(:result) { instance_double(Object, 'result') }
 
     it 'is what the object is initialized with' do
-      instance = described_class.new result: result
+      instance = described_class.new(result:)
 
       expect(instance.result).to eql result
     end

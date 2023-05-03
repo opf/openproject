@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::FormRepresenter do
+describe API::V3::WorkPackages::FormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
@@ -59,10 +59,10 @@ describe ::API::V3::WorkPackages::FormRepresenter do
         let(:subject_error_message) { 'Subject can\'t be blank!' }
         let(:status_error_message) { 'Status can\'t be blank!' }
         let(:errors) { [subject_error, status_error] }
-        let(:subject_error) { ::API::Errors::Validation.new(:subject, subject_error_message) }
-        let(:status_error) { ::API::Errors::Validation.new(:status, status_error_message) }
-        let(:api_subject_error) { ::API::V3::Errors::ErrorRepresenter.new(subject_error) }
-        let(:api_status_error) { ::API::V3::Errors::ErrorRepresenter.new(status_error) }
+        let(:subject_error) { API::Errors::Validation.new(:subject, subject_error_message) }
+        let(:status_error) { API::Errors::Validation.new(:status, status_error_message) }
+        let(:api_subject_error) { API::V3::Errors::ErrorRepresenter.new(subject_error) }
+        let(:api_status_error) { API::V3::Errors::ErrorRepresenter.new(status_error) }
         let(:api_errors) { { subject: api_subject_error, status: api_status_error } }
 
         it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }

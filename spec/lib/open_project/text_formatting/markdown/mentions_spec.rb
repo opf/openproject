@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,20 +34,20 @@ describe OpenProject::TextFormatting,
   include_context 'expected markdown modules'
 
   describe '.format_text' do
-    shared_let(:project) { create :valid_project }
+    shared_let(:project) { create(:valid_project) }
     let(:identifier) { project.identifier }
     let(:options) { { project: } }
 
     shared_let(:role) do
-      create :role,
+      create(:role,
              permissions: %i(view_work_packages edit_work_packages
-                             browse_repository view_changesets view_wiki_pages)
+                             browse_repository view_changesets view_wiki_pages))
     end
 
     shared_let(:project_member) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: role
+             member_through_role: role)
     end
 
     before do
@@ -56,15 +56,15 @@ describe OpenProject::TextFormatting,
 
     context 'User links' do
       let(:role) do
-        create :role,
+        create(:role,
                permissions: %i[view_work_packages edit_work_packages
-                               browse_repository view_changesets view_wiki_pages]
+                               browse_repository view_changesets view_wiki_pages])
       end
 
       let(:linked_project_member) do
-        create :user,
+        create(:user,
                member_in_project: project,
-               member_through_role: role
+               member_through_role: role)
       end
 
       context 'User link via mention' do
@@ -189,10 +189,10 @@ describe OpenProject::TextFormatting,
 
           context "with an email address as login name" do
             let(:linked_project_member) do
-              create :user,
+              create(:user,
                      member_in_project: project,
                      member_through_role: role,
-                     login: "foo@bar.com"
+                     login: "foo@bar.com")
             end
 
             it_behaves_like 'format_text produces' do
@@ -260,7 +260,7 @@ describe OpenProject::TextFormatting,
         end
 
         context 'when visible user exists' do
-          let(:project) { create :project }
+          let(:project) { create(:project) }
           let(:role) { create(:role, permissions: %i(view_work_packages)) }
           let(:current_user) do
             create(:user,
@@ -324,8 +324,8 @@ describe OpenProject::TextFormatting,
 
     context 'Group reference' do
       let(:role) do
-        create :role,
-               permissions: []
+        create(:role,
+               permissions: [])
       end
 
       let(:linked_project_member_group) do

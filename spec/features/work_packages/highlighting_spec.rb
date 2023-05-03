@@ -1,42 +1,41 @@
 require 'spec_helper'
 
 describe 'Work Package highlighting fields',
-         with_ee: %i[conditional_highlighting],
-         js: true do
-  let(:user) { create :admin }
+         js: true, with_ee: %i[conditional_highlighting] do
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
 
-  let(:status1) { create :status, color: create(:color, hexcode: '#FF0000') } # rgba(255, 0, 0, 1)
-  let(:status2) { create :status, color: create(:color, hexcode: '#F0F0F0') } # rgba(240, 240, 240, 1)
+  let(:status1) { create(:status, color: create(:color, hexcode: '#FF0000')) } # rgba(255, 0, 0, 1)
+  let(:status2) { create(:status, color: create(:color, hexcode: '#F0F0F0')) } # rgba(240, 240, 240, 1)
 
   let(:priority1) do
-    create :issue_priority, color: create(:color, hexcode: '#123456')
+    create(:issue_priority, color: create(:color, hexcode: '#123456'))
   end
-  let(:priority_no_color) { create :issue_priority, color: nil }
+  let(:priority_no_color) { create(:issue_priority, color: nil) }
 
   let!(:wp_1) do
-    create :work_package,
+    create(:work_package,
            project:,
            status: status1,
            subject: 'B',
            due_date: (Date.today - 1.day),
-           priority: priority1
+           priority: priority1)
   end
 
   let!(:wp_2) do
-    create :work_package,
+    create(:work_package,
            project:,
            status: status2,
            subject: 'A',
            due_date: Date.today,
-           priority: priority_no_color
+           priority: priority_no_color)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:highlighting) { ::Components::WorkPackages::Highlighting.new }
-  let(:sort_by) { ::Components::WorkPackages::SortBy.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:highlighting) { Components::WorkPackages::Highlighting.new }
+  let(:sort_by) { Components::WorkPackages::SortBy.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   let!(:query) do
     query = build(:query, user:, project:)
@@ -138,9 +137,9 @@ describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:status)
 
     ## This disables any inline styles
-    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
-    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
-    expect(page).to have_no_selector('[class*="__hl_date"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
+    expect(page).not_to have_selector('[class*="__hl_date"]')
 
     # Highlight entire row by priority
     highlighting.switch_entire_row_highlight 'Priority'
@@ -159,9 +158,9 @@ describe 'Work Package highlighting fields',
     page.driver.refresh
     expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
     expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority_no_color.id}")
-    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
-    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
-    expect(page).to have_no_selector('[class*="__hl_date"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
+    expect(page).not_to have_selector('[class*="__hl_date"]')
 
     # Save query
     wp_table.save
@@ -170,16 +169,16 @@ describe 'Work Package highlighting fields',
     expect(query.highlighting_mode).to eq(:priority)
 
     ## This disables any inline styles
-    expect(page).to have_no_selector('[class*="__hl_inline_status"]')
-    expect(page).to have_no_selector('[class*="__hl_inline_priority"]')
-    expect(page).to have_no_selector('[class*="__hl_date"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_status"]')
+    expect(page).not_to have_selector('[class*="__hl_inline_priority"]')
+    expect(page).not_to have_selector('[class*="__hl_date"]')
 
     # No highlighting
     highlighting.switch_highlighting_mode 'No highlighting'
-    expect(page).to have_no_selector('[class*="__hl_background"]')
-    expect(page).to have_no_selector('[class*="__hl_background_status"]')
-    expect(page).to have_no_selector('[class*="__hl_background_priority"]')
-    expect(page).to have_no_selector('[class*="__hl_date"]')
+    expect(page).not_to have_selector('[class*="__hl_background"]')
+    expect(page).not_to have_selector('[class*="__hl_background_status"]')
+    expect(page).not_to have_selector('[class*="__hl_background_priority"]')
+    expect(page).not_to have_selector('[class*="__hl_date"]')
 
     # Save query
     wp_table.save

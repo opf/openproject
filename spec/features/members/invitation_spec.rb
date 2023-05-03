@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'invite user via email', type: :feature, js: true do
-  let!(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_members }
-  let!(:developer) { create :role, name: 'Developer' }
+describe 'invite user via email', js: true do
+  let!(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_members) }
+  let!(:developer) { create(:role, name: 'Developer') }
   let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
@@ -75,10 +75,10 @@ describe 'invite user via email', type: :feature, js: true do
 
   context 'with a registered user' do
     let!(:user) do
-      create :user, mail: 'hugo@openproject.com',
+      create(:user, mail: 'hugo@openproject.com',
                     login: 'hugo@openproject.com',
                     firstname: 'Hugo',
-                    lastname: 'Hurried'
+                    lastname: 'Hurried')
     end
 
     it 'user lookup by email' do
@@ -86,7 +86,7 @@ describe 'invite user via email', type: :feature, js: true do
 
       retry_block do
         click_on 'Add member'
-        find('#members_add_form')
+        find_by_id('members_add_form')
       end
 
       members_page.search_and_select_principal! 'hugo@openproject.com',

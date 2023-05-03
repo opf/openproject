@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './eager_loading_mock_wrapper'
 
-describe ::API::V3::WorkPackages::EagerLoading::Checksum do
+describe API::V3::WorkPackages::EagerLoading::Checksum do
   let(:responsible) { create(:user) }
   let(:assignee) { create(:user) }
   let(:category) { create(:category) }
@@ -60,7 +60,9 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the status id' do
-      WorkPackage.where(id: work_package.id).update_all(status_id: 0)
+      new_status = create(:status)
+
+      WorkPackage.where(id: work_package.id).update_all(status_id: new_status.id)
 
       expect(new_checksum)
         .not_to eql orig_checksum
@@ -130,7 +132,8 @@ describe ::API::V3::WorkPackages::EagerLoading::Checksum do
     end
 
     it 'produces a different checksum on changes to the type id' do
-      WorkPackage.where(id: work_package.id).update_all(type_id: 0)
+      new_type = create(:type)
+      WorkPackage.where(id: work_package.id).update_all(type_id: new_type.id)
 
       expect(new_checksum)
         .not_to eql orig_checksum

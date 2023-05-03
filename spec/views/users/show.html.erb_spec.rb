@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe 'users/show', type: :view do
-  let(:project)    { create :valid_project }
-  let(:user)       { create :admin, member_in_project: project }
-  let(:custom_field) { create :text_user_custom_field }
+describe 'users/show' do
+  let(:project)    { create(:valid_project) }
+  let(:user)       { create(:admin, member_in_project: project) }
+  let(:custom_field) { create(:text_user_custom_field) }
   let(:visibility_custom_value) do
     create(:principal_custom_value,
            customized: user,
@@ -45,7 +45,7 @@ describe 'users/show', type: :view do
 
     assign(:user, user)
     assign(:memberships, user.memberships)
-    assign(:events_by_day, [])
+    assign(:events, [])
   end
 
   it 'renders the visible custom values' do

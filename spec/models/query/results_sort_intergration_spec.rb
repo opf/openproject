@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, 'sorting and grouping', with_mail: false do
+describe Query::Results, 'sorting and grouping', with_mail: false do
   create_shared_association_defaults_for_work_package_factory
 
   let(:query) do
@@ -265,6 +265,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package2) { create(:work_package, project: project2) }
     let(:work_package3) { create(:work_package, project: project3) }
 
+    before { [work_package1, work_package2, work_package3] }
+
     context 'when ascending' do
       let(:sort_by) { [%w[project asc]] }
 
@@ -297,6 +299,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1, category: category1) }
     let(:work_package2) { create(:work_package, project: project1, category: category2) }
     let(:work_package3) { create(:work_package, project: project1, category: category3) }
+
+    before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
       let(:sort_by) { [%w[category asc]] }
@@ -331,6 +335,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package2) { create(:work_package, project: project1, subject: 'WorkPackage b') }
     let(:work_package3) { create(:work_package, project: project1, subject: 'WorkPackage C') }
 
+    before { [work_package1, work_package2, work_package3] }
+
     context 'when ascending' do
       let(:sort_by) { [%w[subject asc]] }
 
@@ -363,6 +369,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     let(:work_package1) { create(:work_package, project: project1, due_date: 3.days.ago) }
     let(:work_package2) { create(:work_package, project: project1, due_date: 2.days.ago) }
     let(:work_package3) { create(:work_package, project: project1, due_date: 1.day.ago) }
+
+    before { [work_package1, work_package2, work_package3] }
 
     context 'when ascending' do
       let(:sort_by) { [%w[due_date asc]] }
@@ -416,6 +424,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     before do
+      [work_package1, work_package2, work_package3]
+
       work_package1.project.work_package_custom_fields << string_cf
       work_package1.type.custom_fields << string_cf
 
@@ -424,7 +434,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when ascending' do
-      let(:sort_by) { [["cf_#{string_cf.id}", 'asc']] }
+      let(:sort_by) { [[string_cf.column_name, 'asc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)
@@ -475,6 +485,8 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     before do
+      [work_package1, work_package2, work_package3]
+
       work_package1.project.work_package_custom_fields << int_cf
       work_package1.type.custom_fields << int_cf
 
@@ -483,7 +495,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when ascending' do
-      let(:sort_by) { [["cf_#{int_cf.id}", 'asc']] }
+      let(:sort_by) { [[int_cf.column_name, 'asc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)
@@ -492,7 +504,7 @@ describe ::Query::Results, 'sorting and grouping', with_mail: false do
     end
 
     context 'when descending' do
-      let(:sort_by) { [["cf_#{int_cf.id}", 'desc']] }
+      let(:sort_by) { [[int_cf.column_name, 'desc']] }
 
       it 'sorts case insensitive' do
         expect(query_results.work_packages)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Principals::Scopes::PossibleAssignee, type: :model do
+describe Principals::Scopes::PossibleAssignee do
   let(:project) { create(:project) }
   let(:other_project) { create(:project) }
   let(:role_assignable) { true }
@@ -108,6 +108,22 @@ describe Principals::Scopes::PossibleAssignee, type: :model do
       it 'returns nothing' do
         expect(subject)
           .to be_empty
+      end
+    end
+
+    context 'when asking for multiple projects' do
+      subject { Principal.possible_assignee([project, other_project]) }
+
+      before do
+        create(:member,
+               principal: member_user,
+               project: other_project,
+               roles: [role])
+      end
+
+      it 'returns users assignable in all of the provided projects (intersection)' do
+        expect(subject)
+          .to match_array([member_user])
       end
     end
   end

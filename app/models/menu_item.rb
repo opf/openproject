@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 class MenuItem < ApplicationRecord
-  belongs_to :parent, class_name: 'MenuItem'
+  belongs_to :parent, class_name: 'MenuItem', optional: true
   has_many :children, -> {
     order('id ASC')
   }, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id

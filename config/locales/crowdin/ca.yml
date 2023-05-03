@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -229,6 +229,7 @@ ca:
       failed_text: "La petició per a eliminar el projecte %{name} ha fallat. El projecte s'ha arxivat."
       completed: "S'ha completat l'eliminació del projecte %{name}"
       completed_text: "La petició d'eliminació del projecte '%{name}' s'ha completat."
+      completed_text_children: "Addicionalment, s'han eliminat els següents subprojectes:"
     index:
       open_as_gantt: 'Obre com a diagrama de Gantt'
       open_as_gantt_title: "Utilitza aquest botó per a generar un diagrama de Gantt que filtra paquets de treball pels projectes visibles en aquesta pàgina."
@@ -333,6 +334,7 @@ ca:
   wiki:
     page_not_editable_index: La pàgina sol·licitada no existeix (encara). Se t'ha redirigit a la pàgina índex de totes les pàgines wiki.
     no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    print_hint: Aquesta acció imprimirà el contingut de la pàgina wiki sense cap barra de navegació.
     index:
       no_results_content_text: Afegiu una nova pàgina wiki
   work_flows:
@@ -343,6 +345,8 @@ ca:
       one: 'Un paquet de treball descendent'
       other: '%{count} paquets de treball descendents'
     bulk:
+      copy_failed: "No s'ha pogut copiar els paquets de treball."
+      move_failed: "No s'ha pogut moure els paquets de treball."
       could_not_be_saved: "Els següents paquets de treball no s'han pogut desar:"
       none_could_be_saved: "Cap dels %{total} paquets de treball s'ha pogut actualitzar."
       x_out_of_y_could_be_saved: "%{failing} de %{total} paquets de treball no s'han pogut actualitzar mentre %{success} s'han actualitzat."
@@ -371,7 +375,7 @@ ca:
   account:
     delete: "Elimina el compte"
     delete_confirmation: "Segur que vols eliminar aquest compte?"
-    deleted: "Compte suprimit amb èxit"
+    deletion_pending: "El compte ha estat bloquejat i està programada per eliminar-se. Tingues en compte que aquesta acció es processa de fons. Pot tardar uns moments fins que l'usuari estigui eliminat completament."
     deletion_info:
       data_consequences:
         other: "De les dades de l'usuari ha creat (per exemple, correu electrònic, preferències, paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible. Fixeu-vos que dades com paquets de treball i entrades de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades es reassignaran a un compte genèric anomenat \"Usuari esborrat\". Com que les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric no serà possible distingir les dades d'aquest usuari de les dades d'un altre usuari esborrat."
@@ -466,14 +470,24 @@ ca:
       member:
         roles: "Rol"
       project:
+        active_value:
+          true: "desarxivat"
+          false: "arxivat"
         identifier: "Identificador"
         latest_activity_at: "Última activitat al"
         parent: "Subprojecte de"
+        public_value:
+          title: "Visibilitat"
+          true: "públic"
+          false: "privat"
         queries: "Consultes"
+        templated: "Plantilla de projecte"
+        templated_value:
+          true: "marca com a plantilla"
+          false: "desmarca com a plantilla"
         types: "Tipus"
         versions: "Versions"
         work_packages: "Paquets de treball"
-        templated: 'Plantilla de projecte'
       projects/status:
         code: 'Estat'
         explanation: 'Descripció de l''estat'
@@ -685,6 +699,11 @@ ca:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal IAN (notificacions en aplicació).'
             reason_mail_digest:
               no_notification_reason: 'no pot ser buit ja que s''ha escollit com a canal correu automàtic.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un dia no laborable ja existeix el %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -695,6 +714,8 @@ ca:
           archived_ancestor: 'El projecte té un ancestre arxivat.'
           foreign_wps_reference_version: 'Els paquets de treball en projectes no descendents referencien versions del projecte o els seus descendents.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "No tens els permisos requerits per arxivar tots els subprojectes. Si us plau, contacta amb un administrador."
             types:
               in_use_by_work_packages: "encara en ús pels paquets de treball: %{types}"
             enabled_modules:
@@ -888,8 +909,22 @@ ca:
     header_invalid_fields: "S'han detectat problemes en els camps següents:"
     field_erroneous_label: "Aquest camp no és vàlid: %{full_errors} si us plau, introduïu un valor correcte."
   activity:
-    created: "Creat: %{title}"
-    updated: "Actualitzat: %{title}"
+    item:
+      created_by_on: "creat per %{user} el %{datetime}"
+      created_on: "creat el %{datetime}"
+      updated_by_on: "actualitzat per %{user} el %{datetime}"
+      updated_on: "actualitzat el %{datetime}"
+      parent_without_of: "Subprojecte"
+      parent_no_longer: "Ja no és subprojecte de"
+    filter:
+      changeset: "Conjunt de canvis"
+      message: "Fòrums"
+      news: "Notícies"
+      project_attribute: "Atributs de projecte"
+      subproject: "Inclou subprojectes"
+      time_entry: "Temps invertit"
+      wiki_edit: "Wiki"
+      work_package: "Paquets de treball"
   #common attributes of all models
   attributes:
     active: "Actiu"
@@ -1025,6 +1060,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
+  button_apply_changes: "Aplicar canvis"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
   button_sort: "Ordena"
@@ -1261,7 +1297,7 @@ ca:
       form_configuration:
         description: "Personalitza la configuració del formulari amb aquests add-ons extres:"
         add_groups: "Afegir un nou atribut de grups"
-        rename_groups: "Canviar de nom atribut de grups"
+        rename_groups: "Reanomena els atributs de grups"
       project_filters:
         description_html: "Filtrar i ordenar camps personalitzats és un add-on de l'edició Enterprise."
   enumeration_activities: "Activitats de rastrejament del temps"
@@ -1320,16 +1356,20 @@ ca:
   error_external_authentication_failed: "S'ha produït un error durant l'autentificació externa. Torneu-ho a provar."
   error_attribute_not_highlightable: "Atribut(s) no destacables: %{attributes}"
   events:
-    project: 'Projecte editat'
     changeset: 'Conjunt de canvis editat'
     message: Missatge editat
     news: Notícies
+    project_attributes: 'Atributs del projecte editats'
+    projects: 'Projecte editat'
     reply: Respost
     time_entry: 'Registre horari editat'
     wiki_page: 'Pàgina wiki editada'
     work_package_closed: 'Paquet de treball tancat'
     work_package_edit: 'Paquet de treball editat'
     work_package_note: 'Afegida nota al paquet de treball'
+    title:
+      project: "Projecte: %{name}"
+      subproject: "Subprojecte: %{name}"
   export:
     your_work_packages_export: "La teva exportació de paquets de treball"
     succeeded: "L'exportació s'ha completat amb èxit."
@@ -1355,7 +1395,6 @@ ca:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Català"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "sí"
@@ -1741,6 +1780,10 @@ ca:
   label_not_contains: "no conté"
   label_not_equals: "no és"
   label_on: "en"
+  label_operator_all: "no està buit"
+  label_operator_none: "està buit"
+  label_operator_equals_or: "és (OR)"
+  label_operator_equals_all: "és (AND)"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -1782,6 +1825,8 @@ ca:
   label_product_version: "Versió del producte"
   label_professional_support: "Suport professional"
   label_profile: "Perfil"
+  label_project_activity: "Activitat del projecte"
+  label_project_attribute_plural: "Atributs de projecte"
   label_project_count: "Nombre total de projectes"
   label_project_copy_notifications: "Envia notificacions de correu electrònic durant la còpia del projecte"
   label_project_latest: "Últims projectes"
@@ -2069,8 +2114,6 @@ ca:
   mail_subject_incoming_email_error: "Un correu electrònic que vas enviar a OpenProject no s'ha pogut processar."
   mail_subject_lost_password: "La teva contrasenya %{value}"
   mail_subject_register: "L'activació del teu compte %{value}"
-  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days} dies"
-  mail_subject_group_reminder: "Pel grup \"%{group}\" %{count} paquet(s) de treball arribaran a la seva data final en els pròxims %{days} dies"
   mail_subject_wiki_content_added: "S'ha afegit la pàgina wiki «%{id}»"
   mail_subject_wiki_content_updated: "S'ha actualitzat la pàgina wiki «%{id}»"
   mail_member_added_project:
@@ -2201,6 +2244,7 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Crear un projecte"
+  permission_archive_project: "Arxiva el projecte"
   permission_manage_user: "Crear i editar usuaris"
   permission_manage_placeholder_user: "Crea, edita i elimina usuaris de marcador de posició"
   permission_add_subprojects: "Crear subprojectes"
@@ -2636,12 +2680,13 @@ ca:
   text_work_packages_destroy_confirmation: "¿Estàs segur que vols eliminar el(s) paquet(s) de treball seleccionat(s)?"
   text_work_packages_ref_in_commit_messages: "Referència i arregla els paquets de treball en els missatges dels commits"
   text_journal_added: "S'ha afegit %{label} %{value}"
-  text_journal_changed_html: "%{label} ha canviat de %{old} %{linebreak}<strong>a</strong> %{new}"
   text_journal_changed_plain: "%{label} ha canviat de %{old} %{linebreak}a %{new}"
   text_journal_changed_no_detail: "S'ha actualitzat %{label}"
   text_journal_changed_with_diff: "%{label} canviat (%{link})"
   text_journal_deleted: "%{label} s'ha suprimit (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} s'ha establert a %{value}"
   text_journal_set_with_diff: "%{label} canviat (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2934,13 +2979,18 @@ ca:
       title: "Suprimir el paquet de treball"
   working_days:
     info: >
-      <b>Defineix els dies laborals de la setmana</b><br/> Els dies no laborals s'ometen en planificar paquets de treball i estan exclosos en calcular duracions. Aquests poden ser ignorats en nivell de paquets de treball.
+      <b>Defineix els dies que es consideren part de la setmana laboral</b><br/> Els dies no seleccionats seran omesos en planificar paquets de treball (i no seran inclosos en contar dies). Aquests poden ser substituïts directament als paquets de treball.
+    instance_wide_info: >
+      <b>Dies no laborals no especificats (vacances i dies de tancament)</b><br/> Les dates afegides a la llista de sota es consideraran dies no laboral i s'ometran en planificar paquets de treball.
     change_button: "Canvia els dies laborals"
     warning: >
-      Canviar quins dies de la setmana són laborals pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància.
+      Canviar quins dies de la setmana es consideren laborables i quins no pot afectar les dates d'inici i final de tots els paquets de treball en tots els projectes d'aquesta instància. <br/>Si us plau, tingues en compte que els canvis només s'apliquen després de fer clic al botó d'aplicar els canvis.
     journal_note:
       changed: _**Dies laborals"" han canviat (%{changes})._
       days:
+        working: "%{day} és ara laboral"
+        non_working: "%{day} és ara no laboral"
+      dates:
         working: "%{day} és ara laboral"
         non_working: "%{day} és ara no laboral"
   nothing_to_preview: "Res per previsualitzar"

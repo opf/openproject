@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
 
-describe ::Storages::ProjectStorages::DeleteService, type: :model do
+describe Storages::ProjectStorages::DeleteService, type: :model do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:existing_role, permissions: [:manage_storages_in_project]) }
@@ -46,7 +46,7 @@ describe ::Storages::ProjectStorages::DeleteService, type: :model do
       project_storage
       described_class.new(model: project_storage, user:).call
 
-      expect(::Storages::ProjectStorage.where(id: project_storage.id))
+      expect(Storages::ProjectStorage.where(id: project_storage.id))
         .not_to exist
     end
 
@@ -56,9 +56,9 @@ describe ::Storages::ProjectStorages::DeleteService, type: :model do
 
       described_class.new(model: project_storage, user:).call
 
-      expect(::Storages::FileLink.where(id: file_link.id))
+      expect(Storages::FileLink.where(id: file_link.id))
         .not_to exist
-      expect(::Storages::FileLink.where(id: other_file_link.id))
+      expect(Storages::FileLink.where(id: other_file_link.id))
         .to exist
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -589,7 +589,7 @@ class MailHandler < ActionMailer::Base
       subject: email.subject,
       from: email.from&.first || '(unknown from address)',
       quote: incoming_email_quote(email),
-      text: incoming_email_text(email)
+      text: plain_text_body || incoming_email_text(email)
     }
   end
 

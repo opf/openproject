@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
+describe API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
@@ -40,34 +40,25 @@ describe ::API::V3::Memberships::Schemas::MembershipSchemaRepresenter do
   let(:principal) { build_stubbed(:group) }
   let(:assigned_project) { nil }
   let(:assigned_principal) { nil }
-  let(:allowed_roles) do
-    if new_record
-      [build_stubbed(:role),
-       build_stubbed(:role)]
-    end
-  end
+  let(:member) { build_stubbed(:member) }
 
   let(:contract) do
-    contract = double('contract',
-                      new_record?: new_record,
-                      project: assigned_project,
-                      principal: assigned_principal)
+    contract = instance_double(new_record ? Members::CreateContract : Members::UpdateContract,
+                               model: member,
+                               new_record?: new_record,
+                               project: assigned_project,
+                               principal: assigned_principal)
 
     allow(contract)
       .to receive(:writable?) do |attribute|
       writable = %w(roles)
 
       if new_record
-        writable = writable.concat(%w(project principal))
+        writable.concat(%w(project principal))
       end
 
       writable.include?(attribute.to_s)
     end
-
-    allow(contract)
-      .to receive(:assignable_values)
-      .with(:roles, current_user)
-      .and_return(allowed_roles)
 
     contract
   end

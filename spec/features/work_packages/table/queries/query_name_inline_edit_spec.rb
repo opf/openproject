@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,10 +62,10 @@ describe 'Query name inline edit', js: true do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:query_title) { ::Components::WorkPackages::QueryTitle.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:query_title) { Components::WorkPackages::QueryTitle.new }
 
   before do
     login_as(user)
@@ -110,7 +110,7 @@ describe 'Query name inline edit', js: true do
     expect(assignee_query.name).to eq 'Not my assignee query'
 
     # Rename query through context menu
-    wp_table.click_setting_item 'Rename view ...'
+    wp_table.click_setting_item 'Rename view'
 
     expect(page).to have_focus_on('.editable-toolbar-title--input')
     page.driver.browser.switch_to.active_element.send_keys('Some other name')

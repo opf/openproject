@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy parent below', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
   let(:project) { create(:project, types: [type_task, type_bug]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as(user)
@@ -145,7 +145,7 @@ describe 'Work Package table hierarchy parent below', js: true do
   describe 'An arrow is beside parent name' do
     let(:child) { create(:work_package, subject: 'AA Child WP', project:, parent:) }
     let(:parent) { create(:work_package, subject: 'ZZ Parent WP', project:) }
-    let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+    let(:relations) { Components::WorkPackages::Relations.new(parent) }
 
     before do
       child
@@ -162,7 +162,7 @@ describe 'Work Package table hierarchy parent below', js: true do
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).to have_no_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-icon')
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::Projects::ScheduleDeletionService, type: :model do
+describe Projects::ScheduleDeletionService, type: :model do
   let(:contract_class) do
     contract = double('contract_class', '<=': true)
 
@@ -83,17 +83,36 @@ describe ::Projects::ScheduleDeletionService, type: :model do
 
   subject { instance.call }
 
+  before do
+    allow(Projects::DeleteProjectJob)
+      .to receive(:perform_later)
+  end
+
   context 'if contract and archiving are successful' do
     it 'archives the project and creates a delayed job' do
-      expect(archive_service)
-        .to receive(:call)
-        .and_return(archive_result)
-
-      expect(::Projects::DeleteProjectJob)
-        .to receive(:perform_later)
-        .with(user:, project:)
-
       expect(subject).to be_success
+
+      expect(archive_service)
+        .to have_received(:call)
+
+      expect(Projects::DeleteProjectJob)
+        .to have_received(:perform_later)
+        .with(user:, project:)
+    end
+  end
+
+  context 'if project is archived already' do
+    let(:project) { build_stubbed(:project, active: false) }
+
+    it 'does not call archive service' do
+      expect(subject).to be_success
+
+      expect(archive_service)
+        .not_to have_received(:call)
+
+      expect(Projects::DeleteProjectJob)
+        .to have_received(:perform_later)
+        .with(user:, project:)
     end
   end
 
@@ -110,7 +129,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
     end
 
     it 'does not schedule a job' do
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       subject
@@ -130,7 +149,7 @@ describe ::Projects::ScheduleDeletionService, type: :model do
     end
 
     it 'does not schedule a job' do
-      expect(::Projects::DeleteProjectJob)
+      expect(Projects::DeleteProjectJob)
         .not_to receive(:new)
 
       subject

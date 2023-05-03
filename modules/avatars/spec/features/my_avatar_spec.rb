@@ -1,10 +1,10 @@
 require 'spec_helper'
 require_relative './shared_avatar_examples'
 
-describe 'My avatar management', type: :feature, js: true do
+describe 'My avatar management', js: true do
   include Rails.application.routes.url_helpers
 
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:target_user) { user }
   let(:avatar_management_path) { edit_my_avatar_path }
 
@@ -26,7 +26,7 @@ describe 'My avatar management', type: :feature, js: true do
       expect(page).to have_text '[Error 404]'
 
       visit my_account_path
-      expect(page).to have_no_selector '.avatar-menu-item'
+      expect(page).not_to have_selector '.avatar-menu-item'
     end
   end
 end

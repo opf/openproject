@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,18 @@
 require 'spec_helper'
 
 describe 'filter me value', js: true do
-  let(:status) { create :default_status }
-  let!(:priority) { create :default_priority }
+  let(:status) { create(:default_status) }
+  let!(:priority) { create(:default_priority) }
   let(:project) do
-    create :project,
+    create(:project,
            public: true,
-           members: project_members
+           members: project_members)
   end
-  let(:role) { create :existing_role, permissions: %i[view_work_packages work_package_assigned] }
-  let(:admin) { create :admin }
-  let(:user) { create :user }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:role) { create(:existing_role, permissions: %i[view_work_packages work_package_assigned]) }
+  let(:admin) { create(:admin) }
+  let(:user) { create(:user) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
   let(:project_members) do
     {
       admin => role,
@@ -50,8 +50,8 @@ describe 'filter me value', js: true do
   let!(:role_anonymous) { create(:anonymous_role, permissions: [:view_work_packages]) }
 
   describe 'assignee' do
-    let(:wp_admin) { create :work_package, status:, project:, assigned_to: admin }
-    let(:wp_user) { create :work_package, status:, project:, assigned_to: user }
+    let(:wp_admin) { create(:work_package, status:, project:, assigned_to: admin) }
+    let(:wp_user) { create(:work_package, status:, project:, assigned_to: user) }
 
     context 'as anonymous', with_settings: { login_required?: false } do
       current_user { User.anonymous }
@@ -90,7 +90,7 @@ describe 'filter me value', js: true do
         # Add and save query with me filter
         filters.open
         filters.remove_filter 'status'
-        filters.add_filter_by('Assignee', 'is', 'me')
+        filters.add_filter_by('Assignee', 'is (OR)', 'me')
 
         wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
@@ -102,7 +102,7 @@ describe 'filter me value', js: true do
         wp_table.expect_title 'Me query'
         query = Query.last
         expect(query.filters.first.values).to eq ['me']
-        filters.expect_filter_by('Assignee', 'is', 'me')
+        filters.expect_filter_by('Assignee', 'is (OR)', 'me')
 
         # Revisit query
         wp_table.visit_query query
@@ -110,7 +110,7 @@ describe 'filter me value', js: true do
         wp_table.expect_work_package_listed(wp_admin)
 
         filters.open
-        filters.expect_filter_by('Assignee', 'is', 'me')
+        filters.expect_filter_by('Assignee', 'is (OR)', 'me')
 
         # Expect new work packages receive assignee
         split_screen = wp_table.create_wp_by_button wp_user.type
@@ -147,20 +147,20 @@ describe 'filter me value', js: true do
              members: project_members)
     end
 
-    let(:cf_accessor) { "cf_#{custom_field.id}" }
-    let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
+    let(:cf_accessor) { custom_field.attribute_name }
+    let(:cf_accessor_frontend) { cf_accessor.camelcase(:lower) }
     let(:wp_admin) do
-      create :work_package,
+      create(:work_package,
              type: type_task,
              project:,
-             custom_field_values: { custom_field.id => admin.id }
+             custom_field_values: { custom_field.id => admin.id })
     end
 
     let(:wp_user) do
-      create :work_package,
+      create(:work_package,
              type: type_task,
              project:,
-             custom_field_values: { custom_field.id => user.id }
+             custom_field_values: { custom_field.id => user.id })
     end
 
     context 'as anonymous', with_settings: { login_required?: false } do
@@ -200,7 +200,7 @@ describe 'filter me value', js: true do
         # Add and save query with me filter
         filters.open
         filters.remove_filter 'status'
-        filters.add_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+        filters.add_filter_by('CF user', 'is (OR)', 'me', cf_accessor_frontend)
 
         wp_table.ensure_work_package_not_listed!(wp_user)
         wp_table.expect_work_package_listed(wp_admin)
@@ -212,7 +212,7 @@ describe 'filter me value', js: true do
         wp_table.expect_title 'Me query'
         query = Query.last
         expect(query.filters.first.values).to eq ['me']
-        filters.expect_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+        filters.expect_filter_by('CF user', 'is (OR)', 'me', cf_accessor_frontend)
 
         # Revisit query
         wp_table.visit_query query
@@ -220,7 +220,7 @@ describe 'filter me value', js: true do
         wp_table.expect_work_package_listed(wp_admin)
 
         filters.open
-        filters.expect_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+        filters.expect_filter_by('CF user', 'is (OR)', 'me', cf_accessor_frontend)
       end
     end
   end

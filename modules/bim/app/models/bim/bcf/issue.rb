@@ -1,5 +1,5 @@
 module Bim::Bcf
-  class Issue < ActiveRecord::Base
+  class Issue < ApplicationRecord
     self.table_name = :bcf_issues
 
     include InitializeWithUuid

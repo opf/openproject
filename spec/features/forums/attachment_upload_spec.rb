@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,16 +32,16 @@ require 'features/page_objects/notification'
 describe 'Upload attachment to forum message', js: true do
   let(:forum) { create(:forum) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %i[view_messages
                                        add_messages
-                                       edit_messages]
+                                       edit_messages])
   end
   let(:project) { forum.project }
-  let(:attachments) { ::Components::Attachments.new }
+  let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
   let(:index_page) { Pages::Messages::Index.new(forum.project) }
 
   before do
@@ -86,6 +86,47 @@ describe 'Upload attachment to forum message', js: true do
     expect(page).to have_selector('#content .wiki img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+  end
+
+  it 'can upload an image to new and existing messages via drag & drop on attachments' do
+    index_page.visit!
+    click_link forum.name
+
+    create_page = index_page.click_create_message
+    create_page.set_subject 'A new message'
+
+    expect(page).not_to have_selector('[data-qa-selector="op-attachment-list-item"]')
+
+    editor.set_markdown "Some text because it's required"
+
+    # adding an image
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+    expect(page).not_to have_selector('op-toasters-upload-progress')
+
+    show_page = create_page.click_save
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+
+    within '.toolbar-items' do
+      click_on "Edit"
+    end
+
+    script = <<~JS
+      const event = new DragEvent('dragenter');
+      document.body.dispatchEvent(event);
+    JS
+    page.execute_script(script)
+
+    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+
+    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+    expect(page).not_to have_selector('op-toasters-upload-progress')
+
+    show_page.click_save
 
     expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,9 +37,9 @@ describe Projects::CopyService, 'integration', type: :model do
   let(:project_copy) { subject.result }
   let(:board_copies) { Boards::Grid.where(project: project_copy) }
   let(:board_copy) { board_copies.first }
-  let!(:source) { create :project, enabled_module_names: %w[boards work_package_tracking] }
+  let!(:source) { create(:project, enabled_module_names: %w[boards work_package_tracking]) }
   let(:query) { board_view.contained_queries.first }
-  let(:role) { create :role, permissions: %i[copy_projects] }
+  let(:role) { create(:role, permissions: %i[copy_projects]) }
   let(:instance) do
     described_class.new(source:, user: current_user)
   end
@@ -62,12 +62,12 @@ describe Projects::CopyService, 'integration', type: :model do
     let(:expected_error) do
       "Widget contained in Grid Board 'Subproject board': Only subproject filter has invalid values."
     end
-    let!(:child_project) { create :project, parent: source }
+    let!(:child_project) { create(:project, parent: source) }
     let!(:board_view) do
-      create :board_grid_with_query,
+      create(:board_grid_with_query,
              project: source,
              name: 'Subproject board',
-             options: { "type" => "action", "attribute" => "subproject" }
+             options: { "type" => "action", "attribute" => "subproject" })
     end
 
     before do
@@ -94,13 +94,13 @@ describe Projects::CopyService, 'integration', type: :model do
   end
 
   describe 'for ordered work packages' do
-    let!(:board_view) { create :board_grid_with_query, project: source, name: 'My Board' }
+    let!(:board_view) { create(:board_grid_with_query, project: source, name: 'My Board') }
     let!(:wp_1) { create(:work_package, project: source, subject: 'Second') }
     let!(:wp_2) { create(:work_package, project: source, subject: 'First') }
 
     before do
-      ::OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
-      ::OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
+      OrderedWorkPackage.create(query:, work_package: wp_1, position: 1234)
+      OrderedWorkPackage.create(query:, work_package: wp_2, position: -1000)
     end
 
     describe 'call' do

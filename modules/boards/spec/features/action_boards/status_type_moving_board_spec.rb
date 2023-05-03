@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Status action board', type: :feature, js: true do
+describe 'Status action board', js: true do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -50,23 +50,23 @@ describe 'Status action board', type: :feature, js: true do
   end
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:closed_status) { create :status, is_closed: true, name: 'Closed' }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
 
   let(:task_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            subject: 'Open task item',
-           status: open_status
+           status: open_status)
   end
   let(:bug_wp) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_bug,
            subject: 'Closed bug item',
-           status: closed_status
+           status: closed_status)
   end
 
   let!(:workflow_task) do
@@ -99,7 +99,7 @@ describe 'Status action board', type: :feature, js: true do
            new_status_id: open_status.id)
   end
 
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     with_enterprise_token :board_view
@@ -123,8 +123,8 @@ describe 'Status action board', type: :feature, js: true do
     filters.expect_filter_count 0
     filters.open
 
-    filters.add_filter_by('Type', 'is', [type_task.name, type_bug.name])
-    filters.expect_filter_by('Type', 'is', [type_task.name, type_bug.name])
+    filters.add_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
+    filters.expect_filter_by('Type', 'is (OR)', [type_task.name, type_bug.name])
 
     # Wait a bit before saving the page to ensure both values are processed
     sleep 2

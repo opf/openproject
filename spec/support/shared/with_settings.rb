@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,13 +39,36 @@ def aggregate_mocked_settings(example, settings)
 end
 
 RSpec.shared_context 'with settings reset' do
-  around do |example|
-    definitions_before = Settings::Definition.all.dup
-    Settings::Definition.send(:reset)
-    example.run
-  ensure
-    Settings::Definition.send(:reset)
+  let!(:definitions_before) { Settings::Definition.all.dup }
+
+  def reset(setting)
+    Settings::Definition.all.delete(setting)
+    Settings::Definition.add(setting, **Settings::Definition::DEFINITIONS[setting])
+  end
+
+  def stub_configuration_yml
+    # disable test env detection because loading of the config file is partially disabled in test env
+    allow(Rails.env).to receive(:test?).and_return(false)
+    allow(File)
+      .to receive(:file?)
+            .with(Rails.root.join('config/configuration.yml'))
+            .and_return(true)
+
+    # It is added to avoid warning about other File.read calls.
+    allow(File).to receive(:read).and_call_original
+    allow(File)
+      .to receive(:read)
+            .with(Rails.root.join('config/configuration.yml'))
+            .and_return(configuration_yml)
+  end
+
+  before do
+    Settings::Definition.instance_variable_set(:@file_config, nil)
+  end
+
+  after do
     Settings::Definition.instance_variable_set(:@all, definitions_before)
+    Settings::Definition.instance_variable_set(:@file_config, nil)
   end
 end
 

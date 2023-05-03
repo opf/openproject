@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,22 +28,22 @@
 
 require 'spec_helper'
 
-describe 'form configuration', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
-  let(:type) { create :type }
+describe 'form configuration', js: true do
+  shared_let(:admin) { create(:admin) }
+  let(:type) { create(:type) }
 
-  let(:project) { create :project, types: [type] }
-  let(:category) { create :category, project: }
+  let(:project) { create(:project, types: [type]) }
+  let(:category) { create(:category, project:) }
   let(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            done_ratio: 10,
-           category:
+           category:)
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
-  let(:form) { ::Components::Admin::TypeConfigurationForm.new }
+  let(:form) { Components::Admin::TypeConfigurationForm.new }
 
   describe "with EE token" do
     before do
@@ -51,7 +51,7 @@ describe 'form configuration', type: :feature, js: true do
     end
 
     describe 'default configuration' do
-      let(:dialog) { ::Components::ConfirmationDialog.new }
+      let(:dialog) { Components::ConfirmationDialog.new }
 
       before do
         login_as(admin)
@@ -82,7 +82,7 @@ describe 'form configuration', type: :feature, js: true do
         # Wait for page reload
         sleep 1
 
-        expect(page).to have_no_selector('.group-head', text: 'WHATEVER')
+        expect(page).not_to have_selector('.group-head', text: 'WHATEVER')
         form.expect_group('details', 'Details')
         form.expect_attribute(key: :assignee)
       end
@@ -118,7 +118,7 @@ describe 'form configuration', type: :feature, js: true do
         wp_page.expect_hidden_field(:done_ratio)
 
         groups = page.all('.attributes-group--header-text').map(&:text)
-        expect(groups).to eq ['FILES']
+        expect(groups).to eq []
         expect(page)
           .to have_selector('.work-packages--details--description', text: work_package.description)
       end
@@ -162,7 +162,7 @@ describe 'form configuration', type: :feature, js: true do
         input.set('FOOBAR')
         input.send_keys(:escape)
         expect(page).to have_selector('.group-edit-handler', text: 'COOL STUFF')
-        expect(page).to have_no_selector('.group-edit-handler', text: 'FOOBAR')
+        expect(page).not_to have_selector('.group-edit-handler', text: 'FOOBAR')
 
         # Create new group
         form.add_attribute_group('New Group')
@@ -240,7 +240,7 @@ describe 'form configuration', type: :feature, js: true do
           expect(page).to have_selector('.inline-edit--container.estimatedTime')
         end
 
-        find('#work-packages--edit-actions-cancel').click
+        find_by_id('work-packages--edit-actions-cancel').click
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
       end
@@ -249,8 +249,8 @@ describe 'form configuration', type: :feature, js: true do
     describe 'required custom field' do
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
       before do
         project
@@ -279,8 +279,8 @@ describe 'form configuration', type: :feature, js: true do
 
       let(:custom_fields) { [custom_field] }
       let(:custom_field) { create(:integer_issue_custom_field, name: 'MyNumber') }
-      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
-      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+      let(:cf_identifier) { custom_field.attribute_name }
+      let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
       before do
         project
@@ -351,9 +351,9 @@ describe 'form configuration', type: :feature, js: true do
 
       context 'if active in project' do
         let(:project) do
-          create :project,
+          create(:project,
                  types: [type],
-                 work_package_custom_fields: custom_fields
+                 work_package_custom_fields: custom_fields)
         end
 
         it 'can be added to type and is visible' do
@@ -377,7 +377,7 @@ describe 'form configuration', type: :feature, js: true do
   end
 
   describe "without EE token" do
-    let(:dialog) { ::Components::ConfirmationDialog.new }
+    let(:dialog) { Components::ConfirmationDialog.new }
 
     it "must disable adding and renaming groups" do
       with_enterprise_token(nil)

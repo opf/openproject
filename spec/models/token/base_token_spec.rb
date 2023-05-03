@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,19 @@
 
 require 'spec_helper'
 
-describe ::Token::Base, type: :model do
+describe Token::Base do
   let(:user) { build(:user) }
 
   subject { described_class.new user: }
 
   it 'creates' do
     subject.save!
-    assert_equal 64, subject.value.length
+    expect(subject.value.length).to eq(64)
   end
 
   it 'create_should_remove_existing_tokenses' do
     subject.save!
-    t2 = Token::AutoLogin.create user: user
+    t2 = Token::AutoLogin.create(user:)
     expect(subject.value).not_to eq(t2.value)
     expect(Token::AutoLogin.exists?(subject.id)).to be false
     expect(Token::AutoLogin.exists?(t2.id)).to be true

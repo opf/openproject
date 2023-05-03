@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
+describe WorkPackage do
   describe '#journal' do
-    let(:type) { create :type }
+    let(:type) { create(:type) }
     let(:project) do
-      create :project,
-             types: [type]
+      create(:project,
+             types: [type])
     end
-    let(:status) { create :default_status }
-    let(:priority) { create :priority }
+    let(:status) { create(:default_status) }
+    let(:priority) { create(:priority) }
     let!(:work_package) do
       User.execute_as current_user do
         create(:work_package,
@@ -52,29 +52,29 @@ describe WorkPackage, type: :model do
     current_user { create(:user) }
 
     context 'for work package creation' do
-      it { expect(Journal.all.count).to eq(1) }
+      it { expect(Journal.for_work_package.count).to eq(1) }
 
       it 'has a journal entry' do
-        expect(Journal.first.journable).to eq(work_package)
+        expect(Journal.for_work_package.first.journable).to eq(work_package)
       end
 
       it 'notes the changes to subject' do
-        expect(Journal.first.details[:subject])
+        expect(work_package.last_journal.details[:subject])
           .to match_array [nil, work_package.subject]
       end
 
       it 'notes the changes to project' do
-        expect(Journal.first.details[:project_id])
+        expect(work_package.last_journal.details[:project_id])
           .to match_array [nil, work_package.project_id]
       end
 
       it 'notes the description' do
-        expect(Journal.first.details[:description])
+        expect(work_package.last_journal.details[:description])
           .to match_array [nil, work_package.description]
       end
 
       it 'notes the scheduling mode' do
-        expect(Journal.first.details[:schedule_manually])
+        expect(work_package.last_journal.details[:schedule_manually])
           .to match_array [nil, false]
       end
 
@@ -82,7 +82,7 @@ describe WorkPackage, type: :model do
         # This seemingly unnecessary reload leads to the updated_at having the same
         # precision as the created_at of the Journal. It is database dependent, so it would work without
         # reload on PG 12 but does not work on PG 9.
-        expect(Journal.first.created_at)
+        expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
       end
     end
@@ -113,13 +113,13 @@ describe WorkPackage, type: :model do
         end
 
         describe 'does not track the changed newline characters' do
-          subject { work_package1.journals.last.data.description }
+          subject { work_package1.last_journal.data.description }
 
           it { is_expected.to eq(description) }
         end
 
         describe 'tracks only the other change' do
-          subject { work_package1.journals.last.details }
+          subject { work_package1.last_journal.details }
 
           it { is_expected.to have_key :subject }
           it { is_expected.not_to have_key :description }
@@ -142,7 +142,7 @@ describe WorkPackage, type: :model do
                              description: changed_description))
         end
 
-        subject { work_package1.journals.reload.last.details }
+        subject { work_package1.last_journal.details }
 
         it { is_expected.not_to have_key :description }
       end
@@ -155,9 +155,9 @@ describe WorkPackage, type: :model do
                type:,
                priority:)
       end
-      let(:type2) { create :type }
-      let(:status2) { create :status }
-      let(:priority2) { create :priority }
+      let(:type2) { create(:type) }
+      let(:status2) { create(:status) }
+      let(:priority2) { create(:priority) }
 
       before do
         project.types << type2
@@ -180,7 +180,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'for last created journal' do
-        subject { work_package.journals.reload.last.details }
+        subject { work_package.last_journal.details }
 
         it 'contains all changes' do
           %i(subject description type_id status_id priority_id
@@ -267,7 +267,7 @@ describe WorkPackage, type: :model do
         end
 
         it 'creates a journal for the last change' do
-          last_journal = work_package.journals.order(:id).last
+          last_journal = work_package.last_journal
 
           expect(last_journal.data.description).to eql('description v4')
         end
@@ -277,13 +277,13 @@ describe WorkPackage, type: :model do
         # This seemingly unnecessary reload leads to the updated_at having the same
         # precision as the created_at of the Journal. It is database dependent, so it would work without
         # reload on PG 12 but does not work on PG 9.
-        expect(work_package.journals.order(:id).last.created_at)
+        expect(work_package.last_journal.created_at)
           .to eql(work_package.reload.updated_at)
       end
     end
 
     describe 'attachments', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:attachment) { build :attachment }
+      let(:attachment) { build(:attachment) }
       let(:attachment_id) { "attachments_#{attachment.id}" }
 
       before do
@@ -292,7 +292,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'for new attachment' do
-        subject { work_package.journals.reload.last.details }
+        subject { work_package.last_journal.details }
 
         it { is_expected.to have_key attachment_id }
 
@@ -305,11 +305,11 @@ describe WorkPackage, type: :model do
     end
 
     describe 'custom values', with_settings: { journal_aggregation_time_minutes: 0 } do
-      let(:custom_field) { create :work_package_custom_field }
+      let(:custom_field) { create(:work_package_custom_field) }
       let(:custom_value) do
-        build :custom_value,
+        build(:custom_value,
               value: 'false',
-              custom_field:
+              custom_field:)
       end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
@@ -327,7 +327,7 @@ describe WorkPackage, type: :model do
       context 'for new custom value' do
         include_context 'for work package with custom value'
 
-        subject { work_package.journals.reload.last.details }
+        subject { work_package.last_journal.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -348,7 +348,7 @@ describe WorkPackage, type: :model do
           work_package.save!
         end
 
-        subject { work_package.journals.reload.last.details }
+        subject { work_package.last_journal.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -379,7 +379,7 @@ describe WorkPackage, type: :model do
           work_package.save!
         end
 
-        subject { work_package.journals.last.details }
+        subject { work_package.last_journal.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -388,28 +388,28 @@ describe WorkPackage, type: :model do
 
       context 'when custom value did not exist before' do
         let(:custom_field) do
-          create :work_package_custom_field,
+          create(:work_package_custom_field,
                  is_required: false,
                  field_format: 'list',
-                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+                 possible_values: ['', '1', '2', '3', '4', '5', '6', '7'])
         end
         let(:custom_value) do
-          create :custom_value,
+          create(:custom_value,
                  value: '',
                  customized: work_package,
-                 custom_field:
+                 custom_field:)
         end
 
         describe 'empty values are recognized as unchanged' do
           include_context 'for work package with custom value'
 
-          it { expect(work_package.journals.reload.last.customizable_journals).to be_empty }
+          it { expect(work_package.last_journal.customizable_journals).to be_empty }
         end
 
         describe 'empty values handled as non existing' do
           include_context 'for work package with custom value'
 
-          it { expect(work_package.journals.reload.last.customizable_journals.count).to eq(0) }
+          it { expect(work_package.last_journal.customizable_journals.count).to eq(0) }
         end
       end
     end
@@ -421,7 +421,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        expect(work_package.journals.last.updated_at)
+        expect(work_package.last_journal.updated_at)
           .to eql(work_package.updated_at)
       end
     end
@@ -434,7 +434,7 @@ describe WorkPackage, type: :model do
       end
 
       it 'has the timestamp of the work package update time for created_at' do
-        expect(work_package.journals.last.updated_at)
+        expect(work_package.last_journal.updated_at)
           .to eql(work_package.updated_at)
       end
     end
@@ -537,16 +537,16 @@ describe WorkPackage, type: :model do
 
           context 'when adding another change with a customized work package' do
             let(:custom_field) do
-              create :work_package_custom_field,
+              create(:work_package_custom_field,
                      is_required: false,
                      field_format: 'list',
-                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
+                     possible_values: ['', '1', '2', '3', '4', '5', '6', '7'])
             end
             let(:custom_value) do
-              create :custom_value,
+              create(:custom_value,
                      value: custom_field.custom_options.find { |co| co.value == '1' }.try(:id),
                      customized: work_package,
-                     custom_field:
+                     custom_field:)
             end
 
             before do
@@ -592,8 +592,8 @@ describe WorkPackage, type: :model do
       subject(:journals) { work_package.journals }
 
       before do
-        work_package.journals.last.update_columns(created_at: 2.minutes.ago,
-                                                  updated_at: 2.minutes.ago)
+        work_package.last_journal.update_columns(created_at: 2.minutes.ago,
+                                                 updated_at: 2.minutes.ago)
 
         work_package.status = build(:status)
         work_package.save!

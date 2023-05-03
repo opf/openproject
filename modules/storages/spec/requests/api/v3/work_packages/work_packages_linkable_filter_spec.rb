@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,14 +30,13 @@ require 'spec_helper'
 require_module_spec_helper
 
 describe 'API v3 work packages resource with filters for the linkable to storage attribute',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:file_link_permissions) { %i(view_work_packages view_file_links manage_file_links) }
 
-  let(:role1) { create :role, permissions: file_link_permissions }
-  let(:role2) { create :role, permissions: file_link_permissions }
+  let(:role1) { create(:role, permissions: file_link_permissions) }
+  let(:role2) { create(:role, permissions: file_link_permissions) }
 
   let(:current_user) { create(:user) }
   let(:project1) { create(:project, members: { current_user => role1 }) }
@@ -99,7 +98,7 @@ describe 'API v3 work packages resource with filters for the linkable to storage
       end
 
       context 'if user has no sufficient permissions in one project' do
-        let(:role2) { create :role, permissions: %i(view_work_packages view_file_links) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages view_file_links)) }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package2] }
@@ -141,7 +140,7 @@ describe 'API v3 work packages resource with filters for the linkable to storage
       end
 
       context 'if user has no sufficient permissions in one project' do
-        let(:role2) { create :role, permissions: %i(view_work_packages view_file_links) }
+        let(:role2) { create(:role, permissions: %i(view_work_packages view_file_links)) }
 
         it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
           let(:elements) { [work_package1, work_package2] }

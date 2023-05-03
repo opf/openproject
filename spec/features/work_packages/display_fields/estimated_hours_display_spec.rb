@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Estimated hours display' do
-  let(:user) { create :admin }
-  let(:project) { create :project }
+  let(:user) { create(:admin) }
+  let(:project) { create(:project) }
 
   let(:hierarchy) { [] }
 
@@ -49,7 +49,7 @@ RSpec.describe 'Estimated hours display' do
   let(:child) { work_packages.last }
 
   let!(:query) do
-    query = build :query, user: user, project: project
+    query = build(:query, user:, project:)
     query.column_names = %w[id subject estimated_hours]
 
     query.save!

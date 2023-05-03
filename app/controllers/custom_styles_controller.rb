@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,15 +75,15 @@ class CustomStylesController < ApplicationController
   end
 
   def logo_delete
-    file_delete(:remove_logo!)
+    file_delete(:remove_logo)
   end
 
   def favicon_delete
-    file_delete(:remove_favicon!)
+    file_delete(:remove_favicon)
   end
 
   def touch_icon_delete
-    file_delete(:remove_touch_icon!)
+    file_delete(:remove_touch_icon)
   end
 
   def update_colors

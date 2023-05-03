@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -188,6 +188,17 @@ describe UpdateQueryFromParamsService,
           expect(query.include_subprojects)
             .to be false
         end
+      end
+    end
+
+    context "when providing timestamps" do
+      let(:timestamps) { [Timestamp.parse("2022-10-29T23:01:23Z"), Timestamp.parse("PT0S")] }
+      let(:params) { { timestamps: } }
+
+      it 'sets the timestamps' do
+        subject
+
+        expect(query.timestamps).to eq timestamps
       end
     end
   end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-describe Story, type: :model do
+describe Story do
   let(:user) { @user ||= create(:user) }
   let(:role) { @role ||= create(:role) }
   let(:status1) { @status1 ||= create(:status, name: 'status 1', is_default: true) }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe ::OpenIDConnect::ProvidersController, type: :controller do
-  let(:user) { build_stubbed :admin }
+describe OpenIDConnect::ProvidersController do
+  let(:user) { build_stubbed(:admin) }
 
   let(:valid_params) do
     {
@@ -45,7 +45,6 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
   end
 
   context 'without an EE token' do
-
     it 'renders upsale' do
       get :index
       expect(response).to have_http_status(:ok)
@@ -106,11 +105,40 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     end
 
     describe '#create' do
-      it 'is successful if valid params' do
-        post :create, params: { openid_connect_provider: valid_params }
-        expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
-        expect(Setting.plugin_openproject_openid_connect["providers"]).to have_key("azure")
-        expect(response).to be_redirect
+      context 'with valid params' do
+        let(:params) { { openid_connect_provider: valid_params } }
+
+        before do
+          post :create, params:
+        end
+
+        it 'is successful' do
+          expect(flash[:notice]).to eq(I18n.t(:notice_successful_create))
+          expect(Setting.plugin_openproject_openid_connect["providers"]).to have_key("azure")
+          expect(response).to be_redirect
+        end
+
+        context 'with limit_self_registration checked' do
+          let(:params) do
+            { openid_connect_provider: valid_params.merge(limit_self_registration: 1) }
+          end
+
+          it 'sets the setting' do
+            expect(OpenProject::Plugins::AuthPlugin)
+              .to be_limit_self_registration provider: valid_params[:name]
+          end
+        end
+
+        context 'with limit_self_registration unchecked' do
+          let(:params) do
+            { openid_connect_provider: valid_params.merge(limit_self_registration: 0) }
+          end
+
+          it 'does not set the setting' do
+            expect(OpenProject::Plugins::AuthPlugin)
+              .not_to be_limit_self_registration provider: valid_params[:name]
+          end
+        end
       end
 
       it 'renders an error if invalid params' do
@@ -131,6 +159,39 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
           expect(assigns[:provider]).to be_present
           expect(response).to render_template 'edit'
         end
+
+        context(
+          'with limit_self_registration set',
+          with_settings: {
+            plugin_openproject_openid_connect: {
+              "providers" => {
+                "azure" => {
+                  "identifier" => "IDENTIFIER",
+                  "secret" => "SECRET",
+                  "limit_self_registration" => true
+                }
+              }
+            }
+          }
+        ) do
+          before do
+            get :edit, params: { id: 'azure' }
+          end
+
+          it 'shows limit_self_registration as checked' do
+            expect(assigns[:provider]).to be_limit_self_registration
+          end
+        end
+
+        context 'with limit_self_registration not set' do
+          before do
+            get :edit, params: { id: 'azure' }
+          end
+
+          it 'shows limit_self_registration as unchecked' do
+            expect(assigns[:provider]).not_to be_limit_self_registration
+          end
+        end
       end
 
       context 'when not found' do
@@ -143,11 +204,13 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     end
 
     describe '#update' do
-      context 'when found', with_settings: {
-        plugin_openproject_openid_connect: {
-          "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
-        }
-      } do
+      context 'when found' do
+        before do
+          Setting.plugin_openproject_openid_connect = {
+            "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
+          }
+        end
+
         it 'successfully updates the provider configuration' do
           put :update, params: { id: "azure", openid_connect_provider: valid_params.merge(secret: "NEWSECRET") }
           expect(response).to be_redirect
@@ -159,11 +222,13 @@ describe ::OpenIDConnect::ProvidersController, type: :controller do
     end
 
     describe '#destroy' do
-      context 'when found', with_settings: {
-        plugin_openproject_openid_connect: {
-          "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
-        }
-      } do
+      context 'when found' do
+        before do
+          Setting.plugin_openproject_openid_connect = {
+            "providers" => { "azure" => { "identifier" => "IDENTIFIER", "secret" => "SECRET" } }
+          }
+        end
+
         it 'removes the provider' do
           delete :destroy, params: { id: "azure" }
           expect(response).to be_redirect

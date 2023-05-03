@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 require 'spec_helper'
 
-describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planner_view] do
+describe 'Team planner index', js: true, with_ee: %i[team_planner_view] do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
 
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages
@@ -43,7 +43,7 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
              save_public_queries
              view_calendar
              manage_calendars
-           ]
+           ])
   end
 
   let(:query) do
@@ -78,34 +78,34 @@ describe 'Team planner index', type: :feature, js: true, with_ee: %i[team_planne
 
     context 'with another user with limited access' do
       let(:current_user) do
-        create :user,
+        create(:user,
                firstname: 'Bernd',
                member_in_project: project,
-               member_with_permissions: %w[view_work_packages view_calendar]
+               member_with_permissions: %w[view_work_packages view_calendar])
       end
 
       it 'does not show the create button' do
         expect(page).to have_selector 'td', text: query.name
 
         # Does not show the delete
-        expect(page).to have_no_selector "[data-qa-selector='calendar-remove-#{query.id}']"
+        expect(page).not_to have_selector "[data-qa-selector='calendar-remove-#{query.id}']"
 
         # Does not show the create button
-        expect(page).to have_no_selector '.button', text: 'Calendar'
+        expect(page).not_to have_selector '.button', text: 'Calendar'
       end
 
       context 'when the view is non-public' do
-        let(:query) { create :query, user:, project:, public: false }
+        let(:query) { create(:query, user:, project:, public: false) }
 
         it 'does not show a non-public view' do
           expect(page).to have_text 'There is currently nothing to display.'
-          expect(page).to have_no_selector 'td', text: query.name
+          expect(page).not_to have_selector 'td', text: query.name
 
           # Does not show the delete
-          expect(page).to have_no_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
+          expect(page).not_to have_selector "[data-qa-selector='team-planner-remove-#{query.id}']"
 
           # Does not show the create button
-          expect(page).to have_no_selector '.button', text: 'Calendar'
+          expect(page).not_to have_selector '.button', text: 'Calendar'
         end
       end
     end

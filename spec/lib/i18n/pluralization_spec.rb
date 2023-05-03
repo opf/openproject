@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ describe I18n, 'pluralization', type: :helper do
       allow(I18n.backend)
         .to(receive(:lookup))
         .with(:sl, :label_x_projects, any_args)
-        .and_return({ one: "1 projekt", other: "%{count} projektov", zero: "Brez projektov" })
+        .and_return({ one: "1 projekt", other: "%<count>s projektov", zero: "Brez projektov" })
     end
 
     it 'allows to pluralize without exceptions (Regression #37607)', :aggregate_failures do

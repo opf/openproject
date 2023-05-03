@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,8 +31,12 @@ import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { InputState } from 'reactivestates';
-import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackagesActivityService,
+} from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpenProjectFileUploadService } from 'core-app/core/file-upload/op-file-upload.service';
@@ -169,8 +173,8 @@ export class WorkPackageBaseResource extends HalResource {
    * Return "<subject> (#<id>)" if the id is known.
    */
   public subjectWithId(truncateSubject = 40):string {
-    const id = isNewResource(this) ? '' : ` (#${this.id})`;
-    const subject = _.truncate(this.subject, { length: truncateSubject });
+    const id = isNewResource(this) ? '' : ` (#${this.id || ''})`;
+    const subject = truncateSubject <= 0 ? this.subject : _.truncate(this.subject, { length: truncateSubject });
 
     return `${subject}${id}`;
   }

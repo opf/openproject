@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ describe '/api/v3/projects/:id/types' do
 
       # N.B. this test depends on order, while this is not strictly necessary
       it 'only contains expected types' do
-        (0..3).each do |i|
+        4.times do |i|
           expected_id = expected_types[i].id.to_json
           expect(subject.body).to be_json_eql(expected_id).at_path("_embedded/elements/#{i}/id")
         end

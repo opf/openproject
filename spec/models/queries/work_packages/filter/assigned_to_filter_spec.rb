@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
+describe Queries::WorkPackages::Filter::AssignedToFilter do
   let(:instance) do
     filter = described_class.create!
     filter.values = values
@@ -94,8 +94,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
     end
 
     context 'for me and user values' do
-      let(:user) { create :user }
-      let(:assignee2) { create :user }
+      let(:user) { create(:user) }
+      let(:assignee2) { create(:user) }
       let(:values) { [assignee.id, user.id, 'me', assignee2.id] }
 
       before do

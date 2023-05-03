@@ -84,14 +84,14 @@ module Tasks
           project.enabled_modules.create name: "wiki"
 
           if project.wiki.nil?
-            Wiki.create! project: project, start_page: "Wiki", status: 1
+            Wiki.create! project:, start_page: "Wiki", status: 1
             project.reload
           end
         end
       end
 
       def create_project_attachments_page!(project, name: "Project Attachments")
-        page = attachments_page! project.wiki, name: name
+        page = attachments_page!(project.wiki, name:)
 
         if page.content.nil?
           text = I18n.t(
@@ -109,7 +109,7 @@ module Tasks
       end
 
       def create_version_attachments_page!(version, name: "Version '#{version.name}' Attachments")
-        page = attachments_page! version.project.wiki, name: name
+        page = attachments_page!(version.project.wiki, name:)
 
         if page.content.nil?
           text = I18n.t(

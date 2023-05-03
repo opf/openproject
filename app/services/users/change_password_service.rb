@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,6 +42,8 @@ module Users
         current_user.force_password_change = false
 
         if current_user.save
+          invalidate_recovery_tokens
+
           log_success
           ::ServiceResult.new success: true,
                               result: current_user,
@@ -57,6 +59,10 @@ module Users
     end
 
     private
+
+    def invalidate_recovery_tokens
+      Token::Recovery.where(user: current_user).delete_all
+    end
 
     def invalidate_session_result
       update_message = I18n.t(:notice_account_password_updated)

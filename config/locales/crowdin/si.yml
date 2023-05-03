@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -232,6 +232,7 @@ si:
       failed_text: "ව්යාපෘතිය %{name} මකා දැමීමේ ඉල්ලීම අසාර්ථක වී ඇත. මෙම ව්යාපෘතිය සංරක්ෂණය කර ඇත."
       completed: "ව්යාපෘතිය මකාදැමීම %{name} අවසන්"
       completed_text: "The request to delete project '%{name}' has been completed."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -337,6 +338,7 @@ si:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: දැනට විකි පිටු නොමැත.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: නව විකි පිටුවක් එක් කරන්න
   work_flows:
@@ -347,6 +349,8 @@ si:
       one: 'එක් පරම්පරාවක වැඩ පැකේජයක්'
       other: '%{count} වැඩ පැකේජය පැවත'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "පහත සඳහන් වැඩ පැකේජ සුරැකිය නොහැකි විය:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -375,7 +379,7 @@ si:
   account:
     delete: "ගිණුම මකන්න"
     delete_confirmation: "ඔබට ගිණුම මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
-    deleted: "ගිණුම සාර්ථකව මකා දමන ලදි"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "පරිශීලකයා විසින් නිර්මාණය කරන ලද දත්ත (උදා: ඊමේල්, මනාපයන්, වැඩ පැකේජ, විකි ඇතුළත් කිරීම්) හැකිතාක් මකා දැමෙනු ඇත. කෙසේ වෙතත්, අනෙකුත් පරිශීලකයින්ගේ කාර්යයට බාධා නොකර වැඩ පැකේජ සහ විකි ඇතුළත් කිරීම් වැනි දත්ත මකා දැමිය නොහැකි බව සලකන්න. එබැවින් එවැනි දත්ත “මකාදැමූ පරිශීලකයා” නමින් ගිණුමකට නැවත පවරනු ලැබේ. මකාදැමූ සෑම ගිණුමකම දත්ත මෙම ගිණුමට නැවත පැවරෙන බැවින් පරිශීලකයා වෙනත් මකාදැමූ ගිණුමක දත්ත වලින් නිර්මාණය කළ දත්ත වෙන්කර හඳුනා ගැනීමට නොහැකි වනු ඇත."
@@ -470,14 +474,24 @@ si:
       member:
         roles: "භූමිකාවන්"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "හඳුනාගැනීමේ"
         latest_activity_at: "නවතම ක්රියාකාරකම්"
         parent: "උප ව්යාපෘතිය"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "විමසුම්"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "වර්ග"
         versions: "අනුවාද"
         work_packages: "වැඩ පැකේජ"
-        templated: 'Template project'
       projects/status:
         code: 'තත්වය'
         explanation: 'තත්ව විස්තරය'
@@ -689,6 +703,11 @@ si:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +718,8 @@ si:
           archived_ancestor: 'මෙම ව්යාපෘතියට සංරක්ෂිත මුතුන් මිත්තෙකු සිටී.'
           foreign_wps_reference_version: 'ව්යාපෘතියේ හෝ එහි පරම්පරාවෙන් පැවත එන නොවන ව්යාපෘති විමර්ශන අනුවාදවල වැඩ පැකේජ.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "වැඩ පැකේජ මගින් තවමත් භාවිතා වේ: %{types}"
             enabled_modules:
@@ -892,8 +913,22 @@ si:
     header_invalid_fields: "පහත සඳහන් ක්ෂේත්ර සමඟ ගැටලු ඇති විය:"
     field_erroneous_label: "මෙම ක්ෂේත්රය වලංගු නොවේ: %{full_errors}\nකරුණාකර වලංගු අගයක් ඇතුළත් කරන්න."
   activity:
-    created: "නිර්මිත: %{title}"
-    updated: "යාවත්කාලීන: %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "ක්රියාකාරී"
@@ -1029,6 +1064,7 @@ si:
   button_reset: "යළි පිහිටුවීම"
   button_rollback: "මෙම අනුවාදය වෙත ආපසු යන්න"
   button_save: "සුරකින්න"
+  button_apply_changes: "Apply changes"
   button_save_back: "සුරකින්න සහ නැවත"
   button_show: "පෙන්වන්න"
   button_sort: "වර්ග"
@@ -1324,16 +1360,20 @@ si:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "විශේෂණය (ය) අවධාරණය කළ නොහැකි: %{attributes}"
   events:
-    project: 'සංස්කරණය කරන ලද ව්යාපෘතිය'
     changeset: 'සංස්කරණය කරන ලද වෙනස්'
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: පිළිතුරු
     time_entry: 'සංස්කරණය ටයිමෙලෝග්'
     wiki_page: 'විකි පිටුව සංස්කරණය'
     work_package_closed: 'වැඩ පැකේජය වසා'
     work_package_edit: 'සංස්කරණය කරන ලද වැඩ පැකේජය'
     work_package_note: 'වැඩ පැකේජ සටහන එකතු'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1359,7 +1399,6 @@ si:
   general_csv_encoding: "යූටීඑෆ්-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "සිංහල"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "නැත"
   general_text_yes: "ඔව්"
@@ -1745,6 +1784,10 @@ si:
   label_not_contains: "අඩංගු නොවේ"
   label_not_equals: "නැත"
   label_on: "මත"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "මෙනුව විවෘත කරන්න"
   label_open_work_packages: "විවෘත"
   label_open_work_packages_plural: "විවෘත"
@@ -1786,6 +1829,8 @@ si:
   label_product_version: "නිෂ්පාදන අනුවාදය"
   label_professional_support: "වෘත්තීය සහාය"
   label_profile: "පැතිකඩ"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "මුළු ව්යාපෘති සංඛ්යාව"
   label_project_copy_notifications: "ව්යාපෘති පිටපත තුළ විද්යුත් තැපැල් දැනුම්දීම් යවන්න"
   label_project_latest: "නවතම ව්යාපෘති"
@@ -2075,8 +2120,6 @@ si:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "ඔබගේ %{value} මුරපදය"
   mail_subject_register: "ඔබගේ %{value} ගිණුම සක්රිය කිරීම"
-  mail_subject_reminder: "%{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ නියමිත"
-  mail_subject_group_reminder: "කණ්ඩායම් සඳහා \"%{group}\" %{count} වැඩ පැකේජය (න්) ඉදිරි දින %{days} තුළ"
   mail_subject_wiki_content_added: "'%{id}' විකි පිටුව එකතු කර ඇත"
   mail_subject_wiki_content_updated: "'%{id}' විකි පිටුව යාවත්කාලීන කර ඇත"
   mail_member_added_project:
@@ -2210,6 +2253,7 @@ si:
   permission_add_work_packages: "වැඩ පැකේජ එකතු කරන්න"
   permission_add_messages: "තැපැල් පණිවිඩ"
   permission_add_project: "ව්යාපෘතිය නිර්මාණය"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
   permission_add_subprojects: "උප ව්යාපෘති සාදන්න"
@@ -2647,12 +2691,13 @@ si:
   text_work_packages_destroy_confirmation: "ඔබ තෝරාගත් වැඩ පැකේජය (න්) මකා දැමීමට අවශ්ය බව ඔබට විශ්වාසද?"
   text_work_packages_ref_in_commit_messages: "කැපවීමේ පණිවුඩවල වැඩ පැකේජ යොමු කිරීම සහ සවි කිරීම"
   text_journal_added: "%{label} %{value} එකතු"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} යාවත්කාලීන"
   text_journal_changed_with_diff: "%{label} වෙනස් (%{link})"
   text_journal_deleted: "%{label} මකාදැමුවා (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} මකාදැමුවා (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} %{value}කිරීමට කට්ටලයක්"
   text_journal_set_with_diff: "%{label} කට්ටලයක් (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2945,15 +2990,20 @@ si:
       title: "වැඩ පැකේජය මකන්න"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "පෙරදසුන් කිරීමට කිසිවක් නැත"
   api_v3:
     attributes:

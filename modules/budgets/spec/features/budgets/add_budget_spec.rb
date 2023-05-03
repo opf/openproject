@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 
-describe 'adding a new budget', type: :feature, js: true do
-  let(:project) { create :project_with_types, members: project_members }
-  let(:user) { create :admin }
+describe 'adding a new budget', js: true do
+  let(:project) { create(:project_with_types, members: project_members) }
+  let(:user) { create(:admin) }
   let(:project_members) { {} }
 
   before do
@@ -49,11 +49,11 @@ describe 'adding a new budget', type: :feature, js: true do
 
   describe 'with multiple cost types' do
     let!(:cost_type_1) do
-      create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps')
     end
 
     let!(:cost_type_2) do
-      create :cost_type, name: 'Foobar', unit: 'bar', unit_plural: 'bars'
+      create(:cost_type, name: 'Foobar', unit: 'bar', unit_plural: 'bars')
     end
 
     it 'can switch between them' do
@@ -91,7 +91,7 @@ describe 'adding a new budget', type: :feature, js: true do
 
   context 'with cost items' do
     let(:cost_type) do
-      create :cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps'
+      create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps')
     end
 
     let(:new_budget_page) { Pages::NewBudget.new project.identifier }
@@ -100,8 +100,8 @@ describe 'adding a new budget', type: :feature, js: true do
     let(:project_members) { { user => create(:role, permissions: %i[work_package_assigned]) } }
 
     before do
-      create :cost_rate, cost_type: cost_type, rate: 50.0
-      create :default_hourly_rate, user:, rate: 25.0
+      create(:cost_rate, cost_type:, rate: 50.0)
+      create(:default_hourly_rate, user:, rate: 25.0)
     end
 
     context 'with german locale' do

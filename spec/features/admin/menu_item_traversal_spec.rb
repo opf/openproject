@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'Menu item traversal', type: :feature do
+describe 'Menu item traversal' do
   shared_let(:admin) { create(:admin) }
 
   describe 'EnterpriseToken management' do
@@ -45,12 +45,12 @@ describe 'Menu item traversal', type: :feature do
       # using `controller_name` in `menu_controller.rb` has broken this example,
       # due to the plugin controller also being named 'admin' thus falling back to 'admin#index' => overview selected
       expect(page).to have_selector('.plugin-webhooks-menu-item.selected', text: 'Webhooks', wait: 5)
-      expect(page).to have_no_selector('.admin-overview-menu-item.selected')
+      expect(page).not_to have_selector('.admin-overview-menu-item.selected')
     end
   end
 
   describe 'route authorization', with_settings: { login_required?: false } do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let(:anon) { User.anonymous }
 
     let(:check_link) do
@@ -71,7 +71,7 @@ describe 'Menu item traversal', type: :feature do
 
         expect(current_url).to include link
         expect(page).to have_http_status(:ok)
-        expect(page).to have_no_text(I18n.t(:notice_not_authorized))
+        expect(page).not_to have_text(I18n.t(:notice_not_authorized))
         expect(page).to have_selector '#menu-sidebar .selected'
       }
     end

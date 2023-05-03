@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::Settings::ModulesController, 'menu', type: :controller do
+describe Projects::Settings::ModulesController, 'menu' do
   let(:current_user) do
     build_stubbed(:user).tap do |u|
       allow(u)
@@ -49,7 +49,7 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
 
   shared_examples_for 'renders the modules show page' do
     it 'renders show' do
-      get 'show', params: params
+      get('show', params:)
       expect(response).to be_successful
       expect(response).to render_template 'projects/settings/modules/show'
     end
@@ -59,7 +59,7 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
     render_views
 
     it do
-      get 'show', params: params
+      get('show', params:)
 
       expect(response.body).to have_selector selector
     end
@@ -69,7 +69,7 @@ describe Projects::Settings::ModulesController, 'menu', type: :controller do
     render_views
 
     it do
-      get 'show', params: params
+      get('show', params:)
 
       expect(response.body).not_to have_selector selector
     end

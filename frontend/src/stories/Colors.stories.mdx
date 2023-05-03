@@ -21,7 +21,7 @@ export const ColorsPreview = ({ tokens }) => <div className="colors">
 
 # Colors (WIP)
 
-**Note: These colours are neither completely implemented nor used in code. This remains a work in progress.**
+**Note**: This section is a work-in-progress. If you are unsure about which colour to use, please get in touch with the UX team.
 
 Because OpenProject can be customised with custom colour schemes, our foundation library only describe the colour palette of the default OpenProject theme. 
 
@@ -42,7 +42,7 @@ The basic colour set include eight shades of gray used mostly for basic text and
 
 The choice of which gray to use depends on the colourspace. 
 
-Note: **Basic/_Gray-1_** is the default colour for "black" text.
+Note: **Basic/_Gray-1_** is the default colour for "black" text. Pure black (_Basic/Black_) is generally not used in OpenProject.
 
 > Code example here (Black, Gray-1, Gray-2, Gray-3, Gray-4, Gray-5, Gray-6, White)
 
@@ -141,12 +141,6 @@ This darker version of the main danger red is used:
 
 Indication colours are used to indicate certain special states.
 
-**Indication/_Attention_**
-
-> Example
-
-Attention is used to draw user attention to certain updates on the screen, like in the Notification center. In certain cases, these badges can also be associated with a number.
-
 **Indication/_Flagged_**
 
 > Example
@@ -158,6 +152,18 @@ This colour is used when “flagging” work packages. It is a teal colour meant
 > Example
 
 This colour is used to indicate the current date (today) in a calendar.
+
+**Indication/_Enterprise_**
+
+> Example
+
+This colour is used to indicate that a certain feature or module requires the Enterprise plan to use.
+
+**Indication/Focus**
+
+> Example
+
+This is the colour used to indicate which element has keyboard focus. 
 
 ## Feedback
 
@@ -174,25 +180,25 @@ These are typically used in toast messages.
 
 **Feedback/_Error_**
 
-> Example
+> Example, Error Light and Dark
 
 This colour indicates that a response that is different from what the user would have expected. The user flow is usually interrupted when they see an error of this type.
 
 **Feedback/_Warning_**
 
-> Example
+> Example, Warning Light and Dark
 
 The warning is information that suggests something requires attention (and that could cause a problem), but that no error has been caused, and that the expected user flow can continue.
 
 **Feedback/_Info_**
 
-> Example
+> Example, Info Light and Dark
 
 This colour is used to indicate additional information that could be of interest to the user. (Like a toast that says “Loading...”, indicating something is happening in the background)
 
 **Feedback/_Success_**
 
-> Example
+> Example, Success Light and Dark
 
 This colour indicates that the requested user action was successful. It should be used sparingly and only when such a feedback is absolutely required.
 

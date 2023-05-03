@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,19 +28,19 @@
 
 require 'spec_helper'
 
-describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
+describe 'wiki pages', js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:project) do
     create(:project, enabled_module_names: [:news])
   end
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:other_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:role) do
     create(:role,
@@ -70,7 +70,7 @@ describe 'wiki pages', type: :feature, js: true, with_settings: { journal_aggreg
   it 'adding, editing and history' do
     visit project_settings_modules_path(project)
 
-    expect(page).to have_no_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
+    expect(page).not_to have_selector('.menu-sidebar .main-item-wrapper', text: 'Wiki')
 
     within '#content' do
       check 'Wiki'

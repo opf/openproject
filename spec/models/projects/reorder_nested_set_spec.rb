@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,18 +28,18 @@
 
 require 'spec_helper'
 
-describe Project, 'reordering of nested set', type: :model do
+describe Project, 'reordering of nested set' do
   # Create some parents in non-alphabetical order
   shared_let(:parent_project_b) { create(:project, name: 'ParentB') }
   shared_let(:parent_project_a) { create(:project, name: 'ParentA') }
 
   # Create some children in non-alphabetical order
   # including lower case to test case insensitivity
-  shared_let(:child_e) { create :project, name: 'e', parent: parent_project_a }
-  shared_let(:child_c) { create :project, name: 'C', parent: parent_project_a }
-  shared_let(:child_f) { create :project, name: 'F', parent: parent_project_a }
-  shared_let(:child_d) { create :project, name: 'D', parent: parent_project_b }
-  shared_let(:child_b) { create :project, name: 'B', parent: parent_project_b }
+  shared_let(:child_e) { create(:project, name: 'e', parent: parent_project_a) }
+  shared_let(:child_c) { create(:project, name: 'C', parent: parent_project_a) }
+  shared_let(:child_f) { create(:project, name: 'F', parent: parent_project_a) }
+  shared_let(:child_d) { create(:project, name: 'D', parent: parent_project_b) }
+  shared_let(:child_b) { create(:project, name: 'B', parent: parent_project_b) }
 
   subject { described_class.all.reorder(:lft) }
 

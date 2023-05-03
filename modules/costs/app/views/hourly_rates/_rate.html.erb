@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2022 the OpenProject GmbH
+Copyright (C) 2012-2023 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -34,25 +34,27 @@ See COPYRIGHT and LICENSE files for more details.
   id_or_index = rate.new_record? ? index : rate.id
   prefix = "user[#{new_or_existing}_rate_attributes][]"
   id_prefix = "user_#{new_or_existing}_rate_attributes_#{id_or_index}"
-  name_prefix = "user[#{new_or_existing}_rate_attributes][#{id_or_index}]"
   classes ||= ""
   classes += " subform-row-template" if templated
 -%>
 
-<%= fields_for prefix, rate do |rate_form| %>
+<%= fields_for prefix, rate, builder: TabularFormBuilder do |rate_form| %>
   <tr class="subform-row <%= classes %>" id="<%= id_prefix %>">
     <td>
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
-      <%= rate_form.text_field :valid_from,
-                               class: 'date costs-date-picker -augmented-datepicker',
-                               index: id_or_index,
-                               required: true %>
+      <%= rate_form.date_picker :valid_from,
+                                index: id_or_index,
+                                class: 'date costs-date-picker',
+                                no_label: true,
+                                no_field_container: true %>
     </td>
     <td class="currency">
       <span class="inline-label">
         <label class="hidden-for-sighted" for="<%= "#{id_prefix}_rate" %>"><%= Rate.model_name.human %></label>
         <%= rate_form.text_field :rate,
                                  index: id_or_index,
+                                 no_label: true,
+                                 no_field_container: true,
                                  value: rate.rate ? unitless_currency_number(rate.rate.round(2)) : "",
                                  required: true %>
         <span class="form-label">

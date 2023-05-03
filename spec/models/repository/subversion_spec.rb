@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Repository::Subversion, type: :model do
+describe Repository::Subversion do
   let(:instance) { build(:repository_subversion) }
   let(:adapter)  { instance.scm }
   let(:config)   { {} }
@@ -101,7 +101,7 @@ describe Repository::Subversion, type: :model do
 
     context 'with managed config' do
       let(:config) { { manages: managed_path } }
-      let(:project) { build :project }
+      let(:project) { build(:project) }
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
@@ -130,8 +130,8 @@ describe Repository::Subversion, type: :model do
       end
 
       context 'and associated project with parent' do
-        let(:parent) { build :project }
-        let(:project) { build :project, parent: }
+        let(:parent) { build(:project) }
+        let(:project) { build(:project, parent:) }
 
         before do
           instance.project = project
@@ -191,8 +191,8 @@ describe Repository::Subversion, type: :model do
 
         # with limit
         changesets = instance.latest_changesets('', nil, 2)
-        assert_equal 2, changesets.size
-        assert_equal instance.latest_changesets('', nil).to_a.slice(0, 2), changesets
+        expect(changesets.size).to eq(2)
+        expect(instance.latest_changesets('', nil).to_a.slice(0, 2)).to eq(changesets)
 
         # with path
         changesets = instance.latest_changesets('subversion_test/folder', nil)
@@ -272,7 +272,7 @@ describe Repository::Subversion, type: :model do
           if s1.respond_to?(:force_encoding)
             s1.force_encoding('ISO-8859-1')
             s2.force_encoding('UTF-8')
-            assert_equal s1.encode('UTF-8'), s2
+            expect(s1.encode('UTF-8')).to eq(s2)
           end
           c = Changeset.new(repository: instance,
                             comments: s2,
@@ -309,7 +309,7 @@ describe Repository::Subversion, type: :model do
         def find_events(user, options = {})
           options[:scope] = ['changesets']
           fetcher = Activities::Fetcher.new(user, options)
-          fetcher.events(30.days.ago, 1.day.from_now)
+          fetcher.events(from: 30.days.ago, to: 1.day.from_now)
         end
 
         it 'finds events' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,8 +45,8 @@ describe UpdateProjectsTypesService do
     end
 
     shared_examples 'activating custom fields' do
-      let(:project) { create :project, no_types: true }
-      let!(:custom_field) { create :text_wp_custom_field, types: }
+      let(:project) { create(:project, no_types: true) }
+      let!(:custom_field) { create(:text_wp_custom_field, types:) }
 
       it 'updates the active custom fields' do
         expect { subject }
@@ -61,7 +61,7 @@ describe UpdateProjectsTypesService do
       end
 
       context 'for a project with already existing types' do
-        let(:project) { create :project, types:, work_package_custom_fields: [create(:text_wp_custom_field)] }
+        let(:project) { create(:project, types:, work_package_custom_fields: [create(:text_wp_custom_field)]) }
 
         it 'does not change custom fields' do
           expect { subject }.not_to change { project.reload.work_package_custom_field_ids }

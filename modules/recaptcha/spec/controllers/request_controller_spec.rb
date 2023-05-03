@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe ::Recaptcha::RequestController, type: :controller do
-  let(:user) { create :user }
+describe Recaptcha::RequestController do
+  let(:user) { create(:user) }
 
   include_context 'with settings' do
     let(:settings) do
@@ -30,7 +30,7 @@ describe ::Recaptcha::RequestController, type: :controller do
     end
 
     it 'skips if user is verified' do
-      allow(::Recaptcha::Entry)
+      allow(Recaptcha::Entry)
         .to receive(:exists?).with(user_id: user.id)
         .and_return true
 
@@ -39,7 +39,7 @@ describe ::Recaptcha::RequestController, type: :controller do
     end
 
     context 'if the user is an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'skips the verification' do
         allow(controller).to receive(:perform)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,11 @@ require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
 describe 'bcf export',
-         type: :feature,
          js: true,
          with_config: { edition: 'bim' } do
   let(:status) { create(:status, name: 'New', is_default: true) }
   let(:closed_status) { create(:closed_status, name: 'Closed') }
-  let(:project) { create :project, enabled_module_names: %i[bim work_package_tracking] }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
 
   let!(:open_work_package) { create(:work_package, project:, subject: 'Open WP', status:) }
   let!(:closed_work_package) { create(:work_package, project:, subject: 'Closed WP', status: closed_status) }
@@ -52,9 +51,9 @@ describe 'bcf export',
   end
 
   let(:current_user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
 
   let!(:model) do
@@ -63,9 +62,9 @@ describe 'bcf export',
            uploader: current_user)
   end
 
-  let(:model_page) { ::Pages::IfcModels::ShowDefault.new project }
-  let(:wp_cards) { ::Pages::WorkPackageCards.new(project) }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
+  let(:model_page) { Pages::IfcModels::ShowDefault.new project }
+  let(:wp_cards) { Pages::WorkPackageCards.new(project) }
+  let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
     login_as current_user

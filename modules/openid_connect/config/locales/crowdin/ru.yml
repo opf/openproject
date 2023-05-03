@@ -9,6 +9,7 @@ ru:
         identifier: Идентификатор
         secret: Секретный ключ
         scope: Область
+        limit_self_registration: Ограничить саморегистрацию
   openid_connect:
     menu_title: Провайдеры OpenID
     providers:
@@ -17,3 +18,6 @@ ru:
       no_results_table: Ни один провайдер еще не был определен.
       plural: Провайдеры OpenID
       singular: Провайдер OpenID
+    setting_instructions:
+      limit_self_registration: >
+        Если включено, пользователи могут зарегистрироваться только с помощью данного провайдера, если это позволяет сама регистрация.

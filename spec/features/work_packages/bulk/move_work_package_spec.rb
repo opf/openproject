@@ -3,7 +3,7 @@ require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
 describe 'Moving a work package through Rails view', js: true do
-  include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
     create(:role,
@@ -51,9 +51,10 @@ describe 'Moving a work package through Rails view', js: true do
   let(:status) { create(:status) }
   let(:work_package2_status) { status }
 
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { ::Components::WorkPackages::DisplayRepresentation.new }
+  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:current_user) { mover }
   let(:work_packages) { [work_package, work_package2] }
 
@@ -89,6 +90,28 @@ describe 'Moving a work package through Rails view', js: true do
                             select_text: 'Target',
                             results_selector: 'body'
         SeleniumHubWaiter.wait
+      end
+
+      context 'when the limit to move in the frontend is 1',
+              with_settings: { work_packages_bulk_request_limit: 1 } do
+        it 'copies them in the background and shows a status page' do
+          # Clicking move and follow might be broken due to the location.href
+          # in the refresh-on-form-changes component
+          retry_block do
+            click_on 'Move and follow'
+            page.find('[data-qa-selector="job-status--header"]')
+          end
+
+          expect(page).to have_text 'The job has been queued and will be processed shortly.'
+
+          perform_enqueued_jobs
+
+          work_package.reload
+          expect(work_package.project_id).to eq(project2.id)
+
+          expect(page).to have_current_path "/projects/#{project2.identifier}/work_packages/#{work_package.id}/activity"
+          page.find_by_id('projects-menu', text: 'Target')
+        end
       end
 
       it 'moves parent and child wp to a new project' do

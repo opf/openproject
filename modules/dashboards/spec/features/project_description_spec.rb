@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,10 +30,10 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Project description widget on dashboard', type: :feature, js: true do
+describe 'Project description widget on dashboard', js: true do
   let(:project_description) { "Some text I like to write" }
   let!(:project) do
-    create :project, description: project_description
+    create(:project, description: project_description)
   end
 
   let(:read_only_permissions) do
@@ -118,15 +118,15 @@ describe 'Project description widget on dashboard', type: :feature, js: true do
   end
 
   context 'with editing and wp add permissions' do
-    let!(:type) { create :type_task, name: 'Task' }
+    let!(:type) { create(:type_task, name: 'Task') }
     let!(:project) do
-      create :project, types: [type]
+      create(:project, types: [type])
     end
 
     let(:current_user) do
       create(:user, member_in_project: project, member_with_permissions: editing_permissions + %i[add_work_packages])
     end
-    let(:editor) { ::Components::WysiwygEditor.new 'body' }
+    let(:editor) { Components::WysiwygEditor.new 'body' }
 
     it 'can create a button macro for work packages' do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present

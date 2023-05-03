@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe WorkPackage, type: :model do
-  let(:type) { create :type }
-  let(:project) { create :project, types: [type] }
+describe WorkPackage do
+  let(:type) { create(:type) }
+  let(:project) { create(:project, types: [type]) }
 
   let(:custom_field) do
     create(
@@ -52,7 +52,7 @@ describe WorkPackage, type: :model do
   end
 
   let(:work_package) do
-    wp = create :work_package, project: project, type: type
+    wp = create(:work_package, project:, type:)
     wp.reload
     wp.custom_field_values = {
       custom_field.id => custom_values
@@ -70,7 +70,7 @@ describe WorkPackage, type: :model do
   end
 
   context 'when value not present' do
-    let(:work_package) { create :work_package, project:, type: }
+    let(:work_package) { create(:work_package, project:, type:) }
 
     it 'returns nil properly' do
       expect(values).to be_nil
@@ -97,7 +97,7 @@ describe WorkPackage, type: :model do
         work_package.custom_field_values = { custom_field.id => ids }
         work_package.save
 
-        expect(work_package.send("custom_field_#{custom_field.id}"))
+        expect(work_package.send(custom_field.attribute_getter))
           .to eql values
       end
     end

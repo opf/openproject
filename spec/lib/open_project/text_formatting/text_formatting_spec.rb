@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,8 +51,10 @@ describe OpenProject::TextFormatting do
       and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
     EXPECTED
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''),
-                 OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(%r{[\r\n\t]}, '')
+    expect(expected.gsub(%r{[\r\n\t]},
+                         '')).to eq(OpenProject::TextFormatting::Formats::Plain::Formatter.new({}).to_html(raw).gsub(
+                                      %r{[\r\n\t]}, ''
+                                    ))
   end
 
   describe 'options' do

@@ -29,10 +29,9 @@ You can configure the following options.
 2. Optionally enter a **display name**.
 3. Enter the **Identifier**.
 4. Enter the **Secret**.
-5. Press the blue **create** button.
-
-
-
+5. Optionally, if you want to honor the system-wide self-registration setting, enable "Limit self registration".
+When checked, users will be created according to the [self-registration setting](../authentication-settings).
+6. Press the blue **create** button.
 
 
 ## Google Workspace
@@ -208,3 +207,6 @@ exit
 ```
 
 Then, existing users should be able to log in using their Azure identity. Note that this works only if the user is using password-based authentication, and is not linked to any other authentication source (e.g. LDAP) or OpenID provider.
+
+
+Note that this setting is set to true by default for new installations already.

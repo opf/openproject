@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,7 +59,6 @@ describe OpenProject::Configuration, :settings_reset do
     subject { described_class.cache_store_configuration }
 
     context 'without cache store already set' do
-
       context 'with additional cache store configuration', with_config: { 'rails_cache_store' => 'bar' } do
         it 'changes the cache store' do
           expect(subject).to eq([:bar])

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,7 +103,7 @@ describe CustomValue do
 
     it 'returns an empty placeholder' do
       expect(subject.custom_field).to be_nil
-      expect(subject.send(:strategy)).to be_kind_of CustomValue::EmptyStrategy
+      expect(subject.send(:strategy)).to be_a CustomValue::EmptyStrategy
       expect(subject.typed_value).to eq 'my value not found'
       expect(subject.formatted_value).to eq 'my value not found'
     end

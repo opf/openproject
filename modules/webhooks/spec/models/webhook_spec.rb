@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe ::Webhooks::Webhook, type: :model do
-  subject { build :webhook }
+describe Webhooks::Webhook do
+  subject { build(:webhook) }
 
   describe 'attributes' do
     describe '#url' do
@@ -43,7 +43,7 @@ describe ::Webhooks::Webhook, type: :model do
   end
 
   describe '#projects' do
-    let(:project1) { create :project }
+    let(:project1) { create(:project) }
 
     before do
       subject.all_projects = false

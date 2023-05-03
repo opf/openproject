@@ -9,6 +9,7 @@ lol:
         identifier: crwdns547501:0crwdne547501:0
         secret: crwdns547503:0crwdne547503:0
         scope: crwdns547505:0crwdne547505:0
+        limit_self_registration: crwdns851963:0crwdne851963:0
   openid_connect:
     menu_title: crwdns547507:0crwdne547507:0
     providers:
@@ -17,3 +18,6 @@ lol:
       no_results_table: crwdns547513:0crwdne547513:0
       plural: crwdns547515:0crwdne547515:0
       singular: crwdns547517:0crwdne547517:0
+    setting_instructions:
+      limit_self_registration: >
+        crwdns851965:0crwdne851965:0

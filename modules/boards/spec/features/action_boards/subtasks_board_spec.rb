@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Subtasks action board', type: :feature, js: true do
+describe 'Subtasks action board', js: true do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
@@ -43,10 +43,10 @@ describe 'Subtasks action board', type: :feature, js: true do
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
-  let!(:priority) { create :default_priority }
-  let!(:open_status) { create :default_status, name: 'Open' }
-  let!(:parent) { create :work_package, project:, subject: 'Parent WP', status: open_status }
-  let!(:child) { create :work_package, project:, subject: 'Child WP', parent:, status: open_status }
+  let!(:priority) { create(:default_priority) }
+  let!(:open_status) { create(:default_status, name: 'Open') }
+  let!(:parent) { create(:work_package, project:, subject: 'Parent WP', status: open_status) }
+  let!(:child) { create(:work_package, project:, subject: 'Child WP', parent:, status: open_status) }
 
   before do
     with_enterprise_token :board_view
@@ -76,7 +76,7 @@ describe 'Subtasks action board', type: :feature, js: true do
   end
 
   context 'with all permissions' do
-    let!(:other_wp) { create :work_package, project:, subject: 'Other WP', status: open_status }
+    let!(:other_wp) { create(:work_package, project:, subject: 'Other WP', status: open_status) }
 
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
@@ -178,7 +178,7 @@ describe 'Subtasks action board', type: :feature, js: true do
   end
 
   describe 'with German language (regression #40031)' do
-    let!(:german_user) { create :admin, language: :de }
+    let!(:german_user) { create(:admin, language: :de) }
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
          edit_work_packages view_work_packages manage_public_queries]

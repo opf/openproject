@@ -2,13 +2,11 @@ require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
 describe 'Login with 2FA device',
-         type: :feature,
-         with_settings: {
+         js: true, with_settings: {
            plugin_openproject_two_factor_authentication: {
              'active_strategies' => [:developer]
            }
-         },
-         js: true do
+         } do
   let(:user_password) { 'bob!' * 4 }
   let(:user) do
     create(:user,
@@ -18,12 +16,12 @@ describe 'Login with 2FA device',
   end
 
   context 'with a default device' do
-    let!(:device) { create :two_factor_authentication_device_sms, user:, active: true, default: true }
+    let!(:device) { create(:two_factor_authentication_device_sms, user:, active: true, default: true) }
 
     it 'requests a 2FA' do
       sms_token = nil
       # rubocop:disable RSpec/AnyInstance
-      allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+      allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
         .to receive(:create_mobile_otp).and_wrap_original do |m|
         sms_token = m.call
       end

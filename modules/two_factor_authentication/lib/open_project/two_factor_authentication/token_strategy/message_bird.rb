@@ -162,7 +162,8 @@ module OpenProject::TwoFactorAuthentication
         I18n.t "two_factor_authentication.text_otp_delivery_message_#{channel}",
                pause:,
                token: token_value,
-               app_title: Setting.app_title, locale: locale_key,
+               locale: locale_key,
+               app_title: Setting.app_title,
                fallback:, raise: raise_on_missing
       end
 

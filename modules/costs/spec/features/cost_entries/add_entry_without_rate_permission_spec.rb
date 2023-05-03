@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-describe 'Create cost entry without rate permissions', type: :feature, js: true do
+describe 'Create cost entry without rate permissions', js: true do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -36,26 +36,26 @@ describe 'Create cost entry without rate permissions', type: :feature, js: true 
     create(:project, types: [type_task])
   end
   shared_let(:role) do
-    create :role,
+    create(:role,
            permissions: %i[view_work_packages
                            log_costs
                            view_cost_entries
-                           work_package_assigned]
+                           work_package_assigned])
   end
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
 
   shared_let(:cost_type) do
-    type = create :cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural'
-    create :cost_rate, cost_type: type, rate: 1.00
+    type = create(:cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural')
+    create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
 
-  shared_let(:work_package) { create :work_package, project:, status:, type: type_task }
-  shared_let(:full_view) { ::Pages::FullWorkPackage.new(work_package, project) }
+  shared_let(:work_package) { create(:work_package, project:, status:, type: type_task) }
+  shared_let(:full_view) { Pages::FullWorkPackage.new(work_package, project) }
 
   before do
     login_as user
@@ -73,7 +73,7 @@ describe 'Create cost entry without rate permissions', type: :feature, js: true 
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
     expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_no_selector('#cost_entry_costs')
+    expect(page).not_to have_selector('#cost_entry_costs')
 
     click_on 'Save'
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).to have_no_selector(selector)
+        expect(page).not_to have_selector(selector)
       end
 
       def choose(target)
@@ -62,7 +62,7 @@ module Components
       def expect_no_options(*options)
         expect_open
         options.each do |text|
-          expect(page).to have_no_selector("#{selector} .menu-item", text:)
+          expect(page).not_to have_selector("#{selector} .menu-item", text:)
         end
       end
 

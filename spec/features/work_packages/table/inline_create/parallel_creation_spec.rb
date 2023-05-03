@@ -4,24 +4,24 @@ describe 'Parallel work package creation spec', js: true do
   let(:type) { project.types.first }
 
   let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
-  let(:role) { create :role, permissions: }
+  let(:role) { create(:role, permissions:) }
   let(:user) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_through_role: role
+           member_through_role: role)
   end
   let(:status) { create(:default_status) }
   let(:workflow) do
-    create :workflow,
+    create(:workflow,
            type_id: type.id,
            old_status: status,
            new_status: create(:status),
-           role:
+           role:)
   end
 
   let!(:project) { create(:project, public: true) }
-  let!(:priority) { create :priority, is_default: true }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
+  let!(:priority) { create(:priority, is_default: true) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   before do
     workflow
@@ -59,7 +59,7 @@ describe 'Parallel work package creation spec', js: true do
 
     # There should be one row, and no open inline create row
     expect(page).to have_selector('.wp--row', count: 1)
-    expect(page).to have_no_selector('.wp-inline-create-row')
+    expect(page).not_to have_selector('.wp-inline-create-row')
 
     wp_table.expect_toast(
       message: 'Successful creation. Click here to open this work package in fullscreen view.'
@@ -74,7 +74,7 @@ describe 'Parallel work package creation spec', js: true do
     wp_table.expect_work_package_listed wp1
 
     # Both are saved
-    created_split = ::Pages::SplitWorkPackage.new wp1, project
+    created_split = Pages::SplitWorkPackage.new wp1, project
     subject_field = created_split.edit_field :subject
     subject_field.expect_inactive!
     subject_field.expect_state_text 'Some subject'
@@ -86,7 +86,7 @@ describe 'Parallel work package creation spec', js: true do
     expect(page).to have_selector('.wp-inline-create-row')
 
     # Save in split screen
-    new_split = ::Pages::SplitWorkPackageCreate.new project: project
+    new_split = Pages::SplitWorkPackageCreate.new(project:)
     subject_field = new_split.edit_field :subject
     subject_field.expect_active!
     subject_field.expect_value 'New subject'
@@ -97,7 +97,7 @@ describe 'Parallel work package creation spec', js: true do
     )
     wp_table.dismiss_toaster!
     expect(page).to have_selector('.wp--row', count: 2)
-    expect(page).to have_no_selector('.wp-inline-create-row')
+    expect(page).not_to have_selector('.wp-inline-create-row')
 
     # Get the last work package
     wp2 = WorkPackage.last

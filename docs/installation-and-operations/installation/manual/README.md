@@ -108,16 +108,16 @@ time to finish.
 [openproject@host] source ~/.profile
 [openproject@host] git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-[openproject@host] rbenv install 3.1.2
+[openproject@host] rbenv install 3.2.1
 [openproject@host] rbenv rehash
-[openproject@host] rbenv global 3.1.2
+[openproject@host] rbenv global 3.2.1
 ```
 
 To check our Ruby installation we run `ruby --version`. It should output
 something very similar to:
 
 ```
-ruby 3.1.2p20 (2022-04-12 revision 4491bb740a) [x86_64-linux]
+ruby 3.2.1 (2023-02-08 revision 31819e82c8) [x86_64-linux]
 ```
 
 ## Installation of Node
@@ -230,12 +230,12 @@ To configure the environment variables such as the number of web server threads 
 [openproject@host] RAILS_ENV="production" ./bin/rake assets:precompile
 ```
 
-> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `LOCALE` environment variable on the call to `db:seed`. E.g.
+> **NOTE:** When not specified differently, the default data loaded via db:seed will have an english localization. You can choose to seed in a different language by specifying the language via the `OPENPROJECT_SEED_LOCALE` environment variable on the call to `db:seed`. E.g.
 
 ```bash
 [openproject@all] RAILS_ENV="production" OPENPROJECT_SEED_LOCALE=fr ./bin/rake db:seed
 ```
-will seed the database in the french language. A large portion of the seed data is only available in english, however.
+will seed the database in the French language. A large portion of the seed data is only available in English, however.
 
 ### Secret token
 

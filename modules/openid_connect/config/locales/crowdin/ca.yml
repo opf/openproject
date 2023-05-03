@@ -9,6 +9,7 @@ ca:
         identifier: Identificador
         secret: Secret
         scope: Abast
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: Proveïdor d’OpenID
     providers:
@@ -17,3 +18,6 @@ ca:
       no_results_table: Encara no s'han definit cap proveïdor.
       plural: Proveïdors d’OpenID
       singular: Proveïdor d’OpenID
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

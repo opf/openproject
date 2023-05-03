@@ -2,7 +2,7 @@
 vi:
   js:
     label_preview: 'Xem trước'
-    button_update: 'Cập Nhật'
+    button_update: 'Cập nhật'
     avatars:
       label_choose_avatar: "Chọn hình đại diện từ tập tin"
       uploading_avatar: "Đang tải hình đại diện của bạn"

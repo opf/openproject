@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -133,7 +133,7 @@ describe 'API v3 Work package form resource', with_mail: false do
           it 'denotes string custom_field to be writable' do
             expect(subject)
               .to be_json_eql(true)
-              .at_path("_embedded/schema/#{cf_all.accessor_name.camelcase(:lower)}/writable")
+              .at_path("_embedded/schema/#{cf_all.attribute_name.camelcase(:lower)}/writable")
           end
         end
 
@@ -764,7 +764,7 @@ describe 'API v3 Work package form resource', with_mail: false do
                 create(:work_package_custom_field, field_format: 'text')
               end
 
-              let(:cf_param) { { "customField#{custom_field.id}" => nil } }
+              let(:cf_param) { { custom_field.attribute_name(:camel_case) => nil } }
               let(:params) { valid_params.merge(cf_param) }
 
               before do
@@ -828,7 +828,7 @@ describe 'API v3 Work package form resource', with_mail: false do
       it 'denotes custom_field to not be writable' do
         expect(subject)
           .to be_json_eql(false)
-          .at_path("_embedded/schema/#{cf_all.accessor_name.camelcase(:lower)}/writable")
+          .at_path("_embedded/schema/#{cf_all.attribute_name.camelcase(:lower)}/writable")
       end
     end
   end

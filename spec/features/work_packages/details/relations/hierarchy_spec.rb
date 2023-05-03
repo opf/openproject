@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,12 @@ require 'spec_helper'
 shared_examples 'work package relations tab', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 
@@ -69,14 +69,14 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
       ##
       # Add child #1
-      relations.openChildrenAutocompleter
+      relations.open_children_autocompleter
 
       relations.add_existing_child(child)
       relations.expect_child(child)
 
       ##
       # Add child #2
-      relations.openChildrenAutocompleter
+      relations.open_children_autocompleter
 
       relations.add_existing_child(child2)
       relations.expect_child(child2)
@@ -96,7 +96,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         )
       end
       let(:type2) { create(:type, custom_fields: [custom_field]) }
-      let(:relations) { ::Components::WorkPackages::Relations.new(parent) }
+      let(:relations) { Components::WorkPackages::Relations.new(parent) }
       let!(:status) { create(:status, is_default: true) }
       let!(:priority) { create(:priority, is_default: true) }
 
@@ -120,7 +120,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
         wp_page.expect_toast message: "#{custom_field.name} can't be blank.",
                              type: 'error'
 
-        cf_field = wp_page.edit_field("customField#{custom_field.id}")
+        cf_field = wp_page.edit_field(custom_field.attribute_name(:camel_case))
         cf_field.expect_active!
         cf_field.expect_value('')
 
@@ -158,24 +158,24 @@ shared_examples 'work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { create :project, types: [type_1, type_2] }
-    let(:type_1) { create :type }
-    let(:type_2) { create :type }
+    let(:project) { create(:project, types: [type1, type2]) }
+    let(:type1) { create(:type) }
+    let(:type2) { create(:type) }
 
-    let(:to_1) { create(:work_package, type: type_1, project:) }
-    let(:to_2) { create(:work_package, type: type_2, project:) }
+    let(:to1) { create(:work_package, type: type1, project:) }
+    let(:to2) { create(:work_package, type: type2, project:) }
 
-    let!(:relation_1) do
-      create :relation,
+    let!(:relation1) do
+      create(:relation,
              from: work_package,
-             to: to_1,
-             relation_type: Relation::TYPE_FOLLOWS
+             to: to1,
+             relation_type: Relation::TYPE_FOLLOWS)
     end
-    let!(:relation_2) do
-      create :relation,
+    let!(:relation2) do
+      create(:relation,
              from: work_package,
-             to: to_2,
-             relation_type: Relation::TYPE_RELATES
+             to: to2,
+             relation_type: Relation::TYPE_RELATES)
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -192,13 +192,13 @@ shared_examples 'work package relations tab', js: true, selenium: true do
     describe 'with limited permissions' do
       let(:permissions) { %i(view_work_packages) }
       let(:user_role) do
-        create :role, permissions:
+        create(:role, permissions:)
       end
 
       let(:user) do
-        create :user,
+        create(:user,
                member_in_project: project,
-               member_through_role: user_role
+               member_through_role: user_role)
       end
 
       context 'as view-only user, with parent set' do
@@ -207,17 +207,17 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
         it 'shows no links to create relations' do
           # No create buttons should exist
-          expect(page).to have_no_selector('.wp-relations-create-button')
+          expect(page).not_to have_selector('.wp-relations-create-button')
 
           # Test for add relation
-          expect(page).to have_no_selector('#relation--add-relation')
+          expect(page).not_to have_selector('#relation--add-relation')
 
           # Test for add parent
-          expect(page).to have_no_selector('.wp-relation--parent-change')
+          expect(page).not_to have_selector('.wp-relation--parent-change')
 
           # Test for add children
-          expect(page).to have_no_selector('#hierarchy--add-existing-child')
-          expect(page).to have_no_selector('#hierarchy--add-new-child')
+          expect(page).not_to have_selector('#hierarchy--add-existing-child')
+          expect(page).not_to have_selector('#hierarchy--add-new-child')
 
           # But it should show the linked parent
           expect(page).to have_selector('[data-qa-selector="op-wp-breadcrumb-parent"]', text: parent.subject)
@@ -240,7 +240,7 @@ shared_examples 'work package relations tab', js: true, selenium: true do
 
           ##
           # Add child
-          relations.openChildrenAutocompleter
+          relations.open_children_autocompleter
 
           relations.add_existing_child(child)
           wp_page.expect_and_dismiss_toaster(message: 'Successful update.')

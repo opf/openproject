@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ describe SCM::CreateLocalRepositoryJob do
     shared_examples 'creates a directory with mode' do |expected|
       it 'creates the directory' do
         subject
-        expect(Dir.exists?(repository.root_url)).to be true
+        expect(Dir.exist?(repository.root_url)).to be true
 
         file_mode = File.stat(repository.root_url).mode
         expect(sprintf("%o", file_mode)).to end_with(expected)

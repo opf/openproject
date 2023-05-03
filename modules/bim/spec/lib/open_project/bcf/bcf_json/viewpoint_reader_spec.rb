@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
 
   describe 'with empty example' do
     let_it_be(:xml_viewpoint) do
-      build_stubbed :xml_viewpoint, viewpoint_name: 'empty.bcfv'
+      build_stubbed(:xml_viewpoint, viewpoint_name: 'empty.bcfv')
     end
 
     it_behaves_like 'matches the JSON counterpart'
@@ -44,7 +44,7 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
 
   describe 'with minimal example' do
     let_it_be(:xml_viewpoint) do
-      build_stubbed :xml_viewpoint, viewpoint_name: 'minimal.bcfv'
+      build_stubbed(:xml_viewpoint, viewpoint_name: 'minimal.bcfv')
     end
 
     it_behaves_like 'viewpoint keys'
@@ -55,7 +55,7 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
 
   describe 'with full viewpoint' do
     let_it_be(:xml_viewpoint) do
-      build_stubbed :xml_viewpoint, viewpoint_name: 'full_viewpoint.bcfv'
+      build_stubbed(:xml_viewpoint, viewpoint_name: 'full_viewpoint.bcfv')
     end
 
     it_behaves_like 'viewpoint keys'
@@ -72,7 +72,7 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
 
   describe 'with real-world neuhaus_sc_1 example' do
     let_it_be(:xml_viewpoint) do
-      build_stubbed :xml_viewpoint, viewpoint_name: 'neubau_sc_1.bcfv'
+      build_stubbed(:xml_viewpoint, viewpoint_name: 'neubau_sc_1.bcfv')
     end
 
     it_behaves_like 'viewpoint keys'
@@ -84,7 +84,7 @@ describe OpenProject::Bim::BcfJson::ViewpointReader do
 
   describe 'with empty XML nodes' do
     let_it_be(:xml_viewpoint) do
-      build_stubbed :xml_viewpoint, viewpoint_name: 'empty_nodes.bcfv'
+      build_stubbed(:xml_viewpoint, viewpoint_name: 'empty_nodes.bcfv')
     end
 
     it 'ignores empty nodes' do

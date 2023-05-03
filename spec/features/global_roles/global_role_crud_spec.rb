@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_relative './mock_global_permissions'
 
-describe 'Global role: Global role CRUD', type: :feature, js: true do
+describe 'Global role: Global role CRUD', js: true do
   # Scenario: Global Role creation
   # Given there is the global permission "glob_test" of the module "global_group"
   before do
@@ -38,13 +38,13 @@ describe 'Global role: Global role CRUD', type: :feature, js: true do
   end
 
   # And I am already admin
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
 
   it 'can create global role with that perm' do
     # When I go to the new page of "Role"
     visit new_role_path
     # Then I should not see block with "#global_permissions"
-    expect(page).to have_no_selector('#global_permissions', visible: true)
+    expect(page).not_to have_selector('#global_permissions', visible: true)
     # When I check "Global Role"
     check 'Global Role'
     # Then I should see block with "#global_permissions"
@@ -54,7 +54,7 @@ describe 'Global role: Global role CRUD', type: :feature, js: true do
     # And I should see "Glob test"
     expect(page).to have_text 'Permission Glob Test'
     # And I should not see "Issues can be assigned to this role"
-    expect(page).to have_no_text 'Issues can be assigned to this role'
+    expect(page).not_to have_text 'Issues can be assigned to this role'
     # When I fill in "Name" with "Manager"
     fill_in 'Name', with: 'Manager'
     # And I click on "Create"

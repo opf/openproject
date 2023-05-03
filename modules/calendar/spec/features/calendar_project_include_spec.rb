@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,15 +30,15 @@ require 'spec_helper'
 require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/calendar'
 
-describe 'Calendar project include', type: :feature, js: true do
+describe 'Calendar project include', js: true do
   shared_let(:enabled_modules) { %w[work_package_tracking calendar_view] }
   shared_let(:permissions) do
     %i[view_work_packages view_calendar edit_work_packages add_work_packages save_queries manage_public_queries]
   end
 
   it_behaves_like 'has a project include dropdown' do
-    let(:work_package_view) { ::Pages::Calendar.new project }
-    let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+    let(:work_package_view) { Pages::Calendar.new project }
+    let(:dropdown) { Components::ProjectIncludeComponent.new }
 
     it 'correctly filters work packages by project' do
       dropdown.expect_count 1

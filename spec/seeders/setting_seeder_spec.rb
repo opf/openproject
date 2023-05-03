@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::BasicData::SettingSeeder do
+describe BasicData::SettingSeeder do
   subject { described_class.new }
 
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
@@ -71,7 +71,7 @@ describe ::BasicData::SettingSeeder do
   end
 
   it 'does not seed settings whose default value is undefined' do
-    names_of_undefined_settings = Settings::Definition.all.select { _1.value == nil }.map(&:name)
+    names_of_undefined_settings = Settings::Definition.all.values.select { _1.value == nil }.map(&:name)
     # these ones are special as their value is set based on database ids
     names_of_undefined_settings -= ["new_project_user_role_id", "commit_fix_status_id"]
     expect(Setting.where(name: names_of_undefined_settings).pluck(:name)).to be_empty

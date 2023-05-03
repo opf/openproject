@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,20 @@
 require 'spec_helper'
 
 describe 'Wysiwyg work package button spec',
-         type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+         js: true do
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let!(:type) { create :type, name: 'MyTaskName' }
+  let!(:type) { create(:type, name: 'MyTaskName') }
   let(:project) do
-    create :valid_project,
+    create(:valid_project,
            identifier: 'my-project',
            enabled_module_names: %w[wiki work_package_tracking],
            name: 'My project name',
-           types: [type]
+           types: [type])
   end
 
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
@@ -63,7 +63,7 @@ describe 'Wysiwyg work package button spec',
 
           # Cancel editing
           find('.spot-modal--cancel-button').click
-          expect(editable).to have_no_selector('.macro.-create_work_package_link')
+          expect(editable).not_to have_selector('.macro.-create_work_package_link')
 
           editor.insert_macro  'Insert create work package button'
           select 'MyTaskName', from: 'selected-type'

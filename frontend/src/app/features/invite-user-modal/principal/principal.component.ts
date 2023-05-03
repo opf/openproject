@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  FormGroup,
-  FormControl,
+  UntypedFormGroup,
+  UntypedFormControl,
   Validators,
   AbstractControl,
 } from '@angular/forms';
@@ -99,13 +99,13 @@ export class PrincipalComponent implements OnInit {
     },
   };
 
-  public principalForm = new FormGroup({
+  public principalForm = new UntypedFormGroup({
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    principal: new FormControl(null, [Validators.required]),
-    userDynamicFields: new FormGroup({}),
+    principal: new UntypedFormControl(null, [Validators.required]),
+    userDynamicFields: new UntypedFormGroup({}),
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    role: new FormControl(null, [Validators.required]),
-    message: new FormControl(''),
+    role: new UntypedFormControl(null, [Validators.required]),
+    message: new UntypedFormControl(''),
   });
 
   public userDynamicFieldConfig:{

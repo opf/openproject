@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -24,7 +24,7 @@ bg:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Remaining hours"
+        remaining_hours: "Оставащи часове"
         remaining_time: "Remaining hours"
         story_points: "Точки на история"
         backlogs_work_package_type: "Backlog type"
@@ -77,7 +77,7 @@ bg:
     unassigned: "Unassigned"
     x_more: "%{count} more..."
   backlogs_active: "active"
-  backlogs_any: "any"
+  backlogs_any: "всякакви"
   backlogs_card_specification: "Label types for card printing"
   backlogs_inactive: "Project shows no activity"
   backlogs_points_burn_direction: "Points burn up/down"
@@ -91,7 +91,7 @@ bg:
   backlogs_sprints: "Sprints"
   backlogs_story: "История"
   backlogs_story_type: "Типове истории"
-  backlogs_task: "Задачата"
+  backlogs_task: "Задача"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
@@ -137,14 +137,14 @@ bg:
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
-  permission_select_done_statuses: "Select done statuses"
+  permission_select_done_statuses: "Изберете готови състояния"
   permission_update_sprints: "Update sprints"
   points_accepted: "points accepted"
   points_committed: "points committed"
   points_resolved: "points resolved"
   points_to_accept: "points not accepted"
   points_to_resolve: "points not resolved"
-  project_module_backlogs: "Backlogs"
+  project_module_backlogs: "Опашка"
   rb_label_copy_tasks: "Copy work packages"
   rb_label_copy_tasks_all: "All"
   rb_label_copy_tasks_none: "None"
@@ -155,7 +155,7 @@ bg:
   required_burn_rate_points: "required burn rate (points)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"
   todo_work_package_summary: "%{type}: %{summary}"
-  version_settings_display_label: "Column in backlog"
+  version_settings_display_label: "Колона в баклога"
   version_settings_display_option_left: "left"
   version_settings_display_option_none: "none"
   version_settings_display_option_right: "right"

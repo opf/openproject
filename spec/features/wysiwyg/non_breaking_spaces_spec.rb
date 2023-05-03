@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'Wysiwyg &nbsp; behavior',
-         type: :feature, js: true do
-  shared_let(:admin) { create :admin }
+         js: true do
+  shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
-  let(:editor) { ::Components::WysiwygEditor.new }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
@@ -55,9 +55,9 @@ describe 'Wysiwyg &nbsp; behavior',
         expect(page).to have_selector('.flash.notice')
 
         within('#content') do
-          expect(page).to have_selector('p') do |node|
+          expect(page).to have_selector('p') { |node|
             node.text.include?('some text') && node.text.include?('with bold')
-          end
+          }
           expect(page).to have_selector('strong', text: 'with bold')
         end
       end

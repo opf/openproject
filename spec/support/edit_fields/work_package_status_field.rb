@@ -51,6 +51,6 @@ class WorkPackageStatusField < EditField
   end
 
   def expect_inactive!
-    expect(page).to have_no_selector(input_selector)
+    expect(page).not_to have_selector(input_selector)
   end
 end

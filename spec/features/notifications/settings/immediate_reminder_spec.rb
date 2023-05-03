@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Immediate reminder settings", type: :feature, js: true do
+describe "Immediate reminder settings", js: true do
   shared_examples 'immediate reminder settings' do
     it 'allows to configure the reminder settings' do
       # Save prefs so we can reload them later
@@ -32,7 +32,7 @@ describe "Immediate reminder settings", type: :feature, js: true do
     let(:pref) { current_user.pref }
 
     current_user do
-      create :user
+      create(:user)
     end
 
     it_behaves_like 'immediate reminder settings'
@@ -41,11 +41,11 @@ describe "Immediate reminder settings", type: :feature, js: true do
   context 'with the user administration page' do
     let(:reminders_settings_page) { Pages::Reminders::Settings.new(other_user) }
 
-    let(:other_user) { create :user }
+    let(:other_user) { create(:user) }
     let(:pref) { other_user.pref }
 
     current_user do
-      create :admin
+      create(:admin)
     end
 
     it_behaves_like 'immediate reminder settings'

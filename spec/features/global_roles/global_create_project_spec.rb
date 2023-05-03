@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'Global role: Global Create project', type: :feature, js: true do
+describe 'Global role: Global Create project', js: true do
   let(:user) { create(:admin) }
-  let(:project) { create :project }
+  let(:project) { create(:project) }
 
   before do
     login_as(user)
@@ -46,7 +46,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     it 'does not show the global permission' do
       visit edit_role_path(role)
       expect(page).to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).to have_no_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Create project')
     end
   end
 
@@ -59,7 +59,7 @@ describe 'Global role: Global Create project', type: :feature, js: true do
 
     it 'does show the global permission' do
       visit edit_role_path(role)
-      expect(page).to have_no_selector('.form--label-with-check-box', text: 'Edit project')
+      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Edit project')
       expect(page).to have_selector('.form--label-with-check-box', text: 'Create project')
     end
   end
@@ -68,14 +68,14 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
     let!(:member_role) { create(:role, name: 'Member', permissions: %i[view_project]) }
 
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let!(:global_member) do
       create(:global_member,
              principal: user,
              roles: [global_role])
     end
 
-    let(:name_field) { ::FormFields::InputFormField.new :name }
+    let(:name_field) { FormFields::InputFormField.new :name }
 
     it 'does show the global permission' do
       visit projects_path
@@ -98,13 +98,13 @@ describe 'Global role: Global Create project', type: :feature, js: true do
     # | Firstname | Bob |
     # | Lastname | Bobbit |
     #   When I am already logged in as "bob"
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     it 'does show the global permission' do
       # And I go to the overall projects page
       visit projects_path
       # Then I should not see "Project" within ".toolbar-items"
-      expect(page).to have_no_selector('.button.-alt-highlight', text: 'Project')
+      expect(page).not_to have_selector('.button.-alt-highlight', text: 'Project')
     end
   end
 end

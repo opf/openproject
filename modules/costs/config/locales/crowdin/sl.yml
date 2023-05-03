@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -23,7 +23,7 @@ sl:
   activerecord:
     attributes:
       cost_entry:
-        work_package: "Zahtevek"
+        work_package: "Delovni paket"
         overridden_costs: "Povoženi stroški "
         spent: "Porabljeno"
         spent_on: "Datum"
@@ -51,7 +51,7 @@ sl:
     errors:
       models:
         work_package:
-          is_not_a_valid_target_for_cost_entries: "Work package #%{id} is not a valid target for reassigning the cost entries."
+          is_not_a_valid_target_for_cost_entries: "Delovni paket #% {id} ni veljaven cilj za prerazporeditev vnosov stroškov."
           nullify_is_not_valid_for_cost_entries: "Vnosa stroškov ni mogoče dodeliti projektu."
   attributes:
     comment: "Komentar"

@@ -28,15 +28,15 @@ jobs:
       CI_RETRY_COUNT: 3
       LOCAL_DEV_CHECK: 1
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ruby31-core-tests-units-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-ruby32-core-tests-units-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-ruby31-core-tests-units-
-          ${{ runner.os }}-ruby31-core-tests-
+          ${{ runner.os }}-ruby32-core-tests-units-
+          ${{ runner.os }}-ruby32-core-tests-
     - name: test
       run: |
         docker-compose -f docker-compose.ci.yml build --pull ci
@@ -58,15 +58,15 @@ jobs:
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: /tmp/cache
-        key: ${{ runner.os }}-ruby31-core-tests-features-${{ hashFiles('**/Gemfile.lock') }}
+        key: ${{ runner.os }}-ruby32-core-tests-features-${{ hashFiles('**/Gemfile.lock') }}
         restore-keys: |
-          ${{ runner.os }}-ruby31-core-tests-features-
-          ${{ runner.os }}-ruby31-core-tests-
+          ${{ runner.os }}-ruby32-core-tests-features-
+          ${{ runner.os }}-ruby32-core-tests-
     - name: test
       run: |
         docker-compose -f docker-compose.ci.yml build --pull ci
@@ -80,12 +80,12 @@ jobs:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
     runs-on: [ubuntu-latest]
-    steps:    
-    - uses: actions/checkout@v2
+    steps:
+    - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         node-version: '14'
     - run: ./script/api/validate_spec

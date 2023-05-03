@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,16 @@
 require 'spec_helper'
 
 describe 'Projects index page',
-         type: :feature,
-         with_ee: %i[custom_fields_in_projects_list],
-         js: true,
-         with_settings: { login_required?: false } do
-  shared_let(:admin) { create :admin }
+         js: true, with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
+  shared_let(:admin) { create(:admin) }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:model_filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
-  let(:filters) { ::Components::WorkPackages::Filters.new }
-  let(:wp_table) { ::Pages::WorkPackagesTable.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:model_filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:filters) { Components::WorkPackages::Filters.new }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:projects_page) { Pages::Projects::Index.new }
-  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+  let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   before do
     login_as admin
@@ -59,7 +56,7 @@ describe 'Projects index page',
   end
 
   describe 'with only an archived project on index' do
-    let!(:project) { create :project, active: false }
+    let!(:project) { create(:project, active: false) }
 
     it 'disables the button' do
       visit projects_path
@@ -71,16 +68,16 @@ describe 'Projects index page',
   describe 'with projects defined' do
     let!(:string_cf) { create(:string_project_custom_field, name: 'Foobar') }
 
-    let(:cv_a) { build :custom_value, custom_field: string_cf, value: 'A' }
-    let(:cv_b) { build :custom_value, custom_field: string_cf, value: 'B' }
+    let(:cv_a) { build(:custom_value, custom_field: string_cf, value: 'A') }
+    let(:cv_b) { build(:custom_value, custom_field: string_cf, value: 'B') }
 
-    let!(:project_a) { create :project, name: 'A', types: [type_milestone], custom_values: [cv_a] }
-    let!(:project_b) { create :project, name: 'B', types: [type_milestone], custom_values: [cv_b] }
+    let!(:project_a) { create(:project, name: 'A', types: [type_milestone], custom_values: [cv_a]) }
+    let!(:project_b) { create(:project, name: 'B', types: [type_milestone], custom_values: [cv_b]) }
 
-    let!(:type_milestone) { create :type, name: 'Milestone', is_milestone: true }
+    let!(:type_milestone) { create(:type, name: 'Milestone', is_milestone: true) }
 
-    let!(:work_package_a) { create :work_package, subject: 'WP A', type: type_milestone, project: project_a }
-    let!(:work_package_b) { create :work_package, subject: 'WP B', type: type_milestone, project: project_b }
+    let!(:work_package_a) { create(:work_package, subject: 'WP A', type: type_milestone, project: project_a) }
+    let!(:work_package_b) { create(:work_package, subject: 'WP B', type: type_milestone, project: project_b) }
 
     it 'can manage and browse the project portfolio Gantt' do
       visit admin_settings_projects_path
@@ -97,10 +94,10 @@ describe 'Projects index page',
 
       # Check the status and custom field only
       find('input[value="project_status"]').check
-      find(%(input[value="cf_#{string_cf.id}"])).check
+      find(%(input[value="#{string_cf.column_name}"])).check
 
       expect(page).to have_selector('input[value="project_status"]:checked')
-      expect(page).to have_selector(%(input[value="cf_#{string_cf.id}"]:checked))
+      expect(page).to have_selector(%(input[value="#{string_cf.column_name}"]:checked))
 
       # Edit the project gantt query
       scroll_to_and_click(find('button', text: 'Edit query'))
@@ -115,9 +112,9 @@ describe 'Projects index page',
 
       model_filters.expect_filter_count 2
       # Add a project filter that gets overridden
-      model_filters.add_filter_by('Project', 'is', project_a.name)
+      model_filters.add_filter_by('Project', 'is (OR)', project_a.name)
 
-      model_filters.expect_filter_by('Type', 'is', type_milestone.name)
+      model_filters.expect_filter_by('Type', 'is (OR)', type_milestone.name)
       model_filters.save
 
       # Save the page
@@ -147,7 +144,7 @@ describe 'Projects index page',
       filters.expect_filter_count 1
       filters.open
 
-      filters.expect_filter_by('Type', 'is', [type_milestone.name])
+      filters.expect_filter_by('Type', 'is (OR)', [type_milestone.name])
 
       # Expect columns
       columns.open_modal

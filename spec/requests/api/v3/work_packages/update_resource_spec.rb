@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -349,7 +349,7 @@ describe 'API v3 Work package resource',
 
         context 'valid type changing custom fields' do
           let(:custom_field) { create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
+          let(:custom_field_parameter) { { custom_field.attribute_name(:camel_case) => true } }
           let(:params) { valid_params.merge(type_parameter).merge(custom_field_parameter) }
 
           before do
@@ -430,7 +430,7 @@ describe 'API v3 Work package resource',
         context 'with a custom field defined on the target project' do
           let(:member_permissions) { %i[move_work_packages edit_work_packages] }
           let(:custom_field) { create(:work_package_custom_field) }
-          let(:custom_field_parameter) { { "customField#{custom_field.id}": true } }
+          let(:custom_field_parameter) { { custom_field.attribute_name(:camel_case) => true } }
           let(:params) { valid_params.merge(project_parameter).merge(custom_field_parameter) }
 
           before do
@@ -718,7 +718,7 @@ describe 'API v3 Work package resource',
         end
 
         let(:value_parameter) do
-          { _links: { custom_field.accessor_name.camelize(:lower) => { href: value_link } } }
+          { _links: { custom_field.attribute_name.camelize(:lower) => { href: value_link } } }
         end
         let(:params) { valid_params.merge(value_parameter) }
 
@@ -736,7 +736,7 @@ describe 'API v3 Work package resource',
           it 'responds with the work package assigned to the new value' do
             expect(subject.body)
               .to be_json_eql(value_link.to_json)
-                    .at_path("_links/#{custom_field.accessor_name.camelize(:lower)}/href")
+                    .at_path("_links/#{custom_field.attribute_name.camelize(:lower)}/href")
           end
 
           it_behaves_like 'lock version updated'

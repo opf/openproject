@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -193,9 +193,7 @@ module RbCommonHelper
         end
       end
 
-      workflows = all_workflows
-
-      workflows.each do |w|
+      all_workflows.each do |w|
         type_status = available_statuses_by_type[story_types_by_id[w.type_id]][w.old_status]
 
         type_status << w.new_status unless type_status.include?(w.new_status)
@@ -231,10 +229,16 @@ module RbCommonHelper
     @all_work_package_status_by_id[id]
   end
 
+  # Returns all distinct virtual workflows for the roles the current user has in the project and the story types.
+  # Virtual workflow because not every instance of a workflow in the database will be returned but a representation
+  # distinct by type_id, old_status_id and new_status_id. This helps in case a lot of workflows are configured.
   def all_workflows
-    @all_workflows ||= Workflow.includes(%i[new_status old_status])
-                       .where(role_id: User.current.roles_for_project(@project).map(&:id),
-                              type_id: story_types.map(&:id))
+    Workflow
+      .includes(%i[new_status old_status])
+      .where(role_id: User.current.roles_for_project(@project).map(&:id),
+             type_id: story_types.map(&:id))
+      .group(:type_id, :old_status_id, :new_status_id)
+      .reselect(:type_id, :old_status_id, :new_status_id)
   end
 
   def all_work_package_status

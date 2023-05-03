@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Top menu items', js: true, selenium: true do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
@@ -77,7 +77,7 @@ describe 'Top menu items', js: true, selenium: true do
     let(:all_items) { [news_item, project_item, reporting_item] }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays all items' do
         has_menu_items?(reporting_item, news_item, project_item)
@@ -102,7 +102,7 @@ describe 'Top menu items', js: true, selenium: true do
     end
 
     context 'as an anonymous user' do
-      let(:user) { create :anonymous }
+      let(:user) { create(:anonymous) }
 
       it 'displays only news and projects' do
         has_menu_items? news_item, project_item
@@ -114,13 +114,14 @@ describe 'Top menu items', js: true, selenium: true do
     let(:top_menu) { find(:css, '#projects-menu') }
 
     let(:all_projects) { I18n.t('js.label_project_list') }
-    let(:all_items) { [all_projects] }
+    let(:add_project) { I18n.t('js.label_project') }
 
     context 'as an admin' do
-      let(:user) { create :admin }
+      let(:user) { create(:admin) }
 
       it 'displays all items' do
-        has_menu_items?(all_projects)
+        expect(page).to have_selector('a.button', exact_text: all_projects)
+        expect(page).to have_selector('a.button', exact_text: add_project)
       end
 
       it 'visits the projects page' do
@@ -136,16 +137,17 @@ describe 'Top menu items', js: true, selenium: true do
       end
 
       it 'does not display new_project' do
-        has_menu_items? all_projects
+        expect(page).to have_selector('a.button', exact_text: all_projects)
+        expect(page).not_to have_selector('a.button', exact_text: add_project)
       end
     end
 
     context 'as an anonymous user' do
-      let(:user) { create :anonymous }
+      let(:user) { create(:anonymous) }
       let(:open_menu) { false }
 
       it 'does not show the menu' do
-        expect(page).to have_no_selector('#projects-menu')
+        expect(page).not_to have_selector('#projects-menu')
       end
     end
   end

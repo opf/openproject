@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,10 +32,12 @@ FactoryBot.define do
     # The following properties are not actually valid.
     # They were added when the default value (also 0) was removed and too many
     # tests relied on this behaviour for it to be fixed right away.
+    subject { 'abc' }
     type_id { 0 }
     project_id { 0 }
     status_id { 0 }
     priority_id { 0 }
     author_id { 0 }
+    done_ratio { 0 }
   end
 end

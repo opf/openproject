@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -232,6 +232,7 @@ fr:
       failed_text: "La demande de suppression du projet %{name} a échoué. Le projet a été archivé."
       completed: "Suppression du projet %{name} terminée"
       completed_text: "La demande de suppression du projet '%{name}' a été terminée."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Ouvrir comme vue Gantt'
       open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
@@ -337,6 +338,7 @@ fr:
   wiki:
     page_not_editable_index: La page demandée n'existe pas (encore). Vous avez été redirigé vers l'index de toutes les pages du wiki.
     no_results_title_text: Il n'y a actuellement aucune page wiki.
+    print_hint: Ceci affichera le contenu de cette page wiki sans aucune barre de navigation.
     index:
       no_results_content_text: Ajouter une nouvelle page wiki
   work_flows:
@@ -347,6 +349,8 @@ fr:
       one: 'Un lot de travaux descendant'
       other: '%{count} lots de travaux descendants'
     bulk:
+      copy_failed: "Les lots de travaux n'ont pas pu être copiés."
+      move_failed: "Les lots de travaux n'ont pas pu être déplacés."
       could_not_be_saved: "Les lots de travaux suivants n'ont pas pu être sauvegardés :"
       none_could_be_saved: "Aucun des %{total} lots de travaux n'a pu être mis à jour."
       x_out_of_y_could_be_saved: "%{failing} lots de travaux sur les %{total} n'ont pas pu être mis à jour alors que %{success} l'ont été."
@@ -375,7 +379,7 @@ fr:
   account:
     delete: "Supprimer le compte"
     delete_confirmation: "Êtes-vous sûr de vouloir supprimer le compte ?"
-    deleted: "Compte supprimé avec succès"
+    deletion_pending: "Le compte a été verrouillé et a été programmé pour suppression. Notez que ce processus a lieu en arrière-plan. Cela peut prendre quelques instants avant que l'utilisateur soit complètement supprimé."
     deletion_info:
       data_consequences:
         other: "Les données créées par l'utilisateur (e.g. e-mail, préférences, lots de travaux, entrées wiki) seront supprimées autant que possible. Notez toutefois que les données comme les lots de travaux et les entrées wiki ne peuvent pas être supprimées sans impacter le travail des autres utilisateurs. Ces données sont donc réaffectées à un compte appelé «Utilisateur supprimé». Étant donné que les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera plus possible de distinguer les données créées par cet utilisateur de celles d'un autre compte supprimé."
@@ -470,14 +474,24 @@ fr:
       member:
         roles: "Rôles"
       project:
+        active_value:
+          true: "désarchivé"
+          false: "archivé"
         identifier: "Identifiant"
         latest_activity_at: "Dernière activité à"
         parent: "Sous-projet de"
+        public_value:
+          title: "Visibilité"
+          true: "public"
+          false: "privé"
         queries: "Requêtes"
+        templated: "Modèle de projet"
+        templated_value:
+          true: "marqué comme modèle"
+          false: "non marqué comme modèle"
         types: "Types"
         versions: "Versions"
         work_packages: "Lots de Travaux"
-        templated: 'Modèle de projet'
       projects/status:
         code: 'Statut'
         explanation: 'Description du statut'
@@ -689,6 +703,11 @@ fr:
               no_notification_reason: 'ne peut pas être vide car IAN est choisi comme canal.'
             reason_mail_digest:
               no_notification_reason: 'ne peut pas être vide car le digest d''email est est choisi comme un canal.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "Un jour non ouvrable existe déjà pour %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -699,6 +718,8 @@ fr:
           archived_ancestor: 'Le projet possède un ancêtre archivé.'
           foreign_wps_reference_version: 'Les lots de travaux dans les projets non-descendants font référence aux versions du projet ou de ses descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "Vous n'avez pas les permissions requises pour archiver tous les sous-projets. Veuillez contacter un administrateur."
             types:
               in_use_by_work_packages: "toujours en cours d'utilisation par les lots de travaux : %{types}"
             enabled_modules:
@@ -892,8 +913,22 @@ fr:
     header_invalid_fields: "Des problèmes ont été rencontrés avec les champs suivants :"
     field_erroneous_label: "Ce champ n'est pas valide : %{full_errors}\nVeuillez saisir une valeur correcte."
   activity:
-    created: "Créé : %{title}"
-    updated: "Mis à jour : %{title}"
+    item:
+      created_by_on: "créé par %{user} le %{datetime}"
+      created_on: "créé le %{datetime}"
+      updated_by_on: "mis à jour par %{user} le %{datetime}"
+      updated_on: "mis à jour le %{datetime}"
+      parent_without_of: "Sous-projet"
+      parent_no_longer: "Plus de sous-projet de"
+    filter:
+      changeset: "Révisions"
+      message: "Forums"
+      news: "Actualités"
+      project_attribute: "Attributs du projet"
+      subproject: "Inclure les sous-projets"
+      time_entry: "Temps passé"
+      wiki_edit: "Wiki"
+      work_package: "Lots de travaux"
   #common attributes of all models
   attributes:
     active: "Actif"
@@ -1029,6 +1064,7 @@ fr:
   button_reset: "Réinitialiser"
   button_rollback: "Revenir à cette version"
   button_save: "Enregistrer"
+  button_apply_changes: "Appliquer les modifications"
   button_save_back: "Enregistrer et revenir"
   button_show: "Afficher"
   button_sort: "Trier"
@@ -1324,16 +1360,20 @@ fr:
   error_external_authentication_failed: "Une erreur s'est produite lors de l'authentification externe. Veuillez réessayer."
   error_attribute_not_highlightable: "Attribut(s) ne pouvant pas être mis en surbrillance: %{attributes}"
   events:
-    project: 'Projet édité'
     changeset: 'Lot de modification édité'
     message: Message édité
     news: Actualités
+    project_attributes: 'Attributs du projet modifiés'
+    projects: 'Projet édité'
     reply: Y a-t-il eu une réponse
     time_entry: 'Journal horaire édité'
     wiki_page: 'Page Wiki éditée'
     work_package_closed: 'Lot de travaux clôturé'
     work_package_edit: 'Lot de Travaux édité'
     work_package_note: 'Note de Lot de Travaux ajoutée'
+    title:
+      project: "Projet : %{name}"
+      subproject: "Sous-projet : %{name}"
   export:
     your_work_packages_export: "Exportation de vos lots de travaux"
     succeeded: "Export terminé avec succès"
@@ -1359,7 +1399,6 @@ fr:
   general_csv_encoding: "UTF-8"
   general_csv_separator: "."
   general_first_day_of_week: "1"
-  general_lang_name: "Français"
   general_pdf_encoding: "ISO-8859-15"
   general_text_no: "non"
   general_text_yes: "oui"
@@ -1745,6 +1784,10 @@ fr:
   label_not_contains: "ne contient pas"
   label_not_equals: "n'est pas"
   label_on: "le"
+  label_operator_all: "n'est pas vide"
+  label_operator_none: "est vide"
+  label_operator_equals_or: "est (OU)"
+  label_operator_equals_all: "est (ET)"
   label_open_menu: "Ouvrir le menu"
   label_open_work_packages: "ouverts"
   label_open_work_packages_plural: "ouverts"
@@ -1786,6 +1829,8 @@ fr:
   label_product_version: "Version du produit"
   label_professional_support: "Support professionnel"
   label_profile: "Profil"
+  label_project_activity: "Activité du projet"
+  label_project_attribute_plural: "Attributs du projet"
   label_project_count: "Nombre total de projets"
   label_project_copy_notifications: "Notifier par courriel lors de la copie du projet"
   label_project_latest: "Derniers projets"
@@ -2075,8 +2120,6 @@ fr:
   mail_subject_incoming_email_error: "Un e-mail que vous avez envoyé à OpenProject n'a pas pu être traité."
   mail_subject_lost_password: "Votre mot de passe %{value}"
   mail_subject_register: "Votre activation du compte %{value}"
-  mail_subject_reminder: "%{count} lot(s) de travaux à échéance dans les %{days} prochains jours"
-  mail_subject_group_reminder: "Pour le groupe \"%{group}\", %{count} lot(s) de travaux arrive(nt) à échéance dans %{days} jours"
   mail_subject_wiki_content_added: "Page wiki '%{id}' a été ajouté"
   mail_subject_wiki_content_updated: "Page wiki '%{id}' a été mise à jour"
   mail_member_added_project:
@@ -2210,6 +2253,7 @@ fr:
   permission_add_work_packages: "Ajouter des lots de travaux"
   permission_add_messages: "Poster des messages"
   permission_add_project: "Créer un projet"
+  permission_archive_project: "Archiver le projet"
   permission_manage_user: "Créer et éditer des utilisateurs"
   permission_manage_placeholder_user: "Créer, modifier et supprimer des utilisateurs fictifs"
   permission_add_subprojects: "Créer des sous-projets"
@@ -2647,12 +2691,13 @@ fr:
   text_work_packages_destroy_confirmation: "Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?"
   text_work_packages_ref_in_commit_messages: "Referencer et réparer les Lot(s) de Travaux dans les messages « commit »"
   text_journal_added: "%{label} %{value} ajouté"
-  text_journal_changed_html: "%{label} changé de %{old} %{linebreak}<strong>à</strong> %{new}"
   text_journal_changed_plain: "%{label} changé de %{old} %{linebreak}à %{new}"
   text_journal_changed_no_detail: "%{label} mis à jour"
   text_journal_changed_with_diff: "%{label} changé (%{link})"
   text_journal_deleted: "%{label} supprimé (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} supprimé (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} mis à %{value}"
   text_journal_set_with_diff: "%{label} mis (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2944,15 +2989,20 @@ fr:
       title: "Supprimer le lot de travaux"
   working_days:
     info: >
-      <b>Définissez les jours ouvrables de la semaine</b><br/> Les jours non ouvrables sont ignorés lors de la planification des lots de travaux et sont exclus lors du calcul de la durée. Cela peut être remplacé au niveau du lot de travaux.
+      <b>Définir les jours considérés comme une partie de la semaine de travail</b><br/> Les jours qui ne sont pas sélectionnés sont ignorés lors de la planification des lots de travaux (et non inclus dans le nombre de jours). Ils peuvent être remplacés au niveau du lot de travaux.
+    instance_wide_info: >
+      <b>Les jours spécifiques non prestés (jours fériés et fermetures)</b><br/> Les dates ajoutées à la liste ci-dessous sont considérées comme non ouvrables et ignorées lors de la planification des lots de travaux.
     change_button: "Changer les jours ouvrables"
     warning: >
-      La modification des jours de la semaine considérés comme des jours de travail peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas.
+      La modification des jours de la semaine qui sont considérés comme des jours travaillés ou des jours non travaillés peut affecter les jours de début et de fin de tous les lots de travaux de tous les projets dans ce cas. <br/> Veuillez noter que les modifications ne sont appliquées qu'après que vous ayez cliqué sur le bouton appliquer les modifications.
     journal_note:
       changed: _**Jours ouvrables** modifiés (%{changes})._
       days:
         working: "%{day} est maintenant un jour ouvrable"
         non_working: "%{day} est maintenant un jour non ouvrable"
+      dates:
+        working: "%{date} est maintenant un jour ouvrable"
+        non_working: "%{date} est maintenant un jour non ouvrable"
   nothing_to_preview: "Rien à afficher en apperçu"
   api_v3:
     attributes:

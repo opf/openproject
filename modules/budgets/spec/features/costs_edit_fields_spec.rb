@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,16 +28,16 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Work Package budget fields', type: :feature, js: true do
+describe 'Work Package budget fields', js: true do
   let(:type_task) { create(:type_task) }
   let!(:status) { create(:status, is_default: true) }
   let!(:priority) { create(:priority, is_default: true) }
   let!(:project) { create(:project, types: [type_task]) }
-  let(:user) { create :admin }
-  let!(:budget) { create :budget, author: user, project: }
+  let(:user) { create(:admin) }
+  let!(:budget) { create(:budget, author: user, project:) }
 
-  let(:create_page) { ::Pages::FullWorkPackageCreate.new(project:) }
-  let(:view_page) { ::Pages::FullWorkPackage.new(project:) }
+  let(:create_page) { Pages::FullWorkPackageCreate.new(project:) }
+  let(:view_page) { Pages::FullWorkPackage.new(project:) }
 
   before do
     login_as(user)
@@ -47,9 +47,9 @@ describe 'Work Package budget fields', type: :feature, js: true do
     create_page.visit!
 
     expect(page).to have_selector('.inline-edit--container.budget')
-    expect(page).to have_no_selector('.inline-edit--container.laborCosts')
-    expect(page).to have_no_selector('.inline-edit--container.materialCosts')
-    expect(page).to have_no_selector('.inline-edit--container.overallCosts')
+    expect(page).not_to have_selector('.inline-edit--container.laborCosts')
+    expect(page).not_to have_selector('.inline-edit--container.materialCosts')
+    expect(page).not_to have_selector('.inline-edit--container.overallCosts')
 
     field = create_page.edit_field(:budget)
     field.set_value budget.name

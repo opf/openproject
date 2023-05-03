@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 require 'spec_helper'
 require 'work_package'
 
-describe UsersController, type: :controller do
-  shared_let(:admin) { create :admin }
+describe UsersController do
+  shared_let(:admin) { create(:admin) }
   shared_let(:anonymous) { User.anonymous }
 
   shared_let(:user_password) { 'bob!' * 4 }
   shared_let(:user) do
-    create :user,
+    create(:user,
            login: 'bob',
            password: user_password,
-           password_confirmation: user_password
+           password_confirmation: user_password)
   end
 
   describe 'GET new' do
@@ -202,10 +202,10 @@ describe UsersController, type: :controller do
   end
 
   describe 'POST resend_invitation' do
-    let(:invited_user) { create :invited_user }
+    let(:invited_user) { create(:invited_user) }
 
     context 'without admin rights' do
-      let(:normal_user) { create :user }
+      let(:normal_user) { create(:user) }
 
       before do
         as_logged_in_user normal_user do
@@ -306,7 +306,7 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'account', action: 'login')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the requested one
@@ -341,7 +341,7 @@ describe UsersController, type: :controller do
       describe "WHEN the current user is the admin
                 WHEN the given password does not match
                 WHEN the setting users_deletable_by_admins is set to true" do
-        shared_let(:admin) { create :admin }
+        shared_let(:admin) { create(:admin) }
 
         before do
           disable_flash_sweep
@@ -375,12 +375,12 @@ describe UsersController, type: :controller do
           expect(response).to redirect_to(controller: 'users', action: 'index')
         end
 
-        it { expect(flash[:notice]).to eq(I18n.t('account.deleted')) }
+        it { expect(flash[:notice]).to eq(I18n.t('account.deletion_pending')) }
       end
 
       describe "WHEN the current user is the admin
                 WHEN the setting users_deletable_by_admins is set to false" do
-        shared_let(:admin) { create :admin }
+        shared_let(:admin) { create(:admin) }
 
         before do
           disable_flash_sweep
@@ -482,7 +482,7 @@ describe UsersController, type: :controller do
         perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.last
         refute_nil mail
-        assert_equal [registered_user.mail], mail.to
+        expect([registered_user.mail]).to eq(mail.to)
         mail.parts.each do |part|
           assert part.body.encoded.include?(I18n.t(:notice_account_activated,
                                                    locale: 'de'))
@@ -934,14 +934,6 @@ describe UsersController, type: :controller do
         label = Regexp.escape(I18n.t(:label_reported_work_packages))
 
         expect(response.body).to have_selector('p', text: /#{label}.*42/)
-      end
-
-      it 'has @events_by_day grouped by day' do
-        expect(assigns(:events_by_day).keys.first.class).to eq(Date)
-      end
-
-      it 'has more than one event for today' do
-        expect(assigns(:events_by_day).first.size).to be > 1
       end
     end
   end

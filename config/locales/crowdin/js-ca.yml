@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -252,6 +252,20 @@ ca:
             L'edició Enterprise d'OpenProject es construeix a sobre de l'edició Community. Inclou Enterprise add-ons i suport professional pensat especialment per a organitzacions de més de 10 usuaris que manegin projectes empresarialment crítics amb OpenProject.
           unlimited: "Il·limitat"
           you_contribute: "Els desenvolupadors també han de pagar les seves factures. Actualitzant a l'edició Enterprise, donaràs suport aquesta comunitat de codi obert i contribuiràs al seu desenvolupament, manteniment i millora continua."
+      working_days:
+        calendar:
+          empty_state_header: "Dies no laborables"
+          empty_state_description: 'No hi ha cap dia no laborable especificat per aquest any. Fes clic al botó "+ Dies no laborables" de sota per afegir una data.'
+          new_date: '(nou)'
+        add_non_working_day: "Dia no laborable"
+        already_added_error: "Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data."
+        change_button: "Guarda i reprograma"
+        change_title: "Canvia els dies laborals"
+        removed_title: "Eliminaràs els següents dies de la llista de dies no laborals:"
+        change_description: "Canviar quins dies de la setmana són laborals i quins no pot afectar les dates d'inici i final de tots els paquets de treball a tots els projectes en aquesta instància."
+        warning: >
+          Els canvis poden tardar un temps a ser aplicats. Et notificarem un cop s'hagin actualitzat tots els paquets de treball rellevants.
+          Estàs segur que vols continuar?
     custom_actions:
       date:
         specific: 'en'
@@ -280,8 +294,6 @@ ca:
           one: "Primer criteri d'ordenació"
           two: "Segon criteri d'ordenació"
           three: "Tercer criteri d'ordenació"
-      upsale_for_more: "Els filtres avançats et permeten també filtrar per noms de fitxer o contingut adjuntat en paquets de treball. Si us plau, actualitza a un pla de pagament per utilitzar aquest add-on."
-      upsale_link: 'Edició Enterprise.'
     general_text_no: "no"
     general_text_yes: "sí"
     general_text_No: "No"
@@ -300,15 +312,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '12_4':
+          '12_5':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
+              learn_about_link: https://www.openproject.org/blog/openproject-12-5-release
               new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
-            bim:
-              learn_about_link: https://www.openproject.org/blog/openproject-12-4-release
-              new_features_html: >
-                Aquesta versió conté vàries noves funcionalitats i millores: <br> <ul class="%{list_styling_class}"> <li>Activa les notificacions d'alertes per dates per a properes tasques o vençudes.</li> <li>També s'allibera el segon factor d'autentificació (2FA) per a l'edició Community.</li> <li>L'opció de mostrar només la setmana laboral s'ha afegit al planificador d'equips.</li> <li>Fins a 3 persones poden ser ara enumerades a la targeta de notificació quan múltiples persones estan involucrades en els canvis.</li> </ul>
+                Aquesta versió inclou noves funcionalitats i millores: <br><ul class="%{list_styling_class}"><li>Càrrega i enllaç de fitxers des dels paquets de treball al teu emmagatzematge de fitxers Nextcloud.</li> <li>Segueix els canvis en projectes en el seguiment d'activitat de projecte.</li> <li>Afegeix dies no laborables per a tothom a la teva instància.</li> <li>Arxiva projectes encara que no siguis un administrador.</li> <li>Nou filtre per defecte per a paquets de treball vençuts.</li> </ul>
     label_activate: "Activar"
     label_assignee: 'Assignat a'
     label_add_column_after: "Afegir una columna després"
@@ -475,10 +483,10 @@ ca:
     label_custom_queries: "Privat"
     label_columns: "Columnes"
     label_attachments: Fitxers adjunts
-    label_drop_files: Arrossegueu els fitxers aquí
-    label_drop_files_hint: o feu clic per afegir fitxers
+    label_drop_files: "Arrossega fitxers aquí per adjuntar-los."
+    label_drop_or_click_files: "Arrossega fitxers o fes clic aquí per adjuntar-los."
     label_drop_folders_hint: No pots carregar carpetes com a fitxers adjunts. Si us plau, selecciona fitxers únics.
-    label_add_attachments: "Afegir fitxers adjunts"
+    label_add_attachments: "Adjuntar arxius"
     label_formattable_attachment_hint: "Adjuntar i enllaça fitxers arrossegant-los en aquest camp, o enganxant-los des del porta-papers."
     label_remove_file: "Eliminar %{fileName}"
     label_remove_watcher: "Elimina l'observador %{name}"
@@ -572,16 +580,16 @@ ca:
           one: ' i 1 altre'
           other: ' i %{count} altres'
         no_results:
-          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitats que t''afectin, de mentre també pots modificar la teva configuració de notificacions per estipular quan vols ser notificat.'
+          at_all: 'Noves notificacions apareixeran aquí quan hi hagi activitat que sigui important per a tu.'
           with_current_filter: 'En aquest moment no hi han notificacions en aquesta vista'
         mark_all_read: 'Marca tot com a llegit'
         mark_as_read: 'Marca com a llegit'
         text_update_date: "%{date} per"
         total_count_warning: "Mostrant el %{newest_count} de notificacions recents. %{more_count} no s'estan mostrant."
         empty_state:
-          no_notification: "Sembla que ja ho has enllestit tot."
-          no_notification_with_current_project_filter: "Sembla que està tot enllestit per al projecte seleccionat."
-          no_notification_with_current_filter: "Sembla que ja ho has enllestit tot pel filtre %{filter}."
+          no_notification: "Sembla que ja estàs al dia."
+          no_notification_with_current_project_filter: "Sembla que ja estàs al dia per al projecte seleccionat."
+          no_notification_with_current_filter: "Sembla que ja estàs al dia pel filtre %{filter}."
           no_selection: "Fes clic en una notificació per veure els detalls de l'activitat."
         new_notifications:
           message: 'No hi ha notificacions noves'
@@ -595,7 +603,7 @@ ca:
         watched: 'Observador'
         date_alert: 'Alerta per dates'
       settings:
-        change_notification_settings: 'Per veure i canviar la configuració de notificacions, <a target="_blank" href="%{url}">fes clic aquí</a>'
+        change_notification_settings: 'Pots modificar la teva <a target="_blank" href="%{url}">configuració de notificacions</a> per assegurar-te que mai et perds informació important.'
         title: "Configuració de notificacions"
         notify_me: "Notifica’m"
         reminders:
@@ -657,6 +665,7 @@ ca:
     project:
       required_outside_context: >
         Si us plau, selecciona un projecte on crear el paquet de treball per a veure tots els atributs. Només pots seleccionar projectes que tinguin activat la classe indicada anteriorment.
+      details_activity: 'Detalls de l''activitat del projecte'
       context: 'Context del projecte'
       work_package_belongs_to: 'Aquest paquet de treball pertany al projecte %{projectname}.'
       click_to_switch_context: 'Obre aquest paquet de treball en aquell projecte.'
@@ -992,7 +1001,7 @@ ca:
         move_column_left: "Moure la columna a l'esquerra"
         move_column_right: "Moure la columna a la dreta"
         hide_column: "Amagar columna"
-        insert_columns: "Insereix columnes..."
+        insert_columns: "Insereix columnes"
         filters: "Filtres"
         display_sums: "Mostra les sumes"
         confirm_edit_cancel: "Estàs segur que vols cancel·lar l'edició del nom d'aquesta vista? El títol tornarà al valor anterior."
@@ -1055,26 +1064,25 @@ ca:
         relations: Relacions
         watchers: Observadors
         files: Fitxers
-        files_tab_migration_help: 'Ara pots adjuntar fitxers als paquets de treball via la nova pestanya:'
       time_relative:
         days: "dies"
         weeks: "setmanes"
         months: "mesos"
     toolbar:
       settings:
-        configure_view: "Configurar vista..."
-        columns: "Columnes..."
-        sort_by: "Ordenar per..."
-        group_by: "Agrupar per..."
+        configure_view: "Configurar vista"
+        columns: "Columnes"
+        sort_by: "Ordena per"
+        group_by: "Agrupar per"
         display_sums: "Mostra les sumes"
         display_hierarchy: "Mostra la jerarquia"
         hide_hierarchy: "Amaga la jerarquia"
         hide_sums: "Amaga les sumes"
         save: "Desa"
-        save_as: "Desa com ..."
-        export: "Exporta..."
-        visibility_settings: "Configuració de visibilitat..."
-        page_settings: "Reanomena la vista..."
+        save_as: "Desa com a"
+        export: "Exporta"
+        visibility_settings: "Configuració de visibilitat"
+        page_settings: "Reanomena la vista"
         delete: "Elimina"
       filter: "Filtre"
       unselected_title: "Paquet de treball"
@@ -1251,4 +1259,5 @@ ca:
       filter_chip:
         remove: 'Eliminar'
       drop_modal:
+        focus_grab: 'Estàs en un focus ancorat per a finestres emergents. Fes clic a shift+tab per tornar a l''element que ha activat la finestra emergent.'
         Close: 'Tanca'

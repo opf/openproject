@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -185,32 +185,6 @@ class UserMailer < ApplicationMailer
 
     send_mail(admin,
               t(:mail_subject_account_activation_request, value: Setting.app_title))
-  end
-
-  def reminder_mail(user, issues, days, group = nil)
-    @issues = issues
-    @days   = days
-    @group  = group
-
-    assigned_to_id = if group
-                       group.id
-                     else
-                       user.id
-                     end
-
-    @assigned_issues_url = url_for(controller: :work_packages,
-                                   action: :index,
-                                   query_props: '{"t":"dueDate:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assignee","o":"=","v":["' + assigned_to_id.to_s + '"]},{"n":"dueDate","o":"<t+","v":["2"]}]}')
-
-    open_project_headers 'Type' => 'Issue'
-
-    subject = if @group
-                t(:mail_subject_group_reminder, count: @issues.size, days: @days, group: @group.name)
-              else
-                t(:mail_subject_reminder, count: @issues.size, days: @days)
-              end
-
-    send_mail(user, subject)
   end
 
   ##

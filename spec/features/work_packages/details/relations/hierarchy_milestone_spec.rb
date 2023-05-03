@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,12 +29,12 @@
 require 'spec_helper'
 
 describe 'work package hierarchies for milestones', js: true, selenium: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let(:work_package) { create(:work_package, project:, type:) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
@@ -50,9 +50,9 @@ describe 'work package hierarchies for milestones', js: true, selenium: true do
 
   it 'does not provide links to add children or existing children (Regression #28745)' do
     within('.wp-relations--children') do
-      expect(page).to have_no_text('Add existing child')
-      expect(page).to have_no_text('Create new child')
-      expect(page).to have_no_selector('wp-inline-create--add-link')
+      expect(page).not_to have_text('Add existing child')
+      expect(page).not_to have_text('Create new child')
+      expect(page).not_to have_selector('wp-inline-create--add-link')
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'rack/test'
 
 require_relative './shared_responses'
 
-describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_mail: false do
+describe 'BCF 2.1 topics resource', content_type: :json, with_mail: false do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -330,8 +330,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
   shared_examples_for 'topics api write invalid parameters errors' do
     context 'without a title' do
       let(:params) do
-        {
-        }
+        {}
       end
 
       it_behaves_like 'bcf api unprocessable response' do
@@ -642,7 +641,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
 
     context 'with an existing work package' do
       let!(:existing_work_package) do
-        create :work_package, author: assignee, assigned_to: assignee, project:
+        create(:work_package, author: assignee, assigned_to: assignee, project:)
       end
 
       let(:params) do
@@ -701,7 +700,7 @@ describe 'BCF 2.1 topics resource', type: :request, content_type: :json, with_ma
       end
 
       context 'with a work package in another project' do
-        let!(:foreign_work_package) { create :work_package }
+        let!(:foreign_work_package) { create(:work_package) }
 
         let(:params) do
           {

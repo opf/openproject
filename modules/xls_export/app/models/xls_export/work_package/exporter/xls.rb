@@ -50,7 +50,11 @@ module XlsExport::WorkPackage::Exporter
     end
 
     def row(work_package)
-      super + [work_package.description]
+      super + [sanitize(work_package.description)]
+    end
+
+    def sanitize(string)
+      Rails::Html::FullSanitizer.new.sanitize(string)
     end
   end
 

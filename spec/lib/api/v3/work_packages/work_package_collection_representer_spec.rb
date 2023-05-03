@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,14 +28,14 @@
 
 require 'spec_helper'
 
-describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
+describe API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:self_base_link) { '/api/v3/example' }
   let(:work_packages) { WorkPackage.all }
   let(:user) { build_stubbed(:user) }
 
-  let(:query) { {} }
+  let(:query_params) { {} }
   let(:groups) { nil }
   let(:total_sums) { nil }
   let(:project) { nil }
@@ -45,19 +45,23 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   let(:default_page_size) { 30 }
   let(:total) { 5 }
   let(:embed_schemas) { false }
+  let(:timestamps) { nil }
+  let(:query) { nil }
 
   let(:representer) do
     described_class.new(
       work_packages,
       self_link: self_base_link,
-      query:,
+      query_params:,
       project:,
       groups:,
       total_sums:,
       page: page_parameter,
       per_page: page_size_parameter,
       current_user: user,
-      embed_schemas:
+      embed_schemas:,
+      timestamps:,
+      query:
     )
   end
   let(:collection_inner_type) { 'WorkPackage' }
@@ -73,33 +77,61 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   subject(:collection) { representer.to_json }
 
   describe '_links' do
+    describe 'self' do
+      describe 'when providing timestamps' do
+        let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+        let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+        let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
+
+        it 'has the absolute timestamps within the self link' do
+          Timecop.freeze do
+            expect(subject)
+              .to include_json(absolute_timestamps_query_param.to_json)
+              .at_path('_links/self/href')
+          end
+        end
+      end
+
+      describe 'when providing only the current timestamp' do
+        let(:timestamps) { [Timestamp.parse("PT0S")] }
+
+        it 'has no timestamps within the self link' do
+          Timecop.freeze do
+            expect(subject)
+              .not_to include_json("timestamps".to_json)
+              .at_path('_links/self/href')
+          end
+        end
+      end
+    end
+
     describe 'representations' do
       context 'when outside of a project and the user has the export_work_packages permission' do
-        let(:query) { { foo: 'bar' } }
+        let(:query_params) { { foo: 'bar' } }
 
         let(:expected) do
-          expected_query = query.merge(pageSize: 30, offset: 1)
+          expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: work_packages_path({ format: 'pdf' }.merge(expected_query)),
+              href: work_packages_path({ format: 'pdf' }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf',
               title: I18n.t('export.format.pdf')
             },
             {
-              href: work_packages_path({ format: 'pdf', show_descriptions: true }.merge(expected_query)),
+              href: work_packages_path({ format: 'pdf', show_descriptions: true }.merge(expected_query_params)),
               identifier: 'pdf-with-descriptions',
               type: 'application/pdf',
               title: I18n.t('export.format.pdf_with_descriptions')
             },
             {
-              href: work_packages_path({ format: 'csv' }.merge(expected_query)),
+              href: work_packages_path({ format: 'csv' }.merge(expected_query_params)),
               type: 'text/csv',
               identifier: 'csv',
               title: I18n.t('export.format.csv')
             },
             {
-              href: work_packages_path({ format: 'atom' }.merge(expected_query)),
+              href: work_packages_path({ format: 'atom' }.merge(expected_query_params)),
               identifier: 'atom',
               type: 'application/atom+xml',
               title: I18n.t('export.format.atom')
@@ -121,28 +153,28 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
         let(:project) { build_stubbed(:project) }
 
         let(:expected) do
-          expected_query = query.merge(pageSize: 30, offset: 1)
+          expected_query_params = query_params.merge(pageSize: 30, offset: 1)
           JSON.parse([
             {
-              href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'pdf' }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf',
               title: I18n.t('export.format.pdf')
             },
             {
-              href: project_work_packages_path(project, { format: 'pdf', show_descriptions: true }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'pdf', show_descriptions: true }.merge(expected_query_params)),
               type: 'application/pdf',
               identifier: 'pdf-with-descriptions',
               title: I18n.t('export.format.pdf_with_descriptions')
             },
             {
-              href: project_work_packages_path(project, { format: 'csv' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'csv' }.merge(expected_query_params)),
               identifier: 'csv',
               type: 'text/csv',
               title: I18n.t('export.format.csv')
             },
             {
-              href: project_work_packages_path(project, { format: 'atom' }.merge(expected_query)),
+              href: project_work_packages_path(project, { format: 'atom' }.merge(expected_query_params)),
               identifier: 'atom',
               type: 'application/atom+xml',
               title: I18n.t('export.format.atom')
@@ -244,7 +276,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
   describe 'ancestors' do
     it 'are being eager loaded' do
       representer.represented.each do |wp|
-        expect(wp.work_package_ancestors).to be_kind_of(Array)
+        expect(wp.work_package_ancestors).to be_a(Array)
         expect(wp.ancestors).to eq(wp.work_package_ancestors)
       end
     end
@@ -318,7 +350,7 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
 
     context 'when in project context' do
-      let(:project) { build_stubbed :project }
+      let(:project) { build_stubbed(:project) }
 
       it 'has no link to create work_packages' do
         expect(collection)
@@ -397,8 +429,8 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
     end
   end
 
-  context 'when passing a query hash' do
-    let(:query) { { a: 'b', b: 'c' } }
+  context 'when passing a query_params hash' do
+    let(:query_params) { { a: 'b', b: 'c' } }
 
     it_behaves_like 'has an untitled link' do
       let(:link) { 'self' }
@@ -467,6 +499,156 @@ describe ::API::V3::WorkPackages::WorkPackageCollectionRepresenter do
       expect(collection)
         .to be_json_eql(expected_path.to_json)
         .at_path('_embedded/schemas/_embedded/elements/0/_links/self/href')
+    end
+  end
+
+  context 'when passing timestamps' do
+    let(:work_pacakges) { WorkPackage.where(id: work_package.id) }
+    let(:work_package) do
+      new_work_package = create(:work_package, subject: "The current work package", project:)
+      new_work_package.update_columns created_at: baseline_time - 1.day
+      new_work_package
+    end
+    let(:original_journal) do
+      create_journal(journable: work_package, timestamp: baseline_time - 1.day,
+                     version: 1,
+                     attributes: { subject: "The original work package" })
+    end
+    let(:current_journal) do
+      create_journal(journable: work_package, timestamp: 1.day.ago,
+                     version: 2,
+                     attributes: { subject: "The current work package" })
+    end
+    let(:baseline_time) { "2022-01-01".to_time }
+    let(:project) { create(:project) }
+
+    def create_journal(journable:, version:, timestamp:, attributes: {})
+      work_package_attributes = work_package.attributes.except("id")
+      journal_attributes = work_package_attributes \
+          .extract!(*Journal::WorkPackageJournal.attribute_names) \
+          .symbolize_keys.merge(attributes)
+      create(:work_package_journal, version:,
+                                    journable:, created_at: timestamp, updated_at: timestamp,
+                                    data: build(:journal_work_package_journal, journal_attributes))
+    end
+
+    before do
+      WorkPackage.destroy_all
+      work_package
+      Journal.destroy_all
+      original_journal
+      current_journal
+    end
+
+    shared_examples_for 'includes the properties of the current work package' do
+      it 'includes the properties of the current work package' do
+        expect(collection)
+          .to be_json_eql("The current work package".to_json)
+          .at_path('_embedded/elements/0/subject')
+      end
+    end
+
+    shared_examples_for 'embeds the properties of the baseline work package' do
+      it 'embeds the properties of the baseline work package in attributesByTimestamp' do
+        expect(collection)
+          .to be_json_eql("The original work package".to_json)
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/subject")
+      end
+
+      it 'embeds the link to the baseline work package in attributesByTimestamp' do
+        expect(collection)
+          .to be_json_eql(api_v3_paths.work_package(work_package.id, timestamps: timestamps.first).to_json)
+          .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_links/self/href")
+      end
+    end
+
+    shared_examples_for 'has the absolute timestamps within the self link' do
+      let(:absolute_timestamp_strings) { timestamps.collect { |timestamp| timestamp.absolute.iso8601 } }
+      let(:absolute_timestamps_query_param) { { timestamps: absolute_timestamp_strings.join(",") }.to_query }
+
+      it 'has the absolute timestamps within the self link' do
+        expect(subject)
+          .to include_json(absolute_timestamps_query_param.to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+
+    context 'with baseline and current timestamps' do
+      let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+
+      it_behaves_like 'includes the properties of the current work package'
+      it_behaves_like 'embeds the properties of the baseline work package'
+      it_behaves_like 'has the absolute timestamps within the self link'
+    end
+
+    context 'with current timestamp only' do
+      let(:timestamps) { [Timestamp.parse("PT0S")] }
+
+      it_behaves_like 'includes the properties of the current work package'
+
+      it 'has no timestamps within the self link' do
+        expect(subject)
+          .not_to include_json("timestamps".to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+
+    context 'with baseline timestamp only' do
+      let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z")] }
+
+      it 'includes the properties of the baseline work package' do
+        expect(collection)
+          .to be_json_eql("The original work package".to_json)
+          .at_path('_embedded/elements/0/subject')
+      end
+
+      it_behaves_like 'has the absolute timestamps within the self link'
+    end
+
+    context 'with empty timestamp' do
+      let(:timestamps) { [] }
+
+      it_behaves_like 'includes the properties of the current work package'
+
+      it 'has no timestamps within the self link' do
+        expect(subject)
+          .not_to include_json("timestamps".to_json)
+          .at_path('_embedded/elements/0/_links/self/href')
+      end
+    end
+
+    context 'when passing a query' do
+      let(:search_term) { 'original' }
+      let(:query) do
+        login_as(current_user)
+        build(:query, user: current_user, project: nil).tap do |query|
+          query.filters.clear
+          query.add_filter 'subject', '~', search_term
+          query.timestamps = timestamps
+        end
+      end
+      let(:current_user) do
+        create(:user,
+               firstname: 'user',
+               lastname: '1',
+               member_in_project: project,
+               member_with_permissions: %i[view_work_packages view_file_links])
+      end
+
+      context 'with baseline and current timestamps' do
+        let(:timestamps) { [Timestamp.parse("2022-01-01T00:00:00Z"), Timestamp.parse("PT0S")] }
+
+        describe 'attributesByTimestamp' do
+          it 'states whether the work package matches the query filters at the timestamp' do
+            expect(subject)
+              .to be_json_eql(true.to_json)
+              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/0/_meta/matchesFilters")
+            expect(subject)
+              .to be_json_eql(false.to_json)
+              .at_path("_embedded/elements/0/_embedded/attributesByTimestamp/1/_meta/matchesFilters")
+          end
+        end
+      end
     end
   end
 end

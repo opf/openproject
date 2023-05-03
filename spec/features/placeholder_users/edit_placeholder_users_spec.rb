@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'edit placeholder users', type: :feature, js: true do
-  shared_let(:placeholder_user) { create :placeholder_user, name: 'UX Developer' }
+describe 'edit placeholder users', js: true do
+  shared_let(:placeholder_user) { create(:placeholder_user, name: 'UX Developer') }
 
   shared_examples 'placeholders edit flow' do
     it 'can edit name' do
@@ -50,19 +50,19 @@ describe 'edit placeholder users', type: :feature, js: true do
   end
 
   context 'as admin' do
-    current_user { create :admin }
+    current_user { create(:admin) }
 
     it_behaves_like 'placeholders edit flow'
   end
 
   context 'as user with global permission' do
-    current_user { create :user, global_permission: %i[manage_placeholder_user] }
+    current_user { create(:user, global_permission: %i[manage_placeholder_user]) }
 
     it_behaves_like 'placeholders edit flow'
   end
 
   context 'as user without global permission' do
-    current_user { create :user }
+    current_user { create(:user) }
 
     it 'returns an error' do
       visit edit_placeholder_user_path(placeholder_user)

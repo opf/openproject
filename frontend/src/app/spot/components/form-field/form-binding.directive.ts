@@ -1,6 +1,6 @@
 import { Directive, forwardRef, Input } from '@angular/core';
 import {
-  FormArray, FormControl, FormGroup, NgControl,
+  UntypedFormArray, UntypedFormControl, UntypedFormGroup, NgControl,
 } from '@angular/forms';
 
 export const formControlBinding = {
@@ -15,9 +15,9 @@ export const formControlBinding = {
   exportAs: 'ngForm',
 })
 export class SpotFormBindingDirective extends NgControl {
-  @Input('spotFormBinding') form!:FormControl|FormGroup|FormArray;
+  @Input('spotFormBinding') form!:UntypedFormControl|UntypedFormGroup|UntypedFormArray;
 
-  get control():FormControl|FormGroup|FormArray {
+  get control():UntypedFormControl|UntypedFormGroup|UntypedFormArray {
     return this.form;
   }
 

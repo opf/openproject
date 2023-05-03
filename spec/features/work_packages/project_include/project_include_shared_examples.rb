@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-shared_examples 'has a project include dropdown', type: :feature, js: true do
-  let(:dropdown) { ::Components::ProjectIncludeComponent.new }
+shared_examples 'has a project include dropdown', js: true, type: :feature do
+  let(:dropdown) { Components::ProjectIncludeComponent.new }
 
   shared_let(:project) do
     create(:project, name: 'Parent', enabled_module_names: enabled_modules)
@@ -66,7 +66,7 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
   end
 
   shared_let(:user) do
-    create :user,
+    create(:user,
            member_in_projects: [
              project,
              sub_project,
@@ -76,11 +76,11 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
              other_sub_sub_project,
              another_sub_sub_project
            ],
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
 
   shared_let(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Other',
            lastname: 'User',
            member_in_projects: [
@@ -92,63 +92,63 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
              other_sub_sub_project,
              another_sub_sub_project
            ],
-           member_with_permissions: permissions
+           member_with_permissions: permissions)
   end
 
   current_user { user }
 
-  shared_let(:type_task) { create :type_task }
-  shared_let(:type_bug) { create :type_bug }
-  shared_let(:closed_status) { create :status, is_closed: true }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_bug) { create(:type_bug) }
+  shared_let(:closed_status) { create(:status, is_closed: true) }
 
   shared_let(:task) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            assigned_to: user,
            start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 1.day,
-           subject: 'A task for ' + user.name
+           subject: "A task for #{user.name}")
   end
 
   shared_let(:sub_bug) do
-    create :work_package,
+    create(:work_package,
            project: sub_project,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 10.days,
            due_date: Time.zone.today + 20.days,
-           subject: 'A bug in sub-project for ' + user.name
+           subject: "A bug in sub-project for #{user.name}")
   end
 
   shared_let(:sub_sub_bug) do
-    create :work_package,
+    create(:work_package,
            project: sub_sub_sub_project,
            type: type_bug,
            assigned_to: user,
            start_date: Time.zone.today - 1.day,
            due_date: Time.zone.today + 2.days,
-           subject: 'A bug in sub-sub-project for ' + user.name
+           subject: "A bug in sub-sub-project for #{user.name}")
   end
 
   shared_let(:other_task) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today,
            due_date: Time.zone.today + 2.days,
-           subject: 'A task for the other user'
+           subject: 'A task for the other user')
   end
 
   shared_let(:other_other_task) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type: type_task,
            assigned_to: other_user,
            start_date: Time.zone.today - 2.days,
            due_date: Time.zone.today + 4.days,
-           subject: 'A task for the other user in other-project'
+           subject: 'A task for the other user in other-project')
   end
 
   before do
@@ -459,6 +459,6 @@ shared_examples 'has a project include dropdown', type: :feature, js: true do
     dropdown.toggle!
     dropdown.expect_open
     dropdown.search 'Nonexistent'
-    expect(page).to have_no_selector("[data-qa-selector='op-project-include--loading']")
+    expect(page).not_to have_selector("[data-qa-selector='op-project-include--loading']")
   end
 end

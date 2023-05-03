@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe 'Work Package table relations', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
   let(:type2) { create(:type) }
   let(:project) { create(:project, types: [type, type2]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(relations) }
-  let(:columns) { ::Components::WorkPackages::Columns.new }
+  let(:relations) { Components::WorkPackages::Relations.new(relations) }
+  let(:columns) { Components::WorkPackages::Columns.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let!(:wp_from) { create(:work_package, project:, type: type2) }
@@ -68,8 +68,8 @@ describe 'Work Package table relations', js: true do
       expect(wp_from_row).to have_selector(".#{type_column_follows} .wp-table--relation-count", text: '2')
 
       # Expect count for wp_to in both columns to be not rendered
-      expect(wp_from_to).to have_no_selector(".#{type_column_id} .wp-table--relation-count")
-      expect(wp_from_to).to have_no_selector(".#{type_column_follows} .wp-table--relation-count")
+      expect(wp_from_to).not_to have_selector(".#{type_column_id} .wp-table--relation-count")
+      expect(wp_from_to).not_to have_selector(".#{type_column_follows} .wp-table--relation-count")
 
       # Expand first column
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
@@ -79,7 +79,7 @@ describe 'Work Package table relations', js: true do
 
       # Collapse
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
-      expect(page).to have_no_selector(".__relations-expanded-from-#{wp_from.id}")
+      expect(page).not_to have_selector(".__relations-expanded-from-#{wp_from.id}")
 
       # Expand second column
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
@@ -100,7 +100,7 @@ describe 'Work Package table relations', js: true do
 
       # Collapse
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
-      expect(page).to have_no_selector(".__relations-expanded-from-#{wp_from.id}")
+      expect(page).not_to have_selector(".__relations-expanded-from-#{wp_from.id}")
 
       wp_timeline.expect_row_count(3)
     end

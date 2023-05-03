@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require 'spec_helper'
 
-describe 'Disabled activity', type: :feature do
-  shared_let(:admin) { create :admin }
+describe 'Disabled activity' do
+  shared_let(:admin) { create(:admin) }
 
   let(:project1) do
     create(:project, enabled_module_names: %i[work_package_tracking wiki])
@@ -68,7 +68,7 @@ describe 'Disabled activity', type: :feature do
   it 'does not display activities on projects disabling it' do
     visit activity_index_path
 
-    check "Wiki edits"
+    check "Wiki"
     click_on "Apply"
 
     expect(page)

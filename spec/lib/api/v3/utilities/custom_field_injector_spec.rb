@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,10 +28,10 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Utilities::CustomFieldInjector do
+describe API::V3::Utilities::CustomFieldInjector do
   include API::V3::Utilities::PathHelper
 
-  let(:cf_path) { "customField#{custom_field.id}" }
+  let(:cf_path) { custom_field.attribute_name(:camel_case) }
   let(:field_format) { 'bool' }
   let(:custom_field) do
     build(:custom_field,
@@ -49,15 +49,16 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_schema' do
-    let(:base_class) { Class.new(::API::Decorators::SchemaRepresenter) }
+    let(:base_class) { Class.new(API::Decorators::SchemaRepresenter) }
     let(:modified_class) { described_class.create_schema_representer([custom_field], base_class) }
     let(:schema_writable) { true }
+    let(:model) { build_stubbed(:work_package) }
     let(:schema) do
-      double('WorkPackageSchema',
-             project_id: 42,
-             defines_assignable_values?: true,
-             available_custom_fields: [custom_field],
-             writable?: schema_writable)
+      instance_double(API::V3::WorkPackages::Schema::SpecificWorkPackageSchema,
+                      project_id: 42,
+                      model:,
+                      available_custom_fields: [custom_field],
+                      writable?: schema_writable)
     end
 
     subject { modified_class.new(schema, current_user: nil, form_embedded: true).to_json }
@@ -110,7 +111,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       # meaning they won't as no values are specified
       it_behaves_like 'indicates length requirements'
 
-      context 'custom field is not required' do
+      context 'when custom field is not required' do
         let(:custom_field) { build(:custom_field, is_required: false) }
 
         it 'marks the field as not required' do
@@ -118,7 +119,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'custom field has regex' do
+      context 'when custom field has regex' do
         let(:custom_field) { build(:custom_field, regexp: 'Foo+bar') }
 
         it 'renders the regular expression' do
@@ -126,7 +127,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'custom field has minimum length' do
+      context 'when custom field has minimum length' do
         let(:custom_field) { build(:custom_field, min_length: 5) }
 
         it_behaves_like 'indicates length requirements' do
@@ -134,7 +135,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'custom field has maximum length' do
+      context 'when custom field has maximum length' do
         let(:custom_field) { build(:custom_field, max_length: 5) }
 
         it_behaves_like 'indicates length requirements' do
@@ -157,7 +158,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           .with(custom_field)
           .and_return(assignable_versions)
 
-        allow(::API::V3::Versions::VersionRepresenter).to receive(:create).and_return(double)
+        allow(API::V3::Versions::VersionRepresenter).to receive(:create).and_return(double)
       end
 
       it_behaves_like 'has basic schema properties' do
@@ -284,7 +285,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
             { member: { operator: '=', values: [schema.project_id.to_s] } }
           ]
 
-          query = CGI.escape(::JSON.dump(params))
+          query = CGI.escape(JSON.dump(params))
 
           "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
@@ -293,11 +294,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     describe 'user custom field on new project' do
       let(:schema) do
-        double('ProjectSchema',
-               id: nil,
-               model: Project.new,
-               defines_assignable_values?: true,
-               available_custom_fields: [custom_field])
+        instance_double(API::V3::WorkPackages::Schema::SpecificWorkPackageSchema,
+                        id: nil,
+                        model: Project.new,
+                        available_custom_fields: [custom_field])
       end
       let(:custom_field) do
         build(:custom_field,
@@ -314,7 +314,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
             { member: { operator: '*', values: [] } }
           ]
 
-          query = CGI.escape(::JSON.dump(params))
+          query = CGI.escape(JSON.dump(params))
 
           "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
         end
@@ -329,24 +329,25 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
 
       it 'on writing it sets on the represented' do
-        expected = { custom_field.id => expected_setter }
-        expect(represented)
-          .to receive(:"custom_field_#{custom_field.id}=")
-          .with(expected_setter)
+        allow(represented).to receive(custom_field.attribute_setter)
         modified_class
           .new(represented, current_user: nil)
           .from_json({ cf_path => json_value }.to_json)
+
+        expect(represented)
+          .to have_received(custom_field.attribute_setter)
+          .with(expected_setter)
       end
     end
 
-    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:base_class) { Class.new(API::Decorators::Single) }
     let(:modified_class) { described_class.create_value_representer([custom_field], base_class) }
     let(:represented) do
       double('represented',
              available_custom_fields: [custom_field],
-             custom_field.accessor_name => value)
+             custom_field.attribute_name => value)
     end
-    let(:custom_value) { double('CustomValue', value: raw_value, typed_value:) }
+    let(:custom_value) { instance_double(CustomValue, value: raw_value, typed_value:) }
     let(:raw_value) { nil }
     let(:typed_value) { raw_value }
     let(:value) { '' }
@@ -359,7 +360,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
     end
 
-    context 'user custom field' do
+    context 'for user custom field' do
       let(:raw_value) { value.id.to_s }
       let(:typed_value) { value }
       let(:field_format) { 'user' }
@@ -381,7 +382,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'value is nil' do
+      context 'when value is nil' do
         let(:value) { nil }
         let(:raw_value) { '' }
 
@@ -391,7 +392,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'version custom field' do
+    context 'for version custom field' do
       let(:value) { build_stubbed(:version, id: 2) }
       let(:raw_value) { value.id.to_s }
       let(:typed_value) { value }
@@ -408,7 +409,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         expect(subject).to be_json_eql(value.name.to_json).at_path("_embedded/#{cf_path}/name")
       end
 
-      context 'value is nil' do
+      context 'when value is nil' do
         let(:value) { nil }
         let(:raw_value) { '' }
 
@@ -418,7 +419,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'list custom field' do
+    context 'for list custom field' do
       let(:value) { build_stubbed(:custom_option) }
       let(:typed_value) { value.value }
       let(:raw_value) { value.id.to_s }
@@ -430,7 +431,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:title) { value.value }
       end
 
-      context 'value is nil' do
+      context 'when value is nil' do
         let(:value) { nil }
         let(:raw_value) { '' }
         let(:typed_value) { '' }
@@ -440,7 +441,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'value is some invalid string' do
+      context 'when value is some invalid string' do
         let(:value) { 'some invalid string' }
         let(:raw_value) { 'some invalid string' }
         let(:typed_value) { 'some invalid string not found' }
@@ -459,7 +460,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'string custom field' do
+    context 'for string custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'string' }
         let(:value) { 'Foobar' }
@@ -468,7 +469,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'int custom field' do
+    context 'for int custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'int' }
         let(:value) { 42 }
@@ -477,7 +478,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'float custom field' do
+    context 'for float custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'float' }
         let(:value) { 3.14 }
@@ -486,7 +487,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'bool custom field' do
+    context 'for bool custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'bool' }
         let(:value) { true }
@@ -495,16 +496,16 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'date custom field' do
+    context 'for date custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'date' }
-        let(:value) { Date.today.to_date }
+        let(:value) { Date.current }
         let(:json_value) { value.to_date.iso8601 }
         let(:expected_setter) { json_value }
       end
     end
 
-    context 'text custom field' do
+    context 'for text custom field' do
       it_behaves_like 'injects property custom field' do
         let(:field_format) { 'text' }
         let(:value) { '**Foobar**' }
@@ -521,14 +522,14 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   end
 
   describe '#inject_patchable_link_value' do
-    let(:base_class) { Class.new(::API::Decorators::Single) }
+    let(:base_class) { Class.new(API::Decorators::Single) }
     let(:modified_class) do
       described_class.create_value_representer([custom_field], base_class)
     end
     let(:represented) do
       double('represented', available_custom_fields: [custom_field])
     end
-    let(:custom_value) { double('CustomValue', value:, typed_value:) }
+    let(:custom_value) { instance_double(CustomValue, value:, typed_value:) }
     let(:value) { '' }
     let(:user) { build_stubbed(:user) }
     let(:typed_value) { value }
@@ -537,10 +538,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
     before do
       allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
-      allow(represented).to receive(:"custom_field_#{custom_field.id}").and_return(typed_value)
+      allow(represented).to receive(custom_field.attribute_getter).and_return(typed_value)
     end
 
-    context 'reading' do
+    context 'for reading' do
       let(:value) { '2' }
       let(:field_format) { 'user' }
 
@@ -556,7 +557,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         end
       end
 
-      context 'value is nil' do
+      context 'when value is nil' do
         let(:value) { nil }
         let(:typed_value) { nil }
 
@@ -566,7 +567,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
       end
     end
 
-    context 'writing' do
+    context 'for writing' do
       let(:value) { nil }
       let(:field_format) { 'user' }
 
@@ -576,8 +577,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           json = { cf_path => { href: path } }.to_json
           expected = ['2']
 
-          expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
+          allow(represented).to receive(custom_field.attribute_setter)
           modified_class.new(represented, current_user: nil).from_json(json)
+
+          expect(represented).to have_received(custom_field.attribute_setter).with(expected)
         end
       end
 
@@ -585,8 +588,10 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         json = { cf_path => { href: nil } }.to_json
         expected = []
 
-        expect(represented).to receive(:"custom_field_#{custom_field.id}=").with(expected)
+        allow(represented).to receive(custom_field.attribute_setter)
         modified_class.new(represented, current_user: nil).from_json(json)
+
+        expect(represented).to have_received(custom_field.attribute_setter).with(expected)
       end
     end
   end

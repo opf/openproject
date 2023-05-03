@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,8 @@
 #++
 require 'spec_helper'
 
-describe GroupsController, type: :controller do
-  let(:group) { create :group, members: group_members }
+describe GroupsController do
+  let(:group) { create(:group, members: group_members) }
   let(:group_members) { [] }
 
   before do
@@ -36,7 +36,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as admin' do
-    shared_let(:admin) { create :admin }
+    shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
 
     it 'indexes' do
@@ -90,8 +90,8 @@ describe GroupsController, type: :controller do
     end
 
     context 'with two existing users' do
-      let(:user1) { create :user }
-      let(:user2) { create :user }
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
 
       it 'adds users' do
         post :add_users, params: { id: group.id, user_ids: [user1.id, user2.id] }
@@ -100,8 +100,8 @@ describe GroupsController, type: :controller do
     end
 
     context 'with a group member' do
-      let(:user1) { create :user }
-      let(:user2) { create :user }
+      let(:user1) { create(:user) }
+      let(:user2) { create(:user) }
       let(:group_members) { [user1] }
 
       it 'adds users' do
@@ -128,9 +128,9 @@ describe GroupsController, type: :controller do
     end
 
     context 'with project and role' do
-      let(:project) { create :project }
-      let(:role1) { create :role }
-      let(:role2) { create :role }
+      let(:project) { create(:project) }
+      let(:role1) { create(:role) }
+      let(:role2) { create(:role) }
 
       it 'creates membership' do
         post :create_memberships,
@@ -173,7 +173,7 @@ describe GroupsController, type: :controller do
   end
 
   context 'as regular user' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let(:current_user) { user }
 
     it 'forbids index' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,7 +76,7 @@ describe 'Read-only statuses affect work package editing',
 
   it 'locks the work package on a read only status' do
     wp_page.switch_to_tab(tab: 'FILES')
-    expect(page).to have_selector '.work-package--attachments--drop-box'
+    expect(page).to have_selector '[data-qa-selector="op-attachments--drop-box"]'
 
     subject_field = wp_page.edit_field :subject
     subject_field.activate!
@@ -95,14 +95,14 @@ describe 'Read-only statuses affect work package editing',
     subject_field.expect_read_only
 
     # Expect attachments not available
-    expect(page).not_to have_selector '.work-package--attachments--drop-box'
+    expect(page).not_to have_selector '[data-qa-selector="op-attachments--drop-box"]'
 
     # Expect labels to not activate field editing (Regression#45032)
     assignee_field = wp_page.edit_field :assignee
     assignee_field.label_element.click
     assignee_field.expect_inactive!
 
-    custom_field = wp_page.edit_field cf_all.accessor_name.camelcase(:lower)
+    custom_field = wp_page.edit_field cf_all.attribute_name.camelcase(:lower)
     custom_field.label_element.click
     custom_field.expect_inactive!
   end

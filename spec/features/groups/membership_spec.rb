@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,27 +28,27 @@
 
 require 'spec_helper'
 
-describe 'group memberships through project members page', type: :feature, js: true do
-  shared_let(:admin) { create :admin }
-  let(:project) { create :project, name: 'Project 1', identifier: 'project1', members: project_member }
+describe 'group memberships through project members page', js: true do
+  shared_let(:admin) { create(:admin) }
+  let(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_member) }
 
-  let(:alice) { create :user, firstname: 'Alice', lastname: 'Wonderland' }
-  let(:bob)   { create :user, firstname: 'Bob', lastname: 'Bobbit' }
-  let(:group) { create :group, lastname: 'group1' }
+  let(:alice) { create(:user, firstname: 'Alice', lastname: 'Wonderland') }
+  let(:bob)   { create(:user, firstname: 'Bob', lastname: 'Bobbit') }
+  let(:group) { create(:group, lastname: 'group1') }
 
-  let!(:alpha) { create :role, name: 'alpha', permissions: [:manage_members] }
-  let!(:beta)  { create :role, name: 'beta' }
+  let!(:alpha) { create(:role, name: 'alpha', permissions: [:manage_members]) }
+  let!(:beta)  { create(:role, name: 'beta') }
 
   let(:members_page) { Pages::Members.new project.identifier }
   let(:groups_page)  { Pages::Groups.new }
   let(:project_member) { {} }
 
   before do
-    create :member, user: bob, project:, roles: [alpha]
+    create(:member, user: bob, project:, roles: [alpha])
   end
 
   context 'given a group with members' do
-    let!(:group) { create :group, lastname: 'group1', members: alice }
+    let!(:group) { create(:group, lastname: 'group1', members: alice) }
 
     current_user { bob }
 

@@ -19,15 +19,24 @@ The rake task `redmine:email:receive_imap` fetches emails via IMAP and parses th
 
 **Packaged installation**
 
+IMAP:
+
 ```bash
-openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true allow_override=type,project project=test_project
+openproject run bundle exec rake redmine:email:receive_imap host='imap.gmail.com' username='test_user' password='password' port=993 ssl=true ssl_verification=true allow_override=type,project project=test_project
+```
+
+Gmail:
+
+```bash
+openproject run bundle exec rake redmine:email:receive_gmail credentials='/path/to/credentials.json' user_id='test_user' query='is:unread label:openproject' allow_override=type,project
 ```
 
 **Docker installation**
 
 The docker installation has a ["cron-like" daemon](https://github.com/opf/openproject/blob/dev/docker/prod/cron) that will imitate the above cron job. You need to specify the following ENV variables (e.g., to your env list file)
 
-- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL
+- `IMAP_SSL` set to true or false depending on whether the ActionMailer IMAP connection requires implicit TLS/SSL (defaults to true)
+- `IMAP_SSL_VERIFICATION` set to true or false depending on whether the SSL certificate should be verified (defaults to true)
 - `IMAP_PORT` `IMAP_HOST` set to the IMAP host and port of your connection
 - `IMAP_USERNAME` and `IMAP_PASSWORD`
 
@@ -64,9 +73,41 @@ Available arguments that change how the work packages are handled:
 | `unknown_user` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
 | `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
+**Gmail API**
+
+In order to use the more secure Gmail API method, some extra initial setup in google cloud is required.
+1. Go to https://console.cloud.google.com/
+2. Create new project
+3. Navigate to Enable APIs and Services
+4. Enable the Gmail API
+5. Navigate to the "Credentials" page for the project
+6. Click "Create Credentials" > "Service Account"
+7. Give the service account editor permissions and click "Done"
+8. Click on the new service account, go to the "Keys" tab, and add a new key.
+9. Save the JSON key file
+  ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
+10. Go to https://admin.google.com
+11. Select Security > Access and Data Control > API Controls
+12. Go to "Domain-Wide Delegation"
+13. Add new API Client
+14. Open JSON key file and copy "client_id" number
+15. Enter `https://www.googleapis.com/auth/gmail.modify` into the scopes
+  ***Note: Modify permissions are necessary here to mark emails as read***
+  ***This is so the service account can access all accounts in your Domain***
+
+Available arguments for the Gmail API rake task that specify the email behavior are
+
+|key | description|
+|----|------------|
+| `credentials` | Gmail service account credentials file (JSON) |
+| `username` | Gmail email address |
+| `query` | Gmail search query (https://support.google.com/mail/answer/7190?hl=en) |
+| `read_on_failure` | Mark emails as read even on failure (default: true) |
+| `max_emails` | Max emails to process (default: 1000) |
+
 ## Format of the emails
 
-Please note: It's important to use the plain text editor of your email client (instead of the HTML editor) to avoid misinterpretations (e.g. for the project name). 
+Please note: It's important to use the plain text editor of your email client (instead of the HTML editor) to avoid misinterpretations (e.g. for the project name).
 
 ### Work packages
 
@@ -183,7 +224,7 @@ In case of receiving errors, the application will try to send an email to the us
 
 - The configuration setting `report_incoming_email_errors` is true (which it is by default)
 
-  
+
 
 By returning an email with error details, you can theoretically be leaking information through the error messages. As from addresses can be spoofed, please be aware of this issue and try to reduce the impact by setting up the integration appropriately.
 

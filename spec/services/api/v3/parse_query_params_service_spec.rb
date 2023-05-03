@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::ParseQueryParamsService,
+describe API::V3::ParseQueryParamsService,
          type: :model do
   let(:instance) { described_class.new }
   let(:params) { {} }
@@ -317,6 +317,41 @@ describe ::API::V3::ParseQueryParamsService,
       it_behaves_like 'transforms' do
         let(:params) { { includeSubprojects: 'false' } }
         let(:expected) { { include_subprojects: false } }
+      end
+    end
+
+    context 'with timestamps' do
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "" } }
+        let(:expected) { { timestamps: [] } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "P-0Y" } }
+        let(:expected) { { timestamps: [Timestamp.parse("P-0Y")] } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "2022-10-29T23:01:23Z, P-0Y" } }
+        let(:expected) { { timestamps: [Timestamp.parse("2022-10-29T23:01:23Z"), Timestamp.parse("P-0Y")] } }
+      end
+
+      it_behaves_like 'transforms' do
+        let(:params) { { timestamps: "-1y, now" } }
+        let(:expected) { { timestamps: [Timestamp.new("P-1Y"), Timestamp.parse("P-0Y")] } }
+      end
+
+      describe "for invalid parameters" do
+        let(:params) { { timestamps: "foo,bar" } }
+
+        it 'is not success' do
+          expect(subject).not_to be_success
+        end
+
+        it 'returns the error' do
+          expect(subject.errors.messages[:base].length).to be(1)
+          expect(subject.errors.messages[:base][0]).to include "\"foo\""
+        end
       end
     end
   end

@@ -1,18 +1,18 @@
 require 'spec_helper'
 
 describe 'Work Package table hierarchy', js: true do
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
   before do
     login_as(user)
   end
 
   describe 'hierarchies in same project' do
-    let(:category) { create :category, project:, name: 'Foo' }
+    let(:category) { create(:category, project:, name: 'Foo') }
 
     let!(:wp_root) { create(:work_package, project:) }
     let!(:wp_inter) { create(:work_package, project:, parent: wp_root) }
@@ -136,7 +136,7 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.enable_hierarchy
 
       # Should not be marked as additional row (grey)
-      expect(page).to have_no_selector('.wp-table--hierarchy-aditional-row')
+      expect(page).not_to have_selector('.wp-table--hierarchy-aditional-row')
 
       hierarchy.expect_hierarchy_at(wp_root, wp_inter)
       hierarchy.expect_leaf_at(wp_leaf)
@@ -176,13 +176,13 @@ describe 'Work Package table hierarchy', js: true do
     end
 
     let(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: role
+             member_through_role: role)
     end
     let(:permissions) { %i(view_work_packages add_work_packages save_queries) }
-    let(:role) { create :role, permissions: }
-    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+    let(:role) { create(:role, permissions:) }
+    let(:sort_by) { Components::WorkPackages::SortBy.new }
 
     let!(:query) do
       query              = build(:query, user:, project:)

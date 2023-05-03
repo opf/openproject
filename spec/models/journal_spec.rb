@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,8 +27,7 @@
 #++
 require 'spec_helper'
 
-describe Journal,
-         type: :model do
+describe Journal do
   describe '#journable' do
     it 'raises no error on a new journal without a journable' do
       expect(Journal.new.journable)
@@ -54,6 +53,20 @@ describe Journal,
     it 'destroys the associated notifications upon journal destruction' do
       expect { journal.destroy }
         .to change(Notification, :count).from(1).to(0)
+    end
+  end
+
+  describe '#create' do
+    context 'without a data foreign key' do
+      subject { create(:work_package_journal, data: nil) }
+
+      it 'raises an error and does not create a database record' do
+        expect { subject }
+          .to raise_error(ActiveRecord::NotNullViolation)
+
+        expect(described_class.count)
+          .to eq 0
+      end
     end
   end
 end

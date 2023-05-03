@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,9 @@
 
 require 'spec_helper'
 
-describe 'work package reports', type: :feature, js: true do
-  let(:project) { create :project_with_types, types: [type_a] }
-  let(:user) { create :user, member_in_project: project, member_with_permissions: %i(view_work_packages) }
+describe 'work package reports', js: true do
+  let(:project) { create(:project_with_types, types: [type_a]) }
+  let(:user) { create(:user, member_in_project: project, member_with_permissions: %i(view_work_packages)) }
 
   let(:type_a) do
     create(:type_with_workflow, name: 'Type A').tap do |t|
@@ -38,8 +38,8 @@ describe 'work package reports', type: :feature, js: true do
     end
   end
 
-  let!(:wp_1) { create :work_package, project:, type: type_a, status: type_a.statuses.first }
-  let!(:wp_2) { create :work_package, project:, type: type_a, status: type_a.statuses.last }
+  let!(:wp1) { create(:work_package, project:, type: type_a, status: type_a.statuses.first) }
+  let!(:wp2) { create(:work_package, project:, type: type_a, status: type_a.statuses.last) }
 
   let(:wp_table_page) { Pages::WorkPackagesTable.new(project) }
 
@@ -116,7 +116,7 @@ describe 'work package reports', type: :feature, js: true do
       click_link '1'
     end
 
-    wp_table_page.expect_work_package_listed(wp_1)
-    wp_table_page.ensure_work_package_not_listed!(wp_2)
+    wp_table_page.expect_work_package_listed(wp1)
+    wp_table_page.ensure_work_package_not_listed!(wp2)
   end
 end

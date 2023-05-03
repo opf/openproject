@@ -1,33 +1,33 @@
 require 'spec_helper'
 
-describe "Split screen in the notification center", type: :feature, js: true do
-  let(:global_html_title) { ::Components::HtmlTitle.new }
-  let(:center) { ::Pages::Notifications::Center.new }
-  let(:split_screen) { ::Pages::Notifications::SplitScreen.new work_package }
+describe "Split screen in the notification center", js: true do
+  let(:global_html_title) { Components::HtmlTitle.new }
+  let(:center) { Pages::Notifications::Center.new }
+  let(:split_screen) { Pages::Notifications::SplitScreen.new work_package }
 
-  shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: }
-  shared_let(:second_work_package) { create :work_package, project: }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
+  shared_let(:second_work_package) { create(:work_package, project:) }
 
   shared_let(:recipient) do
-    create :user,
+    create(:user,
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages]
+           member_with_permissions: %i[view_work_packages])
   end
   shared_let(:notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: work_package,
-           journal: work_package.journals.last
+           journal: work_package.journals.last)
   end
 
   shared_let(:second_notification) do
-    create :notification,
+    create(:notification,
            recipient:,
            project:,
            resource: second_work_package,
-           journal: second_work_package.journals.last
+           journal: second_work_package.journals.last)
   end
 
   describe 'basic use case' do
@@ -49,7 +49,7 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
       # Clicking on a another notification changes the split screen content
       center.click_item second_notification
-      split_screen = ::Pages::SplitWorkPackage.new(second_work_package, project)
+      split_screen = Pages::SplitWorkPackage.new(second_work_package, project)
       split_screen.expect_open
       center.expect_work_package_item second_notification
     end
@@ -62,13 +62,13 @@ describe "Split screen in the notification center", type: :feature, js: true do
 
       # Activity is selected as default
       split_screen.expect_tab :activity
-      activity_tab = ::Components::WorkPackages::Activities.new(work_package)
+      activity_tab = Components::WorkPackages::Activities.new(work_package)
       activity_tab.expect_wp_has_been_created_activity work_package
 
       # Navigate to the relations tab
       split_screen.switch_to_tab tab: 'relations'
       split_screen.expect_tab :relations
-      relations_tab = ::Components::WorkPackages::Relations.new(work_package)
+      relations_tab = Components::WorkPackages::Relations.new(work_package)
       relations_tab.expect_no_relation work_package
 
       # Navigate to full view and back

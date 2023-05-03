@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,20 +29,30 @@
 # This class provides definitions for API routes and endpoints for the file_links namespace. It inherits the
 # functionality from the Grape REST API framework. It is mounted in lib/api/v3/root.rb.
 # -> /api/v3/file_links/...
-class API::V3::FileLinks::FileLinksAPI < ::API::OpenProjectAPI
-  # helpers is defined by the grape framework. They make methods from the
-  # module available from within the endpoint context.
-  helpers Storages::Peripherals::Scopes
-
+class API::V3::FileLinks::FileLinksAPI < API::OpenProjectAPI
   # The `:resources` keyword defines the API namespace -> /api/v3/file_links/...
   resources :file_links do
+    post &::API::V3::FileLinks::CreateEndpoint
+            .new(
+              model: ::Storages::FileLink,
+              parse_service: Storages::Peripherals::ParseCreateParamsService,
+              render_representer: ::API::V3::FileLinks::FileLinkCollectionRepresenter
+            )
+            .mount
+
     # `route_param` extends the route by a route parameter of the endpoint.
     # The input parameter value is parsed into the `:file_link_id` symbol.
     route_param :file_link_id, type: Integer, desc: 'File link id' do
       # The after validation hook executes after the validation of the request format, but before any execution
       # inside the endpoint context. Hence, it is a good place to actually fetch the handled resource.
       after_validation do
-        @file_link = visible_file_links.find(params[:file_link_id])
+        @file_link = Storages::FileLink.find(params[:file_link_id])
+
+        unless @file_link.container.present? &&
+               current_user.allowed_to?(:view_file_links, @file_link.project) &&
+               @file_link.project.storage_ids.include?(@file_link.storage_id)
+          raise ::API::Errors::NotFound.new
+        end
       end
 
       # A helper is used to define the behaviour at GET /api/v3/file_links/:file_link_id

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,37 +30,37 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, js: true, with_mail: false do
-  let!(:type) { create :type }
-  let!(:other_type) { create :type }
-  let!(:priority) { create :default_priority }
-  let!(:project) { create :project, types: [type] }
-  let!(:other_project) { create :project, types: [type] }
-  let!(:open_status) { create :default_status }
-  let!(:closed_status) { create :status, is_closed: true }
+describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_mail: false do
+  let!(:type) { create(:type) }
+  let!(:other_type) { create(:type) }
+  let!(:priority) { create(:default_priority) }
+  let!(:project) { create(:project, types: [type]) }
+  let!(:other_project) { create(:project, types: [type]) }
+  let!(:open_status) { create(:default_status) }
+  let!(:closed_status) { create(:status, is_closed: true) }
   let!(:type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            author: user,
            status: open_status,
-           responsible: user
+           responsible: user)
   end
   let!(:other_type_work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type: other_type,
            author: user,
            status: closed_status,
-           responsible: user
+           responsible: user)
   end
   let!(:other_project_work_package) do
-    create :work_package,
+    create(:work_package,
            project: other_project,
            type:,
            author: user,
            status: open_status,
-           responsible: user
+           responsible: user)
   end
 
   let(:permissions) do
@@ -87,9 +87,9 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
   end
   let(:enterprise_edition) { true }
 
-  let(:modal) { ::Components::WorkPackages::TableConfigurationModal.new }
-  let(:filters) { ::Components::WorkPackages::TableConfiguration::Filters.new }
-  let(:general) { ::Components::WorkPackages::TableConfiguration::GraphGeneral.new }
+  let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
+  let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
+  let(:general) { Components::WorkPackages::TableConfiguration::GraphGeneral.new }
 
   before do
     with_enterprise_token(enterprise_edition ? :grid_widget_wp_graph : nil)
@@ -119,7 +119,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', type: :feature, j
       filter_area.configure_wp_table
       modal.switch_to('Filters')
       filters.expect_filter_count(2)
-      filters.add_filter_by('Type', 'is', type.name)
+      filters.add_filter_by('Type', 'is (OR)', type.name)
       modal.save
 
       filter_area.configure_wp_table

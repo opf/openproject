@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,18 +55,54 @@ describe Project do
   end
 
   describe '#archived?' do
-    context 'if archived' do
-      it 'is true' do
-        expect(project).not_to be_archived
-      end
+    subject { project.archived? }
+
+    context 'if active is true' do
+      let(:active) { true }
+
+      it { is_expected.to be false }
     end
 
-    context 'if not archived' do
+    context 'if active is false' do
       let(:active) { false }
 
-      it 'is false' do
-        expect(project).to be_archived
+      it { is_expected.to be true }
+    end
+  end
+
+  describe '#being_archived?' do
+    subject { project.being_archived? }
+
+    context 'if active is true' do
+      let(:active) { true }
+
+      it { is_expected.to be false }
+    end
+
+    context 'if active was true and changes to false (marking as archived)' do
+      let(:active) { true }
+
+      before do
+        project.active = false
       end
+
+      it { is_expected.to be true }
+    end
+
+    context 'if active is false' do
+      let(:active) { false }
+
+      it { is_expected.to be false }
+    end
+
+    context 'if active was false and changes to true (marking as active)' do
+      let(:active) { false }
+
+      before do
+        project.active = true
+      end
+
+      it { is_expected.to be false }
     end
   end
 
@@ -319,6 +355,27 @@ describe Project do
         expect(child_project2.children)
           .to be_empty
       end
+    end
+  end
+
+  describe '#active_subprojects' do
+    subject { root_project.active_subprojects }
+
+    shared_let(:root_project) { create(:project) }
+    shared_let(:parent_project) { create(:project, parent: root_project) }
+    shared_let(:child_project1) { create(:project, parent: parent_project) }
+
+    context 'with an archived subproject' do
+      before do
+        child_project1.active = false
+        child_project1.save
+      end
+
+      it { is_expected.to eq [parent_project] }
+    end
+
+    context 'with all active subprojects' do
+      it { is_expected.to eq [parent_project, child_project1] }
     end
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2022 the OpenProject GmbH
+#Copyright (C) 2012-2023 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -226,6 +226,7 @@ id:
       failed_text: "Permintaan untuk menghapus proyek %{name} telah gagal.  Proyek dibiarkan diarsipkan."
       completed: "Penghapusan proyek %{name} selesai"
       completed_text: "Permintaan untuk menghapus proyek '%{name}' telah selesai."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Buka sebagai tampilan Gantt'
       open_as_gantt_title: "Gunakan tombol ini untuk membuat tampilan Gantt yang memfilter paket kerja untuk proyek yang terlihat di halaman ini."
@@ -331,6 +332,7 @@ id:
   wiki:
     page_not_editable_index: The requested page does not (yet) exist. You have been redirected to the index of all wiki pages.
     no_results_title_text: There are currently no wiki pages.
+    print_hint: This will print the content of this wiki page without any navigation bars.
     index:
       no_results_content_text: Add a new wiki page
   work_flows:
@@ -340,6 +342,8 @@ id:
     x_descendants:
       other: '%{count} work package descendants'
     bulk:
+      copy_failed: "The work packages could not be copied."
+      move_failed: "The work packages could not be moved."
       could_not_be_saved: "The following work packages could not be saved:"
       none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
@@ -368,7 +372,7 @@ id:
   account:
     delete: "Hapus akun"
     delete_confirmation: "Yakin Anda ingin menghapus akun?"
-    deleted: "Akun telah dihapus"
+    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
     deletion_info:
       data_consequences:
         other: "Data yang dibuat pengguna (seperti email, preferensi, Work Package, entri wiki) akan dihapus. Namun, data seperti Work Package dan entri wiki yang terhubung dengan pengguna lain tidak bisa dihapus. Data seperti ini akan dipindahkan ke sebuah akun bernama \"Pengguna Terhapus\". Karena data dari setiap akun terhapus dipindahkan ke akun tersebut, maka pembedaan antara data yang dibuat pengguna dengan data dari akun terhapus lainnya tidak akan bisa dilakukan."
@@ -463,14 +467,24 @@ id:
       member:
         roles: "Roles"
       project:
+        active_value:
+          true: "unarchived"
+          false: "archived"
         identifier: "Pengenal"
         latest_activity_at: "Latest activity at"
         parent: "Sub-Project dari"
+        public_value:
+          title: "Visibility"
+          true: "public"
+          false: "private"
         queries: "Query"
+        templated: "Template project"
+        templated_value:
+          true: "marked as template"
+          false: "unmarked as template"
         types: "Tipe"
         versions: "Versi"
         work_packages: "Paket-Penugasan"
-        templated: 'Template project'
       projects/status:
         code: 'Status'
         explanation: 'Status description'
@@ -682,6 +696,11 @@ id:
               no_notification_reason: 'cannot be blank as IAN is chosen as a channel.'
             reason_mail_digest:
               no_notification_reason: 'cannot be blank as mail digest is chosen as a channel.'
+        non_working_day:
+          attributes:
+            date:
+              taken: "A non-working day already exists for %{value}."
+              format: "%{message}"
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -692,6 +711,8 @@ id:
           archived_ancestor: 'The project has an archived ancestor.'
           foreign_wps_reference_version: 'Work packages in non descendant projects reference versions of the project or its descendants.'
           attributes:
+            base:
+              archive_permission_missing_on_subprojects: "You do not have the permissions required to archive all sub-projects. Please contact an administrator."
             types:
               in_use_by_work_packages: "still in use by work packages: %{types}"
             enabled_modules:
@@ -881,8 +902,22 @@ id:
     header_invalid_fields: "Eror pada isian berikut :"
     field_erroneous_label: "Bidang ini tidak valid: %{full_errors} masukkan nilai yang berlaku."
   activity:
-    created: "Dibuat : %{title}"
-    updated: "Diupdate : %{title}"
+    item:
+      created_by_on: "created by %{user} on %{datetime}"
+      created_on: "created on %{datetime}"
+      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_on: "updated on %{datetime}"
+      parent_without_of: "Subproject"
+      parent_no_longer: "No longer subproject of"
+    filter:
+      changeset: "Changesets"
+      message: "Forums"
+      news: "News"
+      project_attribute: "Project attributes"
+      subproject: "Include subprojects"
+      time_entry: "Spent time"
+      wiki_edit: "Wiki"
+      work_package: "Work packages"
   #common attributes of all models
   attributes:
     active: "Aktif"
@@ -1018,6 +1053,7 @@ id:
   button_reset: "Reset"
   button_rollback: "Kembali ke versi ini"
   button_save: "Simpan"
+  button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Tampilkan"
   button_sort: "Urutkan"
@@ -1301,16 +1337,20 @@ id:
   error_external_authentication_failed: "An error occurred during external authentication. Please try again."
   error_attribute_not_highlightable: "Attribute(s) not highlightable: %{attributes}"
   events:
-    project: 'Project edited'
     changeset: 'Set-Perubahan telah diedit'
     message: Pesan telah diedit
     news: News
+    project_attributes: 'Project attributes edited'
+    projects: 'Project edited'
     reply: Telah direspon
     time_entry: 'Timelog telah diedit'
     wiki_page: 'Halaman Wiki telah diedit'
     work_package_closed: 'Paket-Penugasan telah berakhir'
     work_package_edit: 'Paket-Penugasan telah diedit'
     work_package_note: 'Catatan Paket-Penugasan telah ditambah'
+    title:
+      project: "Project: %{name}"
+      subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
     succeeded: "The export has completed successfully."
@@ -1336,7 +1376,6 @@ id:
   general_csv_encoding: "UTF-8"
   general_csv_separator: ","
   general_first_day_of_week: "7"
-  general_lang_name: "Bahasa Indonesia"
   general_pdf_encoding: "ISO-8859-1"
   general_text_no: "no"
   general_text_yes: "yes"
@@ -1722,6 +1761,10 @@ id:
   label_not_contains: "tidak berisi"
   label_not_equals: "tidak"
   label_on: "pada"
+  label_operator_all: "is not empty"
+  label_operator_none: "is empty"
+  label_operator_equals_or: "is (OR)"
+  label_operator_equals_all: "is (AND)"
   label_open_menu: "Buka menu"
   label_open_work_packages: "buka"
   label_open_work_packages_plural: "buka"
@@ -1763,6 +1806,8 @@ id:
   label_product_version: "Product version"
   label_professional_support: "Professional support"
   label_profile: "Profil"
+  label_project_activity: "Project activity"
+  label_project_attribute_plural: "Project attributes"
   label_project_count: "Jumlah proyek"
   label_project_copy_notifications: "Kirim email notifikasi selama meng-copy Project"
   label_project_latest: "Project terbaru"
@@ -2051,8 +2096,6 @@ id:
   mail_subject_incoming_email_error: "An email you sent to OpenProject could not be processed"
   mail_subject_lost_password: "Password Anda %{value}"
   mail_subject_register: "Kode aktivasi Akun Anda %{value}"
-  mail_subject_reminder: "%{count} Paket-Penugasan akan berakhir %{days} hari lagi"
-  mail_subject_group_reminder: "For group \"%{group}\" %{count} work package(s) due in the next %{days} days"
   mail_subject_wiki_content_added: "Halaman Wiki '%{id}' telah ditambahkan"
   mail_subject_wiki_content_updated: "Halaman Wiki '%{id}' telah diupdate"
   mail_member_added_project:
@@ -2185,6 +2228,7 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Buat Project"
+  permission_archive_project: "Archive project"
   permission_manage_user: "Create and edit users"
   permission_manage_placeholder_user: "Buat, ubah, dan hapus pengguna placeholder"
   permission_add_subprojects: "Buat Sub Project"
@@ -2620,12 +2664,13 @@ id:
   text_work_packages_destroy_confirmation: "Yakin akan menghapus?"
   text_work_packages_ref_in_commit_messages: "Referencing & fixing Paket-Penugasan di pesan terkirim"
   text_journal_added: "%{label} %{value} ditambahkan"
-  text_journal_changed_html: "%{label} changed from %{old} %{linebreak}<strong>to</strong> %{new}"
   text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
   text_journal_changed_no_detail: "%{label} telah diupdate"
   text_journal_changed_with_diff: "%{label} dirubah menjadi (%{link})"
   text_journal_deleted: "%{label} telah dihapus (%{old})"
+  text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} telah dihapus menjadi (%{link})"
+  text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} diset menjadi %{value}"
   text_journal_set_with_diff: "set %{label} (%{link})"
   text_journal_label_value: "%{label} %{value}"
@@ -2916,15 +2961,20 @@ id:
       title: "Delete the work package"
   working_days:
     info: >
-      <b>Define the working days of the week</b><br/> Non-working days are skipped when scheduling work packages and are excluded when calculating duration. This can be overridden at a work-package level.
+      <b>Define days considered part of the work week</b><br/> Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+    instance_wide_info: >
+      <b>Specific non-working days (holidays and closures)</b><br/> Dates added to the list below are considered non-working and skipped when scheduling work packages.
     change_button: "Change working days"
     warning: >
-      Changing which days of the week are considered working days can affect the start and finish days of all work packages in all projects in this instance.
+      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
         working: "%{day} is now working"
         non_working: "%{day} is now non-working"
+      dates:
+        working: "%{date} is now working"
+        non_working: "%{date} is now non-working"
   nothing_to_preview: "Tidak ada pre-view"
   api_v3:
     attributes:

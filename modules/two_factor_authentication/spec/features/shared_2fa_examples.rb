@@ -23,7 +23,7 @@ end
 
 def expect_not_logged_in
   visit my_account_path
-  expect(page).to have_no_selector('.form--field-container', text: user.login)
+  expect(page).not_to have_selector('.form--field-container', text: user.login)
 end
 
 shared_examples 'login without 2FA' do
@@ -62,7 +62,7 @@ shared_examples 'create enforced sms device' do
 
     # Log token for next access
     sms_token = nil
-    allow_any_instance_of(::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
+    allow_any_instance_of(OpenProject::TwoFactorAuthentication::TokenStrategy::Developer)
         .to receive(:create_mobile_otp).and_wrap_original do |m|
       sms_token = m.call
     end

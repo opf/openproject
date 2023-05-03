@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -88,7 +88,7 @@ class CostQuery::SqlStatement < Report::SqlStatement
       query.select({
                      count: 1, id: [model, :id], display_costs: 1,
                      real_costs: switch("#{table}.overridden_costs IS NULL" => [model, :costs], else: [model, :overridden_costs]),
-                     week: iso_year_week(:spent_on, model),
+                     week: iso_year_week(field_name_for([model, :spent_on])),
                      singleton_value: 1
                    })
       # FIXME: build this subquery from a sql_statement

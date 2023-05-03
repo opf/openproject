@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ describe PlaceholderUsers::DeleteContract do
   include_context 'ModelContract shared context'
 
   let(:placeholder_user) { create(:placeholder_user) }
-  let(:role) { create :existing_role, permissions: [:manage_members] }
+  let(:role) { create(:existing_role, permissions: [:manage_members]) }
   let(:shared_project) { create(:project, members: { placeholder_user => role, current_user => role }) }
   let(:not_shared_project) { create(:project, members: { placeholder_user => role }) }
   let(:contract) { described_class.new(placeholder_user, current_user) }

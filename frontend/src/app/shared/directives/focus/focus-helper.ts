@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2022 the OpenProject GmbH
+// Copyright (C) 2012-2023 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -27,31 +27,14 @@
 //++
 
 import { Injectable } from '@angular/core';
+import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class FocusHelperService {
-  private static FOCUSABLE_SELECTORS = 'a, button, input, [tabindex], select, textarea';
-
-  public getFocusableElement(element:HTMLElement):HTMLElement {
-    const focusser = element.querySelector<HTMLElement>('input.ui-select-focusser');
-
-    if (focusser) {
-      return focusser;
-    }
-
-    let focusable = element;
-
-    if (!element.matches(FocusHelperService.FOCUSABLE_SELECTORS)) {
-      focusable = element.querySelector<HTMLElement>(FocusHelperService.FOCUSABLE_SELECTORS) || element;
-    }
-
-    return focusable;
-  }
-
   public focus(element:HTMLElement):void {
     setTimeout(() => {
-      const focusable = this.getFocusableElement(element);
+      const focusable = findAllFocusableElementsWithin(element)[0] || element;
       focusable?.focus();
-    }, 10);
+    }, 20);
   }
 }

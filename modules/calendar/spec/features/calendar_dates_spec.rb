@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,16 +29,16 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Calendar non working days', type: :feature, js: true do
+describe 'Calendar non working days', js: true do
   include_context 'with calendar full access'
 
   let!(:other_user) do
-    create :user,
+    create(:user,
            firstname: 'Bernd',
            member_in_project: project,
            member_with_permissions: %w[
              view_work_packages view_calendar
-           ]
+           ])
   end
 
   before do
@@ -56,22 +56,22 @@ describe 'Calendar non working days', type: :feature, js: true do
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
 
       find('.fc-next-button').click
 
       expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).to have_no_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).to have_no_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
+      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
     end
   end
 

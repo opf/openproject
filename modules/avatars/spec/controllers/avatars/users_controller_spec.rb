@@ -1,15 +1,15 @@
 require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
 
-describe ::Avatars::UsersController, type: :controller do
+describe Avatars::UsersController do
   include_context "there are users with and without avatars"
 
-  let(:current_user) { create :admin }
+  let(:current_user) { create(:admin) }
   let(:enabled) { true }
 
   before do
     allow(User).to receive(:current).and_return current_user
-    allow(::OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
+    allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
   end
 
   describe ':show' do
@@ -26,7 +26,7 @@ describe ::Avatars::UsersController, type: :controller do
     end
 
     context 'as another user' do
-      let(:current_user) { create :user }
+      let(:current_user) { create(:user) }
 
       before do
         get :show, params: { id: target_user.id }
@@ -66,7 +66,7 @@ describe ::Avatars::UsersController, type: :controller do
     end
 
     it 'calls the service for put' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
               .and_return(ServiceResult.success)
 
@@ -76,7 +76,7 @@ describe ::Avatars::UsersController, type: :controller do
     end
 
     it 'calls the service for put' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
               .and_return(ServiceResult.failure)
 
@@ -105,7 +105,7 @@ describe ::Avatars::UsersController, type: :controller do
     end
 
     it 'calls the service for delete' do
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
               .and_return(ServiceResult.success(result: 'message'))
 
@@ -119,7 +119,7 @@ describe ::Avatars::UsersController, type: :controller do
       result = ServiceResult.failure
       result.errors.add :base, 'error'
 
-      expect_any_instance_of(::Avatars::UpdateService)
+      expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
               .and_return(result)
 

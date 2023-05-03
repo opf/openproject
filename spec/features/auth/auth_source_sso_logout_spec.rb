@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,6 @@ Capybara.register_driver :auth_source_sso do |app|
 end
 
 describe 'Login with auth source SSO',
-         type: :feature,
          driver: :auth_source_sso do
   before do
     allow(OpenProject::Configuration)
@@ -48,8 +47,8 @@ describe 'Login with auth source SSO',
     }
   end
 
-  let(:auth_source) { create :auth_source }
-  let!(:user) { create(:user, login: 'bob', auth_source: auth_source) }
+  let(:auth_source) { create(:auth_source) }
+  let!(:user) { create(:user, login: 'bob', auth_source:) }
 
   it 'can log out after multiple visits' do
     visit home_path

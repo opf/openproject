@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,14 +31,14 @@ require 'spec_helper'
 describe 'Work package relations tab', js: true, selenium: true do
   include_context 'ng-select-autocomplete helpers'
 
-  let(:user) { create :admin }
+  let(:user) { create(:admin) }
 
-  let(:project) { create :project }
+  let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
-  let(:work_packages_page) { ::Pages::SplitWorkPackage.new(work_package) }
-  let(:full_wp) { ::Pages::FullWorkPackage.new(work_package) }
-  let(:relations) { ::Components::WorkPackages::Relations.new(work_package) }
-  let(:tabs) { ::Components::WorkPackages::Tabs.new(work_package) }
+  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package) }
+  let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
+  let(:relations) { Components::WorkPackages::Relations.new(work_package) }
+  let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
 
   let(:relations_tab) { find('.op-tab-row--link_selected', text: 'RELATIONS') }
 
@@ -60,24 +60,24 @@ describe 'Work package relations tab', js: true, selenium: true do
   end
 
   describe 'relation group-by toggler' do
-    let(:project) { create :project, types: [type_1, type_2] }
-    let(:type_1) { create :type }
-    let(:type_2) { create :type }
+    let(:project) { create(:project, types: [type1, type2]) }
+    let(:type1) { create(:type) }
+    let(:type2) { create(:type) }
 
-    let(:to_1) { create(:work_package, type: type_1, project:) }
-    let(:to_2) { create(:work_package, type: type_2, project:) }
+    let(:to1) { create(:work_package, type: type1, project:) }
+    let(:to2) { create(:work_package, type: type2, project:) }
 
-    let!(:relation_1) do
-      create :relation,
+    let!(:relation1) do
+      create(:relation,
              from: work_package,
-             to: to_1,
-             relation_type: Relation::TYPE_FOLLOWS
+             to: to1,
+             relation_type: Relation::TYPE_FOLLOWS)
     end
-    let!(:relation_2) do
-      create :relation,
+    let!(:relation2) do
+      create(:relation,
              from: work_package,
-             to: to_2,
-             relation_type: Relation::TYPE_RELATES
+             to: to2,
+             relation_type: Relation::TYPE_RELATES)
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -101,14 +101,14 @@ describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector('.relation-group--header', text: 'FOLLOWS')
       expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
 
-      expect(page).to have_selector('.relation-row--type', text: type_1.name.upcase)
-      expect(page).to have_selector('.relation-row--type', text: type_2.name.upcase)
+      expect(page).to have_selector('.relation-row--type', text: type1.name.upcase)
+      expect(page).to have_selector('.relation-row--type', text: type2.name.upcase)
 
       find(toggle_btn_selector).click
       expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
 
-      expect(page).to have_selector('.relation-group--header', text: type_1.name.upcase)
-      expect(page).to have_selector('.relation-group--header', text: type_2.name.upcase)
+      expect(page).to have_selector('.relation-group--header', text: type1.name.upcase)
+      expect(page).to have_selector('.relation-group--header', text: type2.name.upcase)
 
       expect(page).to have_selector('.relation-row--type', text: 'Follows')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
@@ -123,25 +123,25 @@ describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
 
       # edit to blocks
-      relations.edit_relation_type(to_1, to_type: 'Blocks')
+      relations.edit_relation_type(to1, to_type: 'Blocks')
 
       # the other one should not be altered
       expect(page).to have_selector('.relation-row--type', text: 'Blocks')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
 
-      updated_relation = Relation.find(relation_1.id)
+      updated_relation = Relation.find(relation1.id)
       expect(updated_relation.relation_type).to eq('blocks')
       expect(updated_relation.from_id).to eq(work_package.id)
-      expect(updated_relation.to_id).to eq(to_1.id)
+      expect(updated_relation.to_id).to eq(to1.id)
 
-      relations.edit_relation_type(to_1, to_type: 'Blocked by')
+      relations.edit_relation_type(to1, to_type: 'Blocked by')
 
       expect(page).to have_selector('.relation-row--type', text: 'Blocked by')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
 
-      updated_relation = Relation.find(relation_1.id)
+      updated_relation = Relation.find(relation1.id)
       expect(updated_relation.relation_type).to eq('blocks')
-      expect(updated_relation.from_id).to eq(to_1.id)
+      expect(updated_relation.from_id).to eq(to1.id)
       expect(updated_relation.to_id).to eq(work_package.id)
     end
   end
@@ -149,13 +149,13 @@ describe 'Work package relations tab', js: true, selenium: true do
   describe 'with limited permissions' do
     let(:permissions) { %i(view_work_packages) }
     let(:user_role) do
-      create :role, permissions:
+      create(:role, permissions:)
     end
 
     let(:user) do
-      create :user,
+      create(:user,
              member_in_project: project,
-             member_through_role: user_role
+             member_through_role: user_role)
     end
 
     context 'as view-only user, with parent set' do
@@ -163,10 +163,10 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       it 'shows no links to create relations' do
         # No create buttons should exist
-        expect(page).to have_no_selector('.wp-relations-create-button')
+        expect(page).not_to have_selector('.wp-relations-create-button')
 
         # Test for add relation
-        expect(page).to have_no_selector('#relation--add-relation')
+        expect(page).not_to have_selector('#relation--add-relation')
       end
     end
 
@@ -184,7 +184,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         tabs.expect_counter(relations_tab, 1)
 
         relations.remove_relation(relatable)
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
 
         # If there are no relations, the counter badge should not be displayed
         tabs.expect_no_counter(relations_tab)
@@ -204,15 +204,15 @@ describe 'Work package relations tab', js: true, selenium: true do
         # Expect to have row
         relations.hover_action(relatable, :delete)
 
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
 
         # Back to split view
         page.execute_script('window.history.back()')
         work_packages_page.expect_subject
 
-        expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
       it 'follows the relation links (Regression #26794)' do
@@ -247,9 +247,9 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         loading_indicator_saveguard
 
-        # Wait for the relations table to be presen
+        # Wait for the relations table to be present
         sleep 2
-        expect(page).to have_selector('.wp-relations--subject-field')
+        expect(page).to have_selector("[data-qa-selector='op-relation--row-subject']")
 
         scroll_to_element find('.detail-panel--relations')
 
@@ -274,7 +274,7 @@ describe 'Work package relations tab', js: true, selenium: true do
 
         # Toggle to close
         relations.hover_action(relatable, :info)
-        expect(created_row).to have_no_selector('.wp-relation--description-read-value')
+        expect(created_row).not_to have_selector('.wp-relation--description-read-value')
       end
     end
   end

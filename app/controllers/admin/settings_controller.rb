@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,13 +50,12 @@ module Admin
     def update
       return unless params[:settings]
 
-      call = ::Settings::UpdateService
-        .new(user: current_user, contract_options:)
+      call = update_service
+        .new(user: current_user)
         .call(settings_params)
 
-      call.on_success { flash[:notice] = t(:notice_successful_update) }
-      call.on_failure { flash[:error] = call.message || I18n.t(:notice_internal_server_error) }
-      redirect_to action: 'show', tab: params[:tab]
+      call.on_success { success_callback(call) }
+      call.on_failure { failure_callback(call) }
     end
 
     def show_plugin
@@ -94,8 +93,18 @@ module Admin
       permitted_params.settings.to_h
     end
 
-    def contract_options
-      {}
+    def update_service
+      ::Settings::UpdateService
+    end
+
+    def success_callback(_call)
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to action: 'show', tab: params[:tab]
+    end
+
+    def failure_callback(call)
+      flash[:error] = call.message || I18n.t(:notice_internal_server_error)
+      redirect_to action: 'show', tab: params[:tab]
     end
   end
 end

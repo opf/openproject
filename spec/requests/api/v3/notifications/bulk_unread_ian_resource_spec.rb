@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2020 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,32 +27,31 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::NotificationsAPI,
+describe API::V3::Notifications::NotificationsAPI,
          'bulk unset read status',
-         type: :request,
          content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { create :project }
-  shared_let(:work_package) { create :work_package, project: }
+  shared_let(:project) { create(:project) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-  shared_let(:recipient) { create :user, member_in_project: project, member_with_permissions: %i[view_work_packages] }
-  shared_let(:other_recipient) { create :user }
+  shared_let(:recipient) { create(:user, member_in_project: project, member_with_permissions: %i[view_work_packages]) }
+  shared_let(:other_recipient) { create(:user) }
   shared_let(:notification1) do
-    create :notification, recipient:, project:, resource: work_package, read_ian: true
+    create(:notification, recipient:, project:, resource: work_package, read_ian: true)
   end
   shared_let(:notification2) do
-    create :notification, recipient:, project:, resource: work_package, read_ian: true
+    create(:notification, recipient:, project:, resource: work_package, read_ian: true)
   end
   shared_let(:notification3) do
-    create :notification, recipient:, project:, resource: work_package, read_ian: true
+    create(:notification, recipient:, project:, resource: work_package, read_ian: true)
   end
   shared_let(:other_user_notification) do
-    create :notification,
+    create(:notification,
            recipient: other_recipient,
            read_ian: true,
            project:,
-           resource: work_package
+           resource: work_package)
   end
 
   let(:filters) { nil }
@@ -78,10 +77,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
     end
 
     it 'sets all the current users`s notifications to read' do
-      expect(::Notification.where(id: [notification1.id, notification2.id, notification3.id]).pluck(:read_ian))
+      expect(Notification.where(id: [notification1.id, notification2.id, notification3.id]).pluck(:read_ian))
         .to all(be_falsey)
 
-      expect(::Notification.where(id: [other_user_notification]).pluck(:read_ian))
+      expect(Notification.where(id: [other_user_notification]).pluck(:read_ian))
         .to all(be_truthy)
     end
 
@@ -99,10 +98,10 @@ describe ::API::V3::Notifications::NotificationsAPI,
       end
 
       it 'sets the current users`s notifications matching the filter to read' do
-        expect(::Notification.where(id: [notification1.id, notification2.id]).order(id: :asc).pluck(:read_ian))
+        expect(Notification.where(id: [notification1.id, notification2.id]).order(id: :asc).pluck(:read_ian))
           .to all(be_falsey)
 
-        expect(::Notification.where(id: [other_user_notification.id, notification3.id]).order(id: :asc).pluck(:read_ian))
+        expect(Notification.where(id: [other_user_notification.id, notification3.id]).order(id: :asc).pluck(:read_ian))
           .to all(be_truthy)
       end
     end

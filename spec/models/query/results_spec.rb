@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,15 @@
 
 require 'spec_helper'
 
-describe ::Query::Results, type: :model, with_mail: false do
+describe Query::Results, with_mail: false do
   let(:query) do
-    build :query,
-          show_hierarchies: false
+    build(:query,
+          show_hierarchies: false)
   end
   let(:query_results) do
     described_class.new query
   end
-  let(:project1) { create :project }
+  let(:project1) { create(:project) }
   let(:role_pm) do
     create(:role,
            permissions: %i(
@@ -67,10 +67,10 @@ describe ::Query::Results, type: :model, with_mail: false do
 
   describe '#work_package_count_by_group' do
     let(:query) do
-      build :query,
+      build(:query,
             show_hierarchies: false,
             group_by:,
-            project: project1
+            project: project1)
     end
     let(:type1) do
       create(:type)
@@ -191,15 +191,15 @@ describe ::Query::Results, type: :model, with_mail: false do
       let(:last_value) do
         custom_field.custom_options.last
       end
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
 
-        work_package1.send(:"custom_field_#{custom_field.id}=", first_value)
+        work_package1.send(custom_field.attribute_setter, first_value)
         work_package1.save!
-        work_package2.send(:"custom_field_#{custom_field.id}=", [first_value,
-                                                                 last_value])
+        work_package2.send(custom_field.attribute_setter, [first_value,
+                                                           last_value])
         work_package2.save!
       end
 
@@ -221,7 +221,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         create(:int_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -229,9 +229,9 @@ describe ::Query::Results, type: :model, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[0].update_attribute(custom_field.attribute_name, 42)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", 42)
+        wp_p1[1].update_attribute(custom_field.attribute_name, 42)
         wp_p1[1].save
       end
 
@@ -245,7 +245,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         create(:user_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -264,7 +264,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         create(:bool_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -272,9 +272,9 @@ describe ::Query::Results, type: :model, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[0].update_attribute(custom_field.attribute_name, true)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", true)
+        wp_p1[1].update_attribute(custom_field.attribute_name, true)
         wp_p1[1].save
       end
 
@@ -288,7 +288,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         create(:date_wp_custom_field, is_for_all: true, is_filter: true)
       end
 
-      let(:group_by) { "cf_#{custom_field.id}" }
+      let(:group_by) { custom_field.column_name }
 
       before do
         login_as(user1)
@@ -296,9 +296,9 @@ describe ::Query::Results, type: :model, with_mail: false do
         wp_p1[0].type.custom_fields << custom_field
         project1.work_package_custom_fields << custom_field
 
-        wp_p1[0].update_attribute(:"custom_field_#{custom_field.id}", Time.zone.today)
+        wp_p1[0].update_attribute(custom_field.attribute_name, Time.zone.today)
         wp_p1[0].save
-        wp_p1[1].update_attribute(:"custom_field_#{custom_field.id}", Time.zone.today)
+        wp_p1[1].update_attribute(custom_field.attribute_name, Time.zone.today)
         wp_p1[1].save
       end
 
@@ -309,8 +309,8 @@ describe ::Query::Results, type: :model, with_mail: false do
   end
 
   describe 'filtering' do
-    let!(:project1) { create :project }
-    let!(:project2) { create :project }
+    let!(:project1) { create(:project) }
+    let!(:project2) { create(:project) }
     let!(:member) do
       create(:member,
              project: project2,
@@ -349,7 +349,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       end
 
       context 'when a project is set' do
-        let(:query) { build :query, project: project2 }
+        let(:query) { build(:query, project: project2) }
 
         it 'displays only wp for selected project and selected role' do
           expect(query_results.work_packages).to match_array([wp_p2])
@@ -357,7 +357,7 @@ describe ::Query::Results, type: :model, with_mail: false do
       end
 
       context 'when no project is set' do
-        let(:query) { build :query, project: nil }
+        let(:query) { build(:query, project: nil) }
 
         it 'displays all wp from projects where User.current has access' do
           expect(query_results.work_packages).to match_array([wp_p2, wp2_p2])
@@ -370,10 +370,10 @@ describe ::Query::Results, type: :model, with_mail: false do
     context 'with a custom field being returned and paginating' do
       let(:group_by) { nil }
       let(:query) do
-        build_stubbed :query,
+        build_stubbed(:query,
                       show_hierarchies: false,
                       group_by:,
-                      project: project2
+                      project: project2)
       end
 
       let!(:custom_field) { create(:work_package_custom_field, is_for_all: true) }
@@ -388,7 +388,7 @@ describe ::Query::Results, type: :model, with_mail: false do
 
       context 'when grouping by assignees' do
         before do
-          query.column_names = [:assigned_to, :"cf_#{custom_field.id}"]
+          query.column_names = [:assigned_to, custom_field.column_name.to_sym]
           query.group_by = 'assigned_to'
         end
 
@@ -407,7 +407,7 @@ describe ::Query::Results, type: :model, with_mail: false do
         let(:group_by) { 'responsible' }
 
         before do
-          query.column_names = [:responsible, :"cf_#{custom_field.id}"]
+          query.column_names = [:responsible, custom_field.column_name.to_sym]
         end
 
         it 'returns all work packages of project 2' do
@@ -424,10 +424,10 @@ describe ::Query::Results, type: :model, with_mail: false do
 
     context 'when grouping by responsible' do
       let(:query) do
-        build :query,
+        build(:query,
               show_hierarchies: false,
               group_by:,
-              project: project1
+              project: project1)
       end
       let(:group_by) { 'responsible' }
 
@@ -513,7 +513,7 @@ describe ::Query::Results, type: :model, with_mail: false do
 
       activate_cf
 
-      query.add_filter(:"cf_#{bool_cf.id}", '=', [filter_value])
+      query.add_filter(bool_cf.column_name.to_sym, '=', [filter_value])
     end
 
     shared_examples_for 'is empty' do

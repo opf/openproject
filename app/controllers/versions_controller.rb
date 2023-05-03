@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,6 +65,8 @@ class VersionsController < ApplicationController
     @version = @project.versions.build
   end
 
+  def edit; end
+
   def create
     attributes = permitted_params
                  .version
@@ -76,8 +78,6 @@ class VersionsController < ApplicationController
 
     render_cu(call, :notice_successful_create, 'new')
   end
-
-  def edit; end
 
   def update
     attributes = permitted_params

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Notifications::PropertyFactory do
+describe API::V3::Notifications::PropertyFactory do
   let(:traits) { [] }
   let(:resource) { build_stubbed(:work_package, *traits) }
 
@@ -49,13 +49,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Property` representers' do
         expect(described_class.details_for(notification)[0])
-          .to be_a ::API::V3::Values::PropertyDateRepresenter
+          .to be_a API::V3::Values::PropertyDateRepresenter
       end
 
       it 'sets the represented property to :start_date' do
         represented = described_class.details_for(notification)[0].represented
         expect(represented)
-          .to be_a ::API::V3::Values::PropertyModel
+          .to be_a API::V3::Values::PropertyModel
         expect(represented.property)
           .to eq :start_date
       end
@@ -71,13 +71,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Property` representers' do
         expect(described_class.details_for(notification)[0])
-          .to be_a ::API::V3::Values::PropertyDateRepresenter
+          .to be_a API::V3::Values::PropertyDateRepresenter
       end
 
       it 'sets the represented property to :due_date' do
         represented = described_class.details_for(notification)[0].represented
         expect(represented)
-          .to be_a ::API::V3::Values::PropertyModel
+          .to be_a API::V3::Values::PropertyModel
         expect(represented.property)
           .to eq :due_date
       end
@@ -94,13 +94,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Property` representers' do
         expect(described_class.details_for(notification)[0])
-          .to be_a ::API::V3::Values::PropertyDateRepresenter
+          .to be_a API::V3::Values::PropertyDateRepresenter
       end
 
       it 'sets the representer property to :date' do
         represented = described_class.details_for(notification)[0].represented
         expect(represented)
-          .to be_a ::API::V3::Values::PropertyModel
+          .to be_a API::V3::Values::PropertyModel
         expect(represented.property)
           .to eq :date
       end
@@ -129,13 +129,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
         expect(described_class.schemas_for([notification])[0])
-          .to be_a ::API::V3::Values::Schemas::PropertySchemaRepresenter
+          .to be_a API::V3::Values::Schemas::PropertySchemaRepresenter
       end
 
       it 'returns `Values::Schemas::Model` representer for Start Date' do
         representer = described_class.schemas_for([notification])[0].represented
         expect(representer)
-          .to be_a ::API::V3::Values::Schemas::Model
+          .to be_a API::V3::Values::Schemas::Model
         expect(representer.name)
           .to eq "Start date"
       end
@@ -151,13 +151,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
         expect(described_class.schemas_for([notification])[0])
-          .to be_a ::API::V3::Values::Schemas::PropertySchemaRepresenter
+          .to be_a API::V3::Values::Schemas::PropertySchemaRepresenter
       end
 
       it 'returns `Values::Schemas::Model` representer for Finish date' do
         representer = described_class.schemas_for([notification])[0].represented
         expect(representer)
-          .to be_a ::API::V3::Values::Schemas::Model
+          .to be_a API::V3::Values::Schemas::Model
         expect(representer.name)
           .to eq "Finish date"
       end
@@ -174,13 +174,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
         expect(described_class.schemas_for([notification])[0])
-          .to be_a ::API::V3::Values::Schemas::PropertySchemaRepresenter
+          .to be_a API::V3::Values::Schemas::PropertySchemaRepresenter
       end
 
       it 'returns `Values::Schemas::Model` representer for Date' do
         representer = described_class.schemas_for([notification])[0].represented
         expect(representer)
-          .to be_a ::API::V3::Values::Schemas::Model
+          .to be_a API::V3::Values::Schemas::Model
         expect(representer.name)
           .to eq "Date"
       end
@@ -220,13 +220,13 @@ describe ::API::V3::Notifications::PropertyFactory do
 
       it 'returns an array of `Values::Schemas::PropertySchemaRepresenter` representers' do
         expect(described_class.schemas_for(notifications))
-          .to all be_a ::API::V3::Values::Schemas::PropertySchemaRepresenter
+          .to all be_a API::V3::Values::Schemas::PropertySchemaRepresenter
       end
 
       it 'returns `Values::Schemas::Model` representer for Finish date' do
         representers = described_class.schemas_for(notifications).map(&:represented)
         expect(representers)
-          .to all be_a ::API::V3::Values::Schemas::Model
+          .to all be_a API::V3::Values::Schemas::Model
         expect(representers.first.name)
           .to eq "Finish date"
         expect(representers.second.name)

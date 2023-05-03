@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,23 +29,23 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner error handling', type: :feature, js: true do
+describe 'Team planner error handling', js: true do
   include_context 'with team planner full access'
 
   let!(:work_package) do
-    create :work_package,
+    create(:work_package,
            project:,
            type:,
            assigned_to: user,
            start_date: Time.zone.today.beginning_of_week.next_occurring(:tuesday),
-           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday)
+           due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
   let!(:custom_field) do
-    create :work_package_custom_field,
+    create(:work_package_custom_field,
            default_value: nil,
            is_for_all: true,
-           is_required: false
+           is_required: false)
   end
 
   let(:type) { create(:type, custom_fields: [custom_field]) }

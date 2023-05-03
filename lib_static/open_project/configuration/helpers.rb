@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,14 +52,21 @@ module OpenProject
       # Do not allow direct uploads when using IAM-profile-based authorization rather
       # than access-key-based ones since carrierwave_direct does not support that.
       #
-      # We also don't support direct uploads for S3-compatible object storage services
-      # as we haven't tested it with any of them and it doesn't work anyway as far
-      # as we know.
-      #
-      # Note: If we do want to support other services than AWS we would also have
-      # to make `remote_storage_upload_host` and `remote_storage_download_host` configurable.
+      # We do support direct uploads for S3-compatible object storage services
+      # only if remote storage upload and download hosts were configured explicitly.
+      # Since these only have to be configured if you want to use direct uploads,
+      # we assume what ever provider you use does support this if you do.
       def direct_uploads_supported?
-        remote_storage? && remote_storage_aws? && !use_iam_profile? && fog_credentials[:host].blank?
+        remote_storage? && remote_storage_aws? && !use_iam_profile? &&
+          (using_amazon_s3? || using_custom_remote_storage_hosts?)
+      end
+
+      def using_amazon_s3?
+        fog_credentials[:host].blank?
+      end
+
+      def using_custom_remote_storage_hosts?
+        self['remote_storage_upload_host'].present? && self['remote_storage_download_host'].present?
       end
 
       def direct_uploads?
@@ -88,15 +95,15 @@ module OpenProject
       end
 
       def remote_storage_upload_host
-        if remote_storage_aws?
-          "#{fog_directory}.s3.amazonaws.com"
-        end
+        self['remote_storage_upload_host'].presence ||
+          (remote_storage_aws? && "#{fog_directory}.s3.amazonaws.com") ||
+          nil
       end
 
       def remote_storage_download_host
-        if remote_storage_aws?
-          "#{fog_directory}.s3.#{fog_credentials[:region]}.amazonaws.com"
-        end
+        self['remote_storage_download_host'].presence ||
+          (remote_storage_aws? && "#{fog_directory}.s3.#{fog_credentials[:region]}.amazonaws.com") ||
+          nil
       end
 
       def remote_storage_hosts
@@ -133,14 +140,6 @@ module OpenProject
         end
 
         menus.to_h
-      end
-
-      def disabled_modules
-        array self['disabled_modules']
-      end
-
-      def blacklisted_routes
-        array self['blacklisted_routes']
       end
 
       ##
@@ -199,7 +198,7 @@ module OpenProject
       # In the latter case the string will be split and the values returned as an array.
       def array(value)
         if value.is_a?(String) && value =~ / /
-          value.split ' '
+          value.split
         else
           Array(value)
         end

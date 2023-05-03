@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe WorkPackage, 'blocks/blocked_by relations', type: :model do
+describe WorkPackage, 'blocks/blocked_by relations' do
   create_shared_association_defaults_for_work_package_factory
   shared_let(:work_package) { create(:work_package, subject: 'blocked wp') }
 
@@ -40,10 +40,10 @@ describe WorkPackage, 'blocks/blocked_by relations', type: :model do
   context 'with blocking work package' do
     shared_let(:blocker) { create(:work_package, subject: 'blocking wp') }
     shared_let(:relation) do
-      create :relation,
+      create(:relation,
              from: blocker,
              to: work_package,
-             relation_type: Relation::TYPE_BLOCKS
+             relation_type: Relation::TYPE_BLOCKS)
     end
 
     it 'is being blocked' do
@@ -52,7 +52,7 @@ describe WorkPackage, 'blocks/blocked_by relations', type: :model do
     end
 
     context 'when work package is closed' do
-      let(:closed_status) { create :closed_status }
+      let(:closed_status) { create(:closed_status) }
 
       before do
         work_package.update_column :status_id, closed_status.id

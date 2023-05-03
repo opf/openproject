@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,43 +39,43 @@ describe Members::UpdateService, type: :model do
       }
     end
 
-    let!(:allow_notification_call) do
+    before do
       allow(OpenProject::Notifications)
         .to receive(:send)
     end
 
     describe 'if successful' do
       it 'sends a notification' do
+        subject
+
         expect(OpenProject::Notifications)
-          .to receive(:send)
+          .to have_received(:send)
           .with(OpenProject::Events::MEMBER_UPDATED,
                 member: model_instance,
                 message: call_attributes[:notification_message],
                 send_notifications: call_attributes[:send_notifications])
-
-        subject
       end
     end
 
     context 'if the SetAttributeService is unsuccessful' do
       let(:set_attributes_success) { false }
 
-      it 'sends no notification' do
-        expect(OpenProject::Notifications)
-          .not_to receive(:send)
-
+      it 'sends no notifications' do
         subject
+
+        expect(OpenProject::Notifications)
+          .not_to have_received(:send)
       end
     end
 
     context 'when the member is invalid' do
       let(:model_save_result) { false }
 
-      it 'sends no notification' do
-        expect(OpenProject::Notifications)
-          .not_to receive(:send)
-
+      it 'sends no notifications' do
         subject
+
+        expect(OpenProject::Notifications)
+          .not_to have_received(:send)
       end
     end
   end
