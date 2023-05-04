@@ -97,7 +97,7 @@ class EnterpriseToken < ApplicationRecord
   def invalid_domain?
     return false unless token_object&.validate_domain?
 
-    token_object.domain != Setting.host_name
+    !token_object.valid_domain?(Setting.host_name)
   end
 
   private

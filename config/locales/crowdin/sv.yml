@@ -232,6 +232,7 @@ sv:
       failed_text: "Begäran om att ta bort projekt %{name} misslyckades. Projektet lämnades arkiverat."
       completed: "Borttagning av projekt %{name} slutfört"
       completed_text: "Begäran om att ta bort projekt '%{name}' har slutförts."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Open as Gantt view'
       open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
@@ -737,6 +738,9 @@ sv:
               format: "%{message}"
             sort_criteria:
               invalid: "Kan inte sortera på kolumn: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
           filters:
@@ -2650,8 +2654,6 @@ sv:
     När du använder anpassade fält: Kom ihåg att dessa även måste aktiveras för varje projekt.
   text_custom_field_hint_activate_per_project_and_type: >
     Anpassade fält behöver aktiveras per arbetspaketstyp och per projekt.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -3013,6 +3015,7 @@ sv:
       code_409: "Kunde inte uppdatera resursen på grund av motstridiga ändringar."
       code_429: "Too many requests. Please try again later."
       code_500: "Ett internt fel har inträffat."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

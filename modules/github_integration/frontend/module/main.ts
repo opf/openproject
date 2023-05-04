@@ -24,7 +24,10 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import {
+  Injector,
+  NgModule,
+} from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import { WorkPackageTabsService } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-tabs.service';
@@ -33,19 +36,25 @@ import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabPrsComponent } from './tab-prs/tab-prs.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
 import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
-import { WorkPackagesGithubPrsService } from './tab-prs/wp-github-prs.service';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { GithubPullRequestResourceService } from './state/github-pull-request.service';
+import {
+  githubPullRequestMacroSelector,
+  PullRequestMacroComponent,
+} from './pull-request/pull-request-macro.component';
+import { DynamicBootstrapper } from 'core-app/core/setup/globals/dynamic-bootstrapper';
+import { PullRequestStateComponent } from './pull-request/pull-request-state.component';
 
 export function workPackageGithubPrsCount(
   workPackage:WorkPackageResource,
   injector:Injector,
 ):Observable<number> {
-  const githubPrsService = injector.get(WorkPackagesGithubPrsService);
+  const githubPrsService = injector.get(GithubPullRequestResourceService);
   return githubPrsService
-    .requireAndStream(workPackage)
+    .ofWorkPackage(workPackage)
     .pipe(
       map((prs) => prs.length),
     );
@@ -68,7 +77,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     OpenprojectTabsModule,
   ],
   providers: [
-    WorkPackagesGithubPrsService,
+    GithubPullRequestResourceService,
   ],
   declarations: [
     GitHubTabComponent,
@@ -77,6 +86,8 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     GitActionsMenuDirective,
     GitActionsMenuComponent,
     PullRequestComponent,
+    PullRequestMacroComponent,
+    PullRequestStateComponent,
   ],
   exports: [
     GitHubTabComponent,
@@ -84,10 +95,14 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabPrsComponent,
     GitActionsMenuDirective,
     GitActionsMenuComponent,
+    PullRequestMacroComponent,
   ],
 })
 export class PluginModule {
   constructor(injector:Injector) {
     initializeGithubIntegrationPlugin(injector);
+    DynamicBootstrapper.register(
+      { selector: githubPullRequestMacroSelector, cls: PullRequestMacroComponent, embeddable: true },
+    );
   }
 }

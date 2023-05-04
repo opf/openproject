@@ -55,7 +55,7 @@ import { take } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
-  private viewInitialized$ = new Subject();
+  private viewInitialized$ = new Subject<void>();
 
   modelCount:number = this.ifcData.models.length;
 

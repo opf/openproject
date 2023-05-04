@@ -2,6 +2,12 @@
 de:
   bim:
     label_bim: 'BIM'
+    default_type_clash: Clash
+    default_type_issue: Issue
+    default_type_remark: Bemerkung
+    default_type_request: Anfrage
+    default_status_resolved: Gelöst
+    default_priority_critical: Kritisch
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Fehler beim Import von BCF-Themen'
@@ -131,4 +137,3 @@ de:
   extraction:
     available:
       ifc_convert: "IFC Konvertierungs-Pipeline verfügbar"
-

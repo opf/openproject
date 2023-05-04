@@ -15,7 +15,7 @@
     </li>
   <% end %>
 
-  <%= rails_cell ::Storages::ProjectsStoragesTableCell, @projects_storages %>
+  <%= render(::Storages::ProjectsStorages::TableComponent.new(rows: @projects_storages)) %>
 <% else %>
   <%= render partial: '/storages/project_settings/toast_no_storage_set_up' %>
 <% end %>

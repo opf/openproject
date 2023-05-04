@@ -1,6 +1,6 @@
 module Bim
   module IfcModels
-    class IfcModel < ActiveRecord::Base
+    class IfcModel < ApplicationRecord
       enum conversion_status: {
         pending: 0,
         processing: 1,

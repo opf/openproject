@@ -39,6 +39,7 @@ describe 'Upload attachment to wiki page', js: true do
   let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:editor) { Components::WysiwygEditor.new }
+  let(:attachments_list) { Components::AttachmentsList.new }
   let(:wiki_page_content) { project.wiki.pages.first.content.text }
 
   before do
@@ -51,15 +52,15 @@ describe 'Upload attachment to wiki page', js: true do
     # adding an image
     editor.drag_attachment image_fixture.path, 'Image uploaded the first time'
 
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
-    expect(page).not_to have_selector('op-toasters-upload-progress')
+    editor.attachments_list.expect_attached('image.png')
+    editor.wait_until_upload_progress_toaster_cleared
 
     click_on 'Save'
 
     expect(page).to have_text("Successful creation")
     expect(page).to have_selector('#content img', count: 1)
     expect(page).to have_content('Image uploaded the first time')
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+    attachments_list.expect_attached('image.png')
 
     # required sleep otherwise clicking on the Edit button doesn't do anything
     SeleniumHubWaiter.wait
@@ -69,16 +70,16 @@ describe 'Upload attachment to wiki page', js: true do
     end
 
     # Replace the image with a named attachment URL (Regression #28381)
-    expect(page).to have_selector('.ck-editor__editable', wait: 5)
+    editor.wait_until_loaded
     editor.set_markdown "\n\nSome text\n![my-first-image](image.png)\n\nText that prevents the two images colliding"
 
     editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
 
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+    editor.attachments_list.expect_attached('image.png', count: 2)
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
-      expect(container).to have_selector('img[src^="/api/v3/attachments/"]')
+      expect(container).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
       expect(container).not_to have_selector('img[src="image.png"]')
 
       container.find('img[src^="/api/v3/attachments/"]', match: :first).click
@@ -92,7 +93,7 @@ describe 'Upload attachment to wiki page', js: true do
     expect(page).to have_selector('#content img', count: 2)
     # First figcaption is lost by having replaced the markdown
     expect(page).to have_content('Image uploaded the second time')
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+    attachments_list.expect_attached('image.png', count: 2)
 
     # Both images rendered referring to the api endpoint
     expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
@@ -106,18 +107,18 @@ describe 'Upload attachment to wiki page', js: true do
   it 'can upload an image to new and existing wiki page via drag & drop on attachments' do
     visit project_wiki_path(project, 'test')
 
-    expect(page).not_to have_selector('[data-qa-selector="op-attachment-list-item"]')
+    editor.attachments_list.expect_empty
 
     # adding an image
-    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+    editor.attachments_list.drop(image_fixture.path)
 
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
-    expect(page).not_to have_selector('op-toasters-upload-progress')
+    editor.attachments_list.expect_attached('image.png')
+    editor.wait_until_upload_progress_toaster_cleared
 
     click_on 'Save'
 
     expect(page).to have_text("Successful creation")
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png')
+    attachments_list.expect_attached('image.png')
 
     # required sleep otherwise clicking on the Edit button doesn't do anything
     SeleniumHubWaiter.wait
@@ -126,22 +127,15 @@ describe 'Upload attachment to wiki page', js: true do
       click_on "Edit"
     end
 
-    expect(page).to have_selector('.ck-editor__editable', wait: 5)
-
-    script = <<~JS
-      const event = new DragEvent('dragenter');
-      document.body.dispatchEvent(event);
-    JS
-    page.execute_script(script)
-
     # adding an image
-    find("[data-qa-selector='op-attachments--drop-box']").drop(image_fixture.path)
+    editor.attachments_list.drag_enter
+    editor.attachments_list.drop(image_fixture)
 
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
-    expect(page).not_to have_selector('op-toasters-upload-progress')
+    editor.attachments_list.expect_attached('image.png', count: 2)
+    editor.wait_until_upload_progress_toaster_cleared
 
     click_on 'Save'
     expect(page).to have_text("Successful update")
-    expect(page).to have_selector('[data-qa-selector="op-attachment-list-item"]', text: 'image.png', count: 2)
+    attachments_list.expect_attached('image.png', count: 2)
   end
 end

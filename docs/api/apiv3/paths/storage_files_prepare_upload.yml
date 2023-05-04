@@ -64,8 +64,17 @@ post:
             errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
             message: The requested resource could not be found.
       description: |-
-        Returned in either of those cases:
-        - if the storage does not exist or the client does not have sufficient permissions to see it
+        Returned if the storage does not exist or the client does not have sufficient permissions to see it.
 
-          **Required permission:** view file links
-        - if the document root file identification does not exist on the storage
+        **Required permission:** view file links
+    '500':
+      content:
+        application/hal+json:
+          schema:
+            $ref: '../components/schemas/error_response.yml'
+          example:
+            _type: Error
+            errorIdentifier: urn:openproject-org:api:v3:errors:OutboundRequest:NotFound
+            message: An outbound request to another resource has failed with status code 404.
+      description: |-
+        Returned if the outbound request to the storage has failed with any reason.

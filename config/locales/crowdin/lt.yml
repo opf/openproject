@@ -229,6 +229,7 @@ lt:
       failed_text: "Projekto %{name} užsakytas naikinimas nepavyko. Projektas liko suarchyvuotas."
       completed: "Projekto %{name} naikinimas baigtas"
       completed_text: "Prašymas naikinti projektą „%{name}“ buvo užbaigtas."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Atidaryti kaip Gantt diagramą'
       open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
@@ -737,6 +738,9 @@ lt:
               format: "%{message}"
             sort_criteria:
               invalid: "Negalima rūšiuoti pagal stulpelį: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
@@ -2686,8 +2690,6 @@ lt:
     Kai naudojami pritaikyti laukai: Turėkite omenyje, kad pritaikyti laukeliai turi būti aktyvuoti atkirtai kiekviename projekte.
   text_custom_field_hint_activate_per_project_and_type: >
     Pritaikyti laukeliai turi būti kiekviename darbų paketų tipe ir kiekviename projekte.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -3053,6 +3055,7 @@ lt:
       code_409: "Nepavyko atnaujinti resurso dėl konfliktuojančių pakeitimų."
       code_429: "Per daug užklausų. Pabandykite vėliau."
       code_500: "Įvyko vidinė klaida."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Jūsų ieškomas darbo paketas nerastas arba ištrintas."
       expected:

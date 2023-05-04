@@ -169,4 +169,16 @@ describe API::V3::Queries::QueryRepresenter, 'parsing' do
       end
     end
   end
+
+  describe 'timestamps' do
+    let(:timestamp_params) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', 'P0D'] }
+    let(:request_body) do
+      { 'timestamps' => timestamp_params }
+    end
+
+    it 'sets timestamps' do
+      expect(subject.timestamps)
+        .to eq([1.week.ago.iso8601, 'lastWorkingDay@12:00', 'P0D'])
+    end
+  end
 end

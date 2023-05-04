@@ -32,10 +32,12 @@ namespace :migrations do
   namespace :documents do
     include Tasks::Shared::UserFeedback
 
+    # rubocop:disable Rails/ApplicationRecord
     class TemporaryDocument < ActiveRecord::Base
       belongs_to :project
       belongs_to :category, class_name: 'DocumentCategory'
     end
+    # rubocop:enable Rails/ApplicationRecord
 
     desc 'Removes all documents'
     task delete: :environment do |_task|

@@ -33,6 +33,12 @@ module API
     module Configuration
       class ConfigurationAPI < ::API::OpenProjectAPI
         resources :configuration do
+          helpers do
+            def allowed_unauthenticated_route?
+              true
+            end
+          end
+
           get do
             ConfigurationRepresenter.new(Setting, current_user:, embed_links: true)
           end

@@ -30,7 +30,7 @@ module WorkPackages::Costs
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :budget, inverse_of: :work_packages
+    belongs_to :budget, inverse_of: :work_packages, optional: true
     has_many :cost_entries, dependent: :delete_all
 
     # disabled for now, implements part of ticket blocking

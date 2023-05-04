@@ -35,6 +35,7 @@ describe "POST /api/v3/queries/form" do
   let(:user) { create(:admin) }
   let(:role) { create(:existing_role, permissions:) }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
+  let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
 
   let!(:project) { create(:project_with_types, members: { user => role }) }
 
@@ -315,6 +316,7 @@ describe "POST /api/v3/queries/form" do
         name: "Some Query",
         public: true,
         sums: true,
+        timestamps:,
         showHierarchies: false,
         filters: [
           {
@@ -432,6 +434,18 @@ describe "POST /api/v3/queries/form" do
       expect(form.dig("_embedded", "payload", "_links", "sortBy")).to eq sort_by
     end
 
+    it 'has the timestamps set' do
+      expect(form.dig("_embedded", "payload", "timestamps")).to eq timestamps
+    end
+
+    context 'with one timestamp is present only' do
+      let(:timestamps) { "PT0S" }
+
+      it 'has the timestamp set' do
+        expect(form.dig("_embedded", "payload", "timestamps")).to eq [timestamps]
+      end
+    end
+
     context "with the project referred to by its identifier" do
       let(:override_params) do
         links = parameters[:_links]
@@ -513,6 +527,52 @@ describe "POST /api/v3/queries/form" do
       it "returns a validation error" do
         expect(form.dig("_embedded", "validationErrors", "sortBy", "message"))
           .to eq "Can't sort by column: spent_hours"
+      end
+    end
+
+    context 'with invalid timestamps' do
+      context 'when one timestamp cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid"
+        end
+      end
+
+      context 'when one timestamp cannot be parsed (malformed)' do
+        let(:override_params) do
+          { timestamps: ['2022-03-02 invalid string 20:45:56Z', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: 2022-03-02 invalid string 20:45:56Z"
+        end
+      end
+
+      context 'when one timestamp cannot be parsed (malformed)#2' do
+        let(:override_params) do
+          { timestamps: ['LastWorkingDayInvalid@12:00', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: LastWorkingDayInvalid@12:00"
+        end
+      end
+
+      context 'when both timestamps cannot be parsed' do
+        let(:override_params) do
+          { timestamps: ['invalid', 'invalid2'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: invalid, invalid2"
+        end
       end
     end
 

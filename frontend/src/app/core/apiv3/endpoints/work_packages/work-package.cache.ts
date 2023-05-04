@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { MultiInputState } from 'reactivestates';
+import { MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injectable, Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';

@@ -32,6 +32,7 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
   let(:user) { build_stubbed(:user) }
   let(:created_at) { DateTime.now }
   let(:last_modified_at) { DateTime.now }
+  let(:storage) { build_stubbed(:storage) }
   let(:file) do
     Storages::StorageFile.new(
       42,
@@ -46,7 +47,7 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
       %i[readable writeable]
     )
   end
-  let(:representer) { described_class.new(file, current_user: user) }
+  let(:representer) { described_class.new(file, storage, current_user: user) }
 
   subject { representer.to_json }
 
@@ -93,6 +94,16 @@ describe API::V3::StorageFiles::StorageFileRepresenter do
 
     it_behaves_like 'property', :permissions do
       let(:value) { file.permissions }
+    end
+  end
+
+  describe '_links' do
+    describe 'self' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { "/api/v3/storages/#{storage.id}/files/#{file.id}" }
+        let(:title) { file.name }
+      end
     end
   end
 end

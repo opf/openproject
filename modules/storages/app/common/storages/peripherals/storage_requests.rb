@@ -45,6 +45,12 @@ module Storages::Peripherals
         .map { |query| query.method(:query).to_proc }
     end
 
+    def file_query(user:)
+      storage_queries(user)
+        .file_query
+        .map { |query| query.method(:query).to_proc }
+    end
+
     def upload_link_query(user:)
       storage_queries(user)
         .upload_link_query

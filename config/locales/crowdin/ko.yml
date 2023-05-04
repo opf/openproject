@@ -232,6 +232,7 @@ ko:
       failed_text: "프로젝트 %{name} 삭제 요청이 실패했습니다. 프로젝트가 보관되었습니다."
       completed: "프로젝트 %{name} 삭제가 완료되었습니다."
       completed_text: "프로젝트 '%{name}' 삭제 요청이 완료되었습니다."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt 보기로 열기'
       open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
@@ -736,6 +737,9 @@ ko:
               format: "%{message}"
             sort_criteria:
               invalid: "열로 정렬할 수 없습니다: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
@@ -2630,8 +2634,6 @@ ko:
     사용자 지정 필드를 사용하는 경우: 사용자 지정 필드는 프로젝트별로 활성화해야 함을 유의하세요.
   text_custom_field_hint_activate_per_project_and_type: >
     사용자 지정 필드는 작업 패키지 유형 및 프로젝트별로 활성화해야 합니다.
-  text_wp_custom_field_html: >
-    Enterprise Edition은 작업 패키지의 사용자 지정 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다. <br> <ul> <li><b>목록 또는 사용자 유형의 사용자 지정 필드에서 다중 선택 허용</b></li> </ul>
   text_wp_status_read_only_html: >
     Enterprise Edition은 작업 패키지의 상태 필드에 대해 다음과 같은 기타 추가 기능을 추가합니다. <br> <ul> <li><b>특정 상태에 대해 작업 패키지를 읽기 전용으로 표시 허용</b></li> </ul>
   text_project_custom_field_html: >
@@ -2992,6 +2994,7 @@ ko:
       code_409: "수정 사항이 출동하여 리소스를 업데이트할 수 없습니다."
       code_429: "너무 많은 요청이 들어왔습니다. 나중에 다시 시도해주십시오."
       code_500: "내부 오류가 발생하였습니다."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "원하는 작업 패키지를 찾을 수 없거나 삭제되었습니다."
       expected:

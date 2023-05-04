@@ -137,7 +137,7 @@ ja:
       onthefly_register: |
         チェックを入れると、OpenProjectは初回認証時に自動的にLDAPエントリーに新規ユーザー登録します。LDAPの既存ユーザーのみ許可する場合はチェックを外してください。
     connection_encryption: '接続の暗号化'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTLSオプション'
     system_account: 'システムアカウント'
     system_account_legend: |
       OpenProject は、LDAP ツリー内のユーザーとグループを検索するために、システムアカウントを介して読み取り専用アクセスを必要とします。
@@ -230,6 +230,7 @@ ja:
       failed_text: "プロジェクト%{name} の削除要求が失敗しました。 プロジェクトはアーカイブされたままです。"
       completed: "プロジェクト%{name} の削除が完了しました"
       completed_text: "プロジェクト '%{name}'を削除要求は完了しました。"
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'ガントビューとして開く'
       open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
@@ -733,6 +734,9 @@ ja:
               format: "%{message}"
             sort_criteria:
               invalid: "列を並べ替えできません: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
@@ -1420,7 +1424,7 @@ ja:
     admin:
       mail_notification: "電子メールの通知"
       mails_and_notifications: "Emails and notification"
-      aggregation: 'Aggregation'
+      aggregation: '集計'
       api_and_webhooks: "API and webhooks"
     quick_add:
       label: "クイック追加メニューを開く"
@@ -2263,8 +2267,8 @@ ja:
   permission_export_work_packages: "ワークパッケージのエクスポート"
   permission_export_wiki_pages: "Wikiページのエクスポート"
   permission_list_attachments: "添付ファイルの一覧表"
-  permission_log_own_time: "Log own time"
-  permission_log_time: "Log time for other users"
+  permission_log_own_time: "作業時間の記録"
+  permission_log_time: "他のユーザーの作業時間"
   permission_manage_forums: "フォーラムの管理"
   permission_manage_categories: "仕事項目のカテゴリの管理"
   permission_manage_work_package_relations: "ワークパッケージの関係の管理"
@@ -2630,8 +2634,6 @@ ja:
     カスタムフィールドを使用する場合: カスタムフィールドはプロジェクトごとにもアクティブ化する必要があることを覚えておいてください。
   text_custom_field_hint_activate_per_project_and_type: >
     カスタムフィールドは、ワークパッケージタイプごと、およびプロジェクトごとにアクティブにする必要があります。
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -2940,7 +2942,7 @@ ja:
 
   warning_bar:
     https_mismatch:
-      title: 'HTTPS mode setup mismatch'
+      title: 'HTTPS モードのセットアップが一致しません'
       text_html: >
         Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
     hostname_mismatch:
@@ -2991,6 +2993,7 @@ ja:
       code_409: "競合する変更のためにリソースを更新できませんでした。"
       code_429: "リクエストが多すぎます。 後でもう一度やり直してください。"
       code_500: "内部エラーが発生しました。"
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:

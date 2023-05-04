@@ -28,10 +28,12 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery < Storages::Peripherals::StorageInteraction::StorageQuery
+    include API::V3::Utilities::PathHelper
+    include Errors
     using Storages::Peripherals::ServiceResultRefinements # use '>>' (bind) operator for ServiceResult
 
-    URI_TOKEN_REQUEST = 'apps/integration_openproject/direct-upload-token'.freeze
-    URI_UPLOAD_BASE_PATH = 'apps/integration_openproject/direct-upload'.freeze
+    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'.freeze
+    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'.freeze
 
     def initialize(base_uri:, token:, retry_proc:)
       super()
@@ -68,7 +70,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def build_upload_link(response)
-      destination = URI.parse(File.join(@base_uri.to_s, URI_UPLOAD_BASE_PATH, response.token))
+      destination = URI.parse(api_v3_paths.join_uri_path(@base_uri, URI_UPLOAD_BASE_PATH, response.token))
       ServiceResult.success(result: Storages::UploadLink.new(destination))
     end
 
@@ -79,7 +81,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           response = ServiceResult.success(
             result: RestClient::Request.execute(
               method:,
-              url: File.join(@base_uri.to_s, relative_path),
+              url: api_v3_paths.join_uri_path(@base_uri, relative_path),
               payload: payload.to_json,
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
@@ -114,13 +116,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         # rubocop:enable Style/OpenStructUse Style/MultilineBlockChain
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
+    # rubocop:enable Metrics/AbcSize
   end
 end

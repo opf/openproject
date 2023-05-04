@@ -231,6 +231,7 @@ hu:
       failed_text: "A projekt%{name} törlése sikertelen. A projekt archiválva van."
       completed: "A projekt %{name} törlölve"
       completed_text: "A projekt%{name} törlése sikeres."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Gantt nézet megnyitása'
       open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
@@ -736,6 +737,9 @@ hu:
             sort_criteria:
               invalid: "Nem lehet rendezni ezen oszlop szerint: %{value}"
               format: "%{message}\n"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
+              format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -2649,8 +2653,6 @@ hu:
     Egyéni mezők használatakor: tartsa szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
   text_custom_field_hint_activate_per_project_and_type: >
     Az egyéni mezőket feladatcsoport típusonként és projektenként egyenként aktiválni kell.
-  text_wp_custom_field_html: >
-    The Enterprise edition will add these additional add-ons for work packages' custom fields: <br> <ul> <li><b>Allow multi-select for custom fields of type List or User</b></li> </ul>
   text_wp_status_read_only_html: >
     The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
   text_project_custom_field_html: >
@@ -3013,6 +3015,7 @@ hu:
       code_409: "Nem sikerült frissíteni az erőforrást az ütköző módosítások miatt."
       code_429: "Túl sok próbálkozás, próbáld meg később"
       code_500: "Belső hiba történt."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "A keresett munkacsomag nem található, vagy törölve lett."
       expected:

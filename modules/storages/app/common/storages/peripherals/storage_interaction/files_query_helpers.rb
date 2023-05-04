@@ -34,8 +34,14 @@ module Storages::Peripherals::StorageInteraction
         .files_query(user:)
     end
 
-    def execute_files_query(parent)
-      ->(query) { query.call(parent) }
+    def file_query(storage, user)
+      Storages::Peripherals::StorageRequests
+        .new(storage:)
+        .file_query(user:)
+    end
+
+    def execute_files_query(data)
+      ->(query) { query.call(data) }
     end
   end
 end

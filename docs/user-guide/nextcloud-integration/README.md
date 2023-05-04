@@ -233,4 +233,4 @@ In rare occasions, it is possible for the integration to not be able to fetch al
 
 If OpenProject notifications are not properly displayed in Nextcloud, navigate to *Nextcloud settings → Basic settings → Background jobs* and ensure that _Cron_ is selected.
 
-## ![NC_notifications_not_displayed](Cron_job_settings.png)
+![NC_notifications_not_displayed](Cron_job_settings.png)

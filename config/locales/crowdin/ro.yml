@@ -232,6 +232,7 @@ ro:
       failed_text: "Solicitarea de ștergere a proiectului %{name} a eșuat. Proiectul a rămas arhivat."
       completed: "Ștergerea proiectului %{name} finalizată"
       completed_text: "Cererea de ștergere a proiectului \"%{name}\" a fost finalizată."
+      completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: 'Deschideți ca vizualizare Gantt'
       open_as_gantt_title: "Utilizați acest buton pentru a genera o vizualizare Gantt care filtrează pachetele de lucru pentru proiectele vizibile pe această pagină."
@@ -739,6 +740,9 @@ ro:
               format: "%{message}"
             sort_criteria:
               invalid: "Nu se poate sorta după coloană: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
@@ -2671,8 +2675,6 @@ ro:
     Când utilizați câmpuri personalizate: Rețineți că fiecare câmp personalizat trebuie activat individual în cadrul fiecărui proiect.
   text_custom_field_hint_activate_per_project_and_type: >
     Câmpurile personalizate trebuie să fie activate pentru fiecare pachet de lucru și pentru fiecare proiect.
-  text_wp_custom_field_html: >
-    Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile personalizate ale pachetelor de lucru: <br> <ul> <li><b>Permiteți selecția multiplă pentru câmpurile personalizate de tip Listă sau Utilizator</b></li> </ul>
   text_wp_status_read_only_html: >
     Ediția Enterprise va adăuga aceste add-on-uri suplimentare pentru câmpurile de statusuri ale pachetelor de lucru: <br> <ul> <li><b>Permiteți să marcați pachetele de lucru ca fiind numai pentru citire pentru anumite stări</b></li> </ul>
   text_project_custom_field_html: >
@@ -3037,6 +3039,7 @@ ro:
       code_409: "Nu s-a putut actualiza resursa din cauza unor modificări conflictuale."
       code_429: "Prea multe solicitări. Vă rugăm încercați mai târziu."
       code_500: "A apărut o eroare internă."
+      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
       not_found:
         work_package: "Pachetul de lucru pe care îl căutați nu poate fi găsit sau a fost șters."
       expected:
