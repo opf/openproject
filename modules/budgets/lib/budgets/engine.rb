@@ -17,7 +17,7 @@ module Budgets
            if: ->(project) { project.module_enabled?(:budgets) },
            after: :costs,
            caption: :budgets_title,
-           icon: 'icon2 icon-budget'
+           icon: 'budget'
     end
 
     add_api_path :budget do |id|

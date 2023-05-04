@@ -99,7 +99,14 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in the WP table' do
-      let(:wp1_field) { table_edit_field(work_package) }
+      # Memoizing wp1_field via a let does not work. After a couple of updates to the custom field,
+      # an expectation like
+      #   wp1_field.expect_state_text "ham, onions, pineapple"
+      # fails with unhandled inspector error: {"code":-32000,"message":"No node with given id found"}
+      # as of chrome 113. The context memoized in the wp1_field seems to become an invalid reference.
+      def wp1_field
+        table_edit_field(work_package)
+      end
 
       before do
         work_package
@@ -159,6 +166,11 @@ describe "multi select custom values", js: true do
         field.expect_state_text '-'
         wp1_field.expect_state_text '-'
 
+        # Expect changed groups
+        expect(page).to have_selector('.group--value .count', count: 2)
+        expect(page).to have_selector('.group--value', text: '- (1)')
+        expect(page).to have_selector('.group--value', text: 'ham (1)')
+
         # Activate again
         field.activate!
 
@@ -166,6 +178,11 @@ describe "multi select custom values", js: true do
         field.set_value "onions"
 
         field.submit_by_dashboard
+
+        # Expect changed groups
+        expect(page).to have_selector('.group--value .count', count: 2)
+        expect(page).to have_selector('.group--value', text: 'ham, onions (1)')
+        expect(page).to have_selector('.group--value', text: 'ham (1)')
 
         expect(field.display_element).to have_text('ham')
         expect(field.display_element).to have_text('onions')
@@ -180,6 +197,11 @@ describe "multi select custom values", js: true do
         expect(field.display_element).to have_text('onions')
         expect(field.display_element).to have_text('pineapple')
         expect(field.display_element).to have_text('mushrooms')
+
+        # Expect changed groups
+        expect(page).to have_selector('.group--value .count', count: 2)
+        expect(page).to have_selector('.group--value', text: 'ham, mushrooms, onions, pineapple (1)')
+        expect(page).to have_selector('.group--value', text: 'ham (1)')
 
         wp1_field.expect_state_text ", ...\n4"
       end

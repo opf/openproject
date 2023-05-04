@@ -80,7 +80,7 @@ sv:
       buttons:
         upgrade: "Uppgradera nu"
         contact: "Kontakta oss för en demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Vänligen uppgradera till en betalplan för att aktivera och börja använda den i ditt team."
     journal_aggregation:
       explanation:

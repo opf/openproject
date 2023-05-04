@@ -42,7 +42,9 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :storage_project_folders
       OpenProject::FeatureDecisions.add :legacy_upload_preparation
+      OpenProject::FeatureDecisions.add :managed_project_folders
     end
 
     # For documentation see the definition of register in "ActsAsOpEngine"
@@ -66,8 +68,26 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new create destroy] },
+                   { 'storages/admin/projects_storages': %i[index new edit update create destroy] },
                    dependencies: %i[]
+
+        if OpenProject::FeatureDecisions.managed_project_folders_active?
+          permission :read_files,
+                     {},
+                     dependencies: %i[]
+          permission :write_files,
+                     {},
+                     dependencies: %i[]
+          permission :create_files,
+                     {},
+                     dependencies: %i[]
+          permission :delete_files,
+                     {},
+                     dependencies: %i[]
+          permission :share_files,
+                     {},
+                     dependencies: %i[]
+        end
       end
 
       # Menu extensions
@@ -78,7 +98,7 @@ module OpenProject::Storages
            { controller: '/storages/admin/storages', action: :index },
            if: Proc.new { User.current.admin? },
            caption: :project_module_storages,
-           icon: 'icon2 icon-hosting'
+           icon: 'hosting'
 
       menu :project_menu,
            :settings_projects_storages,
@@ -90,13 +110,20 @@ module OpenProject::Storages
         if project.present? &&
            User.current.logged? &&
            User.current.allowed_to?(:view_file_links, project)
-          project.storages.each do |storage|
+          project.projects_storages.each do |project_storage|
+            storage = project_storage.storage
+            href = if project_storage.project_folder_inactive?
+                     storage.host
+                   else
+                     ::Storages::Peripherals::StorageUrlHelper.storage_url_open_file(storage, project_storage.project_folder_id)
+                   end
+
             menu.push(
               :"storage_#{storage.id}",
-              storage.host,
+              href,
               caption: storage.name,
               before: :members,
-              icon: "#{storage.provider_type}-circle",
+              icon: "#{storage.short_provider_type}-circle",
               icon_after: "external-link",
               skip_permissions_check: true
             )

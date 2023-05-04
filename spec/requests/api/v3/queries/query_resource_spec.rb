@@ -29,7 +29,9 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Query resource', content_type: :json do
+describe 'API v3 Query resource',
+         content_type: :json,
+         with_flag: { show_changes: true } do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

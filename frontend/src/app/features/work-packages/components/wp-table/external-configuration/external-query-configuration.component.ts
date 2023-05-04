@@ -22,7 +22,7 @@ export interface QueryConfigurationLocals {
 export class ExternalQueryConfigurationComponent implements OnInit, AfterViewInit {
   @ViewChild('embeddedTableForConfiguration', { static: true }) private embeddedTable:WorkPackageEmbeddedTableComponent;
 
-  queryProps:string;
+  queryProps:string|object;
 
   constructor(@Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
     readonly urlParamsHelper:UrlParamsHelperService,
@@ -33,7 +33,7 @@ export class ExternalQueryConfigurationComponent implements OnInit, AfterViewIni
     if (this.locals.urlParams) {
       this.queryProps = this.urlParamsHelper.buildV3GetQueryFromJsonParams(this.locals.currentQuery);
     } else {
-      this.queryProps = this.locals.currentQuery;
+      this.queryProps = this.locals.currentQuery as string;
     }
   }
 

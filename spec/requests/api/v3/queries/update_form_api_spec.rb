@@ -28,14 +28,14 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form" do
+describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { create(:admin) }
   let(:role) { create(:existing_role, permissions:) }
   let(:permissions) { %i(view_work_packages manage_public_queries) }
-  let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', "P0D"] }
+  let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00+00:00', "P0D"] }
 
   let!(:project) { create(:project_with_types, members: { user => role }) }
 

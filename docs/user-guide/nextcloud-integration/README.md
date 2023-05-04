@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Using the Nextcloud integration
+  title: Nextcloud integration
   priority: 600
 description: Using the Nextcloud integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
 keywords: integration, apps, Nextcloud, user
@@ -17,7 +17,7 @@ This integration makes it possible for you to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-> Note: The the minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
+> Note: The minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
 
 
 | Topic                                                        | Description                                                  |
@@ -164,13 +164,14 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-There are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
+There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *OpenProject *, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
-![NC_extra_settings](Nextcloud_connected_account.png)
+![NC_extra_settings](nextcloud_openproject_account.png)
+
+
 
 ![NC_extra_navlink](Navigation_link_OpenProject.png)
 

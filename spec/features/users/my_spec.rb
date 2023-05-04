@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-describe 'my',
-         js: true, with_config: { session_store: :active_record_store } do
+describe 'my', js: true do
   let(:user_password) { 'bob' * 4 }
   let(:user) do
     create(:user,

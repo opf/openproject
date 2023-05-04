@@ -34,6 +34,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 export interface ISchemaProxy extends SchemaResource {
   ofProperty(property:string):IFieldSchema;
   isAttributeEditable(property:string):boolean;
+  mappedName(property:string):string;
   isEditable:boolean;
 }
 

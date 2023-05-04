@@ -830,11 +830,6 @@ module Settings
         default: '_open_project_session',
         writable: false
       },
-      session_store: {
-        description: 'Where to store session data',
-        default: :active_record_store,
-        writable: false
-      },
       session_ttl_enabled: {
         default: false
       },

@@ -35,7 +35,7 @@ module OpenProject::Recaptcha
           keys.index_with value
         else
           {
-            frame_src: %w(https://www.google.com/recaptcha/)
+            frame_src: %w[https://www.recaptcha.net/recaptcha/ https://www.gstatic.com/recaptcha/]
           }
         end
       end

@@ -80,7 +80,7 @@ sl:
       buttons:
         upgrade: "Upgrade now"
         contact: "Contact us for a demo"
-      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span> add-on."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Please upgrade to a paid plan to activate and start using it in your team."
     journal_aggregation:
       explanation:
@@ -496,7 +496,7 @@ sl:
         explanation: 'Opis stanja'
         codes:
           not_started: 'Not started'
-          on_track: 'Na poti'
+          on_track: 'Na dobri poti'
           at_risk: 'Ogroženo'
           off_track: 'Izven poti'
           finished: 'Finished'
@@ -556,7 +556,7 @@ sl:
         begin_deletion: "Začetek izbrisa"
         children: "Podelementi"
         done_ratio: "Napredek (%)"
-        duration: "Duration"
+        duration: "Trajanje"
         end_insertion: "Konec vstavitve"
         end_deletion: "Konec izbrisa"
         ignore_non_working_days: "Ignore non working days"
@@ -629,7 +629,7 @@ sl:
         not_a_number: "ni število."
         not_allowed: "ni veljavno, saj manjka dovoljenje. "
         not_an_integer: "ni celo število. "
-        not_an_iso_date: "neveljaven čas. Potreben format: HH:MM"
+        not_an_iso_date: "neveljaven čas. Potreben format: YYYY-MM-DD."
         not_same_project: "ne pripada istemu projektu"
         odd: "mora biti liho. "
         regex_invalid: "ni bilo mogoče potrditi s pripadajočim stalnim izrazom."
@@ -807,12 +807,12 @@ sl:
               format: "%{message}"
             due_date:
               not_start_date: "ni začeten datum, čeprav je to pomembno za mejnike."
-              cannot_be_null: "can not be set to null as start date and duration are known."
+              cannot_be_null: "ne more biti nastavljeno na null, ker sta znana začetni datum in trajanje."
             duration:
-              larger_than_dates: "is larger than the interval between the start and the finish date."
-              smaller_than_dates: "is smaller than the interval between the start and the finish date."
-              not_available_for_milestones: "is not available for milestone typed work packages."
-              cannot_be_null: "can not be set to null as start date and finish date are known."
+              larger_than_dates: "je večje kot interval med začetnim in končnim datumom."
+              smaller_than_dates: "je manjše kot interval med začetnim in končnim datumum."
+              not_available_for_milestones: "ni na voljo za delovne pakete, ki so tipa mejnik."
+              cannot_be_null: "ne more biti nastavljeno na null ker sta znana začetni in končni datum."
             parent:
               cannot_be_milestone: "ne more biti mejnik."
               cannot_be_self_assigned: "cannot be assigned to itself."
@@ -820,7 +820,7 @@ sl:
               not_a_valid_parent: "ni pravo."
             start_date:
               violates_relationships: "lahko nastavite samo na %{soonest_start} ali pozneje, da ne bi kršili razmerij delovnih paketov."
-              cannot_be_null: "can not be set to null as finish date and duration are known."
+              cannot_be_null: "ne more biti nastavljeno na null, ker sta znana končni datum in trajanje."
             status_id:
               status_transition_invalid: "je neveljaven, ker ne obstaja veljavna transakcija iz starega v nov status za trenutne uporabnikove vloge."
               status_invalid_in_type: "je neveljavne, ker trenuten status ne obstaja v tem tipu."
@@ -926,7 +926,7 @@ sl:
     item:
       created_by_on: "created by %{user} on %{datetime}"
       created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
+      updated_by_on: "spremenil %{user} %{datetime}"
       updated_on: "updated on %{datetime}"
       parent_without_of: "Subproject"
       parent_no_longer: "No longer subproject of"
@@ -1157,7 +1157,7 @@ sl:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%d%m%l\n"
+      default: "%d. %m. %Y"
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1165,14 +1165,14 @@ sl:
       - null
       - "Januar"
       - "Februar"
-      - "Marec"
-      - "April"
-      - "Maj"
-      - "Junij"
-      - "Julij"
-      - "Avgust"
-      - "September"
-      - "Oktober"
+      - "marec"
+      - "april"
+      - "maj"
+      - "junij"
+      - "julij"
+      - "avgust"
+      - "september"
+      - "oktober"
       - "November"
       - "December"
     #Used in date_select and datime_select.
@@ -2091,8 +2091,8 @@ sl:
     digests:
       including_mention_singular: 'including a mention'
       including_mention_plural: 'including %{number_mentioned} mentions'
-      unread_notification_singular: '1 unread notification'
-      unread_notification_plural: '%{number_unread} unread notifications'
+      unread_notification_singular: '1 neprebrano obvestilo'
+      unread_notification_plural: '%{number_unread} neprebranih obvestil'
       you_have: 'You have'
     logo_alt_text: 'Logotip'
     mention:
@@ -2116,13 +2116,13 @@ sl:
         watched: 'Watched'
         assigned: 'Assigned'
         responsible: 'Odgovorni'
-        mentioned: 'Mentioned'
+        mentioned: 'Omenjen'
         subscribed: 'vsi'
         prefix: 'Received because of the notification setting: %{reason}'
         date_alert_start_date: 'Date alert'
         date_alert_due_date: 'Date alert'
       see_all: 'See all'
-      updated_at: 'Updated at %{timestamp} by %{user}'
+      updated_at: 'Spremenjeno ob %{timestamp} od %{user}'
   mail_body_account_activation_request: "Registriral se je nov uporabnik (%{value}). Račun čaka na vašo odobritev:"
   mail_body_account_information: "Informacije vašega računa"
   mail_body_account_information_external: "Za prijavo lahko uporabite vaš %{value} račun."
@@ -2726,7 +2726,7 @@ sl:
   text_work_packages_destroy_confirmation: "Ali ste prepričani, da želite izbrisati izbrane delovne pakete?"
   text_work_packages_ref_in_commit_messages: "Sklicevanje in popravljanje delovnih paketov v sporočilih"
   text_journal_added: "%{label} %{value} dodan"
-  text_journal_changed_plain: "%{label} changed from %{old} %{linebreak}to %{new}"
+  text_journal_changed_plain: "%{label} spremenjeno iz %{old}\nv %{new}"
   text_journal_changed_no_detail: "%{label} posodobljen"
   text_journal_changed_with_diff: "%{label} spremenjen (%{link})"
   text_journal_deleted: "%{label} izbrisan (%{old})"
@@ -2780,7 +2780,7 @@ sl:
   time:
     am: "pred poldnevom"
     formats:
-      default: "%m/%d/%L %U:%M %s"
+      default: "%d.%m.%Y %H:%M"
       long: "%d. %B, %Y %H:%M"
       short: "%d. %b %H:%M"
       time: "%U:%M %s"
@@ -2986,7 +2986,7 @@ sl:
     text_change_disabled_for_provider_login: "Ime je določil skrbnik in ga ni mogoče spremeniti."
     unlock: "Odkleni"
     unlock_and_reset_failed_logins: "Odklepanje in ponastavitev neuspelih prijav"
-  version_status_closed: "Zaprto"
+  version_status_closed: "zaprto"
   version_status_locked: "zaklenjeno"
   version_status_open: "odpri"
   note: Opomba
@@ -3061,8 +3061,8 @@ sl:
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
-        date: "LLLL-MM-DD (ISO 8601 le datum)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        date: "YYYY-MM-DD (samo ISO 8601 datum)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (ISO 8601 kompatibilen datum in čas)"
         duration: "ISO 8601 trajanje"
       invalid_content_type: "Pričakovano je, da je VRSTA-VSEBINE '%{content_type}', vendar je dobil '%{actual}'."
       invalid_format: "neveljaven format za lastnost '%{property}': Pričakovana oblika, kot je '%{expected_format}', vendar je dobila '%{actual}'."

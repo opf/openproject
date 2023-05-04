@@ -2,17 +2,48 @@ import { Meta } from '@storybook/addon-docs';
 
 <Meta title="Design System" />
 
-# Design System
+# OpenProject Design System
 
-At OpenProject, we use a design system to ensure that our design delivers a consistent experience to users. The system describes the styles, components and patterns that come together to define the overall user interface. To do this, we provide documentation explaining how each element should be used, the different states, variations and options it offers, along with example implementation in Angular or Rails.
+At OpenProject, we use a design system to help ensure that our design delivers a consistent experience to users. The system describes the styles, components and patterns that come together to build the foundation for a consistent user experience. To do this, we provide documentation explaining how each element should be used, the different states, variations and options it offers, along with code examples.
 
-Our goal is to reach a point where every view in OpenProject is built with elements described in the design system. However, we are aware that reaching this goal will take time for a tool as complex and layered as OpenProject.
+Our goal is to reach a point where every view in OpenProject is built with our design system principles and patterns in mind. However, we are aware that reaching this goal will take time for a tool as complex and layered as OpenProject.
 
 As such, the design system is still in its infancy and will grow with each release.
 
+## Purpose (what it is and what it's not)
+
+This Storybook-based design system documentation only seeks to describe the actual reusable components; it does not seek to document features where these components are used.
+
+**The purpose of the design system is to:**
+
+- Ensure that OpenProject has a beautiful, usable and delightful design
+- Improve consistency and predictability by defining standards that are reused or extended when there is a need for deviations or alternate versions
+- Improve quality (a component that is reused is likely to have gone through more testing and adjustment with each reuse and testing cycle)
+- Make design assets easier to maintain (change once to change all)
+- Improve accessibility by taking accessibility requirements into account when designing components and patterns
+
+**The purpose of this document is to:**
+
+- Maintain a singular reference on what reusable components and patterns look like, how they behave and what options they provide
+- Allow product designers and front-end developers to have a shared understanding of how these common elements are designed and how/when they should be used
+- Provide quality assurance personnel a common base of reference when testing features that use these reusable components and patterns (and there is a doubt about an unnecessary deviation)
+- Give developers important context about available components and how to use them. We want to enable both team and community members to compose and develop complex interfaces easily, preventing fragmentation and technical debt where possible.
+
+**This document does not:**
+
+- Define every single component in OpenProject
+- Define specific features or implementation details
+- Define how things *should* look like; the stories contained here will only describe things as they are currently implemented
+- Define possible exceptions or variations made within a feature (if necessary)
+- Seek to serve as a central documentation for QA testing of features
+- Seek to be exhaustive at any point; it will remain a living document that require maintenance as changes are made
+
+
 ## SPOT
 
-Internally, our design system is called SPOT, which stands for "Single Point of Truth". You will often see the `spot-` prefix used in code; this is primarily to distinguish newer SPOT-based components from older elements that have the `op-` prefix.
+Our design system is referred to simply as "OpenProject Design System".
+
+You will often see the `spot-` prefix used in code; this is primarily to distinguish newer refactored components from older elements that have the `op-` prefix.
 
 ## Approach
 
@@ -30,4 +61,4 @@ This is quite normal for a large open-source project that has not had a dedicate
 
 One of the goals of the design system is to introduce more coherence and introduce a more modern design language. Whilst we would naturally prefer to be able to update everything at the same time and push the new design system to the entire software, we recognise the need for a more pragmatic approach. The design system will be rolled out in phases, with a careful study of the consequences of updating each component or pattern, and the potential dependencies that will be affected.
 
-We recognise that UI/UX has not always been the highest priority for open-source projects. This is somewhat understandable given how open source projects have relatively fewer design resources dedicated to it than commercial products. Our goal is to do our part to improve that situation as much as we can and document our process.
+_We recognise that UI/UX has not always been the highest priority for open-source projects. This is somewhat understandable given how open source projects have relatively fewer design resources dedicated to it than commercial products. Our goal is to do our part to improve that situation as much as we can and document our process._

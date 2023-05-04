@@ -39,7 +39,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
   # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
-  before_action :find_model_object, only: %i[destroy] # Fill @object with ProjectStorage
+  before_action :find_model_object, only: %i[edit update destroy] # Fill @object with ProjectStorage
   # No need to before_action :find_project_by_project_id as SettingsController already checks
   # No need to check for before_action :authorize, as the SettingsController already checks this.
 
@@ -85,7 +85,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     # @project was calculated by before_action :find_optional_project.
     service_result = ::Storages::ProjectStorages::CreateService
                        .new(user: current_user)
-                       .call(permitted_create_params)
+                       .call(permitted_storage_settings_params)
 
     # Create success/error messages to the user
     if service_result.success?
@@ -95,6 +95,36 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     end
 
     redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
+  end
+
+  # Edit page is very similar to new page, except that we don't need to set
+  # default attribute values because the object already exists
+  # Called by: Global app/config/routes.rb to serve Web page
+  def edit
+    # Render existing ProjectStorage object
+    # @object was calculated in before_action :find_model_object (see comments above).
+    # @project_storage is used in the view in order to render the form for a new object
+    @project_storage = @object
+
+    render '/storages/project_settings/edit'
+  end
+
+  # Update is similar to create above
+  # See also: create above
+  # See also: https://www.openproject.org/docs/development/concepts/contracted-services/
+  # Called by: Global app/config/routes.rb to serve Web page
+  def update
+    service_result = ::Storages::ProjectStorages::UpdateService
+                       .new(user: current_user, model: @object)
+                       .call(permitted_storage_settings_params)
+
+    if service_result.success?
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to project_settings_projects_storages_path # Redirect: Project -> Settings -> File Storages
+    else
+      @errors = service_result.errors
+      render :edit
+    end
   end
 
   # Purpose: Destroy a ProjectStorage object
@@ -116,11 +146,11 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
   # Called by create and update actions above.
-  def permitted_create_params
+  def permitted_storage_settings_params
     # "params" is an instance of ActionController::Parameters
     params
       .require(:storages_project_storage)
-      .permit('storage_id')
+      .permit('storage_id', 'project_folder_mode', 'project_folder_id')
       .to_h
       .reverse_merge(project_id: @project.id)
   end

@@ -58,7 +58,7 @@ describe AdminController do
                :"#{name}_settings",
                { controller: '/admin/settings', action: :show_plugin, id: :"openproject_#{name}" },
                caption: name.capitalize,
-               icon: 'icon2 icon-arrow',
+               icon: 'arrow',
                if: ->(*) { show }
         end
 

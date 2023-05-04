@@ -37,6 +37,8 @@
 # Additional attributes and constraints are defined in
 # db/migrate/20220113144323_create_storage.rb "migration".
 class Storages::Storage < ApplicationRecord
+  self.inheritance_column = :provider_type
+
   # One Storage can have multiple FileLinks, representing external files.
   #
   # FileLink deletion is done:
@@ -57,7 +59,7 @@ class Storages::Storage < ApplicationRecord
   has_one :oauth_application, class_name: '::Doorkeeper::Application', as: :integration, dependent: :destroy
 
   PROVIDER_TYPES = [
-    PROVIDER_TYPE_NEXTCLOUD = 'nextcloud'.freeze
+    PROVIDER_TYPE_NEXTCLOUD = 'Storages::NextcloudStorage'.freeze
   ].freeze
 
   # Uniqueness - no two storages should  have the same host.
@@ -77,4 +79,18 @@ class Storages::Storage < ApplicationRecord
       )
     end
   }
+
+  def self.shorten_provider_type(provider_type)
+    case /Storages::(?'provider_name'.*)Storage/.match(provider_type)
+    in provider_name:
+      provider_name.downcase
+    else
+      raise "Unknown provider_type! Given: #{provider_type}. " \
+            "Expected the following signature: Storages::{Name of the provider}Storage"
+    end
+  end
+
+  def short_provider_type
+    @short_provider_type ||= self.class.shorten_provider_type(provider_type)
+  end
 end

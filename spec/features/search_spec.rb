@@ -213,6 +213,23 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
           table.expect_work_package_subject(work_packages[1].subject)
         end
       end
+
+      context 'when a work package is closed' do
+        let(:params) { [{ q: query, scope: 'all' }] }
+        let(:run_visit) { false }
+        let(:work_package) { work_packages.last }
+
+        before do
+          work_package.update(status: create(:closed_status))
+          visit search_path(*params)
+        end
+
+        it 'marks the closed work package' do
+          within 'dt.work_package-closed' do
+            expect(page).to have_link(text: Regexp.new(work_package.status.name))
+          end
+        end
+      end
     end
 
     context 'for project search' do
@@ -377,6 +394,36 @@ describe 'Search', js: true, with_mail: false, with_settings: { per_page_options
         table.ensure_work_package_not_listed!(work_packages[0])
         table.ensure_work_package_not_listed!(work_packages[1])
         table.expect_work_package_listed(work_packages[9])
+      end
+    end
+  end
+
+  describe 'search for notes' do
+    let(:work_package) { work_packages[0] }
+    let!(:note_one) do
+      create(:work_package_journal,
+             journable_id: work_package.id,
+             notes: 'Test note 1',
+             version: 2)
+    end
+    let!(:note_two) do
+      create(:work_package_journal,
+             journable_id: work_package.id,
+             notes: 'Special note 2',
+             version: 3)
+    end
+
+    it 'highlights last note' do
+      global_search.search 'note'
+      global_search.submit_in_global_scope
+
+      within('dt.work_package-note + dd') do
+        expect(page).to have_selector(".description", text: note_two.notes)
+      end
+
+      # links to work package with anchor to highlighted note
+      within('dt.work_package-note') do
+        expect(page).to have_link(href: work_package_path(work_package, anchor: 'note-2'))
       end
     end
   end
