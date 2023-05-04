@@ -1,7 +1,7 @@
 ---
 title: OpenProject 12.2.1
 sidebar_navigation:
-title: 12.2.1
+  title: 12.2.1
 release_version: 12.2.1
 release_date: 2022-08-18
 ---
