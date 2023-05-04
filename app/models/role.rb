@@ -58,7 +58,7 @@ class Role < ApplicationRecord
 
   validates :name,
             presence: true,
-            length: { maximum: 30 },
+            length: { maximum: 256 },
             uniqueness: { case_sensitive: true }
 
   def self.givable

@@ -40,7 +40,7 @@ class Forum < ApplicationRecord
   acts_as_watchable permission: :view_messages
 
   validates :name, :description, presence: true
-  validates :name, length: { maximum: 30 }
+  validates :name, length: { maximum: 256 }
   validates :description, length: { maximum: 255 }
 
   def visible?(user = User.current)
