@@ -99,7 +99,14 @@ describe "multi select custom values", js: true do
     end
 
     describe 'in the WP table' do
-      let(:wp1_field) { table_edit_field(work_package) }
+      # Memoizing wp1_field via a let does not work. After a couple of updates to the custom field,
+      # an expectation like
+      #   wp1_field.expect_state_text "ham, onions, pineapple"
+      # fails with unhandled inspector error: {"code":-32000,"message":"No node with given id found"}
+      # as of chrome 113. The context memoized in the wp1_field seems to become an invalid reference.
+      def wp1_field
+        table_edit_field(work_package)
+      end
 
       before do
         work_package
