@@ -35,7 +35,7 @@ if (manualProjectFolderModeInput.checked && projectFolderSelectionSection !== nu
   projectFolderSelectionSection.style.display = 'flex';
 }
 
-projectFolderModeRadioButtons.forEach((radio: HTMLInputElement) => {
+projectFolderModeRadioButtons.forEach((radio:HTMLInputElement) => {
   radio.onchange = () => {
     if (projectFolderSelectionSection === null) {
       return;
@@ -47,5 +47,5 @@ projectFolderModeRadioButtons.forEach((radio: HTMLInputElement) => {
     } else {
       projectFolderSelectionSection.style.display = 'none';
     }
-  }
-})
+  };
+});
