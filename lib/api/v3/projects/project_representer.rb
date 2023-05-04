@@ -188,8 +188,7 @@ module API
 
         date_time_property :updated_at
 
-        resource :status_code,
-                 as: :status,
+        resource :status,
                  getter: ->(*) {
                    next unless represented.status_code
 

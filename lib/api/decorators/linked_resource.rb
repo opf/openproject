@@ -60,16 +60,14 @@ module API
                      getter:,
                      setter:,
                      link:,
-                     as: name,
                      uncacheable_link: false,
                      show_if: ->(*) { true },
                      skip_render: nil,
                      embedded: true)
 
-          link(link_attr(as, uncacheable_link), &link)
+          link(link_attr(name, uncacheable_link), &link)
 
           property name,
-                   as:,
                    exec_context: :decorator,
                    getter:,
                    setter:,
