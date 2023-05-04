@@ -29,18 +29,23 @@
 module Calendar
   class GenerateIcalUrl < ::BaseServices::BaseCallable
 
-    def perform(user:, query_id:, project_id:)
-      new_ical_token = create_ical_token(user, query_id)
-      new_ical_url = create_ical_url(query_id, project_id, new_ical_token)
-
-      ServiceResult.success(result: new_ical_url)
+    def perform(user:, query_id:, project_id:, token_name:)
+      begin
+        new_ical_token = create_ical_token(user, query_id, token_name)
+        new_ical_url = create_ical_url(query_id, project_id, new_ical_token)
+        ServiceResult.success(result: new_ical_url)
+      rescue => e
+        # in case a the query is not found or the ical_token could not be created
+        # an exception is raised which needs to be passed as a failure here
+        ServiceResult.failure(message: e.message)
+      end
     end
 
     protected
 
-    def create_ical_token(user, query_id)
+    def create_ical_token(user, query_id, token_name)
       query = Query.find(query_id)
-      Token::ICal.create_and_return_value(user, query)
+      Token::ICal.create_and_return_value(user, query, token_name)
     end
 
     def create_ical_url(query_id, project_id, ical_token)

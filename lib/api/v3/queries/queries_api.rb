@@ -161,33 +161,53 @@ module API
 
             namespace :ical_url do
               post do
+
+                params do
+                  requires :token_name, type: String, desc: 'The name which should be used for the ical token'
+                end
+
                 authorize_by_policy(:share_via_ical)
+
+                # TODO: use representer in order to properly generate following response
+                # TODO: write test for this
 
                 # currently the generated URL points to controller action in calendar module
                 # correct approach? or should it be implemented as a API here?
                 call = ::Calendar::GenerateIcalUrl.new.call(
                   user: current_user,
                   query_id: @query.id,
-                  project_id: @query.project_id
+                  project_id: @query.project_id,
+                  token_name: params[:token_name]
                 )
 
-                # TODO: use representer in order to properly generate following response
-                # TODO: write test for this
-                {
-                  "_type": "QueryICalUrl",
-                  "_links": {
-                    "self": {
-                      "href": api_v3_paths.query_ical_url(@query.id)
-                    },
-                    "query": {
-                      "href": api_v3_paths.query(@query.id)
-                    },
-                    "icalUrl": {
-                      "href": call.result,
-                      "format": "text/calendar"
+                if call.success?
+                  {
+                    "_type": "QueryICalUrl",
+                    "_links": {
+                      "self": {
+                        "href": api_v3_paths.query_ical_url(@query.id)
+                      },
+                      "query": {
+                        "href": api_v3_paths.query(@query.id)
+                      },
+                      "icalUrl": {
+                        "href": call.result,
+                        "format": "text/calendar"
+                      }
+                    } 
+                  }
+                else
+                  error!({
+                    "_type": "Error",
+                    "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                    "message": call.message,
+                    "_embedded": {
+                      "details": {
+                        "attribute": "name"
+                      }
                     }
-                  } 
-                }
+                  })
+                end
               end
             end
 

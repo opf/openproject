@@ -1,35 +1,67 @@
-<div
+<form
+  name="getIcalUrlForm"
+  (submit)="generateAndCopyUrl($event)"
   class="spot-modal loading-indicator--location op-query-get-ical-url"
-  data-indicator-name="modal"
 >
   <div class="spot-modal--header">{{text.label_ical_sharing}}</div>
 
   <div class="spot-divider"></div>
 
   <div class="spot-modal--body spot-container">
-    <p>
-      {{text.description_ical_sharing}}
-    </p>
-    <div tabindex="0" class="-error op-toast">
+    <div tabindex="0" class="-warning op-toast">
       <div role="alert" aria-atomic="true" class="op-toast--content">
         <p>
           <span>{{text.ical_sharing_warning}}</span>
         </p>
       </div>
     </div>
+
+    <p>
+      {{text.description_ical_sharing}}
+    </p>
+    
+    <!-- <label class="form--label -bold" for="name" [textContent]="text.token_name"></label> -->
+
+    <h5>{{text.token_name}}</h5>
+
+    <p [innerHtml]="text.token_name_description_text"></p>
+
+    <div class="form--field -required ">
+      <div class="form--field-container">
+        <div class="form--text-field-container">
+          <input
+            class="form--text-field"
+            type="text"
+            name="name"
+            id="name"
+            #tokenNameField
+            [(ngModel)]="tokenName"
+            [placeholder]="text.token_name_placeholder"
+            required
+          />
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="hasErrors">
+      <p class="error-text">
+        {{text.token_name_already_in_use_error_text}}
+      </p>
+    </div>
+    
   </div>
 
   <div class="spot-action-bar">
     <div class="spot-action-bar--right">
-      <button class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
+      <button type="button" class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
               [textContent]="text.button_cancel"
               (click)="closeMe($event)">
       </button>
-      <button class="button button_no-margin -highlight -with-icon icon-copy spot-action-bar--action"
-              (click)="generateAndCopyUrl()"
+      <button type="submit" class="button button_no-margin -highlight -with-icon icon-copy spot-action-bar--action"
+              (click)="generateAndCopyUrl($event)"
               [textContent]="text.button_copy"
-              [disabled]="isBusy">
+              [disabled]="isBusy || !tokenName">
       </button>
     </div>
   </div>
-</div>
+</form>

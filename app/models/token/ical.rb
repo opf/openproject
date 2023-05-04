@@ -29,20 +29,21 @@
 module Token
   class ICal < HashedToken
     # restrict the usage of one ical token to one query (calendar)
-    has_one :ical_token_query_assignment, dependent: :destroy, foreign_key: :ical_token_id
+    has_one :ical_token_query_assignment, required: true, dependent: :destroy, foreign_key: :ical_token_id
+    accepts_nested_attributes_for :ical_token_query_assignment
+
     has_one :query, through: :ical_token_query_assignment
     has_one :project, through: :query
 
-    validate :query_assignment_must_exist
-
     class << self
-      def create_and_return_value(user, query)
-        create(user:, query:).plain_value
+      def create_and_return_value(user, query, token_name)
+        # using the ! here to raise an exception if the token could 
+        # not be created due to errors in the ical_token_query_assignment
+        # otherwise a hashed token value of a not persisted token would be returned
+        create!(user:, ical_token_query_assignment_attributes: { 
+          query: query, name: token_name, user_id: user.id 
+        }).plain_value
       end
-    end
-
-    def query_assignment_must_exist
-      errors.add(:base, "IcalTokenQueryAssignment must exist") unless ical_token_query_assignment.present?
     end
     
     # Prevent deleting previous tokens

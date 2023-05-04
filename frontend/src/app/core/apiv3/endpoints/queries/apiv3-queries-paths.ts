@@ -137,8 +137,9 @@ export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, Ap
    * Get the ical url of the given query for the requesting user with the ical token
    *
    * @param query
+   * @param tokenName
    */
-  public getIcalUrl(query:QueryResource):Promise<unknown> {
-    return query.icalUrl();
+  public getIcalUrl(query:QueryResource, tokenName:String):Promise<unknown> {
+    return query.icalUrl({ token_name: tokenName });
   }
 }

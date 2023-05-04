@@ -111,22 +111,23 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
           <% if @ical_tokens_grouped_by_query.any? %>
             <% @ical_tokens_grouped_by_query.each do |query_id, tokens| %>
-              <% latest = tokens.sort_by(&:created_at).last %>
-              <tr>
-                <td><%= t(:label_ical_access_key_description, calendar_name: latest.query.name, project_name: latest.query.project.name) %></td>
-                <td>
-                  <span title="<%= format_time(latest.created_at) %>">
-                    <%= format_time(latest.created_at.to_s) %> (<%= t(:label_ical_access_key_latest) %>)
-                  </span>
-                </td>
-                <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
-                <td>
-                  <%= link_to t(:label_ical_access_key_revoke_all),
-                              { action: 'revoke_all_ical_tokens_of_query', query_id: query_id },
-                              method: :delete,
-                              class: 'icon icon-delete' %>
-                </td>
-              </tr>
+              <% tokens.sort_by(&:created_at).each do |token| %>
+                <tr>
+                  <td><%= t(:label_ical_access_key_description, token_name: token.ical_token_query_assignment.name, calendar_name: token.query.name, project_name: token.query.project.name) %></td>
+                  <td>
+                    <span title="<%= format_time(token.created_at) %>">
+                      <%= format_time(token.created_at.to_s) %>
+                    </span>
+                  </td>
+                  <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
+                  <td>
+                    <%= link_to t(:label_ical_access_key_revoke),
+                                { action: 'revoke_ical_token', id: token.id },
+                                method: :delete,
+                                class: 'icon icon-delete' %>
+                  </td>
+                </tr>
+              <% end %>
             <% end %>
           <% else %>
             <tr>

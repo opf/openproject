@@ -34,7 +34,7 @@ import { OpModalComponent } from 'core-app/shared/components/modal/modal.compone
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -49,14 +49,25 @@ import { timeout } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueryGetIcalUrlModalComponent extends OpModalComponent implements OnInit {
+  public tokenName = '';
+
   public query:QueryResource;
 
   public isBusy = false;
+
+  public hasErrors = false;
+
+
+  @ViewChild('tokenNameField', { static: true }) tokenNameField:ElementRef;
 
   public text = {
     label_ical_sharing: this.I18n.t('js.ical_sharing_modal.title'),
     description_ical_sharing: this.I18n.t('js.ical_sharing_modal.description'),
     ical_sharing_warning: this.I18n.t('js.ical_sharing_modal.warning'),
+    token_name: this.I18n.t('js.ical_sharing_modal.token_name_label'),
+    token_name_placeholder: this.I18n.t('js.ical_sharing_modal.token_name_placeholder'),
+    token_name_description_text: this.I18n.t('js.ical_sharing_modal.token_name_description_text'),
+    token_name_already_in_use_error_text: this.I18n.t('js.ical_sharing_modal.token_name_already_in_use_error_text'),
     button_copy: this.I18n.t('js.ical_sharing_modal.copy_url_label'),
     copy_success_text: this.I18n.t('js.ical_sharing_modal.copy_url_success_text'),
     button_cancel: this.I18n.t('js.button_cancel'),
@@ -95,6 +106,10 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     }
   }
 
+  public onOpen():void {
+    this.tokenNameField.nativeElement.focus();
+  }
+
   public copyUrlAndCloseModal(url:string):void {
     void navigator.clipboard.writeText(url)
       .then(() => {
@@ -109,7 +124,7 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
       });
   }
   
-  public generateAndCopyUrl():void {
+  public generateAndCopyUrl(event:any):void {
     if (this.isBusy) {
       return;
     }
@@ -121,20 +136,23 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     const promise = this
       .apiV3Service
       .queries
-      .getIcalUrl(this.query);
+      .getIcalUrl(this.query, this.tokenName);
 
     void promise
       .then((response:HalResource) => {
         icalUrl = String(response.icalUrl.href);
         this.copyUrlAndCloseModal(icalUrl);
       })
-      .catch(() => {
-        this.isBusy = false;
-        this.cdRef.detectChanges();
+      .catch((error:any) => {
+        this.halNotification.handleRawError(error)
 
-        this.toastService.addError(
-          this.I18n.t('js.ical_sharing_modal.ical_generation_error_text')
-        );
-      });
+        this.hasErrors = true
+
+        const el = this.tokenNameField.nativeElement;
+        el.classList.add('-error'); //TODO: find default error styling approach
+
+        this.cdRef.detectChanges();
+      })
+      .then(() => this.isBusy = false); // Same as .finally()
   }
 }

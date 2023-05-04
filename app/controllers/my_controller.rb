@@ -130,15 +130,15 @@ class MyController < ApplicationController
     redirect_to action: 'access_token'
   end
 
-  def revoke_all_ical_tokens_of_query
-    query = Query.find(params[:query_id])
+  def revoke_ical_token
+    ical_token = current_user.ical_tokens.find(params[:id])
+    query = ical_token.query
+    name = ical_token.ical_token_query_assignment.name
 
-    ical_tokens_of_query = current_user.ical_tokens
-      .joins(:ical_token_query_assignment)
-      .where(ical_token_query_assignments: { query_id: query.id })
-      ical_tokens_of_query.destroy_all
+    ical_token.destroy
 
-    flash[:info] = t('my.access_token.notice_ical_tokens_reverted', 
+    flash[:info] = t('my.access_token.notice_ical_tokens_reverted',
+      token_name: name,
       calendar_name: query.name, 
       project_name: query.project.name
     )

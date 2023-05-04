@@ -27,7 +27,38 @@
 #++
 
 class IcalTokenQueryAssignment < ApplicationRecord
-  # TODO: dependent_destroy from query model
+  # TODO: dependent_destroy from query model? --> already defined on database level
   belongs_to :ical_token, class_name: 'Token::ICal'
   belongs_to :query
+
+  validates :name, presence: true
+  validate :unique_name_per_user_and_query
+
+  attr_accessor :user_id
+
+  def ical_token_user_id
+    # when creating an ical_token with nested params for ical_token_query_assignment
+    # the user_id from the parent ical_token is not accessible
+    # thererfore we need to pass it as an attribute like
+    # Token::ICal.create(
+    #   user: user,
+    #   ical_token_query_assignment_attributes: { query: query, name: name, user_id: user.id }
+    # )
+    # ical_token.user_id is nil in this case and unique_name_per_user_and_query would fail
+    # we therefore use the explicit user_id attribute
+    #
+    # when the ical_token and assignment are already created
+    # we can access the user_id of the ical_token directly instead
+    ical_token&.user_id || user_id
+  end
+
+  def unique_name_per_user_and_query
+    name_already_taken_for_query_and_user = self.class.joins(ical_token: :user)
+      .where(name: name, query_id: query_id, ical_token: { user_id: ical_token_user_id })
+      .exists?
+
+    if name_already_taken_for_query_and_user
+      errors.add(:name, "has already been taken for this query and user")
+    end
+  end
 end

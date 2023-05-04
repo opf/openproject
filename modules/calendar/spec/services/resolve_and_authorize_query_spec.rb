@@ -60,10 +60,14 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
              public: false)
     end
     let(:ical_token_instance_for_query1) do
-      Token::ICal.create(user: user, query: query1)
+      Token::ICal.create(user: user, 
+        ical_token_query_assignment_attributes: { query: query1, name: "My Token" }
+      )
     end
     let(:ical_token_instance_for_query2) do
-      Token::ICal.create(user: user, query: query2)
+      Token::ICal.create(user: user, 
+        ical_token_query_assignment_attributes: { query: query2, name: "My Token" }
+      )
     end
 
     context 'if ical token belongs to query' do
@@ -131,10 +135,14 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
              public: false)
     end
     let(:ical_token_instance_for_query1) do 
-      Token::ICal.create(user: user, query: query1) 
+      Token::ICal.create(user: user, 
+        ical_token_query_assignment_attributes: { query: query1, name: "My Token" }
+      ) 
     end
     let(:ical_token_instance_for_query2) do 
-      Token::ICal.create(user: user, query: query2) 
+      Token::ICal.create(user: user, 
+        ical_token_query_assignment_attributes: { query: query2, name: "My Token" }
+      ) 
     end
 
     context 'if ical token belongs to query' do
@@ -182,7 +190,9 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
              public: false)
     end
     let(:ical_token_instance_of_user_2_for_query1) do 
-      Token::ICal.create(user: user2, query: query1) 
+      Token::ICal.create(user: user2, 
+        ical_token_query_assignment_attributes: { query: query1, name: "My Token" }
+      ) 
     end
 
     context 'if ical token belongs to query' do
@@ -212,7 +222,9 @@ describe Calendar::ResolveAndAuthorizeQueryService, type: :model do
              public: false)
     end
     let(:ical_token_instance_for_query1) do
-      Token::ICal.create(user: user, query: query1)
+      Token::ICal.create(user: user, 
+        ical_token_query_assignment_attributes: { query: query1, name: "My Token" }
+      )
     end
 
     context 'if query id is invalid' do

@@ -33,7 +33,7 @@ describe Calendar::ResolveIcalTokenService, type: :model do
   let(:project) { create(:project) }
   let(:query) { create(:query, project:) }
 
-  let(:valid_ical_token_value) { Token::ICal.create_and_return_value(user, query) }
+  let(:valid_ical_token_value) { Token::ICal.create_and_return_value(user, query, "My Token") }
   let(:invalid_ical_token_value) { valid_ical_token_value[0..-2] }
 
   let(:instance) do
