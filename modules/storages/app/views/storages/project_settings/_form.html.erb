@@ -94,6 +94,12 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <div class="form--field">
-  <%= styled_button_tag submit_button_label, class: "-highlight -with-icon icon-checkmark" %>
-  <%= link_to t(:button_cancel), project_settings_projects_storages_path(@project), class: 'button -with-icon icon-cancel' %>
+  <%= styled_button_tag class: "-highlight" do %>
+    <%= spot_icon('checkmark') %>
+    <%= content_tag :span, submit_button_label %>
+  <% end %>
+  <%= link_to project_settings_projects_storages_path(@project), class: 'button' do %>
+    <%= spot_icon('cancel') %>
+    <%= content_tag :span, t(:button_cancel) %>
+  <% end %>
 </div>
