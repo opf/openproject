@@ -27,23 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages") %>
-
-<% if ::Storages::Storage.any? %>
-  <%= toolbar title: t("storages.page_titles.project_settings.index") do %>
-
-    <li class="toolbar-item">
-      <%= link_to new_project_settings_projects_storage_path,
-                  { class: 'button -alt-highlight',
-                    aria: { label: t(:'storages.label_new_storage') },
-                    title: t(:'ifc_models.label_new_storage') } do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
+<div class="op-toast -info">
+  <div class="op-toast--content">
+    <p>
+      <strong><%= t(:'storages.instructions.all_available_storages_already_added') %></strong>
+    </p>
+    <p>
+      <% if User.current.admin? %>
+        <%= t(:"storages.instructions.setting_up_additional_storages") %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+      <% else %>
+        <%= t(:"storages.instructions.setting_up_additional_storages_non_admin") %>
       <% end %>
-    </li>
-  <% end %>
-
-  <%= render(::Storages::ProjectsStorages::TableComponent.new(rows: @projects_storages)) %>
-<% else %>
-  <%= render partial: '/storages/project_settings/toast_no_storage_set_up' %>
-<% end %>
+    </p>
+  </div>
+</div>

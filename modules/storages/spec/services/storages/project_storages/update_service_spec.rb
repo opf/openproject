@@ -26,22 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
-  namespace :admin do
-    namespace :settings do
-      resources :storages, controller: '/storages/admin/storages' do
-        resource :oauth_client, controller: '/storages/admin/oauth_clients', only: %i[new create]
-        member do
-          delete '/replace_oauth_application' => '/storages/admin/storages#replace_oauth_application'
-        end
-      end
-    end
-  end
+require 'spec_helper'
+require 'services/base_services/behaves_like_update_service'
 
-  scope 'projects/:project_id', as: 'project' do
-    namespace 'settings' do
-      resources :projects_storages, controller: '/storages/admin/projects_storages',
-                                    except: %i[show]
-    end
+describe Storages::ProjectStorages::UpdateService, type: :model do
+  it_behaves_like 'BaseServices update service' do
+    let(:factory) { :project_storage }
   end
 end

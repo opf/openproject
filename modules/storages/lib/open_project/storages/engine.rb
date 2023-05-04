@@ -42,6 +42,7 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
+      OpenProject::FeatureDecisions.add :storage_project_folders
       OpenProject::FeatureDecisions.add :legacy_upload_preparation
       OpenProject::FeatureDecisions.add :managed_project_folders
     end
@@ -67,7 +68,8 @@ module OpenProject::Storages
                    dependencies: %i[view_file_links],
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
-                   { 'storages/admin/projects_storages': %i[index new create destroy] }
+                   { 'storages/admin/projects_storages': %i[index new edit update create destroy] },
+                   dependencies: %i[]
 
         if OpenProject::FeatureDecisions.managed_project_folders_active?
           permission :read_files,

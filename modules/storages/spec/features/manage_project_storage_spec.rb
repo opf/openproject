@@ -31,7 +31,7 @@ require_relative '../spec_helper'
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-describe 'Activation of storages in projects', js: true do
+describe 'Activation of storages in projects', js: true, with_flag: { storage_project_folders: true } do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -54,7 +54,7 @@ describe 'Activation of storages in projects', js: true do
     login_as user
   end
 
-  it 'adds and removes storages to projects' do
+  it 'adds, edits and removes storages to projects' do
     # Go to Projects -> Settings -> File Storages
     visit project_settings_general_path(project)
     page.find('.settings-projects-storages-menu-item').click
@@ -65,14 +65,52 @@ describe 'Activation of storages in projects', js: true do
     expect(page).to have_text(I18n.t('storages.no_results'))
     page.find('.toolbar .button--icon.icon-add').click
 
-    # Enable one file storage
+    # Can cancel the creation of a new file storage
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    page.find('button[type=submit]').click
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
+
+    # Enable one file storage together with a project folder mode
+    page.find('.toolbar .button--icon.icon-add').click
+    expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
+    expect(page).to have_text('Add a file storage')
+    expect(page).to have_select('storages_project_storage_storage_id', options: ['Storage 1 (nextcloud)'])
+    page.find_by_id('storages_project_storage_project_folder_mode_manual').click
+    page.find_by_id('storages_project_storage_project_folder_id').set('Project#1')
+    page.click_button('Add')
 
     # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text('Storage 1')
+
+    # Press Edit icon to change the project folder mode to inactive
+    page.find('.icon.icon-edit').click
+    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+                                                                                  id: Storages::ProjectStorage.last)
+    expect(page).to have_text('Edit the file storage to this project')
+    expect(page).not_to have_select('storages_project_storage_storage_id')
+    expect(page).to have_text('Storage 1')
+    expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
+    expect(page).to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
+
+    # Change the project folder mode to inactive, project folder is hidden but retained
+    page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
+    expect(page).not_to have_field('storages_project_storage_project_folder_id', with: 'Project#1')
+    expect(page).to have_css('#storages_project_storage_project_folder_id', visible: :hidden)
+    page.click_button('Save')
+
+    # The list of enabled file storages should still contain Storage 1
+    expect(page).to have_text('File storages available in this project')
+    expect(page).to have_text('Storage 1')
+
+    # Click Edit icon again but cancel the edit
+    page.find('.icon.icon-edit').click
+    expect(page).to have_current_path edit_project_settings_projects_storage_path(project_id: project,
+                                                                                  id: Storages::ProjectStorage.last)
+    expect(page).to have_text('Edit the file storage to this project')
+    page.click_link('Cancel')
+    expect(page).to have_current_path project_settings_projects_storages_path(project)
 
     # Press Delete icon to remove the storage from the project
     page.find('.icon.icon-delete').click

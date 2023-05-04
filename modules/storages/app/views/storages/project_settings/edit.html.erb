@@ -27,23 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages") %>
+<% html_title t(:label_administration), t("project_module_storages"), t('label_edit_x', x: @object.storage.name) %>
+<% local_assigns[:additional_breadcrumb] = t('storages.label_edit_storage') %>
+<%= toolbar title: t("storages.page_titles.project_settings.edit") %>
 
-<% if ::Storages::Storage.any? %>
-  <%= toolbar title: t("storages.page_titles.project_settings.index") do %>
+<%= labelled_tabular_form_for @project_storage, url: project_settings_projects_storage_path(project_id: @project_storage.project, id: @project_storage) do |f| -%>
+  <%= error_messages_for_contract @project_storage, @errors %>
 
-    <li class="toolbar-item">
-      <%= link_to new_project_settings_projects_storage_path,
-                  { class: 'button -alt-highlight',
-                    aria: { label: t(:'storages.label_new_storage') },
-                    title: t(:'ifc_models.label_new_storage') } do %>
-        <%= op_icon('button--icon icon-add') %>
-        <span class="button--text"><%= ::Storages::Storage.model_name.human %></span>
-      <% end %>
-    </li>
-  <% end %>
-
-  <%= render(::Storages::ProjectsStorages::TableComponent.new(rows: @projects_storages)) %>
-<% else %>
-  <%= render partial: '/storages/project_settings/toast_no_storage_set_up' %>
+  <section class="form--section">
+    <%= render partial: '/storages/project_settings/form',
+               locals: { f: f, available_storages: @available_storages, submit_button_label: t('button_save') }
+    %>
+  </section>
 <% end %>
