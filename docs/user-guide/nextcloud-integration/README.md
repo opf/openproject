@@ -1,6 +1,6 @@
 ---
 sidebar_navigation:
-  title: Using the Nextcloud integration
+  title: Nextcloud integration
   priority: 600
 description: Using the Nextcloud integration to link/unlink files and folders to work packages, viewing and downloading files and troubleshooting common errors
 keywords: integration, apps, Nextcloud, user
@@ -17,7 +17,7 @@ This integration makes it possible for you to:
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
-> Note: The the minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
+> Note: The minimum requirements for this integration are Nextcloud version 22 (or above) and OpenProject version  12.2 (or above). To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../system-admin-guide/integrations/nextcloud).
 
 
 | Topic                                                        | Description                                                  |

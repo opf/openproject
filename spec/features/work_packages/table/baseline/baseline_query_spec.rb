@@ -65,7 +65,7 @@ describe 'baseline query saving', js: true do
     wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
 
     query = retry_block { Query.find_by! name: 'Baseline query' }
-    expect(query.timestamps).to eq ['oneDayAgo@00:00', 'PT0S']
+    expect(query.timestamps).to eq ['oneDayAgo@00:00+00:00', 'PT0S']
 
     wp_table.visit_query query
 
