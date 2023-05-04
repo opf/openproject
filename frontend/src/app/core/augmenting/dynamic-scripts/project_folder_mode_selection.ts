@@ -32,7 +32,7 @@ const manualProjectFolderModeInput = document.getElementById('storages_project_s
 
 // Show the manual folder selection section if the manual radio button is checked
 if (manualProjectFolderModeInput.checked && projectFolderSelectionSection !== null) {
-  projectFolderSelectionSection.style.visibility = 'visible';
+  projectFolderSelectionSection.style.display = 'flex';
 }
 
 projectFolderModeRadioButtons.forEach((radio: HTMLInputElement) => {
@@ -43,9 +43,9 @@ projectFolderModeRadioButtons.forEach((radio: HTMLInputElement) => {
 
     // If the manual radio button is selected, show the manual folder selection section
     if (radio.value === 'manual') {
-      projectFolderSelectionSection.style.visibility = 'visible';
+      projectFolderSelectionSection.style.display = 'flex';
     } else {
-      projectFolderSelectionSection.style.visibility = 'hidden';
+      projectFolderSelectionSection.style.display = 'none';
     }
   }
 })
