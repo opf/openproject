@@ -80,7 +80,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedFilter = '-';
 
-  public selectedTimezoneFormattedTime = '00:00';
+  public selectedDateInTimeZone = '';
+
+  public timeZoneOffset = '';
+
+  public selectedTimezoneFormattedTime = `${this.selectedTime}+00:00`;
 
   public filterSelected = false;
 
@@ -161,6 +165,22 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.dropDownDescription = '';
   }
 
+  public diffTimeZone(localDate:string, timeZoneDate:string) {
+    const date1 = new Date(localDate);
+    const date2 = new Date(timeZoneDate);
+
+    const diff = date2.getTime() - date1.getTime();
+
+    let msec = diff;
+    const hh = Math.floor(msec / 1000 / 60 / 60);
+    msec -= hh * 1000 * 60 * 60;
+    const mm = Math.floor(msec / 1000 / 60);
+    msec -= mm * 1000 * 60;
+    const ss = Math.floor(msec / 1000);
+    msec -= ss * 1000;
+    return `${(hh > 0 ? `+${hh}` : hh)}:${mm}`;
+  }
+
   public onSubmit(e:Event):void {
     e.preventDefault();
     this.onSave();
@@ -170,7 +190,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
-      const filterString = `${this.selectedFilter}@${this.selectedTimeInTimeZone}`;
+      const filterString = `${this.selectedFilter}@${this.selectedTime}${this.timeZoneOffset}`;
       this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
     }
 
@@ -240,7 +260,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public timeChange(value:string):void {
     this.selectedTime = value;
     const dateTime= `${this.selectedDate}  ${value}`;
-    this.selectedTimeInTimeZone = this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
     if (this.isTimezoneSet) {
       this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
     }
@@ -271,7 +290,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.clearSelection();
     }
     this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(`${this.selectedDate} 00:00`);
-    this.selectedTimeInTimeZone = this.timezoneService.formattedTime(`${this.selectedDate} 00:00`, 'HH:mmZ');
+    this.selectedDateInTimeZone = this.timezoneService.formattedDatetime(`${this.selectedDate} 00:00`);
+    this.timeZoneOffset = this.isTimezoneSet ? this.diffTimeZone(`${this.selectedDate} 00:00`, this.selectedDateInTimeZone) : '+00:00';
     this.selectedTime = '00:00';
   }
 }
