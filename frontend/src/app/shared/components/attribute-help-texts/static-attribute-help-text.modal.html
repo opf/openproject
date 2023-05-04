@@ -1,21 +1,18 @@
 <div
-  class="spot-modal attribute-help-text--modal loading-indicator--location"
+  class="spot-modal"
   data-indicator-name="modal"
+  data-qa-selector="static-attribute-help-text--modal"
 >
   <div
     class="spot-modal--header"
-    data-qa-selector="attribute-help-text--header"
   >
-    <span class="spot-icon spot-icon_help1"></span>
-    <span class="attribute-help-text--header-text"
-          [textContent]="title"></span>
+  {{ title }}
   </div>
 
+  <div class="spot-divider"></div>
+
   <div class="spot-modal--body spot-container">
-    <div
-      class="op-uc-container op-uc-container__no-permalinks"
-      [textContent]="content"
-    ></div>
+    <span class="spot-body-small">{{ content }}</span>
   </div>
 
   <div class="spot-action-bar hidden-for-mobile">

@@ -68,8 +68,8 @@ describe 'Activation of storages in projects', js: true, with_flag: { storage_pr
     # Can cancel the creation of a new file storage and view help text
     expect(page).to have_current_path new_project_settings_projects_storage_path(project_id: project)
     expect(page).to have_text('Add a file storage')
-    page.find('.spot-link.help-text--entry').click
-    expect(page).to have_selector('.spot-modal.attribute-help-text--modal.loading-indicator--location')
+    page.find('[data-qa-selector="static-attribute-help-text--icon"]').click
+    expect(page).to have_selector('[data-qa-selector="static-attribute-help-text--modal"]')
     page.click_button('Close')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_projects_storages_path(project)
