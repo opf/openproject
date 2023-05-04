@@ -143,6 +143,7 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
     redirect_to project_settings_projects_storages_path
   end
 
+  # rubocop:disable Metrics/AbcSize
   def set_permissions
     if OpenProject::FeatureDecisions.managed_project_folders_active?
       find_model_object(:projects_storage_id)
@@ -168,12 +169,14 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
       end
 
       command.result.call(folder:, permissions:).match(
-        on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' },
+        on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' }, # rubocop:disable Rails/I18nLocaleTexts
         on_failure: ->(error) { flash[:error] = "Error: #{error}" }
       )
     end
     redirect_back(fallback_location: project_settings_projects_storages_path(project_id: project.id))
   end
+  # rubocop:enable Metrics/AbcSize
+
   private
 
   # Define the list of permitted parameters for creating/updating a ProjectStorage.
