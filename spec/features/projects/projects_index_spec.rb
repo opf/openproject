@@ -413,22 +413,16 @@ describe 'Projects index page',
 
     describe 'project status filter' do
       shared_let(:no_status_project) do
-        # A project that never had project status associated.
+        # A project that doesn't have a status code set
         create(:project,
                name: 'No status project')
       end
 
       shared_let(:green_project) do
-        # A project that has a project status associated.
+        # A project that has a status code set
         create(:project,
                name: 'Green project',
-               status: create(:project_status))
-      end
-      shared_let(:gray_project) do
-        # A project that once had a project status associated, that was later unset.
-        create(:project,
-               name: 'Gray project',
-               status: create(:project_status, code: nil))
+               status_code: 'on_track')
       end
 
       it 'sort and filter on project status' do
@@ -439,18 +433,18 @@ describe 'Projects index page',
         click_link('Sort by "Status"')
 
         expect_project_at_place(green_project, 1)
-        expect(page).to have_text('(1 - 8/8)')
+        expect(page).to have_text('(1 - 5/5)')
 
         SeleniumHubWaiter.wait
         click_link('Ascending sorted by "Status"')
 
-        expect_project_at_place(green_project, 8)
-        expect(page).to have_text('(1 - 8/8)')
+        expect_project_at_place(green_project, 5)
+        expect(page).to have_text('(1 - 5/5)')
 
         SeleniumHubWaiter.wait
         projects_page.open_filters
 
-        projects_page.set_filter('project_status_code',
+        projects_page.set_filter('status_code',
                                  'Project status',
                                  'is (OR)',
                                  ['On track'])
@@ -458,11 +452,10 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(green_project.name)
-        expect(page).not_to have_text(gray_project.name)
         expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
-        projects_page.set_filter('project_status_code',
+        projects_page.set_filter('status_code',
                                  'Project status',
                                  'is not empty',
                                  [])
@@ -470,11 +463,10 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).to have_text(green_project.name)
-        expect(page).not_to have_text(gray_project.name)
         expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
-        projects_page.set_filter('project_status_code',
+        projects_page.set_filter('status_code',
                                  'Project status',
                                  'is empty',
                                  [])
@@ -482,10 +474,9 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).not_to have_text(green_project.name)
-        expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
 
-        projects_page.set_filter('project_status_code',
+        projects_page.set_filter('status_code',
                                  'Project status',
                                  'is not',
                                  ['On track'])
@@ -493,7 +484,6 @@ describe 'Projects index page',
         click_on 'Apply'
 
         expect(page).not_to have_text(green_project.name)
-        expect(page).to have_text(gray_project.name)
         expect(page).to have_text(no_status_project.name)
       end
     end

@@ -27,13 +27,13 @@
 #++
 
 module ProjectStatusHelper
-  def project_status_css_class(status)
-    code = project_status_ensure_default_code(status)
+  def project_status_css_class(status_code)
+    code = project_status_ensure_default_code(status_code)
     '-' + code.tr('_', '-')
   end
 
-  def project_status_name(status)
-    code = project_status_ensure_default_code(status)
+  def project_status_name(status_code)
+    code = project_status_ensure_default_code(status_code)
     project_status_name_for_code(code)
   end
 
@@ -42,7 +42,7 @@ module ProjectStatusHelper
     I18n.t('js.grid.widgets.project_status.' + code)
   end
 
-  def project_status_ensure_default_code(status)
-    status.try(:code) || 'not_set'
+  def project_status_ensure_default_code(status_code)
+    status_code || 'not_set'
   end
 end

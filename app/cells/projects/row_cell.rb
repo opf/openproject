@@ -69,10 +69,12 @@ module Projects
     def project_status
       content = ''.html_safe
 
-      if project.status.try(:code)
-        classes = project_status_css_class(project.status)
+      status_code = project.status_code
+
+      if status_code
+        classes = project_status_css_class(status_code)
         content << content_tag(:span, '', class: "project-status--bulb -inline #{classes}")
-        content << content_tag(:span, project_status_name(project.status), class: "project-status--name #{classes}")
+        content << content_tag(:span, project_status_name(status_code), class: "project-status--name #{classes}")
       end
 
       content
