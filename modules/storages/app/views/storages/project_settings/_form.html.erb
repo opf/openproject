@@ -1,3 +1,9 @@
+<% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
+  <% content_for :header_tags do %>
+    <meta name="required_script" content="project_folder_mode_selection" />
+  <% end %>
+<% end %>
+
 <div class="form--field -required">
   <% case action_name %>
   <% when 'new' %>
@@ -46,7 +52,7 @@
     </p>
   </div>
 
-  <div style="display:none;" id="storages_manual_folder_selection" class="form--field -required">
+  <div style="visibility:hidden;" id="storages_manual_folder_selection" class="form--field -required">
     <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
     <div class="form--field-container -horizontal">
       <%= f.text_field :project_folder_id,
@@ -56,21 +62,6 @@
       %>
     </div>
   </div>
-
-  <%= nonced_javascript_tag do -%>
-    jQuery(function($) {
-      <%# Show manual folder selection on reload when checked %>
-      $("#storages_project_storage_project_folder_mode_manual").is(':checked') && $("#storages_manual_folder_selection").show();
-
-      $("input[type='radio']").change(function() {
-        if ($(this).val() == 'manual') {
-          $("#storages_manual_folder_selection").show();
-        } else {
-          $("#storages_manual_folder_selection").hide();
-        }
-      })
-    });
-  <% end -%>
 <% end %>
 
 <div class="form--field">
