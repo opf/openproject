@@ -35,8 +35,14 @@ module Storages::Peripherals::StorageInteraction
     end
 
     def set_permissions_command
-      command_class = "::Storages::Peripherals::StorageInteraction::#{@storage.short_provider_type.capitalize}::SetPermissionsCommand".constantize
-      ServiceResult.success(result: command_class.new(@storage))
+      case @storage.provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        ServiceResult.success(
+          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::SetPermissionsCommand.new(@storage)
+        )
+      else
+        raise ArgumentError
+      end
     end
   end
 end
