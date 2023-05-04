@@ -36,9 +36,13 @@ export interface IWorkPackageTimestampMeta {
 
 export class IWorkPackageTimestamp extends HalResource {
   startDate?:string;
+
   dueDate?:string;
+
   date?:string;
+
   _meta:IWorkPackageTimestampMeta;
+
   $links:{
     schema?:HalResource;
     self:HalResource;
@@ -49,5 +53,5 @@ export class IWorkPackageTimestamp extends HalResource {
     type?:HalResource;
     priority?:HalResource;
     version?:HalResource;
-  }
+  };
 }
