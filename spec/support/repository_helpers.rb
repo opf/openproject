@@ -35,19 +35,17 @@
 # of isolation.
 def with_filesystem_repository(vendor, command = nil, &block)
   repo_dir = Dir.mktmpdir("#{vendor}_repository")
-  fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
+  fixture = Rails.root.join("spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
-  ['tar', command].compact.each do |cmd|
-    # Avoid `which`, as it's not POSIX
-    Open3.capture2e(cmd, '--version')
-  rescue Errno::ENOENT
-    skip "#{cmd} was not found in PATH. Skipping local repository specs"
+  before do
+    skip_if_commands_unavailable('tar', command)
   end
 
   after(:all) do
     FileUtils.remove_dir repo_dir
   end
 
+  skip_if_command_unavailable('tar')
   system "tar -xzf #{fixture} -C #{repo_dir}"
   block.call(repo_dir)
 end
