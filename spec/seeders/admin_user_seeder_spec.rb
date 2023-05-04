@@ -33,7 +33,7 @@ require 'spec_helper'
 RSpec.describe AdminUserSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
-  let(:seed_data) { SeedData.new({}) }
+  let(:seed_data) { Source::SeedData.new({}) }
 
   it 'creates an admin user' do
     expect { seeder.seed! }.to change { User.admin.count }.by(1)

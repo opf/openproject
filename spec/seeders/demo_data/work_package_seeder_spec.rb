@@ -50,7 +50,7 @@ describe DemoData::WorkPackageSeeder do
   let(:new_project_role) { Role.find_by(name: I18n.t(:default_role_project_admin)) }
   let(:closed_status) { Status.find_by(name: I18n.t(:default_status_closed)) }
   let(:work_packages_data) { [] }
-  let(:seed_data) { SeedData.new('work_packages' => work_packages_data) }
+  let(:seed_data) { Source::SeedData.new('work_packages' => work_packages_data) }
 
   def work_package_data(**attributes)
     {
@@ -283,7 +283,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a query with ##query:ref notation' do
     let(:seed_data) do
-      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
       seed_data.store_reference(:q_project_plan, query)
       seed_data
     end
@@ -303,7 +303,7 @@ describe DemoData::WorkPackageSeeder do
 
   context 'with a work package description referencing a sprint with ##sprint:ref notation' do
     let(:seed_data) do
-      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
       seed_data.store_reference(:sprint_backlog, sprint)
       seed_data
     end
@@ -323,7 +323,7 @@ describe DemoData::WorkPackageSeeder do
 
   describe 'assigned_to' do
     let(:seed_data) do
-      seed_data = SeedData.new('work_packages' => work_packages_data)
+      seed_data = Source::SeedData.new('work_packages' => work_packages_data)
       seed_data.store_reference(:user_bernard, a_user)
       seed_data
     end

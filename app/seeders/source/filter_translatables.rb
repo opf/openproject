@@ -28,35 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+module Source::FilterTranslatables
+  def filter_translatables(hash)
+    filter_translatables_in_hash(hash) || {}
+  end
 
-RSpec.describe SeedData do
-  subject(:seed_data) { described_class.new({}) }
+  private
 
-  describe '#store_reference / find_reference' do
-    it 'acts as a key store to register object by a symbol' do
-      object = Object.new
-      seed_data.store_reference(:ref, object)
-      expect(seed_data.find_reference(:ref)).to be(object)
+  def filter_translatables_in_object(object, translatable: false)
+    case object
+    when Hash
+      filter_translatables_in_hash(object)
+    when Array
+      filter_translatables_in_array(object, translatable:)
+    else
+      object if translatable
     end
+  end
 
-    it 'stores nothing if reference is nil' do
-      object = Object.new
-      seed_data.store_reference(nil, object)
-      seed_data.store_reference(nil, object)
-    end
+  def filter_translatables_in_hash(hash)
+    hash
+      .to_h do |key, value|
+        translatable = key.start_with?('t_')
+        [key.sub(/^t_/, ''), filter_translatables_in_object(value, translatable:)]
+      end
+      .compact
+      .presence
+  end
 
-    it 'returns nil if reference is nil' do
-      expect(seed_data.find_reference(nil)).to be_nil
-      object = Object.new
-      seed_data.store_reference(nil, object)
-      expect(seed_data.find_reference(nil)).to be_nil
+  def filter_translatables_in_array(array, translatable: false)
+    array.map.with_index.to_h do |value, i|
+      if value.is_a?(Hash)
+        [i, filter_translatables_in_object(value)]
+      elsif translatable
+        [i, value]
+      else
+        [i, nil]
+      end
     end
-
-    it 'raises an error when the reference is already used' do
-      seed_data.store_reference(:ref, Object.new)
-      expect { seed_data.store_reference(:ref, Object.new) }
-        .to raise_error(ArgumentError)
-    end
+    .compact
+    .presence
   end
 end

@@ -28,47 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+class Source::SeedFile
+  class << self
+    def all
+      @all ||= [
+        new('app/seeders/standard.yml'),
+        new('modules/bim/app/seeders/bim.yml')
+      ].freeze
+    end
 
-RSpec.describe DemoData::GlobalQuerySeeder do
-  subject(:seeder) { described_class.new(seed_data) }
-
-  let(:seed_data) { Source::SeedData.new(data_hash) }
-
-  before do
-    AdminUserSeeder.new(seed_data).seed!
+    def find(name)
+      all.find { |f| f.name == name }
+    end
   end
 
-  context 'with a global_queries defined' do
-    let(:data_hash) do
-      YAML.load <<~SEEDING_DATA_YAML
-        global_queries:
-        - name: "Children"
-          reference: :global_query__children
-          parent: '{id}'
-          timeline: false
-          sort_by: id
-          hidden: true
-          public: false
-          columns:
-            - type
-            - id
-            - subject
-            - status
-            - assigned_to
-            - priority
-            - project
-      SEEDING_DATA_YAML
-    end
+  attr_reader :path
 
-    it 'creates a global query' do
-      expect { seeder.seed! }.to change { Query.global.count }.by(1)
-    end
+  def initialize(path)
+    @path = Rails.root.join(path)
+  end
 
-    it 'references the query in the seed data' do
-      seeder.seed!
-      created_query = Query.global.first
-      expect(seed_data.find_reference(:global_query__children)).to eq(created_query)
-    end
+  def name
+    path.basename(path.extname).to_s
+  end
+
+  def raw_content
+    YAML.load_file(path).deep_stringify_keys!
   end
 end

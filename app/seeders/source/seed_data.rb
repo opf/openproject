@@ -28,47 +28,62 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-RSpec.describe DemoData::GlobalQuerySeeder do
-  subject(:seeder) { described_class.new(seed_data) }
-
-  let(:seed_data) { Source::SeedData.new(data_hash) }
-
-  before do
-    AdminUserSeeder.new(seed_data).seed!
+class Source::SeedData
+  def initialize(data, registry = nil)
+    @data = data
+    @registry = registry || {}
   end
 
-  context 'with a global_queries defined' do
-    let(:data_hash) do
-      YAML.load <<~SEEDING_DATA_YAML
-        global_queries:
-        - name: "Children"
-          reference: :global_query__children
-          parent: '{id}'
-          timeline: false
-          sort_by: id
-          hidden: true
-          public: false
-          columns:
-            - type
-            - id
-            - subject
-            - status
-            - assigned_to
-            - priority
-            - project
-      SEEDING_DATA_YAML
+  def store_reference(reference, record)
+    return if reference.nil?
+    if registry.key?(reference)
+      raise ArgumentError, "an object with reference #{reference.inspect} is already registered"
     end
 
-    it 'creates a global query' do
-      expect { seeder.seed! }.to change { Query.global.count }.by(1)
-    end
+    registry[reference] = record
+  end
 
-    it 'references the query in the seed data' do
-      seeder.seed!
-      created_query = Query.global.first
-      expect(seed_data.find_reference(:global_query__children)).to eq(created_query)
+  def find_reference(reference)
+    return if reference.nil?
+
+    registry.fetch(reference) { raise ArgumentError, "Nothing registered with reference #{reference.inspect}" }
+  end
+
+  def lookup(path)
+    case sub_data = fetch(path)
+    when Hash
+      self.class.new(sub_data, registry)
+    else
+      sub_data
     end
+  end
+
+  def each(path, &)
+    case sub_data = fetch(path)
+    when nil
+      nil
+    when Enumerable
+      sub_data.each(&)
+    else
+      raise ArgumentError, "expected an Enumerable at path #{path}, got #{sub_data.class}"
+    end
+  end
+
+  def each_data(path)
+    sub_data = fetch(path)
+    return if sub_data.nil?
+
+    sub_data.each_value do |item_data|
+      yield self.class.new(item_data, registry)
+    end
+  end
+
+  private
+
+  attr_reader :registry
+
+  def fetch(path)
+    keys = path.to_s.split('.')
+    @data.dig(*keys)
   end
 end
