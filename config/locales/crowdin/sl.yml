@@ -629,7 +629,7 @@ sl:
         not_a_number: "ni število."
         not_allowed: "ni veljavno, saj manjka dovoljenje. "
         not_an_integer: "ni celo število. "
-        not_an_iso_date: "neveljaven čas. Potreben format: HH:MM"
+        not_an_iso_date: "neveljaven čas. Potreben format: YYYY-MM-DD."
         not_same_project: "ne pripada istemu projektu"
         odd: "mora biti liho. "
         regex_invalid: "ni bilo mogoče potrditi s pripadajočim stalnim izrazom."
@@ -1154,7 +1154,7 @@ sl:
       #Use the strftime parameters for formats.
       #When no format has been given, it uses default.
       #You can provide other formats here if you like!
-      default: "%d%m%l\n"
+      default: "%d. %m. %Y"
       long: "%d. %B, %Y"
       short: "%d. %b"
     #Don't forget the nil at the beginning; there's no such thing as a 0th month
@@ -1162,16 +1162,16 @@ sl:
       - null
       - "Januar"
       - "Februar"
-      - "Marec"
-      - "April"
-      - "Maj"
-      - "Junij"
-      - "Julij"
-      - "Avgust"
-      - "September"
-      - "Oktober"
-      - "November"
-      - "December"
+      - "marec"
+      - "april"
+      - "maj"
+      - "junij"
+      - "julij"
+      - "avgust"
+      - "september"
+      - "oktober"
+      - "november"
+      - "december"
     #Used in date_select and datime_select.
     order:
       - :leto
@@ -2779,7 +2779,7 @@ sl:
   time:
     am: "pred poldnevom"
     formats:
-      default: "%m/%d/%L %U:%M %s"
+      default: "%d.%m.%Y %H:%M"
       long: "%d. %B, %Y %H:%M"
       short: "%d. %b %H:%M"
       time: "%U:%M %s"
@@ -3059,8 +3059,8 @@ sl:
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
-        date: "LLLL-MM-DD (ISO 8601 le datum)"
-        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (any compatible ISO 8601 datetime)"
+        date: "YYYY-MM-DD (samo ISO 8601 datum)"
+        datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm] (ISO 8601 kompatibilen datum in čas)"
         duration: "ISO 8601 trajanje"
       invalid_content_type: "Pričakovano je, da je VRSTA-VSEBINE '%{content_type}', vendar je dobil '%{actual}'."
       invalid_format: "neveljaven format za lastnost '%{property}': Pričakovana oblika, kot je '%{expected_format}', vendar je dobila '%{actual}'."

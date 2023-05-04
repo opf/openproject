@@ -157,5 +157,5 @@ sl:
   todo_work_package_summary: "%{type}: %{summary}"
   version_settings_display_label: "Stolpec v zaostanku"
   version_settings_display_option_left: "levo"
-  version_settings_display_option_none: "Brez"
+  version_settings_display_option_none: "brez"
   version_settings_display_option_right: "desno"
