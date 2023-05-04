@@ -31,6 +31,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostBinding,
   Injector,
   Input,
 } from '@angular/core';
@@ -52,6 +53,8 @@ export class StaticAttributeHelpTextComponent {
 
   @Input() public content:string;
 
+  @HostBinding('class.form--field-inline-buttons-container') className = true;
+
   readonly text = {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
   };
@@ -66,7 +69,7 @@ export class StaticAttributeHelpTextComponent {
     populateInputsFromDataset(this);
   }
 
-  public handleClick(event: Event):void {
+  public handleClick(event:Event):void {
     this.opModalService.show(StaticAttributeHelpTextModalComponent, this.injector, { title: this.title, content: this.content });
 
     event.preventDefault();

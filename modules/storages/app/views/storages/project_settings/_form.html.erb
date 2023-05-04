@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
   <div class="form--field -required">
-    <%= styled_label_tag :project_folder_mode, class: "-bold" do %>
+    <%= styled_label_tag :project_folder_mode, class: "-bold -flex" do %>
       <%= t(:"storages.label_project_folder") %>
       <%= angular_component_tag 'op-static-attribute-help-text',
                                 inputs: {
