@@ -49,6 +49,7 @@ export const staticAttributeHelpTextSelector = 'op-static-attribute-help-text';
 export class StaticAttributeHelpTextComponent {
   // Attribute pass the modal title and content
   @Input() public title:string;
+
   @Input() public content:string;
 
   readonly text = {
@@ -65,7 +66,7 @@ export class StaticAttributeHelpTextComponent {
     populateInputsFromDataset(this);
   }
 
-  public handleClick(event: Event): void {
+  public handleClick(event: Event):void {
     this.opModalService.show(StaticAttributeHelpTextModalComponent, this.injector, { title: this.title, content: this.content });
 
     event.preventDefault();
