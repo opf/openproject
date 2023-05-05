@@ -73,11 +73,23 @@ describe Authorization::EnterpriseService do
         end
       end
 
-      %i(define_custom_style
+      %i(attribute_help_texts
+         baseline_comparison
+         board_view
+         conditional_highlighting
+         custom_actions
+         custom_fields_in_projects_list
+         date_alerts
+         define_custom_style
          edit_attribute_groups
-         work_package_query_relation_columns
-         attribute_help_texts
-         grid_widget_wp_graph).each do |guarded_action|
+         grid_widget_wp_graph
+         ldap_groups
+         openid_providers
+         placeholder_users
+         readonly_work_packages
+         team_planner_view
+         two_factor_authentication
+         work_package_query_relation_columns).each do |guarded_action|
         context "guarded action #{guarded_action}" do
           let(:action) { guarded_action }
 
