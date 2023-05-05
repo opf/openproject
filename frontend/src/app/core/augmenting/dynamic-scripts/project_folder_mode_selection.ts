@@ -33,6 +33,7 @@ import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
   LocationPickerModalComponent,
 } from 'core-app/shared/components/storages/location-picker-modal/location-picker-modal.component';
+import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
 
 interface PartialStorage {
   name:string,
@@ -50,8 +51,8 @@ const manualProjectFolderModeInput = document.getElementById('storages_project_s
 const openLocationPickerButton = document.getElementById('open_location_picker_button') as HTMLButtonElement|null;
 const storageSelector = document.getElementById('storages_project_storage_storage_id') as HTMLSelectElement|null;
 const storageSpan = document.getElementById('active_storage') as HTMLSpanElement|null;
-const storageIdInput = document.getElementById('storages_project_storage_project_folder_id') as HTMLInputElement|null;
-const storageNameInput = document.getElementById('storages_project_storage_project_folder_name') as HTMLInputElement|null;
+const projectFolderIdInput = document.getElementById('storages_project_storage_project_folder_id') as HTMLInputElement|null;
+const projectFolderNameInput = document.getElementById('storages_project_storage_project_folder_name') as HTMLInputElement|null;
 
 function modalService():Observable<OpModalService> {
   return from(window.OpenProject.getPluginContext())
@@ -89,6 +90,19 @@ if (manualProjectFolderModeInput !== null
   projectFolderSelectionSection.style.display = 'flex';
 }
 
+// Show project folder name if already existent project folder
+if (projectFolderIdInput !== null && projectFolderIdInput.value.length > 0) {
+  const storage = parseStorageData();
+
+  void fetch(`/api/v3/storages/${storage.id}/files/${projectFolderIdInput.value}`)
+    .then((data) => data.json())
+    .then((file:IStorageFile) => {
+      if (projectFolderIdInput !== null && projectFolderNameInput !== null) {
+        projectFolderNameInput.value = file.name;
+      }
+    });
+}
+
 projectFolderModeRadioButtons.forEach((radio:HTMLInputElement) => {
   radio.onchange = () => {
     // If the manual radio button is selected, show the manual folder selection section
@@ -102,8 +116,10 @@ projectFolderModeRadioButtons.forEach((radio:HTMLInputElement) => {
 
 if (openLocationPickerButton !== null) {
   openLocationPickerButton.onclick = () => {
+    const projectFolderId = projectFolderIdInput && projectFolderIdInput.value.length > 0
+      ? projectFolderIdInput.value : null;
     const locals = {
-      projectFolderId: null,
+      projectFolderId,
       storage: parseStorageData(),
     };
     modalService()
@@ -113,9 +129,9 @@ if (openLocationPickerButton !== null) {
         filter((modal) => modal.submitted),
       )
       .subscribe((modal) => {
-        if (storageIdInput !== null && storageNameInput !== null) {
-          storageIdInput.value = modal.location.id as string;
-          storageNameInput.value = modal.location.name;
+        if (projectFolderIdInput !== null && projectFolderNameInput !== null) {
+          projectFolderIdInput.value = modal.location.id as string;
+          projectFolderNameInput.value = modal.location.name;
         }
       });
   };
