@@ -117,13 +117,13 @@ describe 'Invite user modal custom fields', js: true do
     modal.click_next
 
     # Remaining steps
+    modal.expect_text "Invite user"
     modal.confirmation_step
     modal.click_modal_button 'Send invitation'
-    modal.expect_text "Invite user"
 
     # Close
-    modal.click_modal_button 'Send invitation'
     modal.expect_text "#{principal.mail} was invited!"
+    modal.click_modal_button 'Continue'
 
     # Expect to be added to project
     invited = project.users.last
