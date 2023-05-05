@@ -51,12 +51,16 @@ tr:
       project_settings:
         index: "Bu projedeki mevcut dosya depoları"
         new: "Bu projeye bir dosya deposu ekle"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Lütfen Nextcloud bulut sunucunuzda yönetici ayrıcalıklarına sahip olduğunuzdan ve kurulumu yapmadan önce aşağıdaki uygulamanın kurulu olduğundan emin olun:"
       type_link_text: "“Entegrasyon OpenProject”"
       name: "Kullanıcıların birden fazla depolama alanı arasında ayrım yapabilmesi için depolama alanınıza bir ad verin."
       host: "Lütfen https dahil olmak üzere depolama alanınızın ana bilgisayar adresini ekleyin:"
       no_storage_set_up: "Henüz ayarlanmış dosya deposu yok."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Ek dosya depoları ayarlamak için lütfen adresi ziyaret edin."
       setting_up_additional_storages_non_admin: "Yöneticiler, Yönetim'de ek dosya depoları kurabilir"
       setting_up_storages: "Dosya depolarını ayarlamak için lütfen adresi ziyaret edin."
@@ -70,6 +74,7 @@ tr:
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
       project_storage: >
         Bu dosya deposunu bu projeden kaldırmak istediğinizden emin misiniz? Bu aynı zamanda bu proje için bu depoda saklanan dosyalara olan tüm bağlantıları da kaldıracaktır.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Oluşturan"
     label_file_link: "Dosya bağlantısı"
     label_file_links: "Dosya bağlantıları"
@@ -82,6 +87,9 @@ tr:
     label_oauth_client_details: "OAuth istemci ayrıntıları"
     label_provider_type: "Sağlayıcı türü"
     label_new_storage: "Yeni depolama"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Depolama"
     label_storages: "Depolamalar"
     no_results: "Henüz ayarlanmış depolama alanı yok."

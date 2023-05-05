@@ -51,12 +51,16 @@ es:
       project_settings:
         index: "Hay almacenes de archivos disponibles en este proyecto"
         new: "Añadir un almacenamiento de archivos a este proyecto"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Por favor, asegúrese de tener privilegios de administrador en su instancia de Nextcloud y tener la siguiente aplicación instalada antes de hacer la configuración:"
       type_link_text: "“Integración OpenProject”"
       name: "Dale un nombre a tu almacenamiento para que los usuarios puedan diferenciar entre múltiples almacenamientos."
       host: "Por favor añade la dirección de host de tu almacenamiento incluyendo el https://. No debe tener más de 255 caracteres."
       no_storage_set_up: "Aún no se han configurado los almacenamientos de archivos."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Para configurar almacenes de archivos adicionales, visite"
       setting_up_additional_storages_non_admin: "Los administradores pueden configurar almacenes de archivos adicionales en Administración > Almacenes de archivos."
       setting_up_storages: "Para configurar almacenes de archivos, visite"
@@ -70,6 +74,7 @@ es:
         ¿Seguro que quiere eliminar este almacén? También se eliminará de todos los proyectos donde se use. Además, se quitarán todos los enlaces de los paquetes de trabajo a los archivos guardados en ese almacén.
       project_storage: >
         ¿Seguro que quiere quitar este almacén de archivos del proyecto? También se quitarán todos los enlaces a los archivos guardados en este almacén para el proyecto.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Autor"
     label_file_link: "Enlace de archivo"
     label_file_links: "Enlaces de archivos"
@@ -82,6 +87,9 @@ es:
     label_oauth_client_details: "Detalles del cliente OAuth"
     label_provider_type: "Tipo de proveedor"
     label_new_storage: "Nuevo almacén"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Almacén"
     label_storages: "Almacenes"
     no_results: "Aún no se han configurado almacenes de archivos."

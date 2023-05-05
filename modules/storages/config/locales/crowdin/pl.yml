@@ -51,12 +51,16 @@ pl:
       project_settings:
         index: "Magazyny plików dostępne w tym projekcie"
         new: "Dodaj magazyn plików do tego projektu"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Upewnij się, że masz uprawnienia administracyjne w swojej instancji Nextcloud oraz zainstalowaną następującą aplikację, przed wykonaniem konfiguracji:"
       type_link_text: "“Integration OpenProject”"
       name: "Nazwij swój magazyn pamięci, aby użytkownicy mogli je rozróżniać, jeśli występuje ich wiele."
       host: "Proszę dodać adres hosta magazynu wraz z https://. Nie powinien być dłuższy niż 255 znaków."
       no_storage_set_up: "Nie ma jeszcze skonfigurowanych magazynów plików."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Aby skonfigurować dodatkowe magazyny plików, odwiedź"
       setting_up_additional_storages_non_admin: "Administratorzy mogą skonfigurować dodatkowe magazyny plików w obszarze Administracja / Magazyny plików."
       setting_up_storages: "Aby skonfigurować magazyny plików, odwiedź"
@@ -70,6 +74,7 @@ pl:
         Czy na pewno chcesz usunąć ten magazyn? Spowoduje to również jego usunięcie z wszystkich projektów, w których jest używany. Ponadto usunięte zostaną wszystkie linki z pakietów roboczych do plików, które są przechowywane w tym magazynie.
       project_storage: >
         Czy na pewno chcesz usunąć ten plik z tego projektu? Spowoduje to również usunięcie wszystkich linków do plików przechowywanych w magazynie tego projektu.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Twórca"
     label_file_link: "Link do pliku"
     label_file_links: "Linki do plików"
@@ -82,6 +87,9 @@ pl:
     label_oauth_client_details: "Szczegóły klienta OAuth"
     label_provider_type: "Typ dostawcy"
     label_new_storage: "Nowy magazyn"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Magazyn"
     label_storages: "Magazyny"
     no_results: "Brak skonfigurowanych magazynów."
