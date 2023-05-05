@@ -304,12 +304,10 @@ module ApplicationHelper
     auto + mapped_languages.sort_by(&:last)
   end
 
-  def all_lang_options_for_select(blank = true)
-    initial_lang_options = blank ? [['(auto)', '']] : []
-
-    mapped_languages = all_languages.map { |lang| translate_language(lang) }
-
-    initial_lang_options + mapped_languages.sort_by(&:last)
+  def all_lang_options_for_select
+    all_languages
+      .map { |lang| translate_language(lang) }
+      .sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &)
