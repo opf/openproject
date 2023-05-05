@@ -1,9 +1,8 @@
 require 'spec_helper'
 
-describe AttributeHelpTextsController do
+describe AttributeHelpTextsController, with_ee: %i[attribute_help_texts] do
   let(:user) { build_stubbed(:admin) }
   let(:model) { build(:work_package_help_text) }
-  let(:enterprise_token) { true }
 
   let(:find_expectation) do
     allow(AttributeHelpText)
@@ -13,7 +12,6 @@ describe AttributeHelpTextsController do
   end
 
   before do
-    with_enterprise_token(enterprise_token ? :attribute_help_texts : nil)
     login_as user
   end
 
@@ -29,9 +27,7 @@ describe AttributeHelpTextsController do
       expect(assigns(:texts_by_type)).to eql('WorkPackage' => [model])
     end
 
-    context 'with help texts disallowed by the enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'with help texts disallowed by the enterprise token', with_ee: false do
       it 'redirects to upsale' do
         expect(response).to redirect_to upsale_attribute_help_texts_path
       end
@@ -52,9 +48,7 @@ describe AttributeHelpTextsController do
       end
     end
 
-    context 'with help texts disallowed by the enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'with help texts disallowed by the enterprise token', with_ee: false do
       it 'redirects to upsale' do
         expect(response).to redirect_to upsale_attribute_help_texts_path
       end
@@ -69,7 +63,7 @@ describe AttributeHelpTextsController do
       end
 
       it 'returns 404' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
   end
@@ -130,13 +124,11 @@ describe AttributeHelpTextsController do
       end
 
       it 'returns 404' do
-        expect(response.status).to eq 404
+        expect(response).to have_http_status :not_found
       end
     end
 
-    context 'with help texts disallowed by the enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'with help texts disallowed by the enterprise token', with_ee: false do
       before do
         call
       end

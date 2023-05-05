@@ -47,7 +47,7 @@ describe Queries::CreateContract do
       it_behaves_like 'contract is valid'
     end
 
-    context 'when falsea' do
+    context 'when false' do
       let(:include_subprojects) { false }
 
       it_behaves_like 'contract is valid'
