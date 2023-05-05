@@ -337,7 +337,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         switchMap((modal) => modal.closingEvent),
         filter((modal) => modal.submitted),
         first(),
-        map((modal) => ({ location: modal.location, files: modal.filesAtLocation })),
+        map((modal) => ({ location: modal.location.id as string, files: modal.filesAtLocation })),
       );
   }
 

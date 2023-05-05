@@ -86,9 +86,9 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:"storages.label_no_specific_folder") %>
       <% end %>
     </div>
-    <p class="form--field-instructions">
+    <span class="form--field-instructions -with-bottom-spacing">
       <%= t(:"storages.instructions.no_specific_folder") %>
-    </p>
+    </span>
 
     <div class="form--field-container -horizontal">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
@@ -96,19 +96,22 @@ See COPYRIGHT and LICENSE files for more details.
         <%= t(:"storages.label_existing_manual_folder") %>
       <% end %>
     </div>
-    <p class="form--field-instructions -xwide">
+    <span class="form--field-instructions -xwide">
       <%= t(:"storages.instructions.existing_manual_folder") %>
-    </p>
+    </span>
   </div>
 
   <div style="display: none;" id="storages_manual_folder_selection" class="form--field -required -higher-margin">
     <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
     <div class="form--field-container -horizontal">
-      <%= f.text_field :project_folder_id,
+      <%= f.text_field :project_folder_name,
+                       value: '',
+                       readonly: true,
                        placeholder: t(:"storages.placeholder_existing_folder_selection"),
                        container_class: "-middle",
                        no_label: true
       %>
+      <%= f.hidden_field :project_folder_id %>
       <%= styled_button_tag class: "-highlight", id: 'open_location_picker_button', type: 'button' do %>
         <%= spot_icon('folder-open') %>
         <%= content_tag :span, t(:"storages.buttons.select_folder") %>

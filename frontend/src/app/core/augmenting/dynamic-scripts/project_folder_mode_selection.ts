@@ -27,7 +27,7 @@
 //++
 
 import { from, Observable, switchMap } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
@@ -51,6 +51,7 @@ const openLocationPickerButton = document.getElementById('open_location_picker_b
 const storageSelector = document.getElementById('storages_project_storage_storage_id') as HTMLSelectElement|null;
 const storageSpan = document.getElementById('active_storage') as HTMLSpanElement|null;
 const storageIdInput = document.getElementById('storages_project_storage_project_folder_id') as HTMLInputElement|null;
+const storageNameInput = document.getElementById('storages_project_storage_project_folder_name') as HTMLInputElement|null;
 
 function modalService():Observable<OpModalService> {
   return from(window.OpenProject.getPluginContext())
@@ -109,10 +110,12 @@ if (openLocationPickerButton !== null) {
       .pipe(
         switchMap((service) => service.show(LocationPickerModalComponent, 'global', locals)),
         switchMap((modal) => modal.closingEvent),
+        filter((modal) => modal.submitted),
       )
       .subscribe((modal) => {
-        if (storageIdInput !== null) {
-          storageIdInput.value = modal.location;
+        if (storageIdInput !== null && storageNameInput !== null) {
+          storageIdInput.value = modal.location.id as string;
+          storageNameInput.value = modal.location.name;
         }
       });
   };

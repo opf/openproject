@@ -88,7 +88,7 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
           .map((file, index) => this.storageFileToListItem(file, index))),
     );
 
-  public readonly loading$ = new BehaviorSubject<boolean>(true);
+  public readonly loading$ = new BehaviorSubject<'loading'|'success'|'error'>('loading');
 
   protected constructor(
     @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
@@ -107,12 +107,16 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
       .pipe(
         this.untilDestroyed(),
         switchMap((location:string) => this.storageFilesResourceService.files(makeFilesCollectionLink(this.storage._links.self, location))),
+        catchError((error) => {
+          this.loading$.next('error');
+          throw error;
+        }),
       )
       .subscribe((storageFiles) => {
         this.currentDirectory = storageFiles.parent;
         this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
         this.storageFiles$.next(storageFiles.files);
-        this.loading$.next(false);
+        this.loading$.next('success');
       });
   }
 
@@ -138,15 +142,19 @@ export abstract class FilePickerBaseModalComponent extends OpModalComponent impl
 
   protected changeLevel(ancestor:IStorageFile):void {
     this.cancelCurrentLoading();
-    this.loading$.next(true);
+    this.loading$.next('loading');
 
     this.loadingSubscription = this.storageFilesResourceService
       .files(makeFilesCollectionLink(this.storage._links.self, ancestor.location))
+      .pipe(catchError((error) => {
+        this.loading$.next('error');
+        throw error;
+      }))
       .subscribe((storageFiles) => {
         this.currentDirectory = storageFiles.parent;
         this.breadcrumbs = this.makeBreadcrumbs(storageFiles.ancestors, storageFiles.parent);
         this.storageFiles$.next(storageFiles.files);
-        this.loading$.next(false);
+        this.loading$.next('success');
       });
   }
 
