@@ -35,7 +35,8 @@ end
 
 describe 'OpenID Connect',
          skip_2fa_stage: true, # Prevent redirects to 2FA stage
-         type: :rails_request do
+         type: :rails_request,
+         with_ee: %i[openid_providers] do
   let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
   let(:user_info) do
     {
@@ -48,8 +49,6 @@ describe 'OpenID Connect',
   end
 
   before do
-    with_enterprise_token :openid_providers
-
     # The redirect will include an authorisation code.
     # Since we don't actually get a valid code in the test we will stub the resulting AccessToken.
     allow_any_instance_of(OpenIDConnect::Client).to receive(:access_token!) do
@@ -84,7 +83,7 @@ describe 'OpenID Connect',
       # it should redirect to the provider's openid connect authentication endpoint
       click_on_signin
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
 
       params = Rack::Utils.parse_nested_query(response.location.gsub(/^.*\?/, ''))
@@ -97,7 +96,7 @@ describe 'OpenID Connect',
       # it should redirect back from the provider to the login page
       redirect_from_provider
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /\/\?first_time_user=true$/
 
       # after_login requires the optional third context parameter
@@ -107,27 +106,27 @@ describe 'OpenID Connect',
         expect(response.cookies['_open_project_session_access_token']).to eq 'foo bar baz'
       end
 
-      user = User.find_by_mail(user_info[:email])
+      user = User.find_by(mail: user_info[:email])
 
       expect(user).not_to be_nil
       expect(user.active?).to be true
 
       ##
       # it should redirect to the provider again upon clicking on sign-in when the user has been activated
-      user = User.find_by_mail(user_info[:email])
+      user = User.find_by(mail: user_info[:email])
       user.activate
       user.save!
 
       click_on_signin
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /https:\/\/#{host}.*$/
 
       ##
       # it should then login the user upon the redirect back from the provider
       redirect_from_provider
 
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
       expect(response.location).to match /\/my\/page/
     end
 
@@ -181,8 +180,7 @@ describe 'OpenID Connect',
       )
     end
 
-    it 'will show no option unless EE' do
-      without_enterprise_token
+    it 'will show no option unless EE', with_ee: false do
       get '/login'
       expect(response.body).not_to match /Google/i
       expect(response.body).not_to match /Azure/i
@@ -194,7 +192,7 @@ describe 'OpenID Connect',
       expect(response.body).to match /Azure/i
 
       expect { click_on_signin('google') }.not_to raise_error
-      expect(response.status).to be 302
+      expect(response).to have_http_status :found
     end
   end
 end

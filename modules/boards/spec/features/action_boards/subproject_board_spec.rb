@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Subproject action board', js: true do
+describe 'Subproject action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -60,7 +60,6 @@ describe 'Subproject action board', js: true do
   let!(:work_package) { create(:work_package, project: subproject1, subject: 'Foo', status: open_status) }
 
   before do
-    with_enterprise_token :board_view
     subproject1
     subproject2
     project.reload
@@ -156,7 +155,7 @@ describe 'Subproject action board', js: true do
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)
-      expect(subjects).to match_array [['Task 1', subproject1.id]]
+      expect(subjects).to contain_exactly(['Task 1', subproject1.id])
 
       # Move item to Child 2 list
       board_page.move_card(0, from: 'Child 1', to: 'Child 2')
@@ -171,7 +170,7 @@ describe 'Subproject action board', js: true do
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :project_id)
-      expect(subjects).to match_array [['Task 1', subproject2.id]]
+      expect(subjects).to contain_exactly(['Task 1', subproject2.id])
     end
   end
 
@@ -212,7 +211,7 @@ describe 'Subproject action board', js: true do
       board_page.expect_no_list(subproject2.name)
 
       expect(page)
-        .to have_no_content invisible_work_package.subject
+        .not_to have_content invisible_work_package.subject
     end
   end
 

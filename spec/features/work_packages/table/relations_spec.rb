@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Work Package table relations', js: true do
+describe 'Work Package table relations', js: true, with_ee: %i[work_package_query_relation_columns] do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -39,15 +39,8 @@ describe 'Work Package table relations', js: true do
 
   let(:type_column_id) { "relationsToType#{type.id}" }
   let(:type_column_follows) { 'relationsOfTypeFollows' }
-  let(:relation_columns_allowed) { true }
 
   before do
-    # There does not seem to appear a way to generate a valid token
-    # for testing purposes
-    if relation_columns_allowed
-      with_enterprise_token :work_package_query_relation_columns
-    end
-
     login_as(user)
   end
 
@@ -106,9 +99,7 @@ describe 'Work Package table relations', js: true do
     end
   end
 
-  describe 'with relation columns disallowed by the enterprise token' do
-    let(:relation_columns_allowed) { false }
-
+  describe 'with relation columns disallowed by the enterprise token', with_ee: false do
     it 'has no relation columns available for selection' do
       # Now visiting the query for category
       wp_table.visit_query(query)

@@ -29,11 +29,7 @@
 require 'spec_helper'
 require_relative './shared_context'
 
-describe 'Team planner', js: true do
-  before do
-    with_enterprise_token(:team_planner_view)
-  end
-
+describe 'Team planner', js: true, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   it 'hides the internally used filters' do
@@ -332,8 +328,7 @@ describe 'Team planner', js: true do
              subject: 'A blocked task')
     end
 
-    it 'disables editing on readonly tasks' do
-      with_enterprise_token(:team_planner_view, :readonly_work_packages)
+    it 'disables editing on readonly tasks', with_ee: %i[team_planner_view readonly_work_packages] do
       team_planner.visit!
 
       team_planner.wait_for_loaded
