@@ -29,22 +29,35 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
   <% content_for :header_tags do %>
-    <meta name="required_script" content="project_folder_mode_selection" />
+    <meta name="required_script" content="project_folder_mode_selection"/>
   <% end %>
 <% end %>
 
-<div class="form--field -required">
+<div class="form--field -required -higher-margin">
   <% case action_name %>
   <% when 'new' %>
     <%= f.select :storage_id,
-        available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
-                  selected: available_storages.first.id.to_s,
-                  class: '-bold',
-                  container_class: '-slim' %>
+                 (@available_storages.map do |storage|
+                   [
+                     "#{storage.name} (#{storage.short_provider_type})",
+                     storage.id,
+                     data: {
+                       storage: {
+                         name: storage.name,
+                         id: storage.id,
+                         href: "/api/v3/storages/#{storage.id}",
+                         type: 'urn:openproject-org:api:v3:storages:Nextcloud',
+                       },
+                     },
+                   ]
+                 end),
+                 selected: @available_storages.first.id.to_s,
+                 container_class: '-slim' %>
     <% if User.current.admin? %>
       <span class="form--field-instructions">
-        <%= t(:"storages.instructions.setting_up_additional_storages")  %>
-        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+        <%= t(:"storages.instructions.setting_up_additional_storages") %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>
+        .
       </span>
     <% end %>
   <% when 'edit' %>
@@ -52,13 +65,20 @@ See COPYRIGHT and LICENSE files for more details.
       <%= t(:"storages.label_storage") %>
     <% end %>
     <div class="form--field-container -horizontal">
-      <span><%= @project_storage.storage.name %></span>
+      <%= content_tag(:span, @project_storage.storage.name, id: 'active_storage', data: {
+        storage: {
+          name: @project_storage.storage.name,
+          id: @project_storage.storage.id,
+          href: "/api/v3/storages/#{@project_storage.storage.id}",
+          type: 'urn:openproject-org:api:v3:storages:Nextcloud',
+        },
+      }) %>
     </div>
   <% end %>
 </div>
 
 <% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
-  <div class="form--field -required">
+  <div class="form--field -required -higher-margin">
     <label class="form--label -bold">Project folder</label>
     <div class="form--field-container -horizontal">
       <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
@@ -67,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </div>
     <p class="form--field-instructions">
-      <%= t(:"storages.instructions.no_specific_folder")  %>
+      <%= t(:"storages.instructions.no_specific_folder") %>
     </p>
 
     <div class="form--field-container -horizontal">
@@ -77,18 +97,22 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </div>
     <p class="form--field-instructions -xwide">
-      <%= t(:"storages.instructions.existing_manual_folder")  %>
+      <%= t(:"storages.instructions.existing_manual_folder") %>
     </p>
   </div>
 
-  <div style="display:none;" id="storages_manual_folder_selection" class="form--field -required">
+  <div style="display: none;" id="storages_manual_folder_selection" class="form--field -required -higher-margin">
     <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
     <div class="form--field-container -horizontal">
       <%= f.text_field :project_folder_id,
-                      placeholder: t(:"storages.placeholder_existing_folder_selection"),
-                      container_class: "-middle",
-                      no_label: true
+                       placeholder: t(:"storages.placeholder_existing_folder_selection"),
+                       container_class: "-middle",
+                       no_label: true
       %>
+      <%= styled_button_tag class: "-highlight", id: 'open_location_picker_button', type: 'button' do %>
+        <%= spot_icon('folder-open') %>
+        <%= content_tag :span, t(:"storages.buttons.select_folder") %>
+      <% end %>
     </div>
   </div>
 <% end %>

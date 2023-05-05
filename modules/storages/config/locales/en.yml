@@ -54,6 +54,7 @@ en:
       replace_provider_type_oauth: "Replace %{provider_type} OAuth"
       save_and_continue_setup: "Save and continue setup"
       save_and_complete_setup: "Save and complete setup"
+      select_folder: "Select folder"
     page_titles:
       project_settings:
         index: "File storages available in this project"

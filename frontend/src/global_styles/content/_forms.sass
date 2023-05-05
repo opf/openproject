@@ -361,6 +361,9 @@ fieldset.form--fieldset
   &.-no-margin
     margin-bottom: 0
 
+  &.-higher-margin
+    margin-bottom: 2rem
+
   &.-indented
     @extend %form--field-after-container
 
@@ -565,11 +568,14 @@ fieldset.form--fieldset
   &.-number, &.-time
     text-align: right
 
+.form--text-field-container
+  margin-right: 0.5rem
+
 .form--text-field,
 #{$text-input-selectors},
 select
   line-height: 100%
-  margin-bottom: 0rem
+  margin-bottom: 0
   font-size: 0.9rem
 
   &:hover, &:focus, &:active
