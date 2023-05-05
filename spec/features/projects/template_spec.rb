@@ -59,9 +59,12 @@ describe 'Project templates', js: true do
 
   describe 'instantiating templates' do
     let!(:template) do
-      create(:template_project, name: 'My template', enabled_module_names: %w[wiki work_package_tracking])
+      create(:template_project,
+             name: 'My template',
+             status_code: 'on_track',
+             status_explanation: 'source',
+             enabled_module_names: %w[wiki work_package_tracking])
     end
-    let!(:template_status) { create(:project_status, project: template, explanation: 'source') }
     let!(:other_project) { create(:project, name: 'Some other project') }
     let!(:work_package) { create(:work_package, project: template) }
     let!(:wiki_page) { create(:wiki_page, wiki: template.wiki) }
