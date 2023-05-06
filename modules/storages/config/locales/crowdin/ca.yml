@@ -69,6 +69,9 @@ ca:
       copy_from: "Copia aquest valor de"
       nextcloud:
         integration: "Administració Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
@@ -86,6 +89,7 @@ ca:
     label_oauth_application_details: "Detalls de l'aplicació OAuth"
     label_oauth_client_details: "Detalls del client OAuth"
     label_provider_type: "Tipus de proveïdor"
+    label_project_folder: "Project folder"
     label_new_storage: "Nou emmagatzematge"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

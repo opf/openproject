@@ -69,6 +69,9 @@ tr:
       copy_from: "Bu değeri şuradan kopyala"
       nextcloud:
         integration: "Nextcloud Yönetimi / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Bu depolama alanını silmek istediğinizden emin misiniz? Bu, depolamayı kullanıldığı tüm projelerden de siler. Ayrıca, iş paketlerinden o depoda saklanan dosyalara olan tüm bağlantıları da siler.
@@ -86,6 +89,7 @@ tr:
     label_oauth_application_details: "OAuth uygulaması ayrıntıları"
     label_oauth_client_details: "OAuth istemci ayrıntıları"
     label_provider_type: "Sağlayıcı türü"
+    label_project_folder: "Project folder"
     label_new_storage: "Yeni depolama"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

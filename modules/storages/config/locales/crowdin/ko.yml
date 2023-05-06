@@ -69,6 +69,9 @@ ko:
       copy_from: "다음에서 이 값 복사:"
       nextcloud:
         integration: "Nextcloud 관리/OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         이 저장소를 삭제하시겠습니까? 이렇게 하면 이 저장소가 사용되는 모든 프로젝트에서도 삭제됩니다. 또한 해당 저장소에 저장된 파일에 대한 모든 링크도 작업 패키지에서 삭제합니다.
@@ -86,6 +89,7 @@ ko:
     label_oauth_application_details: "OAuth 애플리케이션 세부 정보"
     label_oauth_client_details: "OAuth 클라이언트 세부 정보"
     label_provider_type: "공급자 유형"
+    label_project_folder: "Project folder"
     label_new_storage: "새로운 저장소"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

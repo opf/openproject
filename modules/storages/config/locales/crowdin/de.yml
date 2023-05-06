@@ -69,6 +69,9 @@ de:
       copy_from: "Diesen Wert kopieren von"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Sind Sie sicher, dass Sie diesen Speicher löschen möchten? Dies löscht den Speicher auch aus allen Projekten, in denen er verwendet wird. Außerdem werden alle Links von Arbeitspaketen zu Dateien gelöscht, die in diesem Speicher gespeichert sind.
@@ -86,6 +89,7 @@ de:
     label_oauth_application_details: "OAuth Anwendungsdetails"
     label_oauth_client_details: "OAuth-Client-Details"
     label_provider_type: "Anbieter-Typ"
+    label_project_folder: "Project folder"
     label_new_storage: "Neuer Speicher"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"

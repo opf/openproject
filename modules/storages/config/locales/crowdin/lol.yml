@@ -69,6 +69,9 @@ lol:
       copy_from: "crwdns823150:0crwdne823150:0"
       nextcloud:
         integration: "crwdns823152:0crwdne823152:0"
+    help_texts:
+      project_folder: >
+        crwdns852491:0crwdne852491:0
     delete_warning:
       storage: >
         crwdns807948:0crwdne807948:0
@@ -86,6 +89,7 @@ lol:
     label_oauth_application_details: "crwdns823082:0crwdne823082:0"
     label_oauth_client_details: "crwdns816762:0crwdne816762:0"
     label_provider_type: "crwdns807962:0crwdne807962:0"
+    label_project_folder: "crwdns852493:0crwdne852493:0"
     label_new_storage: "crwdns807964:0crwdne807964:0"
     label_existing_manual_folder: "crwdns852283:0crwdne852283:0"
     label_existing_manual_folder_selection: "crwdns852285:0crwdne852285:0"

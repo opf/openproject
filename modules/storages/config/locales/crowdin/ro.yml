@@ -69,6 +69,9 @@ ro:
       copy_from: "Copiază această valoare de la"
       nextcloud:
         integration: "Administrare Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Sunteţi sigur că doriţi să ştergeţi acest stocare? Acest lucru va şterge şi stocarea din toate proiectele în care este folosit. În plus, va șterge toate link-urile din pachetele de lucru către fișierele care sunt stocate în stocare.
@@ -86,6 +89,7 @@ ro:
     label_oauth_application_details: "Detalii aplicație OAuth"
     label_oauth_client_details: "Detalii client OAuth"
     label_provider_type: "Tip flux"
+    label_project_folder: "Project folder"
     label_new_storage: "Stocare nouă"
     label_existing_manual_folder: "Existing folder with manually managed permissions"
     label_existing_manual_folder_selection: "Existing folder selection"
