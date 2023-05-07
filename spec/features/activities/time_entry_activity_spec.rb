@@ -38,3 +38,58 @@
 #   # Activity is updated as specified
 
 # end
+
+require 'spec_helper'
+
+describe 'TimeEntry activities' do
+  let(:user) do
+    create(:user,
+           member_in_project: project,
+           member_with_permissions: %w[log_time
+                                      view_time_entries
+                                      view_own_time_entries
+                                      edit_own_time_entries
+                                      view_work_packages
+                                      edit_work_packages
+                                      edit_time_entries])
+  end
+  let(:project) { create(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }
+  let(:work_package) { create(:work_package, project:, type: project.types.first) }
+  let(:hours) { 5.0 }
+  let(:time_entry) do
+    create(:time_entry,
+           project:,
+           work_package:,
+           spent_on: Date.today,
+           hours:,
+           user:,
+           comments: 'lorem ipsum')
+  end
+  # let(:wiki) { project.wiki }
+  # let(:editor) { Components::WysiwygEditor.new }
+
+  before do
+    login_as user
+  end
+
+  it 'tracks the time_entry\'s activities', js: true do
+    work_package.save!
+    time_entry.save!
+    visit project_activity_index_path(project)
+
+    check 'Spent time'
+    uncheck 'Work packages'
+
+    click_button 'Apply'
+    binding.pry
+
+    within("li.op-activity-list--item", match: :first) do
+      expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}") # follow link?
+      expect(page).to have_selector('li', text: "Spent time: #{time_entry.hours.to_i} hours")
+      expect(page).to have_link('Details')
+
+      click_link('Details')
+      expect(find_field('Work Package Value').value).to eq("#{work_package.id}")
+    end
+  end
+end
