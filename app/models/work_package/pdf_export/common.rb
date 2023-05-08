@@ -107,14 +107,14 @@ module WorkPackage::PDFExport::Common
   end
 
   def get_subject_column_cell(work_package, value)
-    make_link_anchor_cell(work_package.id, value)
+    make_link_anchor(work_package.id, value)
   end
 
   def make_link_href_cell(href, caption)
     "<color rgb='#{overview_table_link_color}'><link href='#{href}'>#{caption}</link></color>"
   end
 
-  def make_link_anchor_cell(anchor, caption)
+  def make_link_anchor(anchor, caption)
     "<link anchor=\"#{anchor}\">#{caption}</link>"
   end
 

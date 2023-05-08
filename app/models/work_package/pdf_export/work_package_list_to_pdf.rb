@@ -45,6 +45,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
   include WorkPackage::PDFExport::Attachments
   include WorkPackage::PDFExport::OverviewTable
   include WorkPackage::PDFExport::WorkPackageDetail
+  include WorkPackage::PDFExport::TableOfContents
   include WorkPackage::PDFExport::Page
   include WorkPackage::PDFExport::Style
 
@@ -100,7 +101,8 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
   def render_work_packages_pdfs(work_packages, filename)
     write_title!
-    write_work_packages_overview! work_packages, @id_wp_meta_map
+    write_work_packages_toc! work_packages, @id_wp_meta_map if with_descriptions?
+    write_work_packages_overview! work_packages, @id_wp_meta_map unless with_descriptions?
     if should_be_batched?(work_packages)
       render_batched(work_packages, filename)
     else

@@ -82,7 +82,7 @@ module WorkPackage::PDFExport::Markdown
 
     def handle_unknown_html_tag(tag, node, opts)
       case tag.name
-      when 'figure', 'div', 'p'
+      when 'figure', 'div', 'p', 'figcaption'
         # nop, but scan children [true, ...]
       else
         draw_formatted_text([text_hash(tag.to_s, opts)], opts, node)

@@ -113,6 +113,30 @@ module WorkPackage::PDFExport::Style
       border_widths: [0.25, 0.25, 0.25, 0.25] }
   end
 
+  def toc_margins_style
+    { margin_bottom: 20 }
+  end
+
+  def toc_item_index_style
+    { size: 10, style: :bold }
+  end
+
+  def toc_item_subject_font_style
+    { size: 10 }
+  end
+
+  def toc_item_subject_indent_style
+    4
+  end
+
+  def toc_item_page_nr_font_style
+    { size: 10 }
+  end
+
+  def toc_item_margins_style
+    { margin_bottom: 4 }
+  end
+
   def wp_headline_margins_style
     { margin_top: 4, margin_bottom: 4 }
   end

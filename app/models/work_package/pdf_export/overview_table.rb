@@ -142,7 +142,7 @@ module WorkPackage::PDFExport::OverviewTable
 
   def build_nr_cell(work_package, id_wp_meta_map)
     content = "#{id_wp_meta_map[work_package.id][:level_path].join('.')}."
-    content = make_link_anchor_cell(work_package.id, content)
+    content = make_link_anchor(work_package.id, content)
     build_column_cell(content)
   end
 

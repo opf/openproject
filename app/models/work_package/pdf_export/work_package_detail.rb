@@ -31,16 +31,16 @@ module WorkPackage::PDFExport::WorkPackageDetail
 
   def write_work_packages_details!(work_packages, id_wp_meta_map)
     work_packages.each do |work_package|
-      id_wp_meta_map[work_package.id][:page_number] = current_page_nr
-      write_work_package_detail!(work_package, id_wp_meta_map[work_package.id][:level_path])
+      write_work_package_detail!(work_package, id_wp_meta_map[work_package.id])
     end
   end
 
-  def write_work_package_detail!(work_package, level_path)
+  def write_work_package_detail!(work_package, id_wp_meta_map_entry)
     # TODO: move page break threshold const to style settings and implement conditional break with height measuring
     write_optional_page_break(200)
+    id_wp_meta_map_entry[:page_number] = current_page_nr
     with_margin(wp_detail_margins_style) do
-      write_work_package_subject! work_package, level_path
+      write_work_package_subject! work_package, id_wp_meta_map_entry[:level_path]
       write_work_package_detail_content! work_package
     end
   end
@@ -72,7 +72,11 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def write_attributes_table!(work_package)
-    rows = build_attributes_table_rows work_package
+    rows = if respond_to?(:column_objects)
+             build_columns_table_rows(work_package)
+           else
+             build_attributes_table_rows(work_package)
+           end
     with_margin(wp_attributes_table_margins_style) do
       pdf.table(
         rows,
@@ -87,6 +91,14 @@ module WorkPackage::PDFExport::WorkPackageDetail
     widths = [1.5, 2.0, 1.5, 2.0] # label | value | label | value
     ratio = pdf.bounds.width / widths.sum
     widths.map { |w| w * ratio }
+  end
+
+  def build_columns_table_rows(work_package)
+    list = column_objects
+    0.step(list.length - 1, 2).map do |i|
+      build_columns_table_cells(list[i], work_package) +
+        build_columns_table_cells(list[i + 1], work_package)
+    end
   end
 
   def build_attributes_table_rows(work_package)
@@ -115,10 +127,20 @@ module WorkPackage::PDFExport::WorkPackageDetail
     # get work package attribute table cell data: [label, value]
     return ['', ''] if attribute.nil?
 
-    label = (WorkPackage.human_attribute_name(attribute) || '').upcase
+    build_attributes_row(WorkPackage.human_attribute_name(attribute) || '', attribute.to_sym, work_package)
+  end
+
+  def build_columns_table_cells(column, work_package)
+    return ['', ''] if column.nil?
+
+    build_attributes_row(column.caption || '', column.name, work_package)
+  end
+
+  def build_attributes_row(label, col_name, work_package)
+    # get work package attribute table cell data: [label, value]
     [
-      pdf.make_cell(label, wp_attributes_table_label_font_style),
-      get_column_value_cell(work_package, attribute.to_sym)
+      pdf.make_cell(label.upcase, wp_attributes_table_label_font_style),
+      get_column_value_cell(work_package, col_name)
     ]
   end
 
