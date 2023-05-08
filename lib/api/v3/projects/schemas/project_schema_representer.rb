@@ -67,7 +67,7 @@ module API
                                          required: false,
                                          writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
-                                           ::Projects::Status.codes.keys
+                                           Project.status_codes.keys
                                          },
                                          value_representer: ::API::V3::Projects::Statuses::StatusRepresenter,
                                          link_factory: ->(value) {

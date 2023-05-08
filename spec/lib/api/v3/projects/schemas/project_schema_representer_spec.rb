@@ -202,7 +202,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
       end
 
       it_behaves_like 'links to allowed values directly' do
-        let(:hrefs) { Projects::Status.codes.keys.map { |code| api_v3_paths.project_status code } }
+        let(:hrefs) { Project.status_codes.keys.map { |code| api_v3_paths.project_status code } }
       end
     end
 
