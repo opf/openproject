@@ -55,7 +55,7 @@ namespace :parallel do
         OptionParser.new do |opts|
           opts.banner = "Usage: rails #{args[0]} -- [options]"
           opts.on("-n ARG", "--group-number ARG", Integer) { |num_cpus| options[:num_cpus] = num_cpus || ENV.fetch('GROUP', nil) }
-          opts.on("-o ARG", "--only-group ARG", Integer) do |group_number|
+          opts.on("-o ARG", "--only-group ARG", String) do |group_number|
             options[:group] = group_number || ENV.fetch('GROUP_SIZE', nil)
           end
           opts.on("-s ARG", "--seed ARG", Integer) { |seed| options[:seed] = seed || ENV.fetch('CI_SEED', nil) } if allow_seed
