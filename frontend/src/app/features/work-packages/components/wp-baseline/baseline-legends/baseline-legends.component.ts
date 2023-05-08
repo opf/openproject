@@ -36,28 +36,29 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
+  styleUrls: ['./baseline-legends.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-baseline-legends',
   encapsulation: ViewEncapsulation.None,
 })
 export class OpBaselineLegendsComponent {
-  @Input() date:string;
+  @Input() date?:string;
 
-  @Input() time:string;
+  @Input() time?:string;
 
-  @Input() filter:string;
+  @Input() filter?:string;
 
-  @Input() numAdded:number;
+  @Input() numAdded?:number;
 
-  @Input() numRemoved:number;
+  @Input() numRemoved?:number;
 
-  @Input() numUpdated:number;
+  @Input() numUpdated?:number;
 
   public text = {
     time_description: () => this.I18n.t('js.baseline.legends.changes_since', { filter: this.filter, date: this.date, time: this.time }),
-    now_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.changes_since', { new: this.numAdded }),
-    no_longer_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.changes_since', { removed: this.numRemoved }),
-    maintained_with_changes: () => this.I18n.t('js.baseline.legends.changes_since', { updated: this.numUpdated }),
+    now_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.now_meets_filter_criteria', { new: this.numAdded }),
+    no_longer_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria', { removed: this.numRemoved }),
+    maintained_with_changes: () => this.I18n.t('js.baseline.legends.maintained_with_changes', { updated: this.numUpdated }),
   };
 
   constructor(
