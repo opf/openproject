@@ -64,7 +64,7 @@ The Corporate support covers everything from the Basic, Professional and Premium
 
 ## How to receive Enterprise support
 
-Please write us an email to [support@openproject.com](mailto:support@openproject.com) to get help with your OpenProject Enterprise edition. Include a detailed description as well as screenshots, where necessary. Depending on your support level, you will receive a seperate support email address with your order.
+Please write us an email to [support@openproject.com](mailto:support@openproject.com) to get help with your OpenProject Enterprise edition. Include a detailed description as well as screenshots, where necessary. Depending on your support level, you will receive a separate support email address with your order.
 
 You can reach us via telephone, depending on your support service hours: 
 
