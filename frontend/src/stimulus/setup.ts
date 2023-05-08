@@ -1,6 +1,7 @@
 import { Application } from '@hotwired/stimulus';
 import { environment } from '../environments/environment';
 import { OpApplicationController } from './controllers/op-application.controller';
+import OpDisableWhenCheckedController from './controllers/disable-when-checked.controller';
 
 declare global {
   interface Window {
@@ -17,3 +18,4 @@ instance.handleError = (error, message, detail) => {
 };
 
 instance.register('application', OpApplicationController);
+instance.register('disable-when-checked', OpDisableWhenCheckedController);
