@@ -27,16 +27,8 @@
 #++
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
-  class SetPermissionsCommand < Storages::Peripherals::StorageInteraction::StorageCommand
+  class CreateFolderCommand < Storages::Peripherals::StorageInteraction::StorageCommand
     using Storages::Peripherals::ServiceResultRefinements
-
-    PERMISSION_MAP = {
-      read_files: 1,
-      write_files: 2,
-      create_files: 4,
-      delete_files: 8,
-      share_files: 16
-    }.freeze
 
     def initialize(storage)
       super()
@@ -44,18 +36,18 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       @uri = URI(storage.host).normalize
       @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
       @groupfolder = storage.groupfolder
-      @group = storage.group
       @username = storage.username
       @password = storage.password
     end
 
-    def execute(folder:, permissions:)
+    # rubocop:disable Metrics/AbcSize
+    def execute(folder:)
       http = Net::HTTP.new(@uri.host, @uri.port)
       http.use_ssl = @uri.scheme == 'https'
 
-      response = http.proppatch(
+      response = http.mkcol(
         "#{@base_path}/#{@groupfolder}/#{requested_folder(folder)}",
-        converted_permissions(permissions:),
+        nil,
         {
           'Authorization' => "Basic #{Base64::encode64("#{@username}:#{@password}")}"
         }
@@ -63,15 +55,24 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       case response
       when Net::HTTPSuccess
-        ServiceResult.success
-      when Net::HTTPNotFound
-        Util.error(:not_found)
+        ServiceResult.success(message: 'Folder was successfully created.')
+      when Net::HTTPMethodNotAllowed
+        if error_text_from_response(response) == 'The resource you tried to create already exists'
+          ServiceResult.success(message: 'Folder already exists.')
+        else
+          Util.error(:not_allowed)
+        end
       when Net::HTTPUnauthorized
         Util.error(:not_authorized)
+      when Net::HTTPNotFound
+        Util.error(:not_found)
+      when Net::HTTPConflict
+        Util.error(:conflict, error_text_from_response(response))
       else
         Util.error(:error)
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 
@@ -81,62 +82,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       Util.escape_whitespace(folder)
     end
 
-    def converted_permissions(permissions:)
-      Nokogiri::XML::Builder.new do |xml|
-        xml['d'].propertyupdate(
-          'xmlns:d' => 'DAV:',
-          'xmlns:nc' => 'http://nextcloud.org/ns'
-        ) do
-          xml['d'].set do
-            xml['d'].prop do
-              xml['nc'].send('acl-list') do
-                control_user_permissions(xml)
-                control_group_permissions(xml)
-                user_permissions(xml, permissions)
-              end
-            end
-          end
-        end
-      end.to_xml
-    end
-
-    def control_user_permissions(xml)
-      xml['nc'].acl do
-        xml['nc'].send('acl-mapping-type', 'user')
-        xml['nc'].send('acl-mapping-id', @username)
-        xml['nc'].send('acl-mask', '31')
-        xml['nc'].send('acl-permissions', '31')
-      end
-    end
-
-    def control_group_permissions(xml)
-      xml['nc'].acl do
-        xml['nc'].send('acl-mapping-type', 'group')
-        xml['nc'].send('acl-mapping-id', @group)
-        xml['nc'].send('acl-mask', '31')
-        xml['nc'].send('acl-permissions', '0')
-      end
-    end
-
-    def user_permissions(xml, permissions)
-      permissions.each do |permission|
-        username = permission[:origin_user_id]
-        assignable_permission = nextcloud_permission(permission[:permissions])
-
-        xml['nc'].acl do
-          xml['nc'].send('acl-mapping-type', 'user')
-          xml['nc'].send('acl-mapping-id', username)
-          xml['nc'].send('acl-mask', '31')
-          xml['nc'].send('acl-permissions', assignable_permission)
-        end
-      end
-    end
-
-    def nextcloud_permission(permission)
-      permission.reduce(0) do |acc, (k, v)|
-        acc = acc + PERMISSION_MAP[k] if v
-        acc
-      end
+    def error_text_from_response(response)
+      Nokogiri::XML(response.body).xpath("//s:message").text
     end
   end
 end
