@@ -47,14 +47,14 @@ jobs:
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
         sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   features1:
-    name: "Features (1/2)"
+    name: "Features (1/3)"
     if: github.repository == 'opf/openproject'
     runs-on: [self-hosted-autoscale]
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
-      PARALLEL_TEST_PROCESSES: 16
-      PARALLEL_TEST_GROUPS: "9,10,11,12,13,14,15,16"
+      PARALLEL_TEST_PROCESSES: 24
+      PARALLEL_TEST_GROUPS: "1,2,3,4,5,6,7,8"
       LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
@@ -79,14 +79,14 @@ jobs:
         docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
         sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
   features2:
-    name: "Features (2/2)"
+    name: "Features (2/3)"
     if: github.repository == 'opf/openproject'
     runs-on: [self-hosted-autoscale]
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
-      PARALLEL_TEST_PROCESSES: 16
-      PARALLEL_TEST_GROUPS: "1,2,3,4,5,6,7,8"
+      PARALLEL_TEST_PROCESSES: 24
+      PARALLEL_TEST_GROUPS: "9,10,11,12,13,14,15,16"
       LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
@@ -110,6 +110,38 @@ jobs:
         run: |
           docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
           sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH
+  features3:
+    name: "Features (3/3)"
+    if: github.repository == 'opf/openproject'
+    runs-on: [self-hosted-autoscale]
+    timeout-minutes: 60
+    env:
+      CI_CACHE_PATH: "/tmp/cache"
+      PARALLEL_TEST_PROCESSES: 24
+      PARALLEL_TEST_GROUPS: "17,18,19,20,21,22,23,24"
+      LOCAL_DEV_CHECK: 1
+      CI_RETRY_COUNT: 3
+      CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
+      CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
+    steps:
+      - uses: actions/checkout@v3
+      - name: cache
+        uses: actions/cache@v3
+        with:
+          path: /tmp/cache
+          key: ${{ runner.os }}-ruby32-core-tests-features3-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ruby32-core-tests-features3-
+            ${{ runner.os }}-ruby32-core-tests-
+      - name: test
+        run: |
+          docker-compose -f docker-compose.ci.yml build --pull ci
+          docker-compose -f docker-compose.ci.yml run ci setup-tests run-features
+      - name: cleanup
+        if: ${{ always() }}
+        run: |
+          docker-compose -f docker-compose.ci.yml down --remove-orphans -t 10
+          sudo chown -R $(whoami):$(id -ng) $CI_CACHE_PATH          
   api-spec:
     name: APIv3 specification (OpenAPI 3.0)
     if: github.repository == 'opf/openproject'
