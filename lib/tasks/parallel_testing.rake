@@ -95,9 +95,6 @@ namespace :parallel do
     parallel_options = ""
     rspec_options = ""
 
-    if runtime_filename && File.readable?(runtime_filename)
-      parallel_options += " --group-by runtime --runtime-log #{runtime_filename} --allowed-missing 75"
-    end
     if parsed_options[:seed]
       rspec_options += "--seed #{parsed_options[:seed]}"
     end
@@ -167,7 +164,7 @@ namespace :parallel do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, all_spec_paths, pattern, runtime_filename: "docker/ci/parallel_features_runtime.log"
+      run_specs options, all_spec_paths, pattern
     end
   end
 
@@ -178,7 +175,7 @@ namespace :parallel do
     ParallelParser.with_args(ARGV) do |options|
       ARGV.each { |a| task(a.to_sym) {} }
 
-      run_specs options, all_spec_paths, pattern, runtime_filename: "docker/ci/parallel_units_runtime.log"
+      run_specs options, all_spec_paths, pattern
     end
   end
 end
