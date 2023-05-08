@@ -39,24 +39,29 @@ module WorkPackage::PDFExport::TableOfContents
 
   def build_toc_data_list(work_packages, id_wp_meta_map)
     work_packages.map do |work_package|
-      level_path = id_wp_meta_map[work_package.id][:level_path]
-      level_string = "#{level_path.join('.')}. "
-      level_string_width = measure_text_width(level_string, toc_item_index_style)
-      title = get_column_value work_package, :subject
-      page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
-      page_nr_string_width = measure_text_width(page_nr_string, toc_item_page_nr_font_style)
-      { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width: }
+      build_toc_data_list_entry work_package, id_wp_meta_map
     end
   end
 
-  def write_part_float(part, indent_left, indent_right, style)
-    height = 0
+  def build_toc_data_list_entry(work_package, id_wp_meta_map)
+    level_path = id_wp_meta_map[work_package.id][:level_path]
+    level_string = "#{level_path.join('.')}. "
+    level_string_width = measure_part_width(level_string, toc_item_index_style)
+    title = get_column_value work_package, :subject
+    page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
+    page_nr_string_width = measure_part_width(page_nr_string, toc_item_page_nr_font_style)
+    { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width: }
+  end
+
+  def measure_part_width(part, style)
+    measure_text_width(part, style) + toc_item_subject_indent_style
+  end
+
+  def write_part_float(id, part, style)
+    text = make_link_anchor(id, part)
     pdf.float do
-      pdf.indent(indent_left, indent_right) do
-        pdf.text(part, style.merge({ inline_format: true }))
-      end
+      pdf.text(text, style.merge({ inline_format: true }))
     end
-    height
   end
 
   def write_toc!(toc_list)
@@ -68,19 +73,11 @@ module WorkPackage::PDFExport::TableOfContents
     end
   end
 
-  def write_toc_item!(toc_item, max_level_string_width)
-    write_part_float(
-      make_link_anchor(toc_item[:id], toc_item[:level_string]),
-      0, 0, toc_item_index_style)
-    write_part_float(
-      make_link_anchor(toc_item[:id], toc_item[:page_nr_string]),
-      0, 0, toc_item_page_nr_font_style.merge({ align: :right }))
-    pdf.indent(
-      max_level_string_width + toc_item_subject_indent_style,
-      toc_item[:page_nr_string_width] + toc_item_subject_indent_style
-    ) do
+  def write_toc_item!(toc_item, max_level_width)
+    write_part_float(toc_item[:id], toc_item[:level_string], toc_item_index_style)
+    write_part_float(toc_item[:id], toc_item[:page_nr_string], toc_item_page_nr_font_style.merge({ align: :right }))
+    pdf.indent(max_level_width, toc_item[:page_nr_string_width]) do
       pdf.formatted_text([toc_item_subject_font_style.merge({ text: toc_item[:title] })])
     end
   end
-
 end
