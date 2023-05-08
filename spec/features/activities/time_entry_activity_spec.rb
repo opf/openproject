@@ -65,8 +65,6 @@ describe 'TimeEntry activities' do
            user:,
            comments: 'lorem ipsum')
   end
-  # let(:wiki) { project.wiki }
-  # let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as user
@@ -81,15 +79,16 @@ describe 'TimeEntry activities' do
     uncheck 'Work packages'
 
     click_button 'Apply'
-    binding.pry
 
     within("li.op-activity-list--item", match: :first) do
-      expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}") # follow link?
+      expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}")
       expect(page).to have_selector('li', text: "Spent time: #{time_entry.hours.to_i} hours")
       expect(page).to have_link('Details')
-
       click_link('Details')
-      expect(find_field('Work Package Value').value).to eq("#{work_package.id}")
     end
+
+    expect(find_field('work_package_id_arg_1_val').value).to eq("#{work_package.id}")
+
+
   end
 end
