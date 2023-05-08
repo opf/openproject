@@ -81,10 +81,11 @@ projects:
   demo-construction-project:
     t_name: (Demo) Construction project
     identifier: demo-construction-project
-    status:
-      code: on_track
-      t_description: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo construction project.
+    timeline:
+      name: Timeline
     modules:
       - work_package_tracking
       - news
@@ -227,9 +228,8 @@ projects:
   demo-planning-constructing-project:
     t_name: (Demo) Planning & constructing
     identifier: demo-planning-constructing-project
-    status:
-      code: on_track
-      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-construction-project
     t_description: This is a short summary of the goals of this demo planning and constructing project.
     modules:
@@ -694,9 +694,8 @@ projects:
   demo-bim-project:
     t_name: (Demo) BIM project
     identifier: demo-bim-project
-    status:
-      code: on_track
-      t_description: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-construction-project
     t_description: This is a short summary of the goals of this demo BIM project.
     modules:
@@ -1277,9 +1276,8 @@ projects:
   demo-bcf-management-project:
     t_name: (Demo) BCF management
     identifier: demo-bcf-management-project
-    status:
-      code: on_track
-      t_description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+    status_code: on_track
+    t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     parent: demo-bim-project
     t_description: This is a short summary of the goals of this demo BCF management project.
     modules:
