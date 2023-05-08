@@ -27,10 +27,10 @@
 #++
 
 module ::Calendar
-  class IcalController < ApplicationController
+  class ICalController < ApplicationController
     def show
       begin
-        call = ::Calendar::IcalResponseService.new.call(
+        call = ::Calendar::ICalResponseService.new.call(
           ical_token_string: params[:ical_token],
           query_id: params[:id]
         )

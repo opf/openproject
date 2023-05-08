@@ -26,7 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class IcalTokenQueryAssignment < ApplicationRecord
+class ICalTokenQueryAssignment < ApplicationRecord
+  self.table_name = 'ical_token_query_assignments'
   # TODO: dependent_destroy from query model? --> already defined on database level
   belongs_to :ical_token, class_name: 'Token::ICal'
   belongs_to :query

@@ -29,7 +29,7 @@
 require 'icalendar'
 
 module Calendar
-  class CreateIcalService < ::BaseServices::BaseCallable
+  class CreateICalService < ::BaseServices::BaseCallable
 
     def perform(work_packages:, calendar_name: "OpenProject Calendar")
       ical_string = create_ical_string(work_packages, calendar_name)

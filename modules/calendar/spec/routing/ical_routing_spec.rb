@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::IcalController do
+describe Calendar::ICalController do
   it do
     expect(get('/projects/1/calendars/2/ical')).to route_to(controller: 'calendar/ical',
                                                             action: 'show',

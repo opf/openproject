@@ -27,7 +27,7 @@
 #++
 
 module Calendar
-  class GenerateIcalUrl < ::BaseServices::BaseCallable
+  class GenerateICalUrl < ::BaseServices::BaseCallable
 
     def perform(user:, query_id:, project_id:, token_name:)
       begin

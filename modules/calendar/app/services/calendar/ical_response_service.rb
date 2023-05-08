@@ -27,7 +27,7 @@
 #++
 
 module Calendar
-  class IcalResponseService < ::BaseServices::BaseCallable
+  class ICalResponseService < ::BaseServices::BaseCallable
     ICAL_CACHE_EXPIRES_IN = 0.minutes # cache disabled for now by setting to 0.minute
 
     def perform(ical_token_string:, query_id:)
@@ -67,7 +67,7 @@ module Calendar
     end
 
     def resolve_ical_token(ical_token_string)
-      call = ::Calendar::ResolveIcalTokenService.new.call(
+      call = ::Calendar::ResolveICalTokenService.new.call(
         ical_token_string:
       )
       ical_token_instance = call.result if call.success?
@@ -95,7 +95,7 @@ module Calendar
     end
 
     def create_ical_string(work_packages, calendar_name)
-      call = ::Calendar::CreateIcalService.new.call(
+      call = ::Calendar::CreateICalService.new.call(
         work_packages:, calendar_name:
       )
       ical_string = call.result if call.success?

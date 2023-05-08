@@ -27,7 +27,7 @@
 #++
 
 module Calendar
-  class ResolveIcalTokenService < ::BaseServices::BaseCallable
+  class ResolveICalTokenService < ::BaseServices::BaseCallable
     def perform(ical_token_string:)
       if ical_token_string.blank?
         raise ActiveRecord::RecordNotFound

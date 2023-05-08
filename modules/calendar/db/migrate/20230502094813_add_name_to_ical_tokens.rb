@@ -1,4 +1,4 @@
-class AddNameToIcalTokens < ActiveRecord::Migration[7.0]
+class AddNameToICalTokens < ActiveRecord::Migration[7.0]
   def change
     # Add column with default value to avoid null values for existing records in preview environment
     add_column :ical_token_query_assignments, :name, :string, null: false, default: 'Not provided in earlier version'

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Calendar::IcalController do
+describe Calendar::ICalController do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
