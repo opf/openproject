@@ -28,7 +28,7 @@
 
 .attributes-key-value
   display: flex
-  flex-wrap: wrap
+  // flex-wrap: wrap
   font-size: 0.875rem
   margin-bottom: 0.1875rem
 
@@ -52,7 +52,7 @@
     display: flex
     flex-basis: 230px
     flex-grow: 1000000
-    flex-shrink: 0
+    flex-shrink: 1
     align-self: center
     margin-bottom: 0.1875rem
     padding: 0.375rem 0
@@ -67,6 +67,9 @@
 
   &--value
     @include grid-visible-overflow
+
+  @at-root &.wp-attribute-group_span-all &--value-container
+    flex-shrink: 0
 
 // Alternative implementation to the one above.
 // It's main advantage is that it can act on the whole of the key/value-pairs.
