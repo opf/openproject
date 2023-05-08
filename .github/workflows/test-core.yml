@@ -53,8 +53,8 @@ jobs:
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
-      PARALLEL_TEST_PROCESSES: 8
-      PARALLEL_TEST_GROUPS: "5,6,7,8"
+      PARALLEL_TEST_PROCESSES: 16
+      PARALLEL_TEST_GROUPS: "9,10,11,12,13,14,15,16"
       LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
@@ -85,8 +85,8 @@ jobs:
     timeout-minutes: 60
     env:
       CI_CACHE_PATH: "/tmp/cache"
-      PARALLEL_TEST_PROCESSES: 8
-      PARALLEL_TEST_GROUPS: "1,2,3,4"
+      PARALLEL_TEST_PROCESSES: 16
+      PARALLEL_TEST_GROUPS: "1,2,3,4,5,6,7,8"
       LOCAL_DEV_CHECK: 1
       CI_RETRY_COUNT: 3
       CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
