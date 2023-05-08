@@ -26,13 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  module Errors
+module Storages::Peripherals::StorageInteraction::Nextcloud::Util
+  class << self
+    def escape_whitespace(value)
+      value.gsub(' ', '%20')
+    end
+
     def error(code, log_message = nil, data = nil)
       ServiceResult.failure(
         result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
         errors: Storages::StorageError.new(code:, log_message:, data:)
       )
+    end
+
+    def join_uri_path(uri, *parts)
+      # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
+      # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
+      # Server is not run on a Windows context.
+      # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
+      File.join(uri.to_s, *parts)
     end
   end
 end

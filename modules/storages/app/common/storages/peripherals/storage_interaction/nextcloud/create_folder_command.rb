@@ -28,15 +28,13 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class CreateFolderCommand < Storages::Peripherals::StorageInteraction::StorageCommand
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     def initialize(storage)
       super()
 
       @uri = URI(storage.host).normalize
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(storage.username))
+      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
       @groupfolder = storage.groupfolder
       @username = storage.username
       @password = storage.password
@@ -62,34 +60,30 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         if error_text_from_response(response) == 'The resource you tried to create already exists'
           ServiceResult.success(message: 'Folder already exists.')
         else
-          error(:not_allowed)
+          Util.error(:not_allowed)
         end
       when Net::HTTPUnauthorized
-        error(:not_authorized)
+        Util.error(:not_authorized)
       when Net::HTTPNotFound
-        error(:not_found)
+        Util.error(:not_found)
       when Net::HTTPConflict
-        error(:conflict, error_text_from_response(response))
+        Util.error(:conflict, error_text_from_response(response))
       else
-        error(:error)
+        Util.error(:error)
       end
     end
     # rubocop:enable Metrics/AbcSize
 
     private
 
-    def error_text_from_response(response)
-      Nokogiri::XML(response.body).xpath("//s:message").text
-    end
-
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
-    end
-
     def requested_folder(folder)
       raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
 
-      escape_whitespace(folder)
+      Util.escape_whitespace(folder)
+    end
+
+    def error_text_from_response(response)
+      Nokogiri::XML(response.body).xpath("//s:message").text
     end
   end
 end

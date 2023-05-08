@@ -28,8 +28,6 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class SetPermissionsCommand < Storages::Peripherals::StorageInteraction::StorageCommand
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     PERMISSION_MAP = {
@@ -44,7 +42,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       super()
 
       @uri = URI(storage.host).normalize
-      @base_path = api_v3_paths.join_uri_path(@uri.path, "remote.php/dav/files", escape_whitespace(storage.username))
+      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", Util.escape_whitespace(storage.username))
       @groupfolder = storage.groupfolder
       @group = storage.group
       @username = storage.username
@@ -67,24 +65,20 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       when Net::HTTPSuccess
         ServiceResult.success
       when Net::HTTPNotFound
-        error(:not_found)
+        Util.error(:not_found)
       when Net::HTTPUnauthorized
-        error(:not_authorized)
+        Util.error(:not_authorized)
       else
-        error(:error)
+        Util.error(:error)
       end
     end
 
     private
 
-    def escape_whitespace(value)
-      value.gsub(' ', '%20')
-    end
-
     def requested_folder(folder)
       raise ArgumentError.new("Folder can't be nil or empty string!") if folder.blank?
 
-      escape_whitespace(folder)
+      Util.escape_whitespace(folder)
     end
 
     def converted_permissions(permissions:)
