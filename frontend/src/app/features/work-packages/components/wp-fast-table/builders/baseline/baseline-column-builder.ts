@@ -1,6 +1,5 @@
 import { Injector } from '@angular/core';
 import {
-  IWorkPackageTimestamp,
   WorkPackageResource,
 } from 'core-app/features/hal/resources/work-package-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
@@ -13,6 +12,7 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export const baselineCellName = 'wp-table--baseline-cell-td';
 

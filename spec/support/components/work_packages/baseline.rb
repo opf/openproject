@@ -66,6 +66,23 @@ module Components
         end
       end
 
+      def expect_changed_attributes(work_package, **changes)
+        page.within(row_selector(work_package)) do
+          changes.each do |attribute, (old_value, new_value)|
+            expect(page).to have_selector(".#{attribute}.op-table-baseline--old-value", text: old_value)
+            expect(page).to have_selector(".#{attribute}.inline-edit--display-field", text: new_value)
+          end
+        end
+      end
+
+      def expect_unchanged_attributes(work_package, *changes)
+        page.within(row_selector(work_package)) do
+          changes.each do |attribute|
+            expect(page).not_to have_selector(".#{attribute}.op-table-baseline--old-value")
+          end
+        end
+      end
+
       def row_selector(elem)
         id = elem.is_a?(WorkPackage) ? elem.id.to_s : elem.to_s
         ".wp-row-#{id}-table"
