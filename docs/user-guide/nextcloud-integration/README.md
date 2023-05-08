@@ -58,11 +58,9 @@ To begin using this integration, you will need to first connect your OpenProject
 
 ### In OpenProject
 
-This video will give you an overview how to link existing files and upload new files from OpenProject to Nextcloud (English only).
+This video will give you an overview of how to link existing files and upload new files from OpenProject to Nextcloud (English only):
 
-```
 ![Upload and link files to Nextcloud from OpenProject](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-files-upload.mp4)
-```
 
 In addition to listing files directly attached to a work package, the **Files** tab shows your Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
