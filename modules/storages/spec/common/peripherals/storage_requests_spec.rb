@@ -37,13 +37,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
   let(:origin_user_id) { 'admin' }
 
   let(:storage) do
-    storage = instance_double(Storages::NextcloudStorage) # Stub as Nextcloud, because for now we only support Nextcloud
-    allow(storage).to receive(:oauth_client).and_return(instance_double(OAuthClient))
-    allow(storage).to receive(:provider_type).and_return(Storages::Storage::PROVIDER_TYPE_NEXTCLOUD)
-    allow(storage).to receive(:username).and_return('OpenProject')
-    allow(storage).to receive(:password).and_return('OpenProjectSecurePassword')
-    allow(storage).to receive(:host).and_return(url)
-    storage
+    build(:storage, host: url, password: 'OpenProjectSecurePassword')
   end
 
   let(:token) do
@@ -129,7 +123,7 @@ describe Storages::Peripherals::StorageRequests, webmock: true do
     context 'with Nextcloud storage type selected' do
       context 'with outbound request' do
         before do
-          stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProject/JediProject")
+          stub_request(:proppatch, "#{url}/remote.php/dav/files/OpenProject/OpenProject/JediProject")
             .with(
               body: expected_request_body,
               headers: {

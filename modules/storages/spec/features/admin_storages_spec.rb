@@ -47,7 +47,7 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Create a storage - happy path
     expect(page).to have_title('New storage')
     expect(page.find('.title-container')).to have_text('New storage')
-    expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud', disabled: true
+    expect(page).to have_select('storages_storage[provider_type]', selected: 'Nextcloud')
     expect(page).to have_field('storages_storage[name]', with: 'My Nextcloud')
 
     # Test the happy path for a valid storage server (host).
@@ -105,6 +105,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Edit storage again
     page.find('.button--icon.icon-edit').click
     expect(page).to have_title("Edit: NC 1")
+    expect(page).not_to have_select("storages_storage[provider_type]")
+    expect(page).to have_text("NC 1")
     expect(page.find('.title-container')).to have_text('Edit: NC 1')
 
     # Edit page - With option to replace the OAuth2 client

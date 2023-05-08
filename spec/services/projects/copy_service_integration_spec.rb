@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Projects::CopyService, 'integration', type: :model do
+describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonly_work_packages] do
   shared_let(:status_locked) { create(:status, is_readonly: true) }
   shared_let(:source) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   shared_let(:source_wp) { create(:work_package, project: source, subject: 'source wp') }
@@ -65,8 +65,6 @@ describe Projects::CopyService, 'integration', type: :model do
   shared_let(:new_project_role) { create(:role, permissions: %i[]) }
 
   before do
-    with_enterprise_token(:readonly_work_packages)
-
     allow(Setting)
       .to receive(:new_project_user_role_id)
       .and_return(new_project_role.id.to_s)
@@ -145,7 +143,7 @@ describe Projects::CopyService, 'integration', type: :model do
       expect(member.principal)
         .to eql(current_user)
       expect(member.roles)
-        .to match_array [role, new_project_role]
+        .to contain_exactly(role, new_project_role)
     end
 
     it 'will copy the work package with category' do
@@ -562,7 +560,7 @@ describe Projects::CopyService, 'integration', type: :model do
           it 'does copy active watchers but does not add the copying user as a watcher' do
             expect(subject).to be_success
             expect(project_copy.work_packages[0].watcher_users)
-              .to match_array([watcher])
+              .to contain_exactly(watcher)
           end
         end
 

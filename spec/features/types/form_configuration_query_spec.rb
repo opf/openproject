@@ -84,9 +84,8 @@ describe 'form query configuration', js: true do
   let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
   let(:columns) { Components::WorkPackages::Columns.new }
 
-  describe "with EE token" do
+  describe "with EE token", with_ee: %i[edit_attribute_groups] do
     before do
-      with_enterprise_token(:edit_attribute_groups)
       login_as(admin)
       visit edit_type_tab_path(id: type_bug.id, tab: "form_configuration")
     end

@@ -49,11 +49,7 @@ describe CustomStylesHelper do
     context 'CustomStyle present' do
       let(:current_theme) { build_stubbed(:custom_style) }
 
-      context 'without EE' do
-        before do
-          without_enterprise_token
-        end
-
+      context 'without EE', with_ee: false do
         context 'no BIM edition' do
           it 'is falsey' do
             expect(subject).to be_falsey
@@ -69,11 +65,7 @@ describe CustomStylesHelper do
         end
       end
 
-      context 'with EE' do
-        before do
-          with_enterprise_token(:define_custom_style)
-        end
-
+      context 'with EE', with_ee: %i[define_custom_style] do
         context 'no BIM edition' do
           it 'is truthy' do
             expect(subject).to be_truthy
@@ -106,21 +98,13 @@ describe CustomStylesHelper do
         allow(current_theme).to receive(:touch_icon).and_return(true)
       end
 
-      context 'without EE' do
-        before do
-          without_enterprise_token
-        end
-
+      context 'without EE', with_ee: false do
         it 'is falsey' do
           expect(subject).to be_falsey
         end
       end
 
-      context 'with EE' do
-        before do
-          with_enterprise_token(:define_custom_style)
-        end
-
+      context 'with EE', with_ee: %i[define_custom_style] do
         it 'is truthy' do
           expect(subject).to be_truthy
         end

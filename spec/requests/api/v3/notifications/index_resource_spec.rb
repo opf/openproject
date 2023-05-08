@@ -160,7 +160,7 @@ describe API::V3::Notifications::NotificationsAPI,
       end
     end
 
-    context 'with a reason filter', with_ee: [:date_alerts] do
+    context 'with a reason filter', with_ee: %i[date_alerts] do
       shared_let(:assigned_notification) do
         create(:notification,
                reason: :assigned,

@@ -51,12 +51,16 @@ nl:
       project_settings:
         index: "Bestandsopslag beschikbaar in dit project"
         new: "Voeg een bestandsopslag toe aan dit project"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Zorg ervoor dat u beheerrechten heeft in uw Nextcloud en dat de volgende applicatie geïnstalleerd is voordat u de installatie uitvoert:"
       type_link_text: "Integratie met OpenProject\""
       name: "Geef uw opslag een naam zodat gebruikers onderscheid kunnen maken tussen meerdere opslagplaatsen."
       host: "Voeg het hostadres van je opslag toe, inclusief de https://. Het mag niet langer dan 255 tekens zijn."
       no_storage_set_up: "There are no file storages set up yet."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
       setting_up_additional_storages_non_admin: "Beheerders kunnen extra bestandsopslag instellen in Administratie / Bestandsopslag."
       setting_up_storages: "Voor het opzetten van extra bestandsopslag, bezoek a.u.b."
@@ -65,11 +69,15 @@ nl:
       copy_from: "Kopieer deze waarde van"
       nextcloud:
         integration: "Nextcloud administratie / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Weet u zeker dat u deze opslag wilt verwijderen? Dit zal ook de opslag verwijderen uit alle projecten waar het wordt gebruikt. Bovendien zal het alle links van werkpakketten naar bestanden die in die opslag zijn opgeslagen verwijderen.
       project_storage: >
         Weet u zeker dat u deze bestandsopslag wilt verwijderen uit dit project? Dit verwijdert ook alle koppelingen naar bestanden die zijn opgeslagen in deze opslag voor dit project.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Maker"
     label_file_link: "Bestand link"
     label_file_links: "Bestand links"
@@ -81,7 +89,11 @@ nl:
     label_oauth_application_details: "OAuth applicatie details"
     label_oauth_client_details: "OAuth clientdetails"
     label_provider_type: "Provider type"
+    label_project_folder: "Project folder"
     label_new_storage: "Nieuwe opslag"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Opslag"
     label_storages: "Opslagplaatsen"
     no_results: "No storages set up yet."

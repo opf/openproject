@@ -142,7 +142,7 @@ describe 'Bulk update work packages through Rails view', js: true do
     context 'when editing custom field of work packages with a readonly status (regression#44673)' do
       let(:work_package2_status) { create(:status, :readonly) }
 
-      context 'with enterprise', with_ee: [:readonly_work_packages] do
+      context 'with enterprise', with_ee: %i[readonly_work_packages] do
         it 'does not update the work packages' do
           expect(work_package.send(custom_field.attribute_getter)).to be_nil
           expect(work_package2.send(custom_field.attribute_getter)).to be_nil

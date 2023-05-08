@@ -51,12 +51,16 @@ ru:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
       name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
       setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
       setting_up_storages: "Для настройки файловых хранилищ посетите"
@@ -65,11 +69,15 @@ ru:
       copy_from: "Скопировать это значение из"
       nextcloud:
         integration: "Администрирование NextCloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
         Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Создатель"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
@@ -81,7 +89,11 @@ ru:
     label_oauth_application_details: "Подробности приложения OAuth"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
+    label_project_folder: "Project folder"
     label_new_storage: "Новое хранилище"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     no_results: "Хранилища еще не настроены."

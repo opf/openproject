@@ -28,11 +28,7 @@
 
 require 'spec_helper'
 
-describe 'index placeholder users', js: true do
-  before do
-    with_enterprise_token(:placeholder_users)
-  end
-
+describe 'index placeholder users', js: true, with_ee: %i[placeholder_users] do
   let!(:current_user) { create(:admin) }
   let!(:anonymous) { create(:anonymous) }
   let!(:placeholder_user_1) do

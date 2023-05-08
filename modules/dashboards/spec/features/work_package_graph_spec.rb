@@ -30,7 +30,8 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_mail: false do
+describe 'Arbitrary WorkPackage query graph widget dashboard',
+         js: true, with_ee: %i[grid_widget_wp_graph], with_mail: false do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -85,15 +86,12 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_ma
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
-  let(:enterprise_edition) { true }
 
   let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
   let(:filters) { Components::WorkPackages::TableConfiguration::Filters.new }
   let(:general) { Components::WorkPackages::TableConfiguration::GraphGeneral.new }
 
   before do
-    with_enterprise_token(enterprise_edition ? :grid_widget_wp_graph : nil)
-
     login_as user
 
     dashboard_page.visit!
@@ -168,9 +166,7 @@ describe 'Arbitrary WorkPackage query graph widget dashboard', js: true, with_ma
     end
   end
 
-  context 'without an enterprise edition' do
-    let(:enterprise_edition) { false }
-
+  context 'without an enterprise edition', with_ee: false do
     it 'cannot add the widget and receives an enterprise edition notice' do
       dashboard_page.expect_add_widget_enterprise_edition_notice(1, 2, :within)
 

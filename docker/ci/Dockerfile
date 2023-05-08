@@ -8,7 +8,16 @@ ENV USER=dev
 RUN useradd -d /home/$USER -m $USER -s /bin/bash
 WORKDIR /home/$USER
 
-RUN curl --http1.1 --retry 10 --output /tmp/node.tar.gz --silent --show-error https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
+# Download nodejs with retries and basic throttling
+RUN for i in 1 2 3 4 5; do \
+    if [ $i -gt 1 ]; then sleep $i; fi \
+    && curl --retry 10 --output /tmp/node.tar.gz --silent --show-error https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz \
+      && ret=$? && break \
+      || ret=$? && echo "Download attempt #$i failed"; \
+  done \
+  && [ $ret -ne 0 ] \
+    && echo "All download attempts failed" && exit $ret \
+    || echo "Download successful" \
   && tar xzf /tmp/node.tar.gz --directory /usr/local --strip-components=1 \
   && rm -f /tmp/node.tar.gz
 
