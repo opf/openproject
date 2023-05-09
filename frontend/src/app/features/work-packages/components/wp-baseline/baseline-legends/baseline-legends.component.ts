@@ -28,6 +28,7 @@
 
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ViewEncapsulation,
 } from '@angular/core';
@@ -55,10 +56,10 @@ export class OpBaselineLegendsComponent {
   public numUpdated = 0;
 
   public text = {
-    time_description: this.getFilterName(),
-    now_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.now_meets_filter_criteria', { new: this.numAdded }),
-    no_longer_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria', { removed: this.numRemoved }),
-    maintained_with_changes: () => this.I18n.t('js.baseline.legends.maintained_with_changes', { updated: this.numUpdated }),
+    time_description: '',
+    now_meets_filter_criteria: this.I18n.t('js.baseline.legends.now_meets_filter_criteria'),
+    no_longer_meets_filter_criteria: this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria'),
+    maintained_with_changes: this.I18n.t('js.baseline.legends.maintained_with_changes'),
   };
 
   constructor(
@@ -67,8 +68,10 @@ export class OpBaselineLegendsComponent {
     readonly querySpace:IsolatedQuerySpace,
     readonly schemaCache:SchemaCacheService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly cdRef:ChangeDetectorRef,
   ) {
     this.getBaselineDetails();
+    this.getFilterName();
   }
 
   public getFilterName() {
@@ -101,10 +104,14 @@ export class OpBaselineLegendsComponent {
         break;
     }
     dateTime = `${changesSince} ${dateTime} (${this.wpTableBaseline.selectedDate}, ${time})`;
+    this.text.time_description = dateTime;
     return dateTime;
   }
 
   public getBaselineDetails() {
+    this.numAdded = 0;
+    this.numRemoved = 0;
+    this.numUpdated = 0;
     const results = this.querySpace.results.value;
     if (results && results.elements.length > 0) {
       results.elements.forEach((workPackage:WorkPackageResource) => {
@@ -122,6 +129,9 @@ export class OpBaselineLegendsComponent {
           }
         }
       });
+      this.text.maintained_with_changes = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numUpdated})`;
+      this.text.no_longer_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numRemoved})`;
+      this.text.now_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numAdded})`;
     }
   }
 
@@ -133,5 +143,11 @@ export class OpBaselineLegendsComponent {
         const name = schema.mappedName(column.id);
         return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
       });
+  }
+
+  public refresh() {
+    this.getBaselineDetails();
+    this.getFilterName();
+    this.cdRef.detectChanges();
   }
 }
