@@ -45,12 +45,14 @@ module WorkPackage::PDFExport::TableOfContents
 
   def build_toc_data_list_entry(work_package, id_wp_meta_map)
     level_path = id_wp_meta_map[work_package.id][:level_path]
+    level = level_path.length
+    style = toc_item_style(level)
     level_string = "#{level_path.join('.')}. "
-    level_string_width = measure_part_width(level_string, toc_item_index_style)
+    level_string_width = measure_part_width(level_string, style)
     title = get_column_value work_package, :subject
     page_nr_string = (id_wp_meta_map[work_package.id][:page_number] || '000').to_s
-    page_nr_string_width = measure_part_width(page_nr_string, toc_item_page_nr_font_style)
-    { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width: }
+    page_nr_string_width = measure_part_width(page_nr_string, style)
+    { id: work_package.id, level_string:, level_string_width:, title:, page_nr_string:, page_nr_string_width:, level: }
   end
 
   def measure_part_width(part, style)
@@ -67,17 +69,19 @@ module WorkPackage::PDFExport::TableOfContents
   def write_toc!(toc_list)
     max_level_string_width = toc_list.pluck(:level_string_width).max
     toc_list.each do |toc_item|
-      with_margin(toc_item_margins_style) do
+      with_margin(toc_item_margins_style(toc_item[:level])) do
         write_toc_item! toc_item, max_level_string_width
       end
     end
   end
 
   def write_toc_item!(toc_item, max_level_width)
-    write_part_float(toc_item[:id], toc_item[:level_string], toc_item_index_style)
-    write_part_float(toc_item[:id], toc_item[:page_nr_string], toc_item_page_nr_font_style.merge({ align: :right }))
+    style = toc_item_style(toc_item[:level])
+    write_part_float(toc_item[:id], toc_item[:level_string], style)
+    write_part_float(toc_item[:id], toc_item[:page_nr_string], style.merge({ align: :right }))
+    style[:styles] = [style[:style]] if style[:style]
     pdf.indent(max_level_width, toc_item[:page_nr_string_width]) do
-      pdf.formatted_text([toc_item_subject_font_style.merge({ text: toc_item[:title] })])
+      pdf.formatted_text([style.merge({ text: toc_item[:title] })])
     end
   end
 end

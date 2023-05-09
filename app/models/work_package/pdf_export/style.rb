@@ -114,27 +114,29 @@ module WorkPackage::PDFExport::Style
   end
 
   def toc_margins_style
-    { margin_bottom: 20 }
+    { margin_top: 10, margin_bottom: 20 }
   end
 
-  def toc_item_index_style
-    { size: 10, style: :bold }
-  end
-
-  def toc_item_subject_font_style
-    { size: 10 }
+  def toc_item_style(level)
+    if level <= 1
+      { size: 10, style: :bold }
+    elsif level <= 2
+      { size: 10 }
+    else
+      { size: 9 }
+    end
   end
 
   def toc_item_subject_indent_style
     4
   end
 
-  def toc_item_page_nr_font_style
-    { size: 10 }
-  end
-
-  def toc_item_margins_style
-    { margin_bottom: 4 }
+  def toc_item_margins_style(level)
+    if level === 1
+      { margin_top: 4, margin_bottom: 4 }
+    else
+      { margin_bottom: 4 }
+    end
   end
 
   def wp_headline_margins_style
@@ -184,6 +186,7 @@ module WorkPackage::PDFExport::Style
   def wp_attributes_table_cell_style
     { size: 9,
       text_color: "000000",
+      border_color: '4B4B4B',
       border_widths: [0.25, 0.25, 0.25, 0.25],
       padding_left: 5,
       padding_right: 5,
