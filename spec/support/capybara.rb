@@ -18,7 +18,7 @@ RSpec.shared_context 'with default_url_options and host name set to Capybara tes
   after do
     default_url_options[:host] = @original_host # rubocop:disable RSpec/InstanceVariable
     default_url_options[:port] = @original_port # rubocop:disable RSpec/InstanceVariable
-    Setting.host_name = @original_host_setting
+    Setting.host_name = @original_host_setting # rubocop:disable RSpec/InstanceVariable
   end
 end
 

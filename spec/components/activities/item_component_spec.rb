@@ -123,6 +123,7 @@ RSpec.describe Activities::ItemComponent, type: :component do
   end
 
   context 'for TimeEntry activites' do
+    let(:journal) { build_stubbed(:time_entry_journal) }
     let(:event) do
       Activities::Event.new(
         event_title: "Event Title",
@@ -132,7 +133,7 @@ RSpec.describe Activities::ItemComponent, type: :component do
         journal:
       )
     end
-    let(:journal) { build_stubbed(:time_entry_journal) }
+
     it 'displays the title correctly' do
       component = described_class.new(event:)
       render_inline(component)
