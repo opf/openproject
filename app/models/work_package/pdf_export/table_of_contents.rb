@@ -75,13 +75,17 @@ module WorkPackage::PDFExport::TableOfContents
     end
   end
 
-  def write_toc_item!(toc_item, max_level_width)
-    style = toc_item_style(toc_item[:level])
-    write_part_float(toc_item[:id], toc_item[:level_string], style)
-    write_part_float(toc_item[:id], toc_item[:page_nr_string], style.merge({ align: :right }))
+  def write_toc_item_subject!(toc_item, max_level_width, style)
     style[:styles] = [style[:style]] if style[:style]
     pdf.indent(max_level_width, toc_item[:page_nr_string_width]) do
       pdf.formatted_text([style.merge({ text: toc_item[:title] })])
     end
+  end
+
+  def write_toc_item!(toc_item, max_level_width)
+    style = toc_item_style(toc_item[:level])
+    write_part_float(toc_item[:id], toc_item[:level_string], style)
+    write_part_float(toc_item[:id], toc_item[:page_nr_string], style.merge({ align: :right }))
+    write_toc_item_subject!(toc_item, max_level_width, style)
   end
 end
