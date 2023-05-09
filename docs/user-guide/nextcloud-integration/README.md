@@ -58,11 +58,9 @@ To begin using this integration, you will need to first connect your OpenProject
 
 ### In OpenProject
 
-This video will give you an overview how to link existing files and upload new files from OpenProject to Nextcloud (English only).
+This video will give you an overview of how to link existing files and upload new files from OpenProject to Nextcloud (English only):
 
-```
 ![Upload and link files to Nextcloud from OpenProject](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Nextcloud-files-upload.mp4)
-```
 
 In addition to listing files directly attached to a work package, the **Files** tab shows your Nextcloud files that are linked to the current work package. Hovering on any linked file with your mouse will give you options to  **open or download the file, show the containing folder in Nextcloud or remove the link**.
 
@@ -162,13 +160,14 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-There are three additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *Connected accounts*, you will find these options:
+There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *OpenProject *, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
-- **Enable notifications for activity in my work packages** sends you notifications when there are updates to linked OpenProject work packages
 
-![NC_extra_settings](Nextcloud_connected_account.png)
+![NC_extra_settings](nextcloud_openproject_account.png)
+
+
 
 ![NC_extra_navlink](Navigation_link_OpenProject.png)
 
