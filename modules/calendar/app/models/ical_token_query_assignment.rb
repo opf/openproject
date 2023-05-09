@@ -50,7 +50,13 @@ class ICalTokenQueryAssignment < ApplicationRecord
     #
     # when the ical_token and assignment are already created
     # we can access the user_id of the ical_token directly instead
-    ical_token&.user_id || user_id
+    result = ical_token&.user_id || user_id
+
+    if result.nil?
+      raise "No user_id given while saving the ical_token_query_assignment"
+    else
+      result
+    end
   end
 
   def unique_name_per_user_and_query

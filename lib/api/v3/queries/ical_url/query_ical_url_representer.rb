@@ -26,40 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Calendar
-  class GenerateICalUrl < ::BaseServices::BaseCallable
+require 'roar/decorator'
+require 'roar/json/hal'
 
-    def perform(user:, query_id:, project_id:, token_name:)
-      new_ical_token = create_ical_token(user, query_id, token_name)
-      
-      if new_ical_token.errors.any?
-        ServiceResult.failure(errors: new_ical_token.errors)
-      else
-        new_ical_token_value = new_ical_token.plain_value
-        new_ical_url = create_ical_url(query_id, project_id, new_ical_token_value)
-        ServiceResult.success(result: new_ical_url)
+module API
+  module V3
+    module Queries
+      module ICalUrl
+        class QueryICalUrlRepresenter < ::API::Decorators::Single
+
+          link :self do
+            {
+              href: api_v3_paths.query_ical_url(represented.query.id),
+              method: :post
+            }
+          end
+          
+          link :icalUrl do
+            # TODO: this is returning an absolute url
+            # --> valid approach to render it as href in a link?
+            {
+              href: represented.ical_url, 
+              method: :get
+            }
+          end
+          
+          link :query do
+            {
+              href: api_v3_paths.query(represented.query.id),
+              method: :get
+            }
+          end
+
+          def _type
+            'QueryIcalUrl'
+          end
+        end
       end
-    end
-
-    protected
-
-    def create_ical_token(user, query_id, name)
-      query = Query.find(query_id)
-      
-      Token::ICal.create(user:, 
-        ical_token_query_assignment_attributes: { 
-          query:, name:, user_id: user.id 
-        }
-      )
-    end
-
-    def create_ical_url(query_id, project_id, ical_token)
-      OpenProject::StaticRouting::StaticRouter.new.url_helpers
-        .ical_project_calendar_url(
-          id: query_id,
-          project_id:,
-          ical_token:
-        )
     end
   end
 end
