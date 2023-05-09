@@ -29,11 +29,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
@@ -43,11 +48,11 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
   encapsulation: ViewEncapsulation.None,
 })
 export class OpBaselineLegendsComponent {
-  @Input() numAdded?:number;
+  public numAdded = 0;
 
-  @Input() numRemoved?:number;
+  public numRemoved = 0;
 
-  @Input() numUpdated?:number;
+  public numUpdated = 0;
 
   public text = {
     time_description: this.getFilterName(),
@@ -59,7 +64,12 @@ export class OpBaselineLegendsComponent {
   constructor(
     readonly I18n:I18nService,
     readonly wpTableBaseline:WorkPackageViewBaselineService,
-  ) {}
+    readonly querySpace:IsolatedQuerySpace,
+    readonly schemaCache:SchemaCacheService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+  ) {
+    this.getBaselineDetails();
+  }
 
   public getFilterName() {
     const timestamp = this.wpTableBaseline.current[0].split('@');
@@ -92,5 +102,36 @@ export class OpBaselineLegendsComponent {
     }
     dateTime = `${changesSince} ${dateTime} (${this.wpTableBaseline.selectedDate}, ${time})`;
     return dateTime;
+  }
+
+  public getBaselineDetails() {
+    const results = this.querySpace.results.value;
+    if (results && results.elements.length > 0) {
+      results.elements.forEach((workPackage:WorkPackageResource) => {
+        const schema = this.schemaCache.of(workPackage);
+        const timestamps = workPackage.attributesByTimestamp || [];
+        if (timestamps.length > 1) {
+          const base = timestamps[0];
+          const compare = timestamps[1];
+          if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
+            this.numAdded+=1;
+          } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
+            this.numRemoved+=1;
+          } else if (this.visibleAttributeChanged(base, schema)) {
+            this.numUpdated+=1;
+          }
+        }
+      });
+    }
+  }
+
+  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
+    return !!this
+      .wpTableColumns
+      .getColumns()
+      .find((column) => {
+        const name = schema.mappedName(column.id);
+        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
+      });
   }
 }
