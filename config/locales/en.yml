@@ -567,16 +567,6 @@ en:
         types: "Types"
         versions: "Versions"
         work_packages: "Work Packages"
-      projects/status:
-        code: 'Status'
-        explanation: 'Status description'
-        codes:
-          not_started: 'Not started'
-          on_track: 'On track'
-          at_risk: 'At risk'
-          off_track: 'Off track'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
       query:
         column_names: "Columns"
         relations_to_type_column: "Relations to %{type}"
