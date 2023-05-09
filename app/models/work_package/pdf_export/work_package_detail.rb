@@ -94,7 +94,7 @@ module WorkPackage::PDFExport::WorkPackageDetail
   end
 
   def build_columns_table_rows(work_package)
-    list = column_objects
+    list = column_objects.reject { |column| column.name == :subject }
     0.step(list.length - 1, 2).map do |i|
       build_columns_table_cells(list[i], work_package) +
         build_columns_table_cells(list[i + 1], work_package)
