@@ -22,20 +22,20 @@
 be:
   js:
     ajax:
-      hide: "Hide"
-      loading: "Loading…"
-      updating: "Updating…"
+      hide: "Схаваць"
+      loading: "Ідзе загрузка…"
+      updating: "Абнаўленне…"
     attachments:
-      delete: "Delete attachment"
+      delete: "Выдаліць далучэнне"
       delete_confirmation: |
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
     autocomplete_select:
       placeholder:
-        multi: "Add \"%{name}\""
+        multi: "Дадаць \"%{name}\""
         single: "Select \"%{name}\""
-      remove: "Remove %{name}"
+      remove: "Выдаліць %{name}"
       active: "Active %{label} %{name}"
     backup:
       attachments_disabled: Attachments may not be included since they exceed the maximum overall size allowed. You can change this via the configuration (requires a server restart).
@@ -54,8 +54,8 @@ be:
     close_filter_title: "Close filter"
     close_form_title: "Close form"
     button_add_watcher: "Add watcher"
-    button_add: "Add"
-    button_back: "Back"
+    button_add: "Дадаць"
+    button_back: "Назад"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
     button_close: "Close"
@@ -64,22 +64,22 @@ be:
     button_configure-form: "Configure form"
     button_confirm: "Confirm"
     button_continue: "Continue"
-    button_copy: "Copy"
+    button_copy: "Скапіраваць"
     button_copy_to_other_project: "Copy to other project"
-    button_custom-fields: "Custom fields"
-    button_delete: "Delete"
+    button_custom-fields: "Карыстальніцкія палі"
+    button_delete: "Выдаліць"
     button_delete_watcher: "Delete watcher"
     button_details_view: "Details view"
     button_duplicate: "Duplicate"
-    button_edit: "Edit"
-    button_filter: "Filter"
-    button_collapse_all: "Collapse all"
-    button_expand_all: "Expand all"
-    button_advanced_filter: "Advanced filter"
-    button_list_view: "List view"
-    button_show_view: "Fullscreen view"
+    button_edit: "Рэдагаваць"
+    button_filter: "Фільтр"
+    button_collapse_all: "Згарнуць усё"
+    button_expand_all: "Разгарнуць усё"
+    button_advanced_filter: "Пашыраны фільтр"
+    button_list_view: "У выглядзе спіса"
+    button_show_view: "Поўнаэкранны"
     button_log_time: "Log time"
-    button_more: "More"
+    button_more: "Яшчэ"
     button_open_details: "Open details view"
     button_close_details: "Close details view"
     button_open_fullscreen: "Open fullscreen view"
@@ -102,7 +102,7 @@ be:
       highlighting:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
-      remove_from_list: 'Remove card from list'
+      remove_from_list: 'Выдаліць картку са спіса'
     caption_rate_history: "Rate history"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
@@ -112,15 +112,15 @@ be:
       axis_criteria: 'Axis criteria'
       modal_title: 'Work package graph configuration'
       types:
-        line: 'Line'
+        line: 'Лінія'
         horizontal_bar: 'Horizontal bar'
         bar: 'Bar'
         pie: 'Pie'
         doughnut: 'Doughnut'
-        radar: 'Radar'
+        radar: 'Радар'
         polar_area: 'Polar area'
       tabs:
-        graph_settings: 'General'
+        graph_settings: 'Асноўныя'
         dataset: 'Dataset %{number}'
       errors:
         could_not_load: 'The data to display the graph could not be loaded. The necessary permissions may be lacking.'
@@ -183,8 +183,8 @@ be:
           text: '[Placeholder] Embedded calendar'
     admin:
       type_form:
-        custom_field: 'Custom field'
-        inactive: 'Inactive'
+        custom_field: 'Карыстальніцкае поле'
+        inactive: 'Неактыўны'
         drag_to_activate: "Drag fields from here to activate them"
         add_group: "Add attribute group"
         add_table: "Add table of related work packages"
@@ -193,7 +193,7 @@ be:
         reset_to_defaults: 'Reset to defaults'
       enterprise:
         text_reprieve_days_left: "%{days} days until end of grace period"
-        text_expired: "expired"
+        text_expired: "састарэла"
         trial:
           confirmation: "Confirmation of email address"
           confirmation_info: >
@@ -203,8 +203,8 @@ be:
               I agree with the <a target="_blank" href="%{link_terms}">terms of service</a> and the <a target="_blank" href="%{link_privacy}">privacy policy</a>.
             invalid_email: "Invalid email address"
             label_company: "Company"
-            label_first_name: "First name"
-            label_last_name: "Last name"
+            label_first_name: "Імя"
+            label_last_name: "Прозвішча"
             label_domain: "Domain"
             label_subscriber: "Subscriber"
             label_maximum_users: "Maximum active users"
@@ -221,7 +221,7 @@ be:
           resend_success: "Email has been resent. Please check your emails and click the confirmation link provided."
           resend_warning: "Could not resend email."
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
-          status_label: "Status:"
+          status_label: "Стан:"
           status_confirmed: "confirmed"
           status_waiting: "email sent - waiting for confirmation"
           test_ee: "Тэсціраваць Enterprise edition 14 дзён бясплатна"
@@ -269,7 +269,7 @@ be:
     custom_actions:
       date:
         specific: 'on'
-        current_date: 'Current date'
+        current_date: 'Бягучая дата'
     error:
       internal: "An internal error has occurred."
       cannot_save_changes_with_message: "Cannot save your changes due to the following error: %{error}"
@@ -318,11 +318,11 @@ be:
               new_features_html: >
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Upload and link files from work packages to your Nextcloud file storage.</li> <li>Follow-up on project changes with project activity tracking.</li> <li>Add instance-wide public holidays (non-working days).</li> <li>Archive projects by non admins.</li> <li>New default filter for overdue work packages.</li> </ul>
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: 'Прызначаная асоба'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
-    label_add_comment: "Add comment"
+    label_add_comment: "Дадаць каментарый"
     label_add_comment_title: "Comment and type @ to notify other people"
     label_add_row_after: "Add row after"
     label_add_row_before: "Add row before"
@@ -337,24 +337,24 @@ be:
     label_author: "Author: %{user}"
     label_avatar: "Avatar"
     label_between: "between"
-    label_board: "Board"
-    label_board_locked: "Locked"
+    label_board: "Дошка"
+    label_board_locked: "Заблакавана"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
-    label_change: "Change"
+    label_change: "Змяніць"
     label_create: "Create"
     label_create_work_package: "Create new work package"
     label_created_by: "Created by"
-    label_date: "Date"
+    label_date: "Дата"
     label_date_with_format: "Enter the %{date_attribute} using the following format: %{format}"
     label_deactivate: "Deactivate"
     label_descending: "Descending"
     label_description: "Description"
-    label_details: "Details"
+    label_details: "Падрабязнасці"
     label_display: "Display"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
-    label_collapse: "Collapse"
+    label_collapse: "Згарнуць"
     label_collapsed: "collapsed"
     label_collapse_all: "Collapse all"
     label_comment: "Comment"
@@ -373,8 +373,8 @@ be:
     label_export: "Export"
     label_export_preparing: "The export is being prepared and will be downloaded shortly."
     label_filename: "File"
-    label_filesize: "Size"
-    label_general: "General"
+    label_filesize: "Памер"
+    label_general: "Асноўныя"
     label_global_roles: "Global Roles"
     label_greater_or_equal: ">="
     label_group: 'Group'

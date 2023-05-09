@@ -49,7 +49,7 @@ be:
         main-menu-border-color: "Main menu border"
       custom_colors: "Custom colors"
       customize: "Customize your OpenProject installation with your own logo and colors."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Як \"Вялікі дзякуй\" за фінансавую дапамогу ў распрацоўцы OpenProject, гэты маленькі дадатак даступны для падпісчыкаў Entrerprise edition support."
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit color select options"
       instructions:
@@ -64,15 +64,15 @@ be:
         main-menu-bg-color: "Left side menu's background color."
       theme_warning: Changing the theme will overwrite you custom style. The design will then be lost. Are you sure you want to continue?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Абнавіць да Enterprise edition"
+      add_token: "Загрузіць Enterprise edition токен."
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Вы ўпэўнены што жадаеце выдаліць ваш Enterprise edition токен?"
         title: "Delete token"
       replace_token: "Replace your current support token"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Заказаць Enterprise on-premises edition"
+      paste: "Уставіць  Enterprise edition токен."
+      required_for_feature: "Гэта дадатак даступны толькі з актыўным Enterprise edition токенам. "
       enterprise_link: "For more information, click here."
       start_trial: 'Start free trial'
       book_now: 'Book now'
@@ -98,7 +98,7 @@ be:
     add_new: 'Add help text'
     edit: "Edit help text for %{attribute_caption}"
     enterprise:
-      description: 'Provide additional information for attributes (incl. custom fields) of work packages and projects. Help texts are displayed when users click on the question mark symbol next to input fields in projects and work packages.'
+      description: 'Дайце дадатковую інфармацыю для атрыбутаў(укл. карыстальніцкія)'
   auth_sources:
     index:
       no_results_content_title: There are currently no authentication modes.
@@ -138,7 +138,7 @@ be:
         when they first authenticate with OpenProject.
         Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
     connection_encryption: 'Connection encryption'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'LDAPS / STARTTLS опцыі'
     system_account: 'System account'
     system_account_legend: |
       OpenProject requires read-only access through a system account to lookup users and groups in your LDAP tree.
@@ -152,7 +152,7 @@ be:
       plain: 'none'
       simple_tls: 'LDAPS'
       start_tls: 'STARTTLS'
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      plain_description: "Адчыняе неабароненае злучэнне да LDAP серверу. Не рэкамендавана выкарыстоўваць у рабочай версіі OpenProject."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
