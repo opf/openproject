@@ -98,7 +98,7 @@ module WorkPackage::PDFExport::Common
 
   def escape_tags(value)
     # only disable html tags, but do not replace html entities
-    value.gsub('<', '&lt;').gsub('>', '&gt;')
+    value.to_s.gsub('<', '&lt;').gsub('>', '&gt;')
   end
 
   def get_id_column_cell(work_package, value)
