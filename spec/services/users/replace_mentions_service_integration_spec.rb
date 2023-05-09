@@ -407,7 +407,7 @@ describe Users::ReplaceMentionsService, 'integration' do
   end
 
   context 'for project_status explanation' do
-    it_behaves_like 'rewritten mention', :project_status, :explanation
+    it_behaves_like 'rewritten mention', :project, :status_explanation
   end
 
   context 'for wiki_page text' do

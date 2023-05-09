@@ -68,15 +68,15 @@ module Users
         { class: News, column: :description },
         { class: Journal::NewsJournal, column: :description },
         { class: Project, column: :description },
-        { class: Projects::Status, column: :explanation },
+        { class: Project, column: :status_explanation },
         { class: WikiPage, column: :text },
         { class: Journal::WikiPageJournal, column: :text }
       ]
     end
 
-    def initialize(*classes)
-      self.replacements = if classes.any?
-                            self.class.replacements.select { |r| classes.include?(r[:class]) }
+    def initialize(replacement = nil)
+      self.replacements = if replacement
+                            self.class.replacements.select { |r| r == replacement }
                           else
                             self.class.replacements
                           end
@@ -107,7 +107,7 @@ module Users
         rewrite_column(from, to)
       else
         replacements.map do |replacement|
-          self.class.new(replacement[:class]).call(from:, to:)
+          self.class.new(replacement).call(from:, to:)
         end
       end
     end
