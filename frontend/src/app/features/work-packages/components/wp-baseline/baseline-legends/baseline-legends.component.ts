@@ -33,6 +33,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
@@ -42,12 +43,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class OpBaselineLegendsComponent {
-  @Input() date?:string;
-
-  @Input() time?:string;
-
-  @Input() filter?:string;
-
   @Input() numAdded?:number;
 
   @Input() numRemoved?:number;
@@ -55,7 +50,7 @@ export class OpBaselineLegendsComponent {
   @Input() numUpdated?:number;
 
   public text = {
-    time_description: () => this.I18n.t('js.baseline.legends.changes_since', { filter: this.filter, date: this.date, time: this.time }),
+    time_description: this.getFilterName(),
     now_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.now_meets_filter_criteria', { new: this.numAdded }),
     no_longer_meets_filter_criteria: () => this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria', { removed: this.numRemoved }),
     maintained_with_changes: () => this.I18n.t('js.baseline.legends.maintained_with_changes', { updated: this.numUpdated }),
@@ -63,5 +58,39 @@ export class OpBaselineLegendsComponent {
 
   constructor(
     readonly I18n:I18nService,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
   ) {}
+
+  public getFilterName() {
+    const timestamp = this.wpTableBaseline.current[0].split('@');
+    const filter = timestamp[0];
+    let dateTime = '';
+    const changesSince = this.I18n.t('js.baseline.legends.changes_since');
+    const time = timestamp[1].split(/[+-]/)[0];
+    switch (filter) {
+      case 'oneDayAgo':
+        dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
+        break;
+      case 'lastWorkingDay':
+        dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
+        break;
+      case 'oneWeekAgo':
+        dateTime = this.I18n.t('js.baseline.drop_down.last_week');
+        break;
+      case 'oneMonthAgo':
+        dateTime = this.I18n.t('js.baseline.drop_down.last_month');
+        break;
+      case 'aSpecificDate':
+        dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
+        break;
+      case 'betweenTwoSpecificDates':
+        dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
+        break;
+      default:
+        dateTime = '';
+        break;
+    }
+    dateTime = `${changesSince} ${dateTime} (${this.wpTableBaseline.selectedDate}, ${time})`;
+    return dateTime;
+  }
 }
