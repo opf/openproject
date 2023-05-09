@@ -80,7 +80,7 @@ pt:
       buttons:
         upgrade: "Atualizar agora"
         contact: "Contate-nos para uma demonstração"
-      enterprise_info_html: "é um complemento da Enterprise <span class='spot-icon spot-icon_enterprise-addons'></span>."
+      enterprise_info_html: "is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
       upgrade_info: "Por favor, faça o upgrade para um plano pago para ativar e começar a usá-lo em sua equipe."
     journal_aggregation:
       explanation:
@@ -738,6 +738,9 @@ pt:
               format: "%{message}"
             sort_criteria:
               invalid: "Não é possível ordenar pela coluna: %{value}"
+              format: "%{message}"
+            timestamps:
+              invalid: "Timestamps contain invalid values: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
@@ -2651,8 +2654,6 @@ pt:
     Quando utilizar campos personalizados: lembre-se de que os campos personalizados precisam ser ativados também por projeto.
   text_custom_field_hint_activate_per_project_and_type: >
     Os campos personalizados precisam ser ativados por tipo de pacote de trabalho e por projeto.
-  text_wp_custom_field_html: >
-    A edição Enterprise conta com estes complementos adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite a seleção múltipla de campos personalizados do tipo Lista ou Usuário</b></li> </ul>
   text_wp_status_read_only_html: >
     A edição Enterprise (Edição corporative) conta com estes complemento adicionais para os campos personalizados dos pacotes de trabalho: <br> <ul> <li><b>Permite marcar pacotes de trabalho como "apenas leitura" para status específicos</b></li> </ul>
   text_project_custom_field_html: >

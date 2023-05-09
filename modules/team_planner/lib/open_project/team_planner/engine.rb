@@ -43,7 +43,7 @@ module OpenProject::TeamPlanner
            { controller: '/team_planner/team_planner', action: :index },
            caption: :'team_planner.label_team_planner_plural',
            after: :work_packages,
-           icon: 'icon2 icon-team-planner',
+           icon: 'team-planner',
            enterprise_feature: 'team_planner_view'
 
       menu :project_menu,

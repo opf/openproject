@@ -38,7 +38,7 @@ describe 'Managing file links in work package', js: true, webmock: true do
   let(:storage) { create(:storage, oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
-  let(:project_storage) { create(:project_storage, project:, storage:) }
+  let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: 'inactive') }
   let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: '22', origin_name: 'jingle.ogg') }
 
   let(:connection_manager) do

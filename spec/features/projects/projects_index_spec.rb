@@ -67,10 +67,6 @@ describe 'Projects index page',
     projects_page.open_filters
   end
 
-  def allow_enterprise_edition
-    with_enterprise_token(:custom_fields_in_projects_list)
-  end
-
   def remove_filter(name)
     page.find("li[filter-name='#{name}'] .filter_rem").click
   end
@@ -101,7 +97,7 @@ describe 'Projects index page',
       end
     end
 
-    describe 'for project members' do
+    describe 'for project members', with_ee: %i[custom_fields_in_projects_list] do
       shared_let(:user) do
         create(:user,
                member_in_project: development_project,
@@ -109,10 +105,6 @@ describe 'Projects index page',
                login: 'nerd',
                firstname: 'Alan',
                lastname: 'Turing')
-      end
-
-      before do
-        allow_enterprise_edition
       end
 
       it 'only public project or those the user is member of shall be visible' do
@@ -196,11 +188,7 @@ describe 'Projects index page',
     end
   end
 
-  describe 'with valid Enterprise token' do
-    before do
-      allow_enterprise_edition
-    end
-
+  describe 'with valid Enterprise token', with_ee: %i[custom_fields_in_projects_list] do
     it 'CF columns and filters are not visible by default' do
       load_and_open_filters admin
 
@@ -510,7 +498,7 @@ describe 'Projects index page',
       end
     end
 
-    describe 'other filter types' do
+    describe 'other filter types', with_ee: %i[custom_fields_in_projects_list] do
       include ActiveSupport::Testing::TimeHelpers
 
       shared_let(:list_custom_field) { create(:list_project_custom_field) }
@@ -563,7 +551,6 @@ describe 'Projects index page',
       end
 
       before do
-        allow_enterprise_edition
         project_created_on_today
         load_and_open_filters admin
         SeleniumHubWaiter.wait
@@ -875,7 +862,7 @@ describe 'Projects index page',
     end
   end
 
-  describe 'order' do
+  describe 'order', with_ee: %i[custom_fields_in_projects_list] do
     shared_let(:integer_custom_field) { create(:int_project_custom_field) }
     # order is important here as the implementation uses lft
     # first but then reorders in ruby
@@ -896,7 +883,6 @@ describe 'Projects index page',
     end
 
     before do
-      allow_enterprise_edition
       login_as(admin)
       visit projects_path
 
@@ -981,7 +967,7 @@ describe 'Projects index page',
     end
   end
 
-  context 'with a multi-value custom field' do
+  context 'with a multi-value custom field', with_ee: %i[custom_fields_in_projects_list] do
     let!(:list_custom_field) { create(:list_project_custom_field, multi_value: true) }
 
     before do
@@ -990,7 +976,6 @@ describe 'Projects index page',
 
       project.save!
 
-      allow_enterprise_edition
       allow(Setting)
         .to receive(:enabled_projects_columns)
         .and_return [list_custom_field.column_name]

@@ -3,6 +3,11 @@ ca:
   permission_view_file_links: "Veure els enllaços del fitxer"
   permission_manage_file_links: "Administra els enllaços del fitxer"
   permission_manage_storages_in_project: "Administra els emmagatzematges de fitxers en el projecte"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Emmagatzematges de fitxers"
   activerecord:
     models:
@@ -46,12 +51,16 @@ ca:
       project_settings:
         index: "Emmagatzematges de fitxers no disponibles en aquest projecte"
         new: "Afegeix un emmagatzematge de fitxers a aquest projecte"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Si us plau, assegura't que tens privilegis d'administrador a la instància Nextcloud i tens la següent aplicació instal·lada abans de fer la configuració:"
       type_link_text: "\"Integració d'OpenProject\""
       name: "Dona un nom al teu emmagatzematge per tal que els usuaris el puguin diferenciar d'altres."
       host: "Si us plau, afegeix l'adreça d'allotjament del teu emmagatzematge incloent el https://. No pot més llarg de 255 caràcters."
       no_storage_set_up: "No hi ha emmagatzematges de fitxers configurats encara."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Per configurar emmagatzematges de fitxers addicionals, si us plau, visita"
       setting_up_additional_storages_non_admin: "Els administradors poden configurar emmagatzematges de fitxers addicionals a través d'Administració / Emmagatzematges de fitxers."
       setting_up_storages: "Per configurar emmagatzematges de fitxers, si us plau, visita"
@@ -60,11 +69,15 @@ ca:
       copy_from: "Copia aquest valor de"
       nextcloud:
         integration: "Administració Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Estàs segur que vols eliminar aquest emmagatzematge? Aquesta acció també eliminarà l'emmagatzematge de tots els projectes on s'utilitza. També eliminarà tots els enllaços de fitxers dels paquets de treball que s'emmagatzemen en aquest emmagatzematge.
       project_storage: >
         Estàs segur que vols eliminar aquest emmagatzematge de fitxers d'aquest projecte? Aquesta acció també eliminarà tots els enllaços de fitxers d'aquest projecte que s'emmagatzemen en aquest emmagatzematge.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Autor"
     label_file_link: "Enllaç a fitxer"
     label_file_links: "Enllaços a fitxer"
@@ -76,7 +89,11 @@ ca:
     label_oauth_application_details: "Detalls de l'aplicació OAuth"
     label_oauth_client_details: "Detalls del client OAuth"
     label_provider_type: "Tipus de proveïdor"
+    label_project_folder: "Project folder"
     label_new_storage: "Nou emmagatzematge"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Emmagatzematge"
     label_storages: "Emmagatzematges"
     no_results: "No s'han configurat emmagatzematges encara."

@@ -196,7 +196,7 @@ export class OpWpMultiDateFormComponent extends UntilDestroyedMixin implements A
 
       // The duration field is special in how it handles focus transitions
       // For start/due we just toggle here
-      if (field !== 'duration') {
+      if (update !== null && field !== 'duration') {
         this.toggleCurrentActivatedField();
       }
 

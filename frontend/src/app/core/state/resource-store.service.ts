@@ -149,7 +149,7 @@ export abstract class ResourceStoreService<T extends { id:ID }> {
     return this
       .collectionState(href)
       .pipe(
-        filter((collection) => !!collection),
+        filter(isDefinedEntity),
         switchMap((collection:CollectionResponse) => this.query.selectMany(collection.ids)),
       );
   }

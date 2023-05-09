@@ -3,6 +3,11 @@ pt:
   permission_view_file_links: "Exibir vínculos de arquivos"
   permission_manage_file_links: "Gerenciar vínculos de arquivos"
   permission_manage_storages_in_project: "Gerenciar armazenamentos de arquivos no projeto"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Armazenamento de arquivos"
   activerecord:
     models:
@@ -46,12 +51,16 @@ pt:
       project_settings:
         index: "Armazenamento de arquivos disponíveis neste projeto"
         new: "Adicionar um armazenamento de arquivos a este projeto"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Certifique-se de ter privilégios de administração em sua instância Nextcloud e de ter o seguinte aplicativo instalado antes de realizar a configuração:"
       type_link_text: "“Integração OpenProject”"
       name: "Dê um nome a seu armazenamento para que os usuários possam diferenciar vários armazenamentos."
       host: "Adicione o endereço do host de seu armazenamento incluindo o  https://. Ele não deve ter mais de 255 caracteres."
       no_storage_set_up: "Ainda não há armazenamento de arquivos configurado."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Para configurar armazenamentos de arquivos adicionais, por favor visite"
       setting_up_additional_storages_non_admin: "Os administradores podem configurar armazenamentos adicionais em Administração/Armazenamento de arquivos."
       setting_up_storages: "Para configurar armazenamentos de arquivos, visite"
@@ -60,11 +69,15 @@ pt:
       copy_from: "Copiar este valor de"
       nextcloud:
         integration: "Administração de Nextcloud / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Tem certeza de que deseja excluir este armazenamento? Isso também excluirá o armazenamento de todos os projetos em que for usado. Além disso, também excluirá todos os vínculos de pacotes de trabalho para arquivos armazenados nesse armazenamento.
       project_storage: >
         Tem certeza de que deseja remover este armazenamento de arquivos deste projeto? Isso também removerá todos os vínculos para arquivos armazenados neste armazenamento para este projeto.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Criador"
     label_file_link: "Vínculo do arquivo"
     label_file_links: "Vínculos dos arquivos"
@@ -76,7 +89,11 @@ pt:
     label_oauth_application_details: "Detalhes do aplicativo OAuth"
     label_oauth_client_details: "Detalhes do cliente OAuth"
     label_provider_type: "Tipo de provedor"
+    label_project_folder: "Project folder"
     label_new_storage: "Novo armazenamento"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Armazenamento"
     label_storages: "Armazenamentos"
     no_results: "Ainda não há armazenamento configurado."

@@ -47,7 +47,7 @@ module Storages::Storages
     end
 
     def derive_default_storage_name
-      prefix = I18n.t("storages.provider_types.#{storage.provider_type}.default_name")
+      prefix = I18n.t("storages.provider_types.#{storage.short_provider_type}.default_name")
       last_id = Storages::Storage.where("name like ?", "#{prefix}%").maximum(:id)
 
       return prefix if last_id.nil?

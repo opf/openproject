@@ -32,5 +32,7 @@ FactoryBot.define do
     creator factory: :user
     storage factory: :storage
     project factory: :project
+    project_folder_id { nil }
+    project_folder_mode { 'inactive' }
   end
 end

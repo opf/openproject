@@ -9,6 +9,7 @@ de:
         identifier: Kennung
         secret: Secret
         scope: Geltungsbereich
+        limit_self_registration: Selbstregistrierung begrenzen
   openid_connect:
     menu_title: OpenID-Anbieter
     providers:
@@ -17,3 +18,6 @@ de:
       no_results_table: Noch keine Anbieter definiert.
       plural: OpenID-Anbieter
       singular: OpenID-Anbieter
+    setting_instructions:
+      limit_self_registration: >
+        Wenn aktiviert, können sich Benutzer nur dann mit diesem Anbieter registrieren, wenn die Einstellung zur Selbstregistrierung dies zulässt.

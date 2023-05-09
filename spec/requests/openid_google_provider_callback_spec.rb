@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'OpenID Google provider callback' do
+describe 'OpenID Google provider callback', with_ee: %i[openid_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -51,7 +51,11 @@ describe 'OpenID Google provider callback' do
   end
 
   before do
-    with_enterprise_token :openid_providers
+    # enable self registration for Google which is limited by default
+    expect(OpenProject::Plugins::AuthPlugin)
+      .to receive(:limit_self_registration?)
+      .with(provider: "google")
+      .and_return false
 
     stub_request(:post, "https://accounts.google.com/o/oauth2/token").to_return(
       status: 200,

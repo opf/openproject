@@ -145,6 +145,23 @@ OpenProject OIDC integration supports [back-channel logouts](https://openid.net/
 
 On the identity provider side, you need to set `https://<OpenProject host>/auth/<provider>/backchannel-logout`. `<provider>` is the identifier of the OIDC configuration as provided above. 
 
+
+
+#### Respecting self-registration
+
+You can configure OpenProject to restrict which users can register on the system with the [authentication self-registration setting](../../../system-admin-guide/authentication/authentication-settings)
+
+ By default, users returning from a SAML idP will be automatically created. If you'd like for the SAML integration to respect the configured self-registration option, please use setting `limit_self_registration`:
+
+```ruby
+options = { 
+  # ... other options
+  limit_self_registration: true
+}
+```
+
+
+
 ### Claims
 
 You can also request [claims](https://openid.net/specs/openid-connect-core-1_0-final.html#Claims) for both the id_token and userinfo endpoint.

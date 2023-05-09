@@ -28,7 +28,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe "POST /api/v3/queries/form" do
+describe "POST /api/v3/queries/form", with_flag: { show_changes: true } do
   include API::V3::Utilities::PathHelper
 
   let(:path) { api_v3_paths.create_query_form }
@@ -326,7 +326,7 @@ describe "POST /api/v3/queries/form" do
 
   describe 'with all parameters given' do
     let(:status) { create(:status) }
-    let(:timestamps) { [1.week.ago.iso8601, "P0D"] }
+    let(:timestamps) { [1.week.ago.iso8601, 'lastWorkingDay@12:00+00:00', "P0D"] }
 
     let(:parameters) do
       {
@@ -583,6 +583,17 @@ describe "POST /api/v3/queries/form" do
         it "returns a validation error" do
           expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
             .to eq "Timestamps contain invalid values: 2022-03-02 invalid string 20:45:56Z"
+        end
+      end
+
+      context 'when one timestamp cannot be parsed (malformed)#2' do
+        let(:override_params) do
+          { timestamps: ['LastWorkingDayInvalid@12:00', 'P0D'] }
+        end
+
+        it "returns a validation error" do
+          expect(form.dig("_embedded", "validationErrors", "timestamps", "message"))
+            .to eq "Timestamps contain invalid values: LastWorkingDayInvalid@12:00"
         end
       end
 

@@ -68,8 +68,8 @@ de:
       delete_all_are_you_sure: 'Sind Sie sicher, dass Sie alle 2FA-Geräte dieses Nutzers entfernen möchten?'
       button_delete_all_devices: '2FA-Gerät entfernen'
       button_register_mobile_phone_for_user: 'Mobiltelefon registrieren'
-      text_2fa_enabled: 'Bei jedem Login werden dieser Nutzer aufgefordert, ein Einmalpasswort aus seinem Standardgerät für 2FA einzugeben.'
-      text_2fa_disabled: "Der Nutzer hat kein 2FA-Gerät über seine Kontoseite registriert"
+      text_2fa_enabled: 'Bei jeder Anmeldung wird dieser Benutzer aufgefordert, ein OTP-Token über sein Standard-2FA-Gerät einzugeben.'
+      text_2fa_disabled: "Der Benutzer hat kein 2FA-Gerät über seine Seite „Mein Konto“ eingerichtet"
     upsale:
       title: 'Zwei-Faktor-Authentifizierung'
       description: 'Stärken Sie die Sicherheit Ihrer OpenProject Instanz, indem Sie allen Projektmitgliedern eine Zwei-Faktor-Authentifizierung anbieten (oder durchsetzen).'

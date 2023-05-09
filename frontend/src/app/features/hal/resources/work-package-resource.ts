@@ -30,7 +30,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InputState } from 'reactivestates';
+import { InputState } from '@openproject/reactivestates';
 import {
   WorkPackagesActivityService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
@@ -48,9 +48,11 @@ import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { Attachable } from 'core-app/features/hal/resources/mixins/attachable-mixin';
 import { ICKEditorContext } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export interface WorkPackageResourceEmbedded {
   activities:CollectionResource;
+  // eslint-disable-next-line no-use-before-define
   ancestors:WorkPackageResource[];
   assignee:HalResource|any;
   attachments:AttachmentCollectionResource;
@@ -58,7 +60,9 @@ export interface WorkPackageResourceEmbedded {
   author:HalResource|any;
   availableWatchers:HalResource|any;
   category:HalResource|any;
+  // eslint-disable-next-line no-use-before-define
   children:WorkPackageResource[];
+  // eslint-disable-next-line no-use-before-define
   parent:WorkPackageResource|null;
   priority:HalResource|any;
   project:HalResource|any;
@@ -132,6 +136,11 @@ export class WorkPackageBaseResource extends HalResource {
 
   public attachments:AttachmentCollectionResource;
 
+  // eslint-disable-next-line no-use-before-define
+  public ancestors:WorkPackageResource[];
+
+  public attributesByTimestamp?:IWorkPackageTimestamp[];
+
   @InjectField() I18n!:I18nService;
 
   @InjectField() states:States;
@@ -152,8 +161,7 @@ export class WorkPackageBaseResource extends HalResource {
    * Return the ids of all its ancestors, if any
    */
   public get ancestorIds():string[] {
-    const { ancestors } = this as any;
-    return ancestors.map((el:WorkPackageResource) => el.id!);
+    return this.ancestors.map((el:HalResource) => (el.id as string|number).toString());
   }
 
   /**

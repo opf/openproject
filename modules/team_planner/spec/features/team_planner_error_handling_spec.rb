@@ -50,9 +50,8 @@ describe 'Team planner error handling', js: true do
 
   let(:type) { create(:type, custom_fields: [custom_field]) }
 
-  context 'with full permissions' do
+  context 'with full permissions', with_ee: %i[team_planner_view] do
     before do
-      with_enterprise_token(:team_planner_view)
       project.types << type
       project.save!
 

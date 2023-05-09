@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Status action board', js: true do
+describe 'Status action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -102,7 +102,6 @@ describe 'Status action board', js: true do
   let(:filters) { Components::WorkPackages::Filters.new }
 
   before do
-    with_enterprise_token :board_view
     task_wp
     bug_wp
     login_as(user)

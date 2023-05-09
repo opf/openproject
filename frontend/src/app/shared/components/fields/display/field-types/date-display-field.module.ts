@@ -53,7 +53,7 @@ export class DateDisplayField extends HighlightableDisplayField {
     }
 
     // Highlight overdue tasks
-    if (this.shouldHighlight && this.canOverdue) {
+    if (this.shouldHighlight && this.canOverdue && !!this.resource.status) {
       const diff = this.timezoneService.daysFromToday(this.value);
 
       this
@@ -61,8 +61,7 @@ export class DateDisplayField extends HighlightableDisplayField {
         .statuses
         .id(this.resource.status.id)
         .get()
-        .toPromise()
-        .then((status) => {
+        .subscribe((status) => {
           if (!status.isClosed) {
             element.classList.add(Highlighting.overdueDate(diff));
           }

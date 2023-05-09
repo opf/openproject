@@ -36,14 +36,13 @@ describe 'Reset form configuration', js: true do
   let(:form) { Components::Admin::TypeConfigurationForm.new }
   let(:dialog) { Components::ConfirmationDialog.new }
 
-  describe "with EE token and CFs" do
+  describe "with EE token and CFs", with_ee: %i[edit_attribute_groups] do
     let(:custom_fields) { [custom_field] }
     let(:custom_field) { create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
     let(:cf_identifier) { custom_field.attribute_name }
     let(:cf_identifier_api) { cf_identifier.camelcase(:lower) }
 
     before do
-      with_enterprise_token(:edit_attribute_groups)
       project
       custom_field
 

@@ -28,8 +28,6 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FileQuery < Storages::Peripherals::StorageInteraction::StorageQuery
-    include API::V3::Utilities::PathHelper
-    include Errors
     using Storages::Peripherals::ServiceResultRefinements
 
     FILE_INFO_PATH = 'ocs/v1.php/apps/integration_openproject/fileinfo'.freeze
@@ -44,19 +42,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def query(file_id)
       file_info(file_id) >>
+        method(:handle_access_control) >>
         method(:storage_file)
     end
 
     private
 
-    # rubocop:disable Metrics/AbcSize
     def file_info(file_id)
       @retry_proc.call(@token) do |token|
-        begin
-          service_result = ServiceResult.success(
+        service_result = begin
+          ServiceResult.success(
             result: RestClient::Request.execute(
               method: :get,
-              url: api_v3_paths.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
+              url: Util.join_uri_path(@base_uri, FILE_INFO_PATH, file_id),
               headers: {
                 'Authorization' => "Bearer #{token.access_token}",
                 'Accept' => 'application/json',
@@ -65,13 +63,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             )
           )
         rescue RestClient::Unauthorized => e
-          service_result = error(:not_authorized, 'Outbound request not authorized!', e.response)
+          Util.error(:not_authorized, 'Outbound request not authorized!', e.response)
         rescue RestClient::NotFound => e
-          service_result = error(:not_found, 'Outbound request destination not found!', e.response)
+          Util.error(:not_found, 'Outbound request destination not found!', e.response)
         rescue RestClient::ExceptionWithResponse => e
-          service_result = error(:error, 'Outbound request failed!', e.response)
+          Util.error(:error, 'Outbound request failed!', e.response)
         rescue StandardError
-          service_result = error(:error, 'Outbound request failed!')
+          Util.error(:error, 'Outbound request failed!')
         end
 
         # rubocop:disable Style/OpenStructUse
@@ -80,21 +78,27 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    # rubocop:enable Metrics/AbcSize
+    def handle_access_control(file_info_response)
+      data = file_info_response.ocs.data
+      if data.statuscode == 403
+        Util.error(:forbidden)
+      else
+        ServiceResult.success(result: data)
+      end
+    end
 
     # rubocop:disable Metrics/AbcSize
-    def storage_file(file_info_response)
-      data = file_info_response.ocs.data
-      storage_file = ::Storages::StorageFile.new(data.id,
-                                                 data.name,
-                                                 data.size,
-                                                 data.mimetype,
-                                                 Time.zone.at(data.ctime),
-                                                 Time.zone.at(data.mtime),
-                                                 data.owner_name,
-                                                 data.modifier_name,
-                                                 location(data.path),
-                                                 data.dav_permissions)
+    def storage_file(file_info_data)
+      storage_file = ::Storages::StorageFile.new(file_info_data.id,
+                                                 file_info_data.name,
+                                                 file_info_data.size,
+                                                 file_info_data.mimetype,
+                                                 Time.zone.at(file_info_data.ctime),
+                                                 Time.zone.at(file_info_data.mtime),
+                                                 file_info_data.owner_name,
+                                                 file_info_data.modifier_name,
+                                                 location(file_info_data.path),
+                                                 file_info_data.dav_permissions)
       ServiceResult.success(result: storage_file)
     end
 

@@ -3,6 +3,11 @@ it:
   permission_view_file_links: "Visualizza link ai file"
   permission_manage_file_links: "Gestire link ai file"
   permission_manage_storages_in_project: "Gestisci archivi di file nel progetto"
+  permission_read_files: "Read files"
+  permission_write_files: "Write files"
+  permission_create_files: "Create files"
+  permission_delete_files: "Delete files"
+  permission_share_files: "Share files"
   project_module_storages: "Archivi file"
   activerecord:
     models:
@@ -46,12 +51,16 @@ it:
       project_settings:
         index: "File di archiviazione disponibili in questo progetto"
         new: "Aggiungi un archivio file al progetto"
+        edit: "Edit the file storage to this project"
     instructions:
       type: "Assicurati di disporre dei privilegi di amministrazione nella tua istanza Nextcloud e di aver installato la seguente applicazione prima di eseguire l'installazione:"
       type_link_text: "“Integrazione OpenProject”"
       name: "Dai al tuo archivio un nome in modo che gli utenti lo possano distinguere tra più archivi."
       host: "Aggiungi l'indirizzo host del tuo spazio di archiviazione incluso https://. Non dovrebbe essere più lungo di 255 caratteri."
       no_storage_set_up: "Ancora nessuna archiviazione di file configurata."
+      no_specific_folder: "By default, each user will start at their own home folder when they upload a file."
+      existing_manual_folder: >
+        You can designate an existing folder as the root folder for this project. The permissions are however not automatically managed, the administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
       setting_up_additional_storages: "Per impostare ulteriori archivi file, visita"
       setting_up_additional_storages_non_admin: "Gli amministratori possono impostare ulteriori archivi file in Amministrazione / Archivi file."
       setting_up_storages: "Per impostare archivi file, visita"
@@ -60,11 +69,15 @@ it:
       copy_from: "Copia questo valore da"
       nextcloud:
         integration: "Nextcloud Administration / OpenProject"
+    help_texts:
+      project_folder: >
+        The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     delete_warning:
       storage: >
         Vuoi davvero eliminare questo archivio? Ciò eliminerà anche lo spazio di archiviazione da tutti i progetti in cui viene utilizzato. Inoltre, eliminerà anche tutti i collegamenti dalle macro-attività ai file archiviati in tale archivio.
       project_storage: >
         Vuoi davvero rimuovere questo archivio di file da questo progetto? Ciò rimuoverà anche tutti i collegamenti ai file archiviati in questo archivio per questo progetto.
+    placeholder_existing_folder_selection: "Select a folder"
     label_creator: "Autore"
     label_file_link: "Link del File"
     label_file_links: "Link dei File"
@@ -76,7 +89,11 @@ it:
     label_oauth_application_details: "Dettagli applicazione OAuth"
     label_oauth_client_details: "Dettagli client OAuth"
     label_provider_type: "Tipo di fonte"
+    label_project_folder: "Project folder"
     label_new_storage: "Nuovo archivio"
+    label_existing_manual_folder: "Existing folder with manually managed permissions"
+    label_existing_manual_folder_selection: "Existing folder selection"
+    label_no_specific_folder: "No specific folder"
     label_storage: "Archivio"
     label_storages: "Archivi"
     no_results: "Ancora nessun'archiviazione configurata."

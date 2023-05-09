@@ -9,6 +9,7 @@ sl:
         identifier: Identifikator
         secret: Skrivnost
         scope: Področje
+        limit_self_registration: Omeji samoregistracijo
   openid_connect:
     menu_title: OpenID ponudniki
     providers:
@@ -17,3 +18,6 @@ sl:
       no_results_table: Zaenkrat še ni opredeljenih ponudnikov.
       plural: OpenID ponudniki
       singular: OpenID ponudnik
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

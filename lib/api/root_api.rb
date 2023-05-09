@@ -71,9 +71,13 @@ module API
       def authenticate
         User.current = warden.authenticate! scope: authentication_scope
 
-        if Setting.login_required? and not logged_in?
+        if Setting.login_required? && !logged_in? && !allowed_unauthenticated_route?
           raise ::API::Errors::Unauthenticated
         end
+      end
+
+      def allowed_unauthenticated_route?
+        false
       end
 
       def set_localization

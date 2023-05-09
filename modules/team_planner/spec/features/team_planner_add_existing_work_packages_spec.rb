@@ -72,9 +72,8 @@ describe 'Team planner add existing work packages', js: true do
   let(:add_existing_pane) { Components::AddExistingPane.new }
   let(:filters) { Components::WorkPackages::Filters.new }
 
-  context 'with full permissions' do
+  context 'with full permissions', with_ee: %i[team_planner_view] do
     before do
-      with_enterprise_token(:team_planner_view)
       team_planner.visit!
 
       team_planner.add_assignee user
@@ -159,7 +158,7 @@ describe 'Team planner add existing work packages', js: true do
       sleep 2
 
       # Drag it to the team planner...
-      add_existing_pane.drag_wp_by_pixel third_wp, 800, -50
+      add_existing_pane.drag_wp_by_pixel third_wp, 800, 100
 
       team_planner.expect_and_dismiss_toaster(message: "Successful update.")
 

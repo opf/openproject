@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Subtasks action board', js: true do
+describe 'Subtasks action board', js: true, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:role, permissions:) }
@@ -49,7 +49,6 @@ describe 'Subtasks action board', js: true do
   let!(:child) { create(:work_package, project:, subject: 'Child WP', parent:, status: open_status) }
 
   before do
-    with_enterprise_token :board_view
     login_as(user)
   end
 

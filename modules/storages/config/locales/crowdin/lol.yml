@@ -3,6 +3,11 @@ lol:
   permission_view_file_links: "crwdns807898:0crwdne807898:0"
   permission_manage_file_links: "crwdns807900:0crwdne807900:0"
   permission_manage_storages_in_project: "crwdns807902:0crwdne807902:0"
+  permission_read_files: "crwdns852055:0crwdne852055:0"
+  permission_write_files: "crwdns852057:0crwdne852057:0"
+  permission_create_files: "crwdns852059:0crwdne852059:0"
+  permission_delete_files: "crwdns852061:0crwdne852061:0"
+  permission_share_files: "crwdns852063:0crwdne852063:0"
   project_module_storages: "crwdns807904:0crwdne807904:0"
   activerecord:
     models:
@@ -46,12 +51,16 @@ lol:
       project_settings:
         index: "crwdns807928:0crwdne807928:0"
         new: "crwdns824326:0crwdne824326:0"
+        edit: "crwdns852275:0crwdne852275:0"
     instructions:
       type: "crwdns823142:0crwdne823142:0"
       type_link_text: "crwdns823144:0crwdne823144:0"
       name: "crwdns823146:0crwdne823146:0"
       host: "crwdns823148:0crwdne823148:0"
       no_storage_set_up: "crwdns844777:0crwdne844777:0"
+      no_specific_folder: "crwdns852277:0crwdne852277:0"
+      existing_manual_folder: >
+        crwdns852279:0crwdne852279:0
       setting_up_additional_storages: "crwdns807938:0crwdne807938:0"
       setting_up_additional_storages_non_admin: "crwdns807940:0crwdne807940:0"
       setting_up_storages: "crwdns807942:0crwdne807942:0"
@@ -60,11 +69,15 @@ lol:
       copy_from: "crwdns823150:0crwdne823150:0"
       nextcloud:
         integration: "crwdns823152:0crwdne823152:0"
+    help_texts:
+      project_folder: >
+        crwdns852491:0crwdne852491:0
     delete_warning:
       storage: >
         crwdns807948:0crwdne807948:0
       project_storage: >
         crwdns807950:0crwdne807950:0
+    placeholder_existing_folder_selection: "crwdns852281:0crwdne852281:0"
     label_creator: "crwdns807952:0crwdne807952:0"
     label_file_link: "crwdns807954:0crwdne807954:0"
     label_file_links: "crwdns807956:0crwdne807956:0"
@@ -76,7 +89,11 @@ lol:
     label_oauth_application_details: "crwdns823082:0crwdne823082:0"
     label_oauth_client_details: "crwdns816762:0crwdne816762:0"
     label_provider_type: "crwdns807962:0crwdne807962:0"
+    label_project_folder: "crwdns852493:0crwdne852493:0"
     label_new_storage: "crwdns807964:0crwdne807964:0"
+    label_existing_manual_folder: "crwdns852283:0crwdne852283:0"
+    label_existing_manual_folder_selection: "crwdns852285:0crwdne852285:0"
+    label_no_specific_folder: "crwdns852287:0crwdne852287:0"
     label_storage: "crwdns807966:0crwdne807966:0"
     label_storages: "crwdns807968:0crwdne807968:0"
     no_results: "crwdns844783:0crwdne844783:0"

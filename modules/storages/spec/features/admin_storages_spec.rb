@@ -47,13 +47,16 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Create a storage - happy path
     expect(page).to have_title('New storage')
     expect(page.find('.title-container')).to have_text('New storage')
-    expect(page).to have_select 'storages_storage[provider_type]', selected: 'Nextcloud', disabled: true
+    expect(page).to have_select('storages_storage[provider_type]', selected: 'Nextcloud')
     expect(page).to have_field('storages_storage[name]', with: 'My Nextcloud')
 
     # Test the happy path for a valid storage server (host).
     # Mock a valid response (=200) for example.com, so the host validation should succeed
     mock_server_capabilities_response("https://example.com")
     mock_server_config_check_response("https://example.com")
+
+    # Setting to "" is needed to avoid receiving "My NextcloudNC 1"
+    page.find_by_id('storages_storage_name').set("")
     page.find_by_id('storages_storage_name').set("NC 1")
     page.find_by_id('storages_storage_host').set("https://example.com")
     page.find('button[type=submit]', text: "Save and continue setup").click
@@ -102,6 +105,8 @@ describe 'Admin storages', :storage_server_helpers, js: true do
     # Edit storage again
     page.find('.button--icon.icon-edit').click
     expect(page).to have_title("Edit: NC 1")
+    expect(page).not_to have_select("storages_storage[provider_type]")
+    expect(page).to have_text("NC 1")
     expect(page.find('.title-container')).to have_text('Edit: NC 1')
 
     # Edit page - With option to replace the OAuth2 client

@@ -227,7 +227,7 @@ lol:
           quick_overview: "crwdns839459:0crwdne839459:0"
         upsale:
           become_hero: "crwdns787162:0crwdne787162:0"
-          enterprise_info_html: "crwdns839569:0%{feature_title}crwdne839569:0"
+          enterprise_info_html: "crwdns852069:0%{feature_title}crwdne852069:0"
           upgrade_info: "crwdns838381:0crwdne838381:0"
           benefits:
             description: "crwdns839461:0crwdne839461:0"
@@ -918,6 +918,10 @@ lol:
       message_work_package_read_only: "crwdns788224:0crwdne788224:0"
       message_work_package_status_blocked: "crwdns788226:0crwdne788226:0"
       placeholder_filter_by_text: "crwdns788228:0crwdne788228:0"
+      baseline:
+        addition_label: 'crwdns852071:0crwdne852071:0'
+        removal_label: 'crwdns852073:0crwdne852073:0'
+        modification_label: 'crwdns852075:0crwdne852075:0'
       filters:
         title: 'crwdns833314:0crwdne833314:0'
       inline_create:
@@ -1248,6 +1252,23 @@ lol:
         current_project: 'crwdns809360:0crwdne809360:0'
         does_not_match_search: 'crwdns822880:0crwdne822880:0'
       no_results: 'crwdns825434:0crwdne825434:0'
+    baseline:
+      toggle_title: 'crwdns852025:0crwdne852025:0'
+      clear: 'crwdns852027:0crwdne852027:0'
+      apply: 'crwdns852029:0crwdne852029:0'
+      header_description: 'crwdns852031:0crwdne852031:0'
+      show_changes_since: 'crwdns852033:0crwdne852033:0'
+      help_description: 'crwdns852035:0crwdne852035:0'
+      time_description: 'crwdns852037:0%{time}crwdnd852037:0%{days}crwdne852037:0'
+      time: 'crwdns852039:0crwdne852039:0'
+      drop_down:
+        none: 'crwdns852041:0crwdne852041:0'
+        yesterday: 'crwdns852043:0crwdne852043:0'
+        last_working_day: 'crwdns852045:0crwdne852045:0'
+        last_week: 'crwdns852047:0crwdne852047:0'
+        last_month: 'crwdns852049:0crwdne852049:0'
+        a_specific_date: 'crwdns852051:0crwdne852051:0'
+        between_two_specific_dates: 'crwdns852053:0crwdne852053:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

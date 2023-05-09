@@ -40,7 +40,6 @@ class Authorization::EnterpriseService
     edit_attribute_groups
     grid_widget_wp_graph
     ldap_groups
-    multiselect_custom_fields
     openid_providers
     placeholder_users
     readonly_work_packages

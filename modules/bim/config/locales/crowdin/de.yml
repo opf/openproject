@@ -2,12 +2,12 @@
 de:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Clash
-    default_type_issue: Issue
-    default_type_remark: Remark
-    default_type_request: Request
-    default_status_resolved: Resolved
-    default_priority_critical: Critical
+    default_type_clash: Konflikt
+    default_type_issue: Problem
+    default_type_remark: Bemerkung
+    default_type_request: Anfrage
+    default_status_resolved: Gelöst
+    default_priority_critical: Kritisch
   bcf:
     label_bcf: 'BCF'
     label_imported_failed: 'Fehler beim Import von BCF-Themen'

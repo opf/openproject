@@ -1,0 +1,81 @@
+<form
+  *ngIf="(nonWorkingDays$ | async); else loadingTemplate"
+  (submit)="onSubmit($event)"
+  class="spot-container op-baseline--body"
+>
+  <spot-form-field
+    [label]="text.show_changes_since">
+
+    <div slot="input">
+      <select
+        name="op-baseline-filter"
+        class="op-baseline--filter"
+        (change)="filterChange($event.target.value)"
+      >
+        <option [textContent]="text.drop_down_none_option"
+                [selected]="!filterSelected"
+                [value]="'-'"></option>
+        <option
+          *ngFor="let availableValue of baselineAvailableValues"
+          [value]="availableValue.value"
+          [selected]="availableValue.value === selectedFilter"
+        >
+          {{availableValue.title}}
+        </option>
+      </select>
+
+    </div>
+    <span slot="description">  {{ dropDownDescription }} </span>
+  </spot-form-field>
+
+  <spot-form-field
+    [label]="text.time"
+    *ngIf="filterSelected"
+    class="op-baseline--time">
+
+    <input
+      slot="input"
+      name="op-baseline-time"
+      [value]="selectedTime"
+      (change)="timeChange($event.target.value)"
+      type="time"
+      class="op-baseline--time-input"/>
+
+    <spot-tooltip
+      slot="input"
+      class="op-baseline--time-tooltip op-baseline--time-help spot-body-small"
+      [alignment]="tooltipPosition"
+      [disabled]="false"
+      [light]="true">
+      <span slot="trigger">{{text.timeZone}}</span>
+      <span slot="body" class="spot-body-small op-baseline--time-tooltip-body">{{ text.help_description }}</span>
+    </spot-tooltip>
+
+
+    <span slot="description" [textContent]="text.time_description()"></span>
+  </spot-form-field>
+
+  <div class="spot-action-bar"
+      *ngIf="showActionBar">
+
+    <div class="spot-action-bar--right">
+      <button
+        class="button spot-action-bar--action"
+        [disabled]="!filterSelected"
+        type="button"
+        (click)="clearSelection()"
+      >
+        {{ text.clear }}
+      </button>
+      <button
+        class="button -highlight spot-action-bar--action"
+      >
+        {{ text.apply }}
+      </button>
+    </div>
+  </div>
+</form>
+
+<ng-template #loadingTemplate>
+  <op-baseline-loading></op-baseline-loading>
+</ng-template>

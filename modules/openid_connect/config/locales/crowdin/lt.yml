@@ -9,6 +9,7 @@ lt:
         identifier: Identifikatorius
         secret: Paslaptis
         scope: Apimtis
+        limit_self_registration: Limit self registration
   openid_connect:
     menu_title: OpenID tiekėjai
     providers:
@@ -17,3 +18,6 @@ lt:
       no_results_table: Dar neapibrėžtas joks tiekėjas.
       plural: OpenID tiekėjai
       singular: OpenID tiekėjas
+    setting_instructions:
+      limit_self_registration: >
+        If enabled users can only register using this provider if the self registration setting allows for it.

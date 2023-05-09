@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './support/board_index_page'
 require_relative './support/board_page'
 
-describe 'Work Package boards updating spec', js: true do
+describe 'Work Package boards updating spec', js: true, with_ee: %i[board_view] do
   let(:admin) { create(:admin) }
 
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
@@ -41,7 +41,6 @@ describe 'Work Package boards updating spec', js: true do
   let!(:board_view) { create(:board_grid_with_query, name: 'My board', project:) }
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(admin)
     board_index.visit!

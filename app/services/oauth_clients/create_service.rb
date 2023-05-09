@@ -31,7 +31,6 @@
 # Purpose: create and persist a Storages::Storage record
 # Used by: Storages::Admin::StoragesController#create, could also be used by the
 # API in the future.
-# Reference: https://www.openproject.org/docs/development/concepts/contracted-services/
 # The comments here are also valid for the other *_service.rb files
 module OAuthClients
   class CreateService < ::BaseServices::Create

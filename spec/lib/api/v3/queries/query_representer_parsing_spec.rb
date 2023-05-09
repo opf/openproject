@@ -86,7 +86,7 @@ describe API::V3::Queries::QueryRepresenter, 'parsing' do
     end
   end
 
-  describe 'highlighted_attributes', with_ee: [:conditional_highlighting] do
+  describe 'highlighted_attributes', with_ee: %i[conditional_highlighting] do
     let(:request_body) do
       {
         '_links' => {
@@ -171,14 +171,14 @@ describe API::V3::Queries::QueryRepresenter, 'parsing' do
   end
 
   describe 'timestamps' do
-    let(:timestamp_params) { [1.week.ago.iso8601, 'P0D'] }
+    let(:timestamp_params) { [1.week.ago.iso8601, 'lastWorkingDay@12:00', 'P0D'] }
     let(:request_body) do
       { 'timestamps' => timestamp_params }
     end
 
     it 'sets timestamps' do
       expect(subject.timestamps)
-        .to eq([1.week.ago.iso8601, 'P0D'])
+        .to eq([1.week.ago.iso8601, 'lastWorkingDay@12:00', 'P0D'])
     end
   end
 end

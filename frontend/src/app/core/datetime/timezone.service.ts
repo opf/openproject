@@ -111,8 +111,8 @@ export class TimezoneService {
     return date.diff(today, 'days');
   }
 
-  public formattedTime(datetimeString:string):string {
-    return this.parseDatetime(datetimeString).format(this.getTimeFormat());
+  public formattedTime(datetimeString:string, format?:string):string {
+    return this.parseDatetime(datetimeString).format(format || this.getTimeFormat());
   }
 
   public formattedDatetime(datetimeString:string):string {
