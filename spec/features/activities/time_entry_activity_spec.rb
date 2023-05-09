@@ -26,43 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# require 'spec_helper'
-
-# describe 'TimeEntry activities' do
-
-#   # TO DO
-
-#   # User logs time for a WP
-#   # Activity is displayed as specified
-#   # User updates log time duration and category
-#   # Activity is updated as specified
-
-# end
-
 require 'spec_helper'
 
-describe 'TimeEntry activities' do
+describe 'TimeEntry activities', with_settings: { journal_aggregation_time_minutes: 0 } do
   let(:user) do
     create(:user,
            member_in_project: project,
            member_with_permissions: %w[log_time
-                                      view_time_entries
-                                      view_own_time_entries
-                                      edit_own_time_entries
-                                      view_work_packages
-                                      edit_work_packages
-                                      edit_time_entries])
+                                       view_time_entries
+                                       view_own_time_entries
+                                       edit_own_time_entries
+                                       view_work_packages
+                                       edit_work_packages
+                                       edit_time_entries])
   end
-  let(:project) { create(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }
+  let(:user2) { create(:user, firstname: 'Peter', lastname: 'Parker') }
+  let(:project) { build(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }
+  let(:time_entry_activity) { create(:time_entry_activity) }
+  let(:time_entry_activity2) { create(:time_entry_activity) }
   let(:work_package) { create(:work_package, project:, type: project.types.first) }
+  let(:work_package2) { build(:work_package, project:, type: project.types.second) }
   let(:hours) { 5.0 }
-  let(:time_entry) do
+  let!(:time_entry) do
     create(:time_entry,
            project:,
            work_package:,
-           spent_on: Date.today,
+           spent_on: Time.zone.today,
            hours:,
            user:,
+           activity_id: time_entry_activity.id,
            comments: 'lorem ipsum')
   end
 
@@ -71,24 +63,51 @@ describe 'TimeEntry activities' do
   end
 
   it 'tracks the time_entry\'s activities', js: true do
-    work_package.save!
-    time_entry.save!
     visit project_activity_index_path(project)
 
     check 'Spent time'
-    uncheck 'Work packages'
 
     click_button 'Apply'
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}")
-      expect(page).to have_selector('li', text: "Spent time: #{time_entry.hours.to_i} hours")
+      expect(page).to have_selector('li', text: "Spent time: 5 hours")
       expect(page).to have_link('Details')
       click_link('Details')
     end
+    expect(find_field('work_package_id_arg_1_val').value).to eq(work_package.id.to_s)
 
-    expect(find_field('work_package_id_arg_1_val').value).to eq("#{work_package.id}")
+    old_comments = time_entry.comments
+    old_spent_on = time_entry.spent_on
 
+    new_attributes = {
+      work_package: work_package2,
+      spent_on: Time.zone.yesterday,
+      hours: 1.0,
+      user: user2,
+      activity_id: time_entry_activity2.id,
+      comments: 'updated comment'
+    }
 
+    time_entry.update!(new_attributes)
+
+    visit project_activity_index_path(project)
+
+    check 'Spent time'
+
+    click_button 'Apply'
+
+    within("li.op-activity-list--item", match: :first) do
+      expect(page).to have_link("#{project.types.first} ##{work_package2.id}: #{work_package2.subject}")
+      expect(page).to have_selector('li', text: "Logged for #{user2.name}")
+      expect(page).to have_selector('li', text: "Work package changed from #{work_package.name} to #{work_package2.name}")
+      expect(page).to have_selector('li', text: "Spent time changed from 5 hours to 1 hour")
+      expect(page).to have_selector('li', text: "Comment changed from #{old_comments} to #{time_entry.comments}")
+      expect(page).to have_selector('li',
+                                    text: "Activity changed from #{time_entry_activity.name} to #{time_entry_activity2.name}")
+      expect(page).to have_selector('li', text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
+      click_link('Details')
+    end
+    expect(find_field('work_package_id_arg_1_val').value).to eq(work_package2.id.to_s)
   end
 end
