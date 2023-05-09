@@ -83,7 +83,6 @@ class Project < ApplicationRecord
                           -> { order("#{CustomField.table_name}.position") },
                           join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
