@@ -63,7 +63,7 @@ module API
 
           schema_with_allowed_collection :status,
                                          type: 'ProjectStatus',
-                                         name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.code') },
+                                         name_source: ->(*) { I18n.t('activerecord.attributes.project.status_code') },
                                          required: false,
                                          writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
@@ -79,7 +79,7 @@ module API
 
           schema :status_explanation,
                  type: 'Formattable',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.projects/status.explanation') },
+                 name_source: ->(*) { I18n.t('activerecord.attributes.project.status_explanation') },
                  required: false,
                  writable: ->(*) { represented.writable?(:status_explanation) }
 

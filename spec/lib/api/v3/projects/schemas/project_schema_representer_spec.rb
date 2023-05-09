@@ -184,7 +184,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'Formattable' }
-        let(:name) { I18n.t('activerecord.attributes.projects/status.explanation') }
+        let(:name) { I18n.t('activerecord.attributes.project.status_explanation') }
         let(:required) { false }
         let(:writable) { true }
       end
@@ -195,7 +195,7 @@ describe API::V3::Projects::Schemas::ProjectSchemaRepresenter do
 
       it_behaves_like 'has basic schema properties' do
         let(:type) { 'ProjectStatus' }
-        let(:name) { I18n.t('activerecord.attributes.projects/status.code') }
+        let(:name) { I18n.t('activerecord.attributes.project.status_code') }
         let(:required) { false }
         let(:writable) { true }
         let(:location) { '_links' }
