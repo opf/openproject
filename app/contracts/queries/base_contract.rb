@@ -60,7 +60,7 @@ module Queries
 
     validate :validate_project
     validate :user_allowed_to_make_public
-    validate :allowed_timestamps
+    validate :timestamps_are_parsable
 
     def validate_project
       errors.add :project, :error_not_found if project_id.present? && !project_visible?
@@ -84,19 +84,11 @@ module Queries
       end
     end
 
-    def allowed_timestamps
-      valid_timestamps, invalid_timestamps = model.timestamps.partition(&:valid?)
+    def timestamps_are_parsable
+      invalid_timestamps = model.timestamps.reject(&:valid?)
 
       if invalid_timestamps.any?
         errors.add :timestamps, :invalid, values: invalid_timestamps.join(", ")
-      end
-
-      return if EnterpriseToken.allows_to?(:baseline_comparison)
-
-      forbidden_timestamps = valid_timestamps.select { |t| t.to_time < Date.yesterday }
-
-      if forbidden_timestamps.any?
-        errors.add :timestamps, :forbidden, values: forbidden_timestamps.join(", ")
       end
     end
   end

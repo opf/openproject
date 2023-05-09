@@ -54,6 +54,7 @@ class Query < ApplicationRecord
   validate :validate_sort_criteria
   validate :validate_group_by
   validate :validate_show_hierarchies
+  validate :validate_timestamps, unless: -> { EnterpriseToken.allows_to?(:baseline_comparison) }
 
   include Scopes::Scoped
   scopes :visible,
@@ -139,6 +140,14 @@ class Query < ApplicationRecord
   def validate_show_hierarchies
     if show_hierarchies && group_by.present?
       errors.add :show_hierarchies, :group_by_hierarchies_exclusive, group_by:
+    end
+  end
+
+  def validate_timestamps
+    forbidden_timestamps = timestamps.select { |t| t.to_time < Date.yesterday }
+
+    if forbidden_timestamps.any?
+      errors.add :timestamps, :forbidden, values: forbidden_timestamps.join(", ")
     end
   end
 
@@ -251,7 +260,7 @@ class Query < ApplicationRecord
     column_list = if has_default_columns?
                     column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
                     # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil? && !column_list.include?(:project)
+                    column_list += [:project] if project.nil? && column_list.exclude?(:project)
                     column_list
                   else
                     column_names
@@ -275,7 +284,7 @@ class Query < ApplicationRecord
   end
 
   def has_column?(column)
-    column_names && column_names.include?(column.name)
+    column_names&.include?(column.name)
   end
 
   def has_default_columns?
