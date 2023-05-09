@@ -184,22 +184,18 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       switch (value) {
         case 'oneDayAgo':
           this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
-          this.selectedDate = this.wpTableBaseline.yesterdayDate();
           this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'lastWorkingDay':
           this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
-          this.selectedDate = this.wpTableBaseline.lastWorkingDate();
           this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'oneWeekAgo':
           this.dropDownDescription = this.wpTableBaseline.lastweekDate();
-          this.selectedDate = this.wpTableBaseline.lastweekDate();
           this.daysNumber =this.wpTableBaseline.daysNumber;
           break;
         case 'oneMonthAgo':
           this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
-          this.selectedDate = this.wpTableBaseline.lastMonthDate();
           this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         default:
@@ -207,6 +203,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
           this.daysNumber = 0;
           break;
       }
+      this.selectedDate = this.dropDownDescription;
     } else {
       this.clearSelection();
     }
