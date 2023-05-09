@@ -7,12 +7,11 @@ import {
 } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { I18nService } from '../../../../core/i18n/i18n.service';
-import { I18nServiceStub } from '../../../../../stories/i18n.service.stub';
+import { I18nService } from '../app/core/i18n/i18n.service';
+import { I18nServiceStub } from './i18n.service.stub';
 
-import { OpSpotModule } from '../../../spot.module';
-
-import { SpotFormFieldComponent } from '../form-field.component';
+import { OpSpotModule } from '../app/spot/spot.module';
+import { SpotFormFieldComponent } from '../app/spot/components/form-field/form-field.component';
 
 const meta:Meta = {
   title: 'Patterns/FormField',
@@ -77,8 +76,9 @@ export const BasicValidation:Story = {
         class="spot-container"
       >
         <spot-form-field
-          label="Form field with validation"
-          [required]="true"
+          [label]="label"
+          [required]="required"
+          [noWrapLabel]="noWrapLabel"
         >
           <spot-text-field
             formControlName="myInput"
