@@ -37,6 +37,7 @@ import {
   NgZone,
   OnInit,
   Output,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
@@ -67,6 +68,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { OpBaselineLegendsComponent } from '../wp-baseline/baseline-legends/baseline-legends.component';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -83,6 +85,8 @@ export interface WorkPackageFocusContext {
   selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
+  @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
+  
   @Input() projectIdentifier:string;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
@@ -215,6 +219,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       }
 
       if (this.baselineEnabled) {
+        this.baselineLegends?.refresh();
         this.numTableColumns += 1;
       }
 
