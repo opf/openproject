@@ -1,4 +1,3 @@
-#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -26,35 +25,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::NextcloudStorage < Storages::Storage
-  store_accessor :provider_fields,
-                 %i[username
-                    password
-                    group
-                    groupfolder
-                    has_managed_project_folders]
-
-  alias_method :has_managed_project_folders?, :has_managed_project_folders
-
-  def group
-    super || "OpenProject"
+class ChangeStorageProviderFieldsDefault < ActiveRecord::Migration[7.0]
+  def change
+    change_column_default(:storages, :provider_fields, from: '{}', to: {})
   end
-
-  def groupfolder
-    super || "OpenProject"
-  end
-
-  def username
-    super || "OpenProject"
-  end
-
-  def has_managed_project_folders=(value)
-    super(!!value)
-  end
-
-  # rubocop:disable Naming/PredicateName
-  def has_managed_project_folders
-    !!super
-  end
-  # rubocop:enable Naming/PredicateName
 end
