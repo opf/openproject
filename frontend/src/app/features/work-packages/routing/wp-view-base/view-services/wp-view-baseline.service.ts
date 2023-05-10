@@ -33,6 +33,8 @@ import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
@@ -53,6 +55,11 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     }
 
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
+  }
+
+  public isChanged(workPackage:WorkPackageResource, attribute:string):boolean {
+    const timestamps = workPackage.attributesByTimestamp || [];
+    return this.isActive() && timestamps.length >= 1 && !!timestamps[0][attribute as keyof IWorkPackageTimestamp];
   }
 
   public valueFromQuery(query:QueryResource):string[] {
