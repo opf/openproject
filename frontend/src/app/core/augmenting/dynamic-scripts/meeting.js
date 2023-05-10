@@ -23,9 +23,4 @@ jQuery(function($) {
 
     return false;
   });
-
-  $('.meetings--checkbox-version-to').click(function() {
-    var target = $(this).data('target');
-    $(target).prop('checked', true);
-  });
 });
