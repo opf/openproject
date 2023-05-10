@@ -46,7 +46,6 @@
     "@typescript-eslint/parser": "5.48.0",
     "babel-loader": "^8.2.5",
     "browserslist": "^4.8.7",
-    "codelyzer": "^6.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
