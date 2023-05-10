@@ -30,6 +30,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
   ViewEncapsulation,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -49,6 +50,8 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
   encapsulation: ViewEncapsulation.None,
 })
 export class OpBaselineLegendsComponent {
+  @HostBinding('class.op-baseline-legends') className = true;
+
   public numAdded = 0;
 
   public numRemoved = 0;
@@ -130,8 +133,8 @@ export class OpBaselineLegendsComponent {
         }
       });
       this.text.maintained_with_changes = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numUpdated})`;
-      this.text.no_longer_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numRemoved})`;
-      this.text.now_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.maintained_with_changes')} (${this.numAdded})`;
+      this.text.no_longer_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria')} (${this.numRemoved})`;
+      this.text.now_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.now_meets_filter_criteria')} (${this.numAdded})`;
     }
   }
 
