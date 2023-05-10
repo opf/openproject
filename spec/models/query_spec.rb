@@ -577,7 +577,7 @@ describe Query,
   describe '#valid_subset!' do
     let(:valid_status) { build_stubbed(:status) }
 
-    context 'filters' do
+    context 'with filters' do
       before do
         allow(Status)
           .to receive(:all)
@@ -630,7 +630,7 @@ describe Query,
       end
     end
 
-    context 'group_by' do
+    context 'with group_by' do
       before do
         query.group_by = group_by
       end
@@ -656,7 +656,7 @@ describe Query,
       end
     end
 
-    context 'sort_criteria' do
+    context 'with sort_criteria' do
       before do
         query.sort_criteria = sort_by
       end
@@ -701,7 +701,7 @@ describe Query,
       end
     end
 
-    context 'columns' do
+    context 'with columns' do
       before do
         query.column_names = columns
       end
@@ -740,7 +740,7 @@ describe Query,
       end
     end
 
-    context 'highlighted_attributes' do
+    context 'with highlighted_attributes' do
       let(:highlighted_attributes) { %i{status priority due_date foo} }
 
       before do
@@ -752,6 +752,31 @@ describe Query,
 
         expect(query.highlighted_attributes)
           .to match_array %i{status priority due_date}
+      end
+    end
+
+    context 'with timestamps', with_flag: { show_changes: true } do
+      let(:timestamps) do
+        [3.weeks.ago.iso8601, 'oneWeekAgo@12:00+00:00', 'oneDayAgo@12:00+00:00', 'PT0S']
+      end
+
+      before do
+        query.timestamps = timestamps
+        query.valid_subset!
+      end
+
+      context 'without EE', with_ee: false do
+        it 'removes the forbidden values' do
+          expect(query.timestamps)
+          .to match_array %w{oneDayAgo@12:00+00:00 PT0S}
+        end
+      end
+
+      context 'with EE', with_ee: %i[baseline_comparison] do
+        it 'allows all valid values' do
+          expect(query.timestamps)
+            .to match_array timestamps
+        end
       end
     end
   end
