@@ -46,6 +46,10 @@ class WikiPages::AtVersion < SimpleDelegator
   delegate :text,
            to: :data
 
+  delegate :updated_at,
+           to: :last_journal,
+           allow_nil: true
+
   # The form_for helper will call the #to_model method on the object it is passed otherwise
   # which will return the object itself. Any version handling intended by this class will be forfeit.
 
@@ -62,10 +66,6 @@ class WikiPages::AtVersion < SimpleDelegator
 
   def author
     last_journal&.user
-  end
-
-  def updated_at
-    last_journal&.updated_at
   end
 
   def journals
