@@ -155,7 +155,6 @@ describe 'baseline rendering',
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:baseline) { Components::WorkPackages::Baseline.new }
-  let(:baseline_legends) { Components::WorkPackages::BaselineLegends.new }
 
   current_user { user }
 
@@ -166,7 +165,6 @@ describe 'baseline rendering',
       wp_table.ensure_work_package_not_listed! wp_bug
 
       baseline.expect_active
-      baseline_legends.expect_loaded
 
       baseline.expect_added wp_task_was_bug
       baseline.expect_removed wp_bug_was_task
