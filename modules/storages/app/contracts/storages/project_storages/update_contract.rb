@@ -26,13 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages::Peripherals::StorageInteraction::Nextcloud
-  module Errors
-    def error(code, log_message = nil, data = nil)
-      ServiceResult.failure(
-        result: code, # This is needed to work with the ConnectionManager token refresh mechanism.
-        errors: Storages::StorageError.new(code:, log_message:, data:)
-      )
-    end
+# See also: base_contract.rb for comments
+module Storages::ProjectStorages
+  class UpdateContract < ::Storages::ProjectStorages::BaseContract
   end
 end

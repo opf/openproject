@@ -70,7 +70,7 @@ describe OpenProject::SCM::Adapters::Subversion do
   end
 
   describe 'invalid repository' do
-    describe '.check_availability!' do
+    describe '.check_availability!', skip_if_command_unavailable: 'svnadmin' do
       it 'is not available' do
         expect(Dir.exist?(url)).to be false
         expect(adapter).not_to be_available
@@ -130,7 +130,7 @@ describe OpenProject::SCM::Adapters::Subversion do
     include_context 'with tmpdir'
     let(:root_url) { tmpdir }
 
-    describe '.create_empty_svn' do
+    describe '.create_empty_svn', skip_if_command_unavailable: 'svnadmin' do
       context 'with valid root_url' do
         it 'creates the repository' do
           expect(Dir.exist?(root_url)).to be true
@@ -154,7 +154,7 @@ describe OpenProject::SCM::Adapters::Subversion do
       end
     end
 
-    describe '.check_availability!' do
+    describe '.check_availability!', skip_if_command_unavailable: 'svnadmin' do
       it 'is marked empty' do
         adapter.create_empty_svn
         expect { adapter.check_availability! }

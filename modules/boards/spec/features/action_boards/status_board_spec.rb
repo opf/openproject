@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative './../support//board_index_page'
 require_relative './../support/board_page'
 
-describe 'Status action board', js: true do
+describe 'Status action board', js: true, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_in_project: project,
@@ -78,7 +78,6 @@ describe 'Status action board', js: true do
   end
 
   before do
-    with_enterprise_token :board_view
     project
     login_as(user)
   end
@@ -145,7 +144,7 @@ describe 'Status action board', js: true do
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
-      expect(subjects).to match_array [['Task 1', open_status.id]]
+      expect(subjects).to contain_exactly(['Task 1', open_status.id])
 
       # Move item to Closed
       board_page.move_card(0, from: 'Open', to: 'Closed')
@@ -160,7 +159,7 @@ describe 'Status action board', js: true do
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
-      expect(subjects).to match_array [['Task 1', closed_status.id]]
+      expect(subjects).to contain_exactly(['Task 1', closed_status.id])
 
       # Try to drag to whatever, which has no workflow
       board_page.move_card(0, from: 'Closed', to: 'Whatever')
@@ -220,7 +219,7 @@ describe 'Status action board', js: true do
       expect(queries.first.ordered_work_packages).to be_empty
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
-      expect(subjects.pluck(:subject, :status_id)).to match_array [['Task 1', closed_status.id]]
+      expect(subjects.pluck(:subject, :status_id)).to contain_exactly(['Task 1', closed_status.id])
 
       # Open remaining in split view
       wp = second.ordered_work_packages.first.work_package

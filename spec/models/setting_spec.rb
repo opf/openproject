@@ -254,7 +254,7 @@ describe Setting do
     end
 
     it "returns unknown if the settings table isn't available yet" do
-      allow(Setting)
+      allow(described_class)
         .to receive(:settings_table_exists_yet?)
         .and_return(false)
       expect(described_class.installation_uuid).to eq("unknown")
@@ -268,7 +268,7 @@ describe Setting do
 
       it "returns the existing value if any" do
         # can't use with_settings since described_class.installation_uuid has a custom implementation
-        allow(Setting).to receive(:installation_uuid).and_return "abcd1234"
+        allow(described_class).to receive(:installation_uuid).and_return "abcd1234"
 
         expect(described_class.installation_uuid).to eq("abcd1234")
       end
@@ -297,7 +297,7 @@ describe Setting do
 
   # Check that when reading certain setting values that they get overwritten if needed.
   describe "filter saved settings" do
-    describe "with EE token", with_ee: [:conditional_highlighting] do
+    describe "with EE token", with_ee: %i[conditional_highlighting] do
       it "returns the value for 'work_package_list_default_highlighting_mode' without changing it" do
         expect(described_class.work_package_list_default_highlighting_mode).to eq("inline")
       end
@@ -382,12 +382,12 @@ describe Setting do
 
     context 'when cache is empty' do
       it 'requests the settings once from database' do
-        expect(Setting).to receive(:pluck).with(:name, :value)
+        allow(described_class).to receive(:pluck).with(:name, :value)
           .once
           .and_call_original
 
-        expect(Rails.cache).to receive(:fetch).once.and_call_original
-        expect(RequestStore).to receive(:fetch).exactly(3).times.and_call_original
+        allow(Rails.cache).to receive(:fetch).once.and_call_original
+        allow(RequestStore).to receive(:fetch).exactly(3).times.and_call_original
 
         # Settings are empty by default
         expect(RequestStore.read(:cached_settings)).to be_nil
@@ -397,6 +397,10 @@ describe Setting do
         value = described_class.app_title
         expect(described_class.app_title).to eq 'OpenProject'
         expect(value).to eq(described_class.app_title)
+
+        expect(described_class).to have_received(:pluck).with(:name, :value).once
+        expect(Rails.cache).to have_received(:fetch).once
+        expect(RequestStore).to have_received(:fetch).exactly(3)
 
         # Settings are empty by default
         expect(RequestStore.read(:cached_settings)).to eq({})

@@ -138,16 +138,6 @@ describe SearchController do
         it { expect(assigns(:results_count)).to be_a(Hash) }
         it { expect(assigns(:results_count)['work_packages']).to be(3) }
       end
-
-      describe '#view' do
-        render_views
-
-        it 'marks closed work packages' do
-          assert_select 'dt.work_package-closed' do
-            assert_select 'a', text: Regexp.new(work_package_2.status.name)
-          end
-        end
-      end
     end
 
     context 'when searching in project and its subprojects' do
@@ -194,8 +184,6 @@ describe SearchController do
                version: 3)
       end
 
-      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
-
       before do
         get :index, params: { q: 'note' }
       end
@@ -215,21 +203,7 @@ describe SearchController do
 
         it { expect(assigns(:results)).to include work_package_1 }
 
-        describe '#view' do
-          render_views
-
-          it 'highlights last note' do
-            assert_select 'dt.work_package-note + dd' do
-              assert_select '.description', text: note_2.notes
-            end
-          end
-
-          it 'links to work package with anchor to highlighted note' do
-            assert_select 'dt.work_package-note' do
-              assert_select 'a', href: work_package_path(work_package_1, anchor: 'note-2')
-            end
-          end
-        end
+        it { expect(assigns(:tokens)).to include 'note' }
       end
     end
   end

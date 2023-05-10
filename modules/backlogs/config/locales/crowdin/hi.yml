@@ -79,7 +79,7 @@ hi:
   backlogs_active: "सक्रिय"
   backlogs_any: "कोई"
   backlogs_card_specification: "कार्ड छपाई के लिए लेबल प्रकार"
-  backlogs_inactive: "Project shows no activity"
+  backlogs_inactive: "परियोजना गतिविधि नहीं दिखा रही है।"
   backlogs_points_burn_direction: "Points burn up/down"
   backlogs_product_backlog: "Product backlog"
   backlogs_product_backlog_is_empty: "Product backlog is empty"

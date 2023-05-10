@@ -25,16 +25,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative './base_service'
-
 module Sessions
-  class DropAllSessionsService < BaseService
+  class DropAllSessionsService
     class << self
       ##
       # Drop all sessions for the given user
       def call(user)
-        return false unless active_record_sessions?
-
         ::Sessions::UserSession
           .for_user(user)
           .delete_all

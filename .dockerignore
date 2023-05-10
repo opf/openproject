@@ -27,6 +27,7 @@ help
 log/*.log
 spec
 tmp
+frontend/.angular/cache
 frontend/node_modules
 node_modules
 # travis

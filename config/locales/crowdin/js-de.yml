@@ -227,7 +227,7 @@ de:
           quick_overview: "Erhalten Sie einen schnellen Überblick über Projektmanagement und Teamzusammenarbeit mit der OpenProject Enterprise edition."
         upsale:
           become_hero: "Werde zum Held!"
-          enterprise_info_html: "%{feature_title} is an Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> add-on."
+          enterprise_info_html: "%{feature_title} ist ein Enterprise <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> Add-on."
           upgrade_info: "Bitte steigen Sie auf einen kostenpflichtigen Plan um, um dieses Add-on zu aktivieren und in Ihrem Team zu verwenden."
           benefits:
             description: "Was sind die Vorteile von Enterprise on-premises?"
@@ -920,9 +920,9 @@ de:
       message_work_package_status_blocked: "Das Arbeitspaket ist auf geschlossene Status- und Versions-Attribute gesetzt, der Status kann nicht verändert werden."
       placeholder_filter_by_text: "Titel, Beschreibung, Kommentare, ..."
       baseline:
-        addition_label: 'Added to view within the comparison time period'
-        removal_label: 'Removed from view within the comparison time period'
-        modification_label: 'Modified within the comparison time period'
+        addition_label: 'Innerhalb des Vergleichszeitraums zur Ansicht hinzugefügt'
+        removal_label: 'Innerhalb des Vergleichszeitraums aus der Ansicht entfernt'
+        modification_label: 'Innerhalb des Vergleichszeitraums geändert'
       filters:
         title: 'Arbeitspakete filtern'
       inline_create:
@@ -1254,22 +1254,22 @@ de:
         does_not_match_search: 'Projekt entspricht nicht den Suchkriterien.'
       no_results: 'Kein Projekt entspricht Ihren Suchkriterien.'
     baseline:
-      toggle_title: 'Baseline'
-      clear: 'Clear'
-      apply: 'Apply'
-      header_description: 'View changes made to work packages in the current view within a time period.'
-      show_changes_since: 'Show changes since'
-      help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
-      time: 'Time'
+      toggle_title: 'Grundlinie'
+      clear: 'Zurücksetzen'
+      apply: 'Anwenden'
+      header_description: 'Sehen Sie sich die Änderungen an, die innerhalb eines bestimmten Zeitraums an Arbeitspaketen in der aktuellen Ansicht vorgenommen wurden.'
+      show_changes_since: 'Änderungen anzeigen ab'
+      help_description: 'Vom Administrator festgelegte Standard-Zeitzone der Instanz.'
+      time_description: 'In der Standard-Zeitzone: %{time} %{days} Tag(en).'
+      time: 'Zeit'
       drop_down:
         none: '-'
-        yesterday: 'yesterday'
-        last_working_day: 'last working day'
-        last_week: 'last week'
-        last_month: 'last month'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        yesterday: 'gestern'
+        last_working_day: 'letzter Arbeitstag'
+        last_week: 'vorige Woche'
+        last_month: 'voriger Monat'
+        a_specific_date: 'ein bestimmtes Datum'
+        between_two_specific_dates: 'zwischen zwei bestimmten Daten'
     forms:
       submit_success_message: 'Das Formular wurde erfolgreich übermittelt'
       load_error_message: 'Beim Laden des Formulars ist ein Fehler aufgetreten'

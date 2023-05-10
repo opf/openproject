@@ -26,34 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module AuthenticationHelpers
-  def with_enterprise_token(*features)
-    allow(EnterpriseToken)
-      .to receive(:allows_to?)
-      .and_return(false)
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-    if features.compact.length > 0
-      features.each do |feature|
-        allow(EnterpriseToken)
-          .to receive(:allows_to?)
-          .with(feature)
-          .and_return(true)
-      end
+describe Storages::ProjectStorages::BaseContract do
+  include_context 'ModelContract shared context'
 
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
-    else
-      allow(EnterpriseToken).to receive(:show_banners?).and_return(true)
+  let(:contract) { described_class.new(project_storage, build_stubbed(:admin)) }
+  # Creator is not writable in BaseContract; just test base contract writable attributes
+  let(:project_storage) { build(:project_storage) }
+
+  context 'when the project folder mode is `inactive`' do
+    before do
+      project_storage.project_folder_mode = 'inactive'
     end
 
-    allow(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
+    it_behaves_like 'contract is valid'
   end
 
-  def without_enterprise_token
-    # Calling without params means no EE features are allowed.
-    with_enterprise_token
-  end
-end
+  context 'when the project folder mode is `manual`' do
+    before do
+      project_storage.project_folder_mode = 'manual'
+    end
 
-RSpec.configure do |config|
-  config.include AuthenticationHelpers
+    context 'with no project_folder_id' do
+      it_behaves_like 'contract is invalid', project_folder_id: :blank
+    end
+
+    context 'with project_folder_id' do
+      before do
+        project_storage.project_folder_id = 'Project#1'
+      end
+
+      it_behaves_like 'contract is valid'
+    end
+  end
 end

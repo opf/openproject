@@ -53,7 +53,26 @@ module Storages::ProjectsStorages
     end
 
     def button_links
-      [delete_link]
+      [delete_link].tap do |links|
+        links.unshift edit_link if OpenProject::FeatureDecisions.storage_project_folders_active?
+        links.unshift set_permissions_link if OpenProject::FeatureDecisions.managed_project_folders_active?
+      end
+    end
+
+    def edit_link
+      link_to '',
+              edit_project_settings_projects_storage_path(project_id: project_storage.project, id: project_storage),
+              class: 'icon icon-edit',
+              title: I18n.t(:button_edit)
+    end
+
+    def set_permissions_link
+      link_to('',
+              project_settings_projects_storage_set_permissions_path(projects_storage_id: project_storage.id,
+                                                                     project_id: project_storage.project.id),
+              class: 'icon icon-settings3',
+              data: { confirm: 'Force push project folder permissions?' },
+              title: 'Set permissions')
     end
 
     def delete_link

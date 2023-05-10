@@ -1,0 +1,113 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2023 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
+  <% content_for :header_tags do %>
+    <meta name="required_script" content="project_folder_mode_selection" />
+  <% end %>
+<% end %>
+
+<div class="form--field -required">
+  <% case action_name %>
+  <% when 'new' %>
+    <%= f.select :storage_id,
+        available_storages.map { |storage| ["#{storage.name} (#{storage.short_provider_type})", storage.id] },
+                  selected: available_storages.first.id.to_s,
+                  class: '-bold',
+                  container_class: '-slim' %>
+    <% if User.current.admin? %>
+      <span class="form--field-instructions">
+        <%= t(:"storages.instructions.setting_up_additional_storages")  %>
+        <%= link_to "#{t(:label_administration)} / #{t(:project_module_storages)}", controller: '/storages/admin/storages', action: :index %>.
+      </span>
+    <% end %>
+  <% when 'edit' %>
+    <%= f.label :storage_id, class: "form--label -bold" do %>
+      <%= t(:"storages.label_storage") %>
+    <% end %>
+    <div class="form--field-container -horizontal">
+      <span><%= @project_storage.storage.name %></span>
+    </div>
+  <% end %>
+</div>
+
+<% if OpenProject::FeatureDecisions.storage_project_folders_active? %>
+  <div class="form--field -required">
+    <%= styled_label_tag :project_folder_mode, class: "-bold -flex" do %>
+      <%= t(:"storages.label_project_folder") %>
+      <%= angular_component_tag 'op-static-attribute-help-text',
+                                inputs: {
+                                  title: t(:"storages.label_project_folder"),
+                                  content: t(:"storages.help_texts.project_folder"),
+                                }
+      %>
+    <% end %>
+    <div class="form--field-container -horizontal">
+      <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+        <%= f.radio_button :project_folder_mode, 'inactive', no_label: true %>
+        <%= t(:"storages.label_no_specific_folder") %>
+      <% end %>
+    </div>
+    <p class="form--field-instructions">
+      <%= t(:"storages.instructions.no_specific_folder")  %>
+    </p>
+
+    <div class="form--field-container -horizontal">
+      <%= f.label :project_folder_mode, class: "form--label-with-radio-button" do %>
+        <%= f.radio_button :project_folder_mode, 'manual', no_label: true %>
+        <%= t(:"storages.label_existing_manual_folder") %>
+      <% end %>
+    </div>
+    <p class="form--field-instructions -xwide">
+      <%= t(:"storages.instructions.existing_manual_folder")  %>
+    </p>
+  </div>
+
+  <div style="display:none;" id="storages_manual_folder_selection" class="form--field -required">
+    <label class="form--label -bold"> <%= t(:"storages.label_existing_manual_folder_selection") %> </label>
+    <div class="form--field-container -horizontal">
+      <%= f.text_field :project_folder_id,
+                      placeholder: t(:"storages.placeholder_existing_folder_selection"),
+                      container_class: "-middle",
+                      no_label: true
+      %>
+    </div>
+  </div>
+<% end %>
+
+<div class="form--field">
+  <%= styled_button_tag class: "-highlight" do %>
+    <%= spot_icon('checkmark') %>
+    <%= content_tag :span, submit_button_label %>
+  <% end %>
+  <%= link_to project_settings_projects_storages_path(@project), class: 'button' do %>
+    <%= spot_icon('cancel') %>
+    <%= content_tag :span, t(:button_cancel) %>
+  <% end %>
+</div>

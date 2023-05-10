@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe CustomActionsController do
+describe CustomActionsController, with_ee: %i[custom_actions] do
   let(:admin) { build(:admin) }
   let(:non_admin) { build(:user) }
   let(:action) { build_stubbed(:custom_action) }
@@ -36,18 +36,9 @@ describe CustomActionsController do
     { custom_action: { name: 'blubs',
                        actions: { assigned_to: 1 } } }
   end
-  let(:enterprise_token) { true }
-
-  before do
-    if enterprise_token
-      with_enterprise_token :custom_actions
-    end
-  end
 
   shared_examples_for 'read requires enterprise token' do
-    context 'without an enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'without an enterprise token', with_ee: false do
       before do
         login_as(admin)
 
@@ -62,9 +53,7 @@ describe CustomActionsController do
   end
 
   shared_examples_for 'write requires enterprise token' do
-    context 'without an enterprise token' do
-      let(:enterprise_token) { false }
-
+    context 'without an enterprise token', with_ee: false do
       before do
         login_as(admin)
 
@@ -121,7 +110,7 @@ describe CustomActionsController do
 
       it 'assigns the custom actions' do
         expect(assigns(:custom_actions))
-          .to match_array [action]
+          .to contain_exactly(action)
       end
     end
 

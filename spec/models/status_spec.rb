@@ -74,7 +74,7 @@ describe Status do
       end
     end
 
-    context 'when EE no longer enabled', with_ee: %i[] do
+    context 'when EE no longer enabled', with_ee: false do
       it 'is still marked read only' do
         expect(status.is_readonly).to be_falsey
         expect(status).not_to be_is_readonly
@@ -90,7 +90,7 @@ describe Status do
     it 'updates when the updated_at field changes' do
       old_cache_key = stubbed_status.cache_key
 
-      stubbed_status.updated_at = Time.now
+      stubbed_status.updated_at = Time.zone.now
 
       expect(stubbed_status.cache_key)
         .not_to eql old_cache_key

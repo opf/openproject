@@ -31,6 +31,7 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  Input,
   OnInit,
   Output,
 } from '@angular/core';
@@ -61,11 +62,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   @Output() submitted = new EventEmitter<void>();
 
+  @Input() showActionBar? = false;
+
   public dropDownDescription = '';
 
-  public nonWorkingDays:IDay[] = [];
-
-  public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
+  public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;
 
   public selectedDate = '';
 
@@ -73,15 +74,13 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public selectedFilter = '-';
 
-  public selectedTimezoneFormattedTime = '';
+  public selectedTimezoneFormattedTime = `${this.selectedTime}+00:00`;
 
   public filterSelected = false;
 
-  public timeZoneSelected = false;
-
   public daysNumber = 0;
 
-  public tooltipPosition = SpotDropAlignmentOption.BottomRight;
+  public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
   public text = {
     toggle_title: this.I18n.t('js.baseline.toggle_title'),
@@ -138,17 +137,18 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public ngOnInit():void {
     if (this.wpTableBaseline.isActive()) {
       const value = this.wpTableBaseline.current[0];
-      const [date, time] = value.split('@');
+      const [date, timeWithZone] = value.split('@');
+      const time = timeWithZone.split(/[+-]/)[0];
 
       this.filterChange(date);
       this.selectedTime = time || '00:00';
+      this.selectedTimezoneFormattedTime = timeWithZone || '00:00+00:00';
       this.filterSelected = true;
     }
   }
 
   public clearSelection():void {
     this.filterSelected = false;
-    this.timeZoneSelected = false;
     this.selectedTime = '0:00';
     this.selectedDate = '';
     this.selectedFilter = '-';
@@ -157,84 +157,24 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public onSubmit(e:Event):void {
     e.preventDefault();
+    this.onSave();
+  }
+
+  public onSave() {
     if (this.selectedFilter === '-') {
       this.wpTableBaseline.disable();
     } else {
-      const filterString = `${this.selectedFilter}@${this.selectedTime}`;
+      const filterString = `${this.selectedFilter}@${this.selectedTimezoneFormattedTime}`;
       this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
     }
 
     this.submitted.emit();
   }
 
-  public yesterdayDate():string {
-    const today = new Date();
-    this.daysNumber = -1;
-
-    today.setDate(today.getDate() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
-  }
-
-  public lastMonthDate():string {
-    const today = new Date();
-    const lastMonthDate = new Date(today);
-
-    lastMonthDate.setMonth(today.getMonth() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(lastMonthDate.toString());
-    this.daysNumber = moment(lastMonthDate).diff(moment(today), 'days');
-    return this.selectedDate;
-  }
-
-  public lastweekDate():string {
-    const today = new Date();
-    this.daysNumber = -7;
-    today.setDate(today.getDate() - 7);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
-  }
-
-  requireNonWorkingDaysOfTwoYears() {
-    const today = new Date();
-    const lastYear = new Date(today);
-    lastYear.setFullYear(today.getFullYear() - 1);
-    return this
-      .daysService
-      .requireNonWorkingYears$(lastYear, today);
-  }
-
-  isNonWorkingDay(date:Date|string):boolean {
-    const formatted = moment(date).format('YYYY-MM-DD');
-    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
-  }
-
-  public lastWorkingDate():string {
-    const today = new Date();
-    const yesterday = new Date(today);
-    this.selectedDate = '';
-    yesterday.setDate(today.getDate() - 1);
-    while (this.selectedDate === '') {
-      if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
-        yesterday.setDate(yesterday.getDate() - 1);
-        continue;
-      } else {
-        this.selectedDate = this.timezoneService.formattedDate(yesterday.toString());
-        this.daysNumber = moment(yesterday).diff(moment(today), 'days');
-        break;
-      }
-    }
-
-    return this.selectedDate;
-  }
-
   public timeChange(value:string):void {
     this.selectedTime = value;
-    const timeZone = this.configuration.isTimezoneSet();
-    if (timeZone) {
-      this.timeZoneSelected = true;
-      const dateTime= `${this.selectedDate}  ${value}`;
-      this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime);
-    }
+    const dateTime= `${this.selectedDate}  ${value}`;
+    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
   }
 
   public filterChange(value:string):void {
@@ -243,21 +183,27 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.selectedFilter = value;
       switch (value) {
         case 'oneDayAgo':
-          this.dropDownDescription = this.yesterdayDate();
+          this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'lastWorkingDay':
-          this.dropDownDescription=this.lastWorkingDate();
+          this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'oneWeekAgo':
-          this.dropDownDescription = this.lastweekDate();
+          this.dropDownDescription = this.wpTableBaseline.lastweekDate();
+          this.daysNumber =this.wpTableBaseline.daysNumber;
           break;
         case 'oneMonthAgo':
-          this.dropDownDescription = this.lastMonthDate();
+          this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         default:
           this.dropDownDescription = '';
+          this.daysNumber = 0;
           break;
       }
+      this.selectedDate = this.dropDownDescription;
     } else {
       this.clearSelection();
     }

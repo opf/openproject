@@ -30,6 +30,8 @@ export class WorkPackageTable {
 
   public originalRows:string[] = [];
 
+  public colspan:number;
+
   public originalRowIndex:{ [id:string]:WorkPackageTableRow } = {};
 
   private hierarchyRowsBuilder = new HierarchyRowsBuilder(this.injector, this);
@@ -49,13 +51,15 @@ export class WorkPackageTable {
   // and their contexts
   public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext(this, this.injector);
 
-  constructor(public readonly injector:Injector,
+  constructor(
+    public readonly injector:Injector,
     public tableAndTimelineContainer:HTMLElement,
     public scrollContainer:HTMLElement,
     public tbody:HTMLElement,
     public timelineBody:HTMLElement,
     public timelineController:WorkPackageTimelineTableController,
-    public configuration:WorkPackageTableConfiguration) {
+    public configuration:WorkPackageTableConfiguration,
+  ) {
   }
 
   public get renderedRows() {

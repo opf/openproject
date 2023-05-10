@@ -26,16 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Sessions
-  class BaseService
-    class << self
-      protected
-
-      ##
-      # Can we work on SQL sessions?
-      def active_record_sessions?
-        OpenProject::Configuration.session_store.to_s == 'active_record_store'
-      end
+module Storages::Peripherals::StorageInteraction
+  class StorageCommand
+    def execute(data)
+      raise NotImplementedError, "#{self.class} has not implemented method '#{__method__}'"
     end
   end
 end

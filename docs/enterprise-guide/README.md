@@ -5,6 +5,7 @@ sidebar_navigation:
 description: OpenProject Enterprise guide.
 keywords: manage subscription, enterprise edition, cloud edition
 ---
+
 # Enterprise guide
 
 Welcome to the OpenProject **Enterprise guide**.
@@ -32,7 +33,6 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 | [Manage your subscription](./enterprise-cloud-guide/manage-cloud-subscription)        | How to change billing address, add or edit credit card details.                |
 | [Subscribe](./enterprise-cloud-guide/book-cloud)                                      | How to book Enterprise cloud.                                                  |
 | [Backups](./enterprise-cloud-guide/backups)                                           | How do backups work in the cloud.                                              |
-| [Support](./enterprise-cloud-guide/support)                                           | How to get support as Enterprise cloud user.                                   |
 | [GDPR](./enterprise-cloud-guide/gdpr-compliance)                                      | Review and sign a Data Processing Agreement (DPA).                             |
 
 
@@ -43,4 +43,9 @@ Find a detailed feature comparison [here](https://www.openproject.org/pricing/#f
 |---------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------|
 | [Enterprise on-premises trial](./enterprise-on-premises-guide/enterprise-on-premises-trial/)      | Can I test the Enterprise on-premises edition for free?                      |
 | [Activate Enterprise on-premises](./enterprise-on-premises-guide/activate-enterprise-on-premises) | How can I upgrade my Community edition to an Enterprise on-premises edition? |
-| [Support](./enterprise-on-premises-guide/support)                                                 | How can I get support or installation support?                               |
+
+
+
+## Support
+
+Find out more about our different [support options](./support/).

@@ -2,8 +2,8 @@
 de:
   bim:
     label_bim: 'BIM'
-    default_type_clash: Clash
-    default_type_issue: Issue
+    default_type_clash: Konflikt
+    default_type_issue: Problem
     default_type_remark: Bemerkung
     default_type_request: Anfrage
     default_status_resolved: Gelöst

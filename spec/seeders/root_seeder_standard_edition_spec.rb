@@ -27,25 +27,14 @@
 #++
 
 require 'spec_helper'
+require_relative './root_seeder_shared_examples'
 
 describe RootSeeder,
          'standard edition',
-         with_config: { edition: 'standard' },
-         with_settings: { journal_aggregation_time_minutes: 0 } do
-  shared_examples 'no email deliveries' do
-    it 'does not perform any email deliveries' do
-      perform_enqueued_jobs
+         with_config: { edition: 'standard' } do
+  include RootSeederTestHelpers
 
-      expect(ActionMailer::Base.deliveries)
-        .to be_empty
-    end
-  end
-
-  describe 'demo data' do
-    before_all do
-      described_class.new.seed_data!
-    end
-
+  shared_examples 'creates standard demo data' do
     it 'creates the system user' do
       expect(SystemUser.where(admin: true).count).to eq 1
     end
@@ -72,6 +61,34 @@ describe RootSeeder,
       expect(Boards::Grid.count { |grid| grid.options.has_key?(:filters) }).to eq 1
     end
 
+    it 'links work packages to their version' do
+      count_by_version = WorkPackage.joins(:version).group('versions.name').count
+      count_by_version.transform_keys! { _1.gsub(/^tr: /, '') } # revert simulated translation if any
+      expect(count_by_version).to eq(
+        'Bug Backlog' => 1,
+        'Sprint 1' => 8,
+        'Product Backlog' => 7
+      )
+    end
+
+    it 'creates different types of queries' do
+      count_by_type = View.group(:type).count
+      expect(count_by_type).to eq(
+        "work_packages_table" => 7,
+        "team_planner" => 1
+      )
+    end
+  end
+
+  describe 'demo data' do
+    before_all do
+      with_edition('standard') do
+        described_class.new.seed_data!
+      end
+    end
+
+    include_examples 'creates standard demo data'
+
     include_examples 'no email deliveries'
 
     context 'when run a second time' do
@@ -96,6 +113,40 @@ describe RootSeeder,
         expect(Boards::Grid.count).to eq 5
       end
     end
+  end
+
+  describe 'demo data mock-translated in another language' do
+    before_all do
+      with_edition('standard') do
+        # simulate a translation by changing the returned string on `I18n#t` calls
+        allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
+          original_translation = m.call(*args, **kw)
+          "tr: #{original_translation}"
+        end
+        described_class.new.seed_data!
+      end
+    end
+
+    include_examples 'creates standard demo data'
+
+    it 'has all Query.name translated' do
+      expect(Query.pluck(:name)).to all(start_with('tr: '))
+    end
+  end
+
+  describe 'demo data with a non-English language' do
+    before_all do
+      with_edition('standard') do
+        stub_language('de')
+        described_class.new.seed_data!
+      end
+    end
+
+    before do
+      stub_language('de')
+    end
+
+    include_examples 'creates standard demo data'
   end
 
   describe 'demo data with development data' do

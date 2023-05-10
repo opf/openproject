@@ -28,15 +28,38 @@
 
 require 'spec_helper'
 
-describe 'baseline rendering', js: true do
+describe 'baseline rendering',
+         js: true,
+         with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:project) { create(:project, types: [type_bug, type_task]) }
   shared_let(:user) do
     create(:user,
+           firstname: 'Itsa',
+           lastname: 'Me',
            member_in_project: project,
-           member_with_permissions: %i[view_work_packages edit_work_packages])
+           member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned assign_versions])
   end
+
+  shared_let(:assignee) do
+    create(:user,
+           firstname: 'Assigned',
+           lastname: 'User',
+           member_in_project: project,
+           member_with_permissions: %i[view_work_packages edit_work_packages work_package_assigned])
+  end
+
+  shared_let(:default_priority) do
+    create(:issue_priority, name: 'Default', is_default: true)
+  end
+
+  shared_let(:high_priority) do
+    create(:issue_priority, name: 'High priority')
+  end
+
+  shared_let(:version_a) { create(:version, project:, name: 'Version A') }
+  shared_let(:version_b) { create(:version, project:, name: 'Version B') }
 
   shared_let(:wp_bug) do
     create(:work_package,
@@ -52,19 +75,37 @@ describe 'baseline rendering', js: true do
            project:,
            type: type_task,
            subject: 'A task',
+
            created_at: 5.days.ago,
            updated_at: 5.days.ago)
   end
 
   shared_let(:wp_task_changed) do
     wp = Timecop.travel(5.days.ago) do
-      create(:work_package, project:, type: type_task, subject: 'Old subject')
+      create(:work_package,
+             project:,
+             type: type_task,
+             assigned_to: assignee,
+             responsible: assignee,
+             priority: default_priority,
+             version: version_a,
+             subject: 'Old subject',
+             start_date: '2023-05-01',
+             due_date: '2023-05-02')
     end
 
     Timecop.travel(1.day.ago) do
       WorkPackages::UpdateService
         .new(user:, model: wp)
-        .call(subject: 'New subject')
+        .call(
+          subject: 'New subject',
+          start_date: Date.today - 1.day,
+          due_date: Date.today,
+          assigned_to: user,
+          responsible: user,
+          priority: high_priority,
+          version: version_b
+        )
         .on_failure { |result| raise result.message }
         .result
     end
@@ -106,6 +147,7 @@ describe 'baseline rendering', js: true do
 
     query.timestamps = ["P-2d", "PT0S"]
     query.add_filter('type_id', '=', [type_task.id])
+    query.column_names = %w[id subject status type start_date due_date version priority assigned_to responsible]
     query.save!(validate: false)
 
     query
@@ -127,6 +169,26 @@ describe 'baseline rendering', js: true do
       baseline.expect_removed wp_bug_was_task
       baseline.expect_changed wp_task_changed
       baseline.expect_unchanged wp_task
+
+      baseline.expect_changed_attributes wp_task_was_bug,
+                                         type: %w[BUG TASK]
+
+      baseline.expect_changed_attributes wp_bug_was_task,
+                                         type: %w[TASK BUG]
+
+      baseline.expect_changed_attributes wp_task_changed,
+                                         subject: ['Old subject', 'New subject'],
+                                         startDate: ['2023-05-01', (Date.today - 2.days).iso8601],
+                                         dueDate: ['2023-05-02', (Date.today - 1.day).iso8601],
+                                         version: ['Version A', 'Version B'],
+                                         priority: ['Default', 'High priority'],
+                                         assignee: ['Assigned User', 'Itsa Me'],
+                                         responsible: ['Assigned User', 'Itsa Me']
+
+      baseline.expect_unchanged_attributes wp_task_changed, :type
+      baseline.expect_unchanged_attributes wp_task,
+                                           :type, :subject, :start_date, :due_date,
+                                           :version, :priority, :assignee, :accountable
     end
   end
 

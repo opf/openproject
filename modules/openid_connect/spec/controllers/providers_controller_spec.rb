@@ -41,10 +41,9 @@ describe OpenIDConnect::ProvidersController do
 
   before do
     login_as user
-    without_enterprise_token
   end
 
-  context 'without an EE token' do
+  context 'without an EE token', with_ee: false do
     it 'renders upsale' do
       get :index
       expect(response).to have_http_status(:ok)
@@ -52,10 +51,9 @@ describe OpenIDConnect::ProvidersController do
     end
   end
 
-  context 'with an EE token' do
+  context 'with an EE token', with_ee: %i[openid_providers] do
     before do
       login_as user
-      with_enterprise_token :openid_providers
     end
 
     context 'when not admin' do

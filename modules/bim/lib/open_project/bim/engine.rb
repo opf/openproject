@@ -201,11 +201,9 @@ module OpenProject::Bim
     config.to_prepare do
       Doorkeeper.configuration.scopes.add(:bcf_v2_1)
 
-      # rubocop:disable Lint/ConstantDefinitionInBlock
-      module OpenProject::Authentication::Scope
-        BCF_V2_1 = :bcf_v2_1
+      unless defined? OpenProject::Authentication::Scope::BCF_V2_1
+        OpenProject::Authentication::Scope::BCF_V2_1 = :bcf_v2_1
       end
-      # rubocop:enable Lint/ConstantDefinitionInBlock
 
       OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
                                                     store: false) do |_strategies|

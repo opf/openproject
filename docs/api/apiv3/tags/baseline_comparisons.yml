@@ -22,7 +22,8 @@ description: |-
   ```
 
   Each timestamp should be given as an [ISO-8601](https://en.wikipedia.org/wiki/ISO_8601) string, either an absolute date and time with timezone, e.g. `"2022-01-01T00:00:00Z"`, or a relative timestamp utilizing the [ISO-8601-Duration](https://en.wikipedia.org/wiki/ISO_8601#Durations) format, e.g. `"P-1Y"`, which is composed of an initial `"P"` for "Period", and a duration. `"P-1Y"` is interpreted as the relative timestamp "1 year ago".
-  Furthermore, a set of predefined relative date keywords can also be passed for the timestamps: `"oneDayAgo@HH:MM", "lastWorkingDay@HH:MM", "oneWeekAgo@HH:MM", "oneMonthAgo@HH:MM"`. The `"HH:MM"` part represents the zero paded hours and minutes, e.g. `"oneMonthAgo@21:20"`.
+  Furthermore, a set of predefined relative date keywords can also be passed for the timestamps: `"oneDayAgo@HH:MM+HH:MM", "lastWorkingDay@HH:MM+HH:MM", "oneWeekAgo@HH:MM+HH:MM", "oneMonthAgo@HH:MM+HH:MM"`. The `"HH:MM"` part represents the zero paded hours and minutes, e.g. `"oneMonthAgo@21:00+00:00"`. The last "+HH:MM" part represents the timezone offset from UTC associated with the time,
+  e.g. `"oneMonthAgo@21:00+02:00"` means a +2 hour timezone offset from UTC. The offset can be positive or negative e.g."oneDayAgo@01:00+01:00", "oneDayAgo@01:00-01:00".
 
   Several timestamps should be passed as comma-separated list of these ISO-8601 strings to the `timestamps` parameter, e.g. `"2022-01-01T00:00:00Z,PT0S"`.
 

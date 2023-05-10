@@ -3,11 +3,11 @@ ru:
   permission_view_file_links: "Просмотр ссылок на файл"
   permission_manage_file_links: "Управление ссылками файлов"
   permission_manage_storages_in_project: "Управление файловыми хранилищами в проекте"
-  permission_read_files: "Read files"
-  permission_write_files: "Write files"
-  permission_create_files: "Create files"
-  permission_delete_files: "Delete files"
-  permission_share_files: "Share files"
+  permission_read_files: "Чтение файлов"
+  permission_write_files: "Записать файлы"
+  permission_create_files: "Создать файлы"
+  permission_delete_files: "Удалить файлы"
+  permission_share_files: "Поделиться файлами"
   project_module_storages: "Файловые хранилища"
   activerecord:
     models:
@@ -51,12 +51,16 @@ ru:
       project_settings:
         index: "Файловые хранилища, доступные в этом проекте"
         new: "Добавить хранилище файлов в этот проект"
+        edit: "Редактировать хранилище файлов для этого проекта"
     instructions:
       type: "Перед установкой убедитесь, что у вас есть права администрирования в вашем экземпляре Nextcloud и что перед установкой установлено следующее приложение:"
       type_link_text: "«Интеграционный OpenProject»"
       name: "Дайте вашему хранилищу имя, чтобы пользователи могли различать между несколькими хранилищами."
       host: "Пожалуйста, добавьте адрес вашего хранилища, включая https://. Он не должен быть длиннее 255 символов."
       no_storage_set_up: "Нет настроенных хранилищ файлов."
+      no_specific_folder: "По умолчанию каждый пользователь при загрузке файла начинает работу со своей собственной домашней папки."
+      existing_manual_folder: >
+        Вы можете назначить существующую папку в качестве корневой папки для этого проекта. Однако разрешения не управляются автоматически, администратору необходимо вручную обеспечить доступ соответствующим пользователям. Выбранная папка может использоваться несколькими проектами.
       setting_up_additional_storages: "Для настройки дополнительных файловых хранилищ посетите"
       setting_up_additional_storages_non_admin: "Администраторы могут настроить дополнительные файловые хранилища в Администрировании / Файловых хранилищах."
       setting_up_storages: "Для настройки файловых хранилищ посетите"
@@ -65,11 +69,15 @@ ru:
       copy_from: "Скопировать это значение из"
       nextcloud:
         integration: "Администрирование NextCloud / OpenProject"
+    help_texts:
+      project_folder: >
+        Папка проекта является папкой по умолчанию для загрузки файлов для этого проекта. Тем не менее, пользователи по-прежнему могут загружать файлы в другие места.
     delete_warning:
       storage: >
         Вы уверены, что хотите удалить это хранилище? Это также удалит хранилище из всех проектов, где оно используется. Кроме того, будут удалены все ссылки из пакетов работ на файлы, хранящиеся в этом хранилище.
       project_storage: >
         Вы уверены, что хотите удалить это хранилище файлов из проекта? Это также удалит все ссылки на файлы, хранящиеся в этом хранилище для этого проекта.
+    placeholder_existing_folder_selection: "Выберите папку"
     label_creator: "Создатель"
     label_file_link: "Ссылка на файл"
     label_file_links: "Ссылки на файл"
@@ -81,7 +89,11 @@ ru:
     label_oauth_application_details: "Подробности приложения OAuth"
     label_oauth_client_details: "Детали клиента OAuth"
     label_provider_type: "Тип поставщика"
+    label_project_folder: "Папка проекта"
     label_new_storage: "Новое хранилище"
+    label_existing_manual_folder: "Существующая папка с разрешениями, управляемыми вручную"
+    label_existing_manual_folder_selection: "Выбор существующей папки"
+    label_no_specific_folder: "Нет конкретной папки"
     label_storage: "Хранилище"
     label_storages: "Хранилища"
     no_results: "Хранилища еще не настроены."

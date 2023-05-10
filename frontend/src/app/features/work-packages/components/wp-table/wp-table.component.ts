@@ -30,16 +30,22 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef, EventEmitter,
+  ElementRef,
+  EventEmitter,
   Injector,
   Input,
   NgZone,
-  OnInit, Output,
+  OnInit,
+  Output,
+  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { TableEventComponent, TableHandlerRegistry } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
+import {
+  TableEventComponent,
+  TableHandlerRegistry,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { combineLatest } from 'rxjs';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -62,6 +68,7 @@ import {
 import { States } from 'core-app/core/states/states.service';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { OpBaselineLegendsComponent } from '../wp-baseline/baseline-legends/baseline-legends.component';
 
 export interface WorkPackageFocusContext {
   /** Work package that was focused */
@@ -71,13 +78,15 @@ export interface WorkPackageFocusContext {
 }
 
 @Component({
-  templateUrl: './wp-table.directive.html',
-  styleUrls: ['./wp-table.styles.sass'],
+  templateUrl: './wp-table.component.html',
+  styleUrls: ['./wp-table.component.sass'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'wp-table',
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
+  @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
+
   @Input() projectIdentifier:string;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
@@ -123,6 +132,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
   public timelineVisible:boolean;
 
   public manualSortEnabled:boolean;
+
+  public baselineEnabled:boolean;
 
   public limitedResults = false;
 
@@ -180,6 +191,7 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       this.wpTableTimeline.live$(),
       this.wpTableSortBy.live$(),
       this.wpTableSums.live$(),
+      this.wpTableBaseline.live$(),
     ]);
 
     statesCombined.pipe(
@@ -192,17 +204,32 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
 
       this.groupBy = groupBy;
       this.columns = columns;
-      // Total columns = all available columns + id + checkbox
-      this.numTableColumns = this.columns.length + 2;
-
-      if (this.scrollSyncUpdate && this.timelineVisible !== timelines.visible) {
-        this.scrollSyncUpdate(timelines.visible);
-      }
 
       this.timelineVisible = timelines.visible;
 
       this.manualSortEnabled = this.wpTableSortBy.isManualSortingMode;
+      this.baselineEnabled = this.wpTableBaseline.isActive();
       this.limitedResults = this.manualSortEnabled && results.total > results.count;
+
+      // Total columns = all available columns + id + context menu
+      this.numTableColumns = this.columns.length + 2;
+
+      if (this.manualSortEnabled) {
+        this.numTableColumns += 1;
+      }
+
+      if (this.baselineEnabled) {
+        this.baselineLegends?.refresh();
+        this.numTableColumns += 1;
+      }
+
+      if (this.workPackageTable) {
+        this.workPackageTable.colspan = this.numTableColumns;
+      }
+
+      if (this.scrollSyncUpdate && this.timelineVisible !== timelines.visible) {
+        this.scrollSyncUpdate(timelines.visible);
+      }
 
       this.cdRef.detectChanges();
     });
@@ -233,6 +260,8 @@ export class WorkPackagesTableComponent extends UntilDestroyedMixin implements O
       // Table configuration
       this.configuration,
     );
+    this.workPackageTable.colspan = this.numTableColumns;
+
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
     new TableHandlerRegistry(this.injector).attachTo(this);

@@ -192,8 +192,16 @@ class MyProjectPageToGrid < ActiveRecord::Migration[5.2]
     Attachment.where(container_type: 'MyProjectsOverview', container_id: id)
   end
 
+  def new_default_query(attributes = nil)
+    Query.new(attributes).tap do |query|
+      query.add_default_filter
+      query.set_default_sort
+      query.show_hierarchies = true
+    end
+  end
+
   def query(grid, identifier)
-    query = Query.new_default name: '_',
+    query = new_default_query name: '_',
                               is_public: true,
                               hidden: true,
                               project: grid.project,
