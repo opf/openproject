@@ -149,28 +149,37 @@ class Storages::Admin::ProjectsStoragesController < Projects::SettingsController
       find_model_object(:projects_storage_id)
       storage = @projects_storage.storage
       project = @projects_storage.project
-      command = Storages::Peripherals::StorageRequests.new(storage:).set_permissions_command
       folder = @projects_storage.project_folder_id
-      project_users = project.users
-      oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id, integration_type: 'Storages::Storage').first
-      nextcloud_users = OAuthClientToken.where(oauth_client:, user: project_users)
-      permissions = nextcloud_users.map do |token|
-        user = token.user
-        {
-          origin_user_id: token.origin_user_id,
-          permissions: {
-            read_files: user.allowed_to?(:read_files, @project),
-            write_files: user.allowed_to?(:write_files, @project),
-            create_files: user.allowed_to?(:create_files, @project),
-            share_files: user.allowed_to?(:share_files, @project),
-            delete_files: user.allowed_to?(:delete_files, @project)
-          }
-        }
-      end
+      create_folder_command = Storages::Peripherals::StorageRequests.new(storage:).create_folder_command
+      create_folder_command.result.call(folder:).match(
+        on_success: ->(_) do
+          project_users = project.users
+          oauth_client = OAuthClient.where(integration_id: @projects_storage.storage_id,
+                                           integration_type: 'Storages::Storage').first
+          nextcloud_users = OAuthClientToken.where(oauth_client:, user: project_users)
+          permissions = nextcloud_users.map do |token|
+            user = token.user
+            {
+              origin_user_id: token.origin_user_id,
+              permissions: {
+                read_files: user.allowed_to?(:read_files, @project),
+                write_files: user.allowed_to?(:write_files, @project),
+                create_files: user.allowed_to?(:create_files, @project),
+                share_files: user.allowed_to?(:share_files, @project),
+                delete_files: user.allowed_to?(:delete_files, @project)
+              }
+            }
+          end
 
-      command.result.call(folder:, permissions:).match(
-        on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' }, # rubocop:disable Rails/I18nLocaleTexts
-        on_failure: ->(error) { flash[:error] = "Error: #{error}" }
+          set_permissions_command = Storages::Peripherals::StorageRequests.new(storage:).set_permissions_command
+          set_permissions_command.result.call(folder:, permissions:).match(
+            on_success: ->(_) { flash[:notice] = 'Permissions were successfuly updated on the NextCloud side' }, # rubocop:disable Rails/I18nLocaleTexts
+            on_failure: ->(error) { flash[:error] = "Error: #{error}" }
+          )
+        end,
+        on_failure: ->(error) do
+          flash[:error] = "Error: #{error}"
+        end
       )
     end
     redirect_back(fallback_location: project_settings_projects_storages_path(project_id: project.id))

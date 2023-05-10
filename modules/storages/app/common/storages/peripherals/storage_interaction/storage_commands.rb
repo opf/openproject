@@ -44,5 +44,16 @@ module Storages::Peripherals::StorageInteraction
         raise ArgumentError
       end
     end
+
+    def create_folder_command
+      case @storage.provider_type
+      when ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD
+        ServiceResult.success(
+          result: ::Storages::Peripherals::StorageInteraction::Nextcloud::CreateFolderCommand.new(@storage)
+        )
+      else
+        raise ArgumentError
+      end
+    end
   end
 end
