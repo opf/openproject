@@ -421,8 +421,8 @@ describe 'Projects index page',
       shared_let(:green_project) do
         # A project that has a status code set
         create(:project,
-               name: 'Green project',
-               status_code: 'on_track')
+               status_code: 'on_track',
+               name: 'Green project')
       end
 
       it 'sort and filter on project status' do

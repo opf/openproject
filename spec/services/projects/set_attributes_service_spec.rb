@@ -307,7 +307,7 @@ describe Projects::SetAttributesService, type: :model do
     context 'for an existing project' do
       describe 'project status' do
         let(:project) do
-          build_stubbed(:project, :on_track)
+          build_stubbed(:project, :with_status)
         end
 
         context 'with a value provided' do

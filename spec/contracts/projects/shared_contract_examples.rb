@@ -147,14 +147,6 @@ shared_examples_for 'project contract' do
 
   context 'if status code is invalid' do
     before do
-      # Questions for Jens:
-      # I'm unsure if this should even be in a spec. It implies a dependency
-      # between the SetAttributesService and the Contract which I'm not sure
-      # is good. However, it might be warranted as this is only shifting the
-      # behavior of what would've happened either way into the Project itself
-      # instead of an association which is why it didn't pose the need for hack
-      # on this spec.
-
       # Hack in order to handle setting an Enum value without raising an
       # ArgumentError and letting the Contract perform the validation.
       #

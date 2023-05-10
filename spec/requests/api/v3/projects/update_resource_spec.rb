@@ -36,8 +36,7 @@ describe 'API v3 Project resource update', content_type: :json do
   let(:admin) { create(:admin) }
   let(:project) do
     create(:project,
-           :on_track,
-           status_explanation: 'some explanation',
+           :with_status,
            public: false,
            active: project_active)
   end

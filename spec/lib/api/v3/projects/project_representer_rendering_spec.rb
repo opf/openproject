@@ -35,8 +35,7 @@ describe API::V3::Projects::ProjectRepresenter, 'rendering' do
 
   let(:project) do
     build_stubbed(:project,
-                  :on_track,
-                  status_explanation: 'some explanation',
+                  :with_status,
                   parent: parent_project,
                   description: 'some description').tap do |p|
       allow(p)
