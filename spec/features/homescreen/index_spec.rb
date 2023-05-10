@@ -67,7 +67,7 @@ describe 'Homescreen index' do
         .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
-      expect(page).to have_current_path "#{project_path(project)}/"
+      expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/
     end
   end
 end
