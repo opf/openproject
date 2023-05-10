@@ -28,47 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+class Source::SeedDataLoader
+  include Source::Translate
 
-RSpec.describe DemoData::GlobalQuerySeeder do
-  subject(:seeder) { described_class.new(seed_data) }
-
-  let(:seed_data) { Source::SeedData.new(data_hash) }
-
-  before do
-    AdminUserSeeder.new(seed_data).seed!
+  class << self
+    def get_data(edition: nil)
+      edition ||= OpenProject::Configuration['edition']
+      loader = new(seed_file_name: edition)
+      loader.seed_data
+    end
   end
 
-  context 'with a global_queries defined' do
-    let(:data_hash) do
-      YAML.load <<~SEEDING_DATA_YAML
-        global_queries:
-        - name: "Children"
-          reference: :global_query__children
-          parent: '{id}'
-          timeline: false
-          sort_by: id
-          hidden: true
-          public: false
-          columns:
-            - type
-            - id
-            - subject
-            - status
-            - assigned_to
-            - priority
-            - project
-      SEEDING_DATA_YAML
-    end
+  attr_reader :seed_file_name, :locale
 
-    it 'creates a global query' do
-      expect { seeder.seed! }.to change { Query.global.count }.by(1)
-    end
+  def initialize(seed_file_name: 'standard', locale: I18n.locale)
+    @seed_file_name = seed_file_name
+    @locale = locale
+  end
 
-    it 'references the query in the seed data' do
-      seeder.seed!
-      created_query = Query.global.first
-      expect(seed_data.find_reference(:global_query__children)).to eq(created_query)
-    end
+  def seed_data
+    @seed_data ||= Source::SeedData.new(translate(seed_file.raw_content))
+  end
+
+  private
+
+  def seed_file
+    Source::SeedFile.find(seed_file_name)
   end
 end

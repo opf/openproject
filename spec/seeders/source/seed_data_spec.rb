@@ -28,62 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class SeedData
-  def initialize(data, registry = nil)
-    @data = data
-    @registry = registry || {}
-  end
+require 'spec_helper'
 
-  def store_reference(reference, record)
-    return if reference.nil?
-    if registry.key?(reference)
-      raise ArgumentError, "an object with reference #{reference.inspect} is already registered"
+RSpec.describe Source::SeedData do
+  subject(:seed_data) { described_class.new({}) }
+
+  describe '#store_reference / find_reference' do
+    it 'acts as a key store to register object by a symbol' do
+      object = Object.new
+      seed_data.store_reference(:ref, object)
+      expect(seed_data.find_reference(:ref)).to be(object)
     end
 
-    registry[reference] = record
-  end
-
-  def find_reference(reference)
-    return if reference.nil?
-
-    registry.fetch(reference) { raise ArgumentError, "Nothing registered with reference #{reference.inspect}" }
-  end
-
-  def lookup(path)
-    case sub_data = fetch(path)
-    when Hash
-      SeedData.new(sub_data, registry)
-    else
-      sub_data
+    it 'stores nothing if reference is nil' do
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      seed_data.store_reference(nil, object)
     end
-  end
 
-  def each(path, &)
-    case sub_data = fetch(path)
-    when nil
-      nil
-    when Enumerable
-      sub_data.each(&)
-    else
-      raise ArgumentError, "expected an Enumerable at path #{path}, got #{sub_data.class}"
+    it 'returns nil if reference is nil' do
+      expect(seed_data.find_reference(nil)).to be_nil
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      expect(seed_data.find_reference(nil)).to be_nil
     end
-  end
 
-  def each_data(path)
-    sub_data = fetch(path)
-    return if sub_data.nil?
-
-    sub_data.each_value do |item_data|
-      yield SeedData.new(item_data, registry)
+    it 'raises an error when the reference is already used' do
+      seed_data.store_reference(:ref, Object.new)
+      expect { seed_data.store_reference(:ref, Object.new) }
+        .to raise_error(ArgumentError)
     end
-  end
-
-  private
-
-  attr_reader :registry
-
-  def fetch(path)
-    keys = path.to_s.split('.')
-    @data.dig(*keys)
   end
 end

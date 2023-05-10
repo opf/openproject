@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe SeedDataLoader do
+RSpec.describe Source::SeedDataLoader do
   let(:title_en) { 'Welcome to OpenProject' }
   let(:text_en) { 'Learn how to plan projects efficiently.' }
   let(:title_fr) { 'Bienvenue sur OpenProject' }
@@ -52,8 +52,8 @@ RSpec.describe SeedDataLoader do
       loader = described_class.new(locale: 'fr')
       mock_translations(
         'fr',
-        'seeds.standard.welcome.title' => title_fr,
-        'seeds.standard.welcome.text' => text_fr
+        "#{Source::Translate::I18N_PREFIX}.standard.welcome.title" => title_fr,
+        "#{Source::Translate::I18N_PREFIX}.standard.welcome.text" => text_fr
       )
       hash = {
         'welcome' => {
@@ -122,8 +122,8 @@ RSpec.describe SeedDataLoader do
         loader = described_class.new(locale: 'de')
         mock_translations(
           'de',
-          'seeds.standard.categories.0' => 'Erste Kategorie',
-          'seeds.standard.categories.1' => 'Zweite Kategorie'
+          "#{Source::Translate::I18N_PREFIX}.standard.categories.0" => 'Erste Kategorie',
+          "#{Source::Translate::I18N_PREFIX}.standard.categories.1" => 'Zweite Kategorie'
         )
         hash = {
           't_categories' => [
@@ -144,8 +144,8 @@ RSpec.describe SeedDataLoader do
         loader = described_class.new(locale: 'fr')
         mock_translations(
           'fr',
-          'seeds.standard.queries.0.name' => 'Plan projet',
-          'seeds.standard.queries.1.name' => 'Tâches'
+          "#{Source::Translate::I18N_PREFIX}.standard.queries.0.name" => 'Plan projet',
+          "#{Source::Translate::I18N_PREFIX}.standard.queries.1.name" => 'Tâches'
         )
 
         translated = loader.translate(

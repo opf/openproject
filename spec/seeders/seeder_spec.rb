@@ -33,7 +33,7 @@ require 'spec_helper'
 RSpec.describe Seeder do
   subject(:seeder) { described_class.new }
 
-  let(:seed_data) { SeedData.new({}) }
+  let(:seed_data) { Source::SeedData.new({}) }
 
   describe '#user' do
     it 'returns the admin created from the seeding' do

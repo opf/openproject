@@ -33,7 +33,7 @@ require 'spec_helper'
 RSpec.describe DemoData::GroupSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
-  let(:seed_data) { SeedData.new(data_hash) }
+  let(:seed_data) { Source::SeedData.new(data_hash) }
 
   context 'with a group defined' do
     let(:data_hash) do

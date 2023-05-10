@@ -28,27 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class SeedDataLoader
-  class << self
-    def get_data(edition: nil)
-      edition ||= OpenProject::Configuration['edition']
-      loader = new(edition:)
-      loader.seed_data
-    end
-  end
+module Source::Translate
+  I18N_PREFIX = "seeds"
 
-  attr_reader :edition, :locale
-
-  def initialize(edition: 'standard', locale: I18n.locale)
-    @edition = edition
-    @locale = locale
-  end
-
-  def seed_data
-    @seed_data ||= SeedData.new(translate(raw_seed_data))
-  end
-
-  def translate(hash, i18n_key = "seeds.#{edition}")
+  def translate(hash, i18n_key = "#{I18N_PREFIX}.#{seed_file_name}")
     translate_translatable_keys(hash, i18n_key)
     translate_nested_enumerations(hash, i18n_key)
     hash
@@ -89,14 +72,5 @@ class SeedDataLoader
           .each_with_index { |h, i| translate(h, "#{i18n_key}.#{key}.#{i}") }
       end
     end
-  end
-
-  def raw_seed_data
-    YAML.load_file(seed_file_path).deep_stringify_keys!
-  end
-
-  def seed_file_path
-    path = edition == 'bim' ? 'modules/bim/app/seeders/bim.yml' : 'app/seeders/standard.yml'
-    Rails.root.join(path)
   end
 end

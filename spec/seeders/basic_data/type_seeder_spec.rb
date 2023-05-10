@@ -34,7 +34,7 @@ RSpec.describe BasicData::TypeSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:phase_type) { create(:type, name: I18n.t(:default_type_phase)) }
-  let(:seed_data) { SeedData.new(data_hash) }
+  let(:seed_data) { Source::SeedData.new(data_hash) }
 
   before do
     phase_type # create the Phase type

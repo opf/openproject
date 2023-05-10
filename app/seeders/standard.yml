@@ -55,7 +55,7 @@ projects:
       - team_planner_view
     news:
       - t_title: Welcome to your demo project
-        t_summary: >
+        t_summary: |
           We are glad you joined.
           In this module you can communicate project news to your team members.
         t_description: The actual news
@@ -334,7 +334,7 @@ projects:
       - board_view
     news:
       - t_title: Welcome to your Scrum demo project
-        t_summary: >
+        t_summary: |
           We are glad you joined.
           In this module you can communicate project news to your team members.
         description: This is the news content.
