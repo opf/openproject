@@ -7,8 +7,8 @@ keywords: github integration
 ---
 # GitHub integration
 
-OpenProject offers an integration with GitHub pull requests (PRs) to link software development closely to planning and specification.
-You create a pull request in GitHub and link it to an OpenProject work package.
+OpenProject offers an integration with GitHub to integrate software development closely to project planning and specification.
+You can view pull requests (PRs) from GitHub and their status as well as GitHub Actions directly in a work package in OpenProject.
 
 ## Overview
 
