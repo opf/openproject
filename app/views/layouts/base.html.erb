@@ -127,7 +127,7 @@ See COPYRIGHT and LICENSE files for more details.
       <div id="content" class="<%= initial_classes %>">
         <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
         <%= content_for :content_body %>
-        <% unless local_assigns[:no_action_menu] %>
+        <% unless local_assigns[:no_layout_yield] %>
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>

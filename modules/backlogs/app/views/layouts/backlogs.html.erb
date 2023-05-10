@@ -27,10 +27,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+
 <% content_for :header_tags do %>
-  <meta name="required_script" content="backlogs" />
+  <%= nonced_javascript_tag do %>
+    <%= render(partial: 'shared/server_variables', formats: [:js]) %>
+  <% end %>
 <% end %>
 
- <%= nonced_javascript_tag do %>
-   <%= render(partial: 'shared/server_variables', formats: [:js]) %>
- <% end %>
+<% content_for :content_body do %>
+  <openproject-base></openproject-base>
+  <%# Allow projection pages to show rails rendered content after initialization %>
+  <div data-controller="backlogs" data-application-target="dynamic" id="projected-content" hidden>
+    <%= yield %>
+  </div>
+<% end -%>
+
+<%= render template: 'layouts/base', locals: local_assigns.merge({ no_layout_yield: true }) %>
