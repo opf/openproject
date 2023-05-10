@@ -66,9 +66,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public dropDownDescription = '';
 
-  public nonWorkingDays:IDay[] = [];
-
-  public nonWorkingDays$:Observable<IDay[]> = this.requireNonWorkingDaysOfTwoYears();
+  public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;
 
   public selectedDate = '';
 
@@ -173,66 +171,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.submitted.emit();
   }
 
-  public yesterdayDate():string {
-    const today = new Date();
-    this.daysNumber = -1;
-
-    today.setDate(today.getDate() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
-  }
-
-  public lastMonthDate():string {
-    const today = new Date();
-    const lastMonthDate = new Date(today);
-
-    lastMonthDate.setMonth(today.getMonth() - 1);
-    this.selectedDate = this.timezoneService.formattedDate(lastMonthDate.toString());
-    this.daysNumber = moment(lastMonthDate).diff(moment(today), 'days');
-    return this.selectedDate;
-  }
-
-  public lastweekDate():string {
-    const today = new Date();
-    this.daysNumber = -7;
-    today.setDate(today.getDate() - 7);
-    this.selectedDate = this.timezoneService.formattedDate(today.toString());
-    return this.selectedDate;
-  }
-
-  requireNonWorkingDaysOfTwoYears() {
-    const today = new Date();
-    const lastYear = new Date(today);
-    lastYear.setFullYear(today.getFullYear() - 1);
-    return this
-      .daysService
-      .requireNonWorkingYears$(lastYear, today);
-  }
-
-  isNonWorkingDay(date:Date|string):boolean {
-    const formatted = moment(date).format('YYYY-MM-DD');
-    return (this.nonWorkingDays.findIndex((el) => el.date === formatted) !== -1);
-  }
-
-  public lastWorkingDate():string {
-    const today = new Date();
-    const yesterday = new Date(today);
-    this.selectedDate = '';
-    yesterday.setDate(today.getDate() - 1);
-    while (this.selectedDate === '') {
-      if (this.isNonWorkingDay(yesterday) || this.weekdaysService.isNonWorkingDay(yesterday)) {
-        yesterday.setDate(yesterday.getDate() - 1);
-        continue;
-      } else {
-        this.selectedDate = this.timezoneService.formattedDate(yesterday.toString());
-        this.daysNumber = moment(yesterday).diff(moment(today), 'days');
-        break;
-      }
-    }
-
-    return this.selectedDate;
-  }
-
   public timeChange(value:string):void {
     this.selectedTime = value;
     const dateTime= `${this.selectedDate}  ${value}`;
@@ -245,21 +183,27 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.selectedFilter = value;
       switch (value) {
         case 'oneDayAgo':
-          this.dropDownDescription = this.yesterdayDate();
+          this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'lastWorkingDay':
-          this.dropDownDescription=this.lastWorkingDate();
+          this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'oneWeekAgo':
-          this.dropDownDescription = this.lastweekDate();
+          this.dropDownDescription = this.wpTableBaseline.lastweekDate();
+          this.daysNumber =this.wpTableBaseline.daysNumber;
           break;
         case 'oneMonthAgo':
-          this.dropDownDescription = this.lastMonthDate();
+          this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
+          this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         default:
           this.dropDownDescription = '';
+          this.daysNumber = 0;
           break;
       }
+      this.selectedDate = this.dropDownDescription;
     } else {
       this.clearSelection();
     }

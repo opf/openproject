@@ -1,5 +1,8 @@
 <div class="work-packages-split-view--tabletimeline-content" *ngIf="query">
   <div class="work-packages-tabletimeline--table-side work-package-table--container __hidden_overflow_container">
+    <op-baseline-legends
+      *ngIf="baselineEnabled"
+    ></op-baseline-legends>
     <table
       class="keyboard-accessible-list generic-table work-package-table"
       [class.op-table-baseline]="baselineEnabled"

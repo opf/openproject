@@ -37,6 +37,14 @@ module Components
         expect(page).to have_selector('.wp-table--baseline-th')
       end
 
+      def expect_legends
+        expect(page).to have_selector('.op-baseline-legends')
+      end
+
+      def expect_no_legends
+        expect(page).not_to have_selector('.op-baseline-legends')
+      end
+
       def expect_inactive
         expect(page).not_to have_selector('.wp-table--baseline-th')
         expect(page).not_to have_selector('.op-table-baseline--column-cell')

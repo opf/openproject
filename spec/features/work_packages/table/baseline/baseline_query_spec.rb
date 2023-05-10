@@ -46,6 +46,7 @@ describe 'baseline query saving', js: true do
     wp_table.visit!
 
     baseline_modal.expect_closed
+    baseline.expect_no_legends
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_open
     baseline_modal.expect_selected '-'
@@ -60,6 +61,10 @@ describe 'baseline query saving', js: true do
     baseline_modal.expect_selected 'yesterday'
     baseline_modal.toggle_drop_modal
     baseline_modal.expect_closed
+    baseline.expect_legends
+    expect(page).to have_selector(".op-baseline-legends--details-added", text: 'Now meets filter criteria (1)')
+    expect(page).to have_selector(".op-baseline-legends--details-removed", text: 'No longer meets filter criteria (0)')
+    expect(page).to have_selector(".op-baseline-legends--details-changed", text: 'Maintained with changes (0)')
 
     wp_table.save_as 'Baseline query'
     wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
@@ -75,6 +80,7 @@ describe 'baseline query saving', js: true do
     baseline_modal.expect_selected 'yesterday'
     baseline_modal.select_filter '-'
     baseline_modal.apply
+    baseline.expect_no_legends
 
     loading_indicator_saveguard
     wp_table.save
