@@ -86,7 +86,7 @@ export interface WorkPackageFocusContext {
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent {
   @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
-  
+
   @Input() projectIdentifier:string;
 
   @Input('configuration') configurationObject:WorkPackageTableConfigurationObject;
