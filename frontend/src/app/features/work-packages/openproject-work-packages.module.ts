@@ -30,6 +30,7 @@ import {
   Injector,
   NgModule,
 } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
@@ -210,6 +211,7 @@ import { OpBaselineLoadingComponent } from 'core-app/features/work-packages/comp
     EditFieldControlsModule,
     OpenprojectTabsModule,
     OpenprojectStoragesModule,
+    ReactiveFormsModule
   ],
   providers: [
     // Notification service

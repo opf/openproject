@@ -65,7 +65,7 @@ class ICalTokenQueryAssignment < ApplicationRecord
       .exists?
 
     if name_already_taken_for_query_and_user
-      errors.add(:name, "has already been taken for this query and user")
+      errors.add(:name, :not_unique)
     end
   end
 end

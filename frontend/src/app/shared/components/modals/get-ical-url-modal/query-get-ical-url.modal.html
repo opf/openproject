@@ -1,7 +1,7 @@
-<form
-  name="getIcalUrlForm"
-  (submit)="generateAndCopyUrl($event)"
+<form 
   class="spot-modal loading-indicator--location op-query-get-ical-url"
+  [formGroup]="tokenNameForm"
+  (submit)="generateAndCopyUrl($event)"
 >
   <div class="spot-modal--header">{{text.label_ical_sharing}}</div>
 
@@ -20,35 +20,28 @@
       {{text.description_ical_sharing}}
     </p>
     
-    <!-- <label class="form--label -bold" for="name" [textContent]="text.token_name"></label> -->
+    <spot-form-field [label]="text.token_name" [required]="true" showValidationErrorOn="change">
 
-    <h5>{{text.token_name}}</h5>
+      <spot-text-field 
+        formControlName="name" 
+        slot="input" 
+        [placeholder]="text.token_name_placeholder"
+      ></spot-text-field>
 
-    <p [innerHtml]="text.token_name_description_text"></p>
-
-    <div class="form--field -required ">
-      <div class="form--field-container">
-        <div class="form--text-field-container">
-          <input
-            class="form--text-field"
-            type="text"
-            name="name"
-            id="name"
-            #tokenNameField
-            [(ngModel)]="tokenName"
-            [placeholder]="text.token_name_placeholder"
-            required
-          />
-        </div>
+      <div
+        slot="errors"
+        class="spot-form-field--error"
+        *ngIf="nameControl?.errors?.rails"
+      >
+        {{nameControl?.errors?.rails}}
       </div>
-    </div>
 
-    <div *ngIf="hasErrors">
-      <p class="error-text">
-        {{text.token_name_already_in_use_error_text}}
-      </p>
-    </div>
-    
+      <span 
+        slot="description" 
+        [innerHtml]="text.token_name_description_text"
+      ></span>
+     
+    </spot-form-field>
   </div>
 
   <div class="spot-action-bar">
@@ -60,7 +53,7 @@
       <button type="submit" class="button button_no-margin -highlight -with-icon icon-copy spot-action-bar--action"
               (click)="generateAndCopyUrl($event)"
               [textContent]="text.button_copy"
-              [disabled]="isBusy || !tokenName">
+              [disabled]="isBusy">
       </button>
     </div>
   </div>

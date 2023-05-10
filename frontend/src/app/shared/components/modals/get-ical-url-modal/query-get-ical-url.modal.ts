@@ -36,12 +36,17 @@ import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild
 } from '@angular/core';
+import {
+  UntypedFormGroup,
+  UntypedFormControl,
+  Validators,
+  AbstractControl,
+} from '@angular/forms';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { timeout } from 'rxjs/operators';
 
 @Component({
   templateUrl: './query-get-ical-url.modal.html',
@@ -54,11 +59,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
   public query:QueryResource;
 
   public isBusy = false;
-
-  public hasErrors = false;
-
-
-  @ViewChild('tokenNameField', { static: true }) tokenNameField:ElementRef;
 
   public text = {
     label_ical_sharing: this.I18n.t('js.ical_sharing_modal.title'),
@@ -73,6 +73,15 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
   };
+
+  public tokenNameForm = new UntypedFormGroup({
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    name: new UntypedFormControl(null, [Validators.required]),
+  });
+
+  get nameControl():AbstractControl|null {
+    return this.tokenNameForm.get('name');
+  }
 
   constructor(
     readonly elementRef:ElementRef,
@@ -106,10 +115,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
     }
   }
 
-  public onOpen():void {
-    this.tokenNameField.nativeElement.focus();
-  }
-
   public copyUrlAndCloseModal(url:string):void {
     void navigator.clipboard.writeText(url)
       .then(() => {
@@ -131,12 +136,14 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
     let icalUrl = "";
 
+    let tokenName = this.tokenNameForm.value.name;
+
     this.isBusy = true;
 
     const promise = this
       .apiV3Service
       .queries
-      .getIcalUrl(this.query, this.tokenName);
+      .getIcalUrl(this.query, tokenName);
 
     void promise
       .then((response:HalResource) => {
@@ -144,13 +151,9 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
         this.copyUrlAndCloseModal(icalUrl);
       })
       .catch((error:any) => {
-        this.halNotification.handleRawError(error)
-
-        this.hasErrors = true
-
-        const el = this.tokenNameField.nativeElement;
-        el.classList.add('-error'); //TODO: find default error styling approach
-
+        this.nameControl?.markAsDirty();
+        this.nameControl?.setErrors({ rails: error.message });
+        
         this.cdRef.detectChanges();
       })
       .then(() => this.isBusy = false); // Same as .finally()
