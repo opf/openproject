@@ -33,10 +33,12 @@ require 'spec_helper'
 RSpec.describe Seeder do
   subject(:seeder) { described_class.new }
 
+  let(:seed_data) { SeedData.new({}) }
+
   describe '#user' do
     it 'returns the admin created from the seeding' do
       expect(seeder.user).to be_nil
-      AdminUserSeeder.new.seed!
+      AdminUserSeeder.new(seed_data).seed!
       expect(seeder.user).to be_a(User)
     end
 

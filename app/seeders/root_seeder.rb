@@ -28,28 +28,20 @@
 
 # Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
 # as well as optional demo data (DemoDataSeeder) to give a user some orientation.
-
 class RootSeeder < Seeder
   def initialize(seed_development_data: Rails.env.development?)
     super()
-    require 'basic_data_seeder'
-    require 'demo_data_seeder'
-    require 'development_data_seeder'
 
     @seed_development_data = seed_development_data
 
-    rails_engines.each { |engine| load_engine_seeders! engine }
+    load_available_seeders
   end
 
   # Returns the demo data in the default language.
   def seed_data
     raise 'cannot generate demo seed data without setting locale first' unless @locale_set
 
-    @seed_data ||=
-      OpenProject::Configuration['edition']
-      .then { |edition| edition == 'bim' ? 'modules/bim/app/seeders/bim.yml' : 'app/seeders/standard.yml' }
-      .then { |path| YAML.load_file(Rails.root.join(path)) }
-      .then { |yaml_content| SeedData.new(yaml_content) }
+    @seed_data ||= SeedDataLoader.get_data
   end
 
   def seed_data!
@@ -76,13 +68,22 @@ class RootSeeder < Seeder
     @seed_development_data
   end
 
-  def rails_engines
-    ::Rails::Engine.subclasses.map(&:instance)
+  private
+
+  # Load all seeders so that they can be discovered when doing
+  # `Seeder.subclasses`.
+  def load_available_seeders
+    load_engine_seeders(Rails)
+    rails_engines.each { |engine| load_engine_seeders engine }
   end
 
-  def load_engine_seeders!(engine)
-    Dir[engine.root.join('app/seeders/**/*.rb')]
+  def load_engine_seeders(engine)
+    engine.root.glob('app/seeders/**/*.rb')
       .each { |file| require file }
+  end
+
+  def rails_engines
+    ::Rails::Engine.subclasses.map(&:instance)
   end
 
   ##
@@ -122,8 +123,6 @@ class RootSeeder < Seeder
     ActionMailer::Base.perform_deliveries = previous_perform_deliveries
     Delayed::Worker.delay_jobs = previous_delay_jobs
   end
-
-  private
 
   def seed_basic_data
     print_status "*** Seeding basic data for #{OpenProject::Configuration['edition']} edition"

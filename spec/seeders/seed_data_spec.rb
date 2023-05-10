@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,20 +26,37 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GlobalQuerySeeder < Seeder
-    def seed_data!
-      print_status '    ↳ Creating global queries' do
-        seed_global_queries
-      end
+#++
+
+require 'spec_helper'
+
+RSpec.describe SeedData do
+  subject(:seed_data) { described_class.new({}) }
+
+  describe '#store_reference / find_reference' do
+    it 'acts as a key store to register object by a symbol' do
+      object = Object.new
+      seed_data.store_reference(:ref, object)
+      expect(seed_data.find_reference(:ref)).to be(object)
     end
 
-    private
+    it 'stores nothing if reference is nil' do
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      seed_data.store_reference(nil, object)
+    end
 
-    def seed_global_queries
-      seed_data.each('global_queries') do |config|
-        DemoData::QueryBuilder.new(config, project: nil, user:, seed_data:).create!
-      end
+    it 'returns nil if reference is nil' do
+      expect(seed_data.find_reference(nil)).to be_nil
+      object = Object.new
+      seed_data.store_reference(nil, object)
+      expect(seed_data.find_reference(nil)).to be_nil
+    end
+
+    it 'raises an error when the reference is already used' do
+      seed_data.store_reference(:ref, Object.new)
+      expect { seed_data.store_reference(:ref, Object.new) }
+        .to raise_error(ArgumentError)
     end
   end
 end

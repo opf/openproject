@@ -26,27 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-.op-table-baseline
-  &--column-cell
-    padding-right: 0
+.op-table-baseline--old-field
+  // Hide status bubbles in old values
+  &[class^=__hl_inline_status]:before
+    display: none
 
-  &--icon-added
-    color: #35C53F
+  // Hide avatars in old values
+  .op-avatar
+    display: none
 
-  &--icon-changed
-    color: #54AFE0
-
-  &--old-field
-    @include spot-caption
-    text-decoration: line-through
-    filter: grayscale(1)
-    padding: 2px 2px 0 2px
-
-  &--cell
-    background-color: #f3f3f3
-    padding: 0 2px 2px 2px
-
-  &--container
-    display: flex
-    flex-direction: column
-    padding-right: 6px
+  .op-principal--name
+    margin-left: 0 !important

@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,20 +26,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GlobalQuerySeeder < Seeder
-    def seed_data!
-      print_status '    ↳ Creating global queries' do
-        seed_global_queries
-      end
-    end
+#++
 
-    private
+module DemoData::CreateAttachments
+  def create_attachments!(container, attributes)
+    Array(attributes['attachments']).each do |file_name|
+      attachment = container.attachments.build
+      attachment.author = user
+      attachment.file = File.new(attachment_path(file_name))
 
-    def seed_global_queries
-      seed_data.each('global_queries') do |config|
-        DemoData::QueryBuilder.new(config, project: nil, user:, seed_data:).create!
-      end
+      attachment.save!
     end
+  end
+
+  def attachment_path(file_name)
+    Rails.root.join(
+      "config/locales/media/en/#{file_name}"
+    )
   end
 end

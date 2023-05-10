@@ -56,6 +56,7 @@ class Seeder
       end
     else
       Seeder.logger.debug { "   *** #{not_applicable_message}" }
+      lookup_existing_references
     end
   end
 
@@ -66,6 +67,10 @@ class Seeder
   def applicable?
     true
   end
+
+  # Called if the seeding is not applicable to have a chance to lookup
+  # existing records and set some references to them.
+  def lookup_existing_references; end
 
   def not_applicable_message
     "Skipping #{self.class.name}"
