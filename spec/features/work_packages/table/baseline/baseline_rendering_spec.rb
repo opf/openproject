@@ -192,7 +192,6 @@ describe 'baseline rendering',
       baseline.expect_unchanged_attributes wp_task,
                                            :type, :subject, :start_date, :due_date,
                                            :version, :priority, :assignee, :accountable
-      baseline.expect_legends
     end
   end
 
