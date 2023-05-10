@@ -28,6 +28,10 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
+import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
+import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
+import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 
 @Component({
   selector: 'wp-single-card',
@@ -108,6 +112,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
     readonly cardView:WorkPackageCardViewService,
     readonly cdRef:ChangeDetectorRef,
     readonly timezoneService:TimezoneService,
+    readonly schemaCache:SchemaCacheService,
+    readonly wpTableColumns:WorkPackageViewColumnsService,
   ) {
     super();
   }
@@ -171,6 +177,34 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   cardTitle():string {
     return `${this.workPackage.subject} (${(this.workPackage.status as StatusResource).name})`;
+  }
+
+  public baselineIcon(workPackage:WorkPackageResource) {
+    const schema = this.schemaCache.of(workPackage);
+    const timestamps = workPackage.attributesByTimestamp || [];
+    let baselineIconClass = '';
+    if (timestamps.length > 1) {
+      const base = timestamps[0];
+      const compare = timestamps[1];
+      if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_add op-table-baseline--icon-added';
+      } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_minus1 op-table-baseline--icon-removed';
+      } else if (this.visibleAttributeChanged(base, schema)) {
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_arrow-left-right op-table-baseline--icon-changed';
+      }
+    }
+    return baselineIconClass;
+  }
+
+  private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
+    return !!this
+      .wpTableColumns
+      .getColumns()
+      .find((column) => {
+        const name = schema.mappedName(column.id);
+        return Object.prototype.hasOwnProperty.call(base, name) || Object.prototype.hasOwnProperty.call(base.$links, name);
+      });
   }
 
   // eslint-disable-next-line class-methods-use-this
