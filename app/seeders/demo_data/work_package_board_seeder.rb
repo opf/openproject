@@ -27,14 +27,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class WorkPackageBoardSeeder < Seeder
-    attr_reader :project, :project_data
+    attr_reader :project
+    alias_method :project_data, :seed_data
 
     include ::DemoData::References
 
     def initialize(project, project_data)
-      super()
+      super(project_data)
       @project = project
-      @project_data = project_data
     end
 
     def seed_data!
@@ -101,14 +101,12 @@ module DemoData
     end
 
     def seed_kanban_board_queries
-      status_names = ['New', 'In progress', 'Closed', 'Rejected']
-      statuses = Status.where(name: status_names).to_a
-
-      if statuses.size < status_names.size
-        raise StandardError.new "Not all statuses needed for seeding a KANBAN board are present. Check that they get seeded."
-      end
-
-      statuses.to_a.map do |status|
+      statuses(
+        'default_status_new',
+        'default_status_in_progress',
+        'default_status_closed',
+        'default_status_rejected'
+      ).map do |status|
         Query.new_default(project:, user:).tap do |query|
           # Make it public so that new members can see it too
           query.public = true
@@ -125,8 +123,19 @@ module DemoData
       end
     end
 
+    def statuses(*status_i18n_keys)
+      status_names = status_i18n_keys.map { I18n.t(_1) }
+      statuses = Status.where(name: status_names).to_a
+
+      if statuses.size < status_names.size
+        raise StandardError, "Not all statuses needed for seeding a board are present. Check that they got seeded."
+      end
+
+      statuses.to_a
+    end
+
     def seed_basic_board(board_data)
-      widgets = seed_basic_board_widgets
+      widgets = seed_basic_board_widgets(board_data)
       board =
         ::Boards::Grid.new(
           project:,
@@ -139,8 +148,8 @@ module DemoData
       board.save!
     end
 
-    def seed_basic_board_widgets
-      seed_basic_board_queries.each_with_index.map do |query, i|
+    def seed_basic_board_widgets(board_data)
+      seed_basic_board_queries(board_data).each_with_index.map do |query, i|
         Grids::Widget.new start_row: 1, end_row: 2,
                           start_column: i + 1, end_column: i + 2,
                           options: { query_id: query.id,
@@ -149,58 +158,33 @@ module DemoData
       end
     end
 
-    def seed_basic_board_queries
-      wps = if project.name === 'Scrum project'
-              scrum_query_work_packages
-            else
-              basic_query_work_packages
-            end
-
-      lists = [{ name: 'Wish list', wps: wps[0] },
-               { name: 'Short list', wps: wps[1] },
-               { name: 'Prio list for today', wps: wps[2] },
-               { name: 'Never', wps: wps[3] }]
-
+    def seed_basic_board_queries(board_data)
+      lists = board_data.lookup('lists')
       lists.map do |list|
-        Query.new(project:, user:).tap do |query|
-          # Make it public so that new members can see it too
-          query.public = true
-          query.include_subprojects = true
-
-          query.name = list[:name]
-
-          # Set manual sort filter
-          query.add_filter('manual_sort', 'ow', [])
-          query.sort_criteria = [[:manual_sorting, 'asc']]
-
-          list[:wps].each_with_index do |wp_id, i|
-            query.ordered_work_packages.build(work_package_id: wp_id, position: i)
-          end
-
-          query.save!
-        end
+        create_basic_board_query_from_list(list)
       end
     end
 
-    def scrum_query_work_packages
-      [
-        [WorkPackage.find_by(subject: 'New website').id,
-         WorkPackage.find_by(subject: 'SSL certificate').id,
-         WorkPackage.find_by(subject: 'Choose a content management system').id],
-        [WorkPackage.find_by(subject: 'New login screen').id],
-        [WorkPackage.find_by(subject: 'Set-up Staging environment').id],
-        [WorkPackage.find_by(subject: 'Wrong hover color').id]
-      ]
-    end
+    def create_basic_board_query_from_list(list)
+      Query.new(
+        project:,
+        user:,
+        # Make it public so that new members can see it too
+        public: true,
+        include_subprojects: true,
+        name: list['name']
+      ).tap do |query|
+        # Set manual sort filter
+        query.add_filter('manual_sort', 'ow', [])
+        query.sort_criteria = [[:manual_sorting, 'asc']]
 
-    def basic_query_work_packages
-      [
-        [WorkPackage.find_by(subject: 'Setup conference website').id,
-         WorkPackage.find_by(subject: 'Upload presentations to website').id],
-        [WorkPackage.find_by(subject: 'Invite attendees to conference').id],
-        [WorkPackage.find_by(subject: 'Set date and location of conference').id],
-        []
-      ]
+        list['work_packages'].each_with_index do |wp_reference, i|
+          work_package_id = seed_data.find_reference(wp_reference).id
+          query.ordered_work_packages.build(work_package_id:, position: i)
+        end
+
+        query.save!
+      end
     end
 
     def seed_parent_child_board(board_data)
@@ -228,8 +212,8 @@ module DemoData
     end
 
     def seed_parent_child_board_queries
-      parents = [WorkPackage.find_by(subject: 'Organize open source conference'),
-                 WorkPackage.find_by(subject: 'Follow-up tasks')]
+      parents = [seed_data.find_reference(:organize_open_source_conference),
+                 seed_data.find_reference(:follow_up_tasks)]
 
       parents.map do |parent|
         Query.new_default(project:, user:).tap do |query|

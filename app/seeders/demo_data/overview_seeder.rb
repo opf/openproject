@@ -1,6 +1,7 @@
 module DemoData
   class OverviewSeeder < Seeder
-    include ::DemoData::References
+    include CreateAttachments
+    include References
 
     def seed_data!
       print_status "*** Seeding Overview"
@@ -49,22 +50,6 @@ module DemoData
       overview.widgets.build(widget_config.except('attachments'))
     end
 
-    def create_attachments!(overview, attributes)
-      Array(attributes['attachments']).each do |file_name|
-        attachment = overview.attachments.build
-        attachment.author = user
-        attachment.file = File.new(attachment_path(file_name))
-
-        attachment.save!
-      end
-    end
-
-    def attachment_path(file_name)
-      Rails.root.join(
-        "config/locales/media/#{I18n.locale}/#{file_name}"
-      )
-    end
-
     def find_project(project_data)
       Project.find_by!(identifier: project_data.lookup('identifier'))
     end
@@ -83,14 +68,14 @@ module DemoData
 
     def text_with_references(overview, widget_options)
       if widget_options && widget_options['text']
-        widget_options['text'] = with_references(widget_options['text'], overview.project)
+        widget_options['text'] = with_references(widget_options['text'])
         widget_options['text'] = link_attachments(widget_options['text'], overview.attachments)
       end
     end
 
     def query_id_references(overview, widget_options)
       if widget_options && widget_options['queryId']
-        widget_options['queryId'] = with_references(widget_options['queryId'], overview.project)
+        widget_options['queryId'] = with_references(widget_options['queryId'])
       end
     end
 
