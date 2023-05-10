@@ -20,17 +20,27 @@ export const IconsPreview = () => <div className="icons">
 
 # Icons
 
-Icons are used as visual indicators or small illustrations.
+Icons are used as visual indicators or small illustrations. They provide additional context when necessary.
 
 <Canvas of={IconsStories.Basic} />
 
-It is very much not recommended to use Icons on their own, especially if they are supposed to convey an action taken on
-an interactive element. For example, a button that saves changes to a work package with only the `checkmark` icon as
-content is a big no-no.
+## Design notes
+
+Icons should generally not be used on its own without a label, especially on interactive elements, where their function might be ambiguous. 
+
+There are notable examples: if the meaning of the button is abundantly clear without a label and space is limited (or repetitive elements), an icon-only interactive element is possible (for example, the "Mark as read" button on each notification element).
+
+However, icon-only buttons or links should never be used for critical primary functions like Save, Confirm, Remove and Delete. 
 
 # Usage
 
-Icons are a CSS class only. To use them, just apply the `spot-icon` BEM block on a generic inline element like `span`.
+Icons are a CSS class only. To use them, apply the `spot-icon` BEM block on a generic inline element like `span`.
+
+# Options
+
+There are four pre-defined dimensions for icons: 12×12, 16×16, 20×20 and 24×24. 
+
+The default size is 16×16.
 
 <Canvas of={IconsStories.Button} />
 

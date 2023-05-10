@@ -3,7 +3,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { OpSpotModule } from '../app/spot/spot.module';
 
 const meta:Meta = {
-  title: 'Components/Icons',
+  title: 'Styles/Icons',
   decorators: [
     moduleMetadata({
       imports: [OpSpotModule],
