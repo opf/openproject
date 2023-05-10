@@ -48,9 +48,17 @@ describe 'Switching types in work package table', js: true do
       query
     end
 
-    let(:type_field) { wp_table.edit_field(work_package, :type) }
-    let(:text_field) { wp_table.edit_field(work_package, cf_text.attribute_name(:camel_case)) }
-    let(:req_text_field) { wp_table.edit_field(work_package, cf_req_text.attribute_name(:camel_case)) }
+    def type_field
+      wp_table.edit_field(work_package, :type)
+    end
+
+    def text_field
+      wp_table.edit_field(work_package, cf_text.attribute_name(:camel_case))
+    end
+
+    def req_text_field
+      wp_table.edit_field(work_package, cf_req_text.attribute_name(:camel_case))
+    end
 
     before do
       login_as(user)

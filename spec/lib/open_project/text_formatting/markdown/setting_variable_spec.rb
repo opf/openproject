@@ -43,6 +43,8 @@ describe OpenProject::TextFormatting,
 
           [Link with setting]({{opSetting:base_url}}/foo/bar)
 
+          [Saved and transformed link with setting](http://localhost:3000/prefix/%7B%7BopSetting:base_url%7D%7D/foo/bar)
+
           Inline reference to invalid variable: {{opSetting:smtp_password}}
 
           Inline reference to missing variable: {{opSetting:does_not_exist}}
@@ -60,6 +62,10 @@ describe OpenProject::TextFormatting,
           <p class="op-uc-p">
             <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
                class="op-uc-link">Link with setting</a>
+          </p>
+          <p class="op-uc-p">
+            <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
+               class="op-uc-link">Saved and transformed link with setting</a>
           </p>
           <p class="op-uc-p">
             Inline reference to invalid variable: {{opSetting:smtp_password}}
