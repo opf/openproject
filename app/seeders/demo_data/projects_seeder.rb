@@ -26,30 +26,55 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
-  class GroupSeeder < Seeder
-    include ::DemoData::References
-
+  class ProjectsSeeder < Seeder
+    # Careful: The seeding recreates the seeded project before it runs, so any changes
+    # on the seeded project will be lost.
+    # On the other hand, it won't be applied if there are already existing projects.
     def seed_data!
-      print_status '    ↳ Creating groups' do
-        seed_groups
+      print_status ' ↳ Updating settings'
+      seed_settings
+
+      seed_data.each_data('projects') do |project_data|
+        seed_project(project_data)
+        Setting.demo_projects_available = true
       end
+
+      print_status ' ↳ Update form configuration with global queries'
+      set_form_configuration
     end
 
     def applicable?
-      Group.count.zero?
+      Project.count.zero?
     end
 
-    private
-
-    def seed_groups
-      seed_data.each('groups') do |group_data|
-        group = create_group group_data['name']
-        seed_data.store_reference(group_data['reference'], group)
+    def seed_settings
+      seedable_welcome_settings
+        .select { |k,| Settings::Definition[k].writable? }
+        .each do |k, v|
+        Setting[k] = v
       end
     end
 
-    def create_group(name)
-      Group.create lastname: name
+    def seed_project(project_data)
+      project_seeder = ProjectSeeder.new(project_data)
+      project_seeder.seed!
+    end
+
+    def set_form_configuration
+      Type.all.each do |type|
+        BasicData::TypeSeeder.new(seed_data).set_attribute_groups_for_type(type)
+      end
+    end
+
+    def seedable_welcome_settings
+      welcome = seed_data.lookup('welcome')
+      return {} if welcome.blank?
+
+      {
+        welcome_title: welcome.lookup('title'),
+        welcome_text: welcome.lookup('text'),
+        welcome_on_homescreen: 1
+      }
     end
   end
 end

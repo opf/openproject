@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,20 +26,13 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GlobalQuerySeeder < Seeder
-    def seed_data!
-      print_status '    ↳ Creating global queries' do
-        seed_global_queries
-      end
-    end
+#++
 
-    private
+RSpec.shared_examples 'no email deliveries' do
+  it 'does not perform any email deliveries' do
+    perform_enqueued_jobs
 
-    def seed_global_queries
-      seed_data.each('global_queries') do |config|
-        DemoData::QueryBuilder.new(config, project: nil, user:, seed_data:).create!
-      end
-    end
+    expect(ActionMailer::Base.deliveries)
+      .to be_empty
   end
 end

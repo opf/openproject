@@ -38,6 +38,8 @@ import { IDay } from 'core-app/core/state/days/day.model';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 
 export const DEFAULT_TIMESTAMP = 'PT0S';
 
@@ -134,6 +136,11 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     }
 
     return this.current.length >= 1 && this.current[0] !== DEFAULT_TIMESTAMP;
+  }
+
+  public isChanged(workPackage:WorkPackageResource, attribute:string):boolean {
+    const timestamps = workPackage.attributesByTimestamp || [];
+    return this.isActive() && timestamps.length >= 1 && !!timestamps[0][attribute as keyof IWorkPackageTimestamp];
   }
 
   public valueFromQuery(query:QueryResource):string[] {

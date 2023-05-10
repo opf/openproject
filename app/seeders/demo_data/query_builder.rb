@@ -26,26 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 module DemoData
   class QueryBuilder < ::Seeder
-    attr_reader :config, :project, :user
+    attr_reader :config, :project, :user, :seed_data
 
-    def initialize(config, project:, user:)
-      super()
+    def initialize(config, project:, user:, seed_data:)
+      super(seed_data)
       @config = config.with_indifferent_access
       @project = project
       @user = user
     end
 
     def create!
-      create_query if valid?
+      create_query.tap do |query|
+        seed_data.store_reference(config['reference'], query)
+      end
     end
 
     private
-
-    ##
-    # Don't seed queries specific to the backlogs plugin.
-    def valid?
-      backlogs_present? || !columns.include?("story_points")
-    end
 
     def base_attributes
       {
@@ -129,7 +125,7 @@ module DemoData
       set_version_filter! filters
       set_type_filter! filters
       set_parent_filter! filters
-      set_assignee_filter! filters
+      set_assigned_to_filter! filters
 
       filters
     end
@@ -139,10 +135,11 @@ module DemoData
     end
 
     def set_version_filter!(filters)
-      if version = config[:version].presence
+      version = seed_data.find_reference(config[:version])
+      if version
         filters[:version_id] = {
           operator: "=",
-          values: [Version.find_by(name: version).id]
+          values: [version.id]
         }
       end
     end
@@ -169,26 +166,14 @@ module DemoData
       end
     end
 
-    def set_assignee_filter!(filters)
-      users = Array(config[:assignee])
-                .map(&:split)
-                .inject(User.user.none) do |scope, (firstname, lastname)|
-                  scope.or(User.user.where(firstname:, lastname:))
-                end
-                .pluck(:id)
-
-      if users.any?
+    def set_assigned_to_filter!(filters)
+      assignee = seed_data.find_reference(config[:assigned_to])
+      if assignee
         filters[:assigned_to_id] = {
           operator: "=",
-          values: users.map(&:to_s)
+          values: [assignee.id.to_s]
         }
       end
-    end
-
-    def backlogs_present?
-      @backlogs_present = defined? OpenProject::Backlogs if @backlogs_present.nil?
-
-      @backlogs_present
     end
   end
 end

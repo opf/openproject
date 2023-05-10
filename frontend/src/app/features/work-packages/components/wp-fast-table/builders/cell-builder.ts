@@ -45,8 +45,8 @@ export class CellBuilder {
     }
 
     const container = document.createElement('span');
-    this.render(container, workPackage, attribute);
     td.appendChild(container);
+    this.render(container, workPackage, attribute);
 
     return td;
   }
@@ -58,13 +58,16 @@ export class CellBuilder {
 
   private render(container:HTMLElement, workPackage:WorkPackageResource, attribute:string) {
     const schema = this.schemaCache.of(workPackage);
+    const hasBaseline = attribute !== 'id' && this.wpTableBaseline.isChanged(workPackage, attribute);
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
 
-    if (attribute !== 'id' && this.wpTableBaseline.isActive()) {
+    const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
+
+    if (hasBaseline) {
+      displayElement.classList.add('op-table-baseline--field', 'op-table-baseline--new-field');
       this.prependChanges(container, workPackage, schema.mappedName(attribute));
     }
 
-    const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
     container.appendChild(displayElement);
   }
 
@@ -73,19 +76,13 @@ export class CellBuilder {
     workPackage:WorkPackageResource,
     attribute:string,
   ):void {
-    const timestamps = workPackage.attributesByTimestamp || [];
-    if (timestamps.length <= 1) {
-      return;
-    }
-
-    const base = timestamps[0];
-    if (base[attribute as keyof IWorkPackageTimestamp]) {
-      base.$links.schema = workPackage.$links.schema;
-      const span = this.fieldRenderer.render(base, attribute, null);
-      span.classList.add('op-table-baseline--old-value');
-      container.classList.add('op-table-baseline--cell');
-      container.classList.remove(editCellContainer);
-      container.appendChild(span);
-    }
+    const base = (workPackage.attributesByTimestamp as IWorkPackageTimestamp[])[0];
+    base.$links.schema = workPackage.$links.schema;
+    const span = this.fieldRenderer.render(base, attribute, null);
+    span.classList.add('op-table-baseline--field', 'op-table-baseline--old-field');
+    container.classList.add('op-table-baseline--container');
+    (container.parentElement as HTMLTableElement).classList.add('op-table-baseline--cell');
+    container.classList.remove(editCellContainer);
+    container.appendChild(span);
   }
 }

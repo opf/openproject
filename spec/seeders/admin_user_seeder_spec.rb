@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -26,38 +28,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::ProjectSeederPatch
-  def self.included(base) # :nodoc:
-    base.prepend InstanceMethods
+require 'spec_helper'
+
+RSpec.describe AdminUserSeeder do
+  subject(:seeder) { described_class.new(seed_data) }
+
+  let(:seed_data) { SeedData.new({}) }
+
+  it 'creates an admin user' do
+    expect { seeder.seed! }.to change { User.admin.count }.by(1)
   end
 
-  module InstanceMethods
-    def seed_versions
-      super
+  it 'references the admin user as :openproject_admin in the seed_data' do
+    seeder.seed!
+    expect(seed_data.find_reference(:openproject_admin)).to eq(User.admin.first)
+  end
 
-      version_data = Array(project_data.lookup('versions'))
-      return if version_data.blank?
-
-      versions = version_data
-        .map { |data| Version.find_by(name: data['name']) }
-        .compact
-
-      versions.each do |version|
-        display = version_settings_display_map[version.name] || VersionSetting::DISPLAY_NONE
-        version.version_settings.create! display:, project: version.project
-      end
+  context 'when a builtin admin user already exists' do
+    before do
+      User.system
     end
 
-    ##
-    # This relies on the names from the core's `config/locales/en.seeders.yml`.
-    def version_settings_display_map
-      {
-        'Sprint 1' => VersionSetting::DISPLAY_LEFT,
-        'Sprint 2' => VersionSetting::DISPLAY_LEFT,
-        'Bug Backlog' => VersionSetting::DISPLAY_RIGHT,
-        'Product Backlog' => VersionSetting::DISPLAY_RIGHT,
-        'Wish List' => VersionSetting::DISPLAY_RIGHT
-      }
+    it 'creates a non-builtin admin user' do
+      expect(User.admin.count).to eq(1)
+      expect { seeder.seed! }.to change { User.user.admin.count }.by(1)
+    end
+  end
+
+  context 'when some admin users already exist' do
+    before do
+      User.system
+      create(:admin, firstname: 'First existing admin')
+      create(:admin, firstname: 'Second existing admin')
+    end
+
+    it 'does not create another admin user' do
+      expect { seeder.seed! }.not_to change { User.admin.count }
+    end
+
+    it 'references the first non-builtin admin user as :openproject_admin in the seed_data' do
+      seeder.seed!
+      expect(seed_data.find_reference(:openproject_admin)).to eq(User.user.admin.first)
     end
   end
 end

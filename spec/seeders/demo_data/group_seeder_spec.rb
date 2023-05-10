@@ -1,5 +1,6 @@
-#-- copyright
+# frozen_string_literal: true
 
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
 #
@@ -25,20 +26,34 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-module DemoData
-  class GlobalQuerySeeder < Seeder
-    def seed_data!
-      print_status '    ↳ Creating global queries' do
-        seed_global_queries
-      end
+#++
+
+require 'spec_helper'
+
+RSpec.describe DemoData::GroupSeeder do
+  subject(:seeder) { described_class.new(seed_data) }
+
+  let(:seed_data) { SeedData.new(data_hash) }
+
+  context 'with a group defined' do
+    let(:data_hash) do
+      YAML.load <<~SEEDING_DATA_YAML
+        groups:
+        - name: Architects
+          reference: :architects
+      SEEDING_DATA_YAML
     end
 
-    private
+    it 'creates the corresponding group with the given name as lastname' do
+      seeder.seed!
+      created_group = Group.last
+      expect(created_group).to have_attributes(lastname: 'Architects')
+    end
 
-    def seed_global_queries
-      seed_data.each('global_queries') do |config|
-        DemoData::QueryBuilder.new(config, project: nil, user:, seed_data:).create!
-      end
+    it 'references the group in the seed data' do
+      seeder.seed!
+      created_group = Group.last
+      expect(seed_data.find_reference(:architects)).to eq(created_group)
     end
   end
 end
