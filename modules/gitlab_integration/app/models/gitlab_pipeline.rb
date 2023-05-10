@@ -37,7 +37,8 @@ class GitlabPipeline < ApplicationRecord
     completed: 'completed',
     in_progress: 'in_progress',
     success: 'success',
-    queued: 'queued'
+    queued: 'queued',
+    pending: 'pending'
   }
 
   validates_presence_of :gitlab_user_avatar_url,

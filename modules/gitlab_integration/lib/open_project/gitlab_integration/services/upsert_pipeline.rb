@@ -36,7 +36,7 @@ module OpenProject::GitlabIntegration::Services
   # Returns the upserted `GitlabPipeline`.
   class UpsertPipeline
     def call(payload, merge_request:)
-      GitlabPipelines.find_or_initialize_by(gitlab_id: payload.object_attributes.id)
+      GitlabPipeline.find_or_initialize_by(gitlab_id: payload.object_attributes.id)
                     .tap do |pipeline|
                       pipeline.update!(gitlab_merge_request: merge_request, **extract_params(payload))
                     end
@@ -49,12 +49,12 @@ module OpenProject::GitlabIntegration::Services
     def extract_params(payload)
       {
         gitlab_id: payload.object_attributes.id,
-        gitlab_html_url: payload.project.web_url + "-/pipelines/" + payload.object_attributes.id,
+        gitlab_html_url: "#{payload.project.web_url}-/pipelines/#{payload.object_attributes.id}",
         project_id: payload.project.id,
         gitlab_user_avatar_url: payload.user.avatar_url,
         name: payload.object_attributes.status,
         status: payload.object_attributes.status,
-        details_url: payload.project.web_url + "-/pipelines/" + payload.object_attributes.id,
+        details_url: "#{payload.project.web_url}-/pipelines/#{payload.object_attributes.id}",
         # ci_details: pending until resolution of the gitlab issue,
         started_at: payload.object_attributes.created_at,
         completed_at: payload.object_attributes.finished_at
