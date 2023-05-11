@@ -58,7 +58,7 @@ module Source::FilterTranslatables
 
   def filter_translatables_in_array(array, translatable: false)
     array.map.with_index.to_h do |value, i|
-      key = i.to_s
+      key = "item_#{i}"
       if value.is_a?(Hash)
         [key, filter_translatables_in_object(value)]
       elsif translatable

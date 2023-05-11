@@ -57,7 +57,7 @@ module Source::Translate
     when String
       I18n.t(i18n_key, locale:, default: value)
     when Array
-      value.map.with_index { |v, i| translate_value(v, "#{i18n_key}.#{i}") }
+      value.map.with_index { |v, i| translate_value(v, "#{i18n_key}.item_#{i}") }
     end
   end
 
@@ -69,7 +69,7 @@ module Source::Translate
       when Array
         value
           .filter { |v| v.is_a?(Hash) }
-          .each_with_index { |h, i| translate(h, "#{i18n_key}.#{key}.#{i}") }
+          .each_with_index { |h, i| translate(h, "#{i18n_key}.#{key}.item_#{i}") }
       end
     end
   end
