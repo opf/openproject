@@ -39,6 +39,7 @@ module DemoData
       @statuses = Status.all
       @repository = Repository.first
       @types = project.types.all.reject(&:is_milestone?)
+      @relations_to_create = []
     end
 
     def seed_data!
@@ -50,10 +51,13 @@ module DemoData
 
     private
 
+    RelationData = Data.define(:from, :to_reference, :type)
+
+    attr_reader :relations_to_create
+
     def seed_demo_work_packages
       project_data.each('work_packages') do |attributes|
-        work_package = create_or_update_work_package(attributes)
-        memorize_work_package(work_package, attributes)
+        create_or_update_work_package(attributes)
       end
     end
 
@@ -75,24 +79,11 @@ module DemoData
 
       create_children! work_package, attributes
       create_attachments! work_package, attributes
-
-      description = work_package.description
-      description = link_attachments description, work_package.attachments
-      description = with_references description
-
-      work_package.update(description:)
+      update_description! work_package
+      add_relations_to_create work_package, attributes
+      memorize_work_package work_package, attributes
 
       work_package
-    end
-
-    def create_children!(work_package, attributes)
-      Array(attributes['children']).each do |child_attributes|
-        child = create_work_package child_attributes
-
-        child.parent = work_package
-        child.save!
-        memorize_work_package(child, child_attributes)
-      end
     end
 
     def base_work_package_attributes(attributes)
@@ -109,9 +100,32 @@ module DemoData
       }
     end
 
+    def create_children!(work_package, attributes)
+      Array(attributes['children']).each do |child_attributes|
+        child = create_work_package child_attributes
+
+        child.parent = work_package
+        child.save!
+      end
+    end
+
+    def update_description!(work_package)
+      description = work_package.description
+      description = link_attachments description, work_package.attachments
+      description = with_references description
+
+      work_package.update(description:)
+    end
+
+    def add_relations_to_create(work_package, attributes)
+      Array(attributes['relations']).each do |relation|
+        relation_data = RelationData.new(from: work_package, to_reference: relation['to'], type: relation['type'])
+        relations_to_create.push(relation_data)
+      end
+    end
+
     def memorize_work_package(work_package, attributes)
       project_data.store_reference(attributes['reference'], work_package)
-      attributes['work_package'] = work_package
     end
 
     def find_work_package(reference)
@@ -155,24 +169,15 @@ module DemoData
     end
 
     def set_work_package_relations
-      project_data.each('work_packages') do |attributes|
-        create_relations attributes
-      end
-    end
-
-    def create_relations(attributes)
-      Array(attributes['relations']).each do |relation|
-        root_work_package = attributes['work_package'] # memorized on creation
-        to_work_package = find_work_package(relation['to'])
+      while relations_to_create.any?
+        relation_data = relations_to_create.pop
+        from_work_package = relation_data.from
+        to_work_package = find_work_package(relation_data.to_reference)
         create_relation(
           to: to_work_package,
-          from: root_work_package,
-          type: relation['type']
+          from: from_work_package,
+          type: relation_data.type
         )
-      end
-
-      Array(attributes['children']).each do |child_attributes|
-        create_relations child_attributes
       end
     end
 

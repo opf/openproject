@@ -263,6 +263,65 @@ describe DemoData::WorkPackageSeeder do
     end
   end
 
+  context 'with relations defined between multiple work packages' do
+    let(:work_packages_data) do
+      [
+        work_package_data(
+          subject: 'Predecessor',
+          reference: :wp_predecessor,
+          relations: [{
+            type: :relates,
+            to: :wp_child
+          }]
+        ),
+        work_package_data(
+          subject: 'Successor',
+          reference: :wp_successor,
+          relations: [{
+            type: :follows,
+            to: :wp_predecessor
+          }, {
+            type: :includes,
+            to: :wp_child
+          }],
+          children: [
+            work_package_data(
+              subject: 'Child',
+              reference: :wp_child,
+              relations: [{
+                type: :blocks,
+                to: :wp_successor
+              }]
+            )
+          ]
+        )
+      ]
+    end
+
+    it 'creates the given relationships between the work packages' do
+      predecessor = WorkPackage.find_by!(subject: 'Predecessor')
+      successor = WorkPackage.find_by!(subject: 'Successor')
+      child = WorkPackage.find_by!(subject: 'Child')
+
+      expect(Relation.find_by!(relation_type: Relation::TYPE_RELATES)).to have_attributes(
+        from_id: predecessor.id,
+        to_id: child.id
+      )
+      expect(Relation.find_by!(relation_type: Relation::TYPE_FOLLOWS)).to have_attributes(
+        from_id: successor.id,
+        to_id: predecessor.id
+      )
+      expect(Relation.find_by!(relation_type: Relation::TYPE_INCLUDES)).to have_attributes(
+        from_id: successor.id,
+        to_id: child.id
+      )
+      expect(Relation.find_by!(relation_type: Relation::TYPE_BLOCKS)).to have_attributes(
+        from_id: child.id,
+        to_id: successor.id
+      )
+    end
+  end
+
   context 'with a work package description referencing a work package with ##wp:ref notation' do
     let(:work_packages_data) do
       [
@@ -273,7 +332,7 @@ describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'creates parent-child relations between work packages' do
+    it 'updates the description with a link to the work package with the right id' do
       wp_major, wp_other = WorkPackage.order(:id).to_a
       expect(wp_other.description)
         .to eq("Check [this work package](/projects/#{project.identifier}/" \
