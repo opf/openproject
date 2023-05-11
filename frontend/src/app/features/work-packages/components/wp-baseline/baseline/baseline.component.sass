@@ -11,6 +11,10 @@
     @media screen and #{$spot-mq-drop-modal-in-context}
       width: 300px
       max-height: 70vh
+
+    &_ranged
+      width: 600px
+
   &--time
     
     &-input
@@ -37,3 +41,9 @@
       font-style: italic
       line-height: $spot-spacing-1
       color: $spot-color-basic-gray-2
+
+  &--range-container
+    margin: 1rem
+    display: grid
+    grid-template-columns: 1fr 1fr
+    grid-gap: 1rem

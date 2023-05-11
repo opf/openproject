@@ -1353,6 +1353,8 @@ en:
       help_description: 'Default time zone of the instance set by the administrator.'
       time_description: 'In default time zone: %{time} %{days} day(s).'
       time: 'Time'
+      from: 'From'
+      to: 'To'
       drop_down:
         none: '-'
         yesterday: 'yesterday'

@@ -50,6 +50,7 @@ import {
   DEFAULT_TIMESTAMP,
   WorkPackageViewBaselineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
+import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
 @Component({
   selector: 'op-baseline',
@@ -68,15 +69,13 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;
 
-  public selectedDate = '';
+  public selectedDates:string[];
 
-  public selectedTime = '00:00';
+  public selectedTimes:string[];
 
-  public selectedFilter = '-';
+  public selectedFilter:string|null;
 
-  public selectedTimezoneFormattedTime = `${this.selectedTime}+00:00`;
-
-  public filterSelected = false;
+  public selectedTimezoneFormattedTime:string[];
 
   public daysNumber = 0;
 
@@ -89,10 +88,16 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     clear: this.I18n.t('js.baseline.clear'),
     apply: this.I18n.t('js.baseline.apply'),
     show_changes_since: this.I18n.t('js.baseline.show_changes_since'),
+    from: this.I18n.t('js.baseline.from'),
+    to: this.I18n.t('js.baseline.to'),
+    date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
     help_description: this.I18n.t('js.baseline.help_description'),
     timeZone: this.configuration.isTimezoneSet() ? moment().tz(this.configuration.timezone()).zoneAbbr() : 'local',
-    time_description: () => this.I18n.t('js.baseline.time_description', { time: this.selectedTimezoneFormattedTime, days: this.daysNumber }),
+    time_description: () => this.I18n.t('js.baseline.time_description', {
+      time: this.selectedTimezoneFormattedTime,
+      days: this.daysNumber,
+    }),
   };
 
   public baselineAvailableValues = [
@@ -135,23 +140,27 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public ngOnInit():void {
-    if (this.wpTableBaseline.isActive()) {
-      const value = this.wpTableBaseline.current[0];
-      const [date, timeWithZone] = value.split('@');
-      const time = timeWithZone.split(/[+-]/)[0];
+    this.resetSelection();
 
-      this.filterChange(date);
-      this.selectedTime = time || '00:00';
-      this.selectedTimezoneFormattedTime = timeWithZone || '00:00+00:00';
-      this.filterSelected = true;
+    if (this.wpTableBaseline.isActive()) {
+      this.wpTableBaseline.current.forEach((value, i) => {
+        const [date, timeWithZone] = value.split('@');
+        const time = timeWithZone.split(/[+-]/)[0];
+
+        this.selectedDates[i] = date;
+        this.selectedTimes[i] = time || '00:00';
+        this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
+      });
+
+      this.filterChange(this.filterFromSelected(this.selectedDates));
     }
   }
 
-  public clearSelection():void {
-    this.filterSelected = false;
-    this.selectedTime = '0:00';
-    this.selectedDate = '';
-    this.selectedFilter = '-';
+  public resetSelection():void {
+    this.selectedTimes = ['00:00', '00:00'];
+    this.selectedTimezoneFormattedTime = this.selectedTimes.map((time) => `${time}+00:00`);
+    this.selectedDates = ['', ''];
+    this.selectedFilter = null;
     this.dropDownDescription = '';
   }
 
@@ -161,7 +170,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public onSave() {
-    if (this.selectedFilter === '-') {
+    if (!this.selectedFilter) {
       this.wpTableBaseline.disable();
     } else {
       const filterString = `${this.selectedFilter}@${this.selectedTimezoneFormattedTime}`;
@@ -171,41 +180,56 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.submitted.emit();
   }
 
-  public timeChange(value:string):void {
-    this.selectedTime = value;
-    const dateTime= `${this.selectedDate}  ${value}`;
-    this.selectedTimezoneFormattedTime = this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
+  public timesChange(value:string[]):void {
+    this.selectedTimes = value;
+    this.selectedTimezoneFormattedTime = this.selectedDates
+      .map((el:string, i:number) => {
+        const dateTime = `${el}  ${value[i]}`;
+        return this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
+      });
   }
 
-  public filterChange(value:string):void {
-    if (value !== '-') {
-      this.filterSelected = true;
-      this.selectedFilter = value;
-      switch (value) {
-        case 'oneDayAgo':
-          this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
-          this.daysNumber = this.wpTableBaseline.daysNumber;
-          break;
-        case 'lastWorkingDay':
-          this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
-          this.daysNumber = this.wpTableBaseline.daysNumber;
-          break;
-        case 'oneWeekAgo':
-          this.dropDownDescription = this.wpTableBaseline.lastweekDate();
-          this.daysNumber =this.wpTableBaseline.daysNumber;
-          break;
-        case 'oneMonthAgo':
-          this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
-          this.daysNumber = this.wpTableBaseline.daysNumber;
-          break;
-        default:
-          this.dropDownDescription = '';
-          this.daysNumber = 0;
-          break;
-      }
-      this.selectedDate = this.dropDownDescription;
-    } else {
-      this.clearSelection();
+  public dateChange(values:string[]):void {
+    if (_.every(values, validDate)) {
+      this.selectedDates = values;
     }
+  }
+
+  public filterChange(value:string|null):void {
+    this.selectedFilter = value;
+    switch (value) {
+      case 'oneDayAgo':
+        this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
+        this.daysNumber = this.wpTableBaseline.daysNumber;
+        break;
+      case 'lastWorkingDay':
+        this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
+        this.daysNumber = this.wpTableBaseline.daysNumber;
+        break;
+      case 'oneWeekAgo':
+        this.dropDownDescription = this.wpTableBaseline.lastweekDate();
+        this.daysNumber = this.wpTableBaseline.daysNumber;
+        break;
+      case 'oneMonthAgo':
+        this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
+        this.daysNumber = this.wpTableBaseline.daysNumber;
+        break;
+      default:
+        this.dropDownDescription = '';
+        this.daysNumber = 0;
+        break;
+    }
+  }
+
+  private filterFromSelected(selectedDates:string[]):string {
+    if (selectedDates.length === 2) {
+      return 'betweenTwoSpecificDates';
+    }
+
+    if (['oneDayAgo', 'lastWorkingDay', 'oneWeekAgo', 'oneMonthAgo'].includes(selectedDates[0])) {
+      return selectedDates[0];
+    }
+
+    return 'aSpecificDate';
   }
 }
