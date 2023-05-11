@@ -26,56 +26,55 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::WikiContentActivityProvider < Activities::BaseActivityProvider
-  activity_provider_for type: 'wiki_edits',
-                        permission: :view_wiki_edits
-
-  def extend_event_query(query)
-    query.join(wiki_pages_table).on(activity_journals_table[:page_id].eq(wiki_pages_table[:id]))
-    query.join(wikis_table).on(wiki_pages_table[:wiki_id].eq(wikis_table[:id]))
+module Notifications::CreateFromModelService::WikiPageStrategy
+  def self.reasons
+    %i(watched subscribed)
   end
 
-  def event_query_projection
-    [
-      projection_statement(wikis_table, :project_id, 'project_id'),
-      projection_statement(wiki_pages_table, :title, 'wiki_title'),
-      projection_statement(wiki_pages_table, :slug, 'wiki_slug')
-    ]
+  def self.permission
+    :view_wiki_pages
   end
 
-  def projects_reference_table
-    wikis_table
+  def self.supports_ian?
+    false
   end
 
-  protected
-
-  def event_title(event)
-    "#{I18n.t(:project_module_wiki)}: #{event['wiki_title']}"
+  def self.supports_mail_digest?
+    false
   end
 
-  def event_type(_event)
-    'wiki-page'
+  def self.supports_mail?
+    true
   end
 
-  def event_path(event)
-    url_helpers.project_wiki_path(*url_helper_parameter(event))
+  def self.subscribed_users(journal)
+    User.notified_globally subscribed_notification_reason(journal)
   end
 
-  def event_url(event)
-    url_helpers.project_wiki_url(*url_helper_parameter(event))
+  def self.subscribed_notification_reason(journal)
+    if journal.initial?
+      NotificationSetting::WIKI_PAGE_ADDED
+    else
+      NotificationSetting::WIKI_PAGE_UPDATED
+    end
   end
 
-  private
+  def self.watcher_users(journal)
+    page = journal.journable
 
-  def wiki_pages_table
-    @wiki_pages_table ||= WikiPage.arel_table
+    if journal.initial?
+      User.watcher_recipients(page.wiki)
+    else
+      User.watcher_recipients(page.wiki)
+          .or(User.watcher_recipients(page))
+    end
   end
 
-  def wikis_table
-    @wikis_table ||= Wiki.arel_table
+  def self.project(journal)
+    journal.data.project
   end
 
-  def url_helper_parameter(event)
-    [event['project_id'], event['wiki_slug']]
+  def self.user(journal)
+    journal.user
   end
 end

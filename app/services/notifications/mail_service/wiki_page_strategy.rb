@@ -26,9 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Journal::WikiContentJournal < Journal::BaseJournal
-  self.table_name = 'wiki_content_journals'
+module Notifications::MailService::WikiPageStrategy
+  class << self
+    def send_mail(notification)
+      method = mailer_method(notification)
 
-  # The project does not change over the course of a wiki content lifetime
-  delegate :project, to: :journal
+      UserMailer
+        .send(method,
+              notification.recipient,
+              notification.journal.journable)
+        .deliver_now
+    end
+
+    private
+
+    def mailer_method(notification)
+      if notification.journal.initial?
+        :wiki_page_added
+      else
+        :wiki_page_updated
+      end
+    end
+  end
 end

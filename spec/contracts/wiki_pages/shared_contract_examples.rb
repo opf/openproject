@@ -85,14 +85,6 @@ shared_examples_for 'wiki page contract' do
       end
     end
 
-    context 'if the content is nil' do
-      it 'is invalid' do
-        page.content = nil
-
-        expect_valid(false, content: :blank)
-      end
-    end
-
     context 'if the parent is in the same wiki' do
       let(:page_parent) { build_stubbed(:wiki_page, wiki: page_wiki) }
 

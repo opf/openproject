@@ -317,9 +317,9 @@ describe 'Wysiwyg tables',
 
     describe 'editing a wiki page with tables' do
       let(:wiki_page) do
-        page = build(:wiki_page_with_content,
+        page = build(:wiki_page,
                      title: 'Wiki page with titles')
-        page.content.text = <<~MARKDOWN
+        page.text = <<~MARKDOWN
 
           ## This is markdown!
 

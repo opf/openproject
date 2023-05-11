@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :wiki_content do
-    page factory: :wiki_page
-    author factory: :user
+class Journal::WikiPageJournal < Journal::BaseJournal
+  belongs_to :author, class_name: 'User'
 
-    text { |a| "# #{a.page.title}\n\nPage Content Version #{a.version}." }
-  end
+  self.table_name = 'wiki_page_journals'
+
+  # The project does not change over the course of a wiki page lifetime
+  delegate :project, to: :journal
 end

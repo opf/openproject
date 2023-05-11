@@ -36,7 +36,7 @@ Rails.application.reloader.to_prepare do
     activity.register :changesets, class_name: 'Activities::ChangesetActivityProvider'
     activity.register :news, class_name: 'Activities::NewsActivityProvider',
                              default: false
-    activity.register :wiki_edits, class_name: 'Activities::WikiContentActivityProvider',
+    activity.register :wiki_edits, class_name: 'Activities::WikiPageActivityProvider',
                                    default: false
     activity.register :messages, class_name: 'Activities::MessageActivityProvider',
                                  default: false
@@ -53,8 +53,8 @@ Rails.application.reloader.to_prepare do
 
   OpenProject::ProjectLatestActivity.register on: 'News'
 
-  OpenProject::ProjectLatestActivity.register on: 'WikiContent',
-                                              chain: %w(Wiki WikiPage)
+  OpenProject::ProjectLatestActivity.register on: 'WikiPage',
+                                              chain: %w(Wiki)
 
   OpenProject::ProjectLatestActivity.register on: 'Message',
                                               chain: 'Forum'

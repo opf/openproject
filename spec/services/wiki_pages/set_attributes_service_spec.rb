@@ -55,7 +55,7 @@ describe WikiPages::SetAttributesService, type: :model do
   end
   let(:call_attributes) { {} }
   let(:wiki_page) do
-    build_stubbed(:wiki_page_with_content)
+    build_stubbed(:wiki_page)
   end
 
   describe 'call' do
@@ -89,20 +89,14 @@ describe WikiPages::SetAttributesService, type: :model do
         subject
 
         expect(wiki_page.attributes.slice(*wiki_page.changed).symbolize_keys)
-          .to eql call_attributes.slice(:title, :slug)
+          .to eql call_attributes.slice(:title, :slug, :text)
 
-        expect(wiki_page.content.attributes.slice(*wiki_page.content.changed).symbolize_keys)
-          .to eql call_attributes.slice(:text)
-
-        expect(wiki_page.content.journal_notes)
+        expect(wiki_page.journal_notes)
           .to eql call_attributes[:journal_notes]
       end
 
       it 'does not persist the wiki_page' do
         expect(wiki_page)
-          .not_to receive(:save)
-
-        expect(wiki_page.content)
           .not_to receive(:save)
 
         subject
@@ -114,30 +108,20 @@ describe WikiPages::SetAttributesService, type: :model do
         WikiPage.new
       end
 
-      it 'initializes the content with the user being the author' do
-        subject
-
-        expect(wiki_page.content.author)
-          .to eql user
-      end
-
-      it 'sets the attributes' do
+      it 'sets the attributes with the user being the author' do
         subject
 
         expect(wiki_page.attributes.slice(*wiki_page.changed).symbolize_keys)
-          .to eql call_attributes.slice(:title, :slug)
+          .to eql call_attributes.slice(:title, :slug, :text).merge(author_id: user.id)
 
-        expect(wiki_page.content.attributes.slice(*(wiki_page.content.changed - ['author_id'])).symbolize_keys)
-          .to eql call_attributes.slice(:text)
-
-        expect(wiki_page.content.journal_notes)
+        expect(wiki_page.journal_notes)
           .to eql call_attributes[:journal_notes]
       end
 
-      it 'marks the content author to be system changed' do
+      it 'marks the author to be system changed' do
         subject
 
-        expect(wiki_page.content.changed_by_system['author_id'])
+        expect(wiki_page.changed_by_system['author_id'])
           .to eql [nil, user.id]
       end
     end
