@@ -53,12 +53,10 @@
       <op-icon icon-classes="icon-{{ pipelineStateIcon(pipeline) }}"
                [icon-title]="pipelineStateText(pipeline)"></op-icon>
     </span>
-    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /></span>
 
-    <span class='op-mr-pipeline--info'>
-      <span class='op-mr-pipeline--name' [textContent]="pipeline.name"></span>
-      <span class='op-mr-pipeline--state' [textContent]="pipelineStateText(pipeline)"></span>
-    </span>
+    <span class='op-mr-pipeline--info'>Pipeline <a [href]="pipeline.detailsUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for c0630008</span>
+
+    <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /></span>
 
     <span class='op-mr-pipeline--details'>
       <a [href]="pipeline.detailsUrl">
