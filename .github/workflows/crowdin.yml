@@ -61,7 +61,9 @@ jobs:
           fi
       - name: "Generate seeders i18n source file"
         run: |
-          bundle exec script/i18n/generate_seeders_i18n_source_file
+          if [ -f script/i18n/generate_seeders_i18n_source_file ]; then
+            bundle exec script/i18n/generate_seeders_i18n_source_file
+          fi
       - name: "Crowdin: upload sources and download translations"
         uses: crowdin/github-action@v1
         with:
