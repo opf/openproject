@@ -50,6 +50,8 @@ class MergeWikiContentIntoPage < ActiveRecord::Migration[7.0]
 
   def change_null_values_on_pages
     change_column_null :wiki_pages, :lock_version, false
+
+    WikiPage.where(author_id: nil).update_all(author_id: DeletedUser.first.id)
     change_column_null :wiki_pages, :author_id, false
   end
 
