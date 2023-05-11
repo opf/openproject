@@ -32,6 +32,7 @@ import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-pack
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
   selector: 'wp-single-card',
@@ -96,6 +97,8 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public isNewResource = isNewResource;
 
+  public tooltipPosition = SpotDropAlignmentOption.BottomLeft;
+
   private dateTimeFormatYear = new Intl.DateTimeFormat(this.I18n.locale, {
     year: 'numeric',
     month: 'short',
@@ -143,7 +146,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
         this.selected = selected;
         this.cdRef.detectChanges();
       });
-      this.baselineIcon(this.workPackage);
+    this.baselineIcon(this.workPackage);
   }
 
   public classIdentifier(wp:WorkPackageResource):string {
