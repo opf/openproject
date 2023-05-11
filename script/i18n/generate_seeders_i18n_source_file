@@ -29,10 +29,27 @@
 #++
 
 if !defined? Rails
-  warn 'Error: this script must be run with `rails runner`'
-  warn ''
-  warn "Try running: bundle exec rails runner #{$0}"
-  exit 1
+  puts 'Loading necessary files to run without loading Rails'
+  puts "(Alternatively, you can try running bundle exec rails runner #{$0})"
+  puts
+
+  require 'pathname'
+  require 'yaml'
+  require 'active_support/core_ext/hash/keys'
+  require 'active_support/core_ext/object/blank'
+
+  class Rails
+    def self.root
+      Pathname.new File.expand_path('../../', __dir__)
+    end
+  end
+
+  module Source; end
+
+  # order is important
+  require Rails.root.join("app/seeders/source/translate.rb")
+  require Rails.root.join("app/seeders/source/filter_translatables.rb")
+  require Rails.root.join("app/seeders/source/seed_file.rb")
 end
 
 class GenerateSeederSourceTranslationFiles
@@ -84,6 +101,8 @@ class GenerateSeederSourceTranslationFiles
     end
 
     def relative_path(path)
+      return path unless path.start_with?('/')
+
       Pathname.new(path).relative_path_from(Rails.root).to_s
     end
   end
