@@ -25,21 +25,22 @@ ro:
             description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo project.
           news:
-            - 
-              title:
+            item_0:
+              title: Welcome to your demo project
               summary: |
-
-              description:
+                We are glad you joined.
+                In this module you can communicate project news to your team members.
+              description: The actual news
           categories:
-            '0': Category 1 (to be changed in Project settings)
+            item_0: Category 1 (to be changed in Project settings)
           queries:
-            - 
-              name:
-            - 
+            item_0:
+              name: Project plan
+            item_1:
               name: Milestones
-            - 
+            item_2:
               name: Tasks
-            - 
+            item_3:
               name: Team planner
           boards:
             kanban:
@@ -47,22 +48,22 @@ ro:
             basic:
               name: Basic board
               lists:
-                - 
-                  name:
-                - 
+                item_0:
+                  name: Wish list
+                item_1:
                   name: Short list
-                - 
+                item_2:
                   name: Priority list for today
-                - 
+                item_3:
                   name: Never
             parent_child:
               name: Work breakdown structure
           project-overview:
             widgets:
-              '0':
+              item_0:
                 options:
-                  name:
-              '1':
+                  name: Welcome
+              item_1:
                 options:
                   name: Getting started
                   text: |
@@ -81,46 +82,46 @@ ro:
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              '5':
+              item_5:
                 options:
                   name: Work packages
-              '6':
+              item_6:
                 options:
                   name: Milestones
           work_packages:
-            - 
-              subject:
-            - 
+            item_0:
+              subject: Start of project
+            item_1:
               subject: Organize open source conference
               children:
-                - 
-                  subject:
+                item_0:
+                  subject: Set date and location of conference
                   children:
-                    - 
-                      subject:
-                    - 
-                      subject:
-                    - 
-                      subject:
-                - 
+                    item_0:
+                      subject: Send invitation to speakers
+                    item_1:
+                      subject: Contact sponsoring partners
+                    item_2:
+                      subject: Create sponsorship brochure and hand-outs
+                item_1:
                   subject: Invite attendees to conference
-                - 
+                item_2:
                   subject: Setup conference website
-            - 
+            item_2:
               subject: Conference
-            - 
+            item_3:
               subject: Follow-up tasks
               children:
-                - 
-                  subject:
-                - 
+                item_0:
+                  subject: Upload presentations to website
+                item_1:
                   subject: Party for conference supporters :-)
                   description: |-
                     *   [ ] Beer
                     *   [ ] Snacks
                     *   [ ] Music
                     *   [ ] Even more beer
-            - 
+            item_4:
               subject: End of project
         scrum-project:
           name: Scrum project
@@ -128,16 +129,17 @@ ro:
             description: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
-            - 
-              title:
+            item_0:
+              title: Welcome to your Scrum demo project
               summary: |
-
+                We are glad you joined.
+                In this module you can communicate project news to your team members.
           versions:
-            - 
-              name:
-            - 
+            item_0:
+              name: Bug Backlog
+            item_1:
               name: Product Backlog
-            - 
+            item_2:
               name: Sprint 1
               wiki:
                 title: Sprint 1
@@ -187,18 +189,18 @@ ro:
                   * Time boxed (3 h).
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
-            - 
+            item_3:
               name: Sprint 2
           categories:
-            '0': Category 1 (to be changed in Project settings)
+            item_0: Category 1 (to be changed in Project settings)
           queries:
-            - 
-              name:
-            - 
+            item_0:
+              name: Project plan
+            item_1:
               name: Product backlog
-            - 
+            item_2:
               name: Sprint 1
-            - 
+            item_3:
               name: Tasks
           boards:
             kanban:
@@ -206,20 +208,20 @@ ro:
             basic:
               name: Task board
               lists:
-                - 
-                  name:
-                - 
+                item_0:
+                  name: Wish list
+                item_1:
                   name: Short list
-                - 
+                item_2:
                   name: Priority list for today
-                - 
+                item_3:
                   name: Never
           project-overview:
             widgets:
-              '0':
+              item_0:
                 options:
-                  name:
-              '1':
+                  name: Welcome
+              item_1:
                 options:
                   name: Getting started
                   text: |
@@ -239,62 +241,62 @@ ro:
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              '5':
+              item_5:
                 options:
                   name: Work packages
-              '6':
+              item_6:
                 options:
                   name: Project plan
           work_packages:
-            - 
-              subject:
-            - 
+            item_0:
+              subject: New login screen
+            item_1:
               subject: Password reset does not send email
-            - 
+            item_2:
               subject: New website
               children:
-                - 
-                  subject:
-                - 
+                item_0:
+                  subject: Newsletter registration form
+                item_1:
                   subject: Implement product tour
-                - 
+                item_2:
                   subject: New landing page
                   children:
-                    - 
-                      subject:
-            - 
+                    item_0:
+                      subject: Create wireframes for new landing page
+            item_3:
               subject: Contact form
-            - 
+            item_4:
               subject: Feature carousel
               children:
-                - 
-                  subject:
-            - 
+                item_0:
+                  subject: Make screenshots for feature tour
+            item_5:
               subject: Wrong hover color
-            - 
+            item_6:
               subject: SSL certificate
-            - 
+            item_7:
               subject: Set-up Staging environment
-            - 
+            item_8:
               subject: Choose a content management system
-            - 
+            item_9:
               subject: Website navigation structure
               children:
-                - 
-                  subject:
-            - 
+                item_0:
+                  subject: Set up navigation concept for website.
+            item_10:
               subject: Internal link structure
-            - 
+            item_11:
               subject: Develop v1.0
-            - 
+            item_12:
               subject: Release v1.0
-            - 
+            item_13:
               subject: Develop v1.1
-            - 
+            item_14:
               subject: Release v1.1
-            - 
+            item_15:
               subject: Develop v2.0
-            - 
+            item_16:
               subject: Release v2.0
           wiki: |
             ### Sprint planning meeting
