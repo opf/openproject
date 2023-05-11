@@ -36,13 +36,18 @@ module IconsHelper
     %(<i class="#{classnames}" #{title} aria-hidden="true"></i>).html_safe
   end
 
-  def spot_icon(icon_name, title: nil, size: nil, classnames: nil)
+  def spot_icon(icon_name, title: nil, size: nil, inline: false, classnames: nil)
     size_class = if size.nil?
                    ""
                  else
                    "spot-icon_#{size}"
                  end
-    content_tag(:span, title, class: "spot-icon #{size_class} spot-icon_#{icon_name} #{classnames}")
+    inline_class = if inline
+                   "spot-icon_inline"
+                 else
+                   ""
+                  end
+    content_tag(:span, title, class: "spot-icon #{size_class} #{inline_class} spot-icon_#{icon_name} #{classnames}")
   end
 
   ##
