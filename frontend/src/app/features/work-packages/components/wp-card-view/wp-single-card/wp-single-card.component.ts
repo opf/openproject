@@ -146,7 +146,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
         this.selected = selected;
         this.cdRef.detectChanges();
       });
-    this.baselineIcon(this.workPackage);
   }
 
   public classIdentifier(wp:WorkPackageResource):string {
@@ -203,6 +202,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
         this.baselineMode = 'changed';
       }
     }
+    return this.baselineMode;
   }
 
   private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {

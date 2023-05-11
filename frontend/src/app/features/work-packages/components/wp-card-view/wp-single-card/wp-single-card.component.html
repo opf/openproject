@@ -128,7 +128,7 @@
         [light]="true">
         <span
           slot="trigger"
-          *ngIf="baselineMode!==''"
+          *ngIf="baselineIcon(workPackage)!==''"
           class="spot-icon spot-icon_1 spot-icon_flex op-wp-single-card--content-baseline"
           [ngClass]="baselineMode==='added' ? 'spot-icon_flex spot-icon_add op-table-baseline--icon-added' :
           (baselineMode==='removed' ? 'spot-icon_minus1 op-table-baseline--icon-removed' : 'spot-icon_arrow-left-right op-table-baseline--icon-changed')"
