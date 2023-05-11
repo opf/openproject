@@ -187,11 +187,11 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
       const base = timestamps[0];
       const compare = timestamps[1];
       if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_add op-table-baseline--icon-added';
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_add op-table-baseline--icon-added op-wp-single-card--content-baseline';
       } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_minus1 op-table-baseline--icon-removed';
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_minus1 op-table-baseline--icon-removed op-wp-single-card--content-baseline';
       } else if (this.visibleAttributeChanged(base, schema)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_arrow-left-right op-table-baseline--icon-changed';
+        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_arrow-left-right op-table-baseline--icon-changed op-wp-single-card--content-baseline';
       }
     }
     return baselineIconClass;

@@ -65,6 +65,7 @@
 
   <div *ngIf="!isNewResource(workPackage)"
        class="op-wp-single-card--content">
+       
     <span
       class="op-wp-single-card--content-project-name"
       [ngClass]="{'op-wp-single-card--content-project-name_hideable': showInfoButton || showRemoveButton}"
@@ -112,11 +113,14 @@
     <img *ngIf="this.cardCoverImageShown(workPackage) && !showAsInlineCard"
          [src]="this.bcfSnapshotPath(workPackage)"
          class="op-wp-single-card--content-cover-image">
-    <wp-status-button *ngIf="showStatusButton"
-                      [workPackage]="workPackage"
-                      [small]="true"
-                      class="op-wp-single-card--content-status">
-    </wp-status-button>
+    <div class="op-wp-single-card--content-status">
+      <wp-status-button *ngIf="showStatusButton"
+                        [workPackage]="workPackage"
+                        [small]="true"
+                        >
+      </wp-status-button>        
+      <span [ngClass]="baselineIcon(workPackage)"> </span>
+    </div>
     <op-principal
       *ngIf="workPackage.assignee"
       [principal]="workPackage.assignee"
