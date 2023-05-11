@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <div data-controller="admin-roles"
      data-application-target="dynamic"
-     data-loader-global-role-value="<%= role.is_a?(GlobalRole) %>">
+     data-admin-roles-global-role-value="<%= role.is_a?(GlobalRole) %>">
   <div class="form--field -required">
     <%= f.text_field :name, required: true, container_class: '-slim' %>
   </div>

@@ -38,18 +38,6 @@ export default class MeetingContentController extends Controller {
     'editButton',
   ];
 
-  initialize() {
-    // This should have been achieved by the `data-loader-edit-state-value` attribute, but for unknown reasons
-    // this does not apply the value to the variable. Doing it manually for now.
-    const rawInitialValue = this.element.getAttribute('data-loader-edit-state-value');
-
-    if (rawInitialValue === 'true') {
-      this.editStateValue = true;
-    } else if (rawInitialValue === 'false') {
-      this.editStateValue = false;
-    }
-  }
-
   static values = {
     editState: { type: Boolean, default: false },
   };
