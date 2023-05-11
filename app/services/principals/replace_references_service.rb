@@ -79,7 +79,7 @@ module Principals
     def rewrite_author(from, to)
       [WorkPackage,
        Attachment,
-       WikiContent,
+       WikiPage,
        News,
        Comment,
        Message,

@@ -42,7 +42,7 @@ describe 'wiki child pages', js: true do
            permissions: %i[view_wiki_pages edit_wiki_pages])
   end
   let(:parent_page) do
-    create(:wiki_page_with_content,
+    create(:wiki_page,
            wiki: project.wiki)
   end
   let(:child_page_name) { 'The child page !@#{$%^&*()_},./<>?;\':' }
@@ -57,7 +57,7 @@ describe 'wiki child pages', js: true do
     click_on 'Wiki page'
 
     SeleniumHubWaiter.wait
-    fill_in 'content_page_title', with: child_page_name
+    fill_in 'page_title', with: child_page_name
 
     find('.ck-content').set('The child page\'s content')
 

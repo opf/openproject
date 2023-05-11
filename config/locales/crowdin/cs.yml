@@ -138,7 +138,7 @@ cs:
         při prvním ověření OpenProject.
         Ponechte toto nezaškrtnuté pro povolení pouze existujících účtů v OpenProject pro ověření pomocí LDAP!
     connection_encryption: 'Šifrování připojení'
-    encryption_details: 'LDAPS / STARTTLS options'
+    encryption_details: 'Možnosti LDAPS / STARTTLS'
     system_account: 'Systémový účet'
     system_account_legend: |
       OpenProject vyžaduje přístup pouze pro čtení prostřednictvím systémového účtu pro vyhledávání uživatelů a skupin ve stromu LDAP.
@@ -158,7 +158,7 @@ cs:
       section_more_info_link_html: >
         Tato sekce se týká zabezpečení připojení tohoto LDAP autentifikačního zdroje. Pro více informací navštivte <a href="%{link}">síť:LDAP dokumentaci</a>.
     tls_options:
-      verify_peer: "Verify SSL certificate"
+      verify_peer: "Ověřit SSL certifikát"
       verify_peer_description_html: >
         Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
       tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
@@ -218,13 +218,13 @@ cs:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: 'Project members'
+      members: 'Členové projektu'
       overviews: 'Přehled projektu'
       queries: 'Pracovní balíčky: uložené zobrazení'
-      wiki_page_attachments: 'Wiki pages: attachments'
-      work_package_attachments: 'Work packages: attachments'
-      work_package_categories: 'Work packages: categories'
-      work_package_file_links: 'Work packages: file links'
+      wiki_page_attachments: 'Wiki stránky: přílohy'
+      work_package_attachments: 'Pracovní balíčky: přílohy'
+      work_package_categories: 'Pracovní balíčky: kategorie'
+      work_package_file_links: 'Pracovní balíčky: odkazy na soubory'
     delete:
       scheduled: "Odstranění bylo naplánováno a je dokončeno na pozadí. Výsledek vám bude oznámen."
       schedule_failed: "Projekt nelze odstranit: %{errors}"
@@ -232,7 +232,7 @@ cs:
       failed_text: "Požadavek na smazání projektu %{name} se nezdařil. Projekt zůstal archivován."
       completed: "Smazání projektu %{name} dokončeno"
       completed_text: "Požadavek na smazání projektu '%{name}' byl dokončen."
-      completed_text_children: "Additionally, the following subprojects have been deleted:"
+      completed_text_children: "Kromě toho byly odstraněny následující podprojekty:"
     index:
       open_as_gantt: 'Otevřít jako Gantt diagram'
       open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
@@ -381,7 +381,7 @@ cs:
   account:
     delete: "Odstranit účet"
     delete_confirmation: "Jste si jisti, že chcete odstranit tento účet?"
-    deletion_pending: "Account has been locked and was scheduled for deletion. Note that this process takes place in the background. It might take a few moments until the user is fully deleted."
+    deletion_pending: "Účet byl uzamčen a byl naplánován na odstranění. Tento proces probíhá na pozadí. Může to chvíli trvat, než bude uživatel plně smazán."
     deletion_info:
       data_consequences:
         other: "Z dat, která uživatel vytvořil (např. e-mail, nastavení, pracovní balíčky, wiki položky), bude co nejvíce smazáno. Všimněte si však, že data jako pracovní balíčky a wiki nelze odstranit, aniž by to bránilo práci ostatních uživatelů. Tyto údaje jsou proto přeřazeny na účet nazvaný „Smazaný uživatel“. Vzhledem k tomu, že data každého smazaného účtu jsou znovu přiřazena k tomuto účtu, nebude možné rozlišit data, která uživatel vytvořil od dat jiného smazaného účtu."
@@ -431,7 +431,7 @@ cs:
         host: "Hostitel"
         onthefly: "Automatické vytváření uživatele"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "SSL certifikát LDAP serveru"
       changeset:
         repository: "Repozitář"
       comment:
@@ -603,7 +603,7 @@ cs:
         confirmation: "neshoduje se s %{attribute}."
         could_not_be_copied: "%{dependency} nemůže být (zcela) zkopírován."
         does_not_exist: "neexistuje."
-        error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} je k dispozici pouze ve vydání OpenProject Enterprise"
         error_unauthorized: "není přístupný."
         error_readonly: "se pokusil být napsán, ale není zapisovatelný."
         email: "není platná e-mailová adresa"
@@ -743,7 +743,7 @@ cs:
               invalid: "Nelze řadit podle sloupce: %{value}"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
+              invalid: "Časová razítka obsahují neplatné hodnoty: %{values}"
               format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
@@ -790,14 +790,14 @@ cs:
             daily_reminders:
               full_hour: "lze nakonfigurovat pouze za celou hodinu."
             notification_settings:
-              only_one_global_setting: 'There must only be one global notification setting.'
+              only_one_global_setting: 'Musí existovat pouze jedno globální nastavení oznámení.'
               email_alerts_global: 'The email notification settings can only be set globally.'
               format: "%{message}"
-              wrong_date: 'Wrong value for Start date, Due date, or Overdue.'
+              wrong_date: 'Nesprávná hodnota pro datum zahájení, datum dockončení nebo zpoždění.'
         watcher:
           attributes:
             user_id:
-              not_allowed_to_view: "is not allowed to view this resource."
+              not_allowed_to_view: "není povoleno zobrazit tento zdroj."
               locked: "je uzamčen."
         wiki_page:
           attributes:
@@ -928,9 +928,9 @@ cs:
   activity:
     item:
       created_by_on: "vytvořil %{user} dne %{datetime}"
-      created_on: "created on %{datetime}"
-      updated_by_on: "updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
+      created_on: "vytvořeno dne %{datetime}"
+      updated_by_on: "Aktualizováno uživatelem {{user}} dne {{date}}"
+      updated_on: "aktualizováno dne %{datetime}"
       parent_without_of: "Podprojekt"
       parent_no_longer: "Již není podprojekt projektu"
     filter:
@@ -1824,7 +1824,7 @@ cs:
   label_operator_all: "není prázdný"
   label_operator_none: "je prázdný"
   label_operator_equals_or: "je (OR)"
-  label_operator_equals_all: "is (AND)"
+  label_operator_equals_all: "je (AND)"
   label_open_menu: "Otevřít nabídku"
   label_open_work_packages: "otevřené"
   label_open_work_packages_plural: "otevřené"

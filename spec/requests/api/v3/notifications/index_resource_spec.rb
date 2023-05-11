@@ -239,7 +239,7 @@ describe API::V3::Notifications::NotificationsAPI,
     end
 
     context 'with a non ian notification' do
-      shared_let(:wiki_page) { create(:wiki_page_with_content) }
+      shared_let(:wiki_page) { create(:wiki_page) }
 
       shared_let(:non_ian_notification) do
         create(:notification,
@@ -247,7 +247,7 @@ describe API::V3::Notifications::NotificationsAPI,
                recipient:,
                resource: wiki_page,
                project: wiki_page.wiki.project,
-               journal: wiki_page.content.journals.first)
+               journal: wiki_page.journals.first)
       end
 
       it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do

@@ -1269,6 +1269,11 @@ lol:
         last_month: 'crwdns852049:0crwdne852049:0'
         a_specific_date: 'crwdns852051:0crwdne852051:0'
         between_two_specific_dates: 'crwdns852053:0crwdne852053:0'
+      legends:
+        changes_since: 'crwdns852619:0crwdne852619:0'
+        now_meets_filter_criteria: 'crwdns852621:0crwdne852621:0'
+        no_longer_meets_filter_criteria: 'crwdns852623:0crwdne852623:0'
+        maintained_with_changes: 'crwdns852625:0crwdne852625:0'
     forms:
       submit_success_message: 'crwdns788750:0crwdne788750:0'
       load_error_message: 'crwdns788752:0crwdne788752:0'

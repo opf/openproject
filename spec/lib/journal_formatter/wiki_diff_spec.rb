@@ -41,15 +41,14 @@ describe OpenProject::JournalFormatter::WikiDiff do
   let(:klass) { described_class }
   let(:project) { build_stubbed(:project) }
   let(:wiki) { build_stubbed(:wiki, project:) }
-  let(:wiki_page) { build_stubbed(:wiki_page, wiki:, slug: 'test-slug') }
-  let(:wiki_content) do
-    instance = build_stubbed(:wiki_content, page: wiki_page, text: '')
-    allow(instance).to receive(:project).and_return(project)
-    instance
+  let(:wiki_page) do
+    build_stubbed(:wiki_page, wiki:, slug: 'test-slug', text: '').tap do |page|
+      allow(page).to receive(:project).and_return(project)
+    end
   end
   let(:wiki_journal) do
-    build_stubbed(:wiki_content_journal,
-                  journable: wiki_content,
+    build_stubbed(:wiki_page_journal,
+                  journable: wiki_page,
                   version: 1)
   end
   let(:wiki_instance) { klass.new(wiki_journal) }

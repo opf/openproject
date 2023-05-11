@@ -54,7 +54,7 @@ RSpec.describe DemoData::ProjectSeeder do
     ].each { |seeder| seeder.new.seed! }
   end
 
-  let(:seed_data) { SeedData.new(project_data) }
+  let(:seed_data) { Source::SeedData.new(project_data) }
   let(:project_data) { project_data_with_a_version }
   let(:project_data_with_a_version) do
     {
@@ -107,7 +107,7 @@ RSpec.describe DemoData::ProjectSeeder do
     it 'can self-reference the version link in the wiki' do
       project_seeder.seed!
       created_version = Version.find_by!(name: 'First sprint')
-      expect(created_version.wiki_page.content.text)
+      expect(created_version.wiki_page.text)
         .to eq("Please see the [Task board](/projects/some-project/sprints/#{created_version.id}/taskboard).")
     end
   end

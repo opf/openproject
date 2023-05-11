@@ -71,11 +71,12 @@ module DemoData
       return unless config
 
       version.wiki_page_title = config['title']
-      page = WikiPage.create! wiki: version.project.wiki, title: version.wiki_page_title
 
-      content = with_references config['content']
       Journal::NotificationConfiguration.with false do
-        WikiContent.create! page:, author: user, text: content
+        WikiPage.create! wiki: version.project.wiki,
+                         title: version.wiki_page_title,
+                         author: User.admin.first,
+                         text: with_references(config['content'])
       end
 
       version.save!

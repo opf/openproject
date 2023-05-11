@@ -39,8 +39,8 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
   shared_let(:source_view) { create(:view_work_packages_table, query: source_query) }
   shared_let(:source_category) { create(:category, project: source, name: 'Stock management') }
   shared_let(:source_version) { create(:version, project: source, name: 'Version A') }
-  shared_let(:source_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki) }
-  shared_let(:source_child_wiki_page) { create(:wiki_page_with_content, wiki: source.wiki, parent: source_wiki_page) }
+  shared_let(:source_wiki_page) { create(:wiki_page, wiki: source.wiki) }
+  shared_let(:source_child_wiki_page) { create(:wiki_page, wiki: source.wiki, parent: source_wiki_page) }
   shared_let(:source_forum) { create(:forum, project: source) }
   shared_let(:source_topic) { create(:message, forum: source_forum) }
 
@@ -119,8 +119,8 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
       expect(project_copy.queries.count).to eq 1
       expect(project_copy.queries[0].views.count).to eq 1
       expect(project_copy.versions.count).to eq 1
-      expect(project_copy.wiki.pages.root.content.text).to eq source_wiki_page.content.text
-      expect(project_copy.wiki.pages.leaves.first.content.text).to eq source_child_wiki_page.content.text
+      expect(project_copy.wiki.pages.root.text).to eq source_wiki_page.text
+      expect(project_copy.wiki.pages.leaves.first.text).to eq source_child_wiki_page.text
       expect(project_copy.wiki.start_page).to eq 'Wiki'
 
       # Cleared attributes
@@ -286,15 +286,6 @@ describe Projects::CopyService, 'integration', type: :model, with_ee: %i[readonl
     end
 
     describe '#copy_wiki' do
-      it 'will not copy wiki pages without content' do
-        source.wiki.pages << create(:wiki_page)
-        expect(source.wiki.pages.count).to eq 3
-
-        expect(subject).to be_success
-        expect(subject.errors).to be_empty
-        expect(project_copy.wiki.pages.count).to eq 2
-      end
-
       it 'will copy menu items' do
         source.wiki.wiki_menu_items << create(:wiki_menu_item_with_parent, wiki: source.wiki)
 

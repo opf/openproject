@@ -127,8 +127,8 @@ describe Notifications::MailService, type: :model do
 
   context 'with a wiki_content journal notification' do
     let(:journal) do
-      build_stubbed(:wiki_content_journal,
-                    journable: build_stubbed(:wiki_content)).tap do |j|
+      build_stubbed(:wiki_page_journal,
+                    journable: build_stubbed(:wiki_page)).tap do |j|
         allow(j)
           .to receive(:initial?)
                 .and_return(journal_initial)
@@ -142,16 +142,15 @@ describe Notifications::MailService, type: :model do
                     actor:,
                     read_ian:)
     end
-    let(:notification_setting) { %w(wiki_content_added wiki_content_updated) }
     let(:mail) do
       mail = instance_double(ActionMailer::MessageDelivery)
 
       allow(UserMailer)
-        .to receive(:wiki_content_added)
+        .to receive(:wiki_page_added)
               .and_return(mail)
 
       allow(UserMailer)
-        .to receive(:wiki_content_updated)
+        .to receive(:wiki_page_updated)
               .and_return(mail)
 
       allow(mail)
@@ -172,7 +171,7 @@ describe Notifications::MailService, type: :model do
         call
 
         expect(UserMailer)
-          .to have_received(:wiki_content_added)
+          .to have_received(:wiki_page_added)
                 .with(recipient,
                       journal.journable)
 
@@ -188,7 +187,7 @@ describe Notifications::MailService, type: :model do
         call
 
         expect(UserMailer)
-          .to have_received(:wiki_content_updated)
+          .to have_received(:wiki_page_updated)
                 .with(recipient,
                       journal.journable)
 
@@ -204,9 +203,9 @@ describe Notifications::MailService, type: :model do
         call
 
         expect(UserMailer)
-          .not_to have_received(:wiki_content_added)
+          .not_to have_received(:wiki_page_added)
         expect(UserMailer)
-          .not_to have_received(:wiki_content_updated)
+          .not_to have_received(:wiki_page_updated)
       end
     end
   end

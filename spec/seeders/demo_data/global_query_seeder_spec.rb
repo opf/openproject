@@ -33,7 +33,7 @@ require 'spec_helper'
 RSpec.describe DemoData::GlobalQuerySeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
-  let(:seed_data) { SeedData.new(data_hash) }
+  let(:seed_data) { Source::SeedData.new(data_hash) }
 
   before do
     AdminUserSeeder.new(seed_data).seed!

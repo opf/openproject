@@ -41,7 +41,7 @@ class RootSeeder < Seeder
   def seed_data
     raise 'cannot generate demo seed data without setting locale first' unless @locale_set
 
-    @seed_data ||= SeedDataLoader.get_data
+    @seed_data ||= Source::SeedDataLoader.get_data
   end
 
   def seed_data!

@@ -110,7 +110,7 @@ describe 'Projects copy',
 
     let!(:wiki) { project.wiki }
     let!(:wiki_page) do
-      create(:wiki_page_with_content,
+      create(:wiki_page,
              title: 'Attached',
              wiki:,
              attachments: [build(:attachment, container: nil, filename: 'wiki_page_attachment.pdf')])

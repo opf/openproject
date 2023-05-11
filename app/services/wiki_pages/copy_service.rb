@@ -69,7 +69,6 @@ class WikiPages::CopyService
   def copied_attributes(override)
     model
       .attributes
-      .merge(model.content.attributes)
       .slice(*writable_attributes)
       .merge(override)
   end

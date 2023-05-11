@@ -69,8 +69,8 @@ module Users
         { class: Journal::NewsJournal, column: :description },
         { class: Project, column: :description },
         { class: Projects::Status, column: :explanation },
-        { class: WikiContent, column: :text },
-        { class: Journal::WikiContentJournal, column: :text }
+        { class: WikiPage, column: :text },
+        { class: Journal::WikiPageJournal, column: :text }
       ]
     end
 
