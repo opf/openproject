@@ -18,7 +18,7 @@
     [src]="mergeRequest.gitlabUser.avatarUrl"
     *ngIf="mergeRequest.gitlabUser"
   />
-  <span class='op-merge-request--user'>
+  <span class='op-merge-request--user'> 
     <a
       [href]="'mailto:' + mergeRequest.gitlabUser.email"
       [textContent]="mergeRequest.gitlabUser.login"
@@ -52,14 +52,14 @@
                [icon-title]="pipelineStateText(pipeline)"></op-icon>
     </span>
 
-    <span class='op-mr-pipeline--info'>Pipeline <a [href]="pipeline.detailsUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.ci_details }}</a></span>
+    <span class='op-mr-pipeline--info'>Pipeline <a [href]="pipeline.htmlUrl">#{{ pipeline.name }}</a> {{ pipelineStateText(pipeline) }} for <a [href]="pipeline.detailsUrl">#{{ pipeline.ci_details }}</a></span>
 
     <span class='op-mr-pipeline--avatar'><img alt='user owner avatar' [src]="pipeline.userAvatarUrl" /></span>
 
-    <span class='op-mr-pipeline--details'>
+    <!-- <span class='op-mr-pipeline--details'>
       <a [href]="pipeline.detailsUrl">
         {{ text.label_details }}
       </a>
-    </span>
+    </span> -->
   </li>
 </ul>
