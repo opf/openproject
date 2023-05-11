@@ -43,10 +43,10 @@ module IconsHelper
                    "spot-icon_#{size}"
                  end
     inline_class = if inline
-                   "spot-icon_inline"
-                 else
-                   ""
-                  end
+                     "spot-icon_inline"
+                   else
+                     ""
+                   end
     content_tag(:span, title, class: "spot-icon #{size_class} #{inline_class} spot-icon_#{icon_name} #{classnames}")
   end
 
