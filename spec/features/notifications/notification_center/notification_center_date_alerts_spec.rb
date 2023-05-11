@@ -5,20 +5,15 @@ require 'features/page_objects/notification'
 describe "Notification center date alerts", js: true, with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 
-  def ensure_assignable_time_zone!(time_zone)
-    assignable_time_zones = UserPreferences::UpdateContract.assignable_time_zones
-    if assignable_time_zones.exclude?(time_zone)
-      raise "Unable to use local timezone '#{time_zone}'. Acceptable values are #{assignable_time_zones.inspect}"
-    end
+  # Find an assignable time zone with the same UTC offset as the local time zone
+  def find_compatible_local_time_zone
+    local_offset = Time.now.gmt_offset # rubocop:disable Rails/TimeZone
+    time_zone = UserPreferences::UpdateContract.assignable_time_zones.find { |tz| tz.utc_offset == local_offset }
+    .tap { p _1 }
+    time_zone or raise "Unable to find an assignable time zone with #{local_offset} seconds offset."
   end
 
-  shared_let(:time_zone) do
-    # use host timezone, deduced from the gmt offset
-    offset = Time.now.gmt_offset # rubocop:disable Rails/TimeZone
-    time_zone = ActiveSupport::TimeZone[offset]
-    ensure_assignable_time_zone!(time_zone)
-    time_zone
-  end
+  shared_let(:time_zone) { find_compatible_local_time_zone }
   shared_let(:user) do
     create(:user, preferences: { time_zone: time_zone.tzinfo.name }).tap do |user|
       user.notification_settings.first.update(
