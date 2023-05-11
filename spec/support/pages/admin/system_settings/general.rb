@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2023 the OpenProject GmbH
@@ -28,56 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Filters
-    class SettingMacrosFilter < HTML::Pipeline::Filter
-      ALLOWED_SETTINGS = %w[
-        host_name
-        base_url
-      ].freeze
+require 'support/pages/page'
 
-      def self.regexp
-        %r{
-        \{\{opSetting:(.+?)\}\}
-        |
-        https?://[^% ]+?/%7B%7BopSetting:(base_url)%7D%7D
-        }x
-      end
+module Pages::Admin::SystemSettings
+  class General < ::Pages::Page
+    def path
+      "/admin/settings/general"
+    end
 
-      def call
-        return html unless applicable?
+    def toast_type
+      :rails
+    end
 
-        html.gsub(self.class.regexp) do |matched_string|
-          variable = ($1.presence || $2.presence).dup
-          variable.gsub!('\\', '')
+    def welcome_text_editor
+      Components::WysiwygEditor.new welcome_text_selector
+    end
 
-          if ALLOWED_SETTINGS.include?(variable)
-            send variable
-          else
-            matched_string
-          end
-        end
-      end
+    def welcome_text_selector
+      'ckeditor-augmented-textarea[textarea-selector="#settings_welcome_text"]'
+    end
 
-      private
-
-      def host_name
-        OpenProject::StaticRouting::UrlHelpers.host
-      end
-
-      def base_url
-        url_helpers.root_url.chomp('/')
-      end
-
-      def url_helpers
-        @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
-      end
-
-      ##
-      # Faster inclusion check before the regex is being applied
-      def applicable?
-        html.include?('{{opSetting:') || html.include?('%7B%7BopSetting:')
-      end
+    def press_save_button
+      scroll_to(:bottom)
+      click_button('Save')
     end
   end
 end

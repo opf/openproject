@@ -42,7 +42,7 @@ The Professional support covers everything from the Basic support. Furthermore, 
 
 | Service hours                                             | Support channels                                   | Support services                                             |
 | --------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:00 CET<br />Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br />- Phone support | - Documentation and user guides<br /><br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training |
+| Mon-Fri, 9:30 - 17:00 CET<br />Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training |
 
 ### Premium support (on-premises only)
 
@@ -52,7 +52,7 @@ Onboarding training in the Premium support plan includes onboarding for a perfec
 
 | Service hours                                                | Support channels                              | Support services                                             |
 | ------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:30 CET<br />Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br />- Phone support | - Documentation and user guides<br /><br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h) |
+| Mon-Fri, 9:30 - 17:30 CET<br />Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h) |
 
 ### Corporate support (on-premises only)
 
@@ -60,11 +60,11 @@ The Corporate support covers everything from the Basic, Professional and Premium
 
 | Service hours                                             | Support channels                                | Support services                                             |
 | --------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 18:00 CET<br />Mon-Fri, 9:30 am - 6 pm ET | - Corporate E-Mail support<br />- Phone support | - Documentation and user guides<br /><br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h)<br />- Custom plugin support<br/>- Dedicated support engineer |
+| Mon-Fri, 9:30 - 18:00 CET<br />Mon-Fri, 9:30 am - 6 pm ET | - Corporate E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h)<br />- Custom plugin support<br/>- Dedicated support engineer |
 
 ## How to receive Enterprise support
 
-Please write us an email to [support@openproject.com](mailto:support@openproject.com) to get help with your OpenProject Enterprise edition. Include a detailed description as well as screenshots, where necessary. 
+Please write us an email to [support@openproject.com](mailto:support@openproject.com) to get help with your OpenProject Enterprise edition. Include a detailed description as well as screenshots, where necessary. Depending on your support level, you will receive a separate support email address with your order.
 
 You can reach us via telephone, depending on your support service hours: 
 

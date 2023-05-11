@@ -24,9 +24,9 @@ This integration makes it possible for you to:
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
 | [Connecting your OpenProject and Nextcloud accounts](#connecting-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
 | [Linking files and folders to work packages](#linking-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlinking files and folders](#unlinking-files-and-folders) | How to remove the link between a work package and a Nextcloud file or folder |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them |
+| [Unlinking files and folders](#unlinking-files-and-folders)  | How to remove the link between a work package and a Nextcloud file or folder |
+| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
 
 ## Connecting your OpenProject and Nextcloud accounts
 
@@ -160,7 +160,7 @@ In addition to actions related to individual files, you can also choose to displ
 ![added_NC_widget](Nextcloud_dashboard.png)
 
 
-There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under *OpenProject *, you will find these options:
+There are two additional features related to the integration that you can enable in Nextcloud. In your personal settings page, under **OpenProject**, you will find these options:
 
 - **Enable navigation link** displays a link to your OpenProject instance in the Nextcloud header 
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
