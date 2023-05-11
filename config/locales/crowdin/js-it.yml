@@ -1271,6 +1271,11 @@ it:
         last_month: 'last month'
         a_specific_date: 'a specific date'
         between_two_specific_dates: 'between two specific dates'
+      legends:
+        changes_since: 'Changes since'
+        now_meets_filter_criteria: 'Now meets filter criteria'
+        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
+        maintained_with_changes: 'Maintained with changes'
     forms:
       submit_success_message: 'Il modulo è stato inviato correttamente'
       load_error_message: 'Si è verificato un errore caricando il modulo'
