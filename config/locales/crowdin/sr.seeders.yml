@@ -31,7 +31,7 @@ sr:
 
               description:
           categories:
-            0: Category 1 (to be changed in Project settings)
+            '0': Category 1 (to be changed in Project settings)
           queries:
             - 
               name:
@@ -59,10 +59,10 @@ sr:
               name: Work breakdown structure
           project-overview:
             widgets:
-              0:
+              '0':
                 options:
                   name:
-              1:
+              '1':
                 options:
                   name: Getting started
                   text: |
@@ -81,10 +81,10 @@ sr:
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              5:
+              '5':
                 options:
                   name: Work packages
-              6:
+              '6':
                 options:
                   name: Milestones
           work_packages:
@@ -190,7 +190,7 @@ sr:
             - 
               name: Sprint 2
           categories:
-            0: Category 1 (to be changed in Project settings)
+            '0': Category 1 (to be changed in Project settings)
           queries:
             - 
               name:
@@ -216,10 +216,10 @@ sr:
                   name: Never
           project-overview:
             widgets:
-              0:
+              '0':
                 options:
                   name:
-              1:
+              '1':
                 options:
                   name: Getting started
                   text: |
@@ -239,10 +239,10 @@ sr:
 
                     Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
                     Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
-              5:
+              '5':
                 options:
                   name: Work packages
-              6:
+              '6':
                 options:
                   name: Project plan
           work_packages:

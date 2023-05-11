@@ -22,7 +22,7 @@ lol:
 
               description:
           categories:
-            0: crwdns852643:0crwdne852643:0
+            '0': crwdns852643:0crwdne852643:0
           queries:
             - 
               name:
@@ -50,18 +50,18 @@ lol:
               name: crwdns852665:0crwdne852665:0
           project-overview:
             widgets:
-              0:
+              '0':
                 options:
                   name:
-              1:
+              '1':
                 options:
                   name: crwdns852669:0crwdne852669:0
                   text: |
                     crwdns852671:0{{opSetting:base_url}}crwdnd852671:0[Members]crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0{{opSetting:base_url}}crwdnd852671:0[at]crwdne852671:0
-              5:
+              '5':
                 options:
                   name: crwdns852673:0crwdne852673:0
-              6:
+              '6':
                 options:
                   name: crwdns852675:0crwdne852675:0
           work_packages:
@@ -120,7 +120,7 @@ lol:
             - 
               name: crwdns852725:0crwdne852725:0
           categories:
-            0: crwdns852727:0crwdne852727:0
+            '0': crwdns852727:0crwdne852727:0
           queries:
             - 
               name:
@@ -146,18 +146,18 @@ lol:
                   name: crwdns852747:0crwdne852747:0
           project-overview:
             widgets:
-              0:
+              '0':
                 options:
                   name:
-              1:
+              '1':
                 options:
                   name: crwdns852751:0crwdne852751:0
                   text: |
                     crwdns852753:0{{opSetting:base_url}}crwdnd852753:0[Members]crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0[Backlogs]crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0[Backlogs]crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0[Backlogs]crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0{{opSetting:base_url}}crwdnd852753:0[at]crwdne852753:0
-              5:
+              '5':
                 options:
                   name: crwdns852755:0crwdne852755:0
-              6:
+              '6':
                 options:
                   name: crwdns852757:0crwdne852757:0
           work_packages:
