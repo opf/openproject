@@ -552,7 +552,7 @@ en:
           false: "private"
         queries: "Queries"
         status_code: 'Status'
-        status_explanation: 'Status description'
+        status_explanation: 'Project status description'
         status_codes:
           not_started: 'Not started'
           on_track: 'On track'
