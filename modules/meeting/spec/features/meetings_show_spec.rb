@@ -39,9 +39,7 @@ describe 'Meetings', js: true do
 
   let!(:meeting) { create(:meeting, project:, title: 'Awesome meeting!') }
 
-  before do
-    login_as(user)
-  end
+  current_user { user }
 
   describe 'navigate to meeting page' do
     let(:permissions) { %i[view_meetings] }
@@ -52,7 +50,8 @@ describe 'Meetings', js: true do
       find('.meeting a', text: 'Awesome meeting!', wait: 10).click
       expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
 
-      expect(page).to have_selector('.meeting_agenda', text: 'There is currently nothing to display')
+      expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+                                    text: 'There is currently nothing to display')
     end
 
     context 'with an open agenda' do
@@ -61,11 +60,13 @@ describe 'Meetings', js: true do
 
       it 'shows the agenda' do
         visit meeting_path(meeting)
-        expect(page).to have_selector('#meeting_agenda-text', text: 'foo')
+        expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+                                      text: 'foo')
 
         # May not edit
-        expect(page).not_to have_selector('#edit-meeting_agenda')
-        expect(page).not_to have_selector('.meeting_agenda', text: 'Edit')
+        expect(page).not_to have_selector('.button--edit-agenda')
+        expect(page).not_to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]',
+                                          text: 'Edit')
       end
 
       it 'can view history' do
@@ -77,19 +78,23 @@ describe 'Meetings', js: true do
         SeleniumHubWaiter.wait
 
         find_by_id('version-1').click
-        expect(page).to have_selector('.meeting_agenda', text: 'foo')
+        expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_agenda"]', text: 'foo')
       end
 
       context 'and edit permissions' do
         let(:permissions) { %i[view_meetings create_meeting_agendas] }
+        let(:field) do
+          TextEditorField.new(page,
+                              '',
+                              selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+        end
 
         it 'can edit the agenda' do
           visit meeting_path(meeting)
 
           find('.toolbar-item', text: 'Edit').click
 
-          expect(page).to have_selector('.meeting_agenda', text: 'Edit')
-          expect(page).to have_selector('#edit-meeting_agenda')
+          field.expect_value('foo')
         end
       end
 
@@ -99,8 +104,9 @@ describe 'Meetings', js: true do
         it 'can not edit the minutes' do
           visit meeting_path(meeting)
           click_link 'Minutes'
-          expect(page).not_to have_selector('.meeting_minutes', text: 'Edit')
-          expect(page).to have_selector('.meeting_minutes', text: 'There is currently nothing to display')
+          expect(page).not_to have_selector('[data-qa-selector="op-meeting--meeting_minutes"]', text: 'Edit')
+          expect(page).to have_selector('[data-qa-selector="op-meeting--meeting_minutes"]',
+                                        text: 'There is currently nothing to display')
         end
       end
     end
@@ -111,18 +117,28 @@ describe 'Meetings', js: true do
       it 'shows the minutes when visiting' do
         visit meeting_path(meeting)
         expect(page).not_to have_selector('h2', text: 'Agenda')
-        expect(page).not_to have_selector('#edit-meeting_minutes')
+        expect(page).not_to have_selector('#meeting_minutes_text')
         expect(page).to have_selector('h2', text: 'Minutes')
       end
 
       context 'and edit permissions' do
         let(:permissions) { %i[view_meetings create_meeting_minutes] }
+        let(:field) do
+          TextEditorField.new(page,
+                              '',
+                              selector: '[data-qa-selector="op-meeting--meeting_minutes"]')
+        end
 
         it 'can edit the minutes' do
           visit meeting_path(meeting)
-          expect(page).to have_selector('#edit-meeting_minutes')
-          expect(page).to have_selector('.meeting_minutes', text: 'Edit')
-          expect(page).not_to have_selector('.button', text: 'Close the meeting to begin the Minutes')
+
+          field.set_value('This is what we talked about')
+
+          click_button 'Save'
+
+          expect(page)
+            .to have_selector('.op-uc-container',
+                              text: 'This is what we talked about')
         end
       end
     end
