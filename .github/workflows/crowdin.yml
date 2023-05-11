@@ -46,6 +46,8 @@ jobs:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
       - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
       - name: "Set crowdin branch name"
         id: vars
         env:
