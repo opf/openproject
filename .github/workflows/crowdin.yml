@@ -60,7 +60,11 @@ jobs:
             echo "crowdin_branch=release" >> $GITHUB_OUTPUT
           fi
       - name: "Generate seeders i18n source file"
+        env:
+          DATABASE_URL: "sqlite3::memory:"
         run: |
+          echo "gem 'sqlite3'" >> Gemfile
+          bundle install
           bundle exec rails runner script/i18n/generate_seeders_i18n_source_file
       - name: "Crowdin: upload sources and download translations"
         uses: crowdin/github-action@1.4.4
