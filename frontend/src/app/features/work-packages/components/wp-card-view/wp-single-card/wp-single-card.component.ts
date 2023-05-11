@@ -84,9 +84,14 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public selected = false;
 
+  public baselineMode = ''||'added'||'changed'||'removed';
+
   public text = {
     removeCard: this.I18n.t('js.card.remove_from_list'),
     detailsView: this.I18n.t('js.button_open_details'),
+    baseLineIconAdded: this.I18n.t('js.baseline.icon_tooltip.added'),
+    baseLineIconChanged: this.I18n.t('js.baseline.icon_tooltip.changed'),
+    baseLineIconRemoved: this.I18n.t('js.baseline.icon_tooltip.removed'),
   };
 
   public isNewResource = isNewResource;
@@ -138,6 +143,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
         this.selected = selected;
         this.cdRef.detectChanges();
       });
+      this.baselineIcon(this.workPackage);
   }
 
   public classIdentifier(wp:WorkPackageResource):string {
@@ -182,19 +188,18 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   public baselineIcon(workPackage:WorkPackageResource) {
     const schema = this.schemaCache.of(workPackage);
     const timestamps = workPackage.attributesByTimestamp || [];
-    let baselineIconClass = '';
+    this.baselineMode = '';
     if (timestamps.length > 1) {
       const base = timestamps[0];
       const compare = timestamps[1];
       if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_add op-table-baseline--icon-added op-wp-single-card--content-baseline';
+        this.baselineMode = 'added';
       } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_minus1 op-table-baseline--icon-removed op-wp-single-card--content-baseline';
+        this.baselineMode = 'removed';
       } else if (this.visibleAttributeChanged(base, schema)) {
-        baselineIconClass = 'spot-icon spot-icon_1 spot-icon_flex spot-icon_arrow-left-right op-table-baseline--icon-changed op-wp-single-card--content-baseline';
+        this.baselineMode = 'changed';
       }
     }
-    return baselineIconClass;
   }
 
   private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
