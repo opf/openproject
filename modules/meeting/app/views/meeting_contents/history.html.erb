@@ -34,10 +34,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <h3><%= t(:label_history) %></h3>
 
-<% content_for :header_tags do %>
-  <meta name="required_script" content="meeting" />
-<% end %>
-
 <%= form_tag({:action => "diff"}, :method => :get) do %>
 <div class="generic-table--container"
      data-application-target="dynamic"

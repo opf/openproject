@@ -1,0 +1,82 @@
+/*
+ * -- copyright
+ * OpenProject is an open source project management software.
+ * Copyright (C) 2023 the OpenProject GmbH
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See COPYRIGHT and LICENSE files for more details.
+ * ++
+ */
+
+import { Controller } from '@hotwired/stimulus';
+
+export default class MeetingContentController extends Controller {
+  static targets = [
+    'renderedText',
+    'editor',
+    'attachments',
+    'editButton',
+  ];
+
+  initialize() {
+    // This should have been achieved by the `data-loader-edit-state-value` attribute, but for unknown reasons
+    // this does not apply the value to the variable. Doing it manually for now.
+    const rawInitialValue = this.element.getAttribute('data-loader-edit-state-value');
+
+    if (rawInitialValue === 'true') {
+      this.editStateValue = true;
+    } else if (rawInitialValue === 'false') {
+      this.editStateValue = false;
+    }
+  }
+
+  static values = {
+    editState: { type: Boolean, default: false },
+  };
+
+  declare editStateValue:boolean;
+
+  declare readonly renderedTextTarget:HTMLElement;
+
+  declare readonly editorTarget:HTMLElement;
+
+  declare readonly attachmentsTarget:HTMLElement;
+
+  declare readonly editButtonTarget:HTMLLinkElement;
+
+  enableEditState() {
+    this.editStateValue = true;
+  }
+
+  cancelEditState() {
+    this.editStateValue = false;
+    window.OpenProject.pageWasEdited = false;
+  }
+
+  editStateValueChanged() {
+    this.renderedTextTarget.hidden = this.editStateValue;
+    this.attachmentsTarget.hidden = this.editStateValue;
+    this.editorTarget.hidden = !this.editStateValue;
+    this.editButtonTarget.classList.toggle('-active', this.editStateValue);
+  }
+}

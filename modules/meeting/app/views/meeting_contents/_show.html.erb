@@ -32,10 +32,10 @@ See COPYRIGHT and LICENSE files for more details.
   content, content_type = tab[:content], tab[:content_type] if tab && tab.present?
 -%>
 
-<div class="meeting_content
-     <%= content_type %>"
+<div data-controller="meeting-content"
      data-application-target="dynamic"
-     data-controller="meetings">
+     data-loader-edit-state-value="<%= show_meeting_content_editor?(content, content_type) %>"
+>
   <div>
     <%= toolbar title: t(:"label_#{content_type}") do %>
       <%=raw meeting_content_context_menu content, content_type %>
@@ -43,18 +43,16 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <% if can_edit_meeting_content?(content, content_type) -%>
-    <div id="edit-<%= content_type %>"
-         class="edit-<%= content_type %>"
-         style="<%= 'display: none' unless show_meeting_content_editor?(content, content_type) %>">
-    <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
+    <div data-meeting-content-target="editor"
+         hidden>
+      <%= render(:partial => "meeting_contents/form", :locals => {:content => content, :content_type => content_type}) %>
     </div>
   <% end -%>
 
+<div data-meeting-content-target="renderedText"
+     hidden>
   <% if saved_meeting_content_text_present?(content) -%>
-    <div id="<%= content_type %>-text"
-         style="<%= 'display: none' if show_meeting_content_editor?(content, content_type) %>"
-         class="wiki show-<%= content_type %> op-uc-container"
-    data>
+    <div class="wiki op-uc-container">
       <%= format_text(content.text, :object => @meeting) %>
     </div>
   <% else -%>
@@ -63,7 +61,11 @@ See COPYRIGHT and LICENSE files for more details.
 </div>
 
 <%# We cannot render attachments for journaled content %>
-<% unless local_assigns[:journaled_version] %>
-  <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
-  <%= list_attachments(resource) %>
-<% end %>
+  <% unless local_assigns[:journaled_version] %>
+    <% resource = ::API::V3::MeetingContents::MeetingContentRepresenter.new(content, current_user: current_user, embed_links: true) %>
+    <%= list_attachments(resource,
+                         data: {
+                           'meeting-content-target': "attachments"
+                         }) %>
+  <% end %>
+</div>
