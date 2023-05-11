@@ -35,6 +35,10 @@ RSpec.describe Source::SeedDataLoader do
   let(:text_en) { 'Learn how to plan projects efficiently.' }
   let(:title_fr) { 'Bienvenue sur OpenProject' }
   let(:text_fr) { 'Apprenez à planifier des projets efficacement.' }
+  let(:locale) { 'fr' }
+  let(:seed_file_name) { 'special_edition' }
+
+  subject(:loader) { described_class.new(seed_file_name:, locale:) }
 
   def mock_translations(locale, translations_map)
     translations_map.each do |key, translation|
@@ -49,11 +53,10 @@ RSpec.describe Source::SeedDataLoader do
 
   describe '#translate' do
     it 'translates keys with a "t_" prefix' do
-      loader = described_class.new(locale: 'fr')
       mock_translations(
-        'fr',
-        "#{Source::Translate::I18N_PREFIX}.standard.welcome.title" => title_fr,
-        "#{Source::Translate::I18N_PREFIX}.standard.welcome.text" => text_fr
+        locale,
+        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.title" => title_fr,
+        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.text" => text_fr
       )
       hash = {
         'welcome' => {
@@ -70,8 +73,11 @@ RSpec.describe Source::SeedDataLoader do
     end
 
     it 'translates nothing if prefix "t_" is absent' do
-      loader = described_class.new(locale: 'fr')
-
+      mock_translations(
+        locale,
+        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.title" => title_fr,
+        "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.welcome.text" => text_fr
+      )
       hash = {
         'welcome' => {
           'title' => title_en,
@@ -86,7 +92,6 @@ RSpec.describe Source::SeedDataLoader do
     end
 
     it 'uses the original string if no translation exists' do
-      loader = described_class.new(locale: 'fr')
       hash = {
         'welcome' => {
           't_title' => title_en,
@@ -102,7 +107,6 @@ RSpec.describe Source::SeedDataLoader do
     end
 
     it 'removes the prefixed keys from the returned hash' do
-      loader = described_class.new(locale: 'fr')
       hash = {
         'welcome' => {
           't_title' => title_en,
@@ -118,12 +122,13 @@ RSpec.describe Source::SeedDataLoader do
     end
 
     context 'when the value to translate is an array' do
+      let(:locale) { 'de' }
+
       it 'translates each values using indices' do
-        loader = described_class.new(locale: 'de')
         mock_translations(
-          'de',
-          "#{Source::Translate::I18N_PREFIX}.standard.categories.0" => 'Erste Kategorie',
-          "#{Source::Translate::I18N_PREFIX}.standard.categories.1" => 'Zweite Kategorie'
+          locale,
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.0" => 'Erste Kategorie',
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.1" => 'Zweite Kategorie'
         )
         hash = {
           't_categories' => [
@@ -141,11 +146,10 @@ RSpec.describe Source::SeedDataLoader do
 
     context 'when hash contains array of hashes' do
       it 'translates keys in the nested values if they have translatable keys' do
-        loader = described_class.new(locale: 'fr')
         mock_translations(
-          'fr',
-          "#{Source::Translate::I18N_PREFIX}.standard.queries.0.name" => 'Plan projet',
-          "#{Source::Translate::I18N_PREFIX}.standard.queries.1.name" => 'Tâches'
+          locale,
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.0.name" => 'Plan projet',
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.1.name" => 'Tâches'
         )
 
         translated = loader.translate(
