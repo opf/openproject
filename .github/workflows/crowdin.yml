@@ -59,7 +59,7 @@ jobs:
           fi
       - name: "Generate seeders i18n source file"
         run: |
-          ruby script/i18n/generate_seeders_i18n_source_file
+          bundle exec rails runner script/i18n/generate_seeders_i18n_source_file
       - name: "Crowdin: upload sources and download translations"
         uses: crowdin/github-action@1.4.4
         with:
