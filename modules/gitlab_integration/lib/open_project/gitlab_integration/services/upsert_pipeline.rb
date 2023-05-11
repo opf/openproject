@@ -49,13 +49,13 @@ module OpenProject::GitlabIntegration::Services
     def extract_params(payload)
       {
         gitlab_id: payload.object_attributes.iid,
-        gitlab_html_url: "#{payload.project.web_url}/pipelines/#{payload.object_attributes.iid}",
+        gitlab_html_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
         project_id: payload.project.id,
         gitlab_user_avatar_url: payload.user.avatar_url,
         name: payload.object_attributes.iid,
         status: payload.object_attributes.status,
-        details_url: "#{payload.project.web_url}/pipelines/#{payload.object_attributes.iid}",
-        # ci_details: pending until resolution of the gitlab issue,
+        details_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
+        ci_details: payload.object_attributes.sha[0..7],
         started_at: payload.object_attributes.created_at,
         completed_at: payload.object_attributes.finished_at
       }
