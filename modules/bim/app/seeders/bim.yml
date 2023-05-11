@@ -84,8 +84,6 @@ projects:
     status_code: on_track
     t_status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo construction project.
-    timeline:
-      name: Timeline
     modules:
       - work_package_tracking
       - news
