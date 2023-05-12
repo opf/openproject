@@ -16,7 +16,7 @@ cs:
       today: 'Dnes'
       drag_here_to_remove: 'Přetažením sem odstraníte pověřenou osobu a datum začátku a ukončení.'
       cannot_drag_here: 'Pracovní balíček nelze odstranit kvůli oprávněním nebo úpravám omezení.'
-      cannot_drag_to_non_working_day: 'This work package cannot start/finish on a non-working day.'
+      cannot_drag_to_non_working_day: 'Tento pracovní balíček nemůže začít/skončit v nepracovní den.'
       quick_add:
         empty_state: 'Použijte vyhledávací pole pro nalezení pracovních balíčků a přetáhněte je do plánovače, aby někomu přiřadil a definoval datum začátku a konce.'
         search_placeholder: 'Hledat...'
