@@ -17,7 +17,7 @@ su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
 ps aux
 echo netstat
 netstat -l
-su - postgres -c "bash -c '$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -o -p 5433 -w start || cat /tmp/pg_ctl.log'"
+su - postgres -c "bash -c '$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -o \"-p 5433\" -w start || cat /tmp/pg_ctl.log'"
 
 # give some more time for DB to start
 sleep 5
