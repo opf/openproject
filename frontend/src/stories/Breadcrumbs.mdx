@@ -15,8 +15,6 @@ Breadcrumbs allow users to:
 
 <Canvas of={BreadcrumbsStories.Default} />
 
-## Structure and Options
-
 Breadcrumbs consist of a series of "levels" presented horizontally, separated by a right arrow (▶). Each level is a child of the level preceding it, except the first level, which is the root.
 
 <Canvas of={BreadcrumbsStories.FourLevels} />
@@ -32,6 +30,8 @@ Because the length of the breadcrumb can vary significantly (depending on the ti
 
 <Canvas of={BreadcrumbsStories.FiveLevels} />
 
+## Mobile-specific behaviour
+
 There are special rules on mobile:
 
 - The root level shows only an icon and ellipses ("...", fully truncated).
@@ -41,16 +41,16 @@ There are special rules on mobile:
 
 To view the mobile style, reduce the viewport width of your browser below 680px.
 
-## Options
+## Variations
 
-Each level can consist of:
+Each item can consist of an icon and text.
 
-- an icon
-- a text
+The icon is generally only used for the first item, although it possible for to display it at any level if necessary.
 
-The icon is almost always only used for the first item, although the component does allow it to be present at any level.
+## Accessibility
 
-The text for each level is always a link, except for:
+The user should be able to use the Tab key to navigate between different levels, and press Enter to click. 
 
-- current level
-- collapsed levels between the direct parent and root in collapsed mode
+Truncated levels (...) are not keyboard accessible, but neither are they clickable.
+
+## Usage

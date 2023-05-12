@@ -2,36 +2,28 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Structure/Date picker" />
 
-# Structure: Date picker
-
-## Design
-
-### What it is and when to use it
+# Date picker (Structure)
 
 - Date picker is used to allow users to input dates visually (by clicking on a calendar sheet)
 - Can be attached to input fields (drop modal) or embedded in modals (Baseline, work package date picker)
 
-### How it works
+## Behaviour
 
 A date picker's behaviour depends on the type of date picker (work package, settings, single-date, range...) and is specific to each instance.
 
-#### Mobile-specific
+### Mobile-specific
 
 A date picker can be displayed in two ways on mobile screens:
 
 - A mobile version of the modal that contains the date picker (Work package date picker, Baseline...)
 - Native mobile version for a basic date picker attached to a date input
 
-### Variations
-
-None. (Removed header?)
-
-### Options
+## Variations
 
 - Working days only (non-working days are not clickable)
 - All days (working days are indicated but remain clickable)
 
-### States
+## States
 
 - Selected (single date)
 	- All corners rounded
@@ -42,8 +34,7 @@ None. (Removed header?)
 - Non-working days
 - Disabled: all of the above states can be disabled, which will still indicate all these states but in shades of grey.
 
-
-### Design notes
+## Design notes
 
 - Date format depends on user / instance settings
 - Certain dates can be disabled by other functions (relations)

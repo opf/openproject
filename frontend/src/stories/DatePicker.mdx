@@ -9,7 +9,9 @@ import * as DatePickerStories from './DatePicker.stories';
 
 # Basic Date Picker 
 
-The basic date picker is a key element in OpenProject and is displayed any time the user has to input a date.
+The basic date picker is a calendar sheet that is displayed any time the user has to input a date. 
+
+## Behaviour
 
 Basic date pickers are attached to existing date input fields and is displayed as a drop-down when that date input field is in focus. It consists of only the mini-calendar component.
 
@@ -17,15 +19,29 @@ The basic date picker can also be placed inside modals like the work package dat
 
 <Canvas of={DatePickerStories.Single} />
 
-## External dependencies
+### States
 
-All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/). The library gives us certain functionality out of the box with a fairly high degree of customisation, but also introduces limits (which will be mentioned below when relevant).
+*To be completed* 
 
-Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/) before using or contributing to date pickers.
+- Selected (single date)
+	- All corners rounded
+- Selected (date range)
+	- Start/finish: one side rounded
+	- Spanned dates: highlighted
+- Today
+- Non-working days
+- Disabled: all of the above states can be disabled, which will still indicate all these states but in shades of grey.
 
-## Sub-variants
 
-The structure is very basic and consists only of one mini calendar. There are two sub-variants:
+### Mobile behaviour
+
+The basic date picker does not have a mobile version. On mobile devices, Flatpickr will automatically gracefully degrade to the device's native date picker.
+
+For more complex implementations involving date pickers (the work package date field or the baseline modal), please refer to documentation concerning those specific features for notes on mobile-specific rendering.
+
+## Variants
+
+There are two variants: 
 
 ### Single
 
@@ -35,25 +51,31 @@ The structure is very basic and consists only of one mini calendar. There are tw
 
 ### Range
 
-**Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months.
+**Range:** allows inputing a range (2023-02-09 - 2023-02-14), and shows the date picker with two months side by side.
 
 <Canvas of={DatePickerStories.RangeWithValue} />
 
-## Mobile
+## Special considerations
 
-The basic date picker does not have a mobile version. On mobile devices, Flatpickr will automatically gracefully degrade to the device's native date picker.
+### Flatpickr
+All date picker are built on the [Flatpickr javascript library](https://flatpickr.js.org/). The library gives us certain functionality out of the box with a fairly high degree of customisation, but also introduces limits (which will be mentioned below when relevant).
 
-For more complex implementations involving date pickers (the work package date field or the baseline modal), please refer to documentation concerning those specific features for notes on mobile-specific rendering.
+Please read the [Flatpickr documentation](https://flatpickr.js.org/instance-methods-properties-elements/) before using or contributing to date pickers.
 
-## Accessibility
+### Disabled and non-working days
 
-The basic date picker itself never receives focus (and thus does not afford keyboard navigation or screen reader compatibility). However, the date input field that the date picker is attached to can receive focus and all users can type in the desired date in the ISO format.  
+Certain days on the date picker can be defined as non-working days (either weekends or specific non-working days) and certain others can be "disabled". 
 
-## Usage
+Non-working days are displayed differently. They maybe enabled or disabled, and certain implementations may give the user the choice.
 
-The basic date picker is used in:
+Disabled dates are also disabled differently and cannot be selected. Disabled dates continue communicating important information (selected date, selected range, non-working).
 
-### Single date picker
+### Date formats
+
+Dates are always input in the [ISO 8601 format](https://www.iso.org/iso-8601-date-and-time-format.html) (YYYY-MM-DD). However, the display format depends on user or admin settings.
+
+### Where it's used 
+The basic date picker is currently used in:
 
 - Log time
 - Log unit costs
@@ -68,10 +90,13 @@ The basic date picker is used in:
 - Budget forms
 - Dynamic forms
 
+## Accessibility
+
+The basic date picker itself never receives focus (and thus does not afford keyboard navigation or screen reader compatibility). However, the date input field that the date picker is attached to can receive focus and all users can type in the desired date in the ISO format.  
+
+## Usage
+
+*To be completed*
+
 <ArgsTable of={OpBasicSingleDatePickerComponent} />
-
-### Range date picker
-
-- Pause date reminders
-
 <ArgsTable of={OpBasicRangeDatePickerComponent} />

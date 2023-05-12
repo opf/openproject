@@ -1,45 +1,37 @@
-import { Meta } from '@storybook/blocks';
+import { Meta } from '@storybook/addon-docs';
 
-<Meta of={StructureBreadcrumbsStories} />
+<Meta title="Story Structure" />
 
-# Structure: Breadcrumbs
+The following is a general outline for structuring stories for components and patterns. This outline does not apply to _Styles_.
 
-## Design
+_Note: Some components and patterns are more complex than others and there will naturally be small variations in structure._
 
-### What it is and when to use it
+_Note 2: We are currently working on applying this structure across all components and patterns, but this is a work in progress. Some pages are currently differently structured than others._
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+# Title
 
-### How it works
+Immediately after the title, describe what the component is, its purpose and when to use it. If relevant, also mention what it isn't.
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+## Behaviour
 
-#### Mobile behaviour
+Here, describe how the component behaves: what kind of interaction it affords, how it changes based on certain constraints (eg. how text is wrapped, when label is too long, when it is disabled...).
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+### Mobile behaviour
 
-### Options
+Describe any mobile-specific behaviour.
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+## Variations
 
-### Accessibility
+Describe different variations, types or styles. Additional sections like "Types" or "States" may be added if necessary.
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+## Special considerations
 
-## Angular components
+If relevant, add any additional important information that might help the reader understand peculiarities and oddities. (For example, if certain colours, formating options depend on user or admin settings and might differ from the illustrations).
 
-### Breadcrumbs
+## Accessibility
 
-#### Code example
+If there are specific notes concerning accessibility, they can be noted here. 
 
-#### Inputs and configuration options
+## Usage
 
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
-
-#### Outputs
-
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
-
-#### Accessibility notes
-
-Lorem ipsum dolor sit amet tempor vitae venenatis aliqua urna bibendum sed. 
+This section will illustrate different cases (particularly from an implementation point of view) with code examples.
