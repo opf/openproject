@@ -42,8 +42,12 @@ module Queries
           :list_optional
         end
 
+        def where
+          operator_strategy.sql_for_field(values, model.table_name, :status_code)
+        end
+
         def self.key
-          :status_code
+          :project_status_code
         end
 
         def human_name

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Projects::Filters::ProjectStatusFilter do
   it_behaves_like 'basic query filter' do
-    let(:class_key) { :status_code }
+    let(:class_key) { :project_status_code }
     let(:type) { :list_optional }
     let(:model) { Project }
     let(:attribute) { :status_code }

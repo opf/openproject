@@ -444,7 +444,7 @@ describe 'Projects index page',
         SeleniumHubWaiter.wait
         projects_page.open_filters
 
-        projects_page.set_filter('status_code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is (OR)',
                                  ['On track'])
@@ -455,7 +455,7 @@ describe 'Projects index page',
         expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
-        projects_page.set_filter('status_code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is not empty',
                                  [])
@@ -466,7 +466,7 @@ describe 'Projects index page',
         expect(page).not_to have_text(no_status_project.name)
 
         SeleniumHubWaiter.wait
-        projects_page.set_filter('status_code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is empty',
                                  [])
@@ -476,7 +476,7 @@ describe 'Projects index page',
         expect(page).not_to have_text(green_project.name)
         expect(page).to have_text(no_status_project.name)
 
-        projects_page.set_filter('status_code',
+        projects_page.set_filter('project_status_code',
                                  'Project status',
                                  'is not',
                                  ['On track'])
