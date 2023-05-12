@@ -52,11 +52,33 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
             type=sha
-      - name: Build and push
+      # Next build each architecture one after another.
+      #
+      # We cannot build all images at the same time
+      # since during the build a postgres db is started
+      # which will fail for all but 1 of the builds
+      # due to sockets being shared on the docker host.
+      - name: Build and push amd64
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/amd64,linux/ppc64le,linux/arm/v7
-          push: ${{ github.event_name != 'pull_request' }}
+          platforms: linux/amd64
+          pull: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push arm
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/arm/v7
+          pull: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push ppc64
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          platforms: linux/ppc64le
+          pull: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
