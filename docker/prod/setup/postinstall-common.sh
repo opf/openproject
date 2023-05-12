@@ -14,26 +14,33 @@ popd
 
 # Bundle assets
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
-ps aux
-echo netstat
-netstat -lp
-su - postgres -c "bash -c '$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -o \"-p 5433\" -w start || cat /tmp/pg_ctl.log'"
+
+function start_db {
+  DBPORT=${1:-5432}
+
+  su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -o \"-p $DBPORT\" -w start"
+
+  echo $DBPORT
+}
+
+# We try 3 different ports because if we run this build for 3 architectures
+# at the same time, then the respective sockets will be blocked through the
+# docker host.
+DBPORT=`start_db 5432 || start_db 5433 || start_db 5434 || cat /tmp/pg_ctl.log`
 
 # give some more time for DB to start
 sleep 5
-echo after sleep
-netstat -lp
 
 echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c 'psql -p 5433'
 
 # dump schema
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1:5433/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
+DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1:$DBPORT/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
 
 # this line requires superuser rights, which is not always available and doesn't matter anyway
 sed -i '/^COMMENT ON EXTENSION/d' db/structure.sql
 
 # precompile assets
-DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1:5433/assets RAILS_ENV=production bundle exec rake assets:precompile
+DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1:$DBPORT/assets RAILS_ENV=production bundle exec rake assets:precompile
 
 su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb stop"
 

@@ -19,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       INPUT_BUILDOPTIONS: --pull
-    # steps based on the super useful blog post by Pablo Romeo for Cloud(x);
-    # https://dev.to/cloudx/multi-arch-docker-images-the-easy-way-with-github-actions-4k54
     steps:
       # Get the repository's code
       - name: Checkout
@@ -53,14 +51,11 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=sha
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
           context: .
-          platforms: linux/ppc64le
+          platforms: linux/amd64,linux/ppc64le,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          build-args: |
-            BUILDKIT_PROGRESS=plain
