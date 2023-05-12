@@ -16,13 +16,13 @@ popd
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
 ps aux
 echo netstat
-netstat -l
+netstat -lp
 su - postgres -c "bash -c '$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -o \"-p 5433\" -w start || cat /tmp/pg_ctl.log'"
 
 # give some more time for DB to start
 sleep 5
 echo after sleep
-netstat -l
+netstat -lp
 
 echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c 'psql -p 5433'
 
