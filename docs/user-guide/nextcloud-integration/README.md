@@ -52,7 +52,7 @@ To begin using this integration, you will need to first connect your OpenProject
 5. The one-time process to connect your two accounts is complete. You will now be directed back to the original work package, where you can view and open any Nextcloud files that are already linked, or start linking new ones.
 
 
-> **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → Connected accounts_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connecting-your-openproject-and-nextcloud-accounts) again.
+> **Note**: To disconnect the link between your OpenProject and Nextcloud accounts, head on over to Nextcloud and navigate to _Settings → OpenProject_. There, click *Disconnect from OpenProject* button. To re-link the two accounts, simply follow [the above instructions](#connecting-your-openproject-and-nextcloud-accounts) again.
 
 ## Linking files and folders to work packages
 
@@ -66,13 +66,14 @@ In addition to listing files directly attached to a work package, the **Files** 
 
 #### Link existing files
 
-![OP_linked_files](1_1_00-All_files_available.png)
-
-
 To link a Nextcloud file to the current work package, you can either:
 
 - select a file from your computer, which will be uploaded to Nextcloud and linked to this work package
 - select an existing file in Nextcloud to link to
+
+![Link existing file in Nextcloud](1_1_00-All_files_available.png)
+
+![Select a file to be linked in Nextcloud](nc_select_file_to_link.png)
 
 #### Upload and link new file(s)
 
@@ -108,7 +109,12 @@ The selected file is uploaded to your Nextcloud instance and linked to the curre
 
 If you wish to unlink any linked file or folder, hover to it in the list of linked Files and click on the **Unlink** icon. 
 
-![Unlinking linked file in OpenProject](unlink_file_in_op.png)
+![Unlinking linked file in OpenProject](op_unlink_download_openfolder.png)
+
+Respectively in order to download and a file, hover over the  **Download** icon in the list of the linked files. 
+
+If you click the  **Folder** icon, the Nextcloud folder containing this file will open in a separate tab.
+
 
 
 ### In Nextcloud
@@ -123,9 +129,11 @@ On the file or folder that you want to link to a work package, click on the *thr
 
 ![NC_open_file_details](Nextcloud_open_file_details.png)
 
-In the **Details** side panel, click on the the **OpenProject** tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. To link this file to a work package in OpenProject for the first time, use the search bar to find the correct work package (you can search either using a word in the title of the work package, or simply enter the work package ID) and click on it.
+In the **Details** side panel, click on the the **OpenProject** tab. This tab lets you link work packages in OpenProject to the current file, and will list all linked work packages. When nothing is yet linked, the list will be empty. 
 
-![NC_empty_status](NC_0_00-FileNoRelation.png)
+![](NC_0_00-FileNoRelation.png)
+
+To link this file to a work package in OpenProject for the first time, use the search bar to find the correct work package (you can search either using a word in the title of the work package, or simply enter the work package ID) and click on it.
 
 ![NC_search_WP](NC_0_01-FileRelationSearch.png)
 
@@ -133,23 +141,17 @@ This linked file will then appear underneath the search bar. Doing so will also 
 
 ![NC_WP_relation](NC_1_00-FileWPRelation.png)
 
+#### Remove link
+
 Once a work package is linked to a file, you can always unlink it by clicking on the **unlink** icon.
 
 ![NC_unlink_WP](NC_1_01-FileWPActions.png)
-
-
-
-#### Remove link
-
-UPDATE
-
-![Unlink files in Nextcloud](nc_unlink_file.png)
 
 You will be asked to confirm that you want to unlink. Click on **Remove link** to do so.
 
 > **Info**: Unlinking a file or folder simply removes the connection with this work package; the original file or folder will _not_ be deleted or affected in any way. The only change is it will no longer appear in the Files tab on OpenProject, and the work package will no longer be listed in the "OpenProject" tab for that file on Nextcloud.
 
-#### Nextcloud dashboard
+## Nextcloud dashboard
 In addition to actions related to individual files, you can also choose to display the OpenProject widget on your Nextcloud dashboard in order to keep an eye on your OpenProject notifications.
 ![add_NC_widget](nc_widget_choice.png)
 
@@ -163,9 +165,6 @@ There are two additional features related to the integration that you can enable
 - **Enable unified search for tickets** allows you to search OpenProject work packages via the universal search bar in Nextcloud
 
 ![NC_extra_settings](nextcloud_openproject_account.png)
-
-
-![NC_extra_navlink](Navigation_link_OpenProject.png)
 
 ![NC_extra_search](nc_global_search.png)
 
@@ -210,6 +209,6 @@ In rare occasions, it is possible for the integration to not be able to fetch al
 
 ### Project notifications are not displayed in Nextcloud
 
-If OpenProject notifications are not properly displayed in Nextcloud, navigate to *Nextcloud settings → Basic settings → Background jobs* and ensure that _Cron_ is selected.
+If OpenProject notifications are not properly displayed in Nextcloud, navigate to *Administration settings → Basic settings → Background jobs* and ensure that _Cron_ is selected.
 
 ![NC_notifications_not_displayed](Cron_job_settings.png)
