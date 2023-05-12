@@ -8,6 +8,10 @@ get_architecture() {
 				echo "arm64"				
 				return 0
 				;;
+			ppc64le)
+				echo "ppc64le"
+				return 0
+				;;
 		esac
 	fi
 
@@ -18,6 +22,11 @@ get_architecture() {
 set -e
 set -o pipefail
 ARCHITECTURE=$(get_architecture)
+
+if [ "$ARCHITECTURE" = "ppc64le" ]; then
+	# required for libicu63 and libllvm7 which are required by postgres-13 on ppc64le
+	echo 'deb http://ftp.de.debian.org/debian buster main' > /etc/apt/sources.list.d/buster-main.list
+fi
 
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1

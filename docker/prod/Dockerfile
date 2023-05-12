@@ -1,4 +1,7 @@
-FROM ruby:3.2.1-buster
+ARG ARCH=amd64
+
+FROM ${ARCH}/ruby:3.2.2-bullseye
+
 MAINTAINER operations@openproject.com
 
 # Allow platform-specific additions. Valid values are: on-prem,saas,bahn
