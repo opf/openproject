@@ -14,7 +14,7 @@ popd
 
 # Bundle assets
 su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
-su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -w start"
+su - postgres -c "$PGBIN/pg_ctl -D /dev/stdout -l /dev/null -w start -t 30"
 echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
 
 # give some more time for DB to start
