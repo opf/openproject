@@ -71,7 +71,7 @@ To link a Nextcloud file to the current work package, you can either:
 - select a file from your computer, which will be uploaded to Nextcloud and linked to this work package
 - select an existing file in Nextcloud to link to
 
-![Link existing file in Nextcloud](1_1_00-All_files_available.png)
+![Link existing file in Nextcloud](link_existing_files.png)
 
 ![Select a file to be linked in Nextcloud](nc_select_file_to_link.png)
 
@@ -79,7 +79,7 @@ To link a Nextcloud file to the current work package, you can either:
 
 If the file you want to link has not yet been uploaded to Nextcloud, you can do so by clicking on the **Upload files** link. 
 
-![Click on Upload Files to pick files on your computer](NC_12.5-uploadFilesLink.png)
+![e](NC_12.5-uploadFilesLink.png)
 
 You will then be prompted to select a file (or multiple files) on your computer that you want to upload to Nextcloud. 
 
