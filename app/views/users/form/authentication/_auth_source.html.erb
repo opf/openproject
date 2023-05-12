@@ -10,12 +10,14 @@
                               include_blank: t(:label_internal)
                             },
                             data: {
-                              action: 'admin-users#togglePasswordFields'
+                              action: 'admin-users#toggleAuthenticationFields'
                             }
     %>
   </div>
 
-  <div class="form--field" id="new_user_login" style="display: none;">
-    <%= f.text_field :login, required: true, size: 25, disabled: true %>
+  <div class="form--field"
+       hidden
+       data-admin-users-target="authSourceFields">
+    <%= f.text_field :login, required: true, size: 25 %>
   </div>
 <% end %>

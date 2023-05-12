@@ -1,18 +1,39 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class AdminUsersController extends Controller {
-  static targets = ['passwordFields'];
+  static targets = [
+    'passwordFields',
+    'authSourceFields',
+  ];
+
+  static values = {
+    passwordAuthSelected: Boolean,
+  };
+
+  declare passwordAuthSelectedValue:boolean;
 
   declare readonly passwordFieldsTarget:HTMLElement;
 
-  togglePasswordFields(evt:{ target:HTMLSelectElement }):void {
-    const selected = evt.target.value;
+  declare readonly hasPasswordFieldsTarget:boolean;
 
-    this.passwordFieldsTarget.hidden = selected !== '';
-    this.passwordFieldsTarget
-      .querySelectorAll('input[type="password"]')
+  declare readonly authSourceFieldsTarget:HTMLElement;
+
+  toggleAuthenticationFields(evt:{ target:HTMLSelectElement }):void {
+    this.passwordAuthSelectedValue = evt.target.value === '';
+  }
+
+  private passwordAuthSelectedValueChanged() {
+    if (this.hasPasswordFieldsTarget) {
+      this.toggleHiddenAndDisabled(this.passwordFieldsTarget, !this.passwordAuthSelectedValue);
+    }
+    this.toggleHiddenAndDisabled(this.authSourceFieldsTarget, this.passwordAuthSelectedValue);
+  }
+
+  private toggleHiddenAndDisabled(target:HTMLElement, hiddenAndDisabled:boolean) {
+    target.hidden = hiddenAndDisabled;
+    target.querySelectorAll('input')
       .forEach((el:HTMLInputElement) => {
-        el.disabled = selected !== '';
+        el.disabled = hiddenAndDisabled;
       });
   }
 }

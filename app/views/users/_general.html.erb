@@ -49,6 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
                               data: {
                                 controller: 'admin-users',
                                 'application-target': 'dynamic',
+                                'admin-users-password-auth-selected-value': @user.auth_source_id.blank?,
                               },
                               as: :user do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
