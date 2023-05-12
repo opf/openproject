@@ -31,7 +31,7 @@ ar:
       يستخدم OpenProject الـ gravatar الخاص بك إذا قمت بتسجيل واحدة أو بتسجيل صورة افتراضية أو أيقونة إذا كانت موجودة. إن الـ gravatar الحالي هو كما يلي:
     settings:
       enable_gravatars: 'تفعيل مستخدم gravatars '
-      gravatar_default: "الصورة الافتراضية Gravatar"
+      gravatar_default: "صورة Gravatar الافتراضية"
       enable_local_avatars: 'تفعيل مستخدم الصورة الرمزية المخصصة'
 
 
