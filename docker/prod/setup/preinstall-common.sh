@@ -23,13 +23,6 @@ set -e
 set -o pipefail
 ARCHITECTURE=$(get_architecture)
 
-echo
-echo "ARCH IS ${ARCHITECTURE}"
-echo
-
-# required for libicu63 and libllvm7 which are required by postgres-13 on (but not included in) debian bullseye
-echo 'deb http://ftp.de.debian.org/debian buster main' > /etc/apt/sources.list.d/buster-main.list
-
 # install node + npm
 curl -s https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${ARCHITECTURE}.tar.gz | tar xzf - -C /usr/local --strip-components=1
 

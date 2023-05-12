@@ -1,6 +1,6 @@
 ARG ARCH=amd64
 
-FROM ${ARCH}/ruby:3.2.2-bullseye
+FROM ${ARCH}/ruby:3.2.2-buster
 
 MAINTAINER operations@openproject.com
 
