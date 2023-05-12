@@ -26,6 +26,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       # https://github.com/docker/setup-qemu-action
+      - name: Prepare docker files
+        run: |
+          cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       # https://github.com/docker/setup-buildx-action
