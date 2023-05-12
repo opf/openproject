@@ -18,10 +18,11 @@ ps aux
 echo netstat
 netstat -a
 su - postgres -c "bash -c '$PGBIN/pg_ctl -D /tmp/nulldb -l /tmp/pg_ctl.log -w start || cat /tmp/pg_ctl.log'"
-echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
 
 # give some more time for DB to start
 sleep 5
+
+echo "create database assets; create user assets with encrypted password 'p4ssw0rd'; grant all privileges on database assets to assets;" | su - postgres -c psql
 
 # dump schema
 DATABASE_URL=postgres://assets:p4ssw0rd@127.0.0.1:5432/assets RAILS_ENV=production bundle exec rake db:migrate db:schema:dump db:schema:cache:dump
