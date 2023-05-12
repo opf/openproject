@@ -33,17 +33,27 @@ describe 'Meetings locking', js: true do
   let(:user) { create(:admin) }
   let!(:meeting) { create(:meeting) }
   let!(:agenda) { create(:meeting_agenda, meeting:) }
+  let(:agenda_field) do
+    TextEditorField.new(page,
+                        '',
+                        selector: '[data-qa-selector="op-meeting--meeting_agenda"]')
+  end
+
+  current_user { user }
 
   before do
     login_as(user)
 
-    visit meeting_path(meeting)
   end
 
   it 'shows an error when trying to update a meeting update while editing' do
+    visit meeting_path(meeting)
+
     # Edit agenda
     within '#tab-content-agenda' do
       find('.button--edit-agenda').click
+
+      agenda_field.set_value('Some new text')
 
       SeleniumHubWaiter.wait
       agenda.text = 'blabla'
@@ -53,6 +63,7 @@ describe 'Meetings locking', js: true do
     end
 
     expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
-    expect(page).to have_selector '#edit-meeting_agenda'
+
+    agenda_field.expect_value('Some new text')
   end
 end
