@@ -124,14 +124,20 @@ See COPYRIGHT and LICENSE files for more details.
           <%= render partial: '/onboarding/configuration_modal' %>
         </section>
       <% end %>
-      <div id="content" class="<%= initial_classes %>">
+      <%= content_tag :div,
+                      id: 'content',
+                      class: initial_classes,
+                      data: {
+                        controller: @page_controller,
+                        'application-target': @page_controller_dynamic ? 'dynamic' : nil,
+                      }.compact do %>
         <h1 class="hidden-for-sighted"><%= t(:label_content) %></h1>
         <%= content_for :content_body %>
         <% unless local_assigns[:no_layout_yield] %>
           <%= yield %>
         <% end %>
         <%= call_hook :view_layouts_base_content %>
-      </div>
+      <% end %>
     </main>
   </div>
   <div id="ajax-indicator" style="display:none;"><span><%= t(:label_loading) %></span></div>
