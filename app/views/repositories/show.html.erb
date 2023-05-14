@@ -27,6 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% page_controller 'repository-navigation', dynamic: true %>
 <%= render partial: 'repository_header', locals: { empty: false } %>
 
 <div class="repository-breadcrumbs">
@@ -55,7 +56,14 @@ See COPYRIGHT and LICENSE files for more details.
       <div>
         <%= label_tag 'rev', I18n.t('repositories.go_to_revision') %>
       </div>
-      <%= text_field_tag :rev, @rev, id: 'revision-identifier-input', placeholder: t(:label_revision) %>
+      <%= text_field_tag :rev,
+                         @rev,
+                         id: 'revision-identifier-input',
+                         placeholder: t(:label_revision),
+                         data: {
+                           'repository-navigation-target': 'revision',
+                           action: 'keydown.enter->repository-navigation#sendForm'
+                         } %>
     </li>
     <% if !@repository.branches.nil? && @repository.branches.length > 0 %>
     <li class="toolbar-item toolbar-input-group hidden-for-mobile">
@@ -65,7 +73,11 @@ See COPYRIGHT and LICENSE files for more details.
       <%= select_tag :branch,
                      options_for_select(@repository.branches, @rev),
                      include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
-                     id: 'revision-branch-select' %>
+                     id: 'revision-branch-select',
+                     data: {
+                       'repository-navigation-target': 'branch'
+                     }
+      %>
     </li>
     <% end %>
     <% if !@repository.tags.nil? && @repository.tags.length > 0 %>
@@ -76,11 +88,15 @@ See COPYRIGHT and LICENSE files for more details.
       <%= select_tag :tag,
                      options_for_select(@repository.tags, @rev),
                      include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
-                     id: 'revision-tag-select' %>
+                     id: 'revision-tag-select',
+                     data: {
+                       'repository-navigation-target': 'tag'
+                     }
+      %>
     </li>
     <% end %>
     <li class="toolbar-item -icon-only">
-      <%= link_to({ url: { action: 'revisions', project_id: @project,
+      <%= link_to({ url: { action: 'revision#revision-identifier-inputs', project_id: @project,
                            key: User.current.rss_key } },
                   { class: 'button', title: t('repositories.atom_revision_feed') }) do %>
         <%= op_icon('button--icon icon-export-atom') %>

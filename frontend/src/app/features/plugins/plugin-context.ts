@@ -25,6 +25,7 @@ import { DynamicContentModalComponent } from '../../shared/components/modals/mod
 import { PasswordConfirmationModalComponent } from '../../shared/components/modals/request-for-confirmation/password-confirmation.modal';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
+import { HttpClient } from '@angular/common/http';
 
 /**
  * Plugin context bridge for plugins outside the CLI compiler context
@@ -58,6 +59,7 @@ export class OpenProjectPluginContext {
     apiV3Service: this.injector.get<ApiV3Service>(ApiV3Service),
     configurationService: this.injector.get<ConfigurationService>(ConfigurationService),
     attachmentsResourceService: this.injector.get(AttachmentsResourceService),
+    http: this.injector.get(HttpClient),
   };
 
   public readonly helpers = {

@@ -15,7 +15,7 @@ window.Stimulus = instance;
 
 instance.debug = !environment.production;
 instance.handleError = (error, message, detail) => {
-  console.warn(message, detail);
+  console.warn(error, message, detail);
 };
 
 instance.register('application', OpApplicationController);

@@ -29,42 +29,161 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { HttpClient } from '@angular/common/http';
 
-export default class MeetingContentController extends Controller {
+export default class RepositoryNavigationController extends Controller {
   static targets = [
-    'renderedText',
-    'editor',
-    'attachments',
-    'editButton',
+    'revision',
+    'branch',
+    'tag',
+    'form',
+    'repoBrowser',
   ];
 
-  static values = {
-    editState: { type: Boolean, default: false },
-  };
+  declare readonly branchTarget:HTMLSelectElement;
 
-  declare editStateValue:boolean;
+  declare readonly hasBranchTarget:boolean;
 
-  declare readonly renderedTextTarget:HTMLElement;
+  declare readonly revisionTarget:HTMLSelectElement;
 
-  declare readonly editorTarget:HTMLElement;
+  declare readonly tagTarget:HTMLSelectElement;
 
-  declare readonly attachmentsTarget:HTMLElement;
+  declare readonly hasTagTaget:boolean;
 
-  declare readonly editButtonTarget:HTMLLinkElement;
+  declare readonly formTarget:HTMLFormElement;
 
-  enableEditState() {
-    this.editStateValue = true;
+  declare readonly repoBrowserTarget:HTMLFormElement;
+
+  private http:HttpClient;
+
+  async connect() {
+    // If we're viewing a tag or branch, don't display it in the revision box
+    if (this.tagSelected || this.branchSelected) {
+      this.revisionTarget.value = '';
+    }
+
+    const context = await window.OpenProject.getPluginContext();
+    this.http = context.services.http;
   }
 
-  cancelEditState() {
-    this.editStateValue = false;
-    window.OpenProject.pageWasEdited = false;
+  sendForm() {
+    this.branchTarget.disabled = true;
+    this.tagTarget.disabled = true;
+    this.formTarget.submit();
+
+    this.branchTarget.disabled = false;
+    this.tagTarget.disabled = false;
   }
 
-  editStateValueChanged() {
-    this.renderedTextTarget.hidden = this.editStateValue;
-    this.attachmentsTarget.hidden = this.editStateValue;
-    this.editorTarget.hidden = !this.editStateValue;
-    this.editButtonTarget.classList.toggle('-active', this.editStateValue);
+  /**
+   Copy the branch/tag value into the revision box, then disable
+   the dropdowns before submitting the form
+   */
+  applyValue(evt:InputEvent) {
+    this.revisionTarget.value = (evt.target as HTMLSelectElement).value;
+    this.sendForm();
+  }
+
+  toggleDirectory(evt:MouseEvent) {
+    const el = (evt.target as HTMLElement).closest('a') as HTMLAnchorElement;
+    const id = el.dataset.element as string;
+    const content = document.getElementById(id) as HTMLElement;
+
+    if (this.expandDir(content)) {
+      content.classList.add('loading');
+
+      this
+        .http
+        .get(el.dataset.url as string, { responseType: 'text' })
+        .subscribe((response:string) => {
+          content.insertAdjacentHTML('afterend', response);
+          content.classList.remove('loading');
+          this.expandItem(content);
+        });
+    }
+  }
+
+  private get branchSelected():boolean {
+    return this.hasBranchTarget && this.branchTarget.value === this.revisionTarget.value;
+  }
+
+  private get tagSelected():boolean {
+    return this.hasTagTaget && this.tagTarget.value === this.revisionTarget.value;
+  }
+
+  /**
+   * Determines whether a dir-expander should load content
+   * or simply expand already loaded content.
+   */
+  private expandDir(content:HTMLElement) {
+    if (content.classList.contains('open')) {
+      this.collapseScmEntry(content);
+      return false;
+    }
+
+    if (content.classList.contains('loaded')) {
+      this.expandScmEntry(content);
+      return false;
+    }
+
+    return !content.classList.contains('loading');
+  }
+
+  /**
+   * Collapses a directory listing in the repository module
+   */
+  private collapseScmEntry(content:HTMLElement) {
+    this
+      .repoBrowserTarget
+      .querySelectorAll(`.${content.id}`)
+      .forEach((el:HTMLElement) => {
+        if (el.classList.contains('open')) {
+          this.collapseScmEntry(el);
+        }
+
+        el.style.display = 'none';
+        this.collapseItem(el);
+      });
+
+    this.collapseItem(content);
+  }
+
+  /**
+   * Expands an SCM entry if its loaded
+   */
+  private expandScmEntry(content:HTMLElement) {
+    this
+      .repoBrowserTarget
+      .querySelectorAll(`.${content.id}`)
+      .forEach((el:HTMLElement) => {
+        el.style.removeProperty('display');
+        if (el.classList.contains('loaded') && !el.classList.contains('collapsed')) {
+          this.expandScmEntry(el);
+        }
+
+        this.collapseItem(el);
+      });
+
+    this.expandItem(content);
+  }
+
+  private expandItem(el:HTMLElement) {
+    el.classList.add('open');
+    el.classList.remove('collapsed');
+
+    const expander = el.querySelector<HTMLElement>('a.dir-expander');
+    if (expander) {
+      expander.title = I18n.t('js.label_collapse');
+    }
+  }
+
+  private collapseItem(el:HTMLElement) {
+    el.classList.remove('open');
+    el.classList.add('collapsed');
+
+    const expander = el.querySelector<HTMLElement>('a.dir-expander');
+    if (expander) {
+      expander.title = I18n.t('js.label_expand');
+    }
   }
 }
