@@ -78,7 +78,7 @@ export class OpBaselineLegendsComponent {
   }
 
   public getFilterName() {
-    const timestamp = this.wpTableBaseline.current[0].split('@');
+    const timestamp = this.wpTableBaseline.current[0].split(/[@T]/);
     const filter = timestamp[0];
     let dateTime = '';
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');

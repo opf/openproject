@@ -152,16 +152,18 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       this.filterChange(this.filterFromSelected(this.wpTableBaseline.current));
 
       this.wpTableBaseline.current.forEach((value, i) => {
-        const [date, timeWithZone] = value.split('@');
-        const time = timeWithZone.split(/[+-]/)[0];
 
-        if (BASELINE_OPTIONS.includes(date)) {
-          this.selectedDates[i] = '';
-        } else {
-          this.selectedDates[i] = date;
+        if (value.includes('@')) {
+          const [, timeWithZone] = value.split(/[@]/);
+          const time = timeWithZone.split(/[+-]/)[0];
+          this.selectedTimes[i] = time || '00:00';
+          this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
+        } else if (value !== 'PT0S') {
+          const date = moment(value);
+          this.selectedDates[i] = date.format('YYYY-MM-DD');
+          this.selectedTimes[i] = date.format('HH:MM');
+          this.selectedTimezoneFormattedTime[i] = date.format('HH:MMZ');
         }
-        this.selectedTimes[i] = time || '00:00';
-        this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
       });
     }
   }
@@ -226,7 +228,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   private filterFromSelected(selectedDates:string[]):string|null {
-    if (selectedDates.length < 1) {
+    if (selectedDates.length < 2) {
       return null;
     }
 
@@ -235,11 +237,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       return first;
     }
 
-    if (selectedDates.length === 2) {
-      return 'betweenTwoSpecificDates';
+    if (selectedDates[1] === DEFAULT_TIMESTAMP) {
+      return 'aSpecificDate';
     }
 
-    return 'aSpecificDate';
+    return 'betweenTwoSpecificDates';
   }
 
   private buildBaselineFilter():string[] {
@@ -250,7 +252,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       case 'lastWorkingDay':
         return [`${this.selectedFilter}@${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
       case 'aSpecificDate':
-        return [`${this.selectedDates[0]}@${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
+        return [`${this.selectedDates[0]}T${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
       case 'betweenTwoSpecificDates':
         return [
           `${this.selectedDates[0]}T${this.selectedTimezoneFormattedTime[0]}`,
