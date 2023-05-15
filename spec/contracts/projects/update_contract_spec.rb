@@ -35,7 +35,8 @@ describe Projects::UpdateContract do
       build_stubbed(:project,
                     active: project_active,
                     public: project_public,
-                    status: project_status).tap do |p|
+                    status_code: project_status_code,
+                    status_explanation: project_status_explanation).tap do |p|
         # in order to actually have something changed
         p.name = project_name
         p.parent = project_parent

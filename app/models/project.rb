@@ -83,7 +83,6 @@ class Project < ApplicationRecord
                           -> { order("#{CustomField.table_name}.position") },
                           join_table: :custom_fields_projects,
                           association_foreign_key: 'custom_field_id'
-  has_one :status, class_name: 'Projects::Status', dependent: :destroy
   has_many :budgets, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
   has_many :projects_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
@@ -149,8 +148,6 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  delegate :explanation, to: :status, allow_nil: true, prefix: true
-
   scope :has_module, ->(mod) {
     where(["#{Project.table_name}.id IN (SELECT em.project_id FROM #{EnabledModule.table_name} em WHERE em.name=?)", mod.to_s])
   }
@@ -161,6 +158,15 @@ class Project < ApplicationRecord
 
   scopes :activated_time_activity,
          :visible_with_activated_time_activity
+
+  enum status_code: {
+    on_track: 0,
+    at_risk: 1,
+    off_track: 2,
+    not_started: 3,
+    finished: 4,
+    discontinued: 5
+  }
 
   def visible?(user = User.current)
     active? and (public? or user.admin? or user.member_of?(self))

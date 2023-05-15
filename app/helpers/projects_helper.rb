@@ -153,7 +153,7 @@ module ProjectsHelper
       .new(project, current_user)
       .assignable_status_codes
       .map do |code|
-      [I18n.t("activerecord.attributes.projects/status.codes.#{code}"), code]
+      [I18n.t("activerecord.attributes.project.status_codes.#{code}"), code]
     end
   end
 

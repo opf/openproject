@@ -35,7 +35,6 @@ module DemoData
       print_status " ↳ Creating project: #{project_data.lookup('name')}"
 
       self.project = reset_project
-      set_project_status
       set_members
       seed_news
       set_types
@@ -71,21 +70,6 @@ module DemoData
 
     def create_project
       Project.create! project_attributes
-    end
-
-    def set_project_status
-      print_status '   -Setting project status.'
-
-      status_code = project_data.lookup('status.code')
-      status_explanation = project_data.lookup('status.description')
-
-      if status_code || status_explanation
-        Projects::Status.create!(
-          project:,
-          code: status_code,
-          explanation: status_explanation
-        )
-      end
     end
 
     def set_members
@@ -160,6 +144,8 @@ module DemoData
       {
         name: project_data.lookup('name'),
         identifier: project_data.lookup('identifier'),
+        status_code: project_data.lookup('status_code'),
+        status_explanation: project_data.lookup('status_explanation'),
         description: project_data.lookup('description'),
         enabled_module_names: project_data.lookup('modules'),
         types: Type.all,

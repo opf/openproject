@@ -38,7 +38,8 @@ describe Projects::CreateContract do
                   active: project_active,
                   public: project_public,
                   parent: project_parent,
-                  status: project_status)
+                  status_code: project_status_code,
+                  status_explanation: project_status_explanation)
     end
     let(:permissions) { [:add_project] }
     let!(:allowed_to) do
