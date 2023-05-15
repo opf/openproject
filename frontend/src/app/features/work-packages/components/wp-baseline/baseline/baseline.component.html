@@ -38,7 +38,7 @@
       slot="input"
       name="op-baseline-date"
       [value]="selectedDates[0] || ''"
-      (input)="dateChange([$event.target.value, ''])"
+      (input)="dateChange([$event.target.value])"
       type="text"
       class="op-baseline--date-input"/>
   </spot-form-field>
@@ -51,7 +51,7 @@
     <input
       slot="input"
       name="op-baseline-time"
-      [value]="selectedTime"
+      [value]="selectedTimes[0]"
       (change)="timesChange([$event.target.value])"
       type="time"
       class="op-baseline--time-input"/>

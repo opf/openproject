@@ -52,6 +52,10 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 
+type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
+
+const BASELINE_OPTIONS = ['oneDayAgo', 'lastWorkingDay', 'oneWeekAgo', 'oneMonthAgo', 'aSpecificDate', 'betweenTwoSpecificDates'];
+
 @Component({
   selector: 'op-baseline',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -143,16 +147,20 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.resetSelection();
 
     if (this.wpTableBaseline.isActive()) {
+      this.filterChange(this.filterFromSelected(this.wpTableBaseline.current));
+
       this.wpTableBaseline.current.forEach((value, i) => {
         const [date, timeWithZone] = value.split('@');
         const time = timeWithZone.split(/[+-]/)[0];
 
-        this.selectedDates[i] = date;
+        if (BASELINE_OPTIONS.includes(date)) {
+          this.selectedDates[i] = '';
+        } else {
+          this.selectedDates[i] = date;
+        }
         this.selectedTimes[i] = time || '00:00';
         this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
       });
-
-      this.filterChange(this.filterFromSelected(this.selectedDates));
     }
   }
 
@@ -170,13 +178,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public onSave() {
-    if (!this.selectedFilter) {
-      this.wpTableBaseline.disable();
-    } else {
-      const filterString = `${this.selectedFilter}@${this.selectedTimezoneFormattedTime}`;
-      this.wpTableBaseline.update([filterString, DEFAULT_TIMESTAMP]);
-    }
-
+    this.wpTableBaseline.update(this.buildBaselineFilter());
     this.submitted.emit();
   }
 
@@ -221,15 +223,39 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     }
   }
 
-  private filterFromSelected(selectedDates:string[]):string {
+  private filterFromSelected(selectedDates:string[]):string|null {
+    if (selectedDates.length < 1) {
+      return null;
+    }
+
+    const first = selectedDates[0].split('@')[0];
+    if (BASELINE_OPTIONS.includes(first)) {
+      return first;
+    }
+
     if (selectedDates.length === 2) {
       return 'betweenTwoSpecificDates';
     }
 
-    if (['oneDayAgo', 'lastWorkingDay', 'oneWeekAgo', 'oneMonthAgo'].includes(selectedDates[0])) {
-      return selectedDates[0];
-    }
-
     return 'aSpecificDate';
+  }
+
+  private buildBaselineFilter():string[] {
+    switch (this.selectedFilter) {
+      case 'oneDayAgo':
+      case 'oneWeekAgo':
+      case 'oneMonthAgo':
+      case 'lastWorkingDay':
+        return [`${this.selectedFilter}@${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
+      case 'aSpecificDate':
+        return [`${this.selectedDates[0]}@${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
+      case 'betweenTwoSpecificDates':
+        return [
+          `${this.selectedDates[0]}T${this.selectedTimezoneFormattedTime[0]}`,
+          `${this.selectedDates[1]}T${this.selectedTimezoneFormattedTime[1]}`,
+        ];
+      default:
+        return [DEFAULT_TIMESTAMP];
+    }
   }
 }
