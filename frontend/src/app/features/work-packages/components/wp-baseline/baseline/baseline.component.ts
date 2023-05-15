@@ -69,6 +69,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   @Input() showActionBar? = false;
 
+  @Input() visible = true;
+
   public dropDownDescription = '';
 
   public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;

@@ -1,5 +1,5 @@
 <form
-  *ngIf="(nonWorkingDays$ | async); else loadingTemplate"
+  *ngIf="visible && (nonWorkingDays$ | async); else loadingTemplate"
   (submit)="onSubmit($event)"
   class="spot-container op-baseline--body"
   [class.op-baseline--body_ranged]="selectedFilter === 'betweenTwoSpecificDates'"
@@ -153,8 +153,9 @@
   </div>
 
   <op-datepicker-sheet
+    class="op-baseline--datepicker"
     *ngIf="selectedFilter === 'aSpecificDate' || selectedFilter === 'betweenTwoSpecificDates'"
-    [dates]="selectedDates"
+    [dates]="selectedFilter === 'betweenTwoSpecificDates' ? selectedDates : [selectedDates[0]]"
     [mode]="selectedFilter === 'betweenTwoSpecificDates' ? 'range' : 'single'"
     (datesSelected)="selectedDates = $event"
     >
