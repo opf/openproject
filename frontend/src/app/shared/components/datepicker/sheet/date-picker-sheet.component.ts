@@ -95,7 +95,7 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
     }
 
     if (changes.mode && !changes.mode.isFirstChange()) {
-      this.datePickerInstance.setOption('mode', changes.mode.currentValue);
+      this.initializeDatepicker();
     }
   }
 
@@ -107,7 +107,7 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
       this.dates,
       {
         mode: this.mode,
-        showMonths: this.deviceService.isMobile ? 1 : 2,
+        showMonths: (this.deviceService.isMobile || this.mode === 'single') ? 1 : 2,
         inline: true,
         onChange: (dates:Date[]) => {
           const formatted = dates.map((el:Date) => this.timezoneService.formattedISODate(el));
