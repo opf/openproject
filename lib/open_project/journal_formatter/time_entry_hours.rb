@@ -43,19 +43,19 @@ class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
     (val % 1).zero? ? val.to_i : val
   end
 
-  def value(html, first, last)
+  def value(html, old_value, value)
     html = html ? '_html' : ''
 
-    first = format_float(first) if first
-    last = format_float(last)
+    old_value = format_float(old_value) if old_value
+    value = format_float(value)
 
-    if first
+    if old_value
       I18n.t(:'activity.item.time_entry.updated',
-             first: I18n.t(:"activity.item.time_entry.hour#{html}", count: first),
-             last: I18n.t(:"activity.item.time_entry.hour#{html}", count: last))
+             old_value: I18n.t(:"activity.item.time_entry.hour#{html}", count: old_value),
+             value: I18n.t(:"activity.item.time_entry.hour#{html}", count: value))
     else
       I18n.t(:"activity.item.time_entry.hour#{html}",
-             count: last)
+             count: value)
     end
   end
 end

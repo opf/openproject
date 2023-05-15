@@ -122,7 +122,7 @@ RSpec.describe Activities::ItemComponent, type: :component do
     end
   end
 
-  context 'for TimeEntry activites' do
+  context 'for TimeEntry activities' do
     let(:journal) { build_stubbed(:time_entry_journal) }
     let(:event) do
       Activities::Event.new(

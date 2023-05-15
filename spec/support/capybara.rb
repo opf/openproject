@@ -6,19 +6,18 @@ require 'rack_session_access/capybara'
 require 'action_dispatch'
 
 RSpec.shared_context 'with default_url_options and host name set to Capybara test server' do
-  before do
-    @original_host = default_url_options[:host]
-    @original_port = default_url_options[:port]
-    @original_host_setting = Setting.host_name
-    Setting.host_name = "#{Capybara.server_host}:#{Capybara.server_port}"
+  around do |example|
+    original_host = default_url_options[:host]
+    original_port = default_url_options[:port]
+    original_host_setting = Setting.host_name
     default_url_options[:host] = Capybara.server_host
     default_url_options[:port] = Capybara.server_port
-  end
-
-  after do
-    default_url_options[:host] = @original_host # rubocop:disable RSpec/InstanceVariable
-    default_url_options[:port] = @original_port # rubocop:disable RSpec/InstanceVariable
-    Setting.host_name = @original_host_setting # rubocop:disable RSpec/InstanceVariable
+    Setting.host_name = "#{Capybara.server_host}:#{Capybara.server_port}"
+    example.run
+  ensure
+    default_url_options[:host] = original_host
+    default_url_options[:port] = original_port
+    Setting.host_name = original_host_setting
   end
 end
 

@@ -1003,7 +1003,7 @@ en:
         hour_html:
           one: "<i>%{count} hour</i>"
           other: "<i>%{count} hours</i>"
-        updated: "changed from %{first} to %{last}"
+        updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
       changeset: "Changesets"
