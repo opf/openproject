@@ -78,9 +78,9 @@ RSpec.describe Source::FilterTranslatables do
       }
       expect(loader.filter_translatables(hash)).to eq(
         'categories' => {
-          0 => 'First',
-          1 => 'Second',
-          2 => 'Third'
+          'item_0' => 'First',
+          'item_1' => 'Second',
+          'item_2' => 'Third'
         }
       )
     end
@@ -95,8 +95,8 @@ RSpec.describe Source::FilterTranslatables do
       }
       expect(loader.filter_translatables(hash)).to eq(
         'categories' => {
-          1 => { 'name' => 'kept as it is translatable' },
-          2 => 'Kept too as the parent key is translatable'
+          'item_1' => { 'name' => 'kept as it is translatable' },
+          'item_2' => 'Kept too as the parent key is translatable'
         }
       )
     end
@@ -117,9 +117,9 @@ RSpec.describe Source::FilterTranslatables do
       }
       expect(loader.filter_translatables(hash)).to eq(
         'categories' => {
-          0 => { 'name' => 'First' },
-          1 => { 'name' => 'Second' },
-          3 => { 'name' => 'Fourth' }
+          'item_0' => { 'name' => 'First' },
+          'item_1' => { 'name' => 'Second' },
+          'item_3' => { 'name' => 'Fourth' }
         }
       )
     end

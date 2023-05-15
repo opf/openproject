@@ -127,8 +127,8 @@ RSpec.describe Source::SeedDataLoader do
       it 'translates each values using indices' do
         mock_translations(
           locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.0" => 'Erste Kategorie',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.1" => 'Zweite Kategorie'
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.item_0" => 'Erste Kategorie',
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.categories.item_1" => 'Zweite Kategorie'
         )
         hash = {
           't_categories' => [
@@ -148,8 +148,8 @@ RSpec.describe Source::SeedDataLoader do
       it 'translates keys in the nested values if they have translatable keys' do
         mock_translations(
           locale,
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.0.name" => 'Plan projet',
-          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.1.name" => 'Tâches'
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.item_0.name" => 'Plan projet',
+          "#{Source::Translate::I18N_PREFIX}.#{seed_file_name}.queries.item_1.name" => 'Tâches'
         )
 
         translated = loader.translate(

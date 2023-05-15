@@ -58,12 +58,13 @@ module Source::FilterTranslatables
 
   def filter_translatables_in_array(array, translatable: false)
     array.map.with_index.to_h do |value, i|
+      key = "item_#{i}"
       if value.is_a?(Hash)
-        [i, filter_translatables_in_object(value)]
+        [key, filter_translatables_in_object(value)]
       elsif translatable
-        [i, value]
+        [key, value]
       else
-        [i, nil]
+        [key, nil]
       end
     end
     .compact

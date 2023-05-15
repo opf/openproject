@@ -138,7 +138,7 @@ class WikiPage < ApplicationRecord
   end
 
   def diff(version_to = nil, version_from = nil)
-    version_to = version_to ? version_to.to_i : content.version
+    version_to = version_to ? version_to.to_i : version
     version_from = version_from ? version_from.to_i : version_to - 1
     version_to, version_from = version_from, version_to unless version_from < version_to
 
