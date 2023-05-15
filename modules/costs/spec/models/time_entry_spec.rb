@@ -108,7 +108,7 @@ describe TimeEntry do
     end
   end
 
-  it 'alwayses prefer overridden_costs' do
+  it 'always prefers overridden_costs' do
     allow(User).to receive(:current).and_return(user)
 
     value = rand(500)

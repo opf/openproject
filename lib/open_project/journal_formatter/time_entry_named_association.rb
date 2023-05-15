@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,38 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, journable_type:)
-    super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
-    @journable_type = journable_type
+class OpenProject::JournalFormatter::TimeEntryNamedAssociation < JournalFormatter::NamedAssociation
+  private
+
+  def format_details(key, values, cache:)
+    label = I18n.t("activity.item.time_entry.logged_for")
+
+    old_value, value = *format_values(values, key, cache:)
+
+    [label, old_value, value]
   end
 
-  def user_html
-    return unless @user
+  def format_html_details(label, old_value, value)
+    label = content_tag(:strong, label)
 
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
+    [label, old_value, value]
   end
 
-  def datetime_html
-    helpers.format_time(@datetime)
-  end
-
-  def time_entry?
-    @journable_type == 'TimeEntry'
-  end
-
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (@is_creation ? 'created_' : 'updated_')
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
-    i18n_key
+  def render_ternary_detail_text(label, value, _old_value, _options)
+    I18n.t(:text_journal_of, label:, value:)
   end
 end

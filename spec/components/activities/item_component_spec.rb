@@ -121,4 +121,23 @@ RSpec.describe Activities::ItemComponent, type: :component do
       expect(page).not_to have_css('.op-activity-list--item-detail')
     end
   end
+
+  context 'for TimeEntry activities' do
+    let(:journal) { build_stubbed(:time_entry_journal) }
+    let(:event) do
+      Activities::Event.new(
+        event_title: "Event Title",
+        event_path: "/project/123",
+        project_id: project.id,
+        project:,
+        journal:
+      )
+    end
+
+    it 'displays the title correctly' do
+      component = described_class.new(event:)
+      render_inline(component)
+      expect(page).to have_css('.op-activity-list--item-title', text: /Event Title\s+\(Project: My project\)/)
+    end
+  end
 end
