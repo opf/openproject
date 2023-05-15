@@ -113,6 +113,7 @@ export class OpBaselineLegendsComponent {
           break;
         default:
           dateTime = '';
+          date = '';
           break;
       }
       dateTime = `${changesSince} ${dateTime} (${date}, ${time})`;
