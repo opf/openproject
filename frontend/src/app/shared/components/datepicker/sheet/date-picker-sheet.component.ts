@@ -93,6 +93,10 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
     if (changes.dates && !changes.dates.isFirstChange()) {
       this.datePickerInstance.setDates(changes.dates.currentValue as string[]);
     }
+
+    if (changes.mode && !changes.mode.isFirstChange()) {
+      this.datePickerInstance.setOption('mode', changes.mode.currentValue);
+    }
   }
 
   private initializeDatepicker() {
