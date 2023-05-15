@@ -167,13 +167,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
           const [, timeWithZone] = value.split(/[@]/);
           const time = timeWithZone.split(/[+-]/)[0];
           this.selectedTimes[i] = time || '00:00';
-          this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
         } else if (value !== 'PT0S') {
           const date = moment.tz(value, this.configuration.defaultTimezone());
 
           this.selectedDates[i] = date.format('YYYY-MM-DD');
           this.selectedTimes[i] = date.format('HH:mm');
-          this.selectedTimezoneFormattedTime[i] = date.format('HH:mmZ');
         }
       });
     }
@@ -181,7 +179,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public resetSelection():void {
     this.selectedTimes = ['00:00', '00:00'];
-    this.selectedTimezoneFormattedTime = this.selectedTimes.map((time) => `${time}+00:00`);
     this.selectedDates = ['', ''];
     this.selectedFilter = null;
     this.mappedSelectedDate = null;
@@ -199,11 +196,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   public timesChange(value:string[]):void {
     this.selectedTimes = value;
-    this.selectedTimezoneFormattedTime = this.selectedDates
-      .map((el:string, i:number) => {
-        const dateTime = `${el}  ${value[i]}`;
-        return this.timezoneService.formattedTime(dateTime, 'HH:mmZ');
-      });
   }
 
   public dateChange(values:string[]):void {
@@ -239,16 +231,21 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       case 'oneWeekAgo':
       case 'oneMonthAgo':
       case 'lastWorkingDay':
-        return [`${this.selectedFilter}@${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
+        return [this.buildISOString(0), DEFAULT_TIMESTAMP];
       case 'aSpecificDate':
-        return [`${this.selectedDates[0]}T${this.selectedTimezoneFormattedTime[0]}`, DEFAULT_TIMESTAMP];
+        return [this.buildISOString(0), DEFAULT_TIMESTAMP];
       case 'betweenTwoSpecificDates':
         return [
-          `${this.selectedDates[0]}T${this.selectedTimezoneFormattedTime[0]}`,
-          `${this.selectedDates[1]}T${this.selectedTimezoneFormattedTime[1]}`,
+          this.buildISOString(0),
+          this.buildISOString(1),
         ];
       default:
         return [DEFAULT_TIMESTAMP];
     }
+  }
+
+  private buildISOString(i:number):string {
+    const date = moment.tz(`${this.selectedDates[i]}T${this.selectedTimes[i]}`, this.configuration.defaultTimezone());
+    return date.toISOString();
   }
 }
