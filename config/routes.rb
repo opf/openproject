@@ -462,6 +462,8 @@ OpenProject::Application.routes.draw do
 
   resources :activity, :activities, only: :index, controller: 'activities'
 
+  resources :meetings, only: :index
+
   resources :users, except: :edit do
     resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 

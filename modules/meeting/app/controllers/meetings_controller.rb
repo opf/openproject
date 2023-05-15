@@ -42,7 +42,9 @@ class MeetingsController < ApplicationController
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    scope = @project.meetings
+    # TODO: Scope only to relevant meetings (definition still TBD) in case of non-
+    # project index page.
+    scope = @project ? @project.meetings : Meeting.all
 
     # from params => today's page otherwise => first page as fallback
     tomorrows_meetings_count = scope.from_tomorrow.count
