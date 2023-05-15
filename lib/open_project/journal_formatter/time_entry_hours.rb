@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,38 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, journable_type:)
-    super()
-    @user = user
-    @datetime = datetime
-    @is_creation = is_creation
-    @journable_type = journable_type
+class OpenProject::JournalFormatter::TimeEntryHours < JournalFormatter::Base
+  def render(_key, values, options = { html: true })
+    label_text = 'Spent time'
+    label_text << ':' if !values.first
+    label_text = content_tag(:strong, label_text) if options[:html]
+
+    value = value(options[:html], values.first, values.last)
+
+    I18n.t(:text_journal_of, label: label_text, value:)
   end
 
-  def user_html
-    return unless @user
+  private
 
-    [
-      helpers.avatar(@user, size: 'mini'),
-      helpers.content_tag('span', helpers.link_to_user(@user), class: %w[spot-caption spot-caption_bold])
-    ].join(' ')
+  def format_float(val)
+    (val % 1).zero? ? val.to_i : val
   end
 
-  def datetime_html
-    helpers.format_time(@datetime)
-  end
+  def value(html, old_value, value)
+    html = html ? '_html' : ''
 
-  def time_entry?
-    @journable_type == 'TimeEntry'
-  end
+    old_value = format_float(old_value) if old_value
+    value = format_float(value)
 
-  def i18n_key
-    i18n_key = 'activity.item.'.dup
-    i18n_key << (@is_creation ? 'created_' : 'updated_')
-    i18n_key << 'by_' if @user
-    i18n_key << 'on'
-    i18n_key << '_time_entry' if time_entry?
-    i18n_key
+    if old_value
+      I18n.t(:'activity.item.time_entry.updated',
+             old_value: I18n.t(:"activity.item.time_entry.hour#{html}", count: old_value),
+             value: I18n.t(:"activity.item.time_entry.hour#{html}", count: value))
+    else
+      I18n.t(:"activity.item.time_entry.hour#{html}",
+             count: value)
+    end
   end
 end

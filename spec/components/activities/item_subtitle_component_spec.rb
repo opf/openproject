@@ -35,11 +35,12 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
 
   let(:datetime) { Time.current }
 
-  subject { render_inline(described_class.new(user:, datetime:, is_creation:)) }
+  subject { render_inline(described_class.new(user:, datetime:, is_creation:, journable_type:)) }
 
   context 'on creation with a user' do
     let(:is_creation) { true }
     let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'WorkPackage' }
 
     it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
   end
@@ -47,6 +48,7 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
   context 'on creation without a user' do
     let(:is_creation) { true }
     let(:user) { nil }
+    let(:journable_type) { 'WorkPackage' }
 
     it { is_expected.to have_text("created on #{format_time(datetime)}") }
   end
@@ -54,6 +56,7 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
   context 'on update with a user' do
     let(:is_creation) { false }
     let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'WorkPackage' }
 
     it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
   end
@@ -61,7 +64,24 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
   context 'on update without a user' do
     let(:is_creation) { false }
     let(:user) { nil }
+    let(:journable_type) { 'WorkPackage' }
 
     it { is_expected.to have_text("updated on #{format_time(datetime)}") }
+  end
+
+  context 'on TimeEntry creation' do
+    let(:is_creation) { true }
+    let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'TimeEntry' }
+
+    it { is_expected.to have_text("time logged by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on TimeEntry updation' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'TimeEntry' }
+
+    it { is_expected.to have_text("time logged updated by  #{user.name} on #{format_time(datetime)}") }
   end
 end
