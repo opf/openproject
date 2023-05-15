@@ -191,7 +191,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
           this.daysNumber = this.wpTableBaseline.daysNumber;
           break;
         case 'oneWeekAgo':
-          this.dropDownDescription = this.wpTableBaseline.lastweekDate();
+          this.dropDownDescription = this.wpTableBaseline.lastWeekDate();
           this.daysNumber =this.wpTableBaseline.daysNumber;
           break;
         case 'oneMonthAgo':

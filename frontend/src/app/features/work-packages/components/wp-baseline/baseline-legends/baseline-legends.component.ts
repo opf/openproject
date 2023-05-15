@@ -60,9 +60,9 @@ export class OpBaselineLegendsComponent {
 
   public text = {
     time_description: '',
-    now_meets_filter_criteria: this.I18n.t('js.baseline.legends.now_meets_filter_criteria'),
-    no_longer_meets_filter_criteria: this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria'),
-    maintained_with_changes: this.I18n.t('js.baseline.legends.maintained_with_changes'),
+    now_meets_filter_criteria: '',
+    no_longer_meets_filter_criteria: '',
+    maintained_with_changes: '',
   };
 
   constructor(
@@ -78,36 +78,46 @@ export class OpBaselineLegendsComponent {
   }
 
   public getFilterName() {
-    const timestamp = this.wpTableBaseline.current[0].split('@');
-    const filter = timestamp[0];
     let dateTime = '';
-    const changesSince = this.I18n.t('js.baseline.legends.changes_since');
-    const time = timestamp[1].split(/[+-]/)[0];
-    switch (filter) {
-      case 'oneDayAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
-        break;
-      case 'lastWorkingDay':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
-        break;
-      case 'oneWeekAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_week');
-        break;
-      case 'oneMonthAgo':
-        dateTime = this.I18n.t('js.baseline.drop_down.last_month');
-        break;
-      case 'aSpecificDate':
-        dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
-        break;
-      case 'betweenTwoSpecificDates':
-        dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
-        break;
-      default:
-        dateTime = '';
-        break;
+    let date = '';
+    const baselineIsActive= this.wpTableBaseline.isActive();
+    if (baselineIsActive) {
+      const timestamp = this.wpTableBaseline.current[0].split('@');
+      const filter = timestamp[0];
+      const changesSince = this.I18n.t('js.baseline.legends.changes_since');
+      const time = timestamp[1].split(/[+-]/)[0];
+      switch (filter) {
+        case 'oneDayAgo':
+          dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
+          date = this.wpTableBaseline.yesterdayDate();
+          break;
+        case 'lastWorkingDay':
+          dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
+          date = this.wpTableBaseline.lastWorkingDate();
+          break;
+        case 'oneWeekAgo':
+          dateTime = this.I18n.t('js.baseline.drop_down.last_week');
+          date = this.wpTableBaseline.lastWeekDate();
+          break;
+        case 'oneMonthAgo':
+          dateTime = this.I18n.t('js.baseline.drop_down.last_month');
+          date = this.wpTableBaseline.lastMonthDate();
+          break;
+        case 'aSpecificDate':
+          dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
+          date = '';
+          break;
+        case 'betweenTwoSpecificDates':
+          dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
+          date = '';
+          break;
+        default:
+          dateTime = '';
+          break;
+      }
+      dateTime = `${changesSince} ${dateTime} (${date}, ${time})`;
+      this.text.time_description = dateTime;
     }
-    dateTime = `${changesSince} ${dateTime} (${this.wpTableBaseline.selectedDate}, ${time})`;
-    this.text.time_description = dateTime;
     return dateTime;
   }
 
@@ -115,8 +125,9 @@ export class OpBaselineLegendsComponent {
     this.numAdded = 0;
     this.numRemoved = 0;
     this.numUpdated = 0;
+    const baselineIsActive= this.wpTableBaseline.isActive();
     const results = this.querySpace.results.value;
-    if (results && results.elements.length > 0) {
+    if (baselineIsActive && results && results.elements.length > 0) {
       results.elements.forEach((workPackage:WorkPackageResource) => {
         const schema = this.schemaCache.of(workPackage);
         const timestamps = workPackage.attributesByTimestamp || [];

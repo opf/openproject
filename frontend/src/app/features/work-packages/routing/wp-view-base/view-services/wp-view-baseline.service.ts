@@ -84,7 +84,7 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
     return this.selectedDate;
   }
 
-  public lastweekDate():string {
+  public lastWeekDate():string {
     const today = new Date();
     this.daysNumber = -7;
     today.setDate(today.getDate() - 7);
