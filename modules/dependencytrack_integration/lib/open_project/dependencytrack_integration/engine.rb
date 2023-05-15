@@ -47,7 +47,7 @@ module OpenProject::DependencytrackIntegration
       # project_module(:gitlab, dependencies: :work_package_tracking) do
       #   permission(:show_gitlab_content, {})
       # end
-    end
+    # end
 
     # patches %w[WorkPackage]
 
