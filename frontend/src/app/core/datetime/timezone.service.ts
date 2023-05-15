@@ -34,18 +34,6 @@ import {
   Moment,
 } from 'moment';
 
-declare module 'moment' {
-  interface Moment {
-    tz():string|undefined;
-
-    tz(timezone:string, keepLocalTime?:boolean):Moment;
-
-    zoneAbbr():string;
-
-    zoneName():string;
-  }
-}
-
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(

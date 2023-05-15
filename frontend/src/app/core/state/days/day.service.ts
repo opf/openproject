@@ -9,6 +9,7 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
+import * as moment from 'moment-timezone';
 
 @Injectable()
 export class DayResourceService extends ResourceStoreService<IDay> {

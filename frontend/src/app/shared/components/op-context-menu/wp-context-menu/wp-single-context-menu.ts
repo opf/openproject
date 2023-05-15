@@ -17,6 +17,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { WpDestroyModalComponent } from 'core-app/shared/components/modals/wp-destroy-modal/wp-destroy.modal';
 import { WorkPackageAuthorization } from 'core-app/features/work-packages/services/work-package-authorization.service';
+import * as moment from 'moment-timezone';
 
 @Directive({
   selector: '[wpSingleContextMenu]',

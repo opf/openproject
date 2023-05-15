@@ -52,6 +52,7 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
+import * as moment from 'moment-timezone';
 
 @Component({
   selector: 'op-baseline',
@@ -96,7 +97,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     date: this.I18n.t('js.label_date'),
     time: this.I18n.t('js.baseline.time'),
     help_description: this.I18n.t('js.baseline.help_description'),
-    timeZone: this.configuration.isTimezoneSet() ? moment().tz(this.configuration.timezone()).zoneAbbr() : 'local',
+    timeZone: this.configuration.isDefaultTimezoneSet() ? moment().tz(this.configuration.defaultTimezone()).zoneAbbr() : 'local',
     time_description: (i:number) => this.I18n.t('js.baseline.time_description', {
       time: this.selectedTimezoneFormattedTime[i],
       days: this.daysNumber,
@@ -156,10 +157,11 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
           this.selectedTimes[i] = time || '00:00';
           this.selectedTimezoneFormattedTime[i] = timeWithZone || '00:00+00:00';
         } else if (value !== 'PT0S') {
-          const date = moment(value);
+          const date = moment.tz(value, this.configuration.defaultTimezone());
+
           this.selectedDates[i] = date.format('YYYY-MM-DD');
-          this.selectedTimes[i] = date.format('HH:MM');
-          this.selectedTimezoneFormattedTime[i] = date.format('HH:MMZ');
+          this.selectedTimes[i] = date.format('HH:mm');
+          this.selectedTimezoneFormattedTime[i] = date.format('HH:mmZ');
         }
       });
     }
@@ -219,8 +221,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
         break;
     }
   }
-
-
 
   private buildBaselineFilter():string[] {
     switch (this.selectedFilter) {
