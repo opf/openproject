@@ -69,7 +69,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   @Input() visible = true;
 
-  public dropDownDescription = '';
+  public mappedSelectedDate:string|null;
 
   public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;
 
@@ -80,8 +80,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   public selectedFilter:string|null;
 
   public selectedTimezoneFormattedTime:string[];
-
-  public daysNumber = 0;
 
   public tooltipPosition = SpotDropAlignmentOption.TopRight;
 
@@ -98,10 +96,24 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     time: this.I18n.t('js.baseline.time'),
     help_description: this.I18n.t('js.baseline.help_description'),
     timeZone: this.configuration.isDefaultTimezoneSet() ? moment().tz(this.configuration.defaultTimezone()).zoneAbbr() : 'local',
-    time_description: (i:number) => this.I18n.t('js.baseline.time_description', {
-      time: this.selectedTimezoneFormattedTime[i],
-      days: this.daysNumber,
-    }),
+    time_description: (i:number) => {
+      const date = this.selectedDates[i];
+      const time = this.selectedTimes[i];
+
+      if (!date || !time) {
+        return '';
+      }
+
+      const formatted = moment
+        .tz(`${date}T${time}`, this.configuration.defaultTimezone())
+        .tz(this.configuration.timezone());
+
+      const formattedDate = formatted.format(this.timezoneService.getDateFormat());
+      const formattedTime = formatted.format(this.timezoneService.getTimeFormat());
+      return this.I18n.t('js.baseline.time_description', {
+        datetime: `${formattedDate} ${formattedTime}`,
+      });
+    },
   };
 
   public baselineAvailableValues = [
@@ -172,7 +184,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.selectedTimezoneFormattedTime = this.selectedTimes.map((time) => `${time}+00:00`);
     this.selectedDates = ['', ''];
     this.selectedFilter = null;
-    this.dropDownDescription = '';
+    this.mappedSelectedDate = null;
   }
 
   public onSubmit(e:Event):void {
@@ -204,20 +216,19 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.selectedFilter = value;
     switch (value) {
       case 'oneDayAgo':
-        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.yesterdayDate();
+        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.yesterdayDate());
         break;
       case 'lastWorkingDay':
-        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastWorkingDate();
+        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastWorkingDate());
         break;
       case 'oneWeekAgo':
-        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastweekDate();
+        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastweekDate());
         break;
       case 'oneMonthAgo':
-        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastMonthDate();
+        this.mappedSelectedDate = this.timezoneService.formattedDate(this.wpTableBaseline.lastMonthDate());
         break;
       default:
-        this.dropDownDescription = '';
-        this.daysNumber = 0;
+        this.mappedSelectedDate = null;
         break;
     }
   }

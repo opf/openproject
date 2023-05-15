@@ -42,6 +42,9 @@ import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-pack
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
+import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import * as moment from 'moment-timezone';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
@@ -72,6 +75,8 @@ export class OpBaselineLegendsComponent {
     readonly querySpace:IsolatedQuerySpace,
     readonly schemaCache:SchemaCacheService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly timezoneService:TimezoneService,
+    readonly configuration:ConfigurationService,
     readonly cdRef:ChangeDetectorRef,
   ) {
     this.getBaselineDetails();
@@ -82,33 +87,32 @@ export class OpBaselineLegendsComponent {
     const timestamps = this.wpTableBaseline.current.map((el) => el.split(/[@T]/));
     const filter = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');
-    const time = timestamps[0][1].split(/[+-]/)[0];
     let dateTime = '';
 
     switch (filter) {
       case 'oneDayAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
-        dateTime += ` (${this.wpTableBaseline.yesterdayDate()[0]}, ${timestamps[0][1]})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.yesterdayDate(), timestamps[0][1])})`;
         break;
       case 'lastWorkingDay':
         dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
-        dateTime += ` (${this.wpTableBaseline.lastWorkingDate()[0]}, ${timestamps[0][1]})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastWorkingDate(), timestamps[0][1])})`;
         break;
       case 'oneWeekAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_week');
-        dateTime += ` (${this.wpTableBaseline.lastweekDate()[0]}, ${timestamps[0][1]})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastweekDate(), timestamps[0][1])})`;
         break;
       case 'oneMonthAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_month');
-        dateTime += ` (${this.wpTableBaseline.lastMonthDate()[0]}, ${timestamps[0][1]})`;
+        dateTime += ` (${this.getFormattedDate(this.wpTableBaseline.lastMonthDate(), timestamps[0][1])})`;
         break;
       case 'aSpecificDate':
         dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
-        dateTime += ` (${timestamps[0].join(', ')})`;
+        dateTime += ` (${this.getFormattedDate(timestamps[0][0], timestamps[0][1])})`;
         break;
       case 'betweenTwoSpecificDates':
         dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
-        dateTime += ` (${timestamps[0].join(', ')} - ${timestamps[1].join(', ')})`;
+        dateTime += ` (${this.getFormattedDate(timestamps[0][0], timestamps[0][1])} - ${this.getFormattedDate(timestamps[1][0], timestamps[1][1])})`;
         break;
       default:
         dateTime = '';
@@ -132,11 +136,11 @@ export class OpBaselineLegendsComponent {
           const base = timestamps[0];
           const compare = timestamps[1];
           if ((!base._meta.exists && compare._meta.exists) || (!base._meta.matchesFilters && compare._meta.matchesFilters)) {
-            this.numAdded+=1;
+            this.numAdded += 1;
           } else if ((base._meta.exists && !compare._meta.exists) || (base._meta.matchesFilters && !compare._meta.matchesFilters)) {
-            this.numRemoved+=1;
+            this.numRemoved += 1;
           } else if (this.visibleAttributeChanged(base, schema)) {
-            this.numUpdated+=1;
+            this.numUpdated += 1;
           }
         }
       });
@@ -144,6 +148,14 @@ export class OpBaselineLegendsComponent {
       this.text.no_longer_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.no_longer_meets_filter_criteria')} (${this.numRemoved})`;
       this.text.now_meets_filter_criteria = `${this.I18n.t('js.baseline.legends.now_meets_filter_criteria')} (${this.numAdded})`;
     }
+  }
+
+  private getFormattedDate(date:string, time:string):string {
+    const combined = moment
+      .tz(`${date}T${time}`, this.configuration.defaultTimezone())
+      .tz(this.configuration.timezone());
+
+    return `${combined.format(this.timezoneService.getDateFormat())} ${combined.format(this.timezoneService.getTimeFormat())}`;
   }
 
   private visibleAttributeChanged(base:IWorkPackageTimestamp, schema:ISchemaProxy):boolean {
