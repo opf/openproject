@@ -35,6 +35,7 @@ group :opf_plugins do
   gem 'openproject-webhooks',                  path: 'modules/webhooks'
   gem 'openproject-github_integration',        path: 'modules/github_integration'
   gem 'openproject-gitlab_integration',        path: 'modules/gitlab_integration'
+  gem 'openproject-dependencytrack_integration', path: 'modules/dependencytrack_integration'
   gem 'openproject-ldap_groups',               path: 'modules/ldap_groups'
   gem 'openproject-recaptcha',                 path: 'modules/recaptcha'
   gem 'openproject-job_status',                path: 'modules/job_status'

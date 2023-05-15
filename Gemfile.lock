@@ -102,6 +102,12 @@ PATH
       openproject-webhooks
 
 PATH
+  remote: modules/dependencytrack_integration
+  specs:
+    openproject-dependencytrack_integration (1.0.0)
+      openproject-webhooks
+
+PATH
   remote: modules/grids
   specs:
     grids (1.0.0)
@@ -1060,6 +1066,7 @@ DEPENDENCIES
   openproject-documents!
   openproject-github_integration!
   openproject-gitlab_integration!
+  openproject-dependencytrack_integration!
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
