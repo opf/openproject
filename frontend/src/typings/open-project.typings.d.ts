@@ -60,6 +60,7 @@ declare namespace api {
       format?:string;
       raw:string;
       html?:string;
+      isPrivate?:boolean;
     }
   }
 }

@@ -31,4 +31,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 ----------------------------------------
 <%= render partial: 'work_package_details', locals: { work_package: @work_package } %>
-<%= t(:text_latest_note, note: last_work_package_note(@work_package)) %>
+<%= t(:text_latest_note, note: last_work_package_note(@work_package, @user)) %>

@@ -289,6 +289,15 @@ module API
           }
         end
 
+        link :privateComment, uncacheable: true do
+          next if !current_user_allowed_to(:add_private_comment, context: represented.project)
+          {
+            href: api_v3_paths.work_package_activities(represented.id),
+            method: :post,
+            title: 'Add private comment'
+          }
+        end
+
         link :previewMarkup do
           {
             href: api_v3_paths.render_markup(link: api_v3_paths.work_package(represented.id)),

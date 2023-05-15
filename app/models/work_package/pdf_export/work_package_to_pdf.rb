@@ -243,7 +243,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
     newline!
 
     work_package.journals.includes(:user).order("#{Journal.table_name}.created_at ASC").each do |journal|
-      next if journal.initial?
+      next if journal.initial? || (!journal.is_public && !User.current.allowed_to?(:add_private_comment, work_package.project))
 
       pdf.font style: :bold, size: 8
       pdf.text(format_time(journal.created_at) + ' - ' + journal.user.name)

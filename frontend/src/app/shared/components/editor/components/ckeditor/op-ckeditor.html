@@ -1,4 +1,17 @@
 <ng-container>
+  <div *ngIf="showIsPrivate">
+    <label class="form--label-with-check-box">
+      <input
+        name="work_package[is_private]"
+        [disabled]="isDisabled"
+        slot="input"
+        type="checkbox"
+        [ngModel]="isPrivate"
+        (change)="onChange($event)"
+      />
+      {{ text.privateNote }}
+    </label>
+  </div>
   <div *ngIf="error" class="op-toast -error">
     <div class="op-toast--content">
       <p>

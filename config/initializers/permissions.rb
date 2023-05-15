@@ -177,6 +177,12 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin,
                      dependencies: :view_work_packages
 
+      wpt.permission :add_private_comment,
+                     {
+                       journals: [:new]
+                     },
+                     dependencies: :view_work_packages
+
       wpt.permission :edit_own_work_package_notes,
                      {},
                      require: :loggedin,

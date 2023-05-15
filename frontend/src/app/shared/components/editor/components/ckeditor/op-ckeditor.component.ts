@@ -39,6 +39,7 @@ import {
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import {
   ICKEditorContext,
   ICKEditorInstance,
@@ -67,6 +68,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
     }
   }
 
+  @Input() public isPrivate:boolean;
+
+  @Input() public fieldName:string;
+
   // Output notification once ready
   @Output() onInitialized = new EventEmitter<ICKEditorInstance>();
 
@@ -92,11 +97,18 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
 
   public manualMode = false;
 
+  public isDisabled:boolean = true;
+
   private _content = '';
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),
+    privateNote: this.I18n.t('js.editor.private_note'),
   };
+
+  public get showIsPrivate() {
+    return this.fieldName == 'comment' || this.fieldName == 'work_package_journal_notes';
+  }
 
   // Codemirror instance, initialized lazily when running source mode
   public codeMirrorInstance:undefined|any;
@@ -117,6 +129,7 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   private $element:JQuery;
 
   constructor(private readonly elementRef:ElementRef,
+    private readonly authorisation:AuthorisationService,
     private readonly Notifications:ToastService,
     private readonly I18n:I18nService,
     private readonly configurationService:ConfigurationService,
@@ -176,6 +189,11 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     try {
       this.initializeEditor();
+      const canPrivateComment = this.authorisation.can('work_package', 'privateComment') || jQuery(`#${this.fieldName}`).data('has-private-right');
+      const canPublicComment = this.authorisation.can('work_package', 'addComment') || jQuery(`#${this.fieldName}`).data('has-public-right');
+      const parentIsPrivate = this.$element.parents('.op-user-activity').hasClass('op-user-activity--private');
+      this.isPrivate = (canPrivateComment && !canPublicComment) || parentIsPrivate;
+      this.isDisabled = (!canPrivateComment && canPublicComment) || (canPrivateComment && !canPublicComment);
     } catch (error) {
       // We will run into this error if, among others, the browser does not fully support
       // CKEditor's requirements on ES6.
@@ -184,6 +202,10 @@ export class OpCkeditorComponent implements OnInit, OnDestroy {
       this.error = error;
       this.onInitializationFailed.emit(error);
     }
+  }
+
+  onChange($event:any) {
+    this.isPrivate = $event.target.checked
   }
 
   ngOnDestroy() {

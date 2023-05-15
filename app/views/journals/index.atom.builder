@@ -36,6 +36,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.author { xml.name Setting.app_title.to_s }
   journals.each do |change|
     work_package = change.journable
+    next if !change.is_public && !User.current.allowed_to?(:add_private_comment, work_package.project)
     xml.entry do
       xml.title   "#{work_package.project.name} - #{work_package.type.name} ##{work_package.id}: #{work_package.subject}"
       xml.link    "rel" => "alternate", "href" => work_package_url(work_package)

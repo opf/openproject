@@ -206,8 +206,14 @@ module WorkPackagesHelper
     route[:controller] == 'work_packages' && route[:action] == 'index' && route[:state]&.match?(/^\d+/)
   end
 
-  def last_work_package_note(work_package)
-    note_journals = work_package.journals.select(&:notes?)
+  def last_work_package_note(work_package, recipient)
+    if recipient.allowed_to?(:add_private_comment, work_package.project)
+      journals = work_package.journals
+    else
+      journals = work_package.journals.where(is_public: true)
+    end
+
+    note_journals = journals.select(&:notes?)
     return t(:text_no_notes) if note_journals.empty?
 
     note_journals.last.notes

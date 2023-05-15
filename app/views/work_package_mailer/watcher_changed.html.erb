@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
 <hr />
 <%= render partial: 'work_package_details', locals: { work_package: @work_package } %>
 <p>
-  <%= format_text(t(:text_latest_note, note: last_work_package_note(@work_package)),
+  <%= format_text(t(:text_latest_note, note: last_work_package_note(@work_package, @user)),
                     only_path: false,
                     object: @work_package,
                     project: @work_package.project) %>

@@ -92,6 +92,8 @@ export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
 
   addRelation(relation:any):Promise<any>|undefined;
 
+  privateComment(comment:unknown, headers?:any):Promise<any>;
+
   addWatcher(watcher:HalResource):Promise<any>;
 
   changeParent(params:any):Promise<any>;

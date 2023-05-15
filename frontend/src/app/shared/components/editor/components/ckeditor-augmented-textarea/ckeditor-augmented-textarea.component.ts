@@ -57,6 +57,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   public previewContext:string;
 
+  public fieldName:string;
+
   // Which template to include
   public $element:JQuery;
 
@@ -103,6 +105,7 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   ngOnInit() {
     this.$element = jQuery(this.elementRef.nativeElement);
+    this.fieldName = this.textareaSelector.substring(1);
 
     // Parse the attribute explicitly since this is likely a bootstrapped element
     this.textareaSelector = this.$element.attr('textarea-selector')!;

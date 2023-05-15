@@ -2,6 +2,8 @@
   <div class="op-ckeditor--wrapper op-ckeditor-element">
     <op-ckeditor [context]="ckEditorContext"
                  [content]="initialContent"
+                 [fieldName]="field.name"
+                 [isPrivate]="isPrivate"
                  (onContentChange)="onContentChange($event)"
                  (onInitializationFailed)="initializationError = true"
                  (onInitialized)="onCkeditorSetup($event)"

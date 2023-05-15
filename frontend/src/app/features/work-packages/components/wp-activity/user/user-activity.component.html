@@ -1,6 +1,7 @@
 <div
   class="op-user-activity work-package-details-activities-activity-contents"
-  *ngIf="workPackage"
+  [ngClass]="isPrivate"
+  *ngIf="workPackage && canPrivateComment"
   [attr.data-notification-selector]="hasUnreadNotification ? 'notification-activity' : null"
   (mouseenter)="focus()"
   (mouseleave)="blur()"
