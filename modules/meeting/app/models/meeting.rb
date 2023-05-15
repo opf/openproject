@@ -129,7 +129,7 @@ class Meeting < ApplicationRecord
     participants.build(user:, invited: true) if new_record? && participants.empty? && user
   end
 
-  # Returns true if usr or current user is allowed to view the meeting
+  # Returns true if user or current user is allowed to view the meeting
   def visible?(user = nil)
     (user || User.current).allowed_to?(:view_meetings, project)
   end
