@@ -41,6 +41,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { IWorkPackageTimestamp } from 'core-app/features/hal/resources/work-package-timestamp-resource';
 import { ISchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
+import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 
 @Component({
   templateUrl: './baseline-legends.component.html',
@@ -78,35 +79,42 @@ export class OpBaselineLegendsComponent {
   }
 
   public getFilterName() {
-    const timestamp = this.wpTableBaseline.current[0].split(/[@T]/);
-    const filter = timestamp[0];
-    let dateTime = '';
+    const timestamps = this.wpTableBaseline.current.map((el) => el.split(/[@T]/));
+    const filter = baselineFilterFromValue(this.wpTableBaseline.current);
     const changesSince = this.I18n.t('js.baseline.legends.changes_since');
-    const time = timestamp[1].split(/[+-]/)[0];
+    const time = timestamps[0][1].split(/[+-]/)[0];
+    let dateTime = '';
+
     switch (filter) {
       case 'oneDayAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.yesterday');
+        dateTime += ` (${this.wpTableBaseline.yesterdayDate()[0]}, ${timestamps[0][1]})`;
         break;
       case 'lastWorkingDay':
         dateTime = this.I18n.t('js.baseline.drop_down.last_working_day');
+        dateTime += ` (${this.wpTableBaseline.lastWorkingDate()[0]}, ${timestamps[0][1]})`;
         break;
       case 'oneWeekAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_week');
+        dateTime += ` (${this.wpTableBaseline.lastweekDate()[0]}, ${timestamps[0][1]})`;
         break;
       case 'oneMonthAgo':
         dateTime = this.I18n.t('js.baseline.drop_down.last_month');
+        dateTime += ` (${this.wpTableBaseline.lastMonthDate()[0]}, ${timestamps[0][1]})`;
         break;
       case 'aSpecificDate':
         dateTime = this.I18n.t('js.baseline.drop_down.a_specific_date');
+        dateTime += ` (${timestamps[0].join(', ')})`;
         break;
       case 'betweenTwoSpecificDates':
         dateTime = this.I18n.t('js.baseline.drop_down.between_two_specific_dates');
+        dateTime += ` (${timestamps[0].join(', ')} - ${timestamps[1].join(', ')})`;
         break;
       default:
         dateTime = '';
         break;
     }
-    dateTime = `${changesSince} ${dateTime} (${this.wpTableBaseline.selectedDate}, ${time})`;
+    dateTime = `${changesSince} ${dateTime}`;
     this.text.time_description = dateTime;
     return dateTime;
   }

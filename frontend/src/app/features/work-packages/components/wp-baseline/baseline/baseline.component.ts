@@ -51,10 +51,7 @@ import {
   WorkPackageViewBaselineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-
-type BaselineOption = 'oneDayAgo'|'lastWorkingDay'|'oneWeekAgo'|'oneMonthAgo'|'aSpecificDate'|'betweenTwoSpecificDates';
-
-const BASELINE_OPTIONS = ['oneDayAgo', 'lastWorkingDay', 'oneWeekAgo', 'oneMonthAgo', 'aSpecificDate', 'betweenTwoSpecificDates'];
+import { baselineFilterFromValue } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 
 @Component({
   selector: 'op-baseline',
@@ -100,8 +97,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     time: this.I18n.t('js.baseline.time'),
     help_description: this.I18n.t('js.baseline.help_description'),
     timeZone: this.configuration.isTimezoneSet() ? moment().tz(this.configuration.timezone()).zoneAbbr() : 'local',
-    time_description: () => this.I18n.t('js.baseline.time_description', {
-      time: this.selectedTimezoneFormattedTime,
+    time_description: (i:number) => this.I18n.t('js.baseline.time_description', {
+      time: this.selectedTimezoneFormattedTime[i],
       days: this.daysNumber,
     }),
   };
@@ -149,7 +146,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.resetSelection();
 
     if (this.wpTableBaseline.isActive()) {
-      this.filterChange(this.filterFromSelected(this.wpTableBaseline.current));
+      this.filterChange(baselineFilterFromValue(this.wpTableBaseline.current));
 
       this.wpTableBaseline.current.forEach((value, i) => {
 
@@ -205,20 +202,16 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.selectedFilter = value;
     switch (value) {
       case 'oneDayAgo':
-        this.dropDownDescription = this.wpTableBaseline.yesterdayDate();
-        this.daysNumber = this.wpTableBaseline.daysNumber;
+        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.yesterdayDate();
         break;
       case 'lastWorkingDay':
-        this.dropDownDescription = this.wpTableBaseline.lastWorkingDate();
-        this.daysNumber = this.wpTableBaseline.daysNumber;
+        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastWorkingDate();
         break;
       case 'oneWeekAgo':
-        this.dropDownDescription = this.wpTableBaseline.lastweekDate();
-        this.daysNumber = this.wpTableBaseline.daysNumber;
+        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastweekDate();
         break;
       case 'oneMonthAgo':
-        this.dropDownDescription = this.wpTableBaseline.lastMonthDate();
-        this.daysNumber = this.wpTableBaseline.daysNumber;
+        [this.dropDownDescription, this.daysNumber] = this.wpTableBaseline.lastMonthDate();
         break;
       default:
         this.dropDownDescription = '';
@@ -227,22 +220,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     }
   }
 
-  private filterFromSelected(selectedDates:string[]):string|null {
-    if (selectedDates.length < 2) {
-      return null;
-    }
 
-    const first = selectedDates[0].split('@')[0];
-    if (BASELINE_OPTIONS.includes(first)) {
-      return first;
-    }
-
-    if (selectedDates[1] === DEFAULT_TIMESTAMP) {
-      return 'aSpecificDate';
-    }
-
-    return 'betweenTwoSpecificDates';
-  }
 
   private buildBaselineFilter():string[] {
     switch (this.selectedFilter) {

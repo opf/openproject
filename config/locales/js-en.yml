@@ -1351,7 +1351,7 @@ en:
       header_description: 'View changes made to work packages in the current view within a time period.'
       show_changes_since: 'Show changes since'
       help_description: 'Default time zone of the instance set by the administrator.'
-      time_description: 'In default time zone: %{time} %{days} day(s).'
+      time_description: 'In your time zone: %{time} %{days} day(s).'
       time: 'Time'
       from: 'From'
       to: 'To'
