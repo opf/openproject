@@ -28,50 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-##
-# Abstract view component. Subclass this for a concrete table row.
-class RowComponent < RailsComponent
-  attr_reader :model, :table
+module Members
+  class TableComponent < ::TableComponent
+    options :authorize_update, :available_roles, :is_filtered
+    columns :name, :mail, :roles, :groups, :status
+    sortable_columns :name, :mail, :status
 
-  def initialize(row:, table:, **options)
-    super(**options)
-    @model = row
-    @table = table
-  end
+    def initial_sort
+      %i[name asc]
+    end
 
-  delegate :columns, to: :table
+    def headers
+      columns.map do |name|
+        [name.to_s, header_options(name)]
+      end
+    end
 
-  def row
-    model
-  end
+    def header_options(name)
+      { caption: User.human_attribute_name(name) }
+    end
 
-  def column_value(column)
-    send(column)
-  end
+    ##
+    # Adjusts the order so that users are joined to support
+    # sorting by their attributes
+    def sort_collection(query, sort_clause, sort_columns)
+      super(join_users(query), sort_clause, sort_columns)
+    end
 
-  def column_css_class(column)
-    column_css_classes[column]
-  end
+    def join_users(query)
+      query.joins(:principal).references(:principal)
+    end
 
-  def column_css_classes
-    @column_css_classes ||= columns.to_h { |name| [name, name] }
-  end
-
-  def button_links
-    []
-  end
-
-  def row_css_id
-    nil
-  end
-
-  def row_css_class
-    nil
-  end
-
-  def checkmark(condition)
-    if condition
-      helpers.op_icon 'icon icon-checkmark'
+    def empty_row_message
+      if is_filtered
+        I18n.t :notice_no_principals_found
+      else
+        I18n.t :'members.index.no_results_title_text'
+      end
     end
   end
 end

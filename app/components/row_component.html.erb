@@ -27,7 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<tr>
+<tr
+  <%= "id=\"#{row_css_id}\"" if row_css_id %>
+  <%= "class=\"#{row_css_class}\"" if row_css_class %>
+>
   <% columns.each do |column| %>
     <td class="<%= column_css_class(column) %>">
       <%= column_value(column) %>
