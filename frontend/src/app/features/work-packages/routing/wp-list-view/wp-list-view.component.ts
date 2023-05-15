@@ -34,6 +34,7 @@ import {
   OnInit,
   ElementRef,
   NgZone,
+  ViewChild,
 } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { CausedUpdatesService } from 'core-app/features/boards/board/caused-updates/caused-updates.service';
@@ -54,6 +55,9 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { WorkPackageViewBaselineService } from '../wp-view-base/view-services/wp-view-baseline.service';
+import { OpBaselineLegendsComponent } from '../../components/wp-baseline/baseline-legends/baseline-legends.component';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'wp-list-view',
@@ -68,6 +72,8 @@ import { KeepTabService } from 'core-app/features/work-packages/components/wp-si
   ],
 })
 export class WorkPackageListViewComponent extends UntilDestroyedMixin implements OnInit {
+  @ViewChild(OpBaselineLegendsComponent) baselineLegends:OpBaselineLegendsComponent;
+
   text = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),
     text_jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.label_pagination'),
@@ -85,6 +91,8 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
 
   /** Whether we should render a blocked view */
   showResultOverlay$ = this.wpViewFilters.incomplete$;
+
+  public baselineEnabled:boolean;
 
   /** */
   readonly wpTableConfiguration:WorkPackageTableConfigurationObject = {
@@ -104,6 +112,7 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
     readonly cdRef:ChangeDetectorRef,
     readonly elementRef:ElementRef,
     private ngZone:NgZone,
+    readonly wpTableBaseline:WorkPackageViewBaselineService,
   ) {
     super();
   }
@@ -111,13 +120,20 @@ export class WorkPackageListViewComponent extends UntilDestroyedMixin implements
   ngOnInit() {
     // Mark tableInformationLoaded when initially loading done
     this.setupInformationLoadedListener();
-
-    this.querySpace.query.values$().pipe(
+    const statesCombined = combineLatest([
+      this.querySpace.query.values$(),
+      this.wpTableBaseline.live$(),
+    ]);
+    statesCombined.pipe(
       this.untilDestroyed(),
-    ).subscribe((query) => {
+    ).subscribe(([query]) => {
       // Update the visible representation
       this.updateViewRepresentation(query);
+      this.baselineEnabled = this.wpTableBaseline.isActive();
       this.noResults = query.results.total === 0;
+      if (this.baselineEnabled) {
+        this.baselineLegends?.refresh();
+      }
       this.cdRef.detectChanges();
     });
 
