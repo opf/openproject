@@ -28,10 +28,11 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index new create]
+  before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
-  before_action :authorize
+  before_action :authorize, except: [:index]
 
   helper :watchers
   helper :meeting_contents
@@ -130,11 +131,19 @@ class MeetingsController < ApplicationController
     Time.use_zone(zone, &)
   end
 
-  def find_project
-    @project = Project.find(params[:project_id])
+  def build_meeting
     @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
+  end
+
+  def find_optional_project
+    return true unless params[:project_id]
+
+    @project = Project.find(params[:project_id])
+    authorize
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def find_meeting
