@@ -32,7 +32,7 @@ module Bim
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::BuiltinRolesSeeder,
         ::Bim::BasicData::RoleSeeder,
-        ::Bim::BasicData::ActivitySeeder,
+        ::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::Bim::BasicData::WorkflowSeeder,

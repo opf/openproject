@@ -46,6 +46,15 @@ statuses:
     is_closed: true
     position: 4
 
+time_entry_activities:
+  - t_name: Management
+    is_default: true
+    position: 1
+  - t_name: Specification
+    position: 2
+  - t_name: Other
+    position: 3
+
 global_queries:
   - t_name: "Embedded table: Children"
     reference: :global_query__children

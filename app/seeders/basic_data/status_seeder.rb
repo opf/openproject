@@ -29,33 +29,21 @@ module BasicData
   class StatusSeeder < Seeder
     def seed_data!
       Status.transaction do
-        data.each do |attributes|
-          reference = attributes.delete(:reference)
-          status = Status.create!(attributes)
-          seed_data.store_reference(reference, status)
+        Array(seed_data.lookup('statuses')).each do |status_data|
+          status = Status.create!(status_attributes(status_data))
+          seed_data.store_reference(status_data['reference'], status)
         end
       end
     end
 
-    def applicable
-      Status.all.any?
-    end
-
-    def not_applicable_message
-      'Skipping statuses - already exists/configured'
-    end
-
-    def data
-      Array(seed_data.lookup('statuses')).map do |status_data|
-        {
-          reference: status_data['reference'],
-          name: status_data['name'],
-          color_id: color_id(status_data['color_name']),
-          is_closed: true?(status_data['is_closed']),
-          is_default: true?(status_data['is_default']),
-          position: status_data['position']
-        }
-      end
+    def status_attributes(status_data)
+      {
+        name: status_data['name'],
+        color_id: color_id(status_data['color_name']),
+        is_closed: true?(status_data['is_closed']),
+        is_default: true?(status_data['is_default']),
+        position: status_data['position']
+      }
     end
 
     protected

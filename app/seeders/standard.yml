@@ -30,87 +30,77 @@ statuses:
 - reference: :default_status_new
   t_name: New
   color_name: cyan-7
-  is_closed: false
   is_default: true
   position: 1
 - reference: :default_status_in_specification
   t_name: In specification
   color_name: blue-2
-  is_closed: false
-  is_default: false
   position: 2
 - reference: :default_status_specified
   t_name: Specified
   color_name: blue-2
-  is_closed: false
-  is_default: false
   position: 3
 - reference: :default_status_confirmed
   t_name: Confirmed
   color_name: violet-2
-  is_closed: false
-  is_default: false
   position: 4
 - reference: :default_status_to_be_scheduled
   t_name: To be scheduled
   color_name: yellow-2
-  is_closed: false
-  is_default: false
   position: 5
 - reference: :default_status_scheduled
   t_name: Scheduled
   color_name: lime-2
-  is_closed: false
-  is_default: false
   position: 6
 - reference: :default_status_in_progress
   t_name: In progress
   color_name: grape-5
-  is_closed: false
-  is_default: false
   position: 7
 - reference: :default_status_developed
   t_name: Developed
   color_name: green-3
-  is_closed: false
-  is_default: false
   position: 8
 - reference: :default_status_in_testing
   t_name: In testing
   color_name: cyan-5
-  is_closed: false
-  is_default: false
   position: 9
 - reference: :default_status_tested
   t_name: Tested
   color_name: teal-6
-  is_closed: false
-  is_default: false
   position: 10
 - reference: :default_status_test_failed
   t_name: Test failed
   color_name: red-5
-  is_closed: false
-  is_default: false
   position: 11
 - reference: :default_status_closed
   t_name: Closed
   color_name: gray-3
   is_closed: true
-  is_default: false
   position: 12
 - reference: :default_status_on_hold
   t_name: On hold
   color_name: orange-3
-  is_closed: false
-  is_default: false
   position: 13
 - reference: :default_status_rejected
   t_name: Rejected
   color_name: red-3
   is_closed: true
-  is_default: false
   position: 14
+
+time_entry_activities:
+- t_name: Management
+  is_default: true
+  position: 1
+- t_name: Specification
+  position: 2
+- t_name: Development
+  position: 3
+- t_name: Testing
+  position: 4
+- t_name: Support
+  position: 5
+- t_name: Other
+  position: 6
 
 welcome:
   t_title: "Welcome to OpenProject!"

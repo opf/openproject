@@ -81,6 +81,14 @@ describe RootSeeder,
     it 'creates workflows' do
       expect(Workflow.count).to eq(1172)
     end
+
+    it 'creates statuses' do
+      expect(Status.count).to eq(14)
+    end
+
+    it 'creates time entry activities' do
+      expect(TimeEntryActivity.count).to eq(6)
+    end
   end
 
   describe 'demo data' do

@@ -1223,7 +1223,7 @@ en:
       short: "%b %d"
     # Don't forget the nil at the beginning; there's no such thing as a 0th month
     month_names: [ ~, "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    # Used in date_select and datime_select.
+    # Used in date_select and datetime_select.
     order:
       - :year
       - :month
@@ -1270,12 +1270,6 @@ en:
         one: "hour"
         other: "hours"
 
-  default_activity_development: "Development"
-  default_activity_management: "Management"
-  default_activity_other: "Other"
-  default_activity_specification: "Specification"
-  default_activity_support: "Support"
-  default_activity_testing: "Testing"
   default_color_black: "Black"
   default_color_blue: "Blue"
   default_color_blue_dark: "Blue (dark)"

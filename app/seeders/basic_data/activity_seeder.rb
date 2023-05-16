@@ -29,22 +29,22 @@ module BasicData
   class ActivitySeeder < Seeder
     def seed_data!
       TimeEntryActivity.transaction do
-        data.each do |attributes|
-          TimeEntryActivity.create(attributes)
+        seed_data.each('time_entry_activities') do |activity_data|
+          TimeEntryActivity.create(
+            name: activity_data['name'],
+            position: activity_data['position'],
+            is_default: true?(activity_data['is_default'])
+          )
         end
       end
     end
 
     def applicable?
-      TimeEntryActivity.all.empty?
+      TimeEntryActivity.none?
     end
 
     def not_applicable_message
       'Skipping activities as there are already some configured'
-    end
-
-    def data
-      raise NotImplementedError
     end
   end
 end

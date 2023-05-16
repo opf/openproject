@@ -32,7 +32,7 @@ module Standard
         ::BasicData::BuiltinUsersSeeder,
         ::BasicData::BuiltinRolesSeeder,
         ::BasicData::RoleSeeder,
-        ::Standard::BasicData::ActivitySeeder,
+        ::BasicData::ActivitySeeder,
         ::BasicData::ColorSeeder,
         ::BasicData::ColorSchemeSeeder,
         ::Standard::BasicData::WorkflowSeeder,
