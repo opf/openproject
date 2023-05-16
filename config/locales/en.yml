@@ -1295,7 +1295,6 @@ en:
   default_role_non_member: "Non member"
   default_role_reader: "Reader"
   default_role_member: "Member"
-  default_type: "Work Package"
   default_type_bug: "Bug"
   default_type_deliverable: "Deliverable"
   default_type_epic: "Epic"
