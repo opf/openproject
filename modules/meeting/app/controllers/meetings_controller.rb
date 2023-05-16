@@ -33,28 +33,19 @@ class MeetingsController < ApplicationController
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update]
   before_action :authorize, except: [:index]
+  before_action :authorize_global, only: :index
+
 
   helper :watchers
   helper :meeting_contents
   include WatchersHelper
   include PaginationHelper
+  include SortHelper
 
   menu_item :new_meeting, only: %i[new create]
 
   def index
-    scope = @project ? @project.meetings : visible_meetings
-
-    # from params => today's page otherwise => first page as fallback
-    tomorrows_meetings_count = scope.from_tomorrow.count
-    @page_of_today = 1 + (tomorrows_meetings_count / per_page_param)
-
-    page = params['page'] ? page_param : @page_of_today
-
-    @meetings = scope.with_users_by_date
-                .page(page)
-                .per_page(per_page_param)
-
-    @meetings_by_start_year_month_date = Meeting.group_by_time(@meetings)
+    @meetings = @project ? @project.meetings : visible_meetings
   end
 
   def show
