@@ -38,9 +38,9 @@ describe MeetingsController do
 
     allow(Project).to receive(:find).and_return(project)
 
-    allow(@controller).to receive(:authorize)
-    allow(@controller).to receive(:authorize_global)
-    allow(@controller).to receive(:check_if_login_required)
+    allow(controller).to receive(:authorize)
+    allow(controller).to receive(:authorize_global)
+    allow(controller).to receive(:check_if_login_required)
   end
 
   describe 'GET' do
@@ -54,7 +54,7 @@ describe MeetingsController do
       end
 
       describe 'html' do
-        context 'global' do
+        context 'when requesting meetings globally' do
           before do
             get 'index'
           end
@@ -63,7 +63,7 @@ describe MeetingsController do
           it { expect(assigns(:meetings)).to match_array meetings }
         end
 
-        context 'scoped to a project ID' do
+        context 'when requesting meetings scoped to a project ID' do
           before do
             get 'index', params: { project_id: project.id }
           end
@@ -75,25 +75,24 @@ describe MeetingsController do
     end
 
     describe 'show' do
-      before do
-        @m = build_stubbed(:meeting, project:, agenda: nil)
-        allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
-      end
+      let(:meeting) { create(:meeting, project:, agenda: nil) }
 
       describe 'html' do
         before do
-          get 'show', params: { id: @m.id }
+          get 'show', params: { id: meeting.id }
         end
 
         it { expect(response).to be_successful }
+        it { expect(assigns(:meeting)).to eql meeting }
       end
     end
 
     describe 'new' do
+      let(:meeting) { Meeting.new(project:) }
+
       before do
         allow(Project).to receive(:find).and_return(project)
-        @m = build_stubbed(:meeting)
-        allow(Meeting).to receive(:new).and_return(@m)
+        allow(Meeting).to receive(:new).and_return(meeting)
       end
 
       describe 'html' do
@@ -102,23 +101,20 @@ describe MeetingsController do
         end
 
         it { expect(response).to be_successful }
-        it { expect(assigns(:meeting)).to eql @m }
+        it { expect(assigns(:meeting)).to eql meeting }
       end
     end
 
     describe 'edit' do
-      before do
-        @m = build_stubbed(:meeting, project:)
-        allow(Meeting).to receive_message_chain(:includes, :find).and_return(@m)
-      end
+      let(:meeting) { create(:meeting, project:) }
 
       describe 'html' do
         before do
-          get 'edit', params: { id: @m.id }
+          get 'edit', params: { id: meeting.id }
         end
 
         it { expect(response).to be_successful }
-        it { expect(assigns(:meeting)).to eql @m }
+        it { expect(assigns(:meeting)).to eql meeting }
       end
     end
 
