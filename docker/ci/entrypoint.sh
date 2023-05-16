@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 export PGBIN="/usr/lib/postgresql/$PGVERSION/bin"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -36,6 +36,8 @@ cleanup() {
 	rm -rf tmp/cache/parallel*
 }
 
+trap cleanup INT TERM EXIT
+
 if [ "$1" == "setup-tests" ]; then
 	echo "Preparing environment for running tests..."
 	shift
@@ -62,30 +64,15 @@ if [ "$1" == "run-units" ]; then
 	shift
 	execute "time bundle exec rake zeitwerk:check"
 	execute "cd frontend && npm install && npm run test"
-	if ! execute "time bundle exec rake parallel:units" ; then
-		execute "cat tmp/parallel_summary.log"
-		cleanup
-		exit 1
-	else
-		cleanup
-		exit 0
-	fi
+	execute "time bundle exec rake parallel:units"
 fi
 
 if [ "$1" == "run-features" ]; then
 	shift
 	execute "cd frontend; npm install ; cd -"
-	execute "bundle exec rake assets:precompile ; ls -al frontend/.angular ; du -sh frontend/.angular ; ls -al frontend/"
+	execute "bundle exec rake assets:precompile"
 	execute "cp -rp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json"
-	# if ! execute "time bundle exec rake parallel:features" ; then
-	if ! execute "time bundle exec turbo_tests -n 12 -v --runtime-log docker/ci/parallel_features_runtime.log spec/features" ; then
-		execute "cat tmp/parallel_summary.log"
-		cleanup
-		exit 1
-	else
-		cleanup
-		exit 0
-	fi
+	execute "time bundle exec turbo_tests -n $JOBS --runtime-log docker/ci/parallel_features_runtime.log spec/features"
 fi
 
 if [ ! -z "$1" ] ; then
